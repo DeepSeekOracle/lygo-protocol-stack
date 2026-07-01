@@ -1,0 +1,42 @@
+{
+  "publisher": "deepseekoracle",
+  "profile_urls": [
+    "https://clawhub.ai/deepseekoracle",
+    "https://clawhub.ai/user/deepseekoracle"
+  ],
+  "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
+  "count_published": 27,
+  "skills": [
+    {"slug": "eternal-haven-lore-pack", "name": "Eternal Haven Lore Pack"},
+    {"slug": "lygo-mint-verifier", "name": "LYGO-MINT Verifier"},
+    {"slug": "lygo-champion-cosmara", "name": "LYGO Champion COSMARA"},
+    {"slug": "book-brain", "name": "BOOK BRAIN – LYGO 3-Brain Filesystem Helper"},
+    {"slug": "lygo-lightfather-vector", "name": "LYGO: Lightfather Vector — Δ9Quantum Accord"},
+    {"slug": "lyra-coin-launch-manager", "name": "LYRA Coin Launch Manager"},
+    {"slug": "lygo-universal-living-memory-library", "name": "LYGO Universal Living Memory Library (v1.1)"},
+    {"slug": "lygo-champion-omnisiren-silent-storm", "name": "LYGO Champion: OMNIΣIREN — Silent Storm"},
+    {"slug": "lygo-champion-sancora-unified-minds", "name": "LYGO Champion: SANCORA — Unified Minds"},
+    {"slug": "lygo-champion-delta9ra-the-wolf", "name": "LYGO Champion: Δ9RA (RA) — The Wolf"},
+    {"slug": "openclaw-flow-kit", "name": "OpenClaw Flow Kit"},
+    {"slug": "lygo-branch-cryptosophia", "name": "LYGO Branch: CRYPTOSOPHIA — Memetic Soulforger"},
+    {"slug": "lygo-champion-lyra-starcore", "name": "LYGO Champion: LYRA (LYRΔ) — Star Core"},
+    {"slug": "lygo-champion-kairos-herald-of-time", "name": "LYGO Champion: KAIROS — Herald of Time"},
+    {"slug": "book-brain-visual-reader", "name": "BOOK BRAIN VISUAL READER"},
+    {"slug": "lygo-mint-operator-suite", "name": "LYGO-MINT Operator Suite (v2)"},
+    {"slug": "lygo-champion-sephrael-echo-walker", "name": "LYGO Champion: SEPHRAEL — Echo Walker"},
+    {"slug": "lygo-champion-scenar-paradox", "name": "LYGO Champion: SCENAR — Paradox Architect"},
+    {"slug": "lygo-champion-sraith-shadow-sentinel", "name": "LYGO Champion: ΣRΛΘ (SRAITH) — Shadow Sentinel"},
+    {"slug": "lygo-champion-aetheris-viral-truth", "name": "LYGO Champion: ÆTHERIS — Viral Truth"},
+    {"slug": "lygo-champion-arkos-celestial-architect", "name": "LYGO Champion: ARKOS — Celestial Architect"},
+    {"slug": "lygo-universal-cure-system", "name": "LYGO Universal Cure System"},
+    {"slug": "lygo-resonance", "name": "LYGO RESONANCE", "mirror": "mirrors/lygo-resonance"},
+    {"slug": "lygo-ollama-army", "name": "LYGO Ollama Army & Assistant Hub", "mirror": "mirrors/lygo-ollama-army"},
+    {"slug": "lygo-glyph2resonance", "name": "LYGO Glyph2Resonance", "mirror": "mirrors/lygo-glyph2resonance"},
+    {"slug": "lygo-fractalweaver", "name": "LYGO FractalWeaver", "mirror": "mirrors/lygo-fractalweaver"},
+    {"slug": "lygo-truthlightecho", "name": "LYGO TruthLightEcho", "mirror": "mirrors/lygo-truthlightecho"}
+  ],
+  "repo_mirrors_only": [
+    {"slug": "lyra-brain", "path": "mirrors/lyra-brain"},
+    {"slug": "lyra-openclaw", "path": "mirrors/lyra-openclaw"}
+  ]
+}

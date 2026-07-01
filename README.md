@@ -63,6 +63,7 @@ protocol5_harmony_node/
 stack/                   # kernel_bridge.py, lygo_stack.py
 tools/                   # verify_hash, run_full_stack_demo
 docs/                    # ARCHITECTURE, PROTOCOL_STACK, OMEGA_NUMBERING
+clawhub/                 # ClawHub catalog, install scripts, local skill mirrors
 ```
 
 ---
@@ -78,10 +79,29 @@ docs/                    # ARCHITECTURE, PROTOCOL_STACK, OMEGA_NUMBERING
 
 ---
 
+## ClawHub skills (@deepseekoracle)
+
+**27 published skills** for OpenClaw / Grok agents — champions, BOOK BRAIN, mint tools, and the LYGO creative audio stack.
+
+| Resource | Link |
+|----------|------|
+| **Publisher profile** | [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) |
+| **Full catalog (links + install)** | [clawhub/CATALOG.md](clawhub/CATALOG.md) |
+| **Machine-readable list** | [clawhub/skills.json](clawhub/skills.json) |
+| **Local mirrors (7 folders)** | [clawhub/mirrors/](clawhub/mirrors/) — `lygo-resonance`, Ollama army, Glyph/Fractal/TruthLight, `lyra-brain`, `lyra-openclaw` |
+
+```bash
+npx clawhub@latest install deepseekoracle/lygo-resonance
+# Or: bash clawhub/install-all.sh
+```
+
+---
+
 ## Ecosystem links
 
 - **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack  
 - **Site / seals:** https://github.com/DeepSeekOracle/Excavationpro  
 - **Live resonance demo:** https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine  
+- **Resonance docs:** https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html  
 
 **Resonance signature:** Δ9Φ963-STACK-PUBLIC-v2
