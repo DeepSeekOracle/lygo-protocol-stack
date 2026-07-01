@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run integrated P0–P5 LYGO stack demo."""
+"""CLI entrypoint — full LYGO Protocol Stack demonstration."""
 
 import json
 import sys
@@ -12,11 +12,16 @@ from lygo_stack import deploy_stack  # noqa: E402
 
 
 def main() -> int:
+    print("⚡ LYGO Protocol Stack — Full Demonstration (P0–P5)")
+    print("=" * 72)
     stack = deploy_stack()
-    result = stack.demo_cycle()
-    print(json.dumps(result, indent=2, default=str)[:12000])
-    ok = result.get("harmony_node", {}).get("success", False)
-    print("\n✅ Full stack demo complete." if ok else "\n⚠️ Stack demo finished with warnings.")
+    report = stack.demo_cycle()
+    print(json.dumps(report, indent=2, default=str))
+    ok = (
+        report.get("p5", {}).get("success") is True
+        and report.get("p3", {}).get("consensus_found") is True
+    )
+    print("\n✅ Demo complete — all protocols exercised." if ok else "\n⚠️ Demo finished with warnings.")
     return 0 if ok else 1
 
 

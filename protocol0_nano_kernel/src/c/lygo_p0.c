@@ -73,7 +73,7 @@ static float compression_ratio(const uint8_t *b, size_t len) {
     if (len < COMP_MIN_LEN) return 0.0f;
 
     uint32_t repeats = 0;
-    for (size_t i = 0; i + 8 <= len; i++) {
+    for (size_t i = 0; i + 8 <= len; i += 4) {
         if (memcmp(b + i, b + i + 4, 4) == 0) {
             repeats++;
         }

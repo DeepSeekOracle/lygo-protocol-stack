@@ -8,7 +8,5 @@ license = "LicenseRef-LYGO-Sovereign-1.1"
 [lib]
 path = "src/lib.rs"
 
-[features]
-default = []
-demo = ["std"]
-std = []
+[profile.test]
+opt-level = 0

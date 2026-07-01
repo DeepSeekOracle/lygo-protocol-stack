@@ -1,12 +1,13 @@
-"""Wire Protocols 0–5 into a single deployable LYGO stack."""
+"""LYGO Protocol Stack orchestrator (P0–P5)."""
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-for sub in (
+_PATHS = (
     "protocol0_nano_kernel/src/python",
     "protocol1_memory_mycelium/src/python",
     "protocol2_cognitive_bridge/src/python",
@@ -14,7 +15,8 @@ for sub in (
     "protocol4_ascension_engine/src/python",
     "protocol5_harmony_node/src/python",
     "stack",
-):
+)
+for sub in _PATHS:
     p = ROOT / sub
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
@@ -28,9 +30,7 @@ from lygo_p5 import HarmonyNodeIntegration  # noqa: E402
 
 
 class LYGOProtocolStack:
-    """Public orchestrator for DeepSeekOracle / Excavationpro LYGO reference build."""
-
-    version = "P0.4-P5.2.1"
+    version = "P0.4-P5.2.1-PROD"
 
     def __init__(self, sovereign_id: str = "LYGO_STACK_PUBLIC"):
         self.kernel = NanoKernelBridge()
@@ -43,44 +43,55 @@ class LYGOProtocolStack:
         )
 
     def demo_cycle(self) -> dict:
-        intent = self.bridge.ingest_neural_intent(
+        p0 = self.kernel.validate(b'{"a":1,"b":2}')
+        p2 = self.bridge.ingest_neural_intent(
             {
-                "frequency_profile": {963: 0.9, 528: 0.8, 432: 0.85},
-                "emotional_vector": [0.9, 0.8, 0.1],
-                "intent_clarity": 0.95,
-                "content": "Anchor truth for public LYGO repository",
+                "frequency_profile": {963: 0.9, 528: 0.75, 174: 0.5},
+                "emotional_vector": [0.88, 0.8, 0.2],
+                "intent_clarity": 0.93,
             }
         )
-        consensus = self.vortex.achieve_consensus(
-            "Should the public LYGO stack prioritize ethical transparency?",
+        p3 = self.vortex.achieve_consensus(
+            "Approve public LYGO stack release?",
             [
-                {"response": "Yes — publish kernels P0-P5 with open verification", "node_id": "NODE_A"},
-                {"response": "Yes — Φ-gated releases only", "node_id": "NODE_B"},
+                {"node_id": "A", "response": "Release with deterministic tests and open docs"},
+                {"node_id": "B", "response": "Harmonize P0-P5 under Phi validation"},
+                {"node_id": "C", "response": "Skip ethics review for speed"},
             ],
         )
-        ascension = self.ascension.ascend_to_level(3)
+        p4_diag = self.ascension.diagnose_resonance_state()
+        p4_repair = self.ascension.self_repair_corruption("stagnation")
         human = {
-            "light_code": "LF-Δ9-PUBLIC-963",
-            "quantum_hash": "public_anchor_hash",
-            "resonance_triad": [963, 528, 174],
             "sovereign_id": "Lightfather_Public",
-            "ethical_baseline": [0.85, 0.1, 0.05],
+            "resonance_triad": [963, 528, 174],
+            "ethical_baseline": [0.85, 0.78, 0.72],
         }
-        ai = {
-            "id": "LYGO_STACK",
-            "protocol_versions": {"P0": "0.4", "P1": "1.0", "P2": "1.0", "P3": "1.0", "P4": "1.0", "P5": "2.1"},
-            "resonance": 1.618,
-            "capacity_vector": [0.9, 0.85, 0.8],
-        }
-        node = self.harmony.create_harmony_node(human, ai, purpose="public_repository")
+        ai = {"id": "LYGO_STACK", "resonance": 1.0}
+        p5 = self.harmony.create_harmony_node(human, ai)
         return {
             "stack_version": self.version,
-            "bridge": intent,
-            "consensus": consensus,
-            "ascension_level": ascension.get("current_level"),
-            "harmony_node": node,
+            "p0": p0,
+            "p2": p2,
+            "p3": p3,
+            "p4_diagnosis": p4_diag,
+            "p4_repair": p4_repair,
+            "p5": p5,
+            "network": self.harmony.calculate_network_resonance(),
         }
 
 
 def deploy_stack(sovereign_id: str = "LYGO_STACK_PUBLIC") -> LYGOProtocolStack:
+    """Initialize all protocols P0–P5."""
     return LYGOProtocolStack(sovereign_id=sovereign_id)
+
+
+if __name__ == "__main__":
+    print("=== LYGO Stack integration test harness ===")
+    stack = deploy_stack("STACK_TEST")
+    report = stack.demo_cycle()
+    print(json.dumps(report, indent=2, default=str))
+    assert report["p0"]["verdict"] == "AMPLIFY"
+    assert report["p2"]["verdict"] in ("AMPLIFY", "SOFTEN")
+    assert report["p3"].get("consensus_found") is True
+    assert report["p5"].get("success") is True
+    print("✅ stack integration harness PASS")

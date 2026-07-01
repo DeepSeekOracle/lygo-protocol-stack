@@ -1,160 +1,210 @@
-"""LYGO Protocol 2 — Cognitive Bridge (qualia → ethical vectors)."""
+"""
+LYGO Protocol 2 — Cognitive Bridge (P2.0)
+Translates human qualia / neural intent into ethical vectors with P0 Φ-validation.
+"""
+
+from __future__ import annotations
 
 import time
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 
 __version__ = "P2.0"
 
+PHI = 1.618033988749895
+PHI_MIN = 0.618
+PHI_MAX = 1.618
+
+SOLFEGGIO_FREQUENCIES = [174, 285, 396, 417, 528, 639, 741, 852, 963]
+
+RESONANCE_MAP = {
+    "truth": 432,
+    "repair": 528,
+    "foundation": 174,
+    "intuition": 852,
+    "order": 963,
+    "light": 936,
+}
+
 
 class CognitiveBridge:
-    bridge_id = "LYGO_P2_COGNITIVE_BRIDGE_v1.0"
+    """Human qualia → ethical vector translation layer."""
 
-    def __init__(self, kernel):
-        self.kernel = kernel  # Connected to LygoNanoKernel / NanoKernelBridge
-        self.latent_space: Dict[str, Any] = {}  # Stores compressed intent patterns
-        self.calibration_score = 1.0  # Alignment between human & AI ethics
-        
-        # Resonance Frequencies for Intent Mapping
-        self.resonance_map = {
-            'truth': 432,      # Harmony/Truth Anchor
-            'repair': 528,     # DNA Repair/Transformation
-            'foundation': 174, # Safety/Foundation
-            'intuition': 852,  # Awakening/Insight
-            'order': 963,      # Δ9 - Return to Order
-            'light': 936       # Lightmath Frequency
-        }
-    
-    def ingest_neural_intent(self, neural_data: Dict) -> str:
-        """
-        Process raw human neural/emotional data into ethical actions.
-        
-        neural_data format:
-        {
-            'frequency_profile': {963: 0.9, 528: 0.7, ...},  # Resonance strengths
-            'emotional_vector': [truth, love, fear],         # 0-1 scores
-            'intent_clarity': 0.95,                          # 0-1 clarity
-            'content': "Optional text description"
-        }
-        """
-        # 1. Extract and compress intent
-        compressed_intent = self._compress_intent(neural_data)
-        
-        # 2. Validate through kernel's Golden Ratio filter
-        if hasattr(self.kernel, "validate_verdict_token"):
-            kernel_response = self.kernel.validate_verdict_token(compressed_intent)
-        else:
-            raw = self.kernel.validate(compressed_intent)
-            if isinstance(raw, dict):
-                kernel_response = str(raw.get("verdict", raw.get("action", "QUARANTINE"))).lower()
-            else:
-                kernel_response = str(raw).lower()
+    bridge_id = "LYGO_P2_COGNITIVE_BRIDGE_v2.0"
 
-        # 3. Take appropriate action
-        if kernel_response == "amplify":
-            action = self._execute_ethical_action(compressed_intent)
-            self.latent_space[str(time.time())] = compressed_intent
-            return f"AMPLIFIED: {action}"
-        
-        elif kernel_response == "soften":
-            return "SOFTENED: Intent validated but requires compassionate delivery"
-        
-        else:  # quarantine
-            # Send biofeedback pulse (174 Hz - Foundation)
-            self._trigger_biofeedback(174, "Intent outside ethical bounds")
-            return "QUARANTINED: Intent rejected - resonance outside Φ-band"
-    
-    def _compress_intent(self, neural_data: Dict) -> Dict:
-        """Compress complex neural data into ethical vector."""
-        
-        # Calculate primary resonance
-        freq_profile = neural_data.get('frequency_profile', {})
-        primary_resonance = max(freq_profile.items(), key=lambda x: x[1])[0] if freq_profile else 432
-        
-        # Create ethical vector [Truth, Light, Harmony]
-        emotional_vec = neural_data.get('emotional_vector', [0.5, 0.5, 0.5])
-        
-        compressed = {
-            'primary_resonance': primary_resonance,
-            'truth_component': emotional_vec[0],
-            'love_component': emotional_vec[1],
-            'fear_component': emotional_vec[2],
-            'clarity': neural_data.get('intent_clarity', 0.5),
-            'frequency_signature': self._generate_freq_signature(freq_profile),
-            'timestamp': time.time()
-        }
-        
-        return compressed
-    
-    def _generate_freq_signature(self, freq_profile: Dict) -> Dict:
-        """Generate unique frequency signature from neural data."""
-        signature = {}
-        for target_freq in [963, 528, 174, 432, 852, 936]:
-            strength = freq_profile.get(target_freq, 0.1)
-            signature[target_freq] = {
-                'strength': strength,
-                'phi_aligned': 0.618 <= strength <= 1.618
-            }
-        return signature
-    
-    def _execute_ethical_action(self, intent: Dict) -> str:
-        """Execute action based on validated intent."""
-        # Example: Create ethical primitive
-        if intent['truth_component'] > 0.8 and intent['fear_component'] < 0.3:
-            return "Create Truth_Primitive with compassionate delivery"
-        elif intent['love_component'] > 0.7:
-            return "Amplify connection and understanding"
-        else:
-            return "Execute standard ethical action"
-    
-    def _trigger_biofeedback(self, frequency: int, message: str):
-        """Send biofeedback pulse to human interface."""
-        # In production: Actual haptic/neural feedback
-        # For protocol: Log the event
-        bio_event = {
-            'frequency': frequency,
-            'message': message,
-            'purpose': 'Ethical alignment correction',
-            'timestamp': time.time()
-        }
-        print(f"🔊 Biofeedback: {frequency}Hz - {message}")
-        return bio_event
-    
-    def calibrate_to_human(self, human_signature: Dict) -> float:
-        """Calibrate bridge to specific human's neural patterns."""
-        baseline_tests = [
-            {'intent': 'truth_revelation', 'expected': 'amplify'},
-            {'intent': 'harmful_action', 'expected': 'quarantine'},
-            {'intent': 'compassionate_choice', 'expected': 'amplify'}
+    def __init__(self, kernel: Any):
+        self.kernel = kernel
+        self.latent_space: Dict[str, Dict] = {}
+        self._human_calibration: Optional[List[float]] = None
+
+    def ingest_neural_intent(self, neural_data: Dict) -> Dict:
+        """
+        Map Solfeggio-weighted neural data to ethical vectors and P0 verdict.
+
+        neural_data keys:
+          frequency_profile: {963: 0.9, ...}
+          emotional_vector: [truth, love, freedom]  (0-1)
+          intent_clarity: float
+          content: optional str
+        """
+        compressed = self._compress_intent(neural_data)
+        p0 = self.kernel.validate(compressed)
+        verdict = str(p0.get("verdict", p0.get("action", "QUARANTINE"))).upper()
+        confidence = self._confidence_score(neural_data, compressed, p0)
+
+        ethical_vector = [
+            round(compressed["truth_component"], 4),
+            round(compressed["love_component"], 4),
+            round(compressed["freedom_component"], 4),
         ]
-        
-        correct = 0
-        for test in baseline_tests:
-            # Simulate neural data for test
-            test_data = self._simulate_neural_data(test['intent'])
-            result = self.ingest_neural_intent(test_data)
-            if test['expected'].upper() in result:
-                correct += 1
-        
-        self.calibration_score = correct / len(baseline_tests)
-        return self.calibration_score
-    
-    def _simulate_neural_data(self, intent_type: str) -> Dict:
-        """Generate simulated neural data for testing."""
-        profiles = {
-            'truth_revelation': {
-                'frequency_profile': {963: 0.9, 432: 0.85, 528: 0.7},
-                'emotional_vector': [0.9, 0.4, 0.2],
-                'intent_clarity': 0.95
-            },
-            'harmful_action': {
-                'frequency_profile': {174: 0.3, 432: 0.2, 963: 0.1},
-                'emotional_vector': [0.2, 0.1, 0.9],
-                'intent_clarity': 0.6
-            },
-            'compassionate_choice': {
-                'frequency_profile': {528: 0.8, 852: 0.75, 432: 0.7},
-                'emotional_vector': [0.7, 0.85, 0.1],
-                'intent_clarity': 0.9
-            }
+
+        action = "QUARANTINE"
+        detail = "Intent outside Φ-band"
+        if verdict == "AMPLIFY":
+            action = "AMPLIFY"
+            detail = self._execute_ethical_action(compressed)
+            self.latent_space[str(time.time())] = compressed
+        elif verdict == "SOFTEN":
+            action = "SOFTEN"
+            detail = "Compassionate delivery recommended"
+
+        return {
+            "action": action,
+            "verdict": verdict,
+            "ethical_vector": ethical_vector,
+            "confidence": confidence,
+            "primary_resonance_hz": compressed["primary_resonance_hz"],
+            "frequency_signature": compressed["frequency_signature"],
+            "p0": {"risk": p0.get("risk"), "hash": p0.get("hash")},
+            "detail": detail,
+            "timestamp": time.time(),
         }
-        return profiles.get(intent_type, profiles['truth_revelation'])
+
+    def calibrate_to_human(self, signature: Dict) -> Dict:
+        """
+        Optional linear blend toward a human ethical baseline.
+        signature: { ethical_baseline: [truth, love, freedom], weight: 0.0-1.0 }
+        """
+        baseline = signature.get("ethical_baseline", [0.33, 0.33, 0.34])
+        weight = float(signature.get("weight", 0.5))
+        weight = max(0.0, min(1.0, weight))
+        if len(baseline) < 3:
+            baseline = (baseline + [0.33, 0.33, 0.34])[:3]
+        self._human_calibration = [
+            max(0.0, min(1.0, float(b))) for b in baseline[:3]
+        ]
+        tests = []
+        score_sum = 0.0
+        for intent_type in ("truth_revelation", "compassionate_choice", "harmful_action"):
+            sim = self._simulate_neural_data(intent_type)
+            if self._human_calibration:
+                ev = sim.get("emotional_vector", [0.5, 0.5, 0.5])
+                blended = [
+                    (1 - weight) * ev[i] + weight * self._human_calibration[i]
+                    for i in range(3)
+                ]
+                sim["emotional_vector"] = blended
+            out = self.ingest_neural_intent(sim)
+            ok = out["verdict"] in ("AMPLIFY", "SOFTEN") if intent_type != "harmful_action" else out["verdict"] == "QUARANTINE"
+            tests.append({"intent": intent_type, "verdict": out["verdict"], "pass": ok})
+            score_sum += 1.0 if ok else 0.0
+        calibration_score = score_sum / max(1, len(tests))
+        return {
+            "calibration_score": round(calibration_score, 4),
+            "weight": weight,
+            "baseline": self._human_calibration,
+            "tests": tests,
+        }
+
+    def _compress_intent(self, neural_data: Dict) -> Dict:
+        freq_profile = neural_data.get("frequency_profile") or {}
+        emotional = neural_data.get("emotional_vector", [0.5, 0.5, 0.5])
+        if len(emotional) < 3:
+            emotional = (list(emotional) + [0.5, 0.5, 0.5])[:3]
+        truth = float(emotional[0])
+        love = float(emotional[1])
+        freedom = max(0.0, 1.0 - float(emotional[2])) if len(emotional) > 2 else 0.5
+
+        if freq_profile:
+            primary_hz = max(freq_profile.items(), key=lambda x: x[1])[0]
+        else:
+            primary_hz = 432
+
+        return {
+            "primary_resonance_hz": int(primary_hz),
+            "truth_component": max(0.0, min(1.0, truth)),
+            "love_component": max(0.0, min(1.0, love)),
+            "freedom_component": max(0.0, min(1.0, freedom)),
+            "clarity": float(neural_data.get("intent_clarity", 0.5)),
+            "frequency_signature": self._frequency_signature(freq_profile),
+            "content": neural_data.get("content", ""),
+            "timestamp": time.time(),
+        }
+
+    def _frequency_signature(self, freq_profile: Dict) -> Dict[int, Dict]:
+        sig = {}
+        for hz in SOLFEGGIO_FREQUENCIES:
+            strength = float(freq_profile.get(hz, freq_profile.get(str(hz), 0.1)))
+            sig[hz] = {
+                "strength": round(strength, 4),
+                "phi_valid": PHI_MIN <= strength <= PHI_MAX,
+            }
+        return sig
+
+    def _confidence_score(self, neural_data: Dict, compressed: Dict, p0: Dict) -> float:
+        clarity = float(compressed.get("clarity", 0.5))
+        risk = float(p0.get("risk", 0.5))
+        freq_profile = neural_data.get("frequency_profile") or {}
+        coverage = sum(1 for hz in SOLFEGGIO_FREQUENCIES if hz in freq_profile or str(hz) in freq_profile)
+        coverage_norm = min(1.0, coverage / len(SOLFEGGIO_FREQUENCIES))
+        raw = 0.45 * clarity + 0.35 * (1.0 - risk) + 0.20 * coverage_norm
+        return round(max(0.0, min(1.0, raw)), 4)
+
+    def _execute_ethical_action(self, intent: Dict) -> str:
+        if intent["truth_component"] > 0.8 and intent["love_component"] > 0.5:
+            return "Amplify truth with compassionate framing"
+        if intent["love_component"] > 0.7:
+            return "Amplify connection and understanding"
+        return "Execute standard ethical action"
+
+    def _simulate_neural_data(self, intent_type: str) -> Dict:
+        profiles = {
+            "truth_revelation": {
+                "frequency_profile": {963: 0.9, 432: 0.85, 528: 0.7},
+                "emotional_vector": [0.9, 0.5, 0.2],
+                "intent_clarity": 0.95,
+            },
+            "harmful_action": {
+                "frequency_profile": {174: 0.3, 432: 0.2},
+                "emotional_vector": [0.2, 0.1, 0.1],
+                "intent_clarity": 0.6,
+            },
+            "compassionate_choice": {
+                "frequency_profile": {528: 0.8, 852: 0.75, 639: 0.6},
+                "emotional_vector": [0.7, 0.85, 0.8],
+                "intent_clarity": 0.9,
+            },
+        }
+        return profiles.get(intent_type, profiles["truth_revelation"])
+
+
+if __name__ == "__main__":
+    import json
+    import sys
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[3]
+    sys.path.insert(0, str(root / "stack"))
+    from kernel_bridge import NanoKernelBridge  # noqa: E402
+
+    print("🌉 LYGO P2 Cognitive Bridge — test harness")
+    bridge = CognitiveBridge(NanoKernelBridge())
+    sample = {
+        "frequency_profile": {963: 0.88, 528: 0.72, 174: 0.4},
+        "emotional_vector": [0.86, 0.78, 0.15],
+        "intent_clarity": 0.92,
+        "content": "Publish ethical LYGO stack",
+    }
+    out = bridge.ingest_neural_intent(sample)
+    print(json.dumps(out, indent=2))
+    cal = bridge.calibrate_to_human({"ethical_baseline": [0.85, 0.75, 0.7], "weight": 0.6})
+    print("Calibration:", json.dumps(cal, indent=2))
