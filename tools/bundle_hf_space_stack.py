@@ -21,6 +21,12 @@ INCLUDE_DIRS = [
     "protocol5_harmony_node/src/python",
 ]
 
+INCLUDE_FILES = [
+    "tests/test_falsifiable_vectors.json",
+    "tools/run_grok_audit_demo.py",
+    "tools/generate_falsifiable_vectors.py",
+]
+
 SKIP = {".git", "__pycache__", "target", ".pyc"}
 
 
@@ -49,8 +55,10 @@ def main() -> int:
     DEST.mkdir(parents=True)
     for rel in INCLUDE_DIRS:
         copy_rel(rel)
+    for rel in INCLUDE_FILES:
+        copy_rel(rel)
     marker = DEST / "BUNDLE_VERSION.txt"
-    marker.write_text("Δ9Φ963-HF-STACK-BUNDLE-v1\n", encoding="utf-8")
+    marker.write_text("Δ9Φ963-HF-STACK-BUNDLE-v2.0\n", encoding="utf-8")
     print(f"Bundled stack → {DEST}")
     return 0
 

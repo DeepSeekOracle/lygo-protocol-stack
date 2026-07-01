@@ -33,6 +33,7 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 - **P0:** Byte-level Φ-gate with falsifiable vector suite and cross-lang canonical digest (not narrative phi scores).
 - **P1–P5:** Integration tests call real classes (`MemoryMycelium`, `CognitiveBridge`, `VortexConsensusSync`, `VortexAscensionEngine`, `HarmonyNodeIntegration`) — no mock `expected_phi_risk` in `run_sovereign_integrity_test.py`.
 - **Pilot claims:** Publish **measured** `p0_verdict`, `phi_risk`, `ethical_mass`, and `light_code` from CLI/API output; do not hardcode demo numbers in social posts.
+- **Gemini audit harness:** `tests/test_falsifiable_vectors.json` (40 vectors) + `tools/run_grok_audit_demo.py` (live stack; see [GEMINI_AUDIT_PROTOCOL.md](./GEMINI_AUDIT_PROTOCOL.md)). Latest measured pass rate in `tests/grok_audit_last_run.json`.
 
 ---
 

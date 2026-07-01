@@ -45,6 +45,10 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 
 # P1–P5 sovereign integrity (live stack, falsifiable)
 python tools/run_sovereign_integrity_test.py
+
+# Gemini / Grok audit harness (40 falsifiable vectors, live P0–P5)
+python tools/generate_falsifiable_vectors.py
+python tools/run_grok_audit_demo.py
 ```
 
 ### Python stack API

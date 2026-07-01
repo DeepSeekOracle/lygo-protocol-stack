@@ -28,7 +28,7 @@ def main() -> int:
         "--repo-type",
         "space",
         "--commit-message",
-        "LYGO lattice align: Ethical Guardian tab + protocol_stack bundle",
+        "Δ9Φ963: Ethical Guardian phi gauge + Grok audit bundle v2 (live P0-P5)",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)
