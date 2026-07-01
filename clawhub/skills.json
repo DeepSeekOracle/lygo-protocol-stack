@@ -5,9 +5,29 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 32,
-  "count_mirrored": 32,
+  "count_published": 34,
+  "count_mirrored": 34,
   "skills": [
+    {
+      "slug": "lygo-docker-deploy",
+      "name": "LYGO Docker Deploy",
+      "summary": "Deploy a sovereign LYGO community node via Docker Compose (Phase 2). Health API :8787, optional scale workers.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-docker-deploy",
+      "mirror": "mirrors/lygo-docker-deploy",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-alignment-badge",
+      "name": "LYGO Alignment Badge",
+      "summary": "Verify node compliance — P0 golden SHA, stack demo, elasticity, federation, Grok audit. Emits ALIGNED/NEEDS_FIX badge.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-alignment-badge",
+      "mirror": "mirrors/lygo-alignment-badge",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "lygo-protocol-stack-operator",
       "name": "LYGO Protocol Stack Operator",
@@ -16,7 +36,7 @@
       "mirror": "mirrors/lygo-protocol-stack-operator",
       "published": true,
       "downloads": 0,
-      "version": "1.0.1"
+      "version": "1.0.3"
     },
     {
       "slug": "eternal-haven-lore-pack",

@@ -26,6 +26,8 @@ INCLUDE_FILES = [
     "tests/test_falsifiable_vectors.json",
     "tools/run_grok_audit_demo.py",
     "tools/generate_falsifiable_vectors.py",
+    "tools/verify_alignment_badge.py",
+    "docs/PHASE2_DEPLOYMENT.md",
 ]
 
 TWIN_GATE_FILES = [
@@ -74,7 +76,8 @@ def main() -> int:
         for rel in TWIN_GATE_FILES:
             copy_rel(rel)
         (DEST / "TWIN_GATE_MODE.txt").write_text("Δ9Φ963-TWIN-GATE-PHASE3-v1\n", encoding="utf-8")
-        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v3.0\n"
+        (DEST / "PHASE2_COMMUNITY.txt").write_text("Δ9Φ963-PHASE2-DEPLOYMENT\n", encoding="utf-8")
+        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v4.0-PHASE2\n"
     else:
         version = "Δ9Φ963-HF-STACK-BUNDLE-v2.0\n"
     (DEST / "BUNDLE_VERSION.txt").write_text(version, encoding="utf-8")

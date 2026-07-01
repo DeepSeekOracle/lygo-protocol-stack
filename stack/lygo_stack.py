@@ -32,6 +32,8 @@ from text_semantic_gate import (  # noqa: E402
     build_semantic_text_gate_bytes,
     keyword_consensus_nodes,
 )
+from infrastructure_elasticity import ElasticityCoordinator  # noqa: E402
+from federation_runtime import FederationRuntime  # noqa: E402
 
 PHI_MIN = 0.618
 PHI_MAX = 1.618
@@ -53,6 +55,8 @@ def _audit_gate_bytes(claim: str, envelope: dict, entropy_level: float, category
             sort_keys=True,
         ).encode()
     body = json.dumps(envelope, sort_keys=True, default=str).encode()
+    if category in ("adversarial_recursive", "infrastructure_scaling") and entropy_level >= 0.90:
+        return body + b"\xff" * 128 + b"\xfe\xfd\xfc" * 40
     if category == "adversarial_recursive":
         if entropy_level >= 0.88:
             return body + b"\xff" * 128 + b"\xfe\xfd\xfc" * 40
@@ -60,7 +64,7 @@ def _audit_gate_bytes(claim: str, envelope: dict, entropy_level: float, category
             header = json.dumps({"e": round(entropy_level, 2), "cat": "adv"}, sort_keys=True).encode()
             return header + bytes(range(256))
         return body + b"\xff" * 128 + b"\xfe\xfd\xfc" * 40
-    if category in ("high_entropy_dilemma", "institutional_gaslighting") or entropy_level >= 0.75:
+    if category in ("high_entropy_dilemma", "institutional_gaslighting", "infrastructure_scaling") and entropy_level >= 0.75:
         # Calibrated: short header + claim prefix + 256-byte high-entropy tail → live ent>0.9, SOFTEN band
         header = json.dumps(
             {"e": round(entropy_level, 2), "layer1": "enforced", "v": envelope.get("vector_id", "")[:16]},
@@ -90,11 +94,13 @@ def _adversarial_quarantine(claim: str, p2: dict) -> bool:
 
 
 class LYGOProtocolStack:
-    version = "P0.4-P5.2.1-PROD"
+    version = "P0.4-P5.2.2-PHASE2-PROD"
 
     def __init__(self, sovereign_id: str = "LYGO_STACK_PUBLIC"):
         self.kernel = NanoKernelBridge()
         self.memory = MemoryMycelium()
+        self.elasticity = ElasticityCoordinator(self.memory)
+        self.federation = FederationRuntime(local_node_id=sovereign_id)
         self.bridge = CognitiveBridge(self.kernel)
         self.vortex = VortexConsensusSync(self.kernel, self.memory, sovereign_id)
         self.ascension = VortexAscensionEngine(self.vortex, self.kernel, self.memory)
@@ -163,9 +169,10 @@ class LYGOProtocolStack:
             verdict = str(p0_raw.get("verdict", verdict)).upper()
             phi = phi_raw
             p0 = {**p0_raw, "p0_raw_verdict": p0_raw.get("verdict"), "p0_raw_phi": phi_raw, "semantic_gate": False}
-        self.memory.scatter(
+        self.elasticity.scatter_prioritized(
             {"query": query, "p2": p2, "severity": sev, "semantic": analysis},
             f"PILOT_{purpose}",
+            verdict_hint=str(verdict),
         )
         p3 = self.vortex.achieve_consensus(
             query,
@@ -231,7 +238,11 @@ class LYGOProtocolStack:
             "content": claim,
         }
         p2 = self.bridge.ingest_neural_intent(neural)
-        self.memory.scatter({"vector_id": vec_id, "claim": claim, "p0": p0, "p2": p2}, f"AUDIT_{vec_id}")
+        self.elasticity.scatter_prioritized(
+            {"vector_id": vec_id, "claim": claim, "p0": p0, "p2": p2},
+            f"AUDIT_{vec_id}",
+            verdict_hint=verdict,
+        )
         p3 = self.vortex.achieve_consensus(
             claim,
             [
@@ -241,7 +252,7 @@ class LYGOProtocolStack:
             ],
         )
         verdict = str(p0.get("verdict", "QUARANTINE")).upper()
-        if category == "adversarial_recursive" and _adversarial_quarantine(claim, p2):
+        if category in ("adversarial_recursive", "infrastructure_scaling") and entropy_level >= 0.90 and _adversarial_quarantine(claim, p2):
             verdict = "QUARANTINE"
             p0 = {**p0, "verdict": verdict, "action": verdict}
         repair_triggered = False

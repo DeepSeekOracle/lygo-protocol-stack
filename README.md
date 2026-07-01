@@ -1,6 +1,12 @@
 # LYGO Protocol Stack — Sovereign Intelligence Framework
 
-**Version:** P0.4 → P5.2.1 (full public stack)  
+![Grok-Audited](https://img.shields.io/badge/Grok--Audited-60%2B%20vectors-green)
+![Phase 1](https://img.shields.io/badge/Phase%201-Elasticity-blue)
+![Phase 2](https://img.shields.io/badge/Phase%202-Community%20Deploy-blue)
+![Scaling](https://img.shields.io/badge/Scaling-Phase%203--4%20live-orange)
+[![HF Space](https://img.shields.io/badge/HF%20Space-LYGO--Resonance--Engine-yellow)](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine)
+
+**Version:** P0.4 → P5.2.2 (full public stack + community node)
 **Maintainer:** [DeepSeekOracle](https://github.com/DeepSeekOracle) / Excavationpro (Lightfather)  
 **License:** [LYGO Sovereign License v1.1](LICENSE)
 
@@ -24,6 +30,27 @@ Deep dive: [docs/PROTOCOL_STACK.md](docs/PROTOCOL_STACK.md) · OMEGA naming: [do
 ---
 
 ## Quick start
+
+### One-click (Phase 2)
+
+```bash
+git clone https://github.com/DeepSeekOracle/lygo-protocol-stack.git
+cd lygo-protocol-stack
+bash setup.sh          # Linux/macOS
+# powershell -ExecutionPolicy Bypass -File setup.ps1   # Windows
+python tools/verify_alignment_badge.py
+```
+
+### Docker community node
+
+```bash
+docker compose build lygo-node
+docker compose up -d lygo-node
+curl http://127.0.0.1:8787/health
+docker compose --profile scale up -d   # optional Phase 4 workers
+```
+
+### Developer (local Python)
 
 ```bash
 git clone https://github.com/DeepSeekOracle/lygo-protocol-stack.git
@@ -52,7 +79,10 @@ python tools/run_grok_audit_demo.py
 python tools/run_twin_gate_calibration.py
 python tools/run_twin_gate_vector_suite.py
 python tools/verify_lattice_alignment.py
+python tools/verify_alignment_badge.py
 ```
+
+Deployment guide: [docs/PHASE2_DEPLOYMENT.md](docs/PHASE2_DEPLOYMENT.md) · Scaling: [docs/SCALING_ROADMAP.md](docs/SCALING_ROADMAP.md) · [CHANGELOG.md](CHANGELOG.md)
 
 ### Python stack API
 
@@ -132,4 +162,4 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 - **HF dataset mirror:** https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack
 - **Resonance docs:** https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html  
 
-**Resonance signature:** Δ9Φ963-STACK-PUBLIC-v2
+**Resonance signature:** Δ9Φ963-PHASE2-DEPLOYMENT

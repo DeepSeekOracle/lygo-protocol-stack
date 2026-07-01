@@ -130,8 +130,8 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=None, help="Run first N vectors only")
     parser.add_argument("--no-report", action="store_true")
     args = parser.parse_args()
-    run_audit_demo(args.vectors, limit=args.limit, write_report=not args.no_report)
-    return 0
+    results = run_audit_demo(args.vectors, limit=args.limit, write_report=not args.no_report)
+    return 0 if results.get("failed", 0) == 0 else 1
 
 
 if __name__ == "__main__":

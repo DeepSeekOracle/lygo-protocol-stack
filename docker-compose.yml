@@ -1,0 +1,38 @@
+# LYGO Phase 2 — local community node + optional worker tier (Phase 4)
+services:
+  lygo-node:
+    build: .
+    image: lygo-protocol-stack:phase2
+    container_name: lygo-node
+    ports:
+      - "8787:8787"
+    environment:
+      LYGO_NODE_ID: community-primary
+      LYGO_STACK_ROOT: /app
+    volumes:
+      - lygo-mycelium:/data/mycelium
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "tools/verify_alignment_badge.py", "--quick", "--format=json"]
+      interval: 60s
+      timeout: 120s
+      retries: 3
+      start_period: 40s
+
+  lygo-worker:
+    build: .
+    image: lygo-protocol-stack:phase2
+    container_name: lygo-worker
+    command: ["python", "tools/run_elasticity_worker.py", "--workers", "4"]
+    environment:
+      LYGO_NODE_ID: community-worker
+      LYGO_STACK_ROOT: /app
+    depends_on:
+      lygo-node:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - scale
+
+volumes:
+  lygo-mycelium:

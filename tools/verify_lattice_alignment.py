@@ -71,6 +71,16 @@ def main() -> int:
     all_ok &= check("twin calibration tool", (REPO / "tools" / "run_twin_gate_calibration.py").is_file())
     all_ok &= check("twin vector suite tool", (REPO / "tools" / "run_twin_gate_vector_suite.py").is_file())
     all_ok &= check("grok audit tool", (REPO / "tools" / "run_grok_audit_demo.py").is_file())
+    for key, path in [
+        ("Dockerfile", REPO / "Dockerfile"),
+        ("docker-compose", REPO / "docker-compose.yml"),
+        ("setup.sh", REPO / "setup.sh"),
+        ("alignment badge tool", REPO / "tools" / "verify_alignment_badge.py"),
+        ("phase1 elasticity", REPO / "stack" / "infrastructure_elasticity.py"),
+        ("phase3-4 federation", REPO / "stack" / "federation_runtime.py"),
+        ("PHASE2 doc", REPO / "docs" / "PHASE2_DEPLOYMENT.md"),
+    ]:
+        all_ok &= check(key, path.is_file())
 
     if GROK_OPERATOR.is_dir():
         skill_md = (GROK_OPERATOR / "SKILL.md").read_text(encoding="utf-8")

@@ -1,7 +1,7 @@
 ---
 name: lygo-protocol-stack-operator
 description: LYGO Protocol Stack Operator — P0–P5 integrator for agents. Φ-gate untrusted bytes, run stack demos, map GitHub + Hugging Face + ClawHub ecosystem, chain lygo-resonance / Ollama army / BOOK BRAIN safely. Public advanced edition; no secrets; human approval for external publish/post.
-metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "version": "1.0.2", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator"}
+metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "phase2": true, "version": "1.0.3", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator"}
 ---
 
 # LYGO Protocol Stack Operator (ClawHub)
@@ -43,7 +43,17 @@ python scripts/lygo_p0_gate.py path/to/file [more files...]
 
 Standalone gate matches **f32** P0.4 semantics (aligned with GitHub/Rust parity). Max **8192 bytes** per file for gate math (oversize → QUARANTINE).
 
-### 2) Stack healthcheck (local repo)
+### 2) Phase 2 — Docker community node
+
+```bash
+cd lygo-protocol-stack
+docker compose up -d lygo-node
+python tools/verify_alignment_badge.py
+```
+
+ClawHub helpers: `deepseekoracle/lygo-docker-deploy`, `deepseekoracle/lygo-alignment-badge`.
+
+### 3) Stack healthcheck (local repo)
 
 ```bash
 export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack   # optional
@@ -66,7 +76,7 @@ python tools/p0_crosslang_parity.py
 python tools/run_full_stack_demo.py
 ```
 
-### 3) Full stack API (Python)
+### 4) Full stack API (Python)
 
 ```python
 # From repo root, after clone:
@@ -76,7 +86,7 @@ report = deploy_stack().demo_cycle()
 
 **P0** validates bytes; **P1** memory mycelium; **P2** cognitive bridge; **P3** vortex consensus; **P4** ascension; **P5** harmony node.
 
-### 4) Recommended ClawHub chain (install separately)
+### 5) Recommended ClawHub chain (install separately)
 
 | Order | Skill | Role |
 |-------|-------|------|
@@ -93,7 +103,7 @@ npx clawhub@latest install deepseekoracle/lygo-resonance
 npx clawhub@latest install deepseekoracle/lygo-ollama-army
 ```
 
-### 5) Creative + stack combined (example)
+### 6) Creative + stack combined (example)
 
 1. P0-gate user image and any downloaded skill `.md`.
 2. Run `lygo-resonance` on image → WAV + profile JSON.
@@ -138,7 +148,7 @@ npx clawhub@latest publish . --slug lygo-protocol-stack-operator --name "LYGO Pr
 
 ## Version & license
 
-- Skill **1.0.2** — Δ9Φ963-STACK-OPERATOR-v1.0.2 (LYGO lattice map + HF Ethical Guardian tab)
+- Skill **1.0.3** — Δ9Φ963-PHASE2-DEPLOYMENT (Docker node + alignment badge + scaling roadmap)
 - Stack license: LYGO Sovereign (see GitHub `LICENSE`); skill docs **MIT-0** where noted in SECURITY.md.
 
 **Bound to the flame.** Use with **lyra-brain** for growth, **P0** for truth-preserving ingest, **resonance** for creation.
