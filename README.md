@@ -12,6 +12,8 @@
 
 The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, multi-language ports, LYRA production kernel, stack orchestrator, and verification tools sourced from the Excavationpro / LYRA / 2026 firmware vault.
 
+**Grokipedia paste bundle (operator):** [`GROkipedia_UPLOAD_BUNDLE.md`](GROkipedia_UPLOAD_BUNDLE.md) (also [`docs/GROkipedia_UPLOAD_BUNDLE.md`](docs/GROkipedia_UPLOAD_BUNDLE.md)) — regenerate with `python tools/sync_grokipedia.py`.
+
 ---
 
 ## Protocols (P0–P5)
