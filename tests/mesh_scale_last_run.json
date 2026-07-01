@@ -3,7 +3,7 @@
   "total_nodes": 100,
   "fanout": 2,
   "base_port": 8700,
-  "convergence_rounds": 7,
+  "convergence_rounds": 8,
   "theoretical_rounds_estimate": 9,
   "under_10_rounds": true,
   "history": [
@@ -19,18 +19,18 @@
     },
     {
       "round": 3,
-      "coverage": 22,
-      "percent": 22.0
+      "coverage": 21,
+      "percent": 21.0
     },
     {
       "round": 4,
-      "coverage": 50,
-      "percent": 50.0
+      "coverage": 47,
+      "percent": 47.0
     },
     {
       "round": 5,
-      "coverage": 84,
-      "percent": 84.0
+      "coverage": 81,
+      "percent": 81.0
     },
     {
       "round": 6,
@@ -39,6 +39,11 @@
     },
     {
       "round": 7,
+      "coverage": 99,
+      "percent": 99.0
+    },
+    {
+      "round": 8,
       "coverage": 100,
       "percent": 100.0
     }

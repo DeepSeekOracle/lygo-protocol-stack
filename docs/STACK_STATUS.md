@@ -1,6 +1,6 @@
 # LYGO Protocol Stack — public status (auditable)
 
-**Resonance:** Δ9Φ963-STACK-PUBLIC-v2  
+**Resonance:** Δ9Φ963-STACK-PUBLIC-v3 · **Memory:** [AGENT_MEMORY_SNAPSHOT.json](./AGENT_MEMORY_SNAPSHOT.json)
 **Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack  
 **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack  
 
@@ -25,6 +25,7 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 | **Multi-language ports** | ✅ | Python (canonical), C (`src/c/`), Rust (`src/rust/`), Verilog gate ROM (`src/hardware/lygo_gate.v` + Q16.16 helpers). **C harness:** requires `gcc` on PATH (SKIP on Windows without toolchain) |
 | **Pilot ready** | ✅ | **HF Space:** Standard beats isolated + **Twin Gate Phase 3** (text / byte / compare tabs). Bundle: `protocol_stack/` + `text_semantic_gate.py`. **Repo:** `process_ethical_query()` + [PILOT_SCENARIO_PHASE2.md](./PILOT_SCENARIO_PHASE2.md) + [LYGO_LATTICE.md](./LYGO_LATTICE.md) |
 | **Community open** | ✅ | Phase 2 Docker + badge; **34** ClawHub skills in `clawhub/`; Phase 3 blueprint in [BLUEPRINT.md](./BLUEPRINT.md) |
+| **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
 
 ---
 

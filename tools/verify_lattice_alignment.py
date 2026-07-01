@@ -82,8 +82,21 @@ def main() -> int:
         ("BLUEPRINT", REPO / "docs" / "BLUEPRINT.md"),
         ("lattice gauntlet", REPO / "tools" / "run_lattice_gauntlet.py"),
         ("mesh gossip", REPO / "stack" / "mesh_gossip_http.py"),
+        ("mesh scale sim", REPO / "tools" / "run_mesh_scale_sim.py"),
+        ("mesh gossip protocol doc", REPO / "docs" / "MESH_GOSSIP_PROTOCOL.md"),
+        ("agent memory snapshot", REPO / "docs" / "AGENT_MEMORY_SNAPSHOT.json"),
     ]:
         all_ok &= check(key, path.is_file())
+    mesh_run = REPO / "tests" / "mesh_scale_last_run.json"
+    if mesh_run.is_file():
+        try:
+            mr = json.loads(mesh_run.read_text(encoding="utf-8"))
+            ok_mesh = bool(mr.get("under_10_rounds")) and int(mr.get("convergence_rounds", 99)) < 10
+            all_ok &= check("mesh scale last run", ok_mesh, f"rounds={mr.get('convergence_rounds')}")
+        except Exception as exc:
+            all_ok &= check("mesh scale last run", False, str(exc))
+    else:
+        all_ok &= check("mesh scale last run", False, "missing json")
 
     if GROK_OPERATOR.is_dir():
         skill_md = (GROK_OPERATOR / "SKILL.md").read_text(encoding="utf-8")

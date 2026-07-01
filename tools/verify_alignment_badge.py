@@ -57,6 +57,17 @@ def collect_badge(*, quick: bool = False) -> dict:
         badge["checks"]["stack_demo"] = False
         badge["stack_error"] = str(exc)
 
+    mesh_art = ROOT / "tests" / "mesh_scale_last_run.json"
+    if mesh_art.is_file():
+        try:
+            mr = json.loads(mesh_art.read_text(encoding="utf-8"))
+            badge["checks"]["phase5_mesh_scale"] = bool(mr.get("under_10_rounds"))
+            badge["mesh_convergence_rounds"] = mr.get("convergence_rounds")
+        except Exception:
+            badge["checks"]["phase5_mesh_scale"] = False
+    else:
+        badge["checks"]["phase5_mesh_scale"] = False
+
     try:
         if stack is not None:
             coord = stack.elasticity

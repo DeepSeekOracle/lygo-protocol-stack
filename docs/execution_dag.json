@@ -8,16 +8,16 @@
   },
   "phases": {
     "phase_2": { "status": "COMPLETE", "note": "Docker, badge, CI, HF Run-a-Node" },
-    "phase_3": { "status": "IN_PROGRESS", "note": "Blueprint, gauntlet, twin 60/60 harmonized" },
+    "phase_3": { "status": "COMPLETE", "note": "Blueprint, gauntlet, twin 60/60 harmonized" },
     "phase_4": { "status": "LOCAL", "note": "docker compose --profile scale" },
-    "phase_5": { "status": "LOCAL", "note": "mesh_gossip_http.py, POST /gossip/badge" },
+    "phase_5": { "status": "ACTIVE", "note": "run_mesh_scale_sim.py, node_api /gossip/scatter, mesh_scale_last_run.json" },
     "phase_6": { "status": "STUBS", "note": "hardware/" }
   },
   "immediate_actions": [
-    { "id": 1, "task": "Publish ClawHub skills", "gate": "human", "status": "pending" },
+    { "id": 1, "task": "Publish ClawHub skills", "gate": "human", "status": "COMPLETE" },
     { "id": 2, "task": "sync_grokipedia.py → manual upload", "gate": "human", "status": "ready" },
     { "id": 3, "task": "Discord ops lygo_lightfather_ops_launcher", "gate": "agent", "status": "repeatable" },
-    { "id": 4, "task": "hf_push_dataset.py", "gate": "human", "status": "pending" },
+    { "id": 4, "task": "hf_push_dataset.py", "gate": "human", "status": "COMPLETE" },
     { "id": 5, "task": "Twin Gate 60/60", "gate": "agent", "status": "COMPLETE" },
     { "id": 6, "task": "100 community nodes", "gate": "community", "status": "open" }
   ],

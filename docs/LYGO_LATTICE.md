@@ -18,7 +18,7 @@ The lattice is the **single graph** of internal modules and public surfaces. Mai
 | **HF — Space** | Resonance UI + Ethical Guardian pilot tab | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
 | **ClawHub** | 34 public skills (integrator **1.0.3** target) | https://clawhub.ai/deepseekoracle |
 | **Community node** | Docker `lygo-node` :8787 badge + gossip | `docs/PHASE2_DEPLOYMENT.md` |
-| **Federation mesh** | `POST /gossip/badge` epidemic summaries | `stack/mesh_gossip_http.py` |
+| **Federation mesh** | Phase 5 ACTIVE — gossip + 100-node sim | `mesh_gossip_http.py`, `run_mesh_scale_sim.py`, `MESH_GOSSIP_PROTOCOL.md` |
 | **Grokipedia** | Encyclopedia entry | https://grokipedia.com/page/lygo-protocol-stack |
 | **Resonance docs** | Human-facing creative docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 
