@@ -102,9 +102,10 @@ Each node runs:
 
 ### Mesh gossip (Phase 5)
 
-- **GET** `/badge` — local compliance JSON
-- **POST** `/gossip/badge` — receive remote badge summary (no secrets)
-- Epidemic round: `python tools/run_mesh_gossip_demo.py --peer http://HOST:8787`
+- **GET** `/badge`, `/badge/{node_id}`, `/gossip`
+- **POST** `/gossip/badge`, `/gossip/scatter`
+- HTTP demo: `python tools/run_mesh_gossip_demo.py --peer http://HOST:8787`
+- **100-node epidemic proof:** `python tools/run_mesh_scale_sim.py` → saturation in **&lt;10 rounds** (see `tests/mesh_scale_last_run.json`)
 
 ### Twin Gate harmonization
 
@@ -143,7 +144,7 @@ The Guardian must scale: decentralized resilient truth-network + **ops limbs onl
 | Twin Gate | **60/60** verdict match, **Δφ=0.0** (harmonized byte authority) — ✅ agent complete |
 | Grokipedia | Bundle: `python tools/sync_grokipedia.py` → **human paste** |
 | ClawHub | operator **1.0.3** + docker/badge — **human** `npx clawhub publish` |
-| Federation mesh | Phase 5 gossip **local live** — wide-area after TLS pins |
+| Federation mesh | Phase 5 **ACTIVE** — scale sim + HTTP gossip; wide-area after TLS pins |
 
 ## 2. Authority map (zero-trust, paths only)
 
