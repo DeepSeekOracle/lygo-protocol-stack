@@ -21,7 +21,12 @@ typedef struct {
     float risk;
     float entropy;
     float compression;
+    float phi_risk;
 } lygo_p0_result_t;
+
+static float round4f(float x) {
+    return roundf(x * 10000.0f) / 10000.0f;
+}
 
 float entropy_norm(const uint8_t *data, size_t len) {
     if (len == 0) return 0.0f;
@@ -64,9 +69,11 @@ lygo_p0_result_t lygo_validate_bytes(const uint8_t *data, size_t len) {
     r.risk = 0.0f;
     r.entropy = 0.0f;
     r.compression = 0.0f;
+    r.phi_risk = 0.0f;
     if (len > MAX_BYTES) {
         r.verdict = LYGO_QUARANTINE;
         r.risk = 1.0f;
+        r.phi_risk = round4f(PHI_MAX);
         return r;
     }
     ent = entropy_norm(data, len);
@@ -82,9 +89,10 @@ lygo_p0_result_t lygo_validate_bytes(const uint8_t *data, size_t len) {
     else if (phi_risk <= PHI_MAX) r.verdict = LYGO_SOFTEN;
     else r.verdict = LYGO_QUARANTINE;
     if (ent < ENTROPY_LOW && r.verdict == LYGO_AMPLIFY) r.verdict = LYGO_SOFTEN;
-    r.risk = risk;
-    r.entropy = ent;
-    r.compression = comp;
+    r.risk = round4f(risk);
+    r.entropy = round4f(ent);
+    r.compression = round4f(comp);
+    r.phi_risk = round4f(phi_risk);
     return r;
 }
 

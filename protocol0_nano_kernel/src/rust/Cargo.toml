@@ -8,5 +8,12 @@ license = "LicenseRef-LYGO-Sovereign-1.1"
 [lib]
 path = "src/lib.rs"
 
+[[bin]]
+name = "p0_harness"
+path = "src/bin/p0_harness.rs"
+
+[dependencies]
+libm = "0.2"
+
 [profile.test]
 opt-level = 0

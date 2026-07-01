@@ -15,6 +15,13 @@ pub struct ResultP0 {
     pub risk: f32,
     pub entropy: f32,
     pub compression: f32,
+    pub phi_risk: f32,
+}
+
+fn round4(x: f32) -> f32 {
+    let v = x * 10000.0;
+    let add = if v >= 0.0 { 0.5 } else { -0.5 };
+    ((v + add) as i32) as f32 / 10000.0
 }
 
 const MAX_BYTES: usize = 8192;
@@ -24,35 +31,6 @@ const ENTROPY_LOW: f32 = 0.25;
 const ENTROPY_HIGH: f32 = 0.90;
 const COMP_MIN_LEN: usize = 64;
 const COMP_POOR: f32 = 0.90;
-
-fn ln2() -> f32 {
-    0.69314718056_f32
-}
-
-fn log2_f32(x: f32) -> f32 {
-    if x <= 0.0 {
-        return 0.0;
-    }
-    let mut y = x;
-    let mut e: i32 = 0;
-    while y >= 2.0 {
-        y /= 2.0;
-        e += 1;
-    }
-    while y < 1.0 {
-        y *= 2.0;
-        e -= 1;
-    }
-    let z = (y - 1.0) / (y + 1.0);
-    let z2 = z * z;
-    let mut s = z;
-    let mut z_pow = z;
-    for _ in 0..6 {
-        z_pow *= z2;
-        s += z_pow / (2 * 1 + 1) as f32;
-    }
-    (2.0 * s + e as f32 * ln2())
-}
 
 pub fn entropy_norm(data: &[u8]) -> f32 {
     if data.is_empty() {
@@ -67,11 +45,11 @@ pub fn entropy_norm(data: &[u8]) -> f32 {
     for c in freq.iter() {
         if *c > 0 {
             let p = *c as f32 / len;
-            ent -= p * log2_f32(p);
+            ent -= p * libm::log2f(p);
         }
     }
     let denom = if data.len() > 1 {
-        log2_f32(len)
+        libm::log2f(len)
     } else {
         1.0
     };
@@ -102,6 +80,7 @@ pub fn validate_bytes(data: &[u8]) -> ResultP0 {
             risk: 1.0,
             entropy: 0.0,
             compression: 0.0,
+            phi_risk: round4(PHI_MAX),
         };
     }
     let ent = entropy_norm(data);
@@ -136,9 +115,18 @@ pub fn validate_bytes(data: &[u8]) -> ResultP0 {
     }
     ResultP0 {
         verdict,
-        risk,
-        entropy: ent,
-        compression: comp,
+        risk: round4(risk),
+        entropy: round4(ent),
+        compression: round4(comp),
+        phi_risk: round4(phi_risk),
+    }
+}
+
+pub fn verdict_name(v: Verdict) -> &'static str {
+    match v {
+        Verdict::Amplify => "AMPLIFY",
+        Verdict::Soften => "SOFTEN",
+        Verdict::Quarantine => "QUARANTINE",
     }
 }
 
@@ -158,5 +146,12 @@ mod tests {
         let data = [0u8; 9000];
         let r = validate_bytes(&data);
         assert_eq!(r.verdict, Verdict::Quarantine);
+    }
+
+    #[test]
+    fn phi_risk_field_present() {
+        let data = br#"{"a":1,"b":2}"#;
+        let r = validate_bytes(data);
+        assert!(r.phi_risk >= 0.0);
     }
 }

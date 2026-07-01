@@ -1,25 +1,18 @@
 #!/usr/bin/env python3
-"""Cross-platform LYGO P0 determinism verifier (Windows + Linux)."""
+"""LYGO P0 determinism verifier — delegates to vector suite + golden SHA."""
 
-import hashlib
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-P0 = ROOT / "protocol0_nano_kernel" / "src" / "python" / "lygo_p0.py"
+PARITY = ROOT / "tools" / "p0_crosslang_parity.py"
 
 
 def main() -> int:
-    print("⚡ LYGO DETERMINISM VERIFICATION")
+    print("⚡ LYGO P0 DETERMINISM (42-vector suite)")
     print("=================================")
-    proc = subprocess.run([sys.executable, str(P0)], capture_output=True, text=True, check=True)
-    digest = hashlib.sha256(proc.stdout.encode("utf-8")).hexdigest()
-    print(proc.stdout)
-    print(f"SHA-256(stdout): {digest}")
-    print("")
-    print("✅ Determinism check complete.")
-    return 0
+    return subprocess.call([sys.executable, str(PARITY)])
 
 
 if __name__ == "__main__":

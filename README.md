@@ -36,8 +36,11 @@ python protocol1_memory_mycelium/src/python/lygo_p1.py
 # Full integrated demo (P0–P5)
 python tools/run_full_stack_demo.py
 
-# Determinism + unit tests
-python tools/verify_hash.py
+# P0 hardened demo (42 vectors, phi_risk + reasoning)
+python tools/run_p0_demo.py
+
+# Determinism + cross-lang SHA (Python/Rust; gcc for C)
+python tools/p0_crosslang_parity.py
 python -m pytest protocol0_nano_kernel/tests/ -q
 ```
 
