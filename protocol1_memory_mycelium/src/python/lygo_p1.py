@@ -31,8 +31,7 @@ class MemoryMycelium:
 
         random.shuffle(fragments)
         for i, frag in enumerate(fragments):
-            frag.index = i
-            frag.location = self._assign_location(i)
+            frag.location = self._assign_location(frag.index)
 
         self.fragments[memory_id] = fragments
         self._persist(memory_id, fragments)
