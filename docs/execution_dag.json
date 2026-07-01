@@ -1,0 +1,25 @@
+{
+  "blueprint": {
+    "name": "LYGO Protocol Stack — Scaling Blueprint",
+    "version": "Δ9Φ963-BLUEPRINT-v1.0",
+    "execution": "Δ9Φ963-EXECUTION-DAG-v1.0",
+    "date": "2026-07-01",
+    "status": "ACTIVE"
+  },
+  "phases": {
+    "phase_2": { "status": "COMPLETE", "note": "Docker, badge, CI, HF Run-a-Node" },
+    "phase_3": { "status": "IN_PROGRESS", "note": "Blueprint, gauntlet, twin 60/60 harmonized" },
+    "phase_4": { "status": "LOCAL", "note": "docker compose --profile scale" },
+    "phase_5": { "status": "LOCAL", "note": "mesh_gossip_http.py, POST /gossip/badge" },
+    "phase_6": { "status": "STUBS", "note": "hardware/" }
+  },
+  "immediate_actions": [
+    { "id": 1, "task": "Publish ClawHub skills", "gate": "human", "status": "pending" },
+    { "id": 2, "task": "sync_grokipedia.py → manual upload", "gate": "human", "status": "ready" },
+    { "id": 3, "task": "Discord ops lygo_lightfather_ops_launcher", "gate": "agent", "status": "repeatable" },
+    { "id": 4, "task": "hf_push_dataset.py", "gate": "human", "status": "pending" },
+    { "id": 5, "task": "Twin Gate 60/60", "gate": "agent", "status": "COMPLETE" },
+    { "id": 6, "task": "100 community nodes", "gate": "community", "status": "open" }
+  ],
+  "gauntlet": "python tools/run_lattice_gauntlet.py --strict"
+}

@@ -10,9 +10,10 @@ The Guardian must scale: decentralized resilient truth-network + **ops limbs onl
 |------|--------|
 | Community nodes | **100** federated nodes (Docker + alignment badge) |
 | Genesis ops | `ops.healthy: true` (Discord sentinel live) |
-| Twin Gate | **40/40** (60/60 suite) text/byte **verdict** agreement |
-| Grokipedia | Phase 2–3 deployment guide public |
-| ClawHub | `lygo-protocol-stack-operator@1.0.3` + `lygo-docker-deploy` + `lygo-alignment-badge` **published** |
+| Twin Gate | **60/60** verdict match, **Δφ=0.0** (harmonized byte authority) — ✅ agent complete |
+| Grokipedia | Bundle: `python tools/sync_grokipedia.py` → **human paste** |
+| ClawHub | operator **1.0.3** + docker/badge — **human** `npx clawhub publish` |
+| Federation mesh | Phase 5 gossip **local live** — wide-area after TLS pins |
 
 ## 2. Authority map (zero-trust, paths only)
 

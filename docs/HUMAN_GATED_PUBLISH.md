@@ -1,25 +1,29 @@
 # Human-gated publish checklist (Phase 3)
 
-**Do not automate without operator present.**
+## ClawHub — published (2026-07-01)
 
-## ClawHub
+| Skill | Version |
+|-------|---------|
+| `lygo-docker-deploy` | 1.0.0 |
+| `lygo-alignment-badge` | 1.0.0 |
+| `lygo-protocol-stack-operator` | **1.0.3** |
+
+Republish from mirrors:
 
 ```bash
-cd lygo-protocol-stack/clawhub/mirrors/lygo-docker-deploy
-npx clawhub@latest publish . --slug lygo-docker-deploy --name "LYGO Docker Deploy"
-
-cd ../lygo-alignment-badge
-npx clawhub@latest publish . --slug lygo-alignment-badge --name "LYGO Alignment Badge"
-
-cd ../lygo-protocol-stack-operator
-npx clawhub@latest publish . --slug lygo-protocol-stack-operator --name "LYGO Protocol Stack Operator"
+cd clawhub/mirrors/<skill> && npx clawhub@latest publish "$PWD" --slug <slug> --name "..."
 ```
 
-## Hugging Face dataset
+## Hugging Face dataset — synced
+
+Dataset commit `704d3832` via `python tools/hf_push_dataset.py`
+
+## Remaining human steps
 
 ```bash
 cd lygo-protocol-stack
-python tools/hf_push_dataset.py
+python tools/sync_grokipedia.py
+# Paste docs/GROkipedia_UPLOAD_BUNDLE.md → Grokipedia editor
 python tools/bundle_hf_space_stack.py --mode=twin-gate
 python tools/hf_push_space.py --message "Phase 3 twin harmonization + mesh gossip"
 ```

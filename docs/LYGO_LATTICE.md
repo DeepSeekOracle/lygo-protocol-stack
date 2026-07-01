@@ -16,7 +16,9 @@ The lattice is the **single graph** of internal modules and public surfaces. Mai
 | **GitHub — Excavationpro** | Seals, LYGORESONANCE site source | https://github.com/DeepSeekOracle/Excavationpro |
 | **HF — dataset** | Code mirror (no full skill trees) | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack |
 | **HF — Space** | Resonance UI + Ethical Guardian pilot tab | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
-| **ClawHub** | 33 public skills (integrator first) | https://clawhub.ai/deepseekoracle |
+| **ClawHub** | 34 public skills (integrator **1.0.3** target) | https://clawhub.ai/deepseekoracle |
+| **Community node** | Docker `lygo-node` :8787 badge + gossip | `docs/PHASE2_DEPLOYMENT.md` |
+| **Federation mesh** | `POST /gossip/badge` epidemic summaries | `stack/mesh_gossip_http.py` |
 | **Grokipedia** | Encyclopedia entry | https://grokipedia.com/page/lygo-protocol-stack |
 | **Resonance docs** | Human-facing creative docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 
