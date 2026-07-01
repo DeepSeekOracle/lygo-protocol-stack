@@ -79,6 +79,9 @@ def main() -> int:
         ("phase1 elasticity", REPO / "stack" / "infrastructure_elasticity.py"),
         ("phase3-4 federation", REPO / "stack" / "federation_runtime.py"),
         ("PHASE2 doc", REPO / "docs" / "PHASE2_DEPLOYMENT.md"),
+        ("BLUEPRINT", REPO / "docs" / "BLUEPRINT.md"),
+        ("lattice gauntlet", REPO / "tools" / "run_lattice_gauntlet.py"),
+        ("mesh gossip", REPO / "stack" / "mesh_gossip_http.py"),
     ]:
         all_ok &= check(key, path.is_file())
 

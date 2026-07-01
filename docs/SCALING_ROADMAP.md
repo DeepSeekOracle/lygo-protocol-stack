@@ -6,7 +6,8 @@
 | **2** | Community Deployment | **Live** | Docker, Compose, setup scripts, alignment badge, CI, HF/GitHub surfaces |
 | **3** | Federation Registry | **Live (local)** | `federation_runtime.NodeRegistry` — peer registration, heartbeats |
 | **4** | Horizontal Scale | **Live (local)** | Worker pool + Compose `scale` profile; gossip bus for badge propagation |
-| **5** | Wide-area mesh | Planned | HTTPS badge exchange between nodes (human-gated TLS pins) |
+| **3b** | Blueprint & gauntlet | **Live** | `docs/BLUEPRINT.md`, `tools/run_lattice_gauntlet.py` |
+| **5** | Wide-area mesh | **Live (local)** | `mesh_gossip_http.py`, `POST /gossip/badge`, `run_mesh_gossip_demo.py` |
 | **6** | GPU / FPGA P0 | Planned | Hardware attestation hooks (see `protocol0_nano_kernel/src/hardware`) |
 
 ## Phase 2–4 operator checklist
@@ -23,4 +24,4 @@
 - **42** P0 canonical fixtures (determinism / cross-lang parity).
 - Twin Gate pilot: 6 edge scenarios; target **Δφ → 0** after calibration.
 
-**Signature:** `Δ9Φ963-PHASE2-DEPLOYMENT`
+**Signature:** `Δ9Φ963-PHASE3-SCALE-INIT`

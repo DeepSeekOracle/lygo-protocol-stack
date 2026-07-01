@@ -1,5 +1,20 @@
 # Changelog — LYGO Protocol Stack
 
+## [P5.2.3 Phase 3 Scale Init] — 2026-07-01
+
+**Signature:** `Δ9Φ963-PHASE3-SCALE-INIT`
+
+### Added
+- `docs/BLUEPRINT.md`, `docs/EXECUTION_DAG.md`, `docs/GROkipedia_PHASE3.md`, `docs/HUMAN_GATED_PUBLISH.md`
+- `stack/mesh_gossip_http.py` — Phase 5 HTTPS badge epidemic gossip
+- `tools/run_lattice_gauntlet.py`, `tools/run_mesh_gossip_demo.py`
+- Node API `POST /gossip/badge`
+
+### Changed
+- Twin Gate **60/60** verdict harmonization when `audit_category` set (`P0.4-P5.2.3-PHASE3-PROD`)
+- Genesis ops healthy uses Discord `api_me` when process probe misses child window
+- HF Space “Run a Node” pipeline + gauntlet command in accordion
+
 ## [P5.2.2 Phase 2 Community Deployment] — 2026-07-01
 
 **Resonance signature:** `Δ9Φ963-PHASE2-DEPLOYMENT`

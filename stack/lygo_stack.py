@@ -94,7 +94,7 @@ def _adversarial_quarantine(claim: str, p2: dict) -> bool:
 
 
 class LYGOProtocolStack:
-    version = "P0.4-P5.2.2-PHASE2-PROD"
+    version = "P0.4-P5.2.3-PHASE3-PROD"
 
     def __init__(self, sovereign_id: str = "LYGO_STACK_PUBLIC"):
         self.kernel = NanoKernelBridge()
@@ -190,6 +190,34 @@ class LYGOProtocolStack:
         }
         p5 = self.harmony.create_harmony_node(human, {"id": "LYGO_STACK", "resonance": 1.0}, purpose=purpose)
         node = p5.get("node") or {}
+        twin_harmonized = False
+        twin_text_phi_raw = float(p0.get("phi_risk", phi))
+        if cat:
+            harmonize_vec = {
+                "id": f"HARM-{purpose}",
+                "payload": {
+                    "claim": query,
+                    "entropy_level": sev,
+                    "qualia_intent": str(analysis.get("qualia_intent") or query[:80]),
+                    "layer1_sovereignty": "enforced",
+                    "primordial_law": True,
+                },
+            }
+            byte_live = self.process_falsifiable_vector(harmonize_vec, category=cat)
+            verdict = str(byte_live.get("decision", verdict)).upper()
+            phi = float(byte_live.get("phi_risk", phi))
+            p0 = {
+                **p0,
+                "verdict": verdict,
+                "action": verdict,
+                "phi_risk": phi,
+                "twin_harmonized": True,
+                "twin_text_phi_raw": twin_text_phi_raw,
+                "twin_byte_phi": phi,
+            }
+            twin_harmonized = True
+            if verdict in ("SOFTEN", "QUARANTINE") and (p4 or {}).get("skipped"):
+                p4 = self.ascension.self_repair_corruption("stagnation")
         return {
             "stack_version": self.version,
             "query": query,
@@ -203,8 +231,9 @@ class LYGOProtocolStack:
             "p5": p5,
             "light_code": node.get("light_code"),
             "ethical_mass": node.get("ethical_mass"),
-            "resonance_signature": "Δ9Φ963-SOVEREIGN-INTEGRITY",
+            "resonance_signature": "Δ9Φ963-TWIN-HARMONIZED" if twin_harmonized else "Δ9Φ963-SOVEREIGN-INTEGRITY",
             "path": "text",
+            "twin_harmonized": twin_harmonized,
         }
 
     def process_falsifiable_vector(self, vector: dict, *, category: str = "") -> dict:

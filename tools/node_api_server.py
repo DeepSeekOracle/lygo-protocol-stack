@@ -44,6 +44,14 @@ def get_stack():
 
 
 class Handler(BaseHTTPRequestHandler):
+    def _read_json_body(self) -> dict:
+        length = int(self.headers.get("Content-Length", 0) or 0)
+        raw = self.rfile.read(length) if length else b"{}"
+        try:
+            return json.loads(raw.decode("utf-8") or "{}")
+        except json.JSONDecodeError:
+            return {}
+
     def _json(self, code: int, obj: dict) -> None:
         body = json.dumps(obj, indent=2).encode("utf-8")
         self.send_response(code)
@@ -55,7 +63,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path in ("/", "/health"):
-            self._json(200, {"ok": True, "service": "lygo-node", "signature": "Δ9Φ963-PHASE2-DEPLOYMENT"})
+            self._json(200, {"ok": True, "service": "lygo-node", "signature": "Δ9Φ963-PHASE3-SCALE-INIT"})
             return
         if path == "/badge":
             import sys
@@ -79,7 +87,19 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/federation":
             self._json(200, get_stack().federation.snapshot())
             return
-        self._json(404, {"error": "not found", "paths": ["/health", "/badge", "/demo", "/elasticity", "/federation"]})
+        self._json(404, {"error": "not found", "paths": ["/health", "/badge", "/demo", "/elasticity", "/federation", "POST /gossip/badge"]})
+
+    def do_POST(self) -> None:
+        path = urlparse(self.path).path
+        if path == "/gossip/badge":
+            body = self._read_json_body()
+            badge = body.get("badge") or body
+            from_node = body.get("from") or badge.get("node_id") or "remote"
+            stack = get_stack()
+            msg = stack.federation.gossip.publish_badge(str(from_node), badge if isinstance(badge, dict) else {"raw": badge})
+            self._json(200, {"ok": True, "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1", "gossip": msg})
+            return
+        self._json(404, {"error": "not found"})
 
     def log_message(self, fmt: str, *args) -> None:
         return

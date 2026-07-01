@@ -121,6 +121,8 @@ def main() -> int:
     if args.format in ("md", "both"):
         print("\n" + to_markdown(badge))
 
+    if badge["status"] == "ALIGNED":
+        print("BADGE VALID")
     return 0 if badge["status"] == "ALIGNED" else 1
 
 

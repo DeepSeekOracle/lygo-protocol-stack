@@ -78,12 +78,11 @@ def main() -> int:
         "rows": rows,
     }
     OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-
     print(f"Vectors: {total}")
     print(f"Verdict match (text vs byte): {verdict_match}/{total} ({payload['verdict_match_rate']}%)")
     print(f"Mean |Δφ|: {payload['mean_abs_delta_phi']} | max |Δφ|: {payload['max_abs_delta_phi']}")
     print(f"Report: {OUT}")
-    return 0
+    return 0 if verdict_match >= total else 1
 
 
 if __name__ == "__main__":

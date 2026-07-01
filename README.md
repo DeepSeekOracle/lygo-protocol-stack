@@ -82,7 +82,7 @@ python tools/verify_lattice_alignment.py
 python tools/verify_alignment_badge.py
 ```
 
-Deployment guide: [docs/PHASE2_DEPLOYMENT.md](docs/PHASE2_DEPLOYMENT.md) · Scaling: [docs/SCALING_ROADMAP.md](docs/SCALING_ROADMAP.md) · [CHANGELOG.md](CHANGELOG.md)
+Deployment: [docs/PHASE2_DEPLOYMENT.md](docs/PHASE2_DEPLOYMENT.md) · **Phase 3:** [docs/BLUEPRINT.md](docs/BLUEPRINT.md) · [docs/SCALING_ROADMAP.md](docs/SCALING_ROADMAP.md) · Gauntlet: `python tools/run_lattice_gauntlet.py`
 
 ### Python stack API
 
