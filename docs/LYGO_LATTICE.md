@@ -100,6 +100,17 @@ python tools/sync_clawhub_mirrors.py
 python tools/render_clawhub_catalog.py
 ```
 
+Ollama army (local, optional batch):
+
+```bash
+cd .grok/skills/lygo-ollama-army
+set LYGO_STACK_ROOT=I:\E Drive\lygo-protocol-stack
+python seed_productive_tasks.py
+```
+
+See `lygo-ollama-army/ARMY_TASKS.md` and **`ollama_command_center/`** (sentinel, dashboard, cron).  
+`python tools/sentinel_heartbeat.py` · `ollama_command_center/scripts/army_cron_once.py` for scheduled ticks.
+
 ---
 
 ## Privilege model (no secrets in repo)
