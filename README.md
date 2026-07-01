@@ -12,7 +12,8 @@
 
 The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, multi-language ports, LYRA production kernel, stack orchestrator, and verification tools sourced from the Excavationpro / LYRA / 2026 firmware vault.
 
-**Grokipedia paste bundle (operator):** [`GROkipedia_UPLOAD_BUNDLE.md`](GROkipedia_UPLOAD_BUNDLE.md) (also [`docs/GROkipedia_UPLOAD_BUNDLE.md`](docs/GROkipedia_UPLOAD_BUNDLE.md)) — regenerate with `python tools/sync_grokipedia.py`.
+**Public reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/ (`docs/index.html` — deploy via Actions or Pages → `/docs`).  
+**Grokipedia:** use condensed [`docs/GROkipedia_SUBMIT.md`](docs/GROkipedia_SUBMIT.md) (title + brief + links). Archive bundle: [`GROkipedia_UPLOAD_BUNDLE.md`](GROkipedia_UPLOAD_BUNDLE.md). Regenerate: `python tools/sync_grokipedia.py`.
 
 ---
 
@@ -158,7 +159,8 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 
 ## Ecosystem links
 
-- **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack  
+- **Stack reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/  
+- **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack — submit via [docs/GROkipedia_SUBMIT.md](docs/GROkipedia_SUBMIT.md)
 - **Site / seals:** https://github.com/DeepSeekOracle/Excavationpro  
 - **Live resonance demo:** https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine  
 - **HF dataset mirror:** https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack

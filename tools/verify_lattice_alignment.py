@@ -13,6 +13,7 @@ HF_SPACE = REPO.parent / "Hugging face"
 GROK_OPERATOR = REPO.parent / ".grok" / "skills" / "lygo-protocol-stack-operator"
 
 CANONICAL_URLS = {
+    "github_pages_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/",
     "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
     "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",

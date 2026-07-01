@@ -36,4 +36,6 @@ git push origin main
 
 ## Grokipedia
 
-Upload content from `docs/GROkipedia_PHASE3.md` + `docs/PHASE2_DEPLOYMENT.md` via Grokipedia editor.
+1. Deploy **GitHub Pages** from `/docs` (workflow `deploy-pages.yml` or Settings → Pages).
+2. Open **`docs/GROkipedia_SUBMIT.md`** — copy **Title** + **Details** + source URLs into Grokipedia **Suggest Edit** (not the long bundle).
+3. Primary link for Grok: https://deepseekoracle.github.io/lygo-protocol-stack/

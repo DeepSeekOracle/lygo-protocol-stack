@@ -19,7 +19,8 @@ The lattice is the **single graph** of internal modules and public surfaces. Mai
 | **ClawHub** | 34 public skills (integrator **1.0.3** target) | https://clawhub.ai/deepseekoracle |
 | **Community node** | Docker `lygo-node` :8787 badge + gossip | `docs/PHASE2_DEPLOYMENT.md` |
 | **Federation mesh** | Phase 5 ACTIVE — gossip + 100-node sim | `mesh_gossip_http.py`, `run_mesh_scale_sim.py`, `MESH_GOSSIP_PROTOCOL.md` |
-| **Grokipedia** | Encyclopedia entry | https://grokipedia.com/page/lygo-protocol-stack |
+| **GitHub Pages** | Public stack reference (for Grokipedia crawl) | https://deepseekoracle.github.io/lygo-protocol-stack/ |
+| **Grokipedia** | Suggest Edit + `GROkipedia_SUBMIT.md` | https://grokipedia.com/page/lygo-protocol-stack |
 | **Resonance docs** | Human-facing creative docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 
 ---
