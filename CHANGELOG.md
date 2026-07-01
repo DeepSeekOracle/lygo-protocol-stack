@@ -1,5 +1,17 @@
 # Changelog — LYGO Protocol Stack
 
+## [P5.2.4 Phase 5 Mesh Scale] — 2026-07-01
+
+**Signature:** `Δ9Φ963-PHASE5-DEPLOYMENT`
+
+### Added
+- `tools/run_mesh_scale_sim.py` — 100-node epidemic convergence (fanout 2 → **7 rounds** to saturation)
+- `tests/mesh_scale_last_run.json` — logged scale test artifact
+
+### Changed
+- `tools/node_api_server.py` — `GET /gossip`, `POST /gossip/scatter`, `GET /badge/{node_id}`
+- `docs/SCALING_ROADMAP.md`, `docs/MESH_GOSSIP_PROTOCOL.md`, `docs/BLUEPRINT.md` — Phase 5 ACTIVE
+
 ## [P5.2.3 Phase 3 Scale Init] — 2026-07-01
 
 **Signature:** `Δ9Φ963-PHASE3-SCALE-INIT`

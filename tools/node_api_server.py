@@ -87,7 +87,46 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/federation":
             self._json(200, get_stack().federation.snapshot())
             return
-        self._json(404, {"error": "not found", "paths": ["/health", "/badge", "/demo", "/elasticity", "/federation", "POST /gossip/badge"]})
+        if path == "/gossip":
+            snap = get_stack().federation.snapshot()
+            recent = snap.get("gossip_recent") or []
+            self._json(
+                200,
+                {
+                    "peers": snap.get("peers", []),
+                    "badge_count": len(recent),
+                    "gossip_recent": recent,
+                    "local_node_id": snap.get("local_node_id"),
+                    "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1",
+                },
+            )
+            return
+        if path.startswith("/badge/"):
+            node_id = path.split("/")[-1]
+            snap = get_stack().federation.snapshot()
+            for entry in reversed(snap.get("gossip_recent") or []):
+                if str(entry.get("node_id")) == node_id:
+                    self._json(200, entry.get("badge") or entry)
+                    return
+            self._json(404, {"error": "node badge not in gossip log", "node_id": node_id})
+            return
+        self._json(
+            404,
+            {
+                "error": "not found",
+                "paths": [
+                    "/health",
+                    "/badge",
+                    "/badge/{node_id}",
+                    "/demo",
+                    "/elasticity",
+                    "/federation",
+                    "/gossip",
+                    "POST /gossip/badge",
+                    "POST /gossip/scatter",
+                ],
+            },
+        )
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
@@ -98,6 +137,17 @@ class Handler(BaseHTTPRequestHandler):
             stack = get_stack()
             msg = stack.federation.gossip.publish_badge(str(from_node), badge if isinstance(badge, dict) else {"raw": badge})
             self._json(200, {"ok": True, "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1", "gossip": msg})
+            return
+        if path == "/gossip/scatter":
+            body = self._read_json_body()
+            stack = get_stack()
+            merged = 0
+            if isinstance(body, dict):
+                for node_id, badge in body.items():
+                    if isinstance(badge, dict):
+                        stack.federation.gossip.publish_badge(str(node_id), badge)
+                        merged += 1
+            self._json(200, {"ok": True, "merged": merged, "signature": "Δ9Φ963-PHASE5-MESH-SCATTER-v1"})
             return
         self._json(404, {"error": "not found"})
 

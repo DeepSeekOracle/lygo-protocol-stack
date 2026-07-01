@@ -1,0 +1,46 @@
+{
+  "signature": "\u03949\u03a6963-PHASE5-MESH-SCALE",
+  "total_nodes": 100,
+  "fanout": 2,
+  "base_port": 8700,
+  "convergence_rounds": 7,
+  "theoretical_rounds_estimate": 9,
+  "under_10_rounds": true,
+  "history": [
+    {
+      "round": 1,
+      "coverage": 3,
+      "percent": 3.0
+    },
+    {
+      "round": 2,
+      "coverage": 8,
+      "percent": 8.0
+    },
+    {
+      "round": 3,
+      "coverage": 22,
+      "percent": 22.0
+    },
+    {
+      "round": 4,
+      "coverage": 50,
+      "percent": 50.0
+    },
+    {
+      "round": 5,
+      "coverage": 84,
+      "percent": 84.0
+    },
+    {
+      "round": 6,
+      "coverage": 97,
+      "percent": 97.0
+    },
+    {
+      "round": 7,
+      "coverage": 100,
+      "percent": 100.0
+    }
+  ]
+}

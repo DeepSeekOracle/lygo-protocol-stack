@@ -13,7 +13,7 @@ The Guardian must scale: decentralized resilient truth-network + **ops limbs onl
 | Twin Gate | **60/60** verdict match, **Δφ=0.0** (harmonized byte authority) — ✅ agent complete |
 | Grokipedia | Bundle: `python tools/sync_grokipedia.py` → **human paste** |
 | ClawHub | operator **1.0.3** + docker/badge — **human** `npx clawhub publish` |
-| Federation mesh | Phase 5 gossip **local live** — wide-area after TLS pins |
+| Federation mesh | Phase 5 **ACTIVE** — 100-node sim **7 rounds**; HTTP `/gossip` + scatter; wide-area after TLS pins |
 
 ## 2. Authority map (zero-trust, paths only)
 

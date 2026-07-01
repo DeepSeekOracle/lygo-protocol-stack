@@ -7,7 +7,10 @@
 | Method | Path | Purpose |
 |--------|------|---------|
 | GET | `/badge` | Local alignment JSON (no secrets) |
+| GET | `/badge/{node_id}` | Badge from gossip log for node |
+| GET | `/gossip` | Peers + recent gossip entries |
 | POST | `/gossip/badge` | Ingest remote badge summary into federation gossip bus |
+| POST | `/gossip/scatter` | Merge map of `node_id → badge` into gossip bus |
 
 ## Phases (push → scatter → converge)
 
@@ -18,6 +21,14 @@
 ## Fault tolerance
 
 Dead nodes and partitions do not require a central coordinator. Remaining peers continue random peer selection.
+
+## 100-node stochastic proof (no HTTP)
+
+```bash
+python tools/run_mesh_scale_sim.py --nodes 100 --fanout 2 --no-pause
+```
+
+Last run: **7 rounds** to 100% coverage (`tests/mesh_scale_last_run.json`).
 
 ## Local demo
 
