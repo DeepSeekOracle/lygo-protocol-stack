@@ -45,4 +45,8 @@ Golden SHA (Python ≡ Rust): see `protocol0_nano_kernel/fixtures/p0_canonical.s
 
 https://clawhub.ai/deepseekoracle
 
-**Δ9Φ963-STACK-HF-v1**
+## Lattice alignment
+
+See GitHub `docs/LYGO_LATTICE.md` and `tools/verify_lattice_alignment.py`.
+
+**Δ9Φ963-STACK-HF-v2**

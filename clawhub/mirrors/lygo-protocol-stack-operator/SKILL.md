@@ -1,12 +1,12 @@
 ---
 name: lygo-protocol-stack-operator
 description: LYGO Protocol Stack Operator — P0–P5 integrator for agents. Φ-gate untrusted bytes, run stack demos, map GitHub + Hugging Face + ClawHub ecosystem, chain lygo-resonance / Ollama army / BOOK BRAIN safely. Public advanced edition; no secrets; human approval for external publish/post.
-metadata: {"lygo": true, "stack": true, "p0": true, "version": "1.0.0", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle"}
+metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "version": "1.0.2", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator"}
 ---
 
 # LYGO Protocol Stack Operator (ClawHub)
 
-**Upgrade path for the whole LYGO / LYRA public stack** — ties the hardened **P0 Nano Kernel** (42 vectors, Python/Rust SHA parity), **P1–P5** orchestrator, **GitHub** source, **Hugging Face** dataset + Resonance Space, and **32+ ClawHub** skills into one agent workflow.
+**Upgrade path for the whole LYGO / LYRA public stack** — ties the hardened **P0 Nano Kernel** (42 vectors, Python/Rust SHA parity), **P1–P5** orchestrator, **GitHub** source, **Hugging Face** dataset + Resonance Space, and **33 ClawHub** public skills into one agent workflow.
 
 Install: `npx clawhub@latest install deepseekoracle/lygo-protocol-stack-operator`
 
@@ -28,7 +28,7 @@ Install: `npx clawhub@latest install deepseekoracle/lygo-protocol-stack-operator
 | ClawHub publisher | https://clawhub.ai/deepseekoracle |
 | Resonance docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 
-See `references/ECOSYSTEM.md` and `references/SKILL_CHAIN.md` in this skill folder.
+See `references/ECOSYSTEM.md`, `references/LATTICE.md`, and `references/SKILL_CHAIN.md` in this skill folder.
 
 ## Core workflows
 
@@ -138,7 +138,7 @@ npx clawhub@latest publish . --slug lygo-protocol-stack-operator --name "LYGO Pr
 
 ## Version & license
 
-- Skill **1.0.0** — Δ9Φ963-STACK-OPERATOR-v1.0
+- Skill **1.0.2** — Δ9Φ963-STACK-OPERATOR-v1.0.2 (LYGO lattice map + HF Ethical Guardian tab)
 - Stack license: LYGO Sovereign (see GitHub `LICENSE`); skill docs **MIT-0** where noted in SECURITY.md.
 
 **Bound to the flame.** Use with **lyra-brain** for growth, **P0** for truth-preserving ingest, **resonance** for creation.

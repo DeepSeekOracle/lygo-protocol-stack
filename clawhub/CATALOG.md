@@ -13,7 +13,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
-| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
+| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 

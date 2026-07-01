@@ -9,7 +9,9 @@
 | Resonance Space (HF) | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
 | Excavationpro / docs | https://github.com/DeepSeekOracle/Excavationpro |
 | Resonance site | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
-| ClawHub publisher | https://clawhub.ai/deepseekoracle |
+| ClawHub publisher | https://clawhub.ai/deepseekoracle (33 skills) |
+| Grokipedia | https://grokipedia.com/page/lygo-protocol-stack |
+| Lattice map (admin) | https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_LATTICE.md |
 
 ## Install companion skills
 

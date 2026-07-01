@@ -23,7 +23,7 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 | **P0–P5 verified** | ✅ | `deploy_stack().demo_cycle()`; `run_sovereign_integrity_test.py` (6 adversarial + pilot); per-protocol harnesses under `protocol*/src/python/` |
 | **Determinism proven** | ✅ (P0) | Golden SHA `7e8d18fda979cbefec14c3fc86f43f2a020b494b6052acccb6f865f2b4fae1d3` — **Python ≡ Rust** via `tools/p0_crosslang_parity.py`; 42 vectors in `fixtures/p0_vectors.json` |
 | **Multi-language ports** | ✅ | Python (canonical), C (`src/c/`), Rust (`src/rust/`), Verilog gate ROM (`src/hardware/lygo_gate.v` + Q16.16 helpers). **C harness:** requires `gcc` on PATH (SKIP on Windows without toolchain) |
-| **Pilot ready** | ✅ / ⚠️ | **Live:** [HF Space — LYGO-Resonance-Engine](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine) (creative / Standard beats). **Stack pilot API in repo:** `stack.process_ethical_query()` + `docs/PILOT_ETHICAL_GUARDIAN.md` — optional dedicated Gradio tab on Space is maintainer step, not required for repo sign-off |
+| **Pilot ready** | ✅ | **HF Space:** Standard beats + LYGO Protocol + **Ethical Guardian** accordion (`lygo_ethical_guardian` + bundled `protocol_stack/`). **Repo:** `process_ethical_query()` + `docs/PILOT_ETHICAL_GUARDIAN.md` + [LYGO_LATTICE.md](./LYGO_LATTICE.md) |
 | **Community open** | ✅ | Public GitHub; [LYGO Sovereign License v1.1](../LICENSE); HF dataset mirror; 32 ClawHub skills catalogued in `clawhub/` |
 
 ---

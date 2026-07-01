@@ -115,7 +115,7 @@ bash clawhub/install-all.sh
 | Pilot | ✅ API + docs; HF Space live ([details](docs/STACK_STATUS.md)) |
 | Community | ✅ public repo · LYGO Sovereign License v1.1 |
 
-Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)**
+Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · administrator lattice: **[docs/LYGO_LATTICE.md](docs/LYGO_LATTICE.md)**
 
 ## Ecosystem links
 

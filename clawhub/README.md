@@ -1,6 +1,6 @@
 # ClawHub — LYGO / LYRA Skill Ecosystem
 
-Official publisher: **[https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)** (38k+ downloads, **32** skills on registry). **Start here:** [`lygo-protocol-stack-operator`](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator).
+Official publisher: **[https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)** (38k+ downloads; registry **33** skills, repo mirrors **32+** published slugs). **Start here:** [`lygo-protocol-stack-operator`](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator). Lattice: [docs/LYGO_LATTICE.md](../docs/LYGO_LATTICE.md).
 
 This directory is the **sovereign mirror** of everything under `@deepseekoracle` on ClawHub, bundled with the [LYGO Protocol Stack](../README.md) (P0–P5).
 
