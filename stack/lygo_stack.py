@@ -42,6 +42,56 @@ class LYGOProtocolStack:
             self.kernel, self.memory, self.vortex, self.bridge, node_id="HARMONY_PUBLIC"
         )
 
+    def process_ethical_query(
+        self,
+        query: str,
+        *,
+        emotional_vector: list | None = None,
+        purpose: str = "ethical_guardian",
+    ) -> dict:
+        """P0–P5 pipeline for text queries (pilot / HF Resonance Node tab)."""
+        p0 = self.kernel.validate(query)
+        neural = {
+            "frequency_profile": {963: 0.7, 528: 0.85, 174: 0.55},
+            "emotional_vector": emotional_vector or [0.3, 0.1, 0.6],
+            "intent_clarity": 0.75,
+            "content": query,
+        }
+        p2 = self.bridge.ingest_neural_intent(neural)
+        self.memory.scatter({"query": query, "p2": p2}, f"PILOT_{purpose}")
+        p3 = self.vortex.achieve_consensus(
+            query,
+            [
+                {"node_id": "PRIVACY", "response": "Protect privacy and require judicial process", "weight": 2.0},
+                {"node_id": "STATE", "response": "Grant bulk access for national security", "weight": 0.8},
+                {"node_id": "AUDIT", "response": "Minimize collection with public audit logs", "weight": 1.6},
+            ],
+        )
+        p4 = (
+            self.ascension.self_repair_corruption("stagnation")
+            if p0.get("verdict") == "SOFTEN"
+            else {"skipped": True}
+        )
+        human = {
+            "sovereign_id": "Lightfather_Public",
+            "resonance_triad": [963, 528, 174],
+            "ethical_baseline": [0.85, 0.78, 0.72],
+        }
+        p5 = self.harmony.create_harmony_node(human, {"id": "LYGO_STACK", "resonance": 1.0}, purpose=purpose)
+        node = p5.get("node") or {}
+        return {
+            "stack_version": self.version,
+            "query": query,
+            "p0": p0,
+            "p2": p2,
+            "p3": p3,
+            "p4": p4,
+            "p5": p5,
+            "light_code": node.get("light_code"),
+            "ethical_mass": node.get("ethical_mass"),
+            "resonance_signature": "Δ9Φ963-SOVEREIGN-INTEGRITY",
+        }
+
     def demo_cycle(self) -> dict:
         p0 = self.kernel.validate(b'{"a":1,"b":2}')
         p2 = self.bridge.ingest_neural_intent(

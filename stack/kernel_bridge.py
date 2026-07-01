@@ -30,6 +30,10 @@ class NanoKernelBridge:
             "action": verdict,
             "verdict": verdict,
             "risk": risk,
+            "phi_risk": result.get("phi_risk", risk),
+            "entropy": result.get("entropy"),
+            "compression": result.get("compression"),
+            "reasoning": result.get("reasoning"),
             "resonance": round(resonance, 4),
             "hash": result.get("hash"),
         }

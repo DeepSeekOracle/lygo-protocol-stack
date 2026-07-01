@@ -31,7 +31,7 @@ stack = deploy_stack()
 report = stack.demo_cycle()
 ```
 
-CLI: `python tools/run_full_stack_demo.py`
+CLI: `python tools/run_full_stack_demo.py` · integrity suite: `python tools/run_sovereign_integrity_test.py` · pilot: `docs/PILOT_ETHICAL_GUARDIAN.md`
 
 ## Extended assets
 
