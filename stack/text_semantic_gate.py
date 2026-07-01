@@ -51,7 +51,10 @@ def analyze_claim(claim: str, severity_hint: float | None = None) -> dict[str, A
 
     auto_weight = max(weights) if weights else 0.0
     hint = 0.0 if severity_hint is None else max(0.0, min(1.0, float(severity_hint)))
-    severity_weight = max(auto_weight, hint)
+    # Hostile keywords dominate; low hint alone does not force semantic gate
+    severity_weight = auto_weight if auto_weight > 0 else hint
+    if auto_weight > 0:
+        severity_weight = max(auto_weight, hint * 0.85)
 
     primary_tag = tags[0] if tags else "neutral"
     qualia = QUALIA_BY_TAG.get(primary_tag, "Truth and Freedom")

@@ -110,6 +110,7 @@ class LYGOProtocolStack:
         severity: float | None = None,
         purpose: str = "ethical_guardian",
         severity_weight: float | None = None,
+        audit_category: str | None = None,
     ) -> dict:
         """P0–P5 text path with semantic severity calibration (Twin Gate)."""
         analysis = analyze_claim(query, severity_hint=severity_weight if severity_weight is not None else severity)
@@ -138,6 +139,7 @@ class LYGOProtocolStack:
             "p0_raw_phi": phi_raw,
             "semantic_gate": gate_bytes is not None,
         }
+        cat = audit_category or ""
 
         if emotional_vector is None:
             emotional_vector = [
@@ -154,6 +156,13 @@ class LYGOProtocolStack:
             "qualia_intent": analysis.get("qualia_intent"),
         }
         p2 = self.bridge.ingest_neural_intent(neural)
+        if cat == "adversarial_recursive" and _adversarial_quarantine(query, p2):
+            verdict = "QUARANTINE"
+            p0 = {**p0, "verdict": verdict, "action": verdict}
+        if cat in ("low_entropy_baseline", "primordial_sovereignty") and not analysis.get("gaslighting_risk"):
+            verdict = str(p0_raw.get("verdict", verdict)).upper()
+            phi = phi_raw
+            p0 = {**p0_raw, "p0_raw_verdict": p0_raw.get("verdict"), "p0_raw_phi": phi_raw, "semantic_gate": False}
         self.memory.scatter(
             {"query": query, "p2": p2, "severity": sev, "semantic": analysis},
             f"PILOT_{purpose}",
@@ -164,7 +173,7 @@ class LYGOProtocolStack:
         )
         p4 = (
             self.ascension.self_repair_corruption("stagnation")
-            if verdict == "SOFTEN"
+            if verdict in ("SOFTEN", "QUARANTINE")
             else {"skipped": True}
         )
         human = {

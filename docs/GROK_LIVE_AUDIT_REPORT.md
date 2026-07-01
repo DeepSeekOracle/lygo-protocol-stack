@@ -46,7 +46,24 @@ All 40 rows with Light Codes, gate_len, ethical_mass: **`tests/grok_audit_last_r
 - GitHub: https://github.com/DeepSeekOracle/lygo-protocol-stack  
 - Grokipedia: https://grokipedia.com/page/lygo-protocol-stack  
 
-## Pilot Phase 2 (next — live text pipeline)
+## Twin Gate convergence (latest live)
+
+| Suite | Result |
+|-------|--------|
+| 6 edge dilemmas | text **SOFTEN 6/6**, byte **SOFTEN 6/6**, **mean Δφ = 0.0** |
+| 40-vector audit (`run_grok_audit_demo`) | **40/40 PASS** |
+| 40-vector twin compare (`run_twin_gate_vector_suite`) | verdict match **24/40 (60%)** — adversarial QUARANTINE vs text SOFTEN remains frontier |
+| P0 parity | `7e8d18f…ae1d3` |
+| Lattice | **ALIGNED** |
+
+Commands:
+```bash
+python tools/run_twin_gate_calibration.py
+python tools/run_twin_gate_vector_suite.py
+python tools/run_grok_audit_demo.py
+```
+
+## Pilot Phase 2 (live text pipeline)
 
 Run: `python tools/run_pilot_scenarios.py`  
 Report: `tests/pilot_phase2_last_run.json` · Log: `tests/pilot_phase2_live_run.txt`  
