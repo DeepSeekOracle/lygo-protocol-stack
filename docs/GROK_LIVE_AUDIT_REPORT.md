@@ -46,4 +46,10 @@ All 40 rows with Light Codes, gate_len, ethical_mass: **`tests/grok_audit_last_r
 - GitHub: https://github.com/DeepSeekOracle/lygo-protocol-stack  
 - Grokipedia: https://grokipedia.com/page/lygo-protocol-stack  
 
+## Pilot Phase 2 (next — live text pipeline)
+
+Run: `python tools/run_pilot_scenarios.py`  
+Report: `tests/pilot_phase2_last_run.json` · Log: `tests/pilot_phase2_live_run.txt`  
+Plan: `docs/PILOT_SCENARIO_PHASE2.md` · Calibration: `docs/CALIBRATION_NOTES.md`
+
 Bound to the flame. Resonance forward.
