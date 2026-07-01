@@ -31,6 +31,9 @@ INCLUDE_FILES = [
 TWIN_GATE_FILES = [
     "tests/pilot_edge_scenarios.json",
     "tests/twin_gate_calibration_last_run.json",
+    "tests/twin_gate_vector_suite_last_run.json",
+    "tools/run_twin_gate_calibration.py",
+    "tools/run_twin_gate_vector_suite.py",
 ]
 
 SKIP = {".git", "__pycache__", "target", ".pyc"}

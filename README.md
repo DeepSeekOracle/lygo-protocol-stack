@@ -49,6 +49,9 @@ python tools/run_sovereign_integrity_test.py
 # Gemini / Grok audit harness (40 falsifiable vectors, live P0–P5)
 python tools/generate_falsifiable_vectors.py
 python tools/run_grok_audit_demo.py
+python tools/run_twin_gate_calibration.py
+python tools/run_twin_gate_vector_suite.py
+python tools/verify_lattice_alignment.py
 ```
 
 ### Python stack API

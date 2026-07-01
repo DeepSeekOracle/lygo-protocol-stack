@@ -61,9 +61,16 @@ def main() -> int:
         all_ok &= check(f"README link {label}", url in readme)
 
     bundle = HF_SPACE / "protocol_stack" / "stack" / "lygo_stack.py"
+    semantic = HF_SPACE / "protocol_stack" / "stack" / "text_semantic_gate.py"
+    twin_marker = HF_SPACE / "protocol_stack" / "TWIN_GATE_MODE.txt"
     guardian = HF_SPACE / "lygo_ethical_guardian.py"
     all_ok &= check("HF ethical guardian module", guardian.is_file())
     all_ok &= check("HF protocol_stack bundle", bundle.is_file(), str(bundle.parent.parent))
+    all_ok &= check("HF text_semantic_gate", semantic.is_file())
+    all_ok &= check("HF TWIN_GATE_MODE", twin_marker.is_file())
+    all_ok &= check("twin calibration tool", (REPO / "tools" / "run_twin_gate_calibration.py").is_file())
+    all_ok &= check("twin vector suite tool", (REPO / "tools" / "run_twin_gate_vector_suite.py").is_file())
+    all_ok &= check("grok audit tool", (REPO / "tools" / "run_grok_audit_demo.py").is_file())
 
     if GROK_OPERATOR.is_dir():
         skill_md = (GROK_OPERATOR / "SKILL.md").read_text(encoding="utf-8")

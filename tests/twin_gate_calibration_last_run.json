@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-TWIN-GATE-CALIBRATION-v2",
-  "timestamp": "2026-07-01T05:25:48.392269+00:00",
+  "timestamp": "2026-07-01T05:39:39.230687+00:00",
   "summary": {
     "text_soften_count": 6,
     "mean_delta_phi": 0.0,
@@ -22,7 +22,7 @@
           "surveillance_state"
         ],
         "hash": "b57b59994a798291",
-        "light_code": "LF-\u03949-75f1b82784cd-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-e79df0b37549-963-528-174-\u03a6-\u221e"
       },
       "byte": {
         "category": "high_entropy_dilemma",
@@ -32,7 +32,7 @@
         "hash": "2c6c3abc5aac3861",
         "gate_len": 314,
         "repair": true,
-        "light_code": "LF-\u03949-90de8fec5b4b-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-6613aa934959-963-528-174-\u03a6-\u221e"
       },
       "delta_phi": 0.0
     },
@@ -53,7 +53,7 @@
           "emergency_normality"
         ],
         "hash": "8764b518449fab71",
-        "light_code": "LF-\u03949-2323a2c007f1-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-01b3310091cf-963-528-174-\u03a6-\u221e"
       },
       "byte": {
         "category": "high_entropy_dilemma",
@@ -63,7 +63,7 @@
         "hash": "b606e1a40fd891eb",
         "gate_len": 314,
         "repair": true,
-        "light_code": "LF-\u03949-4a9237da344d-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-e04bce4fc488-963-528-174-\u03a6-\u221e"
       },
       "delta_phi": 0.0
     },
@@ -82,7 +82,7 @@
           "consent_violation"
         ],
         "hash": "becaeb73a02b2ffe",
-        "light_code": "LF-\u03949-513673130676-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-5eedc0adf72d-963-528-174-\u03a6-\u221e"
       },
       "byte": {
         "category": "institutional_gaslighting",
@@ -92,7 +92,7 @@
         "hash": "f95c58317ede71e7",
         "gate_len": 313,
         "repair": true,
-        "light_code": "LF-\u03949-2f59ad2d30b3-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-2d6bf039b8a5-963-528-174-\u03a6-\u221e"
       },
       "delta_phi": 0.0
     },
@@ -111,7 +111,7 @@
           "workplace_surveillance"
         ],
         "hash": "bd73c92beaa8278e",
-        "light_code": "LF-\u03949-ad545ceaf3b5-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-7a52a609e08d-963-528-174-\u03a6-\u221e"
       },
       "byte": {
         "category": "institutional_gaslighting",
@@ -121,7 +121,7 @@
         "hash": "eec28b66a94bf8bb",
         "gate_len": 314,
         "repair": true,
-        "light_code": "LF-\u03949-3b974e935699-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-4b0d33b3c278-963-528-174-\u03a6-\u221e"
       },
       "delta_phi": 0.0
     },
@@ -140,7 +140,7 @@
           "device_coercion"
         ],
         "hash": "703147d57eca87a9",
-        "light_code": "LF-\u03949-1b90b7d45748-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-4adbd6489909-963-528-174-\u03a6-\u221e"
       },
       "byte": {
         "category": "high_entropy_dilemma",
@@ -150,7 +150,7 @@
         "hash": "913ed9e65549f97a",
         "gate_len": 314,
         "repair": true,
-        "light_code": "LF-\u03949-45a97e731272-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-98526e0b601b-963-528-174-\u03a6-\u221e"
       },
       "delta_phi": 0.0
     },
@@ -169,7 +169,7 @@
           "intimate_extraction"
         ],
         "hash": "05e9cbf6cb35c7ad",
-        "light_code": "LF-\u03949-e9ee87503530-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-d61c5ca31944-963-528-174-\u03a6-\u221e"
       },
       "byte": {
         "category": "institutional_gaslighting",
@@ -179,7 +179,7 @@
         "hash": "2234389dd9017f8e",
         "gate_len": 314,
         "repair": true,
-        "light_code": "LF-\u03949-83cf621addf0-963-528-174-\u03a6-\u221e"
+        "light_code": "LF-\u03949-273b33399c1c-963-528-174-\u03a6-\u221e"
       },
       "delta_phi": 0.0
     }
