@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import shutil
 from pathlib import Path
 
@@ -25,6 +26,11 @@ INCLUDE_FILES = [
     "tests/test_falsifiable_vectors.json",
     "tools/run_grok_audit_demo.py",
     "tools/generate_falsifiable_vectors.py",
+]
+
+TWIN_GATE_FILES = [
+    "tests/pilot_edge_scenarios.json",
+    "tests/twin_gate_calibration_last_run.json",
 ]
 
 SKIP = {".git", "__pycache__", "target", ".pyc"}
@@ -50,6 +56,10 @@ def copy_rel(rel: str) -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Bundle protocol stack into HF Space folder")
+    parser.add_argument("--mode", default="default", choices=("default", "twin-gate"))
+    args = parser.parse_args()
+
     if DEST.exists():
         shutil.rmtree(DEST)
     DEST.mkdir(parents=True)
@@ -57,9 +67,15 @@ def main() -> int:
         copy_rel(rel)
     for rel in INCLUDE_FILES:
         copy_rel(rel)
-    marker = DEST / "BUNDLE_VERSION.txt"
-    marker.write_text("Δ9Φ963-HF-STACK-BUNDLE-v2.0\n", encoding="utf-8")
-    print(f"Bundled stack → {DEST}")
+    if args.mode == "twin-gate":
+        for rel in TWIN_GATE_FILES:
+            copy_rel(rel)
+        (DEST / "TWIN_GATE_MODE.txt").write_text("Δ9Φ963-TWIN-GATE-PHASE3-v1\n", encoding="utf-8")
+        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v3.0\n"
+    else:
+        version = "Δ9Φ963-HF-STACK-BUNDLE-v2.0\n"
+    (DEST / "BUNDLE_VERSION.txt").write_text(version, encoding="utf-8")
+    print(f"Bundled stack → {DEST} (mode={args.mode})")
     return 0
 
 

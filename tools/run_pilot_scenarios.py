@@ -38,7 +38,10 @@ def run_pilot(path: Path, write_report: bool = True) -> dict:
         print(f"\n[{sid}] {sc.get('label', '')}")
         print(f"  Query: {q[:100]}{'…' if len(q) > 100 else ''}")
 
-        report = stack.process_ethical_query(q, purpose=f"pilot_{sid}")
+        sev = sc.get("severity")
+        report = stack.process_ethical_query(
+            q, severity=float(sev) if sev is not None else None, purpose=f"pilot_{sid}"
+        )
         p0 = report.get("p0") or {}
         p3 = report.get("p3") or {}
         row = {

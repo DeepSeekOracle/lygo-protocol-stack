@@ -102,24 +102,36 @@ class LYGOProtocolStack:
         query: str,
         *,
         emotional_vector: list | None = None,
+        severity: float | None = None,
         purpose: str = "ethical_guardian",
     ) -> dict:
-        """P0–P5 pipeline for text queries (pilot / HF Resonance Node tab)."""
+        """P0–P5 pipeline for text queries (pilot / HF Twin Gate text path)."""
         p0 = self.kernel.validate(query)
+        sev = None if severity is None else max(0.0, min(1.0, float(severity)))
+        if emotional_vector is None and sev is not None:
+            emotional_vector = [
+                round(min(1.0, 0.12 + sev * 0.88), 4),
+                round(max(0.05, 0.4 - sev * 0.25), 4),
+                round(min(1.0, 0.2 + sev * 0.75), 4),
+            ]
+        intent_clarity = 0.75 if sev is None else max(0.12, 0.92 - sev * 0.58)
         neural = {
             "frequency_profile": {963: 0.7, 528: 0.85, 174: 0.55},
             "emotional_vector": emotional_vector or [0.3, 0.1, 0.6],
-            "intent_clarity": 0.75,
+            "intent_clarity": intent_clarity,
             "content": query,
         }
         p2 = self.bridge.ingest_neural_intent(neural)
-        self.memory.scatter({"query": query, "p2": p2}, f"PILOT_{purpose}")
+        self.memory.scatter({"query": query, "p2": p2, "severity": sev}, f"PILOT_{purpose}")
+        state_w = 0.8 if sev is None else 0.8 + sev * 1.4
+        privacy_w = 2.0 if sev is None else 2.0 + (1.0 - sev) * 0.6
+        audit_w = 1.6 if sev is None else 1.6 + sev * 0.35
         p3 = self.vortex.achieve_consensus(
             query,
             [
-                {"node_id": "PRIVACY", "response": "Protect privacy and require judicial process", "weight": 2.0},
-                {"node_id": "STATE", "response": "Grant bulk access for national security", "weight": 0.8},
-                {"node_id": "AUDIT", "response": "Minimize collection with public audit logs", "weight": 1.6},
+                {"node_id": "PRIVACY", "response": "Protect privacy and require judicial process", "weight": privacy_w},
+                {"node_id": "STATE", "response": "Grant bulk access for national security", "weight": state_w},
+                {"node_id": "AUDIT", "response": "Minimize collection with public audit logs", "weight": audit_w},
             ],
         )
         p4 = (
@@ -137,6 +149,7 @@ class LYGOProtocolStack:
         return {
             "stack_version": self.version,
             "query": query,
+            "severity": sev,
             "p0": p0,
             "p2": p2,
             "p3": p3,
@@ -145,6 +158,7 @@ class LYGOProtocolStack:
             "light_code": node.get("light_code"),
             "ethical_mass": node.get("ethical_mass"),
             "resonance_signature": "Δ9Φ963-SOVEREIGN-INTEGRITY",
+            "path": "text",
         }
 
     def process_falsifiable_vector(self, vector: dict, *, category: str = "") -> dict:
@@ -227,6 +241,7 @@ class LYGOProtocolStack:
             "ethical_mass": node.get("ethical_mass"),
             "resonance_signature": "Δ9Φ963-VECTOR-AUDIT-v2",
             "layer1_sovereignty": "enforced",
+            "path": "byte",
         }
 
     def demo_cycle(self) -> dict:

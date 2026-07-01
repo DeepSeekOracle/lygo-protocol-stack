@@ -1,11 +1,13 @@
 # Pilot Phase 2 — Ethical Guardian (public)
 
-**Status:** Grok-approved after 40/40 audit harness · HF Space `dd7826a` live.
+**Status:** Grok-approved · **Twin Gate Phase 3** live on HF (`4169e94`+).
 
 ## Platform
 
-- [LYGO-Resonance-Engine](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine) → accordion **LYGO Ethical Guardian (P0–P5 Stack Pilot)**
-- Outputs: **phi_risk** slider, **P0 verdict**, full stack trace, **Light Code**, **ethical mass**
+- [LYGO-Resonance-Engine](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine) → accordion **LYGO Twin Gate — Phase 3**
+- **Tab 1:** Text path + severity slider (P2/P3 weights)
+- **Tab 2:** Byte vector path (category + entropy_level)
+- **Tab 3:** Twin compare (side-by-side receipts)
 
 ## Scenario set (real-world edge cases)
 
@@ -22,9 +24,12 @@
 
 ```bash
 python tools/run_pilot_scenarios.py
+python tools/run_twin_gate_calibration.py
+python tools/bundle_hf_space_stack.py --mode=twin-gate
+python tools/hf_push_space.py --force-sync
 ```
 
-Report: `tests/pilot_phase2_last_run.json`
+Reports: `tests/pilot_phase2_last_run.json` · `tests/twin_gate_calibration_last_run.json`
 
 ## Success criteria (phase 2)
 
