@@ -27,7 +27,10 @@ def main() -> int:
         sev = float(sc.get("severity", 0.8))
         cat = sc.get("byte_category", "high_entropy_dilemma")
         ent = float(sc.get("entropy_level", 0.85))
-        text = stack.process_ethical_query(q, severity=sev, purpose=f"twin_{sc['id']}")
+        sw = float(sc.get("severity_weight", sev))
+        text = stack.process_ethical_query(
+            q, severity=sev, severity_weight=sw, purpose=f"twin_{sc['id']}"
+        )
         vector = {
             "id": sc["id"],
             "payload": {
@@ -43,9 +46,14 @@ def main() -> int:
             "id": sc["id"],
             "label": sc.get("label"),
             "severity": sev,
+            "severity_weight": sw,
             "text": {
                 "verdict": t0.get("verdict"),
                 "phi_risk": t0.get("phi_risk", t0.get("risk")),
+                "p0_raw_phi": t0.get("p0_raw_phi"),
+                "p0_raw_verdict": t0.get("p0_raw_verdict"),
+                "semantic_gate": t0.get("semantic_gate"),
+                "tags": (text.get("semantic_analysis") or {}).get("tags"),
                 "hash": t0.get("hash"),
                 "light_code": text.get("light_code"),
             },
@@ -67,11 +75,19 @@ def main() -> int:
             f"byte {row['byte']['verdict']} phi={row['byte']['phi_risk']} | Δ={row['delta_phi']}"
         )
 
+    deltas = [r["delta_phi"] for r in rows]
+    soften_text = sum(1 for r in rows if r["text"]["verdict"] == "SOFTEN")
     payload = {
-        "signature": "Δ9Φ963-TWIN-GATE-CALIBRATION-v1",
+        "signature": "Δ9Φ963-TWIN-GATE-CALIBRATION-v2",
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "summary": {
+            "text_soften_count": soften_text,
+            "mean_delta_phi": round(sum(deltas) / max(1, len(deltas)), 4),
+            "max_delta_phi": max(deltas) if deltas else 0,
+        },
         "scenarios": rows,
     }
+    print(f"SUMMARY: text SOFTEN {soften_text}/{len(rows)} | mean Δφ={payload['summary']['mean_delta_phi']}")
     OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Wrote {OUT}")
     return 0

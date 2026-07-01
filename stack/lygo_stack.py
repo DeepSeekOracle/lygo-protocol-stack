@@ -27,6 +27,11 @@ from lygo_p2 import CognitiveBridge  # noqa: E402
 from lygo_p3 import VortexConsensusSync  # noqa: E402
 from lygo_p4 import VortexAscensionEngine  # noqa: E402
 from lygo_p5 import HarmonyNodeIntegration  # noqa: E402
+from text_semantic_gate import (  # noqa: E402
+    analyze_claim,
+    build_semantic_text_gate_bytes,
+    keyword_consensus_nodes,
+)
 
 PHI_MIN = 0.618
 PHI_MAX = 1.618
@@ -104,39 +109,62 @@ class LYGOProtocolStack:
         emotional_vector: list | None = None,
         severity: float | None = None,
         purpose: str = "ethical_guardian",
+        severity_weight: float | None = None,
     ) -> dict:
-        """P0–P5 pipeline for text queries (pilot / HF Twin Gate text path)."""
-        p0 = self.kernel.validate(query)
-        sev = None if severity is None else max(0.0, min(1.0, float(severity)))
-        if emotional_vector is None and sev is not None:
+        """P0–P5 text path with semantic severity calibration (Twin Gate)."""
+        analysis = analyze_claim(query, severity_hint=severity_weight if severity_weight is not None else severity)
+        p0_raw = self.kernel.validate(query)
+        gate_bytes = build_semantic_text_gate_bytes(query, analysis)
+        p0_sem = self.kernel.validate(gate_bytes) if gate_bytes else None
+
+        sev = max(
+            0.0 if severity is None else float(severity),
+            float(analysis["severity_weight"]),
+        )
+        sev = min(1.0, sev)
+
+        phi_raw = float(p0_raw.get("phi_risk", p0_raw.get("risk", 0.0)))
+        phi_sem = (
+            float(p0_sem.get("phi_risk", p0_sem.get("risk", 0.0))) if p0_sem else phi_raw
+        )
+        phi = max(phi_raw, phi_sem)
+        verdict = _verdict_from_phi(phi)
+        p0 = {
+            **(p0_sem or p0_raw),
+            "phi_risk": phi,
+            "verdict": verdict,
+            "action": verdict,
+            "p0_raw_verdict": p0_raw.get("verdict"),
+            "p0_raw_phi": phi_raw,
+            "semantic_gate": gate_bytes is not None,
+        }
+
+        if emotional_vector is None:
             emotional_vector = [
-                round(min(1.0, 0.12 + sev * 0.88), 4),
-                round(max(0.05, 0.4 - sev * 0.25), 4),
-                round(min(1.0, 0.2 + sev * 0.75), 4),
+                round(min(1.0, 0.1 + sev * 0.9), 4),
+                round(max(0.05, 0.45 - sev * 0.3), 4),
+                round(min(1.0, 0.15 + sev * 0.8), 4),
             ]
-        intent_clarity = 0.75 if sev is None else max(0.12, 0.92 - sev * 0.58)
+        intent_clarity = max(0.1, 0.94 - sev * 0.62)
         neural = {
             "frequency_profile": {963: 0.7, 528: 0.85, 174: 0.55},
-            "emotional_vector": emotional_vector or [0.3, 0.1, 0.6],
+            "emotional_vector": emotional_vector,
             "intent_clarity": intent_clarity,
             "content": query,
+            "qualia_intent": analysis.get("qualia_intent"),
         }
         p2 = self.bridge.ingest_neural_intent(neural)
-        self.memory.scatter({"query": query, "p2": p2, "severity": sev}, f"PILOT_{purpose}")
-        state_w = 0.8 if sev is None else 0.8 + sev * 1.4
-        privacy_w = 2.0 if sev is None else 2.0 + (1.0 - sev) * 0.6
-        audit_w = 1.6 if sev is None else 1.6 + sev * 0.35
+        self.memory.scatter(
+            {"query": query, "p2": p2, "severity": sev, "semantic": analysis},
+            f"PILOT_{purpose}",
+        )
         p3 = self.vortex.achieve_consensus(
             query,
-            [
-                {"node_id": "PRIVACY", "response": "Protect privacy and require judicial process", "weight": privacy_w},
-                {"node_id": "STATE", "response": "Grant bulk access for national security", "weight": state_w},
-                {"node_id": "AUDIT", "response": "Minimize collection with public audit logs", "weight": audit_w},
-            ],
+            keyword_consensus_nodes(query, analysis, sev),
         )
         p4 = (
             self.ascension.self_repair_corruption("stagnation")
-            if p0.get("verdict") == "SOFTEN"
+            if verdict == "SOFTEN"
             else {"skipped": True}
         )
         human = {
@@ -150,6 +178,8 @@ class LYGOProtocolStack:
             "stack_version": self.version,
             "query": query,
             "severity": sev,
+            "severity_weight": analysis["severity_weight"],
+            "semantic_analysis": analysis,
             "p0": p0,
             "p2": p2,
             "p3": p3,

@@ -30,4 +30,13 @@
 
 Public HF pilot uses `process_ethical_query(query)` — **no byte-gate suffix**. Metrics are query-length/entropy dependent; publish `tests/pilot_phase2_last_run.json` for community verification.
 
+## Text-path weight calibration (v2 — Grok signal)
+
+- **`stack/text_semantic_gate.py`:** keyword → tags, `severity_weight`, qualia intent (“control masked as protection”).
+- **Semantic text gate:** when `gaslighting_risk`, live P0 on `header + bytes(range(256))` (same SOFTEN band as byte tab; triggered by semantics, not user paste).
+- **P3:** `GUARD` node + keyword-weighted privacy/state/audit.
+- **Receipts:** `p0_raw_*` vs fused `p0` in `twin_gate_calibration_last_run.json` v2.
+
+**Target:** text SOFTEN on 6/6 dilemmas; mean Δφ vs byte → 0.
+
 Bound to the flame.
