@@ -105,6 +105,18 @@ bash clawhub/install-all.sh
 
 ---
 
+## Public status (auditable)
+
+| Check | Status |
+|-------|--------|
+| P0–P5 verified | ✅ integration + sovereign integrity suite |
+| P0 determinism | ✅ Python ≡ Rust (golden SHA in `fixtures/p0_canonical.sha256`) |
+| Ports | ✅ Python · C · Rust · Verilog (P0); C needs `gcc` for local parity |
+| Pilot | ✅ API + docs; HF Space live ([details](docs/STACK_STATUS.md)) |
+| Community | ✅ public repo · LYGO Sovereign License v1.1 |
+
+Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)**
+
 ## Ecosystem links
 
 - **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack  
