@@ -39,8 +39,13 @@ CLI: `python tools/run_full_stack_demo.py`
 - `protocol0_nano_kernel/src/c/` + `src/rust/` — multi-language P0 ports
 - `protocol0_nano_kernel/src/hardware/fixed_point_q16_16.c` — embedded numeric helpers
 
+## ClawHub agent skills
+
+Full offline mirror of [@deepseekoracle](https://clawhub.ai/deepseekoracle) skills (champions, BOOK BRAIN, mint, resonance stack): [`../clawhub/`](../clawhub/). Refresh: `python tools/sync_clawhub_mirrors.py --fetch`.
+
 ## Links
 
 - [Excavationpro / LYGORESONANCE](https://github.com/DeepSeekOracle/Excavationpro)
 - [Grokipedia — LYGO Protocol Stack](https://grokipedia.com/page/lygo-protocol-stack)
 - [HF Resonance Engine Space](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine)
+- [ClawHub publisher profile](https://clawhub.ai/deepseekoracle)
