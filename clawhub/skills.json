@@ -5,9 +5,19 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 31,
-  "count_mirrored": 31,
+  "count_published": 32,
+  "count_mirrored": 32,
   "skills": [
+    {
+      "slug": "lygo-protocol-stack-operator",
+      "name": "LYGO Protocol Stack Operator",
+      "summary": "LYGO Protocol Stack Operator — P0–P5 integrator for agents. Φ-gate untrusted bytes, run stack demos, map GitHub + Hugging Face + ClawHub ecosystem, chain lyg...",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator",
+      "mirror": "mirrors/lygo-protocol-stack-operator",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "eternal-haven-lore-pack",
       "name": "Eternal Haven Lore Pack",
@@ -332,6 +342,7 @@
     }
   ],
   "sync_report": {
+    "lygo-protocol-stack-operator": "grok",
     "eternal-haven-lore-pack": "openclaw:eternal-haven-lore-pack",
     "lygo-mint-verifier": "openclaw:lygo-mint-verifier",
     "lygo-champion-cosmara": "openclaw:lygo-champion-cosmara",

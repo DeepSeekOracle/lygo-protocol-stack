@@ -2,12 +2,18 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 31 skills verified via ClawHub API · **Repo mirrors:** 31 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 32 skills verified via ClawHub API · **Repo mirrors:** 32 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
 # Refresh mirrors: python tools/sync_clawhub_mirrors.py --fetch
 ```
+
+## Protocol stack & integrator (P0–P5)
+
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 

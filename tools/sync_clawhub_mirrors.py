@@ -27,6 +27,7 @@ FOLDER_TO_SLUG: dict[str, str] = {
 
 # Prefer full trees from .grok when slug matches
 GROK_PRIORITY = {
+    "lygo-protocol-stack-operator",
     "lygo-resonance",
     "lygo-ollama-army",
     "lygo-glyph2resonance",
@@ -37,6 +38,7 @@ GROK_PRIORITY = {
 }
 
 CANONICAL_SLUGS = [
+    "lygo-protocol-stack-operator",
     "eternal-haven-lore-pack",
     "lygo-mint-verifier",
     "lygo-champion-cosmara",

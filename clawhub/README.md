@@ -1,6 +1,6 @@
 # ClawHub — LYGO / LYRA Skill Ecosystem
 
-Official publisher: **[https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)** (38k+ downloads, 31+ skills on registry; profile may show 32 as new skills land).
+Official publisher: **[https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)** (38k+ downloads, **32** skills on registry). **Start here:** [`lygo-protocol-stack-operator`](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator).
 
 This directory is the **sovereign mirror** of everything under `@deepseekoracle` on ClawHub, bundled with the [LYGO Protocol Stack](../README.md) (P0–P5).
 
@@ -29,7 +29,7 @@ Environment overrides: `OPENCLAW_SKILLS_PUBLIC`, `LYGO_GROK_SKILLS` (see PUBLISH
 
 ## What’s mirrored
 
-- **31 published skills** — copied from OpenClaw `skills/public` and/or ClawHub install (champions include `canon.json`, mint scripts, Eternal Haven book assets).
+- **32 published skills** — includes **`lygo-protocol-stack-operator`** (P0 gate + stack integrator from `.grok/skills`); others from OpenClaw `skills/public` and/or ClawHub (champions, mint scripts, Eternal Haven assets).
 - **Creative stack** — `lygo-resonance`, `lygo-ollama-army`, glyph / fractal / truthlight from `.grok/skills` (newest workspace copies).
 - **Workflow-only** — `lyra-brain`, `lyra-openclaw` (for agents using this repo without ClawHub install).
 
@@ -37,7 +37,7 @@ Environment overrides: `OPENCLAW_SKILLS_PUBLIC`, `LYGO_GROK_SKILLS` (see PUBLISH
 
 | Layer | ClawHub role |
 |-------|----------------|
-| **P0** | Validate skill bytes before ingest |
+| **P0** | `lygo-protocol-stack-operator` + `lygo_p0_gate.py` — validate skill bytes before ingest |
 | **P1** | Shard large lore / library packs |
 | **P2–P5** | Champion consensus & harmony for multi-skill agents |
 | **[HF Space](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine)** | Live bench for `lygo-resonance` |

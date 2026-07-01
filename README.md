@@ -84,7 +84,7 @@ clawhub/                 # ClawHub catalog, install scripts, local skill mirrors
 
 ## ClawHub skills (@deepseekoracle)
 
-**31+ published skills** mirrored in-repo — champions, BOOK BRAIN, mint/flow tools, Eternal Haven lore, protocols, and the full LYGO creative audio stack.
+**32 published skills** mirrored in-repo — start with **`lygo-protocol-stack-operator`** (P0–P5 + GitHub/HF/ClawHub integrator), then champions, BOOK BRAIN, mint/flow tools, lore, and the LYGO creative audio stack.
 
 | Resource | Link |
 |----------|------|
@@ -95,6 +95,7 @@ clawhub/                 # ClawHub catalog, install scripts, local skill mirrors
 | **Sync / publish** | [clawhub/PUBLISH.md](clawhub/PUBLISH.md) · `python tools/sync_clawhub_mirrors.py --fetch` |
 
 ```bash
+npx clawhub@latest install deepseekoracle/lygo-protocol-stack-operator
 npx clawhub@latest install deepseekoracle/lygo-resonance
 bash clawhub/install-all.sh
 ```
