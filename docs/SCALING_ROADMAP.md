@@ -7,8 +7,9 @@
 | **3** | Federation Registry | **Live (local)** | `federation_runtime.NodeRegistry` — peer registration, heartbeats |
 | **4** | Horizontal Scale | **Live (local)** | Worker pool + Compose `scale` profile; gossip bus for badge propagation |
 | **3b** | Blueprint & gauntlet | **Live** | `docs/BLUEPRINT.md`, `tools/run_lattice_gauntlet.py` |
-| **5** | Wide-area mesh | **ACTIVE** | `mesh_gossip_http.py`, `node_api_server` `/gossip` + `/gossip/scatter`, `run_mesh_scale_sim.py` (100-node epidemic proof) |
-| **6** | GPU / FPGA P0 | Planned | Hardware attestation hooks (see `protocol0_nano_kernel/src/hardware`) |
+| **5** | Wide-area mesh | **Live (local HTTP)** | `deploy_100_nodes.sh` / `.ps1`, `monitor_convergence.py`, sim + HTTP epidemic |
+| **6** | Hardware attest (stub) | **STUB** | `protocol6_quantum_attest/` — attestation seal before badge emit |
+| **7** | Quantum entropy (stub) | **STUB** | `tools/p7_entropy_harness.py` — entropy slot for P0 pointer path |
 
 ## Phase 2–4 operator checklist
 
@@ -34,10 +35,28 @@ python tools/run_mesh_scale_sim.py --nodes 100 --fanout 2 --no-pause
 
 Live HTTP mesh: `node_api_server.py` exposes `GET /gossip`, `POST /gossip/scatter`, `GET /badge/{node_id}` in addition to `POST /gossip/badge`.
 
+### Phase 5 live deployment
+
+```bash
+./tools/deploy_100_nodes.sh          # or: pwsh tools/deploy_100_nodes.ps1
+python tools/monitor_convergence.py  # logs tests/mesh_live_convergence_last_run.json
+python tools/deploy_mesh_cluster.py stop
+```
+
+| Gate | Target | Result (2026-07-01) |
+|------|--------|---------------------|
+| Live HTTP (8 nodes) | **&lt; 20 rounds** | **3 rounds**, 100% — `tests/mesh_live_convergence_last_run.json` ✅ |
+| Live HTTP (100 nodes) | operator script | `deploy_100_nodes.ps1` (validated tooling; scale on build host) |
+| Stochastic sim (100) | **&lt; 10 rounds** | **7–8 rounds** — `tests/mesh_scale_last_run.json` ✅ |
+
+**Phase 5 Live:** complete (HTTP epidemic &lt;20 rounds; sim &lt;10 rounds).
+
+Public reference: https://deepseekoracle.github.io/lygo-protocol-stack/ · Grokipedia: `docs/GROkipedia_SUBMIT.md`
+
 ## Audit scale
 
 - **60** falsifiable vectors in `tests/test_falsifiable_vectors.json` (5 categories + `infrastructure_scaling`).
 - **42** P0 canonical fixtures (determinism / cross-lang parity).
 - Twin Gate pilot: 6 edge scenarios; target **Δφ → 0** after calibration.
 
-**Signature:** `Δ9Φ963-PHASE5-DEPLOYMENT`
+**Signature:** `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`

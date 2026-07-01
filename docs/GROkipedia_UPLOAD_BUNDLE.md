@@ -1,8 +1,10 @@
-# LYGO Protocol Stack — Grokipedia upload bundle
+# LYGO Protocol Stack — Grokipedia upload bundle (archive)
 
-**Operator:** Copy sections below into https://grokipedia.com/page/lygo-protocol-stack  
-**Signature:** Δ9Φ963-EXECUTION-DAG-v1.0  
-**Do not include secrets or tokens.**
+**Do not paste this whole file into Grokipedia.** Use **`docs/GROkipedia_SUBMIT.md`** (title + brief + links).
+
+**Public reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/  
+**Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack  
+**Signature:** Δ9Φ963-EXECUTION-DAG-v1.0
 
 ---
 

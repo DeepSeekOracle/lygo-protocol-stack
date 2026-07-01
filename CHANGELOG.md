@@ -1,5 +1,20 @@
 # Changelog — LYGO Protocol Stack
 
+## [P5.2.5 Phase 5 LIVE + P6/P7 stubs] — 2026-07-01
+
+**Signature:** `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`
+
+### Added
+- `tools/deploy_100_nodes.sh`, `deploy_100_nodes.ps1`, `deploy_mesh_cluster.py`, `monitor_convergence.py`
+- `protocol6_quantum_attest/` hardware seal stub; `tools/p7_entropy_harness.py`
+- `tools/hf_push_p0_hardening.py`, `tools/announce_deployment.py`
+- HF Space Phase 5 gossip probe accordion
+
+### Verified
+- Live HTTP mesh: **3 rounds** / 8 nodes / 100% (`mesh_live_convergence_last_run.json`)
+- Stochastic sim: **&lt;10 rounds** / 100 nodes
+- HF dataset + Space pushed; P0 fixtures mirrored on dataset
+
 ## [P5.2.4 Phase 5 Mesh Scale] — 2026-07-01
 
 **Signature:** `Δ9Φ963-PHASE5-DEPLOYMENT`
