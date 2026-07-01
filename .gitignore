@@ -38,6 +38,9 @@ output.txt
 .DS_Store
 Thumbs.db
 
+# HF upload staging
+_hf_staging/
+
 # Secrets
 .env
 *.pem

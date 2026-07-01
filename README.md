@@ -106,6 +106,7 @@ bash clawhub/install-all.sh
 - **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack  
 - **Site / seals:** https://github.com/DeepSeekOracle/Excavationpro  
 - **Live resonance demo:** https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine  
+- **HF dataset mirror:** https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack
 - **Resonance docs:** https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html  
 
 **Resonance signature:** Δ9Φ963-STACK-PUBLIC-v2
