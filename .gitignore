@@ -1,12 +1,25 @@
-# Byte-compiled / optimized / DLL files
+# Python (GitHub template + LYGO stack)
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+htmlcov/
+.tox/
+.pytest_cache/
+.coverage
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 .venv/
 venv/
 env/
+ENV/
 
 # Rust
 target/
