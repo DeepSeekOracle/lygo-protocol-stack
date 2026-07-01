@@ -2,6 +2,7 @@
 # Fragment • Scatter • Reconstruct
 
 import hashlib
+import json
 import random
 from dataclasses import dataclass
 from typing import Dict, List, Optional
@@ -16,11 +17,24 @@ class Fragment:
 
 
 class MemoryMycelium:
+    node_id = "LYGO_P1_MEMORY_MYCELIUM_v1.0"
+
     def __init__(self):
         self.fragments: Dict[str, List[Fragment]] = {}
         self.storage = {}
         self.fragment_count = 12
         self.threshold = 10
+
+    def scatter(self, data, key: str) -> dict:
+        """Protocol 3/4/5 storage API — scatter payload under key."""
+        if isinstance(data, bytes):
+            payload = data
+        elif isinstance(data, str):
+            payload = data.encode("utf-8")
+        else:
+            payload = json.dumps(data, sort_keys=True, default=str).encode("utf-8")
+        manifest = self.store(payload, memory_id=key)
+        return {"stored": True, "key": key, "fragments": manifest["fragment_count"], **manifest}
 
     def store(self, data: bytes, memory_id: str = None) -> dict:
         if memory_id is None:
