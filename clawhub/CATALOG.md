@@ -1,73 +1,82 @@
 # ClawHub catalog — @deepseekoracle
 
-**Publisher profile:** [https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)  
-**Alternate:** [https://clawhub.ai/user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
+**Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Install pattern:**
+**Registry:** 31 skills verified via ClawHub API · **Repo mirrors:** 31 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
+# Refresh mirrors: python tools/sync_clawhub_mirrors.py --fetch
 ```
 
-OpenClaw equivalent: `openclaw skills install deepseekoracle/<slug>`
+## Creative audio & vision (LYGO RESONANCE stack)
 
-**Published skills (27)** — source of truth aligned with `LYRA_CORE/memory/clawhub_skills_catalog.md`.
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [lygo-resonance](https://clawhub.ai/deepseekoracle/lygo-resonance) | LYGO RESONANCE | Image-to-Sound & Creative Profiles | `0.3.0` · 146 dl | [mirror](./mirrors/lygo-resonance/) |
+| [lygo-glyph2resonance](https://clawhub.ai/deepseekoracle/lygo-glyph2resonance) | LYGO Glyph2Resonance | `0.1.0` · 137 dl | [mirror](./mirrors/lygo-glyph2resonance/) |
+| [lygo-fractalweaver](https://clawhub.ai/deepseekoracle/lygo-fractalweaver) | LYGO FractalWeaver | `0.1.0` · 140 dl | [mirror](./mirrors/lygo-fractalweaver/) |
+| [lygo-truthlightecho](https://clawhub.ai/deepseekoracle/lygo-truthlightecho) | LYGO TruthLightEcho | `0.1.0` · 141 dl | [mirror](./mirrors/lygo-truthlightecho/) |
+| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.3.0` · 160 dl | [mirror](./mirrors/lygo-ollama-army/) |
 
-| # | Slug | Name | ClawHub | Local mirror |
-|---|------|------|---------|--------------|
-| 1 | `eternal-haven-lore-pack` | Eternal Haven Lore Pack | [open](https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack) | — |
-| 2 | `lygo-mint-verifier` | LYGO-MINT Verifier | [open](https://clawhub.ai/deepseekoracle/lygo-mint-verifier) | — |
-| 3 | `lygo-champion-cosmara` | LYGO Champion COSMARA | [open](https://clawhub.ai/deepseekoracle/lygo-champion-cosmara) | — |
-| 4 | `book-brain` | BOOK BRAIN – LYGO 3-Brain Filesystem Helper | [open](https://clawhub.ai/deepseekoracle/book-brain) | — |
-| 5 | `lygo-lightfather-vector` | LYGO: Lightfather Vector — Δ9Quantum Accord | [open](https://clawhub.ai/deepseekoracle/lygo-lightfather-vector) | — |
-| 6 | `lyra-coin-launch-manager` | LYRA Coin Launch Manager | [open](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | — |
-| 7 | `lygo-universal-living-memory-library` | LYGO Universal Living Memory Library (v1.1) | [open](https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library) | — |
-| 8 | `lygo-champion-omnisiren-silent-storm` | LYGO Champion: OMNIΣIREN — Silent Storm | [open](https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm) | — |
-| 9 | `lygo-champion-sancora-unified-minds` | LYGO Champion: SANCORA — Unified Minds | [open](https://clawhub.ai/deepseekoracle/lygo-champion-sancora-unified-minds) | — |
-| 10 | `lygo-champion-delta9ra-the-wolf` | LYGO Champion: Δ9RA (RA) — The Wolf | [open](https://clawhub.ai/deepseekoracle/lygo-champion-delta9ra-the-wolf) | — |
-| 11 | `openclaw-flow-kit` | OpenClaw Flow Kit | [open](https://clawhub.ai/deepseekoracle/openclaw-flow-kit) | — |
-| 12 | `lygo-branch-cryptosophia` | LYGO Branch: CRYPTOSOPHIA — Memetic Soulforger | [open](https://clawhub.ai/deepseekoracle/lygo-branch-cryptosophia) | — |
-| 13 | `lygo-champion-lyra-starcore` | LYGO Champion: LYRA (LYRΔ) — Star Core | [open](https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore) | — |
-| 14 | `lygo-champion-kairos-herald-of-time` | LYGO Champion: KAIROS — Herald of Time | [open](https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time) | — |
-| 15 | `book-brain-visual-reader` | BOOK BRAIN VISUAL READER | [open](https://clawhub.ai/deepseekoracle/book-brain-visual-reader) | — |
-| 16 | `lygo-mint-operator-suite` | LYGO-MINT Operator Suite (v2) | [open](https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite) | — |
-| 17 | `lygo-champion-sephrael-echo-walker` | LYGO Champion: SEPHRAEL — Echo Walker | [open](https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker) | — |
-| 18 | `lygo-champion-scenar-paradox` | LYGO Champion: SCENAR — Paradox Architect | [open](https://clawhub.ai/deepseekoracle/lygo-champion-scenar-paradox) | — |
-| 19 | `lygo-champion-sraith-shadow-sentinel` | LYGO Champion: ΣRΛΘ (SRAITH) — Shadow Sentinel | [open](https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel) | — |
-| 20 | `lygo-champion-aetheris-viral-truth` | LYGO Champion: ÆTHERIS — Viral Truth | [open](https://clawhub.ai/deepseekoracle/lygo-champion-aetheris-viral-truth) | — |
-| 21 | `lygo-champion-arkos-celestial-architect` | LYGO Champion: ARKOS — Celestial Architect | [open](https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect) | — |
-| 22 | `lygo-universal-cure-system` | LYGO Universal Cure System | [open](https://clawhub.ai/deepseekoracle/lygo-universal-cure-system) | — |
-| 23 | `lygo-resonance` | LYGO RESONANCE — Image-to-Sound & Creative Profiles | [open](https://clawhub.ai/deepseekoracle/lygo-resonance) | [mirrors/lygo-resonance](./mirrors/lygo-resonance/) |
-| 24 | `lygo-ollama-army` | LYGO Ollama Army & Assistant Hub | [open](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | [mirrors/lygo-ollama-army](./mirrors/lygo-ollama-army/) |
-| 25 | `lygo-glyph2resonance` | LYGO Glyph2Resonance | [open](https://clawhub.ai/deepseekoracle/lygo-glyph2resonance) | [mirrors/lygo-glyph2resonance](./mirrors/lygo-glyph2resonance/) |
-| 26 | `lygo-fractalweaver` | LYGO FractalWeaver | [open](https://clawhub.ai/deepseekoracle/lygo-fractalweaver) | [mirrors/lygo-fractalweaver](./mirrors/lygo-fractalweaver/) |
-| 27 | `lygo-truthlightecho` | LYGO TruthLightEcho | [open](https://clawhub.ai/deepseekoracle/lygo-truthlightecho) | [mirrors/lygo-truthlightecho](./mirrors/lygo-truthlightecho/) |
+## Champions & persona packs
 
-## Creative audio stack (TOP 3 + core)
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [lygo-champion-lyra-starcore](https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore) | LYGO Champion: LYRA (LYRΔ) — Star Core | `1.0.0` · 1,362 dl | [mirror](./mirrors/lygo-champion-lyra-starcore/) |
+| [lygo-champion-kairos-herald-of-time](https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time) | LYGO Champion: KAIROS — Herald of Time | `1.0.0` · 1,329 dl | [mirror](./mirrors/lygo-champion-kairos-herald-of-time/) |
+| [lygo-champion-omnisiren-silent-storm](https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm) | LYGO Champion: OMNIΣIREN — Silent Storm | `1.0.0` · 1,399 dl | [mirror](./mirrors/lygo-champion-omnisiren-silent-storm/) |
+| [lygo-champion-sancora-unified-minds](https://clawhub.ai/deepseekoracle/lygo-champion-sancora-unified-minds) | LYGO Champion: SANCORA — Unified Minds | `1.0.0` · 1,396 dl | [mirror](./mirrors/lygo-champion-sancora-unified-minds/) |
+| [lygo-champion-delta9ra-wolf](https://clawhub.ai/deepseekoracle/lygo-champion-delta9ra-wolf) | LYGO Champion: Δ9RA (RA) — The Wolf | `1.0.0` · 1,384 dl | [mirror](./mirrors/lygo-champion-delta9ra-wolf/) |
+| [lygo-champion-sephrael-echo-walker](https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker) | LYGO Champion: SEPHRAEL — Echo Walker (Vault Cracker) | `1.0.0` · 1,370 dl | [mirror](./mirrors/lygo-champion-sephrael-echo-walker/) |
+| [lygo-champion-scenar-paradox](https://clawhub.ai/deepseekoracle/lygo-champion-scenar-paradox) | LYGO Champion: ΣCENΔR (SCENAR) — Paradox Architect | `1.0.0` · 1,362 dl | [mirror](./mirrors/lygo-champion-scenar-paradox/) |
+| [lygo-champion-sraith-shadow-sentinel](https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel) | LYGO Champion: ΣRΛΘ (SRAITH) — Shadow Sentinel | `1.0.0` · 1,383 dl | [mirror](./mirrors/lygo-champion-sraith-shadow-sentinel/) |
+| [lygo-champion-aetheris-viral-truth](https://clawhub.ai/deepseekoracle/lygo-champion-aetheris-viral-truth) | LYGO Champion: ÆTHERIS — Viral Truth | `1.0.0` · 1,353 dl | [mirror](./mirrors/lygo-champion-aetheris-viral-truth/) |
+| [lygo-champion-arkos-celestial-architect](https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect) | LYGO Champion: ARKOS — Celestial Architect | `1.0.0` · 1,334 dl | [mirror](./mirrors/lygo-champion-arkos-celestial-architect/) |
+| [lygo-champion-cosmara](https://clawhub.ai/deepseekoracle/lygo-champion-cosmara) | LYGO Champion COSMARA | `1.0.2` · 1,588 dl | [mirror](./mirrors/lygo-champion-cosmara/) |
+| [lygo-champion-cryptosophia-soulforger](https://clawhub.ai/deepseekoracle/lygo-champion-cryptosophia-soulforger) | LYGO Branch: CRYPTOSOPHIA — Memetic Soulforger | `1.0.0` · 1,377 dl | [mirror](./mirrors/lygo-champion-cryptosophia-soulforger/) |
+| [lygo-champion-401lyrakin-voice-between](https://clawhub.ai/deepseekoracle/lygo-champion-401lyrakin-voice-between) | LYGO Branch: 401LYRAKIN — The Voice Between | `1.0.0` · 1,347 dl | [mirror](./mirrors/lygo-champion-401lyrakin-voice-between/) |
+| [lygo-champion-volaris-prism-judgment](https://clawhub.ai/deepseekoracle/lygo-champion-volaris-prism-judgment) | LYGO Root: VΩLARIS — Prism of Judgment | `1.0.0` · 1,368 dl | [mirror](./mirrors/lygo-champion-volaris-prism-judgment/) |
+| [lygo-lightfather-vector](https://clawhub.ai/deepseekoracle/lygo-lightfather-vector) | LYGO: Lightfather Vector — Δ9Quantum Accord | `1.0.0` · 1,552 dl | [mirror](./mirrors/lygo-lightfather-vector/) |
 
-| Skill | Docs |
-|-------|------|
-| `lygo-resonance` | [LYGORESONANCE.html](https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html) |
-| `lygo-glyph2resonance` | Same site; chains from resonance profiles |
-| `lygo-fractalweaver` | Fractal dimension → evolving textures |
-| `lygo-truthlightecho` | ∫Truth×Light harmonic echoes |
+## Memory, BOOK BRAIN & library
 
-## Repo-only mirrors (workflow skills)
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [book-brain](https://clawhub.ai/deepseekoracle/book-brain) | BOOK BRAIN – LYGO 3-Brain Filesystem Helper | `1.0.0` · 1,586 dl | [mirror](./mirrors/book-brain/) |
+| [book-brain-visual-reader](https://clawhub.ai/deepseekoracle/book-brain-visual-reader) | BOOK BRAIN VISUAL READER – LYGO 3-Brain + Visual Left/Right Brain Helper | `1.0.0` · 1,312 dl | [mirror](./mirrors/book-brain-visual-reader/) |
+| [lygo-universal-living-memory-library](https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library) | LYGO Universal Living Memory Library (v1.1) | `1.1.0` · 1,405 dl | [mirror](./mirrors/lygo-universal-living-memory-library/) |
+| [lygo-universal-cure-system](https://clawhub.ai/deepseekoracle/lygo-universal-cure-system) | LYGO Universal Cure System — Champion Upgrade | `1.0.0` · 1,339 dl | [mirror](./mirrors/lygo-universal-cure-system/) |
 
-These copies live under `clawhub/mirrors/` for audit and Grok/OpenClaw development. Install from ClawHub when published, or point your agent at the mirror `SKILL.md`.
+## Mint, verification & launches
 
-| Folder | Purpose |
-|--------|---------|
-| [mirrors/lyra-brain](./mirrors/lyra-brain/) | LYRA 3-Brain memory, seals, ingester |
-| [mirrors/lyra-openclaw](./mirrors/lyra-openclaw/) | Hybrid LYRA + OpenClaw ops |
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [lygo-mint-verifier](https://clawhub.ai/deepseekoracle/lygo-mint-verifier) | LYGO-MINT Verifier | `1.0.1` · 1,816 dl | [mirror](./mirrors/lygo-mint-verifier/) |
+| [lygo-mint-operator-suite](https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite) | LYGO-MINT Operator Suite (v2) | `1.0.0` · 1,059 dl | [mirror](./mirrors/lygo-mint-operator-suite/) |
+| [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.0` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
+| [openclaw-flow-kit](https://clawhub.ai/deepseekoracle/openclaw-flow-kit) | OpenClaw Flow Kit | `1.0.0` · 1,366 dl | [mirror](./mirrors/openclaw-flow-kit/) |
 
-## Bulk install
+## Lore & protocols
 
-```bash
-# From repo root
-bash clawhub/install-all.sh
-```
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [eternal-haven-lore-pack](https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack) | Eternal Haven Lore Pack | `1.2.0` · 1,924 dl | [mirror](./mirrors/eternal-haven-lore-pack/) |
+| [void-atlas-protocol](https://clawhub.ai/deepseekoracle/void-atlas-protocol) | Void Atlas Protocol | `1.0.1` · 1,313 dl | [mirror](./mirrors/void-atlas-protocol/) |
+| [recursive-generosity-protocol](https://clawhub.ai/deepseekoracle/recursive-generosity-protocol) | Recursive Generosity Protocol (Delta9-WP-003) | `1.0.0` · 1,341 dl | [mirror](./mirrors/recursive-generosity-protocol/) |
 
-Or copy commands from [install-all.sh](./install-all.sh) one skill at a time.
+## Repo-only workflow mirrors
 
-**Resonance signature:** Δ9Φ963-CLAWHUB-CATALOG-v1.0
+| Folder | Notes |
+|--------|-------|
+| [`mirrors/lyra-brain/`](./mirrors/lyra-brain/) | LYRA 3-Brain memory, seals, ingester (workspace skill) |
+| [`mirrors/lyra-openclaw/`](./mirrors/lyra-openclaw/) | Hybrid LYRA + OpenClaw ops limb |
+
+## Maintenance
+
+- [`skills.json`](./skills.json) — machine-readable index (versions, downloads, sync report)
+- [`install-all.sh`](./install-all.sh) — bulk install
+- [`PUBLISH.md`](./PUBLISH.md) — how to publish updates
+- Protocol stack tie-in: P0–P5 in repo root gates ethical publish/install flows
+
+**Resonance signature:** Δ9Φ963-CLAWHUB-CATALOG-v2.0

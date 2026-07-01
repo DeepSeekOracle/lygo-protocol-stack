@@ -81,18 +81,19 @@ clawhub/                 # ClawHub catalog, install scripts, local skill mirrors
 
 ## ClawHub skills (@deepseekoracle)
 
-**27 published skills** for OpenClaw / Grok agents — champions, BOOK BRAIN, mint tools, and the LYGO creative audio stack.
+**31+ published skills** mirrored in-repo — champions, BOOK BRAIN, mint/flow tools, Eternal Haven lore, protocols, and the full LYGO creative audio stack.
 
 | Resource | Link |
 |----------|------|
 | **Publisher profile** | [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) |
-| **Full catalog (links + install)** | [clawhub/CATALOG.md](clawhub/CATALOG.md) |
-| **Machine-readable list** | [clawhub/skills.json](clawhub/skills.json) |
-| **Local mirrors (7 folders)** | [clawhub/mirrors/](clawhub/mirrors/) — `lygo-resonance`, Ollama army, Glyph/Fractal/TruthLight, `lyra-brain`, `lyra-openclaw` |
+| **Catalog (by category)** | [clawhub/CATALOG.md](clawhub/CATALOG.md) |
+| **Index + versions/downloads** | [clawhub/skills.json](clawhub/skills.json) |
+| **Full skill trees** | [clawhub/mirrors/](clawhub/mirrors/) (SKILL.md, scripts, champion canon) |
+| **Sync / publish** | [clawhub/PUBLISH.md](clawhub/PUBLISH.md) · `python tools/sync_clawhub_mirrors.py --fetch` |
 
 ```bash
 npx clawhub@latest install deepseekoracle/lygo-resonance
-# Or: bash clawhub/install-all.sh
+bash clawhub/install-all.sh
 ```
 
 ---

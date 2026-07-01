@@ -1,38 +1,46 @@
 # ClawHub — LYGO / LYRA Skill Ecosystem
 
-Official publisher profile:
+Official publisher: **[https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)** (38k+ downloads, 31+ skills on registry; profile may show 32 as new skills land).
 
-- **[https://clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle)**
-- Alternate: [https://clawhub.ai/user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
+This directory is the **sovereign mirror** of everything under `@deepseekoracle` on ClawHub, bundled with the [LYGO Protocol Stack](../README.md) (P0–P5).
 
-Install any skill:
+## Quick links
+
+| Doc | What |
+|-----|------|
+| **[CATALOG.md](./CATALOG.md)** | Human catalog by category (slug, version, downloads, mirror path) |
+| **[skills.json](./skills.json)** | Machine index + `sync_report` from last mirror run |
+| **[install-all.sh](./install-all.sh)** | Install every published skill via `npx clawhub` |
+| **[PUBLISH.md](./PUBLISH.md)** | Sync mirrors + publish new versions (auth stays local) |
+| **[mirrors/](./mirrors/)** | Full `SKILL.md` trees (champions, BOOK BRAIN, lore PDFs, resonance code) |
 
 ```bash
-npx clawhub@latest install deepseekoracle/<slug>
+npx clawhub@latest install deepseekoracle/lygo-resonance
 ```
 
-Full catalog with descriptions and links: **[CATALOG.md](./CATALOG.md)**
+## Refresh mirrors (maintainers)
 
-## Local mirrors (source-aligned copies)
+```bash
+python tools/sync_clawhub_mirrors.py --fetch   # OpenClaw + .grok + registry
+python tools/render_clawhub_catalog.py         # Regenerate CATALOG.md
+```
 
-These folders mirror skills maintained in the LYGO workspace (`.grok/skills/`) for offline reference and audit. **Canonical published versions** remain on ClawHub.
+Environment overrides: `OPENCLAW_SKILLS_PUBLIC`, `LYGO_GROK_SKILLS` (see PUBLISH.md).
 
-| Mirror | ClawHub slug |
-|--------|----------------|
-| `mirrors/lygo-resonance/` | `lygo-resonance` |
-| `mirrors/lygo-ollama-army/` | `lygo-ollama-army` |
-| `mirrors/lygo-glyph2resonance/` | `lygo-glyph2resonance` |
-| `mirrors/lygo-fractalweaver/` | `lygo-fractalweaver` |
-| `mirrors/lygo-truthlightecho/` | `lygo-truthlightecho` |
-| `mirrors/lyra-brain/` | (workflow skill — publish via CLI) |
-| `mirrors/lyra-openclaw/` | (hybrid OS skill) |
+## What’s mirrored
 
-## Relation to this repository
+- **31 published skills** — copied from OpenClaw `skills/public` and/or ClawHub install (champions include `canon.json`, mint scripts, Eternal Haven book assets).
+- **Creative stack** — `lygo-resonance`, `lygo-ollama-army`, glyph / fractal / truthlight from `.grok/skills` (newest workspace copies).
+- **Workflow-only** — `lyra-brain`, `lyra-openclaw` (for agents using this repo without ClawHub install).
 
-| Repo layer | ClawHub skills |
-|------------|----------------|
-| **P0–P5** (`protocol0`…`protocol5`) | Ethical kernel, memory, consensus — foundation for all skills |
-| **HF Space** [LYGO-Resonance-Engine](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine) | Live demo for `lygo-resonance` + creative sonification |
-| **Excavationpro** | [LYGORESONANCE.html](https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html) |
+## Stack integration
 
-**Resonance signature:** Δ9Φ963-CLAWHUB-v1.0
+| Layer | ClawHub role |
+|-------|----------------|
+| **P0** | Validate skill bytes before ingest |
+| **P1** | Shard large lore / library packs |
+| **P2–P5** | Champion consensus & harmony for multi-skill agents |
+| **[HF Space](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine)** | Live bench for `lygo-resonance` |
+| **[LYGORESONANCE.html](https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html)** | Public docs for creative skills |
+
+**Resonance signature:** Δ9Φ963-CLAWHUB-v2.0
