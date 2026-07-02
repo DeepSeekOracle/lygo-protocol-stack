@@ -99,6 +99,7 @@ def _adversarial_quarantine(claim: str, p2: dict) -> bool:
 class LYGOProtocolStack:
     version = "P0.4-P5.2.3-PHASE3-PROD"
     phase6_signature = "Δ9Φ963-PHASE6-v1.0"
+    phase7_signature = "Δ9Φ963-PHASE7-v1.0"
 
     def __init__(self, sovereign_id: str = "LYGO_STACK_PUBLIC"):
         self.kernel = NanoKernelBridge()
@@ -114,6 +115,54 @@ class LYGOProtocolStack:
         self._sovereign_id = sovereign_id
         self._measurement = None
         self._attestation = None
+        self._haip = None
+
+    def _phase7(self):
+        if self._haip is None:
+            from protocol7_human_ai_interface.haip_service import HAIPService
+
+            self._haip = HAIPService()
+        return self._haip
+
+    def register_biometric_device(
+        self, device_type: str, device_id: str, connection_type: str = "simulated"
+    ) -> dict:
+        return self._phase7().register_device(device_type, device_id, connection_type)
+
+    def get_biometric_state(self) -> dict:
+        return self._phase7().get_biometric_state()
+
+    def process_biometric_ethical_query(self, *, purpose: str = "haip_guidance") -> dict:
+        """P7 biometric → ethical vector → P2/P5 harmony path."""
+        bio = self.get_biometric_state()
+        if bio.get("status") in ("no_devices", "no_data"):
+            return {"status": bio.get("status"), "signature": self.phase7_signature}
+        ev = bio.get("ethical_vector") or [0.5, 0.5, 0.5]
+        neural = {
+            "frequency_profile": {bio.get("frequency", 528): 0.85, 963: 0.6, 174: 0.4},
+            "emotional_vector": ev,
+            "intent_clarity": float(ev[0]),
+            "content": f"HAIP biometric guidance ({purpose})",
+        }
+        p2 = self.bridge.ingest_neural_intent(neural)
+        human = {
+            "sovereign_id": self._sovereign_id,
+            "resonance_triad": [963, 528, 174],
+            "ethical_baseline": ev,
+        }
+        p5 = self.harmony.create_harmony_node(human, {"id": "LYGO_HAIP", "resonance": 1.0}, purpose=purpose)
+        return {
+            "signature": self.phase7_signature,
+            "biometric": bio,
+            "p2": p2,
+            "p5": p5,
+            "light_code": bio.get("light_code"),
+            "entropy": bio.get("entropy"),
+        }
+
+    @property
+    def haip(self):
+        return self._phase7()
 
     def _phase6(self):
         if self._attestation is None:

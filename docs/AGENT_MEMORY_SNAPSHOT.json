@@ -23,7 +23,9 @@
     "4_workers": "Live (local)",
     "5_mesh": "ACTIVE — run_mesh_scale_sim + node_api /gossip/scatter",
     "6_hardware": "Live (software) — Δ9Φ963-PHASE6-v1.0; Keylime/FPGA pending",
-    "6_artifact": "tests/phase6_audit_last_run.json"
+    "6_artifact": "tests/phase6_audit_last_run.json",
+    "7_haip": "Live (simulated) — Δ9Φ963-PHASE7-v1.0",
+    "7_artifact": "tests/phase7_audit_last_run.json"
   },
   "surfaces": {
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",

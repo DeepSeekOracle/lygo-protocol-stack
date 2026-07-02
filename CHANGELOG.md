@@ -1,5 +1,18 @@
 # Changelog — LYGO Protocol Stack
 
+## [P7.0 Human-AI Interface Platform] — 2026-07-02
+
+**Signature:** `Δ9Φ963-PHASE7-v1.0`
+
+### Added
+- `protocol7_human_ai_interface/` — device adapters, pipeline, ethical mapping, entropy extraction, HAIP API
+- `stack/lygo_stack.py` — `register_biometric_device`, `get_biometric_state`, `process_biometric_ethical_query`
+- Node API — `POST /device/register`, `GET /biometric/state`, `GET /biometric/history`
+- Tools — `register_device.py`, `simulate_biometric_data.py`, `run_phase7_audit.py`; `p7_entropy_harness.py` IBI mode
+
+### Pending
+- Live BLE GATT 0x180D, HealthKit bridge, mesh broadcast of biometric weights
+
 ## [P6.0 Hardware Attestation] — 2026-07-01
 
 **Signature:** `Δ9Φ963-PHASE6-v1.0`

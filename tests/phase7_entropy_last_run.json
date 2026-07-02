@@ -1,0 +1,20 @@
+{
+  "timestamp": 1782956524.5645132,
+  "signature": "\u03949\u03a6963-PHASE7-v1.0",
+  "ibi_extraction": {
+    "signature": "\u03949\u03a6963-PHASE7-v1.0",
+    "h_min": 0.2451,
+    "von_neumann_bits": 31,
+    "entropy_sufficient": false,
+    "seed_256": "e21fc9d195f7279e4a31aa598f167340c3e726f92ce45bfc1aee228c329a0f38",
+    "ibi_count": 32
+  },
+  "api_state_preview": {
+    "frequency": 639,
+    "ethical_vector": [
+      0.2217,
+      0.7713,
+      0.3671
+    ]
+  }
+}

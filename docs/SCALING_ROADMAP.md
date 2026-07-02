@@ -9,7 +9,7 @@
 | **3b** | Blueprint & gauntlet | **Live** | `docs/BLUEPRINT.md`, `tools/run_lattice_gauntlet.py` |
 | **5** | Wide-area mesh | **Live (local HTTP)** | `deploy_100_nodes.sh` / `.ps1`, `monitor_convergence.py`, sim + HTTP epidemic |
 | **6** | Hardware attest | **Live (software)** | `protocol6_quantum_attest/` — measurement, signed badges, `/attestation/*`; Keylime/FPGA pending |
-| **7** | Quantum entropy (stub) | **STUB** | `tools/p7_entropy_harness.py` — entropy slot for P0 pointer path |
+| **7** | Human-AI Interface (HAIP) | **Live (simulated)** | `protocol7_human_ai_interface/` — devices, pipeline, ethical map, IBI entropy; BLE pending |
 
 ## Phase 2–4 operator checklist
 
@@ -75,4 +75,20 @@ python tools/run_phase6_audit.py
 | PUF (FPGA) | ⏳ Pending |
 | TPM (Keylime) | ⏳ Pending |
 
-**Signature:** `Δ9Φ963-PHASE6-v1.0` · `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`
+## Phase 7 — HAIP (2026-07-02)
+
+```bash
+python tools/register_device.py --type apple_watch --id watch_001 --connection simulated
+python tools/run_phase7_audit.py
+python tools/p7_entropy_harness.py --ibi-from simulate
+```
+
+| Component | Status |
+|-----------|--------|
+| Device abstraction | ✅ Simulated |
+| Data pipeline | ✅ Live |
+| Ethical mapping (P2) | ✅ Live |
+| IBI entropy harness | ✅ Live |
+| Real BLE / HealthKit | ⏳ Pending |
+
+**Signature:** `Δ9Φ963-PHASE7-v1.0` · `Δ9Φ963-PHASE6-v1.0` · `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`

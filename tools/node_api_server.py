@@ -8,7 +8,7 @@ import json
 import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -54,6 +54,26 @@ class Handler(BaseHTTPRequestHandler):
 
         return MeasurementCollector().health()
 
+    @staticmethod
+    def _p7_biometric_state() -> dict:
+        import sys
+
+        if str(ROOT) not in sys.path:
+            sys.path.insert(0, str(ROOT))
+        from protocol7_human_ai_interface.api import handle_biometric_state
+
+        return handle_biometric_state()
+
+    @staticmethod
+    def _p7_history(seconds: int) -> list:
+        import sys
+
+        if str(ROOT) not in sys.path:
+            sys.path.insert(0, str(ROOT))
+        from protocol7_human_ai_interface.api import handle_biometric_history
+
+        return handle_biometric_history(seconds)
+
     def _read_json_body(self) -> dict:
         length = int(self.headers.get("Content-Length", 0) or 0)
         raw = self.rfile.read(length) if length else b"{}"
@@ -79,8 +99,15 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, self._p6_health())
             return
         if path == "/attestation/badge":
-            node_id = os.environ.get("LYGO_NODE_ID", "DOCKER_NODE")
             self._json(200, get_stack().get_hardware_badge())
+            return
+        if path == "/biometric/state":
+            self._json(200, self._p7_biometric_state())
+            return
+        if path == "/biometric/history":
+            qs = parse_qs(urlparse(self.path).query)
+            seconds = int((qs.get("seconds") or ["60"])[0])
+            self._json(200, {"samples": self._p7_history(seconds), "signature": "Δ9Φ963-PHASE7-v1.0"})
             return
         if path == "/badge":
             import sys
@@ -138,6 +165,9 @@ class Handler(BaseHTTPRequestHandler):
                     "/attestation/health",
                     "/attestation/badge",
                     "POST /attestation/verify",
+                    "/biometric/state",
+                    "/biometric/history",
+                    "POST /device/register",
                     "/demo",
                     "/elasticity",
                     "/federation",
@@ -174,6 +204,18 @@ class Handler(BaseHTTPRequestHandler):
             badge = body.get("badge") if isinstance(body.get("badge"), dict) else body
             valid = get_stack().verify_peer_badge(badge if isinstance(badge, dict) else {})
             self._json(200, {"valid": valid, "signature": "Δ9Φ963-PHASE6-v1.0"})
+            return
+        if path == "/device/register":
+            body = self._read_json_body()
+            import sys
+
+            if str(ROOT) not in sys.path:
+                sys.path.insert(0, str(ROOT))
+            from protocol7_human_ai_interface.api import handle_register
+
+            out = handle_register(body)
+            code = 400 if out.get("status") == "error" else 200
+            self._json(code, {**out, "signature": "Δ9Φ963-PHASE7-v1.0"})
             return
         self._json(404, {"error": "not found"})
 
