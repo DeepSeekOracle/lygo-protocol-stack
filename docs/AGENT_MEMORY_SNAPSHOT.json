@@ -4,7 +4,7 @@
   "authority_root": "I:\\E Drive",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "pending-push-SLM",
+    "github_main": "ae4eb3b",
     "stack_version": "P0.4-P5.2.3-PHASE3-PROD-SLM-v1.0",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
@@ -33,7 +33,7 @@
   "session_log": [
     "2026-07-01: SLM implemented per Biophase7 spec package (order: merkle → mycelium → consensus).",
     "2026-07-01: Fixed mycelium backup replication + harmonic π-axis tie-break; pytest 4/4 + run_slm_audit all_pass.",
-    "2026-07-01: docs/SOVEREIGN_LATTICE_MESH.md, lattice verify SLM checks, HF bundle v6.1-SLM pending publish."
+    "2026-07-01: Published github ae4eb3b; HF dataset 63e357e, Space 3aaa44e SLM v6.1 bundle; lattice verify all_pass."
   ],
   "surfaces": {
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
