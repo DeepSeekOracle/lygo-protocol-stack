@@ -56,4 +56,6 @@ See `tests/scalable_registry_v2_checklist_last_run.json` for evidence.
 - Badge: `scalable_registry_merkle_root` + `checks.scalable_registry`
 - Kernel eggs: unchanged (`KERNEL_EGG_SOA.md`)
 
+**Biophase7 CAS physics:** [`CONTENT_ADDRESSABLE_PHYSICS.md`](CONTENT_ADDRESSABLE_PHYSICS.md)
+
 **Resonance forward.**

@@ -9,7 +9,14 @@ from pathlib import Path
 from typing import Any
 
 from . import MAX_MANIFEST_JSON_BYTES, SIGNATURE, SUB_MANIFEST_MAX_HASHES
-from .chunking import chunk_file_to_cas, chunk_hash, content_defined_chunks, write_chunk_to_cas
+from .chunking import (
+    chunk_file_to_cas,
+    content_defined_chunks,
+    iter_content_defined_chunks,
+    write_chunk_to_cas,
+    write_json_to_cas,
+    read_json_from_cas,
+)
 from .merkle import merkle_root
 from .provenance import ProvenanceError, sign_merkle_root
 
@@ -90,6 +97,9 @@ def attach_provenance(manifest: dict[str, Any], *, node_id: str, require_p6: boo
         if require_p6:
             raise
         manifest["provenance"] = {"generator_node_id": node_id, "merkle_root_signature": "", "note": "unsigned_dev"}
+    prov = manifest.get("provenance") or {}
+    manifest["generator_node_id"] = prov.get("generator_node_id") or node_id
+    manifest["p6_signature"] = prov.get("merkle_root_signature") or ""
     return manifest
 
 
@@ -135,19 +145,23 @@ def build_manifest_from_hashes(
         probe["manifest_id"] = hashlib.sha256(_canonical_json(probe)).hexdigest()
         return probe
 
-    from .registry_manager import persist_manifest
+    from .registry_manager import CAS_ROOT, persist_manifest
 
     batches = _fit_chunk_batches(hashes, metadata, size_bytes)
     sub_refs: list[dict[str, Any]] = []
     for idx, batch in enumerate(batches):
         sub = _leaf_manifest(batch, {**metadata, "sub_index": idx}, size_bytes=size_bytes)
+        sub["type"] = "sub_manifest"
         attach_provenance(sub, node_id=node_id, require_p6=require_p6)
         sub["manifest_id"] = hashlib.sha256(_canonical_json(sub)).hexdigest()
         persist_manifest(sub)
+        cas_id = write_json_to_cas(sub, CAS_ROOT)
         sub_sha = manifest_content_sha256(sub)
         sub_refs.append(
             {
                 "sub_index": idx,
+                "id": cas_id,
+                "type": "local_cas",
                 "manifest_id": sub["manifest_id"],
                 "merkle_root": sub["merkle_root"],
                 "chunk_count": sub["chunk_count"],
@@ -166,21 +180,58 @@ def manifest_content_sha256(manifest: dict[str, Any]) -> str:
     return hashlib.sha256(_canonical_json(body)).hexdigest()
 
 
+def _resolve_sub_manifest(ref: dict[str, Any]) -> dict[str, Any]:
+    from .registry_manager import CAS_ROOT, load_manifest
+
+    sub = ref.get("inline")
+    if sub is not None:
+        return sub
+    cas_id = str(ref.get("id") or ref.get("cas_id") or "")
+    if cas_id and ref.get("type") == "local_cas":
+        return read_json_from_cas(cas_id, CAS_ROOT)
+    mid = str(ref.get("manifest_id") or "")
+    if mid:
+        loaded = load_manifest(mid)
+        if loaded:
+            return loaded
+    raise FileNotFoundError(f"sub-manifest missing for ref {ref}")
+
+
 def expand_chunk_hashes(manifest: dict[str, Any]) -> list[str]:
     if manifest.get("type") == "super_manifest":
-        from .registry_manager import load_manifest
-
         out: list[str] = []
         for ref in manifest.get("sub_manifests") or []:
-            sub = ref.get("inline")
-            if sub is None:
-                mid = str(ref.get("manifest_id") or "")
-                sub = load_manifest(mid) if mid else None
-            if not sub:
-                raise FileNotFoundError(f"sub-manifest missing for ref {ref}")
+            sub = _resolve_sub_manifest(ref)
             out.extend(list(sub.get("chunk_hashes") or []))
         return out
     return list(manifest.get("chunk_hashes") or [])
+
+
+def build_manifest(
+    file_path: str | Path,
+    metadata: dict[str, Any],
+    node_id: str,
+    *,
+    require_p6: bool = True,
+    anchor: bool = False,
+) -> dict[str, Any]:
+    """
+    Biophase7 entry point: stream CDC → CAS → hierarchical manifest (+ optional anchor).
+    """
+    path = Path(file_path)
+    from .registry_manager import CAS_ROOT
+
+    manifest = build_manifest_from_file(
+        path,
+        metadata,
+        CAS_ROOT,
+        node_id=node_id,
+        require_p6=require_p6,
+    )
+    manifest["file_size_bytes"] = path.stat().st_size
+    if anchor:
+        anchor_manifest_tree(manifest, anchor_subs=True)
+    return manifest
 
 
 def anchor_manifest_local(manifest: dict[str, Any], *, label: str | None = None) -> dict[str, Any]:

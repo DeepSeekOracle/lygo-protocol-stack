@@ -171,5 +171,12 @@ def collect_protected_chunk_hashes() -> set[str]:
             continue
         from .manifest_builder import expand_chunk_hashes
 
-        out.update(expand_chunk_hashes(data))
+        try:
+            out.update(expand_chunk_hashes(data))
+        except FileNotFoundError:
+            pass
+        for ref in data.get("sub_manifests") or []:
+            cid = str(ref.get("id") or ref.get("cas_id") or "")
+            if cid:
+                out.add(cid)
     return out

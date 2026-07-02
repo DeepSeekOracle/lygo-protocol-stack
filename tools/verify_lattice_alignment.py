@@ -157,6 +157,8 @@ def main() -> int:
         ("verify registry CLI", REPO / "tools" / "verify_registry.py"),
         ("registry v2 checklist", REPO / "tools" / "run_registry_v2_checklist.py"),
         ("registry architecture doc", REPO / "docs" / "REGISTRY_ARCHITECTURE.md"),
+        ("content addressable physics doc", REPO / "docs" / "CONTENT_ADDRESSABLE_PHYSICS.md"),
+        ("build cas manifest CLI", REPO / "tools" / "build_cas_manifest.py"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
         ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
         ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),

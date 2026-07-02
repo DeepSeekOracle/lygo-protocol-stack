@@ -30,7 +30,7 @@ def verify_registry_entries() -> tuple[bool, str]:
 
 def verify_manifest_file(manifest: dict[str, Any]) -> tuple[bool, str]:
     mtype = manifest.get("type")
-    if mtype not in ("synthetic_data_manifest", "super_manifest"):
+    if mtype not in ("synthetic_data_manifest", "super_manifest", "sub_manifest"):
         return False, f"unknown manifest type {mtype}"
     prov = manifest.get("provenance") or {}
     if prov.get("note") == "unsigned_dev" and not prov.get("merkle_root_signature"):
@@ -43,7 +43,7 @@ def verify_manifest_file(manifest: dict[str, Any]) -> tuple[bool, str]:
         hashes = expand_chunk_hashes(manifest)
     except FileNotFoundError as exc:
         return False, str(exc)
-    if mtype == "synthetic_data_manifest":
+    if mtype in ("synthetic_data_manifest", "sub_manifest"):
         expected_root = merkle_root(hashes)
         if expected_root != manifest.get("merkle_root"):
             return False, "leaf merkle_root mismatch"

@@ -14,7 +14,14 @@ import sys
 
 sys.path.insert(0, str(ROOT / "tools"))
 
-from scalable_registry.chunking import content_defined_chunks, write_chunk_to_cas  # noqa: E402
+from scalable_registry.chunking import (  # noqa: E402
+    content_defined_chunks,
+    iter_content_defined_chunks,
+    read_json_from_cas,
+    write_chunk_to_cas,
+    write_json_to_cas,
+)
+from scalable_registry.manifest_builder import _resolve_sub_manifest  # noqa: E402
 from scalable_registry.manifest_builder import (  # noqa: E402
     _json_len,
     _leaf_manifest,
@@ -43,6 +50,23 @@ def cas_tmp(tmp_path, monkeypatch):
     monkeypatch.setattr("scalable_registry.registry_manager.MANIFESTS_DIR", manifests)
     monkeypatch.setattr("scalable_registry.retrieve.CAS_ROOT", cas)
     return cas
+
+
+def test_stream_cdc_from_file(tmp_path):
+    p = tmp_path / "stream.bin"
+    p.write_bytes(secrets.token_bytes(900_000))
+    chunks = list(iter_content_defined_chunks(p, min_size=64 * 1024, avg_size=128 * 1024, max_size=256 * 1024))
+    assert len(chunks) >= 2
+    assert sum(len(c) for c in chunks) == 900_000
+
+
+def test_cas_json_sub_manifest(cas_tmp):
+    sub = {"type": "sub_manifest", "chunk_hashes": ["abc"], "merkle_root": "x"}
+    cid = write_json_to_cas(sub, cas_tmp)
+    loaded = read_json_from_cas(cid, cas_tmp)
+    assert loaded["chunk_hashes"] == ["abc"]
+    ref = {"id": cid, "type": "local_cas"}
+    assert _resolve_sub_manifest(ref)["chunk_hashes"] == ["abc"]
 
 
 def test_cdc_deterministic():
