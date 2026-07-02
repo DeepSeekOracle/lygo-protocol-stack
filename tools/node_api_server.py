@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -302,8 +303,35 @@ class Handler(BaseHTTPRequestHandler):
                 int(body.get("vote", 9)),
                 mass,
             )
+            if out.get("ok"):
+                try:
+                    stack = get_stack()
+                    stack._anchor_stack_event("CONSENSUS", {"proposal_id": body.get("proposal_id"), "vote": out})
+                except Exception:
+                    pass
             code = 200 if out.get("ok") else 400
             self._json(code, out)
+            return
+        if path == "/anchor/event":
+            body = self._read_json_body()
+            event_type = str(body.get("event_type") or "GENERIC")
+            payload = body.get("payload") if isinstance(body.get("payload"), dict) else body
+            stack = get_stack()
+            stack._anchor_stack_event(event_type, payload)
+            if str(ROOT / "stack") not in sys.path:
+                sys.path.insert(0, str(ROOT / "stack"))
+            from lygo_stack_anchor import get_orchestrator
+
+            drained = get_orchestrator().drain_queue(max_jobs=4)
+            self._json(200, {"ok": True, "signature": "Δ9Φ963-ANCHOR-v1", "processed": drained})
+            return
+        if path == "/anchor/drain":
+            if str(ROOT / "stack") not in sys.path:
+                sys.path.insert(0, str(ROOT / "stack"))
+            from lygo_stack_anchor import get_orchestrator
+
+            drained = get_orchestrator().drain_queue()
+            self._json(200, {"ok": True, "drained": drained})
             return
         if path == "/gossip/scatter":
             body = self._read_json_body()

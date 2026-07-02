@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "Δ9Φ963-PHASE7-v1.0: full stack sync — P0-P7 HAIP, attestation, mesh, audits PASS",
+        "Δ9Φ963-ANCHOR-ULTIMATE: P0-P9 SLM + immutable anchor layer, lattice ALIGNED",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)

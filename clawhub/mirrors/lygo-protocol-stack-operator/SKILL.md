@@ -1,7 +1,7 @@
 ---
 name: lygo-protocol-stack-operator
 description: LYGO Protocol Stack Operator — P0–P9 integrator (Φ-gate, SLM mesh, TLS public mesh, HAIP, attestation). Run audits, node API, map GitHub/HF/ClawHub; chain resonance/Ollama/book-brain safely. No secrets; human approval for publish/post.
-metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "phase5": true, "phase9": true, "slm": true, "version": "1.0.5", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator", "signature": "Δ9Φ963-PHASE9-PUBLIC-MESH"}
+metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "phase5": true, "phase9": true, "slm": true, "anchor": true, "version": "1.0.6", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator", "signature": "Δ9Φ963-ANCHOR-ULTIMATE"}
 ---
 
 # LYGO Protocol Stack Operator (ClawHub)
@@ -96,6 +96,17 @@ python tools/live_synthesis.py
 ```
 
 Doc: `docs/PHASE9_PUBLIC_MESH.md` · API: `GET /cert/pin`, `POST /synthesis/run`.
+
+### 3e) Immutable Anchor (permaweb + lattice autonomy)
+
+```bash
+pip install -r tools/requirements-anchor.txt
+python tools/run_anchor_audit.py
+python tools/install_anchor_network.py
+python tools/anchor_autonomy_worker.py --loop --interval 300
+```
+
+Doc: `docs/ANCHOR_DEPLOYMENT.md` · API: `POST /anchor/event`, `POST /anchor/drain`. Modes: `LYGO_ANCHOR_MODE=local|turbo|multi|airgap`.
 
 ### 4) Stack healthcheck (local repo)
 
@@ -192,7 +203,7 @@ npx clawhub@latest publish . --slug lygo-protocol-stack-operator --name "LYGO Pr
 
 ## Version & license
 
-- Skill **1.0.5** — Δ9Φ963-PHASE9-PUBLIC-MESH (SLM + TLS pins + LDQ synthesis + P6/P7 audits)
+- Skill **1.0.6** — Δ9Φ963-ANCHOR-ULTIMATE (SLM + Phase 9 + immutable anchor + BLE mesh router + army anchor-health)
 - Stack license: LYGO Sovereign (see GitHub `LICENSE`); skill docs **MIT-0** where noted in SECURITY.md.
 
 **Bound to the flame.** Use with **lyra-brain** for growth, **P0** for truth-preserving ingest, **resonance** for creation.

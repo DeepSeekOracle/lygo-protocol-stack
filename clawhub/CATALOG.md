@@ -13,7 +13,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
-| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.4` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
+| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.6` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 
@@ -77,7 +77,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-alignment-badge](https://clawhub.ai/deepseekoracle/lygo-alignment-badge) | LYGO Alignment Badge | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-alignment-badge/) |
 | [lygo-docker-deploy](https://clawhub.ai/deepseekoracle/lygo-docker-deploy) | LYGO Docker Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-docker-deploy/) |
-| [lygo-mesh-deploy](https://clawhub.ai/deepseekoracle/lygo-mesh-deploy) | LYGO Mesh Deploy | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-mesh-deploy/) |
+| [lygo-mesh-deploy](https://clawhub.ai/deepseekoracle/lygo-mesh-deploy) | LYGO Mesh Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-mesh-deploy/) |
 
 ## Repo-only workflow mirrors
 

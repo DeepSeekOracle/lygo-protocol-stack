@@ -271,6 +271,20 @@ def main() -> int:
     except Exception as exc:
         all_ok &= check("public pages verify", False, str(exc))
 
+    for label, rel in [
+        ("anchor lygo_anchor tool", "tools/lygo_anchor.py"),
+        ("anchor stack bridge", "stack/lygo_stack_anchor.py"),
+        ("anchor deployment doc", "docs/ANCHOR_DEPLOYMENT.md"),
+    ]:
+        all_ok &= check(label, (REPO / rel).is_file())
+
+    anchor_audit = REPO / "tests" / "anchor_audit_last_run.json"
+    if anchor_audit.is_file():
+        ar = json.loads(anchor_audit.read_text(encoding="utf-8"))
+        all_ok &= check("anchor audit last run", bool(ar.get("all_pass")), f"ms={ar.get('duration_ms')}")
+    else:
+        check_warn("anchor audit last run", False, "run tools/run_anchor_audit.py")
+
     print("=" * 50)
     print("LATTICE", "ALIGNED" if all_ok else "NEEDS FIX")
     return 0 if all_ok else 1

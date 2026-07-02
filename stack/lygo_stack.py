@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -320,7 +321,7 @@ class LYGOProtocolStack:
             twin_harmonized = True
             if verdict in ("SOFTEN", "QUARANTINE") and (p4 or {}).get("skipped"):
                 p4 = self.ascension.self_repair_corruption("stagnation")
-        return {
+        report = {
             "stack_version": self.version,
             "query": query,
             "severity": sev,
@@ -337,6 +338,48 @@ class LYGOProtocolStack:
             "path": "text",
             "twin_harmonized": twin_harmonized,
         }
+        self._anchor_stack_event(
+            "CONSENSUS",
+            {
+                "proposal_id": f"ethical_{hash(query) & 0xFFFFFFFF:08x}",
+                "p3": p3,
+                "light_code": node.get("light_code"),
+                "verdict": str(p0.get("verdict")),
+                "ethical_mass": node.get("ethical_mass"),
+            },
+        )
+        return report
+
+    def _anchor_stack_event(self, event_type: str, payload: dict) -> None:
+        if os.environ.get("LYGO_ANCHOR_DISABLE", "").lower() in ("1", "true", "yes"):
+            return
+        try:
+            if str(ROOT / "stack") not in sys.path:
+                sys.path.insert(0, str(ROOT / "stack"))
+            from lygo_stack_anchor import get_orchestrator
+
+            orch = get_orchestrator()
+            if event_type == "CONSENSUS":
+                orch.on_consensus(payload)
+            elif event_type == "P7_BIOMETRIC":
+                orch.on_p7_snapshot(payload)
+            elif event_type == "SLM_MERGE":
+                orch.on_slm_merge(payload)
+            else:
+                orch.enqueue(event_type, payload)
+        except Exception:
+            pass
+
+    def anchor_slm_state(self) -> dict:
+        """Anchor current SLM gossip root (lattice-autonomous hook)."""
+        slm = self.slm
+        payload = slm.gossip_root()
+        try:
+            from lygo_stack_anchor import get_orchestrator
+
+            return get_orchestrator().on_slm_merge(payload)
+        except Exception as exc:
+            return {"success": False, "error": str(exc)}
 
     def process_falsifiable_vector(self, vector: dict, *, category: str = "") -> dict:
         """Run one Gemini audit vector through live P0–P5 (no mock phi/decisions)."""

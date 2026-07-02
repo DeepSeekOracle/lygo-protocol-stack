@@ -9,8 +9,8 @@
     },
     {
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
-      "status": 404,
-      "ok": false,
+      "status": 200,
+      "ok": true,
       "id": "stack_compass"
     },
     {
@@ -39,7 +39,7 @@
     }
   ],
   "stack_pages_live": true,
-  "stack_compass_live": false,
+  "stack_compass_live": true,
   "excavationpro_mirrors_live": true,
-  "duration_ms": 624
+  "duration_ms": 626
 }

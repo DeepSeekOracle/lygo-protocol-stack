@@ -1,5 +1,5 @@
 {
-  "signature": "Δ9Φ963-LINK-ARCHIVE-v1",
+  "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
   "updated_utc": "2026-07-01T12:00:00Z",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
@@ -9,7 +9,7 @@
   "entries": [
     {
       "id": "pages-stack-index",
-      "title": "LYGO Protocol Stack — public reference",
+      "title": "LYGO Protocol Stack \u2014 public reference",
       "role": "landing",
       "urls": {
         "live": "https://deepseekoracle.github.io/lygo-protocol-stack/",
@@ -21,7 +21,7 @@
     },
     {
       "id": "slm-interactive",
-      "title": "Sovereign Lattice Mesh — interactive UI",
+      "title": "Sovereign Lattice Mesh \u2014 interactive UI",
       "role": "slm-demo",
       "urls": {
         "live_excavationpro": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
@@ -48,28 +48,36 @@
       "id": "hf-space",
       "title": "LYGO Resonance Engine (HF Space)",
       "role": "gradio",
-      "urls": { "live": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" },
+      "urls": {
+        "live": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine"
+      },
       "since": "2026-07-01"
     },
     {
       "id": "hf-dataset",
       "title": "lygo-protocol-stack dataset",
       "role": "code-mirror",
-      "urls": { "live": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack" },
+      "urls": {
+        "live": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack"
+      },
       "since": "2026-07-01"
     },
     {
       "id": "clawhub-publisher",
       "title": "ClawHub deepseekoracle",
       "role": "skills",
-      "urls": { "live": "https://clawhub.ai/deepseekoracle" },
+      "urls": {
+        "live": "https://clawhub.ai/deepseekoracle"
+      },
       "since": "2026-07-01"
     },
     {
       "id": "resonance-docs",
       "title": "LYGORESONANCE docs",
       "role": "creative-docs",
-      "urls": { "live": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html" },
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html"
+      },
       "since": "2026-07-01"
     },
     {
@@ -88,30 +96,72 @@
       "id": "grokipedia",
       "title": "Grokipedia LYGO page",
       "role": "encyclopedia",
-      "urls": { "live": "https://grokipedia.com/page/lygo-protocol-stack" },
+      "urls": {
+        "live": "https://grokipedia.com/page/lygo-protocol-stack"
+      },
       "since": "2026-07-01"
+    },
+    {
+      "id": "lygo-anchor-system",
+      "title": "LYGO Immutable Anchor (local + permaweb)",
+      "role": "anchor-infra",
+      "urls": {
+        "docs": "docs/ANCHOR_DEPLOYMENT.md",
+        "audit_tool": "tools/run_anchor_audit.py"
+      },
+      "since": "2026-07-02"
+    },
+    {
+      "id": "permaweb-test_queue_drain",
+      "title": "Permaweb anchor \u2014 test_queue_drain",
+      "role": "anchor-test",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8d74a07e3d489e74195627c14c53cccd8ed5a69f5ae2383002b282f7263082d3.json"
+      },
+      "since": "2026-07-02"
     }
   ],
   "growth_log": [
     {
       "utc": "2026-07-02T00:00:00Z",
       "event": "integrated SovereignLatticeMesh.html into lygo-protocol-stack/docs; dual Pages mirror Excavationpro + stack",
-      "refs": ["slm-interactive"]
+      "refs": [
+        "slm-interactive"
+      ]
     },
     {
       "utc": "2026-07-02T00:45:00Z",
       "event": "github 02dbc53 + HF dataset 72d06ab space 9b8b89b; memory files LYRA_CORE/memory/2026-07-02.md",
-      "refs": ["slm-interactive", "hf-space", "hf-dataset"]
+      "refs": [
+        "slm-interactive",
+        "hf-space",
+        "hf-dataset"
+      ]
     },
     {
       "utc": "2026-07-02T01:00:00Z",
-      "event": "PUBLIC_SYSTEM_TEST: Excavationpro mirrors 200; stack Pages 404 until Settings→Pages→GitHub Actions; deploy-pages.yml broadened + .nojekyll",
-      "refs": ["slm-interactive", "biometric-harness", "pages-stack-index"]
+      "event": "PUBLIC_SYSTEM_TEST: Excavationpro mirrors 200; stack Pages 404 until Settings\u2192Pages\u2192GitHub Actions; deploy-pages.yml broadened + .nojekyll",
+      "refs": [
+        "slm-interactive",
+        "biometric-harness",
+        "pages-stack-index"
+      ]
     },
     {
       "utc": "2026-07-01T12:00:00Z",
       "event": "stack GitHub Pages enabled; verify_public_pages stack_pages_live true (index/slm/harness 200); public test green",
-      "refs": ["pages-stack-index", "slm-interactive", "biometric-harness"]
+      "refs": [
+        "pages-stack-index",
+        "slm-interactive",
+        "biometric-harness"
+      ]
+    },
+    {
+      "utc": "2026-07-02T06:41:06Z",
+      "event": "anchor test_queue_drain",
+      "refs": [
+        "permaweb-test_queue_drain"
+      ]
     }
   ]
 }

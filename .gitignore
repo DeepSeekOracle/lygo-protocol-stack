@@ -32,6 +32,12 @@ certs/
 tests/mesh_live/*.log
 tests/mesh_live/cluster.json
 
+# Anchor runtime (committed: docs + tools; not local CA blobs)
+data/anchors/*.json
+data/anchor_queue/*.json
+data/anchor_mesh.sqlite
+tools/lygo_control_center/workspace/anchor_receipt_*.json
+
 # Build artifacts
 *.o
 *.obj

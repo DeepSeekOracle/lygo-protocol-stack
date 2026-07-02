@@ -1,0 +1,58 @@
+{
+  "signature": "\u03949\u03a6963-ANCHOR-AUDIT-v1",
+  "all_pass": true,
+  "duration_ms": 10740,
+  "checks": [
+    {
+      "name": "anchor_profile",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "path_workspace",
+      "ok": true,
+      "detail": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors"
+    },
+    {
+      "name": "path_queue",
+      "ok": true,
+      "detail": "I:\\E Drive\\lygo-protocol-stack\\data\\anchor_queue"
+    },
+    {
+      "name": "path_receipts",
+      "ok": true,
+      "detail": "I:\\E Drive\\lygo-protocol-stack\\tools\\lygo_control_center\\workspace"
+    },
+    {
+      "name": "anchor_roundtrip",
+      "ok": true,
+      "detail": "LYGO-Local-CA"
+    },
+    {
+      "name": "mesh_router",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lygo_anchor.py",
+      "ok": true,
+      "detail": "tools\\lygo_anchor.py"
+    },
+    {
+      "name": "lygo_immutable_anchor.py",
+      "ok": true,
+      "detail": "tools\\lygo_immutable_anchor.py"
+    },
+    {
+      "name": "lygo_stack_anchor.py",
+      "ok": true,
+      "detail": "stack\\lygo_stack_anchor.py"
+    },
+    {
+      "name": "ANCHOR_DEPLOYMENT.md",
+      "ok": true,
+      "detail": "docs\\ANCHOR_DEPLOYMENT.md"
+    }
+  ],
+  "sample_anchor_url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/aa89e33698bef5b4841670ec13c48e75c25a4fe0bc39c5261e5a08052440b759.json"
+}

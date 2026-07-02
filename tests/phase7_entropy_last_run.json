@@ -1,20 +1,20 @@
 {
-  "timestamp": 1782969175.9089332,
+  "timestamp": 1782974640.5148246,
   "signature": "\u03949\u03a6963-PHASE7-v1.0",
   "ibi_extraction": {
     "signature": "\u03949\u03a6963-PHASE7-v1.0",
     "h_min": 0.2451,
     "von_neumann_bits": 31,
     "entropy_sufficient": false,
-    "seed_256": "478826d5736df1530dd7ac7d750a48a375de2d0e43f362b235b94e9f2242f39a",
+    "seed_256": "4848f28cbaaf443454b950089ef41975895435edd8c4f4c42fdc97fa38229891",
     "ibi_count": 32
   },
   "api_state_preview": {
-    "frequency": 639,
+    "frequency": 852,
     "ethical_vector": [
-      0.3022,
-      0.7088,
-      0.3283
+      0.7287,
+      0.6558,
+      0.6871
     ]
   }
 }

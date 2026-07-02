@@ -26,6 +26,7 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 | **Pilot ready** | ✅ | **HF Space:** Standard beats isolated + **Twin Gate Phase 3** (text / byte / compare tabs). Bundle: `protocol_stack/` + `text_semantic_gate.py`. **Repo:** `process_ethical_query()` + [PILOT_SCENARIO_PHASE2.md](./PILOT_SCENARIO_PHASE2.md) + [LYGO_LATTICE.md](./LYGO_LATTICE.md) |
 | **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |
 | **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
+| **Immutable Anchor** | ✅ | `tools/run_anchor_audit.py` → `tests/anchor_audit_last_run.json`; P1/SLM/stack hooks; `docs/ANCHOR_DEPLOYMENT.md` |
 
 ---
 
