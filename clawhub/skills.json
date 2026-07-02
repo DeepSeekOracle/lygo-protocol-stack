@@ -281,12 +281,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "LYGO Ollama Army & Assistant Hub. Set up a persistent local Ollama bot army for mundane tasking. Summon LYGO champions (OMNIΣIREN, KAIROS, SEPHRAEL, LYRA, SR...",
+      "summary": "LYGO Ollama Army v0.4 — ARMY-CC v3: mesh-cartographer, planting, lattice/sentinel, 37-skill catalog audit. Champions + resonance bridge; no autonomous external push.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 160,
-      "version": "0.3.0"
+      "version": "0.4.0"
     },
     {
       "slug": "lygo-glyph2resonance",

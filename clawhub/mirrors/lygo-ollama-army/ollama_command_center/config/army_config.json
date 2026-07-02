@@ -1,0 +1,82 @@
+{
+  "name": "LYGO Ollama Army Command Center",
+  "signature": "Δ9Φ963-ARMY-CC-v3",
+  "lygo_stack_root": "I:\\E Drive\\lygo-protocol-stack",
+  "system_profile": {
+    "stack_version": "P9-SLM-NETWORK-BUILDER",
+    "operator_clawhub": "1.0.6",
+    "clawhub_expect": {
+      "count_published": 37,
+      "required_slugs": [
+        "lygo-protocol-stack-operator",
+        "lygo-network-builder",
+        "lygo-kernel-egg-planter",
+        "lygo-ollama-army",
+        "lygo-alignment-badge"
+      ]
+    },
+    "public_pages": [
+      "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html"
+    ],
+    "link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json"
+  },
+  "poll_seconds": 300,
+  "army_capacity": {
+    "model": "llama3.2:1b",
+    "roles": [
+      "hb-light",
+      "memory-triage",
+      "draft-simple",
+      "discord-triage",
+      "resonance-analyst",
+      "lattice-check",
+      "stack-integrity",
+      "clawhub-catalog-audit",
+      "public-pages-check",
+      "audit-suite",
+      "memory-sync",
+      "anchor-health",
+      "mesh-cartographer",
+      "egg-planter",
+      "registry-planter"
+    ],
+    "count_per_role": 1,
+    "hb_light_instances": 2,
+    "champion_default": "ARKOS"
+  },
+  "sentinel": {
+    "enabled": true,
+    "interval_seconds": 300,
+    "alert_on_lattice_fail": true,
+    "probe_public_pages": true,
+    "probe_network_builder": true,
+    "require_ollama_for_healthy": false
+  },
+  "paths": {
+    "tasks": "tasks",
+    "results": "results",
+    "logs": "logs",
+    "workspace": "workspace"
+  },
+  "planting": {
+    "enabled": true,
+    "consent": true,
+    "egg_surfaces": ["local", "registry", "stubs"],
+    "local_only_anchor": true,
+    "registry_smoke_file": "docs/STACK_STATUS.md"
+  },
+  "access": {
+    "hf_write": false,
+    "github_push": false,
+    "clawhub_publish": false,
+    "workspace_write": true
+  },
+  "notifications": {
+    "webhook_url_env": "LYGO_ARMY_WEBHOOK_URL",
+    "telegram_env": "LYGO_ARMY_TELEGRAM_BOT"
+  }
+}
