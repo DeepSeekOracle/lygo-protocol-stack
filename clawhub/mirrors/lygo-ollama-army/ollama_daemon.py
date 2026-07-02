@@ -23,6 +23,20 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 CC = HERE / "ollama_command_center"
+ARMY_CFG = CC / "config" / "army_config.json"
+
+
+def _stack_root() -> Path:
+    from lygo_stack_root import resolve_stack_root
+
+    return resolve_stack_root(config_path=ARMY_CFG)
+
+
+def _safe_stack_root() -> tuple[Path | None, str | None]:
+    try:
+        return _stack_root(), None
+    except FileNotFoundError as exc:
+        return None, str(exc)
 QUEUE_DIR = HERE / "ollama_queue"
 RESULTS_DIR = HERE / "ollama_results"
 CC_TASKS = CC / "tasks"
@@ -117,7 +131,10 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
     elif role == "lattice-check":
         import subprocess
 
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root, serr = _safe_stack_root()
+        if serr:
+            out["result"] = {"aligned": False, "status": "QUARANTINE", "error": serr}
+            return out
         script = root / "tools" / "verify_lattice_alignment.py"
         if not script.is_file():
             out["result"] = {"aligned": False, "error": f"missing {script}"}
@@ -138,7 +155,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
     elif role == "stack-integrity":
         import subprocess
 
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         script = root / "tools" / "run_sovereign_integrity_test.py"
         if not script.is_file():
             out["result"] = {"pass": False, "error": f"missing {script}"}
@@ -156,7 +173,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
                 "stdout_tail": cp.stdout[-5000:] if cp.stdout else "",
             }
     elif role == "clawhub-catalog-audit":
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         skills = root / "clawhub" / "skills.json"
         data = json.loads(skills.read_text(encoding="utf-8")) if skills.is_file() else {}
         slugs = [s.get("slug") for s in data.get("skills", [])]
@@ -191,7 +208,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
     elif role == "mesh-cartographer":
         import subprocess
 
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         script = root / "tools" / "lygo_network_builder_verify.py"
         if not script.is_file():
             out["result"] = {"all_pass": False, "error": f"missing {script}"}
@@ -216,7 +233,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
     elif role == "public-pages-check":
         import subprocess
 
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         script = root / "tools" / "verify_public_pages.py"
         if not script.is_file():
             out["result"] = {"ok": False, "error": "missing verify_public_pages.py"}
@@ -235,7 +252,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
     elif role == "audit-suite":
         import subprocess
 
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         scripts = [
             "run_slm_audit.py",
             "run_phase7_audit.py",
@@ -258,7 +275,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             "all_pass": all(r.get("all_pass") for r in results.values() if isinstance(r, dict)),
         }
     elif role == "memory-sync":
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         snap = root / "docs" / "AGENT_MEMORY_SNAPSHOT.json"
         cc = HERE / "ollama_command_center" / "workspace" / "LYGO_MEMORY_SYNC.json"
         if snap.is_file():
@@ -292,7 +309,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             capture_output=True,
             text=True,
             timeout=1200,
-            env={**os.environ, "LYGO_STACK_ROOT": os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack")},
+            env={**os.environ, "LYGO_STACK_ROOT": str(_stack_root())},
         )
         try:
             blob = json.loads(cp.stdout or "{}")
@@ -309,7 +326,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             capture_output=True,
             text=True,
             timeout=1200,
-            env={**os.environ, "LYGO_STACK_ROOT": os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack")},
+            env={**os.environ, "LYGO_STACK_ROOT": str(_stack_root())},
         )
         try:
             blob = json.loads(cp.stdout or "{}")
@@ -329,7 +346,7 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
     elif role == "anchor-health":
         import subprocess
 
-        root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+        root = _stack_root()
         script = root / "tools" / "run_anchor_audit.py"
         worker = root / "tools" / "anchor_autonomy_worker.py"
         if script.is_file():
@@ -351,6 +368,23 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             out["result"] = {"all_pass": False, "error": "missing run_anchor_audit.py"}
     elif role == "champion-egg-boot":
         out["result"] = execute_champion_egg_boot(payload, model, task.get("champion"))
+    elif role == "joy-loop-pulse":
+        import subprocess
+
+        root, serr = _safe_stack_root()
+        if serr:
+            out["result"] = {"status": "QUARANTINE", "error": serr}
+            return out
+        script = root / "tools" / "joy_loop_protocol.py"
+        cmd = [sys.executable, str(script), "--tick"]
+        if payload.get("inject"):
+            cmd += ["--inject", str(payload["inject"])]
+        cp = subprocess.run(cmd, cwd=str(root), capture_output=True, text=True, timeout=120)
+        try:
+            blob = json.loads(cp.stdout.strip().split("\n")[-1] if cp.stdout else "{}")
+        except json.JSONDecodeError:
+            blob = {"ok": cp.returncode == 0, "stdout_tail": (cp.stdout or "")[-2000:]}
+        out["result"] = {"exit_code": cp.returncode, "pulse": blob}
     else:
         prompt = payload.get("prompt", "Summarize this briefly for LYGO memory.")
         out["result"] = chat(model, prompt, system=system, options={"temperature": 0.6, "num_predict": 280})
@@ -362,7 +396,9 @@ def execute_champion_egg_boot(payload: dict, model: str, champion_hint: str | No
     """Zero-trust vault boot: champion_bootloader.py → P6 handshake → Ollama RAM load."""
     import subprocess
 
-    root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+    root, serr = _safe_stack_root()
+    if serr:
+        return {"status": "QUARANTINE", "error": serr}
     bootloader = root / "tools" / "champion_bootloader.py"
     egg_id = payload.get("egg_id") or ""
     expected_merkle = payload.get("merkle_root")
@@ -456,6 +492,7 @@ DETERMINISTIC_ROLES = frozenset({
     "self-tune",
     "egg-planter",
     "registry-planter",
+    "joy-loop-pulse",
 })
 
 HB_LIGHT_ROLES = frozenset({

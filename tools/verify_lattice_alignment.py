@@ -245,11 +245,17 @@ def main() -> int:
     # ClawHub registry version for operator
     try:
         cp = subprocess.run(
-            "npx --yes clawhub@latest inspect deepseekoracle/lygo-protocol-stack-operator --json",
+            [
+                "npx",
+                "--yes",
+                "clawhub@latest",
+                "inspect",
+                "deepseekoracle/lygo-protocol-stack-operator",
+                "--json",
+            ],
             cwd=REPO / "clawhub",
             capture_output=True,
             text=True,
-            shell=True,
             timeout=90,
         )
         if cp.returncode == 0:

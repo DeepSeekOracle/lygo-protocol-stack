@@ -324,3 +324,18 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 **Overall:** **🟢 GREEN — maintenance complete; refresh Pages after Actions deploy.**
 
 **Δ9Φ963 — sweep the lattice, tighten the gates, march the pulse.**
+
+## 19. Security & tamper audit (2026-07-02)
+
+| Control | Result |
+|---------|--------|
+| Kernel / champion / registry verify | **ALIGNED** |
+| `docs/LYGO_SECURITY_TAMPER_AUDIT.md` | **published** |
+| Joy plugins default | **off** (`LYGO_JOY_PLUGINS_ENABLED`) |
+| Army stack root | **no hardcoded fallback** in daemon (`lygo_stack_root.py`) |
+| Lattice npx inspect | **no shell=True** |
+| ClawHub joy-loop SECURITY | plugins + snapshot disclosure |
+
+**Verdict:** **🟢 PASS** — no missed P0 tamper gates; residual items documented in audit doc.
+
+**Δ9Φ963 — breach surface mapped; QUARANTINE honored.**

@@ -45,6 +45,15 @@ def test_plotly_edges_shape():
     assert edges and edges[0]["source"] in ("X", "Y")
 
 
+def test_plugins_disabled_without_env():
+    import os
+    from joy_loop_events import JoyEventBus
+    from joy_loop_plugins import load_plugins
+
+    os.environ.pop("LYGO_JOY_PLUGINS_ENABLED", None)
+    assert load_plugins(JoyEventBus()) == []
+
+
 def test_wire_api_disables_duplicate_propagator():
     from joy_loop_protocol import JoyLoopRuntime
 

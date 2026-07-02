@@ -11,6 +11,10 @@ PLUGIN_DIR = ROOT / "data" / "joy_loop" / "plugins"
 
 
 def load_plugins(bus: Any) -> list[str]:
+    import os
+
+    if os.environ.get("LYGO_JOY_PLUGINS_ENABLED", "").lower() not in ("1", "true", "yes"):
+        return []
     loaded: list[str] = []
     if not PLUGIN_DIR.is_dir():
         PLUGIN_DIR.mkdir(parents=True, exist_ok=True)
