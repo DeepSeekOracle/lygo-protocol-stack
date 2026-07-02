@@ -73,6 +73,8 @@ python -m pytest tests/test_slm_mesh.py -q
 
 Doc: `docs/SOVEREIGN_LATTICE_MESH.md` — Merkle gossip, distributed mycelium, harmonic 3/6/9 consensus. Stack: `deploy_stack().slm`.
 
+**Interactive UI:** https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html · archive: `docs/LYGO_PUBLIC_LINK_ARCHIVE.json`
+
 ### 3c) Phase 6–7 — Attestation + HAIP
 
 ```bash

@@ -1,6 +1,6 @@
 {
   "signature": "Δ9Φ963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-02T00:00:00Z",
+  "updated_utc": "2026-07-02T00:45:00Z",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -83,6 +83,11 @@
       "utc": "2026-07-02T00:00:00Z",
       "event": "integrated SovereignLatticeMesh.html into lygo-protocol-stack/docs; dual Pages mirror Excavationpro + stack",
       "refs": ["slm-interactive"]
+    },
+    {
+      "utc": "2026-07-02T00:45:00Z",
+      "event": "github 02dbc53 + HF dataset 72d06ab space 9b8b89b; memory files LYRA_CORE/memory/2026-07-02.md",
+      "refs": ["slm-interactive", "hf-space", "hf-dataset"]
     }
   ]
 }
