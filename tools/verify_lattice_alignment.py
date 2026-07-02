@@ -99,6 +99,10 @@ def main() -> int:
         ("slm runtime", REPO / "stack" / "sovereign_lattice_mesh.py"),
         ("slm doc", REPO / "docs" / "SOVEREIGN_LATTICE_MESH.md"),
         ("slm audit tool", REPO / "tools" / "run_slm_audit.py"),
+        ("phase9 tls manager", REPO / "tools" / "tls_manager.py"),
+        ("phase9 ldq synthesis", REPO / "protocol8_ldq_synthesis" / "harmonic_gravity.py"),
+        ("phase9 audit tool", REPO / "tools" / "run_phase9_audit.py"),
+        ("phase9 public mesh doc", REPO / "docs" / "PHASE9_PUBLIC_MESH.md"),
     ]:
         all_ok &= check(key, path.is_file())
     slm_run = REPO / "tests" / "slm_audit_last_run.json"
@@ -110,6 +114,15 @@ def main() -> int:
             all_ok &= check("slm audit last run", False, str(exc))
     else:
         all_ok &= check("slm audit last run", False, "missing json")
+    p9_run = REPO / "tests" / "phase9_audit_last_run.json"
+    if p9_run.is_file():
+        try:
+            p9 = json.loads(p9_run.read_text(encoding="utf-8"))
+            all_ok &= check("phase9 audit last run", bool(p9.get("all_pass")), f"ms={p9.get('duration_ms')}")
+        except Exception as exc:
+            all_ok &= check("phase9 audit last run", False, str(exc))
+    else:
+        all_ok &= check("phase9 audit last run", False, "missing json")
     mesh_run = REPO / "tests" / "mesh_scale_last_run.json"
     if mesh_run.is_file():
         try:

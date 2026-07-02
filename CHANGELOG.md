@@ -1,5 +1,21 @@
 # Changelog — LYGO Protocol Stack
 
+## [Phase 9 Public Mesh] — 2026-07-01
+
+**Signature:** `Δ9Φ963-PHASE9-v1.0`
+
+### Added
+- `tools/tls_manager.py` — self-signed PKI, DER pin hashing, HTTPS context
+- `protocol6_quantum_attest/keylime_bridge.py` — Keylime quotes + simulator
+- `protocol8_ldq_synthesis/` — HarmonicGravity, FrictionCore, LYRASequencer
+- `tools/live_synthesis.py`, `tools/tpm_attestation.py`, `tools/run_phase9_audit.py`
+- Node API: `GET /cert/pin`, `POST /gossip/pin`, `POST /synthesis/run`, `--tls`
+- Docs: `PHASE9_PUBLIC_MESH.md`, `PHASE9_DEPLOYMENT_GUIDE.md`, `PHASE9_ARCHITECTURE.md`
+- `requirements-phase9.txt`
+
+### Changed
+- P6 measurement bundle includes `tpm_quote`; ethical gate verifies quote shape
+
 ## [SLM Sovereign Lattice Mesh] — 2026-07-01
 
 **Signature:** `Δ9Φ963-SLM-v1.0`

@@ -1,0 +1,42 @@
+{
+  "signature": "\u03949\u03a6963-PHASE9-v1.0",
+  "vectors": [
+    {
+      "id": "P9-01",
+      "pass": true,
+      "detail": "self-signed cert+key"
+    },
+    {
+      "id": "P9-02",
+      "pass": true
+    },
+    {
+      "id": "P9-03",
+      "pass": true
+    },
+    {
+      "id": "P9-04",
+      "pass": true,
+      "mode": "simulated"
+    },
+    {
+      "id": "P9-05",
+      "pass": true,
+      "bytes": 88244
+    },
+    {
+      "id": "P9-CLI-tls_manager.py",
+      "pass": true
+    },
+    {
+      "id": "P9-CLI-tpm_attestation.py",
+      "pass": true
+    },
+    {
+      "id": "P9-CLI-live_synthesis.py",
+      "pass": true
+    }
+  ],
+  "all_pass": true,
+  "duration_ms": 636
+}

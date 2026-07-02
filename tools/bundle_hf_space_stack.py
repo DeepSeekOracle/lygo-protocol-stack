@@ -15,6 +15,7 @@ INCLUDE_DIRS = [
     "stack",
     "protocol6_quantum_attest",
     "protocol7_human_ai_interface",
+    "protocol8_ldq_synthesis",
     "protocol0_nano_kernel/src/python",
     "protocol0_nano_kernel/fixtures",
     "protocol1_memory_mycelium/src/python",
@@ -60,6 +61,16 @@ INCLUDE_FILES = [
     "tools/distributed_mycelium.py",
     "tools/consensus_engine.py",
     "tools/run_slm_audit.py",
+    "docs/PHASE9_PUBLIC_MESH.md",
+    "docs/PHASE9_DEPLOYMENT_GUIDE.md",
+    "docs/PHASE9_ARCHITECTURE.md",
+    "tests/phase9_audit_last_run.json",
+    "tools/tls_manager.py",
+    "tools/tpm_attestation.py",
+    "tools/live_synthesis.py",
+    "tools/run_phase9_audit.py",
+    "requirements-phase9.txt",
+    "protocol6_quantum_attest/keylime_bridge.py",
 ]
 
 TWIN_GATE_FILES = [
@@ -109,7 +120,7 @@ def main() -> int:
             copy_rel(rel)
         (DEST / "TWIN_GATE_MODE.txt").write_text("Δ9Φ963-TWIN-GATE-PHASE3-v1\n", encoding="utf-8")
         (DEST / "PHASE2_COMMUNITY.txt").write_text("Δ9Φ963-PHASE2-DEPLOYMENT\n", encoding="utf-8")
-        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v6.1-SLM\n"
+        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v7.0-PHASE9\n"
     else:
         version = "Δ9Φ963-HF-STACK-BUNDLE-v2.0\n"
     (DEST / "BUNDLE_VERSION.txt").write_text(version, encoding="utf-8")

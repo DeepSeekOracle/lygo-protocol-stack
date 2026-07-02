@@ -34,6 +34,23 @@ def _stack():
 
 
 _STACK = None
+_TLS = None
+
+
+def get_tls_manager():
+    global _TLS
+    if _TLS is None:
+        sys_path_tools = str(ROOT / "tools")
+        if sys_path_tools not in __import__("sys").path:
+            __import__("sys").path.insert(0, sys_path_tools)
+        from tls_manager import TLSCertificateManager
+
+        node = os.environ.get("LYGO_NODE_ID", "DOCKER_NODE")
+        cert_dir = os.environ.get("LYGO_CERT_DIR", str(ROOT / "certs" / node))
+        _TLS = TLSCertificateManager(node, cert_dir)
+        if not _TLS.cert_file.is_file():
+            _TLS.generate_self_signed()
+    return _TLS
 
 
 def get_stack():
@@ -181,6 +198,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/slm/snapshot":
             self._json(200, get_stack().slm.snapshot())
             return
+        if path == "/cert/pin":
+            self._json(200, get_tls_manager().pin_payload())
+            return
         if path.startswith("/mycelium/fragment/"):
             frag_id = path.rsplit("/", 1)[-1]
             frag = get_stack().slm.mycelium.get_fragment(frag_id)
@@ -230,6 +250,10 @@ class Handler(BaseHTTPRequestHandler):
                     "POST /consensus/vote",
                     "GET /consensus/result/{id}",
                     "GET /slm/snapshot",
+                    "GET /cert/pin",
+                    "POST /cert/pin",
+                    "POST /gossip/pin",
+                    "POST /synthesis/run",
                 ],
             },
         )
@@ -309,6 +333,35 @@ class Handler(BaseHTTPRequestHandler):
                 },
             )
             return
+        if path in ("/cert/pin", "/gossip/pin"):
+            body = self._read_json_body()
+            node_id = str(body.get("node_id") or body.get("from") or "")
+            pin = str(body.get("pin") or "")
+            expiry = body.get("expiry")
+            if not node_id or not pin:
+                self._json(400, {"error": "node_id and pin required"})
+                return
+            mgr = get_tls_manager()
+            mgr.ingest_peer_pin(node_id, pin, str(expiry) if expiry else None)
+            self._json(200, {"ok": True, "node_id": node_id, "signature": "Δ9Φ963-PHASE9-TLS-v1.0"})
+            return
+        if path == "/synthesis/run":
+            body = self._read_json_body()
+            seed = body.get("seed") or body.get("seed_hex")
+            if not seed:
+                live = self._p7_live_seed()
+                seed = live.get("seed") or live.get("seed_hex")
+            out_rel = str(body.get("output") or "tools/lygo_control_center/workspace/synthesis_output.wav")
+            duration = float(body.get("duration_sec") or body.get("duration") or 5.0)
+            import sys as _sys
+
+            if str(ROOT / "tools") not in _sys.path:
+                _sys.path.insert(0, str(ROOT / "tools"))
+            from live_synthesis import generate_audio_from_seed
+
+            result = generate_audio_from_seed(str(seed), ROOT / out_rel, duration_sec=duration)
+            self._json(200, result)
+            return
         if path == "/device/register":
             body = self._read_json_body()
             import sys
@@ -331,9 +384,21 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8787)
+    ap.add_argument("--tls", action="store_true", help="Serve HTTPS with node certificate")
+    ap.add_argument("--cert-dir", default=None, help="Certificate directory (sets LYGO_CERT_DIR)")
     args = ap.parse_args()
+    if args.cert_dir:
+        os.environ["LYGO_CERT_DIR"] = args.cert_dir
     srv = HTTPServer((args.host, args.port), Handler)
-    print(f"LYGO node API on http://{args.host}:{args.port}")
+    scheme = "http"
+    if args.tls:
+        import ssl
+
+        mgr = get_tls_manager()
+        ctx = mgr.ssl_server_context()
+        srv.socket = ctx.wrap_socket(srv.socket, server_side=True)
+        scheme = "https"
+    print(f"LYGO node API on {scheme}://{args.host}:{args.port}")
     srv.serve_forever()
     return 0
 

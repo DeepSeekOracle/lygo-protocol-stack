@@ -8,6 +8,7 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
+from .keylime_bridge import KeylimeAttestation
 from .measurement import MeasurementCollector, P6_VERSION, get_p0_hash, verify_p0_hash_against_golden
 
 PHI_MIN = 0.618
@@ -25,8 +26,8 @@ def _signing_key(measurement_digest: str, node_id: str, puf_fp: str) -> bytes:
 
 class AttestationService:
     def __init__(self, collector: MeasurementCollector | None = None, *, node_id: str = "LYGO_NODE"):
-        self.collector = collector or MeasurementCollector()
         self.node_id = node_id
+        self.collector = collector or MeasurementCollector(node_id=node_id)
 
     def generate_badge(self) -> dict[str, Any]:
         m = self.collector.collect()
@@ -97,6 +98,9 @@ class AttestationService:
             return False
         tpm = measurement.get("tpm") or {}
         if tpm.get("mode") == "stub" and not measurement.get("puf_fingerprint"):
+            return False
+        quote = measurement.get("tpm_quote")
+        if quote is not None and not KeylimeAttestation.verify_quote(quote if isinstance(quote, dict) else None):
             return False
         return True
 

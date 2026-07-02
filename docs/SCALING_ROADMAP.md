@@ -11,6 +11,7 @@
 | **6** | Hardware attest | **Live (software)** | `protocol6_quantum_attest/` — measurement, signed badges, `/attestation/*`; Keylime/FPGA pending |
 | **7** | Human-AI Interface (HAIP) | **Live (simulated)** | `protocol7_human_ai_interface/` — devices, pipeline, ethical map, IBI entropy; BLE pending |
 | **SLM** | Sovereign Lattice Mesh | **Live (local)** | Merkle gossip + distributed mycelium + harmonic consensus — `docs/SOVEREIGN_LATTICE_MESH.md` |
+| **9** | Public mesh | **Live (local HTTPS)** | TLS pinning, Keylime quote bridge, LDQ live synthesis — `docs/PHASE9_PUBLIC_MESH.md` |
 
 ## Phase 2–4 operator checklist
 

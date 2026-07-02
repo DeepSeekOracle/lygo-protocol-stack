@@ -10,6 +10,7 @@ from typing import Any
 
 from .puf_arbiter import puf_challenge, puf_fingerprint
 from .secure_boot import measure_boot_chain
+from .keylime_bridge import KeylimeAttestation
 from .tpm_interface import check_tpm, read_pcr_stub, tpm_status
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,10 +35,15 @@ def verify_p0_hash_against_golden(measured: str | None = None) -> bool:
 class MeasurementCollector:
     """Collect TPM, PUF, boot, firmware stub, and P0 golden hash."""
 
+    def __init__(self, *, node_id: str = "LYGO_NODE") -> None:
+        self.node_id = node_id
+
     def collect(self, *, puf_challenge_id: str | None = None) -> dict[str, Any]:
         boot = measure_boot_chain()
         puf = puf_challenge(puf_challenge_id)
         pcrs = read_pcr_stub()
+        keylime = KeylimeAttestation(self.node_id)
+        tpm_quote = keylime.get_quote()
         p0 = get_p0_hash()
         firmware_stub = hashlib.sha256(
             json.dumps({"fw": "lygo-p6-stub", "p0": p0}, sort_keys=True).encode()
@@ -54,6 +60,8 @@ class MeasurementCollector:
             "firmware_hash": firmware_stub,
             "puf": puf,
             "puf_fingerprint": puf_fingerprint(),
+            "tpm_quote": tpm_quote,
+            "tpm_quote_valid": KeylimeAttestation.verify_quote(tpm_quote),
         }
         canonical = json.dumps(bundle, sort_keys=True, default=str).encode("utf-8")
         bundle["measurement_digest"] = hashlib.sha256(canonical).hexdigest()
