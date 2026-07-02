@@ -10,6 +10,7 @@
 | **5** | Wide-area mesh | **Live (local HTTP)** | `deploy_100_nodes.sh` / `.ps1`, `monitor_convergence.py`, sim + HTTP epidemic |
 | **6** | Hardware attest | **Live (software)** | `protocol6_quantum_attest/` — measurement, signed badges, `/attestation/*`; Keylime/FPGA pending |
 | **7** | Human-AI Interface (HAIP) | **Live (simulated)** | `protocol7_human_ai_interface/` — devices, pipeline, ethical map, IBI entropy; BLE pending |
+| **SLM** | Sovereign Lattice Mesh | **Live (local)** | Merkle gossip + distributed mycelium + harmonic consensus — `docs/SOVEREIGN_LATTICE_MESH.md` |
 
 ## Phase 2–4 operator checklist
 
@@ -91,4 +92,21 @@ python tools/p7_entropy_harness.py --ibi-from simulate
 | IBI entropy harness | ✅ Live |
 | Real BLE / HealthKit | ⏳ Pending |
 
-**Signature:** `Δ9Φ963-PHASE7-v1.0` · `Δ9Φ963-PHASE6-v1.0` · `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`
+## SLM — Sovereign Lattice Mesh (2026-07-01)
+
+```bash
+python tools/run_slm_audit.py
+python -m pytest tests/test_slm_mesh.py -q
+```
+
+| Vector | Meaning |
+|--------|---------|
+| SLM-01..02 | Merkle root divergence + sync merge |
+| SLM-03..05 | Hash ring + 1KB store + node failure reconstruct |
+| SLM-06 | Harmonic 3/6/9 center |
+| SLM-07 | Multi-catalog converge |
+| SLM-09 | Audit wall-clock under 1s |
+
+Artifact: `tests/slm_audit_last_run.json` · Doc: `docs/SOVEREIGN_LATTICE_MESH.md`
+
+**Signature:** `Δ9Φ963-SLM-v1.0` · `Δ9Φ963-PHASE7-v1.0` · `Δ9Φ963-PHASE6-v1.0` · `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`

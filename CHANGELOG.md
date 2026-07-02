@@ -1,5 +1,22 @@
 # Changelog — LYGO Protocol Stack
 
+## [SLM Sovereign Lattice Mesh] — 2026-07-01
+
+**Signature:** `Δ9Φ963-SLM-v1.0`
+
+### Added
+- `stack/merkle_sync.py` — LygoMerkleTree anti-entropy gossip + `sync_round`
+- `stack/distributed_mycelium_mesh.py` — consistent hash ring, 12/10 erasure, backup replication
+- `stack/harmonic_consensus_mesh.py` — 3/6/9 harmonic center + proposal manager
+- `stack/sovereign_lattice_mesh.py` — runtime converge + snapshot
+- `stack/lygo_stack.py` — `slm` property wired to federation gossip
+- `tools/node_api_server.py` — `/gossip/*`, `/mycelium/*`, `/consensus/*`, `/slm/snapshot`
+- `tools/run_slm_audit.py`, `tests/test_slm_mesh.py`, `docs/SOVEREIGN_LATTICE_MESH.md`
+
+### Fixed
+- Mycelium `store()` replicates fragments to backup ring nodes (reconstruct after single-node failure)
+- Harmonic engine π-axis tie-break → ethical-mass-weighted 9>6>3 (audit SLM-06)
+
 ## [P6/P7 Polish] — 2026-07-02
 
 **Signatures:** `Δ9Φ963-P6-POLISH-v1.0` · `Δ9Φ963-PHASE7-POLISH-v1.0`

@@ -116,6 +116,7 @@ class LYGOProtocolStack:
         self._measurement = None
         self._attestation = None
         self._haip = None
+        self._slm = None
 
     def _phase7(self):
         if self._haip is None:
@@ -163,6 +164,22 @@ class LYGOProtocolStack:
     @property
     def haip(self):
         return self._phase7()
+
+    def _ensure_slm(self):
+        if self._slm is None:
+            from sovereign_lattice_mesh import SovereignLatticeMesh
+
+            self._slm = SovereignLatticeMesh(self._sovereign_id, ROOT)
+            self._slm.register_mesh_node(self._sovereign_id)
+            for peer in self.federation.registry.list_peers():
+                self._slm.register_mesh_node(str(peer.get("node_id")))
+            snap = self.federation.snapshot()
+            self._slm.rebuild_from_gossip_log(snap.get("gossip_recent") or [])
+        return self._slm
+
+    @property
+    def slm(self):
+        return self._ensure_slm()
 
     def _phase6(self):
         if self._attestation is None:

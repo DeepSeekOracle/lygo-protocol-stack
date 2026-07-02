@@ -162,12 +162,44 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path.startswith("/badge/"):
             node_id = path.split("/")[-1]
+            slm = get_stack().slm
+            if node_id in slm.peer_badges:
+                self._json(200, {"node_id": node_id, "badge": slm.peer_badges[node_id]})
+                return
             snap = get_stack().federation.snapshot()
             for entry in reversed(snap.get("gossip_recent") or []):
                 if str(entry.get("node_id")) == node_id:
                     self._json(200, entry.get("badge") or entry)
                     return
             self._json(404, {"error": "node badge not in gossip log", "node_id": node_id})
+            return
+        if path == "/gossip/root":
+            slm = get_stack().slm
+            slm.rebuild_from_gossip_log(get_stack().federation.snapshot().get("gossip_recent") or [])
+            self._json(200, slm.gossip_root())
+            return
+        if path == "/slm/snapshot":
+            self._json(200, get_stack().slm.snapshot())
+            return
+        if path.startswith("/mycelium/fragment/"):
+            frag_id = path.rsplit("/", 1)[-1]
+            frag = get_stack().slm.mycelium.get_fragment(frag_id)
+            if frag:
+                self._json(200, frag)
+            else:
+                self._json(404, {"error": "fragment not found", "fragment_id": frag_id})
+            return
+        if path.startswith("/mycelium/reconstruct/"):
+            data_id = path.rsplit("/", 1)[-1]
+            self._json(200, get_stack().slm.mycelium.reconstruct(data_id))
+            return
+        if path.startswith("/consensus/result/"):
+            pid = path.rsplit("/", 1)[-1]
+            res = get_stack().slm.proposals.get_result(pid)
+            if res:
+                self._json(200, res)
+            else:
+                self._json(404, {"error": "unknown proposal", "proposal_id": pid})
             return
         self._json(
             404,
@@ -189,6 +221,15 @@ class Handler(BaseHTTPRequestHandler):
                     "/gossip",
                     "POST /gossip/badge",
                     "POST /gossip/scatter",
+                    "GET /gossip/root",
+                    "POST /gossip/sync",
+                    "POST /mycelium/store",
+                    "GET /mycelium/fragment/{id}",
+                    "GET /mycelium/reconstruct/{data_id}",
+                    "POST /consensus/propose",
+                    "POST /consensus/vote",
+                    "GET /consensus/result/{id}",
+                    "GET /slm/snapshot",
                 ],
             },
         )
@@ -200,8 +241,45 @@ class Handler(BaseHTTPRequestHandler):
             badge = body.get("badge") or body
             from_node = body.get("from") or badge.get("node_id") or "remote"
             stack = get_stack()
-            msg = stack.federation.gossip.publish_badge(str(from_node), badge if isinstance(badge, dict) else {"raw": badge})
-            self._json(200, {"ok": True, "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1", "gossip": msg})
+            badge_obj = badge if isinstance(badge, dict) else {"raw": badge}
+            msg = stack.federation.gossip.publish_badge(str(from_node), badge_obj)
+            stack.slm.ingest_gossip_badge(str(from_node), badge_obj)
+            self._json(200, {"ok": True, "signature": "Δ9Φ963-SLM-v1.0", "gossip": msg, "merkle_root": stack.slm.merkle.get_root_hash()})
+            return
+        if path == "/gossip/sync":
+            body = self._read_json_body()
+            slm = get_stack().slm
+            if isinstance(body.get("peer_badges"), dict):
+                slm.merge_remote_badges(body["peer_badges"])
+            self._json(200, slm.gossip_sync(body))
+            return
+        if path == "/mycelium/store":
+            body = self._read_json_body()
+            data_id = str(body.get("data_id") or "memory_auto")
+            raw = body.get("data") or body.get("payload") or ""
+            out = get_stack().slm.mycelium.store(data_id, raw)
+            self._json(200, out)
+            return
+        if path == "/consensus/propose":
+            body = self._read_json_body()
+            prop = get_stack().slm.proposals.propose(
+                str(body.get("author") or get_stack()._sovereign_id),
+                str(body.get("title") or "proposal"),
+                str(body.get("description") or ""),
+            )
+            self._json(200, prop)
+            return
+        if path == "/consensus/vote":
+            body = self._read_json_body()
+            mass = float(body.get("ethical_mass") or 1.0)
+            out = get_stack().slm.proposals.vote(
+                str(body.get("proposal_id")),
+                str(body.get("node_id") or os.environ.get("LYGO_NODE_ID", "NODE")),
+                int(body.get("vote", 9)),
+                mass,
+            )
+            code = 200 if out.get("ok") else 400
+            self._json(code, out)
             return
         if path == "/gossip/scatter":
             body = self._read_json_body()

@@ -93,8 +93,23 @@ def main() -> int:
         ("p6 hardened verify", REPO / "tools" / "verify_attestation_hardened.py"),
         ("p7 ble ingest", REPO / "tools" / "live_ble_telemetry_ingest.py"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
+        ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
+        ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),
+        ("slm harmonic consensus", REPO / "stack" / "harmonic_consensus_mesh.py"),
+        ("slm runtime", REPO / "stack" / "sovereign_lattice_mesh.py"),
+        ("slm doc", REPO / "docs" / "SOVEREIGN_LATTICE_MESH.md"),
+        ("slm audit tool", REPO / "tools" / "run_slm_audit.py"),
     ]:
         all_ok &= check(key, path.is_file())
+    slm_run = REPO / "tests" / "slm_audit_last_run.json"
+    if slm_run.is_file():
+        try:
+            sr = json.loads(slm_run.read_text(encoding="utf-8"))
+            all_ok &= check("slm audit last run", bool(sr.get("all_pass")), f"ms={sr.get('duration_ms')}")
+        except Exception as exc:
+            all_ok &= check("slm audit last run", False, str(exc))
+    else:
+        all_ok &= check("slm audit last run", False, "missing json")
     mesh_run = REPO / "tests" / "mesh_scale_last_run.json"
     if mesh_run.is_file():
         try:

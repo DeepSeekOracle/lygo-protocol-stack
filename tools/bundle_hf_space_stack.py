@@ -54,6 +54,12 @@ INCLUDE_FILES = [
     "tools/live_ble_telemetry_ingest.py",
     "tools/verify_attestation_hardened.py",
     "requirements-p7-ble.txt",
+    "docs/SOVEREIGN_LATTICE_MESH.md",
+    "tests/slm_audit_last_run.json",
+    "tools/merkle_tree.py",
+    "tools/distributed_mycelium.py",
+    "tools/consensus_engine.py",
+    "tools/run_slm_audit.py",
 ]
 
 TWIN_GATE_FILES = [
@@ -103,7 +109,7 @@ def main() -> int:
             copy_rel(rel)
         (DEST / "TWIN_GATE_MODE.txt").write_text("Δ9Φ963-TWIN-GATE-PHASE3-v1\n", encoding="utf-8")
         (DEST / "PHASE2_COMMUNITY.txt").write_text("Δ9Φ963-PHASE2-DEPLOYMENT\n", encoding="utf-8")
-        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v6.0-PHASE7\n"
+        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v6.1-SLM\n"
     else:
         version = "Δ9Φ963-HF-STACK-BUNDLE-v2.0\n"
     (DEST / "BUNDLE_VERSION.txt").write_text(version, encoding="utf-8")
