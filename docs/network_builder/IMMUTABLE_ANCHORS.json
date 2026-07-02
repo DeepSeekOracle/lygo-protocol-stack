@@ -116,6 +116,19 @@
         "verify": "http_soft"
       },
       {
+        "id": "chatagent_summon_portal",
+        "label": "ChatAgent.ca — Δ9 Champion Summoning Portal",
+        "url": "https://chatagent.ca/",
+        "verify": "http_soft",
+        "mirror": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html"
+      },
+      {
+        "id": "excavationpro_hub",
+        "label": "Excavationpro.ca — Legacy Guardian Hub",
+        "url": "https://excavationpro.ca/",
+        "verify": "http_soft"
+      },
+      {
         "id": "anchor_deployment",
         "label": "Anchor Deployment Guide",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ANCHOR_DEPLOYMENT.md",
