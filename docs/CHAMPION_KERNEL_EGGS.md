@@ -24,7 +24,7 @@ python tools/champion_bootloader.py --council
 
 ## Ollama Army
 
-`champion_egg_planter.py` drops `champion-seed-*.task.json` into `lygo-ollama-army` queue with `action: champion_egg_boot`.
+`champion_egg_planter.py` drops `champion-seed-*.task.json` with **`role: champion-egg-boot`** (not hb-light). The `champion-egg-boot` daemon shells `champion_bootloader.py`, verifies Merkle, runs the P6 handshake, then loads the vault `system_prompt` into Ollama.
 
 ## ClawHub
 

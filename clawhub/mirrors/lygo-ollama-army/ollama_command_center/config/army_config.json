@@ -1,6 +1,6 @@
 {
   "name": "LYGO Ollama Army Command Center",
-  "signature": "Δ9Φ963-ARMY-CC-v3",
+  "signature": "\u03949\u03a6963-ARMY-CC-v3",
   "lygo_stack_root": "I:\\E Drive\\lygo-protocol-stack",
   "system_profile": {
     "stack_version": "P9-SLM-NETWORK-BUILDER",
@@ -28,6 +28,7 @@
   "army_capacity": {
     "model": "llama3.2:1b",
     "roles": [
+      "champion-egg-boot",
       "hb-light",
       "memory-triage",
       "draft-simple",
@@ -41,11 +42,13 @@
       "memory-sync",
       "anchor-health",
       "mesh-cartographer",
+      "self-tune",
       "egg-planter",
       "registry-planter"
     ],
     "count_per_role": 1,
     "hb_light_instances": 2,
+    "champion_egg_boot_instances": 3,
     "champion_default": "ARKOS"
   },
   "sentinel": {
@@ -65,7 +68,11 @@
   "planting": {
     "enabled": true,
     "consent": true,
-    "egg_surfaces": ["local", "registry", "stubs"],
+    "egg_surfaces": [
+      "local",
+      "registry",
+      "stubs"
+    ],
     "local_only_anchor": true,
     "registry_smoke_file": "docs/STACK_STATUS.md"
   },
@@ -78,5 +85,16 @@
   "notifications": {
     "webhook_url_env": "LYGO_ARMY_WEBHOOK_URL",
     "telegram_env": "LYGO_ARMY_TELEGRAM_BOT"
+  },
+  "self_tune": {
+    "enabled": true,
+    "max_queued_tasks": 30,
+    "auto_enable_planting": true,
+    "pause_planting_on_lattice_fail": true,
+    "sync_clawhub_expect_from_stack": true
+  },
+  "haven_star_chart": {
+    "enabled": true,
+    "rebuild_on_self_tune": true
   }
 }

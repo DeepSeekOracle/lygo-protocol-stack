@@ -37,6 +37,7 @@ def launch_daemons_from_config(cfg: dict) -> list[subprocess.Popen]:
     count = int(cap.get("count_per_role", 1))
     roles: list[str] = list(cap.get("roles") or ["hb-light", "lattice-check"])
     hb_n = int(cap.get("hb_light_instances", 1))
+    boot_n = int(cap.get("champion_egg_boot_instances", 1))
     procs: list[subprocess.Popen] = []
     env = os.environ.copy()
     stack = cfg.get("lygo_stack_root")
@@ -45,7 +46,12 @@ def launch_daemons_from_config(cfg: dict) -> list[subprocess.Popen]:
 
     launched_roles: list[str] = []
     for role in roles:
-        n = hb_n if role == "hb-light" else count
+        if role == "hb-light":
+            n = hb_n
+        elif role == "champion-egg-boot":
+            n = boot_n
+        else:
+            n = count
         for _ in range(max(1, n)):
             cmd = [sys.executable, "-B", str(DAEMON), "--role", role, "--model", model, "--poll", "6.0"]
             if champion and role in ("hb-light", "memory-triage", "draft-simple"):
@@ -74,6 +80,7 @@ def main() -> int:
             subprocess.run([sys.executable, str(SENTINEL)], check=False, timeout=240)
             now = time.time()
             if now - last_cron >= INTERVAL_CRON:
+                subprocess.run([sys.executable, str(HERE / "army_self_tune.py")], check=False, timeout=120)
                 subprocess.run([sys.executable, str(CRON)], check=False, timeout=600)
                 last_cron = now
             time.sleep(INTERVAL_SENTINEL)

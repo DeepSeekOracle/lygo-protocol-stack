@@ -316,6 +316,16 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
         except json.JSONDecodeError:
             blob = {"raw": (cp.stdout or "")[-3000:]}
         out["result"] = {"exit_code": cp.returncode, "report": blob}
+    elif role == "self-tune":
+        import subprocess
+
+        script = HERE / "ollama_command_center" / "scripts" / "army_self_tune.py"
+        cp = subprocess.run([sys.executable, str(script)], cwd=str(HERE), capture_output=True, text=True, timeout=180)
+        try:
+            blob = json.loads(cp.stdout or "{}")
+        except json.JSONDecodeError:
+            blob = {"raw": (cp.stdout or "")[-2000:]}
+        out["result"] = {"exit_code": cp.returncode, "report": blob}
     elif role == "anchor-health":
         import subprocess
 
@@ -339,11 +349,99 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             out["result"] = {"all_pass": blob.get("all_pass"), "exit_code": cp.returncode, "checks": len(blob.get("checks", []))}
         else:
             out["result"] = {"all_pass": False, "error": "missing run_anchor_audit.py"}
+    elif role == "champion-egg-boot":
+        out["result"] = execute_champion_egg_boot(payload, model, task.get("champion"))
     else:
         prompt = payload.get("prompt", "Summarize this briefly for LYGO memory.")
         out["result"] = chat(model, prompt, system=system, options={"temperature": 0.6, "num_predict": 280})
     
     return out
+
+
+def execute_champion_egg_boot(payload: dict, model: str, champion_hint: str | None) -> dict:
+    """Zero-trust vault boot: champion_bootloader.py → P6 handshake → Ollama RAM load."""
+    import subprocess
+
+    root = Path(os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+    bootloader = root / "tools" / "champion_bootloader.py"
+    egg_id = payload.get("egg_id") or ""
+    expected_merkle = payload.get("merkle_root")
+
+    if not egg_id:
+        return {"status": "QUARANTINE", "error": "missing egg_id in payload"}
+    if not bootloader.is_file():
+        return {"status": "QUARANTINE", "error": f"missing {bootloader}"}
+
+    cp = subprocess.run(
+        [sys.executable, str(bootloader), "--egg", egg_id],
+        cwd=str(root),
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    if cp.returncode != 0:
+        return {
+            "status": "QUARANTINE",
+            "egg_id": egg_id,
+            "bootloader_exit": cp.returncode,
+            "stderr": (cp.stderr or "")[-1500:],
+        }
+    try:
+        vault = json.loads(cp.stdout or "{}")
+    except json.JSONDecodeError:
+        return {"status": "QUARANTINE", "egg_id": egg_id, "error": "bootloader JSON parse failed"}
+
+    merkle = vault.get("merkle_root")
+    if expected_merkle and merkle and expected_merkle != merkle:
+        return {
+            "status": "QUARANTINE",
+            "egg_id": egg_id,
+            "error": "merkle mismatch vs queue payload",
+            "expected": expected_merkle,
+            "vault": merkle,
+        }
+
+    system_prompt = vault.get("system_prompt") or ""
+    champion_id = vault.get("champion_id") or champion_hint or egg_id
+    gates = vault.get("ethical_gates") or []
+    layers = vault.get("protocol_layers") or []
+
+    p6_user = (
+        "Δ9Φ963 P6 PROVENANCE HANDSHAKE\n"
+        f"egg_id={egg_id}\n"
+        f"champion_id={champion_id}\n"
+        f"merkle_root={merkle}\n"
+        f"ethical_gates={','.join(gates)}\n"
+        f"protocol_layers={','.join(layers)}\n"
+        "Local council boot only. Acknowledge your seat and state operational readiness in one short in-character line."
+    )
+
+    ollama_line = ""
+    ram_loaded = False
+    if is_ollama_ready() and system_prompt:
+        ollama_line = chat(
+            model,
+            p6_user,
+            system=system_prompt,
+            options={"temperature": 0.35, "num_predict": 160, "top_p": 0.9},
+        )
+        ram_loaded = bool(ollama_line) and not ollama_line.startswith("[")
+    elif not system_prompt:
+        return {"status": "QUARANTINE", "egg_id": egg_id, "error": "empty system_prompt from vault"}
+
+    return {
+        "status": "ALIGNED",
+        "egg_id": egg_id,
+        "champion_id": champion_id,
+        "merkle_root": merkle,
+        "p6_handshake": "complete",
+        "vault_boot": True,
+        "ollama_ram_loaded": ram_loaded,
+        "readiness_line": ollama_line,
+        "ethical_gates": gates,
+        "protocol_layers": layers,
+        "bootloader": str(bootloader.relative_to(root)) if bootloader.is_relative_to(root) else str(bootloader),
+    }
 
 
 DETERMINISTIC_ROLES = frozenset({
@@ -355,6 +453,7 @@ DETERMINISTIC_ROLES = frozenset({
     "memory-sync",
     "anchor-health",
     "mesh-cartographer",
+    "self-tune",
     "egg-planter",
     "registry-planter",
 })
@@ -372,7 +471,11 @@ HB_LIGHT_ROLES = frozenset({
 
 
 def task_for_daemon(task_role: str, daemon_role: str) -> bool:
+    if task_role == "champion-egg-boot":
+        return daemon_role == "champion-egg-boot"
     if daemon_role == "hb-light":
+        if task_role == "champion-egg-boot":
+            return False
         return task_role in HB_LIGHT_ROLES
     return task_role == daemon_role
 
@@ -398,14 +501,22 @@ def run_daemon(role: str, model: str, poll: float = 5.0, champion: str = None):
                 try:
                     if not tf.is_file():
                         continue
-                    task = json.loads(tf.read_text(encoding="utf-8"))
+                    lock_path = tf.parent / f"{tf.stem}.lock"
+                    try:
+                        tf.replace(lock_path)
+                    except OSError:
+                        continue
+                    task = json.loads(lock_path.read_text(encoding="utf-8"))
                     task_role = task.get("role", "general")
                     if not task_for_daemon(task_role, role):
+                        lock_path.replace(tf)
                         continue
                     if task_role not in DETERMINISTIC_ROLES and not ollama_up:
+                        lock_path.replace(tf)
                         continue
                     result = process_task(task, model, champion)
-                    write_result(tf.stem, result)
+                    write_result(lock_path.stem, result)
+                    lock_path.unlink(missing_ok=True)
                     for qd in queue_dirs():
                         (qd / tf.name).unlink(missing_ok=True)
                     processed += 1

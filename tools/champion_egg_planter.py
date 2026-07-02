@@ -27,7 +27,7 @@ def seed_army_tasks(reg_path: Path) -> int:
     for entry in reg.get("eggs", []):
         task = {
             "id": f"champion-seed-{entry['champion_id']}-{ts}",
-            "role": "hb-light",
+            "role": "champion-egg-boot",
             "champion": entry["champion_id"],
             "payload": {
                 "action": "champion_egg_boot",
