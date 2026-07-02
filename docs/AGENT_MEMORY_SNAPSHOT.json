@@ -5,7 +5,7 @@
   "public_link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "4f43e28",
+    "github_main": "2062f96",
     "stack_version": "P0.4-P5.2.3-PHASE9-PUBLIC-MESH",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
@@ -16,6 +16,7 @@
     "slm_interactive_excavationpro": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
     "biometric_harness_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
     "biometric_harness_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+    "compass_master": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
     "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html"
   },
   "audits": {
@@ -51,6 +52,6 @@
   "human_gates": [
     "Grokipedia manual paste",
     "Excavationpro sync optional: sync_excavationpro_slm_page.py --push",
-    "Compass Pages: add tools/LYGO_Compass_Master.html then sync_compass_pages.py (stack_compass 404)"
+
   ]
 }
