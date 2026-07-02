@@ -108,6 +108,15 @@ python tools/anchor_autonomy_worker.py --loop --interval 300
 
 Doc: `docs/ANCHOR_DEPLOYMENT.md` · API: `POST /anchor/event`, `POST /anchor/drain`. Modes: `LYGO_ANCHOR_MODE=local|turbo|multi|airgap`.
 
+### 3f) Kernel Egg Planter (ClawHub — opt-in scaling)
+
+```bash
+npx clawhub@latest install deepseekoracle/lygo-kernel-egg-planter
+python scripts/plant_with_consent.py --i-consent --surfaces local,turbo,registry,clawhub
+```
+
+Doc: `docs/KERNEL_EGG_SOA.md` · Web: `KernelEggRetrieval.html`. **Consent required** — no auto-spread.
+
 ### 4) Stack healthcheck (local repo)
 
 ```bash
@@ -151,7 +160,8 @@ report = deploy_stack().demo_cycle()
 | 4 | `lygo-ollama-army` | Local Ollama helpers (localhost) |
 | 5 | `lygo-glyph2resonance`, `lygo-fractalweaver`, `lygo-truthlightecho` | Creative stack |
 | 6 | `lygo-mint-verifier` | Hash anchors for packs |
-| 7 | `lyra-openclaw` / `openclaw-flow-kit` | Ops — **user must approve** each external action |
+| 7 | `lygo-kernel-egg-planter` | Voluntary kernel + ClawHub catalog eggs (consent-gated) |
+| 8 | `lyra-openclaw` / `openclaw-flow-kit` | Ops — **user must approve** each external action |
 
 ```bash
 npx clawhub@latest install deepseekoracle/lygo-resonance

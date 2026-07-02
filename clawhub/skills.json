@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 35,
-  "count_mirrored": 35,
+  "count_published": 36,
+  "count_mirrored": 36,
   "skills": [
     {
       "slug": "lygo-mesh-deploy",
@@ -356,6 +356,16 @@
       "mirror": "mirrors/recursive-generosity-protocol",
       "published": true,
       "downloads": 1341,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-kernel-egg-planter",
+      "name": "LYGO Kernel Egg Planter",
+      "summary": "Voluntary kernel egg planter — anchor P0/protocol/lattice + ClawHub catalog manifests (≤100 KiB permaweb). Explicit consent; legal public surfaces; pairs with stack operator, mint-verifier, book-brain.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter",
+      "mirror": "mirrors/lygo-kernel-egg-planter",
+      "published": true,
+      "downloads": 0,
       "version": "1.0.0"
     }
   ],

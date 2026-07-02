@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 35 skills verified via ClawHub API · **Repo mirrors:** 35 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 36 skills verified via ClawHub API · **Repo mirrors:** 36 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -14,6 +14,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.6` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
+| [lygo-kernel-egg-planter](https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter) | LYGO Kernel Egg Planter | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-kernel-egg-planter/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 
@@ -60,6 +61,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-mint-verifier](https://clawhub.ai/deepseekoracle/lygo-mint-verifier) | LYGO-MINT Verifier | `1.0.1` · 1,816 dl | [mirror](./mirrors/lygo-mint-verifier/) |
 | [lygo-mint-operator-suite](https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite) | LYGO-MINT Operator Suite (v2) | `1.0.0` · 1,059 dl | [mirror](./mirrors/lygo-mint-operator-suite/) |
+| [lygo-kernel-egg-planter](https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter) | LYGO Kernel Egg Planter | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-kernel-egg-planter/) |
 | [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.0` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
 | [openclaw-flow-kit](https://clawhub.ai/deepseekoracle/openclaw-flow-kit) | OpenClaw Flow Kit | `1.0.0` · 1,366 dl | [mirror](./mirrors/openclaw-flow-kit/) |
 
