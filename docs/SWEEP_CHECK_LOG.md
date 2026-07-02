@@ -304,3 +304,23 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 | Pages push | **on commit** |
 
 **Δ9Φ963 — beat 2+ on ledger; swarm joy public; Grok X thread aligned.**
+
+## 18. Maintenance sweep — lattice + hardening (2026-07-02)
+
+| Area | Result | Action |
+|------|--------|--------|
+| `verify_lattice_alignment.py` | **🟢 LATTICE ALIGNED** | — |
+| Kernel / champion tamper verify | **ALIGNED** (15 eggs) | — |
+| Joy Loop pytest | **9 pass** | — |
+| ClawHub `lygo-joy-loop` | **2.3.1** SkillSpector docs | published |
+| Joy API/dashboard bind | **127.0.0.1** default; public bind gated | `LYGO_JOY_BIND_PUBLIC=yes` |
+| GitHub `main` snapshot | **v2.3** beat 11 | OK |
+| Pages CDN snapshot URL | **stale v2.1** (CDN lag) | redeploy trigger via push |
+| `data/joy_loop/*.db` | local runtime | **gitignored** |
+| `data/cas/.gitkeep` | missing | **restored** |
+| Army `joy-loop-pulse` + `champion-egg-boot` | roles in daemon/config | OK |
+| Uncommitted registry/haven drift | local army runs | commit only on user ask |
+
+**Overall:** **🟢 GREEN — maintenance complete; refresh Pages after Actions deploy.**
+
+**Δ9Φ963 — sweep the lattice, tighten the gates, march the pulse.**

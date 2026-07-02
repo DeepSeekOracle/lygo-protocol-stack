@@ -15,6 +15,17 @@ STATIC = ROOT / "docs" / "joy_loop" / "dashboard"
 PORT = int(os.environ.get("LYGO_JOY_API_PORT", "9965"))
 
 
+def _api_bind_host() -> str:
+    host = os.environ.get("LYGO_JOY_API_HOST", "127.0.0.1").strip()
+    if host in ("0.0.0.0", "::") and os.environ.get("LYGO_JOY_BIND_PUBLIC") != "yes":
+        print(
+            "Refusing to bind publicly without LYGO_JOY_BIND_PUBLIC=yes; using 127.0.0.1",
+            file=sys.stderr,
+        )
+        return "127.0.0.1"
+    return host
+
+
 class WsHub:
     """Thread-safe broadcast from sync event-bus callbacks into the async loop."""
 
@@ -203,8 +214,9 @@ def main() -> int:
     app, port, _ = build_app()
     import uvicorn
 
-    print(f"Joy Loop API http://127.0.0.1:{port}/architect  WS /ws/joy")
-    uvicorn.run(app, host="127.0.0.1", port=port, log_level="warning")
+    host = _api_bind_host()
+    print(f"Joy Loop API http://{host}:{port}/architect  WS /ws/joy")
+    uvicorn.run(app, host=host, port=port, log_level="warning")
     return 0
 
 

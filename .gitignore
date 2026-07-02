@@ -36,6 +36,8 @@ tests/mesh_live/cluster.json
 # Scalable registry runtime (CAS + local manifests — not repo payload)
 data/cas/**
 !data/cas/.gitkeep
+data/joy_loop/*.db
+data/joy_loop/*.db-journal
 data/scalable_registry/manifests/
 data/scalable_registry/registry.json
 
