@@ -105,6 +105,29 @@ class Handler(BaseHTTPRequestHandler):
         return handle_biometric_history(seconds)
 
     @staticmethod
+    def _scalable_registry_root() -> str:
+        reg_path = ROOT / "data" / "scalable_registry" / "registry.json"
+        if not reg_path.is_file():
+            return ""
+        data = json.loads(reg_path.read_text(encoding="utf-8"))
+        return str(data.get("global_merkle_root") or "")
+
+    @staticmethod
+    def _scalable_registry() -> dict:
+        reg_path = ROOT / "data" / "scalable_registry" / "registry.json"
+        if not reg_path.is_file():
+            return {"signature": "Δ9Φ963-SCALABLE-REGISTRY-v1", "entries": [], "status": "empty"}
+        data = json.loads(reg_path.read_text(encoding="utf-8"))
+        return {
+            "signature": "Δ9Φ963-SCALABLE-REGISTRY-v1",
+            "global_merkle_root": data.get("global_merkle_root"),
+            "entries": [
+                {"id": e.get("id"), "merkle_root": e.get("merkle_root"), "metadata": e.get("metadata")}
+                for e in data.get("entries", [])
+            ],
+        }
+
+    @staticmethod
     def _kernel_eggs_registry() -> dict:
         reg_path = ROOT / "data" / "kernel_eggs" / "registry.json"
         if not reg_path.is_file():
@@ -179,6 +202,12 @@ class Handler(BaseHTTPRequestHandler):
             qs = parse_qs(urlparse(self.path).query)
             seconds = int((qs.get("seconds") or ["60"])[0])
             self._json(200, {"samples": self._p7_history(seconds), "signature": "Δ9Φ963-PHASE7-v1.0"})
+            return
+        if path == "/registry":
+            self._json(200, self._scalable_registry())
+            return
+        if path == "/registry/root":
+            self._json(200, {"global_merkle_root": self._scalable_registry_root()})
             return
         if path == "/kernel/eggs":
             self._json(200, self._kernel_eggs_registry())

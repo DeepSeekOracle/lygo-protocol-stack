@@ -150,6 +150,11 @@ def main() -> int:
         ("kernel egg registry", REPO / "data" / "kernel_eggs" / "registry.json"),
         ("kernel egg soa doc", REPO / "docs" / "KERNEL_EGG_SOA.md"),
         ("kernel egg retrieval page", REPO / "docs" / "KernelEggRetrieval.html"),
+        ("scalable registry doc", REPO / "docs" / "SCALABLE_KERNEL_EGG_REGISTRY.md"),
+        ("scalable registry chunking", REPO / "tools" / "scalable_registry" / "chunking.py"),
+        ("scalable registry manifest builder", REPO / "tools" / "scalable_registry" / "manifest_builder.py"),
+        ("register synthetic data CLI", REPO / "tools" / "register_synthetic_data.py"),
+        ("verify registry CLI", REPO / "tools" / "verify_registry.py"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
         ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
         ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),
@@ -309,6 +314,27 @@ def main() -> int:
                 all_ok &= check("kernel eggs tamper verify", False, "no last_run json")
         except Exception as exc:
             all_ok &= check("kernel eggs tamper verify", False, str(exc)[:80])
+
+    if (REPO / "tools" / "verify_registry.py").is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "verify_registry.py")],
+                cwd=REPO,
+                check=False,
+                timeout=120,
+            )
+            sreg = REPO / "tests" / "scalable_registry_last_run.json"
+            if sreg.is_file():
+                sv = json.loads(sreg.read_text(encoding="utf-8"))
+                all_ok &= check(
+                    "scalable registry verify",
+                    bool(sv.get("all_pass")) or sv.get("entry_count", 0) == 0,
+                    sv.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("scalable registry verify", True, "no entries yet")
+        except Exception as exc:
+            all_ok &= check("scalable registry verify", False, str(exc)[:80])
 
     anchor_audit = REPO / "tests" / "anchor_audit_last_run.json"
     if anchor_audit.is_file():

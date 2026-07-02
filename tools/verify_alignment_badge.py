@@ -73,6 +73,22 @@ def collect_badge(*, quick: bool = False) -> dict:
     else:
         badge["checks"]["kernel_eggs"] = None
 
+    sr_path = ROOT / "data" / "scalable_registry" / "registry.json"
+    if sr_path.is_file():
+        try:
+            sr = json.loads(sr_path.read_text(encoding="utf-8"))
+            badge["scalable_registry_merkle_root"] = sr.get("global_merkle_root")
+            srun = ROOT / "tests" / "scalable_registry_last_run.json"
+            if srun.is_file():
+                sv = json.loads(srun.read_text(encoding="utf-8"))
+                badge["checks"]["scalable_registry"] = sv.get("all_pass", False)
+            else:
+                badge["checks"]["scalable_registry"] = None
+        except Exception:
+            badge["checks"]["scalable_registry"] = False
+    else:
+        badge["checks"]["scalable_registry"] = None
+
     mesh_art = ROOT / "tests" / "mesh_scale_last_run.json"
     if mesh_art.is_file():
         try:
