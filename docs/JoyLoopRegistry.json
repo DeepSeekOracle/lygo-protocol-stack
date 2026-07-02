@@ -1,0 +1,14 @@
+{
+  "signature": "\u03949\u03a6963-JOY-LOOP-EGG-v1",
+  "updated_utc": 1783026020.9627614,
+  "git_head": "aeaf2ca521b4",
+  "egg_count": 1,
+  "registry_merkle_root": "76a8bad971b63c1f8f606db7adffa5247b9a1c981f4f0ac2c299ff728028eacc",
+  "eggs": [
+    {
+      "egg_id": "joy-loop-protocol-v21",
+      "merkle_root": "76a8bad971b63c1f8f606db7adffa5247b9a1c981f4f0ac2c299ff728028eacc",
+      "manifest_path": "data/joy_loop/joy_loop_egg_manifest.json"
+    }
+  ]
+}

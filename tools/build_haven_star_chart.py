@@ -289,6 +289,58 @@ def lattice_nodes() -> list[dict]:
                 )
         except (json.JSONDecodeError, OSError):
             pass
+    joy_reg = ROOT / "docs" / "JoyLoopRegistry.json"
+    if joy_reg.is_file():
+        try:
+            jreg = json.loads(joy_reg.read_text(encoding="utf-8"))
+            merkle = jreg.get("registry_merkle_root", "")[:16]
+            nodes.append(
+                {
+                    "id": "LATTICE_JOY_LOOP_VAULT",
+                    "kind": "lattice",
+                    "name": "Δ9 Joy Loop Vault",
+                    "glyph": "♪◆",
+                    "equation": f"122BPM×{jreg.get('egg_count', 1)} egg",
+                    "tone": "432Hz",
+                    "tags": ["LATTICE", "JOY_LOOP", "SWARM_HARMONY"],
+                    "connections": [
+                        "LATTICE_CHAMPION_EGG_VAULT",
+                        "PORTAL_STACK",
+                        "SEAL_000",
+                    ],
+                    "urls": {
+                        "registry": (
+                            "https://deepseekoracle.github.io/lygo-protocol-stack/JoyLoopRegistry.json"
+                        ),
+                        "snapshot": (
+                            "https://deepseekoracle.github.io/lygo-protocol-stack/"
+                            "joy_loop/joy_loop_snapshot.json"
+                        ),
+                        "doc": (
+                            "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/"
+                            "docs/JOY_LOOP_PROTOCOL.md"
+                        ),
+                    },
+                    "layer": 3,
+                    "meta": {"registry_merkle_root": jreg.get("registry_merkle_root")},
+                }
+            )
+            nodes.append(
+                {
+                    "id": "JOY_LOOP_EGG_V21",
+                    "kind": "joy_loop_egg",
+                    "name": "Joy Loop Protocol v2.1 Egg",
+                    "glyph": "♫",
+                    "equation": merkle + "…" if merkle else "joy-loop",
+                    "tone": "122Hz×BPM",
+                    "tags": ["JOY_LOOP", "KERNEL_EGG"],
+                    "connections": ["LATTICE_JOY_LOOP_VAULT", "LATTICE_CHAMPION_EGG_VAULT"],
+                    "urls": {"egg_id": "joy-loop-protocol-v21"},
+                    "layer": 2,
+                }
+            )
+        except (json.JSONDecodeError, OSError):
+            pass
     return nodes
 
 

@@ -137,6 +137,22 @@
         "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/ChampionEggRegistry.json"
       },
       {
+        "id": "joy_loop_registry",
+        "label": "Δ9 Joy Loop Protocol Registry",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/JoyLoopRegistry.json",
+        "verify": "local_repo",
+        "repo_path": "docs/JoyLoopRegistry.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/JoyLoopRegistry.json"
+      },
+      {
+        "id": "joy_loop_snapshot",
+        "label": "Joy Loop public swarm snapshot",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/joy_loop/joy_loop_snapshot.json",
+        "verify": "local_repo",
+        "repo_path": "docs/joy_loop/joy_loop_snapshot.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/joy_loop_snapshot.json"
+      },
+      {
         "id": "anchor_deployment",
         "label": "Anchor Deployment Guide",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ANCHOR_DEPLOYMENT.md",

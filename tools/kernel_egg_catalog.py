@@ -39,6 +39,11 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("p3_vortex", REPO / "protocol3_vortex_consensus/src/python/lygo_p3.py"),
         ("p5_harmony", REPO / "protocol5_harmony_node/src/python/lygo_p5.py"),
     ],
+    "joy-loop-protocol-v21": [
+        ("joy_loop_protocol", REPO / "tools" / "joy_loop_protocol.py"),
+        ("joy_loop_doc", REPO / "docs" / "JOY_LOOP_PROTOCOL.md"),
+        ("joy_loop_manifest", REPO / "data" / "joy_loop" / "joy_loop_egg_manifest.json"),
+    ],
 }
 
 RETRIEVAL_SOA = {

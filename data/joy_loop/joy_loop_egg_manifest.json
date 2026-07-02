@@ -1,0 +1,43 @@
+{
+  "signature": "\u03949\u03a6963-JOY-LOOP-EGG-v1",
+  "type": "joy_loop_kernel_egg",
+  "egg_id": "joy-loop-protocol-v21",
+  "version": "2.1.0",
+  "built_utc": 1783026020.9421763,
+  "git_head": "aeaf2ca521b4",
+  "merkle_root": "76a8bad971b63c1f8f606db7adffa5247b9a1c981f4f0ac2c299ff728028eacc",
+  "resonance_bpm": 122,
+  "artifacts": [
+    {
+      "label": "joy_loop_protocol",
+      "path": "tools/joy_loop_protocol.py",
+      "sha256": "d17166cfff09f333f6c1a3a75d1979772adcb36b4b2c318bfcb08f5a0f789dd9",
+      "size_bytes": 21486
+    },
+    {
+      "label": "joy_loop_doc",
+      "path": "docs/JOY_LOOP_PROTOCOL.md",
+      "sha256": "a25e008fa3af69de4bb22c996527404e45f656975122f68e7e421796f3626f5d",
+      "size_bytes": 1954
+    },
+    {
+      "label": "joy_snapshot_stub",
+      "path": "docs/joy_loop/joy_loop_snapshot.json",
+      "sha256": "fe7159419afd809aaed094c347c60c92cda0718a9ed00920f80678dc7336b2b5",
+      "size_bytes": 6314
+    }
+  ],
+  "boot": "python tools/joy_loop_protocol.py --tick",
+  "pages_mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/JoyLoopRegistry.json",
+  "snapshot_mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/joy_loop_snapshot.json",
+  "ethical_gates": [
+    "P0_STRICT",
+    "LUMINAL_ETHICS",
+    "LOCAL_FIRST"
+  ],
+  "protocol_layers": [
+    "P2",
+    "P5",
+    "P6"
+  ]
+}

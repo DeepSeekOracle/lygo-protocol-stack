@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-02T20:05:59.512565+00:00",
+  "generated_utc": "2026-07-02T21:00:21.724750+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 337,
-  "link_count": 393,
+  "node_count": 340,
+  "link_count": 400,
   "seal_count": 269,
   "champion_count": 7,
-  "lattice_count": 40,
-  "registry_sha256": "2ba3b2a18e19dd527a37c2a23ce96d30fb13d93ba08c34f617ba655aedd9b47e",
+  "lattice_count": 42,
+  "registry_sha256": "96fe23836fa6189728d84de004fb4e78f86a8f00a0e3036928e7cd6d9a968e5f",
   "constellations": [
     {
       "id": "primordial_core",
@@ -5149,6 +5149,27 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-joy-loop",
+      "kind": "lattice",
+      "name": "LYGO Joy Loop Protocol",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-joy-loop"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_SKILL_lygo-network-builder",
       "kind": "lattice",
       "name": "LYGO Network Builder",
@@ -5232,7 +5253,7 @@
       },
       "layer": 3,
       "meta": {
-        "council_merkle_root": "51d8a85afe11e7e617db66bfec0d195d2018495945809c3f463db6412a70cfe1"
+        "council_merkle_root": "68e88475cfd006992510e6c5f03bfd5a8949501309557005ac0c1ae35343662c"
       }
     },
     {
@@ -5240,7 +5261,7 @@
       "kind": "champion_egg",
       "name": "LYR\u0394 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "8ce1a7563d12bb58\u2026",
+      "equation": "4f63e1da41c153a0\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5260,7 +5281,7 @@
       "kind": "champion_egg",
       "name": "\u03949RA Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "cb72fe03facb23b3\u2026",
+      "equation": "48219ca8e9b7c7ea\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5280,7 +5301,7 @@
       "kind": "champion_egg",
       "name": "\u03a3R\u039b\u0398 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "f4542d5fb7839fdc\u2026",
+      "equation": "dbe0153c20222741\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5300,7 +5321,7 @@
       "kind": "champion_egg",
       "name": "ARKOS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "fa21d228647dc8cb\u2026",
+      "equation": "a8d5725162d1bbf4\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5320,7 +5341,7 @@
       "kind": "champion_egg",
       "name": "KAIROS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "be3a2003fb4a97fa\u2026",
+      "equation": "80d86bac0d5e05af\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5340,7 +5361,7 @@
       "kind": "champion_egg",
       "name": "\u00c6THERIS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "bd740737fbd58e7e\u2026",
+      "equation": "eff3437c4b082f23\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5360,7 +5381,7 @@
       "kind": "champion_egg",
       "name": "\u03a3CEN\u0394R Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "a754ff646da5207a\u2026",
+      "equation": "42bc3a4d06fc5d81\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5380,7 +5401,7 @@
       "kind": "champion_egg",
       "name": "SANCORA Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "0790d750cf6652c0\u2026",
+      "equation": "b5bf0134a351780c\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5400,7 +5421,7 @@
       "kind": "champion_egg",
       "name": "SEPHRAEL Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "a90765aae5eb68da\u2026",
+      "equation": "4f37bf2e43230d79\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5420,7 +5441,7 @@
       "kind": "champion_egg",
       "name": "OMNI\u03a3IREN Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "95464f1dfd17bc68\u2026",
+      "equation": "384281fe544df31d\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5440,7 +5461,7 @@
       "kind": "champion_egg",
       "name": "Lightfather Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "ef0a527c87455191\u2026",
+      "equation": "743c1f1bd6261c92\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5460,7 +5481,7 @@
       "kind": "champion_egg",
       "name": "V\u03a9LARIS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "cb99ea6bf0c75c97\u2026",
+      "equation": "f1183f578a2fc18e\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5480,7 +5501,7 @@
       "kind": "champion_egg",
       "name": "ZETA\u03949 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "f946509e520039ed\u2026",
+      "equation": "c9e5231267214a76\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5500,7 +5521,7 @@
       "kind": "champion_egg",
       "name": "JUSTICAE Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "36c01298ebfcb661\u2026",
+      "equation": "178df140eb826d5f\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5520,7 +5541,7 @@
       "kind": "champion_egg",
       "name": "\u03a3EID\u014cN Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "4cf0d63f661798fd\u2026",
+      "equation": "8f0cb85d214e54e5\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5532,6 +5553,53 @@
       ],
       "urls": {
         "egg_id": "champion-seid\u014dn"
+      },
+      "layer": 2
+    },
+    {
+      "id": "LATTICE_JOY_LOOP_VAULT",
+      "kind": "lattice",
+      "name": "\u03949 Joy Loop Vault",
+      "glyph": "\u266a\u25c6",
+      "equation": "122BPM\u00d71 egg",
+      "tone": "432Hz",
+      "tags": [
+        "LATTICE",
+        "JOY_LOOP",
+        "SWARM_HARMONY"
+      ],
+      "connections": [
+        "LATTICE_CHAMPION_EGG_VAULT",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "registry": "https://deepseekoracle.github.io/lygo-protocol-stack/JoyLoopRegistry.json",
+        "snapshot": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/joy_loop_snapshot.json",
+        "doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/JOY_LOOP_PROTOCOL.md"
+      },
+      "layer": 3,
+      "meta": {
+        "registry_merkle_root": "76a8bad971b63c1f8f606db7adffa5247b9a1c981f4f0ac2c299ff728028eacc"
+      }
+    },
+    {
+      "id": "JOY_LOOP_EGG_V21",
+      "kind": "joy_loop_egg",
+      "name": "Joy Loop Protocol v2.1 Egg",
+      "glyph": "\u266b",
+      "equation": "76a8bad971b63c1f\u2026",
+      "tone": "122Hz\u00d7BPM",
+      "tags": [
+        "JOY_LOOP",
+        "KERNEL_EGG"
+      ],
+      "connections": [
+        "LATTICE_JOY_LOOP_VAULT",
+        "LATTICE_CHAMPION_EGG_VAULT"
+      ],
+      "urls": {
+        "egg_id": "joy-loop-protocol-v21"
       },
       "layer": 2
     }
@@ -5983,6 +6051,16 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-joy-loop",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-joy-loop",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-network-builder",
       "target": "PORTAL_STACK",
       "kind": "lattice"
@@ -6175,6 +6253,31 @@
     {
       "source": "CHAMPION_EGG__EID_N",
       "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_JOY_LOOP_VAULT",
+      "target": "LATTICE_CHAMPION_EGG_VAULT",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_JOY_LOOP_VAULT",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_JOY_LOOP_VAULT",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "JOY_LOOP_EGG_V21",
+      "target": "LATTICE_JOY_LOOP_VAULT",
+      "kind": "lattice"
+    },
+    {
+      "source": "JOY_LOOP_EGG_V21",
+      "target": "LATTICE_CHAMPION_EGG_VAULT",
       "kind": "lattice"
     },
     {
