@@ -25,6 +25,9 @@ ENV/
 target/
 **/*.rs.bk
 
+# Phase 9 node TLS material (generated locally)
+certs/
+
 # Phase 5 live mesh runtime logs
 tests/mesh_live/*.log
 tests/mesh_live/cluster.json
