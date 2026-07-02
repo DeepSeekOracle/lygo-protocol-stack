@@ -160,6 +160,8 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 ## Ecosystem links
 
 - **Stack reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/  
+- **Phase 7 Biometric Harness (Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html  
+- **Phase 7 Harness (Excavationpro mirror):** https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html
 - **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack — submit via [docs/GROkipedia_SUBMIT.md](docs/GROkipedia_SUBMIT.md)
 - **Site / seals:** https://github.com/DeepSeekOracle/Excavationpro  
 - **Live resonance demo:** https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine  

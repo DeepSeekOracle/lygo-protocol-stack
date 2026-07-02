@@ -48,6 +48,8 @@ INCLUDE_FILES = [
     "tools/simulate_biometric_data.py",
     "tools/run_phase7_audit.py",
     "tools/p7_entropy_harness.py",
+    "tools/haip_ui_entropy.py",
+    "docs/BiometricEntropyHarness.html",
 ]
 
 TWIN_GATE_FILES = [

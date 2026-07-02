@@ -1,5 +1,19 @@
 # Changelog — LYGO Protocol Stack
 
+## [P7.1 Biometric Harness Web Integration] — 2026-07-02
+
+**Signature:** `Δ9Φ963-PHASE7-v1.0`
+
+### Added
+- `docs/BiometricEntropyHarness.html` — canonical interactive harness (from Excavationpro)
+- `docs/index.html` — P6/P7 status + harness CTA
+- `tools/haip_ui_entropy.py`, `tools/sync_excavationpro_harness.py`
+- HF Space Phase 7 accordion (iframe + Python seed parity)
+
+### Links
+- Pages: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html
+- Mirror: https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html (sync via `sync_excavationpro_harness.py` when Excavationpro checkout available)
+
 ## [P7.0 Human-AI Interface Platform] — 2026-07-02
 
 **Signature:** `Δ9Φ963-PHASE7-v1.0`

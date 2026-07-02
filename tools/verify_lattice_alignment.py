@@ -20,6 +20,8 @@ CANONICAL_URLS = {
     "clawhub": "https://clawhub.ai/deepseekoracle",
     "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack",
     "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+    "biometric_harness_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+    "biometric_harness_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
 }
 
 
@@ -86,6 +88,8 @@ def main() -> int:
         ("mesh scale sim", REPO / "tools" / "run_mesh_scale_sim.py"),
         ("mesh gossip protocol doc", REPO / "docs" / "MESH_GOSSIP_PROTOCOL.md"),
         ("agent memory snapshot", REPO / "docs" / "AGENT_MEMORY_SNAPSHOT.json"),
+        ("biometric harness page", REPO / "docs" / "BiometricEntropyHarness.html"),
+        ("phase7 haip ui tool", REPO / "tools" / "haip_ui_entropy.py"),
     ]:
         all_ok &= check(key, path.is_file())
     mesh_run = REPO / "tests" / "mesh_scale_last_run.json"
