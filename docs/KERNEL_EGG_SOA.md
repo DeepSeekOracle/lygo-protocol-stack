@@ -24,6 +24,14 @@
 | `firmware-p04-drivers` | P0.4 gate, updatefeed, firmware kernel (E:\\2026) |
 | `protocol-drivers-p2-p5` | P2–P5 Python drivers |
 
+## ClawHub skill (voluntary planters)
+
+```bash
+npx clawhub@latest install deepseekoracle/lygo-kernel-egg-planter
+export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack
+python scripts/plant_with_consent.py --i-consent --surfaces local,turbo,registry,clawhub,pages
+```
+
 ## Commands
 
 ```powershell
