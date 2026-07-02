@@ -361,12 +361,12 @@
     {
       "slug": "lygo-kernel-egg-planter",
       "name": "LYGO Kernel Egg Planter",
-      "summary": "Voluntary kernel egg planter — anchor P0/protocol/lattice + ClawHub catalog manifests (≤100 KiB permaweb). Explicit consent; legal public surfaces; pairs with stack operator, mint-verifier, book-brain.",
+      "summary": "Bulletproof kernel egg planter — mandatory tamper verify (SHA-256/Merkle/anchor/lattice), consent-gated plant/retrieve, ClawHub catalog pins. QUARANTINE on mismatch; pairs with stack operator + mint-verifier.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter",
       "mirror": "mirrors/lygo-kernel-egg-planter",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ],
   "repo_mirrors_only": [

@@ -43,7 +43,7 @@ def from_gateway(url: str) -> bytes:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--egg", required=True, help="egg_id e.g. p0-nano-kernel")
+    ap.add_argument("--egg", help="egg_id e.g. p0-nano-kernel")
     ap.add_argument("--list", action="store_true", help="List eggs in registry")
     ap.add_argument("--from-url", help="Fetch permaweb URL directly")
     args = ap.parse_args()
@@ -63,6 +63,9 @@ def main() -> int:
         egg = decode_transport(from_gateway(args.from_url))
         print(json.dumps(egg, indent=2)[:8000])
         return 0
+
+    if not args.egg:
+        ap.error("one of --list, --from-url, or --egg is required")
 
     if not REGISTRY.is_file():
         return 1

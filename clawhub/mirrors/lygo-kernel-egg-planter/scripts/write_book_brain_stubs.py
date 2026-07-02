@@ -33,9 +33,14 @@ def main() -> int:
         raise SystemExit("No registry — plant eggs first")
 
     reg = json.loads(reg_path.read_text(encoding="utf-8"))
+    verify_path = stack / "tests" / "kernel_eggs_last_run.json"
+    verdict = "unknown"
+    if verify_path.is_file():
+        verdict = json.loads(verify_path.read_text(encoding="utf-8")).get("verdict", "unknown")
     lines = [
         "# LYGO Kernel Eggs — book-brain reference stub",
         f"# generated {datetime.now(timezone.utc).isoformat()}",
+        f"tamper_verdict: {verdict}",
         f"registry_merkle_root: {reg.get('registry_merkle_root')}",
         f"git_head: {reg.get('git_head')}",
         "retrieval: https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",

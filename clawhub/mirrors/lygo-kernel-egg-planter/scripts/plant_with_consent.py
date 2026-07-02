@@ -1,70 +1,66 @@
 #!/usr/bin/env python3
-"""Plant kernel eggs — consent-gated wrapper around stack tools."""
+"""Plant kernel eggs — consent + mandatory post-plant tamper verify."""
 
 from __future__ import annotations
 
 import argparse
-import os
+import json
 import subprocess
 import sys
 from pathlib import Path
 
-SKILL_ROOT = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
+
+from _stack_paths import require_consent, resolve_stack_root  # noqa: E402
 
 
-def resolve_stack_root(explicit: str | None) -> Path:
-    if explicit:
-        return Path(explicit).resolve()
-    env = os.environ.get("LYGO_STACK_ROOT", "").strip()
-    if env:
-        return Path(env).resolve()
-    # sibling of skill in mirrors → lygo-protocol-stack
-    for anc in SKILL_ROOT.parents:
-        if (anc / "tools" / "build_kernel_eggs.py").is_file():
-            return anc
-    raise SystemExit("Set LYGO_STACK_ROOT to lygo-protocol-stack clone")
-
-
-def require_consent(flag: bool) -> None:
-    if flag:
-        return
-    if os.environ.get("LYGO_EGG_PLANT_CONSENT", "").lower() in ("yes", "1", "true"):
-        return
-    print("Consent required: pass --i-consent or set LYGO_EGG_PLANT_CONSENT=yes", file=sys.stderr)
-    print("Read references/CONSENT_AND_ETHICS.md first.", file=sys.stderr)
-    raise SystemExit(2)
+def run_verify(stack: Path) -> int:
+    return subprocess.call(
+        [sys.executable, str(SCRIPT_DIR / "verify_eggs.py"), "--stack-root", str(stack)]
+    )
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="LYGO kernel egg planter (opt-in)")
-    ap.add_argument("--i-consent", action="store_true", help="User explicitly opts in")
+    ap = argparse.ArgumentParser(description="LYGO kernel egg planter (opt-in, bulletproof)")
+    ap.add_argument("--i-consent", action="store_true")
     ap.add_argument("--stack-root", default=None)
-    ap.add_argument(
-        "--surfaces",
-        default="local,turbo,registry",
-        help="Comma list: local,turbo,registry,pages,stubs,clawhub",
-    )
-    ap.add_argument("--local-only", action="store_true", help="Skip Turbo permaweb")
+    ap.add_argument("--surfaces", default="local,turbo,registry", help="local,turbo,registry,pages,stubs,clawhub")
+    ap.add_argument("--local-only", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--skip-verify", action="store_true", help="Debug only — agents must not use")
     args = ap.parse_args()
     require_consent(args.i_consent)
 
     stack = resolve_stack_root(args.stack_root)
+    subprocess.check_call([sys.executable, str(SCRIPT_DIR / "preflight.py"), "--stack-root", str(stack)])
+
     surfaces = {s.strip().lower() for s in args.surfaces.split(",") if s.strip()}
     tools = stack / "tools"
 
-    print("Δ9Φ963 Kernel Egg Planter")
+    print("Δ9Φ963 Kernel Egg Planter v1.1")
     print(f"  stack: {stack}")
     print(f"  surfaces: {sorted(surfaces)}")
 
+    reg_path = stack / "data" / "kernel_eggs" / "registry.json"
+    if reg_path.is_file() and not args.dry_run and not args.skip_verify:
+        print("[*] Pre-plant tamper verify (baseline)")
+        run_verify(stack)
+
     if "clawhub" in surfaces:
-        cmd = [sys.executable, str(SKILL_ROOT / "scripts" / "plant_clawhub_catalog.py"), "--i-consent", "--stack-root", str(stack)]
+        cmd = [
+            sys.executable,
+            str(SCRIPT_DIR / "plant_clawhub_catalog.py"),
+            "--i-consent",
+            "--stack-root",
+            str(stack),
+        ]
         if args.dry_run:
             cmd.append("--dry-run")
         subprocess.check_call(cmd)
 
     if args.dry_run:
-        print("[dry-run] would run build_kernel_eggs.py + anchor_kernel_eggs.py")
+        print("[dry-run] would run build + anchor + verify")
         return 0
 
     subprocess.check_call([sys.executable, str(tools / "build_kernel_eggs.py")], cwd=stack)
@@ -73,24 +69,30 @@ def main() -> int:
         anchor_cmd.append("--local-only")
     subprocess.check_call(anchor_cmd, cwd=stack)
 
+    if not args.skip_verify:
+        if run_verify(stack) != 0:
+            print("[FAIL] Post-plant verify QUARANTINE — do not distribute", file=sys.stderr)
+            return 1
+
     if "pages" in surfaces:
         src = stack / "docs" / "KernelEggRegistry.json"
         if src.is_file():
-            print(f"[pages] registry ready at {src} — user git push to GitHub Pages")
+            print(f"[pages] {src} ready — user pushes GitHub Pages")
 
     if "stubs" in surfaces:
-        stub_script = SKILL_ROOT / "scripts" / "write_book_brain_stubs.py"
         subprocess.check_call(
-            [sys.executable, str(stub_script), "--i-consent", "--stack-root", str(stack)],
-            cwd=stack,
+            [
+                sys.executable,
+                str(SCRIPT_DIR / "write_book_brain_stubs.py"),
+                "--i-consent",
+                "--stack-root",
+                str(stack),
+            ],
         )
 
-    reg = stack / "data" / "kernel_eggs" / "registry.json"
-    if reg.is_file():
-        import json
-
-        data = json.loads(reg.read_text(encoding="utf-8"))
-        print(f"[done] registry_merkle_root={data.get('registry_merkle_root', '')[:32]}…")
+    if reg_path.is_file():
+        data = json.loads(reg_path.read_text(encoding="utf-8"))
+        print(f"[done] registry_merkle_root={data.get('registry_merkle_root', '')}")
     return 0
 
 
