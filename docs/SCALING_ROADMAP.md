@@ -8,7 +8,7 @@
 | **4** | Horizontal Scale | **Live (local)** | Worker pool + Compose `scale` profile; gossip bus for badge propagation |
 | **3b** | Blueprint & gauntlet | **Live** | `docs/BLUEPRINT.md`, `tools/run_lattice_gauntlet.py` |
 | **5** | Wide-area mesh | **Live (local HTTP)** | `deploy_100_nodes.sh` / `.ps1`, `monitor_convergence.py`, sim + HTTP epidemic |
-| **6** | Hardware attest (stub) | **STUB** | `protocol6_quantum_attest/` — attestation seal before badge emit |
+| **6** | Hardware attest | **Live (software)** | `protocol6_quantum_attest/` — measurement, signed badges, `/attestation/*`; Keylime/FPGA pending |
 | **7** | Quantum entropy (stub) | **STUB** | `tools/p7_entropy_harness.py` — entropy slot for P0 pointer path |
 
 ## Phase 2–4 operator checklist
@@ -59,4 +59,20 @@ Public reference: https://deepseekoracle.github.io/lygo-protocol-stack/ · Groki
 - **42** P0 canonical fixtures (determinism / cross-lang parity).
 - Twin Gate pilot: 6 edge scenarios; target **Δφ → 0** after calibration.
 
-**Signature:** `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`
+## Phase 6 — hardware attestation (2026-07-01)
+
+```bash
+python tools/verify_hardware_attestation.py
+python tools/verify_peer_badge.py --badge-file tests/phase6_audit_last_run.json  # or --peer URL
+python tools/run_phase6_audit.py
+```
+
+| Component | Status |
+|-----------|--------|
+| Measurement pipeline | ✅ Live |
+| Attestation service | ✅ Live |
+| API / node routes | ✅ Live |
+| PUF (FPGA) | ⏳ Pending |
+| TPM (Keylime) | ⏳ Pending |
+
+**Signature:** `Δ9Φ963-PHASE6-v1.0` · `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`

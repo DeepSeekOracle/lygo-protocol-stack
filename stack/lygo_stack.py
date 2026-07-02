@@ -16,10 +16,13 @@ _PATHS = (
     "protocol5_harmony_node/src/python",
     "stack",
 )
+_P6_ROOT = ROOT
 for sub in _PATHS:
     p = ROOT / sub
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
+if str(_P6_ROOT) not in sys.path:
+    sys.path.insert(0, str(_P6_ROOT))
 
 from kernel_bridge import NanoKernelBridge  # noqa: E402
 from lygo_p1 import MemoryMycelium  # noqa: E402
@@ -95,6 +98,7 @@ def _adversarial_quarantine(claim: str, p2: dict) -> bool:
 
 class LYGOProtocolStack:
     version = "P0.4-P5.2.3-PHASE3-PROD"
+    phase6_signature = "Δ9Φ963-PHASE6-v1.0"
 
     def __init__(self, sovereign_id: str = "LYGO_STACK_PUBLIC"):
         self.kernel = NanoKernelBridge()
@@ -107,6 +111,42 @@ class LYGOProtocolStack:
         self.harmony = HarmonyNodeIntegration(
             self.kernel, self.memory, self.vortex, self.bridge, node_id="HARMONY_PUBLIC"
         )
+        self._sovereign_id = sovereign_id
+        self._measurement = None
+        self._attestation = None
+
+    def _phase6(self):
+        if self._attestation is None:
+            from protocol6_quantum_attest.attestation import AttestationService
+            from protocol6_quantum_attest.measurement import MeasurementCollector
+
+            self._measurement = MeasurementCollector()
+            self._attestation = AttestationService(self._measurement, node_id=self._sovereign_id)
+        return self._measurement, self._attestation
+
+    def get_hardware_badge(self) -> dict:
+        """Signed hardware attestation badge (Phase 6)."""
+        _, att = self._phase6()
+        return att.generate_badge()
+
+    def verify_peer_badge(self, badge: dict) -> bool:
+        """Verify a peer's hardware badge."""
+        _, att = self._phase6()
+        return att.verify_badge(badge)
+
+    @property
+    def measurement(self):
+        m, _ = self._phase6()
+        return m
+
+    @property
+    def attestation(self):
+        _, a = self._phase6()
+        return a
+
+
+# Alias for blueprint / operator docs
+LYGOStack = LYGOProtocolStack
 
     def process_ethical_query(
         self,

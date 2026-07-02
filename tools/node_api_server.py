@@ -44,6 +44,16 @@ def get_stack():
 
 
 class Handler(BaseHTTPRequestHandler):
+    @staticmethod
+    def _p6_health() -> dict:
+        import sys
+
+        if str(ROOT) not in sys.path:
+            sys.path.insert(0, str(ROOT))
+        from protocol6_quantum_attest.measurement import MeasurementCollector
+
+        return MeasurementCollector().health()
+
     def _read_json_body(self) -> dict:
         length = int(self.headers.get("Content-Length", 0) or 0)
         raw = self.rfile.read(length) if length else b"{}"
@@ -64,6 +74,13 @@ class Handler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if path in ("/", "/health"):
             self._json(200, {"ok": True, "service": "lygo-node", "signature": "Δ9Φ963-PHASE3-SCALE-INIT"})
+            return
+        if path == "/attestation/health":
+            self._json(200, self._p6_health())
+            return
+        if path == "/attestation/badge":
+            node_id = os.environ.get("LYGO_NODE_ID", "DOCKER_NODE")
+            self._json(200, get_stack().get_hardware_badge())
             return
         if path == "/badge":
             import sys
@@ -118,6 +135,9 @@ class Handler(BaseHTTPRequestHandler):
                     "/health",
                     "/badge",
                     "/badge/{node_id}",
+                    "/attestation/health",
+                    "/attestation/badge",
+                    "POST /attestation/verify",
                     "/demo",
                     "/elasticity",
                     "/federation",
@@ -148,6 +168,12 @@ class Handler(BaseHTTPRequestHandler):
                         stack.federation.gossip.publish_badge(str(node_id), badge)
                         merged += 1
             self._json(200, {"ok": True, "merged": merged, "signature": "Δ9Φ963-PHASE5-MESH-SCATTER-v1"})
+            return
+        if path == "/attestation/verify":
+            body = self._read_json_body()
+            badge = body.get("badge") if isinstance(body.get("badge"), dict) else body
+            valid = get_stack().verify_peer_badge(badge if isinstance(badge, dict) else {})
+            self._json(200, {"valid": valid, "signature": "Δ9Φ963-PHASE6-v1.0"})
             return
         self._json(404, {"error": "not found"})
 

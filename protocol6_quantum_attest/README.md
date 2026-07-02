@@ -1,11 +1,24 @@
-# Protocol 6 — Hardware Attestation (stub)
+# Protocol 6 — Hardware Attestation
 
-**Signature:** Δ9Φ963-P6-ATTEST-STUB-v1
+**Signature:** `Δ9Φ963-PHASE6-v1.0`
 
-Zero-trust hardware fingerprint seal used as a P0 sub-key. If the host signature changes (migration, VM swap), P0 must re-validate before emitting the Resonance Badge.
+Measurement pipeline, signed attestation badges, and peer verification. Software-complete; Keylime TPM quotes and FPGA PUF pending hardware.
 
-**Status:** Architectural stub — do not enable in production until GitHub Pages + Grokipedia implementation section + three-way SHA lock are live.
+## Quick start
 
 ```bash
+pip install -e .  # optional; repo root on PYTHONPATH is enough
+python tools/verify_hardware_attestation.py
+python tools/run_phase6_audit.py
 python protocol6_quantum_attest/harness/run_attest_demo.py
 ```
+
+## Layout
+
+See `docs/PHASE6_ARCHITECTURE.md`.
+
+## Node API
+
+- `GET /attestation/health`
+- `GET /attestation/badge`
+- `POST /attestation/verify`

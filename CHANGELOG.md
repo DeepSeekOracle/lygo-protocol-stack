@@ -1,5 +1,19 @@
 # Changelog — LYGO Protocol Stack
 
+## [P6.0 Hardware Attestation] — 2026-07-01
+
+**Signature:** `Δ9Φ963-PHASE6-v1.0`
+
+### Added
+- `protocol6_quantum_attest/` — `measurement.py`, `attestation.py`, `api.py`, `tpm_interface.py`, `puf_arbiter.py`, `secure_boot.py`
+- `stack/lygo_stack.py` — `get_hardware_badge()`, `verify_peer_badge()`, `LYGOStack` alias
+- Node API — `GET /attestation/health`, `GET /attestation/badge`, `POST /attestation/verify`
+- Tools — `verify_hardware_attestation.py`, `verify_peer_badge.py`, `run_phase6_audit.py`
+- Tests — `protocol6_quantum_attest/tests/`, `tests/phase6_test_vectors.json`
+
+### Pending
+- Keylime TPM quotes, FPGA PUF hardware validation
+
 ## [P5.2.5 Phase 5 LIVE + P6/P7 stubs] — 2026-07-01
 
 **Signature:** `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`

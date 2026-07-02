@@ -1,6 +1,6 @@
 {
   "signature": "Δ9Φ963-AGENT-MEMORY-SYNC-v1",
-  "updated_utc": "2026-07-01T23:22:58Z",
+  "updated_utc": "2026-07-01T24:00:00Z",
   "authority_root": "I:\\E Drive",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
@@ -22,7 +22,8 @@
     "3_federation": "Live",
     "4_workers": "Live (local)",
     "5_mesh": "ACTIVE — run_mesh_scale_sim + node_api /gossip/scatter",
-    "6_hardware": "Stubs"
+    "6_hardware": "Live (software) — Δ9Φ963-PHASE6-v1.0; Keylime/FPGA pending",
+    "6_artifact": "tests/phase6_audit_last_run.json"
   },
   "surfaces": {
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
