@@ -22,8 +22,10 @@ def _cfg() -> dict:
 
 
 def _stack() -> Path:
-    c = _cfg()
-    return Path(c.get("lygo_stack_root") or os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+    sys.path.insert(0, str(CC.parent))
+    from lygo_stack_root import resolve_stack_root
+
+    return resolve_stack_root(config_path=CONFIG)
 
 
 def _run(cmd: list[str], cwd: Path, *, env: dict | None = None, timeout: int = 600) -> subprocess.CompletedProcess:

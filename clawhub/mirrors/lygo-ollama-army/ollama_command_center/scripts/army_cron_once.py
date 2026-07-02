@@ -17,6 +17,7 @@ TASKS.mkdir(parents=True, exist_ok=True)
 
 
 def main() -> int:
+    subprocess.run([sys.executable, str(CC / "scripts" / "army_self_tune.py")], check=False, timeout=120)
     subprocess.run([sys.executable, str(CC / "scripts" / "sentinel_heartbeat.py")], check=False)
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -29,6 +30,7 @@ def main() -> int:
         ("memory-sync", f"cron-memory-{ts}"),
         ("anchor-health", f"cron-anchor-{ts}"),
         ("mesh-cartographer", f"cron-mesh-{ts}"),
+        ("self-tune", f"cron-self-tune-{ts}"),
         ("egg-planter", f"cron-egg-plant-{ts}"),
         ("registry-planter", f"cron-registry-plant-{ts}"),
     ]:

@@ -76,6 +76,15 @@ python scripts/retrieve_egg.py --egg p0-nano-kernel
 | `protocol-drivers-p2-p5` | P2–P5 drivers |
 | `clawhub-lattice-catalog` | Public ClawHub `skills.json` metadata |
 
+## Joy Loop Protocol (Δ9 v2.3.1)
+
+```bash
+python tools/joy_loop_protocol.py --tick
+python tools/joy_loop_planter.py --i-consent
+```
+
+Egg `joy-loop-protocol-v21` · `docs/JoyLoopRegistry.json` · army `joy-loop-pulse` · ClawHub `lygo-joy-loop@2.3.1` (SECURITY.md).
+
 ## Champion Kernel Eggs (15 Δ9 Council personas)
 
 Biophase7 blueprint — sealed personas from **chatagent.ca** champion hub:
@@ -88,7 +97,7 @@ python tools/champion_bootloader.py --egg champion-arkos --print-prompt
 ```
 
 - Registry: `data/champion_eggs/registry.json` + `docs/ChampionEggRegistry.json`
-- Army: auto-seeds `champion-seed-*.task.json` for Ollama hb-light boot
+- Army: `champion-egg-boot` via `champion_bootloader.py` (verified vault; not hb-light chat)
 - Doc: `docs/CHAMPION_KERNEL_EGGS.md`
 
 ## Agent rules (non-negotiable)

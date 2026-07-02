@@ -191,7 +191,11 @@ def send_alert(message: str, cfg: dict) -> None:
 
 
 def one_pulse(cfg: dict, army_root: Path) -> dict:
-    stack = Path(cfg.get("lygo_stack_root") or os.environ.get("LYGO_STACK_ROOT", r"I:\E Drive\lygo-protocol-stack"))
+    army_root = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(army_root))
+    from lygo_stack_root import resolve_stack_root
+
+    stack = resolve_stack_root(config_path=army_root / "ollama_command_center" / "config" / "army_config.json")
     ts = datetime.now(timezone.utc).isoformat()
     report = {
         "timestamp": ts,

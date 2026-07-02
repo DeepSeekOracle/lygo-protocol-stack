@@ -33,6 +33,12 @@ def main() -> int:
     daemon = (ARMY / "ollama_daemon.py").read_text(encoding="utf-8")
     add("daemon_mesh_handler", 'role == "mesh-cartographer"' in daemon, "")
     add("daemon_deterministic_set", "mesh-cartographer" in daemon, "")
+    st = CC / "scripts" / "army_self_tune.py"
+    add("self_tune_script", st.is_file(), "")
+    self_last = CC / "workspace" / "army_self_tune_last_run.json"
+    if self_last.is_file():
+        sl = json.loads(self_last.read_text(encoding="utf-8"))
+        add("self_tune_recent", sl.get("verdict") in ("SELF_TUNED", "NOOP"), sl.get("verdict", "?"))
 
     try:
         with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=5) as resp:

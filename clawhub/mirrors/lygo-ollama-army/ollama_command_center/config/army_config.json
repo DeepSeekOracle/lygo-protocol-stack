@@ -1,7 +1,7 @@
 {
   "name": "LYGO Ollama Army Command Center",
   "signature": "\u03949\u03a6963-ARMY-CC-v3",
-  "lygo_stack_root": "I:\\E Drive\\lygo-protocol-stack",
+  "lygo_stack_root": "",
   "system_profile": {
     "stack_version": "P9-SLM-NETWORK-BUILDER",
     "operator_clawhub": "1.0.6",

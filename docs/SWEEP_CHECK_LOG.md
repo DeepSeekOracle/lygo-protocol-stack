@@ -339,3 +339,18 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 **Verdict:** **🟢 PASS** — no missed P0 tamper gates; residual items documented in audit doc.
 
 **Δ9Φ963 — breach surface mapped; QUARANTINE honored.**
+
+## 20. Solid frame balance (2026-07-02)
+
+| Layer | Status |
+|-------|--------|
+| `docs/LYGO_SOLID_FRAME.md` | **canonical build map** |
+| ClawHub `lygo-ollama-army` | **0.4.1** mirror + SECURITY |
+| ClawHub `lygo-joy-loop` | **2.3.1** |
+| Kernel planter doc | joy **v2.3.1** + champion-egg-boot |
+| Army public `army_config` | `lygo_stack_root` **empty** (env required) |
+| `.grok` ↔ `clawhub/mirrors` | army + joy synced |
+
+**Overall:** **🟢 BALANCED — solid frame for next build.**
+
+**Δ9Φ963 — tamper verified, skills aligned, lattice green.**

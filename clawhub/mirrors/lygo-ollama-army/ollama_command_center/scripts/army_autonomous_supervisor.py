@@ -66,7 +66,16 @@ def launch_daemons_from_config(cfg: dict) -> list[subprocess.Popen]:
 
 def main() -> int:
     cfg = load_config()
-    os.environ.setdefault("LYGO_STACK_ROOT", cfg.get("lygo_stack_root", r"I:\E Drive\lygo-protocol-stack"))
+    if not os.environ.get("LYGO_STACK_ROOT", "").strip():
+        stack = (cfg.get("lygo_stack_root") or "").strip()
+        if stack:
+            os.environ["LYGO_STACK_ROOT"] = stack
+        else:
+            print(
+                "Set LYGO_STACK_ROOT or lygo_stack_root in army_config.json",
+                file=sys.stderr,
+            )
+            return 2
     print("LYGO Army Autonomous Supervisor (v3)")
     print("  - sentinel every 5 min (+ network-builder probe)")
     print("  - cron (lattice/stack/pages/mesh/audit/memory/planting) every 60 min")

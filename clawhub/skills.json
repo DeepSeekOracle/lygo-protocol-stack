@@ -281,12 +281,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "LYGO Ollama Army v0.4 — ARMY-CC v3: mesh-cartographer, planting, lattice/sentinel, 37-skill catalog audit. Champions + resonance bridge; no autonomous external push.",
+      "summary": "LYGO Ollama Army v0.4.1 — LYGO_STACK_ROOT required, lygo_stack_root.py, SECURITY+AGENT_CONTRACT, champion-egg-boot vault path, joy-loop-pulse, localhost Ollama only.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 160,
-      "version": "0.4.0"
+      "version": "0.4.1"
     },
     {
       "slug": "lygo-glyph2resonance",
@@ -437,6 +437,7 @@
     "lyra-brain": "grok",
     "lyra-openclaw": "grok",
     "lygo-network-builder": "grok",
-    "lygo-kernel-egg-planter": "grok"
+    "lygo-kernel-egg-planter": "grok",
+    "lygo-joy-loop": "grok"
   }
 }

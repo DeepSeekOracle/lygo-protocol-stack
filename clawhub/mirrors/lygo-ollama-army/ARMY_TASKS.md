@@ -23,7 +23,8 @@ Daemons (already running or launch with launcher) drain `ollama_queue/*.task.jso
 | `egg-planter` | Lattice OK → preflight/smoke → **kernel egg plant** (consent in `army_config.planting`) | No |
 | `registry-planter` | Lattice OK → CAS **registry plant** + verify (`cas_registry_cli`) | No |
 | `mesh-cartographer` | Runs `lygo_network_builder_verify.py` (SLM anchors) | No |
-| `memory-triage` / `hb-light` | Champion-style JSON review prompts | Yes |
+| **`champion-egg-boot`** | **Vault-only:** `champion_bootloader.py` → Merkle verify → P6 handshake → Ollama loads manifest `system_prompt` (never hb-light chat) | Yes (after vault) |
+| `memory-triage` / `hb-light` | Lightweight heartbeat / memory prompts (not council seed) | Yes |
 | `draft-simple` | Upgrade copy / public blurbs | Yes |
 
 ## Full capacity (Windows)
@@ -32,7 +33,7 @@ Daemons (already running or launch with launcher) drain `ollama_queue/*.task.jso
 .\start_army_full_capacity.ps1
 ```
 
-Uses `ollama_command_center/config/army_config.json` **v3** — all roles + `mesh-cartographer` + 2× `hb-light` + ARKOS on triage/draft.
+Uses `ollama_command_center/config/army_config.json` **v3** — all roles + **3× `champion-egg-boot`** + `mesh-cartographer` + 2× `hb-light` + ARKOS on triage/draft. Council seeds: `python tools/champion_egg_planter.py --i-consent` (stack).
 
 ## Re-seed anytime
 
@@ -61,6 +62,9 @@ python ollama_command_center/scripts/run_army_planting.py all
 
 ```bash
 python ollama_command_center/scripts/verify_army_tuning.py
+python ollama_command_center/scripts/army_self_tune.py
 ```
+
+**Self-tune** (hourly via cron/supervisor): syncs ClawHub expect from stack, prunes completed queue tasks, adjusts sentinel interval / hb-light / planting from lattice+sentinel (never enables external push).
 
 **Δ9Φ963-ARMY-TASKS-v4**

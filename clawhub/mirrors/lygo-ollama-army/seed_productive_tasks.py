@@ -30,6 +30,7 @@ def main() -> int:
         ("audit-suite", f"seed-audit-{ts}", {}),
         ("memory-sync", f"seed-memory-{ts}", {}),
         ("mesh-cartographer", f"seed-mesh-{ts}", {}),
+        ("self-tune", f"seed-self-tune-{ts}", {}),
         ("egg-planter", f"seed-egg-plant-{ts}", {}),
         ("registry-planter", f"seed-registry-plant-{ts}", {}),
         (
