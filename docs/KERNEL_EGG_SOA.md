@@ -1,6 +1,7 @@
 # Kernel Egg SOA — what we can and cannot store
 
-**Signature:** `Δ9Φ963-KERNEL-EGG-SOA-v1`
+**Signature:** `Δ9Φ963-KERNEL-EGG-SOA-v1`  
+**Tamper logic:** [`KERNEL_EGG_TAMPER_LOGIC.md`](KERNEL_EGG_TAMPER_LOGIC.md)
 
 ## Honest answer
 

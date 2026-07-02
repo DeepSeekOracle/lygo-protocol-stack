@@ -75,6 +75,32 @@ def main() -> int:
             return 0
     bin_path = ROOT / "data" / "kernel_eggs" / "build" / f"{args.egg}.bin"
     if bin_path.is_file():
+        import hashlib
+
+        actual = hashlib.sha256(bin_path.read_bytes()).hexdigest()
+        expected = None
+        for e in reg.get("eggs", []):
+            if e.get("egg_id") == args.egg:
+                expected = (e.get("transport") or {}).get("content_sha256")
+                break
+        for a in reg.get("anchored", []):
+            if a.get("egg_id") == args.egg:
+                expected = expected or a.get("content_sha256")
+        if expected and actual != expected:
+            print(
+                json.dumps(
+                    {
+                        "error": "TAMPER_DETECTED",
+                        "egg_id": args.egg,
+                        "expected_sha256": expected,
+                        "actual_sha256": actual,
+                        "verdict": "QUARANTINE",
+                    },
+                    indent=2,
+                ),
+                file=sys.stderr,
+            )
+            return 3
         print(json.dumps(decode_transport(bin_path.read_bytes()), indent=2)[:12000])
         return 0
     print(f"Egg {args.egg} not found locally", file=sys.stderr)

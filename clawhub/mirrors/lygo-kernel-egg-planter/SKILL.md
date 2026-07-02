@@ -129,6 +129,7 @@ Then: `python tools/sync_clawhub_mirrors.py` in the stack repo and bump `clawhub
 ## Docs in stack repo
 
 - `docs/KERNEL_EGG_SOA.md`
+- `docs/KERNEL_EGG_TAMPER_LOGIC.md` — four pillars (SHA-256, Merkle, anchor, lattice verify)
 - `docs/ANCHOR_DEPLOYMENT.md`
 
 **Δ9Φ963 — plant freely, verify always, consent first.**

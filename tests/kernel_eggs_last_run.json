@@ -1,0 +1,85 @@
+{
+  "signature": "\u03949\u03a6963-KERNEL-EGG-VERIFY-v1",
+  "all_pass": true,
+  "verdict": "ALIGNED",
+  "registry_merkle_root": "0ba643edd8e0aa21eb0af78fd445631d954f87764fce68bb8500b4cf69bd17dd",
+  "checks": [
+    {
+      "id": "egg-bin-p0-nano-kernel",
+      "pass": true,
+      "expected_sha256": "5820ccc5968bc2b5",
+      "actual_sha256": "5820ccc5968bc2b5"
+    },
+    {
+      "id": "egg-bin-stack-anchor-hook",
+      "pass": true,
+      "expected_sha256": "04ae34e3ac4071fa",
+      "actual_sha256": "04ae34e3ac4071fa"
+    },
+    {
+      "id": "egg-bin-stack-orchestrator-slim",
+      "pass": true,
+      "expected_sha256": "75b641043a8e5d56",
+      "actual_sha256": "75b641043a8e5d56"
+    },
+    {
+      "id": "egg-bin-lattice-soa-index",
+      "pass": true,
+      "expected_sha256": "c4b3b581797c29ab",
+      "actual_sha256": "c4b3b581797c29ab"
+    },
+    {
+      "id": "egg-bin-firmware-p04-drivers",
+      "pass": true,
+      "expected_sha256": "be62e1a610e43a5c",
+      "actual_sha256": "be62e1a610e43a5c"
+    },
+    {
+      "id": "egg-bin-protocol-drivers-p2-p5",
+      "pass": true,
+      "expected_sha256": "11d4c9a952d735ad",
+      "actual_sha256": "11d4c9a952d735ad"
+    },
+    {
+      "id": "registry-merkle-root",
+      "pass": true,
+      "declared": "0ba643edd8e0aa21",
+      "recomputed": "0ba643edd8e0aa21"
+    },
+    {
+      "id": "anchor-p0-nano-kernel",
+      "pass": true,
+      "content_sha256": "5820ccc5968bc2b5"
+    },
+    {
+      "id": "anchor-stack-anchor-hook",
+      "pass": true,
+      "content_sha256": "04ae34e3ac4071fa"
+    },
+    {
+      "id": "anchor-stack-orchestrator-slim",
+      "pass": true,
+      "content_sha256": "75b641043a8e5d56"
+    },
+    {
+      "id": "anchor-lattice-soa-index",
+      "pass": true,
+      "content_sha256": "c4b3b581797c29ab"
+    },
+    {
+      "id": "anchor-firmware-p04-drivers",
+      "pass": true,
+      "content_sha256": "be62e1a610e43a5c"
+    },
+    {
+      "id": "anchor-protocol-drivers-p2-p5",
+      "pass": true,
+      "content_sha256": "11d4c9a952d735ad"
+    },
+    {
+      "id": "anchor-registry-manifest",
+      "pass": true
+    }
+  ],
+  "timestamp": 1782980842.9728782
+}

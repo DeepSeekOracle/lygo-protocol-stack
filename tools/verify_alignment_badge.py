@@ -57,6 +57,22 @@ def collect_badge(*, quick: bool = False) -> dict:
         badge["checks"]["stack_demo"] = False
         badge["stack_error"] = str(exc)
 
+    reg_path = ROOT / "data" / "kernel_eggs" / "registry.json"
+    if reg_path.is_file():
+        try:
+            kr = json.loads(reg_path.read_text(encoding="utf-8"))
+            badge["kernel_egg_registry_merkle_root"] = kr.get("registry_merkle_root")
+            ke = ROOT / "tests" / "kernel_eggs_last_run.json"
+            if ke.is_file():
+                kv = json.loads(ke.read_text(encoding="utf-8"))
+                badge["checks"]["kernel_eggs"] = kv.get("all_pass", False)
+            else:
+                badge["checks"]["kernel_eggs"] = None
+        except Exception:
+            badge["checks"]["kernel_eggs"] = False
+    else:
+        badge["checks"]["kernel_eggs"] = None
+
     mesh_art = ROOT / "tests" / "mesh_scale_last_run.json"
     if mesh_art.is_file():
         try:

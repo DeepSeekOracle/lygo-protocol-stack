@@ -288,6 +288,28 @@ def main() -> int:
     ]:
         all_ok &= check(label, (REPO / rel).is_file())
 
+    egg_reg = REPO / "data" / "kernel_eggs" / "registry.json"
+    if egg_reg.is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "verify_kernel_eggs.py")],
+                cwd=REPO,
+                check=False,
+                timeout=60,
+            )
+            ke = REPO / "tests" / "kernel_eggs_last_run.json"
+            if ke.is_file():
+                ev = json.loads(ke.read_text(encoding="utf-8"))
+                all_ok &= check(
+                    "kernel eggs tamper verify",
+                    bool(ev.get("all_pass")),
+                    ev.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("kernel eggs tamper verify", False, "no last_run json")
+        except Exception as exc:
+            all_ok &= check("kernel eggs tamper verify", False, str(exc)[:80])
+
     anchor_audit = REPO / "tests" / "anchor_audit_last_run.json"
     if anchor_audit.is_file():
         ar = json.loads(anchor_audit.read_text(encoding="utf-8"))
