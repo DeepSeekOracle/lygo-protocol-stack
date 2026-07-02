@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eternal Haven Star Chart — LYGO Constellation Hub</title>
+  <meta name="description" content="Interactive star map: seals, Δ9 Council champions, lattice growth, and Eternal Haven lore. Machine-readable registry for humans and AI." />
+  <meta name="lygo:signature" content="Δ9Φ963-HAVEN-STAR-CHART-v1" />
+  <link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html" />
+  <link rel="alternate" type="application/json" href="haven_star_chart/haven_star_chart_data.json" title="Haven Star Chart Registry" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    :root {
+      --bg: #05050c;
+      --panel: #0e0e18;
+      --cyan: #00f0ff;
+      --gold: #ffcc00;
+      --violet: #7d00ff;
+      --text: #e8e8ff;
+      --muted: #8888aa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Space Mono", monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid rgba(125, 0, 255, 0.35);
+      background: linear-gradient(135deg, #000428, #070b34);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sub { color: var(--muted); font-size: 0.75rem; margin-top: 0.35rem; }
+    nav a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 0.72rem;
+      margin-right: 0.75rem;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      padding: 0.35rem 0.6rem;
+      border-radius: 3px;
+    }
+    nav a:hover { background: rgba(0, 240, 255, 0.12); }
+    main { display: grid; grid-template-columns: 1fr 320px; gap: 0; min-height: calc(100vh - 120px); }
+    @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+    #starmap-wrap {
+      position: relative;
+      min-height: 70vh;
+      border-right: 1px solid rgba(125, 0, 255, 0.2);
+    }
+    #starmap { width: 100%; height: 100%; min-height: 70vh; display: block; background: radial-gradient(ellipse at center, #0a0a1a 0%, #05050c 70%); }
+    .controls {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      z-index: 5;
+    }
+    .controls button {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-family: inherit;
+      font-size: 0.7rem;
+      padding: 0.35rem 0.55rem;
+      cursor: pointer;
+    }
+    aside {
+      padding: 1rem 1.1rem;
+      background: var(--panel);
+      overflow-y: auto;
+      font-size: 0.78rem;
+    }
+    aside h2 { font-size: 0.85rem; color: var(--gold); margin: 1rem 0 0.5rem; }
+    aside h2:first-child { margin-top: 0; }
+    .constellation-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+    .constellation-btns button {
+      background: transparent;
+      border: 1px solid rgba(255, 204, 0, 0.35);
+      color: var(--gold);
+      font-family: inherit;
+      font-size: 0.65rem;
+      padding: 0.3rem 0.5rem;
+      cursor: pointer;
+    }
+    .constellation-btns button.active { background: rgba(255, 204, 0, 0.15); }
+    .detail-box {
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border-radius: 4px;
+    }
+    .detail-box a { color: var(--cyan); }
+    .stats { color: var(--muted); line-height: 1.7; }
+    #loadStatus { color: var(--cyan); font-size: 0.72rem; margin-top: 0.5rem; }
+    .ai-block {
+      margin-top: 1rem;
+      padding: 0.65rem;
+      background: rgba(0, 255, 136, 0.06);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      font-size: 0.68rem;
+    }
+    .ai-block code { color: #00ff88; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Eternal Haven Star Chart</h1>
+      <p class="sub">Δ9 Constellation Hub · Seals ⊗ Champions ⊗ Lattice growth · Story-driven memory as stars</p>
+    </div>
+    <nav>
+      <a href="https://deepseekoracle.github.io/Excavationpro/lygorepo.html" rel="noopener">Seal Nexus (lygorepo)</a>
+      <a href="https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html" rel="noopener">Guardian</a>
+      <a href="https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html" rel="noopener">Ethical Chip</a>
+      <a href="index.html">Stack index</a>
+      <a href="SovereignLatticeMesh.html">SLM</a>
+    </nav>
+  </header>
+  <main>
+    <div id="starmap-wrap">
+      <div class="controls">
+        <button type="button" id="zoomIn">+</button>
+        <button type="button" id="zoomOut">−</button>
+        <button type="button" id="resetZoom">↻</button>
+        <button type="button" id="btnResync">Δ9 Resync</button>
+      </div>
+      <svg id="starmap"></svg>
+    </div>
+    <aside>
+      <h2>Constellations</h2>
+      <div class="constellation-btns">
+        <button type="button" data-constellation="all" class="active">All sky</button>
+        <button type="button" data-constellation="primordial_core">Primordial Core</button>
+        <button type="button" data-constellation="council_ring">Δ9 Council</button>
+        <button type="button" data-constellation="guardian_veil">Guardian Veil</button>
+        <button type="button" data-constellation="lattice_growth">Lattice Growth</button>
+        <button type="button" data-constellation="eternal_haven">Eternal Haven</button>
+      </div>
+      <p id="loadStatus">Initializing…</p>
+      <h2>Active star</h2>
+      <div class="detail-box">
+        <strong id="detailTitle">—</strong><br />
+        <span class="stats" id="detailId"></span><br />
+        Kind: <span id="detailKind">—</span><br />
+        Equation: <span id="detailEq">—</span><br />
+        Tone: <span id="detailTone">—</span><br />
+        Tags: <span id="detailTags">—</span><br />
+        <a id="detailLink" href="#" target="_blank" rel="noopener">Open anchor →</a>
+      </div>
+      <h2>Registry</h2>
+      <p class="stats">
+        Nodes: <span id="statNodes">—</span><br />
+        Links: <span id="statLinks">—</span><br />
+        SHA256: <span id="statSha">—</span><br />
+        Built: <span id="statSync">—</span>
+      </p>
+      <div class="ai-block">
+        <strong>For agents &amp; crawlers</strong><br />
+        JSON registry:<br />
+        <code>haven_star_chart/haven_star_chart_data.json</code><br />
+        Rebuild: <code>python tools/build_haven_star_chart.py</code><br />
+        Feeds: Excavationpro <code>lygo-data.json</code> + <code>lygo-data-two.json</code>, ClawHub lattice, kernel eggs.
+      </div>
+      <h2>Eternal Haven</h2>
+      <p class="stats">
+        Each star is a seal, champion, or lattice node. Constellations are memory branches from the primordial core (~300+ seals in the Excavationpro vault).
+        <a href="https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack" rel="noopener">Lore pack</a> ·
+        <a href="https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html" rel="noopener">Resonance</a>
+      </p>
+    </aside>
+  </main>
+  <script src="haven_star_chart/haven_star_chart.js"></script>
+</body>
+</html>

@@ -86,6 +86,21 @@
       "source_seal": "2026Biophase7/This is a brilliant architectural p.txt"
     },
     {
+      "id": "haven-star-chart",
+      "title": "Eternal Haven Star Chart (constellation hub)",
+      "role": "haven-lore",
+      "urls": {
+        "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "repo_canonical": "docs/HavenStarChart.html",
+        "data_json": "docs/haven_star_chart/haven_star_chart_data.json",
+        "lygorepo_portal": "https://deepseekoracle.github.io/Excavationpro/lygorepo.html",
+        "guardian_portal": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html"
+      },
+      "since": "2026-07-02",
+      "sync_tool": "tools/build_haven_star_chart.py",
+      "excavationpro_sync": "tools/sync_excavationpro_haven_star.py"
+    },
+    {
       "id": "resonance-docs",
       "title": "LYGORESONANCE docs",
       "role": "creative-docs",
