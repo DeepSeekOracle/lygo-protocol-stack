@@ -134,7 +134,7 @@
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ChampionEggRegistry.json",
         "verify": "local_repo",
         "repo_path": "docs/ChampionEggRegistry.json",
-        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/ChampionEggRegistry.json"
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/ChampionEggRegistry.json"
       },
       {
         "id": "anchor_deployment",
