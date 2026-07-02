@@ -159,6 +159,7 @@ def main() -> int:
         ("registry architecture doc", REPO / "docs" / "REGISTRY_ARCHITECTURE.md"),
         ("content addressable physics doc", REPO / "docs" / "CONTENT_ADDRESSABLE_PHYSICS.md"),
         ("build cas manifest CLI", REPO / "tools" / "build_cas_manifest.py"),
+        ("cas registry full CLI", REPO / "tools" / "cas_registry_cli.py"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
         ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
         ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),

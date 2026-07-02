@@ -14,13 +14,23 @@
 | **Provenance** | P6 HMAC on `merkle_root` (+ `p6_signature` / `generator_node_id` on manifest) |
 | **Lattice** | `global_merkle_root` on `/registry/root` and alignment badge |
 
-## Commands
+## Commands (full wrapper)
 
 ```powershell
 cd "I:\E Drive\lygo-protocol-stack"
-python tools/build_cas_manifest.py --file path\to\data.bin --metadata "{\"name\":\"ds-v1\"}" --no-p6 --verify
+
+# Unified CLI (recommended)
+python tools/cas_registry_cli.py status
+python tools/cas_registry_cli.py build --file path\to\data.bin --metadata '{"name":"ds-v1"}' --no-p6 --verify
+python tools/cas_registry_cli.py verify --json
+python tools/cas_registry_cli.py retrieve --list
+python tools/cas_registry_cli.py prune --gb 50
+python tools/cas_registry_cli.py repair
+
+# Blueprint-matched tools
+python tools/registry_manager.py --status
 python tools/verify_registry.py --json
-python tools/registry_manager_cli.py --status
+python tools/build_cas_manifest.py --file ... --metadata '{}' --no-p6 --verify
 ```
 
 ## Module map

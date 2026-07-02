@@ -17,8 +17,8 @@ from scalable_registry.retrieve import retrieve_by_id  # noqa: E402
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--id", required=True, help="manifest_id")
-    ap.add_argument("--out", type=Path, required=True, help="Output file path")
+    ap.add_argument("--id", default=None, help="manifest_id")
+    ap.add_argument("--out", type=Path, default=None, help="Output file path")
     ap.add_argument("--list", action="store_true", help="List registry entries")
     args = ap.parse_args()
 
@@ -27,6 +27,9 @@ def main() -> int:
         for e in reg.get("entries") or []:
             print(e.get("id"), e.get("merkle_root", "")[:16], e.get("metadata", {}).get("name", ""))
         return 0
+
+    if not args.id or not args.out:
+        ap.error("--id and --out required unless --list")
 
     try:
         result = retrieve_by_id(args.id, args.out)
