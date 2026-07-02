@@ -14,4 +14,15 @@ python tools/verify_public_pages.py
 
 **Alternative:** branch `main`, folder **`/docs`** (no `gh-pages` needed).
 
+**Compass (pyvis):** after `tools/LYGO_Compass_Master.html` exists locally:
+
+```bash
+python tools/sync_compass_pages.py
+git add docs/tools/LYGO_Compass_Master.html
+git commit -m "docs: publish Compass Master to Pages"
+git push origin main
+```
+
+Live URL: https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html
+
 Strict CI check (optional): `set LYGO_REQUIRE_STACK_PAGES=1` before `verify_lattice_alignment.py`.
