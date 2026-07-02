@@ -90,6 +90,9 @@ def main() -> int:
         ("agent memory snapshot", REPO / "docs" / "AGENT_MEMORY_SNAPSHOT.json"),
         ("biometric harness page", REPO / "docs" / "BiometricEntropyHarness.html"),
         ("phase7 haip ui tool", REPO / "tools" / "haip_ui_entropy.py"),
+        ("p6 hardened verify", REPO / "tools" / "verify_attestation_hardened.py"),
+        ("p7 ble ingest", REPO / "tools" / "live_ble_telemetry_ingest.py"),
+        ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
     ]:
         all_ok &= check(key, path.is_file())
     mesh_run = REPO / "tests" / "mesh_scale_last_run.json"

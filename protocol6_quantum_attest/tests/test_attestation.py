@@ -22,3 +22,12 @@ def test_tamper_fails():
     badge = att.generate_badge()
     badge["node_id"] = "EVIL"
     assert not att.verify_badge(badge)
+
+
+def test_verify_detailed_aligned():
+    att = AttestationService(MeasurementCollector(), node_id="TEST_NODE")
+    badge = att.generate_badge()
+    d = att.verify_badge_detailed(badge)
+    assert d["alignment"] == "ALIGNED"
+    assert d["ethical_gate"] is True
+    assert d["valid"] is True

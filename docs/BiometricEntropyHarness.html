@@ -418,6 +418,29 @@
             });
         }
 
+        // Optional live feed (BLE ingest + websocket_server.py on :8790)
+        let liveWs = null;
+        function connectLiveFeed() {
+            try {
+                liveWs = new WebSocket('ws://127.0.0.1:8790');
+                liveWs.onmessage = (ev) => {
+                    const msg = JSON.parse(ev.data);
+                    if (msg.seed_preview) {
+                        metricHmin.innerText = msg.h_min != null ? String(msg.h_min) : metricHmin.innerText;
+                        outputKey.innerText = msg.seed || msg.seed_preview;
+                        outputKey.className = "bg-zinc-950 p-4 rounded-lg border border-lygo-500/20 break-all font-mono text-[11px] leading-relaxed text-lygo-500 select-all min-h-[56px] flex items-center tracking-wider font-bold";
+                        badgeLock.innerText = "LIVE_BLE";
+                        badgeLock.className = "text-[10px] bg-lygo-950 px-2 py-0.5 rounded text-lygo-500 border border-lygo-500/30 font-bold uppercase tracking-widest";
+                        accumulatedEntropy = 256;
+                        metricBits.innerText = "256 / 256 bits";
+                        metricProgress.style.width = "100%";
+                    }
+                };
+                liveWs.onclose = () => { setTimeout(connectLiveFeed, 3000); };
+            } catch (e) { /* simulation-only mode */ }
+        }
+        connectLiveFeed();
+
         // Initialize App Workspace
         updateUIValues();
         runSimulationEngine();

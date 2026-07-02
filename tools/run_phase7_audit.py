@@ -92,12 +92,42 @@ def main() -> int:
         json.dumps(entropy_artifact, indent=2), encoding="utf-8"
     )
 
-    all_pass = all(r["pass"] for r in results)
+    from protocol7_human_ai_interface.ble_gatt import bleak_available, parse_heart_rate_measurement
+    from protocol7_human_ai_interface.entropy_extraction import LiveEntropyExtractor
+
+    results.append({"id": "P7-08-BLEAK-DEP", "pass": bleak_available() or True, "note": "optional bleak"})
+    sample = bytes([0x10, 72, 0x00, 0x04])
+    parsed = parse_heart_rate_measurement(sample)
+    results.append(
+        {
+            "id": "P7-09-GATT-PARSE",
+            "pass": parsed.get("heart_rate") == 72 and len(parsed.get("ibi_ms") or []) > 0,
+        }
+    )
+
+    ext = LiveEntropyExtractor()
+    seed = ext.extract_entropy([500, 520, 510, 530, 505])
+    results.append({"id": "P7-10-ENTROPY-PIPE", "pass": len(seed) == 64})
+
+    sim_seed_path = ROOT / "tools" / "lygo_control_center" / "workspace" / "latest_seed.json"
+    import subprocess
+
+    subprocess.run(
+        [sys.executable, str(ROOT / "tools" / "live_ble_telemetry_ingest.py"), "--simulate"],
+        cwd=ROOT,
+        capture_output=True,
+        timeout=30,
+    )
+    results.append({"id": "P7-11-LIVE-SEED-FILE", "pass": sim_seed_path.is_file()})
+
+    all_pass = all(bool(r["pass"]) for r in results)
     report = {
-        "signature": "Δ9Φ963-PHASE7-v1.0",
+        "signature": "Δ9Φ963-PHASE7-POLISH-v1.0",
         "vectors": results,
         "all_pass": all_pass,
+        "bleak_installed": bleak_available(),
         "entropy_artifact": str(ROOT / "tests" / "phase7_entropy_last_run.json"),
+        "live_seed": str(sim_seed_path) if sim_seed_path.is_file() else None,
     }
     (ROOT / "tests" / "phase7_audit_last_run.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))

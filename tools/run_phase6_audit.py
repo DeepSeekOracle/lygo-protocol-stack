@@ -47,11 +47,26 @@ def main() -> int:
         {"id": "P6-04-BADGE-SIGNED", "pass": r4},
         {"id": "P6-05-PEER-VERIFY", "pass": r5},
     ]
+    _, hw = _run_py("verify_hardware_attestation.py")
+    hardened_ok = False
+    try:
+        hardened = json.loads(
+            subprocess.run(
+                [sys.executable, str(ROOT / "tools" / "verify_attestation_hardened.py"), "--local", "--json"],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=60,
+            ).stdout
+        )
+        hardened_ok = bool(hardened.get("valid"))
+    except Exception:
+        hardened_ok = False
+    results.append({"id": "P6-06-ETHICAL-GATE", "pass": hardened_ok, "note": "verify_attestation_hardened --local"})
     all_pass = all(r["pass"] for r in results)
 
-    _, hw = _run_py("verify_hardware_attestation.py")
     report = {
-        "signature": "Δ9Φ963-PHASE6-v1.0",
+        "signature": "Δ9Φ963-P6-POLISH-v1.0",
         "vectors": results,
         "all_pass": all_pass,
         "hardware_tool": hw,

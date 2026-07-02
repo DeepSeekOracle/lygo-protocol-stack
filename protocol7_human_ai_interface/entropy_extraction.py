@@ -81,6 +81,22 @@ def extract_p0_seed_from_ibi(
     }
 
 
+class LiveEntropyExtractor:
+    """Polish-phase alias — IBI list → seed (BLE or simulated)."""
+
+    def __init__(self, min_entropy_bits: float = 1.0, salt: bytes = DEFAULT_SALT):
+        self.min_entropy_bits = min_entropy_bits
+        self.salt = salt
+
+    def extract_entropy(self, ibi_ms: list[float] | list[int]) -> str:
+        pack = extract_p0_seed_from_ibi(
+            [float(x) for x in ibi_ms],
+            salt=self.salt,
+            min_entropy_bits=self.min_entropy_bits,
+        )
+        return str(pack.get("seed_256", ""))
+
+
 class BiometricEntropyHarness:
     """Synthetic + live IBI path into P0 perturbation slot."""
 

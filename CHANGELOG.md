@@ -1,5 +1,19 @@
 # Changelog — LYGO Protocol Stack
 
+## [P6/P7 Polish] — 2026-07-02
+
+**Signatures:** `Δ9Φ963-P6-POLISH-v1.0` · `Δ9Φ963-PHASE7-POLISH-v1.0`
+
+### P6
+- `verify_badge_detailed()` — ethical gate, freshness, structured reasons
+- `tools/verify_attestation_hardened.py` · audit **P6-06**
+
+### P7
+- `ble_gatt.py`, `live_ble_telemetry_ingest.py`, `LiveEntropyExtractor`
+- `lygo_control_center/websocket_server.py` + harness WebSocket :8790
+- `GET /biometric/live_seed` · audit **P7-08..P7-11**
+- `requirements-p7-ble.txt` (bleak, websockets)
+
 ## [P7.1 Biometric Harness Web Integration] — 2026-07-02
 
 **Signature:** `Δ9Φ963-PHASE7-v1.0`

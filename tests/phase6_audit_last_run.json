@@ -1,5 +1,5 @@
 {
-  "signature": "\u03949\u03a6963-PHASE6-v1.0",
+  "signature": "\u03949\u03a6963-P6-POLISH-v1.0",
   "vectors": [
     {
       "id": "P6-01-TPM-PRESENT",
@@ -22,6 +22,11 @@
     {
       "id": "P6-05-PEER-VERIFY",
       "pass": true
+    },
+    {
+      "id": "P6-06-ETHICAL-GATE",
+      "pass": true,
+      "note": "verify_attestation_hardened --local"
     }
   ],
   "all_pass": true,

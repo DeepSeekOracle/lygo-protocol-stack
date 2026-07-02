@@ -65,6 +65,18 @@ class Handler(BaseHTTPRequestHandler):
         return handle_biometric_state()
 
     @staticmethod
+    def _p7_live_seed() -> dict:
+        import json as _json
+
+        seed_path = ROOT / "tools" / "lygo_control_center" / "workspace" / "latest_seed.json"
+        if not seed_path.is_file():
+            return {"status": "no_live_seed", "signature": "Δ9Φ963-PHASE7-POLISH-v1.0"}
+        try:
+            return {**_json.loads(seed_path.read_text(encoding="utf-8")), "status": "ok"}
+        except _json.JSONDecodeError:
+            return {"status": "corrupt", "signature": "Δ9Φ963-PHASE7-POLISH-v1.0"}
+
+    @staticmethod
     def _p7_history(seconds: int) -> list:
         import sys
 
@@ -103,6 +115,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/biometric/state":
             self._json(200, self._p7_biometric_state())
+            return
+        if path == "/biometric/live_seed":
+            self._json(200, self._p7_live_seed())
             return
         if path == "/biometric/history":
             qs = parse_qs(urlparse(self.path).query)
@@ -202,8 +217,19 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/attestation/verify":
             body = self._read_json_body()
             badge = body.get("badge") if isinstance(body.get("badge"), dict) else body
-            valid = get_stack().verify_peer_badge(badge if isinstance(badge, dict) else {})
-            self._json(200, {"valid": valid, "signature": "Δ9Φ963-PHASE6-v1.0"})
+            stack = get_stack()
+            badge_obj = badge if isinstance(badge, dict) else {}
+            detailed = stack.attestation.verify_badge_detailed(badge_obj)
+            self._json(
+                200,
+                {
+                    "valid": detailed.get("valid", False),
+                    "alignment": detailed.get("alignment"),
+                    "ethical_gate": detailed.get("ethical_gate"),
+                    "reasons": detailed.get("reasons", []),
+                    "signature": "Δ9Φ963-P6-POLISH-v1.0",
+                },
+            )
             return
         if path == "/device/register":
             body = self._read_json_body()
