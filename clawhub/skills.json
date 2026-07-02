@@ -361,12 +361,12 @@
     {
       "slug": "lygo-kernel-egg-planter",
       "name": "LYGO Kernel Egg Planter",
-      "summary": "Bulletproof kernel egg planter — mandatory tamper verify (SHA-256/Merkle/anchor/lattice), consent-gated plant/retrieve, ClawHub catalog pins. QUARANTINE on mismatch; pairs with stack operator + mint-verifier.",
+      "summary": "Bulletproof kernel egg planter — P0 protocol eggs + Δ9 Champion Kernel Eggs (15 council personas), tamper verify, champion bootloader, Ollama army seed. Consent-gated; QUARANTINE on mismatch.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter",
       "mirror": "mirrors/lygo-kernel-egg-planter",
       "published": true,
       "downloads": 0,
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     {
       "slug": "lygo-network-builder",
