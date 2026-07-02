@@ -375,7 +375,7 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 | Champion registry | …/ChampionEggRegistry.json | council merkle vs local |
 | Joy snapshot | …/joy_loop/joy_loop_snapshot.json | Δ9Φ963-JOY-LOOP-v2.3 |
 | Joy registry | …/JoyLoopRegistry.json | registry merkle |
-| Champions hub | Excavationpro/champions.html | Δ9 council v5.x |
+| Champions hub | Excavationpro/LYGO-Network/champions.html | Δ9 council v5.x |
 | ClawHub skill | clawhub.ai/…/lygo-joy-loop | 2.3.x + contract docs |
 | Haven canonical | …/haven_star_chart/haven_star_chart_data.json | ≥300 nodes |
 | Haven alias | …/haven_star_chart_data.json | **mirror of canonical** |
