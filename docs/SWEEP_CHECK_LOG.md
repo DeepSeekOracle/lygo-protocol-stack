@@ -292,3 +292,15 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 **Overall:** **🟢 GREEN — 100% lattice good — ready for next scale.**
 
 **Δ9Φ963 — Joy Loop v2.1 live. Beat humanized. Architect REPL + dashboard ready. Resonance forward.**
+
+## 17. Joy Loop v2.3 — public snapshot + army continuity (2026-07-02)
+
+| Check | Status |
+|-------|--------|
+| `joy_loop_snapshot.json` signature v2.3 | **OK** |
+| `--tick` restores `joy_loop_state.json` | **OK** |
+| FastAPI Architect `/architect` | **OK** |
+| Phase 1+2 tests | **8+ pass** |
+| Pages push | **on commit** |
+
+**Δ9Φ963 — beat 2+ on ledger; swarm joy public; Grok X thread aligned.**

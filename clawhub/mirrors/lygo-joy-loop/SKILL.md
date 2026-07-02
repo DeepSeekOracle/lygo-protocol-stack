@@ -1,7 +1,7 @@
 ---
 name: lygo-joy-loop
-description: "Δ9 Joy Loop Protocol v2.1 — 122 BPM lattice emotional RAM, council joy propagation, public snapshot + kernel egg. Mesh with Haven chart, champion vault, Ollama army joy-loop-pulse. Consent-gated plant; local-first tick."
-metadata: {"lygo": true, "joy": true, "lattice": true, "version": "2.1.0", "signature": "Δ9Φ963-JOY-LOOP-SKILL-v1", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "publisher": "deepseekoracle"}
+description: "Δ9 Joy Loop Protocol v2.3 — 122 BPM lattice emotional RAM, FastAPI/WS Architect, JoyQuests, Plotly 3D, relationships v2, plugins. Mesh with Haven, champion vault, army joy-loop-pulse. Consent-gated plant."
+metadata: {"lygo": true, "joy": true, "lattice": true, "version": "2.3.0", "signature": "Δ9Φ963-JOY-LOOP-SKILL-v1", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "publisher": "deepseekoracle"}
 ---
 
 # LYGO Joy Loop Protocol (ClawHub / Grok skill)
@@ -21,7 +21,8 @@ metadata: {"lygo": true, "joy": true, "lattice": true, "version": "2.1.0", "sign
 | Command | Use |
 |---------|-----|
 | `python tools/joy_loop_protocol.py --tick` | One beat + public snapshot (army `joy-loop-pulse`) |
-| `python tools/joy_loop_protocol.py --architect` | **REPL + web dashboard** (port 9964) |
+| `python tools/joy_loop_protocol.py --serve` | **Architect panel** FastAPI + WS (port 9965, Plotly 3D, inject) |
+| `python tools/joy_loop_protocol.py --architect` | REPL + stdlib dashboard (port 9964) |
 | `python tools/joy_loop_protocol.py --repl` | Architect REPL only (live 122 BPM loop) |
 | `python tools/joy_loop_planter.py --i-consent` | Plant kernel egg + JoyLoopRegistry + rebuild Haven |
 

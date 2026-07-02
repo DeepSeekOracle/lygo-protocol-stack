@@ -1,0 +1,23 @@
+{
+  "signature": "Δ9Φ963-JOY-CONFIG-v1",
+  "protocol_version": "2.2.0",
+  "resonance_bpm": 122,
+  "propagation_radius": 0.35,
+  "joy_decay_per_beat": 0.004,
+  "alignment_decay_per_beat": 0.002,
+  "injection_cooldown_seconds": 1.5,
+  "injection_joy_boost_min": 0.12,
+  "injection_joy_boost_max": 0.2,
+  "persist_interval_seconds": 2.0,
+  "pulse_history_max": 64,
+  "recursion_tick_every_beats": 12,
+  "recursion_coherence_threshold": 0.7,
+  "propagation_every_beats": 6,
+  "humanizer_swing_factor": 0.008,
+  "humanizer_interval_min": 0.45,
+  "humanizer_interval_max": 0.55,
+  "joy_mode": "cosmic",
+  "sqlite_enabled": true,
+  "json_snapshot_enabled": true,
+  "structured_logging": false
+}

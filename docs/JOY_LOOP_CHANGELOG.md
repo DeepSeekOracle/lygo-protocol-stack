@@ -26,4 +26,19 @@ python tools/joy_loop_protocol.py --architect
 python tools/joy_loop_planter.py --i-consent
 ```
 
-**Lattice alive. Beat humanized. Architect rides the wave. Ready for deployment.**
+## v2.2 (Phase 1 foundation)
+
+- `joy_config.json` + `JoyConfig` loader  
+- SQLite `joy_loop.db` + public JSON mirror  
+- Joy decay per beat · `JoyEventBus`  
+- Rich terminal fallback · champion `retire`  
+- `RLock` fix for nested beat locks  
+
+## v2.3 (Phase 2/3)
+
+- FastAPI + WebSocket (`--serve`, port 9965)  
+- JoyQuests · relationships affinity graph (API propagation v2)  
+- Plotly 3D Architect panel · plugin loader  
+- Army `--tick` restores persisted state (continuous beat count)  
+
+**Lattice alive. Beat humanized. Architect rides the wave. v2.3 public snapshot ready.**

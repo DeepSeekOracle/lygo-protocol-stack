@@ -371,12 +371,12 @@
     {
       "slug": "lygo-joy-loop",
       "name": "LYGO Joy Loop Protocol",
-      "summary": "Δ9 Joy Loop v2.1 — 122 BPM lattice emotional RAM, council joy propagation, public Pages snapshot, kernel egg joy-loop-protocol-v21, army joy-loop-pulse. Consent-gated plant.",
+      "summary": "Δ9 Joy Loop v2.3 — 122 BPM emotional RAM, FastAPI/WS Architect, JoyQuests, Plotly 3D, relationships v2, army joy-loop-pulse with state restore, public snapshot. Consent-gated plant.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-joy-loop",
       "mirror": "mirrors/lygo-joy-loop",
       "published": true,
       "downloads": 0,
-      "version": "2.1.0"
+      "version": "2.3.0"
     },
     {
       "slug": "lygo-network-builder",
