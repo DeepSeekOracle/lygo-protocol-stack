@@ -47,6 +47,16 @@ def main() -> int:
         print("[*] Pre-plant tamper verify (baseline)")
         run_verify(stack)
 
+    if "champions" in surfaces:
+        subprocess.check_call(
+            [
+                sys.executable,
+                str(tools / "champion_egg_planter.py"),
+                "--i-consent",
+            ],
+            cwd=stack,
+        )
+
     if "clawhub" in surfaces:
         cmd = [
             sys.executable,

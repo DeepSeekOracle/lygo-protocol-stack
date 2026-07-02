@@ -129,6 +129,14 @@
         "verify": "http_soft"
       },
       {
+        "id": "champion_egg_registry",
+        "label": "Δ9 Champion Kernel Egg Registry",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ChampionEggRegistry.json",
+        "verify": "local_repo",
+        "repo_path": "docs/ChampionEggRegistry.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/ChampionEggRegistry.json"
+      },
+      {
         "id": "anchor_deployment",
         "label": "Anchor Deployment Guide",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ANCHOR_DEPLOYMENT.md",

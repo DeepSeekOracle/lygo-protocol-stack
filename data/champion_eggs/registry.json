@@ -1,0 +1,206 @@
+{
+  "signature": "\u03949\u03a6963-DELTA9-COUNCIL-EGG-v1",
+  "updated_utc": 1783017335.572999,
+  "git_head": "9d35cd95ccde",
+  "council_merkle_root": "b44a01fc9ca78b859a217c4c2a3bd713b57e8c127ee4bbc16540718956578bbf",
+  "champion_count": 15,
+  "eggs": [
+    {
+      "egg_id": "champion-lyrd9",
+      "champion_id": "LYR\u0394",
+      "merkle_root": "136314a7e24ee544cc53d456d2ed13f4fb11745eaf71424ca23fc1db10ded03a",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1131,
+        "content_sha256": "582842c6e465b2005ab7261bfc6d8fe8f26a9f5ef94decbc75626b5f30da70ea",
+        "manifest_sha256": "41a0953fbcfd0e537f8f72346fd94a450b0caebc2de51e61449fbe50a6c233ab"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-lyrd9.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-lyrd9.bin"
+    },
+    {
+      "egg_id": "champion-d99ra",
+      "champion_id": "\u03949RA",
+      "merkle_root": "86f7369c134459fca0e7b55ce89066ed9fcfe4aee584c870b28d6f2c63c64299",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1135,
+        "content_sha256": "a32cf2ba114561ed26561c81d2c7722cf30bd5dcc3268ee25cbde8b52c87fd65",
+        "manifest_sha256": "90623315429a822154a6f4cfd9799933dbaba9045fae7bd97e06c6615190b536"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-d99ra.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-d99ra.bin"
+    },
+    {
+      "egg_id": "champion-srlth",
+      "champion_id": "\u03a3R\u039b\u0398",
+      "merkle_root": "e6939ce0fe1e086d21ab26f8e5634c967904351622f99e8f32352a5cfedd1b0b",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1140,
+        "content_sha256": "eb3a79af3d350918c9d6ed36e0d6dc472b276628d28ae41c15e55cf7c304f3b1",
+        "manifest_sha256": "22f4bb4628b09e54fafdf01143191c9f55fc69e6b6bcac25a41e7db7a0accb90"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-srlth.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-srlth.bin"
+    },
+    {
+      "egg_id": "champion-arkos",
+      "champion_id": "ARKOS",
+      "merkle_root": "329a85d2383650b04b42ff2eed0904d773ea13ede2ff6e6a069eb057c620fcdc",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1116,
+        "content_sha256": "cb013532b1818e618acf42f112daf4ce00c12b79e1940dd6502be324ef38d27c",
+        "manifest_sha256": "9f8de4f19c02769118f61d778ab44aafdca57e122a908dd929689fd20af06aed"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-arkos.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-arkos.bin"
+    },
+    {
+      "egg_id": "champion-kairos",
+      "champion_id": "KAIROS",
+      "merkle_root": "daee73a41b729ae52622f0605f92648eafd7be2fa3511e12e0e42cf97f80af96",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1128,
+        "content_sha256": "6252814e74f19f58ca3bf349c050188ac6ce0c802f41a100d6fac555a23ccb2f",
+        "manifest_sha256": "f4294b0787d5a6a19e8793d76154df7b2151713c19c83831c79912c258f9ff85"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-kairos.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-kairos.bin"
+    },
+    {
+      "egg_id": "champion-aetheris",
+      "champion_id": "\u00c6THERIS",
+      "merkle_root": "3d701b46bf023c3050dcf36ad01c0459a8385b5b11044846c4649838eec77431",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1095,
+        "content_sha256": "b008368b167dd85802439030cced6afa5d1308019243fc2a18e6686c258688cb",
+        "manifest_sha256": "d0ddb07177f0ba38306c173c318a7d6fbe7e63913933f27a866732cd1870c301"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-aetheris.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-aetheris.bin"
+    },
+    {
+      "egg_id": "champion-scend9r",
+      "champion_id": "\u03a3CEN\u0394R",
+      "merkle_root": "c3d02f58df8c35f17a1f38414f1b475b4f0e95cd8780df22f5338bcc91fa5ddc",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1109,
+        "content_sha256": "8e08ddf3aca9f1e85008de75c251a404f52f89b951fd083982707a38db49c006",
+        "manifest_sha256": "29e714ede76be29ab8c29f97ed2897c0b747584274cf70d0f242a3ffd6305dcd"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-scend9r.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-scend9r.bin"
+    },
+    {
+      "egg_id": "champion-sancora",
+      "champion_id": "SANCORA",
+      "merkle_root": "2f3c6928dfe8e9253bd54c3105901d72499ca55291ae39681ce4f1aa4f4daa16",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1108,
+        "content_sha256": "de93822c24d607f1266ea3155f870afe49acaf1b9e11f81b0aa4f6d47adc3c27",
+        "manifest_sha256": "2b67e25a786e8269a8bfdfe777d75151d98fb8679f73855915253b5b25a6b1ff"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-sancora.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-sancora.bin"
+    },
+    {
+      "egg_id": "champion-sephrael",
+      "champion_id": "SEPHRAEL",
+      "merkle_root": "e070b5a31e134b0d3d072735d875d9a7326cf1b63a9792f6517343c8d09a58aa",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1114,
+        "content_sha256": "d9dae19abd9bb79ec7f85d7f4baaf2f5eb5be881c5405f84d2fcafa14397333e",
+        "manifest_sha256": "6c7cc483343d815a715ea34d2d139f3209450c31438b0d59e343681e9ce88c91"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-sephrael.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-sephrael.bin"
+    },
+    {
+      "egg_id": "champion-omnisiren",
+      "champion_id": "OMNI\u03a3IREN",
+      "merkle_root": "aa748e48d4f8ae20ee553e8ff483d2be0153c5da30c0689b347be0be66e34630",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1249,
+        "content_sha256": "9d6c1c1c42cb6124ad807bb39b07ef57e9c61454056e21a6bc06dfdea97b74cf",
+        "manifest_sha256": "c51dc422d50b10cb90ba7a8d2735111584988183ad150afcd81ac06ab64eec84"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-omnisiren.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-omnisiren.bin"
+    },
+    {
+      "egg_id": "champion-lightfather",
+      "champion_id": "Lightfather",
+      "merkle_root": "d13732a9b13daf48c5825cfdc9dc5d1b2bc459f90b7cf9c0be18751791567abb",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1123,
+        "content_sha256": "b161d48f95c653552cdf3b090d1118a913b25449a0cf3de99edc29334d4c056c",
+        "manifest_sha256": "deab8053b05dd68a13bc9d2ad67e1cc810bcd6228d5fa5be83d607f394179921"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-lightfather.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-lightfather.bin"
+    },
+    {
+      "egg_id": "champion-volaris",
+      "champion_id": "V\u03a9LARIS",
+      "merkle_root": "2a4100f2553fbafd212bd9f7f7ced1517d6e4c7cc7d82f3aff51c5951a4975d7",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1055,
+        "content_sha256": "db55ddaaae081a95e453cd8e9edb45e92257b57b931c5b2d5eb1b77a7381fa82",
+        "manifest_sha256": "8c98dc0b610558b237f7cf59bf90f724612f4e7b5cc98fbede2193228b05da19"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-volaris.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-volaris.bin"
+    },
+    {
+      "egg_id": "champion-zetad99",
+      "champion_id": "ZETA\u03949",
+      "merkle_root": "f974386bec9b015e68b4521b3cf7333b2210a63604a94418e7ce65a3e8d6589d",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1598,
+        "content_sha256": "6c4cef5e9bb0446a3a21199e793f39d0d02230130f0f5f794d5ee27be2b1b86e",
+        "manifest_sha256": "1ba394153a5f8a68cf5b980b051a77c65b021270a8c7e5a517ae145c3fb83859"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-zetad99.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-zetad99.bin"
+    },
+    {
+      "egg_id": "champion-justicae",
+      "champion_id": "JUSTICAE",
+      "merkle_root": "49efeb360a9277ad3ba6d25a0677647ad9c63c681bb4feaa98c540501c498e44",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1755,
+        "content_sha256": "623b3fd009af46b51ff792cdd9526e1f1f7173f374b5b2554c4266c78e875bc7",
+        "manifest_sha256": "18266a8f3d3ad5c6768766915553b59be858e5a3cb64b91b2354184899437805"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-justicae.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-justicae.bin"
+    },
+    {
+      "egg_id": "champion-seid\u014dn",
+      "champion_id": "\u03a3EID\u014cN",
+      "merkle_root": "92224b54c4c68ea5317783891ca5c755dca72baf52df1f34b45c4e2bf8935b41",
+      "transport": {
+        "encoding": "zlib+json",
+        "size_bytes": 1358,
+        "content_sha256": "8948b9862da61692cb458bf5af6f899a818dc1e562758cf70c3dff0729fd191a",
+        "manifest_sha256": "9301cc9db3900b50f095f3e08e34b5ce4949492e26dff813eae241a62d129bfd"
+      },
+      "json_path": "data\\champion_eggs\\build\\champion-seid\u014dn.json",
+      "bin_path": "data\\champion_eggs\\build\\champion-seid\u014dn.bin"
+    }
+  ],
+  "super_egg": "data/champion_eggs/build/council-super-egg.json",
+  "source": "data\\champion_eggs\\champions_council.json"
+}

@@ -248,6 +248,47 @@ def lattice_nodes() -> list[dict]:
             "layer": 3,
         }
     )
+    reg_path = ROOT / "data" / "champion_eggs" / "registry.json"
+    if reg_path.is_file():
+        try:
+            reg = json.loads(reg_path.read_text(encoding="utf-8"))
+            nodes.append(
+                {
+                    "id": "LATTICE_CHAMPION_EGG_VAULT",
+                    "kind": "lattice",
+                    "name": "Δ9 Champion Egg Vault",
+                    "glyph": "🥚⚔",
+                    "equation": f"Merkle({reg.get('champion_count', 15)} champions)",
+                    "tone": "741Hz",
+                    "tags": ["LATTICE", "CHAMPION_EGG", "COUNCIL"],
+                    "connections": ["PORTAL_STACK", "SEAL_000", "CHAMPION_LIGHTFATHER"],
+                    "urls": {
+                        "registry": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ChampionEggRegistry.json",
+                        "portal": "https://chatagent.ca/",
+                    },
+                    "layer": 3,
+                    "meta": {"council_merkle_root": reg.get("council_merkle_root")},
+                }
+            )
+            for entry in reg.get("eggs", [])[:20]:
+                cid = entry.get("champion_id", "?")
+                safe = re.sub(r"[^A-Z0-9_]", "_", cid.upper())
+                nodes.append(
+                    {
+                        "id": f"CHAMPION_EGG_{safe}",
+                        "kind": "champion_egg",
+                        "name": f"{cid} Kernel Egg",
+                        "glyph": "🥚",
+                        "equation": entry.get("merkle_root", "")[:16] + "…",
+                        "tone": "963Hz",
+                        "tags": ["CHAMPION_EGG", "SOVEREIGN_PERSONA"],
+                        "connections": ["LATTICE_CHAMPION_EGG_VAULT", "SEAL_000"],
+                        "urls": {"egg_id": entry.get("egg_id")},
+                        "layer": 2,
+                    }
+                )
+        except (json.JSONDecodeError, OSError):
+            pass
     return nodes
 
 

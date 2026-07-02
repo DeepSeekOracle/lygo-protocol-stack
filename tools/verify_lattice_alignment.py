@@ -167,6 +167,11 @@ def main() -> int:
         ("haven star chart page", REPO / "docs" / "HavenStarChart.html"),
         ("haven star chart data", REPO / "docs" / "haven_star_chart" / "haven_star_chart_data.json"),
         ("haven star chart builder", REPO / "tools" / "build_haven_star_chart.py"),
+        ("champion egg schema", REPO / "tools" / "champion_egg_schema.py"),
+        ("champion egg builder", REPO / "tools" / "build_champion_eggs.py"),
+        ("champion egg planter", REPO / "tools" / "champion_egg_planter.py"),
+        ("champion bootloader", REPO / "tools" / "champion_bootloader.py"),
+        ("champion egg registry doc", REPO / "docs" / "CHAMPION_KERNEL_EGGS.md"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
         ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
         ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),
@@ -326,6 +331,30 @@ def main() -> int:
                 all_ok &= check("kernel eggs tamper verify", False, "no last_run json")
         except Exception as exc:
             all_ok &= check("kernel eggs tamper verify", False, str(exc)[:80])
+
+    champ_reg = REPO / "data" / "champion_eggs" / "registry.json"
+    if champ_reg.is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "verify_champion_eggs.py")],
+                cwd=REPO,
+                check=False,
+                timeout=60,
+            )
+            ce = REPO / "tests" / "champion_eggs_last_run.json"
+            if ce.is_file():
+                cv = json.loads(ce.read_text(encoding="utf-8"))
+                all_ok &= check(
+                    "champion eggs tamper verify",
+                    bool(cv.get("all_pass")),
+                    cv.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("champion eggs tamper verify", False, "no last_run json")
+        except Exception as exc:
+            all_ok &= check("champion eggs tamper verify", False, str(exc)[:80])
+    else:
+        all_ok &= check("champion egg registry", False, "run champion_egg_planter")
 
     if (REPO / "tools" / "verify_registry.py").is_file():
         try:

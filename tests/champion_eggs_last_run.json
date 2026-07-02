@@ -1,0 +1,71 @@
+{
+  "signature": "\u03949\u03a6963-CHAMPION-EGG-VERIFY-v1",
+  "timestamp": 1783017360.5585501,
+  "verdict": "ALIGNED",
+  "all_pass": true,
+  "champion_count": 15,
+  "council_merkle_root": "b44a01fc9ca78b859a217c4c2a3bd713b57e8c127ee4bbc16540718956578bbf",
+  "council_merkle_recomputed": "b44a01fc9ca78b859a217c4c2a3bd713b57e8c127ee4bbc16540718956578bbf",
+  "checks": [
+    {
+      "egg_id": "champion-lyrd9",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-d99ra",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-srlth",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-arkos",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-kairos",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-aetheris",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-scend9r",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-sancora",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-sephrael",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-omnisiren",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-lightfather",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-volaris",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-zetad99",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-justicae",
+      "ok": true
+    },
+    {
+      "egg_id": "champion-seid\u014dn",
+      "ok": true
+    }
+  ]
+}
