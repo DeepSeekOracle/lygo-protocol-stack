@@ -44,9 +44,9 @@
     {
       "id": "SLM-09-PERF-100",
       "pass": true,
-      "elapsed_ms": 303
+      "elapsed_ms": 173
     }
   ],
   "all_pass": true,
-  "duration_ms": 303
+  "duration_ms": 173
 }

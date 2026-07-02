@@ -14,7 +14,8 @@ $pages = Get-Content "tests/public_pages_last_run.json" | ConvertFrom-Json
 if (-not $pages.stack_pages_live) {
     Write-Host ""
     Write-Host "Stack Pages still 404 — enable ONCE in browser:" -ForegroundColor Yellow
-    Write-Host "  Settings -> Pages -> Deploy from branch -> main -> /docs" -ForegroundColor Yellow
+    Write-Host "  Settings -> Pages -> gh-pages branch -> / (root)  OR  main -> /docs" -ForegroundColor Yellow
+    Write-Host "  See docs/ENABLE_PAGES_NOW.md" -ForegroundColor Yellow
     Write-Host "  https://github.com/DeepSeekOracle/lygo-protocol-stack/settings/pages" -ForegroundColor Yellow
     Start-Process "https://github.com/DeepSeekOracle/lygo-protocol-stack/settings/pages"
 } else {

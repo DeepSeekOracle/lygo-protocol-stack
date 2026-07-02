@@ -1,6 +1,6 @@
 {
   "signature": "Δ9Φ963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-02T00:45:00Z",
+  "updated_utc": "2026-07-01T12:00:00Z",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -17,7 +17,7 @@
         "setup": "docs/GITHUB_PAGES_SETUP.md"
       },
       "since": "2026-07-01",
-      "deploy_status": "pending_github_actions_pages_source"
+      "deploy_status": "live_github_pages"
     },
     {
       "id": "slm-interactive",
@@ -95,6 +95,11 @@
       "utc": "2026-07-02T01:00:00Z",
       "event": "PUBLIC_SYSTEM_TEST: Excavationpro mirrors 200; stack Pages 404 until Settings→Pages→GitHub Actions; deploy-pages.yml broadened + .nojekyll",
       "refs": ["slm-interactive", "biometric-harness", "pages-stack-index"]
+    },
+    {
+      "utc": "2026-07-01T12:00:00Z",
+      "event": "stack GitHub Pages enabled; verify_public_pages stack_pages_live true (index/slm/harness 200); public test green",
+      "refs": ["pages-stack-index", "slm-interactive", "biometric-harness"]
     }
   ]
 }

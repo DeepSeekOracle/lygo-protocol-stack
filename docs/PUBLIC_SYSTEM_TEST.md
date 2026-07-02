@@ -1,7 +1,7 @@
 # LYGO Protocol Stack — Public System Test
 
 **Resonance signature:** `Δ9Φ963-PUBLIC-TEST-v1.0`  
-**Last verified (local audits):** SLM + P7 + P9 `all_pass` · lattice `ALIGNED`
+**Last verified (local audits):** SLM + P7 + P9 `all_pass` · lattice `ALIGNED` · stack Pages **LIVE** (`verify_public_pages.py`)
 
 ## Live validation links
 
@@ -9,9 +9,9 @@
 |---------|-----|--------|
 | Biometric Harness (Excavationpro) | https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html | **LIVE** |
 | SLM interactive (Excavationpro) | https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html | **LIVE** |
-| Biometric Harness (stack Pages) | https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html | **Deploy** — enable Pages + Actions (see below) |
-| SLM interactive (stack Pages) | https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html | **Deploy** — same |
-| Stack index | https://deepseekoracle.github.io/lygo-protocol-stack/ | **Deploy** — same |
+| Biometric Harness (stack Pages) | https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html | **LIVE** |
+| SLM interactive (stack Pages) | https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html | **LIVE** |
+| Stack index | https://deepseekoracle.github.io/lygo-protocol-stack/ | **LIVE** |
 | HF Space | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine | **RUNNING** |
 | GitHub repo | https://github.com/DeepSeekOracle/lygo-protocol-stack | **LIVE** |
 | HF dataset | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack | **LIVE** |

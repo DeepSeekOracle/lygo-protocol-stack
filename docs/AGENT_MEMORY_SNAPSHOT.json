@@ -1,6 +1,6 @@
 {
   "signature": "Δ9Φ963-AGENT-MEMORY-SYNC-v1",
-  "updated_utc": "2026-07-02T00:30:00Z",
+  "updated_utc": "2026-07-01T12:00:00Z",
   "authority_root": "I:\\E Drive",
   "public_link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
   "stack": {
@@ -24,11 +24,6 @@
     "slm": { "all_pass": true, "artifact": "tests/slm_audit_last_run.json" },
     "phase9": { "all_pass": true, "artifact": "tests/phase9_audit_last_run.json" }
   },
-  "session_log": [
-    "2026-07-02: Integrated SovereignLatticeMesh.html into docs/; LYGO_PUBLIC_LINK_ARCHIVE.json + log_public_surface.py.",
-    "2026-07-02: Dual Pages — stack + Excavationpro; sync_excavationpro_slm_page.py; HF bundle includes HTML.",
-    "2026-07-02: Published github 02dbc53; HF dataset 72d06ab, Space 9b8b89b; lattice ALIGNED."
-  ],
   "surfaces": {
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "hf_space": "DeepSeekOracle/LYGO-Resonance-Engine",
@@ -44,12 +39,18 @@
   "public_test": {
     "doc": "docs/PUBLIC_SYSTEM_TEST.md",
     "excavationpro_mirrors": "LIVE (200)",
-    "stack_pages": "404 until Settings→Pages→GitHub Actions + deploy workflow",
+    "stack_pages": "LIVE (200)",
     "artifact": "tests/public_pages_last_run.json"
   },
+  "session_log": [
+    "2026-07-02: Integrated SovereignLatticeMesh.html into docs/; LYGO_PUBLIC_LINK_ARCHIVE.json + log_public_surface.py.",
+    "2026-07-02: Dual Pages — stack + Excavationpro; sync_excavationpro_slm_page.py; HF bundle includes HTML.",
+    "2026-07-02: Published github 02dbc53; HF dataset 72d06ab, Space 9b8b89b; lattice ALIGNED.",
+    "2026-07-01: Stack GitHub Pages live; verify_public_pages green; PUBLIC_SYSTEM_TEST stack URLs LIVE."
+  ],
   "human_gates": [
-    "Enable GitHub Pages source: GitHub Actions — docs/GITHUB_PAGES_SETUP.md",
     "Grokipedia manual paste",
-    "Excavationpro sync optional: sync_excavationpro_slm_page.py --push"
+    "Excavationpro sync optional: sync_excavationpro_slm_page.py --push",
+    "Compass Pages: add tools/LYGO_Compass_Master.html then sync_compass_pages.py (stack_compass 404)"
   ]
 }

@@ -3,8 +3,8 @@
   "vectors": [
     {
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
-      "status": 404,
-      "ok": false,
+      "status": 200,
+      "ok": true,
       "id": "stack_index"
     },
     {
@@ -15,14 +15,14 @@
     },
     {
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
-      "status": 404,
-      "ok": false,
+      "status": 200,
+      "ok": true,
       "id": "stack_slm"
     },
     {
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
-      "status": 404,
-      "ok": false,
+      "status": 200,
+      "ok": true,
       "id": "stack_harness"
     },
     {
@@ -38,8 +38,8 @@
       "id": "excavationpro_harness"
     }
   ],
-  "stack_pages_live": false,
+  "stack_pages_live": true,
   "stack_compass_live": false,
   "excavationpro_mirrors_live": true,
-  "duration_ms": 694
+  "duration_ms": 624
 }
