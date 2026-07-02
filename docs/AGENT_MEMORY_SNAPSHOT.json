@@ -4,7 +4,7 @@
   "authority_root": "I:\\E Drive",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "b03c67a",
+    "github_main": "d16d31c",
     "stack_version": "P0.4-P5.2.3-PHASE9-PUBLIC-MESH",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
@@ -33,13 +33,14 @@
   "session_log": [
     "2026-07-01: Lightfather Phase 9 blueprint — tls_manager, keylime_bridge, protocol8_ldq_synthesis, live_synthesis.",
     "2026-07-01: node_api --tls, /cert/pin, /synthesis/run; P9 audit all_pass; pytest 8/8.",
-    "2026-07-01: GitHub b03c67a; HF dataset 449e266, Space fca4a48 Phase9 v7.0 bundle."
+    "2026-07-01: GitHub b03c67a; HF dataset 449e266, Space fca4a48 Phase9 v7.0 bundle.",
+    "2026-07-01: ClawHub republish — lygo-protocol-stack-operator 1.0.5, lygo-mesh-deploy 1.0.1; git d16d31c."
   ],
   "surfaces": {
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "hf_space": "DeepSeekOracle/LYGO-Resonance-Engine — RUNNING",
     "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
-    "clawhub": "deepseekoracle — 35 skills mirrored",
+    "clawhub": "deepseekoracle — operator 1.0.5, lygo-mesh-deploy 1.0.1 (Phase9/SLM published)",
     "grokipedia": "human paste GROkipedia_UPLOAD_BUNDLE.md pending"
   },
   "ops": {
