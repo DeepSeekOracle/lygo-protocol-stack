@@ -110,6 +110,12 @@
         "verify": "http_required"
       },
       {
+        "id": "haven_star_chart",
+        "label": "Eternal Haven Star Chart",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "verify": "http_soft"
+      },
+      {
         "id": "anchor_deployment",
         "label": "Anchor Deployment Guide",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ANCHOR_DEPLOYMENT.md",

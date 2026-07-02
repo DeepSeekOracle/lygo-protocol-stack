@@ -38,8 +38,14 @@ def main() -> int:
     shutil.copytree(CANONICAL_DATA, out_dir)
     print(f"Synced → {out_html} and {out_dir}")
 
+    print(
+        "NOTE: Excavationpro may fail full git checkout on Windows (invalid path "
+        "'LYGO-Network/Deep-Seek-Oracle /EIDOLON.html'). Prefer stack Pages hub or "
+        "upload HavenStarChart.html + haven_star_chart/ via GitHub web UI.",
+    )
+
     if args.push:
-        subprocess.run(["git", "add", "HavenStarChart.html", "haven_star_chart"], cwd=dest, check=False)
+        subprocess.run(["git", "add", "HavenStarChart.html", "haven_star_chart/"], cwd=dest, check=False)
         subprocess.run(
             ["git", "commit", "-m", "feat: Eternal Haven Star Chart hub (LYGO stack sync)"],
             cwd=dest,
