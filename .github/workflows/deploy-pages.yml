@@ -4,9 +4,6 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - "docs/**"
-      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -26,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Assert docs site root
+        run: test -f docs/index.html && test -f docs/SovereignLatticeMesh.html && test -f docs/BiometricEntropyHarness.html
+      - name: Ensure Jekyll bypass for raw HTML
+        run: touch docs/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

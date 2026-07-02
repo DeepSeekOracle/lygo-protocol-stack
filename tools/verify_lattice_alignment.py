@@ -165,6 +165,33 @@ def main() -> int:
     except Exception as exc:
         all_ok &= check("clawhub inspect", False, str(exc))
 
+    try:
+        subprocess.run(
+            [sys.executable, str(REPO / "tools" / "verify_public_pages.py")],
+            cwd=REPO,
+            timeout=120,
+            check=False,
+        )
+        pp = REPO / "tests" / "public_pages_last_run.json"
+        if pp.is_file():
+            pr = json.loads(pp.read_text(encoding="utf-8"))
+            all_ok &= check(
+                "excavationpro public mirrors",
+                bool(pr.get("excavationpro_mirrors_live")),
+            )
+            if not pr.get("stack_pages_live"):
+                check(
+                    "stack github pages",
+                    False,
+                    "enable Actions Pages — docs/GITHUB_PAGES_SETUP.md then re-run deploy workflow",
+                )
+            else:
+                check("stack github pages", True)
+        else:
+            all_ok &= check("public pages last run", False, "missing json")
+    except Exception as exc:
+        all_ok &= check("public pages verify", False, str(exc))
+
     print("=" * 50)
     print("LATTICE", "ALIGNED" if all_ok else "NEEDS FIX")
     return 0 if all_ok else 1

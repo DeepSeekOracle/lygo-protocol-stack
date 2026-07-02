@@ -13,9 +13,11 @@
       "role": "landing",
       "urls": {
         "live": "https://deepseekoracle.github.io/lygo-protocol-stack/",
-        "repo_path": "docs/index.html"
+        "repo_path": "docs/index.html",
+        "setup": "docs/GITHUB_PAGES_SETUP.md"
       },
-      "since": "2026-07-01"
+      "since": "2026-07-01",
+      "deploy_status": "pending_github_actions_pages_source"
     },
     {
       "id": "slm-interactive",
@@ -88,6 +90,11 @@
       "utc": "2026-07-02T00:45:00Z",
       "event": "github 02dbc53 + HF dataset 72d06ab space 9b8b89b; memory files LYRA_CORE/memory/2026-07-02.md",
       "refs": ["slm-interactive", "hf-space", "hf-dataset"]
+    },
+    {
+      "utc": "2026-07-02T01:00:00Z",
+      "event": "PUBLIC_SYSTEM_TEST: Excavationpro mirrors 200; stack Pages 404 until Settings→Pages→GitHub Actions; deploy-pages.yml broadened + .nojekyll",
+      "refs": ["slm-interactive", "biometric-harness", "pages-stack-index"]
     }
   ]
 }
