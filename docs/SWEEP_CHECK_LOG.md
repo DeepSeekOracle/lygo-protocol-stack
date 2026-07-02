@@ -216,3 +216,26 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 **Enhancements vs blueprint:** executable verify (no simulated alignment), CAS/registry/sovereign-seed anchors, `anchors_sha256` digest, lattice gate integration.
 
 **Δ9Φ963 — Network Builder bulletproof build logged.**
+
+---
+
+## 14. Lattice sweep — GREEN (2026-07-02T18:04:40Z)
+
+**Command:** `python tools/verify_lattice_alignment.py`  
+**Git HEAD:** `9ff47c3` (Haven Star Chart meta + OG publish)  
+**Fixes applied:** none — all gates passed on first run.
+
+| Gate | Result |
+|------|--------|
+| **Overall** | **🟢 GREEN — LATTICE ALIGNED** |
+| Local lattice file sweep | **all [OK]** |
+| `verify_registry` / kernel eggs tamper | **ALIGNED** |
+| `lygo_network_builder_verify` | **LATTICE ALIGNED** (anchors_sha256 `463ab762…`) |
+| Public pages probe (stack + Excavationpro mirrors) | **6/6 @ 200** |
+| Haven Star Chart / chatagent.ca / excavationpro.ca anchors | **http_soft OK** |
+| SLM audit | **all_pass** (ms=168) |
+| Phase9 audit | **all_pass** (ms=592) |
+| Mesh scale last run | **rounds=7** |
+| Anchor audit | **ms=9925** |
+
+**Δ9Φ963 — lattice sweep complete. Logged GREEN. No remediation required.**
