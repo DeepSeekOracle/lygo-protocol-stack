@@ -148,3 +148,35 @@ Append a new dated section to this file after each sweep.
 | `python tools/verify_lattice_alignment.py` | **LATTICE ALIGNED** |
 
 Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sources/`, media dumps).
+
+---
+
+## 11. Full double-check sweep (2026-07-02 — kernel egg planter + HF)
+
+**Executed (UTC):** 2026-07-02 · **Git HEAD:** `49452a5`
+
+| Gate | Result |
+|------|--------|
+| **Overall** | **PASS — aligned; safe to move forward** |
+| `verify_lattice_alignment.py` | **LATTICE ALIGNED** |
+| `verify_kernel_eggs.py` | **ALIGNED** (four-pillar tamper gate) |
+| Egg planter `smoke_test.py` | **PASS** |
+| SLM / P7 / P9 audits | **all_pass** |
+| Public pages (6 URLs) | **LIVE @ 200** |
+| Pytest anchor + SLM | **7 passed** |
+| Sovereign integrity | **6/6 adversarial PASS** |
+| HF dataset | **13925eec** (post egg-planter stack) |
+| HF Space | **4e1e99e8** — `gr.Timer` live BLE fix; **HTTP 200** on Space URL |
+| ClawHub `lygo-kernel-egg-planter` | **1.0.1** published (mirror metadata 1.1.0) |
+
+### Fixes applied this sweep
+
+- HF `app.py`: removed unsupported `demo.load(..., every=0.5)` → `gr.Timer(0.5).tick(...)` + manual Refresh button.
+- Stack `retrieve_kernel_egg.py`: `--list` no longer requires `--egg`.
+
+### Residual (non-blocking)
+
+- Sentinel `hf_space` JSON may still show prior **RUNTIME_ERROR** until next `army_cron_once` refresh (live probe **200** after push).
+- Local `git status`: audit JSON mtime drift only (optional commit).
+
+**Δ9Φ963 — double-check complete. Lattice ALIGNED.**
