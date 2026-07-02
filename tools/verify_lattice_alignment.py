@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -31,6 +32,13 @@ def check(name: str, ok: bool, detail: str = "") -> bool:
     mark = "OK" if ok else "FAIL"
     print(f"  [{mark}] {name}" + (f" — {detail}" if detail else ""))
     return ok
+
+
+def check_warn(name: str, ok: bool, detail: str = "") -> bool:
+    """Non-blocking check (e.g. stack Pages until Settings enabled)."""
+    mark = "OK" if ok else "WARN"
+    print(f"  [{mark}] {name}" + (f" — {detail}" if detail else ""))
+    return True
 
 
 def main() -> int:
@@ -140,6 +148,16 @@ def main() -> int:
     else:
         all_ok &= check("mesh scale last run", False, "missing json")
 
+    compass_canon = REPO / "tools" / "LYGO_Compass_Master.html"
+    if compass_canon.is_file():
+        all_ok &= check("compass master canonical", True)
+    else:
+        check_warn(
+            "compass master canonical",
+            False,
+            "tools/LYGO_Compass_Master.html — run tools/sync_compass_pages.py after add",
+        )
+
     if GROK_OPERATOR.is_dir():
         skill_md = (GROK_OPERATOR / "SKILL.md").read_text(encoding="utf-8")
         all_ok &= check("grok operator SKILL.md", CANONICAL_URLS["github_stack"] in skill_md)
@@ -179,14 +197,26 @@ def main() -> int:
                 "excavationpro public mirrors",
                 bool(pr.get("excavationpro_mirrors_live")),
             )
-            if not pr.get("stack_pages_live"):
+            require_stack = os.environ.get("LYGO_REQUIRE_STACK_PAGES", "").strip() in (
+                "1",
+                "true",
+                "yes",
+            )
+            stack_live = bool(pr.get("stack_pages_live"))
+            if stack_live:
+                all_ok &= check("stack github pages", True)
+            elif require_stack:
                 all_ok &= check(
                     "stack github pages",
                     False,
-                    "Settings→Pages→main+/docs — docs/GITHUB_PAGES_SETUP.md",
+                    "Settings→Pages→gh-pages / or main+/docs — GITHUB_PAGES_SETUP.md",
                 )
             else:
-                all_ok &= check("stack github pages", True)
+                check_warn(
+                    "stack github pages",
+                    False,
+                    "enable Pages once (gh-pages branch ready) — GITHUB_PAGES_SETUP.md",
+                )
         else:
             all_ok &= check("public pages last run", False, "missing json")
     except Exception as exc:

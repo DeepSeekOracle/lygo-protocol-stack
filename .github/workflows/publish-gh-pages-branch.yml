@@ -25,6 +25,10 @@ jobs:
           test -f docs/index.html
           test -f docs/SovereignLatticeMesh.html
           test -f docs/BiometricEntropyHarness.html
+          mkdir -p docs/tools
+          if [ -f tools/LYGO_Compass_Master.html ]; then
+            cp -f tools/LYGO_Compass_Master.html docs/tools/LYGO_Compass_Master.html
+          fi
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:

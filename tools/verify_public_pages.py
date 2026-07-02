@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 URLS = {
     "stack_index": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "stack_compass": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
     "stack_slm": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
     "stack_harness": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
     "excavationpro_slm": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
@@ -39,12 +40,15 @@ def main() -> int:
         row["id"] = key
         results.append(row)
 
-    stack_ok = all(r["ok"] for r in results if r["id"].startswith("stack_"))
+    stack_core_ids = {"stack_index", "stack_slm", "stack_harness"}
+    stack_ok = all(r["ok"] for r in results if r["id"] in stack_core_ids)
     mirror_ok = all(r["ok"] for r in results if r["id"].startswith("excavationpro_"))
+    compass_row = next((r for r in results if r["id"] == "stack_compass"), None)
     report = {
         "signature": "Δ9Φ963-PUBLIC-PAGES-VERIFY-v1",
         "vectors": results,
         "stack_pages_live": stack_ok,
+        "stack_compass_live": bool(compass_row and compass_row.get("ok")),
         "excavationpro_mirrors_live": mirror_ok,
         "duration_ms": int((time.perf_counter() - t0) * 1000),
     }

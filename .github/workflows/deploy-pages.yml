@@ -11,6 +11,9 @@ permissions:
   pages: write
   id-token: write
 
+# If this job fails with "Get Pages site failed", enable Pages in repo Settings first
+# (see docs/GITHUB_PAGES_SETUP.md). Use publish-gh-pages-branch.yml as fallback.
+
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -25,6 +28,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Assert docs site root
         run: test -f docs/index.html && test -f docs/SovereignLatticeMesh.html && test -f docs/BiometricEntropyHarness.html
+      - name: Sync Compass Master into docs/tools (Pages path)
+        run: |
+          mkdir -p docs/tools
+          if [ -f tools/LYGO_Compass_Master.html ]; then
+            cp -f tools/LYGO_Compass_Master.html docs/tools/LYGO_Compass_Master.html
+          fi
       - name: Ensure Jekyll bypass for raw HTML
         run: touch docs/.nojekyll
       - uses: actions/configure-pages@v5

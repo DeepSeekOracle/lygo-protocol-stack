@@ -13,6 +13,8 @@
 The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, multi-language ports, LYRA production kernel, stack orchestrator, and verification tools sourced from the Excavationpro / LYRA / 2026 firmware vault.
 
 **Public reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/ (`docs/index.html` — deploy via Actions or Pages → `/docs`).  
+**Compass (pyvis):** https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html — canonical `tools/LYGO_Compass_Master.html`; publish: `python tools/sync_compass_pages.py` (CI copies into `docs/tools/` on deploy).  
+**Pages not live yet?** One-time enable: [`docs/ENABLE_PAGES_NOW.md`](docs/ENABLE_PAGES_NOW.md) · full options: [`docs/GITHUB_PAGES_SETUP.md`](docs/GITHUB_PAGES_SETUP.md).  
 **Grokipedia:** use condensed [`docs/GROkipedia_SUBMIT.md`](docs/GROkipedia_SUBMIT.md) (title + brief + links). Archive bundle: [`GROkipedia_UPLOAD_BUNDLE.md`](GROkipedia_UPLOAD_BUNDLE.md). Regenerate: `python tools/sync_grokipedia.py`.
 
 ---
