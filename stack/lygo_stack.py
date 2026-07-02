@@ -144,10 +144,6 @@ class LYGOProtocolStack:
         _, a = self._phase6()
         return a
 
-
-# Alias for blueprint / operator docs
-LYGOStack = LYGOProtocolStack
-
     def process_ethical_query(
         self,
         query: str,
@@ -399,6 +395,10 @@ LYGOStack = LYGOProtocolStack
             "p5": p5,
             "network": self.harmony.calculate_network_resonance(),
         }
+
+
+# Alias for blueprint / operator docs
+LYGOStack = LYGOProtocolStack
 
 
 def deploy_stack(sovereign_id: str = "LYGO_STACK_PUBLIC") -> LYGOProtocolStack:
