@@ -371,12 +371,12 @@
     {
       "slug": "lygo-joy-loop",
       "name": "LYGO Joy Loop Protocol",
-      "summary": "Δ9 Joy Loop v2.3 — 122 BPM emotional RAM, FastAPI/WS Architect, JoyQuests, Plotly 3D, relationships v2, army joy-loop-pulse with state restore, public snapshot. Consent-gated plant.",
+      "summary": "LYGO Joy Loop v2.3.1 — explicit triggers, SECURITY.md + AGENT_CONTRACT, scoped FS/subprocess, public snapshot disclosure, consent-gated plant. Local tick/Architect only; agents must not auto-push.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-joy-loop",
       "mirror": "mirrors/lygo-joy-loop",
       "published": true,
       "downloads": 0,
-      "version": "2.3.0"
+      "version": "2.3.1"
     },
     {
       "slug": "lygo-network-builder",
