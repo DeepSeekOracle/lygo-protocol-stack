@@ -24,7 +24,7 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 | **Determinism proven** | ✅ (P0) | Golden SHA `7e8d18fda979cbefec14c3fc86f43f2a020b494b6052acccb6f865f2b4fae1d3` — **Python ≡ Rust** via `tools/p0_crosslang_parity.py`; 42 vectors in `fixtures/p0_vectors.json` |
 | **Multi-language ports** | ✅ | Python (canonical), C (`src/c/`), Rust (`src/rust/`), Verilog gate ROM (`src/hardware/lygo_gate.v` + Q16.16 helpers). **C harness:** requires `gcc` on PATH (SKIP on Windows without toolchain) |
 | **Pilot ready** | ✅ | **HF Space:** Standard beats isolated + **Twin Gate Phase 3** (text / byte / compare tabs). Bundle: `protocol_stack/` + `text_semantic_gate.py`. **Repo:** `process_ethical_query()` + [PILOT_SCENARIO_PHASE2.md](./PILOT_SCENARIO_PHASE2.md) + [LYGO_LATTICE.md](./LYGO_LATTICE.md) |
-| **Community open** | ✅ | Phase 2 Docker + badge; **34** ClawHub skills in `clawhub/`; Phase 3 blueprint in [BLUEPRINT.md](./BLUEPRINT.md) |
+| **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |
 | **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
 
 ---

@@ -24,10 +24,15 @@ INCLUDE_DIRS = [
 
 INCLUDE_FILES = [
     "tests/test_falsifiable_vectors.json",
+    "tests/mesh_scale_last_run.json",
+    "tests/twin_gate_vector_suite_last_run.json",
     "tools/run_grok_audit_demo.py",
     "tools/generate_falsifiable_vectors.py",
     "tools/verify_alignment_badge.py",
+    "tools/run_mesh_scale_sim.py",
+    "tools/run_mesh_gossip_demo.py",
     "docs/PHASE2_DEPLOYMENT.md",
+    "docs/MESH_GOSSIP_PROTOCOL.md",
 ]
 
 TWIN_GATE_FILES = [

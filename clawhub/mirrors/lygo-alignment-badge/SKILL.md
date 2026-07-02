@@ -1,7 +1,7 @@
 ---
 name: lygo-alignment-badge
 description: Verify LYGO node compliance — P0 golden SHA, stack demo, Phase 1 elasticity, Phase 3–4 federation, optional full Grok audit and lattice checks. Emits JSON/Markdown badge for community deployment.
-metadata: {"lygo": true, "stack": true, "phase": 2, "version": "1.0.0", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "signature": "Δ9Φ963-PHASE2-DEPLOYMENT"}
+metadata: {"lygo": true, "stack": true, "phase": "2-5", "version": "1.0.1", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "signature": "Δ9Φ963-PHASE5-LIVE-DEPLOYMENT"}
 ---
 
 # lygo-alignment-badge
@@ -32,6 +32,9 @@ Containers use `--quick` for HEALTHCHECK; run full badge before claiming product
 | phase3_4_federation | Registry + gossip |
 | grok_audit_cli | 60+ falsifiable vectors (full mode) |
 | lattice | README/HF/ClawHub link parity (full mode) |
+| phase5_mesh_scale | `tests/mesh_scale_last_run.json` under 10 rounds (when present) |
+
+Gauntlet: `python tools/run_lattice_gauntlet.py --strict`
 
 ## Agent behavior
 

@@ -4,7 +4,7 @@
   "authority_root": "I:\\E Drive",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "b94f95a",
+    "github_main": "pending-push",
     "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
@@ -28,7 +28,7 @@
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "hf_space": "DeepSeekOracle/LYGO-Resonance-Engine — RUNNING",
     "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
-    "clawhub": "deepseekoracle — operator 1.0.3, 34 skills mirrored",
+    "clawhub": "deepseekoracle — operator 1.0.4, lygo-mesh-deploy 1.0.0, 35 skills mirrored",
     "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack — human paste GROkipedia_UPLOAD_BUNDLE.md pending"
   },
   "ops": {

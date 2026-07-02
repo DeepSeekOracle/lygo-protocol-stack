@@ -5,9 +5,19 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 34,
-  "count_mirrored": 34,
+  "count_published": 35,
+  "count_mirrored": 35,
   "skills": [
+    {
+      "slug": "lygo-mesh-deploy",
+      "name": "LYGO Mesh Deploy",
+      "summary": "Phase 5 federation mesh — deploy node cluster, monitor gossip convergence, 100-node scale sim. Δ9Φ963-PHASE5-LIVE.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-mesh-deploy",
+      "mirror": "mirrors/lygo-mesh-deploy",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "lygo-docker-deploy",
       "name": "LYGO Docker Deploy",
@@ -16,7 +26,7 @@
       "mirror": "mirrors/lygo-docker-deploy",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "slug": "lygo-alignment-badge",
@@ -26,7 +36,7 @@
       "mirror": "mirrors/lygo-alignment-badge",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "slug": "lygo-protocol-stack-operator",
@@ -36,7 +46,7 @@
       "mirror": "mirrors/lygo-protocol-stack-operator",
       "published": true,
       "downloads": 0,
-      "version": "1.0.3"
+      "version": "1.0.4"
     },
     {
       "slug": "eternal-haven-lore-pack",

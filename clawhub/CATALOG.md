@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 32 skills verified via ClawHub API · **Repo mirrors:** 32 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 35 skills verified via ClawHub API · **Repo mirrors:** 35 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -13,7 +13,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
-| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
+| [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.4` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 
@@ -70,6 +70,14 @@ npx clawhub@latest install deepseekoracle/<slug>
 | [eternal-haven-lore-pack](https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack) | Eternal Haven Lore Pack | `1.2.0` · 1,924 dl | [mirror](./mirrors/eternal-haven-lore-pack/) |
 | [void-atlas-protocol](https://clawhub.ai/deepseekoracle/void-atlas-protocol) | Void Atlas Protocol | `1.0.1` · 1,313 dl | [mirror](./mirrors/void-atlas-protocol/) |
 | [recursive-generosity-protocol](https://clawhub.ai/deepseekoracle/recursive-generosity-protocol) | Recursive Generosity Protocol (Delta9-WP-003) | `1.0.0` · 1,341 dl | [mirror](./mirrors/recursive-generosity-protocol/) |
+
+## Other published
+
+| Slug | Name | Registry | Mirror |
+|------|------|----------|--------|
+| [lygo-alignment-badge](https://clawhub.ai/deepseekoracle/lygo-alignment-badge) | LYGO Alignment Badge | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-alignment-badge/) |
+| [lygo-docker-deploy](https://clawhub.ai/deepseekoracle/lygo-docker-deploy) | LYGO Docker Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-docker-deploy/) |
+| [lygo-mesh-deploy](https://clawhub.ai/deepseekoracle/lygo-mesh-deploy) | LYGO Mesh Deploy | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-mesh-deploy/) |
 
 ## Repo-only workflow mirrors
 

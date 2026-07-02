@@ -7,6 +7,7 @@
 | Node | URL |
 |------|-----|
 | GitHub stack | https://github.com/DeepSeekOracle/lygo-protocol-stack |
+| GitHub Pages | https://deepseekoracle.github.io/lygo-protocol-stack/ |
 | HF dataset | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack |
 | HF Space | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
 | ClawHub | https://clawhub.ai/deepseekoracle |
