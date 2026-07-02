@@ -11,14 +11,16 @@
 
 ```bash
 pip install -r requirements-p7-ble.txt
-python tools/live_ble_telemetry_ingest.py          # bleak scan + GATT 0x2A37
+python tools/run_live_ble_pipeline.py              # BLE + ws://0.0.0.0:8788 (tunnel → HF)
+python tools/run_live_ble_pipeline.py --simulate-stream
 python tools/live_ble_telemetry_ingest.py --simulate
-python tools/lygo_control_center/websocket_server.py
+python tools/lygo_control_center/websocket_server.py   # legacy harness :8790
 ```
 
 - Seed file: `tools/lygo_control_center/workspace/latest_seed.json`
 - Node API: `GET /biometric/live_seed`
-- Harness page: WebSocket `ws://127.0.0.1:8790` overlays live seed when ingest is running
+- **Biophase7 Objective:** `docs/BIOPHASE7_OBJECTIVE_LIVE_BLE.md` — HF secret `LYGO_BLE_WS_URL`
+- Harness page: `ws://127.0.0.1:8790` or public `ws://0.0.0.0:8788` with event stream
 
 ## Audits
 

@@ -43,7 +43,9 @@
         "Lightfather's Voice — Polish Phase.txt",
         "ANCHOR_IMPLEMENTATION_COMPLETE.md"
       ],
-      "summary": "Biophase7 blueprints; anchor implemented in repo"
+      "summary": "Biophase7 blueprints; anchor implemented in repo",
+      "objective_live_ble": "lygo-protocol-stack/docs/BIOPHASE7_OBJECTIVE_LIVE_BLE.md",
+      "objective_spec": "🧬 Objective.txt"
     },
     {
       "id": "ldq-vault",
