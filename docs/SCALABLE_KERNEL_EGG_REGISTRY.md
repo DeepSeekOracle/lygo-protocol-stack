@@ -1,6 +1,6 @@
 # Scalable Kernel Egg Registry (Synthetic Data & AI Weights)
 
-**Signature:** `Δ9Φ963-SCALABLE-REGISTRY-v1`  
+**Signature:** `Δ9Φ963-SCALABLE-REGISTRY-v2` · **Architecture:** [`REGISTRY_ARCHITECTURE.md`](REGISTRY_ARCHITECTURE.md)  
 **Blueprint source:** Lightfather's Voice — Complete Blueprint (Biophase7)  
 **Engineering overrides:** hierarchical manifests ≤90 KiB, P6 provenance, stream retrieve, `prune_cas`
 

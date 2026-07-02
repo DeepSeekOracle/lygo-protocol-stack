@@ -155,6 +155,8 @@ def main() -> int:
         ("scalable registry manifest builder", REPO / "tools" / "scalable_registry" / "manifest_builder.py"),
         ("register synthetic data CLI", REPO / "tools" / "register_synthetic_data.py"),
         ("verify registry CLI", REPO / "tools" / "verify_registry.py"),
+        ("registry v2 checklist", REPO / "tools" / "run_registry_v2_checklist.py"),
+        ("registry architecture doc", REPO / "docs" / "REGISTRY_ARCHITECTURE.md"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
         ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
         ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),

@@ -1,0 +1,55 @@
+{
+  "signature": "\u03949\u03a6963-SCALABLE-REGISTRY-v2",
+  "verdict": "ALIGNED",
+  "all_pass": true,
+  "checks": [
+    {
+      "id": "REG-01-global-root",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-c1e545eb3ea0",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-03c1c9214224",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-03c1c9214224",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-37090493ef18",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-796c81f1b7f6",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-c1e545eb3ea0",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-cdca223c7cf3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-f4ef2070adb3",
+      "pass": true,
+      "note": "ok"
+    }
+  ],
+  "global_merkle_root": "90ef258a0e06bb5b7d87322beff99bbeff6d490b08851b8018d8165bb4c89334",
+  "entry_count": 2,
+  "duration_ms": 18
+}

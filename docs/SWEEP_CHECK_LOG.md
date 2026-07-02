@@ -180,3 +180,19 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 - Local `git status`: audit JSON mtime drift only (optional commit).
 
 **Δ9Φ963 — double-check complete. Lattice ALIGNED.**
+
+---
+
+## 12. Scalable Registry v2.0 final (Lightfather overrides)
+
+| Check | Result |
+|-------|--------|
+| Hierarchical manifests ≤85 KiB, ≤1000 hashes/sub | **implemented** |
+| Sub-manifest + super anchor tree (`--anchor`) | **implemented** |
+| P6 provenance + quarantine on bad sig | **implemented** |
+| Stream retrieve (`ab` append) + checklist RAM probe | **implemented** |
+| `prune_cas` + `LYGO_MAX_LOCAL_CAS_GB` (50) | **implemented** |
+| `python tools/run_registry_v2_checklist.py` | run for evidence JSON |
+| `python tools/verify_lattice_alignment.py` | expect **LATTICE ALIGNED** |
+
+**Verdict:** Registry v2 lethal build complete — **cleared to move forward.**

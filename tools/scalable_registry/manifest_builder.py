@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from . import MAX_MANIFEST_JSON_BYTES, SIGNATURE
+from . import MAX_MANIFEST_JSON_BYTES, SIGNATURE, SUB_MANIFEST_MAX_HASHES
 from .chunking import chunk_file_to_cas, chunk_hash, content_defined_chunks, write_chunk_to_cas
 from .merkle import merkle_root
 from .provenance import ProvenanceError, sign_merkle_root
@@ -75,7 +75,7 @@ def _fit_chunk_batches(hashes: list[str], metadata: dict[str, Any], size_bytes: 
             lo = mid + 1
         else:
             hi = mid - 1
-    batch_size = max(1, best)
+    batch_size = max(1, min(best, SUB_MANIFEST_MAX_HASHES))
     batches: list[list[str]] = []
     for i in range(0, len(hashes), batch_size):
         batches.append(hashes[i : i + batch_size])
@@ -162,7 +162,8 @@ def build_manifest_from_hashes(
 
 
 def manifest_content_sha256(manifest: dict[str, Any]) -> str:
-    return hashlib.sha256(_canonical_json(manifest)).hexdigest()
+    body = {k: v for k, v in manifest.items() if k != "content_sha256"}
+    return hashlib.sha256(_canonical_json(body)).hexdigest()
 
 
 def expand_chunk_hashes(manifest: dict[str, Any]) -> list[str]:
@@ -203,3 +204,27 @@ def anchor_manifest_local(manifest: dict[str, Any], *, label: str | None = None)
         "content_sha256": getattr(result, "content_sha256", None),
     }
     return {"manifest_sha256": hashlib.sha256(payload).hexdigest(), "anchor": anchor_meta}
+
+
+def anchor_manifest_tree(manifest: dict[str, Any], *, anchor_subs: bool = True) -> dict[str, Any]:
+    """Anchor sub-manifests first (v2), then super/leaf primary entry."""
+    out: dict[str, Any] = {"primary": None, "sub_anchors": []}
+    if manifest.get("type") == "super_manifest" and anchor_subs:
+        for ref in manifest.get("sub_manifests") or []:
+            mid = str(ref.get("manifest_id") or "")
+            from .registry_manager import load_manifest
+
+            sub = load_manifest(mid)
+            if not sub:
+                raise FileNotFoundError(f"sub-manifest {mid} missing for anchor")
+            anchored = anchor_manifest_local(sub, label=f"sub-{ref.get('sub_index', 0)}")
+            ref["anchor"] = anchored.get("anchor")
+            ref["anchor_url"] = (anchored.get("anchor") or {}).get("url")
+            ref["anchor_content_sha256"] = anchored.get("manifest_sha256")
+            out["sub_anchors"].append({"manifest_id": mid, **anchored})
+        from .registry_manager import persist_manifest
+
+        persist_manifest(manifest)
+    name = str((manifest.get("metadata") or {}).get("name", "manifest"))
+    out["primary"] = anchor_manifest_local(manifest, label=name)
+    return out

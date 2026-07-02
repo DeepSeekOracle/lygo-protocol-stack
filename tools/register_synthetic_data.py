@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from scalable_registry.manifest_builder import (  # noqa: E402
-    anchor_manifest_local,
+    anchor_manifest_tree,
     build_manifest_from_bytes,
     build_manifest_from_file,
     manifest_content_sha256,
@@ -66,7 +66,8 @@ def main() -> int:
 
     anchor_info = None
     if args.anchor:
-        anchor_info = anchor_manifest_local(manifest)
+        anchor_info = anchor_manifest_tree(manifest, anchor_subs=True)
+        persist_manifest(manifest)
 
     global_root = add_manifest_entry(
         mid,

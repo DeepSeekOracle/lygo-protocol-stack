@@ -20,7 +20,9 @@ def verify_and_stream_to_file(
     hashes = expand_chunk_hashes(manifest)
     dest.parent.mkdir(parents=True, exist_ok=True)
     written = 0
-    with dest.open("wb") as out:
+    if dest.exists():
+        dest.unlink()
+    with dest.open("ab") as out:
         for h in hashes:
             path = cas_path(cas, h)
             if not path.is_file():

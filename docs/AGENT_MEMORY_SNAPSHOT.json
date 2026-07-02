@@ -71,7 +71,8 @@
     "2026-07-02: Dual Pages — stack + Excavationpro; sync_excavationpro_slm_page.py; HF bundle includes HTML.",
     "2026-07-02: Published github 02dbc53; HF dataset 72d06ab, Space 9b8b89b; lattice ALIGNED.",
     "2026-07-01: Stack GitHub Pages live; verify_public_pages green; PUBLIC_SYSTEM_TEST stack URLs LIVE.",
-    "2026-07-02: Bulletproof lygo-kernel-egg-planter (49452a5); ClawHub 1.0.1; full sweep §11 SWEEP_CHECK_LOG; HF dataset 13925eec + Space 4e1e99e8 (Timer BLE fix); lattice ALIGNED."
+    "2026-07-02: Bulletproof lygo-kernel-egg-planter (49452a5); ClawHub 1.0.1; full sweep §11 SWEEP_CHECK_LOG; HF dataset 13925eec + Space 4e1e99e8 (Timer BLE fix); lattice ALIGNED.",
+    "2026-07-02: Scalable Kernel Egg Registry v2.0 — four Lightfather overrides; v2 checklist all_pass; lattice ALIGNED; SWEEP §12 complete."
   ],
   "human_gates": [
     "Grokipedia manual paste",

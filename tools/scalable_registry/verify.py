@@ -51,11 +51,10 @@ def verify_manifest_file(manifest: dict[str, Any]) -> tuple[bool, str]:
         leaves = [str(r.get("merkle_root") or "") for r in manifest.get("sub_manifests") or []]
         if merkle_root(leaves) != manifest.get("merkle_root"):
             return False, "super merkle_root mismatch"
+    actual_sha = manifest_content_sha256(manifest)
     declared_sha = manifest.get("content_sha256")
-    if declared_sha:
-        actual_sha = manifest_content_sha256(manifest)
-        if declared_sha != actual_sha:
-            return False, "content_sha256 mismatch"
+    if declared_sha and declared_sha != actual_sha:
+        return False, "content_sha256 mismatch"
     return True, "ok"
 
 

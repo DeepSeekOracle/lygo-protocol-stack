@@ -3,13 +3,14 @@
 from __future__ import annotations
 
 import json
-import os
 import shutil
 import time
 from pathlib import Path
 from typing import Any
 
-from . import SIGNATURE
+import os
+
+from . import DEFAULT_MAX_LOCAL_CAS_GB, SIGNATURE
 from .merkle import merkle_root
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -101,7 +102,19 @@ def cas_total_bytes() -> int:
     return sum(sz for _, _, sz in _cas_files())
 
 
-def prune_cas(max_gb: float, *, protect_hashes: set[str] | None = None) -> dict[str, Any]:
+def default_max_cas_gb() -> float:
+    raw = os.environ.get("LYGO_MAX_LOCAL_CAS_GB", "").strip()
+    if raw:
+        try:
+            return float(raw)
+        except ValueError:
+            pass
+    return DEFAULT_MAX_LOCAL_CAS_GB
+
+
+def prune_cas(max_gb: float | None = None, *, protect_hashes: set[str] | None = None) -> dict[str, Any]:
+    if max_gb is None:
+        max_gb = default_max_cas_gb()
     """Delete least-recently-used CAS chunks until under max_gb (Merkle roots remain on anchor)."""
     limit = int(max_gb * (1024**3))
     protected = protect_hashes or set()

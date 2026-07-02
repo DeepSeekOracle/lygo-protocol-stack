@@ -33,6 +33,12 @@ tests/mesh_live/*.log
 tests/mesh_live/cluster.json
 
 # Anchor runtime (committed: docs + tools; not local CA blobs)
+# Scalable registry runtime (CAS + local manifests — not repo payload)
+data/cas/**
+!data/cas/.gitkeep
+data/scalable_registry/manifests/
+data/scalable_registry/registry.json
+
 data/anchors/*.json
 data/anchor_queue/*.json
 data/anchor_mesh.sqlite
