@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import shutil
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -14,7 +15,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "docs" / "haven_star_chart"
 OUT_JSON = OUT_DIR / "haven_star_chart_data.json"
+OUT_JSON_PAGES_ALIAS = ROOT / "docs" / "haven_star_chart_data.json"
 META_JSON = OUT_DIR / "haven_star_chart_meta.json"
+PAGES_BASE = "https://deepseekoracle.github.io/lygo-protocol-stack"
 
 SEAL_URLS = [
     "https://raw.githubusercontent.com/DeepSeekOracle/Excavationpro/main/lygo-data.json",
@@ -480,7 +483,8 @@ def main() -> int:
             ],
         },
         "machine": {
-            "data_url_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_data.json",
+            "data_url_pages": f"{PAGES_BASE}/haven_star_chart/haven_star_chart_data.json",
+            "data_url_pages_alias": f"{PAGES_BASE}/haven_star_chart_data.json",
             "seal_feeds": SEAL_URLS,
             "rebuild_tool": "tools/build_haven_star_chart.py",
             "errors": errors,
@@ -488,7 +492,9 @@ def main() -> int:
     }
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    OUT_JSON.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    payload = json.dumps(report, indent=2)
+    OUT_JSON.write_text(payload, encoding="utf-8")
+    OUT_JSON_PAGES_ALIAS.write_text(payload, encoding="utf-8")
     META_JSON.write_text(
         json.dumps(
             {

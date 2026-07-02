@@ -22,9 +22,11 @@ Doc: [`LYGO_SECURITY_TAMPER_AUDIT.md`](./LYGO_SECURITY_TAMPER_AUDIT.md)
 | Joy snapshot | …/joy_loop/joy_loop_snapshot.json |
 | Champion registry | …/ChampionEggRegistry.json |
 | Joy registry | …/JoyLoopRegistry.json |
-| Haven chart | …/HavenStarChart.html |
+| Haven chart (HTML) | …/HavenStarChart.html |
+| Haven data (canonical) | …/haven_star_chart/haven_star_chart_data.json |
+| Haven data (LYRA alias) | …/haven_star_chart_data.json — same bytes as canonical |
 
-Check: `python tools/verify_joy_pages_snapshot.py`
+Check: `python tools/verify_joy_pages_snapshot.py` · `python tools/verify_internet_lattice_sweep.py`
 
 ## 3. Skill chain (ClawHub)
 

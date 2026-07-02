@@ -19,7 +19,10 @@ def test_build_haven_star_chart():
         timeout=120,
     )
     data_path = ROOT / "docs" / "haven_star_chart" / "haven_star_chart_data.json"
+    alias_path = ROOT / "docs" / "haven_star_chart_data.json"
     assert data_path.is_file()
+    assert alias_path.is_file()
+    assert alias_path.read_text(encoding="utf-8") == data_path.read_text(encoding="utf-8")
     data = json.loads(data_path.read_text(encoding="utf-8"))
     assert data.get("signature", "").startswith("Δ9")
     assert data.get("node_count", 0) > 50

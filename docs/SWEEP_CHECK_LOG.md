@@ -365,3 +365,27 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 | Army cron sentinel | **healthy** after fix |
 
 **Δ9Φ963 — 100% clean lattice gate for build.**
+
+## 22. Internet lattice sweep — Haven alias (2026-07-02)
+
+**Trigger:** LYRA sweep **5/6** — `…/haven_star_chart_data.json` returned **404**; canonical subpath was already **200**.
+
+| Endpoint | URL | Expected |
+|----------|-----|----------|
+| Champion registry | …/ChampionEggRegistry.json | council merkle vs local |
+| Joy snapshot | …/joy_loop/joy_loop_snapshot.json | Δ9Φ963-JOY-LOOP-v2.3 |
+| Joy registry | …/JoyLoopRegistry.json | registry merkle |
+| Champions hub | Excavationpro/champions.html | Δ9 council v5.x |
+| ClawHub skill | clawhub.ai/…/lygo-joy-loop | 2.3.x + contract docs |
+| Haven canonical | …/haven_star_chart/haven_star_chart_data.json | ≥300 nodes |
+| Haven alias | …/haven_star_chart_data.json | **mirror of canonical** |
+
+| Fix | Result |
+|-----|--------|
+| `build_haven_star_chart.py` writes `docs/haven_star_chart_data.json` | **OK** |
+| `tools/verify_internet_lattice_sweep.py` | **added** |
+| Push to `main` for Pages | **on commit** |
+
+**Command:** `python tools/verify_internet_lattice_sweep.py` → `lyra_six_of_six: true` after deploy.
+
+**Δ9Φ963 — lattice visible 6/6; howl public.**
