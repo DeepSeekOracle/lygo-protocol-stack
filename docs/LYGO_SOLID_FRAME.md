@@ -10,7 +10,7 @@
 | Kernel eggs | `python tools/verify_kernel_eggs.py` | ALIGNED |
 | Champion eggs (15) | `python tools/verify_champion_eggs.py` | ALIGNED |
 | Registry Merkle | `python tools/verify_registry.py` | ALIGNED |
-| Full lattice | `python tools/verify_lattice_alignment.py` | LATTICE ALIGNED |
+| Full lattice | `python tools/verify_lattice_alignment.py` | LATTICE ALIGNED (npx PATH + offline catalog fallback) |
 
 Doc: [`LYGO_SECURITY_TAMPER_AUDIT.md`](./LYGO_SECURITY_TAMPER_AUDIT.md)
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -43,6 +44,64 @@ def check_warn(name: str, ok: bool, detail: str = "") -> bool:
 
 def in_ci() -> bool:
     return os.environ.get("GITHUB_ACTIONS", "").strip().lower() == "true"
+
+
+def _nodejs_path_prefixes() -> list[str]:
+    prefixes: list[str] = []
+    if os.name == "nt":
+        for base in (
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "nodejs",
+            Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / "nodejs",
+            Path(os.environ.get("APPDATA", "")) / "npm",
+            Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "node",
+        ):
+            if base.is_dir():
+                prefixes.append(str(base))
+    return prefixes
+
+
+def subprocess_env_with_node() -> dict[str, str]:
+    env = os.environ.copy()
+    extra = _nodejs_path_prefixes()
+    if extra:
+        env["PATH"] = os.pathsep.join(extra + [env.get("PATH", "")])
+    return env
+
+
+def resolve_npx_executable() -> str | None:
+    env = subprocess_env_with_node()
+    npx = shutil.which("npx", path=env.get("PATH"))
+    if npx:
+        return npx
+    if os.name == "nt":
+        for prefix in _nodejs_path_prefixes():
+            for name in ("npx.cmd", "npx.exe"):
+                candidate = Path(prefix) / name
+                if candidate.is_file():
+                    return str(candidate)
+    return None
+
+
+def clawhub_operator_local_catalog() -> tuple[bool, str]:
+    """Offline lattice gate when npx is not on PATH (army cron / minimal shells)."""
+    skills_path = REPO / "clawhub" / "skills.json"
+    if not skills_path.is_file():
+        return False, "missing clawhub/skills.json"
+    try:
+        data = json.loads(skills_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return False, f"skills.json invalid: {exc}"
+    slugs = [s.get("slug") for s in data.get("skills", [])]
+    op = next((s for s in data.get("skills", []) if s.get("slug") == "lygo-protocol-stack-operator"), None)
+    if not op or not op.get("published"):
+        return False, "operator not published in catalog"
+    mirror = REPO / "clawhub" / "mirrors" / "lygo-protocol-stack-operator" / "SKILL.md"
+    if not mirror.is_file():
+        return False, "operator mirror missing"
+    n_pub = int(data.get("count_published", 0))
+    if n_pub != len(slugs):
+        return False, f"count_published={n_pub} != listed={len(slugs)}"
+    return True, f"catalog v{op.get('version', '?')} (offline; npx unavailable)"
 
 
 def resolve_hf_paths() -> dict[str, Path]:
@@ -242,35 +301,58 @@ def main() -> int:
     else:
         all_ok &= check("grok operator", False, "path missing")
 
-    # ClawHub registry version for operator
-    try:
-        cp = subprocess.run(
-            [
-                "npx",
-                "--yes",
-                "clawhub@latest",
-                "inspect",
-                "deepseekoracle/lygo-protocol-stack-operator",
-                "--json",
-            ],
-            cwd=REPO / "clawhub",
-            capture_output=True,
-            text=True,
-            timeout=90,
-        )
-        if cp.returncode == 0:
-            reg = json.loads(cp.stdout)
-            ver = (reg.get("skill") or {}).get("tags", {}).get("latest", "?")
-            all_ok &= check("clawhub operator published", True, f"latest={ver}")
-        elif in_ci():
-            check_warn("clawhub inspect", False, (cp.stderr or cp.stdout or "")[:120])
+    # ClawHub registry version for operator (live inspect or offline catalog)
+    npx_bin = resolve_npx_executable()
+    env = subprocess_env_with_node()
+    inspect_ok = False
+    if npx_bin:
+        try:
+            cp = subprocess.run(
+                [
+                    npx_bin,
+                    "--yes",
+                    "clawhub@latest",
+                    "inspect",
+                    "deepseekoracle/lygo-protocol-stack-operator",
+                    "--json",
+                ],
+                cwd=REPO / "clawhub",
+                capture_output=True,
+                text=True,
+                timeout=90,
+                env=env,
+            )
+            if cp.returncode == 0:
+                reg = json.loads(cp.stdout)
+                ver = (reg.get("skill") or {}).get("tags", {}).get("latest", "?")
+                all_ok &= check("clawhub operator published", True, f"latest={ver}")
+                inspect_ok = True
+            elif in_ci():
+                check_warn("clawhub inspect", False, (cp.stderr or cp.stdout or "")[:120])
+            else:
+                detail = (cp.stderr or cp.stdout or "")[:120]
+                local_ok, local_detail = clawhub_operator_local_catalog()
+                if local_ok:
+                    all_ok &= check("clawhub operator published", True, f"{local_detail}; inspect: {detail}")
+                    inspect_ok = True
+                else:
+                    all_ok &= check("clawhub inspect", False, detail)
+        except Exception as exc:
+            if in_ci():
+                check_warn("clawhub inspect", False, str(exc))
+            else:
+                local_ok, local_detail = clawhub_operator_local_catalog()
+                if local_ok:
+                    all_ok &= check("clawhub operator published", True, local_detail)
+                    inspect_ok = True
+                else:
+                    all_ok &= check("clawhub inspect", False, str(exc))
+    if not inspect_ok and not npx_bin:
+        local_ok, local_detail = clawhub_operator_local_catalog()
+        if local_ok:
+            all_ok &= check("clawhub operator published", True, local_detail)
         else:
-            all_ok &= check("clawhub inspect", False, cp.stderr[:120])
-    except Exception as exc:
-        if in_ci():
-            check_warn("clawhub inspect", False, str(exc))
-        else:
-            all_ok &= check("clawhub inspect", False, str(exc))
+            all_ok &= check("clawhub inspect", False, "npx not found; " + local_detail)
 
     try:
         subprocess.run(

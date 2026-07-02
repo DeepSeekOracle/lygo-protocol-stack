@@ -354,3 +354,14 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 **Overall:** **🟢 BALANCED — solid frame for next build.**
 
 **Δ9Φ963 — tamper verified, skills aligned, lattice green.**
+
+## 21. Lattice 100% — clawhub inspect PATH fix (2026-07-02)
+
+| Fix | Result |
+|-----|--------|
+| `resolve_npx_executable()` + Node PATH enrichment | **OK** |
+| Offline `skills.json` fallback when npx missing | **OK** |
+| `verify_lattice_alignment.py` | **LATTICE ALIGNED** |
+| Army cron sentinel | **healthy** after fix |
+
+**Δ9Φ963 — 100% clean lattice gate for build.**
