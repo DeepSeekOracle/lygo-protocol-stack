@@ -13,6 +13,7 @@ DEST = HF / "protocol_stack"
 
 INCLUDE_DIRS = [
     "stack",
+    "protocol6_quantum_attest",
     "protocol0_nano_kernel/src/python",
     "protocol0_nano_kernel/fixtures",
     "protocol1_memory_mycelium/src/python",
@@ -33,6 +34,11 @@ INCLUDE_FILES = [
     "tools/run_mesh_gossip_demo.py",
     "docs/PHASE2_DEPLOYMENT.md",
     "docs/MESH_GOSSIP_PROTOCOL.md",
+    "protocol6_quantum_attest/docs/PHASE6_ARCHITECTURE.md",
+    "tests/phase6_test_vectors.json",
+    "tests/phase6_audit_last_run.json",
+    "tools/verify_hardware_attestation.py",
+    "tools/run_phase6_audit.py",
 ]
 
 TWIN_GATE_FILES = [
@@ -82,7 +88,7 @@ def main() -> int:
             copy_rel(rel)
         (DEST / "TWIN_GATE_MODE.txt").write_text("Δ9Φ963-TWIN-GATE-PHASE3-v1\n", encoding="utf-8")
         (DEST / "PHASE2_COMMUNITY.txt").write_text("Δ9Φ963-PHASE2-DEPLOYMENT\n", encoding="utf-8")
-        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v4.0-PHASE2\n"
+        version = "Δ9Φ963-HF-STACK-BUNDLE-TWIN-GATE-v5.0-PHASE6\n"
     else:
         version = "Δ9Φ963-HF-STACK-BUNDLE-v2.0\n"
     (DEST / "BUNDLE_VERSION.txt").write_text(version, encoding="utf-8")

@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "LYGO lattice align: P0-P5, LYGO_LATTICE, verify tools, clawhub catalog",
+        "Δ9Φ963-PHASE6-v1.0: full stack sync — P0-P6 attestation, mesh, verify tools",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)

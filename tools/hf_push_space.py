@@ -17,7 +17,7 @@ def main() -> int:
     parser.add_argument("--force-sync", action="store_true", help="Full tree upload (default hf upload)")
     parser.add_argument(
         "--message",
-        default="Δ9Φ963: Twin Gate Phase 3 — text + byte vector (live P0-P5)",
+        default="Δ9Φ963-PHASE6-v1.0: Space sync — Twin Gate + Phase 5 mesh + P6 attest bundle",
     )
     args = parser.parse_args()
 
