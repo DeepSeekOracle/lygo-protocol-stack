@@ -23,9 +23,21 @@ def main() -> int:
     profile_path = save_default_profile()
     log.append(f"profile: {profile_path}")
 
-    for sub in ("data/anchors", "data/anchor_queue", "tools/lygo_control_center/workspace"):
+    for sub in ("data/anchors", "data/anchor_queue", "data/kernel_eggs/build", "tools/lygo_control_center/workspace"):
         (ROOT / sub).mkdir(parents=True, exist_ok=True)
         log.append(f"mkdir {sub}")
+
+    import subprocess
+
+    for cmd in (
+        [sys.executable, str(TOOLS / "build_kernel_eggs.py")],
+        [sys.executable, str(TOOLS / "anchor_kernel_eggs.py"), "--local-only"],
+    ):
+        try:
+            subprocess.run(cmd, cwd=ROOT, check=False, timeout=120)
+            log.append("ran " + " ".join(cmd[-1:]))
+        except Exception as exc:
+            log.append(f"kernel_egg step skipped: {exc}")
 
     if ARMY_CC.is_dir():
         ws = ARMY_CC / "workspace"

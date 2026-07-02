@@ -104,6 +104,44 @@ class Handler(BaseHTTPRequestHandler):
 
         return handle_biometric_history(seconds)
 
+    @staticmethod
+    def _kernel_eggs_registry() -> dict:
+        reg_path = ROOT / "data" / "kernel_eggs" / "registry.json"
+        if not reg_path.is_file():
+            return {"signature": "Δ9Φ963-KERNEL-EGG-SOA-v1", "eggs": [], "status": "not_built"}
+        data = json.loads(reg_path.read_text(encoding="utf-8"))
+        return {
+            "signature": "Δ9Φ963-KERNEL-EGG-SOA-v1",
+            "registry_merkle_root": data.get("registry_merkle_root"),
+            "git_head": data.get("git_head"),
+            "retrieval_soa": data.get("retrieval_soa"),
+            "anchor_registry": data.get("anchor_registry"),
+            "eggs": [
+                {
+                    "egg_id": e.get("egg_id"),
+                    "merkle_root": e.get("merkle_root"),
+                    "content_sha256": (e.get("transport") or {}).get("content_sha256"),
+                }
+                for e in data.get("eggs", [])
+            ],
+            "anchored": data.get("anchored", []),
+        }
+
+    @staticmethod
+    def _kernel_egg_detail(egg_id: str) -> dict | None:
+        reg_path = ROOT / "data" / "kernel_eggs" / "registry.json"
+        build_json = ROOT / "data" / "kernel_eggs" / "build" / f"{egg_id}.json"
+        if build_json.is_file():
+            return json.loads(build_json.read_text(encoding="utf-8"))
+        if not reg_path.is_file():
+            return None
+        data = json.loads(reg_path.read_text(encoding="utf-8"))
+        hit = next((e for e in data.get("eggs", []) if e.get("egg_id") == egg_id), None)
+        if not hit:
+            return None
+        anchor = next((a for a in data.get("anchored", []) if a.get("egg_id") == egg_id), None)
+        return {"egg_id": egg_id, "build": hit, "anchor": anchor, "retrieval_soa": data.get("retrieval_soa")}
+
     def _read_json_body(self) -> dict:
         length = int(self.headers.get("Content-Length", 0) or 0)
         raw = self.rfile.read(length) if length else b"{}"
@@ -141,6 +179,17 @@ class Handler(BaseHTTPRequestHandler):
             qs = parse_qs(urlparse(self.path).query)
             seconds = int((qs.get("seconds") or ["60"])[0])
             self._json(200, {"samples": self._p7_history(seconds), "signature": "Δ9Φ963-PHASE7-v1.0"})
+            return
+        if path == "/kernel/eggs":
+            self._json(200, self._kernel_eggs_registry())
+            return
+        if path.startswith("/kernel/egg/"):
+            egg_id = path.split("/kernel/egg/", 1)[-1].strip("/")
+            body = self._kernel_egg_detail(egg_id)
+            if body is None:
+                self._json(404, {"error": "unknown egg", "egg_id": egg_id})
+                return
+            self._json(200, body)
             return
         if path == "/badge":
             import sys
@@ -255,6 +304,8 @@ class Handler(BaseHTTPRequestHandler):
                     "POST /cert/pin",
                     "POST /gossip/pin",
                     "POST /synthesis/run",
+                    "/kernel/eggs",
+                    "/kernel/egg/{egg_id}",
                 ],
             },
         )
