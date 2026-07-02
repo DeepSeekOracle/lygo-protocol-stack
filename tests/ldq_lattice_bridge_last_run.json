@@ -1,0 +1,20 @@
+{
+  "signature": "\u03949\u03a6963-LDQ-BRIDGE-MAP-v1",
+  "hf_ldq_modules": [
+    "ldq_fingerprint.py",
+    "ldq_genre_manifold.py",
+    "ldq_music_production.py",
+    "ldq_perceptual_layer.py",
+    "ldq_percussion.py",
+    "ldq_tempo_grid.py"
+  ],
+  "stack_p8_modules": [
+    "friction_core_engine.py",
+    "harmonic_gravity.py",
+    "lyra_sequencer.py"
+  ],
+  "ldq_vault_present": true,
+  "ldq_vault_bytes": 1411487,
+  "intel_index": "docs/LYGO_LATTICE_INTEL_INDEX.json",
+  "recommendation": "Restore HF factory (HF_SPACE_REBUILD_POINTER Phase 1) before copying ldq_* into protocol8."
+}

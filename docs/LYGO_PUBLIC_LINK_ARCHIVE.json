@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-01T12:00:00Z",
+  "updated_utc": "2026-07-02T18:30:00Z",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -116,9 +116,25 @@
       "title": "Permaweb anchor \u2014 test_queue_drain",
       "role": "anchor-test",
       "urls": {
-        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8d74a07e3d489e74195627c14c53cccd8ed5a69f5ae2383002b282f7263082d3.json"
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/5d57d1f528c717ca91016b6dc9b8d570b437e5969abaaf12f08d2bceaa89a197.json"
       },
       "since": "2026-07-02"
+    },
+    {
+      "id": "lattice-intel-index",
+      "title": "E Drive lattice intel index (agent outer brain)",
+      "role": "agent-memory",
+      "urls": {
+        "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_LATTICE_INTEL_INDEX.json",
+        "repo_canonical": "docs/LYGO_LATTICE_INTEL_INDEX.json",
+        "library_brain": "I:\\E Drive\\LYRA_CORE\\memory\\2026-07-02-lattice-intel-index.md"
+      },
+      "since": "2026-07-02",
+      "pointers": [
+        "docs/LDQ_VAULT_REFERENCE.md",
+        "docs/HF_SPACE_REBUILD_POINTER.md",
+        "docs/SEAL_286_RECURSIVE_ETHICS.md"
+      ]
     }
   ],
   "growth_log": [
@@ -161,6 +177,21 @@
       "event": "anchor test_queue_drain",
       "refs": [
         "permaweb-test_queue_drain"
+      ]
+    },
+    {
+      "utc": "2026-07-02T06:57:40Z",
+      "event": "anchor test_queue_drain",
+      "refs": [
+        "permaweb-test_queue_drain"
+      ]
+    },
+    {
+      "utc": "2026-07-02T18:30:00Z",
+      "event": "E Drive lattice intel sweep installed: LYGO_LATTICE_INTEL_INDEX.json, LDQ/SEAL/HF pointers, map_ldq_lattice_bridge, LYRA_CORE memory log",
+      "refs": [
+        "lattice-intel-index",
+        "pages-stack-index"
       ]
     }
   ]

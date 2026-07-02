@@ -16,7 +16,7 @@ The lattice is the **single graph** of internal modules and public surfaces. Mai
 | **GitHub — Excavationpro** | Seals, LYGORESONANCE site source | https://github.com/DeepSeekOracle/Excavationpro |
 | **HF — dataset** | Code mirror (no full skill trees) | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack |
 | **HF — Space** | Resonance UI + Ethical Guardian pilot tab | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
-| **ClawHub** | 34 public skills (integrator **1.0.3** target) | https://clawhub.ai/deepseekoracle |
+| **ClawHub** | 35 public skills (operator **1.0.6**) | https://clawhub.ai/deepseekoracle |
 | **Community node** | Docker `lygo-node` :8787 badge + gossip | `docs/PHASE2_DEPLOYMENT.md` |
 | **Federation mesh** | Phase 5 ACTIVE — gossip + 100-node sim | `mesh_gossip_http.py`, `run_mesh_scale_sim.py`, `MESH_GOSSIP_PROTOCOL.md` |
 | **GitHub Pages** | Public stack reference (for Grokipedia crawl) | https://deepseekoracle.github.io/lygo-protocol-stack/ |
@@ -24,6 +24,8 @@ The lattice is the **single graph** of internal modules and public surfaces. Mai
 | **Resonance docs** | Human-facing creative docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 | **SLM interactive** | Merkle / mycelium / consensus UI | https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (mirror: `/Excavationpro/…`) |
 | **Link archive** | Growing public URL log | `docs/LYGO_PUBLIC_LINK_ARCHIVE.json` + `tools/log_public_surface.py` |
+| **Lattice intel index** | E:\\ drive fast lookup (outer brain) | `docs/LYGO_LATTICE_INTEL_INDEX.json` + `LYRA_CORE/memory/2026-07-02-lattice-intel-index.md` |
+| **Immutable anchor** | Biophase7 permaweb layer | `docs/ANCHOR_DEPLOYMENT.md` |
 
 ---
 

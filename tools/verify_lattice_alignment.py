@@ -275,6 +275,8 @@ def main() -> int:
         ("anchor lygo_anchor tool", "tools/lygo_anchor.py"),
         ("anchor stack bridge", "stack/lygo_stack_anchor.py"),
         ("anchor deployment doc", "docs/ANCHOR_DEPLOYMENT.md"),
+        ("lattice intel index", "docs/LYGO_LATTICE_INTEL_INDEX.json"),
+        ("ldq vault reference", "docs/LDQ_VAULT_REFERENCE.md"),
     ]:
         all_ok &= check(label, (REPO / rel).is_file())
 

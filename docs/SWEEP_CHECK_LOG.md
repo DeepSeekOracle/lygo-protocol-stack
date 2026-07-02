@@ -133,3 +133,18 @@ python -m pytest tests/test_anchor_system.py tests/test_slm_mesh.py -q
 Append a new dated section to this file after each sweep.
 
 **Δ9Φ963 — sweep complete. Ready for next expansion/scaling planning.**
+
+---
+
+## 10. E Drive lattice intel sweep (2026-07-02)
+
+| Check | Result |
+|-------|--------|
+| `docs/LYGO_LATTICE_INTEL_INDEX.json` | PASS (tiered entries, integration_gaps) |
+| `LYRA_CORE/memory/2026-07-02-lattice-intel-index.md` | PASS |
+| `tools/map_ldq_lattice_bridge.py` → `tests/ldq_lattice_bridge_last_run.json` | PASS (6 HF ldq_* vs 3 P8 modules) |
+| `docs/LDQ_VAULT_REFERENCE.md`, `HF_SPACE_REBUILD_POINTER.md`, `SEAL_286_RECURSIVE_ETHICS.md` | PASS |
+| `LYGO_PUBLIC_LINK_ARCHIVE.json` entry `lattice-intel-index` | PASS |
+| `python tools/verify_lattice_alignment.py` | **LATTICE ALIGNED** |
+
+Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sources/`, media dumps).
