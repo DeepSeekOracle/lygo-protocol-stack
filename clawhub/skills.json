@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 36,
-  "count_mirrored": 36,
+  "count_published": 37,
+  "count_mirrored": 37,
   "skills": [
     {
       "slug": "lygo-mesh-deploy",
@@ -367,6 +367,16 @@
       "published": true,
       "downloads": 0,
       "version": "1.1.0"
+    },
+    {
+      "slug": "lygo-network-builder",
+      "name": "LYGO Network Builder",
+      "summary": "Sovereign Lattice Mesh cartographer — immutable anchors JSON, traversal chants, executable anchor verify (http_required/local_repo tiers). Kernel eggs, scalable registry, CAS routes; no simulated LATTICE ALIGNED.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
+      "mirror": "mirrors/lygo-network-builder",
+      "published": true,
+      "downloads": 0,
+      "version": "1.1.0"
     }
   ],
   "repo_mirrors_only": [
@@ -415,6 +425,8 @@
     "void-atlas-protocol": "openclaw:void-atlas-protocol",
     "recursive-generosity-protocol": "openclaw:recursive-generosity-protocol",
     "lyra-brain": "grok",
-    "lyra-openclaw": "grok"
+    "lyra-openclaw": "grok",
+    "lygo-network-builder": "grok",
+    "lygo-kernel-egg-planter": "grok"
   }
 }

@@ -1,0 +1,170 @@
+{
+  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.1",
+  "skill_slug": "lygo-network-builder",
+  "anchors_sha256": "b881d9500fb7de4b0e4cd77a4d346274ca58b4b7a21395d7e3a27d632bbc2cb8",
+  "anchors_version": "1.1.0",
+  "vectors": [
+    {
+      "id": "github_stack",
+      "group": "physics",
+      "mode": "http_required",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+    },
+    {
+      "id": "hf_dataset",
+      "group": "physics",
+      "mode": "http_required",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"We"
+    },
+    {
+      "id": "pages_stack",
+      "group": "physics",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "status": 200,
+      "ok": true,
+      "bytes": 8070,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>LYGO Protocol Stack \u2014 Public Reference</title>\n  <m"
+    },
+    {
+      "id": "hf_space_resonance",
+      "group": "creative",
+      "mode": "http_required",
+      "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
+      "status": 200,
+      "ok": true,
+      "bytes": 45136,
+      "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
+    },
+    {
+      "id": "excavationpro_resonance",
+      "group": "creative",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    \n    <!-- SEO & Social -->\n    <title>LYGO RESONANCE |"
+    },
+    {
+      "id": "kernel_egg_page",
+      "group": "sovereign_seed",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 2251,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <title>LYGO Kernel Egg SOA Retrieval</title>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <style>\n   "
+    },
+    {
+      "id": "kernel_egg_registry_doc",
+      "group": "sovereign_seed",
+      "mode": "http_soft",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KernelEggRegistry.json",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+    },
+    {
+      "id": "kernel_egg_soa",
+      "group": "sovereign_seed",
+      "mode": "http_soft",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SOA.md",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+    },
+    {
+      "id": "scalable_registry_doc",
+      "group": "sovereign_seed",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\SCALABLE_KERNEL_EGG_REGISTRY.md",
+      "ok": true
+    },
+    {
+      "id": "cas_physics_doc",
+      "group": "sovereign_seed",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\CONTENT_ADDRESSABLE_PHYSICS.md",
+      "ok": true
+    },
+    {
+      "id": "delta9_gdrive",
+      "group": "vaults",
+      "mode": "link_only",
+      "url": "https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4?usp=sharing",
+      "ok": true,
+      "note": "immutable link; no automated probe (vault TOS)"
+    },
+    {
+      "id": "lygoscript_patreon",
+      "group": "vaults",
+      "mode": "link_only",
+      "url": "https://patreon.com/collection/1621340",
+      "ok": true,
+      "note": "immutable link; no automated probe (vault TOS)"
+    },
+    {
+      "id": "clawhub_publisher",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"upF/61i5gQpl/QEbgb6Oo+4b\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "biometric_harness",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 23606,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" class=\"dark bg-zinc-950 text-zinc-100\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    \n    <!-- Prima"
+    },
+    {
+      "id": "slm_dashboard",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 33983,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" class=\"dark bg-zinc-950 text-zinc-100\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    \n    <!-- Prima"
+    },
+    {
+      "id": "anchor_deployment",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\ANCHOR_DEPLOYMENT.md",
+      "ok": true
+    },
+    {
+      "id": "grokipedia",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://grokipedia.com/page/lygo-protocol-stack",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\" class=\"dark\"> <head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, interactive-widget=resizes-content\"><title>LYGO Protocol St"
+    }
+  ],
+  "required_failures": 0,
+  "soft_failures": 0,
+  "all_pass": true,
+  "verdict": "LATTICE ALIGNED",
+  "duration_ms": 2926
+}

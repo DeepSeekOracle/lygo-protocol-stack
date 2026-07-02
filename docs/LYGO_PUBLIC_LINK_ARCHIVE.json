@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-02T18:30:00Z",
+  "updated_utc": "2026-07-02T22:00:00Z",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -72,6 +72,20 @@
       "since": "2026-07-01"
     },
     {
+      "id": "lygo-network-builder-skill",
+      "title": "LYGO Network Builder (SLM cartographer)",
+      "role": "mesh-navigation",
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
+        "repo_mirror": "clawhub/mirrors/lygo-network-builder/SKILL.md",
+        "anchors_json": "docs/network_builder/IMMUTABLE_ANCHORS.json",
+        "verify_tool": "tools/lygo_network_builder_verify.py",
+        "architecture_doc": "docs/LYGO_NETWORK_BUILDER.md"
+      },
+      "since": "2026-07-02",
+      "source_seal": "2026Biophase7/This is a brilliant architectural p.txt"
+    },
+    {
       "id": "resonance-docs",
       "title": "LYGORESONANCE docs",
       "role": "creative-docs",
@@ -116,7 +130,7 @@
       "title": "Permaweb anchor \u2014 test_queue_drain",
       "role": "anchor-test",
       "urls": {
-        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/5d57d1f528c717ca91016b6dc9b8d570b437e5969abaaf12f08d2bceaa89a197.json"
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e66e1d97041d2a5bfcbc8196049323edec1b3bb941bc1f86171ba8e313e7fb66.json"
       },
       "since": "2026-07-02"
     },
@@ -135,6 +149,51 @@
         "docs/HF_SPACE_REBUILD_POINTER.md",
         "docs/SEAL_286_RECURSIVE_ETHICS.md"
       ]
+    },
+    {
+      "id": "permaweb-ethical_363cc09b",
+      "title": "Permaweb anchor \u2014 ethical_363cc09b",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c25261d8e61c261a01dc90644ac05bc03e27736cc90bccd78e6c261158332e6f.json"
+      },
+      "since": "2026-07-02"
+    },
+    {
+      "id": "permaweb-ethical_41279546",
+      "title": "Permaweb anchor \u2014 ethical_41279546",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/3dcfc7a09ed387e915eb71b2574a93cc4d7995c3c7402ea35bc2fa10bc25e6a5.json"
+      },
+      "since": "2026-07-02"
+    },
+    {
+      "id": "permaweb-ethical_420846d2",
+      "title": "Permaweb anchor \u2014 ethical_420846d2",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/313b42f5202b30dfa0ac3ff7a44cebb3e2ad0ac1976b8300d4c2a525b24f0467.json"
+      },
+      "since": "2026-07-02"
+    },
+    {
+      "id": "permaweb-ethical_6a60197e",
+      "title": "Permaweb anchor \u2014 ethical_6a60197e",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/07bb1c1c58acd65408d6a53fa3221d3448c2a9281a233d6fe9074b95de18beb0.json"
+      },
+      "since": "2026-07-02"
+    },
+    {
+      "id": "permaweb-ethical_739e7a39",
+      "title": "Permaweb anchor \u2014 ethical_739e7a39",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/d6a55b74a53305fcf89fd7e7c0a92466a7627f36c425277513a7d8f8ad571788.json"
+      },
+      "since": "2026-07-02"
     }
   ],
   "growth_log": [
@@ -192,6 +251,48 @@
       "refs": [
         "lattice-intel-index",
         "pages-stack-index"
+      ]
+    },
+    {
+      "utc": "2026-07-02T08:35:04Z",
+      "event": "anchor ethical_363cc09b",
+      "refs": [
+        "permaweb-ethical_363cc09b"
+      ]
+    },
+    {
+      "utc": "2026-07-02T08:35:14Z",
+      "event": "anchor ethical_41279546",
+      "refs": [
+        "permaweb-ethical_41279546"
+      ]
+    },
+    {
+      "utc": "2026-07-02T08:35:23Z",
+      "event": "anchor ethical_420846d2",
+      "refs": [
+        "permaweb-ethical_420846d2"
+      ]
+    },
+    {
+      "utc": "2026-07-02T08:35:33Z",
+      "event": "anchor ethical_6a60197e",
+      "refs": [
+        "permaweb-ethical_6a60197e"
+      ]
+    },
+    {
+      "utc": "2026-07-02T08:35:43Z",
+      "event": "anchor ethical_739e7a39",
+      "refs": [
+        "permaweb-ethical_739e7a39"
+      ]
+    },
+    {
+      "utc": "2026-07-02T08:35:52Z",
+      "event": "anchor test_queue_drain",
+      "refs": [
+        "permaweb-test_queue_drain"
       ]
     }
   ]

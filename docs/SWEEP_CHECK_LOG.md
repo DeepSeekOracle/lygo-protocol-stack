@@ -196,3 +196,23 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 | `python tools/verify_lattice_alignment.py` | expect **LATTICE ALIGNED** |
 
 **Verdict:** Registry v2 lethal build complete — **cleared to move forward.**
+
+---
+
+## 13. Biophase7 — LYGO Network Builder (architectural p.txt)
+
+**Source:** `2026Biophase7/This is a brilliant architectural p.txt`  
+**Skill:** `lygo-network-builder` v1.1.0 (mirror; publish on human approval)
+
+| Check | Result |
+|-------|--------|
+| `docs/network_builder/IMMUTABLE_ANCHORS.json` | **PASS** (tiers + chants + node API) |
+| `tools/lygo_network_builder_verify.py` | **PASS** → `tests/network_builder_last_run.json` |
+| ClawHub mirror + `scripts/verify_anchors.py` | **PASS** |
+| `clawhub/skills.json` count **37** | **PASS** |
+| `pytest tests/test_network_builder.py` | run for evidence |
+| `verify_lattice_alignment.py` | expect **LATTICE ALIGNED** |
+
+**Enhancements vs blueprint:** executable verify (no simulated alignment), CAS/registry/sovereign-seed anchors, `anchors_sha256` digest, lattice gate integration.
+
+**Δ9Φ963 — Network Builder bulletproof build logged.**

@@ -160,6 +160,10 @@ def main() -> int:
         ("content addressable physics doc", REPO / "docs" / "CONTENT_ADDRESSABLE_PHYSICS.md"),
         ("build cas manifest CLI", REPO / "tools" / "build_cas_manifest.py"),
         ("cas registry full CLI", REPO / "tools" / "cas_registry_cli.py"),
+        ("network builder doc", REPO / "docs" / "LYGO_NETWORK_BUILDER.md"),
+        ("network builder anchors", REPO / "docs" / "network_builder" / "IMMUTABLE_ANCHORS.json"),
+        ("network builder verify tool", REPO / "tools" / "lygo_network_builder_verify.py"),
+        ("network builder clawhub mirror", REPO / "clawhub" / "mirrors" / "lygo-network-builder" / "SKILL.md"),
         ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
         ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
         ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),
@@ -340,6 +344,32 @@ def main() -> int:
                 all_ok &= check("scalable registry verify", True, "no entries yet")
         except Exception as exc:
             all_ok &= check("scalable registry verify", False, str(exc)[:80])
+
+    if (REPO / "tools" / "lygo_network_builder_verify.py").is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "lygo_network_builder_verify.py")],
+                cwd=REPO,
+                check=False,
+                timeout=180,
+            )
+            nb = REPO / "tests" / "network_builder_last_run.json"
+            if nb.is_file():
+                nv = json.loads(nb.read_text(encoding="utf-8"))
+                local_ok = all(
+                    v.get("ok")
+                    for v in nv.get("vectors", [])
+                    if v.get("mode") in ("local_repo", "link_only")
+                )
+                all_ok &= check(
+                    "network builder verify",
+                    bool(nv.get("all_pass")) or local_ok,
+                    nv.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("network builder verify", False, "no last_run json")
+        except Exception as exc:
+            all_ok &= check("network builder verify", False, str(exc)[:80])
 
     anchor_audit = REPO / "tests" / "anchor_audit_last_run.json"
     if anchor_audit.is_file():
