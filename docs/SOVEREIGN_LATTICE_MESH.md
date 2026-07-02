@@ -3,6 +3,12 @@
 **Signature:** `Δ9Φ963-SLM-v1.0`  
 **Spec reference:** Biophase7 — Complete Specification Package (Merkle gossip → distributed mycelium → harmonic consensus).
 
+**Interactive UI (public):**
+- Stack Pages: https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html
+- Excavationpro mirror: https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html
+- Repo canonical: `docs/SovereignLatticeMesh.html` · sync: `python tools/sync_excavationpro_slm_page.py`
+- Link archive: `docs/LYGO_PUBLIC_LINK_ARCHIVE.json`
+
 ## Components (implementation order)
 
 | # | Module | Path | Role |

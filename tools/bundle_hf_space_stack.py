@@ -51,6 +51,8 @@ INCLUDE_FILES = [
     "tools/p7_entropy_harness.py",
     "tools/haip_ui_entropy.py",
     "docs/BiometricEntropyHarness.html",
+    "docs/SovereignLatticeMesh.html",
+    "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
     "docs/PHASE7_POLISH.md",
     "tools/live_ble_telemetry_ingest.py",
     "tools/verify_attestation_hardened.py",

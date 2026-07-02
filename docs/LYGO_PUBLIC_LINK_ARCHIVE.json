@@ -1,0 +1,88 @@
+{
+  "signature": "Δ9Φ963-LINK-ARCHIVE-v1",
+  "updated_utc": "2026-07-02T00:00:00Z",
+  "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
+  "canonical_sources": {
+    "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "excavationpro_repo": "https://github.com/DeepSeekOracle/Excavationpro"
+  },
+  "entries": [
+    {
+      "id": "pages-stack-index",
+      "title": "LYGO Protocol Stack — public reference",
+      "role": "landing",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+        "repo_path": "docs/index.html"
+      },
+      "since": "2026-07-01"
+    },
+    {
+      "id": "slm-interactive",
+      "title": "Sovereign Lattice Mesh — interactive UI",
+      "role": "slm-demo",
+      "urls": {
+        "live_excavationpro": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
+        "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+        "repo_canonical": "docs/SovereignLatticeMesh.html",
+        "upstream_raw": "https://raw.githubusercontent.com/DeepSeekOracle/Excavationpro/main/SovereignLatticeMesh.html"
+      },
+      "since": "2026-07-02",
+      "sync_tool": "tools/sync_excavationpro_slm_page.py"
+    },
+    {
+      "id": "biometric-harness",
+      "title": "Phase 7 Biometric Entropy Harness",
+      "role": "haip-demo",
+      "urls": {
+        "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+        "live_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+        "repo_canonical": "docs/BiometricEntropyHarness.html"
+      },
+      "since": "2026-07-02",
+      "sync_tool": "tools/sync_excavationpro_harness.py"
+    },
+    {
+      "id": "hf-space",
+      "title": "LYGO Resonance Engine (HF Space)",
+      "role": "gradio",
+      "urls": { "live": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" },
+      "since": "2026-07-01"
+    },
+    {
+      "id": "hf-dataset",
+      "title": "lygo-protocol-stack dataset",
+      "role": "code-mirror",
+      "urls": { "live": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack" },
+      "since": "2026-07-01"
+    },
+    {
+      "id": "clawhub-publisher",
+      "title": "ClawHub deepseekoracle",
+      "role": "skills",
+      "urls": { "live": "https://clawhub.ai/deepseekoracle" },
+      "since": "2026-07-01"
+    },
+    {
+      "id": "resonance-docs",
+      "title": "LYGORESONANCE docs",
+      "role": "creative-docs",
+      "urls": { "live": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html" },
+      "since": "2026-07-01"
+    },
+    {
+      "id": "grokipedia",
+      "title": "Grokipedia LYGO page",
+      "role": "encyclopedia",
+      "urls": { "live": "https://grokipedia.com/page/lygo-protocol-stack" },
+      "since": "2026-07-01"
+    }
+  ],
+  "growth_log": [
+    {
+      "utc": "2026-07-02T00:00:00Z",
+      "event": "integrated SovereignLatticeMesh.html into lygo-protocol-stack/docs; dual Pages mirror Excavationpro + stack",
+      "refs": ["slm-interactive"]
+    }
+  ]
+}

@@ -22,6 +22,8 @@ CANONICAL_URLS = {
     "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
     "biometric_harness_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
     "biometric_harness_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+    "slm_pages_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+    "slm_pages_excavationpro": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
 }
 
 
@@ -89,6 +91,10 @@ def main() -> int:
         ("mesh gossip protocol doc", REPO / "docs" / "MESH_GOSSIP_PROTOCOL.md"),
         ("agent memory snapshot", REPO / "docs" / "AGENT_MEMORY_SNAPSHOT.json"),
         ("biometric harness page", REPO / "docs" / "BiometricEntropyHarness.html"),
+        ("slm interactive page", REPO / "docs" / "SovereignLatticeMesh.html"),
+        ("public link archive", REPO / "docs" / "LYGO_PUBLIC_LINK_ARCHIVE.json"),
+        ("log public surface tool", REPO / "tools" / "log_public_surface.py"),
+        ("sync excavationpro slm", REPO / "tools" / "sync_excavationpro_slm_page.py"),
         ("phase7 haip ui tool", REPO / "tools" / "haip_ui_entropy.py"),
         ("p6 hardened verify", REPO / "tools" / "verify_attestation_hardened.py"),
         ("p7 ble ingest", REPO / "tools" / "live_ble_telemetry_ingest.py"),

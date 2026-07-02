@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" class="dark bg-zinc-950 text-zinc-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Optimization -->
+    <title>LYGO Protocol Stack — Sovereign Lattice Mesh (SLM)</title>
+    <meta name="title" content="LYGO Protocol Stack — Sovereign Lattice Mesh">
+    <meta name="description" content="Interactive visualization of the Sovereign Lattice Mesh. Test Merkle Sync, Mycelium Sharding, and Harmonic Vortex Consensus matrices in real-time.">
+    <meta name="keywords" content="LYGO, Cryptography, Sovereign Node, P0 Kernel, Harmonic Consensus, Distributed Mycelium, Merkle Tree">
+    <meta name="author" content="DeepSeekOracle / EXCAVATIONPRO">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media Integration -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html">
+    <meta property="og:title" content="LYGO Protocol Stack — Sovereign Lattice Mesh">
+    <meta property="og:description" content="Simulate the decentralized mesh: Merkle Anti-Entropy, 10/12 Shard Reconstruction, and 3-6-9 Harmonic Consensus.">
+    <meta property="og:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/assets/preview-slm.jpg">
+
+    <!-- Twitter Card Integration -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html">
+    <meta property="twitter:title" content="LYGO Protocol Stack — Sovereign Lattice Mesh">
+    <meta property="twitter:description" content="Simulate the decentralized mesh: Merkle Anti-Entropy, 10/12 Shard Reconstruction, and 3-6-9 Harmonic Consensus.">
+    <meta property="twitter:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/assets/preview-slm.jpg">
+
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lygo: {
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            950: '#052e16'
+                        },
+                        danger: {
+                            500: '#ef4444',
+                            900: '#7f1d1d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+        body { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+        
+        .tree-line::before {
+            content: '';
+            position: absolute;
+            top: -20px; left: 50%; width: 2px; height: 20px;
+            background-color: #3f3f46;
+        }
+        .tree-line-diverged::before { background-color: #ef4444; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Upper Navigation Menu -->
+    <header class="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 rounded-full bg-lygo-500 shadow-[0_0_10px_#22c55e] animate-pulse"></div>
+                <span class="font-bold tracking-wider text-sm sm:text-base uppercase text-zinc-100">LYGO_STACK // SOVEREIGN LATTICE MESH</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-4 text-xs font-medium text-zinc-400">
+                <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack" target="_blank" class="hover:text-lygo-500 transition-colors">GITHUB_REPO</a>
+                <a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" target="_blank" class="hover:text-lygo-500 transition-colors">HF_SPACE</a>
+                <a href="https://clawhub.ai/deepseekoracle" target="_blank" class="hover:text-lygo-500 transition-colors">CLAWHUB</a>
+                <a href="https://chatagent.ca" target="_blank" class="hover:text-lygo-500 transition-colors text-zinc-200 border border-zinc-700 px-3 py-1.5 rounded bg-zinc-800">ORACLE_PORTAL</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Global Tab Navigation -->
+    <div class="max-w-7xl mx-auto w-full px-4 pt-6">
+        <div class="flex space-x-2 border-b border-zinc-800">
+            <button onclick="switchTab('merkle')" id="tab-merkle" class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-lygo-500 border-b-2 border-lygo-500 transition-colors">1. Merkle Sync</button>
+            <button onclick="switchTab('mycelium')" id="tab-mycelium" class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent transition-colors">2. Mycelium Shards</button>
+            <button onclick="switchTab('consensus')" id="tab-consensus" class="px-4 py-3 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent transition-colors">3. Harmonic Consensus</button>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="max-w-7xl w-full mx-auto p-4 flex-grow flex flex-col">
+        
+        <!-- PANEL 1: MERKLE TREE SYNC -->
+        <section id="panel-merkle" class="flex-grow flex flex-col space-y-6 animate-fade-in">
+            <div class="bg-zinc-900/60 border border-zinc-800 rounded-xl p-5">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-zinc-100 uppercase tracking-wider mb-1">Anti-Entropy Merkle Matrix</h2>
+                        <p class="text-xs text-zinc-500">Simulate hierarchical state reconciliation. Modifying a leaf node cascades hash recalculations to the root.</p>
+                    </div>
+                    <button id="btn-diverge" onclick="toggleDivergence()" class="bg-zinc-800 hover:bg-danger-900 border border-zinc-700 hover:border-danger-500 text-zinc-300 hover:text-danger-500 font-bold py-2 px-4 rounded text-xs tracking-widest transition-all uppercase">
+                        Introduce Divergence
+                    </button>
+                </div>
+                
+                <!-- Tree Visualization -->
+                <div class="relative py-8 flex flex-col items-center space-y-12 bg-zinc-950 rounded-lg border border-zinc-900 overflow-x-auto">
+                    <!-- Root -->
+                    <div class="relative flex flex-col items-center">
+                        <span class="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Global Root Hash</span>
+                        <div id="hash-root" class="bg-lygo-950/50 border border-lygo-500/50 text-lygo-400 font-mono text-sm px-4 py-2 rounded shadow-[0_0_15px_rgba(34,197,94,0.1)] transition-colors duration-300">0x7F1A4D83...A1B2C3D4</div>
+                    </div>
+
+                    <!-- Level 1 -->
+                    <div class="flex w-full max-w-2xl justify-around relative">
+                        <!-- SVG Connection Lines -->
+                        <svg class="absolute top-[-48px] w-full h-[48px] z-0" preserveAspectRatio="none">
+                            <path id="path-root-left" d="M 50% 0 L 25% 48" stroke="#3f3f46" stroke-width="2" fill="none"/>
+                            <path id="path-root-right" d="M 50% 0 L 75% 48" stroke="#3f3f46" stroke-width="2" fill="none"/>
+                        </svg>
+
+                        <div class="relative flex flex-col items-center z-10">
+                            <span class="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Branch A-B</span>
+                            <div id="hash-ab" class="bg-zinc-900 border border-zinc-700 text-zinc-300 font-mono text-xs px-3 py-1.5 rounded transition-colors duration-300">0x88A21B...</div>
+                        </div>
+                        <div class="relative flex flex-col items-center z-10">
+                            <span class="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Branch C-D</span>
+                            <div id="hash-cd" class="bg-zinc-900 border border-zinc-700 text-zinc-300 font-mono text-xs px-3 py-1.5 rounded transition-colors duration-300">0x44F99E...</div>
+                        </div>
+                    </div>
+
+                    <!-- Level 2 (Leaves) -->
+                    <div class="flex w-full max-w-4xl justify-around relative">
+                        <svg class="absolute top-[-48px] w-full h-[48px] z-0" preserveAspectRatio="none">
+                            <path d="M 25% 0 L 12.5% 48" stroke="#3f3f46" stroke-width="2" fill="none"/>
+                            <path d="M 25% 0 L 37.5% 48" stroke="#3f3f46" stroke-width="2" fill="none"/>
+                            <path id="path-cd-left" d="M 75% 0 L 62.5% 48" stroke="#3f3f46" stroke-width="2" fill="none"/>
+                            <path id="path-cd-right" d="M 75% 0 L 87.5% 48" stroke="#3f3f46" stroke-width="2" fill="none"/>
+                        </svg>
+
+                        <div class="relative flex flex-col items-center z-10">
+                            <span class="text-[10px] text-lygo-500 font-bold uppercase tracking-widest mb-1">Node Alpha</span>
+                            <div class="bg-zinc-900 border border-zinc-700 text-zinc-400 font-mono text-xs px-2 py-1 rounded">0x11A...</div>
+                        </div>
+                        <div class="relative flex flex-col items-center z-10">
+                            <span class="text-[10px] text-lygo-500 font-bold uppercase tracking-widest mb-1">Node Beta</span>
+                            <div class="bg-zinc-900 border border-zinc-700 text-zinc-400 font-mono text-xs px-2 py-1 rounded">0x22B...</div>
+                        </div>
+                        <div class="relative flex flex-col items-center z-10">
+                            <span class="text-[10px] text-lygo-500 font-bold uppercase tracking-widest mb-1">Node Gamma</span>
+                            <div id="hash-gamma" class="bg-zinc-900 border border-zinc-700 text-zinc-400 font-mono text-xs px-2 py-1 rounded transition-colors duration-300">0x33C...</div>
+                        </div>
+                        <div class="relative flex flex-col items-center z-10">
+                            <span class="text-[10px] text-lygo-500 font-bold uppercase tracking-widest mb-1">Node Delta</span>
+                            <div id="hash-delta" class="bg-zinc-900 border border-zinc-700 text-zinc-400 font-mono text-xs px-2 py-1 rounded transition-colors duration-300">0x44D...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 2: MYCELIUM SHARDING -->
+        <section id="panel-mycelium" class="hidden flex-grow flex flex-col space-y-6 animate-fade-in">
+            <div class="bg-zinc-900/60 border border-zinc-800 rounded-xl p-5 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <div class="lg:col-span-4 flex flex-col space-y-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-zinc-100 uppercase tracking-wider mb-1">Distributed Mycelium</h2>
+                        <p class="text-xs text-zinc-500">Consistent Hash Ring evaluating the 10/12 Erasure Coding survivability threshold.</p>
+                    </div>
+                    <hr class="border-zinc-800">
+                    <div>
+                        <div class="flex justify-between text-xs mb-2">
+                            <span class="text-zinc-400 font-bold uppercase tracking-wider">Nodes Offline</span>
+                            <span class="text-danger-500 font-bold" id="val-offline">0 Nodes</span>
+                        </div>
+                        <input type="range" id="param-offline" min="0" max="3" value="0" class="w-full accent-danger-500 bg-zinc-800 rounded-lg appearance-none h-1.5 cursor-pointer">
+                        <p class="text-[10px] text-zinc-500 mt-3 leading-relaxed">Adjusting this slider simulates physical hardware partitions. The network must retain at least 10 active data fragments across surviving nodes to rebuild the P0 kernel.</p>
+                    </div>
+                    
+                    <div id="mycelium-status" class="mt-auto bg-lygo-950/30 border border-lygo-500/30 p-4 rounded-lg">
+                        <div class="text-[10px] text-zinc-400 uppercase tracking-widest mb-1">Network State</div>
+                        <div class="text-lygo-500 font-bold text-sm tracking-wide" id="mycelium-msg">DATA RECONSTRUCTION SUCCESSFUL (12/12 Secure)</div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 bg-zinc-950 rounded-lg border border-zinc-900 flex justify-center items-center relative min-h-[400px]">
+                    <canvas id="canvas-ring" width="400" height="400" class="max-w-full"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 3: HARMONIC CONSENSUS -->
+        <section id="panel-consensus" class="hidden flex-grow flex flex-col space-y-6 animate-fade-in">
+            <div class="bg-zinc-900/60 border border-zinc-800 rounded-xl p-5 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <div class="lg:col-span-4 flex flex-col space-y-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-zinc-100 uppercase tracking-wider mb-1">Harmonic Vortex Engine</h2>
+                        <p class="text-xs text-zinc-500">Calculates geometric phase alignments. Votes are weighted by fixed node Ethical Mass (Φ).</p>
+                    </div>
+                    <hr class="border-zinc-800">
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="text-xs font-bold text-zinc-300 uppercase">Node Alpha</div>
+                                <div class="text-[10px] text-zinc-500">Mass: 1.618</div>
+                            </div>
+                            <select id="vote-alpha" class="bg-zinc-950 border border-zinc-700 text-zinc-200 text-xs rounded px-2 py-1 outline-none focus:border-lygo-500">
+                                <option value="3">3 (Creation)</option>
+                                <option value="6">6 (Relation)</option>
+                                <option value="9" selected>9 (Completion)</option>
+                                <option value="-1">Dissonance (-1)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="text-xs font-bold text-zinc-300 uppercase">Node Beta</div>
+                                <div class="text-[10px] text-zinc-500">Mass: 1.250</div>
+                            </div>
+                            <select id="vote-beta" class="bg-zinc-950 border border-zinc-700 text-zinc-200 text-xs rounded px-2 py-1 outline-none focus:border-lygo-500">
+                                <option value="3">3 (Creation)</option>
+                                <option value="6">6 (Relation)</option>
+                                <option value="9" selected>9 (Completion)</option>
+                                <option value="-1">Dissonance (-1)</option>
+                            </select>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="text-xs font-bold text-zinc-300 uppercase">Node Gamma</div>
+                                <div class="text-[10px] text-zinc-500">Mass: 0.850</div>
+                            </div>
+                            <select id="vote-gamma" class="bg-zinc-950 border border-zinc-700 text-zinc-200 text-xs rounded px-2 py-1 outline-none focus:border-lygo-500">
+                                <option value="3">3 (Creation)</option>
+                                <option value="6" selected>6 (Relation)</option>
+                                <option value="9">9 (Completion)</option>
+                                <option value="-1">Dissonance (-1)</option>
+                            </select>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="text-xs font-bold text-zinc-300 uppercase">Node Delta</div>
+                                <div class="text-[10px] text-zinc-500">Mass: 0.310</div>
+                            </div>
+                            <select id="vote-delta" class="bg-zinc-950 border border-zinc-700 text-zinc-200 text-xs rounded px-2 py-1 outline-none focus:border-lygo-500">
+                                <option value="3" selected>3 (Creation)</option>
+                                <option value="6">6 (Relation)</option>
+                                <option value="9">9 (Completion)</option>
+                                <option value="-1">Dissonance (-1)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 flex flex-col space-y-4">
+                    <div class="bg-zinc-950 rounded-lg border border-zinc-900 flex justify-center items-center relative min-h-[350px] overflow-hidden">
+                        <canvas id="canvas-vortex" width="400" height="400"></canvas>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-center">
+                            <div class="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Magnitude</div>
+                            <div id="vortex-mag" class="text-lg font-bold text-zinc-200 font-mono">0.000</div>
+                        </div>
+                        <div class="bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-center">
+                            <div class="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Phase Angle</div>
+                            <div id="vortex-ang" class="text-lg font-bold text-zinc-200 font-mono">0.00π</div>
+                        </div>
+                        <div class="bg-lygo-950/20 border border-lygo-500/50 p-3 rounded-lg text-center shadow-[0_0_15px_rgba(34,197,94,0.05)]">
+                            <div class="text-[10px] text-lygo-500 uppercase tracking-widest mb-1">Final Consensus</div>
+                            <div id="vortex-snap" class="text-2xl font-bold text-lygo-400 font-mono">9</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-900 bg-zinc-950 py-6 px-4 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[10px] text-zinc-600 space-y-3 sm:space-y-0">
+            <div>&copy; 2026 LYGO PROTOCOL STACK // ZERO TRUST IMMUTABLE ARCHITECTURE</div>
+            <div class="tracking-widest uppercase text-lygo-600">Reference: Δ9Φ963-SLM-PRODUCTION-DRAFT</div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE LOGIC ENGINE -->
+    <script>
+        // --- 0. Tab Navigation ---
+        function switchTab(tab) {
+            document.getElementById('panel-merkle').classList.add('hidden');
+            document.getElementById('panel-mycelium').classList.add('hidden');
+            document.getElementById('panel-consensus').classList.add('hidden');
+            
+            document.getElementById('tab-merkle').className = "px-4 py-3 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent transition-colors";
+            document.getElementById('tab-mycelium').className = "px-4 py-3 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent transition-colors";
+            document.getElementById('tab-consensus').className = "px-4 py-3 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent transition-colors";
+            
+            document.getElementById(`panel-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = "px-4 py-3 text-xs font-bold uppercase tracking-wider text-lygo-500 border-b-2 border-lygo-500 transition-colors";
+            
+            if(tab === 'mycelium') drawMycelium();
+            if(tab === 'consensus') calculateConsensus();
+        }
+
+        // --- 1. Merkle Tree Engine ---
+        let isDiverged = false;
+        function toggleDivergence() {
+            isDiverged = !isDiverged;
+            const btn = document.getElementById('btn-diverge');
+            
+            const hashDelta = document.getElementById('hash-delta');
+            const hashCD = document.getElementById('hash-cd');
+            const hashRoot = document.getElementById('hash-root');
+            const pathCDRight = document.getElementById('path-cd-right');
+            const pathRootRight = document.getElementById('path-root-right');
+
+            if (isDiverged) {
+                btn.innerText = "Resolve Network State";
+                btn.classList.replace('bg-zinc-800', 'bg-danger-900');
+                btn.classList.replace('text-zinc-300', 'text-danger-500');
+                
+                // Animate divergence
+                hashDelta.innerText = "0xERR...999";
+                hashDelta.classList.replace('bg-zinc-900', 'bg-danger-900');
+                hashDelta.classList.replace('border-zinc-700', 'border-danger-500');
+                hashDelta.classList.replace('text-zinc-400', 'text-danger-500');
+                pathCDRight.setAttribute('stroke', '#ef4444');
+
+                setTimeout(() => {
+                    hashCD.innerText = "0xDEADBE...EF";
+                    hashCD.classList.replace('bg-zinc-900', 'bg-danger-900/50');
+                    hashCD.classList.replace('border-zinc-700', 'border-danger-500/50');
+                    hashCD.classList.replace('text-zinc-300', 'text-danger-400');
+                    pathRootRight.setAttribute('stroke', '#ef4444');
+                }, 300);
+
+                setTimeout(() => {
+                    hashRoot.innerText = "0xMISMATCH...CRITICAL";
+                    hashRoot.classList.replace('bg-lygo-950/50', 'bg-danger-950');
+                    hashRoot.classList.replace('border-lygo-500/50', 'border-danger-500');
+                    hashRoot.classList.replace('text-lygo-400', 'text-danger-500');
+                    hashRoot.classList.replace('shadow-[0_0_15px_rgba(34,197,94,0.1)]', 'shadow-[0_0_15px_rgba(239,68,68,0.2)]');
+                }, 600);
+
+            } else {
+                btn.innerText = "Introduce Divergence";
+                btn.classList.replace('bg-danger-900', 'bg-zinc-800');
+                btn.classList.replace('text-danger-500', 'text-zinc-300');
+                
+                // Restore logic
+                hashDelta.innerText = "0x44D...";
+                hashDelta.classList.replace('bg-danger-900', 'bg-zinc-900');
+                hashDelta.classList.replace('border-danger-500', 'border-zinc-700');
+                hashDelta.classList.replace('text-danger-500', 'text-zinc-400');
+                pathCDRight.setAttribute('stroke', '#3f3f46');
+
+                setTimeout(() => {
+                    hashCD.innerText = "0x44F99E...";
+                    hashCD.classList.replace('bg-danger-900/50', 'bg-zinc-900');
+                    hashCD.classList.replace('border-danger-500/50', 'border-zinc-700');
+                    hashCD.classList.replace('text-danger-400', 'text-zinc-300');
+                    pathRootRight.setAttribute('stroke', '#3f3f46');
+                }, 200);
+
+                setTimeout(() => {
+                    hashRoot.innerText = "0x7F1A4D83...A1B2C3D4";
+                    hashRoot.classList.replace('bg-danger-950', 'bg-lygo-950/50');
+                    hashRoot.classList.replace('border-danger-500', 'border-lygo-500/50');
+                    hashRoot.classList.replace('text-danger-500', 'text-lygo-400');
+                    hashRoot.classList.replace('shadow-[0_0_15px_rgba(239,68,68,0.2)]', 'shadow-[0_0_15px_rgba(34,197,94,0.1)]');
+                }, 400);
+            }
+        }
+
+        // --- 2. Mycelium Sharding Engine ---
+        const sliderOffline = document.getElementById('param-offline');
+        sliderOffline.addEventListener('input', drawMycelium);
+
+        function drawMycelium() {
+            const canvas = document.getElementById('canvas-ring');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w/2;
+            const cy = h/2;
+            const r = 140;
+
+            ctx.clearRect(0,0,w,h);
+
+            // Draw base ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, 2*Math.PI);
+            ctx.strokeStyle = "#27272a";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            const offlineCount = parseInt(sliderOffline.value);
+            document.getElementById('val-offline').innerText = `${offlineCount} Nodes`;
+
+            // Simulation Logic: 12 shards. 0 dropped -> 12. 1 dropped -> 10 (simulate 2 shards entirely lost despite backups for illustration). 2 dropped -> 7. 3 dropped -> 3.
+            let survivingFragments = 12;
+            if (offlineCount === 1) survivingFragments = 10;
+            if (offlineCount === 2) survivingFragments = 7;
+            if (offlineCount === 3) survivingFragments = 3;
+
+            // Update UI Banner
+            const statusBox = document.getElementById('mycelium-status');
+            const statusMsg = document.getElementById('mycelium-msg');
+            
+            if (survivingFragments >= 10) {
+                statusBox.className = "mt-auto bg-lygo-950/30 border border-lygo-500/30 p-4 rounded-lg";
+                statusMsg.className = "text-lygo-500 font-bold text-sm tracking-wide";
+                statusMsg.innerText = `DATA RECONSTRUCTION SUCCESSFUL (${survivingFragments}/12 Chunks Secure)`;
+            } else {
+                statusBox.className = "mt-auto bg-danger-900/30 border border-danger-500/50 p-4 rounded-lg";
+                statusMsg.className = "text-danger-500 font-bold text-sm tracking-wide";
+                statusMsg.innerText = `CRITICAL FAILURE: DATA IRRECOVERABLE (${survivingFragments}/12 Fragments)`;
+            }
+
+            // Draw Nodes
+            const nodes = ['Alpha', 'Beta', 'Gamma', 'Delta'];
+            for(let i=0; i<4; i++) {
+                const angle = (i * Math.PI / 2) - Math.PI/4;
+                const nx = cx + Math.cos(angle) * r;
+                const ny = cy + Math.sin(angle) * r;
+                const isOffline = i < offlineCount;
+
+                ctx.beginPath();
+                ctx.arc(nx, ny, 12, 0, 2*Math.PI);
+                ctx.fillStyle = isOffline ? "#ef4444" : "#22c55e";
+                ctx.fill();
+                ctx.strokeStyle = "#09090b";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.fillStyle = isOffline ? "#52525b" : "#a1a1aa";
+                ctx.font = "10px monospace";
+                ctx.textAlign = "center";
+                ctx.fillText(`N_${nodes[i]}`, nx, ny + 25);
+            }
+
+            // Draw 12 Fragments
+            for(let i=0; i<12; i++) {
+                const angle = (i * Math.PI / 6);
+                const fx = cx + Math.cos(angle) * (r - 25);
+                const fy = cy + Math.sin(angle) * (r - 25);
+                const isLost = i >= survivingFragments;
+
+                ctx.beginPath();
+                ctx.rect(fx - 4, fy - 4, 8, 8);
+                ctx.fillStyle = isLost ? "#3f3f46" : "#4ade80";
+                ctx.fill();
+                if(!isLost) {
+                    ctx.shadowColor = "#4ade80";
+                    ctx.shadowBlur = 5;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
+
+        // --- 3. Harmonic Consensus Engine ---
+        const votes = ['alpha', 'beta', 'gamma', 'delta'];
+        const masses = [1.618, 1.250, 0.850, 0.310];
+        
+        votes.forEach(n => {
+            document.getElementById(`vote-${n}`).addEventListener('change', calculateConsensus);
+        });
+
+        function calculateConsensus() {
+            const canvas = document.getElementById('canvas-vortex');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w/2;
+            const cy = h/2;
+            const r = 130;
+
+            ctx.clearRect(0,0,w,h);
+
+            // Draw Background Axes and Unit Circle
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, 2*Math.PI);
+            ctx.strokeStyle = "#27272a";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.beginPath(); ctx.moveTo(cx - r - 20, cy); ctx.lineTo(cx + r + 20, cy); ctx.strokeStyle = "#18181b"; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx, cy - r - 20); ctx.lineTo(cx, cy + r + 20); ctx.stroke();
+
+            // Draw 3-6-9 Gates
+            const gates = {
+                3: { ang: 0, label: "3 (Creation)" },
+                6: { ang: 2*Math.PI/3, label: "6 (Relation)" },
+                9: { ang: 4*Math.PI/3, label: "9 (Completion)" },
+                "-1": { ang: Math.PI, label: "-1 (Dissonance)" }
+            };
+
+            ctx.font = "10px monospace";
+            for (let [val, gate] of Object.entries(gates)) {
+                // Invert Y for canvas drawing
+                const gx = cx + Math.cos(gate.ang) * r;
+                const gy = cy - Math.sin(gate.ang) * r;
+                
+                ctx.beginPath(); ctx.arc(gx, gy, 6, 0, 2*Math.PI);
+                ctx.fillStyle = val === "-1" ? "#ef4444" : "#3f3f46";
+                ctx.fill();
+                
+                ctx.fillStyle = "#a1a1aa";
+                ctx.textAlign = val === "3" ? "left" : (val === "-1" ? "right" : "center");
+                const yOffset = val === "6" ? -15 : (val === "9" ? 20 : -10);
+                const xOffset = val === "3" ? 10 : (val === "-1" ? -10 : 0);
+                ctx.fillText(gate.label, gx + xOffset, gy + yOffset);
+            }
+
+            // Calculate Vectors
+            let accX = 0;
+            let accY = 0;
+            let totalMass = 0;
+
+            votes.forEach((node, idx) => {
+                const val = document.getElementById(`vote-${node}`).value;
+                const mass = masses[idx];
+                const angle = gates[val].ang;
+
+                accX += mass * Math.cos(angle);
+                accY += mass * Math.sin(angle);
+                totalMass += mass;
+            });
+
+            const meanX = accX / totalMass;
+            const meanY = accY / totalMass;
+            
+            const magnitude = Math.sqrt(meanX*meanX + meanY*meanY);
+            let phaseAngle = Math.atan2(meanY, meanX);
+            if (phaseAngle < 0) phaseAngle += 2*Math.PI;
+
+            // Snap Logic with 9 > 6 > 3 Tie Breaker
+            let snapVal = "-1";
+            let minDelta = Infinity;
+
+            for (let [val, gate] of Object.entries(gates)) {
+                let delta = Math.abs(phaseAngle - gate.ang);
+                if (delta > Math.PI) delta = 2*Math.PI - delta;
+                
+                // Epsilon check for exact ties (e.g. 180 deg split between 6 and 9)
+                if (Math.abs(delta - minDelta) < 0.0001) {
+                    if (val === "9" || (val === "6" && snapVal === "3")) {
+                        snapVal = val;
+                    }
+                } else if (delta < minDelta) {
+                    minDelta = delta;
+                    snapVal = val;
+                }
+            }
+
+            // Draw Resultant Vector
+            const scale = r; // Normalize vector length to circle radius for visual clarity
+            const vx = cx + meanX * scale;
+            const vy = cy - meanY * scale; // Canvas Y inverted
+
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(vx, vy);
+            ctx.strokeStyle = "#4ade80";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Draw Vector Head
+            ctx.beginPath();
+            ctx.arc(vx, vy, 5, 0, 2*Math.PI);
+            ctx.fillStyle = "#22c55e";
+            ctx.fill();
+            ctx.shadowColor = "#4ade80"; ctx.shadowBlur = 10; ctx.fill(); ctx.shadowBlur = 0;
+
+            // Update UI Readouts
+            document.getElementById('vortex-mag').innerText = magnitude.toFixed(3);
+            document.getElementById('vortex-ang').innerText = (phaseAngle / Math.PI).toFixed(2) + "π";
+            document.getElementById('vortex-snap').innerText = snapVal;
+        }
+
+        // Initialize default tabs and drawings
+        setTimeout(() => {
+            drawMycelium();
+            calculateConsensus();
+        }, 100);
+    </script>
+</body>
+</html>

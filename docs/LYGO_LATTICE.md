@@ -22,6 +22,8 @@ The lattice is the **single graph** of internal modules and public surfaces. Mai
 | **GitHub Pages** | Public stack reference (for Grokipedia crawl) | https://deepseekoracle.github.io/lygo-protocol-stack/ |
 | **Grokipedia** | Suggest Edit + `GROkipedia_SUBMIT.md` | https://grokipedia.com/page/lygo-protocol-stack |
 | **Resonance docs** | Human-facing creative docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
+| **SLM interactive** | Merkle / mycelium / consensus UI | https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (mirror: `/Excavationpro/…`) |
+| **Link archive** | Growing public URL log | `docs/LYGO_PUBLIC_LINK_ARCHIVE.json` + `tools/log_public_surface.py` |
 
 ---
 
