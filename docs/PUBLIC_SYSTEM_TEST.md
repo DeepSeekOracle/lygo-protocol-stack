@@ -39,12 +39,14 @@ python tools/run_phase9_audit.py
 python tools/verify_lattice_alignment.py
 ```
 
-## Fix stack GitHub Pages (one-time maintainer)
+## Fix stack GitHub Pages (one-time — **required for stack URLs**)
 
-1. Repo **Settings → Pages → Build and deployment → Source:** **GitHub Actions**
-2. Push to `main` (or **Actions → Deploy GitHub Pages → Run workflow**)
-3. Confirm workflow **Deploy GitHub Pages** succeeds
-4. Re-run `python tools/verify_public_pages.py` until stack URLs return **200**
+**Fastest:** Settings → Pages → **Deploy from a branch** → `main` → **`/docs`** → Save.  
+Full steps: [`GITHUB_PAGES_SETUP.md`](GITHUB_PAGES_SETUP.md)
+
+Windows helper: `powershell -File tools/fix_all_public_surfaces.ps1` (audits + opens Settings)
+
+Re-check: `python tools/verify_public_pages.py` until `stack_pages_live: true`.
 
 ## Growing link log
 

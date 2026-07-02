@@ -180,13 +180,13 @@ def main() -> int:
                 bool(pr.get("excavationpro_mirrors_live")),
             )
             if not pr.get("stack_pages_live"):
-                check(
+                all_ok &= check(
                     "stack github pages",
                     False,
-                    "enable Actions Pages — docs/GITHUB_PAGES_SETUP.md then re-run deploy workflow",
+                    "Settings→Pages→main+/docs — docs/GITHUB_PAGES_SETUP.md",
                 )
             else:
-                check("stack github pages", True)
+                all_ok &= check("stack github pages", True)
         else:
             all_ok &= check("public pages last run", False, "missing json")
     except Exception as exc:

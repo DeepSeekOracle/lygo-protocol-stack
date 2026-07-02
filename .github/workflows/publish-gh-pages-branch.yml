@@ -1,0 +1,35 @@
+# Fallback/alternate Pages path: push docs/ → gh-pages branch
+# Repo Settings → Pages → Deploy from branch → gh-pages → / (root)
+name: Publish docs to gh-pages branch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-branch
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare static site
+        run: |
+          touch docs/.nojekyll
+          test -f docs/index.html
+          test -f docs/SovereignLatticeMesh.html
+          test -f docs/BiometricEntropyHarness.html
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          force_orphan: true
+          enable_jekyll: false

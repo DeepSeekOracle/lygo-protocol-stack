@@ -5,7 +5,7 @@
   "public_link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "02dbc53",
+    "github_main": "236628f",
     "stack_version": "P0.4-P5.2.3-PHASE9-PUBLIC-MESH",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
@@ -41,8 +41,15 @@
     "sentinel_healthy": true,
     "sentinel_lattice_ok": true
   },
+  "public_test": {
+    "doc": "docs/PUBLIC_SYSTEM_TEST.md",
+    "excavationpro_mirrors": "LIVE (200)",
+    "stack_pages": "404 until Settings→Pages→GitHub Actions + deploy workflow",
+    "artifact": "tests/public_pages_last_run.json"
+  },
   "human_gates": [
-    "GitHub Pages deploy after push to main (docs/)",
-    "Excavationpro mirror: sync_excavationpro_slm_page.py --push when repo cloned locally"
+    "Enable GitHub Pages source: GitHub Actions — docs/GITHUB_PAGES_SETUP.md",
+    "Grokipedia manual paste",
+    "Excavationpro sync optional: sync_excavationpro_slm_page.py --push"
   ]
 }
