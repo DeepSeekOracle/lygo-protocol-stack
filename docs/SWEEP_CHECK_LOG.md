@@ -202,7 +202,7 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 ## 13. Biophase7 — LYGO Network Builder (architectural p.txt)
 
 **Source:** `2026Biophase7/This is a brilliant architectural p.txt`  
-**Skill:** `lygo-network-builder` v1.1.0 (mirror; publish on human approval)
+**Skill:** `lygo-network-builder` v1.1.0 — **ClawHub live** @ `deepseekoracle/lygo-network-builder`
 
 | Check | Result |
 |-------|--------|
