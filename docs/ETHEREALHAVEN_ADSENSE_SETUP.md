@@ -4,7 +4,8 @@
 
 ## On Haven Star Chart page (done in repo)
 
-- AdSense loader in `<head>` of `docs/HavenStarChart.html`
+- Verification meta: `<meta name="google-adsense-account" content="ca-pub-0646320966060599">` in `<head>`
+- AdSense loader script in `<head>` of `docs/HavenStarChart.html`
 - Optional responsive display unit below header
 - Full SEO + Open Graph + X (Twitter) cards + JSON-LD
 
