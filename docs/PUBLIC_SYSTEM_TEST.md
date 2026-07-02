@@ -12,12 +12,13 @@
 | Biometric Harness (stack Pages) | https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html | **LIVE** |
 | SLM interactive (stack Pages) | https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html | **LIVE** |
 | Stack index | https://deepseekoracle.github.io/lygo-protocol-stack/ | **LIVE** |
+| Compass Master | https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html | **LIVE** (after deploy) |
 | HF Space | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine | **RUNNING** |
 | GitHub repo | https://github.com/DeepSeekOracle/lygo-protocol-stack | **LIVE** |
 | HF dataset | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack | **LIVE** |
 | Grokipedia | https://grokipedia.com/page/lygo-protocol-stack | **Manual paste** — `docs/GROkipedia_SUBMIT.md` |
 
-Canonical HTML in repo: `docs/BiometricEntropyHarness.html`, `docs/SovereignLatticeMesh.html`.
+Canonical HTML in repo: `docs/BiometricEntropyHarness.html`, `docs/SovereignLatticeMesh.html`, `tools/LYGO_Compass_Master.html` → `docs/tools/` via `sync_compass_pages.py`.
 
 ## What is verifiable in code (not stub)
 

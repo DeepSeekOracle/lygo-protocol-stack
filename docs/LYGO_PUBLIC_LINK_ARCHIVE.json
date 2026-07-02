@@ -73,6 +73,18 @@
       "since": "2026-07-01"
     },
     {
+      "id": "compass-master",
+      "title": "LYGO Compass Master (vis-network lattice)",
+      "role": "navigation",
+      "urls": {
+        "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
+        "repo_canonical": "tools/LYGO_Compass_Master.html",
+        "pages_copy": "docs/tools/LYGO_Compass_Master.html"
+      },
+      "since": "2026-07-02",
+      "sync_tool": "tools/sync_compass_pages.py"
+    },
+    {
       "id": "grokipedia",
       "title": "Grokipedia LYGO page",
       "role": "encyclopedia",
