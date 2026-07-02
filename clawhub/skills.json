@@ -11,12 +11,12 @@
     {
       "slug": "lygo-mesh-deploy",
       "name": "LYGO Mesh Deploy",
-      "summary": "Phase 5 federation mesh — deploy node cluster, monitor gossip convergence, 100-node scale sim. Δ9Φ963-PHASE5-LIVE.",
+      "summary": "LYGO mesh — Phase 5 gossip cluster, SLM routes, Phase 9 TLS HTTPS node API. Scale sim + deploy scripts.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-mesh-deploy",
       "mirror": "mirrors/lygo-mesh-deploy",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "slug": "lygo-docker-deploy",
@@ -41,12 +41,12 @@
     {
       "slug": "lygo-protocol-stack-operator",
       "name": "LYGO Protocol Stack Operator",
-      "summary": "LYGO Protocol Stack Operator — P0–P5 integrator for agents. Φ-gate untrusted bytes, run stack demos, map GitHub + Hugging Face + ClawHub ecosystem, chain lyg...",
+      "summary": "LYGO Protocol Stack Operator — P0–P9 integrator (Φ-gate, SLM, TLS public mesh, HAIP, attestation). Audits, node API, GitHub/HF/ClawHub map; chain resonance/Ollama safely.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator",
       "mirror": "mirrors/lygo-protocol-stack-operator",
       "published": true,
       "downloads": 0,
-      "version": "1.0.4"
+      "version": "1.0.5"
     },
     {
       "slug": "eternal-haven-lore-pack",

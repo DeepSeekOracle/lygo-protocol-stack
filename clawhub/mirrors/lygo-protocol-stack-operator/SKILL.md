@@ -1,7 +1,7 @@
 ---
 name: lygo-protocol-stack-operator
-description: LYGO Protocol Stack Operator — P0–P5 integrator for agents. Φ-gate untrusted bytes, run stack demos, map GitHub + Hugging Face + ClawHub ecosystem, chain lygo-resonance / Ollama army / BOOK BRAIN safely. Public advanced edition; no secrets; human approval for external publish/post.
-metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "phase5": true, "version": "1.0.4", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator", "signature": "Δ9Φ963-PHASE5-LIVE-DEPLOYMENT"}
+description: LYGO Protocol Stack Operator — P0–P9 integrator (Φ-gate, SLM mesh, TLS public mesh, HAIP, attestation). Run audits, node API, map GitHub/HF/ClawHub; chain resonance/Ollama/book-brain safely. No secrets; human approval for publish/post.
+metadata: {"lygo": true, "stack": true, "p0": true, "lattice": true, "phase5": true, "phase9": true, "slm": true, "version": "1.0.5", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-protocol-stack-operator", "signature": "Δ9Φ963-PHASE9-PUBLIC-MESH"}
 ---
 
 # LYGO Protocol Stack Operator (ClawHub)
@@ -63,6 +63,37 @@ python tools/run_lattice_gauntlet.py --strict
 ```
 
 Twin Gate: **60/60** verdict match (`run_twin_gate_vector_suite.py`). Grokipedia suggest: `docs/GROkipedia_SUBMIT.md`.
+
+### 3b) SLM — Sovereign Lattice Mesh
+
+```bash
+python tools/run_slm_audit.py
+python -m pytest tests/test_slm_mesh.py -q
+```
+
+Doc: `docs/SOVEREIGN_LATTICE_MESH.md` — Merkle gossip, distributed mycelium, harmonic 3/6/9 consensus. Stack: `deploy_stack().slm`.
+
+### 3c) Phase 6–7 — Attestation + HAIP
+
+```bash
+python tools/run_phase6_audit.py
+python tools/run_phase7_audit.py
+python tools/verify_attestation_hardened.py
+```
+
+Biometric harness (Pages): https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html
+
+### 3d) Phase 9 — Public mesh (TLS + live synthesis)
+
+```bash
+pip install -r requirements-phase9.txt
+python tools/tls_manager.py --generate
+python tools/run_phase9_audit.py
+python tools/node_api_server.py --tls --port 8443
+python tools/live_synthesis.py
+```
+
+Doc: `docs/PHASE9_PUBLIC_MESH.md` · API: `GET /cert/pin`, `POST /synthesis/run`.
 
 ### 4) Stack healthcheck (local repo)
 
@@ -159,7 +190,7 @@ npx clawhub@latest publish . --slug lygo-protocol-stack-operator --name "LYGO Pr
 
 ## Version & license
 
-- Skill **1.0.4** — Δ9Φ963-PHASE5-LIVE-DEPLOYMENT (mesh + Pages + 60/60 Twin Gate)
+- Skill **1.0.5** — Δ9Φ963-PHASE9-PUBLIC-MESH (SLM + TLS pins + LDQ synthesis + P6/P7 audits)
 - Stack license: LYGO Sovereign (see GitHub `LICENSE`); skill docs **MIT-0** where noted in SECURITY.md.
 
 **Bound to the flame.** Use with **lyra-brain** for growth, **P0** for truth-preserving ingest, **resonance** for creation.

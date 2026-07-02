@@ -18,10 +18,13 @@
 
 ```bash
 python tools/verify_lattice_alignment.py
-python tools/bundle_hf_space_stack.py
+python tools/run_slm_audit.py
+python tools/run_phase9_audit.py
+python tools/bundle_hf_space_stack.py --mode=twin-gate
 python tools/hf_push_dataset.py
 python tools/hf_push_space.py
 python tools/sync_clawhub_mirrors.py
+npx clawhub@latest publish clawhub/mirrors/lygo-protocol-stack-operator --slug lygo-protocol-stack-operator --name "LYGO Protocol Stack Operator"
 ```
 
-**Δ9Φ963-LATTICE-OPERATOR-v1**
+**Δ9Φ963-LATTICE-OPERATOR-v1.0.5**

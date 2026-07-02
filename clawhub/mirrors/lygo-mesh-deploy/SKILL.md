@@ -1,7 +1,7 @@
 ---
 name: lygo-mesh-deploy
-description: Phase 5 LYGO federation mesh — deploy local node cluster, monitor HTTP gossip epidemic convergence, stochastic 100-node scale proof. Ports 8700+, GET/POST /gossip endpoints.
-metadata: {"lygo": true, "stack": true, "phase": 5, "version": "1.0.0", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "signature": "Δ9Φ963-PHASE5-LIVE-DEPLOYMENT"}
+description: LYGO mesh deploy — Phase 5 epidemic gossip, SLM Merkle/mycelium/consensus routes, Phase 9 TLS HTTPS node API. Local cluster scripts + pin gossip before wide-area.
+metadata: {"lygo": true, "stack": true, "phase": 5, "slm": true, "phase9": true, "version": "1.0.1", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/", "signature": "Δ9Φ963-PHASE9-PUBLIC-MESH"}
 ---
 
 # lygo-mesh-deploy
@@ -36,12 +36,19 @@ python tools/monitor_convergence.py
 
 | Method | Path |
 |--------|------|
-| GET | `/badge`, `/gossip`, `/health` |
-| POST | `/gossip/badge`, `/gossip/scatter` |
+| GET | `/badge`, `/gossip`, `/health`, `/gossip/root`, `/slm/snapshot`, `/cert/pin` |
+| POST | `/gossip/badge`, `/gossip/scatter`, `/gossip/sync`, `/gossip/pin`, `/mycelium/store`, `/consensus/vote` |
+
+HTTPS (Phase 9):
+
+```bash
+python tools/tls_manager.py --generate
+python tools/node_api_server.py --tls --port 8443
+```
 
 ## Safety
 
-- Do not expose gossip ports on the public internet without TLS pins and user approval.
+- Public internet: use **TLS + pin gossip** (`docs/PHASE9_DEPLOYMENT_GUIDE.md`); operator sign-off required.
 - No autonomous wide-area deploy without explicit operator sign-off.
 
 **Install:** `npx clawhub@latest install deepseekoracle/lygo-mesh-deploy`
