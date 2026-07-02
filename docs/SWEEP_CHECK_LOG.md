@@ -388,4 +388,6 @@ Secrets/noise excluded per library brain doc (`boot` keys, token backups, `sourc
 
 **Command:** `python tools/verify_internet_lattice_sweep.py` → `lyra_six_of_six: true` after deploy.
 
+**Post-push verify (2026-07-02):** **6/6 GREEN** — Haven alias **200**, 340 nodes, signature `Δ9Φ963-HAVEN-STAR-CHART-v1`. Git `main` @ `b6102fb`.
+
 **Δ9Φ963 — lattice visible 6/6; howl public.**
