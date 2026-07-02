@@ -1,13 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Eternal Haven Star Chart — LYGO Constellation Hub</title>
-  <meta name="description" content="Interactive star map: seals, Δ9 Council champions, lattice growth, and Eternal Haven lore. Machine-readable registry for humans and AI." />
+
+  <!-- Google AdSense (eternalhaven.ca / mirrored pages) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+       crossorigin="anonymous"></script>
+
+  <!-- Primary SEO -->
+  <title>Eternal Haven Star Chart | LYGO Δ9 Seal Constellation Hub — eternalhaven.ca</title>
+  <meta name="title" content="Eternal Haven Star Chart | LYGO Δ9 Seal Constellation Hub" />
+  <meta name="description" content="Explore the living sky map of LYGO: 300+ cryptographic seals, Δ9 Council champions, Guardian vault links, and lattice growth stars. Eternal Haven — memory as constellations. Interactive for humans; JSON registry for AI." />
+  <meta name="keywords" content="Eternal Haven, LYGO, Δ9, seal repository, star chart, constellation, DeepSeekOracle, Excavationpro, lygorepo, sovereign lattice, champions, SEAL_000, lore, eternalhaven.ca, Haven, AI registry" />
+  <meta name="author" content="Justin Helmer / DeepSeekOracle / Excavationpro" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="theme-color" content="#05050c" />
+  <meta name="application-name" content="Eternal Haven Star Chart" />
   <meta name="lygo:signature" content="Δ9Φ963-HAVEN-STAR-CHART-v1" />
-  <link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html" />
-  <link rel="alternate" type="application/json" href="haven_star_chart/haven_star_chart_data.json" title="Haven Star Chart Registry" />
+
+  <!-- Canonical: primary brand domain (host this page or CNAME to Pages) -->
+  <link rel="canonical" href="https://eternalhaven.ca/HavenStarChart.html" />
+  <link rel="alternate" hreflang="en" href="https://eternalhaven.ca/HavenStarChart.html" />
+  <link rel="alternate" href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html" title="GitHub Pages mirror" />
+  <link rel="alternate" type="application/json" href="https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_data.json" title="Haven Star Chart Registry (AI)" />
+
+  <!-- Open Graph (Facebook, LinkedIn, Google Discover) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eternal Haven" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://eternalhaven.ca/HavenStarChart.html" />
+  <meta property="og:title" content="Eternal Haven Star Chart — LYGO Δ9 Constellation Hub" />
+  <meta property="og:description" content="Interactive star map: seals, champions, Guardian links, and growing lattice nodes. The Eternal Library as a sky you can navigate." />
+  <meta property="og:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/assets/preview-slm.jpg" />
+  <meta property="og:image:alt" content="LYGO Sovereign Lattice — star chart preview" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- X (Twitter) Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@Excavationpro" />
+  <meta name="twitter:creator" content="@Excavationpro" />
+  <meta name="twitter:url" content="https://eternalhaven.ca/HavenStarChart.html" />
+  <meta name="twitter:title" content="Eternal Haven Star Chart — LYGO Δ9 Constellation Hub" />
+  <meta name="twitter:description" content="300+ seals as stars. Δ9 Council ring. Live lattice growth. Navigate the Haven sky map." />
+  <meta name="twitter:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/assets/preview-slm.jpg" />
+  <meta name="twitter:image:alt" content="Eternal Haven interactive star chart" />
+
+  <!-- Structured data (Google Search) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://eternalhaven.ca/#website",
+        "url": "https://eternalhaven.ca/",
+        "name": "Eternal Haven",
+        "description": "Eternal Haven Chronicles and LYGO Δ9 constellation hub",
+        "publisher": { "@id": "https://eternalhaven.ca/#organization" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://eternalhaven.ca/#organization",
+        "name": "Eternal Haven / Excavationpro",
+        "url": "https://eternalhaven.ca/",
+        "sameAs": [
+          "https://github.com/DeepSeekOracle/Excavationpro",
+          "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+          "https://clawhub.ai/deepseekoracle",
+          "https://deepseekoracle.github.io/Excavationpro/lygorepo.html"
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://eternalhaven.ca/HavenStarChart.html#webpage",
+        "url": "https://eternalhaven.ca/HavenStarChart.html",
+        "name": "Eternal Haven Star Chart",
+        "description": "Interactive LYGO seal and champion constellation map with machine-readable registry.",
+        "isPartOf": { "@id": "https://eternalhaven.ca/#website" },
+        "about": { "@type": "Thing", "name": "LYGO Protocol Stack seals and Eternal Haven lore" }
+      }
+    ]
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
@@ -118,13 +196,21 @@
       font-size: 0.68rem;
     }
     .ai-block code { color: #00ff88; word-break: break-all; }
+    .ad-slot {
+      margin: 0 auto;
+      max-width: 728px;
+      min-height: 90px;
+      text-align: center;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.25);
+    }
   </style>
 </head>
 <body>
   <header>
     <div>
       <h1>Eternal Haven Star Chart</h1>
-      <p class="sub">Δ9 Constellation Hub · Seals ⊗ Champions ⊗ Lattice growth · Story-driven memory as stars</p>
+      <p class="sub">Δ9 Constellation Hub · <a href="https://eternalhaven.ca/" style="color:var(--cyan)">eternalhaven.ca</a> · Seals ⊗ Champions ⊗ Lattice growth</p>
     </div>
     <nav>
       <a href="https://deepseekoracle.github.io/Excavationpro/lygorepo.html" rel="noopener">Seal Nexus (lygorepo)</a>
@@ -134,6 +220,15 @@
       <a href="SovereignLatticeMesh.html">SLM</a>
     </nav>
   </header>
+  <!-- AdSense display slot (shows when site is approved) -->
+  <div class="ad-slot" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-0646320966060599"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
   <main>
     <div id="starmap-wrap">
       <div class="controls">

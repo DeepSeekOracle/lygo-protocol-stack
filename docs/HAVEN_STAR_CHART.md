@@ -42,6 +42,12 @@ Uploads JSON to dataset path `haven_star_chart/` for Spaces and agents.
 
 When `army_config.json` → `haven_star_chart.rebuild_on_self_tune: true`, `army_self_tune.py` runs the builder after lattice OK.
 
+## AdSense & SEO (eternalhaven.ca)
+
+- Head: Google AdSense `ca-pub-0646320966060599`, OG/Twitter/JSON-LD
+- Setup: [`ETHEREALHAVEN_ADSENSE_SETUP.md`](./ETHEREALHAVEN_ADSENSE_SETUP.md)
+- `docs/ads.txt` for Pages mirror; **eternalhaven.ca** needs its own root `ads.txt`
+
 ## Related (unchanged originals)
 
 - [lygorepo.html](https://deepseekoracle.github.io/Excavationpro/lygorepo.html)
