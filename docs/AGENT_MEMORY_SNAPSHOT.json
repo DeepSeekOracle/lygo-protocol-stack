@@ -5,7 +5,7 @@
   "public_link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "2062f96",
+    "github_main": "d33ba13",
     "stack_version": "P0.4-P5.2.3-PHASE9-PUBLIC-MESH",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
@@ -38,7 +38,7 @@
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "hf_space": "DeepSeekOracle/LYGO-Resonance-Engine",
     "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
-    "clawhub": "deepseekoracle — operator 1.0.5",
+    "clawhub": "deepseekoracle — operator 1.0.6",
     "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack"
   },
   "ops": {
@@ -53,6 +53,7 @@
     "artifact": "tests/public_pages_last_run.json"
   },
   "session_log": [
+    "2026-07-02: Published github d33ba13; HF dataset 69e178f; Space d50176a; ClawHub operator 1.0.6 ANCHOR-ULTIMATE; lattice ALIGNED.",
     "2026-07-02: Complete LYGO Anchor Package (Biophase7) — MultiAnchor, SLM/P7/P1 hooks, BLE mesh router, army anchor-health, autonomy worker; audit+tests green.",
     "2026-07-02: Integrated SovereignLatticeMesh.html into docs/; LYGO_PUBLIC_LINK_ARCHIVE.json + log_public_surface.py.",
     "2026-07-02: Dual Pages — stack + Excavationpro; sync_excavationpro_slm_page.py; HF bundle includes HTML.",
