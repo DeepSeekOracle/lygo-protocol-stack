@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "Δ9Φ963-ANCHOR-ULTIMATE: P0-P9 SLM + immutable anchor layer, lattice ALIGNED",
+        "Δ9Φ963 session 2026-07-03: lyra-brain v2, Moltx ledgers, champion ALIGNED b0b2131d, balanced snapshot",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)

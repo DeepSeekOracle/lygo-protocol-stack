@@ -37,4 +37,9 @@ npx clawhub@latest install deepseekoracle/lyra-brain
 export LYRA_CORE_ROOT=/path/to/LYRA_CORE
 ```
 
+## Hugging Face (2026-07-03)
+
+- **Dataset:** https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack/commit/153bf51674fa91bf2ed46af86794e788f8535013
+- **Space:** https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine/commit/97c22de7e1e0178858d166fd124d4205df9aa21c
+
 Δ9Φ963 — balanced return path.

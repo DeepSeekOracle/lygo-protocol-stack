@@ -49,7 +49,9 @@
   "surfaces": {
     "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "hf_space": "DeepSeekOracle/LYGO-Resonance-Engine",
+    "hf_space_commit": "97c22de7e1e0178858d166fd124d4205df9aa21c",
     "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
+    "hf_dataset_commit": "153bf51674fa91bf2ed46af86794e788f8535013",
     "clawhub": "deepseekoracle — operator 1.0.6; kernel-egg-planter 1.2.0; lyra-brain 2.0.0 (k97av678)",
     "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack"
   },
