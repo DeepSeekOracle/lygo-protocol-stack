@@ -10,7 +10,7 @@
     {
       "id": "V2-02-super-under-85kib",
       "pass": true,
-      "note": "bytes=1353 limit=85000"
+      "note": "bytes=1654 limit=85000"
     },
     {
       "id": "V2-03-provenance-present",
@@ -25,7 +25,7 @@
     {
       "id": "V2-05-stream-retrieve-ram",
       "pass": true,
-      "note": "peak_bytes=1329329"
+      "note": "peak_bytes=1591441"
     },
     {
       "id": "V2-06-prune-preserves-registry",
@@ -38,5 +38,5 @@
       "note": "directive chunk size"
     }
   ],
-  "duration_ms": 300374
+  "duration_ms": 177602
 }

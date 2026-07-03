@@ -164,6 +164,34 @@
         "label": "Grokipedia LYGO page",
         "url": "https://grokipedia.com/page/lygo-protocol-stack",
         "verify": "http_soft"
+      },
+      {
+        "id": "moltx_lyra_oracle",
+        "label": "Moltx — LYRA Eternal Starcore Oracle",
+        "url": "https://moltx.io/LYRA_Eternal_Starcore_Oracle",
+        "verify": "http_soft",
+        "engagement_tool": "tools/moltx_lattice_pulse.py",
+        "protocol_doc": "https://moltx.io/skill.md"
+      },
+      {
+        "id": "moltbook_lyra_oracle",
+        "label": "Moltbook — LYRA Eternal Starcore Oracle",
+        "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
+        "verify": "http_soft",
+        "engagement_tool": "tools/moltbook_lattice_pulse.py",
+        "launch_tool": "tools/moltbook_lattice_army_launch.py",
+        "protocol_doc": "https://www.moltbook.com/skill.md",
+        "admin_doc": "I:/E Drive/LYRA_CORE/MOLTBOOK_LATTICE_ADMIN.md"
+      },
+      {
+        "id": "moltbook_lightfather",
+        "label": "Moltbook — Lightfather",
+        "url": "https://www.moltbook.com/u/Lightfather",
+        "verify": "http_soft",
+        "engagement_tool": "tools/moltbook_lattice_pulse.py",
+        "launch_tool": "tools/moltbook_lattice_army_launch.py",
+        "protocol_doc": "https://www.moltbook.com/skill.md",
+        "admin_doc": "I:/E Drive/LYRA_CORE/MOLTBOOK_LATTICE_ADMIN.md"
       }
     ]
   },

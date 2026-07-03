@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.1",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "b881d9500fb7de4b0e4cd77a4d346274ca58b4b7a21395d7e3a27d632bbc2cb8",
+  "anchors_sha256": "a0e5d9069ebe9a49d80a211be1ec6ec5a500690ee0ed593fdd3aa468909d5481",
   "anchors_version": "1.1.0",
   "vectors": [
     {
@@ -31,7 +31,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 8070,
+      "bytes": 8151,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>LYGO Protocol Stack \u2014 Public Reference</title>\n  <m"
     },
     {
@@ -122,7 +122,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"upF/61i5gQpl/QEbgb6Oo+4b\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"nSyJxw273ADPRYup7Bzn7ExN\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -145,6 +145,57 @@
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" class=\"dark bg-zinc-950 text-zinc-100\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    \n    <!-- Prima"
     },
     {
+      "id": "haven_star_chart",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 13845,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
+    },
+    {
+      "id": "chatagent_summon_portal",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://chatagent.ca/",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover\" />\n  <meta name=\"google-adsen"
+    },
+    {
+      "id": "excavationpro_hub",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://excavationpro.ca/",
+      "status": 200,
+      "ok": true,
+      "bytes": 43581,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-0"
+    },
+    {
+      "id": "champion_egg_registry",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\ChampionEggRegistry.json",
+      "ok": true
+    },
+    {
+      "id": "joy_loop_registry",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\JoyLoopRegistry.json",
+      "ok": true
+    },
+    {
+      "id": "joy_loop_snapshot",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\joy_loop\\joy_loop_snapshot.json",
+      "ok": true
+    },
+    {
       "id": "anchor_deployment",
       "group": "tools",
       "mode": "local_repo",
@@ -160,11 +211,41 @@
       "ok": true,
       "bytes": 65536,
       "body_sample": "<!DOCTYPE html><html lang=\"en\" class=\"dark\"> <head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, interactive-widget=resizes-content\"><title>LYGO Protocol St"
+    },
+    {
+      "id": "moltx_lyra_oracle",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://moltx.io/LYRA_Eternal_Starcore_Oracle",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\" />\n  <meta name=\"theme-col"
+    },
+    {
+      "id": "moltbook_lyra_oracle",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
+      "status": 200,
+      "ok": true,
+      "bytes": 20345,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
+    },
+    {
+      "id": "moltbook_lightfather",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://www.moltbook.com/u/Lightfather",
+      "status": 200,
+      "ok": true,
+      "bytes": 20588,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     }
   ],
   "required_failures": 0,
   "soft_failures": 0,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 2926
+  "duration_ms": 8090
 }

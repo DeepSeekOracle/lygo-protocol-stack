@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-ANCHOR-AUDIT-v1",
   "all_pass": true,
-  "duration_ms": 9538,
+  "duration_ms": 9696,
   "checks": [
     {
       "name": "anchor_profile",
@@ -54,5 +54,5 @@
       "detail": "docs\\ANCHOR_DEPLOYMENT.md"
     }
   ],
-  "sample_anchor_url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/db93bd0be7586c54d9bf5284c8d9ed95bf7edd2631437871515b071ef3017dfc.json"
+  "sample_anchor_url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8e07d74b0ad8c4b4e836d2f9b75b31506b4fcbee0de0353de0ab8fe1b2246dc0.json"
 }
