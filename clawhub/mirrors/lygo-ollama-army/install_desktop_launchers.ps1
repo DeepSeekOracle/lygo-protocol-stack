@@ -32,6 +32,11 @@ if (Test-Path $GenesisInstaller) {
     & $GenesisInstaller
 }
 
+$IdleInstaller = Join-Path $ArmyRoot "install_idle_guardian_desktop.ps1"
+if (Test-Path $IdleInstaller) {
+    & $IdleInstaller
+}
+
 Write-Host "Created:"
 Write-Host "  $hbPath"
 Write-Host "  $armyPath"

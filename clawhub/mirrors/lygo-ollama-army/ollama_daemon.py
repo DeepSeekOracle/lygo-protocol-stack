@@ -299,6 +299,54 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             out["result"] = {"ok": True, "path": str(cc)}
         else:
             out["result"] = {"ok": False, "error": "missing AGENT_MEMORY_SNAPSHOT.json"}
+    elif role == "kernel-verify-only":
+        import subprocess
+
+        root, serr = _safe_stack_root()
+        if serr:
+            out["result"] = {"ok": False, "error": serr}
+            return out
+        results = {}
+        for tool in ("verify_kernel_eggs.py", "verify_champion_eggs.py"):
+            script = root / "tools" / tool
+            if not script.is_file():
+                results[tool] = {"ok": False, "error": "missing"}
+                continue
+            cp = subprocess.run(
+                [sys.executable, str(script)],
+                cwd=str(root),
+                capture_output=True,
+                text=True,
+                timeout=180,
+            )
+            results[tool] = {"ok": cp.returncode == 0, "exit_code": cp.returncode, "stdout": (cp.stdout or "")[-1500:]}
+        out["result"] = {"ok": all(r.get("ok") for r in results.values()), "verify": results}
+    elif role == "idle-housekeep":
+        import subprocess
+
+        script = HERE / "ollama_command_center" / "scripts" / "army_idle_housekeeping.py"
+        ops = payload.get("ops")
+        if ops:
+            ok = True
+            for op in ops:
+                cp = subprocess.run(
+                    [sys.executable, str(script), "--op", str(op)],
+                    cwd=str(HERE),
+                    capture_output=True,
+                    text=True,
+                    timeout=600,
+                )
+                ok = ok and cp.returncode == 0
+            out["result"] = {"ok": ok, "ops": ops}
+        else:
+            cp = subprocess.run(
+                [sys.executable, str(script), "--tick"],
+                cwd=str(HERE),
+                capture_output=True,
+                text=True,
+                timeout=900,
+            )
+            out["result"] = {"ok": cp.returncode == 0, "stdout": (cp.stdout or "")[-2000:]}
     elif role == "egg-planter":
         import subprocess
 
@@ -556,6 +604,8 @@ DETERMINISTIC_ROLES = frozenset({
     "moltx-lattice-pulse",
     "moltbook-lyra-pulse",
     "moltbook-lightfather-pulse",
+    "kernel-verify-only",
+    "idle-housekeep",
 })
 
 HB_LIGHT_ROLES = frozenset({

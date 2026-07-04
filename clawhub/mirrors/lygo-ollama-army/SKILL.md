@@ -45,6 +45,22 @@ Companion to **lygo-resonance**: queue image batches, resonance-analyst role, ch
 
 **Self-grow (`--grow`):** off by default; can spawn extra daemon roles — read launcher source first.
 
+## Idle Guardian (offline housekeeping)
+
+When you are **idle** and agents are offline, use the **advanced idle boot** — catalog memory, 3-brain daily index, kernel verify-only, living-memory audit, upgrade scout. **No** social pulses, git push, or egg planting unless `idle_guardian.allow_planting` is true.
+
+```powershell
+.\install_idle_guardian_desktop.ps1   # Desktop: LYGO Army Idle Guardian.bat
+# Requires: LYGO_ARMY_IDLE_GUARDIAN=1
+```
+
+See `ollama_command_center/IDLE_GUARDIAN.md`. Logs: `workspace/idle_guardian_journal.jsonl`, `idle_upgrade_findings.jsonl`.
+
+| Gate | Purpose |
+|------|---------|
+| `LYGO_ARMY_IDLE_GUARDIAN=1` | Starts `army_idle_guardian_supervisor.py` |
+| `LYRA_CORE_ROOT` | 3-brain catalog + daily index (optional) |
+
 ## Safe first run (recommended)
 
 ```bash
