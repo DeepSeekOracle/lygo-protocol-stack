@@ -129,6 +129,11 @@
       "install": "npx clawhub@latest install deepseekoracle/lygo-joy-loop"
     },
     {
+      "slug": "lygo-second-brain",
+      "intents": ["second brain", "llm wiki", "vault ingest", "obsidian", "knowledge base", "consensus"],
+      "install": "npx clawhub@latest install deepseekoracle/lygo-second-brain"
+    },
+    {
       "slug": "lygo-alignment-badge",
       "intents": ["alignment badge", "community node"],
       "install": "npx clawhub@latest install deepseekoracle/lygo-alignment-badge"
@@ -183,6 +188,18 @@
       "intents": ["sync bpm page"],
       "cmd": "python tools/materialize_bpm_finder_pages.py",
       "requires": "LYGO_STACK_ROOT"
+    },
+    {
+      "id": "second-brain-ingest",
+      "intents": ["ingest note", "second brain", "llm wiki"],
+      "cmd": "python tools/lygo_second_brain.py ingest PATH",
+      "requires": "LYGO_STACK_ROOT,LYGO_VAULT_ROOT,Ollama"
+    },
+    {
+      "id": "second-brain-index",
+      "intents": ["vault index", "embed notes"],
+      "cmd": "python tools/lygo_second_brain.py index",
+      "requires": "LYGO_STACK_ROOT,LYGO_VAULT_ROOT,Ollama"
     },
     {
       "id": "public-pages",

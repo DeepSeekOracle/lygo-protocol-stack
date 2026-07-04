@@ -20,6 +20,8 @@
     "biometric_harness_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
     "compass_master": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
     "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+    "lygo_second_brain": "lygo_second_brain/vault",
+    "lygo_second_brain_spec": "docs/BIOPHASE7_LYGO_SECOND_BRAIN.md",
     "bpm_finder": "https://bpmfinder.ca/",
     "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"

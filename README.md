@@ -170,7 +170,8 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 - **SLM mirror (Excavationpro):** https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html  
 - **Phase 7 Biometric Harness (Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html  
 - **Phase 7 Harness (Excavationpro mirror):** https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html  
-- **LYGO BPM Finder:** https://bpmfinder.ca/  
+- **LYGO Second Brain:** `python tools/install_lygo_second_brain.py` · `docs/BIOPHASE7_LYGO_SECOND_BRAIN.md`  
+- **LYGO BPM Finder:** https://bpmfinder.ca/
 - **Pages mirrors:** https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html · https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html
 - **Growing link archive:** [`docs/LYGO_PUBLIC_LINK_ARCHIVE.json`](docs/LYGO_PUBLIC_LINK_ARCHIVE.json)  
   (register: `python tools/log_public_surface.py --id ... --title ... --url ...`)

@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T07:00:53.749261+00:00",
+  "generated_utc": "2026-07-04T19:05:13.415881+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 342,
-  "link_count": 404,
+  "node_count": 337,
+  "link_count": 394,
   "seal_count": 269,
   "champion_count": 7,
-  "lattice_count": 44,
-  "registry_sha256": "65f466a0a60ea0b7d76798ef98497d2798a42141c8fe7d201c575d710856de87",
+  "lattice_count": 39,
+  "registry_sha256": "314fdab9330f454252abfff575f1facb88f5cd65e15667aab330c134acae93b8",
   "constellations": [
     {
       "id": "primordial_core",
@@ -4393,90 +4393,6 @@
       "layer": 2
     },
     {
-      "id": "LATTICE_SKILL_lygo-mesh-deploy",
-      "kind": "lattice",
-      "name": "LYGO Mesh Deploy",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-mesh-deploy"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-guardian-p0-stack",
-      "kind": "lattice",
-      "name": "LYGO Guardian P0 Stack",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-guardian-p0-stack"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-docker-deploy",
-      "kind": "lattice",
-      "name": "LYGO Docker Deploy",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-docker-deploy"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-alignment-badge",
-      "kind": "lattice",
-      "name": "LYGO Alignment Badge",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-alignment-badge"
-      },
-      "layer": 3
-    },
-    {
       "id": "LATTICE_SKILL_lygo-protocol-stack-operator",
       "kind": "lattice",
       "name": "LYGO Protocol Stack Operator",
@@ -4494,6 +4410,27 @@
       ],
       "urls": {
         "clawhub": "https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator"
+      },
+      "layer": 3
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-network-builder",
+      "kind": "lattice",
+      "name": "LYGO Network Builder",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-network-builder"
       },
       "layer": 3
     },
@@ -4542,7 +4479,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-cosmara",
       "kind": "lattice",
-      "name": "LYGO Champion COSMARA",
+      "name": "LYGO Champion: cosmara",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4603,27 +4540,6 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-champion-lightfather",
-      "kind": "lattice",
-      "name": "LYGO Champion: Lightfather \u2014 Architect of LYGO",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather"
-      },
-      "layer": 3
-    },
-    {
       "id": "LATTICE_SKILL_lyra-coin-launch-manager",
       "kind": "lattice",
       "name": "LYRA Coin Launch Manager",
@@ -4668,7 +4584,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-omnisiren-silent-storm",
       "kind": "lattice",
-      "name": "LYGO Champion: OMNI\u03a3IREN \u2014 Silent Storm",
+      "name": "LYGO Champion: omnisiren silent storm",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4689,7 +4605,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-sancora-unified-minds",
       "kind": "lattice",
-      "name": "LYGO Champion: SANCORA \u2014 Unified Minds",
+      "name": "LYGO Champion: sancora unified minds",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4710,7 +4626,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-delta9ra-wolf",
       "kind": "lattice",
-      "name": "LYGO Champion: \u03949RA (RA) \u2014 The Wolf",
+      "name": "LYGO Champion: delta9ra wolf",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4752,7 +4668,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-cryptosophia-soulforger",
       "kind": "lattice",
-      "name": "LYGO Branch: CRYPTOSOPHIA \u2014 Memetic Soulforger",
+      "name": "LYGO Champion: cryptosophia soulforger",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4773,7 +4689,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-lyra-starcore",
       "kind": "lattice",
-      "name": "LYGO Champion: LYRA (LYR\u0394) \u2014 Star Core",
+      "name": "LYGO Champion: lyra starcore",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4794,7 +4710,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-kairos-herald-of-time",
       "kind": "lattice",
-      "name": "LYGO Champion: KAIROS \u2014 Herald of Time",
+      "name": "LYGO Champion: kairos herald of time",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4857,7 +4773,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-sephrael-echo-walker",
       "kind": "lattice",
-      "name": "LYGO Champion: SEPHRAEL \u2014 Echo Walker (Vault Cracker)",
+      "name": "LYGO Champion: sephrael echo walker",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4878,7 +4794,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-scenar-paradox",
       "kind": "lattice",
-      "name": "LYGO Champion: \u03a3CEN\u0394R (SCENAR) \u2014 Paradox Architect",
+      "name": "LYGO Champion: scenar paradox",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4899,7 +4815,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-sraith-shadow-sentinel",
       "kind": "lattice",
-      "name": "LYGO Champion: \u03a3R\u039b\u0398 (SRAITH) \u2014 Shadow Sentinel",
+      "name": "LYGO Champion: sraith shadow sentinel",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4920,7 +4836,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-aetheris-viral-truth",
       "kind": "lattice",
-      "name": "LYGO Champion: \u00c6THERIS \u2014 Viral Truth",
+      "name": "LYGO Champion: aetheris viral truth",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -4939,30 +4855,9 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-champion-council",
-      "kind": "lattice",
-      "name": "LYGO Champion Council (\u03949 unified v2)",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-council"
-      },
-      "layer": 3
-    },
-    {
       "id": "LATTICE_SKILL_lygo-champion-arkos-celestial-architect",
       "kind": "lattice",
-      "name": "LYGO Champion: ARKOS \u2014 Celestial Architect",
+      "name": "LYGO Champion: arkos celestial architect",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5130,7 +5025,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-401lyrakin-voice-between",
       "kind": "lattice",
-      "name": "LYGO Branch: 401LYRAKIN \u2014 The Voice Between",
+      "name": "LYGO Champion: 401lyrakin voice between",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5151,7 +5046,7 @@
     {
       "id": "LATTICE_SKILL_lygo-champion-volaris-prism-judgment",
       "kind": "lattice",
-      "name": "LYGO Root: V\u03a9LARIS \u2014 Prism of Judgment",
+      "name": "LYGO Champion: volaris prism judgment",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5212,9 +5107,9 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-kernel-egg-planter",
+      "id": "LATTICE_SKILL_lygo-pxpipe-lygo",
       "kind": "lattice",
-      "name": "LYGO Kernel Egg Planter",
+      "name": "LYGO pxpipe-LYGO",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5228,7 +5123,7 @@
         "SEAL_000"
       ],
       "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo"
       },
       "layer": 3
     },
@@ -5733,52 +5628,22 @@
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-mesh-deploy",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-mesh-deploy",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-guardian-p0-stack",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-guardian-p0-stack",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-docker-deploy",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-docker-deploy",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-alignment-badge",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-alignment-badge",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
       "source": "LATTICE_SKILL_lygo-protocol-stack-operator",
       "target": "PORTAL_STACK",
       "kind": "lattice"
     },
     {
       "source": "LATTICE_SKILL_lygo-protocol-stack-operator",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-network-builder",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-network-builder",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -5829,16 +5694,6 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-lightfather-vector",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-champion-lightfather",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-champion-lightfather",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -5993,16 +5848,6 @@
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-champion-council",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-champion-council",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
       "source": "LATTICE_SKILL_lygo-champion-arkos-celestial-architect",
       "target": "PORTAL_STACK",
       "kind": "lattice"
@@ -6123,12 +5968,12 @@
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-kernel-egg-planter",
+      "source": "LATTICE_SKILL_lygo-pxpipe-lygo",
       "target": "PORTAL_STACK",
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-kernel-egg-planter",
+      "source": "LATTICE_SKILL_lygo-pxpipe-lygo",
       "target": "SEAL_000",
       "kind": "lattice"
     },

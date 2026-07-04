@@ -59,6 +59,19 @@
       "sync_tool": "tools/sync_excavationpro_bpm_finder.py"
     },
     {
+      "id": "lygo-second-brain",
+      "title": "LYGO Second Brain (Biophase7 LLM wiki)",
+      "role": "knowledge-vault",
+      "urls": {
+        "repo": "lygo_second_brain/",
+        "spec": "docs/BIOPHASE7_LYGO_SECOND_BRAIN.md",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-second-brain",
+        "install": "python tools/install_lygo_second_brain.py"
+      },
+      "since": "2026-07-04",
+      "provenance": "2026Biophase7/lygo-second-brain.zip"
+    },
+    {
       "id": "lygo-tools-portal-skill",
       "title": "LYGO Tools Portal (MPM) — ClawHub",
       "role": "agent-routing",

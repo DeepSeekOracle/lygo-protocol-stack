@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 36,
-  "count_mirrored": 35,
+  "count_published": 37,
+  "count_mirrored": 36,
   "skills": [
     {
       "slug": "lygo-protocol-stack-operator",
@@ -365,6 +365,16 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-tools-portal",
       "mirror": "mirrors/lygo-tools-portal",
       "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-second-brain",
+      "name": "LYGO Second Brain",
+      "summary": "Local LLM wiki — Obsidian vault + Ollama ingest, embed search, multi-model consensus, wiki from vault only. Biophase7 lygo-second-brain lattice install.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-second-brain",
+      "mirror": "mirrors/lygo-second-brain",
+      "published": false,
       "downloads": 0,
       "version": "1.0.0"
     }

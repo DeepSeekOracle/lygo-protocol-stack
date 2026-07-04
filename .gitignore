@@ -38,6 +38,8 @@ data/cas/**
 !data/cas/.gitkeep
 data/joy_loop/*.db
 data/joy_loop/*.db-journal
+lygo_second_brain/vault/.vault_index.sqlite3
+lygo_second_brain/vault/.git/
 data/scalable_registry/manifests/
 data/scalable_registry/registry.json
 
