@@ -81,7 +81,7 @@ def build_manifest() -> dict:
         "merkle_root": merkle_root,
         "artifacts": entries,
         "boot": "python tools/lygo_openclaw.py run help",
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw",
     }
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     MANIFEST.write_text(json.dumps(manifest, indent=2), encoding="utf-8")

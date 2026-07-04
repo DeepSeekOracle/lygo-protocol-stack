@@ -469,7 +469,7 @@ def lattice_nodes() -> list[dict]:
                                 "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/"
                                 "docs/BIOPHASE7_LYGO_OPENCLAW.md"
                             ),
-                            "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw",
+                            "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw",
                         },
                         "layer": 3,
                         "meta": {"registry_merkle_root": ocreg.get("registry_merkle_root")},

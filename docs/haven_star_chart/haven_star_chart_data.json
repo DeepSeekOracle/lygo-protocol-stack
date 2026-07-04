@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T20:31:53.854791+00:00",
+  "generated_utc": "2026-07-04T20:34:35.137374+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 347,
   "link_count": 413,
   "seal_count": 269,
   "champion_count": 7,
   "lattice_count": 46,
-  "registry_sha256": "cc42c494effdaed35f0d47ab7c6207e178c04f5011643af6af4567f2346db10b",
+  "registry_sha256": "3a33ee3182b809b3773bec728b5b296d15ff758ed10d31ee8ba82c254cd5699a",
   "constellations": [
     {
       "id": "primordial_core",
@@ -5191,9 +5191,9 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-openclaw",
+      "id": "LATTICE_SKILL_lygo-sovereign-claw",
       "kind": "lattice",
-      "name": "LYGO-OpenClaw",
+      "name": "LYGO Sovereign Claw Router",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5207,7 +5207,7 @@
         "SEAL_000"
       ],
       "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw"
       },
       "layer": 3
     },
@@ -5736,7 +5736,7 @@
       "urls": {
         "registry": "https://deepseekoracle.github.io/lygo-protocol-stack/OpenClawRegistry.json",
         "doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_LYGO_OPENCLAW.md",
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw"
       },
       "layer": 3,
       "meta": {
@@ -6230,12 +6230,12 @@
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-openclaw",
+      "source": "LATTICE_SKILL_lygo-sovereign-claw",
       "target": "PORTAL_STACK",
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-openclaw",
+      "source": "LATTICE_SKILL_lygo-sovereign-claw",
       "target": "SEAL_000",
       "kind": "lattice"
     },

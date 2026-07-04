@@ -93,7 +93,7 @@
         "repo": "lygo_openclaw/",
         "spec": "docs/BIOPHASE7_LYGO_OPENCLAW.md",
         "registry": "docs/OpenClawRegistry.json",
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw",
         "install": "python tools/install_lygo_openclaw.py",
         "hybrid": "clawhub/mirrors/lyra-openclaw/SKILL.md"
       },
