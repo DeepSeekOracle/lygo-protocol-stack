@@ -51,7 +51,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
-| [book-brain](https://clawhub.ai/deepseekoracle/book-brain) | BOOK BRAIN – LYGO 3-Brain Filesystem Helper | `1.0.0` · 1,586 dl | [mirror](./mirrors/book-brain/) |
+| [book-brain](https://clawhub.ai/deepseekoracle/book-brain) | BOOK BRAIN – LYGO 3-Brain Filesystem Helper | `2.0.0` · 1,586 dl | [mirror](./mirrors/book-brain/) |
 | [book-brain-visual-reader](https://clawhub.ai/deepseekoracle/book-brain-visual-reader) | BOOK BRAIN VISUAL READER – LYGO 3-Brain + Visual Left/Right Brain Helper | `1.0.0` · 1,312 dl | [mirror](./mirrors/book-brain-visual-reader/) |
 | [lygo-universal-living-memory-library](https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library) | LYGO Universal Living Memory Library (v1.1) | `1.1.0` · 1,405 dl | [mirror](./mirrors/lygo-universal-living-memory-library/) |
 | [lygo-universal-cure-system](https://clawhub.ai/deepseekoracle/lygo-universal-cure-system) | LYGO Universal Cure System (deprecated) | `1.0.1` · 1,339 dl | [mirror](./mirrors/lygo-universal-cure-system/) |
