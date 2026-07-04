@@ -51,12 +51,12 @@
     {
       "slug": "eternal-haven-lore-pack",
       "name": "Eternal Haven Lore Pack",
-      "summary": "Eternal Haven Chronicles lore + mythic persona pack. Use when the agent needs deep narrative context, character arcs, and metaphysical structure from the 4 Eternal Haven books to speak in a more poetic, mythic, or Champion-aligned voice while staying anchored in real events and consistent rules.",
+      "summary": "Eternal Haven lore + lattice-aligned mythic persona. Bundled books I–IV only; pairs with lygo-champion-* and stack operator. SECURITY.md; no external filesystem paths.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack",
       "mirror": "mirrors/eternal-haven-lore-pack",
       "published": true,
       "downloads": 1924,
-      "version": "1.2.0"
+      "version": "1.3.0"
     },
     {
       "slug": "lygo-mint-verifier",
