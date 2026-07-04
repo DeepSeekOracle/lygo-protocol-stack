@@ -19,7 +19,9 @@
     "biometric_harness_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
     "biometric_harness_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
     "compass_master": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
-    "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html"
+    "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+    "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+    "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
   },
   "audits": {
     "grok_60": { "passed": 60, "failed": 0, "artifact": "tests/grok_audit_last_run.json" },

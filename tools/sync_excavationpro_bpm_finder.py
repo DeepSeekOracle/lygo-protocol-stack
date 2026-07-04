@@ -32,13 +32,12 @@ def main() -> int:
         return 1
 
     dst = args.dest / DEST_NAME
-    text = SRC.read_text(encoding="utf-8")
-    text = text.replace('href="index.html">Stack index', 'href="eternalhaven.html">Eternal Haven')
-    text = text.replace(
-        'href="BIOPHASE7_BPM_FINDER.md">Spec &amp; provenance',
-        'href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_BPM_FINDER.md">Spec &amp; provenance',
-    )
-    dst.write_text(text, encoding="utf-8")
+    mat = ROOT / "tools" / "materialize_bpm_finder_pages.py"
+    if mat.is_file():
+        subprocess.run([sys.executable, str(mat)], check=True)
+    if not dst.is_file():
+        print(f"Missing {dst} after materialize", file=sys.stderr)
+        return 1
     print(f"Copied → {dst}")
 
     if args.push:

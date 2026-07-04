@@ -13,6 +13,19 @@
 | HF librosa backend | **Optional** — operators can add a HF Space tab later; not required for v1 |
 | Mic / live stream primary | **File upload primary** — tap tempo covers manual override |
 
+## SEO & discoverability
+
+- Per-surface **canonical**, **Open Graph**, **Twitter/X Card**, and **schema.org WebApplication** JSON-LD
+- `index, follow` robots + keyword meta aimed at “BPM finder” / “tempo detector” queries
+- **`docs/sitemap.xml`** + **`docs/robots.txt`** (stack Pages); **`Excavationpro/sitemap.xml`** + **`robots.txt`**
+- Hub links: `eternalhaven.html`, `index.html`, `main.html`, Haven Star Chart, legacy Guardian music, LYGORESONANCE footer
+
+Regenerate pages after prototype edits:
+
+```bash
+python tools/materialize_bpm_finder_pages.py
+```
+
 ## Features shipped
 
 - Web Audio decode → `detect(AudioBuffer)`

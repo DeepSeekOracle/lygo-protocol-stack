@@ -1,111 +1,44 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>LYGO BPM Finder</title>
-</head>
-<body>
-  <input type="file" id="fileInput" accept="audio/*">
-  <div id="result">BPM: —</div>
-
-  <script type="module">
-    import { detectBPM } from 'https://unpkg.com/pleco-xa/dist/pleco-xa.min.js';
-
-    document.getElementById('fileInput').addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      const arrayBuffer = await file.arrayBuffer();
-      const audioContext = new AudioContext();
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-      const result = detectBPM(audioBuffer.getChannelData(0), audioBuffer.sampleRate);
-      document.getElementById('result').textContent = `BPM: ${result.bpm}`;
-    });
-  </script>
-</body>
-</html>
-This runs entirely on GitHub Pages. Zero server cost. Zero uploads. Fully private.
-
-🔧 Option B: Hugging Face Space Backend (Python + librosa)
-For higher accuracy, complex files, or offline processing.
-
-Python Backend (librosa):
-python
-# app.py — Hugging Face Space
-import librosa
-import gradio as gr
-
-def detect_bpm(audio_file):
-    y, sr = librosa.load(audio_file)
-    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
-    return f"{tempo:.1f} BPM"
-
-iface = gr.Interface(
-    fn=detect_bpm,
-    inputs=gr.Audio(type="filepath"),
-    outputs="text",
-    title="LYGO BPM Finder",
-    description="Upload any audio file — get BPM instantly."
-)
-iface.launch()
-Deploy this to Hugging Face Spaces. It's free, public, and supports MP3, WAV, FLAC, etc.
-
-🧬 LYGO Integration Layer
-Layer	What It Does
-P0 (Entropy Filter)	Validate uploaded files before processing (detect corrupted/oversized inputs)
-P1 (Memory Mycelium)	Store detection results (BPM, timestamp, file hash) for audit and recall
-P3 (Vortex Consensus)	If using multiple algorithms, run consensus to get a harmonized BPM
-Kernel Eggs	Anchor high‑confidence detection results permanently to Arweave / web3.storage
-Example: LYGO‑Enhanced BPM Result
-json
-{
-  "bpm": 128.5,
-  "confidence": 0.95,
-  "algorithm": "pleco-xa + librosa consensus",
-  "p0_entropy": 0.72,
-  "p1_memory_id": "bpm_7f1a4d83",
-  "p3_consensus": true,
-  "kernel_egg_url": "https://arweave.net/..."
-}
-🚀 Deployment Plan
-Step	Action
-1	Create GitHub repo: lygo-bpm-finder
-2	Build frontend (HTML + JS) using pleco-xa or web-audio-beat-detector
-3	Enable GitHub Pages (Settings → Pages → deploy from main)
-4	(Optional) Create Hugging Face Space with librosa backend
-5	Connect frontend to HF Space API for hybrid processing
-6	Add LYGO integration (P0, P1, P3, Kernel Eggs)
-7	Share the link: https://deepseekoracle.github.io/lygo-bpm-finder/
-💎 Final Word
-Yes, you can legitimately build this.
-
-Frontend: GitHub Pages (free, static, private).
-
-Backend: Hugging Face Space (free, Python, librosa).
-
-Integration: LYGO stack (P0–P3 + Kernel Eggs).
-
-Result: A sovereign, verifiable, privacy‑first BPM finder that anchors results permanently.
-
-You already have everything you need. Build it. 🔥. What needs fixing:
-
-Swap the two fake libraries — replace pleco-xa and @uln/impulse with bpm-detective (simple, one-shot detection) or realtime-bpm-analyzer (if you want live mic/streaming detection, not just file upload). Pick based on whether you want "upload a file" or "listen live" as the primary mode — those are different UX, worth deciding now rather than after building.
-Drop the LYGO integration layer from this particular idea, for the concrete reason above — it doesn't do real work on audio-specific data, not because mythos doesn't belong anywhere.
-
-Things worth adding to the idea, for real:
-
-Confidence/fallback UX — BPM detectors fail silently or guess wrong on ambient/classical/variable-tempo audio. Worth designing the UI to show a confidence score and let the user nudge it (tap-to-tempo as a manual override) rather than presenting one number as gospel.
-Half/double-time correction — the most common real BPM-detection bug is algorithms locking onto 70 instead of 140 (or vice versa). Worth adding a one-click "×2 / ÷2" toggle in the UI rather than trying to solve it algorithmically.
-Waveform + beat-grid overlay — cheap to add with the same AudioBuffer you already have, and it's the thing that makes a BPM tool feel legitimate rather than a black box (lets the user visually confirm the beats line up).
-
-That's a tighter, buildable idea than the original: pick file-upload or live-mic as primary, use one real library, add confidence + octave-correction UX, skip the ceremonial layer. Want me to sketch the fuller spec before you build, or is this enough to start from?
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LYGO BPM Finder — client-side tempo detection</title>
-<meta name="description" content="Upload audio and detect BPM in your browser. Confidence, divide2/multiply2, tap tempo, waveform. No server upload.">
-<meta name="author" content="DeepSeekOracle / Excavationpro">
-<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<title>LYGO BPM Finder — Free Online Tempo Detector | MP3, WAV, FLAC</title>
+<meta name="title" content="LYGO BPM Finder — Free Online Tempo Detector | MP3, WAV, FLAC">
+<meta name="description" content="Free online BPM finder and tempo detector. Upload MP3, WAV, or FLAC — detect beats in your browser with confidence score, tap tempo, ÷2/×2 fix, and waveform beat grid. Private: audio never leaves your device. By Excavationpro / LYGO.">
+<meta name="keywords" content="BPM finder, tempo detector, online BPM analyzer, find BPM, song tempo, beat detector, MP3 BPM, WAV BPM, FLAC tempo, music production tool, tap tempo, Excavationpro, LYGO">
+<meta name="author" content="Justin Helmer / DeepSeekOracle / Excavationpro">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
 <link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LYGO Protocol Stack">
+<meta property="og:url" content="https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html">
+<meta property="og:title" content="LYGO BPM Finder — Free Online Tempo Detector | MP3, WAV, FLAC">
+<meta property="og:description" content="Free online BPM finder and tempo detector. Upload MP3, WAV, or FLAC — detect beats in your browser with confidence score, tap tempo, ÷2/×2 fix, and waveform beat grid. Private: audio never leaves your device. By Excavationpro / LYGO.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:image:alt" content="LYGO BPM Finder — online tempo detection for producers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO BPM Finder — Free Online Tempo Detector | MP3, WAV, FLAC">
+<meta name="twitter:description" content="Free online BPM finder and tempo detector. Upload MP3, WAV, or FLAC — detect beats in your browser with confidence score, tap tempo, ÷2/×2 fix, and waveform beat grid. Private: audio never leaves your device. By Excavationpro / LYGO.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">
+<meta name="twitter:image:alt" content="LYGO BPM Finder — online tempo detection">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "LYGO BPM Finder",
+  "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+  "applicationCategory": "MusicApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "description": "Free online BPM finder and tempo detector. Upload MP3, WAV, or FLAC — detect beats in your browser with confidence score, tap tempo, ÷2/×2 fix, and waveform beat grid. Private: audio never leaves your device. By Excavationpro / LYGO.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "featureList": "BPM detection, tap tempo, confidence score, waveform beat grid, private client-side processing",
+  "browserRequirements": "Requires JavaScript and Web Audio API",
+  "author": { "@type": "Organization", "name": "Excavationpro / LYGO Systems" }
+}</script>
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -321,9 +254,9 @@ That's a tighter, buildable idea than the original: pick file-upload or live-mic
 </head>
 <body>
 
-<div class="rack">
+<main class="rack" id="bpm-finder-app">
   <p class="eyebrow">LYGO · Biophase7 · Creative</p>
-  <h1>BPM Finder</h1>
+  <h1>LYGO BPM Finder</h1>
 
   <div class="dropzone" id="dropzone">
     <input type="file" id="fileInput" accept="audio/*" aria-label="Choose an audio file">
@@ -350,16 +283,15 @@ That's a tighter, buildable idea than the original: pick file-upload or live-mic
     <span class="spacer"></span>
     <button class="tap-btn" id="tapBtn">Tap tempo</button>
   </div>
-</div>
+</main>
 
 
 <p class="site-footer">
-  <strong>Privacy:</strong> detection uses <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> in your browser — files are not uploaded.
-  · <a href="index.html">Stack index</a>
-  · <a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Eternal Haven hub</a>
-  · <a href="BIOPHASE7_BPM_FINDER.md">Spec &amp; provenance</a>
+  <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
+  · <a href="index.html">LYGO stack index</a>
+  · <a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Main hub</a>
+  · <a href="BIOPHASE7_BPM_FINDER.md">Spec</a>
 </p>
-
 <script type="module">
   import detect from 'https://cdn.jsdelivr.net/npm/bpm-detective/+esm';
 
