@@ -1,0 +1,28 @@
+# Secrets & wallet material — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+wallet*.json
+*wallet*
+*mnemonic*
+*seed-phrase*
+*seed_phrase*
+**/secrets/
+**/state/*_private*
+**/keystore/
+
+# Local operator state (receipts OK in git only if you choose — default ignore)
+state/
+reference/*_PRIVATE*
+brainwave/
+
+# Python / OS
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+Thumbs.db
