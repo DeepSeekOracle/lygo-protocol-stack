@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-SECOND-BRAIN-EGG-v1",
-  "updated_utc": 1783195284.9186256,
-  "git_head": "41908cbf8b70",
+  "updated_utc": 1783200395.6449282,
+  "git_head": "3d399f55dd1b",
   "egg_count": 1,
-  "registry_merkle_root": "f334464c117f922461aa0ee2d8e77e8befa43ae26864a11d6212d17fbd142324",
+  "registry_merkle_root": "2c4bc64cb32f332f3cefec6662da5077f96c902bf093c42d04bc246ec5a1724a",
   "eggs": [
     {
       "egg_id": "lygo-second-brain-v10",
-      "merkle_root": "f334464c117f922461aa0ee2d8e77e8befa43ae26864a11d6212d17fbd142324",
+      "merkle_root": "2c4bc64cb32f332f3cefec6662da5077f96c902bf093c42d04bc246ec5a1724a",
       "manifest_path": "data/second_brain/second_brain_egg_manifest.json",
       "kernel_egg_registry": "docs/KernelEggRegistry.json"
     }

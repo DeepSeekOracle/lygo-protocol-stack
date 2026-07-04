@@ -3,9 +3,9 @@
   "type": "lygo_second_brain_kernel_egg",
   "egg_id": "lygo-second-brain-v10",
   "version": "1.0.0",
-  "built_utc": 1783195284.8915696,
-  "git_head": "41908cbf8b70",
-  "merkle_root": "f334464c117f922461aa0ee2d8e77e8befa43ae26864a11d6212d17fbd142324",
+  "built_utc": 1783200395.6157243,
+  "git_head": "3d399f55dd1b",
+  "merkle_root": "2c4bc64cb32f332f3cefec6662da5077f96c902bf093c42d04bc246ec5a1724a",
   "artifacts": [
     {
       "label": "second_brain_cli",
@@ -40,7 +40,7 @@
     {
       "label": "second_brain_egg_manifest",
       "path": "data/second_brain/second_brain_egg_manifest.json",
-      "sha256": "9ec57a0cd2467472477db8150d6a5170f9b32f3d94072362942e640992efb7ab",
+      "sha256": "6dcd26348c6225ce0e54be8fde81a0d61b8ce92cd8d6a326ac08eb74058f35b3",
       "size_bytes": 1874
     }
   ],

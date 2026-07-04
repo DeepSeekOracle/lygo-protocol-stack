@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-SANDCASTLE-EGG-v1",
-  "updated_utc": 1783196765.2293055,
-  "git_head": "dd0704f79e39",
+  "updated_utc": 1783200396.9924161,
+  "git_head": "3d399f55dd1b",
   "egg_count": 1,
-  "registry_merkle_root": "c0b1e6020b4e71cbf97e394d16a66564cb269c44a967f71ec34b1845b3d689a9",
+  "registry_merkle_root": "906566d3af61d9115923c98e9326c42808ac9112a70c507370feee5c41d7bd5a",
   "eggs": [
     {
       "egg_id": "lygo-sandcastle-v10",
-      "merkle_root": "c0b1e6020b4e71cbf97e394d16a66564cb269c44a967f71ec34b1845b3d689a9",
+      "merkle_root": "906566d3af61d9115923c98e9326c42808ac9112a70c507370feee5c41d7bd5a",
       "manifest_path": "data/sandcastle/workflow_egg_manifest.json"
     }
   ],

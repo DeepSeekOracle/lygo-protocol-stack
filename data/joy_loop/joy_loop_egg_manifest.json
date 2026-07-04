@@ -3,28 +3,28 @@
   "type": "joy_loop_kernel_egg",
   "egg_id": "joy-loop-protocol-v21",
   "version": "2.1.0",
-  "built_utc": 1783026020.9421763,
-  "git_head": "aeaf2ca521b4",
-  "merkle_root": "76a8bad971b63c1f8f606db7adffa5247b9a1c981f4f0ac2c299ff728028eacc",
+  "built_utc": 1783200391.1344166,
+  "git_head": "3d399f55dd1b",
+  "merkle_root": "552997dac321af32e43af86faee37093f7a872970d9e84e12ab9009dd35a97af",
   "resonance_bpm": 122,
   "artifacts": [
     {
       "label": "joy_loop_protocol",
       "path": "tools/joy_loop_protocol.py",
-      "sha256": "d17166cfff09f333f6c1a3a75d1979772adcb36b4b2c318bfcb08f5a0f789dd9",
-      "size_bytes": 21486
+      "sha256": "bfd181c386fa5b558eebbac4889982a834004896e44d847891b8b944e0df636d",
+      "size_bytes": 28050
     },
     {
       "label": "joy_loop_doc",
       "path": "docs/JOY_LOOP_PROTOCOL.md",
-      "sha256": "a25e008fa3af69de4bb22c996527404e45f656975122f68e7e421796f3626f5d",
-      "size_bytes": 1954
+      "sha256": "cf0c70c0b367c045691f28cd75d411a632f57322dbbe85ebd4eef45bcb32d972",
+      "size_bytes": 2294
     },
     {
       "label": "joy_snapshot_stub",
       "path": "docs/joy_loop/joy_loop_snapshot.json",
-      "sha256": "fe7159419afd809aaed094c347c60c92cda0718a9ed00920f80678dc7336b2b5",
-      "size_bytes": 6314
+      "sha256": "fad7fad940fe06bf1aa9301ea0ef3a42e880d16a130bdba976117f7f34b3fdf5",
+      "size_bytes": 6440
     }
   ],
   "boot": "python tools/joy_loop_protocol.py --tick",

@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.2",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "b13de011057f09f6d4eb4bba52c4b16421a6860d6d497566f1daa8aeafacc737",
+  "anchors_sha256": "81b91d7a3e61c1671fe60ef878c72a1fc16005762cee4c367c4902783ac2aa99",
   "anchors_version": "1.2.0",
   "vectors": [
     {
@@ -31,7 +31,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 9384,
+      "bytes": 9495,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  \n  <meta name=\"google-adsense-account\" content=\"ca-pub-064"
     },
     {
@@ -41,7 +41,7 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 44650,
+      "bytes": 45146,
       "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
     },
     {
@@ -60,9 +60,8 @@
       "mode": "http_soft",
       "url": "https://bpmfinder.ca/",
       "status": null,
-      "ok": null,
-      "bytes": null,
-      "body_sample": null
+      "ok": false,
+      "error": "<urlopen error [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond>"
     },
     {
       "id": "lygo_bpm_finder_stack",
@@ -71,8 +70,8 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
       "status": 200,
       "ok": true,
-      "bytes": 25051,
-      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>LYGO BPM Finder \u2014 Free Online Tempo Detector | MP3, WAV, FL"
+      "bytes": 38005,
+      "body_sample": "<!DOCTYPE html>\n<!-- lygo-pages-build: e879556-lygo-ui -->\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Free BPM Finder "
     },
     {
       "id": "lygo_bpm_finder_excavationpro",
@@ -81,8 +80,8 @@
       "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
       "status": 200,
       "ok": true,
-      "bytes": 24592,
-      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-064632096"
+      "bytes": 37671,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Free BPM Finder Online \u2014 Detect Song Tempo (MP3, WAV, FLAC)"
     },
     {
       "id": "kernel_egg_page",
@@ -152,7 +151,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"5LsmG5NV/wchGcqOpr/DJJpS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"/smQ7d+E1GUpockbY+DvBu92\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -162,7 +161,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"tjX5nQEA1AX9v0I8vMx8j5pd\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"pTJRaPdINUN4ApRfRmfpq639\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -172,7 +171,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"hGad0TeKu6IRCYYGg5HzSWYZ\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"rUCoeqiHyc/HoONhJn7PjJhm\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -221,7 +220,7 @@
       "url": "https://excavationpro.ca/",
       "status": 200,
       "ok": true,
-      "bytes": 43178,
+      "bytes": 50470,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-0"
     },
     {
@@ -231,7 +230,7 @@
       "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
       "status": 200,
       "ok": true,
-      "bytes": 60398,
+      "bytes": 60370,
       "body_sample": "<!DOCTYPE html>\n<!-- eternalhaven hub deploy: 2026-07-03 live-iframe v79wjai -->\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale"
     },
     {
@@ -310,8 +309,8 @@
     }
   ],
   "required_failures": 0,
-  "soft_failures": 1,
+  "soft_failures": 2,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 5930
+  "duration_ms": 51473
 }

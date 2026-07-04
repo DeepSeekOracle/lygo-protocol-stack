@@ -26,6 +26,14 @@
       "id": "stack_harness"
     },
     {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+      "status": 200,
+      "ok": true,
+      "marker": "lygo-top-bar",
+      "marker_found": true,
+      "id": "stack_bpm_finder"
+    },
+    {
       "url": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
       "status": 200,
       "ok": true,
@@ -41,5 +49,5 @@
   "stack_pages_live": true,
   "stack_compass_live": true,
   "excavationpro_mirrors_live": true,
-  "duration_ms": 627
+  "duration_ms": 1285
 }
