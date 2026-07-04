@@ -48,7 +48,7 @@ Direct scripts: `$LYGO_STACK_ROOT/lygo_second_brain/scripts/`
 - **Integrity:** file read + size cap on ingest (not content entropy scoring)
 - **Memory:** git commits + optional `data/second_brain/manifest.jsonl`
 - **Consensus:** 2+ Ollama models, cosine similarity on answers
-- **Optional:** `lygo-kernel-egg-planter` for permaweb pins (user consent)
+- **Kernel egg:** `lygo-second-brain-v10` via `python tools/second_brain_planter.py --i-consent` (see `docs/SecondBrainRegistry.json`)
 
 ## Skill chain
 

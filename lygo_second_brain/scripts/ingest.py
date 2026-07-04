@@ -31,7 +31,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from vault_lib import (  # noqa: E402
-    git_commit, now_iso, read_text_source, sha256_of_file, slugify, write_note,
+    append_stack_manifest,
+    git_commit,
+    now_iso,
+    read_text_source,
+    sha256_of_file,
+    slugify,
+    write_note,
 )
 from ollama_client import generate, OllamaError  # noqa: E402
 
@@ -150,6 +156,17 @@ def main() -> int:
 
     commit_result = git_commit(vault_root, f"ingest: {title}")
     print(f"Git: {commit_result}")
+
+    append_stack_manifest(
+        vault_root,
+        "ingest",
+        {
+            "title": title,
+            "note": str(note_path.relative_to(vault_root)).replace("\\", "/"),
+            "sha256": file_hash[:16],
+            "git": commit_result,
+        },
+    )
 
     return 0
 

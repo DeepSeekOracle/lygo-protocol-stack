@@ -344,6 +344,60 @@ def lattice_nodes() -> list[dict]:
             )
         except (json.JSONDecodeError, OSError):
             pass
+    sb_reg = ROOT / "docs" / "SecondBrainRegistry.json"
+    if sb_reg.is_file():
+        try:
+            sreg = json.loads(sb_reg.read_text(encoding="utf-8"))
+            merkle = sreg.get("registry_merkle_root", "")[:16]
+            nodes.append(
+                {
+                    "id": "LATTICE_SECOND_BRAIN_VAULT",
+                    "kind": "lattice",
+                    "name": "Δ9 Second Brain Vault",
+                    "glyph": "🧠◆",
+                    "equation": f"wiki×{sreg.get('egg_count', 1)} egg",
+                    "tone": "528Hz",
+                    "tags": ["LATTICE", "SECOND_BRAIN", "LOCAL_WIKI"],
+                    "connections": [
+                        "LATTICE_JOY_LOOP_VAULT",
+                        "PORTAL_STACK",
+                        "SEAL_000",
+                    ],
+                    "urls": {
+                        "registry": (
+                            "https://deepseekoracle.github.io/lygo-protocol-stack/"
+                            "SecondBrainRegistry.json"
+                        ),
+                        "snapshot": (
+                            "https://deepseekoracle.github.io/lygo-protocol-stack/"
+                            "second_brain/second_brain_snapshot.json"
+                        ),
+                        "doc": (
+                            "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/"
+                            "docs/BIOPHASE7_LYGO_SECOND_BRAIN.md"
+                        ),
+                        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-second-brain",
+                    },
+                    "layer": 3,
+                    "meta": {"registry_merkle_root": sreg.get("registry_merkle_root")},
+                }
+            )
+            nodes.append(
+                {
+                    "id": "SECOND_BRAIN_EGG_V10",
+                    "kind": "second_brain_egg",
+                    "name": "LYGO Second Brain v1.0 Egg",
+                    "glyph": "📓",
+                    "equation": merkle + "…" if merkle else "second-brain",
+                    "tone": "Ollama×embed",
+                    "tags": ["SECOND_BRAIN", "KERNEL_EGG"],
+                    "connections": ["LATTICE_SECOND_BRAIN_VAULT", "LATTICE_JOY_LOOP_VAULT"],
+                    "urls": {"egg_id": "lygo-second-brain-v10"},
+                    "layer": 2,
+                }
+            )
+        except (json.JSONDecodeError, OSError):
+            pass
     return nodes
 
 

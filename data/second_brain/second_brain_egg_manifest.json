@@ -1,0 +1,60 @@
+{
+  "signature": "\u03949\u03a6963-SECOND-BRAIN-EGG-v1",
+  "type": "lygo_second_brain_kernel_egg",
+  "egg_id": "lygo-second-brain-v10",
+  "version": "1.0.0",
+  "built_utc": 1783195284.8915696,
+  "git_head": "41908cbf8b70",
+  "merkle_root": "f334464c117f922461aa0ee2d8e77e8befa43ae26864a11d6212d17fbd142324",
+  "artifacts": [
+    {
+      "label": "second_brain_cli",
+      "path": "tools/lygo_second_brain.py",
+      "sha256": "7df24047cf4949edfdd13b027604a6c912b24d58f81cecad42e07ce3f7a6af9a",
+      "size_bytes": 2043
+    },
+    {
+      "label": "second_brain_spec",
+      "path": "docs/BIOPHASE7_LYGO_SECOND_BRAIN.md",
+      "sha256": "0a26159e3f0e5ac77af5a7d1ac7191b8697da5615022d6baf3e70c6ae47dcf2b",
+      "size_bytes": 1904
+    },
+    {
+      "label": "vault_readme",
+      "path": "lygo_second_brain/README.md",
+      "sha256": "8d496d29c5ddbd5163ce2e690bceb6e934dbe2f4342a9f56eabd43b679f70d0f",
+      "size_bytes": 1858
+    },
+    {
+      "label": "ingest_script",
+      "path": "lygo_second_brain/scripts/ingest.py",
+      "sha256": "ac20cc4ad9beae9cf0901c0d1a4a07918b76c75b0f56abb5dc64b67ea5b63d7f",
+      "size_bytes": 5963
+    },
+    {
+      "label": "embed_index",
+      "path": "lygo_second_brain/scripts/embed_index.py",
+      "sha256": "d0023a39b79c110fb73c96d0d08e983aa4d1f57804cc6ed1d1b9687df830da43",
+      "size_bytes": 3632
+    },
+    {
+      "label": "second_brain_egg_manifest",
+      "path": "data/second_brain/second_brain_egg_manifest.json",
+      "sha256": "9ec57a0cd2467472477db8150d6a5170f9b32f3d94072362942e640992efb7ab",
+      "size_bytes": 1874
+    }
+  ],
+  "boot": "python tools/lygo_second_brain.py index",
+  "pages_mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/SecondBrainRegistry.json",
+  "snapshot_mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/second_brain/second_brain_snapshot.json",
+  "ethical_gates": [
+    "P0_STRICT",
+    "LOCAL_FIRST",
+    "NO_AUTO_PUSH"
+  ],
+  "protocol_layers": [
+    "P2",
+    "P6"
+  ],
+  "clawhub": "https://clawhub.ai/deepseekoracle/lygo-second-brain"
+}

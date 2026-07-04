@@ -75,6 +75,7 @@ python scripts/retrieve_egg.py --egg p0-nano-kernel
 | `firmware-p04-drivers` | P0.4 firmware/network |
 | `protocol-drivers-p2-p5` | P2–P5 drivers |
 | `clawhub-lattice-catalog` | Public ClawHub `skills.json` metadata |
+| `lygo-second-brain-v10` | Local LLM wiki vault + Ollama scripts |
 
 ## Joy Loop Protocol (Δ9 v2.3.1)
 
@@ -84,6 +85,14 @@ python tools/joy_loop_planter.py --i-consent
 ```
 
 Egg `joy-loop-protocol-v21` · `docs/JoyLoopRegistry.json` · army `joy-loop-pulse` · ClawHub `lygo-joy-loop@2.3.1` (SECURITY.md).
+
+## LYGO Second Brain (Δ9 v1.0)
+
+```bash
+python tools/second_brain_planter.py --i-consent
+```
+
+Egg `lygo-second-brain-v10` · `docs/SecondBrainRegistry.json` · ledger `data/second_brain/manifest.jsonl` · ClawHub `lygo-second-brain`.
 
 ## Champion Kernel Eggs (15 Δ9 Council personas)
 

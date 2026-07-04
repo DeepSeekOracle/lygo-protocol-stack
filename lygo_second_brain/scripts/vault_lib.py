@@ -6,6 +6,8 @@ No mysticism, no blockchain. Frontmatter is plain YAML-ish key:value,
 from __future__ import annotations
 
 import hashlib
+import json
+import os
 import re
 import subprocess
 from datetime import datetime, timezone
@@ -106,3 +108,24 @@ def git_commit(vault_root: Path, message: str) -> str:
             return "nothing-to-commit"
         return f"error: {result.stderr.strip()}"
     return "ok"
+
+
+def stack_manifest_path(vault_root: Path) -> Path | None:
+    """Lattice ledger at data/second_brain/manifest.jsonl (optional)."""
+    env = os.environ.get("LYGO_STACK_ROOT", "").strip()
+    if env:
+        return Path(env) / "data" / "second_brain" / "manifest.jsonl"
+    stack = vault_root.parent.parent
+    if not (stack / "tools" / "lygo_second_brain.py").is_file():
+        return None
+    return stack / "data" / "second_brain" / "manifest.jsonl"
+
+
+def append_stack_manifest(vault_root: Path, event: str, detail: dict) -> None:
+    path = stack_manifest_path(vault_root)
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    record = {"ts": now_iso(), "event": event, **detail}
+    with path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(record, sort_keys=True) + "\n")

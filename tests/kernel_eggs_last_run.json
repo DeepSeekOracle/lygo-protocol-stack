@@ -2,95 +2,62 @@
   "signature": "\u03949\u03a6963-KERNEL-EGG-VERIFY-v1",
   "all_pass": true,
   "verdict": "ALIGNED",
-  "registry_merkle_root": "56b2b841391f7d07f86cfa6f1ee068ecfe193f8b17b92e795970d4f14a390e03",
+  "registry_merkle_root": "ffdafad62db8a63214e9231831a8803fbcf53b77e6c55c5cf352ff40e3d23ffe",
   "checks": [
     {
       "id": "egg-bin-p0-nano-kernel",
       "pass": true,
-      "expected_sha256": "1c67546f591dfc22",
-      "actual_sha256": "1c67546f591dfc22"
+      "expected_sha256": "0527e5e737a66605",
+      "actual_sha256": "0527e5e737a66605"
     },
     {
       "id": "egg-bin-stack-anchor-hook",
       "pass": true,
-      "expected_sha256": "f40d42fa4424ef6b",
-      "actual_sha256": "f40d42fa4424ef6b"
+      "expected_sha256": "a408ec21ba7d3028",
+      "actual_sha256": "a408ec21ba7d3028"
     },
     {
       "id": "egg-bin-stack-orchestrator-slim",
       "pass": true,
-      "expected_sha256": "a98739d831199f6e",
-      "actual_sha256": "a98739d831199f6e"
+      "expected_sha256": "c8de3848ad4d47d0",
+      "actual_sha256": "c8de3848ad4d47d0"
     },
     {
       "id": "egg-bin-lattice-soa-index",
       "pass": true,
-      "expected_sha256": "412d00f239e8163b",
-      "actual_sha256": "412d00f239e8163b"
+      "expected_sha256": "b63e4ab6f54925f3",
+      "actual_sha256": "b63e4ab6f54925f3"
     },
     {
       "id": "egg-bin-firmware-p04-drivers",
       "pass": true,
-      "expected_sha256": "af2c82852785edd0",
-      "actual_sha256": "af2c82852785edd0"
+      "expected_sha256": "90a8516e683d4311",
+      "actual_sha256": "90a8516e683d4311"
     },
     {
       "id": "egg-bin-protocol-drivers-p2-p5",
       "pass": true,
-      "expected_sha256": "5d8ef25a9e335ebc",
-      "actual_sha256": "5d8ef25a9e335ebc"
+      "expected_sha256": "154e9d3ba0d8833d",
+      "actual_sha256": "154e9d3ba0d8833d"
     },
     {
       "id": "egg-bin-joy-loop-protocol-v21",
       "pass": true,
-      "expected_sha256": "e185a19e3b51960b",
-      "actual_sha256": "e185a19e3b51960b"
+      "expected_sha256": "061ad2e8b4fcb866",
+      "actual_sha256": "061ad2e8b4fcb866"
+    },
+    {
+      "id": "egg-bin-lygo-second-brain-v10",
+      "pass": true,
+      "expected_sha256": "af8c1318af02896f",
+      "actual_sha256": "af8c1318af02896f"
     },
     {
       "id": "registry-merkle-root",
       "pass": true,
-      "declared": "56b2b841391f7d07",
-      "recomputed": "56b2b841391f7d07"
-    },
-    {
-      "id": "anchor-p0-nano-kernel",
-      "pass": true,
-      "content_sha256": "1c67546f591dfc22"
-    },
-    {
-      "id": "anchor-stack-anchor-hook",
-      "pass": true,
-      "content_sha256": "f40d42fa4424ef6b"
-    },
-    {
-      "id": "anchor-stack-orchestrator-slim",
-      "pass": true,
-      "content_sha256": "a98739d831199f6e"
-    },
-    {
-      "id": "anchor-lattice-soa-index",
-      "pass": true,
-      "content_sha256": "412d00f239e8163b"
-    },
-    {
-      "id": "anchor-firmware-p04-drivers",
-      "pass": true,
-      "content_sha256": "af2c82852785edd0"
-    },
-    {
-      "id": "anchor-protocol-drivers-p2-p5",
-      "pass": true,
-      "content_sha256": "5d8ef25a9e335ebc"
-    },
-    {
-      "id": "anchor-joy-loop-protocol-v21",
-      "pass": true,
-      "content_sha256": "e185a19e3b51960b"
-    },
-    {
-      "id": "anchor-registry-manifest",
-      "pass": true
+      "declared": "ffdafad62db8a632",
+      "recomputed": "ffdafad62db8a632"
     }
   ],
-  "timestamp": 1783145860.741355
+  "timestamp": 1783195285.480455
 }

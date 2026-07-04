@@ -32,6 +32,21 @@ Corrections from the Biophase7 readme (implemented):
 | `.grok/skills/lygo-second-brain/` | local Grok skill (install script) |
 | `2026Biophase7/lygo-second-brain-LYGO/` | Biophase7 mirror (install script) |
 
+## Kernel egg (consent-gated)
+
+| Item | Path |
+|------|------|
+| `egg_id` | `lygo-second-brain-v10` |
+| Public registry | `docs/SecondBrainRegistry.json` |
+| Manifest | `data/second_brain/second_brain_egg_manifest.json` |
+| Stack ledger | `data/second_brain/manifest.jsonl` (ingest + plant events) |
+| Pages snapshot | `docs/second_brain/second_brain_snapshot.json` |
+
+```bash
+python tools/second_brain_planter.py --i-consent
+python tools/verify_kernel_eggs.py
+```
+
 ## Verify
 
 ```bash

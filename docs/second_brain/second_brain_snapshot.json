@@ -1,0 +1,8 @@
+{
+  "signature": "\u03949\u03a6963-SECOND-BRAIN-EGG-v1",
+  "egg_id": "lygo-second-brain-v10",
+  "registry_merkle_root": "f334464c117f922461aa0ee2d8e77e8befa43ae26864a11d6212d17fbd142324",
+  "git_head": "41908cbf8b70",
+  "vault_default": "lygo_second_brain/vault",
+  "updated_utc": 1783195284.9186256
+}

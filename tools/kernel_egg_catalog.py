@@ -44,6 +44,14 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("joy_loop_doc", REPO / "docs" / "JOY_LOOP_PROTOCOL.md"),
         ("joy_loop_manifest", REPO / "data" / "joy_loop" / "joy_loop_egg_manifest.json"),
     ],
+    "lygo-second-brain-v10": [
+        ("second_brain_cli", REPO / "tools" / "lygo_second_brain.py"),
+        ("second_brain_spec", REPO / "docs" / "BIOPHASE7_LYGO_SECOND_BRAIN.md"),
+        ("vault_readme", REPO / "lygo_second_brain" / "README.md"),
+        ("ingest_script", REPO / "lygo_second_brain" / "scripts" / "ingest.py"),
+        ("embed_index", REPO / "lygo_second_brain" / "scripts" / "embed_index.py"),
+        ("second_brain_manifest", REPO / "data" / "second_brain" / "second_brain_egg_manifest.json"),
+    ],
 }
 
 RETRIEVAL_SOA = {
