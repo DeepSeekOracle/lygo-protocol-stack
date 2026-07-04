@@ -1,6 +1,17 @@
 # Enable stack Pages (one click)
 
-**`gh-pages` branch is already built** by CI. You only need to turn Pages on:
+## Site looks old after `git push`?
+
+**Push to `main` is not the problem** — workflow **Publish docs to gh-pages branch** copies fresh `docs/` to `gh-pages`. The live URL stays stale when **Settings → Pages** is not pointed at that branch (or CDN has not refreshed).
+
+1. https://github.com/DeepSeekOracle/lygo-protocol-stack/settings/pages  
+2. **Source:** Deploy from a branch → **`gh-pages`** / **`/(root)`** → Save  
+3. Hard-refresh the BPM page. Fresh HTML includes `lygo-top-bar` and title `Free BPM Finder Online | BPMfinder.ca`.  
+4. Actions workflow **Deploy GitHub Pages** may fail if source is not “GitHub Actions” — ignore if `gh-pages` publish is green.
+
+---
+
+**`gh-pages` branch is built on every `main` push.** One-time enable:
 
 1. Open https://github.com/DeepSeekOracle/lygo-protocol-stack/settings/pages  
 2. **Build and deployment → Source:** Deploy from a branch  

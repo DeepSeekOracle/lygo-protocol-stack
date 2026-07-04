@@ -11,8 +11,8 @@ permissions:
   pages: write
   id-token: write
 
-# If this job fails with "Get Pages site failed", enable Pages in repo Settings first
-# (see docs/GITHUB_PAGES_SETUP.md). Use publish-gh-pages-branch.yml as fallback.
+# If this job fails in ~1s, repo Pages source is probably "gh-pages branch" not Actions.
+# Public site is still updated by publish-gh-pages-branch.yml — see docs/ENABLE_PAGES_NOW.md.
 
 concurrency:
   group: pages

@@ -16,16 +16,25 @@ URLS = {
     "stack_compass": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
     "stack_slm": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
     "stack_harness": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+    "stack_bpm_finder": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "excavationpro_slm": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
     "excavationpro_harness": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
 }
 
 
-def probe(url: str, timeout: float = 20.0) -> dict:
+def probe(url: str, timeout: float = 20.0, *, body_contains: str | None = None) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": "LYGO-Public-Pages-Verify/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return {"url": url, "status": resp.status, "ok": 200 <= resp.status < 400}
+            body = resp.read().decode("utf-8", errors="replace")
+            ok = 200 <= resp.status < 400
+            if ok and body_contains and body_contains not in body:
+                ok = False
+            row = {"url": url, "status": resp.status, "ok": ok}
+            if body_contains:
+                row["marker"] = body_contains
+                row["marker_found"] = body_contains in body
+            return row
     except urllib.error.HTTPError as e:
         return {"url": url, "status": e.code, "ok": False}
     except Exception as e:
@@ -35,8 +44,11 @@ def probe(url: str, timeout: float = 20.0) -> dict:
 def main() -> int:
     t0 = time.perf_counter()
     results = []
+    markers = {
+        "stack_bpm_finder": "lygo-top-bar",
+    }
     for key, url in URLS.items():
-        row = probe(url)
+        row = probe(url, body_contains=markers.get(key))
         row["id"] = key
         results.append(row)
 
