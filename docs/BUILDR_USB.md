@@ -20,4 +20,8 @@ Overlay from `LYGO_BUILDR_USB` is merged automatically after pack.
 | GROK_BUILDR | `GROK_BUILDR_BOOT.md` |
 | PUBLIC_SKU | `PUBLIC_SKU_GUMROAD.md` |
 
+## Phase 2
+
+See [BUILDR_USB_PHASE2.md](./BUILDR_USB_PHASE2.md). Stack mirror: `tools/buildr_usb_phase2/`.
+
 Δ9Φ963

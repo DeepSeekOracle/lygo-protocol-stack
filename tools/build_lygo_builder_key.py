@@ -423,6 +423,9 @@ def main() -> int:
         "boot_entry_grok": "GROK_BUILDR_BOOT.md",
         "blueprint": "README_BUILDR_USB_BLUEPRINT.md",
         "public_sku_doc": "PUBLIC_SKU_GUMROAD.md",
+        "phase": 2 if (out / "images" / "lygo_core.tar.gz").is_file() else 1,
+        "phase2_core": "images/lygo_core.tar.gz",
+        "supervisor_port": 9630,
     }
     skills_json = stack_dst / "clawhub" / "skills.json"
     if skills_json.is_file():
