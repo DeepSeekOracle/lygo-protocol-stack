@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ensure AdSense meta + head script on Excavationpro HTML pages (ca-pub-0646320966060599)."""
+"""Legacy injector — prefer apply_excavationpro_adsense_policy.py for AdSense compliance."""
 
 from __future__ import annotations
 
