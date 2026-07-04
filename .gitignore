@@ -64,5 +64,8 @@ _hf_staging/
 
 # Secrets
 .env
+.env.local
+*.local.env
+biophase7_vault*.txt
 *.pem
 *_pat.txt

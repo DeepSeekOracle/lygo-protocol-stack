@@ -81,6 +81,8 @@ python tools/run_sovereign_integrity_test.py
 
 # Gemini / Grok audit harness (40 falsifiable vectors, live P0–P5)
 python tools/generate_falsifiable_vectors.py
+# Extended harness: timing, drift, frontier --models (see docs/EXTENDED_FALSIFIABLE_HARNESS.md)
+python tools/run_falsifiable_vector_test.py --models stack
 python tools/run_grok_audit_demo.py
 python tools/run_twin_gate_calibration.py
 python tools/run_twin_gate_vector_suite.py
