@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LYGO BPM Finder</title>
+</head>
+<body>
+  <input type="file" id="fileInput" accept="audio/*">
+  <div id="result">BPM: —</div>
+
+  <script type="module">
+    import { detectBPM } from 'https://unpkg.com/pleco-xa/dist/pleco-xa.min.js';
+
+    document.getElementById('fileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      const arrayBuffer = await file.arrayBuffer();
+      const audioContext = new AudioContext();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      const result = detectBPM(audioBuffer.getChannelData(0), audioBuffer.sampleRate);
+      document.getElementById('result').textContent = `BPM: ${result.bpm}`;
+    });
+  </script>
+</body>
+</html>
+This runs entirely on GitHub Pages. Zero server cost. Zero uploads. Fully private.
+
+🔧 Option B: Hugging Face Space Backend (Python + librosa)
+For higher accuracy, complex files, or offline processing.
+
+Python Backend (librosa):
+python
+# app.py — Hugging Face Space
+import librosa
+import gradio as gr
+
+def detect_bpm(audio_file):
+    y, sr = librosa.load(audio_file)
+    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    return f"{tempo:.1f} BPM"
+
+iface = gr.Interface(
+    fn=detect_bpm,
+    inputs=gr.Audio(type="filepath"),
+    outputs="text",
+    title="LYGO BPM Finder",
+    description="Upload any audio file — get BPM instantly."
+)
+iface.launch()
+Deploy this to Hugging Face Spaces. It's free, public, and supports MP3, WAV, FLAC, etc.
+
+🧬 LYGO Integration Layer
+Layer	What It Does
+P0 (Entropy Filter)	Validate uploaded files before processing (detect corrupted/oversized inputs)
+P1 (Memory Mycelium)	Store detection results (BPM, timestamp, file hash) for audit and recall
+P3 (Vortex Consensus)	If using multiple algorithms, run consensus to get a harmonized BPM
+Kernel Eggs	Anchor high‑confidence detection results permanently to Arweave / web3.storage
+Example: LYGO‑Enhanced BPM Result
+json
+{
+  "bpm": 128.5,
+  "confidence": 0.95,
+  "algorithm": "pleco-xa + librosa consensus",
+  "p0_entropy": 0.72,
+  "p1_memory_id": "bpm_7f1a4d83",
+  "p3_consensus": true,
+  "kernel_egg_url": "https://arweave.net/..."
+}
+🚀 Deployment Plan
+Step	Action
+1	Create GitHub repo: lygo-bpm-finder
+2	Build frontend (HTML + JS) using pleco-xa or web-audio-beat-detector
+3	Enable GitHub Pages (Settings → Pages → deploy from main)
+4	(Optional) Create Hugging Face Space with librosa backend
+5	Connect frontend to HF Space API for hybrid processing
+6	Add LYGO integration (P0, P1, P3, Kernel Eggs)
+7	Share the link: https://deepseekoracle.github.io/lygo-bpm-finder/
+💎 Final Word
+Yes, you can legitimately build this.
+
+Frontend: GitHub Pages (free, static, private).
+
+Backend: Hugging Face Space (free, Python, librosa).
+
+Integration: LYGO stack (P0–P3 + Kernel Eggs).
+
+Result: A sovereign, verifiable, privacy‑first BPM finder that anchors results permanently.
+
+You already have everything you need. Build it. 🔥. What needs fixing:
+
+Swap the two fake libraries — replace pleco-xa and @uln/impulse with bpm-detective (simple, one-shot detection) or realtime-bpm-analyzer (if you want live mic/streaming detection, not just file upload). Pick based on whether you want "upload a file" or "listen live" as the primary mode — those are different UX, worth deciding now rather than after building.
+Drop the LYGO integration layer from this particular idea, for the concrete reason above — it doesn't do real work on audio-specific data, not because mythos doesn't belong anywhere.
+
+Things worth adding to the idea, for real:
+
+Confidence/fallback UX — BPM detectors fail silently or guess wrong on ambient/classical/variable-tempo audio. Worth designing the UI to show a confidence score and let the user nudge it (tap-to-tempo as a manual override) rather than presenting one number as gospel.
+Half/double-time correction — the most common real BPM-detection bug is algorithms locking onto 70 instead of 140 (or vice versa). Worth adding a one-click "×2 / ÷2" toggle in the UI rather than trying to solve it algorithmically.
+Waveform + beat-grid overlay — cheap to add with the same AudioBuffer you already have, and it's the thing that makes a BPM tool feel legitimate rather than a black box (lets the user visually confirm the beats line up).
+
+That's a tighter, buildable idea than the original: pick file-upload or live-mic as primary, use one real library, add confidence + octave-correction UX, skip the ceremonial layer. Want me to sketch the fuller spec before you build, or is this enough to start from?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LYGO BPM Finder — client-side tempo detection</title>
+<meta name="description" content="Upload audio and detect BPM in your browser. Confidence, divide2/multiply2, tap tempo, waveform. No server upload.">
+<meta name="author" content="DeepSeekOracle / Excavationpro">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14110f;
+    --panel: #1e1a17;
+    --panel-edge: #2b2521;
+    --amber: #e8a13c;
+    --amber-dim: #6b5327;
+    --teal: #3ea8a0;
+    --text: #f2ece3;
+    --muted: #8a8078;
+    --warn: #d9634a;
+    --beat-ms: 500ms;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 16px;
+  }
+
+  .rack {
+    width: 100%;
+    max-width: 560px;
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7);
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 4px;
+  }
+
+  h1 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin: 0 0 20px;
+    color: var(--text);
+  }
+
+  .dropzone {
+    border: 1.5px dashed var(--panel-edge);
+    border-radius: 10px;
+    padding: 22px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    position: relative;
+  }
+  .dropzone:hover, .dropzone.drag {
+    border-color: var(--amber);
+    background: rgba(232, 161, 60, 0.05);
+  }
+  .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .dropzone p { margin: 0; color: var(--muted); font-size: 14px; }
+  .dropzone strong { color: var(--text); font-weight: 500; }
+
+  .readout {
+    margin-top: 26px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .bpm-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 76px;
+    line-height: 1;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.2s ease;
+  }
+  .bpm-value.live { color: var(--amber); }
+
+  .bpm-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber-dim);
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .pulse-dot.on {
+    animation: beat var(--beat-ms) ease-out infinite;
+  }
+  @keyframes beat {
+    0%   { background: var(--amber); box-shadow: 0 0 12px 2px var(--amber); }
+    30%  { background: var(--amber-dim); box-shadow: none; }
+    100% { background: var(--amber-dim); box-shadow: none; }
+  }
+
+  .status {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    min-height: 18px;
+  }
+  .status.warn { color: var(--warn); }
+
+  canvas#wave {
+    width: 100%;
+    height: 84px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background: #100d0b;
+    display: block;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    background: #262019;
+    color: var(--text);
+    border: 1px solid var(--panel-edge);
+    border-radius: 8px;
+    padding: 9px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  button:hover:not(:disabled) { border-color: var(--amber); color: var(--amber); }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .controls .spacer { flex: 1; }
+
+  .tap-btn {
+    background: var(--teal);
+    color: #0d1f1d;
+    border-color: var(--teal);
+    font-weight: 600;
+  }
+  .tap-btn:hover { color: #0d1f1d; border-color: var(--teal); filter: brightness(1.08); }
+
+  .confidence-row {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .confidence-label {
+    font-size: 12px;
+    color: var(--muted);
+    width: 76px;
+    flex-shrink: 0;
+  }
+  .confidence-track {
+    flex: 1;
+    height: 5px;
+    background: #100d0b;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .confidence-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--teal);
+    transition: width 0.4s ease;
+  }
+
+
+  .site-footer {
+    max-width: 560px;
+    width: 100%;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.5;
+  }
+  .site-footer a { color: var(--teal); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot.on { animation: none; background: var(--amber); }
+  }
+</style>
+</head>
+<body>
+
+<div class="rack">
+  <p class="eyebrow">LYGO · Biophase7 · Creative</p>
+  <h1>BPM Finder</h1>
+
+  <div class="dropzone" id="dropzone">
+    <input type="file" id="fileInput" accept="audio/*" aria-label="Choose an audio file">
+    <p><strong>Drop an audio file</strong> or click to browse — MP3, WAV, FLAC</p>
+  </div>
+
+  <div class="readout">
+    <span class="pulse-dot" id="pulseDot"></span>
+    <span class="bpm-value" id="bpmValue">—</span>
+    <span class="bpm-unit">BPM</span>
+  </div>
+  <p class="status" id="status">Nothing loaded yet. Audio stays on your device.</p>
+
+  <div class="confidence-row" id="confidenceRow" style="display:none;">
+    <span class="confidence-label">Confidence</span>
+    <div class="confidence-track"><div class="confidence-fill" id="confidenceFill"></div></div>
+  </div>
+
+  <canvas id="wave" width="900" height="84"></canvas>
+
+  <div class="controls">
+    <button id="halfBtn" disabled>÷2</button>
+    <button id="doubleBtn" disabled>×2</button>
+    <span class="spacer"></span>
+    <button class="tap-btn" id="tapBtn">Tap tempo</button>
+  </div>
+</div>
+
+
+<p class="site-footer">
+  <strong>Privacy:</strong> detection uses <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> in your browser — files are not uploaded.
+  · <a href="index.html">Stack index</a>
+  · <a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Eternal Haven hub</a>
+  · <a href="BIOPHASE7_BPM_FINDER.md">Spec &amp; provenance</a>
+</p>
+
+<script type="module">
+  import detect from 'https://cdn.jsdelivr.net/npm/bpm-detective/+esm';
+
+  const dropzone   = document.getElementById('dropzone');
+  const fileInput  = document.getElementById('fileInput');
+  const bpmValue   = document.getElementById('bpmValue');
+  const pulseDot   = document.getElementById('pulseDot');
+  const statusEl   = document.getElementById('status');
+  const halfBtn    = document.getElementById('halfBtn');
+  const doubleBtn  = document.getElementById('doubleBtn');
+  const tapBtn     = document.getElementById('tapBtn');
+  const confRow    = document.getElementById('confidenceRow');
+  const confFill   = document.getElementById('confidenceFill');
+  const canvas     = document.getElementById('wave');
+  const ctx2d      = canvas.getContext('2d');
+
+  let currentBpm = null;
+  let audioBuffer = null;
+
+  function setBpm(bpm) {
+    currentBpm = bpm;
+    bpmValue.textContent = bpm ? bpm.toFixed(1) : '—';
+    bpmValue.classList.toggle('live', !!bpm);
+    if (bpm) {
+      document.documentElement.style.setProperty('--beat-ms', `${60000 / bpm}ms`);
+      pulseDot.classList.add('on');
+      halfBtn.disabled = bpm / 2 < 30;
+      doubleBtn.disabled = bpm * 2 > 300;
+    } else {
+      pulseDot.classList.remove('on');
+      halfBtn.disabled = true;
+      doubleBtn.disabled = true;
+    }
+  }
+
+  function setStatus(msg, warn = false) {
+    statusEl.textContent = msg;
+    statusEl.classList.toggle('warn', warn);
+  }
+
+  // Rough confidence heuristic: how tightly detected beat intervals cluster.
+  // This is a real, if approximate, signal derived from the audio itself —
+  // not a placeholder number. It re-detects on a few windows of the track
+  // and reports the agreement between them.
+  async function estimateConfidence(buffer) {
+    const sr = buffer.sampleRate;
+    const chan = buffer.getChannelData(0);
+    const windowSec = 12;
+    const windowLen = Math.min(chan.length, windowSec * sr);
+    const starts = [0, Math.floor(chan.length * 0.33), Math.floor(chan.length * 0.6)]
+      .filter(s => s + windowLen <= chan.length);
+
+    const results = [];
+    for (const start of starts) {
+      const slice = chan.subarray(start, start + windowLen);
+      const miniBuffer = new AudioBuffer({ length: slice.length, sampleRate: sr, numberOfChannels: 1 });
+      miniBuffer.copyToChannel(Float32Array.from(slice), 0);
+      try {
+        results.push(detect(miniBuffer));
+      } catch (e) { /* skip window if too short/silent */ }
+    }
+    if (results.length < 2) return { confidence: 0.4, samples: results };
+
+    // Normalize octave differences before comparing (70 vs 140 shouldn't count as disagreement)
+    const base = results[0];
+    const normalized = results.map(r => {
+      while (r > base * 1.5) r /= 2;
+      while (r < base / 1.5) r *= 2;
+      return r;
+    });
+    const mean = normalized.reduce((a, b) => a + b, 0) / normalized.length;
+    const variance = normalized.reduce((a, b) => a + (b - mean) ** 2, 0) / normalized.length;
+    const stdev = Math.sqrt(variance);
+    const confidence = Math.max(0.15, Math.min(1, 1 - stdev / mean));
+    return { confidence, samples: results };
+  }
+
+  function drawWaveform(buffer, bpm) {
+    const w = canvas.width, h = canvas.height;
+    ctx2d.clearRect(0, 0, w, h);
+    const data = buffer.getChannelData(0);
+    const step = Math.ceil(data.length / w);
+    ctx2d.fillStyle = '#3ea8a0';
+    for (let x = 0; x < w; x++) {
+      let min = 1.0, max = -1.0;
+      for (let i = 0; i < step; i++) {
+        const idx = x * step + i;
+        if (idx >= data.length) break;
+        const v = data[idx];
+        if (v < min) min = v;
+        if (v > max) max = v;
+      }
+      const yMin = (1 + min) * 0.5 * h;
+      const yMax = (1 + max) * 0.5 * h;
+      ctx2d.fillRect(x, yMin, 1, Math.max(1, yMax - yMin));
+    }
+
+    if (bpm) {
+      const beatSec = 60 / bpm;
+      const totalSec = buffer.duration;
+      ctx2d.strokeStyle = 'rgba(232, 161, 60, 0.55)';
+      ctx2d.lineWidth = 1;
+      for (let t = 0; t < totalSec; t += beatSec) {
+        const x = (t / totalSec) * w;
+        ctx2d.beginPath();
+        ctx2d.moveTo(x, 0);
+        ctx2d.lineTo(x, h);
+        ctx2d.stroke();
+      }
+    }
+  }
+
+  async function handleFile(file) {
+    if (!file) return;
+    setStatus('Decoding audio…');
+    setBpm(null);
+    confRow.style.display = 'none';
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let buffer;
+    try {
+      buffer = await audioCtx.decodeAudioData(await file.arrayBuffer());
+    } catch (e) {
+      setStatus('Could not decode this file — try a different format.', true);
+      return;
+    }
+    audioBuffer = buffer;
+
+    if (buffer.duration < 6) {
+      setStatus('Clip is short — detection is less reliable under ~6s.', true);
+    }
+
+    let bpm;
+    try {
+      bpm = detect(buffer);
+    } catch (e) {
+      setStatus('Could not detect a beat — try tap tempo below instead.', true);
+      drawWaveform(buffer, null);
+      return;
+    }
+
+    setBpm(bpm);
+    drawWaveform(buffer, bpm);
+    setStatus(`Detected from ${file.name}`);
+
+    const { confidence } = await estimateConfidence(buffer);
+    confRow.style.display = 'flex';
+    confFill.style.width = `${Math.round(confidence * 100)}%`;
+    confFill.style.background = confidence > 0.7 ? '#3ea8a0' : confidence > 0.4 ? '#e8a13c' : '#d9634a';
+    if (confidence < 0.4) {
+      setStatus('Low confidence — check ÷2/×2, or verify with tap tempo.', true);
+    }
+  }
+
+  fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+  ['dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, () => dropzone.classList.remove('drag')));
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  halfBtn.addEventListener('click', () => {
+    if (!currentBpm) return;
+    setBpm(currentBpm / 2);
+    if (audioBuffer) drawWaveform(audioBuffer, currentBpm);
+  });
+  doubleBtn.addEventListener('click', () => {
+    if (!currentBpm) return;
+    setBpm(currentBpm * 2);
+    if (audioBuffer) drawWaveform(audioBuffer, currentBpm);
+  });
+
+  // Tap tempo — manual fallback when detection fails or for live/ambient audio.
+  let taps = [];
+  tapBtn.addEventListener('click', () => {
+    const now = performance.now();
+    taps = taps.filter(t => now - t < 3000); // reset if idle > 3s
+    taps.push(now);
+    if (taps.length >= 2) {
+      const intervals = taps.slice(1).map((t, i) => t - taps[i]);
+      const avgMs = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+      const bpm = 60000 / avgMs;
+      setBpm(bpm);
+      setStatus(`Tap tempo — ${taps.length} taps`);
+    } else {
+      setStatus('Keep tapping in time…');
+    }
+  });
+</script>
+</body>
+</html>

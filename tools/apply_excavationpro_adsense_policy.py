@@ -31,6 +31,7 @@ META_ONLY = {
     "sealmaker.html",
     "SovereignLatticeMesh.html",
     "LYGORESONANCE.html",
+    "LYGOBPMFinder.html",
     "lygorhaven.html",
     "PAGE4ADVANCED.html",
     "lygo-nano-kernel.html",

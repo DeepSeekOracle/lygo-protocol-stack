@@ -38,6 +38,18 @@
         "label": "Excavationpro LYGORESONANCE",
         "url": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
         "verify": "http_required"
+      },
+      {
+        "id": "lygo_bpm_finder_stack",
+        "label": "LYGO BPM Finder (stack Pages)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_bpm_finder_excavationpro",
+        "label": "LYGO BPM Finder (Excavationpro mirror)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+        "verify": "http_soft"
       }
     ],
     "sovereign_seed": [

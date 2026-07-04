@@ -45,6 +45,19 @@
       "sync_tool": "tools/sync_excavationpro_harness.py"
     },
     {
+      "id": "lygo-bpm-finder",
+      "title": "LYGO BPM Finder (Biophase7)",
+      "role": "creative-tool",
+      "urls": {
+        "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+        "live_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+        "repo_canonical": "docs/LYGO_BPM_Finder.html",
+        "spec": "docs/BIOPHASE7_BPM_FINDER.md"
+      },
+      "since": "2026-07-04",
+      "sync_tool": "tools/sync_excavationpro_bpm_finder.py"
+    },
+    {
       "id": "hf-space",
       "title": "LYGO Resonance Engine (HF Space)",
       "role": "gradio",
