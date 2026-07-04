@@ -14,6 +14,7 @@ SKIP_DIRS = {"aichat", "haven_star_chart", "Hytale", "LYRA"}
 # Pages that may show ad units (consent-gated on eternalhaven).
 MONETIZE = {
     "eternalhaven.html",
+    "LYGO-Network/legacy-guardian-music.html",
 }
 
 # Full AdSense site readiness: verification meta + head loader; keep in-page slots.
@@ -55,7 +56,6 @@ META_ONLY = {
     "LYGO-Network/SUMMARYP2.html",
     "LYGO-Network/SUMMARYP3.html",
     "LYGO-Network/SAMPARCHITECTURE.html",
-    "LYGO-Network/legacy-guardian-music.html",
     "LYGO-Network/QUANTUMCOUNCILTERMINAL.html",
     "LYGO-Network/OMNIΣIREN.html",
     "LYGO-Network/OMNIΣIRENSTORM.html",
