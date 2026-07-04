@@ -24,17 +24,31 @@ python -m pxpipe_lygo.cli compress --file path/to/large_prompt.txt
 python tools/run_pxpipe_lygo_proxy.py
 ```
 
-Proxy (default `127.0.0.1:47821`):
+### Agents (Grok Build, scripts, other tools)
 
-- `GET /health`
-- `POST /v1/compress` — `{"text":"..."}`
-- `POST /v1/messages` — optional Anthropic forward (set `ANTHROPIC_API_KEY`)
-
-Claude Code style (when proxy shim is enough):
+No proxy needed — emit provider-ready JSON blocks:
 
 ```bash
-set ANTHROPIC_BASE_URL=http://127.0.0.1:47821
+python tools/pxpipe_lygo_for_agent.py --file big_context.txt --target grok --png .pxpipe_ctx.png
+python tools/pxpipe_lygo_for_agent.py --shrink-file big_context.txt --target auto
 ```
+
+`--shrink-file` returns a short chat pointer + EXACT identifiers for the main thread.
+
+### Multi-tool proxy (`127.0.0.1:47821`)
+
+| Endpoint | Clients |
+|----------|---------|
+| `POST /v1/transform` | `{"text":"...","target":"anthropic\|openai\|grok\|gemini"}` |
+| `POST /v1/compress` | Raw compressor + optional `include_blocks` |
+| `POST /v1/messages` | Anthropic API (compress + forward) |
+| `POST /v1/chat/completions` | OpenAI + xAI Grok (`?provider=grok` or `openai`) |
+
+| Tool | Base URL env |
+|------|----------------|
+| Claude / Claude Code | `ANTHROPIC_BASE_URL=http://127.0.0.1:47821` |
+| OpenAI SDK | `OPENAI_BASE_URL=http://127.0.0.1:47821/v1` |
+| xAI / Grok | `XAI_BASE_URL=http://127.0.0.1:47821/v1` |
 
 ## Environment
 

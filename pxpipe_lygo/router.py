@@ -30,8 +30,20 @@ def select_provider(preferred: str | None = None) -> str:
 
 
 def upstream_base_url(provider: str) -> str | None:
+    import os
+
+    overrides = {
+        "claude": os.environ.get("ANTHROPIC_UPSTREAM_URL"),
+        "anthropic": os.environ.get("ANTHROPIC_UPSTREAM_URL"),
+        "openai": os.environ.get("OPENAI_UPSTREAM_URL"),
+        "grok": os.environ.get("XAI_UPSTREAM_URL", os.environ.get("GROK_UPSTREAM_URL")),
+        "gemini": os.environ.get("GEMINI_UPSTREAM_URL"),
+    }
+    if overrides.get(provider):
+        return overrides[provider].rstrip("/")
     bases = {
         "claude": "https://api.anthropic.com",
+        "anthropic": "https://api.anthropic.com",
         "openai": "https://api.openai.com",
         "grok": "https://api.x.ai",
         "gemini": "https://generativelanguage.googleapis.com",

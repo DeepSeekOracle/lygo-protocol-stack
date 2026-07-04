@@ -207,6 +207,7 @@ def main() -> int:
         ("biophase7 pxpipe lygo doc", REPO / "docs" / "BIOPHASE7_PXPIPE_LYGO.md"),
         ("pxpipe lygo module", REPO / "pxpipe_lygo" / "compressor.py"),
         ("pxpipe lygo proxy tool", REPO / "tools" / "run_pxpipe_lygo_proxy.py"),
+        ("pxpipe lygo agent tool", REPO / "tools" / "pxpipe_lygo_for_agent.py"),
         ("pxpipe lygo manifest dir", REPO / "data" / "pxpipe_lygo" / "manifests" / "README.md"),
         ("p7 live ble pipeline", REPO / "tools" / "run_live_ble_pipeline.py"),
         ("kernel egg build", REPO / "tools" / "build_kernel_eggs.py"),
