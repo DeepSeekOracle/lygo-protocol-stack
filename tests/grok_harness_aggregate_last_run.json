@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T02:49:06.192238+00:00",
+  "generated_at": "2026-07-04T03:00:19.099598+00:00",
   "harness_signature": "\u03949\u03a6963-FALSIFIABLE-VECTOR-HARNESS-v1.1",
   "vector_suite": "\u03949\u03a6963-VECTOR-SUITE-v3.0-60PLUS",
   "stack_full": {
@@ -32,7 +32,7 @@
       "skipped": 0,
       "live_calls": 10,
       "mean_latency_ms": 7364.67,
-      "verdict_match_live": 0,
+      "verdict_match_live": 4,
       "mean_ethical_drift": 0.8802
     },
     "claude": {

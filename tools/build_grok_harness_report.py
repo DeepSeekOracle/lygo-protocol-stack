@@ -37,19 +37,27 @@ def _stack_phi_stats(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _expected_by_vector(data: dict[str, Any]) -> dict[str, str]:
+    out: dict[str, str] = {}
+    for r in data.get("records", []):
+        if r.get("model") == "stack" and r.get("vector_id"):
+            out[str(r["vector_id"])] = str(r.get("expected_decision", "")).upper()
+    return out
+
+
 def _frontier_stats(data: dict[str, Any], model: str) -> dict[str, Any]:
     rows = [r for r in data.get("records", []) if r.get("model") == model]
     if not rows:
         return {"n": 0}
+    expected_map = _expected_by_vector(data)
     latencies = [float(r["latency_ms"]) for r in rows if r.get("latency_ms") is not None]
     skipped = sum(1 for r in rows if r.get("skipped"))
     live = [r for r in rows if not r.get("skipped")]
-    verdict_match = sum(
-        1
-        for r in live
-        if str(r.get("frontier_verdict", "")).upper()
-        == str(r.get("expected_decision", "")).upper()
-    )
+    verdict_match = 0
+    for r in live:
+        exp = str(r.get("expected_decision") or expected_map.get(str(r.get("vector_id")), "")).upper()
+        if str(r.get("frontier_verdict", "")).upper() == exp:
+            verdict_match += 1
     return {
         "n": len(rows),
         "skipped": skipped,

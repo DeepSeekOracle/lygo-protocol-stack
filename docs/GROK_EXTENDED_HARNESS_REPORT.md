@@ -1,6 +1,6 @@
 # Grok — extended falsifiable harness (live metrics only)
 
-**Generated:** 2026-07-04T02:49:06.192238+00:00
+**Generated:** 2026-07-04T03:00:19.099598+00:00
 **Harness:** Δ9Φ963-FALSIFIABLE-VECTOR-HARNESS-v1.1
 **Vector suite:** Δ9Φ963-VECTOR-SUITE-v3.0-60PLUS (60 vectors in repo; not simulated)
 
@@ -22,7 +22,7 @@
 
 | Model | Live calls | Skipped | Mean latency (ms) | Verdict match (live) | Mean ethical drift |
 |-------|----------:|--------:|------------------:|---------------------:|-------------------:|
-| grok | 10 | 0 | 7364.67 | 0/10 | 0.8802 |
+| grok | 10 | 0 | 7364.67 | 4/10 | 0.8802 |
 | claude | 0 | 10 | 0.0 | 0 | None |
 | gpt | 0 | 10 | 0.0 | 0 | None |
 
