@@ -23,6 +23,7 @@ GROK_SKILLS = WORKSPACE / ".grok" / "skills"
 ARMY = GROK_SKILLS / "lygo-ollama-army"
 
 DEFAULT_OUT = Path(r"E:\LYGO_BUILDER_KEY")
+BUILDR_OVERLAY = WORKSPACE / "LYGO_BUILDR_USB"
 
 SKIP_DIR_NAMES = {
     ".git",
@@ -280,8 +281,32 @@ def run_capture(cmd: list[str], cwd: Path, timeout: int = 300) -> dict:
         return {"exit_code": -1, "error": str(exc)}
 
 
+def overlay_buildr_usb(out: Path) -> int:
+    """Merge GROK BUILDR edition files (survives full repack)."""
+    src = BUILDR_OVERLAY
+    if not src.is_dir():
+        return 0
+    n = 0
+    for item in src.rglob("*"):
+        if not item.is_file():
+            continue
+        rel = item.relative_to(src)
+        if should_skip(item, rel):
+            continue
+        dest = out / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, dest)
+        n += 1
+    return n
+
+
 def main() -> int:
-    out = Path(os.environ.get("LYGO_BUILDER_KEY_ROOT", str(DEFAULT_OUT)))
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default=os.environ.get("LYGO_BUILDER_KEY_ROOT", str(DEFAULT_OUT)))
+    args = ap.parse_args()
+    out = Path(args.out)
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
@@ -394,6 +419,10 @@ def main() -> int:
         "files_copied_stack": n_stack,
         "boot_entry": "ARCHITECT_BOOT.md",
         "agents_entry": "AGENTS.md",
+        "edition": "GROK_BUILDR",
+        "boot_entry_grok": "GROK_BUILDR_BOOT.md",
+        "blueprint": "README_BUILDR_USB_BLUEPRINT.md",
+        "public_sku_doc": "PUBLIC_SKU_GUMROAD.md",
     }
     skills_json = stack_dst / "clawhub" / "skills.json"
     if skills_json.is_file():
@@ -435,7 +464,25 @@ def main() -> int:
         encoding="utf-8",
     )
 
-    print(json.dumps({"ok": True, "root": str(out), "stack_files": n_stack, "manifest": str(out / "BUILDER_MANIFEST.json")}))
+    n_overlay = overlay_buildr_usb(out)
+    (out / "_builder_vault").mkdir(exist_ok=True)
+    vault_readme = out / "_builder_vault" / "README.md"
+    if not vault_readme.is_file():
+        vault_readme.write_text(
+            "# Builder vault — never export to PUBLIC_SKU\n", encoding="utf-8"
+        )
+
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "root": str(out),
+                "stack_files": n_stack,
+                "buildr_overlay_files": n_overlay,
+                "manifest": str(out / "BUILDER_MANIFEST.json"),
+            }
+        )
+    )
     return 0
 
 

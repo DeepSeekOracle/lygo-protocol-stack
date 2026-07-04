@@ -1,0 +1,23 @@
+# LYGO BUILDR USB Program
+
+Portable **32GB flagship** — see full blueprint on stick:
+
+- `E:\LYGO_BUILDER_KEY\README_BUILDR_USB_BLUEPRINT.md`
+- Dev mirror: `I:\E Drive\LYGO_BUILDR_USB\`
+
+## Repack
+
+```powershell
+python tools/build_lygo_builder_key.py --out E:\LYGO_BUILDER_KEY
+```
+
+Overlay from `LYGO_BUILDR_USB` is merged automatically after pack.
+
+## Editions
+
+| Edition | Boot doc |
+|---------|----------|
+| GROK_BUILDR | `GROK_BUILDR_BOOT.md` |
+| PUBLIC_SKU | `PUBLIC_SKU_GUMROAD.md` |
+
+Δ9Φ963
