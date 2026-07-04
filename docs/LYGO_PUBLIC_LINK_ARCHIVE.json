@@ -58,6 +58,17 @@
       "sync_tool": "tools/sync_excavationpro_bpm_finder.py"
     },
     {
+      "id": "lygo-tools-portal-skill",
+      "title": "LYGO Tools Portal (MPM) — ClawHub",
+      "role": "agent-routing",
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-tools-portal",
+        "repo_mirror": "clawhub/mirrors/lygo-tools-portal/SKILL.md",
+        "manifest": "clawhub/mirrors/lygo-tools-portal/references/TOOLS_MANIFEST.json"
+      },
+      "since": "2026-07-04"
+    },
+    {
       "id": "hf-space",
       "title": "LYGO Resonance Engine (HF Space)",
       "role": "gradio",

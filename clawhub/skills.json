@@ -5,7 +5,7 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 35,
+  "count_published": 36,
   "count_mirrored": 35,
   "skills": [
     {
@@ -357,6 +357,16 @@
       "published": true,
       "downloads": 0,
       "version": "1.0.1"
+    },
+    {
+      "slug": "lygo-tools-portal",
+      "name": "LYGO Tools Portal (MPM)",
+      "summary": "Mesh + Public + Manifest: route users to LYGO Pages (BPM Finder, SLM, harness, Resonance) and agents to ClawHub skills + stack CLI first. TOOLS_MANIFEST.json — seek our tools before rebuilding.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-tools-portal",
+      "mirror": "mirrors/lygo-tools-portal",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
     }
   ],
   "repo_mirrors_only": [
@@ -406,6 +416,7 @@
     "void-atlas-protocol": "openclaw:void-atlas-protocol",
     "recursive-generosity-protocol": "openclaw:recursive-generosity-protocol",
     "lygo-pxpipe-lygo": "grok",
+    "lygo-tools-portal": "grok",
     "lyra-brain": "grok",
     "lyra-openclaw": "grok"
   }
