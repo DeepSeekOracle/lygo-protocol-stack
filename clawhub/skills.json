@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 40,
-  "count_mirrored": 40,
+  "count_published": 41,
+  "count_mirrored": 41,
   "skills": [
     {
       "slug": "lygo-mesh-deploy",
@@ -21,12 +21,12 @@
     {
       "slug": "lygo-guardian-p0-stack",
       "name": "LYGO Guardian P0 Stack",
-      "summary": "Portable P0.4 text gate + P0.5 understanding + harmony. Wrap agent output; bridge to canonical byte Φ-gate via LYGO_STACK_ROOT. Lattice pair with protocol-stack-operator.",
+      "summary": "Portable P0.4 text gate + P0.5 understanding + harmony. Bridge to byte_entropy_filter via LYGO_STACK_ROOT. Lattice pair with protocol-stack-operator.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-guardian-p0-stack",
       "mirror": "mirrors/lygo-guardian-p0-stack",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "slug": "lygo-docker-deploy",
@@ -51,12 +51,12 @@
     {
       "slug": "lygo-protocol-stack-operator",
       "name": "LYGO Protocol Stack Operator",
-      "summary": "LYGO Protocol Stack Operator — P0–P9 integrator (Φ-gate, SLM, TLS public mesh, HAIP, attestation). Audits, node API, GitHub/HF/ClawHub map; chain resonance/Ollama safely.",
+      "summary": "LYGO Protocol Stack Operator — P0–P9 integrator (byte-entropy filter, SLM, TLS public mesh, HAIP, attestation). Audits, node API, GitHub/HF/ClawHub map; chain resonance/Ollama safely.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator",
       "mirror": "mirrors/lygo-protocol-stack-operator",
       "published": true,
       "downloads": 0,
-      "version": "1.0.6"
+      "version": "1.0.7"
     },
     {
       "slug": "eternal-haven-lore-pack",
@@ -116,17 +116,17 @@
       "mirror": "mirrors/lygo-champion-lightfather",
       "published": true,
       "downloads": 0,
-      "version": "1.0.3"
+      "version": "1.0.4"
     },
     {
       "slug": "lyra-coin-launch-manager",
       "name": "LYRA Coin Launch Manager",
-      "summary": "Coin launch memory + verification workflow for Clawnch (4claw/Moltx/Moltbook). Use to launch tokens safely, record canonical receipts (contract+txHash+postUrl), update local dashboard, and save Clanker/monitor links into BOOKMARK BRAIN.",
+      "summary": "Coin launch memory + verification workflow for Clawnch (4claw/Moltx/Moltbook). Independent of LYGO lattice core — see CRYPTO_LATTICE_SEPARATION.md.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager",
       "mirror": "mirrors/lyra-coin-launch-manager",
       "published": true,
       "downloads": 1484,
-      "version": "1.1.0"
+      "version": "1.1.1"
     },
     {
       "slug": "lygo-universal-living-memory-library",
@@ -279,14 +279,24 @@
       "version": "1.0.0"
     },
     {
+      "slug": "lygo-file-integrity-checker",
+      "name": "LYGO File Integrity Checker",
+      "summary": "Honest successor to universal-cure: file-hash verification, pure-signal memory compression, seal vocabulary. Not medical cure; not P0 core. Pairs with lygo-mint-verifier.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker",
+      "mirror": "mirrors/lygo-file-integrity-checker",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
       "slug": "lygo-universal-cure-system",
-      "name": "LYGO Universal Cure System — Champion Upgrade",
-      "summary": "Universal LYGO upgrade pack for all Champions. Provides a shared verification + memory-compression + seal-protocol framework (pure advisor) that boosts every Champion persona without overriding them. Includes LYGO-MINT provenance guidance and reusable invocation templates.",
+      "name": "LYGO Universal Cure System (deprecated)",
+      "summary": "DEPRECATED — install lygo-file-integrity-checker. Legacy Champion upgrade pack; provenance + compression only.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-universal-cure-system",
       "mirror": "mirrors/lygo-universal-cure-system",
       "published": true,
       "downloads": 1339,
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "slug": "lygo-resonance",
@@ -406,7 +416,7 @@
       "mirror": "mirrors/lygo-network-builder",
       "published": true,
       "downloads": 0,
-      "version": "1.1.0"
+      "version": "1.1.1"
     }
   ],
   "repo_mirrors_only": [
@@ -445,6 +455,7 @@
     "lygo-champion-sraith-shadow-sentinel": "openclaw:lygo-champion-sraith-shadow-sentinel",
     "lygo-champion-aetheris-viral-truth": "openclaw:lygo-champion-aetheris-viral-truth",
     "lygo-champion-arkos-celestial-architect": "openclaw:lygo-champion-arkos-celestial-architect",
+    "lygo-file-integrity-checker": "repo:lygo-file-integrity-checker",
     "lygo-universal-cure-system": "openclaw:lygo-universal-cure-system",
     "lygo-resonance": "grok",
     "lygo-ollama-army": "grok",

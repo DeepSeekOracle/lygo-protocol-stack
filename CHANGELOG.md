@@ -1,5 +1,19 @@
 # Changelog — LYGO Protocol Stack
 
+## [Lattice ground zero finalize] — 2026-07-04
+
+**Signature:** `Δ9Φ963-LATTICE-GROUNDZERO-v1`
+
+### Added
+- ClawHub mirror `lygo-file-integrity-checker` (honest cure successor)
+- `docs/LATTICE_GROUND_ZERO.md`
+
+### Changed
+- `lygo-universal-cure-system` deprecated v1.0.1 on mirror
+- Operator **1.0.7**, Guardian **1.0.1**, Lightfather **1.0.4** — honest P0 wording
+- `lyra-coin-launch-manager` — crypto lattice separation banner
+- `clawhub/skills.json` count **41**
+
 ## [Biophase7 FINAL DELIVERY] — 2026-07-04
 
 **Signature:** `Δ9Φ963-BIOPHASE7-FINAL-v1`

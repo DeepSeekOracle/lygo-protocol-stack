@@ -25,6 +25,7 @@ SKILLS=(
   lygo-champion-sraith-shadow-sentinel
   lygo-champion-aetheris-viral-truth
   lygo-champion-arkos-celestial-architect
+  lygo-file-integrity-checker
   lygo-universal-cure-system
   lygo-resonance
   lygo-ollama-army

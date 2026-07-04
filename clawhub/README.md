@@ -37,7 +37,7 @@ Environment overrides: `OPENCLAW_SKILLS_PUBLIC`, `LYGO_GROK_SKILLS` (see PUBLISH
 
 | Layer | ClawHub role |
 |-------|----------------|
-| **P0** | `lygo-protocol-stack-operator` + `lygo_p0_gate.py` — validate skill bytes before ingest |
+| **P0** | `lygo-protocol-stack-operator` + repo `byte_entropy_filter.py` — byte anomaly filter before ingest |
 | **P1** | Shard large lore / library packs |
 | **P2–P5** | Champion consensus & harmony for multi-skill agents |
 | **[HF Space](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine)** | Live bench for `lygo-resonance` |

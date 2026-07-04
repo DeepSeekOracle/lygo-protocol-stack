@@ -21,7 +21,8 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | Check | Status | Evidence |
 |-------|--------|----------|
 | **P0–P5 verified** | ✅ | `deploy_stack().demo_cycle()`; `run_sovereign_integrity_test.py` (6 adversarial + pilot); per-protocol harnesses under `protocol*/src/python/` |
-| **Determinism proven** | ✅ (P0) | Golden SHA `7e8d18fda979cbefec14c3fc86f43f2a020b494b6052acccb6f865f2b4fae1d3` — **Python ≡ Rust** via `tools/p0_crosslang_parity.py`; 42 vectors in `fixtures/p0_vectors.json` |
+| **Determinism proven** | ✅ (P0) | Golden SHA `c510b1bd92fed53df369d146e9fb3467903fbe9cafc1b6dcc962e3c6684a464f` — **Python byte_entropy_filter (zlib)** canonical; C/Rust = legacy stride reference; `tools/run_parity_tests.py` |
+| **Ground zero audit** | ✅ | [LATTICE_GROUND_ZERO.md](./LATTICE_GROUND_ZERO.md) — secrets pass, Oath removed, ClawHub `lygo-file-integrity-checker` |
 | **Multi-language ports** | ✅ | Python (canonical), C (`src/c/`), Rust (`src/rust/`), Verilog gate ROM (`src/hardware/lygo_gate.v` + Q16.16 helpers). **C harness:** requires `gcc` on PATH (SKIP on Windows without toolchain) |
 | **Pilot ready** | ✅ | **HF Space:** Standard beats isolated + **Twin Gate Phase 3** (text / byte / compare tabs). Bundle: `protocol_stack/` + `text_semantic_gate.py`. **Repo:** `process_ethical_query()` + [PILOT_SCENARIO_PHASE2.md](./PILOT_SCENARIO_PHASE2.md) + [LYGO_LATTICE.md](./LYGO_LATTICE.md) |
 | **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |

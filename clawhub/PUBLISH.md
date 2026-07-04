@@ -54,7 +54,7 @@ Older docs may reference `lygo-branch-cryptosophia` or `lygo-champion-delta9ra-t
 
 | Layer | Role |
 |-------|------|
-| P0 Nano Kernel | Gate untrusted skill bytes before ingest |
+| P0 byte-entropy filter | `protocol0_byte_entropy_filter` — gate untrusted bytes before ingest |
 | P1 Memory Mycelium | Shard long SKILL.md / lore packs |
 | P2–P5 | Champion consensus, ascension, harmony for agent ops |
 | `clawhub/mirrors/` | Offline sovereign copy of public skills |

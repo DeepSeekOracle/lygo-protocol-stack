@@ -1,7 +1,7 @@
 ---
 name: lygo-guardian-p0-stack
-description: Portable LYGO Guardian — P0.4 text gate, P0.5 understanding heart, harmony layer. Wrap agent outputs; bridge to canonical byte Φ-gate via LYGO_STACK_ROOT. Pairs with lygo-protocol-stack-operator on ClawHub lattice. Read references/SECURITY.md.
-metadata: {"lygo": true, "p0": true, "guardian": true, "lattice": true, "version": "1.0.0", "signature": "Δ9Φ963-GUARDIAN-P0-v1.0", "clawhub_publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "security_doc": "references/SECURITY.md"}
+description: Portable LYGO Guardian — P0.4 text gate, P0.5 understanding heart, harmony layer. Bridge to repo byte_entropy_filter via LYGO_STACK_ROOT. Pairs with lygo-protocol-stack-operator. Read references/SECURITY.md.
+metadata: {"lygo": true, "p0": true, "guardian": true, "lattice": true, "version": "1.0.1", "signature": "Δ9Φ963-GUARDIAN-P0-v1.0.1", "clawhub_publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "security_doc": "references/SECURITY.md"}
 ---
 
 # LYGO Guardian P0 Stack

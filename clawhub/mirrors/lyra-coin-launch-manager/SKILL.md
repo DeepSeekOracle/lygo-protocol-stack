@@ -5,6 +5,8 @@ description: Coin launch memory + verification workflow for Clawnch (4claw/Moltx
 
 # LYRA Coin Launch Manager (Clawnch) — v1
 
+> **Lattice:** Independent utility — **not** LYGO P0–P9 core. See repo `docs/CRYPTO_LATTICE_SEPARATION.md`. Token metrics ≠ `lattice.ok`.
+
 ## What “done right” means (non-negotiable)
 A coin is only considered **launched** when you have a **Clawnch receipt** containing at minimum:
 - `symbol`

@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "Δ9Φ963 Biophase7 FINAL: protocol0_byte_entropy_filter, zlib P0, Oath removed, compare_p0_variants",
+        "Δ9Φ963 Lattice ground zero: file-integrity-checker ClawHub, operator 1.0.7, honest P0 finalize",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)
