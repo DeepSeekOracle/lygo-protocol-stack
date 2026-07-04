@@ -134,6 +134,11 @@
       "install": "npx clawhub@latest install deepseekoracle/lygo-second-brain"
     },
     {
+      "slug": "lygo-sandcastle",
+      "intents": ["workflow orchestrator", "sandcastle", "sovereign workflow", "yaml agent", "multi-agent"],
+      "install": "npx clawhub@latest install deepseekoracle/lygo-sandcastle"
+    },
+    {
       "slug": "lygo-alignment-badge",
       "intents": ["alignment badge", "community node"],
       "install": "npx clawhub@latest install deepseekoracle/lygo-alignment-badge"
@@ -200,6 +205,12 @@
       "intents": ["vault index", "embed notes"],
       "cmd": "python tools/lygo_second_brain.py index",
       "requires": "LYGO_STACK_ROOT,LYGO_VAULT_ROOT,Ollama"
+    },
+    {
+      "id": "sandcastle-run",
+      "intents": ["run workflow", "sovereign orchestrator"],
+      "cmd": "python tools/lygo_sandcastle.py run lygo_sandcastle/workflows/example_sovereign.yaml",
+      "requires": "LYGO_STACK_ROOT"
     },
     {
       "id": "public-pages",

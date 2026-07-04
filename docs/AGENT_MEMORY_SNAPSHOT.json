@@ -24,6 +24,9 @@
     "lygo_second_brain_spec": "docs/BIOPHASE7_LYGO_SECOND_BRAIN.md",
     "lygo_second_brain_registry": "docs/SecondBrainRegistry.json",
     "lygo_second_brain_egg": "lygo-second-brain-v10",
+    "lygo_sandcastle": "lygo_sandcastle/",
+    "lygo_sandcastle_spec": "docs/BIOPHASE7_LYGO_SANDCASTLE.md",
+    "lygo_sandcastle_egg": "lygo-sandcastle-v10",
     "bpm_finder": "https://bpmfinder.ca/",
     "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"

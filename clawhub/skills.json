@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 37,
-  "count_mirrored": 36,
+  "count_published": 38,
+  "count_mirrored": 37,
   "skills": [
     {
       "slug": "lygo-protocol-stack-operator",
@@ -374,6 +374,16 @@
       "summary": "Local LLM wiki — Obsidian vault + Ollama ingest, embed search, multi-model consensus, wiki from vault only. Biophase7 lygo-second-brain lattice install.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-second-brain",
       "mirror": "mirrors/lygo-second-brain",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-sandcastle",
+      "name": "LYGO Sovereign Workflow Orchestrator",
+      "summary": "YAML sovereign workflows — P0 gate, P1 mycelium, P3 consensus, P5 run identity, kernel egg ledger. Biophase7 Sandcastle lattice install.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-sandcastle",
+      "mirror": "mirrors/lygo-sandcastle",
       "published": true,
       "downloads": 0,
       "version": "1.0.0"

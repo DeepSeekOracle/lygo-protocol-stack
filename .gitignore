@@ -40,6 +40,10 @@ data/joy_loop/*.db
 data/joy_loop/*.db-journal
 lygo_second_brain/vault/.vault_index.sqlite3
 lygo_second_brain/vault/.git/
+data/sandcastle/mycelium/*.frag
+data/sandcastle/mycelium/*_manifest.json
+data/sandcastle/runs/*.json
+data/sandcastle/workflow_runs.jsonl
 data/scalable_registry/manifests/
 data/scalable_registry/registry.json
 

@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T20:01:26.094399+00:00",
+  "generated_utc": "2026-07-04T20:26:10.181676+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 341,
-  "link_count": 403,
+  "node_count": 344,
+  "link_count": 408,
   "seal_count": 269,
   "champion_count": 7,
-  "lattice_count": 42,
-  "registry_sha256": "79c1d6c3307379d421f16cbb2539f767b030917366c92eb9385f1aeb48747de7",
+  "lattice_count": 44,
+  "registry_sha256": "c41014c2c299fba76a831b5c4ab825fc9935b95533692abd43d433a48e9e9a41",
   "constellations": [
     {
       "id": "primordial_core",
@@ -5170,6 +5170,27 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-sandcastle",
+      "kind": "lattice",
+      "name": "LYGO Sovereign Workflow Orchestrator",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sandcastle"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_KERNEL_EGGS",
       "kind": "lattice",
       "name": "Kernel Egg Vault",
@@ -5627,6 +5648,51 @@
       ],
       "urls": {
         "egg_id": "lygo-second-brain-v10"
+      },
+      "layer": 2
+    },
+    {
+      "id": "LATTICE_WORKFLOW_ORCHESTRATOR",
+      "kind": "lattice",
+      "name": "\u03949 Workflow Orchestrator Vault",
+      "glyph": "\ud83c\udff0\u25c6",
+      "equation": "YAML\u00d71 egg",
+      "tone": "741Hz",
+      "tags": [
+        "LATTICE",
+        "SANDCASTLE",
+        "WORKFLOW"
+      ],
+      "connections": [
+        "LATTICE_SECOND_BRAIN_VAULT",
+        "PORTAL_STACK"
+      ],
+      "urls": {
+        "registry": "https://deepseekoracle.github.io/lygo-protocol-stack/WorkflowOrchestratorRegistry.json",
+        "doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_LYGO_SANDCASTLE.md",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sandcastle"
+      },
+      "layer": 3,
+      "meta": {
+        "registry_merkle_root": "c0b1e6020b4e71cbf97e394d16a66564cb269c44a967f71ec34b1845b3d689a9"
+      }
+    },
+    {
+      "id": "SANDCASTLE_EGG_V10",
+      "kind": "workflow_egg",
+      "name": "LYGO Sandcastle v1.0 Egg",
+      "glyph": "\ud83d\udcdc",
+      "equation": "c0b1e6020b4e71cb\u2026",
+      "tone": "P0\u2192P5",
+      "tags": [
+        "SANDCASTLE",
+        "KERNEL_EGG"
+      ],
+      "connections": [
+        "LATTICE_WORKFLOW_ORCHESTRATOR"
+      ],
+      "urls": {
+        "egg_id": "lygo-sandcastle-v10"
       },
       "layer": 2
     }
@@ -6088,6 +6154,16 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-sandcastle",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-sandcastle",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_KERNEL_EGGS",
       "target": "PORTAL_STACK",
       "kind": "lattice"
@@ -6320,6 +6396,21 @@
     {
       "source": "SECOND_BRAIN_EGG_V10",
       "target": "LATTICE_JOY_LOOP_VAULT",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_WORKFLOW_ORCHESTRATOR",
+      "target": "LATTICE_SECOND_BRAIN_VAULT",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_WORKFLOW_ORCHESTRATOR",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "SANDCASTLE_EGG_V10",
+      "target": "LATTICE_WORKFLOW_ORCHESTRATOR",
       "kind": "lattice"
     },
     {

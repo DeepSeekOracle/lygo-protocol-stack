@@ -52,6 +52,14 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("embed_index", REPO / "lygo_second_brain" / "scripts" / "embed_index.py"),
         ("second_brain_manifest", REPO / "data" / "second_brain" / "second_brain_egg_manifest.json"),
     ],
+    "lygo-sandcastle-v10": [
+        ("sandcastle_cli", REPO / "tools" / "lygo_sandcastle.py"),
+        ("sandcastle_spec", REPO / "docs" / "BIOPHASE7_LYGO_SANDCASTLE.md"),
+        ("sandcastle_readme", REPO / "lygo_sandcastle" / "README.md"),
+        ("example_workflow", REPO / "lygo_sandcastle" / "workflows" / "example_sovereign.yaml"),
+        ("orchestrator", REPO / "lygo_sandcastle" / "orchestrator.py"),
+        ("workflow_egg_manifest", REPO / "data" / "sandcastle" / "workflow_egg_manifest.json"),
+    ],
 }
 
 RETRIEVAL_SOA = {

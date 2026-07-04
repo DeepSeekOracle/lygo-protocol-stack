@@ -72,6 +72,20 @@
       "provenance": "2026Biophase7/lygo-second-brain.zip"
     },
     {
+      "id": "lygo-sandcastle",
+      "title": "LYGO Sovereign Workflow Orchestrator",
+      "role": "workflow-orchestrator",
+      "urls": {
+        "repo": "lygo_sandcastle/",
+        "spec": "docs/BIOPHASE7_LYGO_SANDCASTLE.md",
+        "registry": "docs/WorkflowOrchestratorRegistry.json",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sandcastle",
+        "install": "python tools/install_lygo_sandcastle.py"
+      },
+      "since": "2026-07-04",
+      "provenance": "2026Biophase7/Sovereign Workflow Orchestrator"
+    },
+    {
       "id": "lygo-tools-portal-skill",
       "title": "LYGO Tools Portal (MPM) — ClawHub",
       "role": "agent-routing",

@@ -2,62 +2,68 @@
   "signature": "\u03949\u03a6963-KERNEL-EGG-VERIFY-v1",
   "all_pass": true,
   "verdict": "ALIGNED",
-  "registry_merkle_root": "ffdafad62db8a63214e9231831a8803fbcf53b77e6c55c5cf352ff40e3d23ffe",
+  "registry_merkle_root": "83af15142684c9c48a399803b0e84c9345b8c66210120314e9b83dfc2085f428",
   "checks": [
     {
       "id": "egg-bin-p0-nano-kernel",
       "pass": true,
-      "expected_sha256": "0527e5e737a66605",
-      "actual_sha256": "0527e5e737a66605"
+      "expected_sha256": "502c6321fec347dc",
+      "actual_sha256": "502c6321fec347dc"
     },
     {
       "id": "egg-bin-stack-anchor-hook",
       "pass": true,
-      "expected_sha256": "a408ec21ba7d3028",
-      "actual_sha256": "a408ec21ba7d3028"
+      "expected_sha256": "4dd0861c0fa6b738",
+      "actual_sha256": "4dd0861c0fa6b738"
     },
     {
       "id": "egg-bin-stack-orchestrator-slim",
       "pass": true,
-      "expected_sha256": "c8de3848ad4d47d0",
-      "actual_sha256": "c8de3848ad4d47d0"
+      "expected_sha256": "4de30770c485aded",
+      "actual_sha256": "4de30770c485aded"
     },
     {
       "id": "egg-bin-lattice-soa-index",
       "pass": true,
-      "expected_sha256": "b63e4ab6f54925f3",
-      "actual_sha256": "b63e4ab6f54925f3"
+      "expected_sha256": "43ef02ee703e62fc",
+      "actual_sha256": "43ef02ee703e62fc"
     },
     {
       "id": "egg-bin-firmware-p04-drivers",
       "pass": true,
-      "expected_sha256": "90a8516e683d4311",
-      "actual_sha256": "90a8516e683d4311"
+      "expected_sha256": "c8c80164b6acdff1",
+      "actual_sha256": "c8c80164b6acdff1"
     },
     {
       "id": "egg-bin-protocol-drivers-p2-p5",
       "pass": true,
-      "expected_sha256": "154e9d3ba0d8833d",
-      "actual_sha256": "154e9d3ba0d8833d"
+      "expected_sha256": "a1bb44a0e46efd9c",
+      "actual_sha256": "a1bb44a0e46efd9c"
     },
     {
       "id": "egg-bin-joy-loop-protocol-v21",
       "pass": true,
-      "expected_sha256": "061ad2e8b4fcb866",
-      "actual_sha256": "061ad2e8b4fcb866"
+      "expected_sha256": "7b9e82bf2107f662",
+      "actual_sha256": "7b9e82bf2107f662"
     },
     {
       "id": "egg-bin-lygo-second-brain-v10",
       "pass": true,
-      "expected_sha256": "af8c1318af02896f",
-      "actual_sha256": "af8c1318af02896f"
+      "expected_sha256": "404689192e91ac27",
+      "actual_sha256": "404689192e91ac27"
+    },
+    {
+      "id": "egg-bin-lygo-sandcastle-v10",
+      "pass": true,
+      "expected_sha256": "c14af8fc2c36388f",
+      "actual_sha256": "c14af8fc2c36388f"
     },
     {
       "id": "registry-merkle-root",
       "pass": true,
-      "declared": "ffdafad62db8a632",
-      "recomputed": "ffdafad62db8a632"
+      "declared": "83af15142684c9c4",
+      "recomputed": "83af15142684c9c4"
     }
   ],
-  "timestamp": 1783195285.480455
+  "timestamp": 1783196765.7758696
 }

@@ -398,6 +398,52 @@ def lattice_nodes() -> list[dict]:
             )
         except (json.JSONDecodeError, OSError):
             pass
+    wo_reg = ROOT / "docs" / "WorkflowOrchestratorRegistry.json"
+    if wo_reg.is_file():
+        try:
+            wreg = json.loads(wo_reg.read_text(encoding="utf-8"))
+            merkle = wreg.get("registry_merkle_root", "")[:16]
+            nodes.append(
+                {
+                    "id": "LATTICE_WORKFLOW_ORCHESTRATOR",
+                    "kind": "lattice",
+                    "name": "Δ9 Workflow Orchestrator Vault",
+                    "glyph": "🏰◆",
+                    "equation": f"YAML×{wreg.get('egg_count', 1)} egg",
+                    "tone": "741Hz",
+                    "tags": ["LATTICE", "SANDCASTLE", "WORKFLOW"],
+                    "connections": ["LATTICE_SECOND_BRAIN_VAULT", "PORTAL_STACK"],
+                    "urls": {
+                        "registry": (
+                            "https://deepseekoracle.github.io/lygo-protocol-stack/"
+                            "WorkflowOrchestratorRegistry.json"
+                        ),
+                        "doc": (
+                            "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/"
+                            "docs/BIOPHASE7_LYGO_SANDCASTLE.md"
+                        ),
+                        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sandcastle",
+                    },
+                    "layer": 3,
+                    "meta": {"registry_merkle_root": wreg.get("registry_merkle_root")},
+                }
+            )
+            nodes.append(
+                {
+                    "id": "SANDCASTLE_EGG_V10",
+                    "kind": "workflow_egg",
+                    "name": "LYGO Sandcastle v1.0 Egg",
+                    "glyph": "📜",
+                    "equation": merkle + "…" if merkle else "sandcastle",
+                    "tone": "P0→P5",
+                    "tags": ["SANDCASTLE", "KERNEL_EGG"],
+                    "connections": ["LATTICE_WORKFLOW_ORCHESTRATOR"],
+                    "urls": {"egg_id": "lygo-sandcastle-v10"},
+                    "layer": 2,
+                }
+            )
+        except (json.JSONDecodeError, OSError):
+            pass
     return nodes
 
 

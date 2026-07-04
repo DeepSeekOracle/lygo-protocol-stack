@@ -76,6 +76,7 @@ python scripts/retrieve_egg.py --egg p0-nano-kernel
 | `protocol-drivers-p2-p5` | P2–P5 drivers |
 | `clawhub-lattice-catalog` | Public ClawHub `skills.json` metadata |
 | `lygo-second-brain-v10` | Local LLM wiki vault + Ollama scripts |
+| `lygo-sandcastle-v10` | Sovereign YAML workflow orchestrator |
 
 ## Joy Loop Protocol (Δ9 v2.3.1)
 
@@ -93,6 +94,14 @@ python tools/second_brain_planter.py --i-consent
 ```
 
 Egg `lygo-second-brain-v10` · `docs/SecondBrainRegistry.json` · ledger `data/second_brain/manifest.jsonl` · ClawHub `lygo-second-brain`.
+
+## LYGO Sovereign Workflow Orchestrator (Δ9 v1.0)
+
+```bash
+python tools/workflow_orchestrator_planter.py --i-consent
+```
+
+Egg `lygo-sandcastle-v10` · `docs/WorkflowOrchestratorRegistry.json` · ClawHub `lygo-sandcastle`.
 
 ## Champion Kernel Eggs (15 Δ9 Council personas)
 
