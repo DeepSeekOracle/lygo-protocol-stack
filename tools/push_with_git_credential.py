@@ -62,9 +62,11 @@ def push_repo(repo: Path, github_path: str) -> int:
 
 
 def main() -> int:
+    excavationpro = STACK.parent / "Excavationpro"
     jobs = [
         (STACK, "DeepSeekOracle/lygo-protocol-stack"),
         (CRYPTO, "DeepSeekOracle/lyra-crypto-operator"),
+        (excavationpro, "DeepSeekOracle/Excavationpro"),
     ]
     rc = 0
     for repo, path in jobs:
