@@ -68,6 +68,14 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("limbs", REPO / "lygo_openclaw" / "limbs.py"),
         ("openclaw_egg_manifest", REPO / "data" / "openclaw" / "openclaw_egg_manifest.json"),
     ],
+    "lygo-lpis-v10": [
+        ("lpis_cli", REPO / "tools" / "lygo_lpis.py"),
+        ("lpis_spec", REPO / "docs" / "BIOPHASE7_LYGO_LPIS.md"),
+        ("lpis_readme", REPO / "lygo_lpis" / "README.md"),
+        ("framework", REPO / "lygo_lpis" / "framework.py"),
+        ("vault", REPO / "lygo_lpis" / "vault.py"),
+        ("lpis_egg_manifest", REPO / "data" / "prompt_vault" / "lpis_egg_manifest.json"),
+    ],
 }
 
 RETRIEVAL_SOA = {

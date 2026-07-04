@@ -1,0 +1,15 @@
+{
+  "signature": "\u03949\u03a6963-LPIS-EGG-v1",
+  "updated_utc": 1783200290.0301983,
+  "git_head": "cf4146bc3b23",
+  "egg_count": 1,
+  "registry_merkle_root": "359a999b7f1431a49821a8b2af80af1cdad9976a4c6ff53dccc6f862b8fbd915",
+  "eggs": [
+    {
+      "egg_id": "lygo-lpis-v10",
+      "merkle_root": "359a999b7f1431a49821a8b2af80af1cdad9976a4c6ff53dccc6f862b8fbd915",
+      "manifest_path": "data/prompt_vault/lpis_egg_manifest.json"
+    }
+  ],
+  "ledger": "data/prompt_vault/implant_runs.jsonl"
+}

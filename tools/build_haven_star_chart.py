@@ -491,6 +491,53 @@ def lattice_nodes() -> list[dict]:
                 )
         except (json.JSONDecodeError, OSError):
             pass
+    pi_reg = ROOT / "docs" / "PromptImplantRegistry.json"
+    if pi_reg.is_file():
+        try:
+            preg = json.loads(pi_reg.read_text(encoding="utf-8"))
+            merkle = preg.get("registry_merkle_root", "")[:16]
+            if merkle and merkle != "pending":
+                nodes.append(
+                    {
+                        "id": "LATTICE_PROMPT_IMPLANT_VAULT",
+                        "kind": "lattice",
+                        "name": "Δ9 Prompt Implant Vault",
+                        "glyph": "🧬◆",
+                        "equation": f"prompt×{preg.get('egg_count', 1)} egg",
+                        "tone": "741Hz",
+                        "tags": ["LATTICE", "LPIS", "PROMPT"],
+                        "connections": ["LATTICE_OPENCLAW_VAULT", "PORTAL_STACK"],
+                        "urls": {
+                            "registry": (
+                                "https://deepseekoracle.github.io/lygo-protocol-stack/"
+                                "PromptImplantRegistry.json"
+                            ),
+                            "doc": (
+                                "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/"
+                                "docs/BIOPHASE7_LYGO_LPIS.md"
+                            ),
+                            "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lpis",
+                        },
+                        "layer": 3,
+                        "meta": {"registry_merkle_root": preg.get("registry_merkle_root")},
+                    }
+                )
+                nodes.append(
+                    {
+                        "id": "LPIS_EGG_V10",
+                        "kind": "lpis_egg",
+                        "name": "LYGO LPIS v1.0 Egg",
+                        "glyph": "🧬",
+                        "equation": merkle + "…" if merkle else "lpis",
+                        "tone": "P0→P5",
+                        "tags": ["LPIS", "KERNEL_EGG"],
+                        "connections": ["LATTICE_PROMPT_IMPLANT_VAULT"],
+                        "urls": {"egg_id": "lygo-lpis-v10"},
+                        "layer": 2,
+                    }
+                )
+        except (json.JSONDecodeError, OSError):
+            pass
     return nodes
 
 

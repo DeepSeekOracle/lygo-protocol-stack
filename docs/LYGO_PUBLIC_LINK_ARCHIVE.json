@@ -101,6 +101,20 @@
       "provenance": "2026Biophase7/LYGO-OpenClaw Full Build Blueprint"
     },
     {
+      "id": "lygo-lpis",
+      "title": "LYGO Prompt Implant System (LPIS)",
+      "role": "prompt-vault",
+      "urls": {
+        "repo": "lygo_lpis/",
+        "spec": "docs/BIOPHASE7_LYGO_LPIS.md",
+        "registry": "docs/PromptImplantRegistry.json",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lpis",
+        "install": "python tools/install_lygo_lpis.py"
+      },
+      "since": "2026-07-04",
+      "provenance": "2026Biophase7/This is a massive opportunity for L.txt"
+    },
+    {
       "id": "lygo-tools-portal-skill",
       "title": "LYGO Tools Portal (MPM) — ClawHub",
       "role": "agent-routing",

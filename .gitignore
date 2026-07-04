@@ -49,6 +49,12 @@ data/openclaw/mycelium/*_manifest.json
 data/openclaw/runs/*.json
 data/openclaw/action_runs.jsonl
 data/openclaw/manifest.jsonl
+data/prompt_vault/*.txt
+data/prompt_vault/prompt_*.json
+data/prompt_vault/sovereign_*.json
+data/prompt_vault/vault_manifest.jsonl
+data/prompt_vault/implant_runs.jsonl
+data/prompt_vault/runs/*.json
 data/scalable_registry/manifests/
 data/scalable_registry/registry.json
 

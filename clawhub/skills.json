@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 39,
-  "count_mirrored": 38,
+  "count_published": 40,
+  "count_mirrored": 39,
   "skills": [
     {
       "slug": "lygo-protocol-stack-operator",
@@ -394,6 +394,16 @@
       "summary": "Sovereign command router (Biophase7 LYGO-OpenClaw) — P0 gate, P1 mycelium, P3 consensus, P5 identity, lattice limbs, kernel egg. ClawHub slug lygo-sovereign-claw (namespace); mirror lygo-openclaw; pair with lyra-openclaw for hybrid runtime.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw",
       "mirror": "mirrors/lygo-openclaw",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-lpis",
+      "name": "LYGO Prompt Implant System",
+      "summary": "LPIS — prompt vault, P0 analyze, P3 sovereign variants, P5 advisory implant, kernel egg lygo-lpis-v10. Biophase7 agent-prompt lattice; pair lyra-brain + mint-verifier.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lpis",
+      "mirror": "mirrors/lygo-lpis",
       "published": true,
       "downloads": 0,
       "version": "1.0.0"

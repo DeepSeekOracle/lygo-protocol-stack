@@ -31,6 +31,10 @@
     "lygo_openclaw_spec": "docs/BIOPHASE7_LYGO_OPENCLAW.md",
     "lygo_openclaw_registry": "docs/OpenClawRegistry.json",
     "lygo_openclaw_egg": "lygo-openclaw-v10",
+    "lygo_lpis": "lygo_lpis/",
+    "lygo_lpis_spec": "docs/BIOPHASE7_LYGO_LPIS.md",
+    "lygo_lpis_registry": "docs/PromptImplantRegistry.json",
+    "lygo_lpis_egg": "lygo-lpis-v10",
     "bpm_finder": "https://bpmfinder.ca/",
     "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
