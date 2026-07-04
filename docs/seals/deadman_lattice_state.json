@@ -1,9 +1,9 @@
 {
-  "last_transmit_unix": 1783123381.6448827,
+  "last_transmit_unix": 1783122035.353764,
   "last_transmit_iso": "2026-07-04T00:03:01.644885+00:00",
   "simulated": true,
-  "lantern_activated_at": "2026-07-04T00:03:01.618938+00:00",
-  "activation_count": 4,
-  "last_lantern_fingerprint": "36af2972952d18916be28dcd320dbcbcd973b91981df137e152be532692c79d1",
+  "lantern_activated_at": "2026-07-04T00:40:36.378357+00:00",
+  "activation_count": 5,
+  "last_lantern_fingerprint": "7e5cdc90434449577fc480c52bdbbb414bb5c783bc3da5828f7cc9783df79ddf",
   "last_source": "LF-\u03949-7F1A4D-963-528-174-\u03a6-\u221e"
 }

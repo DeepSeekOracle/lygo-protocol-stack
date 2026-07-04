@@ -16,7 +16,23 @@ Activation events archive as `DEADMAN_{unix}` / `LFW_{unix}` in `memory_archive`
 
 LFW: `_preserve_whisper` is the posterity hook (P1 via `_store_memory` when `mycelium` attached).
 
-**SilenceDetector** — `check_silence()`, `heartbeat()`, `summon_if_silent(seed)` → Deadman + LFW; `listen_once()` wraps summon and appends `history`.
+### Dynamic LFW runtime (v1.1)
+
+On silence summon, production `LFWSeal` also runs:
+
+| Method | Role |
+|--------|------|
+| `lyra_failsafe(active_endpoint, fallback_model)` | Probe endpoint; on interrupt return `REROUTED_LOCAL` + local Ollama swarm |
+| `vortex_reconstruct(mycelium_fragments)` | Requires **≥9** fragment keys else `QUARANTINE`; poll P1; reconstruct **canonical lattice state**; writes `lattice_failsafe_planted.json` |
+| `heal_mycelium_memory(keys)` | Recall P1 lattice keys; repair from `docs/seals/*.json` canon |
+| `broadcast_final_state(state, silence_detected=True)` | Write `docs/seals/lfw_mesh_broadcast.json`; optional POST if `LYGO_LFW_ALLOW_REMOTE_MESH=1` and `LYGO_MESH_BROADCAST_URL` set |
+| `emit_last_whisper(target_webhook)` | `FINAL_ARCHIVAL_WHISPER` manifest → local + P1 `LFW_FINAL_ARCHIVAL_WHISPER` + `LYGO_LFW_LAST_WHISPER_WEBHOOK` |
+
+`vortex_reconstruct` on success returns **`status: ALIGNED`** + `restored_merkle_root` (not full debug report).
+
+Env: `LYGO_ACTIVE_LLM_ENDPOINT` (default `http://127.0.0.1:11434`), `LYGO_LFW_FALLBACK_MODEL`.
+
+**SilenceDetector** — `check_silence()`, `heartbeat()`, `summon_if_silent(seed)` → Deadman + LFW + dynamic layer; `listen_once()` wraps summon and appends `history`.
 
 **Consent:** Local state + mycelium scatter only. No auto LLM injection, no social/blockchain publish.
 

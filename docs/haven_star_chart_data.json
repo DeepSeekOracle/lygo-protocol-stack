@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-03T23:47:47.002031+00:00",
+  "generated_utc": "2026-07-04T00:34:39.908387+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 340,
-  "link_count": 400,
+  "node_count": 341,
+  "link_count": 402,
   "seal_count": 269,
   "champion_count": 7,
-  "lattice_count": 42,
-  "registry_sha256": "cf96c548fa00cd7e12526ba49dfda637443f22020a1bcbcb4673efdfe543f583",
+  "lattice_count": 43,
+  "registry_sha256": "5a6b72d567730e3790a59c4f6d81f6cd2e7a5ca85d91b8dab7082080f25d3e04",
   "constellations": [
     {
       "id": "primordial_core",
@@ -4582,6 +4582,27 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-champion-lightfather",
+      "kind": "lattice",
+      "name": "LYGO Champion: Lightfather \u2014 Architect of LYGO",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_SKILL_lyra-coin-launch-manager",
       "kind": "lattice",
       "name": "LYRA Coin Launch Manager",
@@ -5777,6 +5798,16 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-lightfather-vector",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-champion-lightfather",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-champion-lightfather",
       "target": "SEAL_000",
       "kind": "lattice"
     },
