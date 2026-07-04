@@ -311,12 +311,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "LYGO Ollama Army v0.4.1 — LYGO_STACK_ROOT required, lygo_stack_root.py, SECURITY+AGENT_CONTRACT, champion-egg-boot vault path, joy-loop-pulse, localhost Ollama only.",
+      "summary": "LYGO Ollama Army v0.4.2 — LYGO_STACK_ROOT required, army_self_tune fix, byte_entropy_filter P0 path, localhost Ollama only.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 160,
-      "version": "0.4.1"
+      "version": "0.4.2"
     },
     {
       "slug": "lygo-glyph2resonance",

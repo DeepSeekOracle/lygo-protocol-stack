@@ -1,7 +1,7 @@
 ---
 name: lygo-ollama-army
 description: "Use when the user runs local Ollama army daemons, joy-loop-pulse, champion-egg-boot, or reviewed queue tasks with LYGO_STACK_ROOT set. Local 127.0.0.1 Ollama only. Read references/SECURITY.md. Not for remote LLM or autonomous social publish."
-metadata: {"lygo": true, "ollama": true, "army": true, "champions": true, "consent_required": false, "requires_lygo_stack": true, "version": "0.4.1", "army_cc": "v3", "security_audit": "tamper-audit-aligned", "capability_network": "127.0.0.1_ollama_only", "publisher": "deepseekoracle", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "signature": "Δ9Φ963-ARMY-SKILL-v0.4.1"}
+metadata: {"lygo": true, "ollama": true, "army": true, "champions": true, "consent_required": false, "requires_lygo_stack": true, "version": "0.4.2", "army_cc": "v3", "security_audit": "tamper-audit-aligned", "capability_network": "127.0.0.1_ollama_only", "publisher": "deepseekoracle", "website": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html", "signature": "Δ9Φ963-ARMY-SKILL-v0.4.2"}
 ---
 
 # LYGO Ollama Army & Assistant Hub (ClawHub Skill)
@@ -140,7 +140,7 @@ Read **`references/SECURITY.md`** and **`references/AGENT_CONTRACT.md`**.
 
 This is mostly a disclosed local Ollama helper, but it still has persistent self-growing daemon behavior and process-launching code that users should review before installing.
 
-**v0.4.1:** No hardcoded stack paths; `lygo_stack_root.py` validates clone; missing root → QUARANTINE on stack roles.
+**v0.4.2:** `army_self_tune.py` subprocess fix; P0 golden path = `protocol0_byte_entropy_filter`. **v0.4.1:** No hardcoded stack paths; `lygo_stack_root.py` validates clone; missing root → QUARANTINE on stack roles.
 
 **Install only if you are comfortable running persistent local Python daemons.** On Windows, avoid passing role, model, or champion values from untrusted input (names are sanitized, but review the source). Keep Ollama strictly local (this skill now hard-enforces 127.0.0.1:11434 in published champion tools). Review queue files before processing, and leave `--grow` off until you understand that it can autonomously launch additional daemons.
 

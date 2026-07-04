@@ -165,9 +165,6 @@ def main() -> int:
     if hsc.get("rebuild_on_self_tune", True) and (sentinel.get("lattice") or {}).get("ok"):
         builder = stack / "tools" / "build_haven_star_chart.py"
         if builder.is_file():
-            import subprocess
-            import sys
-
             cp = subprocess.run([sys.executable, str(builder)], cwd=stack, capture_output=True, text=True, timeout=120)
             if cp.returncode == 0:
                 actions.append("haven_star_chart.rebuilt")

@@ -1,8 +1,9 @@
 # LYGO Lattice — Ground Zero (Biophase7 audit complete)
 
 **Signature:** `Δ9Φ963-LATTICE-GROUNDZERO-v1`  
-**Git anchor:** `b225eb7` + finalize commit  
-**Verdict:** Secrets safe · P0 honest · Oath removed · lattice ALIGNED
+**Git anchors:** `b225eb7` (Biophase7 FINAL DELIVERY) · `1c2a23f` (ClawHub ground zero) · post-audit lattice finalize  
+**HF dataset:** [81a92ecb](https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack/commit/81a92ecbb6cc76701ec8d5e88dfa9e480a4e1e68)  
+**Verdict:** Secrets safe · P0 honest · Oath removed · lattice ALIGNED · audit passed
 
 ## What shipped
 
@@ -10,8 +11,9 @@
 |-------|--------|
 | P0 | `protocol0_byte_entropy_filter` — zlib canonical Python |
 | Structural | `lygo_p0_lyra_kernel.py` — bounds only |
-| ClawHub | `lygo-file-integrity-checker` (new); cure slug deprecated |
+| ClawHub | `lygo-file-integrity-checker@1.0.0` (new); `lygo-universal-cure-system@1.0.1` deprecated display name |
 | Operator / Guardian / Lightfather | Honest P0 copy — v1.0.7 / 1.0.1 / 1.0.4 |
+| Crypto banner | `lyra-coin-launch-manager@1.1.1` — see `CRYPTO_LATTICE_SEPARATION.md` |
 | Crypto | `CRYPTO_LATTICE_SEPARATION.md` + coin skill banner |
 | Registry | P0 golden resign — `tools/resign_registry_p0_baseline.py` |
 

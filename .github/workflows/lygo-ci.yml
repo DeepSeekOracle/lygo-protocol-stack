@@ -26,7 +26,7 @@ jobs:
         run: python tools/generate_falsifiable_vectors.py
 
       - name: P0 pytest
-        run: python -m pytest protocol0_nano_kernel/tests/ -q
+        run: python -m pytest protocol0_byte_entropy_filter/tests/ -q
 
       - name: Grok audit harness (live P0–P5)
         run: python tools/run_grok_audit_demo.py
