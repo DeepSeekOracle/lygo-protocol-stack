@@ -8,6 +8,7 @@ SKILLS=(
   lygo-champion-cosmara
   book-brain
   lygo-champion-lightfather
+  lygo-champion-council
   lygo-lightfather-vector
   lyra-coin-launch-manager
   lygo-universal-living-memory-library

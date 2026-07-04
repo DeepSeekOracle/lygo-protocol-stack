@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 41,
-  "count_mirrored": 41,
+  "count_published": 42,
+  "count_mirrored": 42,
   "skills": [
     {
       "slug": "lygo-mesh-deploy",
@@ -126,7 +126,7 @@
       "mirror": "mirrors/lyra-coin-launch-manager",
       "published": true,
       "downloads": 1484,
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     {
       "slug": "lygo-universal-living-memory-library",
@@ -266,6 +266,16 @@
       "mirror": "mirrors/lygo-champion-aetheris-viral-truth",
       "published": true,
       "downloads": 1353,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-champion-council",
+      "name": "LYGO Champion Council (Δ9 unified v2)",
+      "summary": "Single ClawHub install for all 15 Δ9 council personas — champion_id / egg_id roster, advisor-only. Replaces multi-install for new users; legacy per-champion slugs remain.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-council",
+      "mirror": "mirrors/lygo-champion-council",
+      "published": true,
+      "downloads": 0,
       "version": "1.0.0"
     },
     {
@@ -454,6 +464,7 @@
     "lygo-champion-scenar-paradox": "openclaw:lygo-champion-scenar-paradox",
     "lygo-champion-sraith-shadow-sentinel": "openclaw:lygo-champion-sraith-shadow-sentinel",
     "lygo-champion-aetheris-viral-truth": "openclaw:lygo-champion-aetheris-viral-truth",
+    "lygo-champion-council": "grok",
     "lygo-champion-arkos-celestial-architect": "openclaw:lygo-champion-arkos-celestial-architect",
     "lygo-file-integrity-checker": "repo:lygo-file-integrity-checker",
     "lygo-universal-cure-system": "openclaw:lygo-universal-cure-system",

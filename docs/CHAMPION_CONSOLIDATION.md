@@ -23,4 +23,9 @@ python tools/sync_champion_pack_template.py
 # optional: run self_check in each mirror after council edits
 ```
 
-Future v2 (optional): single `lygo-champion-council` skill with `champion_id` parameter — separate publish wave.
+## v2 unified ClawHub skill (done)
+
+- **Slug:** `lygo-champion-council@1.0.0`
+- **Mirror:** `clawhub/mirrors/lygo-champion-council/`
+- **Roster build:** `python tools/build_champion_council_mirror.py`
+- Legacy per-champion slugs remain for backward compatibility.

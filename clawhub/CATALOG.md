@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 41 skills verified via ClawHub API · **Repo mirrors:** 41 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 42 skills verified via ClawHub API · **Repo mirrors:** 42 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -62,7 +62,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-mint-verifier](https://clawhub.ai/deepseekoracle/lygo-mint-verifier) | LYGO-MINT Verifier | `1.0.1` · 1,816 dl | [mirror](./mirrors/lygo-mint-verifier/) |
 | [lygo-mint-operator-suite](https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite) | LYGO-MINT Operator Suite (v2) | `1.0.0` · 1,059 dl | [mirror](./mirrors/lygo-mint-operator-suite/) |
-| [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.1` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
+| [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.2` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
 | [openclaw-flow-kit](https://clawhub.ai/deepseekoracle/openclaw-flow-kit) | OpenClaw Flow Kit | `1.0.0` · 1,366 dl | [mirror](./mirrors/openclaw-flow-kit/) |
 
 ## Lore & protocols
@@ -78,6 +78,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-alignment-badge](https://clawhub.ai/deepseekoracle/lygo-alignment-badge) | LYGO Alignment Badge | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-alignment-badge/) |
+| [lygo-champion-council](https://clawhub.ai/deepseekoracle/lygo-champion-council) | LYGO Champion Council (Δ9 unified v2) | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-champion-council/) |
 | [lygo-docker-deploy](https://clawhub.ai/deepseekoracle/lygo-docker-deploy) | LYGO Docker Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-docker-deploy/) |
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
 | [lygo-guardian-p0-stack](https://clawhub.ai/deepseekoracle/lygo-guardian-p0-stack) | LYGO Guardian P0 Stack | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-guardian-p0-stack/) |
