@@ -16,10 +16,22 @@
 
 ## SEO & discoverability
 
-- Per-surface **canonical**, **Open Graph**, **Twitter/X Card**, and **schema.org WebApplication** JSON-LD
-- `index, follow` robots + keyword meta aimed at “BPM finder” / “tempo detector” queries
-- **`docs/sitemap.xml`** + **`docs/robots.txt`** (stack Pages); **`Excavationpro/sitemap.xml`** + **`robots.txt`**
-- Hub links: `eternalhaven.html`, `index.html`, `main.html`, Haven Star Chart, legacy Guardian music, LYGORESONANCE footer
+- **Primary canonical:** https://bpmfinder.ca/ (all mirrors point here)
+- **On-page copy:** visible H2/H3 + FAQ block targeting “free BPM finder”, “online tempo detector”, MP3/WAV/FLAC
+- **Structured data:** `WebSite`, `WebApplication` (`isAccessibleForFree`), `Organization`, `BreadcrumbList`, `FAQPage` (`@graph` JSON-LD)
+- **Social:** Open Graph + Twitter/X cards; `og:locale`, image dimensions
+- **Crawl hints:** `index, follow` + `googlebot` / `bingbot`; `hreflang` en + x-default
+- **Sitemaps:** `docs/sitemap.xml`, `Excavationpro/sitemap.xml` (bpmfinder.ca priority 1.0, weekly)
+- **Custom domain root** (upload to bpmfinder.ca host): `docs/bpmfinder.ca-root/robots.txt`, `sitemap.xml`, `ads.txt`
+- **Hub internal links** (keyword anchors): `eternalhaven.html`, `index.html`, `main.html`, Haven Star Chart, legacy Guardian music, LYGORESONANCE, stack `docs/index.html`
+
+### Search Console (operator)
+
+1. Add property **https://bpmfinder.ca/** in [Google Search Console](https://search.google.com/search-console).
+2. Verify via DNS or HTML tag on the live host.
+3. Submit **https://bpmfinder.ca/sitemap.xml** (from `bpmfinder.ca-root`).
+4. Optional: Bing Webmaster Tools — same sitemap URL.
+5. Request indexing for the homepage after major SEO updates.
 
 Regenerate pages after prototype edits:
 
