@@ -16,6 +16,11 @@ MONETIZE = {
     "eternalhaven.html",
 }
 
+# Full AdSense site readiness: verification meta + head loader; keep in-page slots.
+ADSENSE_READY = {
+    "LYGOBPMFinder.html",
+}
+
 # Substantive public pages: site-verification meta only (no adsbygoogle.js, no <ins>).
 META_ONLY = {
     "eternalhaven.html",
@@ -31,7 +36,6 @@ META_ONLY = {
     "sealmaker.html",
     "SovereignLatticeMesh.html",
     "LYGORESONANCE.html",
-    "LYGOBPMFinder.html",
     "lygorhaven.html",
     "PAGE4ADVANCED.html",
     "lygo-nano-kernel.html",
@@ -83,6 +87,14 @@ DENY = {
 }
 
 META_LINE = f'<meta name="google-adsense-account" content="{PUB}">'
+HEAD_ADSENSE_SCRIPT = (
+    f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={PUB}"\n'
+    f'     crossorigin="anonymous"></script>'
+)
+RE_HEAD_ADSENSE = re.compile(
+    r"<script[^>]*googlesyndication\.com/pagead/js/adsbygoogle[^>]*>",
+    re.I,
+)
 
 RE_META = re.compile(
     r"\s*<meta\s+name=[\"']google-adsense-account[\"'][^>]*>\s*",
@@ -147,6 +159,22 @@ def ensure_meta_in_head(text: str) -> str:
     return text[:insert] + line + text[insert:]
 
 
+def ensure_head_adsense_script(text: str) -> str:
+    if RE_HEAD_ADSENSE.search(text):
+        return text
+    if RE_META.search(text):
+        return RE_META.sub(
+            lambda m: m.group(0) + f"\n{HEAD_ADSENSE_SCRIPT}\n",
+            text,
+            count=1,
+        )
+    return ensure_meta_in_head(text).replace(
+        META_LINE,
+        f"{META_LINE}\n{HEAD_ADSENSE_SCRIPT}",
+        1,
+    )
+
+
 def ensure_noindex(text: str) -> str:
     if RE_ROBOTS_NOINDEX.search(text):
         return text
@@ -165,6 +193,9 @@ def process_file(html: Path, root: Path) -> bool:
     if rel in DENY:
         new = strip_adsense_markup(new)
         new = ensure_noindex(new)
+    elif rel in ADSENSE_READY:
+        new = ensure_meta_in_head(new)
+        new = ensure_head_adsense_script(new)
     elif rel in MONETIZE:
         # Keep in-page ad slots; remove global head script (consent-gated load in page JS).
         new = RE_SCRIPT.sub("\n", new)

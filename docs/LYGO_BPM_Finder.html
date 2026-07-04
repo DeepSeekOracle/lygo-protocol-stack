@@ -39,6 +39,9 @@
   "author": { "@type": "Organization", "name": "Excavationpro / LYGO Systems" }
 }</script>
 <meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -320,6 +323,47 @@
     .lygo-loop ul { grid-template-columns: 1fr; }
   }
 
+  .lygo-rumble-live {
+    width: 100%;
+    max-width: 560px;
+  }
+  .lygo-rumble-title {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
+  }
+  .lygo-rumble-embed {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--panel-edge);
+    background: #0a0908;
+  }
+  .lygo-rumble-embed #rumble_v79wjai {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .lygo-rumble-link {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 12px;
+  }
+  .lygo-rumble-link a {
+    color: var(--teal);
+    text-decoration: none;
+  }
+  .lygo-rumble-link a:hover { color: var(--amber); text-decoration: underline; }
+
   .lygo-ad-slot {
     text-align: center;
   }
@@ -379,6 +423,15 @@
   </p>
 </noscript>
 <div class="page-shell">
+<section class="lygo-rumble-live" aria-label="LYGO monetized live stream">
+  <h2 class="lygo-rumble-title">LYGO Live — embeddable player</h2>
+  <div class="lygo-rumble-embed">
+    <div id="rumble_v79wjai"></div>
+  </div>
+  <p class="lygo-rumble-link"><a href="https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Watch on Rumble (monetized direct)</a></p>
+</section>
+<script>Rumble("play", {"video":"v79wjai","div":"rumble_v79wjai"});</script>
+
 <div class="lygo-ad-slot" aria-label="Advertisement">
   <div class="lygo-ad-label">Advertisement</div>
   <div class="lygo-ad-box" id="lygo-ad-top"></div>
@@ -486,6 +539,12 @@
   }
   function loadAdSense() {
     if (window.adsbygoogle) { pushAds(); return; }
+    var headAd = document.querySelector('script[src*="pagead/js/adsbygoogle"]:not([data-lygo-adsense])');
+    if (headAd) {
+      headAd.addEventListener('load', pushAds);
+      if (window.adsbygoogle) pushAds();
+      return;
+    }
     if (document.querySelector('script[data-lygo-adsense]')) { pushAds(); return; }
     var s = document.createElement('script');
     s.async = true;
