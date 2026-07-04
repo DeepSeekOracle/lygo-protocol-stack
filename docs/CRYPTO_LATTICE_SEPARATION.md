@@ -13,14 +13,14 @@ Token launch, monitoring, and Clawnch receipt tooling (e.g. **`lyra-coin-launch-
 
 | Location | Role |
 |----------|------|
-| **`I:\E Drive\lyra-crypto-operator`** | Canonical skill tree + publish from here |
+| **`I:\E Drive\lyra-crypto-operator`** · [GitHub](https://github.com/DeepSeekOracle/lyra-crypto-operator) | Canonical skill tree + publish from here |
 | `lygo-protocol-stack/clawhub/mirrors/lyra-coin-launch-manager/` | ClawHub **publish stub** — sync via `python tools/sync_from_lyra_crypto_operator.py` |
 
 ## Maintainer stance
 
 - Install crypto skills only when you explicitly run launches or monitors.
 - Do not treat token metrics as lattice health signals.
-- Push standalone repo: `DeepSeekOracle/lyra-crypto-operator` (create remote, then `git push` from operator folder).
+- Push updates: `python scripts/push_github_auto.py` from `lyra-crypto-operator` (uses Windows Git Credential Manager).
 
 ## LYGO core (sovereign stack)
 
