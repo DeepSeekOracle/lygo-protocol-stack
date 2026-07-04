@@ -35,6 +35,7 @@ GROK_PRIORITY = {
     "lygo-truthlightecho",
     "lyra-brain",
     "lyra-openclaw",
+    "lygo-pxpipe-lygo",
 }
 
 CANONICAL_SLUGS = [
@@ -71,6 +72,7 @@ CANONICAL_SLUGS = [
     "lygo-champion-volaris-prism-judgment",
     "void-atlas-protocol",
     "recursive-generosity-protocol",
+    "lygo-pxpipe-lygo",
 ]
 
 

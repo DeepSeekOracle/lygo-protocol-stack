@@ -12,7 +12,7 @@ OUT = REPO / "clawhub" / "CATALOG.md"
 CATEGORIES: list[tuple[str, list[str]]] = [
     (
         "Protocol stack & integrator (P0–P5)",
-        ["lygo-protocol-stack-operator", "lygo-kernel-egg-planter"],
+        ["lygo-protocol-stack-operator", "lygo-kernel-egg-planter", "lygo-pxpipe-lygo"],
     ),
     (
         "Creative audio & vision (LYGO RESONANCE stack)",
