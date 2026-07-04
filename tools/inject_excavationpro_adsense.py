@@ -9,7 +9,8 @@ from pathlib import Path
 
 PUB = "ca-pub-0646320966060599"
 MARKER = f"client={PUB}"
-META = f'    <meta name="google-adsense-account" content="{PUB}" />\n'
+# Google site-setup snippet (meta form without self-close, per AdSense UI)
+META = f'    <meta name="google-adsense-account" content="{PUB}">\n'
 SCRIPT = (
     f'    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={PUB}"\n'
     '         crossorigin="anonymous"></script>\n'
@@ -32,7 +33,19 @@ def has_head_script(text: str) -> bool:
     return bool(HEAD_SCRIPT.search(chunk))
 
 
+def has_head_meta(text: str) -> bool:
+    head_end = text.lower().find("</head>")
+    chunk = text[: head_end if head_end > 0 else 4000]
+    return bool(re.search(r'<meta\s+name="google-adsense-account"', chunk, re.I))
+
+
 def inject(text: str) -> str:
+    if has_head_meta(text) and has_head_script(text):
+        return text
+    if has_head_script(text) and not has_head_meta(text):
+        m = re.search(r"(<head[^>]*>\s*)", text, re.I)
+        if m:
+            return text[: m.end()] + META + text[m.end() :]
     if has_head_script(text):
         return text
     if f'content="{PUB}"' in text or "google-adsense-account" in text:
