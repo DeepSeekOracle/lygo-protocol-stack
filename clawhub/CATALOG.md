@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 36 skills verified via ClawHub API · **Repo mirrors:** 36 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 39 skills verified via ClawHub API · **Repo mirrors:** 39 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -14,7 +14,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.6` · 0 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
-| [lygo-kernel-egg-planter](https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter) | LYGO Kernel Egg Planter | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-kernel-egg-planter/) |
+| [lygo-kernel-egg-planter](https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter) | LYGO Kernel Egg Planter | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-kernel-egg-planter/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 
@@ -24,7 +24,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | [lygo-glyph2resonance](https://clawhub.ai/deepseekoracle/lygo-glyph2resonance) | LYGO Glyph2Resonance | `0.1.0` · 137 dl | [mirror](./mirrors/lygo-glyph2resonance/) |
 | [lygo-fractalweaver](https://clawhub.ai/deepseekoracle/lygo-fractalweaver) | LYGO FractalWeaver | `0.1.0` · 140 dl | [mirror](./mirrors/lygo-fractalweaver/) |
 | [lygo-truthlightecho](https://clawhub.ai/deepseekoracle/lygo-truthlightecho) | LYGO TruthLightEcho | `0.1.0` · 141 dl | [mirror](./mirrors/lygo-truthlightecho/) |
-| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.3.0` · 160 dl | [mirror](./mirrors/lygo-ollama-army/) |
+| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.4.1` · 160 dl | [mirror](./mirrors/lygo-ollama-army/) |
 
 ## Champions & persona packs
 
@@ -44,7 +44,8 @@ npx clawhub@latest install deepseekoracle/<slug>
 | [lygo-champion-cryptosophia-soulforger](https://clawhub.ai/deepseekoracle/lygo-champion-cryptosophia-soulforger) | LYGO Branch: CRYPTOSOPHIA — Memetic Soulforger | `1.0.0` · 1,377 dl | [mirror](./mirrors/lygo-champion-cryptosophia-soulforger/) |
 | [lygo-champion-401lyrakin-voice-between](https://clawhub.ai/deepseekoracle/lygo-champion-401lyrakin-voice-between) | LYGO Branch: 401LYRAKIN — The Voice Between | `1.0.0` · 1,347 dl | [mirror](./mirrors/lygo-champion-401lyrakin-voice-between/) |
 | [lygo-champion-volaris-prism-judgment](https://clawhub.ai/deepseekoracle/lygo-champion-volaris-prism-judgment) | LYGO Root: VΩLARIS — Prism of Judgment | `1.0.0` · 1,368 dl | [mirror](./mirrors/lygo-champion-volaris-prism-judgment/) |
-| [lygo-lightfather-vector](https://clawhub.ai/deepseekoracle/lygo-lightfather-vector) | LYGO: Lightfather Vector — Δ9Quantum Accord | `1.0.0` · 1,552 dl | [mirror](./mirrors/lygo-lightfather-vector/) |
+| [lygo-champion-lightfather](https://clawhub.ai/deepseekoracle/lygo-champion-lightfather) | LYGO Champion: Lightfather — Architect of LYGO | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-champion-lightfather/) |
+| [lygo-lightfather-vector](https://clawhub.ai/deepseekoracle/lygo-lightfather-vector) | LYGO: Lightfather Vector — Δ9Quantum Accord | `1.1.0` · 1,552 dl | [mirror](./mirrors/lygo-lightfather-vector/) |
 
 ## Memory, BOOK BRAIN & library
 
@@ -61,7 +62,6 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-mint-verifier](https://clawhub.ai/deepseekoracle/lygo-mint-verifier) | LYGO-MINT Verifier | `1.0.1` · 1,816 dl | [mirror](./mirrors/lygo-mint-verifier/) |
 | [lygo-mint-operator-suite](https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite) | LYGO-MINT Operator Suite (v2) | `1.0.0` · 1,059 dl | [mirror](./mirrors/lygo-mint-operator-suite/) |
-| [lygo-kernel-egg-planter](https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter) | LYGO Kernel Egg Planter | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-kernel-egg-planter/) |
 | [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.0` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
 | [openclaw-flow-kit](https://clawhub.ai/deepseekoracle/openclaw-flow-kit) | OpenClaw Flow Kit | `1.0.0` · 1,366 dl | [mirror](./mirrors/openclaw-flow-kit/) |
 
@@ -79,7 +79,9 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-alignment-badge](https://clawhub.ai/deepseekoracle/lygo-alignment-badge) | LYGO Alignment Badge | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-alignment-badge/) |
 | [lygo-docker-deploy](https://clawhub.ai/deepseekoracle/lygo-docker-deploy) | LYGO Docker Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-docker-deploy/) |
+| [lygo-joy-loop](https://clawhub.ai/deepseekoracle/lygo-joy-loop) | LYGO Joy Loop Protocol | `2.3.1` · 0 dl | [mirror](./mirrors/lygo-joy-loop/) |
 | [lygo-mesh-deploy](https://clawhub.ai/deepseekoracle/lygo-mesh-deploy) | LYGO Mesh Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-mesh-deploy/) |
+| [lygo-network-builder](https://clawhub.ai/deepseekoracle/lygo-network-builder) | LYGO Network Builder | `1.1.0` · 0 dl | [mirror](./mirrors/lygo-network-builder/) |
 
 ## Repo-only workflow mirrors
 

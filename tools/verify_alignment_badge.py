@@ -11,11 +11,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SIGNATURE = "Δ9Φ963-PHASE2-DEPLOYMENT"
+SIGNATURE = "PHASE2-DEPLOYMENT"
 
 
 def _run(cmd: list[str], cwd: Path) -> tuple[int, str]:
-    cp = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=300)
+    import os as _os
+    _env = {**_os.environ, "PYTHONIOENCODING": "utf-8"}
+    cp = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=300, env=_env)
     out = (cp.stdout or "") + (cp.stderr or "")
     return cp.returncode, out.strip()
 
@@ -106,8 +108,8 @@ def collect_badge(*, quick: bool = False) -> dict:
             fed = stack.federation
             coord.scatter_prioritized({"probe": True}, "BADGE_PROBE", verdict_hint="AMPLIFY")
             fed.announce_alignment({"status": "PROBING", "signature": SIGNATURE})
-            badge["checks"]["phase1_elasticity"] = coord.status()["version"].startswith("Δ9")
-            badge["checks"]["phase3_4_federation"] = fed.version.startswith("Δ9")
+            badge["checks"]["phase1_elasticity"] = coord.status()["version"].startswith("\u03949")
+            badge["checks"]["phase3_4_federation"] = fed.version.startswith("\u03949")
         else:
             badge["checks"]["phase1_elasticity"] = False
             badge["checks"]["phase3_4_federation"] = False
@@ -132,12 +134,12 @@ def collect_badge(*, quick: bool = False) -> dict:
 
 def to_markdown(badge: dict) -> str:
     status = badge.get("status", "UNKNOWN")
-    icon = "✅" if status == "ALIGNED" else "⚠️"
+    icon = "?" if status == "ALIGNED" else "!?"
     lines = [
         f"### {icon} LYGO Alignment Badge",
         "",
-        f"**Status:** `{status}` · **Signature:** `{badge.get('signature')}`",
-        f"**Stack:** `{badge.get('stack_version', 'n/a')}` · **UTC:** `{badge.get('timestamp')}`",
+        f"**Status:** `{status}` ? **Signature:** `{badge.get('signature')}`",
+        f"**Stack:** `{badge.get('stack_version', 'n/a')}` ? **UTC:** `{badge.get('timestamp')}`",
         "",
         "| Check | OK |",
         "|-------|-----|",
@@ -146,7 +148,7 @@ def to_markdown(badge: dict) -> str:
         if v is None:
             lines.append(f"| {k} | skipped |")
         else:
-            lines.append(f"| {k} | {'✅' if v else '❌'} |")
+            lines.append(f"| {k} | {'?' if v else '?'} |")
     return "\n".join(lines)
 
 

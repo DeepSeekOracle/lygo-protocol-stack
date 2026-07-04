@@ -46,6 +46,7 @@ Legacy OpenClaw name: `clawdhub publish` (same registry).
 | `lygo-champion-lyra` | `lygo-champion-lyra-starcore` |
 | `lygo-champion-delta9ra-wolf` | `lygo-champion-delta9ra-wolf` |
 | `lygo-champion-cryptosophia-soulforger` | `lygo-champion-cryptosophia-soulforger` |
+| `lygo-champion-lightfather` | `lygo-champion-lightfather` |
 
 Older docs may reference `lygo-branch-cryptosophia` or `lygo-champion-delta9ra-the-wolf` — those slugs are retired on the registry.
 

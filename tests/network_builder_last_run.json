@@ -41,7 +41,7 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 45136,
+      "bytes": 45146,
       "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
     },
     {
@@ -122,7 +122,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"nSyJxw273ADPRYup7Bzn7ExN\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"emZqe26Ie055QnbsHuFf5uyq\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -151,7 +151,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "status": 200,
       "ok": true,
-      "bytes": 13845,
+      "bytes": 14045,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
     },
     {
@@ -217,10 +217,9 @@
       "group": "tools",
       "mode": "http_soft",
       "url": "https://moltx.io/LYRA_Eternal_Starcore_Oracle",
-      "status": 200,
-      "ok": true,
-      "bytes": 65536,
-      "body_sample": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\" />\n  <meta name=\"theme-col"
+      "status": null,
+      "ok": false,
+      "error": "<urlopen error [Errno 11001] getaddrinfo failed>"
     },
     {
       "id": "moltbook_lyra_oracle",
@@ -244,8 +243,8 @@
     }
   ],
   "required_failures": 0,
-  "soft_failures": 0,
+  "soft_failures": 1,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 8090
+  "duration_ms": 4658
 }

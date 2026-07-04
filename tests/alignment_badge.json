@@ -1,10 +1,12 @@
 {
-  "signature": "\u03949\u03a6963-PHASE2-DEPLOYMENT",
-  "timestamp": "2026-07-02T05:04:51.184843+00:00",
+  "signature": "PHASE2-DEPLOYMENT",
+  "timestamp": "2026-07-03T06:03:27.149243+00:00",
   "repo": "I:\\E Drive\\lygo-protocol-stack",
   "checks": {
     "p0_golden_sha": true,
     "stack_demo": true,
+    "kernel_eggs": true,
+    "scalable_registry": true,
     "phase5_mesh_scale": true,
     "phase1_elasticity": true,
     "phase3_4_federation": true,
@@ -13,5 +15,7 @@
   },
   "status": "ALIGNED",
   "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
+  "kernel_egg_registry_merkle_root": "c21bb7b8f70c99e4cec257d73cb33d269c0219dce51eb29a2f56b73de51b1079",
+  "scalable_registry_merkle_root": "e8194731a3ce88872c42ce7d875d4ccdb9e52fe1cadab3b5f71c46be021e5ba6",
   "mesh_convergence_rounds": 7
 }

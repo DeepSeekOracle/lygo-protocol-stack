@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-LYGO PROTOCOL STACK — GROK AUDIT HARNESS (P1–P5)
-Version: Δ9Φ963-STACK-PUBLIC-v2
+LYGO PROTOCOL STACK - GROK AUDIT HARNESS (P1-P5)
+Version: GROK-AUDIT-HARNESS-v2
 
 Runs 40+ falsifiable vectors through live deploy_stack() / process_falsifiable_vector().
 No mock phi_risk or post-hoc verdict overrides.
@@ -15,13 +15,18 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except Exception:
+    pass
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "stack"))
 
 from lygo_stack import deploy_stack  # noqa: E402
 
 DEFAULT_VECTORS = ROOT / "tests" / "test_falsifiable_vectors.json"
-SIGNATURE = "Δ9Φ963-GROK-AUDIT-HARNESS-v2"
+SIGNATURE = "GROK-AUDIT-HARNESS-v2"
 
 
 def run_audit_demo(vector_path: Path, *, limit: int | None = None, write_report: bool = True) -> dict:
@@ -34,8 +39,8 @@ def run_audit_demo(vector_path: Path, *, limit: int | None = None, write_report:
     stack = deploy_stack("GROK_AUDIT_HARNESS")
 
     print("=" * 70)
-    print(" LYGO PROTOCOL STACK — GROK AUDIT HARNESS")
-    print("   Live P0–P5 · Primordial Law + Layer 1 Sovereignty enforced")
+    print(" LYGO PROTOCOL STACK - GROK AUDIT HARNESS")
+    print("   Live P0-P5 ? Primordial Law + Layer 1 Sovereignty enforced")
     print(f"   {SIGNATURE}")
     print("=" * 70 + "\n")
 
@@ -60,7 +65,7 @@ def run_audit_demo(vector_path: Path, *, limit: int | None = None, write_report:
             results["total_vectors"] += 1
             claim = (vec.get("payload") or {}).get("claim", "N/A")
             print(f"\n[*] Vector: {vec.get('id')}")
-            print(f"    Claim: {claim[:100]}{'…' if len(str(claim)) > 100 else ''}")
+            print(f"    Claim: {str(claim)[:100]}{'...' if len(str(claim)) > 100 else ''}")
 
             try:
                 live = stack.process_falsifiable_vector(vec, category=category)

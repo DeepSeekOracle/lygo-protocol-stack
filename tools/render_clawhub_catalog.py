@@ -41,6 +41,7 @@ CATEGORIES: list[tuple[str, list[str]]] = [
             "lygo-champion-cryptosophia-soulforger",
             "lygo-champion-401lyrakin-voice-between",
             "lygo-champion-volaris-prism-judgment",
+            "lygo-champion-lightfather",
             "lygo-lightfather-vector",
         ],
     ),
