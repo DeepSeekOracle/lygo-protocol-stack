@@ -7,6 +7,7 @@ SKILLS=(
   lygo-mint-verifier
   lygo-champion-cosmara
   book-brain
+  lygo-champion-lightfather
   lygo-lightfather-vector
   lyra-coin-launch-manager
   lygo-universal-living-memory-library
