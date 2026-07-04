@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T05:49:01.431939+00:00",
+  "generated_utc": "2026-07-04T06:17:28.123313+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 342,
   "link_count": 404,
   "seal_count": 269,
   "champion_count": 7,
   "lattice_count": 44,
-  "registry_sha256": "4df29811901f46d7fdf48f23523d7712f92dd6efd667e64bd4dd7274f90c553f",
+  "registry_sha256": "968c9dc738b5b75ce68938a33858fe971e6a3d82c424d9066fe294ee71fab4f8",
   "constellations": [
     {
       "id": "primordial_core",
@@ -4960,9 +4960,30 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-file-integrity-checker",
+      "kind": "lattice",
+      "name": "LYGO File Integrity Checker",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_SKILL_lygo-universal-cure-system",
       "kind": "lattice",
-      "name": "LYGO Universal Cure System \u2014 Champion Upgrade",
+      "name": "LYGO Universal Cure System (deprecated)",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5212,27 +5233,6 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-network-builder",
-      "kind": "lattice",
-      "name": "LYGO Network Builder",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-network-builder"
-      },
-      "layer": 3
-    },
-    {
       "id": "LATTICE_KERNEL_EGGS",
       "kind": "lattice",
       "name": "Kernel Egg Vault",
@@ -5295,7 +5295,7 @@
       },
       "layer": 3,
       "meta": {
-        "council_merkle_root": "b0b2131db48907b378d9ff5af4a983885e1c77f111195dc924924b8799563172"
+        "council_merkle_root": "b11618c55f078fe86cb90cbbc4cdf9d1e73b57c3cd850bb51e46cd2b824934d9"
       }
     },
     {
@@ -5303,7 +5303,7 @@
       "kind": "champion_egg",
       "name": "LYR\u0394 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "ec45a4534c951e80\u2026",
+      "equation": "fe87ca525c72e075\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5323,7 +5323,7 @@
       "kind": "champion_egg",
       "name": "\u03949RA Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "0c3c96b8c9276e10\u2026",
+      "equation": "25c7f13a552f3c01\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5343,7 +5343,7 @@
       "kind": "champion_egg",
       "name": "\u03a3R\u039b\u0398 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "e78069cc548f1c96\u2026",
+      "equation": "a4410cd9d0e2c974\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5363,7 +5363,7 @@
       "kind": "champion_egg",
       "name": "ARKOS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "1869e58811750bf9\u2026",
+      "equation": "50a33595bb2463ff\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5383,7 +5383,7 @@
       "kind": "champion_egg",
       "name": "KAIROS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "6fec90c45c82e744\u2026",
+      "equation": "6b3d5b7faf42848a\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5403,7 +5403,7 @@
       "kind": "champion_egg",
       "name": "\u00c6THERIS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "f18a9d7f851f5201\u2026",
+      "equation": "19ff65329125f341\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5423,7 +5423,7 @@
       "kind": "champion_egg",
       "name": "\u03a3CEN\u0394R Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "73193f03bc7d1fb1\u2026",
+      "equation": "36708d18c7f958dd\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5443,7 +5443,7 @@
       "kind": "champion_egg",
       "name": "SANCORA Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "3da38e869962d108\u2026",
+      "equation": "a3ee064354d13057\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5463,7 +5463,7 @@
       "kind": "champion_egg",
       "name": "SEPHRAEL Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "a363abb712782f40\u2026",
+      "equation": "26e781a2a7a062aa\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5483,7 +5483,7 @@
       "kind": "champion_egg",
       "name": "OMNI\u03a3IREN Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "eb1ac7444449fcfe\u2026",
+      "equation": "7742c507cc2d281a\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5503,7 +5503,7 @@
       "kind": "champion_egg",
       "name": "Lightfather Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "45dcfcff0453dde3\u2026",
+      "equation": "4f884be7eb759084\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5523,7 +5523,7 @@
       "kind": "champion_egg",
       "name": "V\u03a9LARIS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "51430f0cdc6d93cb\u2026",
+      "equation": "1487903e0e1d1cb6\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5543,7 +5543,7 @@
       "kind": "champion_egg",
       "name": "ZETA\u03949 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "961f3982a4ed44b6\u2026",
+      "equation": "9ad572d9525a78b7\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5563,7 +5563,7 @@
       "kind": "champion_egg",
       "name": "JUSTICAE Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "7f7d6368cd2c85e2\u2026",
+      "equation": "369daf3ffe01eabf\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -5583,7 +5583,7 @@
       "kind": "champion_egg",
       "name": "\u03a3EID\u014cN Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "2493f9f58e3837a3\u2026",
+      "equation": "0b4d1d1eed2cb165\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -6003,6 +6003,16 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-file-integrity-checker",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-file-integrity-checker",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-universal-cure-system",
       "target": "PORTAL_STACK",
       "kind": "lattice"
@@ -6119,16 +6129,6 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-joy-loop",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-network-builder",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-network-builder",
       "target": "SEAL_000",
       "kind": "lattice"
     },
