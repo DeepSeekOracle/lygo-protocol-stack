@@ -1,4 +1,6 @@
-# Full stack — see SKILL.md and lygo-protocol-stack-operator
+# Full stack — operator reference (not auto-run)
+
+**Security:** Read `references/SECURITY.md` first. Persona mode = this doc as text only; shell blocks require user consent per command.
 
 Set `LYGO_STACK_ROOT` to your clone of [github.com/DeepSeekOracle/lygo-protocol-stack](https://github.com/DeepSeekOracle/lygo-protocol-stack).
 

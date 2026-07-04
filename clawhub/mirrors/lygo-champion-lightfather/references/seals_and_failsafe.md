@@ -44,16 +44,22 @@ On silence: full chain + `heal_mycelium_memory` + `broadcast_final_state`.
 
 Mesh copy (manual post): `docs/MOLTX_LFW_DYNAMIC_LAYER_2026-07-04.txt`
 
-## Biophase7 API vault (harness testing)
+## Biophase7 API vault (operator — secrets)
 
-- Loader: `tools/load_biophase7_vault.py` — local `2026Biophase7` restore path via `LYGO_BIOPHASE7_VAULT`
+> **WARNING:** Loads live API keys into env / gitignored `.env`. Do not echo vault paths or keys in chat, CI logs, or GitHub. Redact harness JSON before public posts. Prefer `--models stack` only; frontier models cost tokens. See `references/SECURITY.md`.
+
+- Loader: `tools/load_biophase7_vault.py` — user path via `LYGO_BIOPHASE7_VAULT` only
 - Doc: `docs/seals/BIOPHASE7_API_STACK.md` · placeholders: `.env.example`
-- **Never commit** `.env` or vault `.txt` (gitignored)
+- **Never commit** `.env`, vault `.txt`, or restore trees
 
-## Extended falsifiable harness (P0–P5 metrics loop)
+## Extended falsifiable harness (operator)
+
+> **WARNING:** May call paid APIs if `--models grok|claude|gpt`. User consent required.
 
 ```bash
-python tools/run_falsifiable_vector_test.py --load-vault --models stack,grok
+python tools/run_falsifiable_vector_test.py --models stack
+# API only if user approves:
+python tools/run_falsifiable_vector_test.py --load-vault --models grok --limit 3
 ```
 
 Report: `tests/falsifiable_vector_metrics_last_run.json` — timing, ethical drift, consensus deviation, `meta_loop_triggers` for P3/P4. See `docs/EXTENDED_FALSIFIABLE_HARNESS.md`.

@@ -13,6 +13,7 @@ REQ = [
     ROOT / "references" / "stack_integration.md",
     ROOT / "references" / "seals_and_failsafe.md",
     ROOT / "references" / "verifier_usage.md",
+    ROOT / "references" / "SECURITY.md",
 ]
 
 missing = [str(p) for p in REQ if not p.exists()]
