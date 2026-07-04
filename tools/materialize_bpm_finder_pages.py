@@ -13,24 +13,47 @@ EXCA = ROOT.parent / "Excavationpro" / "LYGOBPMFinder.html"
 STACK_CANONICAL = "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html"
 EXCA_CANONICAL = "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
 
-STACK_FOOTER = """
-<p class="site-footer">
-  <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
-  · <a href="index.html">LYGO stack index</a>
-  · <a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Main hub</a>
-  · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_BPM_FINDER.md">Spec</a>
-</p>"""
+EXCA_NAV_REPLACEMENTS = [
+    (
+        "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
+        "SovereignLatticeMesh.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+        "SovereignLatticeMesh.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+        "BiometricEntropyHarness.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+        "BiometricEntropyHarness.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+        "HavenStarChart.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "HavenStarChart.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "eternalhaven.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+        "LYGORESONANCE.html",
+    ),
+    (
+        "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+        "LYGOBPMFinder.html",
+    ),
+]
 
-EXCA_FOOTER = """
-<p class="site-footer">
-  <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
-  · <a href="eternalhaven.html">Eternal Haven hub</a>
-  · <a href="LYGORESONANCE.html">LYGO Resonance</a>
-  · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_BPM_FINDER.md">Spec</a>
-</p>"""
 
-
-def patch_mirror(html: str, *, canonical: str, site_name: str, footer: str) -> str:
+def patch_mirror(html: str, *, canonical: str, site_name: str) -> str:
     html = re.sub(
         r'<link rel="canonical" href="[^"]+">',
         f'<link rel="canonical" href="{canonical}">',
@@ -55,13 +78,8 @@ def patch_mirror(html: str, *, canonical: str, site_name: str, footer: str) -> s
         html,
         count=1,
     )
-    html = re.sub(
-        r"<p class=\"site-footer\">.*?</p>",
-        footer.strip(),
-        html,
-        count=1,
-        flags=re.DOTALL,
-    )
+    for old, new in EXCA_NAV_REPLACEMENTS:
+        html = html.replace(old, new)
     return html
 
 
@@ -78,7 +96,6 @@ def main() -> int:
             base,
             canonical=EXCA_CANONICAL,
             site_name="Excavationpro / LYGO",
-            footer=EXCA_FOOTER,
         )
         EXCA.write_text(exca_html, encoding="utf-8")
         print("Wrote", EXCA)

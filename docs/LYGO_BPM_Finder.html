@@ -73,7 +73,7 @@
 
   .page-shell {
     width: 100%;
-    max-width: 560px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -264,6 +264,109 @@
   .site-footer a { color: var(--teal); text-decoration: none; }
   .site-footer a:hover { text-decoration: underline; }
 
+  .donate-strip {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 12px 14px;
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    background: rgba(0, 112, 186, 0.08);
+  }
+  .paypal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #0070ba;
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .paypal-btn:hover { filter: brightness(1.08); }
+
+  .lygo-loop {
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #181412;
+  }
+  .lygo-loop h2 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .lygo-loop ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 14px;
+  }
+  .lygo-loop a {
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .lygo-loop a:hover { text-decoration: underline; color: var(--amber); }
+  @media (max-width: 480px) {
+    .lygo-loop ul { grid-template-columns: 1fr; }
+  }
+
+  .lygo-ad-slot {
+    text-align: center;
+  }
+  .lygo-ad-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .lygo-ad-box {
+    min-height: 90px;
+    border: 1px dashed var(--panel-edge);
+    border-radius: 8px;
+    background: #100d0b;
+    overflow: hidden;
+  }
+
+  .cookie-banner-bpm {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 12px 16px;
+    background: #1e1a17;
+    border-top: 1px solid var(--panel-edge);
+    font-size: 13px;
+    color: var(--text);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .cookie-banner-bpm.show { display: flex; }
+  .cookie-banner-bpm button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--panel-edge);
+    background: #262019;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .cookie-banner-bpm button.accept { background: var(--teal); color: #0d1f1d; border-color: var(--teal); }
+
   @media (prefers-reduced-motion: reduce) {
     .pulse-dot.on { animation: none; background: var(--amber); }
   }
@@ -276,6 +379,11 @@
   </p>
 </noscript>
 <div class="page-shell">
+<div class="lygo-ad-slot" aria-label="Advertisement">
+  <div class="lygo-ad-label">Advertisement</div>
+  <div class="lygo-ad-box" id="lygo-ad-top"></div>
+</div>
+
 <main class="rack" id="bpm-finder-app">
   <p class="eyebrow">LYGO / Biophase7 / Creative</p>
   <h1>LYGO BPM Finder</h1>
@@ -308,13 +416,102 @@
   </div>
 </main>
 
+<aside class="lygo-loop" id="lygo-links" aria-label="LYGO related pages">
+  <h2>LYGO lattice</h2>
+  <ul>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/">Protocol stack index</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html">Sovereign Lattice Mesh</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html">Biometric harness</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Haven Star Chart</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html">Kernel eggs</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html">Compass Master</a></li>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Eternal Haven hub</a></li>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html">LYGO Resonance</a></li>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html">BPM Finder (Excavationpro)</a></li>
+    <li><a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine">HF Resonance Engine</a></li>
+    <li><a href="https://clawhub.ai/deepseekoracle">ClawHub skills</a></li>
+    <li><a href="https://github.com/DeepSeekOracle/lygo-protocol-stack">GitHub source</a></li>
+  </ul>
+</aside>
+
+<div class="donate-strip">
+  Support free LYGO tools
+  <a class="paypal-btn" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate with PayPal</a>
+</div>
+
+<div class="lygo-ad-slot" aria-label="Advertisement">
+  <div class="lygo-ad-label">Advertisement</div>
+  <div class="lygo-ad-box" id="lygo-ad-bottom"></div>
+</div>
+
 <p class="site-footer">
   <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
-  · <a href="index.html">LYGO stack index</a>
-  · <a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Main hub</a>
   · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_BPM_FINDER.md">Spec</a>
 </p>
 </div>
+
+<div class="cookie-banner-bpm" id="cookieBannerBpm" role="dialog" aria-label="Cookie consent">
+  <span>Cookies &amp; ads: we may show Google AdSense after you accept.</span>
+  <button type="button" class="accept" id="acceptCookiesBpm">Accept</button>
+  <button type="button" id="declineCookiesBpm">Decline</button>
+</div>
+
+<script>
+(function () {
+  var PUB = 'ca-pub-0646320966060599';
+  var ADSENSE_SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + PUB;
+  function mountSlots() {
+    ['lygo-ad-top', 'lygo-ad-bottom'].forEach(function (id) {
+      var box = document.getElementById(id);
+      if (!box || box.dataset.mounted) return;
+      var ins = document.createElement('ins');
+      ins.className = 'adsbygoogle';
+      ins.style.display = 'block';
+      ins.setAttribute('data-ad-client', PUB);
+      ins.setAttribute('data-ad-format', 'auto');
+      ins.setAttribute('data-full-width-responsive', 'true');
+      box.appendChild(ins);
+      box.dataset.mounted = '1';
+    });
+  }
+  function pushAds() {
+    mountSlots();
+    document.querySelectorAll('ins.adsbygoogle').forEach(function (el) {
+      if (el.getAttribute('data-adsbygoogle-status')) return;
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        el.setAttribute('data-adsbygoogle-status', 'done');
+      } catch (e) { console.warn('AdSense', e); }
+    });
+  }
+  function loadAdSense() {
+    if (window.adsbygoogle) { pushAds(); return; }
+    if (document.querySelector('script[data-lygo-adsense]')) { pushAds(); return; }
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = ADSENSE_SRC;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-lygo-adsense', '1');
+    s.onload = pushAds;
+    document.head.appendChild(s);
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var banner = document.getElementById('cookieBannerBpm');
+    var consent = localStorage.getItem('cookiesAccepted');
+    if (consent === 'true') loadAdSense();
+    else if (consent !== 'false') setTimeout(function () { banner.classList.add('show'); }, 600);
+    document.getElementById('acceptCookiesBpm').addEventListener('click', function () {
+      localStorage.setItem('cookiesAccepted', 'true');
+      banner.classList.remove('show');
+      loadAdSense();
+    });
+    document.getElementById('declineCookiesBpm').addEventListener('click', function () {
+      localStorage.setItem('cookiesAccepted', 'false');
+      banner.classList.remove('show');
+    });
+  });
+})();
+</script>
 <script type="module">
   let detect;
   try {
