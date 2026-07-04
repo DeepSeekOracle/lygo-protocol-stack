@@ -21,7 +21,7 @@ def gcm_password(host: str, path: str) -> str | None:
                 input=payload if cmd[-1] == "get" else "protocol=https\nhost=github.com\n\n",
                 capture_output=True,
                 text=True,
-                timeout=60,
+                timeout=180,
             )
         except FileNotFoundError:
             continue
