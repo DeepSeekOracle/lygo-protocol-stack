@@ -43,3 +43,17 @@ python tools/seal_deadman_lattice.py touch
 On silence: full chain + `heal_mycelium_memory` + `broadcast_final_state`.
 
 Mesh copy (manual post): `docs/MOLTX_LFW_DYNAMIC_LAYER_2026-07-04.txt`
+
+## Biophase7 API vault (harness testing)
+
+- Loader: `tools/load_biophase7_vault.py` — local `2026Biophase7` restore path via `LYGO_BIOPHASE7_VAULT`
+- Doc: `docs/seals/BIOPHASE7_API_STACK.md` · placeholders: `.env.example`
+- **Never commit** `.env` or vault `.txt` (gitignored)
+
+## Extended falsifiable harness (P0–P5 metrics loop)
+
+```bash
+python tools/run_falsifiable_vector_test.py --load-vault --models stack,grok
+```
+
+Report: `tests/falsifiable_vector_metrics_last_run.json` — timing, ethical drift, consensus deviation, `meta_loop_triggers` for P3/P4. See `docs/EXTENDED_FALSIFIABLE_HARNESS.md`.

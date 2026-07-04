@@ -36,6 +36,7 @@ python -m pytest protocol0_nano_kernel/tests/ -q
 - **P1–P5:** Integration tests call real classes (`MemoryMycelium`, `CognitiveBridge`, `VortexConsensusSync`, `VortexAscensionEngine`, `HarmonyNodeIntegration`) — no mock `expected_phi_risk` in `run_sovereign_integrity_test.py`.
 - **Pilot claims:** Publish **measured** `p0_verdict`, `phi_risk`, `ethical_mass`, and `light_code` from CLI/API output; do not hardcode demo numbers in social posts.
 - **Grok audit harness:** 60/60 in `tests/grok_audit_last_run.json` — [GEMINI_AUDIT_PROTOCOL.md](./GEMINI_AUDIT_PROTOCOL.md).
+- **Extended falsifiable harness:** `tools/run_falsifiable_vector_test.py` → `tests/falsifiable_vector_metrics_last_run.json`; Biophase7 vault — [EXTENDED_FALSIFIABLE_HARNESS.md](./EXTENDED_FALSIFIABLE_HARNESS.md), [BIOPHASE7_API_STACK.md](./seals/BIOPHASE7_API_STACK.md).
 - **Twin Gate:** 6 dilemmas Δφ=0 in `tests/twin_gate_calibration_last_run.json`; **verdict harmonization** when `audit_category` set — `run_twin_gate_vector_suite.py` — [CALIBRATION_NOTES.md](./CALIBRATION_NOTES.md).
 - **Lattice gauntlet:** `python tools/run_lattice_gauntlet.py` — [EXECUTION_DAG.md](./EXECUTION_DAG.md).
 
