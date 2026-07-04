@@ -374,7 +374,7 @@
       "summary": "Local LLM wiki — Obsidian vault + Ollama ingest, embed search, multi-model consensus, wiki from vault only. Biophase7 lygo-second-brain lattice install.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-second-brain",
       "mirror": "mirrors/lygo-second-brain",
-      "published": false,
+      "published": true,
       "downloads": 0,
       "version": "1.0.0"
     }
