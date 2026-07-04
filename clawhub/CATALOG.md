@@ -62,7 +62,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-mint-verifier](https://clawhub.ai/deepseekoracle/lygo-mint-verifier) | LYGO-MINT Verifier | `1.0.1` · 1,816 dl | [mirror](./mirrors/lygo-mint-verifier/) |
 | [lygo-mint-operator-suite](https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite) | LYGO-MINT Operator Suite (v2) | `1.0.0` · 1,059 dl | [mirror](./mirrors/lygo-mint-operator-suite/) |
-| [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.2` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
+| [lyra-coin-launch-manager](https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager) | LYRA Coin Launch Manager | `1.1.3` · 1,484 dl | [mirror](./mirrors/lyra-coin-launch-manager/) |
 | [openclaw-flow-kit](https://clawhub.ai/deepseekoracle/openclaw-flow-kit) | OpenClaw Flow Kit | `1.0.0` · 1,366 dl | [mirror](./mirrors/openclaw-flow-kit/) |
 
 ## Lore & protocols
