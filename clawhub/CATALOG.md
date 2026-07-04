@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 34 skills verified via ClawHub API · **Repo mirrors:** 34 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 35 skills verified via ClawHub API · **Repo mirrors:** 35 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -14,7 +14,8 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.7` · 58 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
-| [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |
+| [lygo-network-builder](https://clawhub.ai/deepseekoracle/lygo-network-builder) | LYGO Network Builder | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-network-builder/) |
+| [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
 

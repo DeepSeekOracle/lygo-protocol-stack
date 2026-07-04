@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 34,
-  "count_mirrored": 34,
+  "count_published": 35,
+  "count_mirrored": 35,
   "skills": [
     {
       "slug": "lygo-protocol-stack-operator",
@@ -17,6 +17,16 @@
       "published": true,
       "downloads": 58,
       "version": "1.0.7"
+    },
+    {
+      "slug": "lygo-network-builder",
+      "name": "LYGO Network Builder",
+      "summary": "Sovereign Lattice Mesh cartographer — IMMUTABLE_ANCHORS.json, live HTTP/repo verification, traversal chants. Companion to protocol-stack-operator.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
+      "mirror": "mirrors/lygo-network-builder",
+      "published": true,
+      "downloads": 0,
+      "version": "1.2.0"
     },
     {
       "slug": "eternal-haven-lore-pack",

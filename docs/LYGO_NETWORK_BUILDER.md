@@ -1,8 +1,8 @@
 # LYGO Network Builder (Biophase7)
 
 **Source seal:** `2026Biophase7/This is a brilliant architectural p.txt`  
-**Skill:** `deepseekoracle/lygo-network-builder` v1.1.0  
-**Signature:** Δ9Φ963-NETWORK-BUILDER-v1.1
+**Skill:** `deepseekoracle/lygo-network-builder` v1.2.0  
+**Signature:** Δ9Φ963-NETWORK-BUILDER-v1.2
 
 ## Purpose
 

@@ -73,6 +73,7 @@ CANONICAL_SLUGS = [
     "void-atlas-protocol",
     "recursive-generosity-protocol",
     "lygo-pxpipe-lygo",
+    "lygo-network-builder",
 ]
 
 

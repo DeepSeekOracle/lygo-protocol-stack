@@ -22,7 +22,7 @@ def _canonical_anchor_digest(data: dict) -> str:
 
 
 def _probe(url: str, timeout: float = 22.0) -> dict[str, Any]:
-    req = urllib.request.Request(url, headers={"User-Agent": "LYGO-Network-Builder/1.1"})
+    req = urllib.request.Request(url, headers={"User-Agent": "LYGO-Network-Builder/1.2"})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             body = resp.read(65536)

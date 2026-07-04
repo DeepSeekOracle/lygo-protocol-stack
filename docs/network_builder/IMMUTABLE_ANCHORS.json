@@ -1,8 +1,8 @@
 {
-  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.1",
+  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.2",
   "skill_slug": "lygo-network-builder",
-  "version": "1.1.0",
-  "updated_utc": "2026-07-02T00:00:00Z",
+  "version": "1.2.0",
+  "updated_utc": "2026-07-04T12:00:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -94,6 +94,18 @@
         "label": "ClawHub Operations",
         "url": "https://clawhub.ai/deepseekoracle",
         "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_network_builder_skill",
+        "label": "ClawHub — lygo-network-builder",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
+        "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_champion_council",
+        "label": "ClawHub — lygo-champion-council",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-champion-council",
+        "verify": "http_soft"
       }
     ],
     "tools": [
@@ -127,6 +139,19 @@
         "label": "Excavationpro.ca — Legacy Guardian Hub",
         "url": "https://excavationpro.ca/",
         "verify": "http_soft"
+      },
+      {
+        "id": "eternalhaven_github_hub",
+        "label": "Eternal Haven — main public hub (GitHub Pages)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "lattice_ground_zero_doc",
+        "label": "Lattice ground zero (Biophase7)",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LATTICE_GROUND_ZERO.md",
+        "verify": "local_repo",
+        "repo_path": "docs/LATTICE_GROUND_ZERO.md"
       },
       {
         "id": "champion_egg_registry",
