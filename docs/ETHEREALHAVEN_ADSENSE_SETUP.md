@@ -15,11 +15,27 @@
 
 **ads.txt on custom domain:** upload the same line to `https://excavationpro.ca/ads.txt` on GoDaddy hosting or forward path if AdSense verifies the custom domain.
 
-## On Excavationpro `eternalhaven.html` (local + WSL commit ready)
+## On Excavationpro pages (GitHub Pages)
 
-Google lists **three** site checks (not all are `<meta>`): **meta tag**, **AdSense script**, **ads.txt** at site root.
+Publisher: **`ca-pub-0646320966060599`** (same for excavationpro.ca and deepseekoracle.github.io/Excavationpro mirrors).
 
-- Updated: `Excavationpro/eternalhaven.html` — meta + script at top of `<head>` (same as Haven Star Chart)
+Head snippet (every public HTML):
+
+```html
+<meta name="google-adsense-account" content="ca-pub-0646320966060599" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+```
+
+Maintainer refresh:
+
+```powershell
+python tools/inject_excavationpro_adsense.py "I:\E Drive\Excavationpro"
+```
+
+Google lists **three** site checks: **meta tag**, **AdSense script in `<head>`**, **ads.txt** at site root.
+
+- `Excavationpro/eternalhaven.html` — meta + head script; ad slots fill after cookie consent
 - New: `Excavationpro/ads.txt` → after push: `https://deepseekoracle.github.io/Excavationpro/ads.txt`
 - Pages URL: `https://deepseekoracle.github.io/Excavationpro/eternalhaven.html`
 
