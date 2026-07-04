@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build protocol0_nano_kernel/fixtures/p0_vectors.json (35+ diverse cases)."""
+"""Build protocol0_byte_entropy_filter/fixtures/p0_vectors.json (35+ diverse cases)."""
 
 from __future__ import annotations
 
@@ -9,11 +9,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "protocol0_nano_kernel" / "src" / "python"))
+sys.path.insert(0, str(ROOT / "protocol0_byte_entropy_filter" / "src" / "python"))
 
-from lygo_p0 import validate_bytes  # noqa: E402
+from byte_entropy_filter import validate_bytes  # noqa: E402
 
-OUT = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_vectors.json"
+OUT = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_vectors.json"
 
 
 def v(vid: str, data: bytes, description: str, category: str) -> dict:

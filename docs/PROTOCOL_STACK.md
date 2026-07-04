@@ -4,7 +4,7 @@ Canonical public numbering used in this repository (aligned with LYRA / Excavati
 
 | Protocol | Name | Role | Path |
 |----------|------|------|------|
-| **P0** | Nano Kernel | Φ-gate on bounded bytes / structures | `protocol0_nano_kernel/` |
+| **P0** | Byte-entropy filter | Anomaly filter on bounded bytes (entropy + zlib) | `protocol0_byte_entropy_filter/` |
 | **P1** | Memory Mycelium | Fragmented, attestable storage | `protocol1_memory_mycelium/` |
 | **P2** | Cognitive Bridge | Human qualia → ethical vectors | `protocol2_cognitive_bridge/` |
 | **P3** | Vortex Consensus | 3-6-9 Tesla harmonic agreement | `protocol3_vortex_consensus/` |
@@ -35,9 +35,10 @@ CLI: `python tools/run_full_stack_demo.py` · integrity suite: `python tools/run
 
 ## Extended assets
 
-- `protocol0_nano_kernel/src/python/lygo_p0_lyra_kernel.py` — LYRA production validator + Oath Vector (from `LYRA_CORE`)
-- `protocol0_nano_kernel/src/c/` + `src/rust/` — multi-language P0 ports
-- `protocol0_nano_kernel/src/hardware/fixed_point_q16_16.c` — embedded numeric helpers
+- `protocol0_byte_entropy_filter/src/python/byte_entropy_filter.py` — canonical Python P0 (honest spec)
+- `protocol0_byte_entropy_filter/src/python/lygo_p0_lyra_kernel.py` — structural bounds only (Oath removed)
+- `protocol0_byte_entropy_filter/src/c/` + `src/rust/` — legacy stride-compression reference ports
+- `docs/P0_HONEST_SPEC.md` · `tools/compare_p0_variants.py`
 
 ## ClawHub agent skills
 

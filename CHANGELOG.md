@@ -1,5 +1,15 @@
 # Changelog — LYGO Protocol Stack
 
+## [Biophase7 FINAL DELIVERY] — 2026-07-04
+
+**Signature:** `Δ9Φ963-BIOPHASE7-FINAL-v1`
+
+### Changed
+- Renamed `protocol0_nano_kernel` → `protocol0_byte_entropy_filter`
+- Canonical P0: Biophase7 `byte_entropy_filter.py` (zlib); OathVectorEngine **deleted**
+- Added `tools/compare_p0_variants.py`; calibration dataset/report from restore pack
+- New golden SHA (Python canonical)
+
 ## [Biophase7 PC lattice hardening] — 2026-07-04
 
 **Signature:** `Δ9Φ963-BIOPHASE7-HARDENING-v1`

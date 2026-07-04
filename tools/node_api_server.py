@@ -19,7 +19,7 @@ def _stack():
 
     sys.path.insert(0, str(ROOT / "stack"))
     for sub in (
-        "protocol0_nano_kernel/src/python",
+        "protocol0_byte_entropy_filter/src/python",
         "protocol1_memory_mycelium/src/python",
         "protocol2_cognitive_bridge/src/python",
         "protocol3_vortex_consensus/src/python",

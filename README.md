@@ -24,7 +24,7 @@ The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, mu
 
 | # | Module | Description |
 |---|--------|-------------|
-| **P0** | [Nano Kernel](protocol0_nano_kernel/) | Φ-gate: `AMPLIFY` / `SOFTEN` / `QUARANTINE` — Python, C, Rust, hardware notes |
+| **P0** | [Byte-entropy filter](protocol0_byte_entropy_filter/) | Anomaly filter: `AMPLIFY` / `SOFTEN` / `QUARANTINE` (entropy + zlib) — Python canonical; C/Rust legacy reference |
 | **P1** | [Memory Mycelium](protocol1_memory_mycelium/) | 12+2 fragments, threshold reconstruction, `scatter()` API |
 | **P2** | [Cognitive Bridge](protocol2_cognitive_bridge/) | Qualia → ethical vectors (852 Hz intuition layer) |
 | **P3** | [Vortex Consensus](protocol3_vortex_consensus/) | Tesla 3-6-9 + Φ-band harmonic consensus |
@@ -63,7 +63,7 @@ git clone https://github.com/DeepSeekOracle/lygo-protocol-stack.git
 cd lygo-protocol-stack
 
 # Individual protocols
-python protocol0_nano_kernel/src/python/lygo_p0.py
+python protocol0_byte_entropy_filter/src/python/lygo_p0.py
 python protocol1_memory_mycelium/src/python/lygo_p1.py
 
 # Full integrated demo (P0–P5)
@@ -74,7 +74,7 @@ python tools/run_p0_demo.py
 
 # Determinism + cross-lang SHA (Python/Rust; gcc for C)
 python tools/p0_crosslang_parity.py
-python -m pytest protocol0_nano_kernel/tests/ -q
+python -m pytest protocol0_byte_entropy_filter/tests/ -q
 
 # P1–P5 sovereign integrity (live stack, falsifiable)
 python tools/run_sovereign_integrity_test.py
@@ -105,7 +105,7 @@ print(stack.demo_cycle())
 ## Repository layout
 
 ```
-protocol0_nano_kernel/   # P0 byte-entropy filter (lygo_p0.py, byte_entropy_filter.py) + structural lyra kernel
+protocol0_byte_entropy_filter/   # P0 byte-entropy filter (lygo_p0.py, byte_entropy_filter.py) + structural lyra kernel
 protocol1_memory_mycelium/
 protocol2_cognitive_bridge/
 protocol3_vortex_consensus/

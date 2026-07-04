@@ -11,7 +11,7 @@ python stack/lygo_stack.py
 python tools/run_full_stack_demo.py
 python tools/run_sovereign_integrity_test.py
 python tools/p0_crosslang_parity.py
-python -m pytest protocol0_nano_kernel/tests/ -q
+python -m pytest protocol0_byte_entropy_filter/tests/ -q
 ```
 
 ---

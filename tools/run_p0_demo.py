@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-P0 = ROOT / "protocol0_nano_kernel" / "src" / "python" / "lygo_p0.py"
+P0 = ROOT / "protocol0_byte_entropy_filter" / "src" / "python" / "lygo_p0.py"
 BUILD = ROOT / "tools" / "build_p0_vectors.py"
 PARITY = ROOT / "tools" / "p0_crosslang_parity.py"
 

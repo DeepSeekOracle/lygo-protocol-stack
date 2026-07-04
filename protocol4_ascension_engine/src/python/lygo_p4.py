@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
     root = Path(__file__).resolve().parents[3]
     for p in (
-        root / "protocol0_nano_kernel/src/python",
+        root / "protocol0_byte_entropy_filter/src/python",
         root / "protocol1_memory_mycelium/src/python",
         root / "protocol3_vortex_consensus/src/python",
         root / "stack",

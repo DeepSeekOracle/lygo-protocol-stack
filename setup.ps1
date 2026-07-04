@@ -12,7 +12,7 @@ if (Test-Path "requirements-docker.txt") {
 }
 
 python tools/generate_falsifiable_vectors.py
-python -m pytest protocol0_nano_kernel/tests/ -q
+python -m pytest protocol0_byte_entropy_filter/tests/ -q
 python tools/verify_alignment_badge.py --format=both
 
 if (Get-Command docker -ErrorAction SilentlyContinue) {

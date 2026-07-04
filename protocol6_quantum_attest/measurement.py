@@ -14,7 +14,7 @@ from .keylime_bridge import KeylimeAttestation
 from .tpm_interface import check_tpm, read_pcr_stub, tpm_status
 
 ROOT = Path(__file__).resolve().parents[1]
-P0_GOLDEN = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_canonical.sha256"
+P0_GOLDEN = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_canonical.sha256"
 P6_VERSION = "Δ9Φ963-PHASE6-v1.0"
 
 

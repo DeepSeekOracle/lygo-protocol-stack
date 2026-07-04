@@ -12,10 +12,10 @@ E_DRIVE = REPO.parent
 # egg_id -> list of (label, path relative to repo or absolute)
 EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
     "p0-nano-kernel": [
-        ("p0_core", REPO / "protocol0_nano_kernel/src/python/lygo_p0.py"),
+        ("p0_core", REPO / "protocol0_byte_entropy_filter/src/python/lygo_p0.py"),
         ("kernel_bridge", REPO / "stack/kernel_bridge.py"),
-        ("p0_golden_sha", REPO / "protocol0_nano_kernel/fixtures/p0_canonical.sha256"),
-        ("p0_lyra_kernel", REPO / "protocol0_nano_kernel/src/python/lygo_p0_lyra_kernel.py"),
+        ("p0_golden_sha", REPO / "protocol0_byte_entropy_filter/fixtures/p0_canonical.sha256"),
+        ("p0_lyra_kernel", REPO / "protocol0_byte_entropy_filter/src/python/lygo_p0_lyra_kernel.py"),
     ],
     "stack-anchor-hook": [
         ("stack_anchor", REPO / "stack/lygo_stack_anchor.py"),

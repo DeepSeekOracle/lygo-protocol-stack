@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 _PATHS = (
-    "protocol0_nano_kernel/src/python",
+    "protocol0_byte_entropy_filter/src/python",
     "protocol1_memory_mycelium/src/python",
     "protocol2_cognitive_bridge/src/python",
     "protocol3_vortex_consensus/src/python",

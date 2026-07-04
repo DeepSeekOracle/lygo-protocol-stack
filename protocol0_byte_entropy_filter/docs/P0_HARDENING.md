@@ -19,7 +19,7 @@ python tools/build_p0_vectors.py
 python tools/run_p0_demo.py              # full narrative demo
 python tools/run_p0_demo.py --id json_minimal
 python tools/p0_crosslang_parity.py      # SHA parity (install gcc for C)
-python -m pytest protocol0_nano_kernel/tests/ -q
+python -m pytest protocol0_byte_entropy_filter/tests/ -q
 ```
 
 ## Canonical line format (determinism)

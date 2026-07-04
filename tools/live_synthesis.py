@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT))
 
 from protocol8_ldq_synthesis import FrictionCore, HarmonicGravity, LYRASequencer, P8_VERSION  # noqa: E402
 
-P0_GOLDEN = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_canonical.sha256"
+P0_GOLDEN = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_canonical.sha256"
 DEFAULT_SEED_PATH = ROOT / "tools" / "lygo_control_center" / "workspace" / "latest_seed.json"
 P9_SYNTH_VERSION = "Δ9Φ963-PHASE9-SYNTH-v1.0"
 

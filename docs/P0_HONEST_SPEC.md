@@ -1,42 +1,65 @@
-# P0 — Byte-Entropy Anomaly Filter (honest spec)
+# P0 — Honest Spec
 
-## What it is
+## What this module is
 
-**Protocol 0** (`protocol0_nano_kernel/src/python/lygo_p0.py`) is a **deterministic byte-entropy anomaly filter**:
+`byte_entropy_filter.py` (formerly `lygo_p0.py`, formerly called the
+"Nano Kernel" / "Φ-gate") measures two statistical properties of a raw byte
+string:
 
-- Bounded input (`MAX_BYTES`)
-- Shannon entropy (normalized)
-- Redundancy / compressibility heuristic (canonical P0.4)
-- Risk → `phi_risk` banding → verdict: `AMPLIFY` | `SOFTEN` | `QUARANTINE`
+1. **Shannon entropy**, normalized 0–1.
+2. **zlib compressibility**, i.e. how much smaller the input gets under
+   real DEFLATE compression.
 
-It is **not** a moral or legal ethics engine. Φ bands are **risk geometry labels**, not proof of ethical approval.
+It buckets the result into `AMPLIFY` / `SOFTEN` / `QUARANTINE` using fixed
+thresholds (0.618 / 1.618 — golden-ratio-derived constants used here purely
+as two cutoff numbers, not as an "ethical" property of the math).
 
-## What it is not
+## What this module is NOT
 
-- Not proof of malware safety or content policy compliance
-- Not a substitute for human review for ClawHub/skill ingest
-- Not calibrated for natural-language truth (bytes only)
+It is not an ethics check, safety check, or harm filter. It has no access
+to meaning, and calibration data (see below) shows it cannot even reliably
+separate ordinary English prose from random noise — both land in the same
+`AMPLIFY` bucket. Do not describe it as evaluating content safety in any
+docs, pitch material, or code comments.
 
-## Companion modules
+## Calibration results (real, from `tests/calibration_report.json`)
 
-| Module | Role |
-|--------|------|
-| `byte_entropy_filter.py` | Honest public name + zlib diagnostic ratio (non-canonical) |
-| `lygo_p0_lyra_kernel.py` | Structural JSON/dict bounds validator; **Oath Vector deprecated** |
-| `lygo_p0_gate.py` / guardian `run_byte_gate.py` | Operator ingest gate on skill bytes |
+| category | n | mean entropy | mean compression | verdicts |
+|---|---|---|---|---|
+| natural_language | 2 | 0.681 | 0.031 | AMPLIFY |
+| structured_data | 2 | 0.739 | 0.000 | AMPLIFY |
+| repeated_padding | 2 | 0.061 | 0.947 | SOFTEN |
+| random_bytes | 2 | 0.815 | 0.000 | AMPLIFY |
+| base64_blob | 1 | 0.682 | 0.163 | AMPLIFY |
+| oversized | 1 | 0.0 | 0.0 | QUARANTINE (hard cap only) |
 
-## Limitations
+Takeaway: the filter reliably catches **padding/repetition** (high
+compression → SOFTEN) and **oversized inputs** (hard cap → QUARANTINE).
+It does **not** separate natural language from random bytes — both average
+around 0.68–0.82 entropy and land in AMPLIFY. This is an honest limitation,
+not a bug to silently patch; it's inherent to what entropy measures.
 
-1. High-entropy random bytes can SOFTEN/QUARANTINE without being malicious.
-2. Low-entropy padding can flag benign templates.
-3. Stride compression metric ≠ zlib; do not compare across implementations without `run_parity_tests.py`.
-4. Rust/Python golden hash locks behavior — intentional for firmware parity.
+**Use this for:** catching corrupted state, garbage/junk input, suspicious
+padding, oversized payloads.
+**Do not use this for:** anything resembling content moderation, intent
+detection, or "ethical" evaluation.
 
-## Calibration
+## Relationship to `lygo_p0_lyra_kernel.py`
 
-Run `tools/calibrate_byte_entropy_filter.py` against `tests/calibration_dataset.json`. Review `tests/calibration_report.json` for label agreement rates.
+That file contains two separable things:
 
-## References
+- Structural bounds checking (max depth, max keys, cycle detection,
+  timeout) — legitimate, keep it.
+- An "Oath Vector Engine" producing `OATH_APPROVED/WARNING/REJECTED` from
+  `AI_good = Truth × Light`. Its ethics inputs
+  (`ethical_alignment=0.85`, `compassion=0.75`, `sovereignty_preserved=0.85`)
+  are hardcoded literals in `validate()`, never computed from the actual
+  input. Independently, its rolling-average buffer (1000 slots,
+  zero-initialized) means a single call always returns a near-zero score
+  regardless of input, so in practice it returns `OATH_REJECTED` for
+  everything tested, including trivially benign input like `{"a": 1}`.
 
-- `docs/LIGHTFATHER_FINAL_ARCHITECT_ADDENDUM.md`
-- `protocol0_nano_kernel/fixtures/p0_vectors.json`
+**Recommendation:** delete `OathVectorEngine`. Keep the structural
+validator. There's no signal in the Oath Vector to calibrate or reconcile —
+it isn't measuring anything, and as currently written it doesn't even
+function as intended (always-rejects).

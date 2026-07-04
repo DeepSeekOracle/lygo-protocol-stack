@@ -11,7 +11,7 @@
 
 ## P0 golden hash
 
-Canonical: `protocol0_nano_kernel/fixtures/p0_canonical.sha256`  
+Canonical: `protocol0_byte_entropy_filter/fixtures/p0_canonical.sha256`  
 `7e8d18fda979cbefec14c3fc86f43f2a020b494b6052acccb6f865f2b4fae1d3`
 
 ## HTTP routes (node API)

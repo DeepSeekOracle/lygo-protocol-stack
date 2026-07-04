@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = "DeepSeekOracle/lygo-protocol-stack"
-FIX = ROOT / "protocol0_nano_kernel" / "fixtures"
+FIX = ROOT / "protocol0_byte_entropy_filter" / "fixtures"
 
 
 def main() -> int:
@@ -19,7 +19,7 @@ def main() -> int:
         print("Missing p0_vectors.json", file=sys.stderr)
         return 1
     stage = Path(tempfile.mkdtemp(prefix="lygo_p0_"))
-    dest = stage / "protocol0_nano_kernel" / "fixtures"
+    dest = stage / "protocol0_byte_entropy_filter" / "fixtures"
     dest.mkdir(parents=True)
     for name in ("p0_vectors.json", "p0_vectors.tsv", "p0_canonical.sha256", "P0_VECTOR_MANIFEST.md"):
         src = FIX / name
@@ -27,7 +27,7 @@ def main() -> int:
             shutil.copy2(src, dest / name)
     readme = stage / "README_P0_HARDENING.md"
     readme.write_text(
-        "# P0 hardening mirror\n\nSynced from lygo-protocol-stack protocol0_nano_kernel/fixtures.\n",
+        "# P0 hardening mirror\n\nSynced from lygo-protocol-stack protocol0_byte_entropy_filter/fixtures.\n",
         encoding="utf-8",
     )
     cmd = [
@@ -35,7 +35,7 @@ def main() -> int:
         "upload",
         REPO,
         str(stage),
-        "protocol0_nano_kernel/fixtures",
+        "protocol0_byte_entropy_filter/fixtures",
         "--repo-type",
         "dataset",
         "--commit-message",

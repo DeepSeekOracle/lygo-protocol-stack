@@ -1,6 +1,6 @@
 ---
 name: lygo-universal-cure-system
-description: Universal LYGO upgrade pack for all Champions. Provides a shared verification + memory-compression + seal-protocol framework (pure advisor) that boosts every Champion persona without overriding them. Includes LYGO-MINT provenance guidance and reusable invocation templates.
+description: "LYGO file-integrity / provenance advisor (legacy slug lygo-universal-cure-system). Hash verification + memory archive compression + seal vocabulary — not medical cure. Prefer honest name lygo-file-integrity-checker in new installs."
 ---
 
 # LYGO Universal Cure System (Champion Upgrade)

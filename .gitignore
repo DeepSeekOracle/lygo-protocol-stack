@@ -43,6 +43,8 @@ data/scalable_registry/registry.json
 
 data/anchors/*.json
 data/anchor_queue/*.json
+data/moltx/*.json
+!data/moltx/.gitkeep
 data/anchor_mesh.sqlite
 tools/lygo_control_center/workspace/anchor_receipt_*.json
 

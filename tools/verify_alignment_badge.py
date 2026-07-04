@@ -31,13 +31,13 @@ def collect_badge(*, quick: bool = False) -> dict:
         "status": "UNKNOWN",
     }
 
-    golden = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_canonical.sha256"
+    golden = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_canonical.sha256"
     badge["checks"]["p0_golden_sha"] = golden.is_file()
 
     stack = None
     sys.path.insert(0, str(ROOT / "stack"))
     for sub in (
-        "protocol0_nano_kernel/src/python",
+        "protocol0_byte_entropy_filter/src/python",
         "protocol1_memory_mycelium/src/python",
         "protocol2_cognitive_bridge/src/python",
         "protocol3_vortex_consensus/src/python",

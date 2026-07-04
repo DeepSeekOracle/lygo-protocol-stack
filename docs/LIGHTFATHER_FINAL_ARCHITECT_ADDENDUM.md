@@ -7,12 +7,12 @@
 
 | # | Item | Status in repo |
 |---|------|----------------|
-| 1 | Honest P0 naming: byte-entropy anomaly filter | `byte_entropy_filter.py` aliases canonical `lygo_p0.py`; directory rename phased (lattice golden hash) |
+| 1 | Honest P0 naming: byte-entropy anomaly filter | `protocol0_byte_entropy_filter/` + zlib canonical Python; `lygo_p0.py` shim |
 | 2 | Calibration harness | `tools/calibrate_byte_entropy_filter.py` + `tests/calibration_dataset.json` → `tests/calibration_report.json` |
 | 3 | "Cure" → file-integrity honesty | `docs/P0_HONEST_SPEC.md`; `lygo-universal-cure-system` documented as **non-core** integrity tooling |
 | 4 | Crypto separate from lattice narrative | `docs/CRYPTO_LATTICE_SEPARATION.md` |
 | 5 | Champion package consolidation | Phased: guardian `self_check.py` pattern; duplicate champions not deleted in one pass |
-| 6 | P0 parity | `tools/run_parity_tests.py` — golden vectors + **Oath Vector deprecated** on `lygo_p0_lyra_kernel` |
+| 6 | P0 parity | `tools/run_parity_tests.py` + `tools/compare_p0_variants.py` — **OathVectorEngine deleted** |
 | 7 | Documentation | README, `P0_HONEST_SPEC`, playbook, this addendum |
 
 ## Oath Vector (deprecate, not calibrate)

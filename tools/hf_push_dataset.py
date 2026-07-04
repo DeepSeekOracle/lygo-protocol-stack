@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "Δ9Φ963 Biophase7: honest P0 hardening, calibration+parity, architect addendum, PC lattice audit v1.1",
+        "Δ9Φ963 Biophase7 FINAL: protocol0_byte_entropy_filter, zlib P0, Oath removed, compare_p0_variants",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)

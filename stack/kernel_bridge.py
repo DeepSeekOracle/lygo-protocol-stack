@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any, Dict, Union
 
 ROOT = Path(__file__).resolve().parents[1]
-P0_PY = ROOT / "protocol0_nano_kernel" / "src" / "python"
+P0_PY = ROOT / "protocol0_byte_entropy_filter" / "src" / "python"
 if str(P0_PY) not in sys.path:
     sys.path.insert(0, str(P0_PY))
 

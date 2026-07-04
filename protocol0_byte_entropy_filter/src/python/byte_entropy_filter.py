@@ -1,5 +1,9 @@
-# LYGO Nano Kernel P0.4 — Python Reference (canonical for cross-language parity)
-# Deterministic • Bounded • Portable
+# byte_entropy_filter.py — formerly lygo_p0.py ("Nano Kernel" / "Φ-gate")
+#
+# HONEST SCOPE: this module measures two things about a raw byte string —
+# Shannon entropy and zlib compressibility — and buckets the result into
+# AMPLIFY / SOFTEN / QUARANTINE. It does NOT assess meaning, intent, safety,
+# or ethics.
 
 from __future__ import annotations
 
@@ -8,6 +12,7 @@ import json
 import math
 import struct
 import sys
+import zlib
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +28,6 @@ VERDICTS = ("AMPLIFY", "SOFTEN", "QUARANTINE")
 
 
 def f32(x: float) -> float:
-    """IEEE754 single-precision round-trip (matches C/Rust firmware math)."""
     return struct.unpack("<f", struct.pack("<f", float(x)))[0]
 
 
@@ -50,17 +54,12 @@ def entropy_norm(data: bytes) -> float:
 
 
 def compression_ratio(data: bytes) -> float:
-    if len(data) < COMP_MIN_LEN:
-        return f32(0.0)
-    repeats = 0
-    limit = len(data) - 7
-    for i in range(0, limit, 4):
-        if data[i : i + 4] == data[i + 4 : i + 8]:
-            repeats += 1
-    ratio = f32(f32(float(repeats)) / f32(float(len(data))))
-    if ratio > f32(1.0):
-        ratio = f32(1.0)
-    return f32(f32(1.0) - ratio)
+    original_size = len(data)
+    if original_size < COMP_MIN_LEN:
+        return 0.0
+    compressed_size = len(zlib.compress(data, level=9))
+    ratio = 1.0 - (compressed_size / original_size)
+    return f32(max(0.0, min(ratio, 1.0)))
 
 
 def compute_phi_risk(risk: float, length: int) -> float:
@@ -69,7 +68,7 @@ def compute_phi_risk(risk: float, length: int) -> float:
     return f32(r * f32(PHI_MAX) * size_damp)
 
 
-def verdict_from_phi(phi_risk: float, ent: float, preliminary: str) -> str:
+def verdict_from_bucket(phi_risk: float, ent: float, preliminary: str) -> str:
     verdict = preliminary
     if ent < f32(ENTROPY_LOW) and verdict == "AMPLIFY":
         verdict = "SOFTEN"
@@ -77,12 +76,7 @@ def verdict_from_phi(phi_risk: float, ent: float, preliminary: str) -> str:
 
 
 def build_reasoning(
-    length: int,
-    ent: float,
-    comp: float,
-    risk: float,
-    phi_risk: float,
-    verdict: str,
+    length: int, ent: float, comp: float, risk: float, phi_risk: float, verdict: str
 ) -> str:
     if length > MAX_BYTES:
         return f"length {length} > MAX_BYTES {MAX_BYTES} → QUARANTINE (hard cap)"
@@ -96,20 +90,20 @@ def build_reasoning(
         parts.append(f"entropy {ent:.4f} in band")
 
     if comp > COMP_POOR:
-        parts.append(f"compression score {comp:.4f} > {COMP_POOR} (+0.25 risk)")
+        parts.append(f"zlib compressibility {comp:.4f} > {COMP_POOR} (+0.25 risk, highly redundant)")
     else:
-        parts.append(f"compression score {comp:.4f} acceptable")
+        parts.append(f"zlib compressibility {comp:.4f} acceptable")
 
     damp = length / 128.0 if length < 128 else 1.0
     parts.append(f"size_damp={damp:.4f} (len={length})")
-    parts.append(f"phi_risk=risk×Φ_max×damp={risk:.4f}×{PHI_MAX}×{damp:.4f}={phi_risk:.4f}")
+    parts.append(f"bucket_score=risk×{PHI_MAX}×damp={risk:.4f}×{PHI_MAX}×{damp:.4f}={phi_risk:.4f}")
 
     if phi_risk < PHI_MIN:
-        gate = f"phi_risk < Φ_min {PHI_MIN} → AMPLIFY"
+        gate = f"bucket_score < {PHI_MIN} → AMPLIFY"
     elif phi_risk <= PHI_MAX:
-        gate = f"Φ_min ≤ phi_risk ≤ Φ_max {PHI_MAX} → SOFTEN"
+        gate = f"{PHI_MIN} ≤ bucket_score ≤ {PHI_MAX} → SOFTEN"
     else:
-        gate = f"phi_risk > Φ_max → QUARANTINE"
+        gate = "bucket_score > threshold → QUARANTINE"
 
     parts.append(gate)
     if ent < f32(ENTROPY_LOW) and verdict == "SOFTEN" and phi_risk < f32(PHI_MIN):
@@ -119,12 +113,14 @@ def build_reasoning(
 
 def validate_bytes(data: bytes) -> dict[str, Any]:
     if len(data) > MAX_BYTES:
+        score = round4(PHI_MAX)
         return {
             "verdict": "QUARANTINE",
             "risk": 1.0,
             "entropy": 0.0,
             "compression": 0.0,
-            "phi_risk": round4(PHI_MAX),
+            "score": score,
+            "phi_risk": score,
             "hash": hashlib.sha256(data).hexdigest()[:16],
             "reasoning": build_reasoning(len(data), 0.0, 0.0, 1.0, PHI_MAX, "QUARANTINE"),
         }
@@ -151,24 +147,27 @@ def validate_bytes(data: bytes) -> dict[str, Any]:
     else:
         pre = "QUARANTINE"
 
-    verdict = verdict_from_phi(phi_risk, ent, pre)
+    verdict = verdict_from_bucket(phi_risk, ent, pre)
     reasoning = build_reasoning(len(data), ent, comp, risk, phi_risk, verdict)
+    score = round4(phi_risk)
 
     return {
         "verdict": verdict,
         "risk": round4(risk),
         "entropy": round4(ent),
         "compression": round4(comp),
-        "phi_risk": round4(phi_risk),
+        "score": score,
+        "phi_risk": score,
         "hash": hashlib.sha256(data).hexdigest()[:16],
         "reasoning": reasoning,
     }
 
 
 def canonical_line(vector_id: str, result: dict[str, Any]) -> str:
+    s = result.get("score", result.get("phi_risk", 0.0))
     return (
         f"{vector_id}|{result['verdict']}|{result['risk']:.4f}|"
-        f"{result['entropy']:.4f}|{result['compression']:.4f}|{result['phi_risk']:.4f}"
+        f"{result['entropy']:.4f}|{result['compression']:.4f}|{float(s):.4f}"
     )
 
 
@@ -186,50 +185,14 @@ def load_vectors() -> list[dict[str, Any]]:
 def run_vector_suite() -> str:
     lines: list[str] = []
     for entry in load_vectors():
-        vid = entry["id"]
         data = bytes.fromhex(entry["hex"])
         res = validate_bytes(data)
-        lines.append(canonical_line(vid, res))
+        lines.append(canonical_line(entry["id"], res))
     return "\n".join(lines) + "\n"
-
-
-def _preview_bytes(data: bytes, max_len: int = 48) -> str:
-    if len(data) <= max_len:
-        try:
-            text = data.decode("utf-8")
-            if all(32 <= ord(c) < 127 or c in "\n\r\t" for c in text):
-                return repr(text)
-        except UnicodeDecodeError:
-            pass
-        return data.hex() if len(data) <= 24 else data[:12].hex() + "…"
-    return f"{data[:8].hex()}…({len(data)} bytes)"
-
-
-def demo_print(verbose: bool = True) -> int:
-    print("LYGO P0.4 Nano Kernel — vector demo (Python reference)")
-    print("=" * 72)
-    for entry in load_vectors():
-        vid = entry["id"]
-        desc = entry.get("description", "")
-        data = bytes.fromhex(entry["hex"])
-        res = validate_bytes(data)
-        preview = entry.get("preview") or _preview_bytes(data)
-        print(f"\n[{vid}] {desc}")
-        print(f"  input: {preview} (len={len(data)})")
-        print(f"  phi_risk: {res['phi_risk']:.4f}  verdict: {res['verdict']}")
-        print(f"  risk={res['risk']:.4f} entropy={res['entropy']:.4f} compression={res['compression']:.4f}")
-        if verbose:
-            print(f"  reasoning: {res['reasoning']}")
-    body = run_vector_suite()
-    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()
-    print("\n" + "=" * 72)
-    print(f"vectors: {len(load_vectors())}")
-    print(f"SHA-256(canonical lines): {digest}")
-    return 0
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--canonical":
         sys.stdout.write(run_vector_suite())
         raise SystemExit(0)
-    raise SystemExit(demo_print())
+    print("byte_entropy_filter — anomaly filter over raw bytes (entropy + zlib compressibility)")

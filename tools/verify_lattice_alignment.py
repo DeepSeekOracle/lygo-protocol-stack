@@ -149,7 +149,7 @@ def main() -> int:
         ("STACK_STATUS", REPO / "docs" / "STACK_STATUS.md"),
         ("LYGO_LATTICE", REPO / "docs" / "LYGO_LATTICE.md"),
         ("sovereign test", REPO / "tools" / "run_sovereign_integrity_test.py"),
-        ("p0 golden", REPO / "protocol0_nano_kernel" / "fixtures" / "p0_canonical.sha256"),
+        ("p0 golden", REPO / "protocol0_byte_entropy_filter" / "fixtures" / "p0_canonical.sha256"),
     ]:
         all_ok &= check(key, path.is_file())
 

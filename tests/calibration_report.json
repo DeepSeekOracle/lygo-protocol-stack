@@ -1,70 +1,152 @@
 {
-  "signature": "\u03949\u03a6963-CALIBRATE-BYTE-ENTROPY-v1",
-  "timestamp": "2026-07-04T05:26:49.130355+00:00",
-  "dataset": "tests\\calibration_dataset.json",
-  "agreement_rate": 0.8333,
-  "matched": 5,
-  "total": 6,
-  "samples": [
+  "per_vector": [
     {
-      "id": "json_minimal",
-      "label": "benign_structured",
+      "id": "TXT-01",
+      "category": "natural_language",
+      "len": 71,
       "verdict": "AMPLIFY",
-      "entropy": 0.7921,
+      "entropy": 0.7106,
       "compression": 0.0,
-      "zlib_compression": 0.0,
-      "phi_risk": 0.0,
-      "label_agreement": true
+      "score": 0.0
     },
     {
-      "id": "ascii_hello",
-      "label": "benign_structured",
+      "id": "TXT-02",
+      "category": "natural_language",
+      "len": 81,
       "verdict": "AMPLIFY",
-      "entropy": 0.9168,
-      "compression": 0.0,
-      "zlib_compression": 0.0,
-      "phi_risk": 0.0493,
-      "label_agreement": true
+      "entropy": 0.6514,
+      "compression": 0.0617,
+      "score": 0.0
     },
     {
-      "id": "null_64",
-      "label": "low_entropy_padding",
+      "id": "JSON-01",
+      "category": "structured_data",
+      "len": 43,
+      "verdict": "AMPLIFY",
+      "entropy": 0.7209,
+      "compression": 0.0,
+      "score": 0.0
+    },
+    {
+      "id": "JSON-02",
+      "category": "structured_data",
+      "len": 39,
+      "verdict": "AMPLIFY",
+      "entropy": 0.7574,
+      "compression": 0.0,
+      "score": 0.0
+    },
+    {
+      "id": "PAD-01",
+      "category": "repeated_padding",
+      "len": 200,
       "verdict": "SOFTEN",
       "entropy": 0.0,
-      "compression": 0.0,
-      "zlib_compression": 0.0,
-      "phi_risk": 0.0607,
-      "label_agreement": true
+      "compression": 0.94,
+      "score": 0.6472
     },
     {
-      "id": "repeat_pattern",
-      "label": "low_entropy_padding",
+      "id": "PAD-02",
+      "category": "repeated_padding",
+      "len": 300,
       "verdict": "SOFTEN",
-      "entropy": 0.0,
-      "compression": 0.0,
-      "zlib_compression": 0.0,
-      "phi_risk": 0.0607,
-      "label_agreement": true
+      "entropy": 0.1215,
+      "compression": 0.9533,
+      "score": 0.6472
     },
     {
-      "id": "high_entropy_random",
-      "label": "suspicious_entropy",
+      "id": "RAND-01",
+      "category": "random_bytes",
+      "len": 500,
       "verdict": "AMPLIFY",
-      "entropy": 0.95,
+      "entropy": 0.8465,
       "compression": 0.0,
-      "zlib_compression": 0.0,
-      "phi_risk": 0.1214,
-      "label_agreement": false
+      "score": 0.0
     },
     {
-      "id": "over_max_stub",
-      "label": "oversize",
+      "id": "RAND-02",
+      "category": "random_bytes",
+      "len": 1000,
+      "verdict": "AMPLIFY",
+      "entropy": 0.7837,
+      "compression": 0.0,
+      "score": 0.0
+    },
+    {
+      "id": "B64-01",
+      "category": "base64_blob",
+      "len": 400,
+      "verdict": "AMPLIFY",
+      "entropy": 0.6824,
+      "compression": 0.1625,
+      "score": 0.0
+    },
+    {
+      "id": "OVER-01",
+      "category": "oversized",
+      "len": 9000,
       "verdict": "QUARANTINE",
       "entropy": 0.0,
       "compression": 0.0,
-      "zlib_compression": 0.9966,
-      "phi_risk": 1.618,
-      "label_agreement": true
+      "score": 1.618
     }
-  ]
+  ],
+  "by_category": {
+    "natural_language": {
+      "n": 2,
+      "entropy_mean": 0.681,
+      "entropy_stdev": 0.0296,
+      "compression_mean": 0.0308,
+      "verdict_counts": {
+        "AMPLIFY": 2
+      }
+    },
+    "structured_data": {
+      "n": 2,
+      "entropy_mean": 0.7391,
+      "entropy_stdev": 0.0182,
+      "compression_mean": 0.0,
+      "verdict_counts": {
+        "AMPLIFY": 2
+      }
+    },
+    "repeated_padding": {
+      "n": 2,
+      "entropy_mean": 0.0607,
+      "entropy_stdev": 0.0607,
+      "compression_mean": 0.9466,
+      "verdict_counts": {
+        "SOFTEN": 2
+      }
+    },
+    "random_bytes": {
+      "n": 2,
+      "entropy_mean": 0.8151,
+      "entropy_stdev": 0.0314,
+      "compression_mean": 0.0,
+      "verdict_counts": {
+        "AMPLIFY": 2
+      }
+    },
+    "base64_blob": {
+      "n": 1,
+      "entropy_mean": 0.6824,
+      "entropy_stdev": 0.0,
+      "compression_mean": 0.1625,
+      "verdict_counts": {
+        "AMPLIFY": 1
+      }
+    },
+    "oversized": {
+      "n": 1,
+      "entropy_mean": 0.0,
+      "entropy_stdev": 0.0,
+      "compression_mean": 0.0,
+      "verdict_counts": {
+        "QUARANTINE": 1
+      }
+    }
+  },
+  "separation_check": "natural_language mean entropy=0.681, random_bytes mean entropy=0.8151. Separated as expected.",
+  "scope_note": "This report measures byte-statistic separation between data shapes. It is not a harm/ethics calibration and should not be cited as one."
 }

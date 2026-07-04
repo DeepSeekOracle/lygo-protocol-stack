@@ -9,7 +9,7 @@ cd "$ROOT"
 echo "⚡ LYGO DETERMINISM VERIFICATION"
 echo "================================="
 
-python3 protocol0_nano_kernel/src/python/lygo_p0.py > output.txt
+python3 protocol0_byte_entropy_filter/src/python/lygo_p0.py > output.txt
 SHA=$(sha256sum output.txt | cut -d' ' -f1)
 echo "SHA-256: $SHA"
 echo ""

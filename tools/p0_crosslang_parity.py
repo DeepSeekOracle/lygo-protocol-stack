@@ -13,12 +13,12 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-P0_PY = ROOT / "protocol0_nano_kernel" / "src" / "python" / "lygo_p0.py"
-FIXTURES = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_vectors.json"
-TSV = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_vectors.tsv"
-C_DIR = ROOT / "protocol0_nano_kernel" / "src" / "c"
-RUST_DIR = ROOT / "protocol0_nano_kernel" / "src" / "rust"
-GOLDEN = ROOT / "protocol0_nano_kernel" / "fixtures" / "p0_canonical.sha256"
+P0_PY = ROOT / "protocol0_byte_entropy_filter" / "src" / "python" / "lygo_p0.py"
+FIXTURES = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_vectors.json"
+TSV = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_vectors.tsv"
+C_DIR = ROOT / "protocol0_byte_entropy_filter" / "src" / "c"
+RUST_DIR = ROOT / "protocol0_byte_entropy_filter" / "src" / "rust"
+GOLDEN = ROOT / "protocol0_byte_entropy_filter" / "fixtures" / "p0_canonical.sha256"
 
 
 def write_tsv() -> None:

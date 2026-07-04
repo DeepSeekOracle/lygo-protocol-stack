@@ -18,7 +18,7 @@ if [[ -f requirements-docker.txt ]]; then
 fi
 
 python3 tools/generate_falsifiable_vectors.py
-python3 -m pytest protocol0_nano_kernel/tests/ -q
+python3 -m pytest protocol0_byte_entropy_filter/tests/ -q
 python3 tools/verify_alignment_badge.py --format=both
 
 if command -v docker >/dev/null 2>&1 && command -v docker compose >/dev/null 2>&1; then

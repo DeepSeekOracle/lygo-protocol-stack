@@ -35,7 +35,7 @@ python tools/run_p0_demo.py
 python tools/p0_crosslang_parity.py
 ```
 
-Golden SHA (Python ≡ Rust): see `protocol0_nano_kernel/fixtures/p0_canonical.sha256`
+Golden SHA (Python byte_entropy_filter + zlib): `protocol0_byte_entropy_filter/fixtures/p0_canonical.sha256` (C/Rust ports are legacy stride reference)
 
 ## Live Space
 
