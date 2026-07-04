@@ -2,12 +2,14 @@
 
 **Signature:** `Δ9Φ963-REPO-TRUTH-v1`
 
-Check live:
+Check live (do not trust chat — verify after each push):
 
 ```bash
 git ls-remote https://github.com/DeepSeekOracle/lygo-protocol-stack.git refs/heads/main
 git ls-remote https://github.com/DeepSeekOracle/lyra-crypto-operator.git refs/heads/main
 ```
+
+Last balanced wave (verify SHAs match remote): stack **`dea1fd5`**+ (champion consolidation `1419e99`), crypto **`487f514`**, HF dataset commit on Hub UI, ClawHub `lyra-coin-launch-manager@1.1.3`.
 
 Guardrails on stack mirror (must exist after `f6fb503+`):
 
