@@ -9,18 +9,11 @@ Token launch, monitoring, and Clawnch receipt tooling (e.g. **`lyra-coin-launch-
 - Army sentinel `lattice.ok`
 - Sovereign lattice mesh consensus narrative
 
-## Canonical source (extracted)
-
-| Location | Role |
-|----------|------|
-| **`I:\E Drive\lyra-crypto-operator`** | Canonical skill tree + publish from here |
-| `lygo-protocol-stack/clawhub/mirrors/lyra-coin-launch-manager/` | ClawHub **publish stub** — sync via `python tools/sync_from_lyra_crypto_operator.py` |
-
 ## Maintainer stance
 
 - Install crypto skills only when you explicitly run launches or monitors.
 - Do not treat token metrics as lattice health signals.
-- Push standalone repo: `DeepSeekOracle/lyra-crypto-operator` (create remote, then `git push` from operator folder).
+- Future: optional move to a dedicated repo; mirrors remain catalogued for backward compatibility.
 
 ## LYGO core (sovereign stack)
 

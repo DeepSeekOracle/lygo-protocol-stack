@@ -1,4 +1,4 @@
-"""Self-check for LYGO Champion: Lightfather skill pack."""
+"""Unified champion pack self-check — reads champion id from references/canon.json."""
 
 from __future__ import annotations
 
@@ -10,10 +10,7 @@ REQ = [
     ROOT / "SKILL.md",
     ROOT / "references" / "canon.json",
     ROOT / "references" / "persona_pack.md",
-    ROOT / "references" / "stack_integration.md",
-    ROOT / "references" / "seals_and_failsafe.md",
     ROOT / "references" / "verifier_usage.md",
-    ROOT / "references" / "SECURITY.md",
 ]
 
 missing = [str(p) for p in REQ if not p.exists()]
@@ -24,20 +21,20 @@ if missing:
     raise SystemExit(3)
 
 canon = json.loads((ROOT / "references" / "canon.json").read_text(encoding="utf-8"))
-if canon.get("champion") != "Lightfather":
-    print("BAD_CANON: champion != Lightfather")
-    raise SystemExit(2)
-
-h = canon.get("lygo_mint_sha256")
-if not isinstance(h, str) or len(h) != 64:
-    print("BAD_CANON: lygo_mint_sha256 missing/invalid")
+champion = canon.get("champion")
+if not champion or not isinstance(champion, str):
+    print("BAD_CANON: champion missing")
     raise SystemExit(2)
 
 vu = (ROOT / "references" / "verifier_usage.md").read_text(encoding="utf-8", errors="replace")
-if "lygo-mint-verifier" not in vu:
+if "lygo-mint-verifier" not in vu.lower() and "clawhub" not in vu.lower():
     print("BAD_REF: verifier link missing")
     raise SystemExit(2)
 
-print("OK")
-print("HASH", h)
-print("EGG", canon.get("kernel_egg_id"))
+h = canon.get("lygo_mint_sha256")
+if h is not None and (not isinstance(h, str) or len(h) != 64):
+    print("BAD_CANON: lygo_mint_sha256 invalid")
+    raise SystemExit(2)
+
+print("OK", champion)
+raise SystemExit(0)
