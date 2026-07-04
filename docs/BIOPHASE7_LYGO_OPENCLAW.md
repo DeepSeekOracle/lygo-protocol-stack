@@ -4,7 +4,7 @@
 **Stack path:** `lygo_openclaw/`
 **CLI:** `python tools/lygo_openclaw.py`
 **Install:** `python tools/install_lygo_openclaw.py`
-**ClawHub:** `deepseekoracle/lygo-openclaw`
+**ClawHub:** `deepseekoracle/lygo-sovereign-claw` (slug; mirror folder `lygo-openclaw`)
 **Hybrid limb:** `lyra-openclaw` (browser, Discord, Moltbook, Clawnch)
 
 ## Philosophy
