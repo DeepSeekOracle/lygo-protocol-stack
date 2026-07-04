@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "Δ9Φ963 2026-07-04: lygo-champion-lightfather, Biophase7 deadman seed, protocol9_failsafe, sovereign+LF vector v1.1",
+        "Δ9Φ963 Biophase7: honest P0 hardening, calibration+parity, architect addendum, PC lattice audit v1.1",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)

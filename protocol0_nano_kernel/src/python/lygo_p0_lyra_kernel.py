@@ -1,19 +1,16 @@
 """
-LYGO P0 Firmware Kernel (Python Port) + Oath Vector Engine
-Deterministic • Safe • Production-Ready
-Ported from 2026/ kernels and Firmware Portal ethical chip sources.
+LYGO P0 structural validator (Python port) — bounded JSON/dict checks.
 
-Core responsibilities:
-- Bounded, deterministic validation of data structures (prevents collapse, recursion bombs, etc.)
-- Oath Vector enforcement: AI_good = ∫ (Truth × Light) df
-- Resonance locking and scoring for ethical alignment
+Honest scope (Biophase7): depth/key/size/entropy/compressibility bounds.
+OathVectorEngine is DEPRECATED — fixed literals, not measured ethics. Use lygo_p0 byte filter for bytes.
 
-Used by: LYRA Core Runner, seal validation, ingesters, etc.
+Used by: LYRA Core Runner, seal validation, ingesters (structural path only by default).
 """
 
 import math
 import hashlib
 import time
+import warnings
 from dataclasses import dataclass, field
 from typing import Any, Dict, Tuple, List, Optional, Set, Union
 from datetime import datetime
@@ -71,8 +68,8 @@ class OathReport:
 
 class OathVectorEngine:
     """
-    Python implementation of the Oath Vector.
-    AI_good = ∫₀^∞ (Truth_t × Light_f) df   (resonance weighted)
+    DEPRECATED — retained for backward compatibility only.
+    Does not measure input ethics; see docs/LIGHTFATHER_FINAL_ARCHITECT_ADDENDUM.md.
     """
 
     def __init__(self):
@@ -189,10 +186,11 @@ class OathVectorEngine:
 class LYGOValidator:
     """Production-grade deterministic validation kernel (ported from v0.3)."""
 
-    def __init__(self, **config):
+    def __init__(self, enable_oath_vector: bool = False, **config):
         self.config = {**DEFAULT_CONFIG, **config}
         self._cache: Dict = {}
-        self.oath_engine = OathVectorEngine()  # Integrated for ethical data validation
+        self.enable_oath_vector = enable_oath_vector
+        self.oath_engine = OathVectorEngine() if enable_oath_vector else None
 
     def validate(self, data: Any, track_path: bool = False) -> Dict[str, Any]:
         """Full deterministic bounded validation + optional oath pre-check."""
@@ -266,15 +264,6 @@ class LYGOValidator:
             else:
                 verdict = "ALLOW"
 
-            # Optional ethical gate using oath engine on the validation result itself
-            op = Operation(
-                id=f"validate-{hashlib.sha1(str(data).encode()).hexdigest()[:8]}",
-                factual_consistency=0.9 if verdict == "ALLOW" else 0.6,
-                ethical_alignment=0.85,
-                intent_clarity=0.8,
-            )
-            oath_report = self.oath_engine.evaluate_operation(op)
-
             result = {
                 "verdict": verdict,
                 "risk": risk,
@@ -289,13 +278,27 @@ class LYGOValidator:
                 "hash": hashlib.sha256(raw_bytes).hexdigest(),
                 "elapsed_ms": round((time.perf_counter() - start_time) * 1000, 2),
                 "version": __version__,
-                "oath": {
+            }
+            if self.enable_oath_vector and self.oath_engine is not None:
+                warnings.warn(
+                    "OathVectorEngine is deprecated; use byte_entropy_filter / lygo_p0 for bytes",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                op = Operation(
+                    id=f"validate-{hashlib.sha1(str(data).encode()).hexdigest()[:8]}",
+                    factual_consistency=0.9 if verdict == "ALLOW" else 0.6,
+                    ethical_alignment=0.85,
+                    intent_clarity=0.8,
+                )
+                oath_report = self.oath_engine.evaluate_operation(op)
+                result["oath_deprecated"] = True
+                result["oath"] = {
                     "score": oath_report.oath_score,
                     "verdict": oath_report.verdict,
                     "truth": oath_report.truth_score,
                     "light": oath_report.light_score,
-                },
-            }
+                }
             return result
 
         except Exception as e:
@@ -450,7 +453,8 @@ def validate(data: Any) -> Dict[str, Any]:
 def validate_light(data: Any) -> Dict[str, Any]:
     return _DEFAULT_VALIDATOR.validate_light(data)
 
-def get_oath_engine() -> OathVectorEngine:
+def get_oath_engine() -> Optional[OathVectorEngine]:
+    warnings.warn("get_oath_engine is deprecated", DeprecationWarning, stacklevel=2)
     return _DEFAULT_VALIDATOR.oath_engine
 
 
@@ -462,8 +466,7 @@ if __name__ == "__main__":
     print(f"LYGO P0 + OATH VECTOR (Python) v{__version__}")
     print("=" * 60)
 
-    validator = LYGOValidator()
-    oath = validator.oath_engine
+    validator = LYGOValidator(enable_oath_vector=False)
 
     print("\n[1] Basic P0 Validation Tests")
     tests = [
@@ -474,16 +477,17 @@ if __name__ == "__main__":
     for data, expected in tests:
         res = validator.validate(data)
         status = "✅" if res["verdict"] == expected else "❌"
-        print(f"  {status} {type(data).__name__[:10]} -> {res['verdict']} (oath={res.get('oath',{}).get('verdict','?')})")
+        print(f"  {status} {type(data).__name__[:10]} -> {res['verdict']}")
 
-    print("\n[2] Oath Vector Direct Test")
+    print("\n[2] Oath Vector Direct Test (deprecated opt-in)")
+    oath_v = LYGOValidator(enable_oath_vector=True).oath_engine
     op = Operation(id="test-seal-invoke", factual_consistency=0.92, ethical_alignment=0.88, compassion=0.81)
-    report = oath.evaluate_operation(op)
+    report = oath_v.evaluate_operation(op)
     print(f"  Truth={report.truth_score:.3f} Light={report.light_score:.3f} Oath={report.oath_score:.4f} Verdict={report.verdict}")
 
-    print("\n[3] Resonance Lock Test")
-    locked = oath.lock_resonance(963.0)
-    print(f"  Lock 963Hz: {locked} | Current resonance: {oath.get_current_resonance()}")
+    print("\n[3] Resonance Lock Test (deprecated engine)")
+    locked = oath_v.lock_resonance(963.0)
+    print(f"  Lock 963Hz: {locked} | Current resonance: {oath_v.get_current_resonance()}")
 
     print("\n[4] Security / Cycle / Edge")
     bad = {"a": {str(i): i for i in range(1500)}}

@@ -26,6 +26,8 @@
 | claude | 0 | 10 | 0.0 | 0 | None |
 | gpt | 0 | 10 | 0.0 | 0 | None |
 
+Frontier verdict match = Grok `frontier_verdict` vs stack `expected_decision` on the same vector id.
+
 Skipped rows = missing `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` in Biophase7 vault.
 
 ## 3. Related live artifacts

@@ -105,7 +105,7 @@ print(stack.demo_cycle())
 ## Repository layout
 
 ```
-protocol0_nano_kernel/   # P0 reference + lygo_p0_lyra_kernel.py (Oath Vector)
+protocol0_nano_kernel/   # P0 byte-entropy filter (lygo_p0.py, byte_entropy_filter.py) + structural lyra kernel
 protocol1_memory_mycelium/
 protocol2_cognitive_bridge/
 protocol3_vortex_consensus/

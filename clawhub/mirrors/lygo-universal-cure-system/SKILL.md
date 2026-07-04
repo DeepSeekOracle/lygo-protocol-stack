@@ -5,6 +5,8 @@ description: Universal LYGO upgrade pack for all Champions. Provides a shared ve
 
 # LYGO Universal Cure System (Champion Upgrade)
 
+> **Lattice honesty (Biophase7):** This pack is **file-integrity / provenance advisory** — not medical or system “cure.” Not part of P0–P9 core verification. See `docs/P0_HONEST_SPEC.md` and stack `docs/CRYPTO_LATTICE_SEPARATION.md` for sovereign vs optional skills.
+
 ## What this is
 A **universal upgrade skill** intended to be installed alongside any/all LYGO Champion skills.
 

@@ -1,0 +1,43 @@
+{
+  "version": "Biophase7-calibration-v1",
+  "description": "Labeled byte samples for P0 calibration — honest operator labels, not ground-truth malware",
+  "samples": [
+    {
+      "id": "json_minimal",
+      "hex": "7b2261223a312c2262223a327d",
+      "label": "benign_structured",
+      "notes": "Minimal JSON"
+    },
+    {
+      "id": "ascii_hello",
+      "hex": "48656c6c6f2c204c59474f2120",
+      "label": "benign_structured",
+      "notes": "ASCII greeting"
+    },
+    {
+      "id": "null_64",
+      "hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "label": "low_entropy_padding",
+      "notes": "64 zero bytes"
+    },
+    {
+      "id": "repeat_pattern",
+      "hex": "4141414141414141414141414141414141414141414141414141414141414141",
+      "label": "low_entropy_padding",
+      "notes": "Repeated A"
+    },
+    {
+      "id": "high_entropy_random",
+      "hex": "a3f91c8e2b7d4f6e1c9a0b8d7e5f4c3b2a1908f7e6d5c4b3a291807f6e5d4c3b",
+      "label": "suspicious_entropy",
+      "notes": "Mixed high-entropy block"
+    },
+    {
+      "id": "over_max_stub",
+      "label": "oversize",
+      "generate": "zeros",
+      "length": 9000,
+      "notes": "Exceeds MAX_BYTES — expect QUARANTINE"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "signature": "\u03949\u03a6963-P0-PARITY-v1",
+  "ok": true,
+  "checks": [
+    {
+      "check": "golden_sha256",
+      "ok": true,
+      "detail": "golden 7e8d18fda979cbef\u2026 got 7e8d18fda979cbef\u2026"
+    },
+    {
+      "check": "vector_verdicts",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "lyra_structural",
+      "ok": true,
+      "detail": "structural bounds OK"
+    },
+    {
+      "check": "oath_deprecated",
+      "ok": true,
+      "detail": "oath path marked deprecated"
+    }
+  ]
+}

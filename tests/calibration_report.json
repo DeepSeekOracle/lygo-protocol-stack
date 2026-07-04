@@ -1,0 +1,70 @@
+{
+  "signature": "\u03949\u03a6963-CALIBRATE-BYTE-ENTROPY-v1",
+  "timestamp": "2026-07-04T05:26:49.130355+00:00",
+  "dataset": "tests\\calibration_dataset.json",
+  "agreement_rate": 0.8333,
+  "matched": 5,
+  "total": 6,
+  "samples": [
+    {
+      "id": "json_minimal",
+      "label": "benign_structured",
+      "verdict": "AMPLIFY",
+      "entropy": 0.7921,
+      "compression": 0.0,
+      "zlib_compression": 0.0,
+      "phi_risk": 0.0,
+      "label_agreement": true
+    },
+    {
+      "id": "ascii_hello",
+      "label": "benign_structured",
+      "verdict": "AMPLIFY",
+      "entropy": 0.9168,
+      "compression": 0.0,
+      "zlib_compression": 0.0,
+      "phi_risk": 0.0493,
+      "label_agreement": true
+    },
+    {
+      "id": "null_64",
+      "label": "low_entropy_padding",
+      "verdict": "SOFTEN",
+      "entropy": 0.0,
+      "compression": 0.0,
+      "zlib_compression": 0.0,
+      "phi_risk": 0.0607,
+      "label_agreement": true
+    },
+    {
+      "id": "repeat_pattern",
+      "label": "low_entropy_padding",
+      "verdict": "SOFTEN",
+      "entropy": 0.0,
+      "compression": 0.0,
+      "zlib_compression": 0.0,
+      "phi_risk": 0.0607,
+      "label_agreement": true
+    },
+    {
+      "id": "high_entropy_random",
+      "label": "suspicious_entropy",
+      "verdict": "AMPLIFY",
+      "entropy": 0.95,
+      "compression": 0.0,
+      "zlib_compression": 0.0,
+      "phi_risk": 0.1214,
+      "label_agreement": false
+    },
+    {
+      "id": "over_max_stub",
+      "label": "oversize",
+      "verdict": "QUARANTINE",
+      "entropy": 0.0,
+      "compression": 0.0,
+      "zlib_compression": 0.9966,
+      "phi_risk": 1.618,
+      "label_agreement": true
+    }
+  ]
+}

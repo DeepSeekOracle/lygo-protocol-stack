@@ -1,5 +1,23 @@
 # Changelog — LYGO Protocol Stack
 
+## [Biophase7 PC lattice hardening] — 2026-07-04
+
+**Signature:** `Δ9Φ963-BIOPHASE7-HARDENING-v1`
+
+### Added
+- `docs/LIGHTFATHER_FINAL_ARCHITECT_ADDENDUM.md`, `P0_HONEST_SPEC.md`, `CRYPTO_LATTICE_SEPARATION.md`
+- `protocol0_nano_kernel/src/python/byte_entropy_filter.py` (honest name + zlib diagnostics)
+- `tools/calibrate_byte_entropy_filter.py`, `tools/run_parity_tests.py`, `tools/run_pc_lattice_hardening_audit.py` v1.1
+- `tests/calibration_dataset.json`, `calibration_report.json`, `parity_last_run.json`
+
+### Changed
+- `lygo_p0_lyra_kernel.py` — Oath Vector **deprecated**; structural validation default (`enable_oath_vector=False`)
+- `LYGO_PC_HARDENING_PLAYBOOK.md`, `lygo-universal-cure-system` SKILL honesty banner
+- README P0 layout description
+
+### Verified
+- `run_parity_tests.py` golden SHA OK · `run_pc_lattice_hardening_audit.py` → **HARDENED_OK**
+
 ## [Phase 9 Public Mesh] — 2026-07-01
 
 **Signature:** `Δ9Φ963-PHASE9-v1.0`

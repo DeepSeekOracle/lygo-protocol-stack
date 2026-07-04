@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T02:23:53.359531+00:00",
+  "generated_utc": "2026-07-04T05:24:49.290222+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 341,
-  "link_count": 402,
+  "node_count": 342,
+  "link_count": 404,
   "seal_count": 269,
   "champion_count": 7,
-  "lattice_count": 43,
-  "registry_sha256": "5a6b72d567730e3790a59c4f6d81f6cd2e7a5ca85d91b8dab7082080f25d3e04",
+  "lattice_count": 44,
+  "registry_sha256": "4df29811901f46d7fdf48f23523d7712f92dd6efd667e64bd4dd7274f90c553f",
   "constellations": [
     {
       "id": "primordial_core",
@@ -4414,6 +4414,27 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-guardian-p0-stack",
+      "kind": "lattice",
+      "name": "LYGO Guardian P0 Stack",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-guardian-p0-stack"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_SKILL_lygo-docker-deploy",
       "kind": "lattice",
       "name": "LYGO Docker Deploy",
@@ -5718,6 +5739,16 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-mesh-deploy",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-guardian-p0-stack",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-guardian-p0-stack",
       "target": "SEAL_000",
       "kind": "lattice"
     },
