@@ -130,19 +130,24 @@
 <script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #14110f;
-    --panel: #1e1a17;
-    --panel-edge: #2b2521;
+    --bg: #0c0a09;
+    --bg-elevated: #14110f;
+    --panel: #1a1614;
+    --panel-edge: #2f2823;
     --amber: #e8a13c;
+    --amber-glow: rgba(232, 161, 60, 0.45);
     --amber-dim: #6b5327;
     --teal: #3ea8a0;
-    --text: #f2ece3;
-    --muted: #8a8078;
+    --teal-glow: rgba(62, 168, 160, 0.35);
+    --lygo-green: #22c55e;
+    --text: #f5efe6;
+    --muted: #9a9188;
     --warn: #d9634a;
     --beat-ms: 500ms;
+    --col: min(600px, 100%);
   }
 
   * { box-sizing: border-box; }
@@ -156,64 +161,186 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 20px 48px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .lygo-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(62, 168, 160, 0.12), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 50%, rgba(232, 161, 60, 0.06), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 0% 80%, rgba(34, 197, 94, 0.05), transparent 45%),
+      var(--bg);
+  }
+  .lygo-ambient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(62, 168, 160, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(62, 168, 160, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+  }
+
+  .lygo-top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    width: 100%;
+    border-bottom: 1px solid rgba(62, 168, 160, 0.2);
+    background: rgba(12, 10, 9, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .lygo-top-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 14px 8px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 24px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lygo-pulse-node {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--lygo-green);
+    box-shadow: 0 0 12px var(--teal-glow), 0 0 24px rgba(34, 197, 94, 0.25);
+    animation: lygo-heartbeat 2.4s ease-in-out infinite;
+  }
+  @keyframes lygo-heartbeat {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.85; }
+  }
+  .lygo-top-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--text);
+  }
+  .lygo-top-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--teal);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(62, 168, 160, 0.35);
+    border-radius: 999px;
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .lygo-top-link:hover {
+    color: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 16px var(--amber-glow);
   }
 
   .page-shell {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 600px;
+    max-width: 640px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
+    align-items: center;
+    gap: 18px;
+    margin-top: 28px;
+  }
+  .page-shell > * {
+    width: 100%;
+    max-width: var(--col);
+  }
+
+  .lygo-panel {
+    background: linear-gradient(168deg, #221c18 0%, var(--panel) 42%, #12100e 100%);
+    border: 1px solid rgba(62, 168, 160, 0.22);
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4),
+      0 28px 56px -28px rgba(0, 0, 0, 0.9),
+      0 0 48px -20px var(--teal-glow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .rack {
-    width: 100%;
-    max-width: 560px;
-    background: var(--panel);
-    border: 1px solid var(--panel-edge);
-    border-radius: 14px;
-    padding: 28px 28px 24px;
-    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7);
+    padding: 32px 28px 28px;
+    text-align: center;
   }
 
+  .rack-head { margin-bottom: 4px; }
+
   .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.16em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
-    margin: 0 0 4px;
+    margin: 0 0 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber-glow);
   }
 
   h1 {
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 600;
-    font-size: 22px;
-    margin: 0 0 8px;
-    color: var(--text);
+    font-family: 'Orbitron', 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.15rem, 4vw, 1.45rem);
+    margin: 0 0 12px;
+    line-height: 1.25;
+    background: linear-gradient(105deg, var(--text) 0%, #d4c4b0 40%, var(--amber) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .lede {
-    margin: 0 0 18px;
+    margin: 0 auto 22px;
+    max-width: 34rem;
     font-size: 14px;
-    line-height: 1.45;
+    line-height: 1.55;
     color: var(--muted);
   }
+  .lede strong { color: var(--teal); font-weight: 600; }
 
   .dropzone {
-    border: 1.5px dashed var(--panel-edge);
-    border-radius: 10px;
-    padding: 22px;
+    border: 1.5px dashed rgba(232, 161, 60, 0.35);
+    border-radius: 14px;
+    padding: 28px 20px;
     text-align: center;
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     position: relative;
+    background: rgba(0, 0, 0, 0.25);
+    max-width: 100%;
+    margin: 0 auto;
   }
   .dropzone:hover, .dropzone.drag {
     border-color: var(--amber);
-    background: rgba(232, 161, 60, 0.05);
+    background: rgba(232, 161, 60, 0.08);
+    box-shadow: 0 0 32px -8px var(--amber-glow), inset 0 0 24px rgba(232, 161, 60, 0.04);
+  }
+  .dropzone-icon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 10px;
+    color: var(--amber);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 12px var(--amber-glow));
   }
   .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .dropzone p { margin: 0; color: var(--muted); font-size: 14px; }
@@ -275,51 +402,69 @@
 
   canvas#wave {
     width: 100%;
+    max-width: 100%;
     height: 84px;
-    margin-top: 20px;
-    border-radius: 8px;
-    background: #100d0b;
+    margin: 22px auto 0;
+    border-radius: 10px;
+    background: #0a0807;
     display: block;
+    border: 1px solid rgba(62, 168, 160, 0.15);
+    box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.5);
   }
 
   .controls {
     display: flex;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 20px;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
   }
 
   button {
     font-family: 'Work Sans', sans-serif;
     font-size: 13px;
     font-weight: 500;
-    background: #262019;
+    background: rgba(38, 32, 25, 0.9);
     color: var(--text);
     border: 1px solid var(--panel-edge);
-    border-radius: 8px;
-    padding: 9px 14px;
+    border-radius: 10px;
+    padding: 10px 18px;
     cursor: pointer;
-    transition: border-color 0.15s ease, color 0.15s ease;
+    transition: border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
   }
-  button:hover:not(:disabled) { border-color: var(--amber); color: var(--amber); }
+  button:hover:not(:disabled) {
+    border-color: var(--amber);
+    color: var(--amber);
+    box-shadow: 0 0 20px -6px var(--amber-glow);
+  }
+  button:active:not(:disabled) { transform: scale(0.98); }
   button:disabled { opacity: 0.35; cursor: not-allowed; }
   button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
-  .controls .spacer { flex: 1; }
+  .controls .spacer { display: none; }
 
   .tap-btn {
-    background: var(--teal);
-    color: #0d1f1d;
-    border-color: var(--teal);
+    background: linear-gradient(180deg, #4bc4bc 0%, var(--teal) 100%);
+    color: #062220;
+    border-color: rgba(62, 168, 160, 0.6);
     font-weight: 600;
+    box-shadow: 0 4px 20px -4px var(--teal-glow);
   }
-  .tap-btn:hover { color: #0d1f1d; border-color: var(--teal); filter: brightness(1.08); }
+  .tap-btn:hover {
+    color: #062220;
+    border-color: var(--teal);
+    filter: brightness(1.06);
+    box-shadow: 0 6px 28px -4px var(--teal-glow);
+  }
 
   .confidence-row {
-    margin-top: 16px;
+    margin: 18px auto 0;
+    max-width: 340px;
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-content: center;
   }
   .confidence-label {
     font-size: 12px;
@@ -343,12 +488,12 @@
 
 
   .site-footer {
-    max-width: 560px;
     width: 100%;
     font-size: 12px;
     color: var(--muted);
     text-align: center;
-    line-height: 1.5;
+    line-height: 1.6;
+    padding: 8px 12px 0;
   }
   .site-footer a { color: var(--teal); text-decoration: none; }
   .site-footer a:hover { text-decoration: underline; }
@@ -357,10 +502,10 @@
     text-align: center;
     font-size: 13px;
     color: var(--muted);
-    padding: 12px 14px;
-    border: 1px solid var(--panel-edge);
-    border-radius: 10px;
-    background: rgba(0, 112, 186, 0.08);
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 112, 186, 0.12), rgba(62, 168, 160, 0.06));
+    border: 1px solid rgba(0, 112, 186, 0.25);
   }
   .paypal-btn {
     display: inline-flex;
@@ -378,26 +523,27 @@
   .paypal-btn:hover { filter: brightness(1.08); }
 
   .lygo-loop {
-    border: 1px solid var(--panel-edge);
-    border-radius: 10px;
-    padding: 14px 16px;
-    background: #181412;
+    padding: 20px 22px;
+    text-align: center;
   }
   .lygo-loop h2 {
-    margin: 0 0 10px;
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    margin: 0 0 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
-    font-weight: 600;
+    font-weight: 700;
   }
   .lygo-loop ul {
     list-style: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px 14px;
+    gap: 8px 16px;
+    max-width: 520px;
+    text-align: left;
   }
   .lygo-loop a {
     color: var(--teal);
@@ -410,22 +556,25 @@
   }
 
   .bpm-seo-guide {
-    width: 100%;
-    max-width: 560px;
     margin: 0;
-    padding: 18px 20px;
-    border: 1px solid var(--panel-edge);
-    border-radius: 12px;
-    background: #181412;
+    padding: 24px 22px;
     font-size: 14px;
     line-height: 1.55;
     color: var(--muted);
+    text-align: center;
+  }
+  .bpm-seo-guide .bpm-seo-body {
+    text-align: left;
+    max-width: 520px;
+    margin: 0 auto;
   }
   .bpm-seo-guide h2 {
-    margin: 0 0 10px;
-    font-size: 17px;
+    margin: 0 0 12px;
+    font-family: 'Orbitron', 'Work Sans', sans-serif;
+    font-size: 15px;
     color: var(--text);
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
   .bpm-seo-guide h3 {
     margin: 16px 0 8px;
@@ -452,7 +601,6 @@
 
   .lygo-rumble-live {
     width: 100%;
-    max-width: 560px;
   }
   .lygo-rumble-title {
     margin: 0 0 8px;
@@ -468,10 +616,11 @@
     width: 100%;
     padding-bottom: 56.25%;
     height: 0;
-    border-radius: 10px;
+    border-radius: 14px;
     overflow: hidden;
-    border: 1px solid var(--panel-edge);
+    border: 1px solid rgba(62, 168, 160, 0.2);
     background: #0a0908;
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.8);
   }
   .lygo-rumble-embed #rumble_v79wjai {
     position: absolute;
@@ -540,10 +689,19 @@
 
   @media (prefers-reduced-motion: reduce) {
     .pulse-dot.on { animation: none; background: var(--amber); }
+    .lygo-pulse-node { animation: none; }
   }
 </style>
 </head>
 <body>
+<div class="lygo-ambient" aria-hidden="true"></div>
+<header class="lygo-top-bar">
+  <div class="lygo-top-inner">
+    <span class="lygo-pulse-node" aria-hidden="true"></span>
+    <span class="lygo-top-title">LYGO // BPM FINDER</span>
+    <a class="lygo-top-link" href="https://bpmfinder.ca/">BPMfinder.ca</a>
+  </div>
+</header>
 <noscript>
   <p style="max-width:32rem;margin:2rem auto;padding:1rem;background:#2b2521;color:#f2ece3;border-radius:8px;text-align:center;">
     LYGO BPM Finder needs JavaScript (Web Audio). Please enable JS and reload.
@@ -564,13 +722,16 @@
   <div class="lygo-ad-box" id="lygo-ad-top"></div>
 </div>
 
-<main class="rack" id="bpm-finder-app">
-  <p class="eyebrow">LYGO / Biophase7 / Creative</p>
-  <h1>Free BPM Finder — online tempo detector</h1>
-  <p class="lede">Find the BPM of any song free at <strong>BPMfinder.ca</strong>. Drop MP3, WAV, or FLAC — tempo is analyzed privately in your browser (no signup, no server upload).</p>
+<main class="rack lygo-panel" id="bpm-finder-app">
+  <div class="rack-head">
+    <p class="eyebrow">LYGO / Biophase7 / Creative</p>
+    <h1>Free BPM Finder — online tempo detector</h1>
+    <p class="lede">Find the BPM of any song free at <strong>BPMfinder.ca</strong>. Drop MP3, WAV, or FLAC — tempo is analyzed privately in your browser (no signup, no server upload).</p>
+  </div>
 
   <div class="dropzone" id="dropzone">
     <input type="file" id="fileInput" accept="audio/*" aria-label="Choose an audio file">
+    <div class="dropzone-icon" aria-hidden="true">♪</div>
     <p><strong>Drop an audio file</strong> or click to browse — MP3, WAV, FLAC</p>
   </div>
 
@@ -596,33 +757,35 @@
   </div>
 </main>
 
-<article class="bpm-seo-guide" id="about-free-bpm-finder">
+<article class="bpm-seo-guide lygo-panel" id="about-free-bpm-finder">
   <h2>Free online BPM finder for producers, DJs, and dancers</h2>
-  <p>BPMfinder.ca is a <strong>free BPM webpage</strong> that helps you <strong>find the tempo of a song online</strong> without installing software. Whether you need an <strong>MP3 BPM analyzer</strong>, a quick <strong>WAV tempo check</strong>, or a <strong>FLAC beat detector</strong>, this tool runs in Chrome, Firefox, Safari, and Edge.</p>
-  <h3>How to use this free tempo detector</h3>
-  <ol>
-    <li>Open BPMfinder.ca (bookmark it for quick access).</li>
-    <li>Drop an audio file or click to browse.</li>
-    <li>Read the detected BPM and confidence score.</li>
-    <li>Use <strong>Half</strong> / <strong>Double</strong> if the groove is half-time or double-time.</li>
-    <li>Use <strong>Tap tempo</strong> to match a beat by hand.</li>
-  </ol>
-  <h3>Why use a browser-based BPM tool?</h3>
-  <p>Many paid DAWs include tempo detection, but a <strong>free online BPM finder</strong> is faster when you are on a phone, laptop, or studio machine without plugins. Because analysis is client-side, it is suitable for unreleased demos and private practice tracks.</p>
-  <h3>Frequently asked questions</h3>
-  <dl class="bpm-faq">
-    <dt>Is this BPM finder free?</dt>
-    <dd>Yes — 100% free, no account required.</dd>
-    <dt>Is my music uploaded?</dt>
-    <dd>No. Detection uses your browser only; audio does not leave your device.</dd>
-    <dt>What is a good BPM confidence score?</dt>
-    <dd>Higher is better. Very short clips or ambient tracks may score lower — try a longer section with clear drums.</dd>
-    <dt>Can I use this for DJ mixing?</dt>
-    <dd>Yes. Knowing track BPM helps beatmatching and playlist planning.</dd>
-  </dl>
+  <div class="bpm-seo-body">
+    <p>BPMfinder.ca is a <strong>free BPM webpage</strong> that helps you <strong>find the tempo of a song online</strong> without installing software. Whether you need an <strong>MP3 BPM analyzer</strong>, a quick <strong>WAV tempo check</strong>, or a <strong>FLAC beat detector</strong>, this tool runs in Chrome, Firefox, Safari, and Edge.</p>
+    <h3>How to use this free tempo detector</h3>
+    <ol>
+      <li>Open BPMfinder.ca (bookmark it for quick access).</li>
+      <li>Drop an audio file or click to browse.</li>
+      <li>Read the detected BPM and confidence score.</li>
+      <li>Use <strong>Half</strong> / <strong>Double</strong> if the groove is half-time or double-time.</li>
+      <li>Use <strong>Tap tempo</strong> to match a beat by hand.</li>
+    </ol>
+    <h3>Why use a browser-based BPM tool?</h3>
+    <p>Many paid DAWs include tempo detection, but a <strong>free online BPM finder</strong> is faster when you are on a phone, laptop, or studio machine without plugins. Because analysis is client-side, it is suitable for unreleased demos and private practice tracks.</p>
+    <h3>Frequently asked questions</h3>
+    <dl class="bpm-faq">
+      <dt>Is this BPM finder free?</dt>
+      <dd>Yes — 100% free, no account required.</dd>
+      <dt>Is my music uploaded?</dt>
+      <dd>No. Detection uses your browser only; audio does not leave your device.</dd>
+      <dt>What is a good BPM confidence score?</dt>
+      <dd>Higher is better. Very short clips or ambient tracks may score lower — try a longer section with clear drums.</dd>
+      <dt>Can I use this for DJ mixing?</dt>
+      <dd>Yes. Knowing track BPM helps beatmatching and playlist planning.</dd>
+    </dl>
+  </div>
 </article>
 
-<aside class="lygo-loop" id="lygo-links" aria-label="LYGO related pages">
+<aside class="lygo-loop lygo-panel" id="lygo-links" aria-label="LYGO related pages">
   <h2>LYGO lattice</h2>
   <ul>
     <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/">Protocol stack index</a></li>
@@ -640,7 +803,7 @@
   </ul>
 </aside>
 
-<div class="donate-strip">
+<div class="donate-strip lygo-panel">
   Support free LYGO tools
   <a class="paypal-btn" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate with PayPal</a>
 </div>
