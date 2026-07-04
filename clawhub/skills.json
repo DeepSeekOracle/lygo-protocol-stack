@@ -321,12 +321,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "LYGO Ollama Army v0.4.2 \u2014 LYGO_STACK_ROOT required, army_self_tune fix, byte_entropy_filter P0 path, localhost Ollama only.",
+      "summary": "v0.5.0 SkillSpector audit: declared permissions, SECURITY_AUDIT.md, webhook gate, no bundled cron tasks; local Ollama + optional stack roles.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 160,
-      "version": "0.4.2"
+      "version": "0.5.0"
     },
     {
       "slug": "lygo-glyph2resonance",

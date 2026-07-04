@@ -1,6 +1,6 @@
 {
   "name": "LYGO Ollama Army Command Center",
-  "signature": "\u03949\u03a6963-ARMY-CC-v3",
+  "signature": "Δ9Φ963-ARMY-CC-v3",
   "lygo_stack_root": "",
   "system_profile": {
     "stack_version": "P9-SLM-NETWORK-BUILDER",
@@ -55,11 +55,7 @@
   "planting": {
     "enabled": false,
     "consent": true,
-    "egg_surfaces": [
-      "local",
-      "registry",
-      "stubs"
-    ],
+    "egg_surfaces": ["local", "registry", "stubs"],
     "local_only_anchor": true
   },
   "access": {

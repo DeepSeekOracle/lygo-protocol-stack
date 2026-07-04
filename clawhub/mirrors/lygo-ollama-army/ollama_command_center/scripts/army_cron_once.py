@@ -33,6 +33,9 @@ def main() -> int:
         ("self-tune", f"cron-self-tune-{ts}"),
         ("egg-planter", f"cron-egg-plant-{ts}"),
         ("registry-planter", f"cron-registry-plant-{ts}"),
+        ("moltx-lattice-pulse", f"cron-moltx-{ts}"),
+        ("moltbook-lyra-pulse", f"cron-moltbook-lyra-{ts}"),
+        ("moltbook-lightfather-pulse", f"cron-moltbook-lf-{ts}"),
     ]:
         path = TASKS / f"{tid}.task.json"
         if not path.exists():

@@ -177,7 +177,11 @@ def queue_depth(cc: Path) -> dict:
 
 def send_alert(message: str, cfg: dict) -> None:
     print(f"[ALERT] {message}")
-    webhook = os.environ.get(cfg.get("notifications", {}).get("webhook_url_env", "LYGO_ARMY_WEBHOOK_URL") or "")
+    notes = cfg.get("notifications") or {}
+    enable_env = notes.get("webhook_enable_env", "LYGO_ARMY_WEBHOOK_ENABLE")
+    if os.environ.get(enable_env, "").strip().lower() not in ("1", "true", "yes"):
+        return
+    webhook = os.environ.get(notes.get("webhook_url_env", "LYGO_ARMY_WEBHOOK_URL") or "")
     if not webhook:
         return
     try:

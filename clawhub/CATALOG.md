@@ -24,7 +24,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | [lygo-glyph2resonance](https://clawhub.ai/deepseekoracle/lygo-glyph2resonance) | LYGO Glyph2Resonance | `0.1.0` · 137 dl | [mirror](./mirrors/lygo-glyph2resonance/) |
 | [lygo-fractalweaver](https://clawhub.ai/deepseekoracle/lygo-fractalweaver) | LYGO FractalWeaver | `0.1.0` · 140 dl | [mirror](./mirrors/lygo-fractalweaver/) |
 | [lygo-truthlightecho](https://clawhub.ai/deepseekoracle/lygo-truthlightecho) | LYGO TruthLightEcho | `0.1.0` · 141 dl | [mirror](./mirrors/lygo-truthlightecho/) |
-| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.4.2` · 160 dl | [mirror](./mirrors/lygo-ollama-army/) |
+| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.5.0` · 160 dl | [mirror](./mirrors/lygo-ollama-army/) |
 
 ## Champions & persona packs
 

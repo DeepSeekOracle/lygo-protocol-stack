@@ -22,6 +22,10 @@ Daemons (already running or launch with launcher) drain `ollama_queue/*.task.jso
 | `memory-sync` | Copies snapshot → `workspace/LYGO_MEMORY_SYNC.json` | No |
 | `egg-planter` | Lattice OK → preflight/smoke → **kernel egg plant** (consent in `army_config.planting`) | No |
 | `registry-planter` | Lattice OK → CAS **registry plant** + verify (`cas_registry_cli`) | No |
+| `moltx-lattice-pulse` | Moltx gated engage: 5 likes, reply, repost, article → `tools/moltx_lattice_pulse.py` | No |
+| `moltbook-lyra-pulse` | Moltbook LYRA: scan + 5 upvotes + comment → `tools/moltbook_lattice_pulse.py --account lyra` | No |
+| `moltbook-lightfather-pulse` | Moltbook Lightfather: same pulse → `--account lightfather` | No |
+| `joy-loop-pulse` | Joy Loop tick + persist | No |
 | `mesh-cartographer` | Runs `lygo_network_builder_verify.py` (SLM anchors) | No |
 | **`champion-egg-boot`** | **Vault-only:** `champion_bootloader.py` → Merkle verify → P6 handshake → Ollama loads manifest `system_prompt` (never hb-light chat) | Yes (after vault) |
 | `memory-triage` / `hb-light` | Lightweight heartbeat / memory prompts (not council seed) | Yes |

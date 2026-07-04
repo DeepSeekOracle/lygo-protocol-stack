@@ -1,6 +1,6 @@
 # Ollama Army — Agent contract
 
-Read `SECURITY.md` first.
+Read `SECURITY.md` and `SECURITY_AUDIT.md` first.
 
 ## When to use
 

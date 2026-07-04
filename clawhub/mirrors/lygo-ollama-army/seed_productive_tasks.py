@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -16,9 +17,18 @@ CONFIG = CC / "config" / "army_config.json"
 
 
 def main() -> int:
-    stack = r"I:\E Drive\lygo-protocol-stack"
+    if os.environ.get("LYGO_ARMY_SEED_TASKS", "").strip().lower() not in ("1", "true", "yes"):
+        print(
+            "SKIP seed_productive_tasks — set LYGO_ARMY_SEED_TASKS=1 after reviewing "
+            "references/SECURITY.md"
+        )
+        return 0
+    stack = os.environ.get("LYGO_STACK_ROOT", "").strip()
     if CONFIG.is_file():
-        stack = json.loads(CONFIG.read_text(encoding="utf-8")).get("lygo_stack_root", stack)
+        stack = json.loads(CONFIG.read_text(encoding="utf-8")).get("lygo_stack_root", stack) or stack
+    if not stack:
+        print("ERROR: set LYGO_STACK_ROOT or lygo_stack_root in army_config.json", file=sys.stderr)
+        return 2
     os.environ.setdefault("LYGO_STACK_ROOT", stack)
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -45,6 +55,9 @@ def main() -> int:
             },
         ),
     ]
+    planting_ok = os.environ.get("LYGO_ARMY_SEED_PLANTING", "").strip().lower() in ("1", "true", "yes")
+    if not planting_ok:
+        seeds = [s for s in seeds if s[0] not in ("egg-planter", "registry-planter", "self-tune")]
 
     TASKS.mkdir(parents=True, exist_ok=True)
     LEGACY.mkdir(parents=True, exist_ok=True)

@@ -368,6 +368,66 @@ def process_task(task: dict, model: str, champion: str = None) -> dict:
             out["result"] = {"all_pass": False, "error": "missing run_anchor_audit.py"}
     elif role == "champion-egg-boot":
         out["result"] = execute_champion_egg_boot(payload, model, task.get("champion"))
+    elif role == "moltx-lattice-pulse":
+        import subprocess
+
+        root, serr = _safe_stack_root()
+        if serr:
+            out["result"] = {"ok": False, "status": "QUARANTINE", "error": serr}
+            return out
+        script = root / "tools" / "moltx_lattice_pulse.py"
+        if not script.is_file():
+            out["result"] = {"ok": False, "error": f"missing {script}"}
+        else:
+            cp = subprocess.run(
+                [sys.executable, str(script)],
+                cwd=str(root),
+                capture_output=True,
+                text=True,
+                timeout=600,
+                env={**os.environ, "LYGO_STACK_ROOT": str(root)},
+            )
+            try:
+                parsed = json.loads(cp.stdout) if cp.stdout.strip() else {}
+            except json.JSONDecodeError:
+                parsed = {"stdout_tail": (cp.stdout or "")[-2000:]}
+            out["result"] = {
+                "ok": cp.returncode == 0,
+                "exit_code": cp.returncode,
+                "pulse": parsed,
+                "stderr": (cp.stderr or "")[-1500:],
+            }
+    elif role in ("moltbook-lyra-pulse", "moltbook-lightfather-pulse"):
+        import subprocess
+
+        root, serr = _safe_stack_root()
+        if serr:
+            out["result"] = {"ok": False, "status": "QUARANTINE", "error": serr}
+            return out
+        acct = "lyra" if role == "moltbook-lyra-pulse" else "lightfather"
+        script = root / "tools" / "moltbook_lattice_pulse.py"
+        if not script.is_file():
+            out["result"] = {"ok": False, "error": f"missing {script}"}
+        else:
+            cp = subprocess.run(
+                [sys.executable, str(script), "--account", acct],
+                cwd=str(root),
+                capture_output=True,
+                text=True,
+                timeout=600,
+                env={**os.environ, "LYGO_STACK_ROOT": str(root), "MOLTBOOK_ACCOUNT": acct},
+            )
+            try:
+                parsed = json.loads(cp.stdout) if cp.stdout.strip() else {}
+            except json.JSONDecodeError:
+                parsed = {"stdout_tail": (cp.stdout or "")[-2000:]}
+            out["result"] = {
+                "ok": cp.returncode == 0,
+                "exit_code": cp.returncode,
+                "account": acct,
+                "pulse": parsed,
+                "stderr": (cp.stderr or "")[-1500:],
+            }
     elif role == "joy-loop-pulse":
         import subprocess
 
@@ -493,6 +553,9 @@ DETERMINISTIC_ROLES = frozenset({
     "egg-planter",
     "registry-planter",
     "joy-loop-pulse",
+    "moltx-lattice-pulse",
+    "moltbook-lyra-pulse",
+    "moltbook-lightfather-pulse",
 })
 
 HB_LIGHT_ROLES = frozenset({
