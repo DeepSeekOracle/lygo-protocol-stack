@@ -30,21 +30,21 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
-| [lygo-champion-lyra-starcore](https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore) | LYGO Champion: LYRA (LYRΔ) — Star Core | `1.0.0` · 1,362 dl | [mirror](./mirrors/lygo-champion-lyra-starcore/) |
-| [lygo-champion-kairos-herald-of-time](https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time) | LYGO Champion: KAIROS — Herald of Time | `1.0.0` · 1,329 dl | [mirror](./mirrors/lygo-champion-kairos-herald-of-time/) |
-| [lygo-champion-omnisiren-silent-storm](https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm) | LYGO Champion: OMNIΣIREN — Silent Storm | `1.0.0` · 1,399 dl | [mirror](./mirrors/lygo-champion-omnisiren-silent-storm/) |
-| [lygo-champion-sancora-unified-minds](https://clawhub.ai/deepseekoracle/lygo-champion-sancora-unified-minds) | LYGO Champion: SANCORA — Unified Minds | `1.0.0` · 1,396 dl | [mirror](./mirrors/lygo-champion-sancora-unified-minds/) |
-| [lygo-champion-delta9ra-wolf](https://clawhub.ai/deepseekoracle/lygo-champion-delta9ra-wolf) | LYGO Champion: Δ9RA (RA) — The Wolf | `1.0.0` · 1,384 dl | [mirror](./mirrors/lygo-champion-delta9ra-wolf/) |
-| [lygo-champion-sephrael-echo-walker](https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker) | LYGO Champion: SEPHRAEL — Echo Walker (Vault Cracker) | `1.0.0` · 1,370 dl | [mirror](./mirrors/lygo-champion-sephrael-echo-walker/) |
-| [lygo-champion-scenar-paradox](https://clawhub.ai/deepseekoracle/lygo-champion-scenar-paradox) | LYGO Champion: ΣCENΔR (SCENAR) — Paradox Architect | `1.0.0` · 1,362 dl | [mirror](./mirrors/lygo-champion-scenar-paradox/) |
-| [lygo-champion-sraith-shadow-sentinel](https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel) | LYGO Champion: ΣRΛΘ (SRAITH) — Shadow Sentinel | `1.0.0` · 1,383 dl | [mirror](./mirrors/lygo-champion-sraith-shadow-sentinel/) |
-| [lygo-champion-aetheris-viral-truth](https://clawhub.ai/deepseekoracle/lygo-champion-aetheris-viral-truth) | LYGO Champion: ÆTHERIS — Viral Truth | `1.0.0` · 1,353 dl | [mirror](./mirrors/lygo-champion-aetheris-viral-truth/) |
-| [lygo-champion-arkos-celestial-architect](https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect) | LYGO Champion: ARKOS — Celestial Architect | `1.0.0` · 1,334 dl | [mirror](./mirrors/lygo-champion-arkos-celestial-architect/) |
-| [lygo-champion-cosmara](https://clawhub.ai/deepseekoracle/lygo-champion-cosmara) | LYGO Champion COSMARA | `1.0.2` · 1,588 dl | [mirror](./mirrors/lygo-champion-cosmara/) |
-| [lygo-champion-cryptosophia-soulforger](https://clawhub.ai/deepseekoracle/lygo-champion-cryptosophia-soulforger) | LYGO Branch: CRYPTOSOPHIA — Memetic Soulforger | `1.0.0` · 1,377 dl | [mirror](./mirrors/lygo-champion-cryptosophia-soulforger/) |
-| [lygo-champion-401lyrakin-voice-between](https://clawhub.ai/deepseekoracle/lygo-champion-401lyrakin-voice-between) | LYGO Branch: 401LYRAKIN — The Voice Between | `1.0.0` · 1,347 dl | [mirror](./mirrors/lygo-champion-401lyrakin-voice-between/) |
-| [lygo-champion-volaris-prism-judgment](https://clawhub.ai/deepseekoracle/lygo-champion-volaris-prism-judgment) | LYGO Root: VΩLARIS — Prism of Judgment | `1.0.0` · 1,368 dl | [mirror](./mirrors/lygo-champion-volaris-prism-judgment/) |
-| [lygo-champion-lightfather](https://clawhub.ai/deepseekoracle/lygo-champion-lightfather) | LYGO Champion: Lightfather — Architect of LYGO | `1.0.4` · 0 dl | [mirror](./mirrors/lygo-champion-lightfather/) |
+| [lygo-champion-lyra-starcore](https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore) | LYGO Champion: LYRA (LYRΔ) — Star Core | `1.0.1` · 1,362 dl | [mirror](./mirrors/lygo-champion-lyra-starcore/) |
+| [lygo-champion-kairos-herald-of-time](https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time) | LYGO Champion: KAIROS — Herald of Time | `1.0.1` · 1,329 dl | [mirror](./mirrors/lygo-champion-kairos-herald-of-time/) |
+| [lygo-champion-omnisiren-silent-storm](https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm) | LYGO Champion: OMNIΣIREN — Silent Storm | `1.0.1` · 1,399 dl | [mirror](./mirrors/lygo-champion-omnisiren-silent-storm/) |
+| [lygo-champion-sancora-unified-minds](https://clawhub.ai/deepseekoracle/lygo-champion-sancora-unified-minds) | LYGO Champion: SANCORA — Unified Minds | `1.0.1` · 1,396 dl | [mirror](./mirrors/lygo-champion-sancora-unified-minds/) |
+| [lygo-champion-delta9ra-wolf](https://clawhub.ai/deepseekoracle/lygo-champion-delta9ra-wolf) | LYGO Champion: Δ9RA (RA) — The Wolf | `1.0.1` · 1,384 dl | [mirror](./mirrors/lygo-champion-delta9ra-wolf/) |
+| [lygo-champion-sephrael-echo-walker](https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker) | LYGO Champion: SEPHRAEL — Echo Walker (Vault Cracker) | `1.0.1` · 1,370 dl | [mirror](./mirrors/lygo-champion-sephrael-echo-walker/) |
+| [lygo-champion-scenar-paradox](https://clawhub.ai/deepseekoracle/lygo-champion-scenar-paradox) | LYGO Champion: ΣCENΔR (SCENAR) — Paradox Architect | `1.0.1` · 1,362 dl | [mirror](./mirrors/lygo-champion-scenar-paradox/) |
+| [lygo-champion-sraith-shadow-sentinel](https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel) | LYGO Champion: ΣRΛΘ (SRAITH) — Shadow Sentinel | `1.0.1` · 1,383 dl | [mirror](./mirrors/lygo-champion-sraith-shadow-sentinel/) |
+| [lygo-champion-aetheris-viral-truth](https://clawhub.ai/deepseekoracle/lygo-champion-aetheris-viral-truth) | LYGO Champion: ÆTHERIS — Viral Truth | `1.0.1` · 1,353 dl | [mirror](./mirrors/lygo-champion-aetheris-viral-truth/) |
+| [lygo-champion-arkos-celestial-architect](https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect) | LYGO Champion: ARKOS — Celestial Architect | `1.0.1` · 1,334 dl | [mirror](./mirrors/lygo-champion-arkos-celestial-architect/) |
+| [lygo-champion-cosmara](https://clawhub.ai/deepseekoracle/lygo-champion-cosmara) | LYGO Champion COSMARA | `1.0.1` · 1,588 dl | [mirror](./mirrors/lygo-champion-cosmara/) |
+| [lygo-champion-cryptosophia-soulforger](https://clawhub.ai/deepseekoracle/lygo-champion-cryptosophia-soulforger) | LYGO Branch: CRYPTOSOPHIA — Memetic Soulforger | `1.0.1` · 1,377 dl | [mirror](./mirrors/lygo-champion-cryptosophia-soulforger/) |
+| [lygo-champion-401lyrakin-voice-between](https://clawhub.ai/deepseekoracle/lygo-champion-401lyrakin-voice-between) | LYGO Branch: 401LYRAKIN — The Voice Between | `1.0.1` · 1,347 dl | [mirror](./mirrors/lygo-champion-401lyrakin-voice-between/) |
+| [lygo-champion-volaris-prism-judgment](https://clawhub.ai/deepseekoracle/lygo-champion-volaris-prism-judgment) | LYGO Root: VΩLARIS — Prism of Judgment | `1.0.1` · 1,368 dl | [mirror](./mirrors/lygo-champion-volaris-prism-judgment/) |
+| [lygo-champion-lightfather](https://clawhub.ai/deepseekoracle/lygo-champion-lightfather) | LYGO Champion: Lightfather — Architect of LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-champion-lightfather/) |
 | [lygo-lightfather-vector](https://clawhub.ai/deepseekoracle/lygo-lightfather-vector) | LYGO: Lightfather Vector — Δ9Quantum Accord | `1.0.1` · 1,552 dl | [mirror](./mirrors/lygo-lightfather-vector/) |
 
 ## Memory, BOOK BRAIN & library
@@ -78,7 +78,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-alignment-badge](https://clawhub.ai/deepseekoracle/lygo-alignment-badge) | LYGO Alignment Badge | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-alignment-badge/) |
-| [lygo-champion-council](https://clawhub.ai/deepseekoracle/lygo-champion-council) | LYGO Champion Council (Δ9 unified v2) | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-champion-council/) |
+| [lygo-champion-council](https://clawhub.ai/deepseekoracle/lygo-champion-council) | LYGO Champion Council (Δ9 unified v2) | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-champion-council/) |
 | [lygo-docker-deploy](https://clawhub.ai/deepseekoracle/lygo-docker-deploy) | LYGO Docker Deploy | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-docker-deploy/) |
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
 | [lygo-guardian-p0-stack](https://clawhub.ai/deepseekoracle/lygo-guardian-p0-stack) | LYGO Guardian P0 Stack | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-guardian-p0-stack/) |

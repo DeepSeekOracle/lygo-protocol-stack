@@ -1,31 +1,36 @@
-# Champion pack consolidation (template lane)
+# Champion consolidation — complete
 
-**Signature:** `Δ9Φ963-CHAMPION-TEMPLATE-v1`  
-**Status:** Template layer **done**; per-slug ClawHub IDs **unchanged** (backward compatible).
+**Signature:** `Δ9Φ963-CHAMPION-CONSOLIDATION-v2`  
+**Status:** **Done** (template + unified slug + legacy deprecated)
 
-## What consolidated
+## Layers
 
-| Before | After |
-|--------|--------|
-| 15 copies of near-identical `self_check.py` / `show_hash.py` | Single template: `clawhub/templates/champion-pack/scripts/` |
-| Ad-hoc champion script drift | `python tools/sync_champion_pack_template.py` propagates to all `lygo-champion-*` mirrors |
-
-## What is intentionally not merged (yet)
-
-- **Individual ClawHub slugs** (`lygo-champion-arkos-celestial-architect`, etc.) — breaking for downloads/install history.
-- **Per-champion `canon.json` / persona_pack.md`** — still per mirror; eggs still per `egg_id`.
+| Layer | Artifact |
+|-------|----------|
+| Script template | `clawhub/templates/champion-pack/scripts/` |
+| Sync scripts | `python tools/sync_champion_pack_template.py` |
+| Unified install | **`lygo-champion-council`** — 15-persona roster |
+| Legacy slugs | `lygo-champion-*` deprecated @ **1.0.1** → successor council |
+| Lightfather | **Operator-only** retention; persona via council `champion_id` |
+| Eggs | Still per `egg_id` in `data/champion_eggs/` (unchanged) |
 
 ## Maintainer
 
 ```powershell
 cd "I:\E Drive\lygo-protocol-stack"
+python tools/build_champion_council_mirror.py
 python tools/sync_champion_pack_template.py
-# optional: run self_check in each mirror after council edits
+python tools/consolidate_champion_mirrors.py
+python tools/verify_champion_consolidation.py
+python tools/render_clawhub_catalog.py
+# ClawHub wave:
+pwsh -File tools/publish_champion_consolidation.ps1
 ```
 
-## v2 unified ClawHub skill (done)
+## New installs
 
-- **Slug:** `lygo-champion-council@1.0.0`
-- **Mirror:** `clawhub/mirrors/lygo-champion-council/`
-- **Roster build:** `python tools/build_champion_council_mirror.py`
-- Legacy per-champion slugs remain for backward compatibility.
+```bash
+npx clawhub@latest install deepseekoracle/lygo-champion-council
+```
+
+Legacy per-champion slugs remain for download history only.

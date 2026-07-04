@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T06:17:28.123313+00:00",
+  "generated_utc": "2026-07-04T07:00:53.749261+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 342,
   "link_count": 404,
   "seal_count": 269,
   "champion_count": 7,
   "lattice_count": 44,
-  "registry_sha256": "968c9dc738b5b75ce68938a33858fe971e6a3d82c424d9066fe294ee71fab4f8",
+  "registry_sha256": "65f466a0a60ea0b7d76798ef98497d2798a42141c8fe7d201c575d710856de87",
   "constellations": [
     {
       "id": "primordial_core",
@@ -4939,6 +4939,27 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-champion-council",
+      "kind": "lattice",
+      "name": "LYGO Champion Council (\u03949 unified v2)",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-council"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_SKILL_lygo-champion-arkos-celestial-architect",
       "kind": "lattice",
       "name": "LYGO Champion: ARKOS \u2014 Celestial Architect",
@@ -5208,27 +5229,6 @@
       ],
       "urls": {
         "clawhub": "https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-joy-loop",
-      "kind": "lattice",
-      "name": "LYGO Joy Loop Protocol",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-joy-loop"
       },
       "layer": 3
     },
@@ -5993,6 +5993,16 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-champion-council",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-champion-council",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-champion-arkos-celestial-architect",
       "target": "PORTAL_STACK",
       "kind": "lattice"
@@ -6119,16 +6129,6 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-kernel-egg-planter",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-joy-loop",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-joy-loop",
       "target": "SEAL_000",
       "kind": "lattice"
     },
