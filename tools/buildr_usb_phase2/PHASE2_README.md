@@ -27,3 +27,14 @@ python verify_bootstrap.py --phase2
 | `data/` | Writable Hermes, mycelium, user |
 
 **PUBLIC_SKU export** strips `_builder_vault` — buyers verify SHA256 only unless you ship a retail signing pubkey.
+
+## Completion gate
+
+```powershell
+.\scripts\build_phase2_complete.ps1
+.\launchers\LYGO_Verify_Phase2.bat
+# Optional smoke (daemon must be running):
+.\scripts\smoke_phase2_supervisor.ps1
+```
+
+Sync dev overlay without full repack: `scripts\sync_overlay_to_builder_key.ps1`
