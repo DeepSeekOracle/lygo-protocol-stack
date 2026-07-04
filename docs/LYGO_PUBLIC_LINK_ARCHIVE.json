@@ -49,6 +49,7 @@
       "title": "LYGO BPM Finder (Biophase7)",
       "role": "creative-tool",
       "urls": {
+        "live": "https://bpmfinder.ca/",
         "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
         "live_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
         "repo_canonical": "docs/LYGO_BPM_Finder.html",

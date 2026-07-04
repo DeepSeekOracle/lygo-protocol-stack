@@ -10,8 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 STACK = ROOT / "docs" / "LYGO_BPM_Finder.html"
 EXCA = ROOT.parent / "Excavationpro" / "LYGOBPMFinder.html"
 
-STACK_CANONICAL = "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html"
-EXCA_CANONICAL = "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
+PUBLIC_BPM_URL = "https://bpmfinder.ca/"
+STACK_CANONICAL = PUBLIC_BPM_URL
+EXCA_CANONICAL = PUBLIC_BPM_URL
 
 EXCA_NAV_REPLACEMENTS = [
     (

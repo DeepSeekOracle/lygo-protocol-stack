@@ -40,14 +40,20 @@
         "verify": "http_required"
       },
       {
+        "id": "lygo_bpm_finder",
+        "label": "LYGO BPM Finder (bpmfinder.ca)",
+        "url": "https://bpmfinder.ca/",
+        "verify": "http_soft"
+      },
+      {
         "id": "lygo_bpm_finder_stack",
-        "label": "LYGO BPM Finder (stack Pages)",
+        "label": "LYGO BPM Finder (stack Pages mirror)",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
         "verify": "http_soft"
       },
       {
         "id": "lygo_bpm_finder_excavationpro",
-        "label": "LYGO BPM Finder (Excavationpro mirror)",
+        "label": "LYGO BPM Finder (Excavationpro Pages mirror)",
         "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
         "verify": "http_soft"
       }

@@ -21,6 +21,7 @@
       "title": "LYGO BPM Finder",
       "intents": ["bpm", "tempo", "beat", "tap tempo", "mp3 bpm", "song tempo", "metronome"],
       "urls": {
+        "live": "https://bpmfinder.ca/",
         "stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
         "excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
       },

@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.2",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "b730803f09f2c914910f775fba22165978e971f7a5930100f05ee7df5946251b",
+  "anchors_sha256": "b13de011057f09f6d4eb4bba52c4b16421a6860d6d497566f1daa8aeafacc737",
   "anchors_version": "1.2.0",
   "vectors": [
     {
@@ -31,7 +31,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 8384,
+      "bytes": 9384,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  \n  <meta name=\"google-adsense-account\" content=\"ca-pub-064"
     },
     {
@@ -53,6 +53,36 @@
       "ok": true,
       "bytes": 65536,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-0"
+    },
+    {
+      "id": "lygo_bpm_finder",
+      "group": "creative",
+      "mode": "http_soft",
+      "url": "https://bpmfinder.ca/",
+      "status": null,
+      "ok": null,
+      "bytes": null,
+      "body_sample": null
+    },
+    {
+      "id": "lygo_bpm_finder_stack",
+      "group": "creative",
+      "mode": "http_soft",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 25051,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>LYGO BPM Finder \u2014 Free Online Tempo Detector | MP3, WAV, FL"
+    },
+    {
+      "id": "lygo_bpm_finder_excavationpro",
+      "group": "creative",
+      "mode": "http_soft",
+      "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 24592,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-064632096"
     },
     {
       "id": "kernel_egg_page",
@@ -122,7 +152,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"dGTbDemrRp6hJgoQ+PpwsjUS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"5LsmG5NV/wchGcqOpr/DJJpS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -132,7 +162,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"VWgvecNM/YYSYB2lG1cU1XTq\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"tjX5nQEA1AX9v0I8vMx8j5pd\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -142,7 +172,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"3uprm+o7M8kc/1kEglBV1iTp\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"hGad0TeKu6IRCYYGg5HzSWYZ\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -191,7 +221,7 @@
       "url": "https://excavationpro.ca/",
       "status": 200,
       "ok": true,
-      "bytes": 42979,
+      "bytes": 43178,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-0"
     },
     {
@@ -201,7 +231,7 @@
       "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
       "status": 200,
       "ok": true,
-      "bytes": 59544,
+      "bytes": 60398,
       "body_sample": "<!DOCTYPE html>\n<!-- eternalhaven hub deploy: 2026-07-03 live-iframe v79wjai -->\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale"
     },
     {
@@ -265,7 +295,7 @@
       "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
       "status": 200,
       "ok": true,
-      "bytes": 21620,
+      "bytes": 20345,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     },
     {
@@ -275,7 +305,7 @@
       "url": "https://www.moltbook.com/u/Lightfather",
       "status": 200,
       "ok": true,
-      "bytes": 21863,
+      "bytes": 20588,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     }
   ],
@@ -283,5 +313,5 @@
   "soft_failures": 1,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 9455
+  "duration_ms": 5930
 }

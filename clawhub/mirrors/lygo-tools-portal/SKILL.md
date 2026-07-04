@@ -51,7 +51,7 @@ python scripts/self_check.py
 
 | Need | Send user to |
 |------|----------------|
-| **BPM / tempo** | https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html |
+| **BPM / tempo** | https://bpmfinder.ca/ |
 | **Lattice mesh UI** | https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html |
 | **Biometric harness** | https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html |
 | **Main hub** | https://deepseekoracle.github.io/Excavationpro/eternalhaven.html |
