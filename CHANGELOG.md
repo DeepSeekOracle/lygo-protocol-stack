@@ -1,5 +1,16 @@
 # Changelog — LYGO Protocol Stack
 
+## [Biophase7 pxpipe-LYGO] — 2026-07-04
+
+**Signature:** `Δ9Φ963-PXPIPE-LYGO-v1`
+
+### Added
+- `pxpipe_lygo/` — P0 gate, PNG renderer, verbatim guard, P1/P3 manifest hooks, local proxy
+- `docs/BIOPHASE7_PXPIPE_LYGO.md`, `docs/biophase7/PROVENANCE_PXPIPE_LYGO.txt`
+- `tools/run_pxpipe_lygo_proxy.py`, `tools/run_pxpipe_lygo_compress.py`
+- `tests/test_pxpipe_lygo.py`, `requirements-pxpipe.txt`
+- Lattice checks in `verify_lattice_alignment.py`
+
 ## [Lattice ground zero finalize] — 2026-07-04
 
 **Signature:** `Δ9Φ963-LATTICE-GROUNDZERO-v1`
