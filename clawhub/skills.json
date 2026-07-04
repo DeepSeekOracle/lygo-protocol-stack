@@ -387,6 +387,16 @@
       "published": true,
       "downloads": 0,
       "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-openclaw",
+      "name": "LYGO-OpenClaw",
+      "summary": "Sovereign command router — P0 gate, P1 mycelium, P3 consensus, P5 identity, lattice limbs, kernel egg. Biophase7 OpenClaw blueprint; pair with lyra-openclaw for hybrid runtime.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-openclaw",
+      "mirror": "mirrors/lygo-openclaw",
+      "published": false,
+      "downloads": 0,
+      "version": "1.0.0"
     }
   ],
   "repo_mirrors_only": [

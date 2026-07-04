@@ -1,0 +1,10 @@
+{
+  "multi_agent": false,
+  "anchor": true,
+  "data_residency": "local",
+  "lygo": {
+    "p0_strict": true,
+    "hybrid_skill": "lyra-openclaw",
+    "flow_kit": "openclaw-flow-kit"
+  }
+}

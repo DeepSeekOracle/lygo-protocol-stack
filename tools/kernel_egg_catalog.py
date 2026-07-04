@@ -60,6 +60,14 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("orchestrator", REPO / "lygo_sandcastle" / "orchestrator.py"),
         ("workflow_egg_manifest", REPO / "data" / "sandcastle" / "workflow_egg_manifest.json"),
     ],
+    "lygo-openclaw-v10": [
+        ("openclaw_cli", REPO / "tools" / "lygo_openclaw.py"),
+        ("openclaw_spec", REPO / "docs" / "BIOPHASE7_LYGO_OPENCLAW.md"),
+        ("openclaw_readme", REPO / "lygo_openclaw" / "README.md"),
+        ("framework", REPO / "lygo_openclaw" / "framework.py"),
+        ("limbs", REPO / "lygo_openclaw" / "limbs.py"),
+        ("openclaw_egg_manifest", REPO / "data" / "openclaw" / "openclaw_egg_manifest.json"),
+    ],
 }
 
 RETRIEVAL_SOA = {

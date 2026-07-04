@@ -86,6 +86,21 @@
       "provenance": "2026Biophase7/Sovereign Workflow Orchestrator"
     },
     {
+      "id": "lygo-openclaw",
+      "title": "LYGO-OpenClaw (Biophase7 sovereign router)",
+      "role": "agent-command-router",
+      "urls": {
+        "repo": "lygo_openclaw/",
+        "spec": "docs/BIOPHASE7_LYGO_OPENCLAW.md",
+        "registry": "docs/OpenClawRegistry.json",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw",
+        "install": "python tools/install_lygo_openclaw.py",
+        "hybrid": "clawhub/mirrors/lyra-openclaw/SKILL.md"
+      },
+      "since": "2026-07-04",
+      "provenance": "2026Biophase7/LYGO-OpenClaw Full Build Blueprint"
+    },
+    {
       "id": "lygo-tools-portal-skill",
       "title": "LYGO Tools Portal (MPM) — ClawHub",
       "role": "agent-routing",

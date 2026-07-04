@@ -444,6 +444,53 @@ def lattice_nodes() -> list[dict]:
             )
         except (json.JSONDecodeError, OSError):
             pass
+    oc_reg = ROOT / "docs" / "OpenClawRegistry.json"
+    if oc_reg.is_file():
+        try:
+            ocreg = json.loads(oc_reg.read_text(encoding="utf-8"))
+            merkle = ocreg.get("registry_merkle_root", "")[:16]
+            if merkle and merkle != "pending":
+                nodes.append(
+                    {
+                        "id": "LATTICE_OPENCLAW_VAULT",
+                        "kind": "lattice",
+                        "name": "Δ9 OpenClaw Vault",
+                        "glyph": "🦞◆",
+                        "equation": f"cmd×{ocreg.get('egg_count', 1)} egg",
+                        "tone": "963Hz",
+                        "tags": ["LATTICE", "OPENCLAW", "AGENT_ROUTER"],
+                        "connections": ["LATTICE_WORKFLOW_ORCHESTRATOR", "PORTAL_STACK"],
+                        "urls": {
+                            "registry": (
+                                "https://deepseekoracle.github.io/lygo-protocol-stack/"
+                                "OpenClawRegistry.json"
+                            ),
+                            "doc": (
+                                "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/"
+                                "docs/BIOPHASE7_LYGO_OPENCLAW.md"
+                            ),
+                            "clawhub": "https://clawhub.ai/deepseekoracle/lygo-openclaw",
+                        },
+                        "layer": 3,
+                        "meta": {"registry_merkle_root": ocreg.get("registry_merkle_root")},
+                    }
+                )
+                nodes.append(
+                    {
+                        "id": "OPENCLAW_EGG_V10",
+                        "kind": "openclaw_egg",
+                        "name": "LYGO OpenClaw v1.0 Egg",
+                        "glyph": "🦞",
+                        "equation": merkle + "…" if merkle else "openclaw",
+                        "tone": "P0→P5",
+                        "tags": ["OPENCLAW", "KERNEL_EGG"],
+                        "connections": ["LATTICE_OPENCLAW_VAULT"],
+                        "urls": {"egg_id": "lygo-openclaw-v10"},
+                        "layer": 2,
+                    }
+                )
+        except (json.JSONDecodeError, OSError):
+            pass
     return nodes
 
 

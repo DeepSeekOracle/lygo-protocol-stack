@@ -27,6 +27,10 @@
     "lygo_sandcastle": "lygo_sandcastle/",
     "lygo_sandcastle_spec": "docs/BIOPHASE7_LYGO_SANDCASTLE.md",
     "lygo_sandcastle_egg": "lygo-sandcastle-v10",
+    "lygo_openclaw": "lygo_openclaw/",
+    "lygo_openclaw_spec": "docs/BIOPHASE7_LYGO_OPENCLAW.md",
+    "lygo_openclaw_registry": "docs/OpenClawRegistry.json",
+    "lygo_openclaw_egg": "lygo-openclaw-v10",
     "bpm_finder": "https://bpmfinder.ca/",
     "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
