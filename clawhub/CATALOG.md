@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 35 skills verified via ClawHub API · **Repo mirrors:** 35 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 41 skills verified via ClawHub API · **Repo mirrors:** 40 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -53,7 +53,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [book-brain](https://clawhub.ai/deepseekoracle/book-brain) | BOOK BRAIN – LYGO 3-Brain Filesystem Helper | `2.0.0` · 1,633 dl | [mirror](./mirrors/book-brain/) |
 | [book-brain-visual-reader](https://clawhub.ai/deepseekoracle/book-brain-visual-reader) | BOOK BRAIN VISUAL READER – LYGO 3-Brain + Visual Left/Right Brain Helper | `1.0.0` · 1,339 dl | [mirror](./mirrors/book-brain-visual-reader/) |
-| [lygo-universal-living-memory-library](https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library) | LYGO Universal Living Memory Library (v1.1) | `1.1.0` · 1,424 dl | [mirror](./mirrors/lygo-universal-living-memory-library/) |
+| [lygo-universal-living-memory-library](https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library) | LYGO Universal Living Memory Library (v1.2) | `1.2.0` · 1,424 dl | [mirror](./mirrors/lygo-universal-living-memory-library/) |
 | [lygo-universal-cure-system](https://clawhub.ai/deepseekoracle/lygo-universal-cure-system) | LYGO Universal Cure System (deprecated) | `1.0.1` · 1,373 dl | [mirror](./mirrors/lygo-universal-cure-system/) |
 
 ## Mint, verification & launches
@@ -78,6 +78,12 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
+| [lygo-lpis](https://clawhub.ai/deepseekoracle/lygo-lpis) | LYGO Prompt Implant System | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-lpis/) |
+| [lygo-sandcastle](https://clawhub.ai/deepseekoracle/lygo-sandcastle) | LYGO Sovereign Workflow Orchestrator | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-sandcastle/) |
+| [lygo-second-brain](https://clawhub.ai/deepseekoracle/lygo-second-brain) | LYGO Second Brain | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-second-brain/) |
+| [lygo-sovereign-claw](https://clawhub.ai/deepseekoracle/lygo-sovereign-claw) | LYGO Sovereign Claw Router | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-openclaw/) |
+| [lygo-sovereign-super-skill](https://clawhub.ai/deepseekoracle/lygo-sovereign-super-skill) | LYGO Sovereign Super Skill | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-sovereign-super-skill/) |
+| [lygo-tools-portal](https://clawhub.ai/deepseekoracle/lygo-tools-portal) | LYGO Tools Portal (MPM) | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-tools-portal/) |
 
 ## Repo-only workflow mirrors
 
