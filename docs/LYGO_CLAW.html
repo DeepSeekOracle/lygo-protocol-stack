@@ -18,10 +18,28 @@
   <p><a href="index.html">← LYGO Protocol Stack</a></p>
   <h1>LYGO-Claw</h1>
   <p class="ok"><strong>Sovereign-hardened agent layer</strong> — fork/enhance path from OpenClaw with LYGO P0, Hermes, P1 mycelium, Champion personas, and optional 32GB USB supervisor.</p>
+  <h2>For humans (no .exe yet)</h2>
+  <p>LYGO-Claw is <strong>Python 3.11+</strong> plus double-click <code>.bat</code> launchers — same idea as an easy installer, without a single packaged .exe today.</p>
+  <ol>
+    <li>Clone or download <a href="https://github.com/DeepSeekOracle/lygo-claw">lygo-claw</a> and open the folder.</li>
+    <li>Read <strong>START_HERE.txt</strong> in the repo root.</li>
+    <li>Double-click <code>launchers\INSTALL_AND_CHECK.bat</code> (installs package + runs self-test).</li>
+    <li>Double-click <code>launchers\TRY_GATEWAY.bat</code> — expect JSON with <code>"ok": true</code>.</li>
+  </ol>
+  <p>Docs in repo: <code>docs/QUICKSTART_FOR_HUMANS.md</code>, <code>docs/COMMANDS.md</code>, <code>docs/TROUBLESHOOTING.md</code>.</p>
+
+  <h2>With the LYGO USB stick</h2>
+  <ol>
+    <li>On USB: <code>launchers\LYGO_One_Boot_AI.bat</code> — offline chat (after <code>CHECK_SYSTEM.bat</code> / one-time setup).</li>
+    <li>On USB: <code>launchers\LYGO_Supervisor_Daemon.bat</code> — leave open for stick approval.</li>
+    <li>On PC: <code>lygo-claw usb-health</code> — should report stick guardian online.</li>
+  </ol>
+  <p>USB buyer guide on stick: <strong>START_HERE.txt</strong> and <strong>PUBLIC_QUICKSTART.txt</strong> (Gumroad / PUBLIC_SKU). Stack doc: <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BUILDR_USB_STANDALONE.md">BUILDR USB standalone</a>.</p>
+
   <h2>Repository</h2>
   <ul>
     <li><strong>Source:</strong> <a href="https://github.com/DeepSeekOracle/lygo-claw">github.com/DeepSeekOracle/lygo-claw</a></li>
-    <li><strong>Install:</strong> <code>pip install -e .</code> then <code>lygo-claw gateway "hello"</code></li>
+    <li><strong>CLI:</strong> <code>pip install -e .</code> then <code>lygo-claw gateway "hello"</code></li>
     <li><strong>USB bridge:</strong> supervisor <code>127.0.0.1:9630</code> — <a href="https://github.com/DeepSeekOracle/lygo-claw/blob/main/docs/USB_SUPERVISOR.md">USB_SUPERVISOR.md</a></li>
   </ul>
   <h2>Related</h2>

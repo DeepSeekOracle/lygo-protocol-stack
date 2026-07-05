@@ -68,17 +68,65 @@ if (Test-Path $manifestPath) {
     if ($mj.primary.ollama_pull) { $pull = $mj.primary.ollama_pull }
 }
 
-$readmeTpl = Join-Path $KeyRoot "product\PUBLIC_README.template.txt"
+$overlayRoot = Split-Path $PSScriptRoot -Parent
+foreach ($doc in @("START_HERE.txt", "PUBLIC_QUICKSTART.txt")) {
+    $srcDoc = Join-Path $overlayRoot $doc
+    if (Test-Path $srcDoc) { Copy-Item $srcDoc (Join-Path $OutDir $doc) -Force }
+}
+$pubDocs = Join-Path $overlayRoot "docs\PUBLIC_COMMANDS.txt"
+if (Test-Path $pubDocs) {
+    New-Item -ItemType Directory -Force -Path (Join-Path $OutDir "docs") | Out-Null
+    Copy-Item $pubDocs (Join-Path $OutDir "docs\PUBLIC_COMMANDS.txt") -Force
+}
+
+$publicLaunchers = @(
+    "CHECK_SYSTEM.bat", "FIRST_TIME_SETUP.bat", "LYGO_One_Boot_AI.bat",
+    "LYGO_Supervisor_Daemon.bat", "LYGO_Verify_Phase2.bat", "LYGO_Verify_Boot.bat"
+)
+$launcherSrc = Join-Path $overlayRoot "launchers"
+if (-not (Test-Path $launcherSrc)) { $launcherSrc = Join-Path $KeyRoot "launchers" }
+if (Test-Path $launcherSrc) {
+    $launcherDst = Join-Path $OutDir "launchers"
+    New-Item -ItemType Directory -Force -Path $launcherDst | Out-Null
+    foreach ($bat in $publicLaunchers) {
+        $b = Join-Path $launcherSrc $bat
+        if (Test-Path $b) { Copy-Item $b (Join-Path $launcherDst $bat) -Force }
+    }
+}
+
+$publicScripts = @(
+    "bootstrap_env.ps1", "resolve_ollama.ps1", "hydrate_usb_models.ps1",
+    "bundle_ollama_to_usb.ps1", "ensure_ollama_serve.ps1", "install_usb_runtime.ps1",
+    "verify_standalone_usb.py", "usb_chat_once.py"
+)
+$scriptDst = Join-Path $OutDir "scripts"
+New-Item -ItemType Directory -Force -Path $scriptDst | Out-Null
+foreach ($s in $publicScripts) {
+    $ss = Join-Path $KeyRoot "scripts\$s"
+    if (Test-Path $ss) { Copy-Item $ss (Join-Path $scriptDst $s) -Force }
+}
+
+$runtimeSrc = Join-Path $KeyRoot "product\runtime\ollama"
+if (Test-Path $runtimeSrc) {
+    robocopy $runtimeSrc (Join-Path $OutDir "product\runtime\ollama") /E /NFL /NDL /NJH /NJS | Out-Null
+}
+
 $readmeText = @"
 LYGO USB AI — $Champion Edition ($sku)
-================================
-1. Install Ollama: https://ollama.com
-2. Pull model (online once): $pull
-3. Read champions\$Champion\system_prompt.txt first.
-4. Verify: python verify_bootstrap.py --edition PUBLIC_SKU
-5. Optional: python phase2\daemon_supervisor.py (127.0.0.1:9630)
+=====================================
 
-No API keys. Offline-first. D9Phi963
+READ FIRST: START_HERE.txt and PUBLIC_QUICKSTART.txt
+
+EASY BOOT (Windows)
+  1. launchers\CHECK_SYSTEM.bat
+  2. If model missing (online once): launchers\FIRST_TIME_SETUP.bat
+  3. Daily chat: launchers\LYGO_One_Boot_AI.bat
+
+Champion persona: champions\$Champion\system_prompt.txt
+Model (if setup needed): $pull
+Verify: launchers\LYGO_Verify_Phase2.bat or python verify_bootstrap.py --edition PUBLIC_SKU
+
+No API keys on stick. Offline-first after setup. D9Phi963
 "@
 Set-Content -Path (Join-Path $OutDir "README.txt") -Value $readmeText -Encoding utf8
 
