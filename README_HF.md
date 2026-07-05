@@ -37,6 +37,11 @@ python tools/p0_crosslang_parity.py
 
 Golden SHA (Python byte_entropy_filter + zlib): `protocol0_byte_entropy_filter/fixtures/p0_canonical.sha256` (C/Rust ports are legacy stride reference)
 
+## USB Champion PUBLIC DEMO (beta)
+
+Locked educational kit — **Lightfather** persona, P0 sample, no eggs/keys.  
+Download: [Eternal Haven](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) · [zip mirror](https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-DEMO-PUBLIC.zip) · [docs](https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_DEMO.md)
+
 ## Live Space
 
 [LYGO-Resonance-Engine](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine) — image → sound creative bench

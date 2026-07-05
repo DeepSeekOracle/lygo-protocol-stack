@@ -19,6 +19,7 @@ Overlay from `LYGO_BUILDR_USB` is merged automatically after pack.
 |---------|----------|
 | GROK_BUILDR | `GROK_BUILDR_BOOT.md` |
 | PUBLIC_SKU | `PUBLIC_SKU_GUMROAD.md` |
+| **PUBLIC_DEMO** | [LYGO_USB_CHAMPION_DEMO.md](./LYGO_USB_CHAMPION_DEMO.md) — **locked beta**; download from [Eternal Haven](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) only |
 
 ## Phase 2
 

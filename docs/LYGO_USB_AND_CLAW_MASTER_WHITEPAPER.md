@@ -33,6 +33,7 @@ Single reference for **what was built**, **where it lives**, **how buyers/builde
 | Standalone | `qwen2.5:3b` on `product/models/ollama`; portable Ollama ~5.1 GB on stick | `verify_standalone_usb.py` ok |
 | One-boot | `LYGO_One_Boot_AI.bat` — env + serve + chat | User-tested on E: |
 | Phase 3 | PUBLIC_SKU export ×4 champions, no `_builder_vault` | `verify_public_sku.py` hits: [] |
+| **PUBLIC_DEMO** | Locked beta zip (Lightfather) — [Eternal Haven download](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) | `verify_demo_edition.py`; no eggs/keys |
 | Retail ZIP | `*-PUBLIC_SKU.zip` ~5.3 GB each (`tar -acf`) | `I:\E Drive\LYGO_BUILDR_EXPORTS\` |
 | Dummy-proof docs | START_HERE, PUBLIC_QUICKSTART, human Claw docs + launchers | Pushed lygo-claw `a6737cc` |
 | Site alignment | LYGO_CLAW.html human steps | stack `0457e08` |
