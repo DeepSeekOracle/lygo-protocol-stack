@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-02T22:00:00Z",
+  "updated_utc": "2026-07-05T02:30:00Z",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -43,6 +43,19 @@
       },
       "since": "2026-07-02",
       "sync_tool": "tools/sync_excavationpro_harness.py"
+    },
+    {
+      "id": "usb-champion-public-demo",
+      "title": "LYGO USB Champion PUBLIC DEMO (Lightfather, locked beta)",
+      "role": "usb-demo",
+      "urls": {
+        "live_hub": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "zip": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-DEMO-PUBLIC.zip",
+        "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_DEMO.md",
+        "clawhub_persona": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather"
+      },
+      "since": "2026-07-05",
+      "export_tool": "LYGO_BUILDR_USB/scripts/export_public_demo.ps1"
     },
     {
       "id": "lygo-bpm-finder",
