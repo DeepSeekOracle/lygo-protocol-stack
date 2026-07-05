@@ -88,10 +88,12 @@ def push_repo(repo: Path, github_path: str) -> int:
 
 def main() -> int:
     excavationpro = STACK.parent / "Excavationpro"
+    lygo_claw = STACK.parent / "lygo-claw"
     jobs = [
         (STACK, "DeepSeekOracle/lygo-protocol-stack"),
         (CRYPTO, "DeepSeekOracle/lyra-crypto-operator"),
         (excavationpro, "DeepSeekOracle/Excavationpro"),
+        (lygo_claw, "DeepSeekOracle/lygo-claw"),
     ]
     rc = 0
     for repo, path in jobs:

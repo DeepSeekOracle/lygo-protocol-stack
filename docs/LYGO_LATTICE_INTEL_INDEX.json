@@ -24,6 +24,17 @@
       "summary": "Canonical lattice codebase and docs"
     },
     {
+      "id": "repo-lygo-claw",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-claw",
+      "urls": {
+        "github": "https://github.com/DeepSeekOracle/lygo-claw",
+        "site": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html"
+      },
+      "tags": ["openclaw", "P0", "hermes", "usb-supervisor", "champions"],
+      "summary": "LYGO-Claw sovereign agent gateway — production public repo"
+    },
+    {
       "id": "intel-sweep-log",
       "tier": 5,
       "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\SWEEP_CHECK_LOG.md",
