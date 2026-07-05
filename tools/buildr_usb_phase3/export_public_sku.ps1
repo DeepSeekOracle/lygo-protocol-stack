@@ -78,7 +78,7 @@ LYGO USB AI — $Champion Edition ($sku)
 4. Verify: python verify_bootstrap.py --edition PUBLIC_SKU
 5. Optional: python phase2\daemon_supervisor.py (127.0.0.1:9630)
 
-No API keys. Offline-first. Δ9Φ963
+No API keys. Offline-first. D9Phi963
 "@
 Set-Content -Path (Join-Path $OutDir "README.txt") -Value $readmeText -Encoding utf8
 
@@ -92,7 +92,7 @@ is prohibited. Champion persona prompts are licensed for buyer's AI workflows on
 Set-Content -Path (Join-Path $OutDir "LICENSE.txt") -Value $license -Encoding utf8
 
 $publicManifest = @{
-    signature   = "Δ9Φ963-PUBLIC-SKU-MANIFEST-v1"
+    signature   = "D9Phi963-PUBLIC-SKU-MANIFEST-v1"
     sku         = $sku
     champion    = $Champion
     edition     = "PUBLIC_SKU"
