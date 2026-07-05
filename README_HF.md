@@ -37,10 +37,10 @@ python tools/p0_crosslang_parity.py
 
 Golden SHA (Python byte_entropy_filter + zlib): `protocol0_byte_entropy_filter/fixtures/p0_canonical.sha256` (C/Rust ports are legacy stride reference)
 
-## USB Champion PUBLIC DEMO (beta)
+## USB Champion v1.0 GENERIC (free public)
 
-Locked educational kit — **Lightfather** persona, P0 sample, no eggs/keys.  
-Download: [Eternal Haven](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) · [zip mirror](https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-DEMO-PUBLIC.zip) · [docs](https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_DEMO.md)
+**Lightfather** — full USB kit without Ollama runtime/weights (~0.5 MB); self-build via `BUILD_SELF_FIRST_USE.txt`. Pairs with LYGO-Claw 1.0.  
+Download: [zip](https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip) · [docs](https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md)
 
 ## Live Space
 

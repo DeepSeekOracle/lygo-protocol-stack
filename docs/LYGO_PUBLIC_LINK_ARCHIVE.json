@@ -45,14 +45,26 @@
       "sync_tool": "tools/sync_excavationpro_harness.py"
     },
     {
-      "id": "usb-champion-public-demo",
-      "title": "LYGO USB Champion PUBLIC DEMO (Lightfather, locked beta)",
-      "role": "usb-demo",
+      "id": "usb-champion-v1-generic",
+      "title": "LYGO USB Champion v1.0 GENERIC (Lightfather, free public)",
+      "role": "usb-v1-generic",
       "urls": {
         "live_hub": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
-        "zip": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-DEMO-PUBLIC.zip",
-        "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_DEMO.md",
+        "zip": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip",
+        "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
+        "lygo_claw": "https://github.com/DeepSeekOracle/lygo-claw",
         "clawhub_persona": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather"
+      },
+      "since": "2026-07-05",
+      "export_tool": "LYGO_BUILDR_USB/scripts/export_public_v1_generic.ps1"
+    },
+    {
+      "id": "usb-champion-public-demo",
+      "title": "LYGO USB Champion PUBLIC DEMO (legacy teaser)",
+      "role": "usb-demo",
+      "urls": {
+        "zip": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-DEMO-PUBLIC.zip",
+        "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_DEMO.md"
       },
       "since": "2026-07-05",
       "export_tool": "LYGO_BUILDR_USB/scripts/export_public_demo.ps1"

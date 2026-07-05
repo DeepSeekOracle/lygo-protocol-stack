@@ -19,7 +19,8 @@ Overlay from `LYGO_BUILDR_USB` is merged automatically after pack.
 |---------|----------|
 | GROK_BUILDR | `GROK_BUILDR_BOOT.md` |
 | PUBLIC_SKU | `PUBLIC_SKU_GUMROAD.md` |
-| **PUBLIC_DEMO** | [LYGO_USB_CHAMPION_DEMO.md](./LYGO_USB_CHAMPION_DEMO.md) — **locked beta**; download from [Eternal Haven](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) only |
+| **PUBLIC_V1_GENERIC** | [LYGO_USB_CHAMPION_V1_GENERIC.md](./LYGO_USB_CHAMPION_V1_GENERIC.md) — **free public** Lightfather (~0.5 MB; no Ollama/weights in zip) |
+| PUBLIC_DEMO | [LYGO_USB_CHAMPION_DEMO.md](./LYGO_USB_CHAMPION_DEMO.md) — legacy teaser |
 
 ## Phase 2
 
