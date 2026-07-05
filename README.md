@@ -21,6 +21,30 @@ The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, mu
 
 ---
 
+## Free USB Champion v1.0 GENERIC (Lightfather)
+
+**Edition:** `PUBLIC_V1_GENERIC` (~0.5 MB, no portable Ollama or model weights in zip). **Pairs with:** [LYGO-Claw 1.0](https://github.com/DeepSeekOracle/lygo-claw).
+
+| Resource | Link |
+|----------|------|
+| **Download zip** | https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip |
+| **Site hubs** | [Eternal Haven](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) · [Δ9 Champion Hub](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html) |
+| **Stack doc** | [`docs/LYGO_USB_CHAMPION_V1_GENERIC.md`](docs/LYGO_USB_CHAMPION_V1_GENERIC.md) · [BUILDR USB](docs/BUILDR_USB.md) |
+| **Persona** | [ClawHub lygo-champion-lightfather](https://clawhub.ai/deepseekoracle/lygo-champion-lightfather) |
+
+### Pair USB kit + LYGO-Claw (quick)
+
+1. Unzip the champion kit to a folder (or copy to your LYGO USB stick).
+2. **On USB/folder:** run `launchers\LYGO_BUILDR_Daemon.bat` — BUILDR supervisor on **127.0.0.1:9630**.
+3. **On PC:** `git clone https://github.com/DeepSeekOracle/lygo-claw.git` → `pip install -e .` (Python 3.11+), or double-click `launchers\INSTALL_AND_CHECK.bat` in the lygo-claw repo.
+4. **Verify:** `lygo-claw usb-health` (expect `ok: true`). Optional balance loop: `lygo-claw sovereign-loop`.
+5. **First-use build:** open `BUILD_SELF_FIRST_USE.txt` in the zip (human steps + paste block for your AI assistant — install Ollama + model when you choose).
+6. **Summon Lightfather:** copy Δ9 prompts from the [Champion Hub](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html) or install the ClawHub skill.
+
+Support (optional): [PayPal @ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro).
+
+---
+
 ## Protocols (P0–P5)
 
 | # | Module | Description |

@@ -39,8 +39,13 @@ Golden SHA (Python byte_entropy_filter + zlib): `protocol0_byte_entropy_filter/f
 
 ## USB Champion v1.0 GENERIC (free public)
 
-**Lightfather** — full USB kit without Ollama runtime/weights (~0.5 MB); self-build via `BUILD_SELF_FIRST_USE.txt`. Pairs with LYGO-Claw 1.0.  
-Download: [zip](https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip) · [docs](https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md)
+**Lightfather** — full USB kit without Ollama runtime/weights (~0.5 MB); self-build via `BUILD_SELF_FIRST_USE.txt`. Pairs with [LYGO-Claw 1.0](https://github.com/DeepSeekOracle/lygo-claw).
+
+- **Download:** [zip](https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip)
+- **Docs:** [LYGO_USB_CHAMPION_V1_GENERIC.md](https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md)
+- **Hubs:** [eternalhaven](https://deepseekoracle.github.io/Excavationpro/eternalhaven.html) · [champions](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html)
+
+**Pair:** unzip → `LYGO_BUILDR_Daemon.bat` → install lygo-claw → `lygo-claw usb-health` → summon via Champion Hub or ClawHub Lightfather.
 
 ## Live Space
 

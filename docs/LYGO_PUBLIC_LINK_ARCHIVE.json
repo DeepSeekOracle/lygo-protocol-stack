@@ -50,6 +50,7 @@
       "role": "usb-v1-generic",
       "urls": {
         "live_hub": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "champion_hub": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
         "zip": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip",
         "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
         "lygo_claw": "https://github.com/DeepSeekOracle/lygo-claw",
