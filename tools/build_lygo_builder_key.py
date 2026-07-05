@@ -106,8 +106,12 @@ $Key = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $Stack = Join-Path $Key "stack\lygo-protocol-stack"
 $env:LYGO_BUILDER_KEY_ROOT = $Key
 $env:LYGO_STACK_ROOT = $Stack
+$env:OLLAMA_MODELS = Join-Path $Key "product\models\ollama"
+$env:OLLAMA_HOST = "127.0.0.1:11434"
+New-Item -ItemType Directory -Force -Path $env:OLLAMA_MODELS | Out-Null
 Write-Host "LYGO_BUILDER_KEY_ROOT=$Key"
 Write-Host "LYGO_STACK_ROOT=$Stack"
+Write-Host "OLLAMA_MODELS=$($env:OLLAMA_MODELS)"
 if (Test-Path $Stack) {
   Set-Location $Stack
   Write-Host "OK stack present"
