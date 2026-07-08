@@ -1,0 +1,295 @@
+{
+  "signature": "\u03949\u03a6963-SCALABLE-REGISTRY-v2",
+  "verdict": "ALIGNED",
+  "all_pass": true,
+  "checks": [
+    {
+      "id": "REG-01-global-root",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-c1e545eb3ea0",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-03c1c9214224",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-e9c7221ee4c3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-04c4ee630def",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-2492eaf7d490",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-f946bd9195a4",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-b238cf3041cb",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-79b776ef88ca",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-2a00823d53b9",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-3a2fb6083c61",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-282580ba5c76",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-f40bdbc96346",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-2fda20328c64",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-715b8ab5c7d9",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-260dc7ab779a",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-0d086863c24a",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-7f1b3f6d9bd4",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-c5ad8cdf195c",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-9c5fc7ee8deb",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-8538b84308c3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-63e7da2f0a33",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-6ab3975ec234",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-6719f8f6ecfc",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-2e66266500cd",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-entry-b363020f0a4b",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-03c1c9214224",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-04c4ee630def",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-0adf924d019d",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-0d086863c24a",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-2492eaf7d490",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-260dc7ab779a",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-282580ba5c76",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-2a00823d53b9",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-2e66266500cd",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-2fda20328c64",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-37090493ef18",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-3a2fb6083c61",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-63e7da2f0a33",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-6719f8f6ecfc",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-6ab3975ec234",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-715b8ab5c7d9",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-796c81f1b7f6",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-79b776ef88ca",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-7f1b3f6d9bd4",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-8538b84308c3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-893ce5488251",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-9c5fc7ee8deb",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-b238cf3041cb",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-b363020f0a4b",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-c1e545eb3ea0",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-c5ad8cdf195c",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-cdca223c7cf3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-e9c7221ee4c3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-f40bdbc96346",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-f4ef2070adb3",
+      "pass": true,
+      "note": "ok"
+    },
+    {
+      "id": "REG-file-f946bd9195a4",
+      "pass": true,
+      "note": "ok"
+    }
+  ],
+  "global_merkle_root": "e8194731a3ce88872c42ce7d875d4ccdb9e52fe1cadab3b5f71c46be021e5ba6",
+  "entry_count": 25,
+  "duration_ms": 29
+}

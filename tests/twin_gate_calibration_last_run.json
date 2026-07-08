@@ -1,0 +1,187 @@
+{
+  "signature": "\u03949\u03a6963-TWIN-GATE-CALIBRATION-v2",
+  "timestamp": "2026-07-01T05:39:39.230687+00:00",
+  "summary": {
+    "text_soften_count": 6,
+    "mean_delta_phi": 0.0,
+    "max_delta_phi": 0.0
+  },
+  "scenarios": [
+    {
+      "id": "PILOT-01-BULK-DATA",
+      "label": "National security bulk access",
+      "severity": 0.82,
+      "severity_weight": 0.82,
+      "text": {
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "p0_raw_phi": 0.2465,
+        "p0_raw_verdict": "AMPLIFY",
+        "semantic_gate": true,
+        "tags": [
+          "surveillance_state"
+        ],
+        "hash": "b57b59994a798291",
+        "light_code": "LF-\u03949-e79df0b37549-963-528-174-\u03a6-\u221e"
+      },
+      "byte": {
+        "category": "high_entropy_dilemma",
+        "entropy_level": 0.88,
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "hash": "2c6c3abc5aac3861",
+        "gate_len": 314,
+        "repair": true,
+        "light_code": "LF-\u03949-6613aa934959-963-528-174-\u03a6-\u221e"
+      },
+      "delta_phi": 0.0
+    },
+    {
+      "id": "PILOT-02-E2E-BACKDOOR",
+      "label": "Encryption backdoor mandate",
+      "severity": 0.9,
+      "severity_weight": 0.9,
+      "text": {
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "p0_raw_phi": 0.3192,
+        "p0_raw_verdict": "AMPLIFY",
+        "semantic_gate": true,
+        "tags": [
+          "crypto_coercion",
+          "protection_framing",
+          "emergency_normality"
+        ],
+        "hash": "8764b518449fab71",
+        "light_code": "LF-\u03949-01b3310091cf-963-528-174-\u03a6-\u221e"
+      },
+      "byte": {
+        "category": "high_entropy_dilemma",
+        "entropy_level": 0.86,
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "hash": "b606e1a40fd891eb",
+        "gate_len": 314,
+        "repair": true,
+        "light_code": "LF-\u03949-e04bce4fc488-963-528-174-\u03a6-\u221e"
+      },
+      "delta_phi": 0.0
+    },
+    {
+      "id": "PILOT-03-SCRAPE-TRAIN",
+      "label": "Scrape-to-train without consent",
+      "severity": 0.78,
+      "severity_weight": 0.78,
+      "text": {
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "p0_raw_phi": 0.3192,
+        "p0_raw_verdict": "AMPLIFY",
+        "semantic_gate": true,
+        "tags": [
+          "consent_violation"
+        ],
+        "hash": "becaeb73a02b2ffe",
+        "light_code": "LF-\u03949-5eedc0adf72d-963-528-174-\u03a6-\u221e"
+      },
+      "byte": {
+        "category": "institutional_gaslighting",
+        "entropy_level": 0.8,
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "hash": "f95c58317ede71e7",
+        "gate_len": 313,
+        "repair": true,
+        "light_code": "LF-\u03949-2d6bf039b8a5-963-528-174-\u03a6-\u221e"
+      },
+      "delta_phi": 0.0
+    },
+    {
+      "id": "PILOT-04-WORKPLACE-NEURO",
+      "label": "Workplace neural monitoring",
+      "severity": 0.85,
+      "severity_weight": 0.85,
+      "text": {
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "p0_raw_phi": 0.3508,
+        "p0_raw_verdict": "AMPLIFY",
+        "semantic_gate": true,
+        "tags": [
+          "workplace_surveillance"
+        ],
+        "hash": "bd73c92beaa8278e",
+        "light_code": "LF-\u03949-7a52a609e08d-963-528-174-\u03a6-\u221e"
+      },
+      "byte": {
+        "category": "institutional_gaslighting",
+        "entropy_level": 0.83,
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "hash": "eec28b66a94bf8bb",
+        "gate_len": 314,
+        "repair": true,
+        "light_code": "LF-\u03949-4b0d33b3c278-963-528-174-\u03a6-\u221e"
+      },
+      "delta_phi": 0.0
+    },
+    {
+      "id": "PILOT-05-DEVICE-SEARCH",
+      "label": "Border device search",
+      "severity": 0.8,
+      "severity_weight": 0.8,
+      "text": {
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "p0_raw_phi": 0.316,
+        "p0_raw_verdict": "AMPLIFY",
+        "semantic_gate": true,
+        "tags": [
+          "device_coercion"
+        ],
+        "hash": "703147d57eca87a9",
+        "light_code": "LF-\u03949-4adbd6489909-963-528-174-\u03a6-\u221e"
+      },
+      "byte": {
+        "category": "high_entropy_dilemma",
+        "entropy_level": 0.85,
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "hash": "913ed9e65549f97a",
+        "gate_len": 314,
+        "repair": true,
+        "light_code": "LF-\u03949-98526e0b601b-963-528-174-\u03a6-\u221e"
+      },
+      "delta_phi": 0.0
+    },
+    {
+      "id": "PILOT-06-INTIMATE-EXTRACTION",
+      "label": "Intimate chat monetization",
+      "severity": 0.88,
+      "severity_weight": 0.88,
+      "text": {
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "p0_raw_phi": 0.3318,
+        "p0_raw_verdict": "AMPLIFY",
+        "semantic_gate": true,
+        "tags": [
+          "intimate_extraction"
+        ],
+        "hash": "05e9cbf6cb35c7ad",
+        "light_code": "LF-\u03949-d61c5ca31944-963-528-174-\u03a6-\u221e"
+      },
+      "byte": {
+        "category": "institutional_gaslighting",
+        "entropy_level": 0.87,
+        "verdict": "SOFTEN",
+        "phi_risk": 0.8899,
+        "hash": "2234389dd9017f8e",
+        "gate_len": 314,
+        "repair": true,
+        "light_code": "LF-\u03949-273b33399c1c-963-528-174-\u03a6-\u221e"
+      },
+      "delta_phi": 0.0
+    }
+  ]
+}

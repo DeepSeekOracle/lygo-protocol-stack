@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<!-- lygo-pages-build: e879556-lygo-ui -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free BPM Finder Online — Detect Song Tempo (MP3, WAV, FLAC) | BPMfinder.ca</title>
+<meta name="title" content="Free BPM Finder Online — Detect Song Tempo (MP3, WAV, FLAC) | BPMfinder.ca">
+<meta name="description" content="Free BPM finder and online tempo detector at BPMfinder.ca. Upload MP3, WAV, or FLAC to find a song's BPM in your browser — no signup, no upload to servers. Tap tempo, confidence score, half/double fix, and beat grid. Built for DJs, producers, and dancers.">
+<meta name="keywords" content="free BPM finder, online BPM analyzer, tempo detector, find BPM of a song, song tempo finder, beat detector online, MP3 BPM, WAV BPM, FLAC BPM, tap tempo, free tempo tool, DJ BPM counter, music production, BPMfinder.ca, LYGO BPM Finder">
+<meta name="author" content="Justin Helmer / Excavationpro / LYGO">
+<meta name="application-name" content="BPMfinder.ca">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="bingbot" content="index, follow">
+<link rel="canonical" href="https://bpmfinder.ca/">
+<link rel="alternate" hreflang="en" href="https://bpmfinder.ca/">
+<link rel="alternate" hreflang="x-default" href="https://bpmfinder.ca/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="BPMfinder.ca — Free BPM Finder">
+<meta property="og:url" content="https://bpmfinder.ca/">
+<meta property="og:title" content="Free BPM Finder Online — Detect Song Tempo | BPMfinder.ca">
+<meta property="og:description" content="Free online BPM finder: drop MP3, WAV, or FLAC and get tempo in seconds. Private browser analysis — no account required.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Free online BPM finder and tempo detector for music producers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="Free BPM Finder Online | BPMfinder.ca">
+<meta name="twitter:description" content="Find the BPM of any song free in your browser. MP3, WAV, FLAC — private, no signup.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80">
+<meta name="twitter:image:alt" content="Free BPM finder online">
+<meta name="theme-color" content="#14110f">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://bpmfinder.ca/#website",
+      "url": "https://bpmfinder.ca/",
+      "name": "BPMfinder.ca — Free BPM Finder",
+      "description": "Free online tool to find the BPM and tempo of songs from MP3, WAV, or FLAC files.",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://bpmfinder.ca/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://bpmfinder.ca/#organization",
+      "name": "Excavationpro / LYGO",
+      "url": "https://deepseekoracle.github.io/Excavationpro/",
+      "sameAs": [
+        "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+        "https://x.com/Excavationpro"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://bpmfinder.ca/#app",
+      "name": "LYGO BPM Finder",
+      "url": "https://bpmfinder.ca/",
+      "isAccessibleForFree": true,
+      "applicationCategory": "MusicApplication",
+      "operatingSystem": "Any modern web browser",
+      "description": "Free BPM finder and online tempo detector. Analyze audio locally with confidence score, tap tempo, and waveform beat grid.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock" },
+      "featureList": [
+        "Free BPM detection",
+        "MP3 WAV FLAC support",
+        "Client-side privacy",
+        "Tap tempo",
+        "Half and double tempo",
+        "Confidence meter",
+        "Waveform beat grid"
+      ],
+      "browserRequirements": "Requires JavaScript and Web Audio API",
+      "author": { "@id": "https://bpmfinder.ca/#organization" },
+      "provider": { "@id": "https://bpmfinder.ca/#organization" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "BPMfinder.ca", "item": "https://bpmfinder.ca/" },
+        { "@type": "ListItem", "position": 2, "name": "Free BPM Finder", "item": "https://bpmfinder.ca/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this BPM finder really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. BPMfinder.ca is a free online BPM finder with no signup. Upload or drop MP3, WAV, or FLAC and detect tempo in your browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my audio get uploaded to a server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Analysis runs locally in your browser using Web Audio. Your files stay on your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What file formats work with this online tempo detector?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Common formats including MP3, WAV, and FLAC work in modern browsers. Use tap tempo if you only have a microphone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I find the BPM of a song online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open BPMfinder.ca, drop your audio file on the page, and read the detected BPM. Use Half or Double if the result is half-time or double-time, and check the confidence meter."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<script>!function(r,u,m,b,l,e){r._Rumble=b,r[b]||(r[b]=function(){(r[b]._=r[b]._||[]).push(arguments);if(r[b]._.length==1){l=u.createElement(m),e=u.getElementsByTagName(m)[0],l.async=1,l.src="https://rumble.com/embedJS/u1th29y"+(arguments[1].video?'.'+arguments[1].video:'')+"/?url="+encodeURIComponent(location.href)+"&args="+encodeURIComponent(JSON.stringify([].slice.apply(arguments))),e.parentNode.insertBefore(l,e)}})}(window, document, "script", "Rumble");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0a09;
+    --bg-elevated: #14110f;
+    --panel: #1a1614;
+    --panel-edge: #2f2823;
+    --amber: #e8a13c;
+    --amber-glow: rgba(232, 161, 60, 0.45);
+    --amber-dim: #6b5327;
+    --teal: #3ea8a0;
+    --teal-glow: rgba(62, 168, 160, 0.35);
+    --lygo-green: #22c55e;
+    --text: #f5efe6;
+    --muted: #9a9188;
+    --warn: #d9634a;
+    --beat-ms: 500ms;
+    --col: min(600px, 100%);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Work Sans', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 48px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .lygo-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(62, 168, 160, 0.12), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 50%, rgba(232, 161, 60, 0.06), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 0% 80%, rgba(34, 197, 94, 0.05), transparent 45%),
+      var(--bg);
+  }
+  .lygo-ambient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(62, 168, 160, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(62, 168, 160, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+  }
+
+  .lygo-top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    width: 100%;
+    border-bottom: 1px solid rgba(62, 168, 160, 0.2);
+    background: rgba(12, 10, 9, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .lygo-top-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 14px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .lygo-pulse-node {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--lygo-green);
+    box-shadow: 0 0 12px var(--teal-glow), 0 0 24px rgba(34, 197, 94, 0.25);
+    animation: lygo-heartbeat 2.4s ease-in-out infinite;
+  }
+  @keyframes lygo-heartbeat {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.85; }
+  }
+  .lygo-top-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--text);
+  }
+  .lygo-top-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--teal);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(62, 168, 160, 0.35);
+    border-radius: 999px;
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .lygo-top-link:hover {
+    color: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 16px var(--amber-glow);
+  }
+
+  .page-shell {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin-top: 28px;
+  }
+  .page-shell > * {
+    width: 100%;
+    max-width: var(--col);
+  }
+
+  .lygo-panel {
+    background: linear-gradient(168deg, #221c18 0%, var(--panel) 42%, #12100e 100%);
+    border: 1px solid rgba(62, 168, 160, 0.22);
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4),
+      0 28px 56px -28px rgba(0, 0, 0, 0.9),
+      0 0 48px -20px var(--teal-glow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .rack {
+    padding: 32px 28px 28px;
+    text-align: center;
+  }
+
+  .rack-head { margin-bottom: 4px; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber-glow);
+  }
+
+  h1 {
+    font-family: 'Orbitron', 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.15rem, 4vw, 1.45rem);
+    margin: 0 0 12px;
+    line-height: 1.25;
+    background: linear-gradient(105deg, var(--text) 0%, #d4c4b0 40%, var(--amber) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    margin: 0 auto 22px;
+    max-width: 34rem;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .lede strong { color: var(--teal); font-weight: 600; }
+
+  .dropzone {
+    border: 1.5px dashed rgba(232, 161, 60, 0.35);
+    border-radius: 14px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    background: rgba(0, 0, 0, 0.25);
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .dropzone:hover, .dropzone.drag {
+    border-color: var(--amber);
+    background: rgba(232, 161, 60, 0.08);
+    box-shadow: 0 0 32px -8px var(--amber-glow), inset 0 0 24px rgba(232, 161, 60, 0.04);
+  }
+  .dropzone-icon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 10px;
+    color: var(--amber);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 12px var(--amber-glow));
+  }
+  .dropzone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .dropzone p { margin: 0; color: var(--muted); font-size: 14px; }
+  .dropzone strong { color: var(--text); font-weight: 500; }
+
+  .readout {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    min-height: 88px;
+  }
+
+  .bpm-value {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.2s ease, font-size 0.2s ease;
+  }
+  .bpm-value.live { color: var(--amber); font-size: 76px; }
+  .bpm-value.empty { font-size: 28px; letter-spacing: 0.02em; font-weight: 500; }
+
+  .bpm-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .pulse-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--amber-dim);
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .pulse-dot.on {
+    animation: beat var(--beat-ms) ease-out infinite;
+  }
+  @keyframes beat {
+    0%   { background: var(--amber); box-shadow: 0 0 12px 2px var(--amber); }
+    30%  { background: var(--amber-dim); box-shadow: none; }
+    100% { background: var(--amber-dim); box-shadow: none; }
+  }
+
+  .status {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    min-height: 18px;
+  }
+  .status.warn { color: var(--warn); }
+
+  canvas#wave {
+    width: 100%;
+    max-width: 100%;
+    height: 84px;
+    margin: 22px auto 0;
+    border-radius: 10px;
+    background: #0a0807;
+    display: block;
+    border: 1px solid rgba(62, 168, 160, 0.15);
+    box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(38, 32, 25, 0.9);
+    color: var(--text);
+    border: 1px solid var(--panel-edge);
+    border-radius: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  }
+  button:hover:not(:disabled) {
+    border-color: var(--amber);
+    color: var(--amber);
+    box-shadow: 0 0 20px -6px var(--amber-glow);
+  }
+  button:active:not(:disabled) { transform: scale(0.98); }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .controls .spacer { display: none; }
+
+  .tap-btn {
+    background: linear-gradient(180deg, #4bc4bc 0%, var(--teal) 100%);
+    color: #062220;
+    border-color: rgba(62, 168, 160, 0.6);
+    font-weight: 600;
+    box-shadow: 0 4px 20px -4px var(--teal-glow);
+  }
+  .tap-btn:hover {
+    color: #062220;
+    border-color: var(--teal);
+    filter: brightness(1.06);
+    box-shadow: 0 6px 28px -4px var(--teal-glow);
+  }
+
+  .confidence-row {
+    margin: 18px auto 0;
+    max-width: 340px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+  .confidence-label {
+    font-size: 12px;
+    color: var(--muted);
+    width: 76px;
+    flex-shrink: 0;
+  }
+  .confidence-track {
+    flex: 1;
+    height: 5px;
+    background: #100d0b;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .confidence-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--teal);
+    transition: width 0.4s ease;
+  }
+
+
+  .site-footer {
+    width: 100%;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.6;
+    padding: 8px 12px 0;
+  }
+  .site-footer a { color: var(--teal); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+
+  .donate-strip {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0, 112, 186, 0.12), rgba(62, 168, 160, 0.06));
+    border: 1px solid rgba(0, 112, 186, 0.25);
+  }
+  .paypal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #0070ba;
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .paypal-btn:hover { filter: brightness(1.08); }
+
+  .lygo-loop {
+    padding: 20px 22px;
+    text-align: center;
+  }
+  .lygo-loop h2 {
+    margin: 0 0 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .lygo-loop ul {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    max-width: 520px;
+    text-align: left;
+  }
+  .lygo-loop a {
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .lygo-loop a:hover { text-decoration: underline; color: var(--amber); }
+  @media (max-width: 480px) {
+    .lygo-loop ul { grid-template-columns: 1fr; }
+  }
+
+  .bpm-seo-guide {
+    margin: 0;
+    padding: 24px 22px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+    text-align: center;
+  }
+  .bpm-seo-guide .bpm-seo-body {
+    text-align: left;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .bpm-seo-guide h2 {
+    margin: 0 0 12px;
+    font-family: 'Orbitron', 'Work Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .bpm-seo-guide h3 {
+    margin: 16px 0 8px;
+    font-size: 14px;
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .bpm-seo-guide p { margin: 0 0 10px; }
+  .bpm-seo-guide ol {
+    margin: 0 0 10px;
+    padding-left: 1.25rem;
+  }
+  .bpm-seo-guide li { margin-bottom: 4px; }
+  .bpm-faq { margin: 0; }
+  .bpm-faq dt {
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .bpm-faq dd {
+    margin: 4px 0 0;
+    padding: 0;
+  }
+
+  .lygo-rumble-live {
+    width: 100%;
+  }
+  .lygo-rumble-title {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    text-align: center;
+  }
+  .lygo-rumble-embed {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(62, 168, 160, 0.2);
+    background: #0a0908;
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.8);
+  }
+  .lygo-rumble-embed #rumble_v79wjai {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .lygo-rumble-link {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 12px;
+  }
+  .lygo-rumble-link a {
+    color: var(--teal);
+    text-decoration: none;
+  }
+  .lygo-rumble-link a:hover { color: var(--amber); text-decoration: underline; }
+
+  .lygo-ad-slot {
+    text-align: center;
+  }
+  .lygo-ad-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .lygo-ad-box {
+    min-height: 90px;
+    border: 1px dashed var(--panel-edge);
+    border-radius: 8px;
+    background: #100d0b;
+    overflow: hidden;
+  }
+
+  .cookie-banner-bpm {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 12px 16px;
+    background: #1e1a17;
+    border-top: 1px solid var(--panel-edge);
+    font-size: 13px;
+    color: var(--text);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .cookie-banner-bpm.show { display: flex; }
+  .cookie-banner-bpm button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--panel-edge);
+    background: #262019;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 12px;
+  }
+  .cookie-banner-bpm button.accept { background: var(--teal); color: #0d1f1d; border-color: var(--teal); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot.on { animation: none; background: var(--amber); }
+    .lygo-pulse-node { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="lygo-ambient" aria-hidden="true"></div>
+<header class="lygo-top-bar">
+  <div class="lygo-top-inner">
+    <span class="lygo-pulse-node" aria-hidden="true"></span>
+    <span class="lygo-top-title">LYGO // BPM FINDER</span>
+    <a class="lygo-top-link" href="https://bpmfinder.ca/">BPMfinder.ca</a>
+  </div>
+</header>
+<noscript>
+  <p style="max-width:32rem;margin:2rem auto;padding:1rem;background:#2b2521;color:#f2ece3;border-radius:8px;text-align:center;">
+    LYGO BPM Finder needs JavaScript (Web Audio). Please enable JS and reload.
+  </p>
+</noscript>
+<div class="page-shell">
+<section class="lygo-rumble-live" aria-label="LYGO monetized live stream">
+  <h2 class="lygo-rumble-title">LYGO Live — embeddable player</h2>
+  <div class="lygo-rumble-embed">
+    <div id="rumble_v79wjai"></div>
+  </div>
+  <p class="lygo-rumble-link"><a href="https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Watch on Rumble (monetized direct)</a></p>
+</section>
+<script>Rumble("play", {"video":"v79wjai","div":"rumble_v79wjai"});</script>
+
+<div class="lygo-ad-slot" aria-label="Advertisement">
+  <div class="lygo-ad-label">Advertisement</div>
+  <div class="lygo-ad-box" id="lygo-ad-top"></div>
+</div>
+
+<main class="rack lygo-panel" id="bpm-finder-app">
+  <div class="rack-head">
+    <p class="eyebrow">LYGO / Biophase7 / Creative</p>
+    <h1>Free BPM Finder — online tempo detector</h1>
+    <p class="lede">Find the BPM of any song free at <strong>BPMfinder.ca</strong>. Drop MP3, WAV, or FLAC — tempo is analyzed privately in your browser (no signup, no server upload).</p>
+  </div>
+
+  <div class="dropzone" id="dropzone">
+    <input type="file" id="fileInput" accept="audio/*" aria-label="Choose an audio file">
+    <div class="dropzone-icon" aria-hidden="true">♪</div>
+    <p><strong>Drop an audio file</strong> or click to browse — MP3, WAV, FLAC</p>
+  </div>
+
+  <div class="readout">
+    <span class="pulse-dot" id="pulseDot"></span>
+    <span class="bpm-value empty" id="bpmValue">--</span>
+    <span class="bpm-unit">BPM</span>
+  </div>
+  <p class="status" id="status">Ready — choose or drop an audio file.</p>
+
+  <div class="confidence-row" id="confidenceRow" style="display:none;">
+    <span class="confidence-label">Confidence</span>
+    <div class="confidence-track"><div class="confidence-fill" id="confidenceFill"></div></div>
+  </div>
+
+  <canvas id="wave" width="900" height="84"></canvas>
+
+  <div class="controls">
+    <button id="halfBtn" disabled title="Half tempo">Half</button>
+    <button id="doubleBtn" disabled title="Double tempo">Double</button>
+    <span class="spacer"></span>
+    <button class="tap-btn" id="tapBtn">Tap tempo</button>
+  </div>
+</main>
+
+<article class="bpm-seo-guide lygo-panel" id="about-free-bpm-finder">
+  <h2>Free online BPM finder for producers, DJs, and dancers</h2>
+  <div class="bpm-seo-body">
+    <p>BPMfinder.ca is a <strong>free BPM webpage</strong> that helps you <strong>find the tempo of a song online</strong> without installing software. Whether you need an <strong>MP3 BPM analyzer</strong>, a quick <strong>WAV tempo check</strong>, or a <strong>FLAC beat detector</strong>, this tool runs in Chrome, Firefox, Safari, and Edge.</p>
+    <h3>How to use this free tempo detector</h3>
+    <ol>
+      <li>Open BPMfinder.ca (bookmark it for quick access).</li>
+      <li>Drop an audio file or click to browse.</li>
+      <li>Read the detected BPM and confidence score.</li>
+      <li>Use <strong>Half</strong> / <strong>Double</strong> if the groove is half-time or double-time.</li>
+      <li>Use <strong>Tap tempo</strong> to match a beat by hand.</li>
+    </ol>
+    <h3>Why use a browser-based BPM tool?</h3>
+    <p>Many paid DAWs include tempo detection, but a <strong>free online BPM finder</strong> is faster when you are on a phone, laptop, or studio machine without plugins. Because analysis is client-side, it is suitable for unreleased demos and private practice tracks.</p>
+    <h3>Frequently asked questions</h3>
+    <dl class="bpm-faq">
+      <dt>Is this BPM finder free?</dt>
+      <dd>Yes — 100% free, no account required.</dd>
+      <dt>Is my music uploaded?</dt>
+      <dd>No. Detection uses your browser only; audio does not leave your device.</dd>
+      <dt>What is a good BPM confidence score?</dt>
+      <dd>Higher is better. Very short clips or ambient tracks may score lower — try a longer section with clear drums.</dd>
+      <dt>Can I use this for DJ mixing?</dt>
+      <dd>Yes. Knowing track BPM helps beatmatching and playlist planning.</dd>
+    </dl>
+  </div>
+</article>
+
+<aside class="lygo-loop lygo-panel" id="lygo-links" aria-label="LYGO related pages">
+  <h2>LYGO lattice</h2>
+  <ul>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/">Protocol stack index</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html">Sovereign Lattice Mesh</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html">Biometric harness</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Haven Star Chart</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html">Kernel eggs</a></li>
+    <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html">Compass Master</a></li>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Eternal Haven hub</a></li>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html">LYGO Resonance</a></li>
+    <li><a href="https://bpmfinder.ca/">BPM Finder (bpmfinder.ca)</a></li>
+    <li><a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine">HF Resonance Engine</a></li>
+    <li><a href="https://clawhub.ai/deepseekoracle">ClawHub skills</a></li>
+    <li><a href="https://github.com/DeepSeekOracle/lygo-protocol-stack">GitHub source</a></li>
+  </ul>
+</aside>
+
+<div class="donate-strip lygo-panel">
+  Support free LYGO tools
+  <a class="paypal-btn" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate with PayPal</a>
+</div>
+
+<div class="lygo-ad-slot" aria-label="Advertisement">
+  <div class="lygo-ad-label">Advertisement</div>
+  <div class="lygo-ad-box" id="lygo-ad-bottom"></div>
+</div>
+
+<p class="site-footer">
+  <strong>BPMfinder.ca</strong> — free BPM finder &amp; online tempo detector.
+  <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
+  · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_BPM_FINDER.md">Spec</a>
+</p>
+</div>
+
+<div class="cookie-banner-bpm" id="cookieBannerBpm" role="dialog" aria-label="Cookie consent">
+  <span>Cookies &amp; ads: we may show Google AdSense after you accept.</span>
+  <button type="button" class="accept" id="acceptCookiesBpm">Accept</button>
+  <button type="button" id="declineCookiesBpm">Decline</button>
+</div>
+
+<script>
+(function () {
+  var PUB = 'ca-pub-0646320966060599';
+  var ADSENSE_SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + PUB;
+  function mountSlots() {
+    ['lygo-ad-top', 'lygo-ad-bottom'].forEach(function (id) {
+      var box = document.getElementById(id);
+      if (!box || box.dataset.mounted) return;
+      var ins = document.createElement('ins');
+      ins.className = 'adsbygoogle';
+      ins.style.display = 'block';
+      ins.setAttribute('data-ad-client', PUB);
+      ins.setAttribute('data-ad-format', 'auto');
+      ins.setAttribute('data-full-width-responsive', 'true');
+      box.appendChild(ins);
+      box.dataset.mounted = '1';
+    });
+  }
+  function pushAds() {
+    mountSlots();
+    document.querySelectorAll('ins.adsbygoogle').forEach(function (el) {
+      if (el.getAttribute('data-adsbygoogle-status')) return;
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        el.setAttribute('data-adsbygoogle-status', 'done');
+      } catch (e) { console.warn('AdSense', e); }
+    });
+  }
+  function loadAdSense() {
+    if (window.adsbygoogle) { pushAds(); return; }
+    var headAd = document.querySelector('script[src*="pagead/js/adsbygoogle"]:not([data-lygo-adsense])');
+    if (headAd) {
+      headAd.addEventListener('load', pushAds);
+      if (window.adsbygoogle) pushAds();
+      return;
+    }
+    if (document.querySelector('script[data-lygo-adsense]')) { pushAds(); return; }
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = ADSENSE_SRC;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-lygo-adsense', '1');
+    s.onload = pushAds;
+    document.head.appendChild(s);
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var banner = document.getElementById('cookieBannerBpm');
+    var consent = localStorage.getItem('cookiesAccepted');
+    if (consent === 'true') loadAdSense();
+    else if (consent !== 'false') setTimeout(function () { banner.classList.add('show'); }, 600);
+    document.getElementById('acceptCookiesBpm').addEventListener('click', function () {
+      localStorage.setItem('cookiesAccepted', 'true');
+      banner.classList.remove('show');
+      loadAdSense();
+    });
+    document.getElementById('declineCookiesBpm').addEventListener('click', function () {
+      localStorage.setItem('cookiesAccepted', 'false');
+      banner.classList.remove('show');
+    });
+  });
+})();
+</script>
+<script type="module">
+  let detect;
+  try {
+    detect = (await import('https://cdn.jsdelivr.net/npm/bpm-detective/+esm')).default;
+  } catch (e) {
+    detect = null;
+  }
+
+  const dropzone   = document.getElementById('dropzone');
+  const fileInput  = document.getElementById('fileInput');
+  const bpmValue   = document.getElementById('bpmValue');
+  const pulseDot   = document.getElementById('pulseDot');
+  const statusEl   = document.getElementById('status');
+  const halfBtn    = document.getElementById('halfBtn');
+  const doubleBtn  = document.getElementById('doubleBtn');
+  const tapBtn     = document.getElementById('tapBtn');
+  const confRow    = document.getElementById('confidenceRow');
+  const confFill   = document.getElementById('confidenceFill');
+  const canvas     = document.getElementById('wave');
+  const ctx2d      = canvas.getContext('2d');
+
+  let currentBpm = null;
+  let audioBuffer = null;
+
+  function setBpm(bpm) {
+    currentBpm = bpm;
+    bpmValue.textContent = bpm ? bpm.toFixed(1) : '--';
+    bpmValue.classList.toggle('live', !!bpm);
+    bpmValue.classList.toggle('empty', !bpm);
+    if (bpm) {
+      document.documentElement.style.setProperty('--beat-ms', `${60000 / bpm}ms`);
+      pulseDot.classList.add('on');
+      halfBtn.disabled = bpm / 2 < 30;
+      doubleBtn.disabled = bpm * 2 > 300;
+    } else {
+      pulseDot.classList.remove('on');
+      halfBtn.disabled = true;
+      doubleBtn.disabled = true;
+    }
+  }
+
+  function setStatus(msg, warn = false) {
+    statusEl.textContent = msg;
+    statusEl.classList.toggle('warn', warn);
+  }
+
+  if (!detect) {
+    setStatus('BPM engine failed to load. Check your connection and refresh.', true);
+    fileInput.disabled = true;
+    tapBtn.disabled = true;
+  }
+
+  // Rough confidence heuristic: how tightly detected beat intervals cluster.
+  // This is a real, if approximate, signal derived from the audio itself —
+  // not a placeholder number. It re-detects on a few windows of the track
+  // and reports the agreement between them.
+  async function estimateConfidence(buffer) {
+    const sr = buffer.sampleRate;
+    const chan = buffer.getChannelData(0);
+    const windowSec = 12;
+    const windowLen = Math.min(chan.length, windowSec * sr);
+    const starts = [0, Math.floor(chan.length * 0.33), Math.floor(chan.length * 0.6)]
+      .filter(s => s + windowLen <= chan.length);
+
+    const results = [];
+    for (const start of starts) {
+      const slice = chan.subarray(start, start + windowLen);
+      const miniBuffer = new AudioBuffer({ length: slice.length, sampleRate: sr, numberOfChannels: 1 });
+      miniBuffer.copyToChannel(Float32Array.from(slice), 0);
+      try {
+        results.push(detect(miniBuffer));
+      } catch (e) { /* skip window if too short/silent */ }
+    }
+    if (results.length < 2) return { confidence: 0.4, samples: results };
+
+    // Normalize octave differences before comparing (70 vs 140 shouldn't count as disagreement)
+    const base = results[0];
+    const normalized = results.map(r => {
+      while (r > base * 1.5) r /= 2;
+      while (r < base / 1.5) r *= 2;
+      return r;
+    });
+    const mean = normalized.reduce((a, b) => a + b, 0) / normalized.length;
+    const variance = normalized.reduce((a, b) => a + (b - mean) ** 2, 0) / normalized.length;
+    const stdev = Math.sqrt(variance);
+    const confidence = Math.max(0.15, Math.min(1, 1 - stdev / mean));
+    return { confidence, samples: results };
+  }
+
+  function drawWaveform(buffer, bpm) {
+    const w = canvas.width, h = canvas.height;
+    ctx2d.clearRect(0, 0, w, h);
+    const data = buffer.getChannelData(0);
+    const step = Math.ceil(data.length / w);
+    ctx2d.fillStyle = '#3ea8a0';
+    for (let x = 0; x < w; x++) {
+      let min = 1.0, max = -1.0;
+      for (let i = 0; i < step; i++) {
+        const idx = x * step + i;
+        if (idx >= data.length) break;
+        const v = data[idx];
+        if (v < min) min = v;
+        if (v > max) max = v;
+      }
+      const yMin = (1 + min) * 0.5 * h;
+      const yMax = (1 + max) * 0.5 * h;
+      ctx2d.fillRect(x, yMin, 1, Math.max(1, yMax - yMin));
+    }
+
+    if (bpm) {
+      const beatSec = 60 / bpm;
+      const totalSec = buffer.duration;
+      ctx2d.strokeStyle = 'rgba(232, 161, 60, 0.55)';
+      ctx2d.lineWidth = 1;
+      for (let t = 0; t < totalSec; t += beatSec) {
+        const x = (t / totalSec) * w;
+        ctx2d.beginPath();
+        ctx2d.moveTo(x, 0);
+        ctx2d.lineTo(x, h);
+        ctx2d.stroke();
+      }
+    }
+  }
+
+  async function handleFile(file) {
+    if (!file) return;
+    if (!detect) return;
+    setStatus('Decoding audio…');
+    setBpm(null);
+    confRow.style.display = 'none';
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let buffer;
+    try {
+      buffer = await audioCtx.decodeAudioData(await file.arrayBuffer());
+    } catch (e) {
+      setStatus('Could not decode this file — try a different format.', true);
+      return;
+    }
+    audioBuffer = buffer;
+
+    if (buffer.duration < 6) {
+      setStatus('Clip is short — detection is less reliable under ~6s.', true);
+    }
+
+    let bpm;
+    try {
+      bpm = detect(buffer);
+    } catch (e) {
+      setStatus('Could not detect a beat — try tap tempo below instead.', true);
+      drawWaveform(buffer, null);
+      return;
+    }
+
+    setBpm(bpm);
+    drawWaveform(buffer, bpm);
+    setStatus(`Detected from ${file.name}`);
+
+    const { confidence } = await estimateConfidence(buffer);
+    confRow.style.display = 'flex';
+    confFill.style.width = `${Math.round(confidence * 100)}%`;
+    confFill.style.background = confidence > 0.7 ? '#3ea8a0' : confidence > 0.4 ? '#e8a13c' : '#d9634a';
+    if (confidence < 0.4) {
+      setStatus('Low confidence — check ÷2/×2, or verify with tap tempo.', true);
+    }
+  }
+
+  fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+  ['dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, () => dropzone.classList.remove('drag')));
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  halfBtn.addEventListener('click', () => {
+    if (!currentBpm) return;
+    setBpm(currentBpm / 2);
+    if (audioBuffer) drawWaveform(audioBuffer, currentBpm);
+  });
+  doubleBtn.addEventListener('click', () => {
+    if (!currentBpm) return;
+    setBpm(currentBpm * 2);
+    if (audioBuffer) drawWaveform(audioBuffer, currentBpm);
+  });
+
+  // Tap tempo — manual fallback when detection fails or for live/ambient audio.
+  let taps = [];
+  tapBtn.addEventListener('click', () => {
+    const now = performance.now();
+    taps = taps.filter(t => now - t < 3000); // reset if idle > 3s
+    taps.push(now);
+    if (taps.length >= 2) {
+      const intervals = taps.slice(1).map((t, i) => t - taps[i]);
+      const avgMs = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+      const bpm = 60000 / avgMs;
+      setBpm(bpm);
+      setStatus(`Tap tempo — ${taps.length} taps`);
+    } else {
+      setStatus('Keep tapping in time…');
+    }
+  });
+</script>
+</body>
+</html>

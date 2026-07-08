@@ -1,0 +1,522 @@
+#!/usr/bin/env python3
+"""LYGO lattice alignment checks (local files + optional registry inspect)."""
+
+from __future__ import annotations
+
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+HF_SPACE = REPO.parent / "Hugging face"
+GROK_OPERATOR = REPO.parent / ".grok" / "skills" / "lygo-protocol-stack-operator"
+
+CANONICAL_URLS = {
+    "github_pages_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+    "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
+    "clawhub": "https://clawhub.ai/deepseekoracle",
+    "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack",
+    "resonance_docs": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+    "biometric_harness_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+    "biometric_harness_excavationpro": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+    "slm_pages_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+    "slm_pages_excavationpro": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
+}
+
+
+def check(name: str, ok: bool, detail: str = "") -> bool:
+    mark = "OK" if ok else "FAIL"
+    print(f"  [{mark}] {name}" + (f" — {detail}" if detail else ""))
+    return ok
+
+
+def check_warn(name: str, ok: bool, detail: str = "") -> bool:
+    """Non-blocking check (e.g. stack Pages until Settings enabled)."""
+    mark = "OK" if ok else "WARN"
+    print(f"  [{mark}] {name}" + (f" — {detail}" if detail else ""))
+    return True
+
+
+def in_ci() -> bool:
+    return os.environ.get("GITHUB_ACTIONS", "").strip().lower() == "true"
+
+
+def _nodejs_path_prefixes() -> list[str]:
+    prefixes: list[str] = []
+    if os.name == "nt":
+        for base in (
+            Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / "nodejs",
+            Path(os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")) / "nodejs",
+            Path(os.environ.get("APPDATA", "")) / "npm",
+            Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "node",
+        ):
+            if base.is_dir():
+                prefixes.append(str(base))
+    return prefixes
+
+
+def subprocess_env_with_node() -> dict[str, str]:
+    env = os.environ.copy()
+    extra = _nodejs_path_prefixes()
+    if extra:
+        env["PATH"] = os.pathsep.join(extra + [env.get("PATH", "")])
+    return env
+
+
+def resolve_npx_executable() -> str | None:
+    env = subprocess_env_with_node()
+    npx = shutil.which("npx", path=env.get("PATH"))
+    if npx:
+        return npx
+    if os.name == "nt":
+        for prefix in _nodejs_path_prefixes():
+            for name in ("npx.cmd", "npx.exe"):
+                candidate = Path(prefix) / name
+                if candidate.is_file():
+                    return str(candidate)
+    return None
+
+
+def clawhub_operator_local_catalog() -> tuple[bool, str]:
+    """Offline lattice gate when npx is not on PATH (army cron / minimal shells)."""
+    skills_path = REPO / "clawhub" / "skills.json"
+    if not skills_path.is_file():
+        return False, "missing clawhub/skills.json"
+    try:
+        data = json.loads(skills_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return False, f"skills.json invalid: {exc}"
+    slugs = [s.get("slug") for s in data.get("skills", [])]
+    op = next((s for s in data.get("skills", []) if s.get("slug") == "lygo-protocol-stack-operator"), None)
+    if not op or not op.get("published"):
+        return False, "operator not published in catalog"
+    mirror = REPO / "clawhub" / "mirrors" / "lygo-protocol-stack-operator" / "SKILL.md"
+    if not mirror.is_file():
+        return False, "operator mirror missing"
+    n_pub = int(data.get("count_published", 0))
+    if n_pub != len(slugs):
+        return False, f"count_published={n_pub} != listed={len(slugs)}"
+    return True, f"catalog v{op.get('version', '?')} (offline; npx unavailable)"
+
+
+def resolve_hf_paths() -> dict[str, Path]:
+    """Prefer local HF Space vault; fall back to in-repo stack (CI / clones)."""
+    ext_stack = HF_SPACE / "protocol_stack" / "stack" / "lygo_stack.py"
+    if ext_stack.is_file():
+        root = HF_SPACE / "protocol_stack"
+        return {
+            "bundle": root / "stack" / "lygo_stack.py",
+            "semantic": root / "stack" / "text_semantic_gate.py",
+            "twin": root / "TWIN_GATE_MODE.txt",
+            "guardian": HF_SPACE / "lygo_ethical_guardian.py",
+            "source": "hf_vault",
+        }
+    return {
+        "bundle": REPO / "stack" / "lygo_stack.py",
+        "semantic": REPO / "stack" / "text_semantic_gate.py",
+        "twin": REPO / "tests" / "twin_gate_vector_suite_last_run.json",
+        "guardian": HF_SPACE / "lygo_ethical_guardian.py",
+        "source": "repo_stack",
+    }
+
+
+def main() -> int:
+    print("LYGO Lattice alignment verify")
+    print("=" * 50)
+    all_ok = True
+
+    skills_json = REPO / "clawhub" / "skills.json"
+    if skills_json.is_file():
+        data = json.loads(skills_json.read_text(encoding="utf-8"))
+        n_pub = data.get("count_published", 0)
+        n_mir = data.get("count_mirrored", 0)
+        slugs = [s["slug"] for s in data.get("skills", [])]
+        all_ok &= check("clawhub/skills.json", n_pub == len(slugs), f"published={n_pub} listed={len(slugs)}")
+        all_ok &= check("operator in catalog", "lygo-protocol-stack-operator" in slugs)
+        all_ok &= check("mirrors count", n_mir >= n_pub - 1, f"mirrored={n_mir}")
+    else:
+        all_ok &= check("clawhub/skills.json", False, "missing")
+
+    mirror_op = REPO / "clawhub" / "mirrors" / "lygo-protocol-stack-operator" / "SKILL.md"
+    all_ok &= check("operator mirror", mirror_op.is_file())
+
+    for key, path in [
+        ("STACK_STATUS", REPO / "docs" / "STACK_STATUS.md"),
+        ("LYGO_LATTICE", REPO / "docs" / "LYGO_LATTICE.md"),
+        ("sovereign test", REPO / "tools" / "run_sovereign_integrity_test.py"),
+        ("p0 golden", REPO / "protocol0_byte_entropy_filter" / "fixtures" / "p0_canonical.sha256"),
+    ]:
+        all_ok &= check(key, path.is_file())
+
+    readme = (REPO / "README.md").read_text(encoding="utf-8")
+    for label, url in CANONICAL_URLS.items():
+        all_ok &= check(f"README link {label}", url in readme)
+
+    hf = resolve_hf_paths()
+    src_note = hf["source"]
+    all_ok &= check(
+        "HF protocol_stack bundle",
+        hf["bundle"].is_file(),
+        f"{src_note} · {hf['bundle'].parent}",
+    )
+    all_ok &= check("HF text_semantic_gate", hf["semantic"].is_file(), src_note)
+    all_ok &= check("HF TWIN_GATE_MODE", hf["twin"].is_file(), src_note)
+    if hf["guardian"].is_file():
+        all_ok &= check("HF ethical guardian module", True)
+    elif hf["source"] == "repo_stack":
+        check_warn(
+            "HF ethical guardian module",
+            False,
+            "HF Space vault not mounted — stack bundle OK in CI",
+        )
+    else:
+        all_ok &= check("HF ethical guardian module", False)
+    all_ok &= check("twin calibration tool", (REPO / "tools" / "run_twin_gate_calibration.py").is_file())
+    all_ok &= check("twin vector suite tool", (REPO / "tools" / "run_twin_gate_vector_suite.py").is_file())
+    all_ok &= check("grok audit tool", (REPO / "tools" / "run_grok_audit_demo.py").is_file())
+    for key, path in [
+        ("Dockerfile", REPO / "Dockerfile"),
+        ("docker-compose", REPO / "docker-compose.yml"),
+        ("setup.sh", REPO / "setup.sh"),
+        ("alignment badge tool", REPO / "tools" / "verify_alignment_badge.py"),
+        ("phase1 elasticity", REPO / "stack" / "infrastructure_elasticity.py"),
+        ("phase3-4 federation", REPO / "stack" / "federation_runtime.py"),
+        ("PHASE2 doc", REPO / "docs" / "PHASE2_DEPLOYMENT.md"),
+        ("BLUEPRINT", REPO / "docs" / "BLUEPRINT.md"),
+        ("lattice gauntlet", REPO / "tools" / "run_lattice_gauntlet.py"),
+        ("mesh gossip", REPO / "stack" / "mesh_gossip_http.py"),
+        ("mesh scale sim", REPO / "tools" / "run_mesh_scale_sim.py"),
+        ("mesh gossip protocol doc", REPO / "docs" / "MESH_GOSSIP_PROTOCOL.md"),
+        ("agent memory snapshot", REPO / "docs" / "AGENT_MEMORY_SNAPSHOT.json"),
+        ("biometric harness page", REPO / "docs" / "BiometricEntropyHarness.html"),
+        ("bpm finder page", REPO / "docs" / "LYGO_BPM_Finder.html"),
+        ("biophase7 bpm finder doc", REPO / "docs" / "BIOPHASE7_BPM_FINDER.md"),
+        ("sync excavationpro bpm finder", REPO / "tools" / "sync_excavationpro_bpm_finder.py"),
+        ("materialize bpm finder pages", REPO / "tools" / "materialize_bpm_finder_pages.py"),
+        ("pages sitemap", REPO / "docs" / "sitemap.xml"),
+        ("pages robots", REPO / "docs" / "robots.txt"),
+        ("slm interactive page", REPO / "docs" / "SovereignLatticeMesh.html"),
+        ("public link archive", REPO / "docs" / "LYGO_PUBLIC_LINK_ARCHIVE.json"),
+        ("log public surface tool", REPO / "tools" / "log_public_surface.py"),
+        ("sync excavationpro slm", REPO / "tools" / "sync_excavationpro_slm_page.py"),
+        ("phase7 haip ui tool", REPO / "tools" / "haip_ui_entropy.py"),
+        ("p6 hardened verify", REPO / "tools" / "verify_attestation_hardened.py"),
+        ("p7 ble ingest", REPO / "tools" / "live_ble_telemetry_ingest.py"),
+        ("p7 live stream hub", REPO / "protocol7_human_ai_interface" / "live_stream_hub.py"),
+        ("p7 ble ws broadcast", REPO / "tools" / "ble_ws_broadcast_server.py"),
+        ("biophase7 objective live ble doc", REPO / "docs" / "BIOPHASE7_OBJECTIVE_LIVE_BLE.md"),
+        ("biophase7 pxpipe lygo doc", REPO / "docs" / "BIOPHASE7_PXPIPE_LYGO.md"),
+        ("pxpipe lygo module", REPO / "pxpipe_lygo" / "compressor.py"),
+        ("pxpipe lygo proxy tool", REPO / "tools" / "run_pxpipe_lygo_proxy.py"),
+        ("pxpipe lygo agent tool", REPO / "tools" / "pxpipe_lygo_for_agent.py"),
+        ("pxpipe lygo manifest dir", REPO / "data" / "pxpipe_lygo" / "manifests" / "README.md"),
+        ("p7 live ble pipeline", REPO / "tools" / "run_live_ble_pipeline.py"),
+        ("kernel egg build", REPO / "tools" / "build_kernel_eggs.py"),
+        ("kernel egg registry", REPO / "data" / "kernel_eggs" / "registry.json"),
+        ("kernel egg soa doc", REPO / "docs" / "KERNEL_EGG_SOA.md"),
+        ("kernel egg retrieval page", REPO / "docs" / "KernelEggRetrieval.html"),
+        ("scalable registry doc", REPO / "docs" / "SCALABLE_KERNEL_EGG_REGISTRY.md"),
+        ("scalable registry chunking", REPO / "tools" / "scalable_registry" / "chunking.py"),
+        ("scalable registry manifest builder", REPO / "tools" / "scalable_registry" / "manifest_builder.py"),
+        ("register synthetic data CLI", REPO / "tools" / "register_synthetic_data.py"),
+        ("verify registry CLI", REPO / "tools" / "verify_registry.py"),
+        ("registry v2 checklist", REPO / "tools" / "run_registry_v2_checklist.py"),
+        ("registry architecture doc", REPO / "docs" / "REGISTRY_ARCHITECTURE.md"),
+        ("content addressable physics doc", REPO / "docs" / "CONTENT_ADDRESSABLE_PHYSICS.md"),
+        ("build cas manifest CLI", REPO / "tools" / "build_cas_manifest.py"),
+        ("cas registry full CLI", REPO / "tools" / "cas_registry_cli.py"),
+        ("network builder doc", REPO / "docs" / "LYGO_NETWORK_BUILDER.md"),
+        ("network builder anchors", REPO / "docs" / "network_builder" / "IMMUTABLE_ANCHORS.json"),
+        ("network builder verify tool", REPO / "tools" / "lygo_network_builder_verify.py"),
+        ("network builder clawhub mirror", REPO / "clawhub" / "mirrors" / "lygo-network-builder" / "SKILL.md"),
+        ("haven star chart page", REPO / "docs" / "HavenStarChart.html"),
+        ("haven star chart data", REPO / "docs" / "haven_star_chart" / "haven_star_chart_data.json"),
+        ("haven star chart builder", REPO / "tools" / "build_haven_star_chart.py"),
+        ("champion egg schema", REPO / "tools" / "champion_egg_schema.py"),
+        ("champion egg builder", REPO / "tools" / "build_champion_eggs.py"),
+        ("champion egg planter", REPO / "tools" / "champion_egg_planter.py"),
+        ("champion bootloader", REPO / "tools" / "champion_bootloader.py"),
+        ("champion egg registry doc", REPO / "docs" / "CHAMPION_KERNEL_EGGS.md"),
+        ("joy loop protocol", REPO / "tools" / "joy_loop_protocol.py"),
+        ("joy loop planter", REPO / "tools" / "joy_loop_planter.py"),
+        ("joy loop doc", REPO / "docs" / "JOY_LOOP_PROTOCOL.md"),
+        ("joy loop public registry", REPO / "docs" / "JoyLoopRegistry.json"),
+        ("phase7 polish doc", REPO / "docs" / "PHASE7_POLISH.md"),
+        ("slm merkle sync", REPO / "stack" / "merkle_sync.py"),
+        ("slm mycelium mesh", REPO / "stack" / "distributed_mycelium_mesh.py"),
+        ("slm harmonic consensus", REPO / "stack" / "harmonic_consensus_mesh.py"),
+        ("slm runtime", REPO / "stack" / "sovereign_lattice_mesh.py"),
+        ("slm doc", REPO / "docs" / "SOVEREIGN_LATTICE_MESH.md"),
+        ("slm audit tool", REPO / "tools" / "run_slm_audit.py"),
+        ("phase9 tls manager", REPO / "tools" / "tls_manager.py"),
+        ("phase9 ldq synthesis", REPO / "protocol8_ldq_synthesis" / "harmonic_gravity.py"),
+        ("phase9 audit tool", REPO / "tools" / "run_phase9_audit.py"),
+        ("phase9 public mesh doc", REPO / "docs" / "PHASE9_PUBLIC_MESH.md"),
+    ]:
+        all_ok &= check(key, path.is_file())
+    slm_run = REPO / "tests" / "slm_audit_last_run.json"
+    if slm_run.is_file():
+        try:
+            sr = json.loads(slm_run.read_text(encoding="utf-8"))
+            all_ok &= check("slm audit last run", bool(sr.get("all_pass")), f"ms={sr.get('duration_ms')}")
+        except Exception as exc:
+            all_ok &= check("slm audit last run", False, str(exc))
+    else:
+        all_ok &= check("slm audit last run", False, "missing json")
+    p9_run = REPO / "tests" / "phase9_audit_last_run.json"
+    if p9_run.is_file():
+        try:
+            p9 = json.loads(p9_run.read_text(encoding="utf-8"))
+            all_ok &= check("phase9 audit last run", bool(p9.get("all_pass")), f"ms={p9.get('duration_ms')}")
+        except Exception as exc:
+            all_ok &= check("phase9 audit last run", False, str(exc))
+    else:
+        all_ok &= check("phase9 audit last run", False, "missing json")
+    mesh_run = REPO / "tests" / "mesh_scale_last_run.json"
+    if mesh_run.is_file():
+        try:
+            mr = json.loads(mesh_run.read_text(encoding="utf-8"))
+            ok_mesh = bool(mr.get("under_10_rounds")) and int(mr.get("convergence_rounds", 99)) < 10
+            all_ok &= check("mesh scale last run", ok_mesh, f"rounds={mr.get('convergence_rounds')}")
+        except Exception as exc:
+            all_ok &= check("mesh scale last run", False, str(exc))
+    else:
+        all_ok &= check("mesh scale last run", False, "missing json")
+
+    compass_canon = REPO / "tools" / "LYGO_Compass_Master.html"
+    if compass_canon.is_file():
+        all_ok &= check("compass master canonical", True)
+    else:
+        check_warn(
+            "compass master canonical",
+            False,
+            "tools/LYGO_Compass_Master.html — run tools/sync_compass_pages.py after add",
+        )
+
+    op_mirror = REPO / "clawhub" / "mirrors" / "lygo-protocol-stack-operator" / "SKILL.md"
+    op_skill = GROK_OPERATOR / "SKILL.md"
+    skill_file = op_skill if op_skill.is_file() else op_mirror
+    if skill_file.is_file():
+        skill_md = skill_file.read_text(encoding="utf-8")
+        detail = "mirror" if skill_file == op_mirror else "workspace"
+        all_ok &= check(
+            "grok operator SKILL.md",
+            CANONICAL_URLS["github_stack"] in skill_md,
+            detail,
+        )
+    else:
+        all_ok &= check("grok operator", False, "path missing")
+
+    # ClawHub registry version for operator (live inspect or offline catalog)
+    npx_bin = resolve_npx_executable()
+    env = subprocess_env_with_node()
+    inspect_ok = False
+    if npx_bin:
+        try:
+            cp = subprocess.run(
+                [
+                    npx_bin,
+                    "--yes",
+                    "clawhub@latest",
+                    "inspect",
+                    "deepseekoracle/lygo-protocol-stack-operator",
+                    "--json",
+                ],
+                cwd=REPO / "clawhub",
+                capture_output=True,
+                text=True,
+                timeout=90,
+                env=env,
+            )
+            if cp.returncode == 0:
+                reg = json.loads(cp.stdout)
+                ver = (reg.get("skill") or {}).get("tags", {}).get("latest", "?")
+                all_ok &= check("clawhub operator published", True, f"latest={ver}")
+                inspect_ok = True
+            elif in_ci():
+                check_warn("clawhub inspect", False, (cp.stderr or cp.stdout or "")[:120])
+            else:
+                detail = (cp.stderr or cp.stdout or "")[:120]
+                local_ok, local_detail = clawhub_operator_local_catalog()
+                if local_ok:
+                    all_ok &= check("clawhub operator published", True, f"{local_detail}; inspect: {detail}")
+                    inspect_ok = True
+                else:
+                    all_ok &= check("clawhub inspect", False, detail)
+        except Exception as exc:
+            if in_ci():
+                check_warn("clawhub inspect", False, str(exc))
+            else:
+                local_ok, local_detail = clawhub_operator_local_catalog()
+                if local_ok:
+                    all_ok &= check("clawhub operator published", True, local_detail)
+                    inspect_ok = True
+                else:
+                    all_ok &= check("clawhub inspect", False, str(exc))
+    if not inspect_ok and not npx_bin:
+        local_ok, local_detail = clawhub_operator_local_catalog()
+        if local_ok:
+            all_ok &= check("clawhub operator published", True, local_detail)
+        else:
+            all_ok &= check("clawhub inspect", False, "npx not found; " + local_detail)
+
+    try:
+        subprocess.run(
+            [sys.executable, str(REPO / "tools" / "verify_public_pages.py")],
+            cwd=REPO,
+            timeout=120,
+            check=False,
+        )
+        pp = REPO / "tests" / "public_pages_last_run.json"
+        if pp.is_file():
+            pr = json.loads(pp.read_text(encoding="utf-8"))
+            all_ok &= check(
+                "excavationpro public mirrors",
+                bool(pr.get("excavationpro_mirrors_live")),
+            )
+            require_stack = os.environ.get("LYGO_REQUIRE_STACK_PAGES", "").strip() in (
+                "1",
+                "true",
+                "yes",
+            )
+            stack_live = bool(pr.get("stack_pages_live"))
+            if stack_live:
+                all_ok &= check("stack github pages", True)
+            elif require_stack:
+                all_ok &= check(
+                    "stack github pages",
+                    False,
+                    "Settings→Pages→gh-pages / or main+/docs — GITHUB_PAGES_SETUP.md",
+                )
+            else:
+                check_warn(
+                    "stack github pages",
+                    False,
+                    "enable Pages once (gh-pages branch ready) — GITHUB_PAGES_SETUP.md",
+                )
+        else:
+            all_ok &= check("public pages last run", False, "missing json")
+    except Exception as exc:
+        all_ok &= check("public pages verify", False, str(exc))
+
+    for label, rel in [
+        ("anchor lygo_anchor tool", "tools/lygo_anchor.py"),
+        ("anchor stack bridge", "stack/lygo_stack_anchor.py"),
+        ("anchor deployment doc", "docs/ANCHOR_DEPLOYMENT.md"),
+        ("lattice intel index", "docs/LYGO_LATTICE_INTEL_INDEX.json"),
+        ("ldq vault reference", "docs/LDQ_VAULT_REFERENCE.md"),
+    ]:
+        all_ok &= check(label, (REPO / rel).is_file())
+
+    egg_reg = REPO / "data" / "kernel_eggs" / "registry.json"
+    if egg_reg.is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "verify_kernel_eggs.py")],
+                cwd=REPO,
+                check=False,
+                timeout=60,
+            )
+            ke = REPO / "tests" / "kernel_eggs_last_run.json"
+            if ke.is_file():
+                ev = json.loads(ke.read_text(encoding="utf-8"))
+                all_ok &= check(
+                    "kernel eggs tamper verify",
+                    bool(ev.get("all_pass")),
+                    ev.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("kernel eggs tamper verify", False, "no last_run json")
+        except Exception as exc:
+            all_ok &= check("kernel eggs tamper verify", False, str(exc)[:80])
+
+    champ_reg = REPO / "data" / "champion_eggs" / "registry.json"
+    if champ_reg.is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "verify_champion_eggs.py")],
+                cwd=REPO,
+                check=False,
+                timeout=60,
+            )
+            ce = REPO / "tests" / "champion_eggs_last_run.json"
+            if ce.is_file():
+                cv = json.loads(ce.read_text(encoding="utf-8"))
+                all_ok &= check(
+                    "champion eggs tamper verify",
+                    bool(cv.get("all_pass")),
+                    cv.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("champion eggs tamper verify", False, "no last_run json")
+        except Exception as exc:
+            all_ok &= check("champion eggs tamper verify", False, str(exc)[:80])
+    else:
+        all_ok &= check("champion egg registry", False, "run champion_egg_planter")
+
+    if (REPO / "tools" / "verify_registry.py").is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "verify_registry.py")],
+                cwd=REPO,
+                check=False,
+                timeout=120,
+            )
+            sreg = REPO / "tests" / "scalable_registry_last_run.json"
+            if sreg.is_file():
+                sv = json.loads(sreg.read_text(encoding="utf-8"))
+                all_ok &= check(
+                    "scalable registry verify",
+                    bool(sv.get("all_pass")) or sv.get("entry_count", 0) == 0,
+                    sv.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("scalable registry verify", True, "no entries yet")
+        except Exception as exc:
+            all_ok &= check("scalable registry verify", False, str(exc)[:80])
+
+    if (REPO / "tools" / "lygo_network_builder_verify.py").is_file():
+        try:
+            subprocess.run(
+                [sys.executable, str(REPO / "tools" / "lygo_network_builder_verify.py")],
+                cwd=REPO,
+                check=False,
+                timeout=180,
+            )
+            nb = REPO / "tests" / "network_builder_last_run.json"
+            if nb.is_file():
+                nv = json.loads(nb.read_text(encoding="utf-8"))
+                local_ok = all(
+                    v.get("ok")
+                    for v in nv.get("vectors", [])
+                    if v.get("mode") in ("local_repo", "link_only")
+                )
+                all_ok &= check(
+                    "network builder verify",
+                    bool(nv.get("all_pass")) or local_ok,
+                    nv.get("verdict", "?"),
+                )
+            else:
+                all_ok &= check("network builder verify", False, "no last_run json")
+        except Exception as exc:
+            all_ok &= check("network builder verify", False, str(exc)[:80])
+
+    anchor_audit = REPO / "tests" / "anchor_audit_last_run.json"
+    if anchor_audit.is_file():
+        ar = json.loads(anchor_audit.read_text(encoding="utf-8"))
+        all_ok &= check("anchor audit last run", bool(ar.get("all_pass")), f"ms={ar.get('duration_ms')}")
+    else:
+        check_warn("anchor audit last run", False, "run tools/run_anchor_audit.py")
+
+    print("=" * 50)
+    print("LATTICE", "ALIGNED" if all_ok else "NEEDS FIX")
+    return 0 if all_ok else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

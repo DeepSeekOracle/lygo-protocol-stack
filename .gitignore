@@ -1,0 +1,90 @@
+# Python (GitHub template + LYGO stack)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+htmlcov/
+.tox/
+.pytest_cache/
+.coverage
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Rust
+target/
+**/*.rs.bk
+
+# Phase 9 node TLS material (generated locally)
+certs/
+
+# Phase 5 live mesh runtime logs
+tests/mesh_live/*.log
+tests/mesh_live/cluster.json
+
+# Anchor runtime (committed: docs + tools; not local CA blobs)
+# Scalable registry runtime (CAS + local manifests — not repo payload)
+data/cas/**
+!data/cas/.gitkeep
+data/joy_loop/*.db
+data/joy_loop/*.db-journal
+lygo_second_brain/vault/.vault_index.sqlite3
+lygo_second_brain/vault/.git/
+data/sandcastle/mycelium/*.frag
+data/sandcastle/mycelium/*_manifest.json
+data/sandcastle/runs/*.json
+data/sandcastle/workflow_runs.jsonl
+data/openclaw/mycelium/*.frag
+data/openclaw/mycelium/*_manifest.json
+data/openclaw/runs/*.json
+data/openclaw/action_runs.jsonl
+data/openclaw/manifest.jsonl
+data/prompt_vault/*.txt
+data/prompt_vault/prompt_*.json
+data/prompt_vault/sovereign_*.json
+data/prompt_vault/vault_manifest.jsonl
+data/prompt_vault/implant_runs.jsonl
+data/prompt_vault/runs/*.json
+data/scalable_registry/manifests/
+data/scalable_registry/registry.json
+
+data/anchors/*.json
+data/anchor_queue/*.json
+data/moltx/*.json
+!data/moltx/.gitkeep
+data/anchor_mesh.sqlite
+tools/lygo_control_center/workspace/anchor_receipt_*.json
+
+# Build artifacts
+*.o
+*.obj
+*.exe
+*.out
+output.txt
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# HF upload staging
+_hf_staging/
+
+# Secrets
+.env
+.env.local
+*.local.env
+biophase7_vault*.txt
+*.pem
+*_pat.txt

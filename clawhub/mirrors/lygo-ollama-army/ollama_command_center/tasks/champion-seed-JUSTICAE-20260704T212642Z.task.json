@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-JUSTICAE-20260704T212642Z",
+  "role": "champion-egg-boot",
+  "champion": "JUSTICAE",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-justicae",
+    "merkle_root": "e7fb17ef058d9107dbd8e2b95e9adbb89c5991dfe9941e58feab71d9e564b7bd",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

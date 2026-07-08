@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-SEPHRAEL-20260704T212642Z",
+  "role": "champion-egg-boot",
+  "champion": "SEPHRAEL",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-sephrael",
+    "merkle_root": "85c43cb134b61f90f28915fcf4d0e07a18a79c7b15a3e2d03aa9ff003d4912b4",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

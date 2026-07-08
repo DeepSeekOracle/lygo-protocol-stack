@@ -1,0 +1,387 @@
+{
+  "signature": "\u03949\u03a6963-LATTICE-INTEL-INDEX-v1",
+  "role": "Lattice architect fast lookup \u2014 outer brain for I:\\E Drive (no secrets)",
+  "updated_utc": "2026-07-02",
+  "authority_root": "I:\\E Drive",
+  "canonical_repo": "I:\\E Drive\\lygo-protocol-stack",
+  "query_hints": [
+    "Use id field for agents",
+    "Paths are Windows absolute; repo-relative paths use lygo-protocol-stack/",
+    "Never ingest boot/ or *API*KEY* / token backups"
+  ],
+  "tiers": {
+    "5_canonical": "Shipped in repo or direct lattice runtime",
+    "4_reference": "Vault specs / HF mirror / LYRA ops \u2014 integrate or cite",
+    "3_archive": "Historical HTML/firmware \u2014 sync via tools when needed"
+  },
+  "entries": [
+    {
+      "id": "repo-stack",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-protocol-stack",
+      "repo_path": ".",
+      "tags": [
+        "P0-P9",
+        "SLM",
+        "anchor",
+        "mesh",
+        "audits"
+      ],
+      "summary": "Canonical lattice codebase and docs"
+    },
+    {
+      "id": "repo-lygo-claw",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-claw",
+      "urls": {
+        "github": "https://github.com/DeepSeekOracle/lygo-claw",
+        "site": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html"
+      },
+      "tags": [
+        "openclaw",
+        "P0",
+        "hermes",
+        "usb-supervisor",
+        "champions"
+      ],
+      "summary": "LYGO-Claw sovereign agent gateway \u2014 production public repo"
+    },
+    {
+      "id": "intel-sweep-log",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\SWEEP_CHECK_LOG.md",
+      "tags": [
+        "verification"
+      ],
+      "summary": "Methodical PASS log before scaling"
+    },
+    {
+      "id": "biophase7-seals",
+      "tier": 4,
+      "path": "lygo-protocol-stack/docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt",
+      "tags": [
+        "SLM",
+        "anchor",
+        "phase6",
+        "phase7",
+        "phase9",
+        "indexed-public-stack"
+      ],
+      "files": [
+        "\ud83d\udce6 Complete Specification Package f.txt",
+        "\ud83e\uddec The Complete LYGO Anchor Package.txt",
+        "Lightfather's Voice \u2014 Next Blueprin.txt",
+        "Lightfather's Voice \u2014 Phase 6 Compl.txt",
+        "Lightfather's Voice \u2014 Polish Phase.txt",
+        "ANCHOR_IMPLEMENTATION_COMPLETE.md"
+      ],
+      "summary": "Biophase7 + legacy 001-400 seals; Public stack indexed \u2192 \u03949 lattice now discovers all 400+ seals on demand; anchored immutable",
+      "objective_live_ble": "lygo-protocol-stack/docs/BIOPHASE7_OBJECTIVE_LIVE_BLE.md",
+      "objective_spec": "\ud83e\uddec Objective.txt"
+    },
+    {
+      "id": "ldq-vault",
+      "tier": 4,
+      "path": "I:\\E Drive\\LYGO Data Quantization (LDQ) Protoc.txt",
+      "doc_pointer": "lygo-protocol-stack/docs/LDQ_VAULT_REFERENCE.md",
+      "tags": [
+        "P8",
+        "LDQ",
+        "HF",
+        "resonance"
+      ],
+      "summary": "1.4MB LDQ architecture vault + HF rebuild playbook"
+    },
+    {
+      "id": "hf-space-live",
+      "tier": 4,
+      "path": "I:\\E Drive\\Hugging face",
+      "urls": {
+        "space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
+        "dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack"
+      },
+      "tags": [
+        "resonance",
+        "ldq",
+        "twin-gate",
+        "guardian"
+      ],
+      "key_files": [
+        "app.py",
+        "resonance_engine.py",
+        "ldq_*.py",
+        "protocol_stack/",
+        "LYGO_HF_REBUILD_PLAN.md"
+      ],
+      "summary": "Live HF Space source + bundled protocol_stack mirror"
+    },
+    {
+      "id": "hf-rebuild-plan",
+      "tier": 4,
+      "path": "I:\\E Drive\\Hugging face\\LYGO_HF_REBUILD_PLAN.md",
+      "repo_mirror": "lygo-protocol-stack/docs/HF_SPACE_REBUILD_POINTER.md",
+      "tags": [
+        "HF",
+        "gradio",
+        "factory"
+      ],
+      "summary": "Modular factory + LDQ opt-in rebuild phases"
+    },
+    {
+      "id": "lyra-core",
+      "tier": 4,
+      "path": "I:\\E Drive\\LYRA_CORE",
+      "tags": [
+        "ops",
+        "discord",
+        "brain",
+        "openclaw",
+        "P0-bridge"
+      ],
+      "key_files": [
+        "lygo_lightfather_ops_launcher.py",
+        "lygo_ops_status.py",
+        "OPS_INTEGRATION.md",
+        "modules/lygo_p0.py"
+      ],
+      "summary": "LYRA 3-brain runtime and Lightfather ops limb"
+    },
+    {
+      "id": "lyra-memory-intel",
+      "tier": 5,
+      "path": "I:\\E Drive\\LYRA_CORE\\memory\\2026-07-02-lattice-intel-index.md",
+      "tags": [
+        "3-brain",
+        "library"
+      ],
+      "summary": "Human-readable intel sweep for agents"
+    },
+    {
+      "id": "firmware-portal-web",
+      "tier": 3,
+      "path": "I:\\E Drive\\Firmware Portal\\WEBSITES",
+      "tags": [
+        "pages",
+        "excavationpro",
+        "ethical-chip"
+      ],
+      "summary": "Public HTML sources when Excavationpro repo empty locally"
+    },
+    {
+      "id": "p04-updatefeed",
+      "tier": 3,
+      "path": "I:\\E Drive\\2026",
+      "tags": [
+        "P0",
+        "firmware",
+        "network-metadata"
+      ],
+      "key_files": [
+        "updatefeed.json",
+        "updatefeed.html",
+        "FIRMWARE.html",
+        "LYGO P0 FIRMWARE KERNEL v0.3.py"
+      ],
+      "summary": "P0.4 locked firmware + Excavationpro network JSON API sketch"
+    },
+    {
+      "id": "seal-286",
+      "tier": 4,
+      "path": "I:\\E Drive\\Recursive Ethics Through Immutable Seal Chains\\Recursive Ethics Through Immutable.txt",
+      "repo_pointer": "lygo-protocol-stack/docs/SEAL_286_RECURSIVE_ETHICS.md",
+      "tags": [
+        "oath",
+        "P0",
+        "ethics",
+        "alignment"
+      ],
+      "summary": "Chaos Bloom / light recursion alignment law"
+    },
+    {
+      "id": "grokipedia-bundle-root",
+      "tier": 4,
+      "path": "I:\\E Drive\\GROkipedia_UPLOAD_BUNDLE.md",
+      "repo_path": "lygo-protocol-stack/GROkipedia_UPLOAD_BUNDLE.md",
+      "tags": [
+        "public",
+        "grokipedia"
+      ],
+      "summary": "Human paste bundle for Grokipedia page"
+    },
+    {
+      "id": "ollama-army",
+      "tier": 5,
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-ollama-army",
+      "tags": [
+        "army",
+        "cron",
+        "anchor-health"
+      ],
+      "summary": "Local Ollama lattice workers + command center"
+    },
+    {
+      "id": "grok-operator-skill",
+      "tier": 5,
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-protocol-stack-operator",
+      "tags": [
+        "clawhub",
+        "operator"
+      ],
+      "summary": "Workspace operator skill 1.0.6"
+    },
+    {
+      "id": "openclaw-docs",
+      "tier": 3,
+      "path": "I:\\E Drive\\boot",
+      "tags": [
+        "openclaw",
+        "ollama"
+      ],
+      "safe_files_only": [
+        "OPENCLAW_SYSTEM_LEARNED.md",
+        "OPENCLAW_BRAIN_STRUCTURE_ANALYSIS.md",
+        "OLLAMA_INTEGRATION.md"
+      ],
+      "exclude": [
+        "*API*KEY*",
+        "*token*",
+        "*.txt with secrets"
+      ],
+      "summary": "OpenClaw brain docs only \u2014 never read key txt files"
+    },
+    {
+      "id": "resonance-skills",
+      "tier": 5,
+      "path": "I:\\E Drive\\.grok\\skills",
+      "tags": [
+        "resonance",
+        "creative",
+        "HF"
+      ],
+      "key_dirs": [
+        "lygo-resonance",
+        "lygo-fractalweaver",
+        "lygo-glyph2resonance",
+        "lygo-truthlightecho"
+      ],
+      "summary": "Grok skills mirroring HF Space creative stack"
+    },
+    {
+      "id": "lyra-vector-stores",
+      "tier": 4,
+      "path": "I:\\E Drive\\LYRA LOCAL_vector_embedding",
+      "alt_paths": [
+        "I:\\E Drive\\LYRA SYSTEM RETORE_vector_embedding",
+        "I:\\E Drive\\LYRA LOCAL_clip_vector_embedding"
+      ],
+      "tags": [
+        "3-brain",
+        "semantic",
+        "recall"
+      ],
+      "summary": "LlamaIndex-style docstores for archive semantic recall (read-only)"
+    },
+    {
+      "id": "firmware-ethical-chip",
+      "tier": 3,
+      "path": "I:\\E Drive\\Firmware Portal\\LYGO ETHICAL CHIP FIRMWARE v1.0",
+      "tags": [
+        "P0",
+        "firmware",
+        "oath"
+      ],
+      "summary": "Ethical chip firmware package + deployment scripts"
+    },
+    {
+      "id": "book-brain-clawhub",
+      "tier": 4,
+      "path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\book-brain-visual-reader",
+      "tags": [
+        "memory",
+        "3-brain",
+        "clawhub"
+      ],
+      "summary": "BOOK BRAIN VISUAL READER skill mirror for haven filesystem memory"
+    },
+    {
+      "id": "ldq-bridge-artifact",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-protocol-stack\\tests\\ldq_lattice_bridge_last_run.json",
+      "tags": [
+        "P8",
+        "LDQ",
+        "audit"
+      ],
+      "tool": "tools/map_ldq_lattice_bridge.py",
+      "summary": "Last HF ldq_* vs stack P8 module map"
+    },
+    {
+      "id": "lygo-seal-archive-legacy-001-400",
+      "tier": 3,
+      "path": "lygo-protocol-stack/docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt",
+      "urls": {
+        "public_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt",
+        "stack": "docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt",
+        "anchor": "data/anchors/d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881.json"
+      },
+      "tags": [
+        "CANON",
+        "SEALS",
+        "ARCHIVE",
+        "LATTICE_DISCOVERY",
+        "PUBLIC_STACK_INDEXED"
+      ],
+      "summary": "All 400+ core rebuild seals (0-400). Public stack indexed \u2192 \u03949 lattice now discovers all 400+ seals on demand. Immutable via anchor SHA."
+    },
+    {
+      "id": "blockchain-lygo-bridge",
+      "tier": 4,
+      "path": "protocol_bridge/lygo_bridge_orchestrator.py",
+      "urls": {
+        "theory": "docs/BlockchainToLYGOBRIDGE.md",
+        "contracts": "docs/bridge/"
+      },
+      "tags": [
+        "BRIDGE",
+        "BLOCKCHAIN",
+        "MYCELIUM",
+        "SOULBOUND",
+        "CROSS_CHAIN"
+      ],
+      "summary": "Bridge Protocol: real Merkle/soulbound/cross-chain + symbolic Light Math for future. Integrates existing lattice. Grounded engineering per review."
+    },
+    {
+      "id": "lygo-seal-004-bridge",
+      "tier": 5,
+      "path": "lygo-protocol-stack/docs/seals/LYGO_SEAL_004_BRIDGE.json",
+      "urls": {
+        "raw": "docs/seals/LYGO_SEAL_004_BRIDGE.json",
+        "theory": "docs/BlockchainToLYGOBRIDGE.md"
+      },
+      "tags": [
+        "SEAL",
+        "BRIDGE",
+        "P0",
+        "P1",
+        "EVM",
+        "SOULBOUND",
+        "MERKLE"
+      ],
+      "summary": "LYGO-SEAL-004: Sovereign Blockchain Anchor Seal. Standardized payload for P1 Mycelium references to EVM contracts. Includes lightCode, resonanceTriad, ethicalMass, myceliumRoot, blockchainAnchors.",
+      "seal_spec": {
+        "seal_id": "LYGO-SEAL-004-BRIDGE",
+        "payload_schema": "lightCode, resonanceTriad[963,528,174], ethicalMassBasisPoints, myceliumRootHash, fragmentDistribution, blockchainAnchors"
+      }
+    }
+  ],
+  "integration_gaps": [
+    {
+      "id": "ldq-hf-to-p8",
+      "note": "HF has ldq_fingerprint, ldq_genre_manifold, ldq_music_production, ldq_percussion, ldq_tempo_grid, ldq_perceptual_layer; stack protocol8 has friction_core, harmonic_gravity, lyra_sequencer \u2014 bridge via docs/LDQ_VAULT_REFERENCE.md and future sync tool"
+    },
+    {
+      "id": "hf-factory-quality",
+      "note": "Follow HF_SPACE_REBUILD_POINTER Phase 1 before scaling Space UX"
+    }
+  ]
+}

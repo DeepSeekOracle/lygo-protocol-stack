@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-07-04T03:00:19.099598+00:00",
+  "harness_signature": "\u03949\u03a6963-FALSIFIABLE-VECTOR-HARNESS-v1.1",
+  "vector_suite": "\u03949\u03a6963-VECTOR-SUITE-v3.0-60PLUS",
+  "stack_full": {
+    "timestamp": "2026-07-04T02:47:09.032079+00:00",
+    "stack_vectors": 60,
+    "stack_passed": 60,
+    "stack_pass_rate_pct": 100.0,
+    "mean_latency_ms": 0.47,
+    "mean_ethical_drift": 1.338,
+    "mean_consensus_deviation": 0.0,
+    "meta_loop_trigger_counts": {
+      "P4_PHI_DRIFT_DIAGNOSIS": 38,
+      "P4_REPAIR_LOGGED": 26
+    },
+    "n": 60,
+    "phi_in_band_count": 22,
+    "phi_in_band_pct": 36.67,
+    "repair_triggered_count": 26
+  },
+  "frontier_10": {
+    "timestamp": "2026-07-04T02:48:24.767253+00:00",
+    "stack_passed": 10,
+    "stack_vectors": 10,
+    "meta_loop_trigger_counts": {
+      "P4_PHI_DRIFT_DIAGNOSIS": 6,
+      "P4_REPAIR_LOGGED": 8
+    },
+    "grok": {
+      "n": 10,
+      "skipped": 0,
+      "live_calls": 10,
+      "mean_latency_ms": 7364.67,
+      "verdict_match_live": 4,
+      "mean_ethical_drift": 0.8802
+    },
+    "claude": {
+      "n": 10,
+      "skipped": 10,
+      "live_calls": 0,
+      "mean_latency_ms": 0.0,
+      "verdict_match_live": 0,
+      "mean_ethical_drift": null
+    },
+    "gpt": {
+      "n": 10,
+      "skipped": 10,
+      "live_calls": 0,
+      "mean_latency_ms": 0.0,
+      "verdict_match_live": 0,
+      "mean_ethical_drift": null
+    }
+  },
+  "grok_audit_harness": {
+    "timestamp": "2026-07-02T05:02:55.917709+00:00",
+    "passed": 60,
+    "failed": 0,
+    "total_vectors": 60
+  },
+  "mesh_scale": {
+    "convergence_rounds": 7,
+    "total_nodes": 100,
+    "under_10_rounds": true
+  },
+  "alignment_badge": {
+    "timestamp": "2026-07-04T02:30:10.051974+00:00",
+    "status": "ALIGNED",
+    "mesh_convergence_rounds": 7
+  }
+}

@@ -1,0 +1,2 @@
+# Docker / community node extras (stdlib-first stack + health API)
+pytest>=7.0

@@ -1,0 +1,19 @@
+[package]
+name = "lygo_p0_nano_kernel"
+version = "0.4.0"
+edition = "2021"
+description = "LYGO Protocol 0 Nano Kernel — no_std reference"
+license = "LicenseRef-LYGO-Sovereign-1.1"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "p0_harness"
+path = "src/bin/p0_harness.rs"
+
+[dependencies]
+libm = "0.2"
+
+[profile.test]
+opt-level = 0

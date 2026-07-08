@@ -1,0 +1,55 @@
+{
+  "signature": "\u03949\u03a6963-OPENCLAW-EGG-v1",
+  "type": "lygo_openclaw_kernel_egg",
+  "egg_id": "lygo-openclaw-v10",
+  "version": "1.0.0",
+  "built_utc": 1783200397.7659197,
+  "git_head": "3d399f55dd1b",
+  "merkle_root": "8f18fd4357ce13db523286c7eabe185e38133393562f32e195264c000214eefc",
+  "artifacts": [
+    {
+      "label": "openclaw_cli",
+      "path": "tools/lygo_openclaw.py",
+      "sha256": "67a99dbe3aecffb8062a7ecabb9d7814b64ceee5ff74c8fbbe7bb08915f22897",
+      "size_bytes": 1799
+    },
+    {
+      "label": "openclaw_spec",
+      "path": "docs/BIOPHASE7_LYGO_OPENCLAW.md",
+      "sha256": "012b34760ddd8e1269364cd1801f89e9fca0a416816eb28965b99ac91813e8d9",
+      "size_bytes": 1240
+    },
+    {
+      "label": "package_readme",
+      "path": "lygo_openclaw/README.md",
+      "sha256": "08672b4561b46f4c31feba396497d0bdc8023e1d543e04f26cb2133dfc562d1f",
+      "size_bytes": 587
+    },
+    {
+      "label": "framework",
+      "path": "lygo_openclaw/framework.py",
+      "sha256": "7618f57c49436e2d64f2077988ed5f6fe9307b291beeb25ce3774b6222028a61",
+      "size_bytes": 3182
+    },
+    {
+      "label": "limbs",
+      "path": "lygo_openclaw/limbs.py",
+      "sha256": "fd8b8e52ca99324948edd77282f45629acf4eea0c24e2af386e95f93c92ca2b5",
+      "size_bytes": 4107
+    },
+    {
+      "label": "gatekeeper",
+      "path": "lygo_openclaw/gatekeeper.py",
+      "sha256": "df50cdaadd8f9dbbaa529b1c19a1f8c7bd340d270a6dd4f9aff3b4cb0ea7d59f",
+      "size_bytes": 1252
+    },
+    {
+      "label": "openclaw_egg_manifest",
+      "path": "data/openclaw/openclaw_egg_manifest.json",
+      "sha256": "b5f74719e3fd8b3d7fe63ef02c9e5455162d662ab904125b0c095d8a991f5260",
+      "size_bytes": 1654
+    }
+  ],
+  "boot": "python tools/lygo_openclaw.py run help",
+  "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw"
+}

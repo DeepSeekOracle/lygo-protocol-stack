@@ -1,0 +1,13 @@
+{
+  "ts": "2026-07-05T01:29:00.911043+00:00",
+  "ops": {
+    "lattice_light": {
+      "ok": true,
+      "eggs_verdict": "{\n  \"verdict\": \"ALIGNED\",\n  \"all_pass\": true\n}\n",
+      "clawhub_published": 41,
+      "clawhub_listed": 41,
+      "catalog_balanced": true
+    }
+  },
+  "all_ok": true
+}

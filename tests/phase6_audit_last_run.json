@@ -1,0 +1,51 @@
+{
+  "signature": "\u03949\u03a6963-P6-POLISH-v1.0",
+  "vectors": [
+    {
+      "id": "P6-01-TPM-PRESENT",
+      "pass": true,
+      "note": "TPM or stub+Keylime path"
+    },
+    {
+      "id": "P6-02-PUF-UNIQUE",
+      "pass": true
+    },
+    {
+      "id": "P6-03-BOOT-HASH",
+      "pass": true,
+      "note": "P0 golden hash match"
+    },
+    {
+      "id": "P6-04-BADGE-SIGNED",
+      "pass": true
+    },
+    {
+      "id": "P6-05-PEER-VERIFY",
+      "pass": true
+    },
+    {
+      "id": "P6-06-ETHICAL-GATE",
+      "pass": true,
+      "note": "verify_attestation_hardened --local"
+    }
+  ],
+  "all_pass": true,
+  "hardware_tool": {
+    "signature": "\u03949\u03a6963-PHASE6-v1.0",
+    "health": {
+      "status": "healthy",
+      "tpm_present": false,
+      "puf_present": true,
+      "p0_hash": "7e8d18fda979cbefec14c3fc86f43f2a020b494b6052acccb6f865f2b4fae1d3",
+      "version": "\u03949\u03a6963-PHASE6-v1.0"
+    },
+    "p0_golden": "7e8d18fda979cbefec14c3fc86f43f2a020b494b6052acccb6f865f2b4fae1d3",
+    "p0_golden_ok": true,
+    "tpm_present": false,
+    "puf_present": true,
+    "badge_signed": true,
+    "self_verify": true,
+    "status": "PASS"
+  },
+  "vector_file": "I:\\E Drive\\lygo-protocol-stack\\tests\\phase6_test_vectors.json"
+}

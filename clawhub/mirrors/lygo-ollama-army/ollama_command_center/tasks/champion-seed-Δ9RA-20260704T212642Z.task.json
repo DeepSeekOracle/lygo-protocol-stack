@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-\u03949RA-20260704T212642Z",
+  "role": "champion-egg-boot",
+  "champion": "\u03949RA",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-d99ra",
+    "merkle_root": "ad1b4da0def10ae117e4d96c8274295318d072909cdeb742a74c44b9b5c5f4a4",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

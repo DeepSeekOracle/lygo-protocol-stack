@@ -1,0 +1,29 @@
+{
+  "phase6_tests": [
+    {
+      "id": "P6-01-TPM-PRESENT",
+      "description": "Verify TPM 2.0 is present and accessible",
+      "expected": "PASS"
+    },
+    {
+      "id": "P6-02-PUF-UNIQUE",
+      "description": "Verify PUF response is unique per device",
+      "expected": "PASS"
+    },
+    {
+      "id": "P6-03-BOOT-HASH",
+      "description": "Verify boot hash matches golden reference",
+      "expected": "PASS"
+    },
+    {
+      "id": "P6-04-BADGE-SIGNED",
+      "description": "Verify badge is properly signed",
+      "expected": "PASS"
+    },
+    {
+      "id": "P6-05-PEER-VERIFY",
+      "description": "Verify peer badge validation",
+      "expected": "PASS"
+    }
+  ]
+}

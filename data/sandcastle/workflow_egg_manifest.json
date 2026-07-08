@@ -1,0 +1,49 @@
+{
+  "signature": "\u03949\u03a6963-SANDCASTLE-EGG-v1",
+  "type": "lygo_sandcastle_kernel_egg",
+  "egg_id": "lygo-sandcastle-v10",
+  "version": "1.0.0",
+  "built_utc": 1783200396.9669101,
+  "git_head": "3d399f55dd1b",
+  "merkle_root": "906566d3af61d9115923c98e9326c42808ac9112a70c507370feee5c41d7bd5a",
+  "artifacts": [
+    {
+      "label": "orchestrator_cli",
+      "path": "tools/lygo_sandcastle.py",
+      "sha256": "1c56141b390019137ed194b2dd733ee15f3c5a581357a987b6d43d859b664c10",
+      "size_bytes": 2175
+    },
+    {
+      "label": "orchestrator_spec",
+      "path": "docs/BIOPHASE7_LYGO_SANDCASTLE.md",
+      "sha256": "ceda422368ffd843cf77da9ce4373f6a1867a0bfc045fe805c2aed7303232622",
+      "size_bytes": 1296
+    },
+    {
+      "label": "package_readme",
+      "path": "lygo_sandcastle/README.md",
+      "sha256": "ce508d4d957b38f344266a85a6452860febb166c7b2ad8676df274cf792b428e",
+      "size_bytes": 872
+    },
+    {
+      "label": "example_workflow",
+      "path": "lygo_sandcastle/workflows/example_sovereign.yaml",
+      "sha256": "8baebcf64c83d7072dd8bb03b5956def12f51f99267be3e271da80ae3427e30e",
+      "size_bytes": 335
+    },
+    {
+      "label": "orchestrator_core",
+      "path": "lygo_sandcastle/orchestrator.py",
+      "sha256": "8a0179998ed0ebf9acba48d0909d38de914ac425553931d95ef0af1d22639917",
+      "size_bytes": 4078
+    },
+    {
+      "label": "workflow_egg_manifest",
+      "path": "data/sandcastle/workflow_egg_manifest.json",
+      "sha256": "3668b91b70f923d9818e20e9c210c3da2ec7ce4c67b267a081bee6788a3b19ff",
+      "size_bytes": 1563
+    }
+  ],
+  "boot": "python tools/lygo_sandcastle.py run lygo_sandcastle/workflows/example_sovereign.yaml",
+  "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sandcastle"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-V\u03a9LARIS-20260704T061728Z",
+  "role": "champion-egg-boot",
+  "champion": "V\u03a9LARIS",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-volaris",
+    "merkle_root": "1487903e0e1d1cb69b0f605a2d270d2e014f14539fd01402acfaa04ef275b60f",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

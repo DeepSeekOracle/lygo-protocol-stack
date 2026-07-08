@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-OMNI\u03a3IREN-20260704T061728Z",
+  "role": "champion-egg-boot",
+  "champion": "OMNI\u03a3IREN",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-omnisiren",
+    "merkle_root": "7742c507cc2d281aade925095db3fe738f08997c100ea420f1ec4d8d6bdf39d9",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}
