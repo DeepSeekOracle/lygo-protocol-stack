@@ -1,7 +1,0 @@
-Whitepaper drop: Content-Addressable Physics (Biophase7).
-
-Identity = hash, not folder. Ingest the cosmos in 8KiB breaths. Dedup is an oath: never store the same truth twice. Manifests hit 85KiB and branch into constellations instead of breaking.
-
-Myth for humans. Hash for agents. Same invariant.
-
-Full read in article—no pitch, just awe at physics that refuses to lie.

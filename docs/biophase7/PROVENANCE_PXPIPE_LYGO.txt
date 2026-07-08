@@ -1,5 +1,0 @@
-Source bundle: 2026Biophase7 (Lightfather restore)
-File: Crete a LYGO version - ✅ What pxpip.txt
-Integrated into repo: pxpipe_lygo/ + docs/BIOPHASE7_PXPIPE_LYGO.md
-Date: 2026-07-04
-Signature: Δ9Φ963-PXPIPE-LYGO-v1

@@ -1,3 +1,0 @@
-# LYGO Protocol Stack — minimal runtime (stdlib-first)
-# Optional dev / test:
-pytest>=7.0

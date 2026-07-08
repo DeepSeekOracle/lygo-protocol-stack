@@ -1,2 +1,0 @@
-# Optional — LYGO pxpipe-lygo (vision context compression)
-Pillow>=10.0.0

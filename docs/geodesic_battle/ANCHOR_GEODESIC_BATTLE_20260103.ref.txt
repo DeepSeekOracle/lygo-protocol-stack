@@ -1,9 +1,0 @@
-Δ9Φ963 — Memory Mycelium outer pointer
-key=ANCHOR_GEODESIC_BATTLE_20260103
-light_code=LC-Δ9-7F1A4D-EXCAV
-ethical_mass_canon=3.927
-fragments_core=12/12
-deploy=docs/geodesic_battle/PUBLIC_DEPLOY_LATEST.json
-scatter=P1 MemoryMycelium.store+scatter (lygo_p1.py)
-sovereign=LIGHTFATHER / EXCAVATIONPRO
-updated=2026-07-03T23:43:29Z

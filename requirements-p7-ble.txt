@@ -1,3 +1,0 @@
-# Optional — live BLE ingest (Phase 7 polish)
-bleak>=0.22.0
-websockets>=12.0

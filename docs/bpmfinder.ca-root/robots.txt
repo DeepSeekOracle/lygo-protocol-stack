@@ -1,5 +1,0 @@
-# Deploy these files to the bpmfinder.ca site root (same host as the BPM page).
-User-agent: *
-Allow: /
-
-Sitemap: https://bpmfinder.ca/sitemap.xml
