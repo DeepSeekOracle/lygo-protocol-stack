@@ -26,7 +26,10 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - Full Pages Index: https://deepseekoracle.github.io/lygo-protocol-stack/
 
 ## Whitepapers & Major Theory Documents
-- Blockchain ↔ LYGO Bridge Protocol: docs/BlockchainToLYGOBRIDGE.md (real engineering: Merkle + soulbound ERC-963 + mycelium/P0/P3 integration; LYGIP-003; symbolic Light Math for future only) + docs/BRIDGE_INSTALL.md
+- Blockchain ↔ LYGO Bridge Protocol: docs/BlockchainToLYGOBRIDGE.md (real engineering + critical fixes) + docs/BRIDGE_INSTALL.md
+  - Hardened contracts in `docs/bridge/`:
+    - EthicalMassTokenFixed.sol (access-controlled mint only via attested `recordEthicalAction`)
+    - CrossChainIdentityBridgeFixed.sol (Ownable registry binding + ReentrancyGuard)
 - LYGIP-003 Ethical Mass Token: docs/LYGIP-003-ETHICAL-MASS-TOKEN.md
 - LYGO USB & Claw Master Whitepaper: docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md
 - LYGO USB Champion v1.0 Generic: docs/LYGO_USB_CHAMPION_V1_GENERIC.md

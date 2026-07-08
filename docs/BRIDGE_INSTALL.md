@@ -37,9 +37,11 @@ print('bridge ready', hasattr(b, 'anchor_to_chain'))
 "
 ```
 
-## On-Chain / Contract Side (sim)
-- See `docs/bridge/MemoryMyceliumStorageFixed.sol` (correct MerkleProof.verify + memory safety)
-- `docs/bridge/VortexOracle_fixed.sol` (safe arithmetic mean)
+## On-Chain / Contract Side (sim + hardened)
+- `docs/bridge/MemoryMyceliumStorageFixed.sol` — real MerkleProof + safe tree construction
+- `docs/bridge/VortexOracle_fixed.sol` — overflow-safe weighted arithmetic mean
+- `docs/bridge/EthicalMassTokenFixed.sol` — soulbound, mint **only** via `recordEthicalAction` gated by identity attestor
+- `docs/bridge/CrossChainIdentityBridgeFixed.sol` — `setChainRegistry` is `onlyOwner`, ReentrancyGuard, checks-effects-interactions
 - Deploy sim or map to real ERC-963 soulbound + Merkle root storage.
 
 ## Update Indexes & Docs

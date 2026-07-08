@@ -14,11 +14,22 @@ The **Blockchain to LYGO Bridge** enables sovereign cross-domain identity and va
 - **Soulbound Ethical Mass Tokens (LYGIP-003 / ERC-963 sim)**: Non-transferable (revert on _beforeTokenTransfer). Minted from lattice-verified actions (P0 pass + vortex consensus weight). "Ethical mass" = weighted lattice score (real fixed-point arithmetic; 528 symbolic factor for resonance tiers only).
 - **Vortex Consensus Oracle**: P3 harmonic consensus (3-6-9 + Φ) provides the weight for token mint / bridge attestation. See `VortexOracle_fixed.sol` for safe weighted arithmetic mean (no overflow).
 - **Cross-Chain Identity**: Soulbound token + lattice light code (hash) pair acts as portable sovereign ID. Bridge supports simulated multi-chain (ETH + future).
-- **Fixes Applied**: Proper MerkleProof (fresh arrays, no mutable default), qiskit guard, normalized rotation for any resonance sim, overflow-safe mean.
+- **Fixes Applied** (cumulative):
+  - Proper MerkleProof (fresh arrays, no mutable default)
+  - qiskit guard + normalized rotation
+  - Overflow-safe Vortex mean (no integer-division-to-zero)
+  - **Critical access control**:
+    - `CrossChainIdentityBridge.setChainRegistry` now `onlyOwner` + ReentrancyGuard + checks-effects-interactions. Prevents attacker-controlled malicious registry that always returns `valid=true`.
+    - `EthicalMassToken.mint/burn` removed from public API. Only `recordEthicalAction` (gated by real `IIdentityAttestor.verifyEthicalAction`) and `applyEthicalDecay` can change supply. Direct unlimited mint that inflated `getGovernanceWeight(balanceOf)` is now impossible.
+  - Replay protection is now inside a verified attestation path, not the sole guard.
 
 See:
 - `protocol_bridge/lygo_bridge_orchestrator.py` (LYGOBlockchainBridge class)
-- `docs/bridge/` (MemoryMyceliumStorageFixed.sol, VortexOracleFixed.sol)
+- `docs/bridge/`:
+  - MemoryMyceliumStorageFixed.sol
+  - VortexOracleFixed.sol
+  - **EthicalMassTokenFixed.sol** (access-controlled mint only via attested actions)
+  - **CrossChainIdentityBridgeFixed.sol** (Ownable + ReentrancyGuard registry binding)
 - `docs/LYGIP-003-ETHICAL-MASS-TOKEN.md`
 - `docs/BRIDGE_INSTALL.md`
 
@@ -29,6 +40,19 @@ See:
 3. Compute Merkle root of fragments.
 4. "Mint" soulbound token on bridge contract (sim or on-chain) with root + mass + light_code.
 5. Verify: on-chain MerkleProof + lattice re-compute of mass.
+
+## Security Fixes Applied (This Round)
+
+**CrossChainIdentityBridge**
+- `setChainRegistry` was completely open. An attacker could register a contract that always returns `valid = true`.
+- **Fix**: `onlyOwner`, per-chain mapping, `ReentrancyGuard`, strict checks-effects-interactions, zero-address + self checks. Only the sovereign operator can bind a registry.
+
+**EthicalMassToken**
+- Public `mint(anyone, hugeAmount, freshHash)` with only a replay guard.
+- `getGovernanceWeight` = `balanceOf` → instant capture of governance.
+- **Fix**: `mint`/`burn` internal. Only `recordEthicalAction` (requires passing `IIdentityAttestor.verify...`) and authorized `applyEthicalDecay` can move tokens. Replay protection now lives inside a verified path.
+
+These two categories (unrestricted registry binding + unrestricted mint) are the highest-severity sovereignty bugs possible in this architecture.
 
 ## Symbolic / Light Math Layer (Future Suture Tech)
 
