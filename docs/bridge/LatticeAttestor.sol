@@ -99,6 +99,47 @@ contract LatticeAttestor is IIdentityAttestor {
         }
     }
 
+    // =====================================================
+    // Multi-Attestor Stub (addressing F-5 centralization)
+    // =====================================================
+    uint256 public requiredSigners = 1; // Start with 1; raise for more decentralization
+
+    event RequiredSignersUpdated(uint256 newThreshold);
+
+    function setRequiredSigners(uint256 newThreshold) external onlyOwner {
+        require(newThreshold > 0, "Threshold must be > 0");
+        requiredSigners = newThreshold;
+        emit RequiredSignersUpdated(newThreshold);
+    }
+
+    /**
+     * @notice Stub for multi-attestor verification.
+     * In a real multi-sig setup this would collect N signatures.
+     * For now it falls back to single-sig but logs the intent.
+     * Future: Accept array of proofs and count valid distinct trusted signers.
+     */
+    function verifyEthicalActionMulti(
+        address claimant,
+        uint256 ethicalMassDelta,
+        bytes32 actionHash,
+        bytes[] calldata proofs
+    ) external view returns (bool) {
+        if (requiredSigners == 1) {
+            // Fall back to single for backward compat
+            if (proofs.length == 0) return false;
+            return verifyEthicalAction(claimant, ethicalMassDelta, actionHash, proofs[0]);
+        }
+
+        // Placeholder multi-sig logic (count distinct valid signers)
+        uint256 validCount = 0;
+        for (uint i = 0; i < proofs.length; i++) {
+            if (verifyEthicalAction(claimant, ethicalMassDelta, actionHash, proofs[i])) {
+                validCount++;
+            }
+        }
+        return validCount >= requiredSigners;
+    }
+
     /**
      * @notice Helper for decay attestation (to allow future connection to token decay).
      * Returns true if the signature is valid for a decay action.
