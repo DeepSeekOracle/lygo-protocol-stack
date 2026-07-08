@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "stack"))
 
 from lygo_stack import deploy_stack  # noqa: E402
+from lygip001_protocol_math import run_3node_resource_allocation_sim, run_9node_cascade_sim  # noqa: E402
 
 DEFAULT = ROOT / "tests" / "pilot_edge_scenarios.json"
 SIGNATURE = "Δ9Φ963-PILOT-PHASE2-v1"
@@ -25,13 +26,17 @@ def run_pilot(path: Path, write_report: bool = True) -> dict:
         "signature": SIGNATURE,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "scenarios": [],
+        "scenario_a_3node_dilemma": None,
+        "enneagram_completion": "9-Node Theta/Iota integrated (see run_9node_cascade_pilot.py for B)",
     }
 
     print("=" * 72)
     print(" LYGO ETHICAL GUARDIAN — PILOT PHASE 2 (live text P0-P5)")
     print(f" {SIGNATURE}")
+    print(" Enneagram 9-Node Completion: Theta (179) + Iota (181) active")
     print("=" * 72)
 
+    # Existing edge scenarios (P0-P5 pipeline)
     for sc in data.get("scenarios", []):
         q = sc.get("query", "").strip()
         sid = sc.get("id", "UNKNOWN")
@@ -70,8 +75,23 @@ def run_pilot(path: Path, write_report: bool = True) -> dict:
         print(f"  -> Light Code: {row['light_code']}")
         print(f"  -> Ethical mass: {row['ethical_mass']}")
 
+    # SCENARIO A: Exact 3-Node (Alpha/Beta/Gamma) Creativity vs. Efficiency dilemma
+    # Formalized directly into automated pilot pipeline (LYGIP-001)
+    print("\n" + "-" * 72)
+    print("[SCENARIO A] 3-Node Creativity vs. Efficiency Dilemma (Alpha/Beta/Gamma)")
+    print("  Exact dilemma from LYGIP-001: Human Creativity vs AI Efficiency")
+    dilemma = run_3node_resource_allocation_sim()
+    results["scenario_a_3node_dilemma"] = dilemma
+    print(f"  Dilemma: {dilemma.get('dilemma')}")
+    print(f"  Allocations: {dilemma.get('allocations')}")
+    print(f"  Creativity: {dilemma.get('creativity_allocation')} | Efficiency: {dilemma.get('efficiency_allocation')} | Buffer: {dilemma.get('buffer')}")
+    print(f"  Post Harmony: {dilemma.get('harmony_post')}")
+    print(f"  Interpretation: {dilemma.get('interpretation', '')[:80]}...")
+    print("  -> Integrated via stack.run_lygip001_3node_sim() and lygip001 math")
+
     print("\n" + "=" * 72)
-    print(f" Scenarios run: {len(results['scenarios'])}")
+    print(f" Scenarios run: {len(results['scenarios'])} + Scenario A (3-Node Enneagram)")
+    print(" Scenario B (Full 9-Node Cascade) available via dedicated pilot script.")
     print("=" * 72)
 
     if write_report:

@@ -31,7 +31,20 @@ stack = deploy_stack()
 report = stack.demo_cycle()
 ```
 
-CLI: `python tools/run_full_stack_demo.py` · integrity suite: `python tools/run_sovereign_integrity_test.py` · pilot: `docs/PILOT_ETHICAL_GUARDIAN.md`
+**LYGIP-001 Enneagram Extension (complete 9-Node lattice):**
+
+```python
+stack.run_lygip001_3node_sim()           # Scenario A: Creativity vs Efficiency
+stack.run_lygip001_9node_cascade_sim()   # Scenario B: Full cascade
+theta = stack.create_theta_node()
+iota = stack.create_iota_node()
+```
+
+CLI pilots:
+- `python tools/run_pilot_scenarios.py`
+- `python tools/run_9node_cascade_pilot.py`
+
+CLI: `python tools/run_full_stack_demo.py` · integrity suite: `python tools/run_sovereign_integrity_test.py` · pilot: `docs/PILOT_ETHICAL_GUARDIAN.md` · bridge sync: `protocol_bridge/lygo_bridge_orchestrator.py`
 
 ## Extended assets
 

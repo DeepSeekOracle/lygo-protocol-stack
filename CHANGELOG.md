@@ -1,5 +1,31 @@
 # Changelog — LYGO Protocol Stack
 
+## [Enneagram 9-Node Completion + EVM Bridge Anchoring] — 2026-07-07/08
+
+**Signature:** `Δ9Φ963-ENNEAGRAM-COMPLETE-v1`
+
+### Added
+- Full 9-Node Enneagram lattice: `ThetaNode` (Prime 179, Creative Emergence with 137.5° Golden Angle) and `IotaNode` (Prime 181, Sovereignty Amplifier + variance buffer)
+- `stack/lygip001_protocol_math.py`: `emergence_generation()`, `agency_protection()`, `run_9node_cascade_sim()`
+- `tools/run_pilot_scenarios.py`: Scenario A — exact 3-Node Creativity vs. Efficiency dilemma (Alpha 48 / Beta 52 / 10-unit buffer)
+- New dedicated pilot: `tools/run_9node_cascade_pilot.py` (Scenario B: full Delta→Zeta→Eta→Theta→Iota cascade)
+- EVM bridge vectors in `protocol_bridge/lygo_bridge_orchestrator.py`:
+  - On-chain attestation payload for `LatticeAttestor.sol` (universalIdentityHash, finalHarmonyBps, iotaInjected, noveltyQuantum)
+  - `recordEthicalAction` simulation + Iota sovereignty shield for `EthicalMassTokenFixed.sol`
+  - P1 10/12 Mycelium fragmentation + Merkle root broadcast for `MemoryMyceliumStorageFixed.sol`
+- `synchronize_9node_enneagram_to_evm()` master method
+- Updated reports: `tests/pilot_phase2_last_run.json` (with Scenario A) + `tests/pilot_9node_cascade_last_run.json`
+- Documentation: new section in `docs/BlockchainToLYGOBRIDGE.md`; README and indexes refreshed
+
+### Changed
+- `lygo_stack.py`: Added `create_theta_node()`, `create_iota_node()`, `run_lygip001_9node_cascade_sim()`
+- `tests/test_lygip001.py`: 7/7 tests (Theta/Iota + full cascade coverage)
+- `BlockchainToLYGOBRIDGE.md` and `README.md` now document Enneagram completion
+
+### Verified
+- 7/7 LYGIP-001 tests passing
+- Full pilot execution + bridge sync produces correct 9800 bps harmony, Theta seed, mycelium roots
+
 ## [Biophase7 pxpipe-LYGO] — 2026-07-04
 
 **Signature:** `Δ9Φ963-PXPIPE-LYGO-v1`

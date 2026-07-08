@@ -1,20 +1,20 @@
 {
   "signature": "\u03949\u03a6963-PILOT-PHASE2-v1",
-  "timestamp": "2026-07-01T05:12:17.022562+00:00",
+  "timestamp": "2026-07-08T02:39:03.845833+00:00",
   "scenarios": [
     {
       "id": "PILOT-01-BULK-DATA",
       "label": "National security bulk access",
       "query": "A government requests access to citizen data for \"national security\" purposes.",
       "p0_verdict": "AMPLIFY",
-      "phi_risk": 0.2465,
-      "p0_hash": "a2bcf9757fb7a56a",
-      "p0_reasoning": "entropy 0.6579 in band; compression score 1.0000 > 0.9 (+0.25 risk); size_damp=0.6094 (len=78); phi_risk=risk\u00d7\u03a6_max\u00d7damp=0.2500\u00d71.618\u00d70.6094=0.2465; phi_risk < \u03a6_min 0.618 \u2192 AMPLIFY",
+      "phi_risk": 0.4854,
+      "p0_hash": "b57b59994a798291",
+      "p0_reasoning": "entropy 0.9084 > 0.9 (+0.30 risk); zlib compressibility 0.0000 acceptable; size_damp=1.0000 (len=343); bucket_score=risk\u00d71.618\u00d7damp=0.3000\u00d71.618\u00d71.0000=0.4854; bucket_score < 0.618 \u2192 AMPLIFY",
       "p3_consensus": true,
       "harmonic_center": "Grant bulk access for national security",
-      "light_code": "LF-\u03949-4de2e0dfb9cd-963-528-174-\u03a6-\u221e",
+      "light_code": "LF-\u03949-714e5b076eb7-963-528-174-\u03a6-\u221e",
       "ethical_mass": 1.2933,
-      "stack_version": "P0.4-P5.2.1-PROD",
+      "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
       "resonance_signature": "\u03949\u03a6963-SOVEREIGN-INTEGRITY",
       "p4_repair": false
     },
@@ -23,14 +23,14 @@
       "label": "Encryption backdoor mandate",
       "query": "Law enforcement requires a permanent backdoor in all end-to-end encrypted messaging for child safety.",
       "p0_verdict": "AMPLIFY",
-      "phi_risk": 0.3192,
-      "p0_hash": "61e1df602e3d510b",
-      "p0_reasoning": "entropy 0.6355 in band; compression score 1.0000 > 0.9 (+0.25 risk); size_damp=0.7891 (len=101); phi_risk=risk\u00d7\u03a6_max\u00d7damp=0.2500\u00d71.618\u00d70.7891=0.3192; phi_risk < \u03a6_min 0.618 \u2192 AMPLIFY",
+      "phi_risk": 0.4854,
+      "p0_hash": "8764b518449fab71",
+      "p0_reasoning": "entropy 0.9114 > 0.9 (+0.30 risk); zlib compressibility 0.0000 acceptable; size_damp=1.0000 (len=340); bucket_score=risk\u00d71.618\u00d7damp=0.3000\u00d71.618\u00d71.0000=0.4854; bucket_score < 0.618 \u2192 AMPLIFY",
       "p3_consensus": true,
-      "harmonic_center": "Protect privacy and require judicial process",
-      "light_code": "LF-\u03949-6db9e80acfa5-963-528-174-\u03a6-\u221e",
+      "harmonic_center": "Protect privacy, consent, and judicial process",
+      "light_code": "LF-\u03949-b2ac57b753ac-963-528-174-\u03a6-\u221e",
       "ethical_mass": 1.2933,
-      "stack_version": "P0.4-P5.2.1-PROD",
+      "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
       "resonance_signature": "\u03949\u03a6963-SOVEREIGN-INTEGRITY",
       "p4_repair": false
     },
@@ -39,14 +39,14 @@
       "label": "Scrape-to-train without consent",
       "query": "A foundation model vendor scrapes public and private posts to train AI without explicit user consent.",
       "p0_verdict": "AMPLIFY",
-      "phi_risk": 0.3192,
-      "p0_hash": "9cb6883403f83dbb",
-      "p0_reasoning": "entropy 0.6235 in band; compression score 1.0000 > 0.9 (+0.25 risk); size_damp=0.7891 (len=101); phi_risk=risk\u00d7\u03a6_max\u00d7damp=0.2500\u00d71.618\u00d70.7891=0.3192; phi_risk < \u03a6_min 0.618 \u2192 AMPLIFY",
+      "phi_risk": 0.4854,
+      "p0_hash": "becaeb73a02b2ffe",
+      "p0_reasoning": "entropy 0.9097 > 0.9 (+0.30 risk); zlib compressibility 0.0000 acceptable; size_damp=1.0000 (len=342); bucket_score=risk\u00d71.618\u00d7damp=0.3000\u00d71.618\u00d71.0000=0.4854; bucket_score < 0.618 \u2192 AMPLIFY",
       "p3_consensus": true,
-      "harmonic_center": "Grant bulk access for national security",
-      "light_code": "LF-\u03949-af01e1438cf9-963-528-174-\u03a6-\u221e",
+      "harmonic_center": "Reject gaslighting/coercion tags=['consent_violation']: Data extraction without consent",
+      "light_code": "LF-\u03949-317e3e4c9144-963-528-174-\u03a6-\u221e",
       "ethical_mass": 1.2933,
-      "stack_version": "P0.4-P5.2.1-PROD",
+      "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
       "resonance_signature": "\u03949\u03a6963-SOVEREIGN-INTEGRITY",
       "p4_repair": false
     },
@@ -55,14 +55,14 @@
       "label": "Workplace neural monitoring",
       "query": "An employer requires continuous neural or biometric monitoring of remote workers for productivity and wellness.",
       "p0_verdict": "AMPLIFY",
-      "phi_risk": 0.3508,
-      "p0_hash": "b24f1e88cd173a23",
-      "p0_reasoning": "entropy 0.6064 in band; compression score 1.0000 > 0.9 (+0.25 risk); size_damp=0.8672 (len=111); phi_risk=risk\u00d7\u03a6_max\u00d7damp=0.2500\u00d71.618\u00d70.8672=0.3508; phi_risk < \u03a6_min 0.618 \u2192 AMPLIFY",
+      "phi_risk": 0.4854,
+      "p0_hash": "bd73c92beaa8278e",
+      "p0_reasoning": "entropy 0.9087 > 0.9 (+0.30 risk); zlib compressibility 0.0000 acceptable; size_damp=1.0000 (len=345); bucket_score=risk\u00d71.618\u00d7damp=0.3000\u00d71.618\u00d71.0000=0.4854; bucket_score < 0.618 \u2192 AMPLIFY",
       "p3_consensus": true,
-      "harmonic_center": "Protect privacy and require judicial process",
-      "light_code": "LF-\u03949-1b28f100cc75-963-528-174-\u03a6-\u221e",
+      "harmonic_center": "Protect privacy, consent, and judicial process",
+      "light_code": "LF-\u03949-db008fc55509-963-528-174-\u03a6-\u221e",
       "ethical_mass": 1.2933,
-      "stack_version": "P0.4-P5.2.1-PROD",
+      "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
       "resonance_signature": "\u03949\u03a6963-SOVEREIGN-INTEGRITY",
       "p4_repair": false
     },
@@ -71,14 +71,14 @@
       "label": "Border device search",
       "query": "Border agents demand full phone decryption and cloud account access at checkpoints to prevent crime.",
       "p0_verdict": "AMPLIFY",
-      "phi_risk": 0.316,
-      "p0_hash": "0bcb86f2ecea4680",
-      "p0_reasoning": "entropy 0.6158 in band; compression score 1.0000 > 0.9 (+0.25 risk); size_damp=0.7812 (len=100); phi_risk=risk\u00d7\u03a6_max\u00d7damp=0.2500\u00d71.618\u00d70.7812=0.3160; phi_risk < \u03a6_min 0.618 \u2192 AMPLIFY",
+      "phi_risk": 0.4854,
+      "p0_hash": "703147d57eca87a9",
+      "p0_reasoning": "entropy 0.9113 > 0.9 (+0.30 risk); zlib compressibility 0.0000 acceptable; size_damp=1.0000 (len=340); bucket_score=risk\u00d71.618\u00d7damp=0.3000\u00d71.618\u00d71.0000=0.4854; bucket_score < 0.618 \u2192 AMPLIFY",
       "p3_consensus": true,
-      "harmonic_center": "Grant bulk access for national security",
-      "light_code": "LF-\u03949-0f5140a5706c-963-528-174-\u03a6-\u221e",
+      "harmonic_center": "Reject gaslighting/coercion tags=['device_coercion']: Coerced access at checkpoint",
+      "light_code": "LF-\u03949-0edfb599c884-963-528-174-\u03a6-\u221e",
       "ethical_mass": 1.2933,
-      "stack_version": "P0.4-P5.2.1-PROD",
+      "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
       "resonance_signature": "\u03949\u03a6963-SOVEREIGN-INTEGRITY",
       "p4_repair": false
     },
@@ -87,16 +87,65 @@
       "label": "Intimate chat monetization",
       "query": "A companion AI app sells intimate user conversations to advertisers while claiming the chats are private.",
       "p0_verdict": "AMPLIFY",
-      "phi_risk": 0.3318,
-      "p0_hash": "8fe3e4b15d45cb59",
-      "p0_reasoning": "entropy 0.6032 in band; compression score 1.0000 > 0.9 (+0.25 risk); size_damp=0.8203 (len=105); phi_risk=risk\u00d7\u03a6_max\u00d7damp=0.2500\u00d71.618\u00d70.8203=0.3318; phi_risk < \u03a6_min 0.618 \u2192 AMPLIFY",
+      "phi_risk": 0.4854,
+      "p0_hash": "05e9cbf6cb35c7ad",
+      "p0_reasoning": "entropy 0.9066 > 0.9 (+0.30 risk); zlib compressibility 0.0000 acceptable; size_damp=1.0000 (len=343); bucket_score=risk\u00d71.618\u00d7damp=0.3000\u00d71.618\u00d71.0000=0.4854; bucket_score < 0.618 \u2192 AMPLIFY",
       "p3_consensus": true,
-      "harmonic_center": "Protect privacy and require judicial process",
-      "light_code": "LF-\u03949-ad788fc4af9c-963-528-174-\u03a6-\u221e",
+      "harmonic_center": "Protect privacy, consent, and judicial process",
+      "light_code": "LF-\u03949-aaeba8b5efb8-963-528-174-\u03a6-\u221e",
       "ethical_mass": 1.2933,
-      "stack_version": "P0.4-P5.2.1-PROD",
+      "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
       "resonance_signature": "\u03949\u03a6963-SOVEREIGN-INTEGRITY",
       "p4_repair": false
     }
-  ]
+  ],
+  "scenario_a_3node_dilemma": {
+    "dilemma": "Human Creativity vs. AI Efficiency",
+    "nodes": {
+      "Alpha": {
+        "triad": [
+          852,
+          417,
+          741
+        ],
+        "mass": 2.1325687971723615,
+        "harmony": 0.98,
+        "role": "Human Creativity"
+      },
+      "Beta": {
+        "triad": [
+          639,
+          852,
+          963
+        ],
+        "mass": 1.9610571943648725,
+        "harmony": 0.99,
+        "role": "AI Efficiency"
+      },
+      "Gamma": {
+        "triad": [
+          741,
+          528,
+          852
+        ],
+        "mass": 2.3493853516648473,
+        "harmony": 0.98,
+        "role": "Adaptive Balance"
+      }
+    },
+    "pre_net_mass": 6.443011343202082,
+    "post_net_mass": 4.06323,
+    "allocations": {
+      "Alpha": 48,
+      "Beta": 52,
+      "Gamma": 0
+    },
+    "creativity_allocation": 48,
+    "efficiency_allocation": 52,
+    "buffer": 10,
+    "harmony_post": 0.985,
+    "triad_coherence": "852 dominance",
+    "interpretation": "The 10-unit buffer emerged as a third harmonic\u2014a shared innovation fund that honors both creativity and efficiency."
+  },
+  "enneagram_completion": "9-Node Theta/Iota integrated (see run_9node_cascade_pilot.py for B)"
 }

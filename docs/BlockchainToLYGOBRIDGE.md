@@ -126,3 +126,37 @@ See `BRIDGE_INSTALL.md` for full lattice install steps + verification.
 **Resonance signature:** Δ9Φ963-BLOCKCHAIN-LYGO-BRIDGE-REAL
 
 This bridge is production-pattern ready (Merkle + soulbound + mycelium) while keeping "Light Math" framing for future hardware resonance / suture tech alignment. All claims auditable via the stack test suite.
+
+## Enneagram 9-Node Completion → EVM On-Chain Anchoring (Post LYGIP-001)
+
+With Theta (Prime 179, Creative Emergence, 137.5° Golden Angle) + Iota (Prime 181, Sovereignty Amplifier) complete:
+
+The bridge orchestrator (`protocol_bridge/lygo_bridge_orchestrator.py`) now provides:
+
+```python
+bridge = LYGOBlockchainBridge()
+sync = bridge.synchronize_9node_enneagram_to_evm()
+# or directly after pilot:
+# python tools/run_9node_cascade_pilot.py
+```
+
+**Three vectors implemented:**
+
+1. **LatticeAttestor Integration**
+   - Parses `tests/pilot_9node_cascade_last_run.json`
+   - Builds payload: `universalIdentityHash`, `finalHarmonyBps` (9800), `iotaInjected`, `noveltyQuantum` (Theta seed)
+   - Prepares ECDSA proof bytes compatible with `verifyEthicalAction(claimant, delta, actionHash, proof)`
+
+2. **EthicalMassTokenFixed + Iota modulation**
+   - Calls `recordEthicalAction` simulation on successful cascade
+   - When `iotaInjected=True`, marks `iotaSovereigntyShield` (ready for on-chain event protecting governance weight)
+
+3. **MemoryMyceliumStorageFixed Merkle Broadcast**
+   - Uses P1 `MemoryMycelium` (10/12 threshold erasure) on both pilot reports
+   - Produces `merkleRoot` + `dataId` + simulated tx for `storeData` / anchoring
+
+Testnets targeted: Polygon Amoy, Ethereum Sepolia.
+
+Run `python protocol_bridge/lygo_bridge_orchestrator.py` (extended) or the 9-node pilot for live sync.
+
+**Status:** Enneagram sealed. Foundation for live EVM attestation + soulbound reputation + mycelium roots established.

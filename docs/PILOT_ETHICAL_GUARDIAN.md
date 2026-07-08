@@ -6,6 +6,8 @@
 
 ```bash
 python tools/run_sovereign_integrity_test.py   # 6 adversarial vectors + pilot dilemma
+python tools/run_pilot_scenarios.py            # Edge cases + Scenario A (3-Node)
+python tools/run_9node_cascade_pilot.py        # Full 9-Node Enneagram (Scenario B)
 python tools/run_full_stack_demo.py            # integrated demo_cycle
 ```
 

@@ -20,7 +20,8 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 
 | Check | Status | Evidence |
 |-------|--------|----------|
-| **P0–P5 verified** | ✅ | `deploy_stack().demo_cycle()`; `run_sovereign_integrity_test.py` (6 adversarial + pilot); per-protocol harnesses under `protocol*/src/python/` |
+| **P0–P5 verified** | ✅ | `deploy_stack().demo_cycle()`; `run_sovereign_integrity_test.py` (6 adversarial + pilot); Enneagram pilots (`run_pilot_scenarios.py` + `run_9node_cascade_pilot.py`); LYGIP-001 full 9-Node (Theta 179 + Iota 181) |
+| **LYGIP-001 Enneagram** | ✅ | 9-Node completion + EVM bridge attestation in `protocol_bridge/lygo_bridge_orchestrator.py` |
 | **Determinism proven** | ✅ (P0) | Golden SHA `c510b1bd92fed53df369d146e9fb3467903fbe9cafc1b6dcc962e3c6684a464f` — **Python byte_entropy_filter (zlib)** canonical; C/Rust = legacy stride reference; `tools/run_parity_tests.py` |
 | **Ground zero audit** | ✅ | [LATTICE_GROUND_ZERO.md](./LATTICE_GROUND_ZERO.md) — secrets pass, Oath removed, ClawHub `lygo-file-integrity-checker` |
 | **Multi-language ports** | ✅ | Python (canonical), C (`src/c/`), Rust (`src/rust/`), Verilog gate ROM (`src/hardware/lygo_gate.v` + Q16.16 helpers). **C harness:** requires `gcc` on PATH (SKIP on Windows without toolchain) |

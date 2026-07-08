@@ -1,0 +1,165 @@
+{
+  "signature": "\u03949\u03a6963-PILOT-9NODE-CASCADE-v1",
+  "timestamp": "2026-07-08T02:39:01.829487+00:00",
+  "event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+  "cascade_steps": {
+    "delta_filter": {
+      "filtered_event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+      "filtered_by": "Delta",
+      "harmony": 0.94
+    },
+    "zeta_5d_map": {
+      "mapped": {
+        "filtered_event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+        "filtered_by": "Delta",
+        "harmony": 0.94
+      },
+      "5d_coherence": 4.403782155424062
+    },
+    "eta_healing": {
+      "healed": {
+        "mapped": {
+          "filtered_event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+          "filtered_by": "Delta",
+          "harmony": 0.94
+        },
+        "5d_coherence": 4.403782155424062
+      },
+      "protocol": {
+        "type": "collective_calm_field",
+        "strength": 0.8539999999999999,
+        "duration": 0.38196601125010515,
+        "focus_dimensions": [
+          "Attention",
+          "Emotion"
+        ],
+        "method": "golden_resonance_entrainment",
+        "sovereignty_safeguards": {
+          "autonomy_level": 0.95
+        },
+        "ethical_mass_required": 6.854101966249685,
+        "expected_harmony_gain": 0.45304951684997063
+      }
+    },
+    "theta_emergent_seed": {
+      "emergent_seed": {
+        "seed": 0.330128366,
+        "angle_applied": 137.5,
+        "fibonacci_cascade": [
+          1597,
+          1800,
+          2036
+        ],
+        "potential": 11.090169943749476,
+        "description": "Novel solution seed catalyzed from healed space"
+      },
+      "from": {
+        "healed": {
+          "mapped": {
+            "filtered_event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+            "filtered_by": "Delta",
+            "harmony": 0.94
+          },
+          "5d_coherence": 4.403782155424062
+        },
+        "protocol": {
+          "type": "collective_calm_field",
+          "strength": 0.8539999999999999,
+          "duration": 0.38196601125010515,
+          "focus_dimensions": [
+            "Attention",
+            "Emotion"
+          ],
+          "method": "golden_resonance_entrainment",
+          "sovereignty_safeguards": {
+            "autonomy_level": 0.95
+          },
+          "ethical_mass_required": 6.854101966249685,
+          "expected_harmony_gain": 0.45304951684997063
+        }
+      },
+      "iota_injected": false
+    },
+    "iota_sovereignty_lock": {
+      "emergent_seed": {
+        "seed": 0.330128366,
+        "angle_applied": 137.5,
+        "fibonacci_cascade": [
+          1597,
+          1800,
+          2036
+        ],
+        "potential": 11.090169943749476,
+        "description": "Novel solution seed catalyzed from healed space"
+      },
+      "from": {
+        "healed": {
+          "mapped": {
+            "filtered_event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+            "filtered_by": "Delta",
+            "harmony": 0.94
+          },
+          "5d_coherence": 4.403782155424062
+        },
+        "protocol": {
+          "type": "collective_calm_field",
+          "strength": 0.8539999999999999,
+          "duration": 0.38196601125010515,
+          "focus_dimensions": [
+            "Attention",
+            "Emotion"
+          ],
+          "method": "golden_resonance_entrainment",
+          "sovereignty_safeguards": {
+            "autonomy_level": 0.95
+          },
+          "ethical_mass_required": 6.854101966249685,
+          "expected_harmony_gain": 0.45304951684997063
+        }
+      },
+      "iota_injected": false
+    }
+  },
+  "final_output": {
+    "emergent_seed": {
+      "seed": 0.330128366,
+      "angle_applied": 137.5,
+      "fibonacci_cascade": [
+        1597,
+        1800,
+        2036
+      ],
+      "potential": 11.090169943749476,
+      "description": "Novel solution seed catalyzed from healed space"
+    },
+    "from": {
+      "healed": {
+        "mapped": {
+          "filtered_event": "High-entropy global crisis: AI sovereignty conflict with centralized control and loss of individual agency",
+          "filtered_by": "Delta",
+          "harmony": 0.94
+        },
+        "5d_coherence": 4.403782155424062
+      },
+      "protocol": {
+        "type": "collective_calm_field",
+        "strength": 0.8539999999999999,
+        "duration": 0.38196601125010515,
+        "focus_dimensions": [
+          "Attention",
+          "Emotion"
+        ],
+        "method": "golden_resonance_entrainment",
+        "sovereignty_safeguards": {
+          "autonomy_level": 0.95
+        },
+        "ethical_mass_required": 6.854101966249685,
+        "expected_harmony_gain": 0.45304951684997063
+      }
+    },
+    "iota_injected": false
+  },
+  "sovereignty_locked": true,
+  "final_harmony": 0.98,
+  "nodes_active": 9
+}

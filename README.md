@@ -60,6 +60,26 @@ Deep dive: [docs/PROTOCOL_STACK.md](docs/PROTOCOL_STACK.md) · OMEGA naming: [do
 
 ---
 
+## LYGIP-001 — Enneagram 9-Node Completion (Theta + Iota)
+
+The core mathematical lattice is now complete as a full **3×3 Enneagram**:
+
+- **Theta Node** (θ / Prime 179) — The Creative Emergence Engine. Applies Golden Angle (137.5°) to Eta-healed output to generate novelty quantum seeds (`Φ^5 ≈ 11.09`).
+- **Iota Node** (ι / Prime 181) — The Sovereignty Amplifier. Monitors node variance and injects a sovereignty buffer to prevent groupthink / centralization when individual agency drops too low.
+
+**Key additions:**
+- `stack/lygip001_protocol_math.py` — `ThetaNode.emergence_generation()`, `IotaNode.agency_protection()`, `run_9node_cascade_sim()`
+- `tools/run_pilot_scenarios.py` — **Scenario A**: Exact 3-Node (Alpha/Beta/Gamma) Creativity vs. Efficiency dilemma (48/52 + 10-unit buffer)
+- `tools/run_9node_cascade_pilot.py` — **Scenario B**: Full 9-Node cascade (Delta → Zeta → Eta → Theta → Iota)
+- EVM bridge integration: `protocol_bridge/lygo_bridge_orchestrator.py` now supports direct attestation to `LatticeAttestor`, `EthicalMassTokenFixed`, and `MemoryMyceliumStorageFixed`
+
+See:
+- [docs/BlockchainToLYGOBRIDGE.md](docs/BlockchainToLYGOBRIDGE.md) (new Enneagram → EVM section)
+- `tests/pilot_9node_cascade_last_run.json`
+- `stack/lygo_stack.py` (stack methods: `run_lygip001_9node_cascade_sim()`, `create_theta_node()`, etc.)
+
+---
+
 ## Quick start
 
 ### One-click (Phase 2)
@@ -96,6 +116,11 @@ python tools/run_full_stack_demo.py
 
 # P0 hardened demo (42 vectors, phi_risk + reasoning)
 python tools/run_p0_demo.py
+
+# Ethical pilots (Enneagram complete)
+python tools/run_pilot_scenarios.py          # includes Scenario A (3-Node Creativity vs Efficiency)
+python tools/run_9node_cascade_pilot.py      # Scenario B (full 9-Node cascade)
+python protocol_bridge/lygo_bridge_orchestrator.py   # EVM sync demo (attestation + mycelium)
 
 # Determinism + cross-lang SHA (Python/Rust; gcc for C)
 python tools/p0_crosslang_parity.py

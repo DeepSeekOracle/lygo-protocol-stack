@@ -728,6 +728,33 @@
       "since": "2026-07-08"
     },
     {
+      "id": "enneagram-9node-completion",
+      "title": "LYGIP-001 Enneagram 9-Node Completion (Theta 179 + Iota 181)",
+      "role": "protocol-math",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygip001_protocol_math.py"
+      },
+      "since": "2026-07-08"
+    },
+    {
+      "id": "9node-cascade-pilot",
+      "title": "Scenario B: Full 9-Node Cascade Pilot (Delta→Zeta→Eta→Theta→Iota)",
+      "role": "pilots",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/tools/run_9node_cascade_pilot.py"
+      },
+      "since": "2026-07-08"
+    },
+    {
+      "id": "lygip001-evm-bridge",
+      "title": "Enneagram 9-Node → EVM Bridge (LatticeAttestor + EthicalMassToken + MyceliumStorage)",
+      "role": "bridge",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/protocol_bridge/lygo_bridge_orchestrator.py"
+      },
+      "since": "2026-07-08"
+    },
+    {
       "id": "kernel-eggs",
       "title": "LYGO Kernel Eggs (12)",
       "role": "eggs",

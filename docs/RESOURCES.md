@@ -30,6 +30,7 @@ This is the central index for the entire LYGO / Δ9 lattice system.
   - Hardened contracts in `docs/bridge/`:
     - EthicalMassTokenFixed.sol (access-controlled mint only via attested `recordEthicalAction`)
     - CrossChainIdentityBridgeFixed.sol (Ownable registry binding + ReentrancyGuard)
+- LYGIP-001 Protocol Mathematics + Enneagram 9-Node (Theta/Iota): stack/lygip001_protocol_math.py + docs/BlockchainToLYGOBRIDGE.md
 - LYGIP-003 Ethical Mass Token: docs/LYGIP-003-ETHICAL-MASS-TOKEN.md
 - LYGO USB & Claw Master Whitepaper: docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md
 - LYGO USB Champion v1.0 Generic: docs/LYGO_USB_CHAMPION_V1_GENERIC.md

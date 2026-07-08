@@ -43,7 +43,10 @@ from lygip001_protocol_math import (  # LYGIP-001
     VortexConsensus,
     ZetaNode,
     EtaNode,
+    ThetaNode,
+    IotaNode,
     run_3node_resource_allocation_sim,
+    run_9node_cascade_sim,
     verify_expanded_lattice,
     integrate_lygip001_into_stack,
 )
@@ -193,8 +196,12 @@ class LYGOProtocolStack:
         return self._ensure_slm()
 
     def run_lygip001_3node_sim(self) -> dict:
-        """Run the 3-node resource allocation sim from LYGIP-001."""
+        """Run the 3-node resource allocation sim from LYGIP-001 (Creativity vs Efficiency dilemma)."""
         return run_3node_resource_allocation_sim()
+
+    def run_lygip001_9node_cascade_sim(self, high_entropy_event: str = "Global resource crisis with AI-human tensions") -> dict:
+        """Run full 9-Node Enneagram cascade: Delta -> Zeta -> Eta -> Theta -> Iota."""
+        return run_9node_cascade_sim(high_entropy_event)
 
     def run_lygip001_lattice_verify(self, nodes: List[Dict]) -> dict:
         """Verify expanded lattice per LYGIP-001."""
@@ -205,6 +212,14 @@ class LYGOProtocolStack:
 
     def create_eta_node(self):
         return EtaNode()
+
+    def create_theta_node(self):
+        """Theta Node (θ / Prime 179) – Creative Emergence Engine."""
+        return ThetaNode()
+
+    def create_iota_node(self):
+        """Iota Node (ι / Prime 181) – Sovereignty Amplifier."""
+        return IotaNode()
 
     def _phase6(self):
         if self._attestation is None:

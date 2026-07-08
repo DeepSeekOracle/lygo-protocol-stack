@@ -23,13 +23,20 @@
 ## Run locally (live only)
 
 ```bash
-python tools/run_pilot_scenarios.py
+python tools/run_pilot_scenarios.py                 # Core edge cases + Scenario A (3-Node Creativity vs Efficiency)
+python tools/run_9node_cascade_pilot.py             # Scenario B: Full 9-Node Enneagram Cascade (Delta→Zeta→Eta→Theta→Iota)
 python tools/run_twin_gate_calibration.py
 python tools/bundle_hf_space_stack.py --mode=twin-gate
 python tools/hf_push_space.py --force-sync
 ```
 
-Reports: `tests/pilot_phase2_last_run.json` · `tests/twin_gate_calibration_last_run.json`
+**Enneagram Completion Pilots (LYGIP-001):**
+
+- `tools/run_pilot_scenarios.py` now includes **Scenario A**: Exact Alpha/Beta/Gamma 3-Node Creativity vs. Efficiency dilemma (48 creativity / 52 efficiency + 10-unit shared buffer).
+- `tools/run_9node_cascade_pilot.py` runs **Scenario B**: Complete 9-Node cascade through Delta filter → Zeta 5D → Eta healing → Theta emergence (137.5°) → Iota sovereignty lock.
+- Reports: `tests/pilot_phase2_last_run.json` (with Scenario A), `tests/pilot_9node_cascade_last_run.json`
+
+Reports: `tests/pilot_phase2_last_run.json` · `tests/twin_gate_calibration_last_run.json` · `tests/pilot_9node_cascade_last_run.json`
 
 ## Success criteria (phase 2)
 
