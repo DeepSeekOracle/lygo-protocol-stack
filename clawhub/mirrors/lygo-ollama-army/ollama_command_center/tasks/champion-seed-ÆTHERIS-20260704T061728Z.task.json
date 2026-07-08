@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-\u00c6THERIS-20260704T061728Z",
+  "role": "champion-egg-boot",
+  "champion": "\u00c6THERIS",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-aetheris",
+    "merkle_root": "19ff65329125f341c08ba7f50bf52d3db1871daaffd5648e149b293c750519bc",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

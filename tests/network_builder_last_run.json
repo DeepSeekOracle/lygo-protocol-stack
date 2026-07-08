@@ -31,7 +31,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 11876,
+      "bytes": 15167,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  \n  <meta name=\"google-adsense-account\" content=\"ca-pub-064"
     },
     {
@@ -41,7 +41,7 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 44310,
+      "bytes": 44312,
       "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
     },
     {
@@ -151,7 +151,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"sQKC98a9zDltNegaiLPvzzif\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"/oKnV1+co41Md8HfSTO61EIM\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -161,7 +161,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"Ljo140XFsRJnBfhvSl3Ivd/Y\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"nkQvvo1j6nOfXsq1defSFcJr\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -171,7 +171,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"2RjiYX5BQLJoiboFt8IX+xU9\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"SkixsIWigvUOlv0v1NrWIDy6\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -200,7 +200,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "status": 200,
       "ok": true,
-      "bytes": 14045,
+      "bytes": 14044,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
     },
     {
@@ -312,5 +312,5 @@
   "soft_failures": 2,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 50620
+  "duration_ms": 53949
 }

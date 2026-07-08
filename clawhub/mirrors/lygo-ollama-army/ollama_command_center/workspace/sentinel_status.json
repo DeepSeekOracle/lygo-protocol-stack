@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-07-06T07:50:42.167890+00:00",
+  "signature": "\u03949\u03a6963-ARMY-CC-v3",
+  "lattice": {
+    "ok": true,
+    "exit_code": 0,
+    "summary": "ALIGNED",
+    "tail": "cas manifest CLI\n  [OK] cas registry full CLI\n  [OK] network builder doc\n  [OK] network builder anchors\n  [OK] network builder verify tool\n  [OK] network builder clawhub mirror\n  [OK] haven star chart page\n  [OK] haven star chart data\n  [OK] haven star chart builder\n  [OK] champion egg schema\n  [OK] champion egg builder\n  [OK] champion egg planter\n  [OK] champion bootloader\n  [OK] champion egg registry doc\n  [OK] joy loop protocol\n  [OK] joy loop planter\n  [OK] joy loop doc\n  [OK] joy loop public registry\n  [OK] phase7 polish doc\n  [OK] slm merkle sync\n  [OK] slm mycelium mesh\n  [OK] slm harmonic consensus\n  [OK] slm runtime\n  [OK] slm doc\n  [OK] slm audit tool\n  [OK] phase9 tls manager\n  [OK] phase9 ldq synthesis\n  [OK] phase9 audit tool\n  [OK] phase9 public mesh doc\n  [OK] slm audit last run \u2014 ms=150\n  [OK] phase9 audit last run \u2014 ms=590\n  [OK] mesh scale last run \u2014 rounds=7\n  [OK] compass master canonical\n  [OK] grok operator SKILL.md \u2014 workspace\n  [OK] clawhub operator published \u2014 latest=1.0.7\n  [OK] excavationpro public mirrors\n  [OK] stack github pages\n  [OK] anchor lygo_anchor tool\n  [OK] anchor stack bridge\n  [OK] anchor deployment doc\n  [OK] lattice intel index\n  [OK] ldq vault reference\n  [OK] kernel eggs tamper verify \u2014 ALIGNED\n  [OK] champion eggs tamper verify \u2014 ALIGNED\n  [OK] scalable registry verify \u2014 ALIGNED\n  [OK] network builder verify \u2014 LATTICE ALIGNED\n  [OK] anchor audit last run \u2014 ms=9605\n==================================================\nLATTICE ALIGNED\n"
+  },
+  "git": {
+    "ok": true,
+    "clean": false,
+    "status_line": "## main...origin/main"
+  },
+  "hf_space": {
+    "ok": true,
+    "stage": "RUNNING",
+    "id": "DeepSeekOracle/LYGO-Resonance-Engine",
+    "error_preview": null
+  },
+  "ollama": {
+    "ok": true,
+    "models": [
+      "qwen3-coder:30b",
+      "qwen2.5:3b",
+      "llama3.2:1b"
+    ]
+  },
+  "queue": {
+    "queued": 42,
+    "results": 593
+  },
+  "public_pages": {
+    "ok": true,
+    "checked": 5,
+    "live": 5,
+    "pages": [
+      {
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "status": 200,
+        "ok": true
+      }
+    ]
+  },
+  "network_builder": {
+    "ok": true,
+    "verdict": "LATTICE ALIGNED",
+    "anchors_sha256": "81b91d7a3e61c1671fe60ef878c72a1fc16005762cee4c367c4902783ac2aa99"
+  },
+  "healthy": true
+}

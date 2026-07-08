@@ -1,0 +1,9 @@
+{
+  "signature": "\u03949\u03a6963-ANCHOR-NETWORK-v1",
+  "stack_root": "I:\\E Drive\\lygo-protocol-stack",
+  "cron_roles": [
+    "anchor-health"
+  ],
+  "worker": "python tools/anchor_autonomy_worker.py --loop --interval 300 --slm-each-pulse",
+  "mode_env": "LYGO_ANCHOR_MODE=multi"
+}

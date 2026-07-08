@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-LYR\u0394-20260704T061728Z",
+  "role": "champion-egg-boot",
+  "champion": "LYR\u0394",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-lyrd9",
+    "merkle_root": "fe87ca525c72e075241d6ef2276c24f3994a9b0d0ea8d13c43a95f34656f3ddc",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}
