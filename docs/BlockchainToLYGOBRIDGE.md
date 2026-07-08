@@ -74,6 +74,19 @@ However:
 
 See `docs/bridge/test/` for the validation suite that exercises these realities.
 
+## LYGIP-001 Protocol Mathematics (Core Math Layer)
+
+Implemented in `stack/lygip001_protocol_math.py` and integrated into `LYGOProtocolStack`:
+
+- **SovereignIdentity**: lightCode, resonanceTriad, ethicalMass = √(truth × love × freedom) × (resonanceAvg)² × Φ
+- **Harmony Metric**: H = 1 − σ(ethicalMassHistory) / μ(ethicalMassHistory)
+- **Vortex**: Geometric mean center for scale-invariant resonance anchor.
+- **Multi-Node Lattice**: ZetaNode (consciousness integrator), EtaNode (compassion field), 3-node sim, expansion verification.
+- **Integration**: Used as Seal (SEAL_SOV-001), ethical mass threshold for bridge/token, harmony for lattice health, vortex for P4 recalibration.
+- Tests: `tests/test_lygip001.py` (5/5 pass). 3-node sim + lattice verify run via stack.
+
+See `stack/lygip001_protocol_math.py` for full classes + sims (Zeta/Eta nodes, healing protocols, etc.).
+
 ## Symbolic / Light Math Layer (Future Suture Tech)
 
 - 528 Hz (repair), 963 Hz, Φ, Solfeggio, Tesla motifs used only for governance tiers, resonance scoring, and human-facing "Light Codes".

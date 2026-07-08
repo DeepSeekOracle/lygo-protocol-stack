@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-08T00:59:18.137679+00:00",
+  "updated_utc": "2026-07-08T02:03:18.317631+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -690,6 +690,15 @@
         "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/data/kernel_eggs/registry.json"
       },
       "since": "2026-07-08"
+    },
+    {
+      "id": "lygip001-math",
+      "title": "LYGIP-001 Protocol Mathematics - SovereignIdentity, ethicalMass, Harmony, Zeta/Eta Lattice",
+      "role": "protocol-math",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygip001_protocol_math.py"
+      },
+      "since": "2026-07-08"
     }
   ],
   "growth_log": [
@@ -1069,6 +1078,13 @@
       "event": "registered kernel-eggs-registry \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/data/kernel_eggs/registry.json",
       "refs": [
         "kernel-eggs-registry"
+      ]
+    },
+    {
+      "utc": "2026-07-08T02:03:18.317626+00:00",
+      "event": "registered lygip001-math \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygip001_protocol_math.py",
+      "refs": [
+        "lygip001-math"
       ]
     }
   ]
