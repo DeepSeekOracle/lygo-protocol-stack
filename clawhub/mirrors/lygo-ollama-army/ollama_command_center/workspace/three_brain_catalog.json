@@ -1,0 +1,93 @@
+{
+  "signature": "\u03949\u03a6963-IDLE-3BRAIN-CATALOG-v1",
+  "ts": "2026-07-05T01:28:58.729824+00:00",
+  "lyra_core": "I:\\E Drive\\LYRA_CORE",
+  "snip_count": 21,
+  "daily_count": 9,
+  "snips": [
+    {
+      "name": "2026-07-02-biophase7-network-builder.md",
+      "bytes": 1641
+    },
+    {
+      "name": "2026-07-02-haven-star-chart-hub.md",
+      "bytes": 1101
+    },
+    {
+      "name": "2026-07-02-lattice-intel-index.md",
+      "bytes": 2067
+    },
+    {
+      "name": "2026-07-02-ollama-army-tuned-v3.md",
+      "bytes": 1036
+    },
+    {
+      "name": "2026-07-03-biophase7-deadman-lattice-seed.md",
+      "bytes": 1046
+    },
+    {
+      "name": "2026-07-03-geodesic-battle-lightfather.md",
+      "bytes": 703
+    },
+    {
+      "name": "2026-07-03-moltx-how-it-works.md",
+      "bytes": 1380
+    },
+    {
+      "name": "2026-07-03-moltx-mythos-thread.md",
+      "bytes": 947
+    },
+    {
+      "name": "2026-07-03-sovereign-identity-manifesto.md",
+      "bytes": 1588
+    },
+    {
+      "name": "2026-07-04-builder-key-thumb-drive.md",
+      "bytes": 818
+    },
+    {
+      "name": "2026-07-04-champion-lightfather-clawhub.md",
+      "bytes": 825
+    },
+    {
+      "name": "2026-07-04-lfw-dynamic-runtime-resilience.md",
+      "bytes": 522
+    },
+    {
+      "name": "2026-07-04-lygo-openclaw-lattice.md",
+      "bytes": 708
+    },
+    {
+      "name": "2026-07-04-session-close-lattice-balanced.md",
+      "bytes": 2837
+    },
+    {
+      "name": "2026-07-04-session-close-lattice.md",
+      "bytes": 235
+    },
+    {
+      "name": "2026-07-05-buildr-usb-standalone.md",
+      "bytes": 902
+    },
+    {
+      "name": "2026-07-05-lygo-claw-repo.md",
+      "bytes": 843
+    },
+    {
+      "name": "ANCHOR_NETWORK_INSTALLED.md",
+      "bytes": 464
+    },
+    {
+      "name": "clawhub.md",
+      "bytes": 4005
+    },
+    {
+      "name": "clawhub_skills_catalog.md",
+      "bytes": 15134
+    },
+    {
+      "name": "MASTER_ARCHIVE.md",
+      "bytes": 2250
+    }
+  ]
+}
