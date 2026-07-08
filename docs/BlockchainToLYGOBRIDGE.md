@@ -30,6 +30,8 @@ See:
   - VortexOracleFixed.sol
   - **EthicalMassTokenFixed.sol** (access-controlled mint only via attested actions)
   - **CrossChainIdentityBridgeFixed.sol** (Ownable + ReentrancyGuard registry binding)
+  - **LatticeAttestor.sol** (reference implementation — real ECDSA verification from trusted signers, not an always-true stub)
+  - `test/` — helpers that demonstrate the attack vectors (unrestricted mint, registry binding, malicious attestor)
 - `docs/LYGIP-003-ETHICAL-MASS-TOKEN.md`
 - `docs/BRIDGE_INSTALL.md`
 
