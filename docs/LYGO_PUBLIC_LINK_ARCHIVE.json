@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-08T02:03:18.317631+00:00",
+  "updated_utc": "2026-07-08T02:06:04.771256+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -699,6 +699,24 @@
         "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygip001_protocol_math.py"
       },
       "since": "2026-07-08"
+    },
+    {
+      "id": "kernel-eggs-2026",
+      "title": "LYGO Kernel Eggs (12 anchored)",
+      "role": "kernel-eggs",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/kernel_eggs"
+      },
+      "since": "2026-07-08"
+    },
+    {
+      "id": "champion-eggs-2026",
+      "title": "LYGO Champion Eggs (15 + council)",
+      "role": "champion-eggs",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/champion_eggs"
+      },
+      "since": "2026-07-08"
     }
   ],
   "growth_log": [
@@ -1085,6 +1103,20 @@
       "event": "registered lygip001-math \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygip001_protocol_math.py",
       "refs": [
         "lygip001-math"
+      ]
+    },
+    {
+      "utc": "2026-07-08T02:06:04.655822+00:00",
+      "event": "registered kernel-eggs-2026 \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/kernel_eggs",
+      "refs": [
+        "kernel-eggs-2026"
+      ]
+    },
+    {
+      "utc": "2026-07-08T02:06:04.771250+00:00",
+      "event": "registered champion-eggs-2026 \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/champion_eggs",
+      "refs": [
+        "champion-eggs-2026"
       ]
     }
   ]
