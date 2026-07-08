@@ -47,6 +47,7 @@ contract EthicalMassTokenFixed {
     mapping(bytes32 => bool) public usedProofs;           // replay protection (now inside verified path)
 
     address public owner;
+    address public pendingOwner;
     IIdentityAttestor public attestor;
 
     uint256 public totalSupply;
@@ -55,6 +56,8 @@ contract EthicalMassTokenFixed {
     event EthicalMassMinted(address indexed to, uint256 amount, bytes32 actionHash);
     event EthicalMassBurned(address indexed from, uint256 amount, bytes32 reasonHash);
     event AttestorUpdated(address indexed newAttestor);
+    event OwnershipTransferStarted(address indexed from, address indexed to);
+    event OwnershipTransferred(address indexed from, address indexed to);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
@@ -75,7 +78,16 @@ contract EthicalMassTokenFixed {
 
     function transferOwnership(address newOwner) external onlyOwner {
         require(newOwner != address(0), "Zero owner");
-        owner = newOwner;
+        pendingOwner = newOwner;
+        emit OwnershipTransferStarted(owner, newOwner);
+    }
+
+    function acceptOwnership() external {
+        require(msg.sender == pendingOwner, "Not pending owner");
+        address previous = owner;
+        owner = pendingOwner;
+        pendingOwner = address(0);
+        emit OwnershipTransferred(previous, owner);
     }
 
     // ====================== SOULBOUND ======================
@@ -126,14 +138,20 @@ contract EthicalMassTokenFixed {
 
     /**
      * @notice Applies ethical decay (time-based, council-enforced, or penalty).
-     * Only privileged attestor / owner paths can call this.
+     *
+     * IMPORTANT: Currently only callable by owner.
+     * The attestor path was removed because LatticeAttestor has no mechanism
+     * to trigger decay (it is a pure view verifier today).
+     *
+     * Future: Add attestation-gated decay (e.g. via a separate decayProof).
+     * For now, decay is a privileged administrative action.
      */
     function applyEthicalDecay(
         address holder,
         uint256 decayAmount,
         bytes32 reasonHash
     ) external returns (uint256 newBalance) {
-        require(msg.sender == owner || msg.sender == address(attestor), "Not authorized for decay");
+        require(msg.sender == owner, "Not authorized for decay");
         require(holder != address(0), "Zero holder");
         require(decayAmount > 0, "Decay must be > 0");
         require(_balances[holder] >= decayAmount, "Insufficient balance");

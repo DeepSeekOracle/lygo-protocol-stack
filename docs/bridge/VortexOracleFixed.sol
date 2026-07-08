@@ -4,6 +4,14 @@ pragma solidity ^0.8.19;
 import "./ERC963.sol";
 import "./libraries/MathUtils.sol";
 
+// PRBMath Integration Recommendation (Next Phase Roadmap)
+// To achieve precise 18-decimal fixed-point geometric means and reduce gas,
+// replace manual weighted arithmetic with PRBMathUD60x18:
+//   import {PRBMathUD60x18} from "@prb/math/src/PRBMathUD60x18.sol";
+// Then use:
+//   uint256 harmonic = PRBMathUD60x18.avg(...);
+// This provides safer, more precise math for resonance-weighted consensus.
+
 /**
  * @notice FIXED VERSION.
  *
@@ -124,6 +132,8 @@ contract VortexOracleFixed {
         uint256 n = req.responses.length;
 
         // Weighted ARITHMETIC mean: sum(answer * weight) / sum(weight).
+        // (Future: replace with PRBMathUD60x18 for true geometric mean support
+        //  and 18-decimal precision while keeping gas low.)
         // Overflow-safe: answer <= 10000, weight = ethicalMass*confidence/1000
         // so ethicalMass (<=10000) * confidence (<=1000) / 1000 <= 10000;
         // answer * weight <= 1e8, well within uint256 range even summed

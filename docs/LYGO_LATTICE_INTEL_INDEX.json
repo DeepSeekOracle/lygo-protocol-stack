@@ -336,7 +336,7 @@
     {
       "id": "blockchain-lygo-bridge",
       "tier": 4,
-      "path": "protocol_bridge/lygo_blockchain_bridge.py",
+      "path": "protocol_bridge/lygo_bridge_orchestrator.py",
       "urls": {
         "theory": "docs/BlockchainToLYGOBRIDGE.md",
         "contracts": "docs/bridge/"
@@ -349,6 +349,29 @@
         "CROSS_CHAIN"
       ],
       "summary": "Bridge Protocol: real Merkle/soulbound/cross-chain + symbolic Light Math for future. Integrates existing lattice. Grounded engineering per review."
+    },
+    {
+      "id": "lygo-seal-004-bridge",
+      "tier": 5,
+      "path": "lygo-protocol-stack/docs/seals/LYGO_SEAL_004_BRIDGE.json",
+      "urls": {
+        "raw": "docs/seals/LYGO_SEAL_004_BRIDGE.json",
+        "theory": "docs/BlockchainToLYGOBRIDGE.md"
+      },
+      "tags": [
+        "SEAL",
+        "BRIDGE",
+        "P0",
+        "P1",
+        "EVM",
+        "SOULBOUND",
+        "MERKLE"
+      ],
+      "summary": "LYGO-SEAL-004: Sovereign Blockchain Anchor Seal. Standardized payload for P1 Mycelium references to EVM contracts. Includes lightCode, resonanceTriad, ethicalMass, myceliumRoot, blockchainAnchors.",
+      "seal_spec": {
+        "seal_id": "LYGO-SEAL-004-BRIDGE",
+        "payload_schema": "lightCode, resonanceTriad[963,528,174], ethicalMassBasisPoints, myceliumRootHash, fragmentDistribution, blockchainAnchors"
+      }
     }
   ],
   "integration_gaps": [

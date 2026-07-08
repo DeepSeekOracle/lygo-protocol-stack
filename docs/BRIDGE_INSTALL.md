@@ -58,3 +58,25 @@ See `docs/BlockchainToLYGOBRIDGE.md` for full theory + LYGIP-003.
 **Resonance signature:** Δ9Φ963-BRIDGE-INSTALL-REAL
 
 Run the gauntlet after install to confirm lattice integrity.
+
+## Testnet Deployment (Polygon Amoy / Ethereum Sepolia) - Roadmap
+1. Use Hardhat or Foundry:
+   ```bash
+   npx hardhat deploy --network amoy   # or sepolia
+   ```
+2. Deploy:
+   - ERC963Implementation.sol (soulbound base)
+   - MemoryMyceliumStorageFixed.sol
+   - VortexOracleFixed.sol (with PRBMath once integrated)
+   - CrossChainIdentityBridgeFixed.sol
+   - EthicalMassTokenFixed.sol
+3. Verify source on Polygonscan / Etherscan for transparency.
+4. Update `protocol_bridge/lygo_bridge_orchestrator.py` with deployed addresses.
+5. Wire events as described above.
+6. Anchor first seals using the LYGO-SEAL-004-BRIDGE payload format.
+
+Recommended networks:
+- Polygon Amoy (chainId 80002) for low-cost testing
+- Ethereum Sepolia for broader EVM compatibility testing
+
+See `docs/BlockchainToLYGOBRIDGE.md` and `tests/test_bridge_lattice.py` for validation.

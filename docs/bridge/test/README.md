@@ -45,6 +45,33 @@ Even with `onlyOwner` and internal mint, if the `attestor` contract itself is a 
 - Show that if the token owner is compromised, damage is still limited compared to before (no direct mint), but emphasize that the attestor must also be trustworthy.
 - Add tests that a signature from a non-trusted key is rejected even if the attestor is "good".
 
+## New Phase 2 Validation Suite (Added)
+
+### Foundry (Solidity) Tests
+- `EthicalMassTokenFixed.t.sol` — Tests unauthorized mint attempts, replay, restricted decay, and attestor dependency.
+- `CrossChainIdentityBridgeFixed.t.sol` — Tests onlyOwner on `setChainRegistry`, zero/self checks, and prevention of malicious registry binding.
+
+Run:
+```bash
+forge test --match-contract "EthicalMassTokenFixedTest|CrossChainIdentityBridgeFixedTest" -vv
+```
+
+### Hardhat Integration Script
+- `bridge-integration.ts` — Full E2E simulation of the **complete basic system**:
+  1. Simulate P1 Mycelium shard
+  2. Call `bridgeIdentity` (stores identity)
+  3. Call `bridgeIdentityAndMint` (cross-chain verify + store + mint via attestor)
+  4. Demonstrate attack prevention
+
+The contracts now form a usable basic foundation: others can extend with real registries, full Merkle anchoring, multisig owners, etc.
+
+Run (Hardhat):
+```bash
+npx hardhat run docs/bridge/test/bridge-integration.ts --network localhost
+```
+
+Includes `AlwaysTrueRegistry.sol` mock for attack vector simulation.
+
 ## How to Run These
 
 ### With Foundry

@@ -56,6 +56,24 @@ See:
 
 These two categories (unrestricted registry binding + unrestricted mint) are the highest-severity sovereignty bugs possible in this architecture.
 
+## Current Implementation Status (Transparent Assessment)
+
+The contracts provide **solid scaffolding** with the reported access-control fixes in place:
+
+- `bridgeIdentity()` stores `bridgedIdentities[claimant][chainId]` (functional).
+- `bridgeIdentityAndMint(...)` provides the complete basic end-to-end: verify cross-chain + store identity + mint ethical mass via attestor proof.
+- Integration via `setEthicalMassToken()`.
+- 2-step ownership transfer in all contracts.
+- `LatticeAttestor` includes `verifyWithMerkle` + decay helper.
+
+However:
+- Full end-to-end (P1 shard → verified bridge → automatic token mint) still requires the caller to handle the token-level proof separately.
+- Decay remains owner-only (attestor path removed as it was dead code).
+- LatticeAttestor is a trusted signer oracle + optional Merkle helper. It is **not** yet a fully on-chain verifiable computation system.
+- Trust is anchored to the deployer `owner` (with pending transfer support). This is appropriate for testnet but aspirational for "sovereign" claims.
+
+See `docs/bridge/test/` for the validation suite that exercises these realities.
+
 ## Symbolic / Light Math Layer (Future Suture Tech)
 
 - 528 Hz (repair), 963 Hz, Φ, Solfeggio, Tesla motifs used only for governance tiers, resonance scoring, and human-facing "Light Codes".

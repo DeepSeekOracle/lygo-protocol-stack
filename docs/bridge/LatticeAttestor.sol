@@ -43,9 +43,12 @@ interface IIdentityAttestor {
 contract LatticeAttestor is IIdentityAttestor {
     mapping(address => bool) public isTrustedSigner;
     address public owner;
+    address public pendingOwner;
 
     event TrustedSignerAdded(address indexed signer);
     event TrustedSignerRemoved(address indexed signer);
+    event OwnershipTransferStarted(address indexed from, address indexed to);
+    event OwnershipTransferred(address indexed from, address indexed to);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
@@ -60,6 +63,20 @@ contract LatticeAttestor is IIdentityAttestor {
         }
     }
 
+    function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "Zero address");
+        pendingOwner = newOwner;
+        emit OwnershipTransferStarted(owner, newOwner);
+    }
+
+    function acceptOwnership() external {
+        require(msg.sender == pendingOwner, "Not pending owner");
+        address previous = owner;
+        owner = pendingOwner;
+        pendingOwner = address(0);
+        emit OwnershipTransferred(previous, owner);
+    }
+
     function addTrustedSigner(address signer) external onlyOwner {
         require(signer != address(0), "Zero signer");
         isTrustedSigner[signer] = true;
@@ -72,8 +89,24 @@ contract LatticeAttestor is IIdentityAttestor {
     }
 
     /**
+     * @notice Helper for decay attestation (to allow future connection to token decay).
+     * Returns true if the signature is valid for a decay action.
+     */
+    function verifyDecayAttestation(
+        address holder,
+        uint256 decayAmount,
+        bytes32 reasonHash,
+        bytes calldata proof
+    ) external view returns (bool) {
+        return verifyEthicalAction(holder, decayAmount, reasonHash, proof);
+    }
+
+    /**
      * @notice Verifies that the provided proof is a valid ECDSA signature
      *         from a trusted lattice signer over the action.
+     *
+     * This is a trusted-oracle model: it proves a known key signed the tuple.
+     * It does NOT yet verify against an on-chain committed Merkle root from the lattice.
      *
      * proof layout (for this reference impl):
      *   abi.encodePacked( v (uint8), r (bytes32), s (bytes32) )
@@ -106,6 +139,29 @@ contract LatticeAttestor is IIdentityAttestor {
 
         address signer = ecrecover(messageHash, v, r, s);
         return isTrustedSigner[signer];
+    }
+
+    /**
+     * @notice Extended verification that also checks a Merkle proof against a committed root.
+     * This moves closer to verifiable computation.
+     *
+     * @param merkleRoot The on-chain committed root from the lattice (e.g. via bridge anchor).
+     * @param leaf The leaf (e.g. keccak of action data).
+     * @param proof Merkle sibling path.
+     */
+    function verifyWithMerkle(
+        bytes32 merkleRoot,
+        bytes32 leaf,
+        bytes32[] calldata proof
+    ) public pure returns (bool) {
+        bytes32 computed = leaf;
+        for (uint i = 0; i < proof.length; i++) {
+            bytes32 sibling = proof[i];
+            computed = computed < sibling
+                ? keccak256(abi.encodePacked(computed, sibling))
+                : keccak256(abi.encodePacked(sibling, computed));
+        }
+        return computed == merkleRoot;
     }
 
     /**
