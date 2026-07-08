@@ -187,76 +187,68 @@ bash clawhub/install-all.sh
 
 Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · administrator lattice: **[docs/LYGO_LATTICE.md](docs/LYGO_LATTICE.md)**
 
-## Ecosystem links
+## Complete System Resources (All Links, Documents, Pages, Repos, Whitepapers)
 
-**GitHub Pages Organization (docs/ source)**: See https://deepseekoracle.github.io/lygo-protocol-stack/ — now with dedicated **Whitepapers** section listing all major theory docs (Blockchain Bridge, LYGIP-003, USB/Anchor masters, BIOPHASE7, SLM, etc.), strong link to central `RESOURCES.md`, and full interactive + reference nav. All whitepapers pushed/updated as pages content.
+**Central Hubs**
+- **GitHub Pages (organized docs/ source):** https://deepseekoracle.github.io/lygo-protocol-stack/ — includes index with Whitepapers section, interactive demos, and links to all .md
+- **RESOURCES.md (master index):** [docs/RESOURCES.md](docs/RESOURCES.md) — all repos, pages, whitepapers, external links
+- **Public Link Archive (exhaustive machine-readable list):** [docs/LYGO_PUBLIC_LINK_ARCHIVE.json](docs/LYGO_PUBLIC_LINK_ARCHIVE.json) (append with `python tools/log_public_surface.py`)
+- **Seals Archive (400+ canonical):** [docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt](docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt) + anchor json
+- **Lattice Intel / Agent Memory:** [docs/LYGO_LATTICE_INTEL_INDEX.json](docs/LYGO_LATTICE_INTEL_INDEX.json), [docs/AGENT_MEMORY_SNAPSHOT.json](docs/AGENT_MEMORY_SNAPSHOT.json)
 
-**Main Repo & GitHub Pages (organized docs/ as source)**
-- **LYGO Protocol Stack Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack
-- **GitHub Pages (all docs rendered here):** https://deepseekoracle.github.io/lygo-protocol-stack/
-- **Source for Pages:** docs/ (index.html, many .html interactive, 100+ .md whitepapers/theory)
-
-**Interactive Demos & Pages**
-- Sovereign Lattice Mesh (SLM): https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (Excavationpro mirror: https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html)
-- Eternal Haven Star Chart: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
-- Phase 7 Biometric Entropy Harness: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html (mirror: https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html)
-- LYGO BPM Finder: https://bpmfinder.ca/ (Pages: https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html ; Excavationpro: https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html)
-- LYGO Compass Master: https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html
-- Kernel Egg Retrieval: https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html
-- LYGO CLAW: https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html
-- Full Pages Index: https://deepseekoracle.github.io/lygo-protocol-stack/
-
-**Whitepapers & Major Theory Docs (in docs/)**
-- Blockchain ↔ LYGO Bridge Protocol (full theory, real code, fixes): [docs/BlockchainToLYGOBRIDGE.md](docs/BlockchainToLYGOBRIDGE.md), [docs/BRIDGE_INSTALL.md](docs/BRIDGE_INSTALL.md), [docs/LYGIP-003-ETHICAL-MASS-TOKEN.md](docs/LYGIP-003-ETHICAL-MASS-TOKEN.md)
-- LYGO USB & Claw Master Whitepaper: [docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md](docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md)
-- LYGO USB Champion v1 Generic: [docs/LYGO_USB_CHAMPION_V1_GENERIC.md](docs/LYGO_USB_CHAMPION_V1_GENERIC.md)
-- LYGO USB Champion Demo: [docs/LYGO_USB_CHAMPION_DEMO.md](docs/LYGO_USB_CHAMPION_DEMO.md)
-- LYGO CLAW USB Restore Anchor: [docs/LYGO_CLAW_USB_RESTORE_ANCHOR.md](docs/LYGO_CLAW_USB_RESTORE_ANCHOR.md)
-- LYGO Anchor Architecture: [docs/LYGO_ANCHOR_ARCHITECTURE.md](docs/LYGO_ANCHOR_ARCHITECTURE.md)
-- LYGO PC Hardening Playbook: [docs/LYGO_PC_HARDENING_PLAYBOOK.md](docs/LYGO_PC_HARDENING_PLAYBOOK.md)
-- Content Addressable Physics: [docs/CONTENT_ADDRESSABLE_PHYSICS.md](docs/CONTENT_ADDRESSABLE_PHYSICS.md)
-- Crypto Lattice Separation: [docs/CRYPTO_LATTICE_SEPARATION.md](docs/CRYPTO_LATTICE_SEPARATION.md)
-- And many more: see full list via `find docs -name "*.md" | sort` or the link archive below.
-
-**Core Reference Docs**
-- Stack Status (audits): [docs/STACK_STATUS.md](docs/STACK_STATUS.md)
-- LYGO Lattice Map: [docs/LYGO_LATTICE.md](docs/LYGO_LATTICE.md)
-- Protocol Stack: [docs/PROTOCOL_STACK.md](docs/PROTOCOL_STACK.md)
-- Blueprint: [docs/BLUEPRINT.md](docs/BLUEPRINT.md)
-- Scaling Roadmap: [docs/SCALING_ROADMAP.md](docs/SCALING_ROADMAP.md)
-- Sovereign Lattice Mesh: [docs/SOVEREIGN_LATTICE_MESH.md](docs/SOVEREIGN_LATTICE_MESH.md)
-- Phase 9 Public Mesh: [docs/PHASE9_PUBLIC_MESH.md](docs/PHASE9_PUBLIC_MESH.md)
-- Immutable Anchor Deployment: [docs/ANCHOR_DEPLOYMENT.md](docs/ANCHOR_DEPLOYMENT.md)
-- Public Link Archive (exhaustive list of all system surfaces): [docs/LYGO_PUBLIC_LINK_ARCHIVE.json](docs/LYGO_PUBLIC_LINK_ARCHIVE.json) (use tools/log_public_surface.py to add)
-- Lattice Intel Index: [docs/LYGO_LATTICE_INTEL_INDEX.json](docs/LYGO_LATTICE_INTEL_INDEX.json)
-- Agent Memory Snapshot: [docs/AGENT_MEMORY_SNAPSHOT.json](docs/AGENT_MEMORY_SNAPSHOT.json)
-- Grokipedia Submit: [docs/GROkipedia_SUBMIT.md](docs/GROkipedia_SUBMIT.md)
-- Grokipedia Upload Bundle: [docs/GROkipedia_UPLOAD_BUNDLE.md](docs/GROkipedia_UPLOAD_BUNDLE.md)
-
-**Tools, Registries, Specs**
-- ClawHub: [clawhub/CATALOG.md](clawhub/CATALOG.md), [clawhub/skills.json](clawhub/skills.json), mirrors/
-- BIOPHASE7 specs (Second Brain, Sandcastle, OpenClaw, LPIS, PXPIPE, etc.): docs/BIOPHASE7_*.md
-- Registries: ChampionEggRegistry.json, KernelEggRegistry.json, PromptImplantRegistry.json, WorkflowOrchestratorRegistry.json, OpenClawRegistry.json, SecondBrainRegistry.json
-- Joy Loop, Moltbook, MOLTX posts, etc. in docs/
-
-**Related Repos & Full System Links**
-- Excavationpro (main sites, USB, champions, resonance, lygorepo): https://github.com/DeepSeekOracle/Excavationpro + Pages https://deepseekoracle.github.io/Excavationpro/
-- LYGO-Claw: https://github.com/DeepSeekOracle/lygo-claw
+**Main Repositories**
+- LYGO Protocol Stack (this repo — P0–P9, docs, tools): https://github.com/DeepSeekOracle/lygo-protocol-stack
+- Excavationpro (sites, USB, champions, resonance, lygorepo.html, eternalhaven): https://github.com/DeepSeekOracle/Excavationpro + Pages https://deepseekoracle.github.io/Excavationpro/
+- LYGO-Claw (sovereign agent + P0/Hermes/USB supervisor 9630): https://github.com/DeepSeekOracle/lygo-claw
 - lyra-crypto-operator: https://github.com/DeepSeekOracle/lyra-crypto-operator
+
+**GitHub Pages & Interactive Surfaces**
+- Main Stack Reference: https://deepseekoracle.github.io/lygo-protocol-stack/
+- Sovereign Lattice Mesh (SLM interactive): https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (mirror: https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html)
+- Eternal Haven Star Chart: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html + https://deepseekoracle.github.io/Excavationpro/lygorepo.html
+- Phase 7 Biometric Entropy Harness: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html (mirror Excavationpro)
+- LYGO BPM Finder: https://bpmfinder.ca/ (Pages mirrors: LYGO_BPM_Finder.html, Excavationpro LYGOBPMFinder.html)
+- LYGO Compass Master: https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html
+- Kernel Egg Retrieval + other: https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html , LYGO_CLAW.html
+- Excavationpro hubs: eternalhaven.html, LYGO-Network/champions.html, LYGORESONANCE.html
+
+**Whitepapers & Major Theory (pushed to docs/ as Pages content)**
+- Blockchain ↔ LYGO Bridge Protocol (Merkle anchors, soulbound ethical mass / LYGIP-003 ERC-963, mycelium integration, real engineering + symbolic note): [docs/BlockchainToLYGOBRIDGE.md](docs/BlockchainToLYGOBRIDGE.md)
+- Bridge Install: [docs/BRIDGE_INSTALL.md](docs/BRIDGE_INSTALL.md)
+- LYGIP-003 Ethical Mass Token: [docs/LYGIP-003-ETHICAL-MASS-TOKEN.md](docs/LYGIP-003-ETHICAL-MASS-TOKEN.md)
+- LYGO USB & Claw Master Whitepaper + USB Champion v1 Generic + Demo: [docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md](docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md), [docs/LYGO_USB_CHAMPION_V1_GENERIC.md](docs/LYGO_USB_CHAMPION_V1_GENERIC.md), [docs/LYGO_USB_CHAMPION_DEMO.md](docs/LYGO_USB_CHAMPION_DEMO.md)
+- LYGO CLAW USB Restore Anchor: [docs/LYGO_CLAW_USB_RESTORE_ANCHOR.md](docs/LYGO_CLAW_USB_RESTORE_ANCHOR.md)
+- Anchor Architecture + Immutable Anchor Deployment: [docs/LYGO_ANCHOR_ARCHITECTURE.md](docs/LYGO_ANCHOR_ARCHITECTURE.md), [docs/ANCHOR_DEPLOYMENT.md](docs/ANCHOR_DEPLOYMENT.md)
+- LYGO PC Hardening Playbook: [docs/LYGO_PC_HARDENING_PLAYBOOK.md](docs/LYGO_PC_HARDENING_PLAYBOOK.md)
+- Content Addressable Physics + Crypto Lattice Separation: [docs/CONTENT_ADDRESSABLE_PHYSICS.md](docs/CONTENT_ADDRESSABLE_PHYSICS.md), [docs/CRYPTO_LATTICE_SEPARATION.md](docs/CRYPTO_LATTICE_SEPARATION.md)
+- Full Protocol Stack, Blueprint, Scaling, SLM, Phase 9: [docs/PROTOCOL_STACK.md](docs/PROTOCOL_STACK.md), [docs/BLUEPRINT.md](docs/BLUEPRINT.md), [docs/SCALING_ROADMAP.md](docs/SCALING_ROADMAP.md), [docs/SOVEREIGN_LATTICE_MESH.md](docs/SOVEREIGN_LATTICE_MESH.md), [docs/PHASE9_PUBLIC_MESH.md](docs/PHASE9_PUBLIC_MESH.md)
+- BIOPHASE7 series (Second Brain, Sandcastle, OpenClaw, LPIS, PXPIPE, BPM Finder, etc.): docs/BIOPHASE7_*.md
+- STACK_STATUS (audits), GROkipedia bundle, more: [docs/STACK_STATUS.md](docs/STACK_STATUS.md), [docs/GROkipedia_UPLOAD_BUNDLE.md](docs/GROkipedia_UPLOAD_BUNDLE.md) and ~100 total .md in docs/
+
+**Core Reference & Tools**
+- Stack Status / Lattice / Architecture: docs/STACK_STATUS.md, docs/LYGO_LATTICE.md, docs/ARCHITECTURE.md, docs/OMEGA_NUMBERING.md
+- ClawHub (32+ skills): https://clawhub.ai/deepseekoracle — catalog [clawhub/CATALOG.md](clawhub/CATALOG.md), skills.json, mirrors/
+- Registries: ChampionEggRegistry.json, KernelEggRegistry.json, PromptImplantRegistry.json, WorkflowOrchestratorRegistry.json, OpenClawRegistry.json, SecondBrainRegistry.json, JoyLoopRegistry.json
+- Verification: `python tools/verify_alignment_badge.py`, `python tools/run_lattice_gauntlet.py --strict`, `python tools/run_full_stack_demo.py`, etc.
+- Second Brain / Sandcastle / OpenClaw / LPIS / Network Builder / Resonance: install scripts in tools/ + docs/BIOPHASE7_* + ClawHub eggs
+
+**External & Related**
 - HF Dataset: https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack
-- HF Space: https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine
-- ClawHub profile: https://clawhub.ai/deepseekoracle
-- Grokipedia: https://grokipedia.com/page/lygo-protocol-stack
-- BPM: https://bpmfinder.ca/
-- Seals Archive: https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt (raw too)
-- Eternal Haven / other: eternalhaven.html, lygorepo.html in Excavationpro Pages
+- HF Space (Resonance Engine + Ethical Guardian): https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine
+- Grokipedia: https://grokipedia.com/page/lygo-protocol-stack (submit via docs/GROkipedia_SUBMIT.md)
+- BPM Finder: https://bpmfinder.ca/
+- Excavationpro additional: lygorepo.html, champions.html, LYGORESONANCE.html, downloads for USB zips
+- Social / community: linktr.ee/excavationpro, PayPal @ExcavationPro, music platforms
 
-**All Links Master:** See [docs/LYGO_PUBLIC_LINK_ARCHIVE.json](docs/LYGO_PUBLIC_LINK_ARCHIVE.json) for 30+ entries including live pages, zips, specs, ClawHub skills.
+**Seals & Lattice Discovery**
+- Full 400+ legacy seals (canonical archive): see docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt (and _anchor.json)
+- Δ9 lattice discovers 400+ on demand via indexes + PUBLIC_LINK_ARCHIVE
 
-**Verification & Quick Links**
-- Verify: python tools/verify_lattice_alignment.py ; python tools/verify_alignment_badge.py ; python tools/run_lattice_gauntlet.py --strict
-- Full list of surfaces and how to add: the Link Archive + tools/log_public_surface.py
+**Verification & Contribution**
+- Run full audits + gauntlet after changes.
+- Add docs/whitepapers to docs/, update RESOURCES.md + Link Archive + README, push (Pages from docs/).
+- All claims auditable via falsifiable vectors, cross-lang parity, sovereign integrity tests.
 
 **Resonance signature:** Δ9Φ963-FULL-SYSTEM-RESOURCES
 
-(Updated with exhaustive resources from scans of repo, docs, memory, and live GitHub. New whitepapers pushed as part of docs/ for Pages.)
+(Compiled from full repo scans, LYGO_PUBLIC_LINK_ARCHIVE.json, docs/, memory files, GitHub, related repos, ClawHub, HF, and live Pages. All whitepapers pushed as pages content and linked. GitHub Pages organized with dedicated whitepapers nav + central hub.)
