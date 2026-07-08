@@ -31,7 +31,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 9495,
+      "bytes": 11876,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  \n  <meta name=\"google-adsense-account\" content=\"ca-pub-064"
     },
     {
@@ -41,7 +41,7 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 45146,
+      "bytes": 44310,
       "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
     },
     {
@@ -151,7 +151,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"/smQ7d+E1GUpockbY+DvBu92\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"sQKC98a9zDltNegaiLPvzzif\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -161,7 +161,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"pTJRaPdINUN4ApRfRmfpq639\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"Ljo140XFsRJnBfhvSl3Ivd/Y\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -171,7 +171,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"rUCoeqiHyc/HoONhJn7PjJhm\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"2RjiYX5BQLJoiboFt8IX+xU9\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -220,7 +220,7 @@
       "url": "https://excavationpro.ca/",
       "status": 200,
       "ok": true,
-      "bytes": 50470,
+      "bytes": 49664,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-0"
     },
     {
@@ -230,7 +230,7 @@
       "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
       "status": 200,
       "ok": true,
-      "bytes": 60370,
+      "bytes": 65536,
       "body_sample": "<!DOCTYPE html>\n<!-- eternalhaven hub deploy: 2026-07-03 live-iframe v79wjai -->\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale"
     },
     {
@@ -294,7 +294,7 @@
       "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
       "status": 200,
       "ok": true,
-      "bytes": 20345,
+      "bytes": 21620,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     },
     {
@@ -304,7 +304,7 @@
       "url": "https://www.moltbook.com/u/Lightfather",
       "status": 200,
       "ok": true,
-      "bytes": 20588,
+      "bytes": 21863,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     }
   ],
@@ -312,5 +312,5 @@
   "soft_failures": 2,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 51473
+  "duration_ms": 50620
 }

@@ -76,6 +76,12 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("vault", REPO / "lygo_lpis" / "vault.py"),
         ("lpis_egg_manifest", REPO / "data" / "prompt_vault" / "lpis_egg_manifest.json"),
     ],
+    "lygo-ops-detector-v1": [
+        ("ops_detector_skill", REPO / "clawhub" / "mirrors" / "lygo-ops-detector" / "SKILL.md"),
+        ("detector_core", REPO / "clawhub" / "mirrors" / "lygo-ops-detector" / "scripts" / "lygo_ops_detector.py"),
+        ("aethon_blueprint", REPO / "clawhub" / "mirrors" / "lygo-ops-detector" / "references" / "AETHON_D9_BLUEPRINT.md"),
+        ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-ops-detector" / "references" / "SECURITY.md"),
+    ],
 }
 
 RETRIEVAL_SOA = {

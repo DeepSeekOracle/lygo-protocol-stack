@@ -8,6 +8,7 @@
 | **Joy Loop** | Snapshot + live Architect embed (`:9965` when `--serve` is running) |
 | **Army & Sentinel** | `sentinel_heartbeat` lattice, HF, Ollama, queue, public pages |
 | **Public lattice** | LYRA six endpoint HTTP table (Pages + ClawHub + champions hub) |
+| **Commands** | BUILDR USB tray/daemon, Claw, benchmark, retail export, army cron — click row to copy |
 | **Raw JSON** | Full `data/status.json` |
 
 Combines the former **Genesis Console**, **Ollama command dashboard**, and **Joy Architect** entry points into one UI on **port 9963**.

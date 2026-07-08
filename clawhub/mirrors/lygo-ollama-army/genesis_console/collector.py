@@ -47,6 +47,10 @@ LINKS = {
     "genesis_local": f"http://127.0.0.1:{GENESIS_PORT}/",
     "joy_architect_local": f"http://127.0.0.1:{JOY_API_PORT}/architect",
     "army_dashboard_local": f"http://127.0.0.1:{GENESIS_PORT}/#army",
+    "lygo_claw_github": "https://github.com/DeepSeekOracle/lygo-claw",
+    "lygo_claw_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html",
+    "buildr_daemon_health": "http://127.0.0.1:9630/health",
+    "buildr_usb_standalone_doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BUILDR_USB_STANDALONE.md",
 }
 
 
@@ -363,6 +367,89 @@ def ensure_sentinel_fresh(max_age_sec: int = 420) -> None:
         )
 
 
+def resolve_buildr_key_root() -> Path | None:
+    env = os.environ.get("LYGO_BUILDER_KEY_ROOT")
+    if env and (Path(env) / "verify_bootstrap.py").is_file():
+        return Path(env)
+    for letter in "DEFGHIJKLMNOPQRSTUVWXYZ":
+        for sub in ("LYGO_BUILDER_KEY", ""):
+            p = Path(f"{letter}:\\") / sub if sub else Path(f"{letter}:\\")
+            if (p / "verify_bootstrap.py").is_file() and (p / "phase2" / "buildr_usb_daemon.py").is_file():
+                return p
+    overlay = Path(r"I:\E Drive\LYGO_BUILDR_USB")
+    if (overlay / "verify_bootstrap.py").is_file():
+        return overlay
+    return None
+
+
+def buildr_usb_status() -> dict:
+    root = resolve_buildr_key_root()
+    if not root:
+        return {"ok": False, "detail": "USB key root not found"}
+    bench = root / "verify" / "buildr_benchmark_last_run.json"
+    standalone = root / "scripts" / "verify_standalone_usb.py"
+    daemon_ok = False
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:9630/health", timeout=2) as resp:
+            d = json.loads(resp.read().decode())
+            daemon_ok = bool(d.get("ok"))
+    except Exception:
+        pass
+    bench_summary = None
+    if bench.is_file():
+        try:
+            b = json.loads(bench.read_text(encoding="utf-8"))
+            bench_summary = b.get("summary")
+        except (json.JSONDecodeError, OSError):
+            pass
+    return {
+        "ok": True,
+        "key_root": str(root),
+        "daemon_health_ok": daemon_ok,
+        "benchmark_summary": bench_summary,
+        "has_standalone_verify": standalone.is_file(),
+    }
+
+
+def quick_commands() -> list[dict]:
+    """Copy-paste commands for Genesis dashboard (BUILDR USB, Claw, army, retail)."""
+    key = resolve_buildr_key_root()
+    key_s = str(key) if key else r"E:\LYGO_BUILDER_KEY"
+    overlay = r"I:\E Drive\LYGO_BUILDR_USB"
+    claw = r"I:\E Drive\lygo-claw"
+    stack = str(STACK)
+    cc = str(CC / "scripts")
+    exports = r"I:\E Drive\LYGO_BUILDR_EXPORTS"
+    return [
+        {"group": "Genesis / Army", "label": "Army hourly cron (once)", "cmd": f'cd "{cc}" && python army_cron_once.py'},
+        {"group": "Genesis / Army", "label": "Genesis collector refresh", "cmd": f'cd "{ROOT}" && python collector.py'},
+        {"group": "Genesis / Army", "label": "Genesis UI server", "cmd": f'cd "{ROOT}" && python server.py'},
+        {"group": "BUILDR USB — Tray & daemon", "label": "Daemon tray (double-click)", "cmd": f'"{key_s}\\launchers\\LYGO_Daemon_Tray.bat"'},
+        {"group": "BUILDR USB — Tray & daemon", "label": "Install logon autostart (+ Ollama)", "cmd": f'powershell -ExecutionPolicy Bypass -File "{key_s}\\launchers\\install_buildr_autostart.ps1" -WithOllama'},
+        {"group": "BUILDR USB — Tray & daemon", "label": "Remove autostart task", "cmd": f'powershell -ExecutionPolicy Bypass -File "{key_s}\\launchers\\install_buildr_autostart.ps1" -Remove'},
+        {"group": "BUILDR USB — Tray & daemon", "label": "Console daemon + Ollama", "cmd": f'"{key_s}\\launchers\\LYGO_BUILDR_Daemon.bat"'},
+        {"group": "BUILDR USB — Tray & daemon", "label": "Daemon health (browser/curl)", "cmd": "http://127.0.0.1:9630/health"},
+        {"group": "BUILDR USB — AI & verify", "label": "One-Boot offline chat", "cmd": f'"{key_s}\\launchers\\LYGO_One_Boot_AI.bat"'},
+        {"group": "BUILDR USB — AI & verify", "label": "System check", "cmd": f'"{key_s}\\launchers\\CHECK_SYSTEM.bat"'},
+        {"group": "BUILDR USB — AI & verify", "label": "Standalone verify", "cmd": f'cd /d "{key_s}" && python scripts\\verify_standalone_usb.py'},
+        {"group": "BUILDR USB — AI & verify", "label": "Phase 2 bootstrap verify", "cmd": f'cd /d "{key_s}" && python verify_bootstrap.py --edition GROK_BUILDR --phase2'},
+        {"group": "BUILDR USB — AI & verify", "label": "Full stick benchmark", "cmd": f'cd /d "{key_s}" && python scripts\\benchmark_buildr_stick.py --network --lygo-claw-root "{claw}"'},
+        {"group": "BUILDR USB — AI & verify", "label": "Benchmark launcher", "cmd": f'"{key_s}\\launchers\\LYGO_Run_Benchmark.bat"'},
+        {"group": "BUILDR USB — Sync & retail", "label": "Sync overlay to stick", "cmd": f'powershell -ExecutionPolicy Bypass -File "{overlay}\\scripts\\sync_overlay_to_builder_key.ps1"'},
+        {"group": "BUILDR USB — Sync & retail", "label": "Export all PUBLIC SKUs", "cmd": f'powershell -ExecutionPolicy Bypass -File "{key_s}\\scripts\\build_phase3_all_skus.ps1"'},
+        {"group": "BUILDR USB — Sync & retail", "label": "Zip SKUs for Gumroad", "cmd": f'powershell -ExecutionPolicy Bypass -File "{overlay}\\scripts\\package_public_sku_zips.ps1"'},
+        {"group": "LYGO-Claw", "label": "Install + self-check", "cmd": f'"{claw}\\launchers\\INSTALL_AND_CHECK.bat"'},
+        {"group": "LYGO-Claw", "label": "USB supervisor health", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && python -m lygo_claw.cli usb-health'},
+        {"group": "LYGO-Claw", "label": "Gateway test", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && python -m lygo_claw.cli gateway "hello"'},
+        {"group": "LYGO-Claw", "label": "Queue stick task", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && python -m lygo_claw.cli buildr-task verify_standalone --wait'},
+        {"group": "LYGO-Claw", "label": "Sovereign loop (desktop+USB+lattice)", "cmd": f'"{claw}\\launchers\\RUN_SOVEREIGN_LOOP.bat"'},
+        {"group": "LYGO-Claw", "label": "God-Mode brain init", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && set LYGO_BUILDER_KEY_ROOT={key_s} && python -m lygo_claw.cli brain-init'},
+        {"group": "BUILDR USB — Tray & daemon", "label": "Nightly brain loop (USB)", "cmd": f'"{key_s}\\launchers\\LYGO_Nightly_Brain_Loop.bat"'},
+        {"group": "Stack", "label": "Lattice verify", "cmd": f'cd /d "{stack}" && python tools\\verify_lattice_alignment.py'},
+        {"group": "Stack", "label": "Push with credential helper", "cmd": f'python "{stack}\\tools\\push_with_git_credential.py"'},
+    ]
+
+
 def sentinel_status() -> dict:
     p = CC / "workspace" / "sentinel_status.json"
     if not p.is_file():
@@ -428,6 +515,8 @@ def collect() -> dict:
         "ops": ops,
         "phase5": phase5,
         "twin_gate": twin,
+        "buildr_usb": buildr_usb_status(),
+        "commands": quick_commands(),
     }
 
 

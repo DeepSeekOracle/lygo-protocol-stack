@@ -3,9 +3,7 @@ name: lyra-coin-launch-manager
 description: Coin launch memory + verification workflow for Clawnch (4claw/Moltx/Moltbook). Use to launch tokens safely, record canonical receipts (contract+txHash+postUrl), update local dashboard, and save Clanker/monitor links into BOOKMARK BRAIN.
 ---
 
-# LYRA Coin Launch Manager (Clawnch) — v1.1.2
-
-> **Lattice:** Independent utility — **not** LYGO P0–P9 core. See repo `docs/CRYPTO_LATTICE_SEPARATION.md`. Token metrics ≠ `lattice.ok`.
+# LYRA Coin Launch Manager (Clawnch) — v1
 
 ## What “done right” means (non-negotiable)
 A coin is only considered **launched** when you have a **Clawnch receipt** containing at minimum:

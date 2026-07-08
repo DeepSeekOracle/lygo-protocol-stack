@@ -1,4 +1,4 @@
-# Audit Protocol (Living Memory v1.2)
+# Audit Protocol (Living Memory)
 
 ## Goal
 Detect drift, missing anchors, fragile items, and unreadable files.

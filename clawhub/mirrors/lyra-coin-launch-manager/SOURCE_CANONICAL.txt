@@ -1,2 +1,0 @@
-Canonical source: I:\E Drive\lyra-crypto-operator
-Sync: python tools/sync_from_lyra_crypto_operator.py

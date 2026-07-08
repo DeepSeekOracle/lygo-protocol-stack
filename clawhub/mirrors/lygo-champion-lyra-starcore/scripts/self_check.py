@@ -1,4 +1,16 @@
-"""Unified champion pack self-check — reads champion id from references/canon.json."""
+"""Self-check for the LYGO Champion: LYRA skill pack.
+
+Purpose: quick deterministic validation that the pack is internally consistent.
+Does NOT contact network services.
+
+Usage:
+  python scripts/self_check.py
+
+Exit codes:
+  0 = OK
+  2 = missing/invalid canon
+  3 = missing required files
+"""
 
 from __future__ import annotations
 
@@ -20,21 +32,23 @@ if missing:
         print(" -", m)
     raise SystemExit(3)
 
-canon = json.loads((ROOT / "references" / "canon.json").read_text(encoding="utf-8"))
-champion = canon.get("champion")
-if not champion or not isinstance(champion, str):
-    print("BAD_CANON: champion missing")
-    raise SystemExit(2)
+canon_path = ROOT / "references" / "canon.json"
+canon = json.loads(canon_path.read_text(encoding="utf-8"))
 
-vu = (ROOT / "references" / "verifier_usage.md").read_text(encoding="utf-8", errors="replace")
-if "lygo-mint-verifier" not in vu.lower() and "clawhub" not in vu.lower():
-    print("BAD_REF: verifier link missing")
+if canon.get("champion") != "LYRA":
+    print("BAD_CANON: champion != LYRA")
     raise SystemExit(2)
 
 h = canon.get("lygo_mint_sha256")
-if h is not None and (not isinstance(h, str) or len(h) != 64):
-    print("BAD_CANON: lygo_mint_sha256 invalid")
+if not isinstance(h, str) or len(h) != 64:
+    print("BAD_CANON: lygo_mint_sha256 missing/invalid")
     raise SystemExit(2)
 
-print("OK", champion)
-raise SystemExit(0)
+# quick sanity on verifier link presence
+vu = (ROOT / "references" / "verifier_usage.md").read_text(encoding="utf-8", errors="replace")
+if "https://clawhub.ai/DeepSeekOracle/lygo-mint-verifier" not in vu:
+    print("BAD_REF: verifier link missing")
+    raise SystemExit(2)
+
+print("OK")
+print("HASH", h)

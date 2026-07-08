@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-04T21:26:43.578972+00:00",
+  "generated_utc": "2026-07-06T07:50:41.955175+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 350,
-  "link_count": 418,
+  "node_count": 346,
+  "link_count": 410,
   "seal_count": 269,
   "champion_count": 7,
-  "lattice_count": 48,
-  "registry_sha256": "56b856a8590ae739b07e268c8870b5d5f0db477d87022585d2009b1a38366104",
+  "lattice_count": 44,
+  "registry_sha256": "3b4ff857711fabe489e55423aa86b211e27188373f5a75ace55cdd6bd46cad6c",
   "constellations": [
     {
       "id": "primordial_core",
@@ -4414,27 +4414,6 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-network-builder",
-      "kind": "lattice",
-      "name": "LYGO Network Builder",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-network-builder"
-      },
-      "layer": 3
-    },
-    {
       "id": "LATTICE_SKILL_eternal-haven-lore-pack",
       "kind": "lattice",
       "name": "Eternal Haven Lore Pack",
@@ -5128,9 +5107,9 @@
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-tools-portal",
+      "id": "LATTICE_SKILL_lygo-network-builder",
       "kind": "lattice",
-      "name": "LYGO Tools Portal (MPM)",
+      "name": "LYGO Network Builder",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5144,14 +5123,14 @@
         "SEAL_000"
       ],
       "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-tools-portal"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-network-builder"
       },
       "layer": 3
     },
     {
-      "id": "LATTICE_SKILL_lygo-second-brain",
+      "id": "LATTICE_SKILL_lygo-ops-detector",
       "kind": "lattice",
-      "name": "LYGO Second Brain",
+      "name": "LYGO OPPS DETECTOR",
       "glyph": "\u25c8",
       "equation": "skill \u2297 lattice",
       "tone": "8787Hz",
@@ -5165,70 +5144,7 @@
         "SEAL_000"
       ],
       "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-second-brain"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-sandcastle",
-      "kind": "lattice",
-      "name": "LYGO Sovereign Workflow Orchestrator",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sandcastle"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-sovereign-claw",
-      "kind": "lattice",
-      "name": "LYGO Sovereign Claw Router",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sovereign-claw"
-      },
-      "layer": 3
-    },
-    {
-      "id": "LATTICE_SKILL_lygo-lpis",
-      "kind": "lattice",
-      "name": "LYGO Prompt Implant System",
-      "glyph": "\u25c8",
-      "equation": "skill \u2297 lattice",
-      "tone": "8787Hz",
-      "tags": [
-        "LATTICE",
-        "CLAWHUB",
-        "GROWTH"
-      ],
-      "connections": [
-        "PORTAL_STACK",
-        "SEAL_000"
-      ],
-      "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lpis"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-ops-detector"
       },
       "layer": 3
     },
@@ -5926,16 +5842,6 @@
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-network-builder",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-network-builder",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
       "source": "LATTICE_SKILL_eternal-haven-lore-pack",
       "target": "PORTAL_STACK",
       "kind": "lattice"
@@ -6266,52 +6172,22 @@
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-tools-portal",
+      "source": "LATTICE_SKILL_lygo-network-builder",
       "target": "PORTAL_STACK",
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-tools-portal",
+      "source": "LATTICE_SKILL_lygo-network-builder",
       "target": "SEAL_000",
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-second-brain",
+      "source": "LATTICE_SKILL_lygo-ops-detector",
       "target": "PORTAL_STACK",
       "kind": "lattice"
     },
     {
-      "source": "LATTICE_SKILL_lygo-second-brain",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-sandcastle",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-sandcastle",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-sovereign-claw",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-sovereign-claw",
-      "target": "SEAL_000",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-lpis",
-      "target": "PORTAL_STACK",
-      "kind": "lattice"
-    },
-    {
-      "source": "LATTICE_SKILL_lygo-lpis",
+      "source": "LATTICE_SKILL_lygo-ops-detector",
       "target": "SEAL_000",
       "kind": "lattice"
     },
