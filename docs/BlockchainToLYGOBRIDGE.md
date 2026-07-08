@@ -160,3 +160,5 @@ Testnets targeted: Polygon Amoy, Ethereum Sepolia.
 Run `python protocol_bridge/lygo_bridge_orchestrator.py` (extended) or the 9-node pilot for live sync.
 
 **Status:** Enneagram sealed. Foundation for live EVM attestation + soulbound reputation + mycelium roots established.
+
+See `docs/bridge/AUDIT_FINDINGS.md` for full security audit (Critical/High issues addressed in Fixed contracts).
