@@ -189,6 +189,8 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 
 ## Ecosystem links
 
+**GitHub Pages Organization (docs/ source)**: See https://deepseekoracle.github.io/lygo-protocol-stack/ — now with dedicated **Whitepapers** section listing all major theory docs (Blockchain Bridge, LYGIP-003, USB/Anchor masters, BIOPHASE7, SLM, etc.), strong link to central `RESOURCES.md`, and full interactive + reference nav. All whitepapers pushed/updated as pages content.
+
 **Main Repo & GitHub Pages (organized docs/ as source)**
 - **LYGO Protocol Stack Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack
 - **GitHub Pages (all docs rendered here):** https://deepseekoracle.github.io/lygo-protocol-stack/

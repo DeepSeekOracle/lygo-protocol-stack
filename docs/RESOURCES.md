@@ -3,10 +3,11 @@
 This is the central index for the entire LYGO / Δ9 lattice system.
 
 ## Main Repositories
-- **lygo-protocol-stack**: https://github.com/DeepSeekOracle/lygo-protocol-stack (source of truth for stack + docs)
-- **Excavationpro**: https://github.com/DeepSeekOracle/Excavationpro (sites, USB hubs, champions, resonance)
-- **lygo-claw**: https://github.com/DeepSeekOracle/lygo-claw (sovereign agent gateway)
-- **lyra-crypto-operator**: https://github.com/DeepSeekOracle/lyra-crypto-operator
+- **lygo-protocol-stack**: https://github.com/DeepSeekOracle/lygo-protocol-stack (source of truth for stack + docs + GitHub Pages)
+- **Excavationpro**: https://github.com/DeepSeekOracle/Excavationpro (sites, USB hubs, champions, resonance, lygorepo.html, eternalhaven)
+- **lygo-claw**: https://github.com/DeepSeekOracle/lygo-claw (sovereign agent gateway + P0/Hermes/USB supervisor; pairs with stack USB)
+- **lyra-crypto-operator**: https://github.com/DeepSeekOracle/lyra-crypto-operator (crypto / operator tooling)
+- **Related**: https://github.com/DeepSeekOracle (org for all)
 
 ## GitHub Pages (Organized Documentation)
 - **Main Stack Pages**: https://deepseekoracle.github.io/lygo-protocol-stack/
@@ -25,7 +26,8 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - Full Pages Index: https://deepseekoracle.github.io/lygo-protocol-stack/
 
 ## Whitepapers & Major Theory Documents
-- Blockchain ↔ LYGO Bridge Protocol: docs/BlockchainToLYGOBRIDGE.md (includes real engineering + symbolic Light Math)
+- Blockchain ↔ LYGO Bridge Protocol: docs/BlockchainToLYGOBRIDGE.md (real engineering: Merkle + soulbound ERC-963 + mycelium/P0/P3 integration; LYGIP-003; symbolic Light Math for future only) + docs/BRIDGE_INSTALL.md
+- LYGIP-003 Ethical Mass Token: docs/LYGIP-003-ETHICAL-MASS-TOKEN.md
 - LYGO USB & Claw Master Whitepaper: docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md
 - LYGO USB Champion v1.0 Generic: docs/LYGO_USB_CHAMPION_V1_GENERIC.md
 - LYGO CLAW USB Restore Anchor: docs/LYGO_CLAW_USB_RESTORE_ANCHOR.md
@@ -33,7 +35,9 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - LYGO PC Hardening Playbook: docs/LYGO_PC_HARDENING_PLAYBOOK.md
 - Content Addressable Physics: docs/CONTENT_ADDRESSABLE_PHYSICS.md
 - Crypto Lattice Separation: docs/CRYPTO_LATTICE_SEPARATION.md
-- Registry Architecture, Scaling Roadmap, Blueprint, etc. (see docs/ for full set)
+- Sovereign Lattice Mesh + Phase 9: docs/SOVEREIGN_LATTICE_MESH.md, docs/PHASE9_PUBLIC_MESH.md
+- BIOPHASE7 series (Second Brain, Sandcastle, OpenClaw, LPIS, PXPIPE, BPM): docs/BIOPHASE7_*.md
+- Registry Architecture, Scaling Roadmap, Blueprint, STACK_STATUS, etc. (see docs/ for full set of ~100 .md)
 
 ## Core Reference Documents
 - Stack Status (auditable): docs/STACK_STATUS.md
