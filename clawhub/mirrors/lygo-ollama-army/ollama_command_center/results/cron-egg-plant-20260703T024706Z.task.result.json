@@ -1,0 +1,22 @@
+{
+  "task_id": "cron-egg-plant-20260703T024706Z",
+  "role": "egg-planter",
+  "ts": "2026-07-02T20:47:12.666661",
+  "model": "llama3.2:1b",
+  "result": {
+    "exit_code": 0,
+    "report": {
+      "timestamp": "2026-07-03T02:47:12.702929+00:00",
+      "egg": {
+        "signature": "\u03949\u03a6963-ARMY-EGG-PLANTER-v1",
+        "timestamp": "2026-07-03T02:47:12.703373+00:00",
+        "planted": true,
+        "preflight": true,
+        "smoke_test": true,
+        "plant_exit": 0,
+        "plant_tail": "\u03949\u03a6963 Egg Planter preflight\n  stack: I:\\E Drive\\lygo-protocol-stack\n  registry: present merkle=942760eea9cb91bb094f3644\u2026\n  ok: tools/build_kernel_eggs.py\n  ok: tools/verify_kernel_eggs.py\n  ok: tools/retrieve_kernel_egg.py\n  ok: protocol0_nano_kernel/fixtures/p0_canonical.sha256\npreflight: PASS\n\u03949\u03a6963 Kernel Egg Planter v1.1\n  stack: I:\\E Drive\\lygo-protocol-stack\n  surfaces: ['local', 'registry', 'stubs']\n[*] Pre-plant tamper verify (baseline)\n{\n  \"verdict\": \"ALIGNED\",\n  \"all_pass\": true\n}\nverdict=ALIGNED all_pass=True\n{\n  \"built\": 7,\n  \"skipped\": [],\n  \"registry\": \"I:\\\\E Drive\\\\lygo-protocol-stack\\\\data\\\\kernel_eggs\\\\registry.json\"\n}\n{\n  \"anchored_count\": 7,\n  \"registry\": \"I:\\\\E Drive\\\\lygo-protocol-stack\\\\data\\\\kernel_eggs\\\\registry.json\"\n}\n{\n  \"verdict\": \"ALIGNED\",\n  \"all_pass\": true\n}\nverdict=ALIGNED all_pass=True\n[stubs] wrote I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-kernel-egg-planter\\reference\\LYGO_KERNEL_EGGS.ref.txt\n[done] registry_merkle_root=e29d1c0cf860c5552c366e1ab33a38f5932e9ef8a4810ae4c488be4cb88ddabe\n",
+        "kernel_eggs_verify": true
+      }
+    }
+  }
+}

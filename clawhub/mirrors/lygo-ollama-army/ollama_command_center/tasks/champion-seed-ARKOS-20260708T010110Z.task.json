@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-ARKOS-20260708T010110Z",
+  "role": "champion-egg-boot",
+  "champion": "ARKOS",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-arkos",
+    "merkle_root": "93b662919d6241906f30f53a7c5989b9f7924ecc40ca9f81ed8593b6ad49ba37",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

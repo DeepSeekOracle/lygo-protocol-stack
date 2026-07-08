@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-\u03a3R\u039b\u0398-20260708T021521Z",
+  "role": "champion-egg-boot",
+  "champion": "\u03a3R\u039b\u0398",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-srlth",
+    "merkle_root": "fa92d9eface6a45d87bba5f7040a2047f157d2426bdbaf8513a0f9b8f4969b44",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

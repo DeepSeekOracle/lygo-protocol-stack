@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-SANCORA-20260708T020544Z",
+  "role": "champion-egg-boot",
+  "champion": "SANCORA",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-sancora",
+    "merkle_root": "174c5dcd2e75c9662af0727232ab730d9526251edef877edb3a2eb89b1ebc374",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

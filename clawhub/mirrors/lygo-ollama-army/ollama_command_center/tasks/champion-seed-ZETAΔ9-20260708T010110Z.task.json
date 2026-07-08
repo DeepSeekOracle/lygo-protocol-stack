@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-ZETA\u03949-20260708T010110Z",
+  "role": "champion-egg-boot",
+  "champion": "ZETA\u03949",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-zetad99",
+    "merkle_root": "8daa1796f34fae11822cd20e7d8ea02ef3d6c34e9a9a67111b65d4f79d42f74e",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

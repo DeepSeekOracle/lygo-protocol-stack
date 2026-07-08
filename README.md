@@ -206,11 +206,11 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 - Main Stack Reference: https://deepseekoracle.github.io/lygo-protocol-stack/
 - Sovereign Lattice Mesh (SLM interactive): https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (mirror: https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html)
 - Eternal Haven Star Chart: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html + https://deepseekoracle.github.io/Excavationpro/lygorepo.html
-- Phase 7 Biometric Entropy Harness: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html (mirror Excavationpro)
+- Phase 7 Biometric Entropy Harness: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html (mirror: https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html)
 - LYGO BPM Finder: https://bpmfinder.ca/ (Pages mirrors: LYGO_BPM_Finder.html, Excavationpro LYGOBPMFinder.html)
 - LYGO Compass Master: https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html
 - Kernel Egg Retrieval + other: https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html , LYGO_CLAW.html
-- Excavationpro hubs: eternalhaven.html, LYGO-Network/champions.html, LYGORESONANCE.html
+- Excavationpro hubs: eternalhaven.html, LYGO-Network/champions.html, https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html
 
 **Whitepapers & Major Theory (pushed to docs/ as Pages content)**
 - Blockchain ↔ LYGO Bridge Protocol (Merkle anchors, soulbound ethical mass / LYGIP-003 ERC-963, mycelium integration, real engineering + symbolic note): [docs/BlockchainToLYGOBRIDGE.md](docs/BlockchainToLYGOBRIDGE.md)
@@ -237,7 +237,7 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 - HF Space (Resonance Engine + Ethical Guardian): https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine
 - Grokipedia: https://grokipedia.com/page/lygo-protocol-stack (submit via docs/GROkipedia_SUBMIT.md)
 - BPM Finder: https://bpmfinder.ca/
-- Excavationpro additional: lygorepo.html, champions.html, LYGORESONANCE.html, downloads for USB zips
+- Excavationpro additional: lygorepo.html, champions.html, https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html, downloads for USB zips
 - Social / community: linktr.ee/excavationpro, PayPal @ExcavationPro, music platforms
 
 **Seals & Lattice Discovery**

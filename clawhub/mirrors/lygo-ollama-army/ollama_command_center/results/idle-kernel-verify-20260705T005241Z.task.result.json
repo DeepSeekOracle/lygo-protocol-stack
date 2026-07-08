@@ -1,0 +1,21 @@
+{
+  "task_id": "idle-kernel-verify-20260705T005241Z",
+  "role": "kernel-verify-only",
+  "ts": "2026-07-04T18:52:48.801430",
+  "model": "llama3.2:1b",
+  "result": {
+    "ok": true,
+    "verify": {
+      "verify_kernel_eggs.py": {
+        "ok": true,
+        "exit_code": 0,
+        "stdout": "{\n  \"verdict\": \"ALIGNED\",\n  \"all_pass\": true\n}\n"
+      },
+      "verify_champion_eggs.py": {
+        "ok": true,
+        "exit_code": 0,
+        "stdout": "champion_eggs verdict=ALIGNED count=15\n"
+      }
+    }
+  }
+}

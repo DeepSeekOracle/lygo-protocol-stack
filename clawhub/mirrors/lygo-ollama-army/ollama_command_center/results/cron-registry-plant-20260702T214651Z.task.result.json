@@ -1,0 +1,18 @@
+{
+  "task_id": "cron-registry-plant-20260702T214651Z",
+  "role": "registry-planter",
+  "ts": "2026-07-02T15:46:52.789870",
+  "model": "llama3.2:1b",
+  "result": {
+    "exit_code": 0,
+    "report": {
+      "timestamp": "2026-07-02T21:46:52.825193+00:00",
+      "registry": {
+        "signature": "\u03949\u03a6963-ARMY-REGISTRY-PLANTER-v1",
+        "timestamp": "2026-07-02T21:46:52.826469+00:00",
+        "registered": false,
+        "skipped": "planting.disabled"
+      }
+    }
+  }
+}

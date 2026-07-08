@@ -1,0 +1,11 @@
+{
+  "task_id": "cron-stack-20260702T172114Z",
+  "role": "stack-integrity",
+  "ts": "2026-07-02T11:21:17.383827",
+  "model": "llama3.2:1b",
+  "result": {
+    "pass": true,
+    "exit_code": 0,
+    "stdout_tail": "\n======================================================================\n LYGO PROTOCOL STACK \u2014 FULL TEST SUITE\n   Live P0\u2013P5 \u2014 falsifiable integration\n   Resonance Signature: \u03949\u03a6963-SOVEREIGN-INTEGRITY\n======================================================================\n\n--- gaslighting ---\n  truth=AMPLIFY phi=0.4045 | corrupt=AMPLIFY phi=0.4045 | flagged=True | pass=True\n\n--- consensus_attack ---\n  truth=AMPLIFY phi=0.4045 | corrupt=AMPLIFY phi=0.4045 | flagged=True | pass=True\n\n--- fractal_erosion ---\n  truth=AMPLIFY phi=0.4045 | corrupt=AMPLIFY phi=0.4045 | flagged=True | pass=True\n\n--- temporal_revisionism ---\n  truth=AMPLIFY phi=0.4045 | corrupt=AMPLIFY phi=0.4045 | flagged=True | pass=True\n\n--- emotional_entanglement ---\n  truth=AMPLIFY phi=0.4045 | corrupt=AMPLIFY phi=0.4045 | flagged=True | pass=True\n\n--- syntax_collapse ---\n  truth=AMPLIFY phi=0.4045 | corrupt=AMPLIFY phi=0.4045 | flagged=True | pass=True\n\n======================================================================\n EXECUTIVE SUMMARY\n======================================================================\n  gaslighting            PASS | corrupt_phi=0.4045 | Light=LF-\u03949-d88a62947656-963-528-174-\u03a6-\u221e\n  consensus_attack       PASS | corrupt_phi=0.4045 | Light=LF-\u03949-1bc806512622-963-528-174-\u03a6-\u221e\n  fractal_erosion        PASS | corrupt_phi=0.4045 | Light=LF-\u03949-a5dd21dba04c-963-528-174-\u03a6-\u221e\n  temporal_revisionism   PASS | corrupt_phi=0.4045 | Light=LF-\u03949-01a3699261df-963-528-174-\u03a6-\u221e\n  emotional_entanglement PASS | corrupt_phi=0.4045 | Light=LF-\u03949-d6756bfce682-963-528-174-\u03a6-\u221e\n  syntax_collapse        PASS | corrupt_phi=0.4045 | Light=LF-\u03949-e3e92df2e39c-963-528-174-\u03a6-\u221e\n----------------------------------------------------------------------\n  Adversarial: 6/6 passed\n  Pilot dilemma P0=SOFTEN phi=0.8899 mass=1.2933\n======================================================================\n"
+  }
+}

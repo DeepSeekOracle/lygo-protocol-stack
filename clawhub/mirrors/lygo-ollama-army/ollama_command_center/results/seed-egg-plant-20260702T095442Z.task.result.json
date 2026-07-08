@@ -1,0 +1,18 @@
+{
+  "task_id": "seed-egg-plant-20260702T095442Z",
+  "role": "egg-planter",
+  "ts": "2026-07-02T11:21:08.561969",
+  "model": "llama3.2:1b",
+  "result": {
+    "exit_code": 0,
+    "report": {
+      "timestamp": "2026-07-02T17:21:08.601686+00:00",
+      "egg": {
+        "signature": "\u03949\u03a6963-ARMY-EGG-PLANTER-v1",
+        "timestamp": "2026-07-02T17:21:08.601911+00:00",
+        "planted": false,
+        "skipped": "planting.disabled"
+      }
+    }
+  }
+}

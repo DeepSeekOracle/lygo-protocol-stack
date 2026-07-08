@@ -1,0 +1,24 @@
+{
+  "task_id": "cron-self-tune-20260702T171308Z",
+  "role": "self-tune",
+  "ts": "2026-07-02T11:20:48.563515",
+  "model": "llama3.2:1b",
+  "result": {
+    "exit_code": 0,
+    "report": {
+      "signature": "\u03949\u03a6963-ARMY-SELF-TUNE-v1",
+      "timestamp": "2026-07-02T17:20:49.069664+00:00",
+      "actions": [
+        "haven_star_chart.rebuilt"
+      ],
+      "healthy": true,
+      "lattice": "ALIGNED",
+      "queue": {
+        "queued": 7,
+        "results": 204
+      },
+      "config_backup": "I:\\E Drive\\.grok\\skills\\lygo-ollama-army\\ollama_command_center\\config\\army_config.json.bak",
+      "verdict": "SELF_TUNED"
+    }
+  }
+}

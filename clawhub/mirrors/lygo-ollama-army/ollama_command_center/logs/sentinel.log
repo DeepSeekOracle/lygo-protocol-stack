@@ -1,0 +1,485 @@
+2026-07-01T04:39:00.747274+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T04:39:09.973494+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T05:39:11.028225+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T06:39:11.646085+00:00 | lattice=ALIGNED | hf=RUNNING | queue=3 | ollama=True
+2026-07-01T07:39:06.275094+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=6 | ollama=True
+2026-07-01T08:39:06.118655+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=9 | ollama=True
+2026-07-01T09:39:06.111157+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=12 | ollama=True
+2026-07-01T10:39:06.079203+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=15 | ollama=True
+2026-07-01T20:18:36.989569+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=18 | ollama=True
+2026-07-01T20:19:44.454530+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=13 | ollama=True
+2026-07-01T20:19:52.794448+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | queue=12 | ollama=True
+2026-07-01T20:21:12.164756+00:00 | lattice=ALIGNED | hf=APP_STARTING | queue=0 | ollama=True
+2026-07-01T20:22:05.649262+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:24:57.305522+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:30:02.226183+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:35:08.709705+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:40:14.323455+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:45:21.115501+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:50:28.216146+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T20:55:33.240809+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:00:38.774515+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:05:44.050701+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:10:50.267832+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:15:56.307536+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:18:38.453608+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:21:01.151537+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:21:06.062210+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:26:10.813775+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:31:15.691683+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:36:20.510838+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:41:25.713253+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:46:30.662605+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:51:35.509648+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T21:56:40.400730+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:01:45.281932+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:06:51.243321+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:11:56.113145+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:17:00.742107+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:18:32.139696+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:22:05.701508+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:22:11.955311+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:27:16.594800+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:32:22.911597+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:37:28.787997+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:42:37.562499+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:47:42.629595+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:52:47.506754+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T22:57:53.737539+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:02:58.640361+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:08:03.450627+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:13:08.163007+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:18:12.827796+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:18:34.650328+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:22:58.742480+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:23:18.951600+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:23:24.704162+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:28:28.592474+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:33:33.338688+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:38:38.333527+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:43:43.589194+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:48:48.886955+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:53:54.998740+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-01T23:58:59.942579+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:04:04.906842+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:09:09.759357+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:14:14.399507+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:18:45.974881+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:18:59.208179+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:19:19.275533+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:24:24.831539+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:24:29.774104+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:29:34.364979+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:34:39.241847+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:39:45.011435+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:44:49.636168+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:49:54.585182+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T00:54:59.321840+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:00:04.412181+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:05:09.766249+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:10:19.746316+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:15:26.263367+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:18:54.631723+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:20:31.225643+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:25:36.180396+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:25:39.974995+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:30:44.788375+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T01:35:50.088778+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T02:25:04.412392+00:00 | lattice=ALIGNED | hf=RUNNING | queue=0 | ollama=True
+2026-07-02T03:19:07.110559+00:00 | lattice=ALIGNED | hf=RUNNING | queue=3 | ollama=True
+2026-07-02T04:18:44.428221+00:00 | lattice=ALIGNED | hf=RUNNING | queue=6 | ollama=True
+2026-07-02T05:18:34.077391+00:00 | lattice=ALIGNED | hf=RUNNING | queue=9 | ollama=True
+2026-07-02T06:09:29.547818+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=19 | ollama=True
+2026-07-02T06:09:36.501044+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=25 | ollama=True
+2026-07-02T06:09:51.363231+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T06:09:57.192017+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=12 | ollama=True
+2026-07-02T06:10:34.702916+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=10 | ollama=True
+2026-07-02T06:10:49.009131+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=3 | ollama=True
+2026-07-02T06:10:53.845300+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=3 | ollama=True
+2026-07-02T06:11:31.360214+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:11:37.733016+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:16:43.809686+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:18:32.370732+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:21:49.837974+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:26:57.380717+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:32:03.744034+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:37:10.276770+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:42:16.554591+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:47:23.337004+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:52:30.371860+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T06:57:41.022877+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T07:02:49.000460+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T07:07:56.020905+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T07:13:01.848760+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T07:13:08.666951+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=0 | ollama=True
+2026-07-02T07:18:13.815386+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=1 | ollama=True
+2026-07-02T07:18:39.461189+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=1 | ollama=True
+2026-07-02T07:23:20.037252+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:28:27.897043+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:33:34.918530+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:38:41.176820+00:00 | lattice=NEEDS_FIX | hf=RUNNING_APP_STARTING | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:43:47.466445+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:48:53.923614+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:54:00.220095+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T07:59:07.365511+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T08:04:13.564786+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T08:09:20.059106+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T08:14:25.974135+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T08:14:32.937832+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=2 | ollama=True
+2026-07-02T08:18:31.818529+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=3 | ollama=True
+2026-07-02T08:19:38.388923+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:24:44.256494+00:00 | lattice=NEEDS_FIX | hf=RUNTIME_ERROR | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:29:50.364477+00:00 | lattice=ALIGNED | hf=RUNTIME_ERROR | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:34:57.705798+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:40:03.959657+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:45:10.972501+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:50:17.167966+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T08:55:24.093431+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T09:00:44.349628+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T09:05:50.595929+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T09:10:57.272217+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T09:16:04.731556+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T09:16:11.550733+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=4 | ollama=True
+2026-07-02T09:18:44.231832+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=5 | ollama=True
+2026-07-02T09:21:17.998603+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=8 | ollama=True
+2026-07-02T09:24:10.732989+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=4/4 | queue=11 | ollama=True
+2026-07-02T09:24:57.006922+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:26:24.329777+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:31:31.722426+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:36:39.412694+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:41:45.531567+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:46:57.581095+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:52:10.005285+00:00 | lattice=ALIGNED | hf=RUNNING | pages=4/4 | queue=13 | ollama=True
+2026-07-02T09:54:42.784804+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=18 | ollama=True
+2026-07-02T09:54:54.401596+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=22 | ollama=True
+2026-07-02T09:57:21.217167+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=10 | ollama=True
+2026-07-02T10:02:33.228112+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=10 | ollama=True
+2026-07-02T10:07:48.258791+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=10 | ollama=True
+2026-07-02T10:13:08.922206+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=10 | ollama=True
+2026-07-02T10:18:24.741881+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=10 | ollama=True
+2026-07-02T10:18:39.884360+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=10 | ollama=True
+2026-07-02T10:23:52.288669+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T10:23:54.349704+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T10:29:07.577604+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T10:34:21.295920+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T10:39:36.123256+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T10:44:50.379823+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T10:50:05.046201+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T10:55:21.758080+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T11:00:38.042624+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T11:05:53.603589+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T11:11:10.093629+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T11:16:27.795308+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T11:18:32.844967+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T11:21:44.240342+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T11:22:01.263140+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T11:27:14.709996+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=12 | ollama=True
+2026-07-02T17:12:47.182965+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T17:20:26.159581+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T17:20:49.017013+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=7 | ollama=True
+2026-07-02T17:21:02.122038+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:26:15.965550+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:31:34.370265+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:36:51.355973+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:42:07.973700+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:47:25.082482+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:52:42.078627+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T17:57:58.311574+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:03:15.660716+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:08:31.872843+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:12:48.890985+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:13:48.563552+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:19:04.933437+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:24:22.266877+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:24:40.443774+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:29:54.385093+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:35:11.278339+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:40:28.176881+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:45:48.028560+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:51:05.559937+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T18:56:24.442240+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T19:01:44.170875+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T19:07:01.758677+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T19:12:19.694842+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T19:46:51.191909+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:06:38.430433+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=5 | ollama=True
+2026-07-02T20:06:52.648383+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:12:09.092398+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:17:26.352865+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:18:03.443662+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=11 | ollama=True
+2026-07-02T20:18:19.444033+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=8 | ollama=True
+2026-07-02T20:23:33.474060+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:28:51.721121+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:34:08.447417+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:39:25.103588+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:44:41.370288+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:46:54.261814+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:49:58.315283+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T20:55:14.111852+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:00:30.972757+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:05:45.218286+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:11:02.373718+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:16:18.843246+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:21:36.212368+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:21:50.282098+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:27:05.078030+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:32:21.711872+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:37:38.746933+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:42:56.651101+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:46:39.454936+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:48:08.627190+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:53:19.862495+00:00 | lattice=NEEDS_FIX | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:54:31.379667+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T21:58:30.858110+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:03:48.696445+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:09:04.472202+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:14:20.879473+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:19:37.596788+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:24:53.412330+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:25:11.362936+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:30:25.676198+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:35:41.227452+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:35:55.822404+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:40:57.257421+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:46:12.567113+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:47:59.924657+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:51:29.418941+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T22:56:44.726562+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:02:03.153925+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:07:18.426069+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:12:35.157600+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:17:51.965131+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:23:09.901745+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:28:25.338487+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:28:48.152699+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-02T23:34:07.111496+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-02T23:39:25.636299+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-02T23:44:41.800042+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-02T23:47:03.190166+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-02T23:50:03.350919+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-02T23:55:20.365292+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:01:08.365151+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:06:26.000807+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:11:45.540016+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:17:03.411517+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:22:25.286889+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:27:42.029741+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:33:03.806209+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:33:24.775763+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:38:40.921979+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:44:05.160056+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:46:40.965184+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:49:23.371738+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:54:38.348970+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T00:59:57.833926+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:05:19.191803+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:10:36.359784+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:15:55.152350+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:21:16.070023+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:26:44.261152+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:32:00.470638+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:37:19.597987+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:37:38.934522+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:42:55.099234+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:46:39.947692+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:48:14.133621+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:53:33.646311+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T01:58:48.721498+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:04:06.208233+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:09:30.663599+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:14:44.407201+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:20:03.234077+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:25:21.624305+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:30:37.281349+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:36:01.663942+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:41:20.859756+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:41:42.077463+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=3 | ollama=True
+2026-07-03T02:46:49.348126+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T02:46:57.592891+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T02:52:13.148611+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T02:57:37.810859+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:02:57.318046+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:08:14.046171+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:13:31.855789+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:18:50.885879+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:24:11.008850+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:29:36.818433+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:35:00.477850+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:40:23.549328+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:45:43.779177+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:45:59.943589+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:46:39.041089+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:51:21.395359+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=1 | ollama=True
+2026-07-03T03:52:35.871694+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=1 | ollama=True
+2026-07-03T03:55:37.811925+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T03:56:39.422262+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:01:56.932490+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:07:11.880257+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:12:30.020428+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:17:48.525355+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:23:09.964348+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:28:26.459697+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T04:58:56.538028+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T05:32:43.257916+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T05:41:32.114542+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T05:50:20.569191+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T05:59:03.361197+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:07:46.084256+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:16:26.017970+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:23:26.174714+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:32:08.434085+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:40:51.693082+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:49:33.800365+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T06:58:15.685511+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T07:07:00.463139+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T07:15:43.829979+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T07:24:28.994440+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T07:31:01.837536+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-03T07:39:36.855363+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T07:48:20.998968+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T07:57:24.238068+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:04:24.599717+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:13:09.036961+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:21:51.011969+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:30:33.041090+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:39:16.887197+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:48:16.632210+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T08:57:12.668731+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:05:57.338316+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:13:22.129935+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:22:03.690171+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:31:04.459147+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:38:29.732494+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:47:16.712729+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T09:56:13.728038+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:04:56.711551+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:12:16.380835+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:21:03.303978+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:29:48.994797+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:38:31.908064+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:47:13.733974+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T10:55:56.686134+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:04:42.779944+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:13:28.325875+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:22:32.945284+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:31:16.884767+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:40:01.298608+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:48:43.569062+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T11:57:23.466430+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:06:08.635851+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:14:55.100656+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:23:36.571558+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:32:25.090779+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:41:15.239829+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:50:01.882723+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T12:58:42.215804+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:07:23.417842+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:16:04.570737+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:24:55.889650+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:33:40.233546+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:42:21.619687+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:51:04.767018+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T13:59:48.298925+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T14:08:44.928288+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T14:17:24.811981+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T14:26:05.248091+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T14:34:47.408731+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T14:43:50.233987+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T14:52:34.626474+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:01:23.418661+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:10:07.639199+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:18:47.891544+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:27:27.336565+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:36:06.365153+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:44:46.006969+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T15:53:27.150036+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:02:05.491409+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:10:44.773556+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:19:24.234538+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:28:03.392912+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:36:44.063101+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:45:23.081882+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T16:54:00.935559+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:02:40.135797+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:11:18.066119+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:19:57.274362+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:28:39.803211+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:37:20.108856+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:45:59.228662+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T17:54:40.695807+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T18:03:18.800615+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T18:11:58.424415+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T18:20:36.682557+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=14 | ollama=True
+2026-07-03T23:34:48.748998+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=False
+2026-07-03T23:47:47.228444+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=False
+2026-07-04T00:34:40.311930+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T01:53:57.903024+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T02:23:53.502728+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T03:11:04.704484+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T03:11:37.750501+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T03:34:27.042334+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T03:35:25.539504+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T03:37:13.628337+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T03:54:12.147553+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T05:00:50.910734+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T05:24:49.425074+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T05:49:02.614382+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T06:16:40.827822+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=0 | ollama=True
+2026-07-04T07:00:53.891048+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=15 | ollama=True
+2026-07-04T08:52:40.539326+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=15 | ollama=True
+2026-07-04T09:53:39.744722+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=15 | ollama=False
+2026-07-04T18:04:57.844921+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=15 | ollama=False
+2026-07-04T19:05:13.625883+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=15 | ollama=False
+2026-07-04T20:09:51.740799+00:00 | lattice=ALIGNED | hf=SLEEPING | pages=5/5 | queue=15 | ollama=True
+2026-07-04T21:21:29.976278+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=15 | ollama=True
+2026-07-04T21:49:54.559175+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-04T21:51:42.786744+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-04T21:58:31.879830+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=44 | ollama=True
+2026-07-04T22:05:19.178458+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=44 | ollama=True
+2026-07-04T22:12:07.834342+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=44 | ollama=True
+2026-07-04T22:18:54.314769+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=44 | ollama=True
+2026-07-04T22:25:43.092264+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=44 | ollama=True
+2026-07-04T22:27:30.067601+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=44 | ollama=True
+2026-07-04T22:34:18.549742+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=46 | ollama=True
+2026-07-04T22:41:06.261764+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=46 | ollama=True
+2026-07-04T22:47:55.093689+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=46 | ollama=True
+2026-07-04T22:54:43.184813+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=46 | ollama=True
+2026-07-04T23:01:31.714650+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=46 | ollama=True
+2026-07-04T23:03:18.995310+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=46 | ollama=True
+2026-07-04T23:10:07.731887+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=48 | ollama=True
+2026-07-04T23:16:55.327108+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=48 | ollama=True
+2026-07-04T23:23:58.602821+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=48 | ollama=True
+2026-07-04T23:31:01.297817+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=48 | ollama=True
+2026-07-04T23:32:44.833621+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=36 | ollama=True
+2026-07-04T23:37:49.243254+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=48 | ollama=True
+2026-07-04T23:39:35.316610+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=48 | ollama=True
+2026-07-04T23:46:22.098213+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=49 | ollama=True
+2026-07-04T23:53:09.318708+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=50 | ollama=True
+2026-07-04T23:59:56.386974+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=50 | ollama=True
+2026-07-05T00:06:42.308415+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=50 | ollama=True
+2026-07-05T00:13:28.370845+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=50 | ollama=True
+2026-07-05T00:15:15.939299+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=50 | ollama=True
+2026-07-05T00:22:00.365650+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T00:28:45.583540+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T00:33:24.201310+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=40 | ollama=True
+2026-07-05T00:35:31.832035+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T00:42:15.636453+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T00:49:03.502064+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T00:50:53.765554+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T00:57:42.705776+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=54 | ollama=True
+2026-07-05T01:04:30.667130+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=54 | ollama=True
+2026-07-05T01:11:19.328876+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=54 | ollama=True
+2026-07-05T01:18:08.465909+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=52 | ollama=True
+2026-07-05T01:24:58.307097+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=54 | ollama=True
+2026-07-05T01:26:54.769194+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=54 | ollama=True
+2026-07-05T01:33:50.635320+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=56 | ollama=True
+2026-07-05T01:40:56.334821+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=56 | ollama=True
+2026-07-05T01:47:45.697556+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=55 | ollama=True
+2026-07-05T01:57:14.661156+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-05T02:33:18.854097+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-05T03:33:22.216371+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-05T13:03:41.715199+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-05T21:32:48.086372+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=False
+2026-07-05T22:33:11.658297+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-05T23:32:39.592486+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True
+2026-07-06T07:50:42.167890+00:00 | lattice=ALIGNED | hf=RUNNING | pages=5/5 | queue=42 | ollama=True

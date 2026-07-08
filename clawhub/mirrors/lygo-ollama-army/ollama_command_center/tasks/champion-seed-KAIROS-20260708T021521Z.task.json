@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-KAIROS-20260708T021521Z",
+  "role": "champion-egg-boot",
+  "champion": "KAIROS",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-kairos",
+    "merkle_root": "3679d6f856e488400ad6d3096f5ed9c7f2df5e88cb9ac405fdec746e2780c7a3",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

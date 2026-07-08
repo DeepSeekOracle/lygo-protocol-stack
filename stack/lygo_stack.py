@@ -38,6 +38,15 @@ from text_semantic_gate import (  # noqa: E402
 )
 from infrastructure_elasticity import ElasticityCoordinator  # noqa: E402
 from federation_runtime import FederationRuntime  # noqa: E402
+from lygip001_protocol_math import (  # LYGIP-001
+    SovereignIdentity,
+    VortexConsensus,
+    ZetaNode,
+    EtaNode,
+    run_3node_resource_allocation_sim,
+    verify_expanded_lattice,
+    integrate_lygip001_into_stack,
+)
 
 PHI_MIN = 0.618
 PHI_MAX = 1.618
@@ -113,6 +122,7 @@ class LYGOProtocolStack:
         self.harmony = HarmonyNodeIntegration(
             self.kernel, self.memory, self.vortex, self.bridge, node_id="HARMONY_PUBLIC"
         )
+        self.lygip001 = integrate_lygip001_into_stack(self)  # LYGIP-001 math
         self._sovereign_id = sovereign_id
         self._measurement = None
         self._attestation = None
@@ -181,6 +191,20 @@ class LYGOProtocolStack:
     @property
     def slm(self):
         return self._ensure_slm()
+
+    def run_lygip001_3node_sim(self) -> dict:
+        """Run the 3-node resource allocation sim from LYGIP-001."""
+        return run_3node_resource_allocation_sim()
+
+    def run_lygip001_lattice_verify(self, nodes: List[Dict]) -> dict:
+        """Verify expanded lattice per LYGIP-001."""
+        return verify_expanded_lattice(nodes)
+
+    def create_zeta_node(self):
+        return ZetaNode()
+
+    def create_eta_node(self):
+        return EtaNode()
 
     def _phase6(self):
         if self._attestation is None:

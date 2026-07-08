@@ -1,0 +1,11 @@
+{
+  "id": "champion-seed-Lightfather-20260708T021521Z",
+  "role": "champion-egg-boot",
+  "champion": "Lightfather",
+  "payload": {
+    "action": "champion_egg_boot",
+    "egg_id": "champion-lightfather",
+    "merkle_root": "11ef55cdf874b0242ee6db87b9c5f42cc33d5b16450a352c292287c51d4c07a9",
+    "bootloader": "tools/champion_bootloader.py"
+  }
+}

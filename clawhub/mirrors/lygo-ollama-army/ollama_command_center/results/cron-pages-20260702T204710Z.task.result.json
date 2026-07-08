@@ -1,0 +1,12 @@
+{
+  "task_id": "cron-pages-20260702T204710Z",
+  "role": "public-pages-check",
+  "ts": "2026-07-02T14:47:11.269197",
+  "model": "llama3.2:1b",
+  "result": {
+    "exit_code": 0,
+    "stack_pages_live": true,
+    "stack_compass_live": true,
+    "excavationpro_mirrors_live": true
+  }
+}

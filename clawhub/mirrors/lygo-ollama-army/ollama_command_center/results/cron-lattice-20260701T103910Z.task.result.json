@@ -1,0 +1,12 @@
+{
+  "task_id": "cron-lattice-20260701T103910Z",
+  "role": "lattice-check",
+  "ts": "2026-07-01T14:20:12.759949",
+  "model": "llama3.2:1b",
+  "result": {
+    "aligned": true,
+    "exit_code": 0,
+    "stdout": "LYGO Lattice alignment verify\n==================================================\n  [OK] clawhub/skills.json \u2014 published=34 listed=34\n  [OK] operator in catalog\n  [OK] mirrors count \u2014 mirrored=34\n  [OK] operator mirror\n  [OK] STACK_STATUS\n  [OK] LYGO_LATTICE\n  [OK] sovereign test\n  [OK] p0 golden\n  [OK] README link github_stack\n  [OK] README link hf_dataset\n  [OK] README link hf_space\n  [OK] README link clawhub\n  [OK] README link grokipedia\n  [OK] README link resonance_docs\n  [OK] HF ethical guardian module\n  [OK] HF protocol_stack bundle \u2014 I:\\E Drive\\Hugging face\\protocol_stack\n  [OK] HF text_semantic_gate\n  [OK] HF TWIN_GATE_MODE\n  [OK] twin calibration tool\n  [OK] twin vector suite tool\n  [OK] grok audit tool\n  [OK] Dockerfile\n  [OK] docker-compose\n  [OK] setup.sh\n  [OK] alignment badge tool\n  [OK] phase1 elasticity\n  [OK] phase3-4 federation\n  [OK] PHASE2 doc\n  [OK] grok operator SKILL.md\n  [OK] clawhub operator published \u2014 latest=1.0.2\n==================================================\nLATTICE ALIGNED\n",
+    "stderr": ""
+  }
+}

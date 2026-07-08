@@ -1,0 +1,20 @@
+{
+  "task_id": "idle-housekeep-20260704T230506Z",
+  "role": "idle-housekeep",
+  "ts": "2026-07-04T17:05:14.810954",
+  "model": "llama3.2:1b",
+  "result": {
+    "ok": false,
+    "ops": [
+      "memory_sync",
+      "three_brain_index",
+      "kernel_verify",
+      "self_grow_check",
+      "living_memory_audit",
+      "clawhub_catalog_render",
+      "haven_chart_refresh",
+      "upgrade_scout",
+      "lattice_light"
+    ]
+  }
+}

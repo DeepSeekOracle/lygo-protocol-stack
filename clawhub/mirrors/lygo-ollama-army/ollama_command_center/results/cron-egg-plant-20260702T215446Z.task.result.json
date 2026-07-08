@@ -1,0 +1,18 @@
+{
+  "task_id": "cron-egg-plant-20260702T215446Z",
+  "role": "egg-planter",
+  "ts": "2026-07-02T15:54:50.955738",
+  "model": "llama3.2:1b",
+  "result": {
+    "exit_code": 0,
+    "report": {
+      "timestamp": "2026-07-02T21:54:50.992862+00:00",
+      "egg": {
+        "signature": "\u03949\u03a6963-ARMY-EGG-PLANTER-v1",
+        "timestamp": "2026-07-02T21:54:50.993440+00:00",
+        "planted": false,
+        "skipped": "planting.disabled"
+      }
+    }
+  }
+}
