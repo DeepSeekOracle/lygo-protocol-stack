@@ -93,6 +93,13 @@ contract CrossChainIdentityBridgeFixed is ReentrancyGuard {
         owner = msg.sender;
     }
 
+    // Overload for compatibility with deployment scripts
+    constructor(address _ethicalMassToken, address _attestor) {
+        owner = msg.sender;
+        ethicalMassToken = _ethicalMassToken;
+        // Optionally set attestor if needed, but bridge uses registry
+    }
+
     function transferOwnership(address newOwner) external onlyOwner {
         require(newOwner != address(0), "Zero address");
         pendingOwner = newOwner;

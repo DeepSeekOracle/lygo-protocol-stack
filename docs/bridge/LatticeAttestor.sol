@@ -88,6 +88,17 @@ contract LatticeAttestor is IIdentityAttestor {
         emit TrustedSignerRemoved(signer);
     }
 
+    // For compatibility with deployment test
+    function setValidatorStatus(address validator, bool status) external onlyOwner {
+        if (status) {
+            isTrustedSigner[validator] = true;
+            emit TrustedSignerAdded(validator);
+        } else {
+            isTrustedSigner[validator] = false;
+            emit TrustedSignerRemoved(validator);
+        }
+    }
+
     /**
      * @notice Helper for decay attestation (to allow future connection to token decay).
      * Returns true if the signature is valid for a decay action.

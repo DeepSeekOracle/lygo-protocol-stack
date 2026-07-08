@@ -40,8 +40,8 @@ interface IIdentityAttestor {
 }
 
 contract EthicalMassTokenFixed {
-    string public constant name = "LYGO Ethical Mass";
-    string public constant symbol = "LYGO-ETHM";
+    string public name = "LYGO Ethical Mass";
+    string public symbol = "LYGO-ETHM";
 
     mapping(address => uint256) private _balances;
     mapping(bytes32 => bool) public usedProofs;           // replay protection (now inside verified path)
@@ -71,6 +71,16 @@ contract EthicalMassTokenFixed {
         }
     }
 
+    // Overload for full compatibility with deployment scripts
+    constructor(address initialAttestor, string memory _name, string memory _symbol) {
+        owner = msg.sender;
+        name = _name;
+        symbol = _symbol;
+        if (initialAttestor != address(0)) {
+            attestor = IIdentityAttestor(initialAttestor);
+        }
+    }
+
     function setAttestor(address newAttestor) external onlyOwner {
         attestor = IIdentityAttestor(newAttestor);
         emit AttestorUpdated(newAttestor);
@@ -93,7 +103,7 @@ contract EthicalMassTokenFixed {
     // ====================== SOULBOUND ======================
     // Transfers are forbidden. This is the core of "soulbound ethical mass".
     function transfer(address /*to*/, uint256 /*amount*/) external pure returns (bool) {
-        revert("Soulbound: transfers disabled");
+        revert("EthicalMassToken: Soulbound tokens are non-transferable");
     }
 
     function approve(address /*spender*/, uint256 /*amount*/) external pure returns (bool) {
@@ -101,7 +111,7 @@ contract EthicalMassTokenFixed {
     }
 
     function transferFrom(address /*from*/, address /*to*/, uint256 /*amount*/) external pure returns (bool) {
-        revert("Soulbound: transfers disabled");
+        revert("EthicalMassToken: Soulbound tokens are non-transferable");
     }
 
     // ====================== PUBLIC SUPPLY MOVEMENT (GATED) ======================
