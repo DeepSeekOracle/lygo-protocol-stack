@@ -127,7 +127,9 @@
     "2026-07-08: link archive \u2014 registered kernel-eggs-2026 \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/kernel_eggs",
     "2026-07-08: link archive \u2014 registered champion-eggs-2026 \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/champion_eggs",
     "2026-07-08: link archive \u2014 registered lygip001-math \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygip001_protocol_math.py",
-    "2026-07-08: link archive \u2014 registered lygip001-stack-integration \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygo_stack.py"
+    "2026-07-08: link archive \u2014 registered lygip001-stack-integration \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/stack/lygo_stack.py",
+    "2026-07-08: link archive \u2014 registered kernel-eggs \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/kernel_eggs",
+    "2026-07-08: link archive \u2014 registered champion-eggs \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/champion_eggs"
   ],
   "human_gates": [
     "Grokipedia manual paste",

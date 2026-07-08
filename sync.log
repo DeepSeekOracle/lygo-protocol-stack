@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "I:\E Drive\lygo-protocol-stack\tools\sync_clawhub_mirrors.py", line 285, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "I:\E Drive\lygo-protocol-stack\tools\sync_clawhub_mirrors.py", line 241, in main
+    report[slug] = sync_one(slug, fetch_registry=fetch)
+                   ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "I:\E Drive\lygo-protocol-stack\tools\sync_clawhub_mirrors.py", line 182, in sync_one
+    copy_tree(grok, dest)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "I:\E Drive\lygo-protocol-stack\tools\sync_clawhub_mirrors.py", line 105, in copy_tree
+    shutil.rmtree(dest)
+    ~~~~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\shutil.py", line 790, in rmtree
+    return _rmtree_unsafe(path, onexc)
+  File "C:\Python313\Lib\shutil.py", line 621, in _rmtree_unsafe
+    onexc(os.rmdir, fullname, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\shutil.py", line 617, in _rmtree_unsafe
+    os.rmdir(fullname)
+    ~~~~~~~~^^^^^^^^^^
+OSError: [WinError 145] The directory is not empty: 'I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ollama-army\\ollama_command_center'
+Wrote I:\E Drive\lygo-protocol-stack\clawhub\CATALOG.md

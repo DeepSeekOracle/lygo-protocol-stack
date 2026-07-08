@@ -2,150 +2,150 @@
   "signature": "\u03949\u03a6963-KERNEL-EGG-VERIFY-v1",
   "all_pass": true,
   "verdict": "ALIGNED",
-  "registry_merkle_root": "aadcb57041a7ff7cb46cba63e70d1ce600a006b0f53e60cf278300757588f37a",
+  "registry_merkle_root": "a6268b1087d42eefdab43230a54ca90d7efd8807ca8cc6b8f7276241c60ff616",
   "checks": [
     {
       "id": "egg-bin-p0-nano-kernel",
       "pass": true,
-      "expected_sha256": "abfc1367acbee800",
-      "actual_sha256": "abfc1367acbee800"
+      "expected_sha256": "cddcf852ee9b83ba",
+      "actual_sha256": "cddcf852ee9b83ba"
     },
     {
       "id": "egg-bin-stack-anchor-hook",
       "pass": true,
-      "expected_sha256": "2a28cb1f7b3e367b",
-      "actual_sha256": "2a28cb1f7b3e367b"
+      "expected_sha256": "04691a1c31ae43fc",
+      "actual_sha256": "04691a1c31ae43fc"
     },
     {
       "id": "egg-bin-stack-orchestrator-slim",
       "pass": true,
-      "expected_sha256": "7942d1aad031379e",
-      "actual_sha256": "7942d1aad031379e"
+      "expected_sha256": "c0ed30349472e80f",
+      "actual_sha256": "c0ed30349472e80f"
     },
     {
       "id": "egg-bin-lattice-soa-index",
       "pass": true,
-      "expected_sha256": "4bdb422a8b5892b0",
-      "actual_sha256": "4bdb422a8b5892b0"
+      "expected_sha256": "bb3b2fda7e63c9f8",
+      "actual_sha256": "bb3b2fda7e63c9f8"
     },
     {
       "id": "egg-bin-firmware-p04-drivers",
       "pass": true,
-      "expected_sha256": "5d19390183f7c93c",
-      "actual_sha256": "5d19390183f7c93c"
+      "expected_sha256": "298b5cf958c87c64",
+      "actual_sha256": "298b5cf958c87c64"
     },
     {
       "id": "egg-bin-protocol-drivers-p2-p5",
       "pass": true,
-      "expected_sha256": "8b27cb2f8594dd3f",
-      "actual_sha256": "8b27cb2f8594dd3f"
+      "expected_sha256": "f6bd2e33d88142d6",
+      "actual_sha256": "f6bd2e33d88142d6"
     },
     {
       "id": "egg-bin-joy-loop-protocol-v21",
       "pass": true,
-      "expected_sha256": "b575fa66cbf93ff8",
-      "actual_sha256": "b575fa66cbf93ff8"
+      "expected_sha256": "b505ae446da3d23c",
+      "actual_sha256": "b505ae446da3d23c"
     },
     {
       "id": "egg-bin-lygo-second-brain-v10",
       "pass": true,
-      "expected_sha256": "d11e86fd8273bf71",
-      "actual_sha256": "d11e86fd8273bf71"
+      "expected_sha256": "0b788995031f8c3c",
+      "actual_sha256": "0b788995031f8c3c"
     },
     {
       "id": "egg-bin-lygo-sandcastle-v10",
       "pass": true,
-      "expected_sha256": "78db22ae9aeb9dbf",
-      "actual_sha256": "78db22ae9aeb9dbf"
+      "expected_sha256": "72da9a188b4e6b75",
+      "actual_sha256": "72da9a188b4e6b75"
     },
     {
       "id": "egg-bin-lygo-openclaw-v10",
       "pass": true,
-      "expected_sha256": "13cc165910acfa62",
-      "actual_sha256": "13cc165910acfa62"
+      "expected_sha256": "9a09d352fdcc8d61",
+      "actual_sha256": "9a09d352fdcc8d61"
     },
     {
       "id": "egg-bin-lygo-lpis-v10",
       "pass": true,
-      "expected_sha256": "42d2d4f475334739",
-      "actual_sha256": "42d2d4f475334739"
+      "expected_sha256": "51bdb22c22b491b6",
+      "actual_sha256": "51bdb22c22b491b6"
     },
     {
       "id": "egg-bin-lygo-ops-detector-v1",
       "pass": true,
-      "expected_sha256": "8c42a98493ee1751",
-      "actual_sha256": "8c42a98493ee1751"
+      "expected_sha256": "cbc6cb16308e1d71",
+      "actual_sha256": "cbc6cb16308e1d71"
     },
     {
       "id": "registry-merkle-root",
       "pass": true,
-      "declared": "aadcb57041a7ff7c",
-      "recomputed": "aadcb57041a7ff7c"
+      "declared": "a6268b1087d42eef",
+      "recomputed": "a6268b1087d42eef"
     },
     {
       "id": "anchor-p0-nano-kernel",
       "pass": true,
-      "content_sha256": "abfc1367acbee800"
+      "content_sha256": "cddcf852ee9b83ba"
     },
     {
       "id": "anchor-stack-anchor-hook",
       "pass": true,
-      "content_sha256": "2a28cb1f7b3e367b"
+      "content_sha256": "04691a1c31ae43fc"
     },
     {
       "id": "anchor-stack-orchestrator-slim",
       "pass": true,
-      "content_sha256": "7942d1aad031379e"
+      "content_sha256": "c0ed30349472e80f"
     },
     {
       "id": "anchor-lattice-soa-index",
       "pass": true,
-      "content_sha256": "4bdb422a8b5892b0"
+      "content_sha256": "bb3b2fda7e63c9f8"
     },
     {
       "id": "anchor-firmware-p04-drivers",
       "pass": true,
-      "content_sha256": "5d19390183f7c93c"
+      "content_sha256": "298b5cf958c87c64"
     },
     {
       "id": "anchor-protocol-drivers-p2-p5",
       "pass": true,
-      "content_sha256": "8b27cb2f8594dd3f"
+      "content_sha256": "f6bd2e33d88142d6"
     },
     {
       "id": "anchor-joy-loop-protocol-v21",
       "pass": true,
-      "content_sha256": "b575fa66cbf93ff8"
+      "content_sha256": "b505ae446da3d23c"
     },
     {
       "id": "anchor-lygo-second-brain-v10",
       "pass": true,
-      "content_sha256": "d11e86fd8273bf71"
+      "content_sha256": "0b788995031f8c3c"
     },
     {
       "id": "anchor-lygo-sandcastle-v10",
       "pass": true,
-      "content_sha256": "78db22ae9aeb9dbf"
+      "content_sha256": "72da9a188b4e6b75"
     },
     {
       "id": "anchor-lygo-openclaw-v10",
       "pass": true,
-      "content_sha256": "13cc165910acfa62"
+      "content_sha256": "9a09d352fdcc8d61"
     },
     {
       "id": "anchor-lygo-lpis-v10",
       "pass": true,
-      "content_sha256": "42d2d4f475334739"
+      "content_sha256": "51bdb22c22b491b6"
     },
     {
       "id": "anchor-lygo-ops-detector-v1",
       "pass": true,
-      "content_sha256": "8c42a98493ee1751"
+      "content_sha256": "cbc6cb16308e1d71"
     },
     {
       "id": "anchor-registry-manifest",
       "pass": true
     }
   ],
-  "timestamp": 1783476339.665711
+  "timestamp": 1783477216.0180044
 }

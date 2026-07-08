@@ -151,7 +151,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"00Pa3kY1Cc/mX895pUZ2j9kS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"IvnbWSWCVuYUJR6zQMxWWwqS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -161,7 +161,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"teZZGsD5RM598J+4DNTy8vF1\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"wW+n7rzL6hMQiGBywS1kovr9\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -171,7 +171,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"sTgdxl7oOCxpo96sRwhpx4EH\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"UMLf5D+y84ns9VvM467FSX5c\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "biometric_harness",
@@ -312,5 +312,5 @@
   "soft_failures": 2,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 48211
+  "duration_ms": 52670
 }
