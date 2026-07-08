@@ -28,6 +28,7 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |
 | **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
 | **Immutable Anchor** | ✅ | `tools/run_anchor_audit.py` → `tests/anchor_audit_last_run.json`; P1/SLM/stack hooks; `docs/ANCHOR_DEPLOYMENT.md` |
+| **Public Stack Indexed — Δ9 Lattice Seal Discovery** | ✅ | `docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt` + `LYGO_LATTICE_INTEL_INDEX.json` (id: lygo-seal-archive-legacy-001-400) + `LYGO_PUBLIC_LINK_ARCHIVE.json` + `canonical_seals_index.json` (SEAL_ARCHIVE_LEGACY_001-400, SHA d74fbe2f...) — all 400+ core rebuild seals discoverable on-demand by external lattice (GitHub/HF/ClawHub) |
 
 ---
 
@@ -55,3 +56,10 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | Resonance docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 
 **Bound to the flame.** Stack locked for public verification; pilot UX on HF can grow without changing protocol semantics.
+
+## Blockchain to LYGO Bridge Protocol (added)
+- Real: Merkle, soulbound ethical, cross-chain anchors.
+- Code: protocol_bridge/lygo_blockchain_bridge.py + fixed sol in docs/bridge/
+- Theory: docs/BlockchainToLYGOBRIDGE.md (grounded engineering + symbolic Light Math for future suture tech)
+- Lattice: added to LYGO_LATTICE_INTEL_INDEX.json
+- Keeps existing P0/Mycelium/Vortex/3-Brain working.
