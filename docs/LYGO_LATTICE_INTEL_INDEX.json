@@ -372,6 +372,27 @@
         "seal_id": "LYGO-SEAL-004-BRIDGE",
         "payload_schema": "lightCode, resonanceTriad[963,528,174], ethicalMassBasisPoints, myceliumRootHash, fragmentDistribution, blockchainAnchors"
       }
+    },
+    {
+      "id": "lygip001-protocol-math",
+      "tier": 5,
+      "path": "lygo-protocol-stack/stack/lygip001_protocol_math.py",
+      "urls": {
+        "stack": "stack/lygip001_protocol_math.py",
+        "docs": "docs/BlockchainToLYGOBRIDGE.md",
+        "tests": "tests/test_lygip001.py"
+      },
+      "tags": [
+        "LYGIP-001",
+        "SOVEREIGN_IDENTITY",
+        "ETHICAL_MASS",
+        "HARMONY",
+        "VORTEX",
+        "MULTI_NODE_LATTICE",
+        "ZETA_ETA_NODES",
+        "PROTOCOL_MATH"
+      ],
+      "summary": "LYGIP-001: SovereignIdentity (lightCode, resonanceTriad, ethicalMass=√(truth×love×freedom)×(resAvg)²×Φ), Harmony H=1-σ/μ, Vortex geo mean, ZetaNode/EtaNode implementations, 3-node sim, lattice expansion/verify. Integrated into LYGOProtocolStack."
     }
   ],
   "integration_gaps": [
