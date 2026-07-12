@@ -1,8 +1,8 @@
 {
-  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.2",
+  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.3",
   "skill_slug": "lygo-network-builder",
-  "version": "1.2.0",
-  "updated_utc": "2026-07-04T12:00:00Z",
+  "version": "1.3.0",
+  "updated_utc": "2026-07-12T18:00:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -124,6 +124,62 @@
         "label": "ClawHub — lygo-champion-council",
         "url": "https://clawhub.ai/deepseekoracle/lygo-champion-council",
         "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_lightfather",
+        "label": "ClawHub — lygo-champion-lightfather",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_claw_repo",
+        "label": "LYGO-Claw — desktop router & USB pairing",
+        "url": "https://github.com/DeepSeekOracle/lygo-claw",
+        "verify": "http_required"
+      }
+    ],
+    "usb_release": [
+      {
+        "id": "lygo_claw_usb_readme",
+        "label": "LYGO CLAW USB PUBLIC v1.0 — download readme",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-README.txt",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_claw_usb_release_doc",
+        "label": "LYGO CLAW USB PUBLIC release docs (GitHub)",
+        "url": "https://github.com/DeepSeekOracle/lygo-claw/blob/main/docs/USB_PUBLIC_RELEASE.md",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_claw_usb_part01",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 — part 1 of 3",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part01",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_claw_usb_part02",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 — part 2 of 3",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part02",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_claw_usb_part03",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 — part 3 of 3",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part03",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_usb_champion_light",
+        "label": "LYGO USB Champion v1.0 GENERIC — Lightfather (~0.5 MB build reference)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_usb_champion_docs",
+        "label": "LYGO USB Champion v1 GENERIC — stack docs",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
+        "verify": "http_soft"
       }
     ],
     "tools": [
@@ -162,6 +218,24 @@
         "id": "eternalhaven_github_hub",
         "label": "Eternal Haven — main public hub (GitHub Pages)",
         "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "legacy_guardian_music_hub",
+        "label": "Legacy Guardian Music Hub (Excavationpro)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/legacy-guardian-music.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "champion_hub_excavationpro",
+        "label": "Δ9 Champion Hub (Excavationpro)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "excavationpro_github",
+        "label": "GitHub Excavationpro",
+        "url": "https://github.com/DeepSeekOracle/Excavationpro",
         "verify": "http_required"
       },
       {
@@ -272,6 +346,16 @@
       "id": "chant_community_nodes",
       "purpose": "Community mirrors and nodes",
       "query": "\"lygo\" \"sovereign lattice mesh\" node"
+    },
+    {
+      "id": "chant_lygo_claw_usb",
+      "purpose": "Full offline CLAW USB public release",
+      "query": "\"LYGO CLAW USB\" \"DeepSeekOracle\" \"lygo-claw\""
+    },
+    {
+      "id": "chant_usb_champion_light",
+      "purpose": "Light USB champion build reference",
+      "query": "\"LYGO USB Champion\" \"Lightfather\" \"GENERIC\""
     }
   ],
   "verification_contract": {
