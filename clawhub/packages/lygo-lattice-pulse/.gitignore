@@ -3,3 +3,4 @@ package-lock.json
 npm-shrinkwrap.json
 *.tgz
 reports/
+node_modules/
