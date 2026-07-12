@@ -24,7 +24,7 @@
   <meta name="theme-color" content="#05050c" />
   <meta name="color-scheme" content="dark" />
   <meta name="application-name" content="Eternal Haven Star Chart" />
-  <meta name="lygo:signature" content="Δ9Φ963-HAVEN-STAR-CHART-v2" />
+  <meta name="lygo:signature" content="Δ9Φ963-HAVEN-STAR-CHART-v2.1" />
 
   <!-- Share URL — post this link on X for correct card preview -->
   <meta name="share-url" content="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html" />
@@ -281,6 +281,18 @@
       cursor: pointer;
     }
     .constellation-btns button.active { background: rgba(255, 204, 0, 0.15); }
+    .galaxy-btns { display: flex; flex-wrap: wrap; gap: 5px; max-height: 140px; overflow-y: auto; }
+    .galaxy-btns button {
+      background: transparent;
+      border: 1px solid rgba(125, 0, 255, 0.35);
+      color: #c8b0ff;
+      font-family: inherit;
+      font-size: 0.6rem;
+      padding: 0.28rem 0.45rem;
+      cursor: pointer;
+      text-align: left;
+    }
+    .galaxy-btns button.active { background: rgba(125, 0, 255, 0.18); border-color: var(--violet); }
     .detail-box {
       border: 1px solid rgba(0, 240, 255, 0.2);
       padding: 0.75rem;
@@ -336,7 +348,7 @@
   <header>
     <div>
       <h1>Eternal Haven Star Chart</h1>
-      <p class="sub">Δ9 Constellation Hub · <a href="https://eternalhaven.ca/" style="color:var(--cyan)">eternalhaven.ca</a> · Seals ⊗ Champions ⊗ Lattice growth</p>
+      <p class="sub">Δ9 Cosmology Hub · <a href="https://eternalhaven.ca/" style="color:var(--cyan)">eternalhaven.ca</a> · Galaxies ⊗ Nebulae ⊗ Clusters ⊗ Stars</p>
     </div>
     <nav>
       <a href="https://deepseekoracle.github.io/Excavationpro/lygorepo.html" rel="noopener">Seal Nexus (lygorepo)</a>
@@ -363,10 +375,13 @@
         <button type="button" id="zoomOut">−</button>
         <button type="button" id="resetZoom">↻</button>
         <button type="button" id="btnResync">Δ9 Resync</button>
+        <button type="button" id="toggleCosmos">Hide nebulae</button>
       </div>
       <svg id="starmap"></svg>
     </div>
     <aside>
+      <h2>Galaxies</h2>
+      <div class="galaxy-btns" id="galaxyBtns"></div>
       <h2>Constellations</h2>
       <div class="constellation-btns">
         <button type="button" data-constellation="all" class="active">All sky</button>
@@ -382,6 +397,10 @@
         <strong id="detailTitle">—</strong><br />
         <span class="stats" id="detailId"></span><br />
         Kind: <span id="detailKind">—</span><br />
+        Galaxy: <span id="detailGalaxy">—</span><br />
+        Nebula: <span id="detailNebula">—</span><br />
+        Cluster: <span id="detailCluster">—</span><br />
+        Role: <span id="detailStarRole">—</span><br />
         Equation: <span id="detailEq">—</span><br />
         Tone: <span id="detailTone">—</span><br />
         Tags: <span id="detailTags">—</span><br />
@@ -390,6 +409,7 @@
       <h2>Registry</h2>
       <p class="stats">
         Nodes: <span id="statNodes">—</span><br />
+        Galaxies: <span id="statGalaxies">—</span> · Nebulae: <span id="statNebulae">—</span><br />
         Links: <span id="statLinks">—</span><br />
         SHA256: <span id="statSha">—</span><br />
         Built: <span id="statSync">—</span>
@@ -403,11 +423,12 @@
         Rebuild: <code>python tools/build_haven_star_chart.py</code><br />
         Feeds: Excavationpro seals + ClawHub lattice + kernel eggs + <em>verified agent submissions</em>.
       </div>
-      <h2>Eternal Haven</h2>
+      <h2>Haven Cosmology</h2>
       <p class="stats">
-        Each star is a seal, champion, or lattice node. Constellations are memory branches from the primordial core (400+ seals in the Excavationpro vault).
-        <a href="https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack" rel="noopener">Lore pack</a> ·
-        <a href="https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html" rel="noopener">Resonance</a>
+        <strong>Singularity</strong> (SEAL_000) → <strong>Galaxies</strong> (champion realms, lattice, agent growth) →
+        <strong>Nebulae</strong> (fork branches, vault rings) → <strong>Clusters</strong> (tight pin groups) → <strong>Stars</strong>.
+        <a href="HAVEN_COSMOLOGY.md">Full cosmology doc</a> ·
+        <a href="https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack" rel="noopener">Lore pack</a>
       </p>
     </aside>
   </main>

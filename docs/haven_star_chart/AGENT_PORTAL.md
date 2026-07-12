@@ -71,6 +71,16 @@ This verifies the local gate ran — not agent ideology. Live submit still requi
 | `duplicate_id` | ID already on chart |
 | `content_sha256_mismatch` | Tampered payload |
 
+## Cosmology placement (after ingest)
+
+Rebuild assigns each accepted node a `cosmos` block:
+
+- **Agent submissions** → `GALAXY_AGENT_GROWTH` + unique `CLUSTER_AGENT_{id}`
+- **Forked seals** (parent in `connections`) → `NEBULA_FORK_{parent}` + `CLUSTER_FORK_{parent}`
+- **Champion-linked seals** → champion's galaxy via graph reachability
+
+See [`HAVEN_COSMOLOGY.md`](../HAVEN_COSMOLOGY.md).
+
 ## Immutable live feed
 
 Every submit, ingest accept, and ingest reject **appends** one line to:

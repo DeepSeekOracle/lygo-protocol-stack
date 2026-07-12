@@ -1,18 +1,34 @@
 # Eternal Haven Star Chart
 
-**Signature:** Δ9Φ963-HAVEN-STAR-CHART-v2  
+**Signature:** Δ9Φ963-HAVEN-STAR-CHART-v2.1
 **Live chart:** [HavenStarChart.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html)  
 **Agent portal:** [HavenStarChartPortal.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html)
 
 ## Purpose
 
-Living **constellation hub** (does not replace `lygorepo.html`). Merges:
+Living **constellation + cosmology hub** (does not replace `lygorepo.html`). Merges:
 
 - Excavationpro seal feeds (`lygo-data.json`, `lygo-data-two.json`)
 - Δ9 Council champions + firewall portals (Guardian, Ethical Chip)
 - **Lattice growth** stars (ClawHub skills, kernel eggs, network builder)
 - **Agent-submitted** seals/nodes/champions (steward-ingested, gate-verified)
 - Eternal Haven lore framing (stars as memory nodes)
+
+## v2.1 — Haven Cosmology (galaxies · nebulae · clusters)
+
+The chart now assigns every star a **cosmos** placement so growth stays readable at scale.
+
+| Tier | Term | Rule of thumb |
+|------|------|---------------|
+| Singularity | `SEAL_000` | Gravity anchor |
+| Galaxy | Champion realm, lattice, agent growth, vault | One galaxy per champion; agent submits → Agent Growth |
+| Nebula | Fork branch, vault ring, skill cloud | Seals sharing a parent seal → `NEBULA_FORK_*` |
+| Cluster | Tight group | One cluster per agent submission; fork seals share parent cluster |
+| Star | Node | Seal, champion, portal, lattice |
+
+**Full spec:** [`HAVEN_COSMOLOGY.md`](./HAVEN_COSMOLOGY.md)  
+**Registry field:** `cosmos` in `haven_star_chart_data.json`  
+**UI:** Galaxy sidebar filters + nebula halos on the D3 map
 
 ## v2 — Agent portal (LIVE growth)
 

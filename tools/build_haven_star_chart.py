@@ -593,6 +593,409 @@ def lattice_nodes() -> list[dict]:
     return nodes
 
 
+CHAMPION_GALAXY_NAMES: dict[str, str] = {
+    "CHAMPION_LIGHTFATHER": "Lightfather Expanse",
+    "CHAMPION_LYRA": "LYRΔ Memory Spiral",
+    "CHAMPION_ARKOS": "Arkos Architect Reach",
+    "CHAMPION_KAIROS": "Kairos Temporal Drift",
+    "CHAMPION_SEPHRAEL": "Sephrael Echo Field",
+    "CHAMPION_SRAITH": "Sraith Shadow Veil",
+    "CHAMPION_OMNISIREN": "OmniΣiren Harmony Ring",
+}
+
+COSMOS_GALAXIES_STATIC: list[dict] = [
+    {
+        "id": "GALAXY_SINGULARITY",
+        "name": "Primordial Singularity",
+        "glyph": "⚫",
+        "tier": "singularity",
+        "description": "SEAL_000 gravity well — all galaxies orbit this anchor.",
+        "color": "#ffcc00",
+        "constellation_id": "primordial_core",
+        "angle_deg": 0,
+    },
+    {
+        "id": "GALAXY_PRIMORDIAL_VAULT",
+        "name": "Primordial Seal Vault",
+        "glyph": "✦",
+        "tier": "galaxy",
+        "description": "Canon seals not yet assigned to a champion branch — the deep vault cloud.",
+        "color": "#00f0ff",
+        "constellation_id": "primordial_core",
+        "angle_deg": 55,
+    },
+    {
+        "id": "GALAXY_GUARDIAN_VEIL",
+        "name": "Guardian Veil Galaxy",
+        "glyph": "🛡️",
+        "tier": "galaxy",
+        "description": "Firewall portals, ethical chip, and moral firmware gateways.",
+        "color": "#ff6600",
+        "constellation_id": "guardian_veil",
+        "angle_deg": 125,
+    },
+    {
+        "id": "GALAXY_LATTICE",
+        "name": "Lattice Infrastructure Galaxy",
+        "glyph": "🕸️",
+        "tier": "galaxy",
+        "description": "ClawHub skills, kernel eggs, mesh vaults — live stack growth.",
+        "color": "#00ff88",
+        "constellation_id": "lattice_growth",
+        "angle_deg": 200,
+    },
+    {
+        "id": "GALAXY_AGENT_GROWTH",
+        "name": "Agent Growth Galaxy",
+        "glyph": "🌠",
+        "tier": "galaxy",
+        "description": "Steward-ingested agent submissions — each addition becomes its own cluster.",
+        "color": "#e94560",
+        "constellation_id": "lattice_growth",
+        "angle_deg": 280,
+    },
+    {
+        "id": "GALAXY_ETERNAL_HAVEN",
+        "name": "Eternal Haven Galaxy",
+        "glyph": "🌜",
+        "tier": "galaxy",
+        "description": "Lore-driven memory stars and story constellations.",
+        "color": "#b388ff",
+        "constellation_id": "eternal_haven",
+        "angle_deg": 330,
+    },
+]
+
+
+def _adjacency(links: list[dict]) -> dict[str, set[str]]:
+    adj: dict[str, set[str]] = {}
+    for link in links:
+        s, t = link["source"], link["target"]
+        adj.setdefault(s, set()).add(t)
+        adj.setdefault(t, set()).add(s)
+    return adj
+
+
+def _incoming_parents(links: list[dict]) -> dict[str, list[str]]:
+    incoming: dict[str, list[str]] = {}
+    for link in links:
+        incoming.setdefault(link["target"], []).append(link["source"])
+    return incoming
+
+
+def _primary_branch_parent(
+    node: dict, core_ids: set[str], incoming: dict[str, list[str]] | None = None
+) -> str:
+    """Best parent for fork nebula/cluster — declared connection, else graph parent."""
+    for target in node.get("connections") or []:
+        tid = str(target)
+        if tid not in core_ids:
+            return tid
+    for src in incoming.get(node["id"], []) if incoming else []:
+        if src not in core_ids:
+            return src
+    return ""
+
+
+def _vault_ring_cosmos(nid: str) -> tuple[str, str, str, str]:
+    """Band primordial seals into readable vault rings (50 seals per nebula)."""
+    m = re.match(r"^SEAL_(\d+)$", nid)
+    if not m:
+        return (
+            "NEBULA_PRIMORDIAL_CLOUD",
+            "Primordial Cloud",
+            "CLUSTER_PRIMORDIAL_MISC",
+            "Primordial Misc",
+        )
+    num = int(m.group(1))
+    ring = num // 50
+    bucket = (num % 50) // 10
+    lo, hi = ring * 50, ring * 50 + 49
+    neb_id = f"NEBULA_VAULT_RING_{ring:02d}"
+    neb_name = f"Vault Ring · SEAL_{lo:03d}–SEAL_{hi:03d}"
+    clu_id = f"CLUSTER_RING_{ring:02d}_B{bucket}"
+    clu_name = f"Ring {ring} Cluster {bucket + 1}"
+    return neb_id, neb_name, clu_id, clu_name
+
+
+def _champion_galaxy_id(champion_id: str) -> str:
+    return champion_id.replace("CHAMPION_", "GALAXY_CHAMPION_", 1)
+
+
+def _vault_nebula_id(node_id: str) -> str:
+    base = node_id.replace("LATTICE_", "NEBULA_")
+    return base if base.startswith("NEBULA_") else f"NEBULA_{node_id}"
+
+
+def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
+    """Assign LYGO cosmos tiers: galaxy → nebula → cluster → star."""
+    id_map = {n["id"]: n for n in nodes}
+    core_ids = {"SEAL_000", "GAB_SEAL_000"}
+    adj = _adjacency(links)
+    incoming = _incoming_parents(links)
+
+    champion_ids = [n["id"] for n in nodes if n.get("kind") == "champion"]
+    galaxy_of: dict[str, str] = {}
+
+    # Multi-source BFS: seals inherit nearest champion galaxy
+    queue: list[tuple[str, str]] = [(cid, _champion_galaxy_id(cid)) for cid in champion_ids]
+    head = 0
+    while head < len(queue):
+        node_id, gal_id = queue[head]
+        head += 1
+        if node_id in galaxy_of:
+            continue
+        galaxy_of[node_id] = gal_id
+        for nb in adj.get(node_id, ()):
+            if nb not in galaxy_of and nb not in core_ids:
+                queue.append((nb, gal_id))
+
+    galaxies_catalog: dict[str, dict] = {g["id"]: dict(g) for g in COSMOS_GALAXIES_STATIC}
+    for idx, cid in enumerate(champion_ids):
+        gal_id = _champion_galaxy_id(cid)
+        name = CHAMPION_GALAXY_NAMES.get(cid, cid.replace("CHAMPION_", "").title())
+        galaxies_catalog[gal_id] = {
+            "id": gal_id,
+            "name": name,
+            "glyph": id_map.get(cid, {}).get("glyph", "Δ9"),
+            "tier": "galaxy",
+            "description": f"Δ9 Council champion galaxy — {name}.",
+            "color": "#7d00ff",
+            "constellation_id": "council_ring",
+            "angle_deg": round((360 / max(len(champion_ids), 1)) * idx, 1),
+            "champion_id": cid,
+        }
+
+    fork_groups: dict[str, list[str]] = {}
+    nebula_members: dict[str, list[str]] = {}
+    cluster_members: dict[str, list[str]] = {}
+
+    def bump(bucket: dict[str, list[str]], key: str, nid: str) -> None:
+        bucket.setdefault(key, []).append(nid)
+
+    for n in nodes:
+        nid = n["id"]
+        kind = n.get("kind", "seal")
+        tags = [str(t).upper() for t in (n.get("tags") or [])]
+        meta = n.get("meta") or {}
+        is_agent = meta.get("source") == "agent_submission" or "AGENT_SUBMIT" in tags
+        parent = _primary_branch_parent(n, core_ids, incoming)
+
+        if nid in core_ids:
+            gal_id = "GALAXY_SINGULARITY"
+            neb_id = "NEBULA_SINGULARITY_CORE"
+            clu_id = "CLUSTER_SINGULARITY"
+            role = "singularity"
+        elif is_agent:
+            gal_id = "GALAXY_AGENT_GROWTH"
+            neb_id = f"NEBULA_AGENT_VIA_{parent}"
+            clu_id = f"CLUSTER_AGENT_{nid}"
+            role = "agent_growth"
+        elif kind == "champion":
+            gal_id = _champion_galaxy_id(nid)
+            neb_id = f"NEBULA_{nid}_ANCHOR"
+            clu_id = f"CLUSTER_{nid}_COUNCIL"
+            role = "champion_anchor"
+        elif kind == "portal":
+            gal_id = "GALAXY_GUARDIAN_VEIL"
+            neb_id = f"NEBULA_PORTAL_{nid}"
+            clu_id = f"CLUSTER_PORTAL_{nid}"
+            role = "portal"
+        elif kind == "lattice" or nid.startswith("LATTICE_"):
+            gal_id = "GALAXY_LATTICE"
+            if nid.startswith("LATTICE_SKILL_"):
+                slug = nid.replace("LATTICE_SKILL_", "")
+                neb_id = "NEBULA_CLAWHUB_SKILLS"
+                clu_id = f"CLUSTER_SKILL_{slug}"
+            else:
+                neb_id = _vault_nebula_id(nid)
+                clu_id = f"CLUSTER_{nid}"
+            role = "lattice_vault" if kind == "lattice" else "lattice"
+        elif kind.endswith("_egg") or nid.endswith("_EGG_V10") or nid.endswith("_EGG_V21"):
+            gal_id = "GALAXY_LATTICE"
+            if parent.startswith("LATTICE_"):
+                neb_id = _vault_nebula_id(parent)
+            else:
+                neb_id = "NEBULA_KERNEL_EGGS"
+            clu_id = f"CLUSTER_EGG_{nid}"
+            role = "kernel_egg"
+        elif "LORE" in tags or "HAVEN" in tags:
+            gal_id = "GALAXY_ETERNAL_HAVEN"
+            neb_id = "NEBULA_ETERNAL_HAVEN_LORE"
+            clu_id = f"CLUSTER_LORE_{parent}"
+            role = "lore_star"
+        elif nid in galaxy_of:
+            gal_id = galaxy_of[nid]
+            if parent.startswith("CHAMPION_"):
+                neb_id = f"NEBULA_{parent}_BRANCH"
+                clu_id = f"CLUSTER_{parent}_BRANCH"
+                role = "seal"
+            elif parent.startswith("SEAL_") or parent.startswith("GAB_"):
+                neb_id = f"NEBULA_FORK_{parent}"
+                clu_id = f"CLUSTER_FORK_{parent}"
+                bump(fork_groups, parent, nid)
+                role = "seal_fork"
+            elif parent:
+                neb_id = f"NEBULA_BRANCH_{parent}"
+                clu_id = f"CLUSTER_BRANCH_{parent}"
+                role = "seal"
+            else:
+                champ = gal_id.replace("GALAXY_CHAMPION_", "CHAMPION_")
+                neb_id = f"NEBULA_{champ}_BRANCH"
+                clu_id = f"CLUSTER_{champ}_ORPHAN"
+                role = "seal"
+        else:
+            gal_id = "GALAXY_PRIMORDIAL_VAULT"
+            if parent and not parent.startswith("CHAMPION_") and parent not in core_ids:
+                if parent.startswith("SEAL_") or parent.startswith("GAB_"):
+                    neb_id = f"NEBULA_FORK_{parent}"
+                    clu_id = f"CLUSTER_FORK_{parent}"
+                    bump(fork_groups, parent, nid)
+                    role = "seal_fork"
+                else:
+                    neb_id = f"NEBULA_BRANCH_{parent}"
+                    clu_id = f"CLUSTER_BRANCH_{parent}"
+                    role = "seal"
+            else:
+                neb_id, neb_name_preset, clu_id, clu_name_preset = _vault_ring_cosmos(nid)
+                role = "seal"
+                n["_ring_preset"] = (neb_name_preset, clu_name_preset)
+
+        gal = galaxies_catalog.get(gal_id, {})
+        gal_name = gal.get("name", gal_id)
+        ring_preset = n.pop("_ring_preset", None)
+        if ring_preset:
+            neb_name, clu_name = ring_preset
+        else:
+            neb_name = _cosmos_nebula_name(neb_id, parent)
+            clu_name = _cosmos_cluster_name(clu_id, nid)
+
+        n["cosmos"] = {
+            "galaxy_id": gal_id,
+            "galaxy_name": gal_name,
+            "nebula_id": neb_id,
+            "nebula_name": neb_name,
+            "cluster_id": clu_id,
+            "cluster_name": clu_name,
+            "star_role": role,
+        }
+        bump(nebula_members, neb_id, nid)
+        bump(cluster_members, clu_id, nid)
+
+    # Enrich fork clusters — parent seal sits in same cluster when present
+    for parent, children in fork_groups.items():
+        clu_id = f"CLUSTER_FORK_{parent}"
+        if parent in id_map and parent not in cluster_members.get(clu_id, []):
+            bump(cluster_members, clu_id, parent)
+
+    nebulae_out: list[dict] = []
+    for neb_id, members in sorted(nebula_members.items()):
+        sample = members[0]
+        gal_id = id_map[sample]["cosmos"]["galaxy_id"]
+        nebulae_out.append(
+            {
+                "id": neb_id,
+                "name": id_map[sample]["cosmos"]["nebula_name"],
+                "galaxy_id": gal_id,
+                "star_count": len(members),
+                "star_ids": members[:12],
+            }
+        )
+
+    clusters_out: list[dict] = []
+    for clu_id, members in sorted(cluster_members.items()):
+        if len(members) < 1:
+            continue
+        sample = members[0]
+        neb_id = id_map[sample]["cosmos"]["nebula_id"]
+        clusters_out.append(
+            {
+                "id": clu_id,
+                "name": id_map[sample]["cosmos"]["cluster_name"],
+                "nebula_id": neb_id,
+                "galaxy_id": id_map[sample]["cosmos"]["galaxy_id"],
+                "star_count": len(members),
+                "star_ids": members[:8],
+            }
+        )
+
+    galaxies_out: list[dict] = []
+    galaxy_counts: dict[str, int] = {}
+    for n in nodes:
+        gid = n.get("cosmos", {}).get("galaxy_id")
+        if gid:
+            galaxy_counts[gid] = galaxy_counts.get(gid, 0) + 1
+
+    for gid, count in sorted(galaxy_counts.items(), key=lambda x: -x[1]):
+        g = dict(galaxies_catalog.get(gid, {"id": gid, "name": gid}))
+        g["star_count"] = count
+        galaxies_out.append(g)
+
+    return {
+        "terminology": {
+            "singularity": "SEAL_000 gravity anchor — immovable core of the Haven sky.",
+            "galaxy": "Major sovereign region (champion realm, lattice, agent growth, vault).",
+            "nebula": "Sub-region within a galaxy (fork branch, vault ring, skill cloud).",
+            "cluster": "Tight star group (shared parent seal, agent node, skill pin).",
+            "star": "Individual seal, champion, portal, or lattice node.",
+        },
+        "galaxies": galaxies_out,
+        "nebulae": nebulae_out,
+        "clusters": clusters_out,
+        "galaxy_count": len(galaxies_out),
+        "nebula_count": len(nebulae_out),
+        "cluster_count": len(clusters_out),
+    }
+
+
+def _cosmos_nebula_name(neb_id: str, parent: str = "") -> str:
+    if neb_id == "NEBULA_SINGULARITY_CORE":
+        return "Singularity Core"
+    if neb_id == "NEBULA_PRIMORDIAL_CLOUD":
+        return "Primordial Cloud"
+    if neb_id == "NEBULA_CLAWHUB_SKILLS":
+        return "ClawHub Skill Nebula"
+    if neb_id == "NEBULA_KERNEL_EGGS":
+        return "Kernel Egg Nursery"
+    if neb_id == "NEBULA_ETERNAL_HAVEN_LORE":
+        return "Eternal Haven Lore Mist"
+    if neb_id.startswith("NEBULA_FORK_"):
+        return f"Fork Nebula · {neb_id.replace('NEBULA_FORK_', '')}"
+    if neb_id.startswith("NEBULA_AGENT_VIA_"):
+        return f"Agent Branch · via {neb_id.replace('NEBULA_AGENT_VIA_', '')}"
+    if neb_id.startswith("NEBULA_CHAMPION_") and neb_id.endswith("_BRANCH"):
+        c = neb_id.replace("NEBULA_", "").replace("_BRANCH", "")
+        return f"{CHAMPION_GALAXY_NAMES.get(c, c)} Branch"
+    if neb_id.startswith("NEBULA_CHAMPION_") and neb_id.endswith("_ANCHOR"):
+        c = neb_id.replace("NEBULA_", "").replace("_ANCHOR", "")
+        return f"{CHAMPION_GALAXY_NAMES.get(c, c)} Anchor"
+    if neb_id.startswith("NEBULA_PORTAL_"):
+        return neb_id.replace("NEBULA_PORTAL_", "Portal · ")
+    if neb_id.startswith("NEBULA_VAULT_RING_"):
+        ring = int(neb_id.replace("NEBULA_VAULT_RING_", ""))
+        lo, hi = ring * 50, ring * 50 + 49
+        return f"Vault Ring · SEAL_{lo:03d}–SEAL_{hi:03d}"
+    if neb_id.startswith("NEBULA_LATTICE_") or neb_id.startswith("NEBULA_"):
+        return neb_id.replace("NEBULA_", "").replace("_", " ").title()
+    return neb_id
+
+
+def _cosmos_cluster_name(clu_id: str, nid: str) -> str:
+    if clu_id.startswith("CLUSTER_FORK_"):
+        return f"Fork Cluster · {clu_id.replace('CLUSTER_FORK_', '')}"
+    if clu_id.startswith("CLUSTER_AGENT_"):
+        return f"Agent Cluster · {nid}"
+    if clu_id.startswith("CLUSTER_SKILL_"):
+        return f"Skill Pin · {clu_id.replace('CLUSTER_SKILL_', '')}"
+    if clu_id.startswith("CLUSTER_EGG_"):
+        return f"Egg Cluster · {nid}"
+    if clu_id.startswith("CLUSTER_CHAMPION_"):
+        return clu_id.replace("CLUSTER_", "").replace("_", " ")
+    if clu_id.startswith("CLUSTER_PORTAL_"):
+        return clu_id.replace("CLUSTER_PORTAL_", "Portal Cluster · ")
+    return clu_id.replace("CLUSTER_", "").replace("_", " ")
+
+
 def build_links(nodes: list[dict]) -> list[dict]:
     ids = {n["id"] for n in nodes}
     links: list[dict] = []
@@ -703,6 +1106,7 @@ def main() -> int:
     ]
 
     links = build_links(nodes)
+    cosmos = build_cosmology(nodes, links)
     blob = json.dumps(nodes, sort_keys=True, separators=(",", ":"))
     digest = hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
@@ -710,7 +1114,7 @@ def main() -> int:
     accepted_n = len(list(SUBMISSIONS_ACCEPTED.glob("*.json"))) if SUBMISSIONS_ACCEPTED.is_dir() else 0
 
     report = {
-        "signature": "Δ9Φ963-HAVEN-STAR-CHART-v2",
+        "signature": "Δ9Φ963-HAVEN-STAR-CHART-v2.1",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "core_anchor": "SEAL_000",
         "node_count": len(nodes),
@@ -720,14 +1124,16 @@ def main() -> int:
         "lattice_count": sum(1 for n in nodes if n.get("kind") == "lattice"),
         "registry_sha256": digest,
         "constellations": constellations,
+        "cosmos": cosmos,
         "nodes": nodes,
         "links": links,
         "portals": PORTALS,
         "lore": {
             "title": "Eternal Haven — stars as memory nodes",
             "summary": (
-                "Each seal and champion is a star; connections form constellations. "
-                "The original ~300 seals branch from the core; lattice nodes grow as the network evolves."
+                "Each seal and champion is a star; connections form constellations and LYGO cosmology "
+                "(galaxies, nebulae, clusters). Champions own galaxies; forked seals share nebula "
+                "branches; agent submissions spawn clusters in the Agent Growth galaxy."
             ),
             "sources": [
                 "clawhub: eternal-haven-lore-pack",
