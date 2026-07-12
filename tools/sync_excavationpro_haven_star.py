@@ -11,7 +11,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_HTML = ROOT / "docs" / "HavenStarChart.html"
+CANONICAL_PORTAL = ROOT / "docs" / "HavenStarChartPortal.html"
 CANONICAL_DATA = ROOT / "docs" / "haven_star_chart"
+CANONICAL_ASSETS = ROOT / "docs" / "assets"
 DEFAULT_DEST = ROOT.parent / "Excavationpro"
 
 
@@ -31,12 +33,21 @@ def main() -> int:
         return 1
 
     out_html = dest / "HavenStarChart.html"
+    out_portal = dest / "HavenStarChartPortal.html"
     out_dir = dest / "haven_star_chart"
+    out_assets = dest / "assets"
     shutil.copy2(CANONICAL_HTML, out_html)
+    if CANONICAL_PORTAL.is_file():
+        shutil.copy2(CANONICAL_PORTAL, out_portal)
     if out_dir.exists():
         shutil.rmtree(out_dir)
     shutil.copytree(CANONICAL_DATA, out_dir)
-    print(f"Synced → {out_html} and {out_dir}")
+    out_assets.mkdir(parents=True, exist_ok=True)
+    for name in ("og-haven-star-chart.jpg", "og-haven-star-portal.jpg"):
+        src = CANONICAL_ASSETS / name
+        if src.is_file():
+            shutil.copy2(src, out_assets / name)
+    print(f"Synced → {out_html}, {out_portal}, {out_dir}, assets/")
 
     print(
         "NOTE: Excavationpro may fail full git checkout on Windows (invalid path "
@@ -45,9 +56,13 @@ def main() -> int:
     )
 
     if args.push:
-        subprocess.run(["git", "add", "HavenStarChart.html", "haven_star_chart/"], cwd=dest, check=False)
         subprocess.run(
-            ["git", "commit", "-m", "feat: Eternal Haven Star Chart hub (LYGO stack sync)"],
+            ["git", "add", "HavenStarChart.html", "HavenStarChartPortal.html", "haven_star_chart/", "assets/og-haven-star-chart.jpg", "assets/og-haven-star-portal.jpg"],
+            cwd=dest,
+            check=False,
+        )
+        subprocess.run(
+            ["git", "commit", "-m", "seo: Haven Star Chart v2 + Agent Portal meta and feed sync"],
             cwd=dest,
             check=False,
         )
