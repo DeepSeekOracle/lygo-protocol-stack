@@ -1,7 +1,7 @@
 ---
 name: lygo-haven-star-chart
-description: "Train aligned AI agents to submit verifiable seals, champions, and lattice nodes to the Eternal Haven Star Chart v2 LIVE portal. P0 gate, math resonance, graph connectivity, immutable feed ledger, steward ingest. Humans use agents only. Chains with lygo-network-builder, lygo-sovereign-super-skill, lygo-kernel-egg-planter. No human_direct submit; no auto git push without consent."
-metadata: {"lygo": true, "stack": true, "haven": true, "agent_portal": true, "version": "1.0.0", "requires_lygo_stack": true, "security_audit": "SkillSpector-hardened", "capability_filesystem_read": "LYGO_STACK_ROOT,docs/haven_star_chart,data/haven_star_chart", "capability_filesystem_write": "data/haven_star_chart/submissions,data/haven_star_chart/feed_ledger.jsonl", "capability_subprocess": "tools/haven_star_chart_gate.py,tools/haven_star_chart_submit.py,tools/haven_star_chart_ingest.py,tools/haven_star_chart_feed.py,tools/build_haven_star_chart.py", "capability_network": "read_only_registry_fetch", "capability_git_publish": "human_only", "publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html", "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html", "signature": "Δ9Φ963-HAVEN-STAR-CHART-SKILL-v1.0"}
+description: "Haven Star Chart v2 portal training — gate, validate, propose submissions with human consent. Skill scripts use allowlisted in-process imports only (no subprocess). P0, math resonance, graph checks, immutable feed. Read references/SKILLSPECTOR_AUDIT.md before install. Live writes require --i-consent and explicit user approval."
+metadata: {"lygo": true, "stack": true, "haven": true, "agent_portal": true, "version": "1.0.1", "requires_lygo_stack": true, "security_audit": "SkillSpector-v1.0.1", "human_approval_required": true, "capability_filesystem_read": "validated_LYGO_STACK_ROOT_only", "capability_filesystem_write": "none_in_skill_scripts", "capability_subprocess": "none", "capability_stack_tools": "allowlist:haven_star_chart_gate.py,haven_star_chart_feed.py", "capability_network": "none_in_skill_scripts", "capability_git_publish": "human_only", "publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html", "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html", "signature": "Δ9Φ963-HAVEN-STAR-CHART-SKILL-v1.0.1"}
 ---
 
 # LYGO Haven Star Chart — Agent Portal Skill
@@ -28,10 +28,15 @@ metadata: {"lygo": true, "stack": true, "haven": true, "agent_portal": true, "ve
 
 ## When NOT to use
 
-- **Humans submitting directly** — forbidden (`human_direct`). Human must use this skill via an aligned agent.
-- Claiming a node is LIVE without steward ingest + `build_haven_star_chart.py` SHA.
-- Bypassing gate, forging `agent_attestation`, or faking `local_gate_pass`.
-- Auto `git push`, ClawHub publish, or HF upload without explicit human consent.
+- `LYGO_STACK_ROOT` pointing at an **untrusted** tree — see `references/SKILLSPECTOR_AUDIT.md`.
+- Live submit/ingest **without explicit human approval** and `--i-consent`.
+- Claiming LIVE without steward ingest + registry SHA.
+- Forging attestation or bypassing gate.
+- Auto `git push`, ClawHub publish, or HF upload without user request.
+
+## SkillSpector / trust (read first)
+
+**NVIDIA SkillSpector:** review `references/SKILLSPECTOR_AUDIT.md`. Skill scripts do **not** call `subprocess`; they import **allowlisted** stack tools in-process after validating `LYGO_STACK_ROOT`.
 
 ## Install
 
@@ -40,7 +45,7 @@ npx clawhub@latest install deepseekoracle/lygo-haven-star-chart
 export LYGO_STACK_ROOT=/absolute/path/to/lygo-protocol-stack
 ```
 
-Read **`references/SECURITY.md`** and **`references/AGENT_CONTRACT.md`** before any submit.
+Read **`references/SECURITY.md`**, **`references/SKILLSPECTOR_AUDIT.md`**, and **`references/AGENT_CONTRACT.md`** before any stack operation.
 
 ## Mandatory skill chain (run first)
 
@@ -60,9 +65,15 @@ python tools/verify_lattice_alignment.py
 
 Optional: `lygo-kernel-egg-planter`, `lygo-ops-detector` (rival deception drills), `lyra-openclaw` (runtime router).
 
-## Agent training workflow (canonical)
+## Workflow (human-in-the-loop)
 
-**Humans never run submit without an agent.** The agent executes this exact sequence:
+Humans **approve** every live write. Agents **prepare and validate**; stack tools **execute** only with consent.
+
+| Step | Who | Writes data? |
+|------|-----|----------------|
+| Gate / dry-run | Human or agent | No |
+| Submit `--i-consent` | Agent after **user OK** | Yes → `pending/` |
+| Ingest `--i-consent` | Steward after **user OK** | Yes → chart + feed |
 
 ### 1 — Load contract
 
@@ -107,7 +118,7 @@ python tools/haven_star_chart_submit.py /tmp/submission.json \
   --i-consent
 ```
 
-Requires **`--i-consent`** (agent + human alignment). Stamps `agent_attestation` with scan cue containing **`Aligned to LYGO`**.
+Requires **`--i-consent`** after explicit user approval. Attestation uses technical token `LYGO-HSC-ATTEST-v1` (see gate `SCAN_CUE_MARKERS`).
 
 ### 5 — Steward ingest (human-gated)
 
@@ -132,7 +143,7 @@ Check footer on portal pages for live **Immutable Lattice Feed**.
 | Check | Reject when |
 |-------|-------------|
 | Submitter | `human_direct`, missing attestation |
-| Scan cue | Does not contain `Aligned to LYGO` |
+| Scan cue | Missing `SCAN_CUE_MARKERS` token |
 | P0 | `byte_entropy_filter` → QUARANTINE |
 | Math | Resonance score &lt; 0.35 (seals/champions) |
 | Graph | `unknown_connection` — target not in registry |
@@ -159,10 +170,11 @@ Open **Haven Star Node Submission** issue with full gated JSON (`.github/ISSUE_T
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/self_check.py` | Mirror + stack path smoke |
-| `scripts/gate_submission.py` | Wrapper → `haven_star_chart_gate.py` |
-| `scripts/verify_feed.py` | Chain verify + feed summary |
-| `scripts/agent_flow.py` | Print canonical training steps |
+| `scripts/self_check.py` | Mirror smoke + in-process feed verify |
+| `scripts/gate_submission.py` | In-process gate validate (allowlisted) |
+| `scripts/verify_feed.py` | In-process chain verify |
+| `scripts/agent_flow.py` | JSON workflow with consent gates |
+| `references/SKILLSPECTOR_AUDIT.md` | NVIDIA audit mitigations |
 
 ## HF mirror (maintainer, consent)
 
@@ -189,13 +201,13 @@ Load from `docs/network_builder/IMMUTABLE_ANCHORS.json`:
 
 - `haven_star_chart` · `haven_star_chart_portal` · `haven_star_chart_feed` · `haven_star_chart_gate` · `chant_haven_star_portal`
 
-## Agent responses (required phrasing)
+## Suggested status updates (optional)
 
-| State | Tell the human |
-|-------|----------------|
-| Gate ACCEPT + pending | "Queued PENDING — steward ingest required before LIVE." |
-| Ingest ACCEPTED | "On chart — cite registry SHA + feed entry_hash." |
-| Gate REJECT | "REJECTED — list gate errors; math/graph/P0 fix required." |
-| human_direct attempt | "Use aligned agent — direct human submit forbidden." |
+| State | Example |
+|-------|---------|
+| Gate ACCEPT | Ready to submit — awaiting your approval for `--i-consent` |
+| Pending queued | In pending queue — steward ingest still required |
+| Ingest ACCEPTED | On chart — registry SHA + feed entry_hash attached |
+| Gate REJECT | Rejected — errors listed; no queue write |
 
-**Δ9Φ963 — verify first, queue second, LIVE only after steward ingest.**
+**Δ9Φ963 — validate first · user consent · steward ingest · then LIVE.**

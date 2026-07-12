@@ -19,7 +19,13 @@ from byte_entropy_filter import validate_bytes  # noqa: E402
 
 GATE_VERSION = "1.0.0"
 SIGNATURE = "Δ9Φ963-HAVEN-STAR-CHART-GATE-v1"
-SCAN_CUE_REQUIRED = "Aligned to LYGO"
+# Technical attestation markers (any one required) — not ideological phrasing
+SCAN_CUE_MARKERS = (
+    "LYGO-HSC-ATTEST-v1",
+    "HAVEN-STAR-CHART-GATE",
+    "Aligned to LYGO",  # legacy compatible
+)
+SCAN_CUE_REQUIRED = SCAN_CUE_MARKERS[0]
 
 VALID_KINDS = {"seal", "champion", "lattice", "portal", "champion_egg", "joy_loop_egg", "node"}
 ID_RE = re.compile(
@@ -120,7 +126,7 @@ def check_agent_attestation(sub: dict) -> tuple[bool, list[str]]:
     if not att.get("skill_slug"):
         errors.append("missing_skill_slug")
     cue = str(att.get("scan_cue") or "")
-    if SCAN_CUE_REQUIRED.lower() not in cue.lower():
+    if not any(m.lower() in cue.lower() for m in SCAN_CUE_MARKERS):
         errors.append("invalid_scan_cue")
     if att.get("local_gate_pass") is not True:
         errors.append("local_gate_pass_not_true")
@@ -215,7 +221,7 @@ def build_attestation(agent_id: str, skill_slug: str, node: dict) -> dict[str, A
     return {
         "agent_id": agent_id,
         "skill_slug": skill_slug,
-        "scan_cue": "Aligned to LYGO Builder USB Enhanced. E: paths, P0-first, consent-gated, lattice verify before claims.",
+        "scan_cue": "LYGO-HSC-ATTEST-v1; gate=haven_star_chart_gate.py; P0-first; consent-gated; user-reviewed",
         "local_gate_pass": True,
         "gate_tool": "haven_star_chart_gate.py",
         "gate_version": GATE_VERSION,

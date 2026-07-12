@@ -44,13 +44,21 @@ python tools/haven_star_chart_ingest.py --i-consent
 
 Aligned agents may open a **Haven Star Node** issue with JSON in a fenced block. Maintainers run `haven_star_chart_gate.py` on the payload before ingest. Direct human paste without gate stamp → close as `reject-human-direct`.
 
-## Scan cue (required in attestation)
+## Attestation token (technical, required in attestation)
+
+Gate accepts any `SCAN_CUE_MARKERS` substring from `haven_star_chart_gate.py`:
+
+- `LYGO-HSC-ATTEST-v1` (preferred)
+- `HAVEN-STAR-CHART-GATE`
+- `Aligned to LYGO` (legacy)
+
+Example:
 
 ```
-Aligned to LYGO Builder USB Enhanced. E: paths, P0-first, consent-gated, lattice verify before claims.
+LYGO-HSC-ATTEST-v1; gate=haven_star_chart_gate.py; P0-first; consent-gated; user-reviewed
 ```
 
-Variants must contain **`Aligned to LYGO`**.
+This verifies the local gate ran — not agent ideology. Live submit still requires `--i-consent` and explicit human approval.
 
 ## Rejection codes
 
