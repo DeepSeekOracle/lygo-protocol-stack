@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import sys
 
 import urllib.error
 import urllib.request
@@ -13,6 +14,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
+from lygo_lineage_codec import lineage_galaxy_id, redact_node_for_public, resolve_ancestry_root  # noqa: E402
 OUT_DIR = ROOT / "docs" / "haven_star_chart"
 OUT_JSON = OUT_DIR / "haven_star_chart_data.json"
 OUT_JSON_PAGES_ALIAS = ROOT / "docs" / "haven_star_chart_data.json"
@@ -179,23 +182,26 @@ def load_accepted_submissions(existing_ids: set[str]) -> tuple[list[dict], list[
             if nid in existing_ids:
                 notes.append(f"{path.name}:skip_duplicate:{nid}")
                 continue
+            public_node = redact_node_for_public(node)
             row = {
                 "id": nid,
-                "kind": node.get("kind", "seal"),
-                "name": node.get("name", "Unnamed"),
-                "equation": node.get("equation", ""),
-                "glyph": node.get("glyph", "✦"),
-                "tone": node.get("tone", ""),
-                "tags": [str(t).upper() for t in (node.get("tags") or ["AGENT_SUBMIT"])],
-                "connections": node.get("connections") or ["SEAL_000"],
-                "urls": node.get("urls") or {},
-                "layer": node.get("layer", 2),
+                "kind": public_node.get("kind", "seal"),
+                "name": public_node.get("name", "Unnamed"),
+                "equation": public_node.get("equation", ""),
+                "glyph": public_node.get("glyph", "✦"),
+                "tone": public_node.get("tone", ""),
+                "tags": [str(t).upper() for t in (public_node.get("tags") or ["AGENT_SUBMIT"])],
+                "connections": public_node.get("connections") or ["SEAL_000"],
+                "urls": public_node.get("urls") or {},
+                "layer": public_node.get("layer", 2),
                 "meta": {
                     "source": "agent_submission",
                     "content_sha256": sub.get("content_sha256"),
                     "ingested_from": path.name,
                 },
             }
+            if public_node.get("lineage"):
+                row["lineage"] = public_node["lineage"]
             nodes.append(row)
             existing_ids.add(nid)
             notes.append(f"merged:{nid}")
@@ -780,12 +786,79 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
         meta = n.get("meta") or {}
         is_agent = meta.get("source") == "agent_submission" or "AGENT_SUBMIT" in tags
         parent = _primary_branch_parent(n, core_ids, incoming)
+        ancestry_root = resolve_ancestry_root(n, id_map) if n.get("lineage") else ""
+        if not ancestry_root:
+            human_parent = next(
+                (
+                    str(c).upper()
+                    for c in (n.get("connections") or [])
+                    if str(c).upper().startswith("NODE_LYGO_")
+                ),
+                "",
+            )
+            if human_parent and human_parent in id_map:
+                ancestry_root = resolve_ancestry_root(id_map[human_parent], id_map)
+
+        is_human_birth = "CREATOR_BIRTH" in tags or "LINEAGE_ROOT" in tags
+        is_human_fork = "LINEAGE_FORK" in tags
+        is_human_node = nid.startswith("NODE_LYGO_") and "HUMAN_LATTICE" in tags
 
         if nid in core_ids:
             gal_id = "GALAXY_SINGULARITY"
             neb_id = "NEBULA_SINGULARITY_CORE"
             clu_id = "CLUSTER_SINGULARITY"
             role = "singularity"
+        elif is_human_birth or is_human_fork or is_human_node:
+            root_for_galaxy = ancestry_root or (n.get("lineage") or {}).get("lineage_root", "")
+            gal_id = (
+                lineage_galaxy_id(root_for_galaxy)
+                if root_for_galaxy
+                else "GALAXY_LINEAGE_UNASSIGNED"
+            )
+            mask = ((n.get("lineage") or {}).get("public_mask") or n.get("name") or nid)[:24]
+            galaxies_catalog[gal_id] = {
+                "id": gal_id,
+                "name": f"Lineage · {mask}",
+                "glyph": "◈",
+                "tier": "galaxy",
+                "description": "Human lattice birth galaxy — masked public ID, steward-verified anchor.",
+                "color": "#ff66cc",
+                "constellation_id": "lattice_growth",
+                "angle_deg": 280,
+            }
+            suffix = root_for_galaxy[:8].upper() if root_for_galaxy else nid
+            neb_id = f"NEBULA_LINEAGE_{suffix}"
+            clu_id = f"CLUSTER_LINEAGE_{nid}"
+            if is_human_birth:
+                role = "human_birth"
+            elif is_human_fork:
+                role = "lineage_fork"
+            else:
+                role = "human_lattice"
+        elif ancestry_root:
+            gal_id = lineage_galaxy_id(ancestry_root)
+            if gal_id not in galaxies_catalog:
+                galaxies_catalog[gal_id] = {
+                    "id": gal_id,
+                    "name": f"Lineage · {ancestry_root[:8].upper()}",
+                    "glyph": "◈",
+                    "tier": "galaxy",
+                    "description": "Fork expansion under a human lattice lineage root.",
+                    "color": "#ff66cc",
+                    "constellation_id": "lattice_growth",
+                    "angle_deg": 280,
+                }
+            human_parent = next(
+                (
+                    str(c).upper()
+                    for c in (n.get("connections") or [])
+                    if str(c).upper().startswith("NODE_LYGO_")
+                ),
+                parent,
+            )
+            neb_id = f"NEBULA_LINEAGE_EXP_{human_parent or parent or nid}"
+            clu_id = f"CLUSTER_LINEAGE_FORK_{nid}"
+            role = "lineage_expansion"
         elif is_agent:
             gal_id = "GALAXY_AGENT_GROWTH"
             neb_id = f"NEBULA_AGENT_VIA_{parent}"

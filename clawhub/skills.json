@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 37,
-  "count_mirrored": 37,
+  "count_published": 38,
+  "count_mirrored": 38,
   "skills": [
     {
       "slug": "lygo-protocol-stack-operator",
@@ -369,6 +369,16 @@
       "version": "1.0.1"
     },
     {
+      "slug": "lygo-lattice-birth",
+      "name": "LYGO Lattice Birth",
+      "summary": "Masked human lattice birth + family lineage bind proofs for Haven Star Chart. Public LYGO-XXXX-XXXX masks; steward-only anchors. Chains lygo-haven-star-chart. SkillSpector: allowlisted imports, --i-consent for live writes.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lattice-birth",
+      "mirror": "mirrors/lygo-lattice-birth",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
       "slug": "lygo-ops-detector",
       "name": "LYGO OPPS DETECTOR",
       "summary": "LYGO Ops Detector - Lightfathers Voice for the AETHON Delta9 Protocol. Sovereign math-rigorous detector of operational deception using Evasion Index and Association Matrix.",
@@ -428,6 +438,7 @@
     "lygo-pxpipe-lygo": "grok",
     "lygo-network-builder": "existing",
     "lygo-haven-star-chart": "existing",
+    "lygo-lattice-birth": "grok",
     "lyra-brain": "grok",
     "lyra-openclaw": "grok"
   }

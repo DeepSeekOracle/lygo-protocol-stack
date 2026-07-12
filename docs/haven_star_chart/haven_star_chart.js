@@ -391,6 +391,19 @@
     if (el("detailNebula")) el("detailNebula").textContent = c.nebula_name || "—";
     if (el("detailCluster")) el("detailCluster").textContent = c.cluster_name || "—";
     if (el("detailStarRole")) el("detailStarRole").textContent = c.star_role || "—";
+    const lin = d.lineage || {};
+    if (el("detailLineage")) {
+      if (!lin.lineage_root && lin.generation == null) {
+        el("detailLineage").textContent = "—";
+      } else {
+        const parts = [];
+        if (lin.public_mask) parts.push(lin.public_mask);
+        if (lin.generation != null) parts.push(`gen ${lin.generation}`);
+        if (lin.parent_public_id) parts.push(`← ${lin.parent_public_id}`);
+        if (lin.relation) parts.push(lin.relation);
+        el("detailLineage").textContent = parts.join(" · ") || (lin.lineage_root || "").slice(0, 16) + "…";
+      }
+    }
   }
 
   function populateGalaxyFilters() {

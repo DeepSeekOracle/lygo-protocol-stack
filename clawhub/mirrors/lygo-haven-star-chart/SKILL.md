@@ -65,6 +65,8 @@ python tools/lygo_network_builder_verify.py
 python tools/verify_lattice_alignment.py
 ```
 
+**Human lattice birth:** install **lygo-lattice-birth** for masked identity (`NODE_LYGO_*`), family `bind_proof`, and `GALAXY_LINEAGE_*` cosmology.
+
 Optional: `lygo-kernel-egg-planter`, `lygo-ops-detector` (rival deception drills), `lyra-openclaw` (runtime router).
 
 ## Workflow (human-in-the-loop)

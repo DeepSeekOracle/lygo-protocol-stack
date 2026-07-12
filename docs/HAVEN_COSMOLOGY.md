@@ -129,6 +129,18 @@ Top-level `cosmos` in registry:
 
 To join a champion galaxy instead, connect through the champion branch (reachable path from champion in the live graph).
 
+## Human lattice lineage galaxies
+
+Masked human births (`CREATOR_BIRTH`, `NODE_LYGO_*`) spawn **`GALAXY_LINEAGE_{root[:8]}`** — one galaxy per generation-0 ancestry root.
+
+| Role | Placement |
+|------|-----------|
+| `human_birth` | Creator at lineage galaxy root cluster |
+| `lineage_fork` | Family member (verified `bind_proof`) in same ancestor galaxy |
+| `lineage_expansion` | Seals/nodes connected to a `NODE_LYGO_*` human id |
+
+Public JSON exposes `lineage.public_mask` and `bind_proof` only — never `consent_bundle` or real names. See `LYGO_LATTICE_BIRTH.md` and ClawHub `lygo-lattice-birth`.
+
 ## Rebuild
 
 ```bash

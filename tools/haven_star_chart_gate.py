@@ -13,9 +13,22 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 P0_DIR = ROOT / "protocol0_byte_entropy_filter" / "src" / "python"
+TOOLS_DIR = ROOT / "tools"
 sys.path.insert(0, str(P0_DIR))
+sys.path.insert(0, str(TOOLS_DIR))
 
 from byte_entropy_filter import validate_bytes  # noqa: E402
+from lygo_lineage_codec import (  # noqa: E402
+    MASK_ID_RE,
+    SIGNATURE as LINEAGE_CODEC_SIG,
+    derive_lineage_root,
+    derive_mask_id,
+    derive_public_mask,
+    node_has_private_leak,
+    public_name_valid,
+    validate_lineage_anchor_consistency,
+    verify_bind_proof,
+)
 
 GATE_VERSION = "1.0.0"
 SIGNATURE = "Δ9Φ963-HAVEN-STAR-CHART-GATE-v1"
@@ -29,7 +42,8 @@ SCAN_CUE_REQUIRED = SCAN_CUE_MARKERS[0]
 
 VALID_KINDS = {"seal", "champion", "lattice", "portal", "champion_egg", "joy_loop_egg", "node"}
 ID_RE = re.compile(
-    r"^(SEAL_\d{3,}|GAB_SEAL_\d{3}|CHAMPION_[A-Z0-9_]+|LATTICE_[A-Z0-9_]+|PORTAL_[A-Z0-9_]+|CHAMPION_EGG_[A-Z0-9_]+|JOY_[A-Z0-9_]+|NODE_[A-Z0-9_]+)$"
+    r"^(SEAL_\d{3,}|GAB_SEAL_\d{3}|CHAMPION_[A-Z0-9_]+|LATTICE_[A-Z0-9_]+|PORTAL_[A-Z0-9_]+|"
+    r"CHAMPION_EGG_[A-Z0-9_]+|JOY_[A-Z0-9_]+|NODE_LYGO_[A-F0-9]{8}|NODE_[A-Z0-9_]+)$"
 )
 MATH_MARKERS = re.compile(
     r"(=|×|·|∇|⊗|∣|\||\+|−|-|φ|Φ|Δ|Ω|∞|√|∑|Hz|hz|963|528|432|1111|1440|741|8787|BPM|bpm|∅|⟩|⟨)"
@@ -56,6 +70,9 @@ def canonical_node_body(node: dict) -> bytes:
         "urls": node.get("urls") or {},
         "layer": node.get("layer"),
     }
+    if node.get("lineage"):
+        lin = dict(node["lineage"])
+        core["lineage"] = json.loads(json.dumps(lin, sort_keys=True))
     return json.dumps(core, sort_keys=True, separators=(",", ":")).encode("utf-8")
 
 
@@ -111,6 +128,100 @@ def math_resonance_score(equation: str, tone: str) -> tuple[float, list[str]]:
         score += 0.1
         reasons.append("delta9_resonance")
     return min(score, 1.0), reasons
+
+
+def load_parent_bind_salt(parent_public_id: str) -> str | None:
+    """Steward-only salt from accepted parent birth/fork submission."""
+    accepted = ROOT / "data" / "haven_star_chart" / "submissions" / "accepted"
+    if not accepted.is_dir():
+        return None
+    target = parent_public_id.upper()
+    for path in sorted(accepted.glob("*.json")):
+        try:
+            row = json.loads(path.read_text(encoding="utf-8"))
+            node = row.get("node") or row
+            if str(node.get("id") or "").upper() != target:
+                continue
+            salt = (row.get("meta_private") or {}).get("family_bind_salt")
+            return str(salt) if salt else None
+        except (json.JSONDecodeError, OSError):
+            continue
+    return None
+
+
+def validate_lineage_rules(
+    sub: dict, node: dict, registry_ids: set[str]
+) -> tuple[list[str], list[str]]:
+    """Privacy-preserving human lattice birth + family fork checks."""
+    errors: list[str] = []
+    warnings: list[str] = []
+    tags = [str(t).upper() for t in (node.get("tags") or [])]
+    nid = str(node.get("id") or "").upper()
+    name = str(node.get("name") or "")
+    lin = node.get("lineage") or {}
+
+    for leak in node_has_private_leak(node):
+        errors.append(f"private_field_on_public_node:{leak}")
+
+    if any(t in tags for t in ("CREATOR_BIRTH", "LINEAGE_FORK", "IMMUTABLE_IDENTITY", "HUMAN_LATTICE")):
+        ok_name, reason = public_name_valid(name, tags)
+        if not ok_name:
+            errors.append(reason)
+        if not MASK_ID_RE.match(nid):
+            errors.append("human_lattice_requires_NODE_LYGO_mask_id")
+
+    if "CREATOR_BIRTH" in tags or "LINEAGE_ROOT" in tags:
+        if "lineage" not in node:
+            errors.append("creator_birth_missing_lineage_block")
+        else:
+            if lin.get("generation", 0) != 0:
+                errors.append("creator_birth_generation_must_be_0")
+            if not lin.get("lineage_root"):
+                errors.append("creator_birth_missing_lineage_root")
+            if lin.get("codec") and lin["codec"] != LINEAGE_CODEC_SIG:
+                errors.append("lineage_codec_mismatch")
+        meta = sub.get("meta_private") or {}
+        if not meta.get("anchor_sha256"):
+            errors.append("creator_birth_missing_meta_private_anchor")
+        if not meta.get("family_bind_salt"):
+            errors.append("creator_birth_missing_family_bind_salt")
+        if not meta.get("consent_bundle"):
+            warnings.append("consent_bundle_missing_in_meta_private")
+        ok_anchor, anchor_errs = validate_lineage_anchor_consistency(node, meta)
+        if not ok_anchor:
+            errors.extend(anchor_errs)
+
+    if "LINEAGE_FORK" in tags:
+        if "lineage" not in node:
+            errors.append("lineage_fork_missing_lineage_block")
+        else:
+            parent_id = str(lin.get("parent_public_id") or "").upper()
+            if not parent_id:
+                errors.append("lineage_fork_missing_parent_public_id")
+            elif parent_id not in registry_ids:
+                errors.append(f"lineage_fork_unknown_parent:{parent_id}")
+            gen = lin.get("generation")
+            if gen is None or int(gen) < 1:
+                errors.append("lineage_fork_generation_must_be_positive")
+            bind = str(lin.get("bind_proof") or "")
+            child_root = str(lin.get("lineage_root") or "")
+            if not bind or not child_root:
+                errors.append("lineage_fork_missing_bind_proof_or_root")
+            else:
+                parent_salt = load_parent_bind_salt(parent_id)
+                if not parent_salt:
+                    errors.append("lineage_fork_parent_salt_not_in_steward_vault")
+                elif not verify_bind_proof(parent_salt, child_root, bind):
+                    errors.append("lineage_fork_bind_proof_invalid")
+        meta = sub.get("meta_private") or {}
+        ok_anchor, anchor_errs = validate_lineage_anchor_consistency(node, meta)
+        if not ok_anchor:
+            errors.extend(anchor_errs)
+
+    if nid.startswith("NODE_LYGO_") and "HUMAN_LATTICE" not in tags:
+        warnings.append("NODE_LYGO_without_HUMAN_LATTICE_tag")
+
+    return errors, warnings
 
 
 def check_agent_attestation(sub: dict) -> tuple[bool, list[str]]:
@@ -195,6 +306,10 @@ def validate_submission(sub: dict, registry_ids: set[str] | None = None) -> dict
     if expected and expected != actual:
         errors.append("content_sha256_mismatch")
 
+    lin_errs, lin_warns = validate_lineage_rules(sub, node, registry_ids)
+    errors.extend(lin_errs)
+    warnings.extend(lin_warns)
+
     # Benefit heuristic — must connect to core path within 2 hops conceptually
     if "SEAL_000" not in [str(c).upper() for c in conns] and kind in ("seal", "champion"):
         if not any(str(c).upper().startswith(("CHAMPION_", "PORTAL_", "LATTICE_")) for c in conns):
@@ -237,7 +352,21 @@ def main() -> int:
     ap.add_argument("submission", nargs="?", help="Path to submission JSON")
     ap.add_argument("--json", action="store_true", help="Read submission from stdin")
     ap.add_argument("--example", action="store_true", help="Print example submission")
+    ap.add_argument("--example-birth", action="store_true", help="Print example lattice birth submission")
     args = ap.parse_args()
+
+    if args.example_birth:
+        from lygo_lattice_birth import cmd_example_birth  # noqa: E402
+
+        ns = argparse.Namespace(
+            slug="builder",
+            champion="CHAMPION_LIGHTFATHER",
+            equation=None,
+            agent_id="lygo-lattice-birth",
+            skill_slug="lygo-lattice-birth",
+            gate=True,
+        )
+        return int(cmd_example_birth(ns))
 
     if args.example:
         ex = {
