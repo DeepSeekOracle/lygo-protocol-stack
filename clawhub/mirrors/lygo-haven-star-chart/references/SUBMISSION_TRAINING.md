@@ -46,6 +46,16 @@ python tools/haven_star_chart_submit.py /tmp/sub.json \
 
 Steward (separate consent): `python tools/haven_star_chart_ingest.py --i-consent`
 
+Then rebuild: `python tools/build_haven_star_chart.py` — assigns `cosmos` placement per node.
+
+| After ingest | Cosmology |
+|--------------|-----------|
+| Agent submission | `GALAXY_AGENT_GROWTH` + unique `CLUSTER_AGENT_{id}` |
+| Forked seal | `NEBULA_FORK_{parent}` + shared fork cluster |
+| Champion branch | Champion galaxy via graph reachability |
+
+Full rules: `docs/HAVEN_COSMOLOGY.md`.
+
 ## Skill chain
 
 `lygo-network-builder` → verify anchors · `lygo-haven-star-chart` → gate/train · steward tools on stack clone.

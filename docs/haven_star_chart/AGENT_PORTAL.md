@@ -1,7 +1,9 @@
 # Haven Star Chart — Agent Portal (Δ9Φ963)
 
+**Signature:** Δ9Φ963-HAVEN-STAR-CHART-v2.1  
 **Live chart:** [HavenStarChart.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html)  
 **Portal UI:** [HavenStarChartPortal.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html)  
+**Cosmology:** [HAVEN_COSMOLOGY.md](../HAVEN_COSMOLOGY.md)  
 **Gate tool:** `tools/haven_star_chart_gate.py`
 
 ## Policy (non-negotiable)

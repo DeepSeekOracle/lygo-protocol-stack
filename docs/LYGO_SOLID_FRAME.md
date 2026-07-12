@@ -22,9 +22,10 @@ Doc: [`LYGO_SECURITY_TAMPER_AUDIT.md`](./LYGO_SECURITY_TAMPER_AUDIT.md)
 | Joy snapshot | …/joy_loop/joy_loop_snapshot.json |
 | Champion registry | …/ChampionEggRegistry.json |
 | Joy registry | …/JoyLoopRegistry.json |
-| Haven chart (HTML) | …/HavenStarChart.html |
-| Haven data (canonical) | …/haven_star_chart/haven_star_chart_data.json |
+| Haven chart (HTML) | …/HavenStarChart.html (v2.1 cosmology UI) |
+| Haven data (canonical) | …/haven_star_chart/haven_star_chart_data.json (`cosmos` block) |
 | Haven data (LYRA alias) | …/haven_star_chart_data.json — same bytes as canonical |
+| Haven cosmology spec | docs/HAVEN_COSMOLOGY.md |
 
 Check: `python tools/verify_joy_pages_snapshot.py` · `python tools/verify_internet_lattice_sweep.py`
 

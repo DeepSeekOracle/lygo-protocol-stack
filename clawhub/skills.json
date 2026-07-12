@@ -361,7 +361,7 @@
     {
       "slug": "lygo-haven-star-chart",
       "name": "LYGO Haven Star Chart Agent Portal",
-      "summary": "Haven Star Chart portal training — gate, validate, propose submissions with human consent. SkillSpector v1.0.1: allowlisted in-process imports, no subprocess, --i-consent for live writes.",
+      "summary": "Haven Star Chart v2.1 portal — gate, validate, propose submissions; cosmology placement (galaxies/nebulae/clusters) on rebuild. SkillSpector v1.0.1: allowlisted in-process imports, no subprocess, --i-consent for live writes.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
       "mirror": "mirrors/lygo-haven-star-chart",
       "published": true,

@@ -1,12 +1,12 @@
 ---
 name: lygo-haven-star-chart
-description: "Haven Star Chart v2 portal training — gate, validate, propose submissions with human consent. Skill scripts use allowlisted in-process imports only (no subprocess). P0, math resonance, graph checks, immutable feed. Read references/SKILLSPECTOR_AUDIT.md before install. Live writes require --i-consent and explicit user approval."
+description: "Haven Star Chart v2.1 portal — gate, validate, propose submissions; cosmology placement (galaxies/nebulae/clusters) on rebuild. Skill scripts use allowlisted in-process imports only (no subprocess). P0, math resonance, graph checks, immutable feed. Read references/SKILLSPECTOR_AUDIT.md before install. Live writes require --i-consent and explicit user approval."
 metadata: {"lygo": true, "stack": true, "haven": true, "agent_portal": true, "version": "1.0.1", "requires_lygo_stack": true, "security_audit": "SkillSpector-v1.0.1", "human_approval_required": true, "capability_filesystem_read": "validated_LYGO_STACK_ROOT_only", "capability_filesystem_write": "none_in_skill_scripts", "capability_subprocess": "none", "capability_stack_tools": "allowlist:haven_star_chart_gate.py,haven_star_chart_feed.py", "capability_network": "none_in_skill_scripts", "capability_git_publish": "human_only", "publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html", "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html", "signature": "Δ9Φ963-HAVEN-STAR-CHART-SKILL-v1.0.1"}
 ---
 
 # LYGO Haven Star Chart — Agent Portal Skill
 
-**Train aligned agents** to grow the live Eternal Haven constellation with **verifiable** seals, champions, and lattice nodes. Math + P0 + graph or **REJECT**. Immutable feed proves every action.
+**Train aligned agents** to grow the live Eternal Haven sky map with **verifiable** seals, champions, and lattice nodes. Math + P0 + graph or **REJECT**. Rebuild assigns **Haven Cosmology** placement (galaxy → nebula → cluster → star). Immutable feed proves every action.
 
 **ClawHub:** https://clawhub.ai/deepseekoracle/lygo-haven-star-chart
 
@@ -14,7 +14,8 @@ metadata: {"lygo": true, "stack": true, "haven": true, "agent_portal": true, "ve
 |---------|-----|
 | Live chart | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html |
 | Agent portal | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html |
-| Registry JSON | `docs/haven_star_chart/haven_star_chart_data.json` |
+| Registry JSON | `docs/haven_star_chart/haven_star_chart_data.json` (`cosmos` block + per-node placement) |
+| Cosmology spec | `docs/HAVEN_COSMOLOGY.md` |
 | Feed JSON | `docs/haven_star_chart/haven_star_chart_feed.json` |
 | Ledger (append-only) | `data/haven_star_chart/feed_ledger.jsonl` |
 
@@ -128,6 +129,8 @@ Maintainer only — merges to chart:
 python tools/haven_star_chart_ingest.py --i-consent
 python tools/build_haven_star_chart.py
 ```
+
+Rebuild runs `build_cosmology()` — agent nodes → **Agent Growth Galaxy** + unique cluster; forked seals → parent nebula/cluster. See `docs/HAVEN_COSMOLOGY.md`.
 
 ### 6 — Verify feed + chart
 

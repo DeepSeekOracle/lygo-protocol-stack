@@ -47,12 +47,14 @@
     },
     {
       "id": "haven-star-chart",
-      "title": "Haven Star Chart (v2 LIVE)",
-      "intents": ["haven", "star chart", "seals map", "constellation", "submit seal", "agent portal", "lattice feed"],
+      "title": "Haven Star Chart (v2.1 cosmology)",
+      "intents": ["haven", "star chart", "seals map", "constellation", "galaxy", "nebula", "cluster", "cosmology", "submit seal", "agent portal", "lattice feed"],
       "urls": {
         "stack": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
         "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
         "feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+        "cosmology_doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/HAVEN_COSMOLOGY.md",
+        "registry": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_data.json",
         "excavationpro": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html"
       },
       "clawhub_skill": "lygo-haven-star-chart",

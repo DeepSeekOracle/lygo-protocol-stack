@@ -17,7 +17,11 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 
 ### Key Interactive Pages
 - Sovereign Lattice Mesh (SLM): https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (mirror: https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html)
-- Eternal Haven Star Chart: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
+- Eternal Haven Star Chart (v2.1 cosmology): https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
+  - Agent Portal: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html
+  - Registry JSON: `haven_star_chart/haven_star_chart_data.json` (`cosmos` block: galaxies, nebulae, clusters)
+  - Docs: docs/HAVEN_STAR_CHART.md · docs/HAVEN_COSMOLOGY.md · docs/haven_star_chart/AGENT_PORTAL.md
+  - ClawHub skill: https://clawhub.ai/deepseekoracle/lygo-haven-star-chart
 - Phase 7 Biometric Entropy Harness: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html (mirror: https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html)
 - LYGO BPM Finder: https://bpmfinder.ca/ (Pages mirrors: LYGO_BPM_Finder.html, LYGOBPMFinder.html)
 - LYGO Compass Master: https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html

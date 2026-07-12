@@ -59,4 +59,8 @@ https://clawhub.ai/deepseekoracle
 
 See GitHub `docs/LYGO_LATTICE.md` and `tools/verify_lattice_alignment.py`.
 
+## Eternal Haven Star Chart (v2.1)
+
+Interactive cosmology map (galaxies · nebulae · clusters): [HavenStarChart.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html) · registry includes `cosmos` block · [HAVEN_COSMOLOGY.md](https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/HAVEN_COSMOLOGY.md)
+
 **Δ9Φ963-STACK-HF-v2**

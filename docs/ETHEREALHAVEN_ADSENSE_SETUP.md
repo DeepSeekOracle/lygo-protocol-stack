@@ -5,7 +5,8 @@
 ## On Haven Star Chart page (done in repo)
 
 - Verification meta: `<meta name="google-adsense-account" content="ca-pub-0646320966060599">` in `<head>`
-- AdSense loader script in `<head>` of `docs/HavenStarChart.html`
+- AdSense loader script in `<head>` of `docs/HavenStarChart.html` and `docs/HavenStarChartPortal.html`
+- v2.1 cosmology UI (galaxy/nebula halos) — see `docs/HAVEN_COSMOLOGY.md`
 
 ## Excavationpro.ca main hub (`legacy-guardian-music.html`)
 

@@ -68,7 +68,7 @@ python tools/build_haven_star_chart.py
 
 Outputs:
 
-- `docs/haven_star_chart/haven_star_chart_data.json`
+- `docs/haven_star_chart/haven_star_chart_data.json` (includes `cosmos`: galaxies, nebulae, clusters; per-node `cosmos` placement)
 - `docs/haven_star_chart/haven_star_chart_meta.json`
 - `docs/haven_star_chart/haven_star_chart_queue.json`
 - `docs/haven_star_chart_data.json` (Pages alias)
