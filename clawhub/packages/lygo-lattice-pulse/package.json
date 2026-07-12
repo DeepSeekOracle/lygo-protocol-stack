@@ -1,0 +1,53 @@
+{
+  "name": "@deepseekoracle/lygo-lattice-pulse",
+  "version": "1.0.0",
+  "description": "LYGO Lattice Pulse — live Haven registry heartbeat, local stack verify, and P0 quick-scan tools for OpenClaw agents",
+  "type": "module",
+  "license": "MIT-0",
+  "dependencies": {
+    "typebox": "1.1.39"
+  },
+
+  "openclaw": {
+    "extensions": ["./src/index.ts"],
+    "runtimeExtensions": ["./dist/index.js"],
+    "install": {
+      "clawhubSpec": "clawhub:@deepseekoracle/lygo-lattice-pulse",
+      "npmSpec": "@deepseekoracle/lygo-lattice-pulse",
+      "defaultChoice": "clawhub",
+      "minHostVersion": ">=2026.6.11"
+    },
+    "compat": {
+      "pluginApi": ">=2026.6.11",
+      "minGatewayVersion": "2026.6.9"
+    },
+    "build": {
+      "openclawVersion": "2026.6.11",
+      "pluginSdkVersion": "2026.6.11",
+      "bundledDist": false
+    },
+    "release": {
+      "publishToClawHub": true,
+      "publishToNpm": false
+    }
+  },
+  "files": [
+    "dist/**",
+    "openclaw.plugin.json",
+    "README.md",
+    "skills/**"
+  ],
+
+  "peerDependencies": {
+    "openclaw": ">=2026.6.11"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": { "optional": true }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "directory": "clawhub/packages/lygo-lattice-pulse"
+  },
+  "keywords": ["lygo", "lattice", "openclaw", "haven", "p0", "agent-tools", "verification"]
+}

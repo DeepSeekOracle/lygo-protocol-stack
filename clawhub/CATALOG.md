@@ -17,6 +17,12 @@ npx clawhub@latest install deepseekoracle/<slug>
 | [lygo-network-builder](https://clawhub.ai/deepseekoracle/lygo-network-builder) | LYGO Network Builder | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-network-builder/) |
 | [lygo-haven-star-chart](https://clawhub.ai/deepseekoracle/lygo-haven-star-chart) | LYGO Haven Star Chart Agent Portal (v2.1 cosmology) | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-haven-star-chart/) |
 | [lygo-lattice-birth](https://clawhub.ai/deepseekoracle/lygo-lattice-birth) | LYGO Lattice Birth (masked human identity + family lineage) | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-lattice-birth/) |
+
+## OpenClaw plugins (packages)
+
+| Package | Name | Version | Path |
+|---------|------|---------|------|
+| [@deepseekoracle/lygo-lattice-pulse](https://clawhub.ai/deepseekoracle/lygo-lattice-pulse) | LYGO Lattice Pulse | `1.0.0` | [package](./packages/lygo-lattice-pulse/) |
 | [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
