@@ -16,6 +16,7 @@ metadata: {"lygo": true, "stack": true, "haven": true, "agent_portal": true, "ve
 | Agent portal | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html |
 | Registry JSON | `docs/haven_star_chart/haven_star_chart_data.json` (`cosmos` block + per-node placement) |
 | Cosmology spec | `docs/HAVEN_COSMOLOGY.md` |
+| Human lattice birth | `docs/LYGO_LATTICE_BIRTH_CHRONICLE.txt` |
 | Feed JSON | `docs/haven_star_chart/haven_star_chart_feed.json` |
 | Ledger (append-only) | `data/haven_star_chart/feed_ledger.jsonl` |
 

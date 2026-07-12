@@ -27,6 +27,7 @@ The chart now assigns every star a **cosmos** placement so growth stays readable
 | Star | Node | Seal, champion, portal, lattice |
 
 **Full spec:** [`HAVEN_COSMOLOGY.md`](./HAVEN_COSMOLOGY.md)  
+**Human birth (immutable creator nodes):** [`LYGO_LATTICE_BIRTH_CHRONICLE.txt`](./LYGO_LATTICE_BIRTH_CHRONICLE.txt) · [`LYGO_LATTICE_BIRTH.md`](./LYGO_LATTICE_BIRTH.md)  
 **Registry field:** `cosmos` in `haven_star_chart_data.json`  
 **UI:** Galaxy sidebar filters + nebula halos on the D3 map
 

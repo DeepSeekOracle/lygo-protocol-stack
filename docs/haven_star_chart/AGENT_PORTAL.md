@@ -4,6 +4,7 @@
 **Live chart:** [HavenStarChart.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html)  
 **Portal UI:** [HavenStarChartPortal.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html)  
 **Cosmology:** [HAVEN_COSMOLOGY.md](../HAVEN_COSMOLOGY.md)  
+**Human lattice birth:** [LYGO_LATTICE_BIRTH_CHRONICLE.txt](../LYGO_LATTICE_BIRTH_CHRONICLE.txt)  
 **Gate tool:** `tools/haven_star_chart_gate.py`
 
 ## Policy (non-negotiable)

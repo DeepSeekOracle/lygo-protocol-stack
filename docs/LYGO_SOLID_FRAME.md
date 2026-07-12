@@ -26,6 +26,7 @@ Doc: [`LYGO_SECURITY_TAMPER_AUDIT.md`](./LYGO_SECURITY_TAMPER_AUDIT.md)
 | Haven data (canonical) | …/haven_star_chart/haven_star_chart_data.json (`cosmos` block) |
 | Haven data (LYRA alias) | …/haven_star_chart_data.json — same bytes as canonical |
 | Haven cosmology spec | docs/HAVEN_COSMOLOGY.md |
+| Human lattice birth | docs/LYGO_LATTICE_BIRTH_CHRONICLE.txt |
 
 Check: `python tools/verify_joy_pages_snapshot.py` · `python tools/verify_internet_lattice_sweep.py`
 
