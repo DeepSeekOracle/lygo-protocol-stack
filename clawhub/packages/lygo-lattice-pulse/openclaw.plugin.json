@@ -1,37 +1,36 @@
 {
   "id": "lygo-lattice-pulse",
   "name": "LYGO Lattice Pulse",
-  "description": "Live Haven Star Chart heartbeat, local lygo-protocol-stack verification, and P0 quick-scan tools for aligned agents.",
-  "version": "1.0.0",
+  "description": "Live Haven heartbeat, stack verify, registry compare, star chart gate, and alignment readiness for LYGO OpenClaw agents.",
+  "version": "1.1.0",
+  "icon": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-haven-star-chart.jpg",
   "activation": {
     "onStartup": false
   },
   "skills": ["./skills"],
   "catalog": {
     "featured": true,
-    "order": 5
+    "order": 3
   },
   "contracts": {
     "tools": [
       "lygo_lattice_pulse",
       "lygo_lattice_verify",
+      "lygo_registry_compare",
+      "lygo_star_chart_gate",
       "lygo_p0_quick_scan",
-      "lygo_consent_checklist"
+      "lygo_consent_checklist",
+      "lygo_alignment_ready"
     ]
   },
   "toolMetadata": {
-    "lygo_lattice_pulse": {
-      "optional": false
-    },
-    "lygo_lattice_verify": {
-      "optional": true
-    },
-    "lygo_p0_quick_scan": {
-      "optional": true
-    },
-    "lygo_consent_checklist": {
-      "optional": false
-    }
+    "lygo_lattice_pulse": { "optional": false },
+    "lygo_consent_checklist": { "optional": false },
+    "lygo_alignment_ready": { "optional": false },
+    "lygo_lattice_verify": { "optional": true },
+    "lygo_registry_compare": { "optional": true },
+    "lygo_star_chart_gate": { "optional": true },
+    "lygo_p0_quick_scan": { "optional": true }
   },
   "uiHints": {
     "stackRoot": {
@@ -49,12 +48,8 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "stackRoot": {
-        "type": "string"
-      },
-      "pagesBase": {
-        "type": "string"
-      }
+      "stackRoot": { "type": "string" },
+      "pagesBase": { "type": "string" }
     }
   }
 }

@@ -2,20 +2,35 @@
 
 | Package | Type | ClawHub |
 |---------|------|---------|
-| [@deepseekoracle/lygo-lattice-pulse](./packages/lygo-lattice-pulse/) | Code Plugin | https://clawhub.ai/deepseekoracle/lygo-lattice-pulse |
+| [@deepseekoracle/lygo-lattice-pulse](./packages/lygo-lattice-pulse/) | Code Plugin · v1.1.0 | https://clawhub.ai/deepseekoracle/lygo-lattice-pulse |
 
-## Publish
+Registry: [`packages.json`](./packages.json)
+
+## Install (OpenClaw)
+
+```bash
+openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
+```
+
+## Tools (v1.1)
+
+- `lygo_alignment_ready` — composite LIVE readiness
+- `lygo_lattice_pulse` — live Haven registry pulse
+- `lygo_registry_compare` — local vs Pages SHA
+- `lygo_star_chart_gate` — Python gate on submissions
+- `lygo_lattice_verify`, `lygo_p0_quick_scan`, `lygo_consent_checklist`
+
+## Publish (Windows)
+
+```powershell
+.\tools\publish_lygo_lattice_pulse.ps1 -Version 1.1.0
+```
+
+Manual:
 
 ```bash
 cd clawhub/packages/lygo-lattice-pulse
+npm run build
 clawhub package validate .
-clawhub package publish . --family code-plugin --name @deepseekoracle/lygo-lattice-pulse --display-name "LYGO Lattice Pulse" --version 1.0.0
-```
-
-Or from GitHub after push:
-
-```bash
-clawhub package publish DeepSeekOracle/lygo-protocol-stack \
-  --source-path clawhub/packages/lygo-lattice-pulse \
-  --family code-plugin --name @deepseekoracle/lygo-lattice-pulse --version 1.0.0
+# pack tgz, then clawhub package publish <tgz> --source-repo ... --source-commit ...
 ```

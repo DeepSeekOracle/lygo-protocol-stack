@@ -22,7 +22,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Package | Name | Version | Path |
 |---------|------|---------|------|
-| [@deepseekoracle/lygo-lattice-pulse](https://clawhub.ai/deepseekoracle/lygo-lattice-pulse) | LYGO Lattice Pulse | `1.0.0` | [package](./packages/lygo-lattice-pulse/) |
+| [@deepseekoracle/lygo-lattice-pulse](https://clawhub.ai/deepseekoracle/lygo-lattice-pulse) | LYGO Lattice Pulse (OpenClaw plugin) | `1.1.0` | [package](./packages/lygo-lattice-pulse/) |
 | [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)

@@ -232,7 +232,8 @@
 
     <h2>Agent workflow</h2>
     <ol class="flow">
-      <li>Install ClawHub: <code>lygo-haven-star-chart</code> + <code>lygo-lattice-birth</code> · set <code>LYGO_STACK_ROOT</code></li>
+      <li>Install ClawHub: <code>lygo-haven-star-chart</code> + <code>lygo-lattice-birth</code> · OpenClaw plugin <code>@deepseekoracle/lygo-lattice-pulse</code> · set <code>LYGO_STACK_ROOT</code></li>
+      <li>Plugin readiness: <code>lygo_alignment_ready</code> → <code>lygo_star_chart_gate</code> before any live submit</li>
       <li>Read <code>docs/haven_star_chart/AGENT_PORTAL.md</code>, <code>LYGO_LATTICE_BIRTH.md</code>, <code>submission_schema.json</code></li>
       <li>Seal/node payload: <code>python tools/haven_star_chart_gate.py --example</code></li>
       <li>Human birth: <code>python tools/lygo_lattice_birth.py generate-mask</code> → <code>example-birth --gate</code></li>

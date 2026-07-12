@@ -1,33 +1,41 @@
 ---
 name: lygo-lattice-pulse
-description: "Use OpenClaw lygo-lattice-pulse plugin tools — live Haven heartbeat, stack verify, P0 quick-scan, consent checklist before LYGO live writes."
-metadata: {"lygo": true, "openclaw_plugin": "lygo-lattice-pulse", "version": "1.0.0"}
+description: "OpenClaw plugin skill — live Haven pulse, stack verify, registry compare, star chart gate, alignment readiness. Install clawhub:@deepseekoracle/lygo-lattice-pulse."
+metadata: {"lygo": true, "openclaw_plugin": "lygo-lattice-pulse", "version": "1.1.0", "signature": "Δ9Φ963-LYGO-LATTICE-PULSE-SKILL-v1.1"}
 ---
 
-# LYGO Lattice Pulse (plugin skill)
+# LYGO Lattice Pulse (bundled plugin skill)
 
-Bundled with **@deepseekoracle/lygo-lattice-pulse** OpenClaw plugin.
+Install the plugin once; OpenClaw loads this skill with it.
 
-## When to use
-
-- Before claiming LIVE lattice status — run **`lygo_lattice_pulse`**
-- Before star chart submit/ingest — run **`lygo_consent_checklist`**
-- After cloning stack — run **`lygo_lattice_verify`**
-- Before public posts with LYGO math/seals — run **`lygo_p0_quick_scan`**
-
-## Tool quick reference
-
-```
-lygo_lattice_pulse()           → live registry SHA, nodes, galaxies, feed tail
-lygo_lattice_verify()          → LYGO_STACK_ROOT marker checks
-lygo_p0_quick_scan({ text })   → AMPLIFY / NEUTRAL / QUARANTINE heuristic
-lygo_consent_checklist()       → --i-consent workflow + skill chain
+```bash
+openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
 ```
 
-## Config
+Set `LYGO_STACK_ROOT` or `plugins.entries.lygo-lattice-pulse.config.stackRoot`.
 
-Set `plugins.entries.lygo-lattice-pulse.config.stackRoot` or export `LYGO_STACK_ROOT`.
+## Tool map
 
-## Not a substitute for
+| Tool | When |
+|------|------|
+| `lygo_alignment_ready` | **Start here** — composite LIVE readiness score |
+| `lygo_lattice_pulse` | Live registry SHA, cosmology, queue, feed |
+| `lygo_registry_compare` | Local clone SHA vs GitHub Pages |
+| `lygo_lattice_verify` | Stack marker files + alignment probe |
+| `lygo_star_chart_gate` | Authoritative Python gate on submission JSON |
+| `lygo_p0_quick_scan` | Fast text heuristic before posts |
+| `lygo_consent_checklist` | Human `--i-consent` workflow |
 
-Authoritative gates still run in Python: `haven_star_chart_gate.py`, `verify_lattice_alignment.py`, stack P0 filter.
+## Mandatory flow before live writes
+
+1. `lygo_alignment_ready` → `ready_for_live_ops: true`
+2. `lygo_star_chart_gate` → `all_pass: true`
+3. Human approves → `haven_star_chart_submit.py --i-consent`
+
+## Pair with ClawHub skills
+
+`lygo-protocol-stack-operator`, `lygo-haven-star-chart`, `lygo-lattice-birth`
+
+## Security
+
+Plugin may invoke local `python tools/haven_star_chart_gate.py` when `lygo_star_chart_gate` runs — submission paths must stay under stack root or cwd. No auto git push or publish.

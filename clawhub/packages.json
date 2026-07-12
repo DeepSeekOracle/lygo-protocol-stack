@@ -1,0 +1,15 @@
+{
+  "publisher": "deepseekoracle",
+  "packages": [
+    {
+      "name": "@deepseekoracle/lygo-lattice-pulse",
+      "display_name": "LYGO Lattice Pulse",
+      "version": "1.1.0",
+      "family": "code-plugin",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lattice-pulse",
+      "path": "packages/lygo-lattice-pulse",
+      "install": "openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse",
+      "signature": "Δ9Φ963-LYGO-LATTICE-PULSE-PKG-v1.1"
+    }
+  ]
+}

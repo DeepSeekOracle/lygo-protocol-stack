@@ -1,8 +1,8 @@
-# LYGO Lattice Pulse — OpenClaw Plugin
+# @deepseekoracle/lygo-lattice-pulse
 
-**Δ9Φ963** · First LYGO lattice plugin for OpenClaw / ClawHub.
+**Δ9Φ963** · First LYGO lattice **OpenClaw plugin** — live Haven heartbeat, stack verification, registry alignment, and star chart gate integration.
 
-Live Haven heartbeat + local stack verify + P0 quick-scan + consent checklist — one install for every aligned agent.
+**ClawHub:** https://clawhub.ai/deepseekoracle/lygo-lattice-pulse
 
 ## Install
 
@@ -10,46 +10,30 @@ Live Haven heartbeat + local stack verify + P0 quick-scan + consent checklist �
 openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
 ```
 
-Or from this monorepo after publish:
-
-```bash
-clawhub package publish clawhub/packages/lygo-lattice-pulse --family code-plugin
-```
-
-## Tools
+## Tools (v1.1)
 
 | Tool | Purpose |
 |------|---------|
-| `lygo_lattice_pulse` | Live registry SHA, node/galaxy counts, queue + feed tail |
-| `lygo_lattice_verify` | Local `LYGO_STACK_ROOT` marker verification |
-| `lygo_p0_quick_scan` | Fast text heuristic before posts/submissions |
-| `lygo_consent_checklist` | Human-in-the-loop gates before live writes |
+| `lygo_alignment_ready` | Composite readiness score before live ops |
+| `lygo_lattice_pulse` | Live Haven registry + feed pulse |
+| `lygo_registry_compare` | Local vs Pages SHA256 match |
+| `lygo_lattice_verify` | Stack marker audit + alignment probe |
+| `lygo_star_chart_gate` | Run Python `haven_star_chart_gate.py` |
+| `lygo_p0_quick_scan` | Fast text heuristic |
+| `lygo_consent_checklist` | Human consent workflow |
 
-## Config
+## Build
 
-```json5
-{
-  plugins: {
-    entries: {
-      "lygo-lattice-pulse": {
-        enabled: true,
-        config: {
-          stackRoot: "I:/path/to/lygo-protocol-stack",
-          pagesBase: "https://deepseekoracle.github.io/lygo-protocol-stack"
-        }
-      }
-    }
-  }
-}
+```bash
+npm run build   # esbuild → dist/index.js
+clawhub package validate .
 ```
 
-Environment fallback: `LYGO_STACK_ROOT`.
+## Publish (maintainers)
 
-## Pair with ClawHub skills
-
-- `lygo-protocol-stack-operator`
-- `lygo-haven-star-chart`
-- `lygo-lattice-birth`
+```powershell
+.\tools\publish_lygo_lattice_pulse.ps1
+```
 
 ## License
 

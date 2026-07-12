@@ -67,6 +67,8 @@ python tools/verify_lattice_alignment.py
 
 **Human lattice birth:** install **lygo-lattice-birth** for masked identity (`NODE_LYGO_*`), family `bind_proof`, and `GALAXY_LINEAGE_*` cosmology.
 
+**OpenClaw plugin (recommended):** `openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse` — live pulse, registry compare, `lygo_star_chart_gate`, `lygo_alignment_ready` before live writes.
+
 Optional: `lygo-kernel-egg-planter`, `lygo-ops-detector` (rival deception drills), `lyra-openclaw` (runtime router).
 
 ## Workflow (human-in-the-loop)
