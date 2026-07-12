@@ -1,6 +1,15 @@
 {
-  "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v1",
-  "generated_utc": "2026-07-08T02:17:13.895374+00:00",
-  "registry_sha256": "fdfa3cecce6cdac2293bffa90fb2bb5f9ab5e4602fe8c42f392e89b4b2c1ba2d",
-  "node_count": 399
+  "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2",
+  "generated_utc": "2026-07-12T16:20:16.408799+00:00",
+  "registry_sha256": "5c1611b09ebf37e67d1782bf89a841d9fed6a2bdbdd6afb5981504cdf77d506a",
+  "node_count": 401,
+  "submission_queue": {
+    "pending": 0,
+    "accepted": 1,
+    "agent_submissions_merged": 1,
+    "ingest_notes": [
+      "merged:SEAL_401"
+    ]
+  },
+  "portal_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html"
 }

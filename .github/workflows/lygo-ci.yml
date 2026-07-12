@@ -39,3 +39,8 @@ jobs:
 
       - name: Alignment badge (full)
         run: python tools/verify_alignment_badge.py --format=json
+
+      - name: Haven Star Chart gate smoke
+        run: |
+          python tools/haven_star_chart_gate.py --example > /tmp/hsc_example.json
+          python tools/haven_star_chart_gate.py /tmp/hsc_example.json

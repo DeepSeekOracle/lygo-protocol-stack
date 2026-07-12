@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/submission_schema.json",
+  "title": "Haven Star Chart Agent Submission",
+  "signature": "Δ9Φ963-HAVEN-STAR-SUBMISSION-v1",
+  "type": "object",
+  "required": ["signature", "submitter_type", "agent_attestation", "node", "content_sha256"],
+  "additionalProperties": false,
+  "properties": {
+    "signature": { "const": "Δ9Φ963-HAVEN-STAR-SUBMISSION-v1" },
+    "submitter_type": { "enum": ["aligned_agent"] },
+    "supersedes": { "type": "string", "description": "Optional prior node id if replacing" },
+    "content_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "agent_attestation": {
+      "type": "object",
+      "required": [
+        "agent_id",
+        "skill_slug",
+        "scan_cue",
+        "local_gate_pass",
+        "gate_tool",
+        "gate_version",
+        "validated_utc",
+        "content_sha256"
+      ],
+      "properties": {
+        "agent_id": { "type": "string" },
+        "skill_slug": { "type": "string" },
+        "scan_cue": { "type": "string", "minLength": 20 },
+        "local_gate_pass": { "const": true },
+        "gate_tool": { "const": "haven_star_chart_gate.py" },
+        "gate_version": { "type": "string" },
+        "validated_utc": { "type": "string" },
+        "content_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "kind", "name", "equation", "connections"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^(SEAL_|CHAMPION_|LATTICE_|PORTAL_|NODE_)" },
+        "kind": { "enum": ["seal", "champion", "lattice", "portal", "node", "champion_egg"] },
+        "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "equation": { "type": "string", "minLength": 3 },
+        "glyph": { "type": "string", "maxLength": 8 },
+        "tone": { "type": "string", "maxLength": 32 },
+        "tags": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "connections": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "urls": { "type": "object" },
+        "layer": { "type": "integer", "minimum": 0, "maximum": 4 }
+      }
+    }
+  }
+}

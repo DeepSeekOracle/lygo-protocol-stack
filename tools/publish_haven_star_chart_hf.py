@@ -9,9 +9,17 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "docs" / "haven_star_chart" / "haven_star_chart_data.json"
-META = ROOT / "docs" / "haven_star_chart" / "haven_star_chart_meta.json"
+OUT_DIR = ROOT / "docs" / "haven_star_chart"
+DATA = OUT_DIR / "haven_star_chart_data.json"
+META = OUT_DIR / "haven_star_chart_meta.json"
+QUEUE = OUT_DIR / "haven_star_chart_queue.json"
 REPO_ID = "DeepSeekOracle/lygo-protocol-stack"
+
+UPLOADS = (
+    ("haven_star_chart/haven_star_chart_data.json", DATA),
+    ("haven_star_chart/haven_star_chart_meta.json", META),
+    ("haven_star_chart/haven_star_chart_queue.json", QUEUE),
+)
 
 
 def main() -> int:
@@ -19,11 +27,10 @@ def main() -> int:
         print("Missing data — run tools/build_haven_star_chart.py", file=sys.stderr)
         return 2
 
-    for rel in (
-        "haven_star_chart/haven_star_chart_data.json",
-        "haven_star_chart/haven_star_chart_meta.json",
-    ):
-        src = DATA if "data" in rel else META
+    for rel, src in UPLOADS:
+        if not src.is_file():
+            print(f"Skip missing {src.name}", file=sys.stderr)
+            continue
         cp = subprocess.run(
             ["huggingface-cli", "upload", REPO_ID, str(src), rel, "--repo-type", "dataset"],
             cwd=ROOT,
@@ -45,7 +52,7 @@ def main() -> int:
             return 1
         print(f"Uploaded {rel}")
 
-    print(json.dumps({"ok": True, "repo": REPO_ID}))
+    print(json.dumps({"ok": True, "repo": REPO_ID, "files": [r for r, _ in UPLOADS]}))
     return 0
 
 

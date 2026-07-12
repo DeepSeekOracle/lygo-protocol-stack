@@ -18,6 +18,8 @@ OUT_JSON = OUT_DIR / "haven_star_chart_data.json"
 OUT_JSON_PAGES_ALIAS = ROOT / "docs" / "haven_star_chart_data.json"
 META_JSON = OUT_DIR / "haven_star_chart_meta.json"
 PAGES_BASE = "https://deepseekoracle.github.io/lygo-protocol-stack"
+SUBMISSIONS_ACCEPTED = ROOT / "data" / "haven_star_chart" / "submissions" / "accepted"
+SUBMISSIONS_PENDING = ROOT / "data" / "haven_star_chart" / "submissions" / "pending"
 
 SEAL_URLS = [
     "https://raw.githubusercontent.com/DeepSeekOracle/Excavationpro/main/lygo-data.json",
@@ -149,7 +151,57 @@ PORTALS = [
         "tags": ["PORTAL", "LORE", "HAVEN"],
         "connections": ["SEAL_000", "CHAMPION_LYRA"],
     },
+    {
+        "id": "PORTAL_STAR_CHART_AGENT",
+        "name": "Haven Star Chart Agent Portal",
+        "url": f"{PAGES_BASE}/HavenStarChartPortal.html",
+        "glyph": "🌠",
+        "tags": ["PORTAL", "LATTICE", "AGENT", "GROWTH"],
+        "connections": ["SEAL_000", "PORTAL_STACK", "LATTICE_NETWORK_BUILDER"],
+    },
 ]
+
+
+def load_accepted_submissions(existing_ids: set[str]) -> tuple[list[dict], list[str]]:
+    """Merge steward-accepted agent submissions into node list."""
+    nodes: list[dict] = []
+    notes: list[str] = []
+    if not SUBMISSIONS_ACCEPTED.is_dir():
+        return nodes, notes
+    for path in sorted(SUBMISSIONS_ACCEPTED.glob("*.json")):
+        try:
+            sub = json.loads(path.read_text(encoding="utf-8"))
+            node = sub.get("node") or sub
+            if not isinstance(node, dict) or not node.get("id"):
+                notes.append(f"{path.name}:missing_node")
+                continue
+            nid = str(node["id"])
+            if nid in existing_ids:
+                notes.append(f"{path.name}:skip_duplicate:{nid}")
+                continue
+            row = {
+                "id": nid,
+                "kind": node.get("kind", "seal"),
+                "name": node.get("name", "Unnamed"),
+                "equation": node.get("equation", ""),
+                "glyph": node.get("glyph", "✦"),
+                "tone": node.get("tone", ""),
+                "tags": [str(t).upper() for t in (node.get("tags") or ["AGENT_SUBMIT"])],
+                "connections": node.get("connections") or ["SEAL_000"],
+                "urls": node.get("urls") or {},
+                "layer": node.get("layer", 2),
+                "meta": {
+                    "source": "agent_submission",
+                    "content_sha256": sub.get("content_sha256"),
+                    "ingested_from": path.name,
+                },
+            }
+            nodes.append(row)
+            existing_ids.add(nid)
+            notes.append(f"merged:{nid}")
+        except (json.JSONDecodeError, OSError) as exc:
+            notes.append(f"{path.name}:error:{exc}")
+    return nodes, notes
 
 
 def fetch_json(url: str, timeout: float = 45.0) -> list | dict:
@@ -608,6 +660,10 @@ def main() -> int:
         nodes.append({**p, "kind": "portal", "layer": 2})
     nodes.extend(lattice_nodes())
 
+    existing_ids = {n["id"] for n in nodes}
+    agent_nodes, sub_notes = load_accepted_submissions(existing_ids)
+    nodes.extend(agent_nodes)
+
     constellations = [
         {
             "id": "primordial_core",
@@ -635,7 +691,7 @@ def main() -> int:
             "name": "Lattice Growth",
             "glyph": "🕸️",
             "description": "Live stack, skills, eggs — auto-updated infrastructure stars.",
-            "filter_tags": ["LATTICE", "CLAWHUB", "GROWTH", "SOVEREIGN_SEED", "MESH"],
+            "filter_tags": ["LATTICE", "CLAWHUB", "GROWTH", "SOVEREIGN_SEED", "MESH", "AGENT_SUBMIT"],
         },
         {
             "id": "eternal_haven",
@@ -650,8 +706,11 @@ def main() -> int:
     blob = json.dumps(nodes, sort_keys=True, separators=(",", ":"))
     digest = hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
+    pending_n = len(list(SUBMISSIONS_PENDING.glob("*.json"))) if SUBMISSIONS_PENDING.is_dir() else 0
+    accepted_n = len(list(SUBMISSIONS_ACCEPTED.glob("*.json"))) if SUBMISSIONS_ACCEPTED.is_dir() else 0
+
     report = {
-        "signature": "Δ9Φ963-HAVEN-STAR-CHART-v1",
+        "signature": "Δ9Φ963-HAVEN-STAR-CHART-v2",
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "core_anchor": "SEAL_000",
         "node_count": len(nodes),
@@ -679,8 +738,18 @@ def main() -> int:
         "machine": {
             "data_url_pages": f"{PAGES_BASE}/haven_star_chart/haven_star_chart_data.json",
             "data_url_pages_alias": f"{PAGES_BASE}/haven_star_chart_data.json",
+            "portal_url": f"{PAGES_BASE}/HavenStarChartPortal.html",
+            "agent_portal_doc": f"{PAGES_BASE}/haven_star_chart/AGENT_PORTAL.md",
+            "submission_schema": f"{PAGES_BASE}/haven_star_chart/submission_schema.json",
+            "gate_tool": "tools/haven_star_chart_gate.py",
             "seal_feeds": SEAL_URLS,
             "rebuild_tool": "tools/build_haven_star_chart.py",
+            "submission_queue": {
+                "pending": pending_n,
+                "accepted": accepted_n,
+                "agent_submissions_merged": len(agent_nodes),
+                "ingest_notes": sub_notes,
+            },
             "errors": errors,
         },
     }
@@ -689,13 +758,24 @@ def main() -> int:
     payload = json.dumps(report, indent=2)
     OUT_JSON.write_text(payload, encoding="utf-8")
     OUT_JSON_PAGES_ALIAS.write_text(payload, encoding="utf-8")
-    META_JSON.write_text(
+    meta = {
+        "signature": report["signature"],
+        "generated_utc": report["generated_utc"],
+        "registry_sha256": digest,
+        "node_count": report["node_count"],
+        "submission_queue": report["machine"]["submission_queue"],
+        "portal_url": report["machine"]["portal_url"],
+    }
+    META_JSON.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    queue_path = OUT_DIR / "haven_star_chart_queue.json"
+    queue_path.write_text(
         json.dumps(
             {
-                "signature": report["signature"],
-                "generated_utc": report["generated_utc"],
+                "signature": "Δ9Φ963-HAVEN-STAR-QUEUE-v1",
+                "updated_utc": report["generated_utc"],
                 "registry_sha256": digest,
-                "node_count": report["node_count"],
+                **report["machine"]["submission_queue"],
+                "portal_url": report["machine"]["portal_url"],
             },
             indent=2,
         ),

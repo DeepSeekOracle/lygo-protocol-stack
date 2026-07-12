@@ -230,7 +230,7 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 **GitHub Pages & Interactive Surfaces**
 - Main Stack Reference: https://deepseekoracle.github.io/lygo-protocol-stack/
 - Sovereign Lattice Mesh (SLM interactive): https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html (mirror: https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html)
-- Eternal Haven Star Chart: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html + https://deepseekoracle.github.io/Excavationpro/lygorepo.html
+- Eternal Haven Star Chart (v2 LIVE): https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html · Agent Portal: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html · legacy: https://deepseekoracle.github.io/Excavationpro/lygorepo.html
 - Phase 7 Biometric Entropy Harness: https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html (mirror: https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html)
 - LYGO BPM Finder: https://bpmfinder.ca/ (Pages mirrors: LYGO_BPM_Finder.html, Excavationpro LYGOBPMFinder.html)
 - LYGO Compass Master: https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html
