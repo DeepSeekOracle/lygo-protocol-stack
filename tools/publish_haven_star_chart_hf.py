@@ -32,7 +32,7 @@ def main() -> int:
             print(f"Skip missing {src.name}", file=sys.stderr)
             continue
         cp = subprocess.run(
-            ["huggingface-cli", "upload", REPO_ID, str(src), rel, "--repo-type", "dataset"],
+            ["hf", "upload", REPO_ID, str(src), rel, "--repo-type", "dataset"],
             cwd=ROOT,
             capture_output=True,
             text=True,
@@ -43,7 +43,7 @@ def main() -> int:
                 json.dumps(
                     {
                         "ok": False,
-                        "hint": "pip install huggingface_hub && huggingface-cli login",
+                        "hint": "pip install huggingface_hub && hf auth login",
                         "local_path": str(src),
                         "dataset_path": rel,
                     }
