@@ -781,7 +781,31 @@ def main() -> int:
         ),
         encoding="utf-8",
     )
-    print(json.dumps({"ok": True, "nodes": len(nodes), "links": len(links), "sha256": digest[:16]}, indent=2))
+
+    import sys
+
+    sys.path.insert(0, str(ROOT / "tools"))
+    from haven_star_chart_feed import publish_feed  # noqa: E402
+
+    feed = publish_feed()
+    report["machine"]["feed_url"] = f"{PAGES_BASE}/haven_star_chart/haven_star_chart_feed.json"
+    report["machine"]["feed_chain_valid"] = feed.get("chain_valid")
+    report["machine"]["feed_entry_count"] = feed.get("entry_count")
+    OUT_JSON.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    OUT_JSON_PAGES_ALIAS.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    print(
+        json.dumps(
+            {
+                "ok": True,
+                "nodes": len(nodes),
+                "links": len(links),
+                "sha256": digest[:16],
+                "feed_entries": feed.get("entry_count"),
+            },
+            indent=2,
+        )
+    )
     return 0 if not errors or nodes else 1
 
 

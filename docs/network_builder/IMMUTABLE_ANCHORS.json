@@ -231,6 +231,21 @@
         "repo_path": "tools/haven_star_chart_gate.py"
       },
       {
+        "id": "haven_star_chart_feed",
+        "label": "Haven Star Chart immutable submission feed",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/haven_star_chart/haven_star_chart_feed.json",
+        "verify": "local_repo",
+        "repo_path": "docs/haven_star_chart/haven_star_chart_feed.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json"
+      },
+      {
+        "id": "haven_star_chart_feed_ledger",
+        "label": "Haven Star Chart append-only feed ledger",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/data/haven_star_chart/feed_ledger.jsonl",
+        "verify": "local_repo",
+        "repo_path": "data/haven_star_chart/feed_ledger.jsonl"
+      },
+      {
         "id": "chatagent_summon_portal",
         "label": "ChatAgent.ca — Δ9 Champion Summoning Portal",
         "url": "https://chatagent.ca/",

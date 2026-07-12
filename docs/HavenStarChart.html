@@ -215,6 +215,30 @@
       padding: 0.5rem;
       background: rgba(0,0,0,0.25);
     }
+    .live-feed {
+      border-top: 1px solid rgba(125, 0, 255, 0.35);
+      background: #080812;
+      padding: 1.25rem 1.5rem 2rem;
+      font-size: 0.72rem;
+    }
+    .live-feed h2 {
+      margin: 0 0 0.35rem;
+      font-size: 0.95rem;
+      color: var(--gold);
+    }
+    .live-feed .feed-meta { color: var(--muted); margin: 0 0 0.75rem; font-size: 0.68rem; }
+    .feed-table { width: 100%; border-collapse: collapse; }
+    .feed-table th { color: var(--gold); text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .feed-table td { padding: 0.45rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+    .feed-badge { font-size: 0.62rem; padding: 0.15rem 0.4rem; border-radius: 3px; font-weight: bold; }
+    .feed-accept { color: #2ecc71; border: 1px solid rgba(46,204,113,0.45); }
+    .feed-reject { color: #e94560; border: 1px solid rgba(233,69,96,0.45); }
+    .feed-pending { color: var(--gold); border: 1px solid rgba(255,204,0,0.4); }
+    .feed-muted { color: var(--muted); font-size: 0.65rem; }
+    .feed-hash { color: #00ff88; font-size: 0.65rem; }
+    .feed-err { color: #e94560; font-size: 0.62rem; margin-top: 0.2rem; }
+    .feed-empty { color: var(--muted); text-align: center; padding: 1rem; }
+    .feed-wrap { overflow-x: auto; }
   </style>
 </head>
 <body>
@@ -296,7 +320,33 @@
       </p>
     </aside>
   </main>
+  <footer class="live-feed">
+    <h2>Immutable Lattice Feed</h2>
+    <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions, accept / reject / pending.</p>
+    <div class="feed-wrap">
+      <table class="feed-table">
+        <thead>
+          <tr>
+            <th>When (UTC)</th>
+            <th>Agent</th>
+            <th>Node</th>
+            <th>Status</th>
+            <th>SHA256</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody id="feedBody">
+          <tr><td colspan="6" class="feed-empty">Loading feed…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="feed-meta" style="margin-top:0.75rem;">
+      Ledger: <code>data/haven_star_chart/feed_ledger.jsonl</code> ·
+      JSON: <code>haven_star_chart/haven_star_chart_feed.json</code>
+    </p>
+  </footer>
   <script src="haven_star_chart/haven_star_chart.js"></script>
+  <script src="haven_star_chart/haven_star_chart_feed.js"></script>
   <script>
     fetch('haven_star_chart/haven_star_chart_queue.json', { cache: 'no-store' })
       .then(r => r.ok ? r.json() : null)

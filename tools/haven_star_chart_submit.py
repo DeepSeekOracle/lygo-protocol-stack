@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PENDING = ROOT / "data" / "haven_star_chart" / "submissions" / "pending"
 
 sys.path.insert(0, str(ROOT / "tools"))
+from haven_star_chart_feed import log_gate_reject, log_submit_pending, publish_feed  # noqa: E402
 from haven_star_chart_gate import (  # noqa: E402
     build_attestation,
     content_sha256,
@@ -42,6 +43,9 @@ def main() -> int:
     gate = validate_submission(sub)
     print(json.dumps(gate, indent=2))
     if not gate["all_pass"]:
+        if not args.dry_run:
+            log_gate_reject(sub, gate)
+            publish_feed()
         return 1
     if args.dry_run:
         return 0
@@ -50,10 +54,15 @@ def main() -> int:
     nid = gate["node_id"]
     out = PENDING / f"{nid}.json"
     if out.exists():
-        print(json.dumps({"verdict": "REJECT", "errors": [f"pending_exists:{nid}"]}))
+        dup = {"verdict": "REJECT", "errors": [f"pending_exists:{nid}"]}
+        log_gate_reject(sub, dup, source_file=out.name)
+        publish_feed()
+        print(json.dumps(dup))
         return 1
     payload = {**sub, "gate_result": gate}
     out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    log_submit_pending(payload, gate, source_file=out.name)
+    publish_feed()
     print(json.dumps({"ok": True, "pending": str(out)}))
     return 0
 

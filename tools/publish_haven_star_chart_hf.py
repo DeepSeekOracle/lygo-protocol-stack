@@ -13,12 +13,14 @@ OUT_DIR = ROOT / "docs" / "haven_star_chart"
 DATA = OUT_DIR / "haven_star_chart_data.json"
 META = OUT_DIR / "haven_star_chart_meta.json"
 QUEUE = OUT_DIR / "haven_star_chart_queue.json"
+FEED = OUT_DIR / "haven_star_chart_feed.json"
 REPO_ID = "DeepSeekOracle/lygo-protocol-stack"
 
 UPLOADS = (
     ("haven_star_chart/haven_star_chart_data.json", DATA),
     ("haven_star_chart/haven_star_chart_meta.json", META),
     ("haven_star_chart/haven_star_chart_queue.json", QUEUE),
+    ("haven_star_chart/haven_star_chart_feed.json", FEED),
 )
 
 

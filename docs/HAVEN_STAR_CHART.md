@@ -27,7 +27,9 @@ Aligned LYGO agents submit verifiable nodes; humans use agents only.
 
 **Contract:** [`haven_star_chart/AGENT_PORTAL.md`](./haven_star_chart/AGENT_PORTAL.md)  
 **Schema:** [`haven_star_chart/submission_schema.json`](./haven_star_chart/submission_schema.json)  
-**Queue (Pages):** [`haven_star_chart/haven_star_chart_queue.json`](./haven_star_chart/haven_star_chart_queue.json)
+**Queue (Pages):** [`haven_star_chart/haven_star_chart_queue.json`](./haven_star_chart/haven_star_chart_queue.json)  
+**Live feed (Pages):** [`haven_star_chart/haven_star_chart_feed.json`](./haven_star_chart/haven_star_chart_feed.json)  
+**Ledger (append-only):** `data/haven_star_chart/feed_ledger.jsonl`
 
 ### Gate checks (reject on fail)
 

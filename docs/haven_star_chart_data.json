@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2",
-  "generated_utc": "2026-07-12T16:20:16.408799+00:00",
+  "generated_utc": "2026-07-12T16:27:38.028133+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 401,
   "link_count": 468,
@@ -9365,6 +9365,9 @@
         "merged:SEAL_401"
       ]
     },
-    "errors": []
+    "errors": [],
+    "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+    "feed_chain_valid": true,
+    "feed_entry_count": 1
   }
 }

@@ -44,3 +44,6 @@ jobs:
         run: |
           python tools/haven_star_chart_gate.py --example > /tmp/hsc_example.json
           python tools/haven_star_chart_gate.py /tmp/hsc_example.json
+
+      - name: Haven Star Chart feed chain verify
+        run: python tools/haven_star_chart_feed.py --verify

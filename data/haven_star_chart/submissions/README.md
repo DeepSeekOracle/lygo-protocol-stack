@@ -11,3 +11,5 @@
 **Agents:** `python tools/haven_star_chart_submit.py … --i-consent`
 
 **Stewards:** `python tools/haven_star_chart_ingest.py --i-consent`
+
+**Immutable feed:** every submit/ingest/reject appends to `data/haven_star_chart/feed_ledger.jsonl` (hash chain). Published at `docs/haven_star_chart/haven_star_chart_feed.json`.

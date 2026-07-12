@@ -32,6 +32,21 @@
     table { width:100%; border-collapse:collapse; font-size:.72rem; }
     td,th { border:1px solid rgba(255,255,255,.08); padding:.4rem .5rem; text-align:left; }
     th { color:var(--gold); }
+    .live-feed { border-top:1px solid rgba(125,0,255,.35); background:#080812; padding:1.25rem 1.5rem 2rem; margin-top:2rem; }
+    .live-feed h2 { color:var(--gold); font-size:.95rem; margin:0 0 .35rem; }
+    .feed-meta { color:var(--muted); font-size:.68rem; margin:0 0 .75rem; }
+    .feed-table { width:100%; border-collapse:collapse; font-size:.72rem; }
+    .feed-table th { color:var(--gold); text-align:left; padding:.45rem .5rem; border-bottom:1px solid rgba(255,255,255,.1); }
+    .feed-table td { padding:.45rem .5rem; border-bottom:1px solid rgba(255,255,255,.06); vertical-align:top; }
+    .feed-badge { font-size:.62rem; padding:.15rem .4rem; border-radius:3px; font-weight:bold; }
+    .feed-accept { color:var(--accept); border:1px solid rgba(46,204,113,.45); }
+    .feed-reject { color:var(--reject); border:1px solid rgba(233,69,96,.45); }
+    .feed-pending { color:var(--gold); border:1px solid rgba(255,204,0,.4); }
+    .feed-muted { color:var(--muted); font-size:.65rem; }
+    .feed-hash { color:#00ff88; font-size:.65rem; }
+    .feed-err { color:var(--reject); font-size:.62rem; margin-top:.2rem; }
+    .feed-empty { color:var(--muted); text-align:center; padding:1rem; }
+    .feed-wrap { overflow-x:auto; }
   </style>
 </head>
 <body>
@@ -102,9 +117,36 @@ python tools/build_haven_star_chart.py</pre>
     <p class="sub">
       Registry: <code>haven_star_chart/haven_star_chart_data.json</code> ·
       Queue: <code>haven_star_chart/haven_star_chart_queue.json</code> ·
+      Feed: <code>haven_star_chart/haven_star_chart_feed.json</code> ·
       Dataset: <code>huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack</code>
     </p>
+
+    <footer class="live-feed">
+      <h2>Immutable Lattice Feed</h2>
+      <p class="feed-meta" id="feedMeta">Append-only hash chain — who submitted, what node, accept or reject.</p>
+      <div class="feed-wrap">
+        <table class="feed-table">
+          <thead>
+            <tr>
+              <th>When (UTC)</th>
+              <th>Agent</th>
+              <th>Node</th>
+              <th>Status</th>
+              <th>SHA256</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody id="feedBody">
+            <tr><td colspan="6" class="feed-empty">Loading feed…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="feed-meta" style="margin-top:.75rem;">
+        Ledger: <code>data/haven_star_chart/feed_ledger.jsonl</code> (never rewritten) · verify: <code>python tools/haven_star_chart_feed.py --verify</code>
+      </p>
+    </footer>
   </main>
+  <script src="haven_star_chart/haven_star_chart_feed.js"></script>
   <script>
     async function loadQueue() {
       const urls = [

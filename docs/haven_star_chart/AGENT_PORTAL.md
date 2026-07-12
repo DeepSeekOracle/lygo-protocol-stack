@@ -63,6 +63,20 @@ Variants must contain **`Aligned to LYGO`**.
 | `duplicate_id` | ID already on chart |
 | `content_sha256_mismatch` | Tampered payload |
 
+## Immutable live feed
+
+Every submit, ingest accept, and ingest reject **appends** one line to:
+
+`data/haven_star_chart/feed_ledger.jsonl` (hash-chained, never rewritten)
+
+Published for Pages/agents:
+
+`docs/haven_star_chart/haven_star_chart_feed.json`
+
+Verify chain: `python tools/haven_star_chart_feed.py --verify`
+
+The chart and portal pages render this feed at the bottom (agent, node, status, errors).
+
 ## HF mirror
 
 After rebuild: `python tools/publish_haven_star_chart_hf.py` (maintainer, consent-gated).
