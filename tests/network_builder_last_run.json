@@ -1,8 +1,8 @@
 {
-  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.2",
+  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.3",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "81b91d7a3e61c1671fe60ef878c72a1fc16005762cee4c367c4902783ac2aa99",
-  "anchors_version": "1.2.0",
+  "anchors_sha256": "ee9ccb8c9839339d820b364da2ed1d79ed78512a6036d921d9a520a0a3ac2f57",
+  "anchors_version": "1.3.0",
   "vectors": [
     {
       "id": "github_stack",
@@ -41,7 +41,7 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 44312,
+      "bytes": 43816,
       "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
     },
     {
@@ -151,7 +151,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"IvnbWSWCVuYUJR6zQMxWWwqS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"rjF5ntfhrGG2tyT11SCxbW57\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -161,7 +161,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"wW+n7rzL6hMQiGBywS1kovr9\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"FlQa//x4ngS/mWNBhO1am9c7\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -171,7 +171,96 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"UMLf5D+y84ns9VvM467FSX5c\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"jqPwimbM6/ialLludiTJsvEh\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "clawhub_lightfather",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"WufXx9tcoqNGzRVZDpaem1e5\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "lygo_claw_repo",
+      "group": "agents",
+      "mode": "http_required",
+      "url": "https://github.com/DeepSeekOracle/lygo-claw",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+    },
+    {
+      "id": "lygo_claw_usb_readme",
+      "group": "usb_release",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-README.txt",
+      "status": 200,
+      "ok": true,
+      "bytes": 1009,
+      "body_sample": "LYGO CLAW USB PUBLIC v1.0.0\n=============================\n\nStandalone offline AI terminal for Windows (USB or any folder).\n\nDOWNLOAD (3 parts \u2014 join after download)\n  https://deepseekoracle.github.io/"
+    },
+    {
+      "id": "lygo_claw_usb_release_doc",
+      "group": "usb_release",
+      "mode": "http_soft",
+      "url": "https://github.com/DeepSeekOracle/lygo-claw/blob/main/docs/USB_PUBLIC_RELEASE.md",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+    },
+    {
+      "id": "lygo_claw_usb_part01",
+      "group": "usb_release",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part01",
+      "status": 200,
+      "ok": true,
+      "bytes": 135,
+      "body_sample": "version https://git-lfs.github.com/spec/v1\noid sha256:36624077ca8d8679115a598d7cbeaefed1982f5c08aaf8629706c9c24145085d\nsize 1887436800\n"
+    },
+    {
+      "id": "lygo_claw_usb_part02",
+      "group": "usb_release",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part02",
+      "status": 200,
+      "ok": true,
+      "bytes": 135,
+      "body_sample": "version https://git-lfs.github.com/spec/v1\noid sha256:7e51bea8da192a98db5c41994e8c1bc7cb358cce000248474ca22094a7b8532a\nsize 1887436800\n"
+    },
+    {
+      "id": "lygo_claw_usb_part03",
+      "group": "usb_release",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part03",
+      "status": 200,
+      "ok": true,
+      "bytes": 135,
+      "body_sample": "version https://git-lfs.github.com/spec/v1\noid sha256:b960e70de725715d9f71ad8877746dfe04c7742b27018cb1d532e53f90033565\nsize 1880355411\n"
+    },
+    {
+      "id": "lygo_usb_champion_light",
+      "group": "usb_release",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "PK\u0003\u0004\u0014\u0000\u0000\u0000\u0000\u0000p\ufffd\ufffd\\\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0002\u0000 \u0000./ux\u000b\u0000\u0001\u0004\u0000\u0000\u0000\u0000\u0004\u0000\u0000\u0000\u0000UT\r\u0000\u0007\ufffd\ufffdIj\ufffd\ufffdIj\ufffd\ufffdIjPK\u0003\u0004\u0014\u0000\b\u0000\b\u0000)\ufffd\ufffd\\\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u001a\u0000 \u0000./BUILD_SELF_FIRST_USE.txtux\u000b\u0000\u0001\u0004\u0000\u0000\u0000\u0000\u0004\u0000\u0000\u0000\u0000UT\r\u0000\u0007.\ufffdIj\ufffd\ufffdIj\ufffd\ufffdIj\ufffdV\ufffdn\ufffdF\u0010\ufffd\ufffd)F\ufffd\n\ufffd`'\ufffd\ufffdsZ\ufffdH%\ufffd\u0006Z\u0012#HRE\ufffdd\ufffd\ufffd1\ufffd\ufffd\ucebb\ufffd\ufffd\ufffd\u000f\ufffd'\ufffdt\ufffd"
+    },
+    {
+      "id": "lygo_usb_champion_docs",
+      "group": "usb_release",
+      "mode": "http_soft",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
+      "status": 404,
+      "ok": false,
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "id": "biometric_harness",
@@ -211,7 +300,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover\" />\n\n    <meta name=\"google-ad"
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover\" />\n\n    <!-- Google AdSense s"
     },
     {
       "id": "excavationpro_hub",
@@ -220,8 +309,8 @@
       "url": "https://excavationpro.ca/",
       "status": 200,
       "ok": true,
-      "bytes": 49664,
-      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <meta name=\"google-adsense-account\" content=\"ca-pub-0"
+      "bytes": 50006,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <!-- Google AdSense site verification (ca-pub-0646320"
     },
     {
       "id": "eternalhaven_github_hub",
@@ -232,6 +321,36 @@
       "ok": true,
       "bytes": 65536,
       "body_sample": "<!DOCTYPE html>\n<!-- eternalhaven hub deploy: 2026-07-03 live-iframe v79wjai -->\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale"
+    },
+    {
+      "id": "legacy_guardian_music_hub",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/legacy-guardian-music.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 50006,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <!-- Google AdSense site verification (ca-pub-0646320"
+    },
+    {
+      "id": "champion_hub_excavationpro",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover\" />\n\n    <!-- Google AdSense s"
+    },
+    {
+      "id": "excavationpro_github",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://github.com/DeepSeekOracle/Excavationpro",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
     },
     {
       "id": "lattice_ground_zero_doc",
@@ -309,8 +428,8 @@
     }
   ],
   "required_failures": 0,
-  "soft_failures": 2,
+  "soft_failures": 3,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 52670
+  "duration_ms": 56855
 }
