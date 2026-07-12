@@ -89,7 +89,7 @@ Load queries from `IMMUTABLE_ANCHORS.json` → `traversal_chants`. Do not invent
 
 ## Skill chain
 
-`lygo-tools-portal` → `lygo-protocol-stack-operator` → **`lygo-network-builder`** → `lygo-kernel-egg-planter` · `lygo-alignment-badge` · `lygo-champion-council` · `lygo-ollama-army` · `lygo-pxpipe-lygo`
+`lygo-tools-portal` → `lygo-protocol-stack-operator` → **`lygo-network-builder`** → `lygo-haven-star-chart` · `lygo-kernel-egg-planter` · `lygo-alignment-badge` · `lygo-champion-council` · `lygo-ollama-army` · `lygo-pxpipe-lygo`
 
 ## Stack docs
 

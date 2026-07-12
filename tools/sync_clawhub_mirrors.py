@@ -74,6 +74,7 @@ CANONICAL_SLUGS = [
     "recursive-generosity-protocol",
     "lygo-pxpipe-lygo",
     "lygo-network-builder",
+    "lygo-haven-star-chart",
 ]
 
 

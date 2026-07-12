@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 36 skills verified via ClawHub API · **Repo mirrors:** 36 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 37 skills verified via ClawHub API · **Repo mirrors:** 37 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -15,6 +15,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.7` · 149 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
 | [lygo-network-builder](https://clawhub.ai/deepseekoracle/lygo-network-builder) | LYGO Network Builder | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-network-builder/) |
+| [lygo-haven-star-chart](https://clawhub.ai/deepseekoracle/lygo-haven-star-chart) | LYGO Haven Star Chart Agent Portal | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-haven-star-chart/) |
 | [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)

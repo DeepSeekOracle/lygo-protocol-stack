@@ -30,6 +30,7 @@ Read `references/SECURITY.md` and `references/AGENT_CONTRACT.md` before any plan
 | 1 | **`lygo-sovereign-super-skill`** | **This map** — eggs, planters, verify sweep |
 | 2 | `lygo-kernel-egg-planter` | Consent plant, retrieve, four pillars |
 | 3 | `lygo-network-builder` | Immutable anchors + live vector verify |
+| 3b | `lygo-haven-star-chart` | Agent portal — gate, submit, immutable feed, steward ingest |
 | 4 | `lygo-second-brain` | Local LLM wiki vault |
 | 5 | `lygo-sandcastle` | Sovereign YAML workflows |
 | 6 | `lygo-sovereign-claw` | LYGO-OpenClaw router (mirror `lygo-openclaw`) |

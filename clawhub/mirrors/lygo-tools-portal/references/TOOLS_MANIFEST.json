@@ -47,12 +47,21 @@
     },
     {
       "id": "haven-star-chart",
-      "title": "Haven Star Chart",
-      "intents": ["haven", "star chart", "seals map", "constellation"],
+      "title": "Haven Star Chart (v2 LIVE)",
+      "intents": ["haven", "star chart", "seals map", "constellation", "submit seal", "agent portal", "lattice feed"],
       "urls": {
         "stack": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+        "feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
         "excavationpro": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html"
-      }
+      },
+      "clawhub_skill": "lygo-haven-star-chart",
+      "stack_tools": [
+        "tools/haven_star_chart_gate.py",
+        "tools/haven_star_chart_submit.py",
+        "tools/haven_star_chart_ingest.py",
+        "tools/haven_star_chart_feed.py"
+      ]
     },
     {
       "id": "kernel-egg-retrieval",

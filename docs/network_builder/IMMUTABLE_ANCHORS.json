@@ -120,6 +120,12 @@
         "verify": "http_soft"
       },
       {
+        "id": "clawhub_haven_star_chart_skill",
+        "label": "ClawHub — lygo-haven-star-chart",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
+        "verify": "http_soft"
+      },
+      {
         "id": "clawhub_champion_council",
         "label": "ClawHub — lygo-champion-council",
         "url": "https://clawhub.ai/deepseekoracle/lygo-champion-council",

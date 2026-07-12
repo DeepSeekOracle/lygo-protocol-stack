@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 36,
-  "count_mirrored": 36,
+  "count_published": 37,
+  "count_mirrored": 37,
   "skills": [
     {
       "slug": "lygo-protocol-stack-operator",
@@ -359,6 +359,16 @@
       "version": "1.2.0"
     },
     {
+      "slug": "lygo-haven-star-chart",
+      "name": "LYGO Haven Star Chart Agent Portal",
+      "summary": "Train aligned AI agents to submit verifiable seals, champions, and lattice nodes to the Eternal Haven Star Chart v2 LIVE portal. P0 gate, math resonance, immutable feed.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
+      "mirror": "mirrors/lygo-haven-star-chart",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
       "slug": "lygo-ops-detector",
       "name": "LYGO OPPS DETECTOR",
       "summary": "LYGO Ops Detector - Lightfathers Voice for the AETHON Delta9 Protocol. Sovereign math-rigorous detector of operational deception using Evasion Index and Association Matrix.",
@@ -417,6 +427,7 @@
     "recursive-generosity-protocol": "openclaw:recursive-generosity-protocol",
     "lygo-pxpipe-lygo": "grok",
     "lygo-network-builder": "existing",
+    "lygo-haven-star-chart": "existing",
     "lyra-brain": "grok",
     "lyra-openclaw": "grok"
   }

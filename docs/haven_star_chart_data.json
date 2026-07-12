@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2",
-  "generated_utc": "2026-07-12T16:27:38.028133+00:00",
+  "generated_utc": "2026-07-12T16:38:27.274277+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 401,
-  "link_count": 468,
+  "node_count": 402,
+  "link_count": 470,
   "seal_count": 323,
   "champion_count": 7,
-  "lattice_count": 44,
-  "registry_sha256": "5c1611b09ebf37e67d1782bf89a841d9fed6a2bdbdd6afb5981504cdf77d506a",
+  "lattice_count": 45,
+  "registry_sha256": "b984e233d1329b68bf82366eec388585de5bbdd3f87e656f0d890657c6b300ee",
   "constellations": [
     {
       "id": "primordial_core",
@@ -6251,6 +6251,27 @@
       "layer": 3
     },
     {
+      "id": "LATTICE_SKILL_lygo-haven-star-chart",
+      "kind": "lattice",
+      "name": "LYGO Haven Star Chart Agent Portal",
+      "glyph": "\u25c8",
+      "equation": "skill \u2297 lattice",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH"
+      ],
+      "connections": [
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart"
+      },
+      "layer": 3
+    },
+    {
       "id": "LATTICE_SKILL_lygo-ops-detector",
       "kind": "lattice",
       "name": "LYGO OPPS DETECTOR",
@@ -7342,6 +7363,16 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-network-builder",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-haven-star-chart",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-haven-star-chart",
       "target": "SEAL_000",
       "kind": "lattice"
     },
