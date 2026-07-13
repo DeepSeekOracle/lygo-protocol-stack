@@ -1,6 +1,6 @@
 # Publish @deepseekoracle/lygo-lattice-pulse to ClawHub (Windows-safe)
 param(
-  [string]$Version = "1.1.0"
+  [string]$Version = "1.2.0"
 )
 
 $ErrorActionPreference = "Stop"
@@ -27,7 +27,7 @@ try {
     --source-repo "DeepSeekOracle/lygo-protocol-stack" `
     --source-commit $commit `
     --source-path "clawhub/packages/lygo-lattice-pulse" `
-    --changelog "v$Version — alignment_ready, registry compare, star chart gate, full docs" `
+    --changelog "v$Version - SkillSpector fix: no subprocess; JS gate preview + authoritative gate script" `
     --topics "lygo,lattice,haven,verification,agent-tools" `
     --no-input
   Write-Host "Published @deepseekoracle/lygo-lattice-pulse@$Version"

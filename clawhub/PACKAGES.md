@@ -2,7 +2,7 @@
 
 | Package | Type | ClawHub |
 |---------|------|---------|
-| [@deepseekoracle/lygo-lattice-pulse](./packages/lygo-lattice-pulse/) | Code Plugin · v1.1.0 | https://clawhub.ai/deepseekoracle/lygo-lattice-pulse |
+| [@deepseekoracle/lygo-lattice-pulse](./packages/lygo-lattice-pulse/) | Code Plugin · v1.2.0 | https://clawhub.ai/deepseekoracle/lygo-lattice-pulse |
 
 Registry: [`packages.json`](./packages.json)
 
@@ -12,7 +12,7 @@ Registry: [`packages.json`](./packages.json)
 openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
 ```
 
-## Tools (v1.1)
+## Tools (v1.2 — no subprocess)
 
 - `lygo_alignment_ready` — composite LIVE readiness
 - `lygo_lattice_pulse` — live Haven registry pulse

@@ -1,12 +1,12 @@
 import { Type } from "typebox";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
-import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { loadRegistryIds, validateSubmissionPreview } from "./gate_preview.js";
 
-const SIGNATURE = "Δ9Φ963-LYGO-LATTICE-PULSE-v1.1";
+const SIGNATURE = "Δ9Φ963-LYGO-LATTICE-PULSE-v1.2";
 const DEFAULT_PAGES = "https://deepseekoracle.github.io/lygo-protocol-stack";
 
 const REQUIRED_STACK_MARKERS = [
@@ -34,6 +34,10 @@ const SKILL_CHAIN = [
   "lygo-lattice-birth",
 ] as const;
 
+const AUTHORITATIVE_GATE_CMD =
+  "python scripts/gate_submission.py <submission.json>  # from plugin dir; requires LYGO_STACK_ROOT";
+const AUTHORITATIVE_ALIGN_CMD = "python tools/verify_lattice_alignment.py  # from stack root";
+
 type PluginConfig = { stackRoot?: string; pagesBase?: string };
 
 function textResult(payload: unknown) {
@@ -59,6 +63,10 @@ function resolveStackRoot(cfg?: PluginConfig): string | null {
   return null;
 }
 
+function rejectUnsafePath(p: string): boolean {
+  return /\.\.|[<>\"|?*]/.test(p) || p.length > 512;
+}
+
 function sha256Hex(data: string): string {
   return createHash("sha256").update(data).digest("hex");
 }
@@ -69,7 +77,7 @@ async function fetchJson<T>(url: string, timeoutMs = 20_000): Promise<T> {
   try {
     const res = await fetch(url, {
       signal: ctrl.signal,
-      headers: { "User-Agent": "LYGO-Lattice-Pulse/1.1" },
+      headers: { "User-Agent": "LYGO-Lattice-Pulse/1.2" },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
     return (await res.json()) as T;
@@ -115,7 +123,7 @@ async function pulseLiveLattice(pagesBase: string) {
     feed_tail: feedEntries,
     plugin: PLUGIN_INSTALL,
     skill_chain: [...SKILL_CHAIN],
-    package: "clawhub:@deepseekoracle/lygo-lattice-pulse@1.1.0",
+    package: "clawhub:@deepseekoracle/lygo-lattice-pulse@1.2.0",
   };
 }
 
@@ -155,18 +163,9 @@ async function verifyLocalStack(stackRoot: string) {
     checks.clawhub_skill_count = "0";
   }
 
-  const python = process.platform === "win32" ? "python" : "python3";
   const alignTool = path.join(stackRoot, "tools", "verify_lattice_alignment.py");
-  if (existsSync(alignTool)) {
-    const probe = spawnSync(python, [alignTool], {
-      cwd: stackRoot,
-      encoding: "utf8",
-      timeout: 180_000,
-      shell: process.platform === "win32",
-    });
-    checks.lattice_alignment_probe = probe.status === 0 ? "ok" : `exit_${probe.status}`;
-    checks.lattice_alignment_all_pass = probe.status === 0;
-  }
+  checks.lattice_alignment_probe = existsSync(alignTool) ? "deferred_no_subprocess" : "tool_missing";
+  checks.lattice_alignment_authoritative = AUTHORITATIVE_ALIGN_CMD;
 
   return {
     signature: SIGNATURE,
@@ -174,11 +173,13 @@ async function verifyLocalStack(stackRoot: string) {
     all_pass: missing.length === 0,
     checks,
     missing,
+    security_note: "Plugin v1.2+ uses read-only checks in-process; no child_process spawn.",
     next_steps: missing.length
       ? ["Fix missing markers or set LYGO_STACK_ROOT to trusted clone"]
       : [
           "lygo_alignment_ready — composite check before live ops",
-          "python tools/haven_star_chart_gate.py submission.json",
+          AUTHORITATIVE_GATE_CMD,
+          AUTHORITATIVE_ALIGN_CMD,
         ],
   };
 }
@@ -263,7 +264,7 @@ function p0QuickScan(text: string) {
     byte_length: len,
     unique_bytes: unique,
     reasons,
-    note: "Quick JS heuristic — run haven_star_chart_gate.py for authoritative ACCEPT/REJECT.",
+    note: "Quick JS heuristic — run scripts/gate_submission.py for authoritative ACCEPT/REJECT.",
   };
 }
 
@@ -274,7 +275,7 @@ function consentChecklist(stackRoot: string | null) {
     required_before_live_write: [
       "lygo_alignment_ready → all_pass before submit",
       "lygo_lattice_pulse or lygo_registry_compare",
-      "haven_star_chart_gate.py → verdict ACCEPT",
+      "scripts/gate_submission.py → verdict ACCEPT (authoritative)",
       "Human explicit --i-consent on submit/ingest",
       "Never publish consent_bundle or family_bind_salt",
     ],
@@ -284,17 +285,46 @@ function consentChecklist(stackRoot: string | null) {
     stack_root: stackRoot,
     scan_cue:
       "LYGO-HSC-ATTEST-v1; gate=haven_star_chart_gate.py; P0-first; consent-gated; user-reviewed",
+    authoritative_gate: AUTHORITATIVE_GATE_CMD,
   };
 }
 
-function runStarChartGate(stackRoot: string, submissionPath: string, exampleBirth: boolean) {
+function runStarChartGatePreview(stackRoot: string, submissionPath: string, exampleBirth: boolean) {
+  if (exampleBirth) {
+    return {
+      signature: SIGNATURE,
+      gate_utc: new Date().toISOString(),
+      all_pass: false,
+      authoritative: false,
+      preview_only: true,
+      error: "example_birth_requires_authoritative_script",
+      run: [
+        `cd "${stackRoot}"`,
+        "python tools/haven_star_chart_gate.py --example-birth",
+        "# or: python <plugin>/scripts/gate_example_birth.py (bundled, no subprocess in plugin)",
+      ],
+      tool: "haven_star_chart_gate.py",
+    };
+  }
+
   const gateTool = path.join(stackRoot, "tools", "haven_star_chart_gate.py");
   if (!existsSync(gateTool)) {
     return { signature: SIGNATURE, all_pass: false, error: "gate_tool_missing" };
   }
 
+  if (rejectUnsafePath(submissionPath)) {
+    return { signature: SIGNATURE, all_pass: false, error: "unsafe_submission_path" };
+  }
+
   const resolved = path.resolve(submissionPath);
-  if (!resolved.startsWith(path.resolve(stackRoot)) && !resolved.startsWith(process.cwd())) {
+  const stackResolved = path.resolve(stackRoot);
+  const cwdResolved = process.cwd();
+  if (
+    !resolved.startsWith(stackResolved + path.sep) &&
+    !resolved.startsWith(cwdResolved + path.sep) &&
+    resolved !== stackResolved &&
+    resolved !== cwdResolved
+  ) {
     return {
       signature: SIGNATURE,
       all_pass: false,
@@ -303,46 +333,28 @@ function runStarChartGate(stackRoot: string, submissionPath: string, exampleBirt
     };
   }
 
-  const python = process.platform === "win32" ? "python" : "python3";
-  const args = exampleBirth
-    ? [gateTool, "--example-birth"]
-    : [gateTool, resolved];
-  const run = spawnSync(python, args, {
-    cwd: stackRoot,
-    encoding: "utf8",
-    timeout: 120_000,
-    shell: process.platform === "win32",
-  });
+  if (!existsSync(resolved)) {
+    return { signature: SIGNATURE, all_pass: false, error: "submission_file_missing", path: resolved };
+  }
 
-  const stdout = (run.stdout || "").trim();
-  const stderr = (run.stderr || "").trim();
-  let parsed: Record<string, unknown> | null = null;
+  let sub: Record<string, unknown>;
   try {
-    parsed = JSON.parse(stdout) as Record<string, unknown>;
-  } catch {
-    const gateBlock = stdout.match(/\{[\s\S]*"verdict"[\s\S]*\}/);
-    if (gateBlock) {
-      try {
-        parsed = JSON.parse(gateBlock[0]) as Record<string, unknown>;
-      } catch {
-        parsed = null;
-      }
-    }
+    sub = JSON.parse(readFileSync(resolved, "utf8")) as Record<string, unknown>;
+  } catch (e) {
+    return { signature: SIGNATURE, all_pass: false, error: `json_parse_failed:${e}` };
   }
 
-  if (parsed?._gate_preview && typeof parsed._gate_preview === "object") {
-    parsed = parsed._gate_preview as Record<string, unknown>;
-  }
+  const registryIds = loadRegistryIds(stackRoot);
+  const gate = validateSubmissionPreview(sub, registryIds);
 
   return {
     signature: SIGNATURE,
     gate_utc: new Date().toISOString(),
-    exit_code: run.status,
-    all_pass: parsed?.all_pass === true || parsed?.verdict === "ACCEPT",
-    gate: parsed,
-    stdout: parsed ? undefined : stdout.slice(0, 4000),
-    stderr: stderr ? stderr.slice(0, 2000) : undefined,
-    tool: "haven_star_chart_gate.py",
+    all_pass: gate.all_pass === true,
+    gate,
+    submission_path: resolved,
+    tool: "lygo-lattice-pulse-gate-preview",
+    authoritative_gate_command: AUTHORITATIVE_GATE_CMD,
   };
 }
 
@@ -397,12 +409,12 @@ async function alignmentReady(cfg: PluginConfig) {
   report.ready_for_live_ops =
     checks.live_pulse && checks.stack_markers && checks.registry_match && score >= 85;
   report.if_not_ready = report.ready_for_live_ops
-    ? ["Proceed to gate submission; human --i-consent before submit/ingest"]
+    ? ["Proceed to scripts/gate_submission.py; human --i-consent before submit/ingest"]
     : [
         !checks.live_pulse && "Fix network or pages_base",
         !checks.stack_markers && "Fix LYGO_STACK_ROOT markers",
         !checks.registry_match && "Rebuild chart or git pull to match Pages",
-        "Run lygo_star_chart_gate before any live write",
+        "Run authoritative gate via scripts/gate_submission.py before any live write",
       ].filter(Boolean);
 
   return report;
@@ -411,7 +423,8 @@ async function alignmentReady(cfg: PluginConfig) {
 export default definePluginEntry({
   id: "lygo-lattice-pulse",
   name: "LYGO Lattice Pulse",
-  description: "Live lattice heartbeat, stack verify, registry compare, and star chart gate for LYGO agents",
+  description:
+    "Live lattice heartbeat, stack verify, registry compare, and star chart gate preview for LYGO agents (SkillSpector-safe — no subprocess)",
   register(api) {
     const cfg = () => (api.config || {}) as PluginConfig;
 
@@ -433,7 +446,7 @@ export default definePluginEntry({
       {
         name: "lygo_lattice_verify",
         description:
-          "Verify local lygo-protocol-stack root: gate tools, birth codec, registry, optional alignment probe.",
+          "Verify local lygo-protocol-stack root: gate tools, birth codec, registry (read-only; no subprocess).",
         parameters: Type.Object({
           stack_root: Type.Optional(Type.String()),
         }),
@@ -480,13 +493,13 @@ export default definePluginEntry({
       {
         name: "lygo_star_chart_gate",
         description:
-          "Run authoritative haven_star_chart_gate.py on a submission JSON (or --example-birth preview).",
+          "Gate preview on submission JSON (read-only JS). Authoritative P0+lineage: scripts/gate_submission.py.",
         parameters: Type.Object({
           submission_path: Type.Optional(
             Type.String({ description: "Path to submission JSON under stack or cwd." }),
           ),
           example_birth: Type.Optional(
-            Type.Boolean({ description: "Run built-in lattice birth example through gate." }),
+            Type.Boolean({ description: "Instructions for lattice birth example gate." }),
           ),
           stack_root: Type.Optional(Type.String()),
         }),
@@ -505,7 +518,7 @@ export default definePluginEntry({
               error: "Provide submission_path or example_birth:true",
             });
           }
-          return textResult(runStarChartGate(root, subPath || "", exampleBirth));
+          return textResult(runStarChartGatePreview(root, subPath || "", exampleBirth));
         },
       },
       { optional: true },
@@ -514,7 +527,7 @@ export default definePluginEntry({
     api.registerTool(
       {
         name: "lygo_p0_quick_scan",
-        description: "Quick P0-style heuristic on text (non-authoritative; use gate for submissions).",
+        description: "Quick P0-style heuristic on text (non-authoritative; use gate script for submissions).",
         parameters: Type.Object({
           text: Type.String({ minLength: 1 }),
         }),

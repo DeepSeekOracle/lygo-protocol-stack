@@ -2,7 +2,7 @@
   "id": "lygo-lattice-pulse",
   "name": "LYGO Lattice Pulse",
   "description": "Live Haven heartbeat, stack verify, registry compare, star chart gate, and alignment readiness for LYGO OpenClaw agents.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "icon": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-haven-star-chart.jpg",
   "activation": {
     "onStartup": false
