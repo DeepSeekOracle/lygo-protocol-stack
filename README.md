@@ -12,7 +12,8 @@
 
 The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, multi-language ports, LYRA production kernel, stack orchestrator, and verification tools sourced from the Excavationpro / LYRA / 2026 firmware vault.
 
-**Public reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/ (`docs/index.html` — deploy via Actions or Pages → `/docs`).  
+**Public reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/ (`docs/index.html`).  
+**Knowledge Hub:** [`LYGO_KNOWLEDGE_HUB.html`](docs/LYGO_KNOWLEDGE_HUB.html) · **Agent GitHub/HF restore:** [`GITHUB_AGENT_RESTORE.txt`](docs/GITHUB_AGENT_RESTORE.txt) · **Next build phase:** [`NEXT_BUILDING_PHASE.md`](docs/NEXT_BUILDING_PHASE.md)
 **Immutable Anchor (Biophase7):** [`docs/ANCHOR_DEPLOYMENT.md`](docs/ANCHOR_DEPLOYMENT.md) — local CA + Arweave Turbo + SLM/P7 hooks + autonomous worker.  
 **pxpipe-LYGO (Biophase7):** [`pxpipe_lygo/`](pxpipe_lygo/) — vision-token context compression; [`docs/BIOPHASE7_PXPIPE_LYGO.md`](docs/BIOPHASE7_PXPIPE_LYGO.md).
 **Compass (pyvis):** https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html — canonical `tools/LYGO_Compass_Master.html`; publish: `python tools/sync_compass_pages.py` (CI copies into `docs/tools/` on deploy).  

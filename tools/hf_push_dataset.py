@@ -47,7 +47,7 @@ def main() -> int:
         "--repo-type",
         "dataset",
         "--commit-message",
-        "Δ9Φ963 sync: champion consolidation, dea1fd5 lattice balance",
+        f"Δ9Φ963 sync: lattice balance {subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT, text=True).strip()} — knowledge hub, lattice-pulse v1.2, github restore",
     ]
     print("Running:", " ".join(cmd))
     return subprocess.call(cmd)

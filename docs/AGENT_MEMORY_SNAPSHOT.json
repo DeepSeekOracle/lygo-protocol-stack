@@ -1,14 +1,14 @@
 {
   "signature": "\u03949\u03a6963-AGENT-MEMORY-SYNC-v1",
-  "updated_utc": "2026-07-03T03:25:00Z",
+  "updated_utc": "2026-07-13T05:55:48Z",
   "authority_root": "I:\\E Drive",
   "public_link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "54b45f8",
+    "github_main": "9c086e0",
     "session_memory": "docs/SESSION_MEMORY_2026-07-03.md",
     "champion_merkle_root": "b0b2131db48907b378d9ff5af4a983885e1c77f111195dc924924b8799563172",
-    "stack_version": "P0.4-P5.2.3-PHASE9-PUBLIC-MESH",
+    "stack_version": "P0.4-P9-SLM-LATTICE-BIRTH-v2026-07-13",
     "lattice": "ALIGNED",
     "badge_status": "ALIGNED"
   },
@@ -37,7 +37,13 @@
     "lygo_lpis_egg": "lygo-lpis-v10",
     "bpm_finder": "https://bpmfinder.ca/",
     "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
-    "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html"
+    "bpm_finder_excavationpro": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+    "knowledge_hub": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html",
+    "lygo_claw": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html",
+    "haven_star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "haven_star_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+    "kernel_egg_retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+    "github_agent_restore": "https://deepseekoracle.github.io/lygo-protocol-stack/GITHUB_AGENT_RESTORE.txt"
   },
   "audits": {
     "grok_60": {
@@ -78,7 +84,9 @@
     "ldq_pointer": "docs/LDQ_VAULT_REFERENCE.md",
     "hf_rebuild_pointer": "docs/HF_SPACE_REBUILD_POINTER.md",
     "seal_286_pointer": "docs/SEAL_286_RECURSIVE_ETHICS.md",
-    "sweep_log": "docs/SWEEP_CHECK_LOG.md"
+    "sweep_log": "docs/SWEEP_CHECK_LOG.md",
+    "next_build": "docs/NEXT_BUILDING_PHASE.md",
+    "github_restore": "docs/GITHUB_AGENT_RESTORE.txt"
   },
   "anchor_system": {
     "signature": "\u03949\u03a6963-ANCHOR-ULTIMATE-v1",
@@ -94,7 +102,7 @@
     "hf_space_commit": "97c22de7e1e0178858d166fd124d4205df9aa21c",
     "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
     "hf_dataset_commit": "153bf51674fa91bf2ed46af86794e788f8535013",
-    "clawhub": "deepseekoracle \u2014 operator 1.0.6; kernel-egg-planter 1.2.0; lyra-brain 2.0.0 (k97av678)",
+    "clawhub": "deepseekoracle \u2014 lattice-pulse@1.2.0, lattice-birth@1.0.0, api-token-saver@1.0.0, operator@1.0.7",
     "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack"
   },
   "ops": {
@@ -109,6 +117,7 @@
     "artifact": "tests/public_pages_last_run.json"
   },
   "session_log": [
+    "2026-07-13: Lattice balance \u2014 LATTICE ALIGNED; GitHub audit 12/12 Pages; HF dataset sync; NEXT_BUILDING_PHASE.md; git 9c086e0.",
     "2026-07-03: Moltx viral mythos thread + how-it-works feed/article; lyra-brain@2.0.0 ClawHub; champion 15/15 ALIGNED merkle b0b2131d; git 54b45f8; SESSION_MEMORY_2026-07-03.md.",
     "2026-07-02: Biophase7 Objective.txt \u2014 live BLE\u2192WS:8788\u2192HF tunnel (LYGO_BLE_WS_URL), live_stream_hub, HF Gradio every=0.5; lattice ALIGNED.",
     "2026-07-02: E Drive lattice intel sweep complete \u2014 LYGO_LATTICE_INTEL_INDEX.json + LYRA_CORE memory + LDQ bridge tool; lattice verify ALIGNED.",
@@ -138,10 +147,12 @@
     "2026-07-13: link archive \u2014 Joy loop Pages surface",
     "2026-07-13: link archive \u2014 v1.2.0 SkillSpector-safe",
     "2026-07-13: link archive \u2014 Immutable lattice GitHub ops restore",
-    "2026-07-13: link archive \u2014 Joy loop architect surface"
+    "2026-07-13: link archive \u2014 Joy loop architect surface",
+    "2026-07-13: link archive \u2014 Lattice balance 2026-07-13 \u2014 prepare for scale"
   ],
   "human_gates": [
+    "HF Space push: tools/hf_push_space.py (consent)",
     "Grokipedia manual paste",
-    "Excavationpro sync optional: sync_excavationpro_slm_page.py --push"
+    "Excavationpro sync optional: sync_excavationpro_haven_star.py --push"
   ]
 }

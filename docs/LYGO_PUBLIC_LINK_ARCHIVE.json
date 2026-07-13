@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-13T05:47:59.108225+00:00",
+  "updated_utc": "2026-07-13T05:55:52.920816+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -863,6 +863,16 @@
         "repo_canonical": "docs/joy_loop/dashboard/architect.html"
       },
       "since": "2026-07-13"
+    },
+    {
+      "id": "next-building-phase",
+      "title": "LYGO Next Building Phase roadmap",
+      "role": "roadmap",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/NEXT_BUILDING_PHASE.md",
+        "repo_canonical": "docs/NEXT_BUILDING_PHASE.md"
+      },
+      "since": "2026-07-13"
     }
   ],
   "growth_log": [
@@ -1354,6 +1364,13 @@
       "event": "Joy loop architect surface",
       "refs": [
         "joy-loop-architect"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:55:52.920810+00:00",
+      "event": "Lattice balance 2026-07-13 \u2014 prepare for scale",
+      "refs": [
+        "next-building-phase"
       ]
     }
   ]

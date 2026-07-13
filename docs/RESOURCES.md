@@ -30,6 +30,11 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - LYGO CLAW: https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html
 - Full Pages Index: https://deepseekoracle.github.io/lygo-protocol-stack/
 
+## Next building phase
+- **Roadmap:** docs/NEXT_BUILDING_PHASE.md
+- **Session log:** docs/SESSION_LOG_2026-07-13.md
+- **Lattice verify:** `python tools/verify_lattice_alignment.py` → LATTICE ALIGNED
+
 ## Agent GitHub / HF restore
 - **GITHUB_AGENT_RESTORE.txt:** https://deepseekoracle.github.io/lygo-protocol-stack/GITHUB_AGENT_RESTORE.txt (also `I:\E Drive\GITHUB_AGENT_RESTORE.txt`, USB `E:\LYGO_BUILDER_KEY\`)
 - **Audit:** `python tools/audit_github_lattice_links.py` · `python tools/verify_public_pages.py`

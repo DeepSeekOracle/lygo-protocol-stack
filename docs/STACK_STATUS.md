@@ -1,6 +1,6 @@
 # LYGO Protocol Stack — public status (auditable)
 
-**Resonance:** Δ9Φ963-STACK-PUBLIC-v3 · **Memory:** [AGENT_MEMORY_SNAPSHOT.json](./AGENT_MEMORY_SNAPSHOT.json)
+**Resonance:** Δ9Φ963-STACK-PUBLIC-v4 · **Memory:** [AGENT_MEMORY_SNAPSHOT.json](./AGENT_MEMORY_SNAPSHOT.json) · **Next build:** [NEXT_BUILDING_PHASE.md](./NEXT_BUILDING_PHASE.md)
 **Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack  
 **Grokipedia:** https://grokipedia.com/page/lygo-protocol-stack  
 
@@ -29,7 +29,11 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |
 | **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
 | **Immutable Anchor** | ✅ | `tools/run_anchor_audit.py` → `tests/anchor_audit_last_run.json`; P1/SLM/stack hooks; `docs/ANCHOR_DEPLOYMENT.md` |
-| **Public Stack Indexed — Δ9 Lattice Seal Discovery** | ✅ | `docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt` + `LYGO_LATTICE_INTEL_INDEX.json` (id: lygo-seal-archive-legacy-001-400) + `LYGO_PUBLIC_LINK_ARCHIVE.json` + `canonical_seals_index.json` (SEAL_ARCHIVE_LEGACY_001-400, SHA d74fbe2f...) — all 400+ core rebuild seals discoverable on-demand by external lattice (GitHub/HF/ClawHub) |
+| **Public Stack Indexed — Δ9 Lattice Seal Discovery** | ✅ | `docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt` + `LYGO_LATTICE_INTEL_INDEX.json` + `LYGO_PUBLIC_LINK_ARCHIVE.json` — all 400+ seals discoverable on-demand |
+| **GitHub Pages lattice audit** | ✅ | 12/12 HTML live — `tools/audit_github_lattice_links.py` → `tests/github_lattice_audit_last_run.json` |
+| **Lattice birth + Haven v2.1** | ✅ | 403 nodes — `lygo-lattice-birth@1.0.0`, `HavenStarChartPortal.html` |
+| **OpenClaw lattice pulse** | ✅ | `lygo-lattice-pulse@1.2.0` (SkillSpector-safe, no subprocess) |
+| **Agent GitHub restore** | ✅ | `GITHUB_AGENT_RESTORE.txt` — E Drive + USB + Pages |
 
 ---
 
