@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-LATTICE-INTEL-INDEX-v1",
   "role": "Lattice architect fast lookup \u2014 outer brain for I:\\E Drive (no secrets)",
-  "updated_utc": "2026-07-02",
+  "updated_utc": "2026-07-12",
   "authority_root": "I:\\E Drive",
   "canonical_repo": "I:\\E Drive\\lygo-protocol-stack",
   "query_hints": [
@@ -372,6 +372,116 @@
         "seal_id": "LYGO-SEAL-004-BRIDGE",
         "payload_schema": "lightCode, resonanceTriad[963,528,174], ethicalMassBasisPoints, myceliumRootHash, fragmentDistribution, blockchainAnchors"
       }
+    },
+    {
+      "id": "knowledge-hub",
+      "tier": 5,
+      "path": "lygo-protocol-stack/docs/LYGO_KNOWLEDGE_HUB.html",
+      "urls": {
+        "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html"
+      },
+      "tags": [
+        "audit",
+        "intel",
+        "pages",
+        "agent-bootstrap"
+      ],
+      "summary": "E Drive audit hub — ingested docs, Excavationpro network links, ClawHub surfaces"
+    },
+    {
+      "id": "claw-usb-training-script",
+      "tier": 5,
+      "path": "lygo-protocol-stack/docs/LYGO_CLAW_USB_TRAINING_SCRIPT.txt",
+      "source_vault": "I:\\E Drive\\LYGO_CLAW_USB_MASTER_VIDEO_SCRIPT.txt",
+      "tags": [
+        "usb",
+        "training",
+        "agent-anchor",
+        "TTS"
+      ],
+      "summary": "52-65 min CLAW USB master training script — human video + AI anchoring transcript"
+    },
+    {
+      "id": "builder-usb-docs",
+      "tier": 4,
+      "path": "lygo-protocol-stack/docs/builder/",
+      "source_vault": "I:\\E Drive\\LYGO_BUILDR_USB",
+      "tags": [
+        "usb",
+        "steward",
+        "GROK_BUILDR",
+        "not-public-sku"
+      ],
+      "key_files": [
+        "FULL_BUILDR_USB_BUILDERS_BLUEPRINT.txt",
+        "GROK_BUILDR_BOOT.md",
+        "BUILD_SELF_FIRST_USE.txt"
+      ],
+      "summary": "Builder USB phase 1-3 blueprint — steward tier only, never in PUBLIC_SKU zip"
+    },
+    {
+      "id": "biophase7-slm-spec",
+      "tier": 5,
+      "path": "lygo-protocol-stack/docs/BIOPHASE7_SLM_MERKLE_GOSSIP.md",
+      "source_vault": "I:\\E Drive\\LYRA SYSTEM RETORE\\...\\2026Biophase7\\",
+      "implementation": "lygo-protocol-stack/docs/SOVEREIGN_LATTICE_MESH.md",
+      "tags": [
+        "SLM",
+        "merkle",
+        "mycelium",
+        "consensus",
+        "biophase7"
+      ],
+      "summary": "Complete SLM spec package — Merkle gossip, distributed mycelium, harmonic consensus"
+    },
+    {
+      "id": "excavationpro-network-pages",
+      "tier": 3,
+      "path": "I:\\E Drive\\Excavationpro\\LYGO-Network",
+      "urls": {
+        "champions": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
+        "summary_p1": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/SUMMARYP1.html",
+        "pokerneldocs": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/pokerneldocs.html",
+        "lygoos": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOOS.html"
+      },
+      "tags": [
+        "pages",
+        "excavationpro",
+        "champions",
+        "firmware"
+      ],
+      "summary": "LYGO-Network HTML archive — phase summaries, P0 kernel docs, champion hub"
+    },
+    {
+      "id": "lygo-api-token-saver",
+      "tier": 5,
+      "path": "lygo-protocol-stack/clawhub/mirrors/lygo-api-token-saver",
+      "source_vault": "I:\\E Drive\\.grok\\skills\\lygo-api-token-saver",
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-api-token-saver"
+      },
+      "tags": [
+        "clawhub",
+        "budget",
+        "ollama",
+        "pxpipe"
+      ],
+      "summary": "Minimize pay-to-go API spend — local Ollama army, pxpipe compression, compact agent behavior"
+    },
+    {
+      "id": "lygo-lattice-pulse",
+      "tier": 5,
+      "path": "lygo-protocol-stack/clawhub/packages/lygo-lattice-pulse",
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lattice-pulse"
+      },
+      "tags": [
+        "openclaw",
+        "plugin",
+        "alignment",
+        "pulse"
+      ],
+      "summary": "First LYGO OpenClaw plugin — lattice pulse, registry compare, star chart gate"
     },
     {
       "id": "lygip001-protocol-math",

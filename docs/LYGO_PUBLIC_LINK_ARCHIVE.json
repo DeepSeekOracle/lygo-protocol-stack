@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-08T02:15:44.437377+00:00",
+  "updated_utc": "2026-07-13T05:28:28.153364+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -738,7 +738,7 @@
     },
     {
       "id": "9node-cascade-pilot",
-      "title": "Scenario B: Full 9-Node Cascade Pilot (Delta→Zeta→Eta→Theta→Iota)",
+      "title": "Scenario B: Full 9-Node Cascade Pilot (Delta\u2192Zeta\u2192Eta\u2192Theta\u2192Iota)",
       "role": "pilots",
       "urls": {
         "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/tools/run_9node_cascade_pilot.py"
@@ -747,7 +747,7 @@
     },
     {
       "id": "lygip001-evm-bridge",
-      "title": "Enneagram 9-Node → EVM Bridge (LatticeAttestor + EthicalMassToken + MyceliumStorage)",
+      "title": "Enneagram 9-Node \u2192 EVM Bridge (LatticeAttestor + EthicalMassToken + MyceliumStorage)",
       "role": "bridge",
       "urls": {
         "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/protocol_bridge/lygo_bridge_orchestrator.py"
@@ -771,6 +771,36 @@
         "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/champion_eggs"
       },
       "since": "2026-07-08"
+    },
+    {
+      "id": "knowledge-hub",
+      "title": "LYGO Knowledge Hub (E Drive audit)",
+      "role": "intel-hub",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html",
+        "repo_canonical": "docs/LYGO_KNOWLEDGE_HUB.html"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "claw-usb-training-script",
+      "title": "LYGO CLAW USB Master Training Script",
+      "role": "training",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW_USB_TRAINING_SCRIPT.txt",
+        "repo_canonical": "docs/LYGO_CLAW_USB_TRAINING_SCRIPT.txt"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "biophase7-slm-spec",
+      "title": "Biophase7 SLM Complete Specification",
+      "role": "whitepaper",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/BIOPHASE7_SLM_MERKLE_GOSSIP.md",
+        "repo_canonical": "docs/BIOPHASE7_SLM_MERKLE_GOSSIP.md"
+      },
+      "since": "2026-07-13"
     }
   ],
   "growth_log": [
@@ -1199,6 +1229,27 @@
       "event": "registered champion-eggs \u2192 https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/data/champion_eggs",
       "refs": [
         "champion-eggs"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:28:28.028860+00:00",
+      "event": "E Drive audit knowledge hub ingested 2026-07-12",
+      "refs": [
+        "knowledge-hub"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:28:28.086994+00:00",
+      "event": "Video + AI anchoring transcript from E Drive vault",
+      "refs": [
+        "claw-usb-training-script"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:28:28.153359+00:00",
+      "event": "Vault ingest Merkle gossip spec",
+      "refs": [
+        "biophase7-slm-spec"
       ]
     }
   ]

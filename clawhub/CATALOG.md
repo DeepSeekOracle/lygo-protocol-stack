@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 37 skills verified via ClawHub API · **Repo mirrors:** 37 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 38 skills verified via ClawHub API · **Repo mirrors:** 38 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -15,14 +15,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.7` · 149 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
 | [lygo-network-builder](https://clawhub.ai/deepseekoracle/lygo-network-builder) | LYGO Network Builder | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-network-builder/) |
-| [lygo-haven-star-chart](https://clawhub.ai/deepseekoracle/lygo-haven-star-chart) | LYGO Haven Star Chart Agent Portal (v2.1 cosmology) | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-haven-star-chart/) |
-| [lygo-lattice-birth](https://clawhub.ai/deepseekoracle/lygo-lattice-birth) | LYGO Lattice Birth (masked human identity + family lineage) | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-lattice-birth/) |
-
-## OpenClaw plugins (packages)
-
-| Package | Name | Version | Path |
-|---------|------|---------|------|
-| [@deepseekoracle/lygo-lattice-pulse](https://clawhub.ai/deepseekoracle/lygo-lattice-pulse) | LYGO Lattice Pulse (OpenClaw plugin) | `1.1.0` | [package](./packages/lygo-lattice-pulse/) |
+| [lygo-haven-star-chart](https://clawhub.ai/deepseekoracle/lygo-haven-star-chart) | LYGO Haven Star Chart Agent Portal | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-haven-star-chart/) |
 | [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |
 
 ## Creative audio & vision (LYGO RESONANCE stack)
@@ -86,6 +79,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
+| [lygo-lattice-birth](https://clawhub.ai/deepseekoracle/lygo-lattice-birth) | LYGO Lattice Birth | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-lattice-birth/) |
 | [lygo-ops-detector](https://clawhub.ai/deepseekoracle/lygo-ops-detector) | LYGO OPPS DETECTOR | `1.0.2` · 1 dl | [mirror](./mirrors/lygo-ops-detector/) |
 
 ## Repo-only workflow mirrors

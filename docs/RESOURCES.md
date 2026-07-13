@@ -30,6 +30,14 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - LYGO CLAW: https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html
 - Full Pages Index: https://deepseekoracle.github.io/lygo-protocol-stack/
 
+## Knowledge Hub (E Drive audit)
+- **Knowledge Hub page:** https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html
+- **Agent intel index:** docs/LYGO_LATTICE_INTEL_INDEX.json (tiered map of I:\E Drive — no secrets)
+- **CLAW USB training script:** docs/LYGO_CLAW_USB_TRAINING_SCRIPT.txt (human + AI anchoring transcript)
+- **Builder USB (steward tier):** docs/builder/ — FULL_BUILDR blueprint, GROK_BUILDR_BOOT, BUILD_SELF_FIRST_USE
+- **Biophase7 SLM spec (vault ingest):** docs/BIOPHASE7_SLM_MERKLE_GOSSIP.md → implementation docs/SOVEREIGN_LATTICE_MESH.md
+- **Excavationpro LYGO-Network:** SUMMARYP1–P3, pokerneldocs, LYGOOS, champions — https://deepseekoracle.github.io/Excavationpro/LYGO-Network/
+
 ## Whitepapers & Major Theory Documents
 - Blockchain ↔ LYGO Bridge Protocol: docs/BlockchainToLYGOBRIDGE.md (real engineering + critical fixes) + docs/BRIDGE_INSTALL.md
   - Hardened contracts in `docs/bridge/`:

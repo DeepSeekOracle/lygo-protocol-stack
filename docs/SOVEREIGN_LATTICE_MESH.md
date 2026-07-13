@@ -1,7 +1,7 @@
 # Sovereign Lattice Mesh (SLM)
 
 **Signature:** `Δ9Φ963-SLM-v1.0`  
-**Spec reference:** Biophase7 — Complete Specification Package (Merkle gossip → distributed mycelium → harmonic consensus).
+**Spec reference:** [BIOPHASE7_SLM_MERKLE_GOSSIP.md](./BIOPHASE7_SLM_MERKLE_GOSSIP.md) — Complete Specification Package (Merkle gossip → distributed mycelium → harmonic consensus). Vault source ingested from `I:\E Drive` 2026-07-12.
 
 **Interactive UI (public):**
 - Stack Pages: https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html
