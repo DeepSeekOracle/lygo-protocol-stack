@@ -285,6 +285,45 @@ def run_capture(cmd: list[str], cwd: Path, timeout: int = 300) -> dict:
         return {"exit_code": -1, "error": str(exc)}
 
 
+def copy_claw_runtime(out: Path) -> int:
+    """Merge portable LYGO CLAW + army supervisor from workspace builder key / overlay."""
+    claw_src = WORKSPACE / "LYGO_BUILDER_KEY"
+    overlay = BUILDR_OVERLAY
+    n = 0
+    root_files = (
+        "LYGO_CLAW_Launch.bat",
+        "LYGO_CLAW_ForceBoot.bat",
+        "LYGO_CLAW_ForceBoot.ps1",
+        "LYGO_Gateway.cmd",
+        "LYGO_Gateway.ps1",
+        "LYGO_Gateway_SafeLaunch.bat",
+        "LYGO_USB_Daemon_Supervisor.ps1",
+        "LYGO_Ollama_USB_Boot.bat",
+        "LYGO_Ollama_USB_Boot.ps1",
+        "README_LYGO_CLAW_USB.md",
+        "LYGO_CLAW_USB_RESTORE_ANCHOR.md",
+        "RESTORE_ANCHOR.txt",
+        "RESTORE_ANCHOR_POINTER.txt",
+    )
+    for name in root_files:
+        for base in (claw_src, overlay):
+            src = base / name
+            if src.is_file():
+                shutil.copy2(src, out / name)
+                n += 1
+                break
+    for sub in ("tools", "models", "product", "dashboard", "lygo-claw", "lygo-data", "launchers"):
+        for base in (claw_src, overlay):
+            src = base / sub
+            if src.is_dir():
+                n += copy_tree(src, out / sub)
+                break
+    lyra_src = WORKSPACE / "LYRA_CORE"
+    if lyra_src.is_dir():
+        n += copy_tree(lyra_src, out / "lyra-core")
+    return n
+
+
 def overlay_buildr_usb(out: Path) -> int:
     """Merge GROK BUILDR edition files (survives full repack)."""
     src = BUILDR_OVERLAY
@@ -472,6 +511,7 @@ def main() -> int:
     )
 
     n_overlay = overlay_buildr_usb(out)
+    n_claw = copy_claw_runtime(out)
     (out / "_builder_vault").mkdir(exist_ok=True)
     vault_readme = out / "_builder_vault" / "README.md"
     if not vault_readme.is_file():
@@ -486,6 +526,7 @@ def main() -> int:
                 "root": str(out),
                 "stack_files": n_stack,
                 "buildr_overlay_files": n_overlay,
+                "claw_runtime_files": n_claw,
                 "manifest": str(out / "BUILDER_MANIFEST.json"),
             }
         )

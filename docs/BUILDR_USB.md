@@ -13,6 +13,14 @@ python tools/build_lygo_builder_key.py --out E:\LYGO_BUILDER_KEY
 
 Overlay from `LYGO_BUILDR_USB` is merged automatically after pack.
 
+**Enhanced sync (CLAW + army + token saver, incremental):**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\sync_builder_usb_enhanced.ps1 -Out "E:\LYGO_BUILDER_KEY"
+```
+
+Includes `LYGO_USB_Daemon_Supervisor.ps1`, `LYGO_Gateway_SafeLaunch.bat`, slim Ollama army, and `token_saver_hub.py` on the stick.
+
 ## Editions
 
 | Edition | Boot doc |
