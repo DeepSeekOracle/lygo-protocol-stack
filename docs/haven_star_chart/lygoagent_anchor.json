@@ -7,6 +7,7 @@
   "contract": "0x32B513927F15e7A858bE779198440C04D399c09f",
   "pool": "0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
   "virtuals_page": "https://app.virtuals.io/virtuals/44594",
+  "uniswap_trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
   "prototype_page": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
   "agent_wallet": "0x2388765eB549347305F48cFc371411891AE15118",
   "owner_wallet": "0x0814209fc50866C38186537Cd7C534060E011Ec5",
@@ -18,6 +19,7 @@
     "geckoterminal_ohlcv_hour": "https://api.geckoterminal.com/api/v2/networks/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909/ohlcv/hour?aggregate=1&limit=72"
   },
   "explorers": {
+    "uniswap_trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
     "basescan_token": "https://basescan.org/token/0x32B513927F15e7A858bE779198440C04D399c09f",
     "geckoterminal": "https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909"
   },

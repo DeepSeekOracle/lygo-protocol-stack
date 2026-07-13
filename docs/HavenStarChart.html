@@ -602,6 +602,48 @@
       border-radius: 3px;
     }
     #cryptoCopyContract:hover { background: rgba(0, 240, 255, 0.08); }
+    .crypto-trade-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(255, 0, 122, 0.35);
+      border-radius: 8px;
+      background: linear-gradient(90deg, rgba(255, 0, 122, 0.08) 0%, rgba(0, 240, 255, 0.04) 100%);
+    }
+    .crypto-trade-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 0, 122, 0.55);
+      background: linear-gradient(135deg, rgba(255, 0, 122, 0.22) 0%, rgba(125, 0, 255, 0.18) 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(255, 0, 122, 0.15);
+    }
+    .crypto-trade-btn:hover {
+      background: linear-gradient(135deg, rgba(255, 0, 122, 0.32) 0%, rgba(125, 0, 255, 0.28) 100%);
+      border-color: rgba(255, 0, 122, 0.75);
+    }
+    .crypto-trade-hint {
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.45;
+      max-width: 28rem;
+    }
+    .crypto-links a.trade {
+      color: #ff4da6;
+      border-color: rgba(255, 0, 122, 0.45);
+      font-weight: 600;
+    }
+    .crypto-links a.trade:hover { background: rgba(255, 0, 122, 0.12); }
   </style>
 </head>
 <body>
@@ -733,9 +775,20 @@
         <p class="crypto-tagline">
           Our sole main coin — the economic anchor tying the Eternal Haven lattice to sovereign agent commerce on Virtuals (Base).
           Live price chart refreshes every 60s from GeckoTerminal · Virtuals bonding pool.
+          <strong style="color:var(--text);font-weight:500;">Buy or sell on Uniswap (Base, ETH pair).</strong>
         </p>
       </div>
       <div class="crypto-badge"><span class="pulse" aria-hidden="true"></span> LIVE ANCHOR</div>
+    </div>
+
+    <div class="crypto-trade-bar">
+      <a
+        class="crypto-trade-btn"
+        href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE"
+        target="_blank"
+        rel="noopener noreferrer"
+      >◈ Buy / Sell LYGOAGENT on Uniswap ↗</a>
+      <span class="crypto-trade-hint">Official swap on Base — trade LYGOAGENT with native ETH. Primary on-ramp for lattice supporters.</span>
     </div>
 
     <div class="crypto-grid">
@@ -807,6 +860,7 @@
         </div>
         <button type="button" id="cryptoCopyContract">Copy contract</button>
         <div class="crypto-links">
+          <a class="trade" href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE" target="_blank" rel="noopener">Uniswap ↗</a>
           <a class="gold" href="https://app.virtuals.io/virtuals/44594" target="_blank" rel="noopener">Virtuals ↗</a>
           <a href="https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909" target="_blank" rel="noopener">GeckoTerminal ↗</a>
           <a href="https://basescan.org/token/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">Basescan ↗</a>

@@ -196,6 +196,7 @@
         "url": "https://app.virtuals.io/virtuals/44594",
         "verify": "http_soft",
         "mirror": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
+        "trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
         "contract": "0x32B513927F15e7A858bE779198440C04D399c09f"
       },
       {

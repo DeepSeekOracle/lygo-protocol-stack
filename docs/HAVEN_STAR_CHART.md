@@ -25,8 +25,9 @@ The chart footer anchors lattice economics to the **sole main coin** — LYGOAGE
 | Pool | `0xdbdfc04d005a6b4575b29e5df8109becdc8b9909` |
 | Virtuals | https://app.virtuals.io/virtuals/44594 |
 
-**UI:** `#crypto-anchor` on [HavenStarChart.html](HavenStarChart.html) — Lightweight Charts OHLCV + GeckoTerminal embed.  
-**Machine-readable:** [`haven_star_chart/lygoagent_anchor.json`](./haven_star_chart/lygoagent_anchor.json)  
+**UI:** `#crypto-anchor` on [HavenStarChart.html](HavenStarChart.html) — Lightweight Charts OHLCV + GeckoTerminal embed + **Uniswap buy/sell** CTA.  
+**Trade (Base / ETH):** https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE  
+**Machine-readable:** [`haven_star_chart/lygoagent_anchor.json`](./haven_star_chart/lygoagent_anchor.json) (`uniswap_trade`)  
 **Immutable anchor id:** `virtuals_lygoagent` in `docs/network_builder/IMMUTABLE_ANCHORS.json`  
 **Script:** [`haven_star_chart/haven_star_chart_crypto_anchor.js`](./haven_star_chart/haven_star_chart_crypto_anchor.js)
 
