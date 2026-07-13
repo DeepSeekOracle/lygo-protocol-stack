@@ -74,14 +74,32 @@ elseif (Test-Path $OldOpenclawBankr) {
     }
     Log "bankr pack staged from Old openclaw"
 }
-foreach ($f in @("LYGO_Bankr_Manager.bat")) {
+foreach ($f in @("LYGO_Bankr_Manager.bat", "LYGO_Crypto_Manager.bat")) {
     $s = Join-Path $ClawSrc $f
     if (Test-Path $s) { Copy-Item $s (Join-Path $Out $f) -Force; Log "copy $f" }
 }
-$bankrLauncher = Join-Path $ClawSrc "launchers\LYGO_Bankr_Manager.bat"
-if (Test-Path $bankrLauncher) {
-    New-Item -ItemType Directory -Force -Path (Join-Path $Out "launchers") | Out-Null
-    Copy-Item $bankrLauncher (Join-Path $Out "launchers\LYGO_Bankr_Manager.bat") -Force
+foreach ($launcher in @("LYGO_Bankr_Manager.bat", "LYGO_Crypto_Manager.bat")) {
+    $bankrLauncher = Join-Path $ClawSrc "launchers\$launcher"
+    if (Test-Path $bankrLauncher) {
+        New-Item -ItemType Directory -Force -Path (Join-Path $Out "launchers") | Out-Null
+        Copy-Item $bankrLauncher (Join-Path $Out "launchers\$launcher") -Force
+        Log "copy launchers\$launcher"
+    }
+}
+
+# --- Crypto / Virtuals LYGOAGENT pack ---
+$cryptoOut = Join-Path $Out "crypto"
+New-Item -ItemType Directory -Force -Path $cryptoOut | Out-Null
+$cryptoClawSrc = Join-Path $ClawSrc "crypto"
+if (Test-Path $cryptoClawSrc) {
+    Robo $cryptoClawSrc $cryptoOut @("__pycache__", "node_modules", "lygo-data") @("config.json", "token_config.steward.json")
+    Log "crypto pack from LYGO_BUILDER_KEY"
+}
+elseif (Test-Path $OldOpenclawBankr) {
+    $oc = $OldOpenclawBankr
+    Robo (Join-Path $oc "skills\virtuals-protocol-acp") (Join-Path $cryptoOut "virtuals\virtuals-protocol-acp") @("node_modules", "__pycache__") @("config.json")
+    Robo (Join-Path $oc "brainwave\CLAWNCH") (Join-Path $cryptoOut "references\CLAWNCH") @("TOKEN_MONITOR", "node_modules")
+    Log "crypto pack staged from Old openclaw"
 }
 
 # --- LYGO CLAW standalone runtime (from home I: build) ---
@@ -189,6 +207,7 @@ Run: . .\scripts\bootstrap_env.ps1
 | Standalone AI | launchers\LYGO_Standalone_AI.bat |
 | Verify lattice | scripts\verify_builder_key.ps1 |
 | Bankr manager | LYGO_Bankr_Manager.bat or bankr\BANKR_USB_ALIGN.md |
+| Crypto / Virtuals | LYGO_Crypto_Manager.bat or crypto\CRYPTO_USB_ALIGN.md |
 
 ## Bankr (USB-local)
 
@@ -196,6 +215,14 @@ Run: . .\scripts\bootstrap_env.ps1
 - Pack: bankr\ (SKILL.md, scripts, tools, memory refs)
 - Setup once: bankr\scripts\setup_bankr_usb.ps1 → lygo-data\bankr\config.json
 - Manage: LYGO_Bankr_Manager.bat — status, daily check, submit (no auto sign/trade)
+
+## Crypto / Virtuals LYGOAGENT (USB-local)
+
+- Token: https://app.virtuals.io/virtuals/44594 (LYGOAGENT / LYRA STARCORE ORACLE)
+- Pack: crypto\ (virtuals-protocol-acp skill + scripts)
+- Setup once: crypto\scripts\setup_crypto_usb.ps1 → lygo-data\crypto\virtuals_config.json
+- Manage: LYGO_Crypto_Manager.bat — status, token, wallet, profile (no auto launch/trade)
+- Wallet private key: I:\E Drive\boot\token_config.json (steward only, never USB git)
 
 ## Rules (non-negotiable)
 
