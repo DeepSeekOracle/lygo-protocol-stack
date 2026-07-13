@@ -8,6 +8,18 @@
       "id": "stack_index"
     },
     {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html",
+      "status": 200,
+      "ok": true,
+      "id": "stack_knowledge_hub"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html",
+      "status": 200,
+      "ok": true,
+      "id": "stack_lygo_claw"
+    },
+    {
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
       "status": 200,
       "ok": true,
@@ -34,6 +46,30 @@
       "id": "stack_bpm_finder"
     },
     {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "status": 200,
+      "ok": true,
+      "id": "stack_haven_chart"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+      "status": 200,
+      "ok": true,
+      "id": "stack_haven_portal"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+      "status": 200,
+      "ok": true,
+      "id": "stack_kernel_eggs"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/dashboard/index.html",
+      "status": 200,
+      "ok": true,
+      "id": "stack_joy_loop"
+    },
+    {
       "url": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
       "status": 200,
       "ok": true,
@@ -44,10 +80,16 @@
       "status": 200,
       "ok": true,
       "id": "excavationpro_harness"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "status": 200,
+      "ok": true,
+      "id": "excavationpro_eternalhaven"
     }
   ],
   "stack_pages_live": true,
   "stack_compass_live": true,
   "excavationpro_mirrors_live": true,
-  "duration_ms": 1305
+  "duration_ms": 1953
 }

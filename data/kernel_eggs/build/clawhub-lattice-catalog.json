@@ -1,9 +1,9 @@
 {
   "signature": "\u03949\u03a6963-CLAWHUB-CATALOG-EGG-v1",
   "egg_id": "clawhub-lattice-catalog",
-  "built_utc": 1783477018.5391045,
+  "built_utc": 1783923510.7437317,
   "publisher": "deepseekoracle",
-  "skill_count": 36,
+  "skill_count": 38,
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "skills": [
     {
@@ -250,6 +250,20 @@
       "version": "1.2.0",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
       "summary": "Sovereign Lattice Mesh cartographer \u2014 load IMMUTABLE_ANCHORS.json, run live verification, traversal chants for discovery. Companion to lygo-protocol-stack-op..."
+    },
+    {
+      "slug": "lygo-haven-star-chart",
+      "name": "LYGO Haven Star Chart Agent Portal",
+      "version": "1.0.1",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
+      "summary": "Haven Star Chart v2.1 portal \u2014 gate, validate, propose submissions; cosmology placement (galaxies/nebulae/clusters) on rebuild. SkillSpector v1.0.1: allowlisted in-process imports, no subprocess, --i-"
+    },
+    {
+      "slug": "lygo-lattice-birth",
+      "name": "LYGO Lattice Birth",
+      "version": "1.0.0",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lattice-birth",
+      "summary": "Masked human lattice birth + family lineage bind proofs for Haven Star Chart. Public LYGO-XXXX-XXXX masks; steward-only anchors. Chains lygo-haven-star-chart. SkillSpector: allowlisted imports, --i-co"
     },
     {
       "slug": "lygo-ops-detector",

@@ -1,11 +1,11 @@
 {
   "signature": "\u03949\u03a6963-CHAMPION-EGG-VERIFY-v1",
-  "timestamp": 1783477216.106689,
+  "timestamp": 1783923510.1784208,
   "verdict": "ALIGNED",
   "all_pass": true,
   "champion_count": 15,
-  "council_merkle_root": "79d26fd510e8a919d58b608e2687b0a8cc9375d7d16c2c4f149dbc00c6e52d0b",
-  "council_merkle_recomputed": "79d26fd510e8a919d58b608e2687b0a8cc9375d7d16c2c4f149dbc00c6e52d0b",
+  "council_merkle_root": "ec2804dd0f53385cf08653e8f17db8c6655a8026b3babae9c339f6f660459ee2",
+  "council_merkle_recomputed": "ec2804dd0f53385cf08653e8f17db8c6655a8026b3babae9c339f6f660459ee2",
   "checks": [
     {
       "egg_id": "champion-lyrd9",

@@ -1,8 +1,8 @@
 {
-  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.3",
+  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.4",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "ee9ccb8c9839339d820b364da2ed1d79ed78512a6036d921d9a520a0a3ac2f57",
-  "anchors_version": "1.3.0",
+  "anchors_sha256": "4994e54ba083757d66f447e2642e8b41030ed467de0f2d9e73f7f03ac0411c5d",
+  "anchors_version": "1.4.0",
   "vectors": [
     {
       "id": "github_stack",
@@ -31,7 +31,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 15167,
+      "bytes": 15900,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  \n  <meta name=\"google-adsense-account\" content=\"ca-pub-064"
     },
     {
@@ -41,7 +41,7 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 43816,
+      "bytes": 44312,
       "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
     },
     {
@@ -151,7 +151,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"rjF5ntfhrGG2tyT11SCxbW57\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"Uo4OoHlTPayBoRCSTJbqjJFo\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -161,7 +161,17 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"FlQa//x4ngS/mWNBhO1am9c7\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"yzK2ZQqC2uEKL3hp/0+fpSFe\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "clawhub_haven_star_chart_skill",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"ZaChP7PoG4GEmZmqvLjxSmNz\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -171,7 +181,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"jqPwimbM6/ialLludiTJsvEh\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"L9zjYW2OOLKGFjBGpqgjBIXt\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_lightfather",
@@ -181,7 +191,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"WufXx9tcoqNGzRVZDpaem1e5\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"+Mmo3+ux2JCINwebUXE5aZdk\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "lygo_claw_repo",
@@ -285,12 +295,57 @@
     {
       "id": "haven_star_chart",
       "group": "tools",
-      "mode": "http_soft",
+      "mode": "http_required",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "status": 200,
       "ok": true,
-      "bytes": 14044,
+      "bytes": 24517,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
+    },
+    {
+      "id": "haven_star_chart_portal",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 22498,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
+    },
+    {
+      "id": "haven_star_chart_agent_doc",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\haven_star_chart\\AGENT_PORTAL.md",
+      "ok": true
+    },
+    {
+      "id": "haven_star_chart_queue",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\haven_star_chart\\haven_star_chart_queue.json",
+      "ok": true
+    },
+    {
+      "id": "haven_star_chart_gate",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\tools\\haven_star_chart_gate.py",
+      "ok": true
+    },
+    {
+      "id": "haven_star_chart_feed",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\haven_star_chart\\haven_star_chart_feed.json",
+      "ok": true
+    },
+    {
+      "id": "haven_star_chart_feed_ledger",
+      "group": "tools",
+      "mode": "local_repo",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\data\\haven_star_chart\\feed_ledger.jsonl",
+      "ok": true
     },
     {
       "id": "chatagent_summon_portal",
@@ -431,5 +486,5 @@
   "soft_failures": 3,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 56855
+  "duration_ms": 59618
 }

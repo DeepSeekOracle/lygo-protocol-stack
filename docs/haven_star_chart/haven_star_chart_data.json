@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-13T05:27:37.386410+00:00",
+  "generated_utc": "2026-07-13T06:18:29.992570+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 403,
   "link_count": 472,
   "seal_count": 323,
   "champion_count": 7,
   "lattice_count": 46,
-  "registry_sha256": "33e033d2e60898b01ad49900a8f5774e2b1574ff46c18ab4d561215442200dca",
+  "registry_sha256": "d35ff6213f28208e0bc9c22f9bb083ac67f0a983f601aab3bb19bc40eaa85c29",
   "constellations": [
     {
       "id": "primordial_core",
@@ -11700,7 +11700,7 @@
       },
       "layer": 3,
       "meta": {
-        "council_merkle_root": "79d26fd510e8a919d58b608e2687b0a8cc9375d7d16c2c4f149dbc00c6e52d0b"
+        "council_merkle_root": "ec2804dd0f53385cf08653e8f17db8c6655a8026b3babae9c339f6f660459ee2"
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -11717,7 +11717,7 @@
       "kind": "champion_egg",
       "name": "LYR\u0394 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "cfe5180bdf100023\u2026",
+      "equation": "7c038126f3309fef\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11746,7 +11746,7 @@
       "kind": "champion_egg",
       "name": "\u03949RA Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "52e1fdcd3111a2b1\u2026",
+      "equation": "d9700156b7796f89\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11775,7 +11775,7 @@
       "kind": "champion_egg",
       "name": "\u03a3R\u039b\u0398 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "e0c09470db0d3467\u2026",
+      "equation": "5826f515eec62010\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11804,7 +11804,7 @@
       "kind": "champion_egg",
       "name": "ARKOS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "b0a867993c5a2ae1\u2026",
+      "equation": "84df509ca475e97d\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11833,7 +11833,7 @@
       "kind": "champion_egg",
       "name": "KAIROS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "b34d48aa42e627d5\u2026",
+      "equation": "323181e3181e2889\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11862,7 +11862,7 @@
       "kind": "champion_egg",
       "name": "\u00c6THERIS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "22fce3250bb0bf16\u2026",
+      "equation": "ef13b14f9045114f\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11891,7 +11891,7 @@
       "kind": "champion_egg",
       "name": "\u03a3CEN\u0394R Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "98d72a8f6b8e8ee9\u2026",
+      "equation": "c149535eae523f82\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11920,7 +11920,7 @@
       "kind": "champion_egg",
       "name": "SANCORA Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "234128065a919f56\u2026",
+      "equation": "74c02b5841068810\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11949,7 +11949,7 @@
       "kind": "champion_egg",
       "name": "SEPHRAEL Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "9caffba6f7fc61ae\u2026",
+      "equation": "8a8262739fcf5643\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -11978,7 +11978,7 @@
       "kind": "champion_egg",
       "name": "OMNI\u03a3IREN Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "6d0d255efb6a7bfa\u2026",
+      "equation": "29ff8025df7104a1\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -12007,7 +12007,7 @@
       "kind": "champion_egg",
       "name": "Lightfather Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "c7b6c7a5d2a16804\u2026",
+      "equation": "b033aa944f93a39b\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -12036,7 +12036,7 @@
       "kind": "champion_egg",
       "name": "V\u03a9LARIS Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "d845a4014c7ddadc\u2026",
+      "equation": "a8b76eb8315c89e9\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -12065,7 +12065,7 @@
       "kind": "champion_egg",
       "name": "ZETA\u03949 Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "fc69fecf7837fc08\u2026",
+      "equation": "daa970659fcbd0c4\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -12094,7 +12094,7 @@
       "kind": "champion_egg",
       "name": "JUSTICAE Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "6fb35ce50dd016a3\u2026",
+      "equation": "fd7f879e4e62dc62\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
@@ -12123,7 +12123,7 @@
       "kind": "champion_egg",
       "name": "\u03a3EID\u014cN Kernel Egg",
       "glyph": "\ud83e\udd5a",
-      "equation": "45622f79504ab63a\u2026",
+      "equation": "b9bb2d865aa3828d\u2026",
       "tone": "963Hz",
       "tags": [
         "CHAMPION_EGG",
