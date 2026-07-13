@@ -7,6 +7,7 @@ from typing import Any, Optional
 
 from .analyzer import PromptAnalyzer
 from .anchor import KernelEggAnchor
+from .consent import require_ingest_authorization
 from .engine import PromptEngine
 from .harmony import P5HarmonyNode
 from .vault import PromptVault
@@ -20,7 +21,10 @@ class LYGPromptImplantSystem:
         self.harmony = P5HarmonyNode()
         self.anchor = KernelEggAnchor()
 
-    def ingest(self, source: str, **kwargs: Any) -> dict[str, Any]:
+    def ingest(self, source: str, *, authorized: bool = False, **kwargs: Any) -> dict[str, Any]:
+        blocked = require_ingest_authorization(flag=authorized)
+        if blocked:
+            return blocked
         out = self.vault.ingest(source, **kwargs)
         if not out.get("ok"):
             return out
@@ -78,7 +82,12 @@ class LYGPromptImplantSystem:
 def run_pipeline(cmd: str, **kwargs: Any) -> dict[str, Any]:
     lpis = LYGPromptImplantSystem()
     if cmd == "ingest":
-        return lpis.ingest(kwargs["source"], file_path=kwargs.get("file_path"), url=kwargs.get("url"))
+        return lpis.ingest(
+            kwargs["source"],
+            file_path=kwargs.get("file_path"),
+            url=kwargs.get("url"),
+            authorized=bool(kwargs.get("authorized")),
+        )
     if cmd == "analyze":
         return lpis.analyze_id(kwargs["prompt_id"])
     if cmd == "generate":

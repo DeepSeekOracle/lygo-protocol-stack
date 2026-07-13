@@ -22,6 +22,11 @@ def main() -> int:
     ing.add_argument("--source", required=True)
     ing.add_argument("--file")
     ing.add_argument("--url")
+    ing.add_argument(
+        "--i-authorize",
+        action="store_true",
+        help="Attest: you own this prompt or have explicit authorization to analyze it locally",
+    )
 
     ana = sub.add_parser("analyze")
     ana.add_argument("--prompt-id", required=True)
@@ -45,7 +50,7 @@ def main() -> int:
 
     if args.cmd == "ingest":
         fp = Path(args.file) if args.file else None
-        out = lpis.ingest(args.source, file_path=fp, url=args.url)
+        out = lpis.ingest(args.source, file_path=fp, url=args.url, authorized=args.i_authorize)
         print(json.dumps(out, indent=2))
         return 0 if out.get("ok") else 2
 

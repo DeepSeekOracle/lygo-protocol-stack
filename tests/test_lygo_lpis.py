@@ -27,13 +27,24 @@ def test_vault_ingest_roundtrip(tmp_path: Path) -> None:
     assert rec and "delegate" in rec.get("content", "")
 
 
+def test_ingest_requires_authorization(tmp_path: Path) -> None:
+    from lygo_lpis.framework import LYGPromptImplantSystem
+
+    lpis = LYGPromptImplantSystem(vault=tmp_path / "vault")
+    sample = tmp_path / "p.txt"
+    sample.write_text("plan execute verify", encoding="utf-8")
+    blocked = lpis.ingest("t", file_path=sample)
+    assert not blocked["ok"]
+    assert blocked["error"] == "ingest_not_authorized"
+
+
 def test_generate_variant(tmp_path: Path) -> None:
     from lygo_lpis.framework import LYGPromptImplantSystem
 
     lpis = LYGPromptImplantSystem(vault=tmp_path / "vault")
     sample = tmp_path / "p.txt"
     sample.write_text("plan execute verify", encoding="utf-8")
-    ing = lpis.ingest("t", file_path=sample)
+    ing = lpis.ingest("t", file_path=sample, authorized=True)
     assert ing["ok"]
     gen = lpis.generate(ing["ingest"]["prompt_id"], target="grok")
     assert gen["ok"]
