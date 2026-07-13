@@ -5,7 +5,7 @@
   "public_link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
   "stack": {
     "repo": "I:\\E Drive\\lygo-protocol-stack",
-    "github_main": "9d7b1e9",
+    "github_main": "1cadea6",
     "session_memory": "docs/SESSION_MEMORY_2026-07-03.md",
     "champion_merkle_root": "ec2804dd0f53385cf08653e8f17db8c6655a8026b3babae9c339f6f660459ee2",
     "kernel_egg_merkle_root": "29ea1603d6b5f8c9ec25bbb7322e7d2dbb6a36628c8eb84aac27fa6f896d6f3f",
@@ -103,7 +103,7 @@
     "hf_space": "DeepSeekOracle/LYGO-Resonance-Engine",
     "hf_space_commit": "97c22de7e1e0178858d166fd124d4205df9aa21c",
     "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
-    "hf_dataset_commit": "9fc646ad757610d8e3cab88b7a9dc9961562bf3a",
+    "hf_dataset_commit": "698f3da678f7a9f93d5fb2f4166434bc5d9edb8f",
     "clawhub": "deepseekoracle \u2014 lattice-pulse@1.2.0, lattice-birth@1.0.0, api-token-saver@1.0.0, operator@1.0.7",
     "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack"
   },
@@ -119,7 +119,7 @@
     "artifact": "tests/public_pages_last_run.json"
   },
   "session_log": [
-    "2026-07-13: Kernel egg plant \u2014 12 catalog + 15 champion + clawhub; verify ALIGNED; merkle 29ea1603 / ec2804dd.",
+    "2026-07-13: Kernel egg plant \u2014 12 catalog + 15 champion + clawhub; verify ALIGNED; merkle 29ea1603/ec2804dd; git 1cadea6; HF 698f3da6.",
     "2026-07-13: HF dataset synced 9fc646ad \u2014 lattice balance 9d7b1e9; LATTICE ALIGNED.",
     "2026-07-13: Lattice balance \u2014 LATTICE ALIGNED; GitHub audit 12/12 Pages; HF dataset sync; NEXT_BUILDING_PHASE.md; git 9c086e0.",
     "2026-07-03: Moltx viral mythos thread + how-it-works feed/article; lyra-brain@2.0.0 ClawHub; champion 15/15 ALIGNED merkle b0b2131d; git 54b45f8; SESSION_MEMORY_2026-07-03.md.",
