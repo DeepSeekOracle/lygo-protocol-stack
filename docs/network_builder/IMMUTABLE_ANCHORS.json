@@ -1,8 +1,8 @@
 {
   "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.5",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.0",
-  "updated_utc": "2026-07-13T12:00:00Z",
+  "version": "1.5.1",
+  "updated_utc": "2026-07-13T14:00:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -251,7 +251,15 @@
         "id": "haven_star_chart",
         "label": "Eternal Haven Star Chart (v2 LIVE)",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
-        "verify": "http_required"
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor"
+      },
+      {
+        "id": "haven_star_chart_lygoagent_anchor",
+        "label": "Haven Star Chart — LYGOAGENT economic anchor (live chart)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor",
+        "verify": "http_required",
+        "registry_json": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/lygoagent_anchor.json"
       },
       {
         "id": "haven_star_chart_portal",
