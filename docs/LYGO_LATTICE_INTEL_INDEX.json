@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-LATTICE-INTEL-INDEX-v1",
   "role": "Lattice architect fast lookup \u2014 outer brain for I:\\E Drive (no secrets)",
-  "updated_utc": "2026-07-12",
+  "updated_utc": "2026-07-13",
   "authority_root": "I:\\E Drive",
   "canonical_repo": "I:\\E Drive\\lygo-protocol-stack",
   "query_hints": [
@@ -482,6 +482,31 @@
         "pulse"
       ],
       "summary": "First LYGO OpenClaw plugin — lattice pulse, registry compare, star chart gate"
+    },
+    {
+      "id": "github-agent-restore",
+      "tier": 5,
+      "path": "I:\\E Drive\\GITHUB_AGENT_RESTORE.txt",
+      "repo_path": "lygo-protocol-stack/docs/GITHUB_AGENT_RESTORE.txt",
+      "urls": {
+        "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/GITHUB_AGENT_RESTORE.txt",
+        "usb": "E:\\LYGO_BUILDER_KEY\\GITHUB_AGENT_RESTORE.txt"
+      },
+      "tags": [
+        "github",
+        "hf",
+        "pages",
+        "agent-restore",
+        "immutable-lattice"
+      ],
+      "tools": [
+        "tools/audit_github_lattice_links.py",
+        "tools/verify_public_pages.py",
+        "tools/log_public_surface.py",
+        "tools/push_with_git_credential.py",
+        "tools/hf_push_dataset.py"
+      ],
+      "summary": "Full GitHub Pages + HF + ClawHub ops restore for agents — consent-gated publish"
     },
     {
       "id": "lygip001-protocol-math",

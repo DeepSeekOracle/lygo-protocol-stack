@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-13T05:28:28.153364+00:00",
+  "updated_utc": "2026-07-13T05:47:59.108225+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -198,7 +198,9 @@
       "role": "haven-lore",
       "urls": {
         "live_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "live_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
         "repo_canonical": "docs/HavenStarChart.html",
+        "repo_portal": "docs/HavenStarChartPortal.html",
         "data_json": "docs/haven_star_chart/haven_star_chart_data.json",
         "lygorepo_portal": "https://deepseekoracle.github.io/Excavationpro/lygorepo.html",
         "guardian_portal": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html"
@@ -801,6 +803,66 @@
         "repo_canonical": "docs/BIOPHASE7_SLM_MERKLE_GOSSIP.md"
       },
       "since": "2026-07-13"
+    },
+    {
+      "id": "lygo-claw-page",
+      "title": "LYGO-Claw overview (GitHub Pages)",
+      "role": "lygo-claw",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html",
+        "repo_canonical": "docs/LYGO_CLAW.html"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "kernel-egg-retrieval-page",
+      "title": "Kernel Egg Retrieval (SOA interactive)",
+      "role": "kernel-eggs",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "repo_canonical": "docs/KernelEggRetrieval.html"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "joy-loop-dashboard",
+      "title": "Joy Loop Protocol dashboard",
+      "role": "joy-loop",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/dashboard/index.html",
+        "repo_canonical": "docs/joy_loop/dashboard/index.html"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "lygo-lattice-pulse-plugin",
+      "title": "LYGO Lattice Pulse OpenClaw plugin",
+      "role": "openclaw-plugin",
+      "urls": {
+        "live": "https://clawhub.ai/deepseekoracle/lygo-lattice-pulse",
+        "repo_canonical": "clawhub/packages/lygo-lattice-pulse"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "github-agent-restore",
+      "title": "GitHub + HF agent restore anchor",
+      "role": "agent-restore",
+      "urls": {
+        "live": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/GITHUB_AGENT_RESTORE.txt",
+        "repo_canonical": "docs/GITHUB_AGENT_RESTORE.txt"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "joy-loop-architect",
+      "title": "Joy Loop architect dashboard",
+      "role": "joy-loop",
+      "urls": {
+        "live": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/dashboard/architect.html",
+        "repo_canonical": "docs/joy_loop/dashboard/architect.html"
+      },
+      "since": "2026-07-13"
     }
   ],
   "growth_log": [
@@ -1250,6 +1312,48 @@
       "event": "Vault ingest Merkle gossip spec",
       "refs": [
         "biophase7-slm-spec"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:47:39.058814+00:00",
+      "event": "GitHub lattice audit 2026-07-13",
+      "refs": [
+        "lygo-claw-page"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:47:39.124937+00:00",
+      "event": "Pages SOA hub registered",
+      "refs": [
+        "kernel-egg-retrieval-page"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:47:39.191942+00:00",
+      "event": "Joy loop Pages surface",
+      "refs": [
+        "joy-loop-dashboard"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:47:39.259513+00:00",
+      "event": "v1.2.0 SkillSpector-safe",
+      "refs": [
+        "lygo-lattice-pulse-plugin"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:47:39.326587+00:00",
+      "event": "Immutable lattice GitHub ops restore",
+      "refs": [
+        "github-agent-restore"
+      ]
+    },
+    {
+      "utc": "2026-07-13T05:47:59.108220+00:00",
+      "event": "Joy loop architect surface",
+      "refs": [
+        "joy-loop-architect"
       ]
     }
   ]

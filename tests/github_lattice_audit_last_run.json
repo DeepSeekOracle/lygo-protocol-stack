@@ -1,0 +1,87 @@
+{
+  "signature": "\u03949\u03a6963-GITHUB-LATTICE-AUDIT-v1",
+  "audited_utc": "2026-07-13T05:48:05.608423+00:00",
+  "canonical_html_count": 12,
+  "archive_paths_count": 17,
+  "sitemap_paths_count": 11,
+  "missing_from_link_archive": [],
+  "missing_from_sitemap": [],
+  "missing_from_knowledge_hub": [],
+  "live_http": [
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/index.html",
+      "status": 200,
+      "ok": true,
+      "id": "index.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html",
+      "status": 200,
+      "ok": true,
+      "id": "LYGO_CLAW.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html",
+      "status": 200,
+      "ok": true,
+      "id": "LYGO_KNOWLEDGE_HUB.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "status": 200,
+      "ok": true,
+      "id": "HavenStarChart.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+      "status": 200,
+      "ok": true,
+      "id": "HavenStarChartPortal.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+      "status": 200,
+      "ok": true,
+      "id": "KernelEggRetrieval.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+      "status": 200,
+      "ok": true,
+      "id": "SovereignLatticeMesh.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+      "status": 200,
+      "ok": true,
+      "id": "BiometricEntropyHarness.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+      "status": 200,
+      "ok": true,
+      "id": "LYGO_BPM_Finder.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
+      "status": 200,
+      "ok": true,
+      "id": "tools_LYGO_Compass_Master.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/dashboard/index.html",
+      "status": 200,
+      "ok": true,
+      "id": "joy_loop_dashboard_index.html"
+    },
+    {
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/dashboard/architect.html",
+      "status": 200,
+      "ok": true,
+      "id": "joy_loop_dashboard_architect.html"
+    }
+  ],
+  "all_live": true,
+  "restore_doc": "I:/E Drive/GITHUB_AGENT_RESTORE.txt",
+  "duration_ms": 1206
+}

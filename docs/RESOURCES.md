@@ -30,6 +30,11 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - LYGO CLAW: https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html
 - Full Pages Index: https://deepseekoracle.github.io/lygo-protocol-stack/
 
+## Agent GitHub / HF restore
+- **GITHUB_AGENT_RESTORE.txt:** https://deepseekoracle.github.io/lygo-protocol-stack/GITHUB_AGENT_RESTORE.txt (also `I:\E Drive\GITHUB_AGENT_RESTORE.txt`, USB `E:\LYGO_BUILDER_KEY\`)
+- **Audit:** `python tools/audit_github_lattice_links.py` · `python tools/verify_public_pages.py`
+- **Register URLs:** `python tools/log_public_surface.py`
+
 ## Knowledge Hub (E Drive audit)
 - **Knowledge Hub page:** https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html
 - **Agent intel index:** docs/LYGO_LATTICE_INTEL_INDEX.json (tiered map of I:\E Drive — no secrets)

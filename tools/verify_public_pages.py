@@ -13,12 +13,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 URLS = {
     "stack_index": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "stack_knowledge_hub": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_KNOWLEDGE_HUB.html",
+    "stack_lygo_claw": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html",
     "stack_compass": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
     "stack_slm": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
     "stack_harness": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
     "stack_bpm_finder": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+    "stack_haven_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "stack_haven_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+    "stack_kernel_eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+    "stack_joy_loop": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/dashboard/index.html",
     "excavationpro_slm": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
     "excavationpro_harness": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+    "excavationpro_eternalhaven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
 }
 
 
@@ -52,7 +59,14 @@ def main() -> int:
         row["id"] = key
         results.append(row)
 
-    stack_core_ids = {"stack_index", "stack_slm", "stack_harness"}
+    stack_core_ids = {
+        "stack_index",
+        "stack_knowledge_hub",
+        "stack_slm",
+        "stack_harness",
+        "stack_haven_chart",
+        "stack_haven_portal",
+    }
     stack_ok = all(r["ok"] for r in results if r["id"] in stack_core_ids)
     mirror_ok = all(r["ok"] for r in results if r["id"].startswith("excavationpro_"))
     compass_row = next((r for r in results if r["id"] == "stack_compass"), None)

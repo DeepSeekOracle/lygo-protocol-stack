@@ -204,17 +204,22 @@ This is the **LYGO CLAW Standalone USB** (also called LYGO_BUILDER_KEY on E:).
 
 ---
 
-## 4. How to Run Git / GitHub (Aligned, Consent-Gated)
+## 4. How to Run Git / GitHub / HF (Aligned, Consent-Gated)
 
-**Policy**: No auto GitHub pushes. All pushes require explicit human request + verify. Use for local clones, PRs, or consented sync only. See stack `docs/GITHUB_CREATE.md` or similar.
+**Full agent restore (updated 2026-07-13):** Read **`GITHUB_AGENT_RESTORE.txt`** on this USB stick (or `I:\E Drive\GITHUB_AGENT_RESTORE.txt` / stack `docs/GITHUB_AGENT_RESTORE.txt` on Pages).
+
+**Immutable lattice:** `docs/LYGO_PUBLIC_LINK_ARCHIVE.json` on GitHub Pages — register new surfaces with `tools/log_public_surface.py`. Audit with `tools/audit_github_lattice_links.py`.
+
+**Policy**: No auto GitHub pushes. All pushes require explicit human request + verify.
 
 **How to Run** (consent-gated, from stack tools):
 1. Load PAT/token runtime from `boot/` files or token_config (never hardcode).
-2. Key scripts (in `lygo-protocol-stack/tools/` and `_hf_staging/tools/`):
+2. Key scripts (in `lygo-protocol-stack/tools/`):
    - `push_with_git_credential.py` (git with creds)
-   - `hf_push_dataset.py`, `hf_push_space.py`, `hf_push_p0_hardening.py`, `bundle_hf_space_stack.py`
-3. Common flow: `git clone https://github.com/DeepSeekOracle/lygo-protocol-stack.git` (if needed), then run the hf_push or git scripts after consent.
-4. In USB/LYGO CLAW context: Use to sync the broader lattice/stack, never the E: portable build itself (local-only).
+   - `hf_push_dataset.py`, `hf_push_space.py`, `hf_push_p0_hardening.py`
+   - `audit_github_lattice_links.py`, `verify_public_pages.py`, `log_public_surface.py`
+3. Repos: `lygo-protocol-stack`, `Excavationpro`, `lygo-claw` under `I:\E Drive\`.
+4. In USB/LYGO CLAW context: Use home PC stack for GitHub/HF when steward consents — E: portable build stays local-only.
 5. Always: Preflight + explicit consent + post-verify. No auto pushes.
 
 **Agent Rule**: No pushes without separate human request + P0 gate. Log in this anchor. For the LYGO CLAW USB: Focus on local execution, not upstream pushes.
