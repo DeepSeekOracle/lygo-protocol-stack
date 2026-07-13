@@ -623,6 +623,8 @@ HB_LIGHT_ROLES = frozenset({
 def task_for_daemon(task_role: str, daemon_role: str) -> bool:
     if task_role == "champion-egg-boot":
         return daemon_role == "champion-egg-boot"
+    if daemon_role == "stack-worker":
+        return task_role in DETERMINISTIC_ROLES
     if daemon_role == "hb-light":
         if task_role == "champion-egg-boot":
             return False
@@ -630,8 +632,41 @@ def task_for_daemon(task_role: str, daemon_role: str) -> bool:
     return task_role == daemon_role
 
 
+def _pending_for_daemon(role: str) -> int:
+    n = 0
+    by_name: dict[str, Path] = {}
+    for qd in queue_dirs():
+        for tf in qd.glob("*.task.json"):
+            by_name.setdefault(tf.name, tf)
+    for tf in by_name.values():
+        try:
+            task = json.loads(tf.read_text(encoding="utf-8"))
+            if task_for_daemon(task.get("role", "general"), role):
+                n += 1
+        except (OSError, json.JSONDecodeError):
+            continue
+    return n
+
+
+def _load_poll_tiers(poll: float) -> tuple[float, float, int]:
+    idle = poll
+    busy = min(1.5, poll / 3.0)
+    batch = 8
+    if ARMY_CFG.is_file():
+        try:
+            perf = json.loads(ARMY_CFG.read_text(encoding="utf-8")).get("performance") or {}
+            idle = float(perf.get("poll_idle_seconds", idle))
+            busy = float(perf.get("poll_busy_seconds", busy))
+            batch = int(perf.get("batch_max", batch))
+        except (json.JSONDecodeError, OSError, ValueError):
+            pass
+    return idle, busy, batch
+
+
 def run_daemon(role: str, model: str, poll: float = 5.0, champion: str = None):
+    poll_idle, poll_busy, batch_max = _load_poll_tiers(poll)
     print(f"🚀 LYGO OLLAMA DAEMON | role={role} model={model} champion={champion or 'none'}")
+    print(f"Adaptive poll idle={poll_idle}s busy={poll_busy}s batch={batch_max}")
     print("Generic public edition. Self-building capable. Queue-driven.")
     ensure_dirs()
     
@@ -646,7 +681,7 @@ def run_daemon(role: str, model: str, poll: float = 5.0, champion: str = None):
                     by_name.setdefault(tf.name, tf)
             processed = 0
             for tf in sorted(by_name.values(), key=lambda p: p.name):
-                if processed >= 8:
+                if processed >= batch_max:
                     break
                 try:
                     if not tf.is_file():
@@ -676,7 +711,10 @@ def run_daemon(role: str, model: str, poll: float = 5.0, champion: str = None):
                 except Exception as e:
                     print(f"[TASK ERR] {e}")
 
-            time.sleep(poll)
+            if processed > 0 or _pending_for_daemon(role) > 0:
+                time.sleep(poll_busy)
+            else:
+                time.sleep(poll_idle)
         except KeyboardInterrupt:
             print("Daemon stopped.")
             break

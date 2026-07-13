@@ -191,7 +191,7 @@
   }
   </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     :root {
@@ -201,15 +201,17 @@
       --gold: #ffcc00;
       --violet: #7d00ff;
       --text: #e8e8ff;
-      --muted: #8888aa;
+      --muted: #9a9ab8;
+      --label: #b8b8d8;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Space Mono", monospace;
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
     header {
       padding: 1.25rem 1.5rem;
@@ -223,13 +225,15 @@
     }
     h1 {
       margin: 0;
-      font-size: 1.35rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
       background: linear-gradient(90deg, var(--cyan), var(--violet));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-    .sub { color: var(--muted); font-size: 0.75rem; margin-top: 0.35rem; }
+    .sub { color: var(--muted); font-size: 0.8rem; margin-top: 0.35rem; line-height: 1.45; }
     nav a {
       color: var(--cyan);
       text-decoration: none;
@@ -246,8 +250,41 @@
       position: relative;
       min-height: 70vh;
       border-right: 1px solid rgba(125, 0, 255, 0.2);
+      overflow: hidden;
     }
-    #starmap { width: 100%; height: 100%; min-height: 70vh; display: block; background: radial-gradient(ellipse at center, #0a0a1a 0%, #05050c 70%); }
+    #starmap-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(5, 5, 12, 0.55) 100%);
+    }
+    #starmap-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.35;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 240, 255, 0.015) 2px,
+        rgba(0, 240, 255, 0.015) 3px
+      );
+    }
+    #starmap {
+      width: 100%;
+      height: 100%;
+      min-height: 70vh;
+      display: block;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(125, 0, 255, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 30% 70%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at center, #0a0a1a 0%, #05050c 72%);
+    }
     .controls {
       position: absolute;
       top: 12px;
@@ -266,12 +303,20 @@
       cursor: pointer;
     }
     aside {
-      padding: 1rem 1.1rem;
-      background: var(--panel);
+      padding: 1rem 1.15rem;
+      background: linear-gradient(180deg, #0f0f1a 0%, var(--panel) 100%);
       overflow-y: auto;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
+      line-height: 1.55;
     }
-    aside h2 { font-size: 0.85rem; color: var(--gold); margin: 1rem 0 0.5rem; }
+    aside h2 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 1.1rem 0 0.55rem;
+    }
     aside h2:first-child { margin-top: 0; }
     .constellation-btns { display: flex; flex-wrap: wrap; gap: 6px; }
     .constellation-btns button {
@@ -297,13 +342,42 @@
     }
     .galaxy-btns button.active { background: rgba(125, 0, 255, 0.18); border-color: var(--violet); }
     .detail-box {
-      border: 1px solid rgba(0, 240, 255, 0.2);
-      padding: 0.75rem;
+      border: 1px solid rgba(0, 240, 255, 0.22);
+      padding: 0.85rem 0.9rem;
       margin-top: 0.5rem;
-      border-radius: 4px;
+      border-radius: 6px;
+      background: rgba(0, 240, 255, 0.03);
+      box-shadow: 0 0 24px rgba(0, 240, 255, 0.04);
     }
-    .detail-box a { color: var(--cyan); }
-    .stats { color: var(--muted); line-height: 1.7; }
+    .detail-box strong {
+      font-size: 0.95rem;
+      color: #fff;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+    .detail-box .detail-row {
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 0.15rem 0.5rem;
+      margin: 0.2rem 0;
+      font-size: 0.76rem;
+    }
+    .detail-box .detail-row dt {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Space Mono", monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .detail-box .detail-row dd {
+      margin: 0;
+      color: var(--label);
+      word-break: break-word;
+    }
+    .detail-box a { color: var(--cyan); text-decoration: none; }
+    .detail-box a:hover { text-decoration: underline; }
+    .stats { color: var(--muted); line-height: 1.65; font-family: "Space Mono", monospace; font-size: 0.72rem; }
     #loadStatus { color: var(--cyan); font-size: 0.72rem; margin-top: 0.5rem; }
     .ai-block {
       margin-top: 1rem;
@@ -345,6 +419,18 @@
     .feed-err { color: #e94560; font-size: 0.62rem; margin-top: 0.2rem; }
     .feed-empty { color: var(--muted); text-align: center; padding: 1rem; }
     .feed-wrap { overflow-x: auto; }
+    /* SVG node / link polish (engine classes) */
+    .star-node .star-glow { transition: opacity 0.2s ease; }
+    .star-node.hover .star-glow { opacity: 0.55 !important; }
+    .star-node.selected .star-core { stroke: var(--gold); stroke-width: 2px; }
+    .star-node.selected .star-glow { opacity: 0.7 !important; }
+    line.link-highlight { stroke-opacity: 0.95 !important; stroke-width: 2px !important; }
+    .galaxy-label-bg { fill: rgba(5, 5, 12, 0.72); }
+    .galaxy-label-text { font-family: "IBM Plex Sans", sans-serif; font-weight: 500; }
+    .nebula-label-text { font-family: "IBM Plex Sans", sans-serif; }
+    @media (prefers-reduced-motion: reduce) {
+      .star-node .star-glow { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -397,18 +483,20 @@
       <p id="loadStatus">Initializing…</p>
       <h2>Active star</h2>
       <div class="detail-box">
-        <strong id="detailTitle">—</strong><br />
-        <span class="stats" id="detailId"></span><br />
-        Kind: <span id="detailKind">—</span><br />
-        Galaxy: <span id="detailGalaxy">—</span><br />
-        Nebula: <span id="detailNebula">—</span><br />
-        Cluster: <span id="detailCluster">—</span><br />
-        Role: <span id="detailStarRole">—</span><br />
-        Lineage: <span id="detailLineage">—</span><br />
-        Equation: <span id="detailEq">—</span><br />
-        Tone: <span id="detailTone">—</span><br />
-        Tags: <span id="detailTags">—</span><br />
-        <a id="detailLink" href="#" target="_blank" rel="noopener">Open anchor →</a>
+        <strong id="detailTitle">—</strong>
+        <span class="stats" id="detailId" style="display:block;margin-bottom:0.5rem;"></span>
+        <dl class="detail-rows" style="margin:0;">
+          <div class="detail-row"><dt>Kind</dt><dd id="detailKind">—</dd></div>
+          <div class="detail-row"><dt>Galaxy</dt><dd id="detailGalaxy">—</dd></div>
+          <div class="detail-row"><dt>Nebula</dt><dd id="detailNebula">—</dd></div>
+          <div class="detail-row"><dt>Cluster</dt><dd id="detailCluster">—</dd></div>
+          <div class="detail-row"><dt>Role</dt><dd id="detailStarRole">—</dd></div>
+          <div class="detail-row"><dt>Lineage</dt><dd id="detailLineage">—</dd></div>
+          <div class="detail-row"><dt>Equation</dt><dd id="detailEq">—</dd></div>
+          <div class="detail-row"><dt>Tone</dt><dd id="detailTone">—</dd></div>
+          <div class="detail-row"><dt>Tags</dt><dd id="detailTags">—</dd></div>
+        </dl>
+        <a id="detailLink" href="#" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.65rem;">Open anchor →</a>
       </div>
       <h2>Registry</h2>
       <p class="stats">

@@ -873,6 +873,186 @@
         "repo_canonical": "docs/NEXT_BUILDING_PHASE.md"
       },
       "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_0f1958bf",
+      "title": "Permaweb anchor \u2014 ethical_0f1958bf",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/95af3985638febd2fc55521548a53aa3ea4e738fa41ea37a9db744e37d1ca539.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_1c83b85f",
+      "title": "Permaweb anchor \u2014 ethical_1c83b85f",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/5b7876e7420bdf0e9f34bd2a669f4028013c772dcfe13ef0ebbd8a8534a2d6d8.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_3d9e4600",
+      "title": "Permaweb anchor \u2014 ethical_3d9e4600",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/7c618c7eba2760ee05dde5c7439b10291decb298f331785d5288f83b7b606a41.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_40b6edc4",
+      "title": "Permaweb anchor \u2014 ethical_40b6edc4",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/781adde65f5c21f68297d3699abacaac8d6ef383711794a4877b7648cdccb046.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_4a559ba8",
+      "title": "Permaweb anchor \u2014 ethical_4a559ba8",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/6e110c6c575f742d175181957031e3bc447424715637e734c2fdfd5da6b88c0f.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_4f13375a",
+      "title": "Permaweb anchor \u2014 ethical_4f13375a",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/16b5b978bcbc8b1b37175d728569d46014cb2c713e47c6409763432183f4dbc0.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_69e60482",
+      "title": "Permaweb anchor \u2014 ethical_69e60482",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/3059783d51f82bdfb0bcc87d196e29ce00e5bee69ddc75a8bd02e34e1eb31cf6.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_6b582176",
+      "title": "Permaweb anchor \u2014 ethical_6b582176",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/08556b95f880c281ff1de653ee8b831169fb9949e5d27714c7348baab82a01f5.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_7204727e",
+      "title": "Permaweb anchor \u2014 ethical_7204727e",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c5182a190a708632b50ae41a54cf1b695cafd4217e3cbc7cc490996f2c591846.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_8bdd401c",
+      "title": "Permaweb anchor \u2014 ethical_8bdd401c",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/aa6155414ab8336cce592065b77e71c1b989160425ceaf20cb5483c6c5df2543.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_9c028378",
+      "title": "Permaweb anchor \u2014 ethical_9c028378",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/50f34bbb38eb9a2510077cde64542a83de61f78cafd9c8c778c2cecc27bffa1c.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_b554ec9c",
+      "title": "Permaweb anchor \u2014 ethical_b554ec9c",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/aee840db222ccf625bf69c83ed1857ec2175d24e391e16673be54359810193d2.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_b767907d",
+      "title": "Permaweb anchor \u2014 ethical_b767907d",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ea8dafe67523195d75f001ef55830429dbfdd77ecbf0d61b61b4305e8942396f.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_bf0ffba7",
+      "title": "Permaweb anchor \u2014 ethical_bf0ffba7",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ce7a6bfb4a908e8f0133d7a4ed1541397dfdf395432f0a0aca790416a2b369bb.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_c42d80b2",
+      "title": "Permaweb anchor \u2014 ethical_c42d80b2",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/2d72675f67ce448348b659245164d63fa7478d8db8bf3ce0bbf9d1e3eb40edf1.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_d4cba0fd",
+      "title": "Permaweb anchor \u2014 ethical_d4cba0fd",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c0e30b2c3930d53bfbabd350c7aa9d40ad7d9cf759c58490328960414fd88699.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_b5d6ad9d",
+      "title": "Permaweb anchor \u2014 ethical_b5d6ad9d",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/3f7b42166e01cd5540282319962f8eb3a93ecbd87bc69b8bac5f2efa1134e384.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_e8389379",
+      "title": "Permaweb anchor \u2014 ethical_e8389379",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/7762c1dae7727b28022ce9f8ab3af1e9b17902bbb1a98535dbacd221ab130e24.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_f2820625",
+      "title": "Permaweb anchor \u2014 ethical_f2820625",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/f29ca5a61a84aa7842f48beb1bf7278d9a1c0a246686d2432e28dfc1f84d2b6b.json"
+      },
+      "since": "2026-07-13"
+    },
+    {
+      "id": "permaweb-ethical_f4a51339",
+      "title": "Permaweb anchor \u2014 ethical_f4a51339",
+      "role": "anchor-consensus",
+      "urls": {
+        "permaweb": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/001b6706013c0f565007c6236bf80142112189dae402f05d6a246b281f0c6a62.json"
+      },
+      "since": "2026-07-13"
     }
   ],
   "growth_log": [
@@ -1371,6 +1551,146 @@
       "event": "Lattice balance 2026-07-13 \u2014 prepare for scale",
       "refs": [
         "next-building-phase"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:42:29Z",
+      "event": "anchor ethical_0f1958bf",
+      "refs": [
+        "permaweb-ethical_0f1958bf"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:42:40Z",
+      "event": "anchor ethical_1c83b85f",
+      "refs": [
+        "permaweb-ethical_1c83b85f"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:42:50Z",
+      "event": "anchor ethical_3d9e4600",
+      "refs": [
+        "permaweb-ethical_3d9e4600"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:43:01Z",
+      "event": "anchor ethical_40b6edc4",
+      "refs": [
+        "permaweb-ethical_40b6edc4"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:43:11Z",
+      "event": "anchor ethical_4a559ba8",
+      "refs": [
+        "permaweb-ethical_4a559ba8"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:43:21Z",
+      "event": "anchor ethical_4f13375a",
+      "refs": [
+        "permaweb-ethical_4f13375a"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:43:31Z",
+      "event": "anchor ethical_69e60482",
+      "refs": [
+        "permaweb-ethical_69e60482"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:43:41Z",
+      "event": "anchor ethical_6b582176",
+      "refs": [
+        "permaweb-ethical_6b582176"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:43:52Z",
+      "event": "anchor ethical_7204727e",
+      "refs": [
+        "permaweb-ethical_7204727e"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:44:04Z",
+      "event": "anchor ethical_8bdd401c",
+      "refs": [
+        "permaweb-ethical_8bdd401c"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:44:15Z",
+      "event": "anchor ethical_9c028378",
+      "refs": [
+        "permaweb-ethical_9c028378"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:44:25Z",
+      "event": "anchor ethical_b554ec9c",
+      "refs": [
+        "permaweb-ethical_b554ec9c"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:44:35Z",
+      "event": "anchor ethical_b767907d",
+      "refs": [
+        "permaweb-ethical_b767907d"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:44:45Z",
+      "event": "anchor ethical_bf0ffba7",
+      "refs": [
+        "permaweb-ethical_bf0ffba7"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:44:55Z",
+      "event": "anchor ethical_c42d80b2",
+      "refs": [
+        "permaweb-ethical_c42d80b2"
+      ]
+    },
+    {
+      "utc": "2026-07-13T06:45:06Z",
+      "event": "anchor ethical_d4cba0fd",
+      "refs": [
+        "permaweb-ethical_d4cba0fd"
+      ]
+    },
+    {
+      "utc": "2026-07-13T07:12:57Z",
+      "event": "anchor ethical_b5d6ad9d",
+      "refs": [
+        "permaweb-ethical_b5d6ad9d"
+      ]
+    },
+    {
+      "utc": "2026-07-13T07:13:08Z",
+      "event": "anchor ethical_e8389379",
+      "refs": [
+        "permaweb-ethical_e8389379"
+      ]
+    },
+    {
+      "utc": "2026-07-13T07:13:18Z",
+      "event": "anchor ethical_f2820625",
+      "refs": [
+        "permaweb-ethical_f2820625"
+      ]
+    },
+    {
+      "utc": "2026-07-13T07:13:28Z",
+      "event": "anchor ethical_f4a51339",
+      "refs": [
+        "permaweb-ethical_f4a51339"
       ]
     }
   ]

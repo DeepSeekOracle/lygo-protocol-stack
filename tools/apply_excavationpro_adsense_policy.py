@@ -19,12 +19,13 @@ MONETIZE = {
 
 # Full AdSense site readiness: verification meta + head loader; keep in-page slots.
 ADSENSE_READY = {
+    "eternalhaven.html",
     "LYGOBPMFinder.html",
+    "LYGO-Network/champions.html",
 }
 
 # Substantive public pages: site-verification meta only (no adsbygoogle.js, no <ins>).
 META_ONLY = {
-    "eternalhaven.html",
     "index.html",
     "main.html",
     "Expromain.html",
@@ -46,7 +47,6 @@ META_ONLY = {
     "LYGO-Network/LYGOGUARDIAN.html",
     "LYGO-Network/Ethical-Chip-FirmwareV2.html",
     "LYGO-Network/Ethical-Chip-Firmware.html",
-    "LYGO-Network/champions.html",
     "LYGO-Network/FIRMWARE.html",
     "LYGO-Network/FIRMWAREV2.html",
     "LYGO-Network/LYGO-Portal.html",

@@ -10,6 +10,7 @@
   let activeConstellation = "all";
   let activeGalaxy = "all";
   let showCosmosLayers = true;
+  let selectedNodeId = null;
 
   const el = (id) => document.getElementById(id);
 
@@ -116,20 +117,40 @@
         .attr("ry", ry)
         .attr("transform", `rotate(${(g?.angle_deg || 0) * 0.35} ${cx} ${cy})`)
         .attr("fill", g?.color || "#7d00ff")
-        .attr("opacity", 0.06)
+        .attr("opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.1 : 0.04)
         .attr("stroke", g?.color || "#7d00ff")
-        .attr("stroke-opacity", 0.18)
-        .attr("stroke-width", 1.2);
+        .attr("stroke-opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.28 : 0.12)
+        .attr("stroke-width", 1.4);
 
       galaxyLayer
+        .append("circle")
+        .attr("cx", cx)
+        .attr("cy", cy)
+        .attr("r", 3)
+        .attr("fill", g?.color || "#7d00ff")
+        .attr("opacity", 0.35);
+
+      const label = `${g?.glyph || "◈"} ${g?.name || gid}`;
+      const labelY = cy - ry - 8;
+      const labelW = Math.min(label.length * 5.8 + 14, 200);
+      galaxyLayer
+        .append("rect")
+        .attr("class", "galaxy-label-bg")
+        .attr("x", cx - labelW / 2)
+        .attr("y", labelY - 11)
+        .attr("width", labelW)
+        .attr("height", 14)
+        .attr("rx", 3);
+      galaxyLayer
         .append("text")
+        .attr("class", "galaxy-label-text")
         .attr("x", cx)
-        .attr("y", cy - ry - 6)
+        .attr("y", labelY)
         .attr("text-anchor", "middle")
-        .attr("fill", g?.color || "#aaa")
-        .attr("font-size", "9px")
-        .attr("opacity", 0.55)
-        .text(`${g?.glyph || "◈"} ${g?.name || gid}`);
+        .attr("fill", g?.color || "#c8b8ff")
+        .attr("font-size", "10px")
+        .attr("opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.88 : 0.45)
+        .text(label);
     });
 
     // Nebula halos (tighter sub-regions at live centroids)
@@ -154,21 +175,33 @@
         .attr("rx", rx)
         .attr("ry", ry)
         .attr("fill", g?.color || "#00f0ff")
-        .attr("opacity", 0.04)
+        .attr("opacity", 0.055)
         .attr("stroke", g?.color || "#00f0ff")
-        .attr("stroke-opacity", 0.12)
-        .attr("stroke-dasharray", "3,5")
-        .attr("stroke-width", 0.8);
+        .attr("stroke-opacity", 0.16)
+        .attr("stroke-dasharray", "4,6")
+        .attr("stroke-width", 0.9);
       if (members.length >= 4 && neb?.name) {
+        const short = neb.name.length > 28 ? neb.name.slice(0, 26) + "…" : neb.name;
+        const nw = short.length * 4.6 + 10;
+        nebulaLayer
+          .append("rect")
+          .attr("class", "galaxy-label-bg")
+          .attr("x", cx - nw / 2)
+          .attr("y", cy - 2)
+          .attr("width", nw)
+          .attr("height", 11)
+          .attr("rx", 2)
+          .attr("opacity", 0.85);
         nebulaLayer
           .append("text")
+          .attr("class", "nebula-label-text")
           .attr("x", cx)
-          .attr("y", cy + 4)
+          .attr("y", cy + 6)
           .attr("text-anchor", "middle")
-          .attr("fill", "#8888aa")
-          .attr("font-size", "7px")
-          .attr("opacity", 0.45)
-          .text(neb.name.length > 28 ? neb.name.slice(0, 26) + "…" : neb.name);
+          .attr("fill", "#a8a8cc")
+          .attr("font-size", "8px")
+          .attr("opacity", 0.65)
+          .text(short);
       }
     });
   }
@@ -190,15 +223,29 @@
     const svg = d3.select("#starmap").attr("width", W).attr("height", H);
     svg.selectAll("*").remove();
 
+    const defs = svg.append("defs");
+    const glow = defs
+      .append("filter")
+      .attr("id", "star-glow")
+      .attr("x", "-80%")
+      .attr("y", "-80%")
+      .attr("width", "260%")
+      .attr("height", "260%");
+    glow.append("feGaussianBlur").attr("stdDeviation", "3.5").attr("result", "blur");
+    const merge = glow.append("feMerge");
+    merge.append("feMergeNode").attr("in", "blur");
+    merge.append("feMergeNode").attr("in", "SourceGraphic");
+
     const zoom = d3.zoom().scaleExtent([0.08, 12]).on("zoom", (ev) => gRoot.attr("transform", ev.transform));
     svg.call(zoom);
     gRoot = svg.append("g");
     gCosmos = gRoot.append("g").attr("class", "cosmos-layer");
 
-    const stars = d3.range(180).map(() => ({
+    const stars = d3.range(260).map(() => ({
       x: Math.random() * W,
       y: Math.random() * H,
-      r: Math.random() * 1.2 + 0.2,
+      r: Math.random() * 1.1 + 0.15,
+      o: Math.random() * 0.22 + 0.06,
     }));
     gRoot
       .append("g")
@@ -210,7 +257,7 @@
       .attr("cy", (d) => d.y)
       .attr("r", (d) => d.r)
       .attr("fill", "#fff")
-      .attr("opacity", 0.15);
+      .attr("opacity", (d) => d.o);
 
     let nodes = chartData.nodes.map((n) => ({ ...n, depth: layerForNode(n) }));
     nodes = nodes.filter(
@@ -238,22 +285,33 @@
 
     linkSel = gRoot
       .append("g")
-      .attr("stroke-opacity", 0.45)
+      .attr("class", "link-layer")
+      .attr("stroke-opacity", 0.38)
       .selectAll("line")
       .data(links)
       .join("line")
-      .attr("stroke", (d) => (d.kind === "gravity" ? "#4a3a6a" : "#00f0ff"))
-      .attr("stroke-width", (d) => (d.kind === "gravity" ? 0.5 : 1.2))
-      .attr("stroke-dasharray", (d) => (d.kind === "gravity" ? "4,6" : null));
+      .attr("class", "chart-link")
+      .attr("stroke", (d) => (d.kind === "gravity" ? "#5a4a7a" : "#00d8e8"))
+      .attr("stroke-width", (d) => (d.kind === "gravity" ? 0.55 : 1.1))
+      .attr("stroke-dasharray", (d) => (d.kind === "gravity" ? "5,7" : null))
+      .attr("stroke-linecap", "round");
 
     nodeSel = gRoot
       .append("g")
       .selectAll("g")
       .data(nodes, (d) => d.id)
       .join("g")
-      .attr("class", "star-node")
+      .attr("class", (d) => "star-node" + (selectedNodeId === d.id ? " selected" : ""))
       .style("cursor", "pointer")
       .on("click", (_, d) => showDetail(d))
+      .on("mouseenter", (_, d) => {
+        linkSel.classed("link-highlight", (l) => l.source.id === d.id || l.target.id === d.id);
+        nodeSel.classed("hover", (n) => n.id === d.id);
+      })
+      .on("mouseleave", () => {
+        linkSel.classed("link-highlight", false);
+        nodeSel.classed("hover", false);
+      })
       .call(
         d3
           .drag()
@@ -275,32 +333,59 @@
           })
       );
 
+    function nodeFill(d) {
+      const gcol = gMap.get((d.cosmos || {}).galaxy_id)?.color;
+      if (parseSealId(d.id).isCore) return "#ffcc00";
+      if (d.kind === "champion") return gcol || "#7d00ff";
+      if (d.kind === "lattice") return "#00ff88";
+      if (d.kind === "portal") return "#ff6600";
+      if ((d.cosmos || {}).star_role === "agent_growth") return "#e94560";
+      return gcol ? d3.color(gcol)?.brighter(0.5)?.formatHex?.() || "#00f0ff" : "#00f0ff";
+    }
+
+    function nodeRadius(d) {
+      if (parseSealId(d.id).isCore) return 22;
+      if (d.kind === "champion") return 14;
+      if (d.kind === "lattice") return 8;
+      return 10;
+    }
+
     nodeSel
       .append("circle")
-      .attr("r", (d) => {
-        if (parseSealId(d.id).isCore) return 22;
-        if (d.kind === "champion") return 14;
-        if (d.kind === "lattice") return 8;
-        return 10;
-      })
-      .attr("fill", (d) => {
-        const gcol = gMap.get((d.cosmos || {}).galaxy_id)?.color;
-        if (parseSealId(d.id).isCore) return "#ffcc00";
-        if (d.kind === "champion") return gcol || "#7d00ff";
-        if (d.kind === "lattice") return "#00ff88";
-        if (d.kind === "portal") return "#ff6600";
-        if ((d.cosmos || {}).star_role === "agent_growth") return "#e94560";
-        return gcol ? d3.color(gcol)?.brighter(0.6)?.formatHex?.() || "#00f0ff" : "#00f0ff";
-      })
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 0.5);
+      .attr("class", "star-glow")
+      .attr("r", (d) => nodeRadius(d) * 1.55)
+      .attr("fill", (d) => nodeFill(d))
+      .attr("opacity", (d) => (parseSealId(d.id).isCore ? 0.35 : 0.22))
+      .attr("filter", "url(#star-glow)");
+
+    nodeSel
+      .append("circle")
+      .attr("class", "star-core")
+      .attr("r", nodeRadius)
+      .attr("fill", nodeFill)
+      .attr("stroke", (d) => (parseSealId(d.id).isCore ? "#fff8d0" : "#e8e8ff"))
+      .attr("stroke-width", (d) => (parseSealId(d.id).isCore ? 1.2 : 0.65))
+      .attr("stroke-opacity", 0.85);
+
+    nodeSel
+      .filter((d) => d.kind === "champion" && !parseSealId(d.id).isCore)
+      .append("circle")
+      .attr("class", "star-ring")
+      .attr("r", (d) => nodeRadius(d) + 4)
+      .attr("fill", "none")
+      .attr("stroke", (d) => nodeFill(d))
+      .attr("stroke-opacity", 0.45)
+      .attr("stroke-width", 1);
 
     nodeSel
       .append("text")
+      .attr("class", "star-glyph")
       .attr("dy", 4)
       .attr("text-anchor", "middle")
-      .attr("fill", "#e0e0ff")
-      .attr("font-size", (d) => (parseSealId(d.id).isCore ? "18px" : "12px"))
+      .attr("fill", (d) => (parseSealId(d.id).isCore ? "#1a1200" : "#f0f0ff"))
+      .attr("font-size", (d) => (parseSealId(d.id).isCore ? "17px" : "11px"))
+      .attr("font-weight", (d) => (parseSealId(d.id).isCore ? "700" : "500"))
+      .attr("pointer-events", "none")
       .text((d) => (d.glyph || "✦").split(" ")[0]);
 
     simulation = d3
@@ -370,6 +455,8 @@
   }
 
   function showDetail(d) {
+    selectedNodeId = d.id;
+    if (nodeSel) nodeSel.attr("class", (n) => "star-node" + (n.id === selectedNodeId ? " selected" : ""));
     el("detailTitle").textContent = d.name || d.id;
     el("detailId").textContent = d.id;
     el("detailEq").textContent = d.equation || "—";
