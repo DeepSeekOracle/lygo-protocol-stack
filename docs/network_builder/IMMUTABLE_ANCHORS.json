@@ -197,6 +197,10 @@
         "verify": "http_soft",
         "mirror": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
         "trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
+        "trade_1inch": "https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f",
+        "chart_birdeye": "https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base",
+        "chart_dextools": "https://www.dextools.io/app/en/base/pair-explorer/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+        "pool_geckoterminal": "https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
         "contract": "0x32B513927F15e7A858bE779198440C04D399c09f"
       },
       {

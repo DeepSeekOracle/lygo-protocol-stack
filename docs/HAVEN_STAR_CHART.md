@@ -26,8 +26,19 @@ The chart footer anchors lattice economics to the **sole main coin** — LYGOAGE
 | Virtuals | https://app.virtuals.io/virtuals/44594 |
 
 **UI:** `#crypto-anchor` on [HavenStarChart.html](HavenStarChart.html) — Lightweight Charts OHLCV + GeckoTerminal embed + **Uniswap buy/sell** CTA.  
-**Trade (Base / ETH):** https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE  
-**Machine-readable:** [`haven_star_chart/lygoagent_anchor.json`](./haven_star_chart/lygoagent_anchor.json) (`uniswap_trade`)  
+**Buy (verified sweep 2026-07-13):**
+
+| Venue | Role | URL |
+|-------|------|-----|
+| Virtuals | Primary bonding pool | https://app.virtuals.io/virtuals/44594 |
+| Uniswap | ETH swap (Base) | https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE |
+| 1inch | DEX aggregator (8453) | https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f |
+| Birdeye | Charts / markets | https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base |
+| DEXTools | Pair explorer | https://www.dextools.io/app/en/base/pair-explorer/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909 |
+
+Not listed yet: DexScreener, CoinGecko, CoinMarketCap.
+
+**Machine-readable:** [`haven_star_chart/lygoagent_anchor.json`](./haven_star_chart/lygoagent_anchor.json) (`buy_surfaces`, `chart_surfaces`)  
 **Immutable anchor id:** `virtuals_lygoagent` in `docs/network_builder/IMMUTABLE_ANCHORS.json`  
 **Script:** [`haven_star_chart/haven_star_chart_crypto_anchor.js`](./haven_star_chart/haven_star_chart_crypto_anchor.js)
 

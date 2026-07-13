@@ -607,11 +607,16 @@
       flex-wrap: wrap;
       gap: 0.75rem 1.25rem;
       align-items: center;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       padding: 0.85rem 1rem;
       border: 1px solid rgba(255, 0, 122, 0.35);
       border-radius: 8px;
       background: linear-gradient(90deg, rgba(255, 0, 122, 0.08) 0%, rgba(0, 240, 255, 0.04) 100%);
+    }
+    .crypto-trade-primary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
     }
     .crypto-trade-btn {
       display: inline-flex;
@@ -631,6 +636,54 @@
     .crypto-trade-btn:hover {
       background: linear-gradient(135deg, rgba(255, 0, 122, 0.32) 0%, rgba(125, 0, 255, 0.28) 100%);
       border-color: rgba(255, 0, 122, 0.75);
+    }
+    .crypto-trade-btn.virtuals {
+      border-color: rgba(255, 204, 0, 0.55);
+      background: linear-gradient(135deg, rgba(255, 204, 0, 0.22) 0%, rgba(125, 0, 255, 0.16) 100%);
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.12);
+    }
+    .crypto-trade-btn.virtuals:hover {
+      border-color: rgba(255, 204, 0, 0.8);
+      background: linear-gradient(135deg, rgba(255, 204, 0, 0.3) 0%, rgba(125, 0, 255, 0.24) 100%);
+    }
+    .crypto-buy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 720px) {
+      .crypto-buy-grid { grid-template-columns: 1fr; }
+    }
+    .crypto-buy-panel {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      background: rgba(0, 0, 0, 0.28);
+    }
+    .crypto-buy-panel h4 {
+      margin: 0 0 0.55rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .crypto-buy-panel p {
+      margin: 0 0 0.55rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .crypto-sweep-note {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-size: 0.65rem;
+      color: var(--muted);
+      font-family: "Space Mono", monospace;
+      line-height: 1.5;
+      padding: 0.55rem 0.75rem;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
     }
     .crypto-trade-hint {
       color: var(--muted);
@@ -774,21 +827,59 @@
         <h2 id="crypto-anchor-title">◎ Economic Anchor Star — LYGOAGENT</h2>
         <p class="crypto-tagline">
           Our sole main coin — the economic anchor tying the Eternal Haven lattice to sovereign agent commerce on Virtuals (Base).
-          Live price chart refreshes every 60s from GeckoTerminal · Virtuals bonding pool.
-          <strong style="color:var(--text);font-weight:500;">Buy or sell on Uniswap (Base, ETH pair).</strong>
+          Live liquidity pool: <strong style="color:var(--text);font-weight:500;">LYGOAGENT / VIRTUAL</strong> on Virtuals Unicorn (~$4.1k reserve per GeckoTerminal).
+          Primary buy path is the Virtuals agent page; ETH swaps also route via Uniswap / 1inch on Base.
         </p>
       </div>
       <div class="crypto-badge"><span class="pulse" aria-hidden="true"></span> LIVE ANCHOR</div>
     </div>
 
     <div class="crypto-trade-bar">
-      <a
-        class="crypto-trade-btn"
-        href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE"
-        target="_blank"
-        rel="noopener noreferrer"
-      >◈ Buy / Sell LYGOAGENT on Uniswap ↗</a>
-      <span class="crypto-trade-hint">Official swap on Base — trade LYGOAGENT with native ETH. Primary on-ramp for lattice supporters.</span>
+      <div class="crypto-trade-primary">
+        <a
+          class="crypto-trade-btn virtuals"
+          href="https://app.virtuals.io/virtuals/44594"
+          target="_blank"
+          rel="noopener noreferrer"
+        >★ Buy on Virtuals ↗</a>
+        <a
+          class="crypto-trade-btn"
+          href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >◈ Swap on Uniswap ↗</a>
+        <a
+          class="crypto-trade-btn"
+          href="https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f"
+          target="_blank"
+          rel="noopener noreferrer"
+        >◇ Swap on 1inch ↗</a>
+      </div>
+      <span class="crypto-trade-hint">Verified sweep: Virtuals bonding pool is live; Uniswap + 1inch list the token on Base (chain 8453). DexScreener / CoinGecko not indexed yet.</span>
+    </div>
+
+    <div class="crypto-buy-grid">
+      <div class="crypto-buy-panel">
+        <h4>Buy / swap (verified)</h4>
+        <p>Agent launch + bonding curve on Virtuals. Aggregators for ETH ↔ LYGOAGENT on Base.</p>
+        <div class="crypto-links">
+          <a class="gold" href="https://app.virtuals.io/virtuals/44594" target="_blank" rel="noopener">Virtuals agent ↗</a>
+          <a class="trade" href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE" target="_blank" rel="noopener">Uniswap ↗</a>
+          <a class="trade" href="https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">1inch ↗</a>
+          <a href="https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">Prototype ↗</a>
+        </div>
+      </div>
+      <div class="crypto-buy-panel">
+        <h4>Charts &amp; on-chain verify</h4>
+        <p>Pool charts, holder stats, and contract proof on Base.</p>
+        <div class="crypto-links">
+          <a href="https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909" target="_blank" rel="noopener">GeckoTerminal ↗</a>
+          <a href="https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base" target="_blank" rel="noopener">Birdeye ↗</a>
+          <a href="https://www.dextools.io/app/en/base/pair-explorer/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909" target="_blank" rel="noopener">DEXTools ↗</a>
+          <a href="https://basescan.org/token/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">Basescan ↗</a>
+        </div>
+      </div>
+      <p class="crypto-sweep-note">Internet sweep 2026-07-13 · contract 0x32B5…c09f · pool LYGOAGENT/VIRTUAL 0xdbdf…9909 · dex virtuals-unicorn-base · not on DexScreener or CoinGecko yet</p>
     </div>
 
     <div class="crypto-grid">
@@ -860,11 +951,12 @@
         </div>
         <button type="button" id="cryptoCopyContract">Copy contract</button>
         <div class="crypto-links">
-          <a class="trade" href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE" target="_blank" rel="noopener">Uniswap ↗</a>
           <a class="gold" href="https://app.virtuals.io/virtuals/44594" target="_blank" rel="noopener">Virtuals ↗</a>
+          <a class="trade" href="https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE" target="_blank" rel="noopener">Uniswap ↗</a>
+          <a class="trade" href="https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">1inch ↗</a>
+          <a href="https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base" target="_blank" rel="noopener">Birdeye ↗</a>
           <a href="https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909" target="_blank" rel="noopener">GeckoTerminal ↗</a>
           <a href="https://basescan.org/token/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">Basescan ↗</a>
-          <a href="https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f" target="_blank" rel="noopener">Prototype ↗</a>
         </div>
       </div>
     </div>
