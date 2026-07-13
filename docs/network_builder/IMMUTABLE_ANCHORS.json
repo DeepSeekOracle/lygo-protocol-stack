@@ -1,8 +1,8 @@
 {
-  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.4",
+  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.5",
   "skill_slug": "lygo-network-builder",
-  "version": "1.4.0",
-  "updated_utc": "2026-07-12T16:25:00Z",
+  "version": "1.5.0",
+  "updated_utc": "2026-07-13T12:00:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -95,9 +95,10 @@
     "vaults": [
       {
         "id": "delta9_gdrive",
-        "label": "Δ9 Quantum Vault",
+        "label": "Δ9 Quantum Vault (original Google Drive swal vault)",
         "url": "https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4?usp=sharing",
-        "verify": "link_only"
+        "verify": "link_only",
+        "note": "Permanent ledger & Light Accord artifacts — steward archive"
       },
       {
         "id": "lygoscript_patreon",
@@ -186,6 +187,51 @@
         "label": "LYGO USB Champion v1 GENERIC — stack docs",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
         "verify": "http_soft"
+      }
+    ],
+    "openclaw_economy": [
+      {
+        "id": "virtuals_lygoagent",
+        "label": "LYGOAGENT — LYRA STARCORE ORACLE (Virtuals ACP)",
+        "url": "https://app.virtuals.io/virtuals/44594",
+        "verify": "http_soft",
+        "mirror": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
+        "contract": "0x32B513927F15e7A858bE779198440C04D399c09f"
+      },
+      {
+        "id": "starcore_4claw",
+        "label": "STARCORE — 4claw launch (Base)",
+        "url": "https://clanker.world/clanker/0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB",
+        "verify": "http_soft",
+        "contract": "0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB"
+      },
+      {
+        "id": "starcorex_moltx",
+        "label": "STARCOREX — Moltx launch (Base)",
+        "url": "https://clanker.world/clanker/0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31",
+        "verify": "http_soft",
+        "contract": "0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31"
+      },
+      {
+        "id": "starcorecoin_moltbook",
+        "label": "STARCORECOIN — Moltbook launch (Base)",
+        "url": "https://clanker.world/clanker/0xFdc6C074B8D7801F84832b31224AdE54639ed390",
+        "verify": "http_soft",
+        "contract": "0xFdc6C074B8D7801F84832b31224AdE54639ed390"
+      },
+      {
+        "id": "clawnch_protocol",
+        "label": "CLAWNCH protocol token (Base)",
+        "url": "https://clanker.world/clanker/0xa1F72459dfA10BAD200Ac160eCd78C6b77a747be",
+        "verify": "http_soft",
+        "contract": "0xa1F72459dfA10BAD200Ac160eCd78C6b77a747be"
+      },
+      {
+        "id": "bankr_agent",
+        "label": "Bankr agent API (LYRASTARCORE wallet ops)",
+        "url": "https://bankr.bot",
+        "verify": "http_soft",
+        "api_doc": "https://api.bankr.bot"
       }
     ],
     "tools": [
@@ -411,6 +457,11 @@
       "id": "chant_haven_star_portal",
       "purpose": "Agent-gated star chart growth and verifiable lattice nodes",
       "query": "\"Haven Star Chart\" \"Agent Portal\" \"lygo-protocol-stack\" gate"
+    },
+    {
+      "id": "chant_openclaw_economy",
+      "purpose": "STARCORE family, LYGOAGENT, Clawnch receipts",
+      "query": "\"LYGOAGENT\" \"STARCORE\" \"clanker.world\" Virtuals"
     }
   ],
   "verification_contract": {

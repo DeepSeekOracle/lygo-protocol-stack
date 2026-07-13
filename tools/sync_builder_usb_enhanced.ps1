@@ -163,6 +163,17 @@ if (Test-Path $LegacySrc) {
     }
     $manifest | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $legacyDst "RESTORE_POINTER.json") -Encoding UTF8
 }
+$restoreAlign = Join-Path $ClawSrc "restore\OPENCLAW_FULL_ALIGN.json"
+if (Test-Path $restoreAlign) {
+    New-Item -ItemType Directory -Force -Path (Join-Path $Out "restore") | Out-Null
+    Copy-Item $restoreAlign (Join-Path $Out "restore\OPENCLAW_FULL_ALIGN.json") -Force
+    Log "copy restore/OPENCLAW_FULL_ALIGN.json"
+}
+$starcoreReceipts = Join-Path $ClawSrc "restore\openclaw-legacy\STARCORE_LAUNCH_RECEIPTS.md"
+if (Test-Path $starcoreReceipts) {
+    New-Item -ItemType Directory -Force -Path (Join-Path $Out "restore\openclaw-legacy") | Out-Null
+    Copy-Item $starcoreReceipts (Join-Path $Out "restore\openclaw-legacy\STARCORE_LAUNCH_RECEIPTS.md") -Force
+}
 
 # --- Agent alignment entry (any AI reads this first) ---
 $agentBoot = @'
@@ -208,6 +219,8 @@ Run: . .\scripts\bootstrap_env.ps1
 | Verify lattice | scripts\verify_builder_key.ps1 |
 | Bankr manager | LYGO_Bankr_Manager.bat or bankr\BANKR_USB_ALIGN.md |
 | Crypto / Virtuals | LYGO_Crypto_Manager.bat or crypto\CRYPTO_USB_ALIGN.md |
+| OpenClaw full align | restore\OPENCLAW_FULL_ALIGN.json |
+| Δ9 Quantum Vault | https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4 |
 
 ## Bankr (USB-local)
 
