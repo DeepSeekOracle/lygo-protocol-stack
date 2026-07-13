@@ -22,7 +22,8 @@
 
 ## HF
 
-- Dataset sync: `python tools/hf_push_dataset.py` (post-balance)
+- Dataset sync: **OK** — https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack/commit/9fc646ad757610d8e3cab88b7a9dc9961562bf3a
+- First attempt 504 timeout; retry succeeded
 
 ## Next phase
 
