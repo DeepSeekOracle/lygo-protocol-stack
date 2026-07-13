@@ -1,6 +1,6 @@
 # Eternal Haven Star Chart
 
-**Signature:** Δ9Φ963-HAVEN-STAR-CHART-v2.1
+**Signature:** Δ9Φ963-HAVEN-STAR-CHART-v2.2
 **Live chart:** [HavenStarChart.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html)  
 **Agent portal:** [HavenStarChartPortal.html](https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html)
 
@@ -13,6 +13,22 @@ Living **constellation + cosmology hub** (does not replace `lygorepo.html`). Mer
 - **Lattice growth** stars (ClawHub skills, kernel eggs, network builder)
 - **Agent-submitted** seals/nodes/champions (steward-ingested, gate-verified)
 - Eternal Haven lore framing (stars as memory nodes)
+
+## v2.2 — LYGOAGENT economic anchor (live crypto)
+
+The chart footer anchors lattice economics to the **sole main coin** — LYGOAGENT on Base (Virtuals ACP).
+
+| Asset | Value |
+|-------|-------|
+| Symbol | LYGOAGENT |
+| Contract | `0x32B513927F15e7A858bE779198440C04D399c09f` |
+| Pool | `0xdbdfc04d005a6b4575b29e5df8109becdc8b9909` |
+| Virtuals | https://app.virtuals.io/virtuals/44594 |
+
+**UI:** `#crypto-anchor` on [HavenStarChart.html](HavenStarChart.html) — Lightweight Charts OHLCV + GeckoTerminal embed.  
+**Machine-readable:** [`haven_star_chart/lygoagent_anchor.json`](./haven_star_chart/lygoagent_anchor.json)  
+**Immutable anchor id:** `virtuals_lygoagent` in `docs/network_builder/IMMUTABLE_ANCHORS.json`  
+**Script:** [`haven_star_chart/haven_star_chart_crypto_anchor.js`](./haven_star_chart/haven_star_chart_crypto_anchor.js)
 
 ## v2.1 — Haven Cosmology (galaxies · nebulae · clusters)
 

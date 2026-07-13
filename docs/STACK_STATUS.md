@@ -31,8 +31,10 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **Immutable Anchor** | ✅ | `tools/run_anchor_audit.py` → `tests/anchor_audit_last_run.json`; P1/SLM/stack hooks; `docs/ANCHOR_DEPLOYMENT.md` |
 | **Public Stack Indexed — Δ9 Lattice Seal Discovery** | ✅ | `docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt` + `LYGO_LATTICE_INTEL_INDEX.json` + `LYGO_PUBLIC_LINK_ARCHIVE.json` — all 400+ seals discoverable on-demand |
 | **GitHub Pages lattice audit** | ✅ | 12/12 HTML live — `tools/audit_github_lattice_links.py` → `tests/github_lattice_audit_last_run.json` |
-| **Lattice birth + Haven v2.1** | ✅ | 403 nodes — `lygo-lattice-birth@1.0.0`, `HavenStarChartPortal.html` |
+| **Lattice birth + Haven v2.2** | ✅ | 403+ nodes — `lygo-lattice-birth@1.0.0`, `HavenStarChartPortal.html`, live **LYGOAGENT** crypto anchor (`#crypto-anchor`) |
+| **Immutable anchors v1.5.1** | ✅ | `docs/network_builder/IMMUTABLE_ANCHORS.json` — Δ9 Vault, `openclaw_economy` (LYGOAGENT, STARCORE family, CLAWNCH, Bankr) |
 | **OpenClaw lattice pulse** | ✅ | `lygo-lattice-pulse@1.2.0` (SkillSpector-safe, no subprocess) |
+| **Kernel egg registry** | ✅ | 11 eggs — `python tools/build_kernel_eggs.py` → `docs/KernelEggRegistry.json` |
 | **Agent GitHub restore** | ✅ | `GITHUB_AGENT_RESTORE.txt` — E Drive + USB + Pages |
 
 ---

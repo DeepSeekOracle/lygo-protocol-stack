@@ -24,6 +24,14 @@
 | `lattice-soa-index` | Intel index + lattice map + link archive |
 | `firmware-p04-drivers` | P0.4 gate, updatefeed, firmware kernel (E:\\2026) |
 | `protocol-drivers-p2-p5` | P2–P5 Python drivers |
+| `joy-loop-protocol-v21` | Joy Loop protocol + manifest |
+| `lygo-second-brain-v10` | Second brain CLI + vault scripts |
+| `lygo-sandcastle-v10` | Sovereign workflow orchestrator |
+| `lygo-openclaw-v10` | OpenClaw command router + limbs |
+| `lygo-lpis-v10` | LPIS prompt implant system |
+| `lygo-ops-detector-v1` | AETHONΔ9 ops detector skill |
+
+**Last rebuild:** after Haven v2.2 + IMMUTABLE_ANCHORS v1.5.1 — `git_head` in `docs/KernelEggRegistry.json`.
 
 ## ClawHub skill (voluntary planters)
 
