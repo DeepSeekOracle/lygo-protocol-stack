@@ -13,6 +13,7 @@ $ClawSrc = Join-Path $Workspace "LYGO_BUILDER_KEY"
 $LyraSrc = Join-Path $Workspace "LYRA_CORE"
 $LegacySrc = Join-Path $Workspace "OPEN CLAW LEGACY"
 $BuildrOverlay = Join-Path $Workspace "LYGO_BUILDR_USB"
+$OldOpenclawBankr = "C:\Users\justi\Old files openclaw\OLD openclaw\workspace"
 $Log = Join-Path $Out ("sync_enhanced_{0:yyyyMMdd_HHmmss}.log" -f (Get-Date))
 
 function Log([string]$msg) {
@@ -53,6 +54,34 @@ if ($FullRepack) {
 
 if (Test-Path $BuildrOverlay) {
     Robo $BuildrOverlay $Out @("_builder_vault", "stack", "army", "skills", "crypto", "memory", "verify", "mnt_core")
+}
+
+# --- Bankr USB pack (skill + tools; no live keys or hardcoded pwsh scripts) ---
+$bankrOut = Join-Path $Out "bankr"
+New-Item -ItemType Directory -Force -Path $bankrOut | Out-Null
+$bankrClawSrc = Join-Path $ClawSrc "bankr"
+if (Test-Path $bankrClawSrc) {
+    Robo $bankrClawSrc $bankrOut @("__pycache__", "lygo-data") @("config.json", "bankr-pwsh.ps1", "bankr-pwsh-fixed.ps1")
+    Log "bankr pack from LYGO_BUILDER_KEY"
+}
+elseif (Test-Path $OldOpenclawBankr) {
+    Robo (Join-Path $OldOpenclawBankr "skills\bankr") $bankrOut @("__pycache__") @("config.json", "bankr-pwsh.ps1", "bankr-pwsh-fixed.ps1")
+    Robo (Join-Path $OldOpenclawBankr "tools\bankr") (Join-Path $bankrOut "tools")
+    Robo (Join-Path $OldOpenclawBankr "memory\bankr") (Join-Path $bankrOut "memory")
+    foreach ($f in @("daily_coin_bankr_check.py")) {
+        $s = Join-Path $OldOpenclawBankr "tools" $f
+        if (Test-Path $s) { Copy-Item $s (Join-Path $bankrOut "tools" $f) -Force }
+    }
+    Log "bankr pack staged from Old openclaw"
+}
+foreach ($f in @("LYGO_Bankr_Manager.bat")) {
+    $s = Join-Path $ClawSrc $f
+    if (Test-Path $s) { Copy-Item $s (Join-Path $Out $f) -Force; Log "copy $f" }
+}
+$bankrLauncher = Join-Path $ClawSrc "launchers\LYGO_Bankr_Manager.bat"
+if (Test-Path $bankrLauncher) {
+    New-Item -ItemType Directory -Force -Path (Join-Path $Out "launchers") | Out-Null
+    Copy-Item $bankrLauncher (Join-Path $Out "launchers\LYGO_Bankr_Manager.bat") -Force
 }
 
 # --- LYGO CLAW standalone runtime (from home I: build) ---
@@ -159,6 +188,14 @@ Run: . .\scripts\bootstrap_env.ps1
 | BUILDR supervisor daemon | launchers\LYGO_Supervisor_Daemon.bat - port :9630 |
 | Standalone AI | launchers\LYGO_Standalone_AI.bat |
 | Verify lattice | scripts\verify_builder_key.ps1 |
+| Bankr manager | LYGO_Bankr_Manager.bat or bankr\BANKR_USB_ALIGN.md |
+
+## Bankr (USB-local)
+
+- Steward key file: E:\Bankr\Bankr.txt (never on USB git; mask as bk_usr_… in memory)
+- Pack: bankr\ (SKILL.md, scripts, tools, memory refs)
+- Setup once: bankr\scripts\setup_bankr_usb.ps1 → lygo-data\bankr\config.json
+- Manage: LYGO_Bankr_Manager.bat — status, daily check, submit (no auto sign/trade)
 
 ## Rules (non-negotiable)
 
