@@ -403,8 +403,29 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
 
 <script id="LEDGER_DATA" type="application/json">{data_json}</script>
 <script>
-const DATA = JSON.parse(document.getElementById('LEDGER_DATA').textContent);
+/* Expandable: prefers live JSON ledger (update without redesigning HTML). Fallback = embedded snapshot. */
+let DATA = null;
 const $ = (s) => document.querySelector(s);
+const LEDGER_URLS = [
+  'data/excavationpro_music_ledger.json',
+  './data/excavationpro_music_ledger.json',
+];
+
+async function loadData() {{
+  for (const u of LEDGER_URLS) {{
+    try {{
+      const r = await fetch(u + '?v=' + Date.now(), {{ cache: 'no-store' }});
+      if (r.ok) {{
+        DATA = await r.json();
+        DATA._loaded_from = u;
+        return DATA;
+      }}
+    }} catch (e) {{ /* file:// or offline */ }}
+  }}
+  DATA = JSON.parse(document.getElementById('LEDGER_DATA').textContent);
+  DATA._loaded_from = 'embedded';
+  return DATA;
+}}
 
 function renderStats() {{
   const s = DATA.stats;
@@ -551,8 +572,20 @@ $('#btn-copy-missing').addEventListener('click', () => {{
   navigator.clipboard.writeText(t).then(() => alert('Copied ' + DATA.restore_missing.length + ' missing titles'));
 }});
 
-renderStats();
-showTab('overview');
+loadData().then(() => {{
+  renderStats();
+  showTab('overview');
+  const src = document.createElement('div');
+  src.className = 'sub';
+  src.style.padding = '0 20px 12px';
+  src.textContent = 'Ledger source: ' + (DATA._loaded_from || 'embedded') + ' · schema expandable via build_music_registry_site.py';
+  document.querySelector('header')?.after(src);
+}}).catch(err => {{
+  console.error(err);
+  DATA = JSON.parse(document.getElementById('LEDGER_DATA').textContent);
+  renderStats();
+  showTab('overview');
+}});
 </script>
 </body>
 </html>

@@ -29,6 +29,14 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("lattice_map", REPO / "docs/LYGO_LATTICE.md"),
         ("link_archive_sources", REPO / "docs/LYGO_PUBLIC_LINK_ARCHIVE.json"),
     ],
+    # Excavationpro full song/ISRC restore ledger (DistroKid recovery) — growable
+    "excavationpro-music-catalog-v1": [
+        ("music_egg_core", REPO / "data/music_catalog/egg_payload/music_egg_core.json"),
+        ("music_egg_readme", REPO / "data/music_catalog/egg_payload/README.md"),
+        ("restore_gap_summary", REPO / "data/music_catalog/RESTORE_GAP_SUMMARY.md"),
+        ("isrcs_unique", REPO / "data/music_catalog/excavationpro_isrcs_unique.txt"),
+        ("catalog_page_mirror", REPO / "docs/excavationpro-music-catalog.html"),
+    ],
     "firmware-p04-drivers": [
         ("p0_nano_gate", E_DRIVE / "2026/lygo_p0_nano_gate.py"),
         ("updatefeed", E_DRIVE / "2026/updatefeed.json"),
