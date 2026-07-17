@@ -88,3 +88,7 @@ _hf_staging/
 biophase7_vault*.txt
 *.pem
 *_pat.txt
+# music catalog browser sessions
+data/music_catalog/browser_profile/
+data/music_catalog/yandex_cdp_profile/
+

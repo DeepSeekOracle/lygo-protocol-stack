@@ -1,0 +1,19 @@
+{
+  "signature": "\u03949\u03a6963-RESTORE-REALIGN-v1",
+  "timestamp": "2026-07-17T02:26:06.134543+00:00",
+  "authority_workspace": "I:\\\\E Drive",
+  "restore_anchor": "I:\\\\E Drive\\\\GITHUB_AGENT_RESTORE.txt",
+  "canonical_stack": "I:\\\\E Drive\\\\lygo-protocol-stack",
+  "checks": {
+    "verify_lattice_alignment": "ALIGNED",
+    "audit_github_lattice_links": "all_live=true",
+    "verify_public_pages": "stack_pages_live + excavationpro_mirrors_live",
+    "enneagram_artifacts": true,
+    "audit_findings_doc": true,
+    "theta_iota_nodes": true,
+    "git_head": "ebc4fc6",
+    "alignment_badge": "NEEDS_FIX (grok_audit_cli vector pass-rate only; lattice OK)"
+  },
+  "status": "RESTORED_AND_REALIGNED",
+  "note": "Re-aligned agent context to GITHUB_AGENT_RESTORE on E: Drive. Core lattice ALIGNED. Public surfaces live. Bridge audit certified. Badge residual is Grok vector calibration (not structural)."
+}

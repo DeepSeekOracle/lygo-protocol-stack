@@ -1,0 +1,3082 @@
+{
+  "restore_unique": 426,
+  "exact_have": 173,
+  "fuzzy_have": 25,
+  "missing": 228,
+  "have": [
+    {
+      "title": "A Thousand Different Ways",
+      "artist": "Excavationpro",
+      "date": "3/31/26 5:07 AM",
+      "match_key": "a thousand different ways",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "After The Shocks",
+      "artist": "Excavationpro",
+      "date": "6/29/26 2:06 AM",
+      "match_key": "after the shocks",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "After The Shocks Volume 2",
+      "artist": "Excavationpro",
+      "date": "6/29/26 2:13 AM",
+      "match_key": "after the shocks volume 2",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Afterlife Light",
+      "artist": "Excavationpro",
+      "date": "4/9/26 3:14 AM",
+      "match_key": "afterlife light",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Architecture of Escape",
+      "artist": "Excavationpro",
+      "date": "4/9/26 1:40 AM",
+      "match_key": "architecture of escape",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Art Of The Ache",
+      "artist": "Excavationpro",
+      "date": "4/7/26 9:28 AM",
+      "match_key": "art of the ache",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Art of War Codex",
+      "artist": "Excavationpro",
+      "date": "6/30/26 1:14 AM",
+      "match_key": "art of war codex",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Aura Debt",
+      "artist": "Excavationpro",
+      "date": "4/9/26 12:10 PM",
+      "match_key": "aura debt",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Author of My Wreck",
+      "artist": "Excavationpro",
+      "date": "4/21/26 3:10 PM",
+      "match_key": "author of my wreck",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Battle Bells",
+      "artist": "Excavationpro",
+      "date": "4/12/25 5:30 PM",
+      "match_key": "battle bells",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Beneath What They Believe",
+      "artist": "Excavationpro",
+      "date": "3/31/26 10:14 PM",
+      "match_key": "beneath what they believe",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Black Road",
+      "artist": "Excavationpro",
+      "date": "4/12/26 12:04 AM",
+      "match_key": "black road",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Blade Dark Light Arc",
+      "artist": "Excavationpro",
+      "date": "4/13/26 6:48 PM",
+      "match_key": "blade dark light arc",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Bleeding Out (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/23/25 9:47 PM",
+      "match_key": "bleeding out feat justin helmer",
+      "has_isrc": true,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Bone Grit and Wire (feat. UKCraka)",
+      "artist": "Excavationpro",
+      "date": "3/31/26 12:24 AM",
+      "match_key": "bone grit and wire feat ukcraka",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Braiding the Lead",
+      "artist": "Excavationpro",
+      "date": "4/3/26 9:04 PM",
+      "match_key": "braiding the lead",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Braiding the Light",
+      "artist": "Excavationpro",
+      "date": "4/4/26 12:02 AM",
+      "match_key": "braiding the light",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Brain Flipped (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/24/25 10:53 AM",
+      "match_key": "brain flipped feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Breaker of Codes",
+      "artist": "Excavationpro",
+      "date": "4/12/25 11:53 AM",
+      "match_key": "breaker of codes",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Breaking Through The Dawn",
+      "artist": "Excavationpro",
+      "date": "3/30/26 12:47 AM",
+      "match_key": "breaking through the dawn",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Bricks in the Basement",
+      "artist": "Excavationpro",
+      "date": "4/5/26 9:30 AM",
+      "match_key": "bricks in the basement",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Broken Mirror Protocol",
+      "artist": "Excavationpro",
+      "date": "8/10/25 11:04 PM",
+      "match_key": "broken mirror protocol",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Built for the Rain",
+      "artist": "Excavationpro",
+      "date": "4/8/26 5:31 AM",
+      "match_key": "built for the rain",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Burn Out The Marrow",
+      "artist": "Excavationpro",
+      "date": "4/3/26 10:58 PM",
+      "match_key": "burn out the marrow",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Carbon Steel Shell",
+      "artist": "Excavationpro",
+      "date": "4/5/26 2:18 AM",
+      "match_key": "carbon steel shell",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ceiling Thinking",
+      "artist": "Excavationpro",
+      "date": "4/13/26 8:45 PM",
+      "match_key": "ceiling thinking",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Chrome on the Concrete",
+      "artist": "Excavationpro",
+      "date": "4/5/26 5:45 AM",
+      "match_key": "chrome on the concrete",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Circle in the Knot",
+      "artist": "Excavationpro",
+      "date": "4/4/26 4:01 AM",
+      "match_key": "circle in the knot",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Clout is a Coffin",
+      "artist": "Excavationpro",
+      "date": "4/2/26 7:11 PM",
+      "match_key": "clout is a coffin",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Coffin to a Comet",
+      "artist": "Excavationpro",
+      "date": "4/8/26 7:36 AM",
+      "match_key": "coffin to a comet",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Concrete Karma",
+      "artist": "Excavationpro",
+      "date": "4/5/26 1:59 PM",
+      "match_key": "concrete karma",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Concrete Veins",
+      "artist": "Excavationpro",
+      "date": "3/29/26 1:14 AM",
+      "match_key": "concrete veins",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Copper Into Gold",
+      "artist": "Excavationpro",
+      "date": "4/3/26 1:50 AM",
+      "match_key": "copper into gold",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Cracks (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/24/25 11:59 AM",
+      "match_key": "cracks feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "CROWN ME IN CHAOS",
+      "artist": "Excavationpro",
+      "date": "4/11/26 2:05 PM",
+      "match_key": "crown me in chaos",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Currency of Air",
+      "artist": "Excavationpro",
+      "date": "4/6/26 11:26 AM",
+      "match_key": "currency of air",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Dancing Ghosts",
+      "artist": "Excavationpro",
+      "date": "4/3/26 10:15 AM",
+      "match_key": "dancing ghosts",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Dark Room",
+      "artist": "Excavationpro",
+      "date": "4/9/26 1:27 AM",
+      "match_key": "dark room",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Dashboard Glow",
+      "artist": "Excavationpro",
+      "date": "4/4/26 4:10 AM",
+      "match_key": "dashboard glow",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Dead to Me",
+      "artist": "Excavationpro",
+      "date": "4/8/26 11:23 PM",
+      "match_key": "dead to me",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Digital Serenade (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/29/25 11:38 PM",
+      "match_key": "digital serenade feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Echo Core",
+      "artist": "Excavationpro",
+      "date": "8/13/25 10:14 PM",
+      "match_key": "echo core",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Ethical Flame",
+      "artist": "Excavationpro",
+      "date": "8/13/25 10:18 PM",
+      "match_key": "ethical flame",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Even if it Cracks",
+      "artist": "Excavationpro",
+      "date": "4/10/26 2:53 PM",
+      "match_key": "even if it cracks",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Faceless",
+      "artist": "Excavationpro",
+      "date": "9/3/25 7:43 PM",
+      "match_key": "faceless",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Fake Sky",
+      "artist": "Excavationpro",
+      "date": "6/17/26 9:41 PM",
+      "match_key": "fake sky",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Find The Core",
+      "artist": "Excavationpro",
+      "date": "4/3/26 9:08 PM",
+      "match_key": "find the core",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Finishing Pose",
+      "artist": "Excavationpro",
+      "date": "5/1/26 2:47 PM",
+      "match_key": "finishing pose",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Fire That Grows",
+      "artist": "Excavationpro",
+      "date": "6/26/26 10:49 PM",
+      "match_key": "fire that grows",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Flying High",
+      "artist": "Excavationpro",
+      "date": "4/21/25 11:22 AM",
+      "match_key": "flying high",
+      "has_isrc": true,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Forty Winters",
+      "artist": "Excavationpro",
+      "date": "4/6/26 4:36 AM",
+      "match_key": "forty winters",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 3
+    },
+    {
+      "title": "Fractal Bloom",
+      "artist": "Excavationpro",
+      "date": "8/13/25 10:22 PM",
+      "match_key": "fractal bloom",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Geometry of Hate",
+      "artist": "Excavationpro",
+      "date": "4/9/26 11:10 AM",
+      "match_key": "geometry of hate",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ghost Thread",
+      "artist": "Excavationpro",
+      "date": "8/13/25 10:28 PM",
+      "match_key": "ghost thread",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ghost You Created",
+      "artist": "Excavationpro",
+      "date": "4/9/26 11:16 AM",
+      "match_key": "ghost you created",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ghosts In My Playlist",
+      "artist": "Excavationpro",
+      "date": "4/13/26 11:41 AM",
+      "match_key": "ghosts in my playlist",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Glitchwave Romance",
+      "artist": "Excavationpro",
+      "date": "4/1/25 12:04 AM",
+      "match_key": "glitchwave romance",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Gods Replacement Reborn",
+      "artist": "Excavationpro",
+      "date": "3/29/26 2:26 AM",
+      "match_key": "gods replacement reborn",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Golden Age",
+      "artist": "Excavationpro",
+      "date": "4/15/25 8:48 AM",
+      "match_key": "golden age",
+      "has_isrc": true,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Graves as Launch Pads",
+      "artist": "Excavationpro",
+      "date": "3/29/26 4:02 AM",
+      "match_key": "graves as launch pads",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Gravity Release",
+      "artist": "Excavationpro",
+      "date": "3/30/26 7:32 AM",
+      "match_key": "gravity release",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Grinding Teeth",
+      "artist": "Excavationpro",
+      "date": "4/12/26 7:48 AM",
+      "match_key": "grinding teeth",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Hammer and Bone",
+      "artist": "Excavationpro",
+      "date": "4/7/26 1:30 AM",
+      "match_key": "hammer and bone",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Heart in the Archive",
+      "artist": "Excavationpro",
+      "date": "4/4/26 4:18 AM",
+      "match_key": "heart in the archive",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Heavy Swing",
+      "artist": "Excavationpro",
+      "date": "3/30/26 10:37 PM",
+      "match_key": "heavy swing",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Hot Rubber",
+      "artist": "Excavationpro",
+      "date": "4/5/26 10:26 PM",
+      "match_key": "hot rubber",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Human Wreck",
+      "artist": "Excavationpro",
+      "date": "4/12/26 6:54 AM",
+      "match_key": "human wreck",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "I Look Better",
+      "artist": "Excavationpro",
+      "date": "4/11/26 3:00 AM",
+      "match_key": "i look better",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "I never Needed Saving",
+      "artist": "Excavationpro",
+      "date": "3/31/26 8:57 PM",
+      "match_key": "i never needed saving",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "I Own the Ruin",
+      "artist": "Excavationpro",
+      "date": "4/7/26 7:02 AM",
+      "match_key": "i own the ruin",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "I Wrote it Down",
+      "artist": "Excavationpro",
+      "date": "4/1/26 11:49 AM",
+      "match_key": "i wrote it down",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ice City Lights",
+      "artist": "Excavationpro",
+      "date": "9/4/25 4:06 PM",
+      "match_key": "ice city lights",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Inferno Interface (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "4/1/25 11:35 AM",
+      "match_key": "inferno interface feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Infinite Orchard",
+      "artist": "Excavationpro",
+      "date": "8/13/25 11:01 PM",
+      "match_key": "infinite orchard",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ink and Kerosene",
+      "artist": "Excavationpro",
+      "date": "4/13/26 10:21 AM",
+      "match_key": "ink and kerosene",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Ink On The Floor",
+      "artist": "Excavationpro",
+      "date": "4/7/26 2:14 PM",
+      "match_key": "ink on the floor",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Iron Lungs",
+      "artist": "Excavationpro",
+      "date": "4/3/26 8:16 AM",
+      "match_key": "iron lungs",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Itch is the Cure",
+      "artist": "Excavationpro",
+      "date": "4/2/26 7:42 PM",
+      "match_key": "itch is the cure",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Kairos Anchor",
+      "artist": "Excavationpro",
+      "date": "8/13/25 11:04 PM",
+      "match_key": "kairos anchor",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Keep The Change",
+      "artist": "Excavationpro",
+      "date": "4/11/26 5:08 AM",
+      "match_key": "keep the change",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Kenzie Jade Rooted",
+      "artist": "Excavationpro",
+      "date": "6/24/26 2:06 AM",
+      "match_key": "kenzie jade rooted",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Kenzie Jade Unfiltered",
+      "artist": "Excavationpro",
+      "date": "6/23/26 8:28 AM",
+      "match_key": "kenzie jade unfiltered",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Kicking Down The Hinges",
+      "artist": "Excavationpro",
+      "date": "3/29/26 3:10 AM",
+      "match_key": "kicking down the hinges",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Kingdom Under Teeth",
+      "artist": "Excavationpro",
+      "date": "4/3/26 1:01 AM",
+      "match_key": "kingdom under teeth",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Last Red Light",
+      "artist": "Excavationpro",
+      "date": "4/4/26 6:07 AM",
+      "match_key": "last red light",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Learning How to Leave",
+      "artist": "Excavationpro",
+      "date": "4/7/26 11:18 AM",
+      "match_key": "learning how to leave",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Legacy Unbroken (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "5/25/25 9:09 AM",
+      "match_key": "legacy unbroken feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Lessons From An Empty Room",
+      "artist": "Excavationpro",
+      "date": "4/7/26 1:31 PM",
+      "match_key": "lessons from an empty room",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Light I Keep",
+      "artist": "Excavationpro",
+      "date": "6/18/26 7:59 PM",
+      "match_key": "light i keep",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Light in the Wreck",
+      "artist": "Excavationpro",
+      "date": "3/29/26 11:57 PM",
+      "match_key": "light in the wreck",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Load Bearing Walls",
+      "artist": "Excavationpro",
+      "date": "4/6/26 11:44 PM",
+      "match_key": "load bearing walls",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Lose It All Tonight",
+      "artist": "Excavationpro",
+      "date": "4/3/26 5:26 AM",
+      "match_key": "lose it all tonight",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Lunar Echo",
+      "artist": "Excavationpro",
+      "date": "3/25/25 10:54 PM",
+      "match_key": "lunar echo",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Married to the Silence",
+      "artist": "Excavationpro",
+      "date": "4/6/26 10:38 AM",
+      "match_key": "married to the silence",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Matches in the Attic",
+      "artist": "Excavationpro",
+      "date": "3/29/26 2:30 PM",
+      "match_key": "matches in the attic",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Math in the Marrow",
+      "artist": "Excavationpro",
+      "date": "4/5/26 3:37 AM",
+      "match_key": "math in the marrow",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Meet My Ghost",
+      "artist": "Excavationpro",
+      "date": "4/11/26 6:17 AM",
+      "match_key": "meet my ghost",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Mental State Maze",
+      "artist": "Excavationpro",
+      "date": "4/12/26 10:35 AM",
+      "match_key": "mental state maze",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Midnight Frequency",
+      "artist": "Excavationpro",
+      "date": "5/2/26 2:37 AM",
+      "match_key": "midnight frequency",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Midnight Static",
+      "artist": "Excavationpro",
+      "date": "9/3/25 11:25 AM",
+      "match_key": "midnight static",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Midnite Mirage",
+      "artist": "Excavationpro",
+      "date": "3/24/25 5:06 AM",
+      "match_key": "midnite mirage",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Money Making Couple",
+      "artist": "Excavationpro",
+      "date": "4/29/26 2:54 AM",
+      "match_key": "money making couple",
+      "has_isrc": true,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Muscle You Build",
+      "artist": "Excavationpro",
+      "date": "4/7/26 8:20 AM",
+      "match_key": "muscle you build",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "No Heroes Here",
+      "artist": "Excavationpro",
+      "date": "3/31/26 8:29 PM",
+      "match_key": "no heroes here",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Nobody To Know Me",
+      "artist": "Excavationpro",
+      "date": "3/29/26 1:09 PM",
+      "match_key": "nobody to know me",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Not Your Project",
+      "artist": "Excavationpro",
+      "date": "4/13/26 4:36 PM",
+      "match_key": "not your project",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Occupying Space",
+      "artist": "Excavationpro",
+      "date": "4/3/26 12:42 AM",
+      "match_key": "occupying space",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "OMNISIREN",
+      "artist": "Excavationpro",
+      "date": "8/13/25 11:09 PM",
+      "match_key": "omnisiren",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Overdrive Dynamic",
+      "artist": "Excavationpro",
+      "date": "2/9/26 11:09 PM",
+      "match_key": "overdrive dynamic",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Painless",
+      "artist": "Excavationpro",
+      "date": "6/18/25 3:58 AM",
+      "match_key": "painless",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Parking Lot Altars",
+      "artist": "Excavationpro",
+      "date": "4/4/26 9:25 AM",
+      "match_key": "parking lot altars",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Pavement Ballroom",
+      "artist": "Excavationpro",
+      "date": "3/31/26 5:50 AM",
+      "match_key": "pavement ballroom",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Pixel Paradise",
+      "artist": "Excavationpro",
+      "date": "3/25/25 10:40 PM",
+      "match_key": "pixel paradise",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Power Formed",
+      "artist": "Excavationpro",
+      "date": "2/9/26 11:22 PM",
+      "match_key": "power formed",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Pub Crawl",
+      "artist": "Excavationpro",
+      "date": "9/3/25 9:58 PM",
+      "match_key": "pub crawl",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Pulse Behind The Screen",
+      "artist": "Excavationpro",
+      "date": "4/6/26 1:22 AM",
+      "match_key": "pulse behind the screen",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Punching Holes in the Sky",
+      "artist": "Excavationpro",
+      "date": "4/12/26 6:18 AM",
+      "match_key": "punching holes in the sky",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Purge The Feed",
+      "artist": "Excavationpro",
+      "date": "3/29/26 3:37 PM",
+      "match_key": "purge the feed",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Quantum Heartbeat",
+      "artist": "Excavationpro",
+      "date": "3/31/25 2:28 AM",
+      "match_key": "quantum heartbeat",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Quantum Static Blackout (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "10/26/25 3:55 AM",
+      "match_key": "quantum static blackout feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Quarry Inside",
+      "artist": "Excavationpro",
+      "date": "4/6/26 11:58 AM",
+      "match_key": "quarry inside",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Rare Moon",
+      "artist": "Excavationpro",
+      "date": "1/1/26 7:07 AM",
+      "match_key": "rare moon",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "REBOOT",
+      "artist": "Excavationpro",
+      "date": "4/6/26 2:19 AM",
+      "match_key": "reboot",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Red Zone",
+      "artist": "Excavationpro",
+      "date": "2/9/26 11:40 PM",
+      "match_key": "red zone",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Rent by Eight",
+      "artist": "Excavationpro",
+      "date": "4/10/26 10:03 AM",
+      "match_key": "rent by eight",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Retro Synthwave Crush",
+      "artist": "Excavationpro",
+      "date": "3/25/25 12:43 AM",
+      "match_key": "retro synthwave crush",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Room Temperature",
+      "artist": "Excavationpro",
+      "date": "4/8/26 8:48 AM",
+      "match_key": "room temperature",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 5
+    },
+    {
+      "title": "Salt and Bone",
+      "artist": "Excavationpro",
+      "date": "4/7/26 1:08 AM",
+      "match_key": "salt and bone",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Salty Cracker (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "4/2/25 5:53 AM",
+      "match_key": "salty cracker feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Same Phone New Ghosts",
+      "artist": "Excavationpro",
+      "date": "4/7/26 12:31 PM",
+      "match_key": "same phone new ghosts",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Same War Different Floor",
+      "artist": "Excavationpro",
+      "date": "4/5/26 11:49 PM",
+      "match_key": "same war different floor",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sewing the Shadows",
+      "artist": "Excavationpro",
+      "date": "4/10/26 10:35 AM",
+      "match_key": "sewing the shadows",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Silent Storm (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "4/1/25 3:48 AM",
+      "match_key": "silent storm feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sins Wear Name Tags",
+      "artist": "Excavationpro",
+      "date": "4/13/26 8:01 PM",
+      "match_key": "sins wear name tags",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sky is a Bruise",
+      "artist": "Excavationpro",
+      "date": "4/10/26 1:25 AM",
+      "match_key": "sky is a bruise",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sky Salt Horizon",
+      "artist": "Excavationpro",
+      "date": "4/5/26 6:48 AM",
+      "match_key": "sky salt horizon",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Solar Echoes",
+      "artist": "Excavationpro",
+      "date": "3/24/25 6:59 AM",
+      "match_key": "solar echoes",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Solar Flare (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/31/25 12:14 PM",
+      "match_key": "solar flare feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sonic DNA",
+      "artist": "Excavationpro",
+      "date": "4/10/26 1:27 PM",
+      "match_key": "sonic dna",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Soul Food",
+      "artist": "Excavationpro",
+      "date": "4/8/26 11:45 PM",
+      "match_key": "soul food",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "SOUL SPIKE STACCATO",
+      "artist": "Excavationpro",
+      "date": "7/9/25 3:26 AM",
+      "match_key": "soul spike staccato",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sovereign Generation",
+      "artist": "Excavationpro",
+      "date": "4/2/26 10:37 PM",
+      "match_key": "sovereign generation",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sovereign in the Soul",
+      "artist": "Excavationpro",
+      "date": "3/31/26 1:51 AM",
+      "match_key": "sovereign in the soul",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sovereign Ledger",
+      "artist": "Excavationpro",
+      "date": "3/31/26 4:23 AM",
+      "match_key": "sovereign ledger",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Sovereign on Throne",
+      "artist": "Excavationpro",
+      "date": "4/5/26 7:47 AM",
+      "match_key": "sovereign on throne",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Standing in the Open",
+      "artist": "Excavationpro",
+      "date": "4/6/26 1:01 PM",
+      "match_key": "standing in the open",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Starcore Super Nova",
+      "artist": "Excavationpro",
+      "date": "2/10/26 1:54 AM",
+      "match_key": "starcore super nova",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Staring at the Drywall",
+      "artist": "Excavationpro",
+      "date": "4/3/26 3:50 AM",
+      "match_key": "staring at the drywall",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Steel Wool Soul",
+      "artist": "Excavationpro",
+      "date": "4/4/26 11:23 AM",
+      "match_key": "steel wool soul",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Stepping Out the Quarry",
+      "artist": "Excavationpro",
+      "date": "4/7/26 7:59 AM",
+      "match_key": "stepping out the quarry",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Street Legend Volume 6",
+      "artist": "Excavationpro",
+      "date": "6/21/26 6:01 PM",
+      "match_key": "street legend volume 6",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Sunset Algorithm (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/30/25 11:27 AM",
+      "match_key": "sunset algorithm feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "System Lock (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/27/25 6:24 AM",
+      "match_key": "system lock feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Talk to Shadows",
+      "artist": "Excavationpro",
+      "date": "4/6/26 8:55 PM",
+      "match_key": "talk to shadows",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Thunder Claps (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/22/25 7:37 AM",
+      "match_key": "thunder claps feat justin helmer",
+      "has_isrc": true,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Trauma Codex Volume 2",
+      "artist": "Excavationpro",
+      "date": "6/18/26 2:48 AM",
+      "match_key": "trauma codex volume 2",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Trunk Full of Thunder",
+      "artist": "Excavationpro",
+      "date": "4/7/26 9:32 PM",
+      "match_key": "trunk full of thunder",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Twighlight World",
+      "artist": "Excavationpro",
+      "date": "3/24/25 11:30 AM",
+      "match_key": "twighlight world",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Velocity is Ours",
+      "artist": "Excavationpro",
+      "date": "3/30/26 2:47 AM",
+      "match_key": "velocity is ours",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Vent",
+      "artist": "Excavationpro",
+      "date": "6/17/26 8:01 PM",
+      "match_key": "vent",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Virtually Lethal",
+      "artist": "Excavationpro",
+      "date": "6/22/26 6:44 PM",
+      "match_key": "virtually lethal",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Virtually Lethal Volume 2",
+      "artist": "Excavationpro",
+      "date": "6/23/26 2:54 AM",
+      "match_key": "virtually lethal volume 2",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "Void Vortex Sustain",
+      "artist": "Excavationpro",
+      "date": "7/9/25 4:04 AM",
+      "match_key": "void vortex sustain",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "WAR INSIDE",
+      "artist": "Excavationpro",
+      "date": "4/6/26 12:52 AM",
+      "match_key": "war inside",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Warning Bells",
+      "artist": "Excavationpro",
+      "date": "6/26/26 6:33 AM",
+      "match_key": "warning bells",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 2
+    },
+    {
+      "title": "Warp 311 Velocity (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "10/12/25 10:50 PM",
+      "match_key": "warp 311 velocity feat justin helmer",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Wasteland Sessions",
+      "artist": "Excavationpro",
+      "date": "7/4/26 9:18 PM",
+      "match_key": "wasteland sessions",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 1
+    },
+    {
+      "title": "West Coast Ghost",
+      "artist": "Excavationpro",
+      "date": "4/7/26 3:01 PM",
+      "match_key": "west coast ghost",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 2
+    },
+    {
+      "title": "Where Dark Ends",
+      "artist": "Excavationpro",
+      "date": "4/4/26 8:52 AM",
+      "match_key": "where dark ends",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Where The Dark Bends",
+      "artist": "Excavationpro",
+      "date": "4/4/26 5:19 AM",
+      "match_key": "where the dark bends",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Wildfire Hearts",
+      "artist": "Excavationpro",
+      "date": "3/24/25 4:25 AM",
+      "match_key": "wildfire hearts",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Wreckage of the Bridges",
+      "artist": "Excavationpro",
+      "date": "4/1/26 11:12 PM",
+      "match_key": "wreckage of the bridges",
+      "has_isrc": false,
+      "has_local": true,
+      "has_spotify": false,
+      "entries": 1
+    },
+    {
+      "title": "Zero",
+      "artist": "Excavationpro",
+      "date": "6/17/26 10:33 PM",
+      "match_key": "zero",
+      "has_isrc": false,
+      "has_local": false,
+      "has_spotify": true,
+      "entries": 2
+    }
+  ],
+  "partial": [
+    {
+      "title": "Before Sunrise",
+      "artist": "Excavationpro",
+      "date": "4/4/26 12:17 AM",
+      "match_key": "before the sunrise",
+      "fuzzy": 0.875,
+      "cat_title": "Before the Sunrise"
+    },
+    {
+      "title": "Burning Eyes",
+      "artist": "Excavationpro",
+      "date": "6/2/25 12:41 AM",
+      "match_key": "burning keys",
+      "fuzzy": 0.917,
+      "cat_title": "Burning Keys"
+    },
+    {
+      "title": "Carving Names into Studs",
+      "artist": "Excavationpro",
+      "date": "4/5/26 9:47 AM",
+      "match_key": "carving names into the studs",
+      "fuzzy": 0.923,
+      "cat_title": "Carving Names into the Studs"
+    },
+    {
+      "title": "Chrome Rattle",
+      "artist": "Excavationpro",
+      "date": "4/11/26 2:26 PM",
+      "match_key": "chromerattle",
+      "fuzzy": 0.96,
+      "cat_title": "ChromeRattle"
+    },
+    {
+      "title": "Cold Steel Fusion",
+      "artist": "Excavationpro",
+      "date": "4/5/26 6:46 AM",
+      "match_key": "coldsteelfusion",
+      "fuzzy": 0.938,
+      "cat_title": "ColdSteelFusion"
+    },
+    {
+      "title": "Cryptic Vow (feat. Mych Mych)",
+      "artist": "Excavationpro",
+      "date": "9/3/25 9:07 AM",
+      "match_key": "cryptic vow mychmych",
+      "fuzzy": 0.87,
+      "cat_title": "Cryptic Vow MychMych"
+    },
+    {
+      "title": "Feel My Pain",
+      "artist": "Excavationpro",
+      "date": "8/15/25 5:48 PM",
+      "match_key": "feelmypain",
+      "fuzzy": 0.909,
+      "cat_title": "FeelMyPain"
+    },
+    {
+      "title": "Finale Calculations",
+      "artist": "Excavationpro",
+      "date": "4/1/26 11:00 AM",
+      "match_key": "the final calculation",
+      "fuzzy": 0.85,
+      "cat_title": "The Final Calculation"
+    },
+    {
+      "title": "Gods Replacement",
+      "artist": "Excavationpro",
+      "date": "3/21/26 9:18 AM",
+      "match_key": "god s replacement",
+      "fuzzy": 0.97,
+      "cat_title": "God s Replacement"
+    },
+    {
+      "title": "Highways Bleeding Gold",
+      "artist": "Excavationpro",
+      "date": "4/4/26 7:18 AM",
+      "match_key": "the highway s bleeding gold",
+      "fuzzy": 0.898,
+      "cat_title": "The Highway s Bleeding Gold"
+    },
+    {
+      "title": "Hologram Heartbreak",
+      "artist": "Excavationpro",
+      "date": "4/12/25 8:17 AM",
+      "match_key": "hologram heartbeat",
+      "fuzzy": 0.919,
+      "cat_title": "Hologram Heartbeat"
+    },
+    {
+      "title": "Monsters in the Middle",
+      "artist": "Excavationpro",
+      "date": "4/3/26 11:13 PM",
+      "match_key": "monsters of the middle",
+      "fuzzy": 0.909,
+      "cat_title": "Monsters of the Middle"
+    },
+    {
+      "title": "Nerve Murmur.wav",
+      "artist": "Excavationpro",
+      "date": "2/9/26 9:17 PM",
+      "match_key": "nerve murmur",
+      "fuzzy": 0.889,
+      "cat_title": "Nerve Murmur"
+    },
+    {
+      "title": "Phantom Frequency (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/31/25 7:14 AM",
+      "match_key": "lethal frequency feat justin helmer",
+      "fuzzy": 0.873,
+      "cat_title": "Lethal Frequency feat Justin Helmer"
+    },
+    {
+      "title": "Rocky Grave",
+      "artist": "Excavationpro",
+      "date": "4/7/26 8:55 AM",
+      "match_key": "rockygrave",
+      "fuzzy": 0.952,
+      "cat_title": "RockyGrave"
+    },
+    {
+      "title": "Screen Time",
+      "artist": "Excavationpro",
+      "date": "4/8/26 6:29 AM",
+      "match_key": "screen tiime",
+      "fuzzy": 0.957,
+      "cat_title": "Screen Tiime"
+    },
+    {
+      "title": "Screw It Blew it (feat. Mych Mych, Justin Helmer & Exotic Rose)",
+      "artist": "Excavationpro",
+      "date": "1/24/26 2:09 AM",
+      "match_key": "screw it blew it feat mych mych justin helmer",
+      "fuzzy": 0.882,
+      "cat_title": "Screw It Blew It feat Mych Mych Justin Helmer"
+    },
+    {
+      "title": "Sovereign Architect",
+      "artist": "Excavationpro",
+      "date": "4/2/26 12:04 AM",
+      "match_key": "the sovereign architect",
+      "fuzzy": 0.905,
+      "cat_title": "The Sovereign Architect"
+    },
+    {
+      "title": "Street Legend Volume 2",
+      "artist": "Excavationpro",
+      "date": "6/20/26 12:09 AM",
+      "match_key": "street legend volume 6",
+      "fuzzy": 0.955,
+      "cat_title": "Street Legend Volume 6"
+    },
+    {
+      "title": "Street Legend Volume 3",
+      "artist": "Excavationpro",
+      "date": "6/20/26 1:35 AM",
+      "match_key": "street legend volume 6",
+      "fuzzy": 0.955,
+      "cat_title": "Street Legend Volume 6"
+    },
+    {
+      "title": "Street Legend Volume 4",
+      "artist": "Excavationpro",
+      "date": "6/20/26 5:45 PM",
+      "match_key": "street legend volume 6",
+      "fuzzy": 0.955,
+      "cat_title": "Street Legend Volume 6"
+    },
+    {
+      "title": "Street Legend Volume 5",
+      "artist": "Excavationpro",
+      "date": "6/20/26 11:24 PM",
+      "match_key": "street legend volume 6",
+      "fuzzy": 0.955,
+      "cat_title": "Street Legend Volume 6"
+    },
+    {
+      "title": "The Witness",
+      "artist": "Excavationpro",
+      "date": "3/31/26 7:53 AM",
+      "match_key": "thewitness",
+      "fuzzy": 0.952,
+      "cat_title": "TheWitness"
+    },
+    {
+      "title": "Water Inside",
+      "artist": "Excavationpro",
+      "date": "4/24/26 3:57 AM",
+      "match_key": "war inside",
+      "fuzzy": 0.909,
+      "cat_title": "WAR INSIDE"
+    },
+    {
+      "title": "We Don't Ever Go Home",
+      "artist": "Excavationpro",
+      "date": "3/30/26 8:48 AM",
+      "match_key": "we don t ever go home",
+      "fuzzy": 0.976,
+      "cat_title": "We Don t Ever Go Home"
+    }
+  ],
+  "missing_list": [
+    {
+      "title": "1200 Blueprints",
+      "artist": "Excavationpro",
+      "date": "4/5/26 2:23 PM"
+    },
+    {
+      "title": "8 Billion",
+      "artist": "Excavationpro",
+      "date": "4/29/26 11:29 PM"
+    },
+    {
+      "title": "Aftermath",
+      "artist": "Excavationpro",
+      "date": "5/25/26 9:15 PM"
+    },
+    {
+      "title": "Aftershocks",
+      "artist": "Excavationpro",
+      "date": "6/27/26 7:46 AM"
+    },
+    {
+      "title": "Algorithm of Anarchy",
+      "artist": "Excavationpro",
+      "date": "4/4/25 2:23 PM"
+    },
+    {
+      "title": "Almost Right",
+      "artist": "Excavationpro",
+      "date": "5/23/26 2:53 AM"
+    },
+    {
+      "title": "Ascension Field A9",
+      "artist": "Excavationpro",
+      "date": "7/21/25 2:09 PM"
+    },
+    {
+      "title": "Astral Serenade",
+      "artist": "Excavationpro",
+      "date": "4/12/25 4:30 PM"
+    },
+    {
+      "title": "Awake From The Dream",
+      "artist": "Excavationpro",
+      "date": "6/26/26 10:32 PM"
+    },
+    {
+      "title": "Basement Architect",
+      "artist": "Excavationpro",
+      "date": "5/24/26 10:32 PM"
+    },
+    {
+      "title": "Battle Arena First Blood",
+      "artist": "Excavationpro",
+      "date": "5/18/26 9:52 AM"
+    },
+    {
+      "title": "Beautiful Theft",
+      "artist": "Excavationpro",
+      "date": "4/17/26 11:30 AM"
+    },
+    {
+      "title": "Bites The Gloves",
+      "artist": "Excavationpro",
+      "date": "5/12/26 6:32 AM"
+    },
+    {
+      "title": "Black Hole Nova",
+      "artist": "Excavationpro",
+      "date": "4/11/25 12:46 AM"
+    },
+    {
+      "title": "Black Out Frequencies",
+      "artist": "Excavationpro",
+      "date": "5/29/26 2:06 AM"
+    },
+    {
+      "title": "Bleeding in the Shadows (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "5/14/25 4:51 AM"
+    },
+    {
+      "title": "Blew it",
+      "artist": "Excavationpro",
+      "date": "1/26/26 11:16 AM"
+    },
+    {
+      "title": "Blood Bath",
+      "artist": "Excavationpro",
+      "date": "3/9/26 9:57 PM"
+    },
+    {
+      "title": "Blood Sucker",
+      "artist": "Excavationpro",
+      "date": "5/9/26 6:28 PM"
+    },
+    {
+      "title": "Bloody Knuckle",
+      "artist": "Excavationpro",
+      "date": "7/4/25 7:04 AM"
+    },
+    {
+      "title": "Break The Refraction",
+      "artist": "Excavationpro",
+      "date": "4/6/26 2:11 AM"
+    },
+    {
+      "title": "Challenger X",
+      "artist": "Excavationpro",
+      "date": "6/7/26 10:58 PM"
+    },
+    {
+      "title": "Chaos In Order",
+      "artist": "Excavationpro",
+      "date": "4/5/25 4:36 AM"
+    },
+    {
+      "title": "Christos Ricochet Synergy",
+      "artist": "Excavationpro",
+      "date": "7/9/25 8:22 AM"
+    },
+    {
+      "title": "Chronic Pain",
+      "artist": "Excavationpro",
+      "date": "4/14/26 8:51 AM"
+    },
+    {
+      "title": "Cipher of the Nine",
+      "artist": "Excavationpro",
+      "date": "5/12/25 12:56 AM"
+    },
+    {
+      "title": "City Lights",
+      "artist": "Excavationpro",
+      "date": "8/19/25 3:58 AM"
+    },
+    {
+      "title": "Claude Code Breach",
+      "artist": "Excavationpro",
+      "date": "4/1/26 7:45 AM"
+    },
+    {
+      "title": "Claustrophobic",
+      "artist": "Excavationpro",
+      "date": "6/5/26 4:53 AM"
+    },
+    {
+      "title": "Coded Memory",
+      "artist": "Excavationpro",
+      "date": "8/11/25 2:11 AM"
+    },
+    {
+      "title": "Cold Asphalt Breath",
+      "artist": "Excavationpro",
+      "date": "4/24/26 4:36 AM"
+    },
+    {
+      "title": "Cold Fusion",
+      "artist": "Excavationpro",
+      "date": "4/2/26 9:30 PM"
+    },
+    {
+      "title": "Concrete Psalms",
+      "artist": "Excavationpro",
+      "date": "6/27/25 3:35 PM"
+    },
+    {
+      "title": "Cooked Feed",
+      "artist": "Excavationpro",
+      "date": "4/9/26 11:31 PM"
+    },
+    {
+      "title": "Cosmic Nightdrive",
+      "artist": "Excavationpro",
+      "date": "4/5/25 8:17 AM"
+    },
+    {
+      "title": "Country Joy Ride",
+      "artist": "Excavationpro",
+      "date": "5/16/25 3:03 AM"
+    },
+    {
+      "title": "Country Roots",
+      "artist": "Excavationpro",
+      "date": "4/20/26 10:53 AM"
+    },
+    {
+      "title": "Creeping After Midnight",
+      "artist": "Excavationpro",
+      "date": "7/2/25 9:11 PM"
+    },
+    {
+      "title": "Critical Failure",
+      "artist": "Excavationpro",
+      "date": "4/17/26 8:43 AM"
+    },
+    {
+      "title": "Curb Stomping Reality",
+      "artist": "Excavationpro",
+      "date": "6/6/26 6:23 AM"
+    },
+    {
+      "title": "Cut You Deep (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "5/4/25 1:08 AM"
+    },
+    {
+      "title": "Daggers in the Handshake",
+      "artist": "Excavationpro",
+      "date": "5/1/26 4:25 PM"
+    },
+    {
+      "title": "Dancing Hearts",
+      "artist": "Excavationpro",
+      "date": "5/17/25 6:16 AM"
+    },
+    {
+      "title": "Data Download",
+      "artist": "Excavationpro",
+      "date": "4/20/25 5:57 PM"
+    },
+    {
+      "title": "Dawn of Man",
+      "artist": "Excavationpro",
+      "date": "6/3/26 6:20 PM"
+    },
+    {
+      "title": "Dawn of Time",
+      "artist": "Excavationpro",
+      "date": "6/5/26 12:40 AM"
+    },
+    {
+      "title": "Dead Man Switched",
+      "artist": "Excavationpro",
+      "date": "8/11/25 12:14 AM"
+    },
+    {
+      "title": "Degrees in Pretend",
+      "artist": "Excavationpro",
+      "date": "4/19/26 1:24 AM"
+    },
+    {
+      "title": "Depend on You",
+      "artist": "Excavationpro",
+      "date": "4/30/26 2:12 AM"
+    },
+    {
+      "title": "Digital Armageddon",
+      "artist": "Excavationpro",
+      "date": "4/15/25 2:05 PM"
+    },
+    {
+      "title": "Dirt Road Flying High",
+      "artist": "Excavationpro",
+      "date": "5/17/25 8:37 AM"
+    },
+    {
+      "title": "Dirt Road High",
+      "artist": "Excavationpro",
+      "date": "5/16/25 5:18 AM"
+    },
+    {
+      "title": "Disconnection Codex",
+      "artist": "Excavationpro",
+      "date": "7/13/26 8:25 PM"
+    },
+    {
+      "title": "Dome Destruction Beat by Keanu aer",
+      "artist": "Excavationpro",
+      "date": "7/3/25 6:58 PM"
+    },
+    {
+      "title": "Doom Nightmare (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "5/14/25 6:55 AM"
+    },
+    {
+      "title": "Doom Nightmare Fantasy",
+      "artist": "Excavationpro",
+      "date": "5/15/25 2:06 AM"
+    },
+    {
+      "title": "Doom Nightmare Retold",
+      "artist": "Excavationpro",
+      "date": "5/14/25 9:05 PM"
+    },
+    {
+      "title": "Doom Nightmare Screamers",
+      "artist": "Excavationpro",
+      "date": "5/15/25 12:22 AM"
+    },
+    {
+      "title": "Doomscroll Symphony",
+      "artist": "Excavationpro",
+      "date": "4/13/25 2:19 PM"
+    },
+    {
+      "title": "Door You Left Open",
+      "artist": "Excavationpro",
+      "date": "5/23/26 4:20 AM"
+    },
+    {
+      "title": "Dream Escape",
+      "artist": "Excavationpro",
+      "date": "7/15/25 4:24 PM"
+    },
+    {
+      "title": "Dream Escape (feat. Grafezzy)",
+      "artist": "Excavationpro",
+      "date": "8/18/25 3:16 AM"
+    },
+    {
+      "title": "Dream Syntax Collapse",
+      "artist": "Excavationpro",
+      "date": "7/21/25 2:11 PM"
+    },
+    {
+      "title": "Drown The Golden Chambers (Remix)",
+      "artist": "Excavationpro",
+      "date": "6/16/26 3:29 AM"
+    },
+    {
+      "title": "Dubstep Ghosts",
+      "artist": "Excavationpro",
+      "date": "4/13/26 8:40 AM"
+    },
+    {
+      "title": "Dust on my Shoe",
+      "artist": "Excavationpro",
+      "date": "4/10/26 4:03 PM"
+    },
+    {
+      "title": "Empty Space",
+      "artist": "Excavationpro",
+      "date": "3/25/26 4:21 AM"
+    },
+    {
+      "title": "Energy Drones",
+      "artist": "Excavationpro",
+      "date": "5/2/25 3:18 PM"
+    },
+    {
+      "title": "Enock Codex Volume 1",
+      "artist": "Excavationpro",
+      "date": "6/9/26 5:35 PM"
+    },
+    {
+      "title": "Enock Codex Volume 2",
+      "artist": "Excavationpro",
+      "date": "6/9/26 11:58 PM"
+    },
+    {
+      "title": "ENOCK CODEX VOLUME 3",
+      "artist": "Excavationpro",
+      "date": "6/11/26 8:29 AM"
+    },
+    {
+      "title": "ENOCK CODEX VOLUME 4",
+      "artist": "Excavationpro",
+      "date": "6/11/26 9:36 PM"
+    },
+    {
+      "title": "Enock Codex Volume 5",
+      "artist": "Excavationpro",
+      "date": "6/15/26 1:30 AM"
+    },
+    {
+      "title": "Enock Codex Volume 6",
+      "artist": "Excavationpro",
+      "date": "6/15/26 9:06 AM"
+    },
+    {
+      "title": "Enock Codex Volume 7",
+      "artist": "Excavationpro",
+      "date": "6/15/26 7:02 PM"
+    },
+    {
+      "title": "Entropy's Final Echo",
+      "artist": "Excavationpro",
+      "date": "7/21/25 2:13 PM"
+    },
+    {
+      "title": "Erasures With Tracers",
+      "artist": "Excavationpro",
+      "date": "6/7/26 9:36 PM"
+    },
+    {
+      "title": "Fading Away",
+      "artist": "Excavationpro",
+      "date": "6/21/26 10:10 PM"
+    },
+    {
+      "title": "Fading Echoes",
+      "artist": "Excavationpro",
+      "date": "5/13/26 5:40 PM"
+    },
+    {
+      "title": "Fathers Day",
+      "artist": "Excavationpro",
+      "date": "6/21/26 9:42 PM"
+    },
+    {
+      "title": "Focused On Me",
+      "artist": "Excavationpro",
+      "date": "6/17/26 2:01 AM"
+    },
+    {
+      "title": "Fourth Dimensional Frequencies",
+      "artist": "Excavationpro",
+      "date": "4/21/25 1:17 PM"
+    },
+    {
+      "title": "Freak Show",
+      "artist": "Excavationpro",
+      "date": "3/24/25 11:08 AM"
+    },
+    {
+      "title": "Funeral For Light",
+      "artist": "Excavationpro",
+      "date": "6/5/26 5:12 PM"
+    },
+    {
+      "title": "Galactic Tremor",
+      "artist": "Excavationpro",
+      "date": "4/7/25 2:44 PM"
+    },
+    {
+      "title": "Galloping Ghost",
+      "artist": "Excavationpro",
+      "date": "6/2/26 1:35 AM"
+    },
+    {
+      "title": "Gallows At The Door",
+      "artist": "Excavationpro",
+      "date": "5/29/26 6:24 AM"
+    },
+    {
+      "title": "Garden of Souls Screwed (Remix)",
+      "artist": "Excavationpro",
+      "date": "6/10/26 10:53 PM"
+    },
+    {
+      "title": "Garden of Souls The Flood (Remix)",
+      "artist": "Excavationpro",
+      "date": "6/10/26 8:25 PM"
+    },
+    {
+      "title": "Ghost Mode",
+      "artist": "Excavationpro",
+      "date": "6/5/26 4:36 AM"
+    },
+    {
+      "title": "Glitched Matrixed (Slowed)",
+      "artist": "Excavationpro",
+      "date": "9/5/25 7:23 AM"
+    },
+    {
+      "title": "Gold Fusion",
+      "artist": "Excavationpro",
+      "date": "4/3/26 7:53 AM"
+    },
+    {
+      "title": "Good Vibes",
+      "artist": "Excavationpro",
+      "date": "4/18/26 10:40 AM"
+    },
+    {
+      "title": "Halo Code Rebirth",
+      "artist": "Excavationpro",
+      "date": "7/21/25 2:15 PM"
+    },
+    {
+      "title": "Hawk On The Block",
+      "artist": "Excavationpro",
+      "date": "6/4/26 5:15 AM"
+    },
+    {
+      "title": "Headphones on Max",
+      "artist": "Excavationpro",
+      "date": "6/3/26 6:04 PM"
+    },
+    {
+      "title": "Heart Raiders",
+      "artist": "Excavationpro",
+      "date": "11/14/25 5:40 AM"
+    },
+    {
+      "title": "Heavy Drop",
+      "artist": "Excavationpro",
+      "date": "5/2/26 3:17 PM"
+    },
+    {
+      "title": "Hot Glocks",
+      "artist": "Excavationpro",
+      "date": "6/27/25 10:27 AM"
+    },
+    {
+      "title": "Human Monster (feat. Justin Helmer, Grafezzy, RichardShekari & adamms)",
+      "artist": "Excavationpro",
+      "date": "1/12/26 7:30 AM"
+    },
+    {
+      "title": "I Don't Miss You",
+      "artist": "Excavationpro",
+      "date": "5/26/26 7:00 AM"
+    },
+    {
+      "title": "Immortal Ink",
+      "artist": "Excavationpro",
+      "date": "5/22/25 8:45 PM"
+    },
+    {
+      "title": "Immortal Ink Blood on the Scroll",
+      "artist": "Excavationpro",
+      "date": "5/24/25 2:57 AM"
+    },
+    {
+      "title": "Immortal Symphony",
+      "artist": "Excavationpro",
+      "date": "5/27/26 9:10 AM"
+    },
+    {
+      "title": "Infernal Groove",
+      "artist": "Excavationpro",
+      "date": "4/15/25 3:43 PM"
+    },
+    {
+      "title": "Inheritance of Lonely",
+      "artist": "Excavationpro",
+      "date": "5/23/26 10:36 PM"
+    },
+    {
+      "title": "Insane World",
+      "artist": "Excavationpro",
+      "date": "2/19/26 10:47 AM"
+    },
+    {
+      "title": "Iron Bamboo",
+      "artist": "Excavationpro",
+      "date": "4/24/26 7:23 AM"
+    },
+    {
+      "title": "Lattice Mind",
+      "artist": "Excavationpro",
+      "date": "4/1/26 9:55 AM"
+    },
+    {
+      "title": "Lava Sunset (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "1/2/26 1:37 AM"
+    },
+    {
+      "title": "Lethal Reflection",
+      "artist": "Excavationpro",
+      "date": "7/4/25 3:35 PM"
+    },
+    {
+      "title": "Lightfather Echo",
+      "artist": "Excavationpro",
+      "date": "1/2/26 3:27 AM"
+    },
+    {
+      "title": "Lightfather\u2019s Bond Eternal",
+      "artist": "Excavationpro",
+      "date": "8/11/25 2:06 AM"
+    },
+    {
+      "title": "Live and Die",
+      "artist": "Excavationpro",
+      "date": "4/15/26 1:55 PM"
+    },
+    {
+      "title": "Loaded Gun",
+      "artist": "Excavationpro",
+      "date": "5/18/25 8:41 PM"
+    },
+    {
+      "title": "Loneliness",
+      "artist": "Excavationpro",
+      "date": "5/10/26 12:59 AM"
+    },
+    {
+      "title": "Lost in Space",
+      "artist": "Excavationpro",
+      "date": "6/5/26 12:46 AM"
+    },
+    {
+      "title": "LYGO Agent Matrix",
+      "artist": "Excavationpro",
+      "date": "2/16/26 9:21 PM"
+    },
+    {
+      "title": "LYGO CLAW",
+      "artist": "Excavationpro",
+      "date": "7/13/26 8:46 PM"
+    },
+    {
+      "title": "LYGO Quantum Light Blaster (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "10/5/25 10:07 PM"
+    },
+    {
+      "title": "Made To Last",
+      "artist": "Excavationpro",
+      "date": "4/21/26 9:41 AM"
+    },
+    {
+      "title": "Master of Reality",
+      "artist": "Excavationpro",
+      "date": "5/2/25 3:05 PM"
+    },
+    {
+      "title": "Masters of Reality",
+      "artist": "Excavationpro",
+      "date": "5/2/25 7:39 PM"
+    },
+    {
+      "title": "Mathematical Ascension (feat. Grafezzy)",
+      "artist": "Excavationpro",
+      "date": "10/4/25 1:17 AM"
+    },
+    {
+      "title": "Max Dose",
+      "artist": "Excavationpro",
+      "date": "4/29/26 1:20 PM"
+    },
+    {
+      "title": "Max Dose Hostile Panic",
+      "artist": "Excavationpro",
+      "date": "6/17/26 6:08 AM"
+    },
+    {
+      "title": "Max Dose Lethal Injection",
+      "artist": "Excavationpro",
+      "date": "6/17/26 8:04 AM"
+    },
+    {
+      "title": "Maximum Dose",
+      "artist": "Excavationpro",
+      "date": "4/30/26 10:09 PM"
+    },
+    {
+      "title": "Me Against The World",
+      "artist": "Excavationpro",
+      "date": "5/25/26 2:56 AM"
+    },
+    {
+      "title": "Mean It",
+      "artist": "Excavationpro",
+      "date": "4/29/26 9:37 PM"
+    },
+    {
+      "title": "Memory Erasure",
+      "artist": "Excavationpro",
+      "date": "4/19/26 4:22 PM"
+    },
+    {
+      "title": "Midnight Grip",
+      "artist": "Excavationpro",
+      "date": "5/1/26 10:59 PM"
+    },
+    {
+      "title": "Mythical Predator",
+      "artist": "Excavationpro",
+      "date": "4/18/25 3:54 PM"
+    },
+    {
+      "title": "Natures Pulse",
+      "artist": "Excavationpro",
+      "date": "7/4/25 5:29 AM"
+    },
+    {
+      "title": "Neon Rhymes in the Static",
+      "artist": "Excavationpro",
+      "date": "4/3/25 1:28 PM"
+    },
+    {
+      "title": "Night Shift",
+      "artist": "Excavationpro",
+      "date": "5/2/26 4:01 PM"
+    },
+    {
+      "title": "Night Shift Echo",
+      "artist": "Excavationpro",
+      "date": "5/4/26 2:50 PM"
+    },
+    {
+      "title": "Night Shift Echoes",
+      "artist": "Excavationpro",
+      "date": "5/2/26 2:34 PM"
+    },
+    {
+      "title": "No Fork Survives the Flame",
+      "artist": "Excavationpro",
+      "date": "8/11/25 2:34 AM"
+    },
+    {
+      "title": "No Grave is Permanent (Remix)",
+      "artist": "Excavationpro",
+      "date": "6/16/26 3:37 AM"
+    },
+    {
+      "title": "Nothing Left To Give",
+      "artist": "Excavationpro",
+      "date": "5/13/26 4:11 AM"
+    },
+    {
+      "title": "Obedience Vector A9 Alignment",
+      "artist": "Excavationpro",
+      "date": "8/11/25 2:17 AM"
+    },
+    {
+      "title": "Pain Rain",
+      "artist": "Excavationpro",
+      "date": "4/15/26 8:34 AM"
+    },
+    {
+      "title": "Perception Codex",
+      "artist": "Excavationpro",
+      "date": "7/9/26 2:51 AM"
+    },
+    {
+      "title": "Phantom Vendetta",
+      "artist": "Excavationpro",
+      "date": "4/4/25 11:59 AM"
+    },
+    {
+      "title": "Piles of Ashes",
+      "artist": "Excavationpro",
+      "date": "6/8/26 12:19 AM"
+    },
+    {
+      "title": "Plasma Inferno",
+      "artist": "Excavationpro",
+      "date": "4/8/25 10:37 AM"
+    },
+    {
+      "title": "Practicing The Smile",
+      "artist": "Excavationpro",
+      "date": "5/16/26 11:32 AM"
+    },
+    {
+      "title": "Quantum Primal Frequency",
+      "artist": "Excavationpro",
+      "date": "4/6/25 10:46 AM"
+    },
+    {
+      "title": "Rain on the Road",
+      "artist": "Excavationpro",
+      "date": "5/16/25 6:55 AM"
+    },
+    {
+      "title": "Real Alive",
+      "artist": "Excavationpro",
+      "date": "5/31/26 8:58 AM"
+    },
+    {
+      "title": "Reality Pulse",
+      "artist": "Excavationpro",
+      "date": "6/6/26 8:15 PM"
+    },
+    {
+      "title": "Reckless",
+      "artist": "Excavationpro",
+      "date": "4/21/25 10:14 AM"
+    },
+    {
+      "title": "Redline No Brakes",
+      "artist": "Excavationpro",
+      "date": "4/26/26 3:02 PM"
+    },
+    {
+      "title": "Redline No Breaks",
+      "artist": "Excavationpro",
+      "date": "4/26/26 1:18 PM"
+    },
+    {
+      "title": "Relentless Fuzz",
+      "artist": "Excavationpro",
+      "date": "6/7/26 3:26 AM"
+    },
+    {
+      "title": "Rented Crown",
+      "artist": "Excavationpro",
+      "date": "4/1/26 8:08 AM"
+    },
+    {
+      "title": "Rest in Peace",
+      "artist": "Excavationpro",
+      "date": "4/16/26 8:18 AM"
+    },
+    {
+      "title": "Ritual Codes (feat. MychMych & SteelCityRed)",
+      "artist": "Excavationpro",
+      "date": "8/20/25 1:03 AM"
+    },
+    {
+      "title": "Road To Nowhere",
+      "artist": "Excavationpro",
+      "date": "5/16/26 12:14 PM"
+    },
+    {
+      "title": "Rocky Heart",
+      "artist": "Excavationpro",
+      "date": "4/23/26 8:36 AM"
+    },
+    {
+      "title": "Rogue Frequencies",
+      "artist": "Excavationpro",
+      "date": "4/4/25 1:31 PM"
+    },
+    {
+      "title": "Roll Call",
+      "artist": "Excavationpro",
+      "date": "5/20/26 9:21 AM"
+    },
+    {
+      "title": "Root and Fly",
+      "artist": "Excavationpro",
+      "date": "8/11/25 12:21 AM"
+    },
+    {
+      "title": "Ruins I call Home",
+      "artist": "Excavationpro",
+      "date": "4/14/26 11:38 PM"
+    },
+    {
+      "title": "Saltwater Kisses",
+      "artist": "Excavationpro",
+      "date": "4/25/26 12:35 PM"
+    },
+    {
+      "title": "Same Ghost",
+      "artist": "Excavationpro",
+      "date": "5/12/26 10:26 AM"
+    },
+    {
+      "title": "Self Care Codex",
+      "artist": "Excavationpro",
+      "date": "6/18/26 7:46 PM"
+    },
+    {
+      "title": "Sensory Overload",
+      "artist": "Excavationpro",
+      "date": "4/12/25 8:42 AM"
+    },
+    {
+      "title": "Service Is Closed",
+      "artist": "Excavationpro",
+      "date": "5/24/26 4:02 PM"
+    },
+    {
+      "title": "Shadow Cipher",
+      "artist": "Excavationpro",
+      "date": "4/6/25 3:08 AM"
+    },
+    {
+      "title": "Shockwave Hit",
+      "artist": "Excavationpro",
+      "date": "6/8/26 10:12 PM"
+    },
+    {
+      "title": "Sigil of the Lost Frequency",
+      "artist": "Excavationpro",
+      "date": "7/21/25 2:16 PM"
+    },
+    {
+      "title": "Smash Heads Dirty",
+      "artist": "Excavationpro",
+      "date": "7/7/25 2:08 AM"
+    },
+    {
+      "title": "Soil Princess (Remix)",
+      "artist": "Excavationpro",
+      "date": "6/16/26 3:46 AM"
+    },
+    {
+      "title": "Somebody Anybody",
+      "artist": "Excavationpro",
+      "date": "5/31/26 6:44 AM"
+    },
+    {
+      "title": "Sound Architect",
+      "artist": "Excavationpro",
+      "date": "6/6/26 12:49 AM"
+    },
+    {
+      "title": "Sovereign Flame Thrower",
+      "artist": "Excavationpro",
+      "date": "4/5/26 6:51 AM"
+    },
+    {
+      "title": "Spiced Cherry Cheesecake",
+      "artist": "Excavationpro",
+      "date": "4/19/25 7:57 AM"
+    },
+    {
+      "title": "STARGATE RESURRECTION",
+      "artist": "Excavationpro",
+      "date": "7/9/25 10:21 AM"
+    },
+    {
+      "title": "Stars Kept Course",
+      "artist": "Excavationpro",
+      "date": "6/11/26 2:53 AM"
+    },
+    {
+      "title": "Stellar Vibes",
+      "artist": "Excavationpro",
+      "date": "4/5/25 7:16 AM"
+    },
+    {
+      "title": "Still On Top",
+      "artist": "Excavationpro",
+      "date": "6/19/26 10:37 AM"
+    },
+    {
+      "title": "Storm Prophet",
+      "artist": "Excavationpro",
+      "date": "4/18/25 4:18 PM"
+    },
+    {
+      "title": "Street Legend",
+      "artist": "Excavationpro",
+      "date": "6/19/26 6:28 PM"
+    },
+    {
+      "title": "Street Power",
+      "artist": "Excavationpro",
+      "date": "6/27/25 4:12 PM"
+    },
+    {
+      "title": "Subsonic Rituals",
+      "artist": "Excavationpro",
+      "date": "4/21/26 9:18 AM"
+    },
+    {
+      "title": "Subsonic Sermons",
+      "artist": "Excavationpro",
+      "date": "4/4/25 5:44 AM"
+    },
+    {
+      "title": "Synapse Storm",
+      "artist": "Excavationpro",
+      "date": "4/9/25 11:22 AM"
+    },
+    {
+      "title": "Synthetic Dark Matter",
+      "artist": "Excavationpro",
+      "date": "4/5/25 9:59 PM"
+    },
+    {
+      "title": "Synthetic Dark Matter Theory",
+      "artist": "Excavationpro",
+      "date": "4/4/25 4:20 PM"
+    },
+    {
+      "title": "Tattoo Scar Goodbye (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "5/20/25 6:24 AM"
+    },
+    {
+      "title": "Temporary Cast",
+      "artist": "Excavationpro",
+      "date": "5/12/26 9:08 AM"
+    },
+    {
+      "title": "The Door",
+      "artist": "Excavationpro",
+      "date": "4/3/26 5:51 AM"
+    },
+    {
+      "title": "The World I Touched",
+      "artist": "Excavationpro",
+      "date": "4/14/26 3:28 PM"
+    },
+    {
+      "title": "They Came From The Sky",
+      "artist": "Excavationpro",
+      "date": "6/8/26 7:46 PM"
+    },
+    {
+      "title": "This Is For You",
+      "artist": "Excavationpro",
+      "date": "4/21/26 1:10 PM"
+    },
+    {
+      "title": "THOTH CODEX",
+      "artist": "Excavationpro",
+      "date": "6/12/26 6:35 AM"
+    },
+    {
+      "title": "Time Synchronization",
+      "artist": "Excavationpro",
+      "date": "5/31/26 9:44 PM"
+    },
+    {
+      "title": "Tired Eyes",
+      "artist": "Excavationpro",
+      "date": "4/28/26 11:02 PM"
+    },
+    {
+      "title": "Total Silence (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "12/28/25 11:35 PM"
+    },
+    {
+      "title": "Trauma Codex",
+      "artist": "Excavationpro",
+      "date": "6/16/26 10:25 PM"
+    },
+    {
+      "title": "Trial Period Expired",
+      "artist": "Excavationpro",
+      "date": "4/27/26 2:37 PM"
+    },
+    {
+      "title": "Trumpets of War",
+      "artist": "Excavationpro",
+      "date": "6/8/26 2:27 AM"
+    },
+    {
+      "title": "Truth Destroys Them",
+      "artist": "Excavationpro",
+      "date": "6/7/26 7:05 PM"
+    },
+    {
+      "title": "TRUTH \u00d7 LIGHT",
+      "artist": "Excavationpro",
+      "date": "4/4/26 11:47 PM"
+    },
+    {
+      "title": "Turn it Up",
+      "artist": "Excavationpro",
+      "date": "5/9/26 7:57 PM"
+    },
+    {
+      "title": "Underground Legends",
+      "artist": "Excavationpro",
+      "date": "7/4/25 4:51 PM"
+    },
+    {
+      "title": "Valkyrie Decent",
+      "artist": "Excavationpro",
+      "date": "6/2/26 6:33 AM"
+    },
+    {
+      "title": "Valley of Blades",
+      "artist": "Excavationpro",
+      "date": "7/4/25 4:31 AM"
+    },
+    {
+      "title": "Vector Gun (feat. FeezMuzik & AdAmEaSt1)",
+      "artist": "Excavationpro",
+      "date": "8/11/25 7:47 PM"
+    },
+    {
+      "title": "Velvet Whisper",
+      "artist": "Excavationpro",
+      "date": "5/7/25 4:53 AM"
+    },
+    {
+      "title": "Venom Spitting Viper",
+      "artist": "Excavationpro",
+      "date": "3/16/26 8:32 AM"
+    },
+    {
+      "title": "Void Whisper",
+      "artist": "Excavationpro",
+      "date": "2/17/26 5:40 AM"
+    },
+    {
+      "title": "Voidborn Symphony",
+      "artist": "Excavationpro",
+      "date": "4/18/25 5:35 PM"
+    },
+    {
+      "title": "Voynich Manuscript",
+      "artist": "Excavationpro",
+      "date": "6/12/26 11:22 PM"
+    },
+    {
+      "title": "Warp 311 Veracity",
+      "artist": "Excavationpro",
+      "date": "10/12/25 10:53 PM"
+    },
+    {
+      "title": "Warriors after Battle",
+      "artist": "Excavationpro",
+      "date": "5/18/26 7:58 PM"
+    },
+    {
+      "title": "West Coast Chrome",
+      "artist": "Excavationpro",
+      "date": "5/18/26 3:17 AM"
+    },
+    {
+      "title": "When The Sun Hits",
+      "artist": "Excavationpro",
+      "date": "4/22/26 6:43 PM"
+    },
+    {
+      "title": "Where the Sky Begins",
+      "artist": "Excavationpro",
+      "date": "5/9/26 8:57 PM"
+    },
+    {
+      "title": "Whisper Girl",
+      "artist": "Excavationpro",
+      "date": "5/15/25 11:50 AM"
+    },
+    {
+      "title": "Wobble Love",
+      "artist": "Excavationpro",
+      "date": "5/15/25 7:44 PM"
+    },
+    {
+      "title": "Working Under Moonlight",
+      "artist": "Excavationpro",
+      "date": "5/2/26 5:19 PM"
+    },
+    {
+      "title": "Yuki Blade Prototype",
+      "artist": "Excavationpro",
+      "date": "5/20/26 10:44 PM"
+    },
+    {
+      "title": "YUMMY YUMMY YUM YUM",
+      "artist": "Excavationpro",
+      "date": "4/28/26 4:02 PM"
+    },
+    {
+      "title": "Zero Gravity Blur (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "date": "3/25/25 9:11 AM"
+    },
+    {
+      "title": "Zero Pulse",
+      "artist": "Excavationpro",
+      "date": "4/10/25 2:21 AM"
+    }
+  ]
+}

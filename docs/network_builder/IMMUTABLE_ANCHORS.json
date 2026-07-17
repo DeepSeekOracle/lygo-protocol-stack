@@ -56,6 +56,10 @@
         "label": "LYGO BPM Finder (Excavationpro Pages mirror)",
         "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
         "verify": "http_soft"
+      },
+      {
+        "id": "excavationpro_music_catalog",
+        "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
       }
     ],
     "sovereign_seed": [
