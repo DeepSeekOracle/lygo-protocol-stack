@@ -22,9 +22,15 @@ DOCS = STACK / "docs"
 SPOTIFY_ARTIST = "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S"
 FFM = "https://ffm.to/eovnvo9"
 ETERNAL = "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+# Watch page + working embed (same as eternalhaven.html live radio)
 RUMBLE_RADIO = (
     "https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html"
+    "?mref=1th29y&mc=2p3fp"
 )
+RUMBLE_EMBED = "https://rumble.com/embed/v79wjai/?pub=1th29y"
+RUMBLE_CHANNEL = "https://rumble.com/user/Excavationpro"
+OG_IMAGE = "https://deepseekoracle.github.io/Excavationpro/assets/og-haven-star-chart.jpg"
+CANONICAL = "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
 LATTICE_STACK = "https://deepseekoracle.github.io/lygo-protocol-stack/"
 PUBLIC_ARCHIVE = "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_PUBLIC_LINK_ARCHIVE.json"
 
@@ -181,9 +187,12 @@ def build() -> dict:
             "feature_fm": FFM,
             "eternal_haven": ETERNAL,
             "rumble_live_radio": RUMBLE_RADIO,
+            "rumble_embed": RUMBLE_EMBED,
+            "rumble_channel": RUMBLE_CHANNEL,
             "lygo_stack_pages": LATTICE_STACK,
             "public_link_archive": PUBLIC_ARCHIVE,
-            "music_catalog_page": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+            "music_catalog_page": CANONICAL,
+            "og_image": OG_IMAGE,
         },
         "stats": {
             "restore_unique_titles": len(restore),
@@ -242,12 +251,88 @@ def write_html(payload: dict, out_html: Path) -> None:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Excavationpro Music Catalog — Live Immutable Ledger</title>
-<meta name="description" content="Public Excavationpro music catalog: searchable releases, ISRC codes, Spotify albums, live radio feed, and SHA-256 immutable ledger on the LYGO / Eternal Haven lattice.">
-<link rel="canonical" href="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html">
+<title>Excavationpro Music Catalog — Live Immutable Ledger | Official Discography</title>
+<meta name="description" content="Official Excavationpro music catalog: searchable discography, ISRC ledger, Spotify albums, 24/7 live radio on Rumble, and SHA-256 immutable lattice ledger. Listen free — hip-hop, experimental, LYGO originals.">
+<meta name="keywords" content="Excavationpro, Justin Helmer, music catalog, ISRC, Spotify, live radio, Rumble, LYGO, Eternal Haven, discography, independent artist, hip hop, immutable ledger">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="theme-color" content="#0a0a12">
+<link rel="canonical" href="{CANONICAL}">
+<link rel="alternate" href="{CANONICAL}" title="Excavationpro Music Catalog">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="https://deepseekoracle.github.io/Excavationpro/sitemap.xml">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Excavationpro / Eternal Haven">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Excavationpro Music Catalog — Live Immutable Ledger">
-<meta property="og:description" content="Stream Excavationpro · explore ISRCs · live radio · lattice-anchored music ledger.">
-<meta property="og:url" content="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html">
+<meta property="og:description" content="Searchable discography, ISRC codes, Spotify albums, and 24/7 live radio. Public lattice-anchored music ledger.">
+<meta property="og:url" content="{CANONICAL}">
+<meta property="og:image" content="{OG_IMAGE}">
+<meta property="og:image:alt" content="Excavationpro / LYGO Eternal Haven">
+
+<!-- X / Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="Excavationpro Music Catalog — Live Immutable Ledger">
+<meta name="twitter:description" content="Official catalog · ISRCs · Spotify · 24/7 Rumble live radio · immutable ledger.">
+<meta name="twitter:image" content="{OG_IMAGE}">
+<meta name="twitter:url" content="{CANONICAL}">
+
+<!-- JSON-LD: MusicGroup + WebPage + ItemList (Google) -->
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@graph": [
+    {{
+      "@type": "MusicGroup",
+      "@id": "{CANONICAL}#artist",
+      "name": "Excavationpro",
+      "alternateName": ["Justin Helmer", "Lightfather"],
+      "url": "{CANONICAL}",
+      "sameAs": [
+        "{SPOTIFY_ARTIST}",
+        "{FFM}",
+        "{RUMBLE_CHANNEL}",
+        "https://twitter.com/Excavationpro",
+        "https://instagram.com/Excavationpro",
+        "https://excavationpro.ca/",
+        "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+      ],
+      "genre": ["Hip Hop", "Experimental", "Electronic"],
+      "description": "Independent artist Excavationpro — original music, LYGO-tagged releases, and 24/7 live radio."
+    }},
+    {{
+      "@type": "WebPage",
+      "@id": "{CANONICAL}",
+      "url": "{CANONICAL}",
+      "name": "Excavationpro Music Catalog — Live Immutable Ledger",
+      "description": "Public searchable music catalog with ISRC ledger, Spotify albums, and live radio.",
+      "isPartOf": {{
+        "@type": "WebSite",
+        "name": "Eternal Haven / Excavationpro",
+        "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+      }},
+      "about": {{"@id": "{CANONICAL}#artist"}},
+      "primaryImageOfPage": {{"@type": "ImageObject", "url": "{OG_IMAGE}"}}
+    }},
+    {{
+      "@type": "BroadcastEvent",
+      "name": "Excavationpro 24/7 Live Radio",
+      "isLiveBroadcast": true,
+      "videoFormat": "HD",
+      "publishedOn": {{
+        "@type": "BroadcastService",
+        "name": "Rumble",
+        "url": "{RUMBLE_RADIO}"
+      }},
+      "url": "{RUMBLE_EMBED}"
+    }}
+  ]
+}}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {{
@@ -365,11 +450,21 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
         <p><a href="eternalhaven.html#music-hub">Open hub →</a></p></div>
     </div>
     <div class="card" style="margin-bottom:16px;">
-      <h3 style="margin:0 0 10px;color:var(--gold);">Live stream</h3>
+      <h3 style="margin:0 0 10px;color:var(--gold);">Live stream — 24/7 radio</h3>
       <div class="embed-wrap">
-        <iframe src="https://rumble.com/embed/v7c37aq/?pub=4" title="Excavationpro Live Radio" allowfullscreen allow="autoplay" loading="lazy"></iframe>
+        <iframe
+          src="{RUMBLE_EMBED}"
+          title="Excavationpro 24/7 Live Radio on Rumble"
+          allowfullscreen
+          allow="autoplay; encrypted-media; picture-in-picture"
+          loading="lazy"
+          referrerpolicy="origin-when-cross-origin"></iframe>
       </div>
-      <p class="sub" style="margin-top:10px;">If the embed is blocked by your browser, use the <a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">direct Rumble link</a>.</p>
+      <p class="sub" style="margin-top:10px;">
+        <a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">Open on Rumble</a>
+        · <a href="{RUMBLE_EMBED}" target="_blank" rel="noopener">Pop-out player</a>
+        · <a href="{RUMBLE_CHANNEL}" target="_blank" rel="noopener">@Excavationpro channel</a>
+      </p>
     </div>
     <div class="card">
       <h3 style="margin:0 0 8px;color:var(--gold);">About this ledger</h3>

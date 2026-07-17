@@ -1,16 +1,19 @@
 {
   "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LEDGER-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-07-17T03:46:03.697580+00:00",
+  "generated_at": "2026-07-17T03:52:16.445374+00:00",
   "steward": "Justin Helmer / Lightfather / Excavationpro",
   "live_links": {
     "spotify_artist": "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S",
     "feature_fm": "https://ffm.to/eovnvo9",
     "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
-    "rumble_live_radio": "https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html",
+    "rumble_live_radio": "https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp",
+    "rumble_embed": "https://rumble.com/embed/v79wjai/?pub=1th29y",
+    "rumble_channel": "https://rumble.com/user/Excavationpro",
     "lygo_stack_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
     "public_link_archive": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
-    "music_catalog_page": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
+    "music_catalog_page": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+    "og_image": "https://deepseekoracle.github.io/Excavationpro/assets/og-haven-star-chart.jpg"
   },
   "stats": {
     "restore_unique_titles": 425,
@@ -489,8 +492,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Chrome on the Concrete.wav",
-        "Chrome_on_the_Concrete.mp3"
+        "Chrome_on_the_Concrete.mp3",
+        "Chrome on the Concrete.wav"
       ],
       "entry_count": 2
     },
@@ -630,8 +633,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Concrete_Veins.mp3",
-        "Concrete Veins.wav"
+        "Concrete Veins.wav",
+        "Concrete_Veins.mp3"
       ],
       "entry_count": 2
     },
@@ -647,8 +650,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Copper_Into_Gold.mp3",
-        "Copper_into_Gold.mp3"
+        "Copper_into_Gold.mp3",
+        "Copper_Into_Gold.mp3"
       ],
       "entry_count": 2
     },
@@ -745,8 +748,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Dashboard_Glow.mp3",
-        "Dashboard Glow.wav"
+        "Dashboard Glow.wav",
+        "Dashboard_Glow.mp3"
       ],
       "entry_count": 2
     },
@@ -999,8 +1002,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Flying High QZMHL2208044.wav",
-        "Flying High.wav"
+        "Flying High.wav",
+        "Flying High QZMHL2208044.wav"
       ],
       "entry_count": 2
     },
@@ -1097,8 +1100,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Ghosts_in_My_Playlist.mp3",
-        "Ghosts in My Playlist.wav"
+        "Ghosts in My Playlist.wav",
+        "Ghosts_in_My_Playlist.mp3"
       ],
       "entry_count": 2
     },
@@ -1168,8 +1171,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Golden Age QZS642268790.wav",
-        "Golden Age.wav"
+        "Golden Age.wav",
+        "Golden Age QZS642268790.wav"
       ],
       "entry_count": 2
     },
@@ -1201,8 +1204,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Gravity Release.wav",
-        "Gravity_Release.mp3"
+        "Gravity_Release.mp3",
+        "Gravity Release.wav"
       ],
       "entry_count": 2
     },
@@ -1355,8 +1358,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "I Look Better.mp3",
-        "I Look Better.wav"
+        "I Look Better.wav",
+        "I Look Better.mp3"
       ],
       "entry_count": 2
     },
@@ -1640,8 +1643,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Learning How to Leave.wav",
-        "Learning_How_To_Leave.mp3"
+        "Learning_How_To_Leave.mp3",
+        "Learning How to Leave.wav"
       ],
       "entry_count": 2
     },
@@ -1736,8 +1739,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Lose It All Tonight.wav",
-        "Lose_It_All_Tonight.mp3"
+        "Lose_It_All_Tonight.mp3",
+        "Lose It All Tonight.wav"
       ],
       "entry_count": 2
     },
@@ -1922,8 +1925,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Money Making Couple QZMHM2351526.wav",
-        "Money Making Couple.wav"
+        "Money Making Couple.wav",
+        "Money Making Couple QZMHM2351526.wav"
       ],
       "entry_count": 2
     },
@@ -2043,8 +2046,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Occupying_Space.mp3",
-        "Occupying Space.wav"
+        "Occupying Space.wav",
+        "Occupying_Space.mp3"
       ],
       "entry_count": 2
     },
@@ -2092,8 +2095,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Painless.mp3",
-        "Painless.wav"
+        "Painless.wav",
+        "Painless.mp3"
       ],
       "entry_count": 2
     },
@@ -2159,8 +2162,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Pixel Paradise QZK6L2556304.wav",
-        "Pixel Paradise.wav"
+        "Pixel Paradise.wav",
+        "Pixel Paradise QZK6L2556304.wav"
       ],
       "entry_count": 3
     },
@@ -2259,8 +2262,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Quantum Heartbeat.wav",
-        "Quantum Heartbeat QZK6J2554708.wav"
+        "Quantum Heartbeat QZK6J2554708.wav",
+        "Quantum Heartbeat.wav"
       ],
       "entry_count": 3
     },
@@ -2360,8 +2363,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Rent_By_Eight.mp3",
-        "Rent by Eight.wav"
+        "Rent by Eight.wav",
+        "Rent_By_Eight.mp3"
       ],
       "entry_count": 2
     },
@@ -2429,8 +2432,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Room_Temperature.mp3",
-        "Room Temperature.wav"
+        "Room Temperature.wav",
+        "Room_Temperature.mp3"
       ],
       "entry_count": 5
     },
@@ -2975,8 +2978,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Talk_to_Shadows.mp3",
-        "Talk to Shadows.wav"
+        "Talk to Shadows.wav",
+        "Talk_to_Shadows.mp3"
       ],
       "entry_count": 2
     },
@@ -3064,8 +3067,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Twighlight World.mp3",
-        "Twighlight World.wav"
+        "Twighlight World.wav",
+        "Twighlight World.mp3"
       ],
       "entry_count": 2
     },
@@ -3240,8 +3243,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "West Coast Ghost.wav",
-        "West_Coast_Ghost.mp3"
+        "West_Coast_Ghost.mp3",
+        "West Coast Ghost.wav"
       ],
       "entry_count": 2
     },
