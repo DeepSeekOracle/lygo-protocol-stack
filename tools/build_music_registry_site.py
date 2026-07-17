@@ -242,16 +242,17 @@ def write_html(payload: dict, out_html: Path) -> None:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Excavationpro Music Catalog — Immutable Restore Ledger</title>
-<meta name="description" content="Interactive DistroKid restore ledger for Excavationpro: ISRCs, Spotify links, gap report, live feeds. Part of the LYGO / Eternal Haven immutable lattice.">
+<title>Excavationpro Music Catalog — Live Immutable Ledger</title>
+<meta name="description" content="Public Excavationpro music catalog: searchable releases, ISRC codes, Spotify albums, live radio feed, and SHA-256 immutable ledger on the LYGO / Eternal Haven lattice.">
 <link rel="canonical" href="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html">
-<meta property="og:title" content="Excavationpro Music Catalog Ledger">
+<meta property="og:title" content="Excavationpro Music Catalog — Live Immutable Ledger">
+<meta property="og:description" content="Stream Excavationpro · explore ISRCs · live radio · lattice-anchored music ledger.">
 <meta property="og:url" content="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {{
   --void:#0a0a12; --panel:#12121f; --cyan:#00f0ff; --mag:#7d00ff; --gold:#d4af37;
-  --ok:#3dd68c; --miss:#e94560; --fuzz:#f0c850; --text:#e8e8f0; --muted:#9a9ab0;
+  --ok:#3dd68c; --live:#00f0ff; --text:#e8e8f0; --muted:#9a9ab0;
 }}
 * {{ box-sizing:border-box; }}
 body {{
@@ -296,25 +297,29 @@ th {{ color:var(--muted); font-weight:600; position:sticky; top:0; background:#0
 .badge {{
   display:inline-block; padding:2px 8px; border-radius:999px; font-size:.72rem; font-weight:600;
 }}
-.badge.have {{ background:rgba(61,214,140,.15); color:var(--ok); }}
-.badge.missing {{ background:rgba(233,69,96,.15); color:var(--miss); }}
-.badge.fuzzy {{ background:rgba(240,200,80,.15); color:#f0c850; }}
-.badge.isrc {{ background:rgba(0,240,255,.12); color:var(--cyan); }}
+.badge.live {{ background:rgba(0,240,255,.12); color:var(--live); }}
+.badge.isrc {{ background:rgba(61,214,140,.15); color:var(--ok); }}
+.badge.catalog {{ background:rgba(125,0,255,.15); color:#c9a0ff; }}
 .ledger {{
   font-family:ui-monospace,Consolas,monospace; font-size:.75rem; word-break:break-all;
   background:#0a0a14; padding:12px; border-radius:8px; border:1px solid rgba(212,175,55,.25); color:var(--gold);
 }}
 .live-grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin:16px 0; }}
 .live-grid .card h3 {{ margin:0 0 8px; font-size:.95rem; color:var(--mag); }}
+.embed-wrap {{
+  position:relative; width:100%; border-radius:12px; overflow:hidden;
+  border:1px solid rgba(0,240,255,.2); background:#000; aspect-ratio:16/9; max-height:420px;
+}}
+.embed-wrap iframe {{ position:absolute; inset:0; width:100%; height:100%; border:0; }}
 footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); font-size:.8rem; }}
-#panel-missing table tr:hover, #panel-matched table tr:hover, #panel-isrc table tr:hover {{ background:rgba(0,240,255,.04); }}
+#panel-catalog table tr:hover, #panel-isrc table tr:hover, #panel-spotify table tr:hover {{ background:rgba(0,240,255,.04); }}
 .hidden {{ display:none; }}
 </style>
 </head>
 <body>
 <header>
   <h1>Excavationpro Music Catalog</h1>
-  <p class="sub">Immutable restore ledger after DistroKid store restriction. Searchable titles from DistroKid export + local ISRCs + public Spotify. Part of the LYGO / Eternal Haven lattice.</p>
+  <p class="sub">Public live catalog &amp; immutable music ledger — searchable releases, ISRC codes, Spotify albums, and 24/7 radio. Anchored on the LYGO / Eternal Haven lattice. Expandable as the collection grows.</p>
   <div class="nav">
     <a href="eternalhaven.html">← Eternal Haven</a>
     <a href="eternalhaven.html#music-hub">Music Hub</a>
@@ -331,20 +336,17 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
 <section class="toolbar">
   <input id="q" type="search" placeholder="Search title, ISRC, album…" autocomplete="off">
   <select id="filter">
-    <option value="all">All restore titles</option>
-    <option value="have">Have in catalog</option>
-    <option value="missing">Missing from catalog</option>
-    <option value="fuzzy">Fuzzy matches</option>
-    <option value="isrc">ISRC registry only</option>
+    <option value="all">All releases</option>
+    <option value="live">On Spotify</option>
+    <option value="isrc">With ISRC</option>
+    <option value="catalog">Catalogued</option>
   </select>
-  <button type="button" id="btn-export">Export filtered CSV</button>
-  <button type="button" id="btn-copy-missing">Copy missing titles</button>
+  <button type="button" id="btn-export">Export CSV</button>
 </section>
 
 <div class="tabs">
-  <button type="button" class="active" data-tab="overview">Overview</button>
-  <button type="button" data-tab="matched">Matched</button>
-  <button type="button" data-tab="missing">Missing</button>
+  <button type="button" class="active" data-tab="overview">Live Feed</button>
+  <button type="button" data-tab="catalog">Release Index</button>
   <button type="button" data-tab="isrc">ISRC Ledger</button>
   <button type="button" data-tab="spotify">Spotify Albums</button>
   <button type="button" data-tab="ledger">Immutable Ledger</button>
@@ -353,52 +355,59 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
 <main>
   <div id="panel-overview">
     <div class="live-grid">
-      <div class="card"><h3>Live Spotify</h3><p class="sub">Artist page & albums currently public.</p><p><a href="{SPOTIFY_ARTIST}" target="_blank" rel="noopener">open.spotify.com/…/6CkZ4bN2xu3WRKbjEL3u2S</a></p></div>
-      <div class="card"><h3>Smart Link</h3><p class="sub">Feature.fm multi-store link.</p><p><a href="{FFM}" target="_blank" rel="noopener">ffm.to/eovnvo9</a></p></div>
-      <div class="card"><h3>Live Radio</h3><p class="sub">Rumble 24/7 feed.</p><p><a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">Rumble live stream</a></p></div>
-      <div class="card"><h3>Eternal Haven</h3><p class="sub">Hub + lattice anchors.</p><p><a href="eternalhaven.html">eternalhaven.html</a></p></div>
+      <div class="card"><h3>🎧 Live Radio</h3><p class="sub">24/7 Excavationpro &amp; LYGO originals.</p>
+        <p><a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">Open live stream on Rumble →</a></p></div>
+      <div class="card"><h3>Spotify</h3><p class="sub">Full artist discography.</p>
+        <p><a href="{SPOTIFY_ARTIST}" target="_blank" rel="noopener">Listen on Spotify →</a></p></div>
+      <div class="card"><h3>Smart Link</h3><p class="sub">Multi-store feature link.</p>
+        <p><a href="{FFM}" target="_blank" rel="noopener">ffm.to/eovnvo9 →</a></p></div>
+      <div class="card"><h3>Eternal Haven</h3><p class="sub">Music hub + lattice anchors.</p>
+        <p><a href="eternalhaven.html#music-hub">Open hub →</a></p></div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3 style="margin:0 0 10px;color:var(--gold);">Live stream</h3>
+      <div class="embed-wrap">
+        <iframe src="https://rumble.com/embed/v7c37aq/?pub=4" title="Excavationpro Live Radio" allowfullscreen allow="autoplay" loading="lazy"></iframe>
+      </div>
+      <p class="sub" style="margin-top:10px;">If the embed is blocked by your browser, use the <a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">direct Rumble link</a>.</p>
     </div>
     <div class="card">
-      <h3 style="margin:0 0 8px;color:var(--gold);">How to use after DistroKid ban</h3>
-      <ol class="sub" style="margin:0;padding-left:18px;line-height:1.6;">
-        <li>Open <b>Missing</b> — re-export or re-upload these titles with a new distributor.</li>
-        <li>Open <b>ISRC Ledger</b> — reuse these codes when re-delivering the same masters (from local J: files).</li>
-        <li>Open <b>Matched</b> — you already have local/Spotify traces for these restore titles.</li>
-        <li>Keep this page + JSON ledger; re-run builder after vault harvest or new releases.</li>
-      </ol>
+      <h3 style="margin:0 0 8px;color:var(--gold);">About this ledger</h3>
+      <ul class="sub" style="margin:0;padding-left:18px;line-height:1.7;">
+        <li><b>Release Index</b> — full public title list with date stamps.</li>
+        <li><b>ISRC Ledger</b> — international standard recording codes for catalogued masters.</li>
+        <li><b>Spotify Albums</b> — currently live album/EP pages with track counts.</li>
+        <li><b>Immutable Ledger</b> — SHA-256 content hash; grows as new releases are added.</li>
+      </ul>
     </div>
   </div>
 
-  <div id="panel-matched" class="hidden"><div class="card" style="overflow:auto;max-height:70vh;"><table><thead><tr>
-    <th>Title</th><th>Date</th><th>Status</th><th>ISRC</th><th>Local</th><th>Spotify</th>
-  </tr></thead><tbody id="tb-matched"></tbody></table></div></div>
-
-  <div id="panel-missing" class="hidden"><div class="card" style="overflow:auto;max-height:70vh;"><table><thead><tr>
-    <th>Title</th><th>Date</th><th>Notes</th>
-  </tr></thead><tbody id="tb-missing"></tbody></table></div></div>
+  <div id="panel-catalog" class="hidden"><div class="card" style="overflow:auto;max-height:70vh;"><table><thead><tr>
+    <th>Title</th><th>Date</th><th>Flags</th><th>ISRC</th><th>Listen</th>
+  </tr></thead><tbody id="tb-catalog"></tbody></table></div></div>
 
   <div id="panel-isrc" class="hidden"><div class="card" style="overflow:auto;max-height:70vh;"><table><thead><tr>
-    <th>ISRC</th><th>Title</th><th>Album/folder</th><th>File</th>
+    <th>ISRC</th><th>Title</th><th>Album / folder</th>
   </tr></thead><tbody id="tb-isrc"></tbody></table></div></div>
 
   <div id="panel-spotify" class="hidden"><div class="card" style="overflow:auto;max-height:70vh;"><table><thead><tr>
-    <th>Album</th><th>Tracks</th><th>Date</th><th>UPC</th><th>Link</th>
+    <th>Album</th><th>Tracks</th><th>Date</th><th>Link</th>
   </tr></thead><tbody id="tb-spotify"></tbody></table></div></div>
 
   <div id="panel-ledger" class="hidden">
     <div class="card">
       <h3 style="color:var(--gold);margin-top:0;">Immutable content hash</h3>
-      <p class="sub">SHA-256 over sorted restore titles + ISRCs + Spotify album IDs. Recompute when catalog grows.</p>
+      <p class="sub">SHA-256 over the sorted release index + ISRC set + Spotify album IDs. Updated when the catalog grows.</p>
       <div class="ledger" id="ledger-hash"></div>
-      <p class="sub" style="margin-top:12px;">JSON ledger: <code>data/excavationpro_music_ledger.json</code> · Rebuild: <code>python tools/build_music_registry_site.py</code></p>
+      <p class="sub" style="margin-top:12px;">Public JSON: <a href="data/excavationpro_music_ledger.json">data/excavationpro_music_ledger.json</a></p>
       <p class="sub">Lattice signature: <span id="ledger-sig"></span></p>
     </div>
   </div>
 </main>
 
 <footer>
-  Steward: Justin Helmer / Excavationpro / Lightfather · Signature Δ9Φ963-EXCAVATIONPRO-MUSIC-LEDGER-v1 ·
-  Linked from Eternal Haven · Not affiliated with DistroKid · Public metadata + your local masters only.
+  Excavationpro / Justin Helmer · Lightfather · Signature Δ9Φ963-EXCAVATIONPRO-MUSIC-LEDGER-v1 ·
+  Part of the <a href="eternalhaven.html">Eternal Haven</a> &amp; <a href="https://deepseekoracle.github.io/lygo-protocol-stack/" target="_blank" rel="noopener">LYGO</a> public lattice.
 </footer>
 
 <script id="LEDGER_DATA" type="application/json">{data_json}</script>
@@ -427,72 +436,67 @@ async function loadData() {{
   return DATA;
 }}
 
+function allReleases() {{
+  const a = (DATA.restore_matched || []).map(r => ({{...r, _cat: true}}));
+  const b = (DATA.restore_missing || []).map(r => ({{...r, _cat: false, status: 'index'}}));
+  return a.concat(b);
+}}
+
 function renderStats() {{
-  const s = DATA.stats;
+  const s = DATA.stats || {{}};
+  const total = (s.restore_unique_titles || 0);
+  const isrcs = s.unique_isrcs_local || (DATA.isrc_registry || []).length;
+  const live = allReleases().filter(r => r.has_spotify || r.spotify_url).length;
   $('#stats').innerHTML = [
-    ['Restore titles', s.restore_unique_titles],
-    ['Matched', s.matched_titles],
-    ['Missing', s.missing_titles],
-    ['Local ISRCs', s.unique_isrcs_local],
-    ['Spotify albums', s.spotify_albums],
-    ['Catalog rows', s.catalog_track_rows],
+    ['Releases', total],
+    ['ISRCs on ledger', isrcs],
+    ['Spotify albums', s.spotify_albums || 0],
+    ['Live-linked titles', live],
+    ['Catalog rows', s.catalog_track_rows || 0],
   ].map(([l,v]) => `<div class="card"><b>${{v}}</b><span>${{l}}</span></div>`).join('');
 }}
 
-function badge(status) {{
-  return `<span class="badge ${{status}}">${{status}}</span>`;
-}}
-
 function q() {{ return ($('#q').value || '').toLowerCase().trim(); }}
-
 function rowMatch(text) {{
   const qq = q();
   if (!qq) return true;
   return (text || '').toLowerCase().includes(qq);
 }}
 
-function renderMatched() {{
-  const f = $('#filter').value;
-  const rows = DATA.restore_matched.filter(r => {{
-    if (f === 'have' && r.status !== 'have') return false;
-    if (f === 'fuzzy' && r.status !== 'fuzzy') return false;
-    if (f === 'missing' || f === 'isrc') return false;
-    return rowMatch([r.title, r.date, ...(r.isrcs||[])].join(' '));
-  }});
-  $('#tb-matched').innerHTML = rows.map(r => `
-    <tr>
-      <td>${{esc(r.title)}}</td>
-      <td>${{esc(r.date||'')}}</td>
-      <td>${{badge(r.status)}}${{r.fuzzy ? ` <span class="sub">${{r.fuzzy.score}}</span>` : ''}}</td>
-      <td>${{(r.isrcs||[]).map(i=>`<span class="badge isrc">${{esc(i)}}</span>`).join(' ') || '—'}}</td>
-      <td>${{r.has_local ? 'yes' : '—'}} ${{(r.local_files||[]).slice(0,1).map(esc).join('')}}</td>
-      <td>${{r.spotify_url ? `<a href="${{r.spotify_url}}" target="_blank" rel="noopener">open</a>` : '—'}}</td>
-    </tr>`).join('') || '<tr><td colspan="6">No rows</td></tr>';
+function flags(r) {{
+  const bits = [];
+  if (r.has_spotify || r.spotify_url) bits.push('<span class="badge live">spotify</span>');
+  if (r.has_isrc || (r.isrcs && r.isrcs.length)) bits.push('<span class="badge isrc">isrc</span>');
+  if (r._cat || r.status === 'have' || r.status === 'fuzzy') bits.push('<span class="badge catalog">catalogued</span>');
+  return bits.join(' ') || '—';
 }}
 
-function renderMissing() {{
-  if ($('#filter').value === 'have' || $('#filter').value === 'isrc' || $('#filter').value === 'fuzzy') {{
-    $('#tb-missing').innerHTML = '<tr><td colspan="3">Switch filter to All or Missing</td></tr>';
-    return;
-  }}
-  const rows = DATA.restore_missing.filter(r => rowMatch(r.title + ' ' + (r.date||'')));
-  $('#tb-missing').innerHTML = rows.map(r => `
+function renderCatalog() {{
+  const f = $('#filter').value;
+  let rows = allReleases();
+  if (f === 'live') rows = rows.filter(r => r.has_spotify || r.spotify_url);
+  if (f === 'isrc') rows = rows.filter(r => r.has_isrc || (r.isrcs && r.isrcs.length));
+  if (f === 'catalog') rows = rows.filter(r => r._cat || r.status === 'have' || r.status === 'fuzzy');
+  rows = rows.filter(r => rowMatch([r.title, r.date, ...(r.isrcs||[])].join(' ')));
+  rows.sort((a,b) => (a.title||'').localeCompare(b.title||''));
+  $('#tb-catalog').innerHTML = rows.map(r => `
     <tr>
       <td>${{esc(r.title)}}</td>
       <td>${{esc(r.date||'')}}</td>
-      <td class="sub">Need vault / re-upload metadata</td>
-    </tr>`).join('') || '<tr><td colspan="3">None missing 🎉</td></tr>';
+      <td>${{flags(r)}}</td>
+      <td>${{(r.isrcs||[]).map(i=>`<span class="badge isrc">${{esc(i)}}</span>`).join(' ') || '—'}}</td>
+      <td>${{r.spotify_url ? `<a href="${{r.spotify_url}}" target="_blank" rel="noopener">Spotify</a>` : (DATA.live_links && DATA.live_links.spotify_artist ? `<a href="${{DATA.live_links.spotify_artist}}" target="_blank" rel="noopener">artist</a>` : '—')}}</td>
+    </tr>`).join('') || '<tr><td colspan="5">No rows</td></tr>';
 }}
 
 function renderIsrc() {{
-  const rows = DATA.isrc_registry.filter(r => rowMatch([r.isrc,r.title,r.album,r.filename].join(' ')));
+  const rows = (DATA.isrc_registry||[]).filter(r => rowMatch([r.isrc,r.title,r.album,r.filename].join(' ')));
   $('#tb-isrc').innerHTML = rows.map(r => `
     <tr>
       <td><span class="badge isrc">${{esc(r.isrc)}}</span></td>
       <td>${{esc(r.title||'')}}</td>
       <td>${{esc(r.album||'')}}</td>
-      <td class="sub">${{esc(r.filename||'')}}</td>
-    </tr>`).join('') || '<tr><td colspan="4">No ISRCs</td></tr>';
+    </tr>`).join('') || '<tr><td colspan="3">No ISRCs</td></tr>';
 }}
 
 function renderSpotify() {{
@@ -502,14 +506,13 @@ function renderSpotify() {{
       <td>${{esc(a.title||'')}}</td>
       <td>${{a.track_count||0}}</td>
       <td>${{esc(a.date_published||'')}}</td>
-      <td>${{esc(a.upc||'—')}}</td>
-      <td>${{a.spotify_url ? `<a href="${{a.spotify_url}}" target="_blank" rel="noopener">album</a>` : '—'}}</td>
+      <td>${{a.spotify_url ? `<a href="${{a.spotify_url}}" target="_blank" rel="noopener">Open album</a>` : '—'}}</td>
     </tr>`).join('');
 }}
 
 function renderLedger() {{
-  $('#ledger-hash').textContent = DATA.ledger.content_sha256;
-  $('#ledger-sig').textContent = DATA.signature + ' · ' + DATA.generated_at;
+  $('#ledger-hash').textContent = (DATA.ledger && DATA.ledger.content_sha256) || '';
+  $('#ledger-sig').textContent = (DATA.signature || '') + ' · ' + (DATA.generated_at || '');
 }}
 
 function esc(s) {{
@@ -518,12 +521,11 @@ function esc(s) {{
 
 function showTab(name) {{
   document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-  ['overview','matched','missing','isrc','spotify','ledger'].forEach(n => {{
+  ['overview','catalog','isrc','spotify','ledger'].forEach(n => {{
     const el = document.getElementById('panel-' + n);
     if (el) el.classList.toggle('hidden', n !== name);
   }});
-  if (name === 'matched') renderMatched();
-  if (name === 'missing') renderMissing();
+  if (name === 'catalog') renderCatalog();
   if (name === 'isrc') renderIsrc();
   if (name === 'spotify') renderSpotify();
   if (name === 'ledger') renderLedger();
@@ -532,57 +534,43 @@ function showTab(name) {{
 function exportCsv() {{
   const f = $('#filter').value;
   let rows = [];
-  if (f === 'isrc') {{
-    rows = DATA.isrc_registry.map(r => [r.isrc, r.title, r.album, r.filename]);
-  }} else if (f === 'missing') {{
-    rows = DATA.restore_missing.map(r => [r.title, r.date, 'missing']);
+  if (f === 'isrc' || (document.querySelector('.tabs button.active')||{{}}).dataset.tab === 'isrc') {{
+    rows = (DATA.isrc_registry||[]).map(r => [r.isrc, r.title, r.album]);
   }} else {{
-    rows = DATA.restore_matched.concat(
-      f === 'have' || f === 'fuzzy' ? [] : DATA.restore_missing.map(r => ({{...r, status:'missing'}}))
-    ).filter(r => {{
-      if (f === 'have' && r.status !== 'have') return false;
-      if (f === 'fuzzy' && r.status !== 'fuzzy') return false;
-      if (f === 'missing' && r.status !== 'missing') return false;
+    rows = allReleases().filter(r => {{
+      if (f === 'live' && !(r.has_spotify || r.spotify_url)) return false;
+      if (f === 'isrc' && !(r.has_isrc || (r.isrcs||[]).length)) return false;
+      if (f === 'catalog' && !(r._cat || r.status === 'have' || r.status === 'fuzzy')) return false;
       return rowMatch(r.title);
-    }}).map(r => [r.title, r.date, r.status, (r.isrcs||[]).join(';'), r.spotify_url||'']);
+    }}).map(r => [r.title, r.date, (r.isrcs||[]).join(';'), r.spotify_url||'']);
   }}
   const csv = rows.map(r => r.map(c => '"' + String(c??'').replace(/"/g,'""') + '"').join(',')).join('\\n');
   const blob = new Blob([csv], {{type:'text/csv'}});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'excavationpro_filtered.csv';
+  a.download = 'excavationpro_catalog.csv';
   a.click();
 }}
 
-$('#q').addEventListener('input', () => {{
-  const t = document.querySelector('.tabs button.active')?.dataset.tab || 'matched';
-  if (t === 'overview') showTab('matched');
-  else showTab(t);
-}});
-$('#filter').addEventListener('change', () => {{
-  const v = $('#filter').value;
-  if (v === 'missing') showTab('missing');
-  else if (v === 'isrc') showTab('isrc');
-  else showTab('matched');
-}});
-document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
-$('#btn-export').addEventListener('click', exportCsv);
-$('#btn-copy-missing').addEventListener('click', () => {{
-  const t = DATA.restore_missing.map(r => r.title).join('\\n');
-  navigator.clipboard.writeText(t).then(() => alert('Copied ' + DATA.restore_missing.length + ' missing titles'));
-}});
+function wireUi() {{
+  $('#q').addEventListener('input', () => {{
+    const t = document.querySelector('.tabs button.active')?.dataset.tab || 'catalog';
+    if (t === 'overview') showTab('catalog');
+    else showTab(t);
+  }});
+  $('#filter').addEventListener('change', () => showTab('catalog'));
+  document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+  $('#btn-export').addEventListener('click', exportCsv);
+}}
 
 loadData().then(() => {{
+  wireUi();
   renderStats();
   showTab('overview');
-  const src = document.createElement('div');
-  src.className = 'sub';
-  src.style.padding = '0 20px 12px';
-  src.textContent = 'Ledger source: ' + (DATA._loaded_from || 'embedded') + ' · schema expandable via build_music_registry_site.py';
-  document.querySelector('header')?.after(src);
 }}).catch(err => {{
   console.error(err);
   DATA = JSON.parse(document.getElementById('LEDGER_DATA').textContent);
+  wireUi();
   renderStats();
   showTab('overview');
 }});
