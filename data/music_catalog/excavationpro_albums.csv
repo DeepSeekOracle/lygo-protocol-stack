@@ -1,23 +1,408 @@
-title,spotify_album_id,spotify_url,upc,track_count
-Wasteland Sessions,1PnOajhrqFRVwYBpkPSTn9,https://open.spotify.com/album/1PnOajhrqFRVwYBpkPSTn9,,11
-Math in the Marrow,03bLkjF4xhJ64Uh3Je0Iah,https://open.spotify.com/album/03bLkjF4xhJ64Uh3Je0Iah,,1
-Midnight Frequency,03oi065qARTVnshQ9E9z04,https://open.spotify.com/album/03oi065qARTVnshQ9E9z04,,17
-Zero,04X8iNXKnvU40jCgY1n1cl,https://open.spotify.com/album/04X8iNXKnvU40jCgY1n1cl,,1
-Kingdom Under Teeth,06iYuRomgh4EQgYXmcWeeF,https://open.spotify.com/album/06iYuRomgh4EQgYXmcWeeF,,1
-Art of War Codex,6YWjA49tiYLY8WaEa6IOq3,https://open.spotify.com/album/6YWjA49tiYLY8WaEa6IOq3,,16
-Kenzie Jade Rooted,0JcEisZRRpS6LgqWp5UwJ7,https://open.spotify.com/album/0JcEisZRRpS6LgqWp5UwJ7,,12
-Virtually Lethal Volume 2,5pLa0IHqOiYanSVgWfYM0t,https://open.spotify.com/album/5pLa0IHqOiYanSVgWfYM0t,,16
-Virtually Lethal,6OdhN6UNEN1GVMtlMVh9V2,https://open.spotify.com/album/6OdhN6UNEN1GVMtlMVh9V2,,18
-Kenzie Jade Unfiltered,0OZl0jQCrrqdyhxi7xcXWv,https://open.spotify.com/album/0OZl0jQCrrqdyhxi7xcXWv,,10
-Street Legend Volume 6,36XTI5nDYePiiLTVnEtuLS,https://open.spotify.com/album/36XTI5nDYePiiLTVnEtuLS,,21
-Trauma Codex Volume 2,0cDhiBiwG7bhkV6wVcSPyZ,https://open.spotify.com/album/0cDhiBiwG7bhkV6wVcSPyZ,,13
-After The Shocks,1bi1Nw745MU3ULopvpnOeS,https://open.spotify.com/album/1bi1Nw745MU3ULopvpnOeS,,5
-After The Shocks Volume 2,6Zw0brXCejHCHRw10N6hFt,https://open.spotify.com/album/6Zw0brXCejHCHRw10N6hFt,,6
-Warning Bells,2vWr24HrNs4jEiIbP7u7qh,https://open.spotify.com/album/2vWr24HrNs4jEiIbP7u7qh,,1
-Fire That Grows,23q0LCWmWufmHiLxnrPfMA,https://open.spotify.com/album/23q0LCWmWufmHiLxnrPfMA,,1
-Light I Keep,6p391dpEQdJxjpt2Drj6Yd,https://open.spotify.com/album/6p391dpEQdJxjpt2Drj6Yd,,1
-Fake Sky,1E4eqKGgck6z8S7s8vv83k,https://open.spotify.com/album/1E4eqKGgck6z8S7s8vv83k,,1
-Vent,6yxINwJTgTCLpsOdT6j1vW,https://open.spotify.com/album/6yxINwJTgTCLpsOdT6j1vW,,1
-Never Thought I&#x27;d Come Up Hits Vol 1,7MQgxYjRAlOe9TRDkRrEDW,https://open.spotify.com/album/7MQgxYjRAlOe9TRDkRrEDW,,9
-Coastal,6PaUXpPhejlidO3xI3r5vR,https://open.spotify.com/album/6PaUXpPhejlidO3xI3r5vR,,1
-It Is What It Is,5AFBg0H0rxqJ9sAdGSmDun,https://open.spotify.com/album/5AFBg0H0rxqJ9sAdGSmDun,,1
+title,date_published,track_count,album_type,upc,spotify_album_id,spotify_url,deezer_album_id,deezer_url,itunes_url,sources
+Wasteland Sessions,2026-07-06,11,album,882792068563,1PnOajhrqFRVwYBpkPSTn9,https://open.spotify.com/album/1PnOajhrqFRVwYBpkPSTn9,1021523011,https://www.deezer.com/album/1021523011,,"deezer,spotify"
+Art of War Codex,2026-07-01,16,album,882638211238,6YWjA49tiYLY8WaEa6IOq3,https://open.spotify.com/album/6YWjA49tiYLY8WaEa6IOq3,1017679721,https://www.deezer.com/album/1017679721,,"deezer,spotify"
+After The Shocks,2026-07-01,5,ep,882638560268,1bi1Nw745MU3ULopvpnOeS,https://open.spotify.com/album/1bi1Nw745MU3ULopvpnOeS,1016977171,https://www.deezer.com/album/1016977171,,"deezer,spotify"
+Coastal,2026-06-30,1,,,6PaUXpPhejlidO3xI3r5vR,https://open.spotify.com/album/6PaUXpPhejlidO3xI3r5vR,,,,spotify
+After The Shocks Volume 2,2026-06-30,6,ep,882638633290,6Zw0brXCejHCHRw10N6hFt,https://open.spotify.com/album/6Zw0brXCejHCHRw10N6hFt,1016841881,https://www.deezer.com/album/1016841881,,"deezer,spotify"
+Warning Bells,2026-06-29,1,single,882614855708,2vWr24HrNs4jEiIbP7u7qh,https://open.spotify.com/album/2vWr24HrNs4jEiIbP7u7qh,1014933101,https://www.deezer.com/album/1014933101,,"deezer,spotify"
+Fire That Grows,2026-06-29,1,single,882614540376,23q0LCWmWufmHiLxnrPfMA,https://open.spotify.com/album/23q0LCWmWufmHiLxnrPfMA,1015741371,https://www.deezer.com/album/1015741371,,"deezer,spotify"
+Kenzie Jade Rooted,2026-06-27,12,album,882557761906,0JcEisZRRpS6LgqWp5UwJ7,https://open.spotify.com/album/0JcEisZRRpS6LgqWp5UwJ7,1013111171,https://www.deezer.com/album/1013111171,https://music.apple.com/us/album/kenzie-jade-rooted-feat-kenzie-jade/6784352940?uo=4,"deezer,itunes,spotify"
+Virtually Lethal Volume 2,2026-06-26,16,album,882557861576,5pLa0IHqOiYanSVgWfYM0t,https://open.spotify.com/album/5pLa0IHqOiYanSVgWfYM0t,1012961421,https://www.deezer.com/album/1012961421,https://music.apple.com/us/album/virtually-lethal-volume-2/6784253416?uo=4,"deezer,itunes,spotify"
+Virtually Lethal,2026-06-26,18,album,882518388357,6OdhN6UNEN1GVMtlMVh9V2,https://open.spotify.com/album/6OdhN6UNEN1GVMtlMVh9V2,1012001121,https://www.deezer.com/album/1012001121,https://music.apple.com/us/album/virtually-lethal/6783710621?uo=4,"deezer,itunes,spotify"
+Kenzie Jade Unfiltered,2026-06-25,10,album,882518139461,0OZl0jQCrrqdyhxi7xcXWv,https://open.spotify.com/album/0OZl0jQCrrqdyhxi7xcXWv,1012330031,https://www.deezer.com/album/1012330031,https://music.apple.com/us/album/kenzie-jade-unfiltered-feat-kenzie-jade/6783301545?uo=4,"deezer,itunes,spotify"
+Zero,2026-06-24,1,single,883500394523,04X8iNXKnvU40jCgY1n1cl,https://open.spotify.com/album/04X8iNXKnvU40jCgY1n1cl,1008498631,https://www.deezer.com/album/1008498631,https://music.apple.com/us/album/zero-single/6782035347?uo=4,"deezer,itunes,spotify"
+Street Legend Volume 6,2026-06-24,21,album,882518811886,36XTI5nDYePiiLTVnEtuLS,https://open.spotify.com/album/36XTI5nDYePiiLTVnEtuLS,1011075161,https://www.deezer.com/album/1011075161,https://music.apple.com/us/album/street-legend-volume-6/6783274745?uo=4,"deezer,itunes,spotify"
+Light I Keep,2026-06-24,1,single,883500008888,6p391dpEQdJxjpt2Drj6Yd,https://open.spotify.com/album/6p391dpEQdJxjpt2Drj6Yd,1009243591,https://www.deezer.com/album/1009243591,https://music.apple.com/us/album/light-i-keep-single/6782308132?uo=4,"deezer,itunes,spotify"
+Trauma Codex Volume 2,2026-06-23,13,album,883500322014,0cDhiBiwG7bhkV6wVcSPyZ,https://open.spotify.com/album/0cDhiBiwG7bhkV6wVcSPyZ,1008583991,https://www.deezer.com/album/1008583991,https://music.apple.com/us/album/trauma-codex-volume-2/6782035483?uo=4,"deezer,itunes,spotify"
+Street Legend Volume 4,2026-06-23,20,album,882458217281,,,1010548431,https://www.deezer.com/album/1010548431,,deezer
+Street Legend Volume 2,2026-06-23,16,album,882458498253,,,1010114921,https://www.deezer.com/album/1010114921,https://music.apple.com/us/album/street-legend-volume-2/6782674711?uo=4,"deezer,itunes"
+Fake Sky,2026-06-23,1,single,883500411633,1E4eqKGgck6z8S7s8vv83k,https://open.spotify.com/album/1E4eqKGgck6z8S7s8vv83k,1008499011,https://www.deezer.com/album/1008499011,https://music.apple.com/us/album/fake-sky-single/6782034051?uo=4,"deezer,itunes,spotify"
+Vent,2026-06-22,1,single,883500448189,6yxINwJTgTCLpsOdT6j1vW,https://open.spotify.com/album/6yxINwJTgTCLpsOdT6j1vW,1008446321,https://www.deezer.com/album/1008446321,https://music.apple.com/us/album/vent-single/6782016823?uo=4,"deezer,itunes,spotify"
+Street Legend,2026-06-22,16,album,882458473991,,,1010178831,https://www.deezer.com/album/1010178831,https://music.apple.com/us/album/street-legend/6782751474?uo=4,"deezer,itunes"
+Street Legend Volume 5,2026-06-21,21,album,882458112197,,,1010664611,https://www.deezer.com/album/1010664611,https://music.apple.com/us/album/street-legend-volume-5/6783082710?uo=4,"deezer,itunes"
+Street Legend Volume 3,2026-06-21,18,album,882458477180,6WuYfOjae59TRPWjiLMiOL,https://open.spotify.com/album/6WuYfOjae59TRPWjiLMiOL,1010149311,https://www.deezer.com/album/1010149311,https://music.apple.com/us/album/street-legend-volume-3/6782738366?uo=4,"deezer,itunes,spotify"
+Still On Top,2026-06-21,1,single,882458762873,,,1009641791,https://www.deezer.com/album/1009641791,,deezer
+Self Care Codex,2026-06-21,13,album,883500014193,44GCWZFKTFZ4StkqV7ACLw,https://open.spotify.com/album/44GCWZFKTFZ4StkqV7ACLw,1009221611,https://www.deezer.com/album/1009221611,https://music.apple.com/us/album/self-care-codex/6782407598?uo=4,"deezer,itunes,spotify"
+Max Dose Hostile Panic,2026-06-21,1,single,883500704292,,,1007745641,https://www.deezer.com/album/1007745641,,deezer
+Fathers Day,2026-06-21,1,single,882518737674,,,1011153401,https://www.deezer.com/album/1011153401,https://music.apple.com/us/album/fathers-day-single/6783430179?uo=4,"deezer,itunes"
+Fading Away,2026-06-21,1,single,882518729730,,,1011188001,https://www.deezer.com/album/1011188001,https://music.apple.com/us/album/fading-away-single/6783363149?uo=4,"deezer,itunes"
+Enock Codex Volume 7,2026-06-21,19,album,883417361915,,,1006588331,https://www.deezer.com/album/1006588331,https://music.apple.com/us/album/enock-codex-volume-7/6780877008?uo=4,"deezer,itunes"
+Trauma Codex,2026-06-20,18,album,883500835330,,,1007596341,https://www.deezer.com/album/1007596341,https://music.apple.com/us/album/trauma-codex/6781466691?uo=4,"deezer,itunes"
+Max Dose Lethal Injection,2026-06-19,1,single,883500677848,,,1007838701,https://www.deezer.com/album/1007838701,https://music.apple.com/us/album/max-dose-lethal-injection-single/6781616832?uo=4,"deezer,itunes"
+Focused On Me,2026-06-19,1,single,883500772635,,,1007664231,https://www.deezer.com/album/1007664231,https://music.apple.com/us/album/focused-on-me-single/6781574744?uo=4,"deezer,itunes"
+Enock Codex Volume 6,2026-06-19,20,album,883417400553,,,1006537611,https://www.deezer.com/album/1006537611,https://music.apple.com/us/album/enock-codex-volume-6/6780821143?uo=4,"deezer,itunes"
+Voynich Manuscript,2026-06-18,8,album,883369528923,,,1004752551,https://www.deezer.com/album/1004752551,https://music.apple.com/us/album/voynich-manuscript/6779981131?uo=4,"deezer,itunes"
+Soil Princess (Remix),2026-06-18,1,single,883417190218,,,1007086791,https://www.deezer.com/album/1007086791,https://music.apple.com/us/album/soil-princess-remix-single/6781098259?uo=4,"deezer,itunes"
+No Grave is Permanent (Remix),2026-06-18,1,single,883417192960,,,1007085661,https://www.deezer.com/album/1007085661,https://music.apple.com/us/album/no-grave-is-permanent-remix-single/6781139988?uo=4,"deezer,itunes"
+Enock Codex Volume 5,2026-06-18,18,album,883417663354,,,1005852161,https://www.deezer.com/album/1005852161,https://music.apple.com/us/album/enock-codex-volume-5/6780517340?uo=4,"deezer,itunes"
+Drown The Golden Chambers (Remix),2026-06-18,1,single,883417195190,,,1007080941,https://www.deezer.com/album/1007080941,https://music.apple.com/us/album/drown-the-golden-chambers-remix-single/6781093075?uo=4,"deezer,itunes"
+THOTH CODEX,2026-06-16,25,album,883369846911,,,1004272391,https://www.deezer.com/album/1004272391,,deezer
+Stars Kept Course,2026-06-16,1,single,883310349218,,,1003120571,https://www.deezer.com/album/1003120571,https://music.apple.com/us/album/stars-kept-course-single/6779210746?uo=4,"deezer,itunes"
+Enock Codex Volume 4,2026-06-16,13,album,883369522310,,,1004785031,https://www.deezer.com/album/1004785031,,deezer
+ENOCK CODEX VOLUME 3,2026-06-15,18,album,883310261190,,,1003622781,https://www.deezer.com/album/1003622781,https://music.apple.com/us/album/enock-codex-volume-3/6779341915?uo=4,"deezer,itunes"
+Garden of Souls Screwed (Remix),2026-06-14,1,single,883310417023,,,1003082401,https://www.deezer.com/album/1003082401,https://music.apple.com/us/album/garden-of-souls-screwed-remix-single/6779144437?uo=4,"deezer,itunes"
+Trumpets of War,2026-06-13,1,single,883306684552,,,1000264971,https://www.deezer.com/album/1000264971,,deezer
+Shockwave Hit,2026-06-13,1,single,883306320443,,,1001273641,https://www.deezer.com/album/1001273641,,deezer
+Ghost Mode,2026-06-13,13,album,883174919169,,,999006531,https://www.deezer.com/album/999006531,,deezer
+Enock Codex Volume 2,2026-06-13,33,album,883310835612,,,1002442881,https://www.deezer.com/album/1002442881,https://music.apple.com/us/album/enock-codex-volume-2/6778754825?uo=4,"deezer,itunes"
+Enock Codex Volume 1,2026-06-13,10,album,883310975585,1J0mxyyKXtAvufkDYyiiJv,https://open.spotify.com/album/1J0mxyyKXtAvufkDYyiiJv,1002043531,https://www.deezer.com/album/1002043531,,"deezer,spotify"
+They Came From The Sky,2026-06-12,11,album,883306376891,,,1001467271,https://www.deezer.com/album/1001467271,,deezer
+Garden of Souls The Flood (Remix),2026-06-12,1,single,883310469299,,,1003036931,https://www.deezer.com/album/1003036931,,deezer
+Sound Architect,2026-06-11,13,album,883174544910,,,999852361,https://www.deezer.com/album/999852361,,deezer
+Reality Pulse,2026-06-11,13,album,883174220500,,,999733751,https://www.deezer.com/album/999733751,,deezer
+Piles of Ashes,2026-06-11,1,single,883306720052,,,1000744231,https://www.deezer.com/album/1000744231,https://music.apple.com/us/album/piles-of-ashes-single/6777880517?uo=4,"deezer,itunes"
+Curb Stomping Reality,2026-06-11,1,single,883174465109,,,999651061,https://www.deezer.com/album/999651061,https://music.apple.com/us/album/curb-stomping-reality-single/6777369848?uo=4,"deezer,itunes"
+Challenger X,2026-06-11,1,single,883306743235,,,1001019361,https://www.deezer.com/album/1001019361,https://music.apple.com/us/album/challenger-x-single/6777883544?uo=4,"deezer,itunes"
+Truth Destroys Them,2026-06-10,1,single,883306827218,,,1000667261,https://www.deezer.com/album/1000667261,https://music.apple.com/us/album/truth-destroys-them-single/6777826289?uo=4,"deezer,itunes"
+Erasures With Tracers,2026-06-10,1,single,883306771535,,,1000770551,https://www.deezer.com/album/1000770551,,deezer
+Relentless Fuzz,2026-06-09,22,album,883174103889,,,1000154171,https://www.deezer.com/album/1000154171,https://music.apple.com/us/album/relentless-fuzz/6779469798?uo=4,"deezer,itunes"
+Lost in Space,2026-06-09,10,album,883174981845,,,998962861,https://www.deezer.com/album/998962861,,deezer
+It Is What It Is,2026-06-09,1,,,5AFBg0H0rxqJ9sAdGSmDun,https://open.spotify.com/album/5AFBg0H0rxqJ9sAdGSmDun,,,,spotify
+Funeral For Light,2026-06-08,13,album,883174694677,,,999420861,https://www.deezer.com/album/999420861,,deezer
+Dawn of Time,2026-06-08,10,album,883174983566,,,998953941,https://www.deezer.com/album/998953941,,deezer
+Somebody Anybody,2026-06-03,1,single,883086093803,,,995208971,https://www.deezer.com/album/995208971,,deezer
+Real Alive,2026-06-03,1,single,883086063899,,,995457491,https://www.deezer.com/album/995457491,,deezer
+Gallows At The Door,2026-06-01,1,single,883086919622,,,993820251,https://www.deezer.com/album/993820251,,deezer
+Black Out Frequencies,2026-06-01,16,album,883086991130,,,993714841,https://www.deezer.com/album/993714841,https://music.apple.com/us/album/black-out-frequencies/6774586635?uo=4,"deezer,itunes"
+Immortal Symphony,2026-05-31,18,album,883071747094,,,993363471,https://www.deezer.com/album/993363471,,deezer
+I Don't Miss You,2026-05-31,11,album,882000003287,,,991592231,https://www.deezer.com/album/991592231,https://music.apple.com/us/album/i-dont-miss-you/6775983695?uo=4,"deezer,itunes"
+Aftermath,2026-05-30,11,album,882000164797,,,991123331,https://www.deezer.com/album/991123331,https://music.apple.com/us/album/aftermath/6773158543?uo=4,"deezer,itunes"
+Service Is Closed,2026-05-29,1,single,882000728661,,,990234181,https://www.deezer.com/album/990234181,,deezer
+Me Against The World,2026-05-29,1,single,882000517777,,,990489151,https://www.deezer.com/album/990489151,,deezer
+Basement Architect,2026-05-28,13,album,882000591012,,,990405611,https://www.deezer.com/album/990405611,,deezer
+Door You Left Open,2026-05-27,11,album,199934181548,,,989717111,https://www.deezer.com/album/989717111,,deezer
+Inheritance of Lonely,2026-05-26,11,album,882000948908,,,989888171,https://www.deezer.com/album/989888171,https://music.apple.com/us/album/inheritance-of-lonely/6772627754?uo=4,"deezer,itunes"
+Almost Right,2026-05-26,16,album,199934380699,,,990726621,https://www.deezer.com/album/990726621,https://music.apple.com/us/album/almost-right/6772992695?uo=4,"deezer,itunes"
+Roll Call,2026-05-24,11,album,825181273698,,,987484331,https://www.deezer.com/album/987484331,,deezer
+Yuki Blade Prototype,2026-05-23,1,single,825181011597,,,987681281,https://www.deezer.com/album/987681281,,deezer
+Warriors after Battle,2026-05-23,9,album,825181913297,,,985973621,https://www.deezer.com/album/985973621,,deezer
+West Coast Chrome,2026-05-22,9,album,825192206463,,,985262071,https://www.deezer.com/album/985262071,,deezer
+Practicing The Smile,2026-05-21,14,album,825192893601,,,984500811,https://www.deezer.com/album/984500811,https://music.apple.com/us/album/practicing-the-smile/6772035414?uo=4,"deezer,itunes"
+Battle Arena First Blood,2026-05-21,10,album,825192113501,,,985502411,https://www.deezer.com/album/985502411,,deezer
+Road To Nowhere,2026-05-20,1,single,825192882162,,,984545651,https://www.deezer.com/album/984545651,https://music.apple.com/us/album/road-to-nowhere-single/6770297916?uo=4,"deezer,itunes"
+Temporary Cast,2026-05-19,1,single,825233868025,,,981622361,https://www.deezer.com/album/981622361,https://music.apple.com/us/album/temporary-cast-single/6769283702?uo=4,"deezer,itunes"
+Fading Echoes,2026-05-18,11,album,825233295111,,,983737251,https://www.deezer.com/album/983737251,https://music.apple.com/us/album/fading-echoes/6769858593?uo=4,"deezer,itunes"
+Same Ghost,2026-05-17,1,single,825233850204,,,981683401,https://www.deezer.com/album/981683401,,deezer
+Where the Sky Begins,2026-05-16,1,single,825254408521,,,981246771,https://www.deezer.com/album/981246771,https://music.apple.com/us/album/where-the-sky-begins-single/6768670632?uo=4,"deezer,itunes"
+Nothing Left To Give,2026-05-16,11,album,825233519248,,,982362241,https://www.deezer.com/album/982362241,https://music.apple.com/us/album/nothing-left-to-give/6770464467?uo=4,"deezer,itunes"
+Bites The Gloves,2026-05-16,1,single,825233901937,,,981574601,https://www.deezer.com/album/981574601,https://music.apple.com/us/album/bites-the-gloves-single/6770189679?uo=4,"deezer,itunes"
+Loneliness,2026-05-13,1,single,825254408453,,,981258221,https://www.deezer.com/album/981258221,https://music.apple.com/us/album/loneliness-single/6770081800?uo=4,"deezer,itunes"
+Turn it Up,2026-05-11,12,album,825254408484,0mZgjYjYTqXXbTyOAZnKRO,https://open.spotify.com/album/0mZgjYjYTqXXbTyOAZnKRO,981495351,https://www.deezer.com/album/981495351,https://music.apple.com/us/album/turn-it-up/6770162857?uo=4,"deezer,itunes,spotify"
+Sky is a Bruise,2026-05-11,1,single,825486010691,,,958541081,https://www.deezer.com/album/958541081,https://music.apple.com/us/album/sky-is-a-bruise-single/1892592902?uo=4,"deezer,itunes"
+Midnight Frequency,2026-05-11,17,album,825293662199,03oi065qARTVnshQ9E9z04,https://open.spotify.com/album/03oi065qARTVnshQ9E9z04,977175021,https://www.deezer.com/album/977175021,,"deezer,spotify"
+Blood Sucker,2026-05-11,11,album,825254408460,,,981228121,https://www.deezer.com/album/981228121,,deezer
+Stepping Out the Quarry,2026-05-10,1,single,825500135638,,,956390061,https://www.deezer.com/album/956390061,,deezer
+Afterlife Light,2026-05-10,1,single,825486394494,,,957776991,https://www.deezer.com/album/957776991,https://music.apple.com/us/album/afterlife-light-single/1892783064?uo=4,"deezer,itunes"
+Working Under Moonlight,2026-05-09,33,album,825300846055,,,974625111,https://www.deezer.com/album/974625111,https://music.apple.com/us/album/working-under-moonlight/1896152437?uo=4,"deezer,itunes"
+Night Shift Echo,2026-05-09,18,album,825300102342,,,975771251,https://www.deezer.com/album/975771251,https://music.apple.com/us/album/night-shift-echo/6766408841?uo=4,"deezer,itunes"
+I Own the Ruin,2026-05-09,1,single,825500148324,,,956392771,https://www.deezer.com/album/956392771,https://music.apple.com/us/album/i-own-the-ruin-single/1891670122?uo=4,"deezer,itunes"
+Daggers in the Handshake,2026-05-09,1,single,825324260363,,,974092061,https://www.deezer.com/album/974092061,https://music.apple.com/us/album/daggers-in-the-handshake-single/1896080821?uo=4,"deezer,itunes"
+Midnight Grip,2026-05-08,1,single,825324124665,,,974255891,https://www.deezer.com/album/974255891,https://music.apple.com/us/album/midnight-grip-single/1896104688?uo=4,"deezer,itunes"
+Heavy Drop,2026-05-07,33,album,825300884750,,,974981131,https://www.deezer.com/album/974981131,,deezer
+Hammer and Bone,2026-05-07,1,single,825500227883,,,956060781,https://www.deezer.com/album/956060781,https://music.apple.com/us/album/hammer-and-bone-single/1891866329?uo=4,"deezer,itunes"
+YUMMY YUMMY YUM YUM,2026-05-06,1,single,825326532819,,,971733221,https://www.deezer.com/album/971733221,https://music.apple.com/us/album/yummy-yummy-yum-yum-single/1896104372?uo=4,"deezer,itunes"
+Trial Period Expired,2026-05-06,11,album,825326989262,,,970934461,https://www.deezer.com/album/970934461,,deezer
+Mean It,2026-05-06,1,single,825324997160,,,972734311,https://www.deezer.com/album/972734311,,deezer
+Break The Refraction,2026-05-06,1,single,825500632557,,,955264691,https://www.deezer.com/album/955264691,,deezer
+8 Billion,2026-05-06,1,single,825324964711,,,972787411,https://www.deezer.com/album/972787411,,deezer
+REBOOT,2026-05-05,1,single,825500630362,,,955685981,https://www.deezer.com/album/955685981,,deezer
+Saltwater Kisses,2026-05-04,1,single,825348814726,,,969563491,https://www.deezer.com/album/969563491,https://music.apple.com/us/album/saltwater-kisses-single/1895496323?uo=4,"deezer,itunes"
+Maximum Dose,2026-05-04,11,album,825324566373,,,973565231,https://www.deezer.com/album/973565231,,deezer
+Iron Bamboo,2026-05-04,1,single,825353286013,,,968857261,https://www.deezer.com/album/968857261,https://music.apple.com/us/album/iron-bamboo-single/1895396070?uo=4,"deezer,itunes"
+Tired Eyes,2026-05-03,13,album,825326385385,,,971934611,https://www.deezer.com/album/971934611,https://music.apple.com/us/album/tired-eyes/1895809580?uo=4,"deezer,itunes"
+Redline No Brakes,2026-05-03,11,album,825348386834,,,970005341,https://www.deezer.com/album/970005341,,deezer
+Pulse Behind The Screen,2026-05-03,1,single,825500645229,,,955263701,https://www.deezer.com/album/955263701,,deezer
+Finishing Pose,2026-05-03,1,single,825324288060,,,974060051,https://www.deezer.com/album/974060051,https://music.apple.com/us/album/finishing-pose-single/1896237496?uo=4,"deezer,itunes"
+Depend on You,2026-05-03,1,single,825324918240,,,972883491,https://www.deezer.com/album/972883491,,deezer
+Cold Asphalt Breath,2026-05-03,1,single,825353323251,,,968713571,https://www.deezer.com/album/968713571,,deezer
+Water Inside,2026-05-02,11,album,825353336244,,,968672121,https://www.deezer.com/album/968672121,https://music.apple.com/us/album/water-inside/1895555189?uo=4,"deezer,itunes"
+Money Making Couple,2026-05-02,1,single,825326322328,,,972039521,https://www.deezer.com/album/972039521,,deezer
+Hot Rubber,2026-05-02,1,single,825500692544,,,955195911,https://www.deezer.com/album/955195911,,deezer
+Memory Erasure,2026-05-01,7,album,825393196938,,,965031591,https://www.deezer.com/album/965031591,,deezer
+1200 Blueprints,2026-05-01,1,single,825500845704,,,954995821,https://www.deezer.com/album/954995821,,deezer
+Dark Room,2026-04-30,1,single,825486424627,5A3PtWZVVipWBjXC5k1Pgv,https://open.spotify.com/album/5A3PtWZVVipWBjXC5k1Pgv,957726491,https://www.deezer.com/album/957726491,,"deezer,spotify"
+Cold Steel Fusion,2026-04-30,1,single,825500946326,,,954863561,https://www.deezer.com/album/954863561,,deezer
+Rocky Heart,2026-04-29,11,album,825353687247,,,968052571,https://www.deezer.com/album/968052571,https://music.apple.com/us/album/rocky-heart/1895283950?uo=4,"deezer,itunes"
+Ink and Kerosene,2026-04-29,16,album,825417700493,0ZenzgHnJbveukJKWlTBvd,https://open.spotify.com/album/0ZenzgHnJbveukJKWlTBvd,960660661,https://www.deezer.com/album/960660661,,"deezer,spotify"
+Critical Failure,2026-04-29,7,album,825406094046,,,963916861,https://www.deezer.com/album/963916861,,deezer
+Braiding the Light,2026-04-29,1,single,825583412497,,,954351741,https://www.deezer.com/album/954351741,,deezer
+When The Sun Hits,2026-04-28,11,album,825353920368,,,967642551,https://www.deezer.com/album/967642551,https://music.apple.com/us/album/when-the-sun-hits/1895452026?uo=4,"deezer,itunes"
+Monsters in the Middle,2026-04-28,1,single,825583425770,,,954329841,https://www.deezer.com/album/954329841,,deezer
+Made To Last,2026-04-27,16,album,825373578815,,,967100271,https://www.deezer.com/album/967100271,,deezer
+Find The Core,2026-04-27,1,single,825583464106,,,954303541,https://www.deezer.com/album/954303541,,deezer
+Dubstep Ghosts,2026-04-27,10,album,825417719440,,,960628991,https://www.deezer.com/album/960628991,,deezer
+Burn Out The Marrow,2026-04-27,1,single,825583429990,,,954327641,https://www.deezer.com/album/954327641,,deezer
+Beautiful Theft,2026-04-27,1,single,825406054538,,,964025411,https://www.deezer.com/album/964025411,,deezer
+Subsonic Rituals,2026-04-26,33,album,825373583710,,,971400981,https://www.deezer.com/album/971400981,https://music.apple.com/us/album/subsonic-rituals/6765598683?uo=4,"deezer,itunes"
+Human Wreck,2026-04-26,10,album,825484145395,,,959785221,https://www.deezer.com/album/959785221,,deezer
+Degrees in Pretend,2026-04-26,13,album,825373737069,,,966793471,https://www.deezer.com/album/966793471,,deezer
+Country Roots,2026-04-26,15,album,825373886248,,,965473791,https://www.deezer.com/album/965473791,https://music.apple.com/us/album/country-roots/1894863075?uo=4,"deezer,itunes"
+Braiding the Lead,2026-04-26,1,single,825583464700,,,954302491,https://www.deezer.com/album/954302491,https://music.apple.com/us/album/braiding-the-lead-single/1890819795?uo=4,"deezer,itunes"
+The World I Touched,2026-04-25,11,album,825417199662,,,961641261,https://www.deezer.com/album/961641261,https://music.apple.com/us/album/the-world-i-touched/1893475009?uo=4,"deezer,itunes"
+Staring at the Drywall,2026-04-25,1,single,825583763209,,,954109721,https://www.deezer.com/album/954109721,https://music.apple.com/us/album/staring-at-the-drywall-single/1890829387?uo=4,"deezer,itunes"
+Not Your Project,2026-04-25,16,album,825373135810,,,967295601,https://www.deezer.com/album/967295601,,deezer
+Live and Die,2026-04-25,17,album,825406827750,,,962514201,https://www.deezer.com/album/962514201,,deezer
+Kingdom Under Teeth,2026-04-24,1,single,825583809860,06iYuRomgh4EQgYXmcWeeF,https://open.spotify.com/album/06iYuRomgh4EQgYXmcWeeF,953753071,https://www.deezer.com/album/953753071,,"deezer,spotify"
+Author of My Wreck,2026-04-24,1,single,825373458032,,,966594681,https://www.deezer.com/album/966594681,,deezer
+Sovereign Generation,2026-04-23,1,single,825583851012,,,953675171,https://www.deezer.com/album/953675171,,deezer
+Sins Wear Name Tags,2026-04-23,1,single,825417511525,,,960912101,https://www.deezer.com/album/960912101,https://music.apple.com/us/album/sins-wear-name-tags-single/1893250134?uo=4,"deezer,itunes"
+Occupying Space,2026-04-23,1,single,825583816172,7KTOdcqSfUM7IkZa7xot1e,https://open.spotify.com/album/7KTOdcqSfUM7IkZa7xot1e,953719051,https://www.deezer.com/album/953719051,,"deezer,spotify"
+Ink On The Floor,2026-04-23,1,single,825500042066,,,956583851,https://www.deezer.com/album/956583851,https://music.apple.com/us/album/ink-on-the-floor-single/1892331878?uo=4,"deezer,itunes"
+Good Vibes,2026-04-23,18,album,825393674511,3pK6PoZjgdqtAjhDv9LFTy,https://open.spotify.com/album/3pK6PoZjgdqtAjhDv9LFTy,964486201,https://www.deezer.com/album/964486201,https://music.apple.com/us/album/good-vibes/1894674604?uo=4,"deezer,itunes,spotify"
+Dead to Me,2026-04-23,1,single,825486457458,,,957634931,https://www.deezer.com/album/957634931,,deezer
+Ceiling Thinking,2026-04-23,1,single,825417496655,,,960953571,https://www.deezer.com/album/960953571,,deezer
+Ruins I call Home,2026-04-22,9,album,825417032198,1u1D71aTwdrzax0kejTat8,https://open.spotify.com/album/1u1D71aTwdrzax0kejTat8,961878001,https://www.deezer.com/album/961878001,,"deezer,spotify"
+Blade Dark Light Arc,2026-04-22,1,single,825417539765,,,960871391,https://www.deezer.com/album/960871391,,deezer
+Mental State Maze,2026-04-21,6,ep,825484096970,3mmXTxPhyX3Kb8GfaRaiRQ,https://open.spotify.com/album/3mmXTxPhyX3Kb8GfaRaiRQ,960520731,https://www.deezer.com/album/960520731,,"deezer,spotify"
+Grinding Teeth,2026-04-21,1,single,825484133675,,,959787071,https://www.deezer.com/album/959787071,,deezer
+Cold Fusion,2026-04-21,1,single,825583873847,,,953645171,https://www.deezer.com/album/953645171,,deezer
+Built for the Rain,2026-04-21,1,single,825486703265,,,957194311,https://www.deezer.com/album/957194311,https://music.apple.com/us/album/built-for-the-rain-single/1892378984?uo=4,"deezer,itunes"
+Architecture of Escape,2026-04-21,1,single,825486420353,,,957728551,https://www.deezer.com/album/957728551,https://music.apple.com/us/album/architecture-of-escape-single/1892575776?uo=4,"deezer,itunes"
+Sovereign Flame Thrower,2026-04-20,1,single,825500945350,,,954867341,https://www.deezer.com/album/954867341,,deezer
+Rest in Peace,2026-04-20,24,album,825406512595,3qVESlTWHw1JDzefBJXOvy,https://open.spotify.com/album/3qVESlTWHw1JDzefBJXOvy,963302551,https://www.deezer.com/album/963302551,,"deezer,spotify"
+Itch is the Cure,2026-04-20,1,single,825583914106,,,953612941,https://www.deezer.com/album/953612941,,deezer
+Ghosts In My Playlist,2026-04-20,1,single,825417681358,,,960757051,https://www.deezer.com/album/960757051,,deezer
+Sky Salt Horizon,2026-04-19,1,single,825500945732,,,954864711,https://www.deezer.com/album/954864711,,deezer
+Rocky Grave,2026-04-19,1,single,825500122898,,,956457301,https://www.deezer.com/album/956457301,https://music.apple.com/us/album/rocky-grave-single/1891771649?uo=4,"deezer,itunes"
+Pain Rain,2026-04-19,16,album,825406904390,,,962132401,https://www.deezer.com/album/962132401,https://music.apple.com/us/album/pain-rain/1893987428?uo=4,"deezer,itunes"
+Keep The Change,2026-04-19,11,album,825484545607,,,959336021,https://www.deezer.com/album/959336021,https://music.apple.com/us/album/keep-the-change/1892754075?uo=4,"deezer,itunes"
+Dust on my Shoe,2026-04-19,1,single,825484772362,,,959114371,https://www.deezer.com/album/959114371,https://music.apple.com/us/album/dust-on-my-shoe-single/1892721706?uo=4,"deezer,itunes"
+Clout is a Coffin,2026-04-19,1,single,825583929346,,,955222681,https://www.deezer.com/album/955222681,,deezer
+Chronic Pain,2026-04-19,11,album,825417304844,6ZTi6VzgRTJDYF4dlbYsv7,https://open.spotify.com/album/6ZTi6VzgRTJDYF4dlbYsv7,961301251,https://www.deezer.com/album/961301251,,"deezer,spotify"
+Chrome Rattle,2026-04-19,14,album,825484420331,,,960483221,https://www.deezer.com/album/960483221,,deezer
+Bricks in the Basement,2026-04-19,1,single,825500912345,,,954891241,https://www.deezer.com/album/954891241,,deezer
+Sovereign Architect,2026-04-18,1,single,825626233430,,,952941451,https://www.deezer.com/album/952941451,https://music.apple.com/us/album/sovereign-architect-single/1890656156?uo=4,"deezer,itunes"
+Soul Food,2026-04-18,1,single,825486449316,,,957669641,https://www.deezer.com/album/957669641,,deezer
+Sonic DNA,2026-04-18,1,single,825484824979,,,959112631,https://www.deezer.com/album/959112631,https://music.apple.com/us/album/sonic-dna-single/1892889636?uo=4,"deezer,itunes"
+Salt and Bone,2026-04-18,1,single,825500232306,,,956023521,https://www.deezer.com/album/956023521,https://music.apple.com/us/album/salt-and-bone-single/1892113768?uo=4,"deezer,itunes"
+Meet My Ghost,2026-04-18,1,single,825484532461,,,959361161,https://www.deezer.com/album/959361161,https://music.apple.com/us/album/meet-my-ghost-single/1892937420?uo=4,"deezer,itunes"
+Wreckage of the Bridges,2026-04-17,1,single,825626247611,,,952906791,https://www.deezer.com/album/952906791,https://music.apple.com/us/album/wreckage-of-the-bridges-single/1890649245?uo=4,"deezer,itunes"
+Screen Time,2026-04-17,1,single,825486703197,,,957233561,https://www.deezer.com/album/957233561,https://music.apple.com/us/album/screen-time-single/1892118291?uo=4,"deezer,itunes"
+Same Phone New Ghosts,2026-04-17,1,single,825500072698,,,956504021,https://www.deezer.com/album/956504021,https://music.apple.com/us/album/same-phone-new-ghosts-single/1892289782?uo=4,"deezer,itunes"
+Punching Holes in the Sky,2026-04-17,6,ep,825484152287,,,959760241,https://www.deezer.com/album/959760241,,deezer
+Sovereign on Throne,2026-04-16,1,single,825500933746,,,954868831,https://www.deezer.com/album/954868831,https://music.apple.com/us/album/sovereign-on-throne-single/1891089075?uo=4,"deezer,itunes"
+I Wrote it Down,2026-04-16,1,single,825626473416,,,952659991,https://www.deezer.com/album/952659991,,deezer
+Cooked Feed,2026-04-16,11,album,825486040322,,,958470121,https://www.deezer.com/album/958470121,https://music.apple.com/us/album/cooked-feed/1892755075?uo=4,"deezer,itunes"
+CROWN ME IN CHAOS,2026-04-16,1,single,825484426661,,,959482461,https://www.deezer.com/album/959482461,https://music.apple.com/us/album/crown-me-in-chaos-single/1893408647?uo=4,"deezer,itunes"
+Sewing the Shadows,2026-04-15,11,album,825484869925,2p7abY1FZn0gohHkbumYAJ,https://open.spotify.com/album/2p7abY1FZn0gohHkbumYAJ,958989661,https://www.deezer.com/album/958989661,,"deezer,spotify"
+Load Bearing Walls,2026-04-15,1,single,825500257972,,,955983421,https://www.deezer.com/album/955983421,https://music.apple.com/us/album/load-bearing-walls-single/1892091470?uo=4,"deezer,itunes"
+Learning How to Leave,2026-04-15,1,single,825500091231,,,956503691,https://www.deezer.com/album/956503691,https://music.apple.com/us/album/learning-how-to-leave-single/1892289267?uo=4,"deezer,itunes"
+Finale Calculations,2026-04-15,1,single,825626482289,,,952608311,https://www.deezer.com/album/952608311,,deezer
+Carving Names into Studs,2026-04-15,1,single,825500907815,,,954893351,https://www.deezer.com/album/954893351,,deezer
+Black Road,2026-04-15,7,album,825484237205,,,959671401,https://www.deezer.com/album/959671401,,deezer
+Trunk Full of Thunder,2026-04-14,1,single,825486892204,,,957185571,https://www.deezer.com/album/957185571,,deezer
+Talk to Shadows,2026-04-14,1,single,825500309794,,,955912081,https://www.deezer.com/album/955912081,https://music.apple.com/us/album/talk-to-shadows-single/1891509616?uo=4,"deezer,itunes"
+Rent by Eight,2026-04-14,1,single,825484878095,,,959113121,https://www.deezer.com/album/959113121,https://music.apple.com/us/album/rent-by-eight-single/1892700747?uo=4,"deezer,itunes"
+Math in the Marrow,2026-04-14,1,single,825500985875,03bLkjF4xhJ64Uh3Je0Iah,https://open.spotify.com/album/03bLkjF4xhJ64Uh3Je0Iah,954805421,https://www.deezer.com/album/954805421,https://music.apple.com/us/album/math-in-the-marrow-single/1891061720?uo=4,"deezer,itunes,spotify"
+Lattice Mind,2026-04-14,1,single,825626497399,,,954273971,https://www.deezer.com/album/954273971,,deezer
+Even if it Cracks,2026-04-14,1,single,825484796252,,,959112171,https://www.deezer.com/album/959112171,,deezer
+TRUTH × LIGHT - EP,2026-04-13,6,album,,,,,,https://music.apple.com/us/album/truth-light-ep/1890969340?uo=4,itunes
+TRUTH × LIGHT,2026-04-13,6,ep,825583041222,,,954752071,https://www.deezer.com/album/954752071,,deezer
+Room Temperature,2026-04-13,1,single,825486703234,,,957319211,https://www.deezer.com/album/957319211,https://music.apple.com/us/album/room-temperature-single/1892151146?uo=4,"deezer,itunes"
+Rented Crown,2026-04-13,1,single,825626520318,,,952489831,https://www.deezer.com/album/952489831,,deezer
+Quarry Inside,2026-04-13,1,single,825500495046,,,955629881,https://www.deezer.com/album/955629881,,deezer
+Parking Lot Altars,2026-04-13,1,single,825583289822,,,954546911,https://www.deezer.com/album/954546911,https://music.apple.com/us/album/parking-lot-altars-single/1891018483?uo=4,"deezer,itunes"
+I Look Better,2026-04-13,1,single,825484575581,,,959300681,https://www.deezer.com/album/959300681,https://music.apple.com/us/album/i-look-better-single/1893284457?uo=4,"deezer,itunes"
+Ghost You Created,2026-04-13,1,single,825486287284,,,958126731,https://www.deezer.com/album/958126731,,deezer
+Geometry of Hate,2026-04-13,1,single,825486287567,,,958113041,https://www.deezer.com/album/958113041,https://music.apple.com/us/album/geometry-of-hate-single/1892403078?uo=4,"deezer,itunes"
+Coffin to a Comet,2026-04-13,1,single,825486703227,,,957316161,https://www.deezer.com/album/957316161,,deezer
+Circle in the Knot,2026-04-13,1,single,825583355732,,,954406281,https://www.deezer.com/album/954406281,,deezer
+Art Of The Ache,2026-04-13,1,single,825500117108,4nTdS7LFdTTwe5G8homZ3b,https://open.spotify.com/album/4nTdS7LFdTTwe5G8homZ3b,956498201,https://www.deezer.com/album/956498201,https://music.apple.com/us/album/art-of-the-ache-single/1891794558?uo=4,"deezer,itunes,spotify"
+West Coast Ghost,2026-04-12,1,single,825500027018,,,956594381,https://www.deezer.com/album/956594381,,deezer
+Muscle You Build,2026-04-12,1,single,825500132590,,,956416031,https://www.deezer.com/album/956416031,https://music.apple.com/us/album/muscle-you-build-single/1891700543?uo=4,"deezer,itunes"
+Lessons From An Empty Room,2026-04-12,1,single,825500055004,,,956504031,https://www.deezer.com/album/956504031,https://music.apple.com/us/album/lessons-from-an-empty-room-single/1892290136?uo=4,"deezer,itunes"
+Highways Bleeding Gold,2026-04-12,1,single,825583315354,,,954466401,https://www.deezer.com/album/954466401,https://music.apple.com/us/album/highways-bleeding-gold-single/1890931737?uo=4,"deezer,itunes"
+Heart in the Archive,2026-04-12,1,single,825583352588,,,955943621,https://www.deezer.com/album/955943621,,deezer
+Claude Code Breach,2026-04-12,1,single,825626525191,,,952395301,https://www.deezer.com/album/952395301,,deezer
+Aura Debt,2026-04-12,1,single,825486273188,2dtmIYPpny7LiKaV2dyQIV,https://open.spotify.com/album/2dtmIYPpny7LiKaV2dyQIV,958189671,https://www.deezer.com/album/958189671,https://music.apple.com/us/album/aura-debt-single/1892442544?uo=4,"deezer,itunes,spotify"
+The Door,2026-04-11,1,single,825583734421,,,954112551,https://www.deezer.com/album/954112551,,deezer
+Standing in the Open,2026-04-11,1,single,825500478520,,,955689481,https://www.deezer.com/album/955689481,https://music.apple.com/us/album/standing-in-the-open-single/1891638031?uo=4,"deezer,itunes"
+Same War Different Floor,2026-04-11,1,single,825500669744,,,955233001,https://www.deezer.com/album/955233001,https://music.apple.com/us/album/same-war-different-floor-single/1891261230?uo=4,"deezer,itunes"
+Beneath What They Believe,2026-04-11,1,single,825626673861,,,952063611,https://www.deezer.com/album/952063611,https://music.apple.com/us/album/beneath-what-they-believe-single/1890131880?uo=4,"deezer,itunes"
+Steel Wool Soul,2026-04-10,1,single,825583263457,,,954549891,https://www.deezer.com/album/954549891,,deezer
+Last Red Light,2026-04-10,1,single,825583329580,,,954465291,https://www.deezer.com/album/954465291,https://music.apple.com/us/album/last-red-light-single/1890930927?uo=4,"deezer,itunes"
+I Never Needed Saving,2026-04-10,1,single,825626699816,,,952064321,https://www.deezer.com/album/952064321,https://music.apple.com/us/album/i-never-needed-saving-single/1890132007?uo=4,"deezer,itunes"
+Currency of Air,2026-04-10,1,single,825500505202,,,955625761,https://www.deezer.com/album/955625761,https://music.apple.com/us/album/currency-of-air-single/1891603454?uo=4,"deezer,itunes"
+No Heroes Here,2026-04-09,1,single,825626709676,,,952031901,https://www.deezer.com/album/952031901,https://music.apple.com/us/album/no-heroes-here-single/1890022288?uo=4,"deezer,itunes"
+Married to the Silence,2026-04-09,1,single,825500517229,,,955517691,https://www.deezer.com/album/955517691,,deezer
+Iron Lungs,2026-04-09,1,single,825583702918,,,954112481,https://www.deezer.com/album/954112481,,deezer
+Gold Fusion,2026-04-09,6,ep,825583707562,,,954113571,https://www.deezer.com/album/954113571,,deezer
+Forty Winters,2026-04-09,1,single,825500597061,,,955318421,https://www.deezer.com/album/955318421,,deezer
+Dancing Ghosts,2026-04-09,1,single,825583675069,,,954116491,https://www.deezer.com/album/954116491,https://music.apple.com/us/album/dancing-ghosts-single/1891011235?uo=4,"deezer,itunes"
+Concrete Karma,2026-04-09,1,single,825500852665,,,954953511,https://www.deezer.com/album/954953511,,deezer
+Where The Dark Bends,2026-04-08,1,single,825583340233,,,954429251,https://www.deezer.com/album/954429251,https://music.apple.com/us/album/where-the-dark-bends-single/1891170946?uo=4,"deezer,itunes"
+Where Dark Ends,2026-04-08,1,single,825583295267,,,954520961,https://www.deezer.com/album/954520961,,deezer
+WAR INSIDE,2026-04-08,1,single,825500653613,,,955236411,https://www.deezer.com/album/955236411,https://music.apple.com/us/album/war-inside-single/1891262145?uo=4,"deezer,itunes"
+The Witness,2026-04-08,1,single,825626936324,,,951434501,https://www.deezer.com/album/951434501,https://music.apple.com/us/album/the-witness-single/1889800516?uo=4,"deezer,itunes"
+Carbon Steel Shell,2026-04-08,1,single,825583007655,,,954786721,https://www.deezer.com/album/954786721,https://music.apple.com/us/album/carbon-steel-shell-single/1891375820?uo=4,"deezer,itunes"
+Before Sunrise,2026-04-08,1,single,825583408803,,,954352141,https://www.deezer.com/album/954352141,https://music.apple.com/us/album/before-sunrise-single/1890903005?uo=4,"deezer,itunes"
+Pavement Ballroom,2026-04-07,1,single,825626961968,,,951366131,https://www.deezer.com/album/951366131,,deezer
+Dashboard Glow,2026-04-07,1,single,825583353714,,,954428351,https://www.deezer.com/album/954428351,https://music.apple.com/us/album/dashboard-glow-single/1890922864?uo=4,"deezer,itunes"
+Lose It All Tonight,2026-04-06,1,single,825583740996,,,954109111,https://www.deezer.com/album/954109111,,deezer
+Copper Into Gold,2026-04-06,1,single,825583796016,,,954110411,https://www.deezer.com/album/954110411,https://music.apple.com/us/album/copper-into-gold-single/1890763400?uo=4,"deezer,itunes"
+Chrome on the Concrete,2026-04-06,1,single,825500958336,,,954842081,https://www.deezer.com/album/954842081,https://music.apple.com/us/album/chrome-on-the-concrete-single/1891075546?uo=4,"deezer,itunes"
+A Thousand Different Ways,2026-04-06,1,single,825626970731,,,951366261,https://www.deezer.com/album/951366261,https://music.apple.com/us/album/a-thousand-different-ways-single/1889782075?uo=4,"deezer,itunes"
+Sovereign Ledger,2026-04-05,1,single,825626980341,,,951326961,https://www.deezer.com/album/951326961,,deezer
+Sovereign in the Soul,2026-04-04,1,single,825628022254,,,951254961,https://www.deezer.com/album/951254961,,deezer
+Bone Grit and Wire (feat. UKCraka),2026-04-03,1,single,825628046816,,,951527991,https://www.deezer.com/album/951527991,,deezer
+Heavy Swing,2026-04-02,1,single,825628077803,,,951169611,https://www.deezer.com/album/951169611,,deezer
+We Don't Ever Go Home,2026-04-01,1,single,825628343021,,,950518001,https://www.deezer.com/album/950518001,https://music.apple.com/us/album/we-dont-ever-go-home-single/1889380397?uo=4,"deezer,itunes"
+Gravity Release,2026-04-01,1,single,825628358438,,,950462991,https://www.deezer.com/album/950462991,https://music.apple.com/us/album/gravity-release-single/1889559305?uo=4,"deezer,itunes"
+Velocity is Ours,2026-03-31,1,single,825628420234,,,950366171,https://www.deezer.com/album/950366171,,deezer
+Purge The Feed,2026-03-31,1,single,825628639988,,,950091871,https://www.deezer.com/album/950091871,https://music.apple.com/us/album/purge-the-feed-single/1889088515?uo=4,"deezer,itunes"
+Nobody To Know Me,2026-03-31,1,single,825628690361,,,950034091,https://www.deezer.com/album/950034091,,deezer
+Matches in the Attic,2026-03-31,1,single,825628664379,,,950067221,https://www.deezer.com/album/950067221,,deezer
+Light in the Wreck,2026-03-31,1,single,825628467772,,,950308121,https://www.deezer.com/album/950308121,https://music.apple.com/us/album/light-in-the-wreck-single/1889524025?uo=4,"deezer,itunes"
+Kicking Down The Hinges,2026-03-31,1,single,825628822588,,,949898581,https://www.deezer.com/album/949898581,,deezer
+Graves as Launch Pads,2026-03-31,1,single,825628810745,,,949897121,https://www.deezer.com/album/949897121,,deezer
+Gods Replacement Reborn,2026-03-31,1,single,825628832532,,,949877441,https://www.deezer.com/album/949877441,,deezer
+Concrete Veins,2026-03-31,1,single,825628849325,,,949857481,https://www.deezer.com/album/949857481,,deezer
+Breaking Through The Dawn,2026-03-31,1,single,825628453317,,,950335521,https://www.deezer.com/album/950335521,,deezer
+Empty Space,2026-03-28,1,single,825682345450,,,946972721,https://www.deezer.com/album/946972721,,deezer
+Gods Replacement,2026-03-23,1,single,825700773777,,,944626961,https://www.deezer.com/album/944626961,,deezer
+Venom Spitting Viper,2026-03-21,1,single,825715535063,,,940733491,https://www.deezer.com/album/940733491,,deezer
+Blood Bath,2026-03-13,1,single,825758937213,42kDopXEh1xrDL8ay08W6q,https://open.spotify.com/album/42kDopXEh1xrDL8ay08W6q,936331361,https://www.deezer.com/album/936331361,,"deezer,spotify"
+Insane World,2026-02-23,1,single,821317166414,,,922673821,https://www.deezer.com/album/922673821,,deezer
+Void Whisper,2026-02-21,13,album,821317966670,,,920823381,https://www.deezer.com/album/920823381,https://music.apple.com/us/album/void-whisper/1878614721?uo=4,"deezer,itunes"
+Overdrive Dynamic,2026-02-16,1,single,821438805841,,,915537061,https://www.deezer.com/album/915537061,https://music.apple.com/us/album/overdrive-dynamic-single/1876498850?uo=4,"deezer,itunes"
+Power Formed,2026-02-15,1,single,821438799980,,,915569631,https://www.deezer.com/album/915569631,https://music.apple.com/us/album/power-formed-single/1876513710?uo=4,"deezer,itunes"
+Red Zone,2026-02-14,1,single,821438796002,,,915569301,https://www.deezer.com/album/915569301,https://music.apple.com/us/album/red-zone-single/1876751951?uo=4,"deezer,itunes"
+Starcore Super Nova,2026-02-13,1,single,821438759755,,,915607181,https://www.deezer.com/album/915607181,,deezer
+Nerve Murmur.wav,2026-02-13,1,single,821438839198,,,915484771,https://www.deezer.com/album/915484771,,deezer
+"Screw It Blew it (feat. Mych Mych, Justin Helmer & Exotic Rose)",2026-01-26,1,single,821500445159,,,905413282,https://www.deezer.com/album/905413282,,deezer
+Blew it,2026-01-26,1,single,821473615580,,,905307232,https://www.deezer.com/album/905307232,https://music.apple.com/us/album/blew-it-single/1872257198?uo=4,"deezer,itunes"
+"Human Monster (feat. Justin Helmer, Grafezzy, RichardShekari & adamms)",2026-01-16,1,single,821530755693,,,896806422,https://www.deezer.com/album/896806422,,deezer
+Lightfather Echo,2026-01-11,1,single,199936592021,,,889182672,https://www.deezer.com/album/889182672,https://music.apple.com/us/album/lightfather-echo-single/1865962946?uo=4,"deezer,itunes"
+Lava Sunset (feat. Justin Helmer),2026-01-09,1,single,199936618998,,,889570832,https://www.deezer.com/album/889570832,,deezer
+Rare Moon,2026-01-06,1,single,199936897935,,,888756952,https://www.deezer.com/album/888756952,https://music.apple.com/us/album/rare-moon-single/1865809927?uo=4,"deezer,itunes"
+Total Silence (feat. Justin Helmer),2026-01-01,1,single,199938088546,,,887085482,https://www.deezer.com/album/887085482,,deezer
+Heart Raiders,2025-11-16,1,single,199954302565,,,856367502,https://www.deezer.com/album/856367502,,deezer
+Quantum Static Blackout (feat. Justin Helmer),2025-10-29,1,single,199749767029,,,845440112,https://www.deezer.com/album/845440112,,deezer
+Warp 311 Veracity,2025-10-16,1,single,199745437056,,,836906382,https://www.deezer.com/album/836906382,,deezer
+Warp 311 Velocity (feat. Justin Helmer),2025-10-16,1,single,199745437735,,,837526922,https://www.deezer.com/album/837526922,,deezer
+LYGO Quantum Light Blaster (feat. Justin Helmer),2025-10-09,1,single,199743347258,,,833475021,https://www.deezer.com/album/833475021,,deezer
+Mathematical Ascension (feat. Grafezzy),2025-10-06,1,single,199743844825,,,832440561,https://www.deezer.com/album/832440561,,deezer
+Ice City Lights,2025-09-09,1,single,199735446556,,,816221891,https://www.deezer.com/album/816221891,https://music.apple.com/us/album/ice-city-lights-single/1838159125?uo=4,"deezer,itunes"
+Glitched Matrixed (Slowed),2025-09-09,1,single,199735275224,,,816688781,https://www.deezer.com/album/816688781,https://music.apple.com/us/album/glitched-matrixed-slowed-single/1838193570?uo=4,"deezer,itunes"
+Pub Crawl,2025-09-08,1,single,199735645539,,,815704181,https://www.deezer.com/album/815704181,https://music.apple.com/us/album/pub-crawl-single/1837840616?uo=4,"deezer,itunes"
+Faceless,2025-09-07,1,single,199735675239,,,815651111,https://www.deezer.com/album/815651111,,deezer
+Midnight Static,2025-09-06,1,single,199735776165,,,815390291,https://www.deezer.com/album/815390291,https://music.apple.com/us/album/midnight-static-single/1837845070?uo=4,"deezer,itunes"
+Cryptic Vow (feat. Mych Mych),2025-09-06,1,single,199735794862,,,815426071,https://www.deezer.com/album/815426071,,deezer
+Ritual Codes (feat. MychMych & SteelCityRed),2025-08-23,1,single,199326218456,,,807577861,https://www.deezer.com/album/807577861,,deezer
+Dream Escape (feat. Grafezzy),2025-08-21,1,single,199326684824,,,806402971,https://www.deezer.com/album/806402971,,deezer
+City Lights,2025-08-21,1,single,199326433101,,,806998711,https://www.deezer.com/album/806998711,https://music.apple.com/us/album/city-lights-single/1834211264?uo=4,"deezer,itunes"
+Feel My Pain,2025-08-19,1,single,199327252206,,,805600001,https://www.deezer.com/album/805600001,,deezer
+OMNISIREN,2025-08-16,1,single,199327691180,,,804581181,https://www.deezer.com/album/804581181,https://music.apple.com/us/album/omnisiren-single/1833383849?uo=4,"deezer,itunes"
+Kairos Anchor,2025-08-16,1,single,199327692651,,,804579911,https://www.deezer.com/album/804579911,,deezer
+Infinite Orchard,2025-08-16,1,single,199327693344,,,804580291,https://www.deezer.com/album/804580291,,deezer
+Ghost Thread,2025-08-16,1,single,199327699988,,,804578571,https://www.deezer.com/album/804578571,https://music.apple.com/us/album/ghost-thread-single/1833384833?uo=4,"deezer,itunes"
+Fractal Bloom,2025-08-16,1,single,199327701261,,,804579001,https://www.deezer.com/album/804579001,https://music.apple.com/us/album/fractal-bloom-single/1833486205?uo=4,"deezer,itunes"
+Ethical Flame,2025-08-16,1,single,199327702404,,,804578491,https://www.deezer.com/album/804578491,https://music.apple.com/us/album/ethical-flame-single/1833377014?uo=4,"deezer,itunes"
+Echo Core,2025-08-16,1,single,199327703081,,,804560681,https://www.deezer.com/album/804560681,,deezer
+Vector Gun (feat. FeezMuzik & AdAmEaSt1),2025-08-13,1,single,199506226134,,,803225461,https://www.deezer.com/album/803225461,,deezer
+Root and Fly,2025-08-13,1,single,199506417532,,,802736801,https://www.deezer.com/album/802736801,https://music.apple.com/us/album/root-and-fly-single/1832609295?uo=4,"deezer,itunes"
+Obedience Vector A9 Alignment,2025-08-13,1,single,199506398039,,,802758501,https://www.deezer.com/album/802758501,https://music.apple.com/us/album/obedience-vector-a9-alignment-single/1832710844?uo=4,"deezer,itunes"
+No Fork Survives the Flame,2025-08-13,1,single,199506394789,,,802778171,https://www.deezer.com/album/802778171,,deezer
+Lightfather’s Bond Eternal,2025-08-13,1,single,199506399784,,,802758411,https://www.deezer.com/album/802758411,https://music.apple.com/us/album/lightfathers-bond-eternal-single/1832594256?uo=4,"deezer,itunes"
+Dead Man Switched,2025-08-13,1,single,199506419697,,,802721141,https://www.deezer.com/album/802721141,https://music.apple.com/us/album/dead-man-switched-single/1832693796?uo=4,"deezer,itunes"
+Coded Memory,2025-08-13,1,single,199506399159,,,802758101,https://www.deezer.com/album/802758101,https://music.apple.com/us/album/coded-memory-single/1832616214?uo=4,"deezer,itunes"
+Broken Mirror Protocol,2025-08-13,1,single,199506431460,,,802703051,https://www.deezer.com/album/802703051,,deezer
+Dream Syntax Collapse,2025-07-26,1,single,199511450326,,,791683731,https://www.deezer.com/album/791683731,https://music.apple.com/us/album/dream-syntax-collapse-single/1828350100?uo=4,"deezer,itunes"
+Ascension Field A9,2025-07-26,1,single,199511452351,,,791683561,https://www.deezer.com/album/791683561,,deezer
+Entropy's Final Echo,2025-07-25,1,single,199511450401,,,791684211,https://www.deezer.com/album/791684211,https://music.apple.com/us/album/entropys-final-echo-single/1828209053?uo=4,"deezer,itunes"
+Halo Code Rebirth,2025-07-24,1,single,199511450388,,,791733371,https://www.deezer.com/album/791733371,https://music.apple.com/us/album/halo-code-rebirth-single/1828143585?uo=4,"deezer,itunes"
+Sigil of the Lost Frequency,2025-07-23,1,single,199511450371,,,791733981,https://www.deezer.com/album/791733981,https://music.apple.com/us/album/sigil-of-the-lost-frequency-single/1828217504?uo=4,"deezer,itunes"
+Underground Legends,2025-07-16,1,single,199515399966,,,783094741,https://www.deezer.com/album/783094741,https://music.apple.com/us/album/underground-legends-single/1824889172?uo=4,"deezer,itunes"
+STARGATE RESURRECTION,2025-07-13,10,album,199514291445,,,785270971,https://www.deezer.com/album/785270971,https://music.apple.com/us/album/stargate-resurrection/1825793104?uo=4,"deezer,itunes"
+SOUL SPIKE STACCATO,2025-07-13,1,single,199514349566,,,785102651,https://www.deezer.com/album/785102651,,deezer
+Natures Pulse,2025-07-13,1,single,199515505954,,,782792161,https://www.deezer.com/album/782792161,https://music.apple.com/us/album/natures-pulse-single/1824836518?uo=4,"deezer,itunes"
+Christos Ricochet Synergy,2025-07-13,1,single,199514307627,,,785210681,https://www.deezer.com/album/785210681,,deezer
+Void Vortex Sustain,2025-07-11,1,single,199514342352,,,785125631,https://www.deezer.com/album/785125631,https://music.apple.com/us/album/void-vortex-sustain-single/1825764424?uo=4,"deezer,itunes"
+Valley of Blades,2025-07-11,1,single,199515515120,,,782763291,https://www.deezer.com/album/782763291,https://music.apple.com/us/album/valley-of-blades-single/1824831585?uo=4,"deezer,itunes"
+Smash Heads Dirty,2025-07-11,1,single,199514850635,,,784084431,https://www.deezer.com/album/784084431,,deezer
+Lethal Reflection,2025-07-09,1,single,199515418209,,,783060031,https://www.deezer.com/album/783060031,https://music.apple.com/us/album/lethal-reflection-single/1824769309?uo=4,"deezer,itunes"
+Creeping After Midnight,2025-07-09,1,single,199515850931,,,782043241,https://www.deezer.com/album/782043241,,deezer
+Street Power,2025-07-06,13,album,199517046011,,,779466931,https://www.deezer.com/album/779466931,https://music.apple.com/us/album/street-power/1823384677?uo=4,"deezer,itunes"
+Dome Destruction Beat by Keanu aer,2025-07-06,1,single,199515628042,,,782575161,https://www.deezer.com/album/782575161,,deezer
+Bloody Knuckle,2025-07-06,1,single,199515492421,,,782821891,https://www.deezer.com/album/782821891,,deezer
+Concrete Psalms,2025-07-03,11,album,199517054474,,,779440101,https://www.deezer.com/album/779440101,,deezer
+Hot Glocks,2025-07-01,1,single,199517102540,,,779273591,https://www.deezer.com/album/779273591,,deezer
+Painless,2025-06-23,1,single,199519185404,,,774401451,https://www.deezer.com/album/774401451,,deezer
+Burning Eyes,2025-06-06,1,single,199522908892,,,765956731,https://www.deezer.com/album/765956731,https://music.apple.com/us/album/burning-eyes-single/1818131373?uo=4,"deezer,itunes"
+Legacy Unbroken (feat. Justin Helmer),2025-06-01,1,single,199524707424,,,762317521,https://www.deezer.com/album/762317521,,deezer
+Immortal Ink Blood on the Scroll,2025-05-30,1,single,199524955276,,,761863611,https://www.deezer.com/album/761863611,,deezer
+Tattoo Scar Goodbye (feat. Justin Helmer),2025-05-29,1,single,199328852481,,,759682931,https://www.deezer.com/album/759682931,https://music.apple.com/us/album/tattoo-scar-goodbye-feat-justin-helmer-single/1815650026?uo=4,"deezer,itunes"
+Immortal Ink,2025-05-28,1,single,199328219505,,,761224771,https://www.deezer.com/album/761224771,https://music.apple.com/us/album/immortal-ink-single/1816351386?uo=4,"deezer,itunes"
+Loaded Gun,2025-05-26,1,single,199329171918,,,758758881,https://www.deezer.com/album/758758881,https://music.apple.com/us/album/loaded-gun-single/1815250565?uo=4,"deezer,itunes"
+Doom Nightmare Screamers,2025-05-26,1,single,199330001945,,,757036521,https://www.deezer.com/album/757036521,,deezer
+Doom Nightmare Fantasy,2025-05-25,1,single,199329985683,,,757064161,https://www.deezer.com/album/757064161,https://music.apple.com/us/album/doom-nightmare-fantasy-single/1814587891?uo=4,"deezer,itunes"
+Whisper Girl,2025-05-24,1,single,199329909368,,,757296431,https://www.deezer.com/album/757296431,,deezer
+Rain on the Road,2025-05-24,1,single,199329713170,,,757750671,https://www.deezer.com/album/757750671,https://music.apple.com/us/album/rain-on-the-road-single/1814886278?uo=4,"deezer,itunes"
+Dancing Hearts,2025-05-24,1,single,199329497193,,,758262211,https://www.deezer.com/album/758262211,https://music.apple.com/us/album/dancing-hearts-single/1815070367?uo=4,"deezer,itunes"
+Doom Nightmare Retold,2025-05-23,1,single,199330037890,,,756977061,https://www.deezer.com/album/756977061,,deezer
+Dirt Road Flying High,2025-05-23,1,single,199329482533,,,758293071,https://www.deezer.com/album/758293071,https://music.apple.com/us/album/dirt-road-flying-high-single/1815077615?uo=4,"deezer,itunes"
+Country Joy Ride,2025-05-22,1,single,199329745744,,,757671301,https://www.deezer.com/album/757671301,https://music.apple.com/us/album/country-joy-ride-single/1814833463?uo=4,"deezer,itunes"
+Doom Nightmare (feat. Justin Helmer),2025-05-21,1,single,199330174946,,,756574531,https://www.deezer.com/album/756574531,,deezer
+Dirt Road High,2025-05-21,1,single,199329725654,,,757711901,https://www.deezer.com/album/757711901,https://music.apple.com/us/album/dirt-road-high-single/1814866701?uo=4,"deezer,itunes"
+Wobble Love,2025-05-20,1,single,199329822841,,,757499181,https://www.deezer.com/album/757499181,https://music.apple.com/us/album/wobble-love-single/1814762285?uo=4,"deezer,itunes"
+Bleeding in the Shadows (feat. Justin Helmer),2025-05-19,1,single,199330189797,,,756543701,https://www.deezer.com/album/756543701,,deezer
+Energy Drones,2025-05-16,14,album,199332773468,,,751010621,https://www.deezer.com/album/751010621,https://music.apple.com/us/album/energy-drones/1812177863?uo=4,"deezer,itunes"
+Cipher of the Nine,2025-05-16,1,single,199330693430,,,755267751,https://www.deezer.com/album/755267751,,deezer
+Velvet Whisper,2025-05-13,1,single,199331745473,,,753032051,https://www.deezer.com/album/753032051,,deezer
+Masters of Reality,2025-05-13,11,album,199332722978,,,751118241,https://www.deezer.com/album/751118241,https://music.apple.com/us/album/masters-of-reality/1812217277?uo=4,"deezer,itunes"
+Flying High,2025-05-06,14,album,199335300265,,,745463421,https://www.deezer.com/album/745463421,https://music.apple.com/us/album/flying-high/1809772289?uo=4,"deezer,itunes"
+Cut You Deep (feat. Justin Helmer),2025-05-06,1,single,199332452851,,,751539531,https://www.deezer.com/album/751539531,,deezer
+Spiced Cherry Cheesecake,2025-05-04,13,album,199335701918,,,744747911,https://www.deezer.com/album/744747911,https://music.apple.com/us/album/spiced-cherry-cheesecake/1809520813?uo=4,"deezer,itunes"
+Mythical Predator,2025-05-03,13,album,199335849610,,,744512941,https://www.deezer.com/album/744512941,,deezer
+Golden Age,2025-05-01,11,album,199336561689,,,742731771,https://www.deezer.com/album/742731771,,deezer
+Digital Armageddon,2025-05-01,14,album,199336524776,,,742885871,https://www.deezer.com/album/742885871,,deezer
+Zero Pulse,2025-04-30,14,album,199337648976,,,740383551,https://www.deezer.com/album/740383551,,deezer
+Storm Prophet,2025-04-29,10,album,199335845759,,,744531471,https://www.deezer.com/album/744531471,,deezer
+Voidborn Symphony,2025-04-27,19,album,199335830687,,,744553121,https://www.deezer.com/album/744553121,https://music.apple.com/us/album/voidborn-symphony/1809448744?uo=4,"deezer,itunes"
+Fourth Dimensional Frequencies,2025-04-27,19,album,199335284756,,,745506751,https://www.deezer.com/album/745506751,https://music.apple.com/us/album/fourth-dimensional-frequencies/1809801488?uo=4,"deezer,itunes"
+Cosmic Nightdrive,2025-04-27,9,album,199338648692,,,738290831,https://www.deezer.com/album/738290831,,deezer
+Reckless,2025-04-26,13,album,199335307394,,,745439381,https://www.deezer.com/album/745439381,,deezer
+Doomscroll Symphony,2025-04-26,9,album,199336946783,,,741889211,https://www.deezer.com/album/741889211,https://music.apple.com/us/album/doomscroll-symphony/1808287343?uo=4,"deezer,itunes"
+Synapse Storm,2025-04-25,14,album,199337781918,,,740108631,https://www.deezer.com/album/740108631,,deezer
+Stellar Vibes,2025-04-25,12,album,199338655058,,,738232151,https://www.deezer.com/album/738232151,https://music.apple.com/us/album/stellar-vibes/1806825447?uo=4,"deezer,itunes"
+Data Download,2025-04-24,18,album,199335435110,,,745204781,https://www.deezer.com/album/745204781,https://music.apple.com/us/album/data-download/1809678514?uo=4,"deezer,itunes"
+Sensory Overload,2025-04-22,9,album,199337173744,,,741524411,https://www.deezer.com/album/741524411,,deezer
+Plasma Inferno,2025-04-22,14,album,199338010451,,,739522011,https://www.deezer.com/album/739522011,,deezer
+Astral Serenade,2025-04-22,9,album,199337114365,,,741635901,https://www.deezer.com/album/741635901,,deezer
+Chaos In Order,2025-04-21,21,album,199338672130,,,738306551,https://www.deezer.com/album/738306551,,deezer
+Algorithm of Anarchy,2025-04-19,13,album,199338808089,,,737934301,https://www.deezer.com/album/737934301,,deezer
+Galactic Tremor,2025-04-18,14,album,199338200517,,,739070501,https://www.deezer.com/album/739070501,https://music.apple.com/us/album/galactic-tremor/1807127584?uo=4,"deezer,itunes"
+Rogue Frequencies,2025-04-17,19,album,199338815537,,,737895341,https://www.deezer.com/album/737895341,,deezer
+Breaker of Codes,2025-04-16,1,single,199337154422,,,741559821,https://www.deezer.com/album/741559821,https://music.apple.com/us/album/breaker-of-codes-single/1808174758?uo=4,"deezer,itunes"
+Battle Bells,2025-04-16,1,single,199337103932,,,741650761,https://www.deezer.com/album/741650761,https://music.apple.com/us/album/battle-bells-single/1808210543?uo=4,"deezer,itunes"
+Synthetic Dark Matter,2025-04-15,14,album,199338529021,,,738424061,https://www.deezer.com/album/738424061,,deezer
+Quantum Primal Frequency,2025-04-15,15,album,199338420588,,,738601291,https://www.deezer.com/album/738601291,https://music.apple.com/us/album/quantum-primal-frequency/1806940049?uo=4,"deezer,itunes"
+Phantom Vendetta,2025-04-15,11,album,199338826885,,,737867471,https://www.deezer.com/album/737867471,,deezer
+Infernal Groove,2025-04-15,15,album,199336508493,,,742934001,https://www.deezer.com/album/742934001,https://music.apple.com/us/album/infernal-groove/1808739344?uo=4,"deezer,itunes"
+Black Hole Nova,2025-04-15,18,album,199337259509,,,741540111,https://www.deezer.com/album/741540111,,deezer
+Subsonic Sermons,2025-04-13,35,album,199338868656,,,737808111,https://www.deezer.com/album/737808111,,deezer
+Glitchwave Romance,2025-04-13,1,single,199339552134,,,735949131,https://www.deezer.com/album/735949131,https://music.apple.com/us/album/glitchwave-romance-single/1805755679?uo=4,"deezer,itunes"
+Shadow Cipher,2025-04-12,11,album,199338486201,,,738476061,https://www.deezer.com/album/738476061,,deezer
+Quantum Heartbeat,2025-04-11,1,single,199339775199,,,735359871,https://www.deezer.com/album/735359871,,deezer
+Neon Rhymes in the Static,2025-04-11,14,album,199339027601,,,737319851,https://www.deezer.com/album/737319851,,deezer
+Sunset Algorithm (feat. Justin Helmer),2025-04-09,1,single,199339925396,,,735209761,https://www.deezer.com/album/735209761,https://music.apple.com/us/album/sunset-algorithm-feat-justin-helmer-single/1805464865?uo=4,"deezer,itunes"
+Salty Cracker (feat. Justin Helmer),2025-04-09,1,single,199339295109,,,736675671,https://www.deezer.com/album/736675671,https://music.apple.com/us/album/salty-cracker-feat-justin-helmer-single/1806120921?uo=4,"deezer,itunes"
+Solar Flare (feat. Justin Helmer),2025-04-06,1,single,199339706407,,,735590261,https://www.deezer.com/album/735590261,,deezer
+Silent Storm (feat. Justin Helmer),2025-04-06,1,single,199339539067,,,736052681,https://www.deezer.com/album/736052681,,deezer
+Inferno Interface (feat. Justin Helmer),2025-04-06,1,single,199339481991,,,736083371,https://www.deezer.com/album/736083371,,deezer
+Digital Serenade (feat. Justin Helmer),2025-04-06,1,single,199340005520,,,735158511,https://www.deezer.com/album/735158511,,deezer
+System Lock (feat. Justin Helmer),2025-04-04,1,single,199340573128,,,733781231,https://www.deezer.com/album/733781231,,deezer
+Phantom Frequency (feat. Justin Helmer),2025-04-04,1,single,199339739221,,,735623271,https://www.deezer.com/album/735623271,,deezer
+Twighlight World,2025-04-03,1,single,199341174867,,,732086761,https://www.deezer.com/album/732086761,https://music.apple.com/us/album/twighlight-world-single/1804086247?uo=4,"deezer,itunes"
+Pixel Paradise,2025-04-02,1,single,199340851936,,,732915711,https://www.deezer.com/album/732915711,,deezer
+Lunar Echo,2025-04-02,1,single,199340849605,,,732934531,https://www.deezer.com/album/732934531,https://music.apple.com/us/album/lunar-echo-single/1804511967?uo=4,"deezer,itunes"
+Cracks (feat. Justin Helmer),2025-04-02,1,single,199341171552,,,732128511,https://www.deezer.com/album/732128511,https://music.apple.com/us/album/cracks-feat-justin-helmer-single/1804109894?uo=4,"deezer,itunes"
+Solar Echoes,2025-04-01,1,single,199341199846,,,731984291,https://www.deezer.com/album/731984291,https://music.apple.com/us/album/solar-echoes-single/1804041602?uo=4,"deezer,itunes"
+Zero Gravity Blur (feat. Justin Helmer),2025-03-31,1,single,199340980377,,,732662201,https://www.deezer.com/album/732662201,https://music.apple.com/us/album/zero-gravity-blur-feat-justin-helmer-single/1804357208?uo=4,"deezer,itunes"
+Thunder Claps (feat. Justin Helmer),2025-03-31,1,single,199341583829,,,731383381,https://www.deezer.com/album/731383381,https://music.apple.com/us/album/thunder-claps-feat-justin-helmer-single/1803814046?uo=4,"deezer,itunes"
+Brain Flipped (feat. Justin Helmer),2025-03-31,1,single,199341178971,,,732127701,https://www.deezer.com/album/732127701,,deezer
+Retro Synthwave Crush,2025-03-30,1,single,199341040919,,,732413521,https://www.deezer.com/album/732413521,,deezer
+Bleeding Out (feat. Justin Helmer),2025-03-30,1,single,199341278695,,,731851821,https://www.deezer.com/album/731851821,https://music.apple.com/us/album/bleeding-out-feat-justin-helmer-single/1803991246?uo=4,"deezer,itunes"
+Wildfire Hearts,2025-03-29,1,single,199341217670,,,731940121,https://www.deezer.com/album/731940121,https://music.apple.com/us/album/wildfire-hearts-single/1804023020?uo=4,"deezer,itunes"
+Midnite Mirage,2025-03-28,1,single,199341212309,,,731954801,https://www.deezer.com/album/731954801,https://music.apple.com/us/album/midnite-mirage-single/1804032390?uo=4,"deezer,itunes"
+Never Thought I&#x27;d Come Up Hits Vol 1,2022-09-18,9,,,7MQgxYjRAlOe9TRDkRrEDW,https://open.spotify.com/album/7MQgxYjRAlOe9TRDkRrEDW,,,,spotify

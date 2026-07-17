@@ -22,6 +22,8 @@ DOCS = STACK / "docs"
 SPOTIFY_ARTIST = "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S"
 FFM = "https://ffm.to/eovnvo9"
 ETERNAL = "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+YOUTUBE_MUSIC = "https://music.youtube.com/@Excavationpro"
+DEEZER_ARTIST = "https://www.deezer.com/artist/146004952"
 # Official Rumble live radio (publisher pub=1th29y)
 RUMBLE_RADIO = (
     "https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html"
@@ -413,6 +415,17 @@ def build() -> dict:
                 }
                 entries = by_title[best]
 
+        # Prefer local-master rows when ranking listen links / flags
+        if entries:
+            entries = sorted(
+                entries,
+                key=lambda e: (
+                    0 if e.get("local_path") else 1,
+                    0 if e.get("spotify_url") or e.get("spotify_track_id") else 1,
+                    0 if e.get("deezer_url") else 1,
+                ),
+            )
+
         restore_isrc = r.get("isrc")
         local_isrcs = list({e.get("isrc") for e in entries if e.get("isrc")})
         vault_isrcs = list({e.get("vault_isrc") for e in entries if e.get("vault_isrc")})
@@ -426,10 +439,18 @@ def build() -> dict:
         has_isrc = bool(isrcs)
         has_local = any(e.get("local_path") for e in entries)
         has_spotify = any(
-            e.get("spotify_url") or e.get("spotify_track_id") or e.get("spotify_album_id") for e in entries
+            e.get("spotify_url")
+            or e.get("spotify_track_id")
+            or e.get("spotify_album_id")
+            or e.get("deezer_url")
+            for e in entries
         )
         spotify_url = next(
-            (e.get("spotify_url") for e in entries if e.get("spotify_url")),
+            (
+                e.get("spotify_url") or e.get("deezer_url")
+                for e in entries
+                if e.get("spotify_url") or e.get("deezer_url")
+            ),
             None,
         )
         local_files = list({e.get("filename") for e in entries if e.get("filename")})[:5]
@@ -722,13 +743,15 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
 <body>
 <header>
   <h1>Excavationpro Music Catalog</h1>
-  <p class="sub">Public live catalog &amp; immutable music ledger — searchable releases, ISRC codes, Spotify albums, and 24/7 radio. Anchored on the LYGO / Eternal Haven lattice. Expandable as the collection grows.</p>
+  <p class="sub">Public live catalog &amp; immutable music ledger — full streaming discography (Deezer / YouTube Music / Spotify), ISRC codes, and 24/7 radio. Anchored on the LYGO / Eternal Haven lattice.</p>
   <div class="nav">
     <a href="eternalhaven.html">← Eternal Haven</a>
     <a href="eternalhaven.html#music-hub">Music Hub</a>
     <a href="eternalhaven.html#lattice">Immutable Lattice</a>
     <a href="https://deepseekoracle.github.io/lygo-protocol-stack/" target="_blank" rel="noopener">LYGO Stack</a>
     <a href="{SPOTIFY_ARTIST}" target="_blank" rel="noopener">Spotify</a>
+    <a href="{YOUTUBE_MUSIC}" target="_blank" rel="noopener">YouTube Music</a>
+    <a href="{DEEZER_ARTIST}" target="_blank" rel="noopener">Deezer</a>
     <a href="{FFM}" target="_blank" rel="noopener">Feature.fm</a>
     <a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">Live Radio</a>
   </div>
@@ -751,7 +774,7 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
   <button type="button" class="active" data-tab="overview">Live Feed</button>
   <button type="button" data-tab="catalog">Release Index</button>
   <button type="button" data-tab="isrc">ISRC Ledger</button>
-  <button type="button" data-tab="spotify">Spotify Albums</button>
+  <button type="button" data-tab="spotify">All Albums</button>
   <button type="button" data-tab="ledger">Immutable Ledger</button>
 </div>
 
@@ -890,7 +913,7 @@ function renderStats() {{
     ['Vault ISRCs', vault],
     ['Need re-download', gap],
     ['No trace yet', unknown],
-    ['Spotify albums', s.spotify_albums || 0],
+    ['Streaming albums', s.streaming_albums_total || s.spotify_albums || 0],
   ].map(([l,v]) => `<div class="card"><b>${{v}}</b><span>${{l}}</span></div>`).join('');
 }}
 
@@ -941,14 +964,22 @@ function renderIsrc() {{
 }}
 
 function renderSpotify() {{
-  const rows = (DATA.spotify_albums||[]).filter(a => rowMatch([a.title,a.upc,a.date_published].join(' ')));
-  $('#tb-spotify').innerHTML = rows.map(a => `
+  const rows = (DATA.spotify_albums||[]).filter(a => rowMatch([a.title,a.upc,a.date_published,a.album_type,(a.sources||[]).join(' ')].join(' ')));
+  rows.sort((a,b) => (b.date_published||'').localeCompare(a.date_published||'') || (a.title||'').localeCompare(b.title||''));
+  $('#tb-spotify').innerHTML = rows.map(a => {{
+    const links = [];
+    if (a.spotify_url && String(a.spotify_url).includes('spotify.com')) links.push(`<a href="${{a.spotify_url}}" target="_blank" rel="noopener">Spotify</a>`);
+    if (a.deezer_url) links.push(`<a href="${{a.deezer_url}}" target="_blank" rel="noopener">Deezer</a>`);
+    if (a.spotify_url && !String(a.spotify_url).includes('spotify.com') && !a.deezer_url) links.push(`<a href="${{a.spotify_url}}" target="_blank" rel="noopener">Listen</a>`);
+    const type = a.album_type ? `<span class="badge catalog">${{esc(a.album_type)}}</span>` : '';
+    return `
     <tr>
-      <td>${{esc(a.title||'')}}</td>
+      <td>${{esc(a.title||'')}} ${{type}}</td>
       <td>${{a.track_count||0}}</td>
       <td>${{esc(a.date_published||'')}}</td>
-      <td>${{a.spotify_url ? `<a href="${{a.spotify_url}}" target="_blank" rel="noopener">Open album</a>` : '—'}}</td>
-    </tr>`).join('');
+      <td>${{links.join(' · ') || '—'}}</td>
+    </tr>`;
+  }}).join('') || '<tr><td colspan="4">No albums</td></tr>';
 }}
 
 function renderLedger() {{
