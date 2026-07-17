@@ -26,17 +26,18 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
-# ISRC: 2 country + 3 registrant + 2 year + 5 designation (12 alnum, often with dashes)
+# DistroKid / Excavationpro real codes only (avoid UUID/hex/pexels false positives)
+# Compact 12-char: QZ + 10 alnum, or QM42K + 7 digits
 ISRC_RE = re.compile(
-    r"(?i)\b("
-    r"[A-Z]{2}-?[A-Z0-9]{3}-?\d{2}-?\d{5}"  # standard
-    r"|QZ[A-Z0-9]{2}\d{8}"  # DistroKid-style compact QZ…
-    r"|US[A-Z]{3}\d{7,8}"
-    r")\b"
+    r"(?i)(?:^|[\s_\-])("
+    r"QZ[A-Z0-9]{10}"
+    r"|QM42K\d{7}"
+    r")(?:$|[\s_\.\-])"
 )
 # UPC/EAN 12–13 digits (avoid bare years)
 UPC_RE = re.compile(r"\b(\d{12,13})\b")
 AUDIO_EXT = {".mp3", ".wav", ".flac", ".m4a", ".aiff", ".aif", ".ogg", ".aac", ".wma"}
+JUNK_MEDIA = re.compile(r"(?i)(grok-video|canvas-video|pexels|\.jpg|\.png|\.mp4|\.webm|\.gif)")
 
 SPOTIFY_ARTIST_ID = "6CkZ4bN2xu3WRKbjEL3u2S"
 ARTIST_NAME = "Excavationpro"
@@ -122,12 +123,12 @@ def scan_filesystem(
                     return rows, dict(stats)
                 ext = Path(fn).suffix.lower()
                 is_audio = ext in AUDIO_EXT
-                if not is_audio and "isrc" not in fn.lower() and not ISRC_RE.search(fn):
-                    # still catch non-audio manifests
-                    if not any(k in fn.lower() for k in ("distrokid", "upc", "catalog", "release")):
-                        continue
+                if not is_audio:
+                    continue  # never scrape ISRCs from images/videos
+                if JUNK_MEDIA.search(fn) or JUNK_MEDIA.search(dirpath):
+                    continue
                 full = str(Path(dirpath) / fn)
-                isrcs = extract_isrcs(fn) or extract_isrcs(full)
+                isrcs = extract_isrcs(fn)
                 upcs = extract_upcs(fn)
                 if not is_audio and not isrcs and not upcs:
                     continue

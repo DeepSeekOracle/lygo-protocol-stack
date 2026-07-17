@@ -1,9 +1,9 @@
 # Excavationpro Music Kernel Egg
 
 **egg_id:** excavationpro-music-catalog-v1  
-**ISRCs:** 727  
-**content_sha256:** `c59d2dac8c4f3534ab90bb1a0ddf4e137b03e6d5ec51d630794d2b8ca2de42bf`  
-**size:** 43847 bytes
+**ISRCs:** 718  
+**content_sha256:** `a2cda0c3e292ed1167c8e6be21524fca103c55b04a7fdba98c3610c9d494528c`  
+**size:** 42536 bytes
 
 ## Expand workflow
 1. Drop masters with ISRC in filename under `J:\ALL SOUND FILES\...\0 DONE ALBUM` (or any scanned root)
