@@ -1,14 +1,14 @@
 {
   "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LEDGER-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-07-17T03:52:16.445374+00:00",
+  "generated_at": "2026-07-17T03:55:16.251672+00:00",
   "steward": "Justin Helmer / Lightfather / Excavationpro",
   "live_links": {
     "spotify_artist": "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S",
     "feature_fm": "https://ffm.to/eovnvo9",
     "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
-    "rumble_live_radio": "https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp",
-    "rumble_embed": "https://rumble.com/embed/v79wjai/?pub=1th29y",
+    "rumble_live_radio": "https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp",
+    "rumble_embed": "https://rumble.com/embed/v7anxls/?pub=1th29y",
     "rumble_channel": "https://rumble.com/user/Excavationpro",
     "lygo_stack_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
     "public_link_archive": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
@@ -112,8 +112,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Art_Of_The_Ache.mp3",
-        "Art Of The Ache.wav"
+        "Art Of The Ache.wav",
+        "Art_Of_The_Ache.mp3"
       ],
       "entry_count": 2
     },
@@ -492,8 +492,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Chrome_on_the_Concrete.mp3",
-        "Chrome on the Concrete.wav"
+        "Chrome on the Concrete.wav",
+        "Chrome_on_the_Concrete.mp3"
       ],
       "entry_count": 2
     },
@@ -715,8 +715,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Dancing Ghosts.wav",
-        "Dancing Ghosts.mp3"
+        "Dancing Ghosts.mp3",
+        "Dancing Ghosts.wav"
       ],
       "entry_count": 2
     },
@@ -1002,8 +1002,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Flying High.wav",
-        "Flying High QZMHL2208044.wav"
+        "Flying High QZMHL2208044.wav",
+        "Flying High.wav"
       ],
       "entry_count": 2
     },
@@ -1019,8 +1019,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Forty Winters.wav",
-        "Forty_Winters.mp3"
+        "Forty_Winters.mp3",
+        "Forty Winters.wav"
       ],
       "entry_count": 3
     },
@@ -1204,8 +1204,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Gravity_Release.mp3",
-        "Gravity Release.wav"
+        "Gravity Release.wav",
+        "Gravity_Release.mp3"
       ],
       "entry_count": 2
     },
@@ -1358,8 +1358,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "I Look Better.wav",
-        "I Look Better.mp3"
+        "I Look Better.mp3",
+        "I Look Better.wav"
       ],
       "entry_count": 2
     },
@@ -1643,8 +1643,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Learning_How_To_Leave.mp3",
-        "Learning How to Leave.wav"
+        "Learning How to Leave.wav",
+        "Learning_How_To_Leave.mp3"
       ],
       "entry_count": 2
     },
@@ -1722,8 +1722,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Load Bearing Walls.wav",
-        "Load_Bearing_Walls.mp3"
+        "Load_Bearing_Walls.mp3",
+        "Load Bearing Walls.wav"
       ],
       "entry_count": 2
     },
@@ -1758,8 +1758,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Lunar Echo QZK6L2558644.wav",
-        "Lunar Echo.wav"
+        "Lunar Echo.wav",
+        "Lunar Echo QZK6L2558644.wav"
       ],
       "entry_count": 3
     },
@@ -1775,8 +1775,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Married_to_the_Silence.mp3",
-        "Married to the  Silence.wav"
+        "Married to the  Silence.wav",
+        "Married_to_the_Silence.mp3"
       ],
       "entry_count": 2
     },
@@ -2227,8 +2227,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Punching Holes in the Sky.wav",
-        "Punching_Holes_in_the_Sky.mp3"
+        "Punching_Holes_in_the_Sky.mp3",
+        "Punching Holes in the Sky.wav"
       ],
       "entry_count": 2
     },
@@ -2262,8 +2262,8 @@
       ],
       "spotify_url": null,
       "local_files": [
-        "Quantum Heartbeat QZK6J2554708.wav",
-        "Quantum Heartbeat.wav"
+        "Quantum Heartbeat.wav",
+        "Quantum Heartbeat QZK6J2554708.wav"
       ],
       "entry_count": 3
     },
@@ -2714,8 +2714,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "The_Sovereign_Architect.mp3",
-        "The Sovereign Architect.wav"
+        "The Sovereign Architect.wav",
+        "The_Sovereign_Architect.mp3"
       ],
       "entry_count": 2
     },
@@ -2795,8 +2795,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Standing_in_the_Open.mp3",
-        "Standing in the Open.wav"
+        "Standing in the Open.wav",
+        "Standing_in_the_Open.mp3"
       ],
       "entry_count": 2
     },
@@ -2978,8 +2978,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Talk to Shadows.wav",
-        "Talk_to_Shadows.mp3"
+        "Talk_to_Shadows.mp3",
+        "Talk to Shadows.wav"
       ],
       "entry_count": 2
     },
@@ -3084,8 +3084,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "Velocity_is_Ours.mp3",
-        "Velocity is Ours.wav"
+        "Velocity is Ours.wav",
+        "Velocity_is_Ours.mp3"
       ],
       "entry_count": 2
     },
@@ -3243,8 +3243,8 @@
       "isrcs": [],
       "spotify_url": null,
       "local_files": [
-        "West_Coast_Ghost.mp3",
-        "West Coast Ghost.wav"
+        "West Coast Ghost.wav",
+        "West_Coast_Ghost.mp3"
       ],
       "entry_count": 2
     },

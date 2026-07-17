@@ -22,12 +22,13 @@ DOCS = STACK / "docs"
 SPOTIFY_ARTIST = "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S"
 FFM = "https://ffm.to/eovnvo9"
 ETERNAL = "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
-# Watch page + working embed (same as eternalhaven.html live radio)
+# Official Rumble live radio (publisher pub=1th29y)
 RUMBLE_RADIO = (
-    "https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html"
+    "https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html"
     "?mref=1th29y&mc=2p3fp"
 )
-RUMBLE_EMBED = "https://rumble.com/embed/v79wjai/?pub=1th29y"
+RUMBLE_EMBED = "https://rumble.com/embed/v7anxls/?pub=1th29y"
+RUMBLE_VIDEO_ID = "v7anxls"
 RUMBLE_CHANNEL = "https://rumble.com/user/Excavationpro"
 OG_IMAGE = "https://deepseekoracle.github.io/Excavationpro/assets/og-haven-star-chart.jpg"
 CANONICAL = "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
@@ -451,21 +452,39 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
     </div>
     <div class="card" style="margin-bottom:16px;">
       <h3 style="margin:0 0 10px;color:var(--gold);">Live stream — 24/7 radio</h3>
-      <div class="embed-wrap">
-        <iframe
-          src="{RUMBLE_EMBED}"
-          title="Excavationpro 24/7 Live Radio on Rumble"
-          allowfullscreen
-          allow="autoplay; encrypted-media; picture-in-picture"
-          loading="lazy"
-          referrerpolicy="origin-when-cross-origin"></iframe>
+      <!-- Official Rumble monetized embed: video v7anxls / pub 1th29y -->
+      <div class="embed-wrap" id="rumble_live_wrap">
+        <div id="rumble_v7anxls" style="width:100%;height:100%;min-height:280px;"></div>
       </div>
       <p class="sub" style="margin-top:10px;">
-        <a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">Open on Rumble</a>
+        <a href="{RUMBLE_RADIO}" target="_blank" rel="noopener">Open on Rumble (monetized)</a>
         · <a href="{RUMBLE_EMBED}" target="_blank" rel="noopener">Pop-out player</a>
         · <a href="{RUMBLE_CHANNEL}" target="_blank" rel="noopener">@Excavationpro channel</a>
       </p>
     </div>
+    <script src="https://rumble.com/embedJS/u1th29y"></script>
+    <script>
+    (function() {{
+      function playRumble() {{
+        if (typeof Rumble === "function") {{
+          try {{
+            Rumble("play", {{"video":"v7anxls","div":"rumble_v7anxls"}});
+            return;
+          }} catch (e) {{}}
+        }}
+        var w = document.getElementById("rumble_live_wrap");
+        if (w) {{
+          w.innerHTML = '<iframe src="https://rumble.com/embed/v7anxls/?pub=1th29y" title="Excavationpro 24/7 Live Radio" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" style="position:absolute;inset:0;width:100%;height:100%;border:0;" loading="lazy" referrerpolicy="origin-when-cross-origin"><\\/iframe>';
+        }}
+      }}
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", playRumble);
+      else playRumble();
+      setTimeout(function() {{
+        var el = document.getElementById("rumble_v7anxls");
+        if (el && !el.querySelector("iframe") && !el.querySelector("video") && el.childElementCount === 0) playRumble();
+      }}, 2500);
+    }})();
+    </script>
     <div class="card">
       <h3 style="margin:0 0 8px;color:var(--gold);">About this ledger</h3>
       <ul class="sub" style="margin:0;padding-left:18px;line-height:1.7;">
