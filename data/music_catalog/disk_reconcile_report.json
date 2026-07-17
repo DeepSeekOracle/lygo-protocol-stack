@@ -1,0 +1,4025 @@
+{
+  "done_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM",
+  "home_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME",
+  "total_audio": 1853,
+  "unique_disk_titles": 1094,
+  "unique_disk_isrcs": 716,
+  "restore_titles": 762,
+  "exact": 25,
+  "fuzzy": 128,
+  "isrc": 0,
+  "missing": 609,
+  "coverage_pct": 20.08,
+  "missing_titles": [
+    {
+      "title": "Plastic Altar",
+      "isrc": "QT6EW2634453",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Convenience is the Collar",
+      "isrc": "QT6EW2634454",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Feeding the Machine",
+      "isrc": "QT6EW2634455",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Not A Moral Failure",
+      "isrc": "QT6EW2634456",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Seven Rotations",
+      "isrc": "QT6EW2634457",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Algorithms Greedy Grin",
+      "isrc": "QT6EW2634458",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Endless Ledger",
+      "isrc": "QT6EW2634459",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fortress Is Home",
+      "isrc": "QT6EW2634460",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Permanent Text",
+      "isrc": "QT6EW2634461",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Rage They Sell",
+      "isrc": "QT6EW2634462",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Porch Lights Died",
+      "isrc": "QT6EW2634463",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "PROTOCOL ZERO",
+      "isrc": "QT6EG2627789",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Plan is the Weapon",
+      "isrc": "QT6EG2627790",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Mercy Of The Blade",
+      "isrc": "QT6EG2627791",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "A Estrat\u00e9gia do Cora\u00e7\u00e3o",
+      "isrc": "QT6EG2627792",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Calculated Breath",
+      "isrc": "QT6EG2627793",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Before The Blade",
+      "isrc": "QT6EG2627794",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Unbreakable Keep",
+      "isrc": "QT6EG2627795",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Thousand Pounds of Pressure",
+      "isrc": "QT6EG2627797",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Hairline Fracture",
+      "isrc": "QT6EG2627798",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Straight Line Was The Lie",
+      "isrc": "QT6EG2627799",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Terrain Never Lies",
+      "isrc": "QT6EG2627800",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "O trono de barro",
+      "isrc": "QT6EG2627801",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ground Never Lies",
+      "isrc": "QT6EG2627802",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Burn The Boats",
+      "isrc": "QT6EG2627803",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Currency of Strife",
+      "isrc": "QT6EG2627804",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Beautiful Masks",
+      "isrc": "QT6EF2658109",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Concrete Lungs",
+      "isrc": "QT6EF2658110",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Dirty Dirt",
+      "isrc": "QT6EF2658111",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Parasitic Tugs",
+      "isrc": "QT6EF2658112",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Bronze Bedrock.",
+      "isrc": "QT6EF2644040",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Debt Kept",
+      "isrc": "QT6EF2644041",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Teeth In The Snow",
+      "isrc": "QT6EF2644042",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Predators Skin",
+      "isrc": "QT6EF2644043",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Feast of the Shadow",
+      "isrc": "QT6EF2644044",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "King of the Wreckage",
+      "isrc": "QT6EF2644045",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fire That Grows",
+      "isrc": "QT6ED2684499",
+      "date": "6/26/26 10:49 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Warning Bells",
+      "isrc": "QT6ED2618046",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Steel and Gravity (feat. Yuki Blade)",
+      "isrc": "QT6EB2624035",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Knife Handle (feat. Yuki Blade)",
+      "isrc": "QT6EB2624036",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Finish Line Silence (feat. Yuki Blade)",
+      "isrc": "QT6EB2624038",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Blade and the Anchor (feat. Yuki Blade)",
+      "isrc": "QT6EB2624039",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Corner to Hide (feat. Yuki Blade)",
+      "isrc": "QT6EB2624040",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Serum In The Veins (feat. Yuki Blade)",
+      "isrc": "QT6EB2624041",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Permanent Ledge (feat. Yuki Blade)",
+      "isrc": "QT6EB2624042",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Forged in Metal (feat. Yuki Blade)",
+      "isrc": "QT6EB2624043",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Carved Into Stone (feat. Choppa Tha Slayer)",
+      "isrc": "QT6EB2624044",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Chalk Line Winter (feat. Choppa Tha Slayer)",
+      "isrc": "QT6EB2624045",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Coldest_Kind (feat. Choppa Tha Slayer)",
+      "isrc": "QT6EB2624046",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Blade Mason (feat. Yuki Blade)",
+      "isrc": "QT6EB2624048",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Rhinestone Parade (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667910",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Lonely Light is Out (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667911",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Lipstick On The Kitchen Floor (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667912",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Permission To Fly (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667913",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crooked Little Smile (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667914",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Glue and Thread (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667915",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Quiet Gold (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667917",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Nashville (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667918",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Breath Taken (feat. Kenzie Jade)",
+      "isrc": "QT6EA2667919",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Challenger X",
+      "isrc": "QT3FA2673104",
+      "date": "6/7/26 10:58 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Waiting For You To Lie Down",
+      "isrc": "QT6E82611580",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Permanent Debt",
+      "isrc": "QT6E82611581",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "After the Claim",
+      "isrc": "QT6E82611584",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scars as Chapters",
+      "isrc": "QT6E82611585",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Exam",
+      "isrc": "QT6E82611586",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Pressure Is The Only Truth",
+      "isrc": "QT6E82611587",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Gravity Built On Sand",
+      "isrc": "QT6E82611588",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Splinter",
+      "isrc": "QT6E82611589",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Collector Is Here",
+      "isrc": "QT6E82611591",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Between the Dinner Plates",
+      "isrc": "QT6E82611592",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Wounds That Never Bleed",
+      "isrc": "QT6E82611593",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heavy Foot",
+      "isrc": "QT6E82607799",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Second Chair",
+      "isrc": "QT6E82607802",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Vacant Stare",
+      "isrc": "QT6E82607804",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scroll Past My Life",
+      "isrc": "QT6E82607806",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Nobody Sees",
+      "isrc": "QT6E82607808",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Breathing Vessels",
+      "isrc": "QT6E82607810",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heart Made of Wax",
+      "isrc": "QT6E82607811",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Not Your Prop",
+      "isrc": "QT6E82607812",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Silence Between The Plates",
+      "isrc": "QT6E82607813",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ice Fist",
+      "isrc": "QT6E82607814",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Void Is Awake",
+      "isrc": "QT6E82607815",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Hollow Stare",
+      "isrc": "QT6E82607816",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Liar in the Glass",
+      "isrc": "QT6E82607817",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Walls Talk Back",
+      "isrc": "QT6E82607818",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Concrete Crown",
+      "isrc": "QT6E82607819",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Passenger Seat",
+      "isrc": "QT6E82607820",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Pain In The Passenger Seat",
+      "isrc": "QT6E82607821",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Not Allowed To Be Mad",
+      "isrc": "QT6E82601402",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Unmoving Object",
+      "isrc": "QT6E82601403",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Stray on the Highway",
+      "isrc": "QT6E82601404",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Beneath Weight",
+      "isrc": "QT6E82601405",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Penthouse Logic",
+      "isrc": "QT6E82601407",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scroll Past the Year",
+      "isrc": "QT6E82601408",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ceiling Lake",
+      "isrc": "QT6E82601410",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Third Shift",
+      "isrc": "QT6E82601412",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Rich Enough for Now",
+      "isrc": "QT6E82601414",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Money Isn't Enough",
+      "isrc": "QT6E82601415",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Borrowed Crown",
+      "isrc": "QT6E82601416",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Reckoning Calls",
+      "isrc": "QT6E82601417",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Still On Top",
+      "isrc": "QT6E72650970",
+      "date": "6/19/26 10:37 AM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Light I Keep",
+      "isrc": "QT6E72608232",
+      "date": "6/18/26 7:59 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Edge of the Drop",
+      "isrc": "QT6E72605532",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crown From The Dirt",
+      "isrc": "QT6E72605535",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cost of the Climb",
+      "isrc": "QT6E72605537",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ashes of the Puppet",
+      "isrc": "QT6E72605538",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Architect of the Face",
+      "isrc": "QT6E72605539",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "River Inside",
+      "isrc": "QT6E72605540",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Weight of Staying",
+      "isrc": "QT6E72605542",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Counting To Ten",
+      "isrc": "QT6E72605543",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cold Curb",
+      "isrc": "QT6E62640722",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Account Closed",
+      "isrc": "QT6E62640724",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Glass Leash",
+      "isrc": "QT6E62640725",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Not Today Old Friend",
+      "isrc": "QT6E62640726",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Calculated Monster",
+      "isrc": "QT6E62640727",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Silence You Get",
+      "isrc": "QT6E62640729",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heavy Pour",
+      "isrc": "QT6E62640731",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Double Locked Door",
+      "isrc": "QT6E62640733",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Door I Closed",
+      "isrc": "QT6E62640734",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Zero",
+      "isrc": "QT6E62630234",
+      "date": "6/17/26 10:33 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fake Sky",
+      "isrc": "QT6E62630046",
+      "date": "6/17/26 9:41 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Vent",
+      "isrc": "QT6E62623762",
+      "date": "6/17/26 8:01 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Max Dose Hostile Panic",
+      "isrc": "QT6E52663824",
+      "date": "6/17/26 6:08 AM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cycle Breaks Here",
+      "isrc": "QT6E52647381",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Rental Heart",
+      "isrc": "QT6E52647387",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Bow Holds",
+      "isrc": "QT6E52647388",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Signature Mercy",
+      "isrc": "QT6E52647390",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Voice Hammer",
+      "isrc": "QT6E52647391",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Lost Key",
+      "isrc": "QT6E52647394",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Under Skin",
+      "isrc": "QT6E52647395",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Trauma Codex",
+      "isrc": "QT6E52647396",
+      "date": "6/16/26 10:25 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Wound Door",
+      "isrc": "QT6E52647397",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Soil Princess (Remix)",
+      "isrc": "QT3FH2693110",
+      "date": "6/16/26 3:46 AM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Grave is Permanent (Remix)",
+      "isrc": "QT3FH2693021",
+      "date": "6/16/26 3:37 AM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Drown The Golden Chambers (Remix)",
+      "isrc": "QT3FH2692895",
+      "date": "6/16/26 3:29 AM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Bribe the Reaper",
+      "isrc": "QT3FH2643734",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Soil Princes",
+      "isrc": "QT3FH2643735",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Rust Returns",
+      "isrc": "QT3FH2643737",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Drown the Golden Chambers",
+      "isrc": "QT3FH2643739",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Harvest Is Upon You",
+      "isrc": "QT3FH2643740",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Towers on Graves",
+      "isrc": "QT3FH2643741",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Dead Shall Stand",
+      "isrc": "QT3FH2643742",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Signature of Mercy",
+      "isrc": "QT3FH2643743",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Grave Is Permanent",
+      "isrc": "QT3FH2643744",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scribed Ledger",
+      "isrc": "QT3FH2643745",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sky Ledgers",
+      "isrc": "QT3FH2643746",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cornerstone Land",
+      "isrc": "QT3FH2643747",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Reaper Is The Word",
+      "isrc": "QT3FH2643748",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Court Will Hear",
+      "isrc": "QT3FH2643749",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Beyond Cage",
+      "isrc": "QT3FH2643752",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sealed Clay",
+      "isrc": "QT3FH2635934",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heavens Torn Open",
+      "isrc": "QT3FH2635937",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fracture Witness",
+      "isrc": "QT3FH2635938",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Unrelenting Law",
+      "isrc": "QT3FH2635939",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Measure Rod",
+      "isrc": "QT3FH2635940",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Shepherd Key",
+      "isrc": "QT3FH2635941",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Shepherd Judgment",
+      "isrc": "QT3FH2635942",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Between The Claw",
+      "isrc": "QT3FH2635943",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Walk The Center",
+      "isrc": "QT3FH2635944",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Kingdom Made on Bone",
+      "isrc": "QT3FH2635945",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Written Fire",
+      "isrc": "QT3FH2635946",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Stone Names",
+      "isrc": "QT3FH2635947",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sealed Land",
+      "isrc": "QT3FH2635949",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "High Mason",
+      "isrc": "QT3FH2635950",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ledger Is Closed",
+      "isrc": "QT3FH2635953",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cosmic Clock",
+      "isrc": "QT3FG2671199",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Appointed Breath",
+      "isrc": "QT3FG2671201",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sun Keeps The Decree",
+      "isrc": "QT3FG2671202",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cosmos is The Urn",
+      "isrc": "QT3FG2671205",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Unrelenting Eye",
+      "isrc": "QT3FG2671207",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Celestial Oath",
+      "isrc": "QT3FG2671208",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Weight of Continents",
+      "isrc": "QT3FG2671209",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Four Winds",
+      "isrc": "QT3FG2671210",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Tectonic Ledger",
+      "isrc": "QT3FG2671211",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Western Gate Mandate",
+      "isrc": "QT3FG2671212",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Moon Cycle",
+      "isrc": "QT3FG2671213",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Mathematical Flame",
+      "isrc": "QT3FG2671214",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heavens Never Lack",
+      "isrc": "QT3FG2671215",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Beyond Sun Gates",
+      "isrc": "QT3FG2671216",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cosmic Secrets",
+      "isrc": "QT3FF2623715",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Treasury Of Pain",
+      "isrc": "QT3FF2623716",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Shiny Host",
+      "isrc": "QT3FF2623717",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Pillars of the Elect",
+      "isrc": "QT3FF2623718",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Throne of Worlds",
+      "isrc": "QT3FF2623719",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Deep Binding",
+      "isrc": "QT3FF2623720",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sentence of the Fallen",
+      "isrc": "QT3FF2623721",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "God Blade",
+      "isrc": "QT3FF2623722",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Seal",
+      "isrc": "QT3FF2623723",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Elect One Reigns",
+      "isrc": "QT3FF2623725",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Watchers Grave",
+      "isrc": "QT3FF2623726",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Mouth to Plea",
+      "isrc": "QT3FF2623727",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crown Refractive",
+      "isrc": "QT3FF2619464",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Three Coils Anchor The Soil",
+      "isrc": "QT3FF2619466",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Seven Crowns One Ground",
+      "isrc": "QT3FF2619467",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Blue Light Root",
+      "isrc": "QT3FF2619468",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Soil Remembers",
+      "isrc": "QT3FF2619469",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Red Petal Weight",
+      "isrc": "QT3FF2619470",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Tyrant Tomb",
+      "isrc": "QT3FE2656286",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Weight of Sinking Kings",
+      "isrc": "QT3FE2656287",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fourteen Seals of Light",
+      "isrc": "QT3FE2656288",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Masters of Light",
+      "isrc": "QT3FE2656289",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Law Written in Fire",
+      "isrc": "QT3FE2656290",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Master Seat",
+      "isrc": "QT3FE2656291",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Thoth Threshold",
+      "isrc": "QT3FE2656293",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Governor of Years",
+      "isrc": "QT3FE2656296",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crown Became A Star",
+      "isrc": "QT3FE2656297",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Pattern Set Free",
+      "isrc": "QT3FE2656298",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Unlidded Eye",
+      "isrc": "QT3FE2656299",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "The Return",
+      "isrc": "QT3FE2656301",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Throne of Amenti",
+      "isrc": "QT3FE2656302",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Stone and Spine",
+      "isrc": "QT3FE2656303",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fire in the Spine",
+      "isrc": "QT3FE2656304",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Mortal Is Divine",
+      "isrc": "QT3FE2656305",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sun Rises",
+      "isrc": "QT3FE2656306",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scales Measure",
+      "isrc": "QT3FD2690874",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Chasm Widens",
+      "isrc": "QT3FD2690877",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Reckoning",
+      "isrc": "QT3FD2690878",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Great Divide",
+      "isrc": "QT3FD2690879",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Moon Gates",
+      "isrc": "QT3FD2690880",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Rising",
+      "isrc": "QT3FD2690881",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Iron Rod",
+      "isrc": "QT3FD2690882",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Valley of Power",
+      "isrc": "QT3FD2690883",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Seal Magic",
+      "isrc": "QT3FD2690884",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Elemental Judgement",
+      "isrc": "QT3FD2690886",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Separation",
+      "isrc": "QT3FD2690888",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Book of Light",
+      "isrc": "QT3FD2690889",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Garden of Souls Screwed (Remix)",
+      "isrc": "QT3FD2656451",
+      "date": "6/10/26 10:53 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Garden of Souls The Flood (Remix)",
+      "isrc": "QT3FD2650958",
+      "date": "6/10/26 8:25 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Day Won",
+      "isrc": "QT3FC2660971",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Seven Mountains",
+      "isrc": "QT3FC2660972",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Deepest Prison",
+      "isrc": "QT3FC2660973",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sentence of the Watchers",
+      "isrc": "QT3FC2660975",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Purification of the Earth",
+      "isrc": "QT3FC2660976",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Seven",
+      "isrc": "QT3FC2660980",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Garden of Souls",
+      "isrc": "QT3FC2660982",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Recorded in Stone",
+      "isrc": "QT3FC2660983",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fire Sun",
+      "isrc": "QT3FC2660984",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Seven Winds",
+      "isrc": "QT3FC2660985",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Valley of Kings",
+      "isrc": "QT3FC2660988",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Record Books",
+      "isrc": "QT3FC2660990",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Deepest Prison on Earth",
+      "isrc": "QT3FC2660991",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fragrant Trees",
+      "isrc": "QT3FC2660992",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Naming The Children",
+      "isrc": "QT3FC2660995",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Portal Ends",
+      "isrc": "QT3FC2660996",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Mountains of Metal",
+      "isrc": "QT3FC2660997",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Throne of Glory",
+      "isrc": "QT3FC2660998",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Judgement of Kings",
+      "isrc": "QT3FC2660999",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Four Faces of The Throne",
+      "isrc": "QT3FC2661001",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sea and Land",
+      "isrc": "QT3FC2661002",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Wisdom Revelation",
+      "isrc": "QT3FC2661003",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Inheritance of Lght",
+      "isrc": "QT3FC2661004",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Blessing and Curse",
+      "isrc": "QT3FC2636768",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Giants Inside",
+      "isrc": "QT3FC2636770",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Written Plea",
+      "isrc": "QT3FC2636771",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Binding",
+      "isrc": "QT3FC2636772",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cosmic Tour",
+      "isrc": "QT3FC2636773",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Record of the Fallen",
+      "isrc": "QT3FC2636774",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Voiceless Witness",
+      "isrc": "QT3FC2636775",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Four Who Stood",
+      "isrc": "QT3FC2636776",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Flood Decree",
+      "isrc": "QT3FC2636777",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "They Came From The Sky",
+      "isrc": "QT3FB2655049",
+      "date": "6/8/26 7:46 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Prayer for the Lost",
+      "isrc": "QT3FB2655050",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Earth Capsule",
+      "isrc": "QT3FB2655051",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Death Trip",
+      "isrc": "QT3FB2655052",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heretic",
+      "isrc": "QT3FB2655053",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Payment is Due",
+      "isrc": "QT3FB2655055",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Truth Times Light",
+      "isrc": "QT3FB2655056",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Dawn Before Judgement",
+      "isrc": "QT3FB2655058",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "New Locks On The Box",
+      "isrc": "QT3FB2655059",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Trumpets of War",
+      "isrc": "QT3FA2678937",
+      "date": "6/8/26 2:27 AM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Erasures With Tracers",
+      "isrc": "QT3FA2665566",
+      "date": "6/7/26 9:36 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Truth Destroys Them",
+      "isrc": "QT3FA2652145",
+      "date": "6/7/26 7:05 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Wound is Real",
+      "isrc": "QT6EA2632493",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Midnight Slayer",
+      "isrc": "QT6EA2632494",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Blade in the Murk",
+      "isrc": "QT6EA2632495",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Twin Blade",
+      "isrc": "QT6EA2632496",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sidewalk Scripture",
+      "isrc": "QT6EA2632497",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Equattion",
+      "isrc": "QT6EA2632498",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Speed Cuts",
+      "isrc": "QT6EA2632499",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "High Heel",
+      "isrc": "QT6EA2632500",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crew is the Cure",
+      "isrc": "QT6EA2632501",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Bill Came Due",
+      "isrc": "QT6EA2632502",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Truth Trenching",
+      "isrc": "QT6EA2632505",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Korean Angel",
+      "isrc": "QT6EA2632508",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Southside Engine Shrine",
+      "isrc": "QT6EA2632509",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Lethal Cocktail",
+      "isrc": "QT6EA2632510",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Fading Away",
+      "isrc": "QT6E92656103",
+      "date": "6/21/26 10:10 PM",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Plan They Mocked",
+      "isrc": "QT6E92639254",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Glow Below",
+      "isrc": "QT6E92639255",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Book is Finished",
+      "isrc": "QT6E92639256",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Mouthful of Wool",
+      "isrc": "QT6E92639258",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Trust In The Tide",
+      "isrc": "QT6E92639259",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Single Cell",
+      "isrc": "QT6E92639261",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Frame",
+      "isrc": "QT6E92639265",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Final Frame Taken",
+      "isrc": "QT6E92639266",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Only Thing That Lasts",
+      "isrc": "QT6E92639267",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sidewalk Crown",
+      "isrc": "QT6E92639270",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Sidewalks Wear Crowns",
+      "isrc": "QT6E92639271",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Lightfather Breathes",
+      "isrc": "QT6E92639272",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Lightfather Breathes Again",
+      "isrc": "QT6E92639273",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Where The Light Remains",
+      "isrc": "QT6E92639274",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Cages for the Blind",
+      "isrc": "QT6E92639275",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Chopper on the block",
+      "isrc": "QT6E82677569",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Autopsy Session",
+      "isrc": "QT6E82677570",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Coldest Throne",
+      "isrc": "QT6E82677571",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Permafrost Fortress",
+      "isrc": "QT6E82677572",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Smile Last Week",
+      "isrc": "QT6E82677574",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Left on Read",
+      "isrc": "QT6E82677575",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Guest in the Wall",
+      "isrc": "QT6E82677576",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crown And The Ladder",
+      "isrc": "QT6E82677577",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ramen and Chains",
+      "isrc": "QT6E82677578",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "No Loud Talk",
+      "isrc": "QT6E82677579",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Every Shadow A Knife",
+      "isrc": "QT6E82677580",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Microscopic Circle",
+      "isrc": "QT6E82677581",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scars At The Table",
+      "isrc": "QT6E82677582",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Crowns From the Dirt",
+      "isrc": "QT6E82677583",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Heavy World",
+      "isrc": "QT6E82677585",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Traitors Never Win",
+      "isrc": "QT6E82677587",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Stories In Blood",
+      "isrc": "QT6E82677588",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Scars Painted on Cages",
+      "isrc": "QT6E82677589",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Strong Grip",
+      "isrc": "QT6E82661616",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Punching The Cage",
+      "isrc": "QT6E82661617",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Mortar and Stone",
+      "isrc": "QT6E82661618",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Dirt of the Plan",
+      "isrc": "QT6E82661619",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Losing Grip",
+      "isrc": "QT6E82661620",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Still Breathing",
+      "isrc": "QT6E82661621",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "You Passed",
+      "isrc": "QT6E82661622",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Saw The Knife",
+      "isrc": "QT6E82661625",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Ashes on the Knife",
+      "isrc": "QT6E82661626",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Souvenirs of Fear",
+      "isrc": "QT6E82661627",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Gravity of the Seat",
+      "isrc": "QT6E82661629",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Statue of What Used to Be",
+      "isrc": "QT6E82661630",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Pilot in the Riot",
+      "isrc": "QT6E82661631",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Clockwork Cage",
+      "isrc": "QT6E82661632",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Drifting",
+      "isrc": "QT6E82661634",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "Blood On My Lip",
+      "isrc": "QT6E82661635",
+      "date": "",
+      "source": "distrokid_vault"
+    },
+    {
+      "title": "1200 Blueprints",
+      "isrc": null,
+      "date": "4/5/26 2:23 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "8 Billion",
+      "isrc": null,
+      "date": "4/29/26 11:29 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "A Thousand Different Ways",
+      "isrc": null,
+      "date": "3/31/26 5:07 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Afterlife Light",
+      "isrc": null,
+      "date": "4/9/26 3:14 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Aftermath",
+      "isrc": null,
+      "date": "5/25/26 9:15 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Algorithm of Anarchy",
+      "isrc": null,
+      "date": "4/4/25 2:23 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Almost Right",
+      "isrc": null,
+      "date": "5/23/26 2:53 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Excavationpro",
+      "isrc": null,
+      "date": "4/7/26 9:28 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Art of War Codex",
+      "isrc": null,
+      "date": "6/30/26 1:14 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ascension Field A9",
+      "isrc": null,
+      "date": "7/21/25 2:09 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Aura Debt",
+      "isrc": null,
+      "date": "4/9/26 12:10 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Author of My Wreck",
+      "isrc": null,
+      "date": "4/21/26 3:10 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Basement Architect",
+      "isrc": null,
+      "date": "5/24/26 10:32 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Battle Arena First Blood",
+      "isrc": null,
+      "date": "5/18/26 9:52 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Beautiful Theft",
+      "isrc": null,
+      "date": "4/17/26 11:30 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Before Sunrise",
+      "isrc": null,
+      "date": "4/4/26 12:17 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Beneath What They Believe",
+      "isrc": null,
+      "date": "3/31/26 10:14 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Bites The Gloves",
+      "isrc": null,
+      "date": "5/12/26 6:32 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Blade Dark Light Arc",
+      "isrc": null,
+      "date": "4/13/26 6:48 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Bleeding in the Shadows (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "5/14/25 4:51 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Blew it",
+      "isrc": null,
+      "date": "1/26/26 11:16 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Blood Bath",
+      "isrc": null,
+      "date": "3/9/26 9:57 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Blood Sucker",
+      "isrc": null,
+      "date": "5/9/26 6:28 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Bloody Knuckle",
+      "isrc": null,
+      "date": "7/4/25 7:04 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Bone Grit and Wire (feat. UKCraka)",
+      "isrc": null,
+      "date": "3/31/26 12:24 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Braiding the Lead",
+      "isrc": null,
+      "date": "4/3/26 9:04 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Breaking Through The Dawn",
+      "isrc": null,
+      "date": "3/30/26 12:47 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Built for the Rain",
+      "isrc": null,
+      "date": "4/8/26 5:31 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Burn Out The Marrow",
+      "isrc": null,
+      "date": "4/3/26 10:58 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Burning Eyes",
+      "isrc": null,
+      "date": "6/2/25 12:41 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Carbon Steel Shell",
+      "isrc": null,
+      "date": "4/5/26 2:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Carving Names into Studs",
+      "isrc": null,
+      "date": "4/5/26 9:47 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ceiling Thinking",
+      "isrc": null,
+      "date": "4/13/26 8:45 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Christos Ricochet Synergy",
+      "isrc": null,
+      "date": "7/9/25 8:22 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Chrome on the Concrete",
+      "isrc": null,
+      "date": "4/5/26 5:45 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Chronic Pain",
+      "isrc": null,
+      "date": "4/14/26 8:51 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cipher of the Nine",
+      "isrc": null,
+      "date": "5/12/25 12:56 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Circle in the Knot",
+      "isrc": null,
+      "date": "4/4/26 4:01 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Claude Code Breach",
+      "isrc": null,
+      "date": "4/1/26 7:45 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Claustrophobic",
+      "isrc": null,
+      "date": "6/5/26 4:53 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Clout is a Coffin",
+      "isrc": null,
+      "date": "4/2/26 7:11 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Coffin to a Comet",
+      "isrc": null,
+      "date": "4/8/26 7:36 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cold Asphalt Breath",
+      "isrc": null,
+      "date": "4/24/26 4:36 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cold Fusion",
+      "isrc": null,
+      "date": "4/2/26 9:30 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cold Steel Fusion",
+      "isrc": null,
+      "date": "4/5/26 6:46 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Concrete Karma",
+      "isrc": null,
+      "date": "4/5/26 1:59 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Concrete Psalms",
+      "isrc": null,
+      "date": "6/27/25 3:35 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Concrete Veins",
+      "isrc": null,
+      "date": "3/29/26 1:14 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Copper Into Gold",
+      "isrc": null,
+      "date": "4/3/26 1:50 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cosmic Nightdrive",
+      "isrc": null,
+      "date": "4/5/25 8:17 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Country Joy Ride",
+      "isrc": null,
+      "date": "5/16/25 3:03 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cracks (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "3/24/25 11:59 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Creeping After Midnight",
+      "isrc": null,
+      "date": "7/2/25 9:11 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Critical Failure",
+      "isrc": null,
+      "date": "4/17/26 8:43 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cryptic Vow (feat. Mych Mych)",
+      "isrc": null,
+      "date": "9/3/25 9:07 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Curb Stomping Reality",
+      "isrc": null,
+      "date": "6/6/26 6:23 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Currency of Air",
+      "isrc": null,
+      "date": "4/6/26 11:26 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Cut You Deep (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "5/4/25 1:08 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Daggers in the Handshake",
+      "isrc": null,
+      "date": "5/1/26 4:25 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dancing Hearts",
+      "isrc": null,
+      "date": "5/17/25 6:16 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dark Room",
+      "isrc": null,
+      "date": "4/9/26 1:27 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dashboard Glow",
+      "isrc": null,
+      "date": "4/4/26 4:10 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dawn of Man",
+      "isrc": null,
+      "date": "6/3/26 6:20 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dawn of Time",
+      "isrc": null,
+      "date": "6/5/26 12:40 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dead Man Switched",
+      "isrc": null,
+      "date": "8/11/25 12:14 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Degrees in Pretend",
+      "isrc": null,
+      "date": "4/19/26 1:24 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Digital Armageddon",
+      "isrc": null,
+      "date": "4/15/25 2:05 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Disconnection Codex",
+      "isrc": null,
+      "date": "7/13/26 8:25 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Dome Destruction Beat by Keanu aer",
+      "isrc": null,
+      "date": "7/3/25 6:58 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Doom Nightmare (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "5/14/25 6:55 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Doom Nightmare Retold",
+      "isrc": null,
+      "date": "5/14/25 9:05 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Doom Nightmare Screamers",
+      "isrc": null,
+      "date": "5/15/25 12:22 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Doomscroll Symphony",
+      "isrc": null,
+      "date": "4/13/25 2:19 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Door You Left Open",
+      "isrc": null,
+      "date": "5/23/26 4:20 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Echo Core",
+      "isrc": null,
+      "date": "8/13/25 10:14 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Enock Codex Volume 1",
+      "isrc": null,
+      "date": "6/9/26 5:35 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Enock Codex Volume 2",
+      "isrc": null,
+      "date": "6/9/26 11:58 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "ENOCK CODEX VOLUME 3",
+      "isrc": null,
+      "date": "6/11/26 8:29 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "ENOCK CODEX VOLUME 4",
+      "isrc": null,
+      "date": "6/11/26 9:36 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Enock Codex Volume 5",
+      "isrc": null,
+      "date": "6/15/26 1:30 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Enock Codex Volume 6",
+      "isrc": null,
+      "date": "6/15/26 9:06 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Enock Codex Volume 7",
+      "isrc": null,
+      "date": "6/15/26 7:02 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Entropy's Final Echo",
+      "isrc": null,
+      "date": "7/21/25 2:13 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Even if it Cracks",
+      "isrc": null,
+      "date": "4/10/26 2:53 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Faceless",
+      "isrc": null,
+      "date": "9/3/25 7:43 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Feel My Pain",
+      "isrc": null,
+      "date": "8/15/25 5:48 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Finale Calculations",
+      "isrc": null,
+      "date": "4/1/26 11:00 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Find The Core",
+      "isrc": null,
+      "date": "4/3/26 9:08 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Finishing Pose",
+      "isrc": null,
+      "date": "5/1/26 2:47 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Fourth Dimensional Frequencies",
+      "isrc": null,
+      "date": "4/21/25 1:17 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Freak Show",
+      "isrc": null,
+      "date": "3/24/25 11:08 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Funeral For Light",
+      "isrc": null,
+      "date": "6/5/26 5:12 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Galactic Tremor",
+      "isrc": null,
+      "date": "4/7/25 2:44 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Gallows At The Door",
+      "isrc": null,
+      "date": "5/29/26 6:24 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Geometry of Hate",
+      "isrc": null,
+      "date": "4/9/26 11:10 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Gods Replacement",
+      "isrc": null,
+      "date": "3/21/26 9:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Gods Replacement Reborn",
+      "isrc": null,
+      "date": "3/29/26 2:26 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Gold Fusion",
+      "isrc": null,
+      "date": "4/3/26 7:53 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Good Vibes",
+      "isrc": null,
+      "date": "4/18/26 10:40 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Graves as Launch Pads",
+      "isrc": null,
+      "date": "3/29/26 4:02 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Gravity Release",
+      "isrc": null,
+      "date": "3/30/26 7:32 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Grinding Teeth",
+      "isrc": null,
+      "date": "4/12/26 7:48 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Halo Code Rebirth",
+      "isrc": null,
+      "date": "7/21/25 2:15 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Hammer and Bone",
+      "isrc": null,
+      "date": "4/7/26 1:30 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Hawk On The Block",
+      "isrc": null,
+      "date": "6/4/26 5:15 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Headphones on Max",
+      "isrc": null,
+      "date": "6/3/26 6:04 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Heart in the Archive",
+      "isrc": null,
+      "date": "4/4/26 4:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Heavy Drop",
+      "isrc": null,
+      "date": "5/2/26 3:17 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Heavy Swing",
+      "isrc": null,
+      "date": "3/30/26 10:37 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Highways Bleeding Gold",
+      "isrc": null,
+      "date": "4/4/26 7:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Hot Glocks",
+      "isrc": null,
+      "date": "6/27/25 10:27 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Hot Rubber",
+      "isrc": null,
+      "date": "4/5/26 10:26 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "I Don't Miss You",
+      "isrc": null,
+      "date": "5/26/26 7:00 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "I never Needed Saving",
+      "isrc": null,
+      "date": "3/31/26 8:57 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "I Own the Ruin",
+      "isrc": null,
+      "date": "4/7/26 7:02 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ice City Lights",
+      "isrc": null,
+      "date": "9/4/25 4:06 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Immortal Ink",
+      "isrc": null,
+      "date": "5/22/25 8:45 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Immortal Ink Blood on the Scroll",
+      "isrc": null,
+      "date": "5/24/25 2:57 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Infernal Groove",
+      "isrc": null,
+      "date": "4/15/25 3:43 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Infinite Orchard",
+      "isrc": null,
+      "date": "8/13/25 11:01 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Inheritance of Lonely",
+      "isrc": null,
+      "date": "5/23/26 10:36 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ink and Kerosene",
+      "isrc": null,
+      "date": "4/13/26 10:21 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ink On The Floor",
+      "isrc": null,
+      "date": "4/7/26 2:14 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Iron Bamboo",
+      "isrc": null,
+      "date": "4/24/26 7:23 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Iron Lungs",
+      "isrc": null,
+      "date": "4/3/26 8:16 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Itch is the Cure",
+      "isrc": null,
+      "date": "4/2/26 7:42 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Keep The Change",
+      "isrc": null,
+      "date": "4/11/26 5:08 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Kenzie Jade Rooted",
+      "isrc": null,
+      "date": "6/24/26 2:06 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Kenzie Jade Unfiltered",
+      "isrc": null,
+      "date": "6/23/26 8:28 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Kicking Down The Hinges",
+      "isrc": null,
+      "date": "3/29/26 3:10 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Kingdom Under Teeth",
+      "isrc": null,
+      "date": "4/3/26 1:01 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Lattice Mind",
+      "isrc": null,
+      "date": "4/1/26 9:55 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Learning How to Leave",
+      "isrc": null,
+      "date": "4/7/26 11:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Lessons From An Empty Room",
+      "isrc": null,
+      "date": "4/7/26 1:31 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Light in the Wreck",
+      "isrc": null,
+      "date": "3/29/26 11:57 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Lightfather Echo",
+      "isrc": null,
+      "date": "1/2/26 3:27 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Live and Die",
+      "isrc": null,
+      "date": "4/15/26 1:55 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Load Bearing Walls",
+      "isrc": null,
+      "date": "4/6/26 11:44 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Loaded Gun",
+      "isrc": null,
+      "date": "5/18/25 8:41 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Loneliness",
+      "isrc": null,
+      "date": "5/10/26 12:59 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "LYGO CLAW",
+      "isrc": null,
+      "date": "7/13/26 8:46 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "LYGO Quantum Light Blaster (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "10/5/25 10:07 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Made To Last",
+      "isrc": null,
+      "date": "4/21/26 9:41 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Married to the Silence",
+      "isrc": null,
+      "date": "4/6/26 10:38 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Masters of Reality",
+      "isrc": null,
+      "date": "5/2/25 7:39 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Matches in the Attic",
+      "isrc": null,
+      "date": "3/29/26 2:30 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Math in the Marrow",
+      "isrc": null,
+      "date": "4/5/26 3:37 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Mathematical Ascension (feat. Grafezzy)",
+      "isrc": null,
+      "date": "10/4/25 1:17 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Max Dose",
+      "isrc": null,
+      "date": "4/29/26 1:20 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Maximum Dose",
+      "isrc": null,
+      "date": "4/30/26 10:09 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Mean It",
+      "isrc": null,
+      "date": "4/29/26 9:37 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Mental State Maze",
+      "isrc": null,
+      "date": "4/12/26 10:35 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Monsters in the Middle",
+      "isrc": null,
+      "date": "4/3/26 11:13 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Muscle You Build",
+      "isrc": null,
+      "date": "4/7/26 8:20 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Mythical Predator",
+      "isrc": null,
+      "date": "4/18/25 3:54 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Neon Rhymes in the Static",
+      "isrc": null,
+      "date": "4/3/25 1:28 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Nerve Murmur.wav",
+      "isrc": null,
+      "date": "2/9/26 9:17 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Night Shift",
+      "isrc": null,
+      "date": "5/2/26 4:01 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Night Shift Echo",
+      "isrc": null,
+      "date": "5/4/26 2:50 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Night Shift Echoes",
+      "isrc": null,
+      "date": "5/2/26 2:34 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "No Fork Survives the Flame",
+      "isrc": null,
+      "date": "8/11/25 2:34 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Nobody To Know Me",
+      "isrc": null,
+      "date": "3/29/26 1:09 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Not Your Project",
+      "isrc": null,
+      "date": "4/13/26 4:36 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Nothing Left To Give",
+      "isrc": null,
+      "date": "5/13/26 4:11 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Obedience Vector A9 Alignment",
+      "isrc": null,
+      "date": "8/11/25 2:17 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "OMNISIREN",
+      "isrc": null,
+      "date": "8/13/25 11:09 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Overdrive Dynamic",
+      "isrc": null,
+      "date": "2/9/26 11:09 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Pain Rain",
+      "isrc": null,
+      "date": "4/15/26 8:34 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Painless",
+      "isrc": null,
+      "date": "6/18/25 3:58 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Parking Lot Altars",
+      "isrc": null,
+      "date": "4/4/26 9:25 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Pavement Ballroom",
+      "isrc": null,
+      "date": "3/31/26 5:50 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Perception Codex",
+      "isrc": null,
+      "date": "7/9/26 2:51 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Phantom Vendetta",
+      "isrc": null,
+      "date": "4/4/25 11:59 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Plasma Inferno",
+      "isrc": null,
+      "date": "4/8/25 10:37 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Power Formed",
+      "isrc": null,
+      "date": "2/9/26 11:22 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Practicing The Smile",
+      "isrc": null,
+      "date": "5/16/26 11:32 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Pub Crawl",
+      "isrc": null,
+      "date": "9/3/25 9:58 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Pulse Behind The Screen",
+      "isrc": null,
+      "date": "4/6/26 1:22 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Punching Holes in the Sky",
+      "isrc": null,
+      "date": "4/12/26 6:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Quantum Primal Frequency",
+      "isrc": null,
+      "date": "4/6/25 10:46 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Quantum Static Blackout (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "10/26/25 3:55 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rain on the Road",
+      "isrc": null,
+      "date": "5/16/25 6:55 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rare Moon",
+      "isrc": null,
+      "date": "1/1/26 7:07 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Real Alive",
+      "isrc": null,
+      "date": "5/31/26 8:58 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Reckless",
+      "isrc": null,
+      "date": "4/21/25 10:14 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Red Zone",
+      "isrc": null,
+      "date": "2/9/26 11:40 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Redline No Brakes",
+      "isrc": null,
+      "date": "4/26/26 3:02 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Redline No Breaks",
+      "isrc": null,
+      "date": "4/26/26 1:18 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Relentless Fuzz",
+      "isrc": null,
+      "date": "6/7/26 3:26 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rent by Eight",
+      "isrc": null,
+      "date": "4/10/26 10:03 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rented Crown",
+      "isrc": null,
+      "date": "4/1/26 8:08 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rest in Peace",
+      "isrc": null,
+      "date": "4/16/26 8:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ritual Codes (feat. MychMych & SteelCityRed)",
+      "isrc": null,
+      "date": "8/20/25 1:03 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rocky Grave",
+      "isrc": null,
+      "date": "4/7/26 8:55 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Rocky Heart",
+      "isrc": null,
+      "date": "4/23/26 8:36 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Roll Call",
+      "isrc": null,
+      "date": "5/20/26 9:21 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Room Temperature",
+      "isrc": null,
+      "date": "4/8/26 8:48 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Root and Fly",
+      "isrc": null,
+      "date": "8/11/25 12:21 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Ruins I call Home",
+      "isrc": null,
+      "date": "4/14/26 11:38 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Salt and Bone",
+      "isrc": null,
+      "date": "4/7/26 1:08 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Same War Different Floor",
+      "isrc": null,
+      "date": "4/5/26 11:49 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Screen Time",
+      "isrc": null,
+      "date": "4/8/26 6:29 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Screw It Blew it (feat. Mych Mych, Justin Helmer & Exotic Rose)",
+      "isrc": null,
+      "date": "1/24/26 2:09 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Self Care Codex",
+      "isrc": null,
+      "date": "6/18/26 7:46 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sensory Overload",
+      "isrc": null,
+      "date": "4/12/25 8:42 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Service Is Closed",
+      "isrc": null,
+      "date": "5/24/26 4:02 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sewing the Shadows",
+      "isrc": null,
+      "date": "4/10/26 10:35 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sigil of the Lost Frequency",
+      "isrc": null,
+      "date": "7/21/25 2:16 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sins Wear Name Tags",
+      "isrc": null,
+      "date": "4/13/26 8:01 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sky Salt Horizon",
+      "isrc": null,
+      "date": "4/5/26 6:48 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Smash Heads Dirty",
+      "isrc": null,
+      "date": "7/7/25 2:08 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Somebody Anybody",
+      "isrc": null,
+      "date": "5/31/26 6:44 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sonic DNA",
+      "isrc": null,
+      "date": "4/10/26 1:27 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Soul Food",
+      "isrc": null,
+      "date": "4/8/26 11:45 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "SOUL SPIKE STACCATO",
+      "isrc": null,
+      "date": "7/9/25 3:26 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sound Architect",
+      "isrc": null,
+      "date": "6/6/26 12:49 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sovereign Architect",
+      "isrc": null,
+      "date": "4/2/26 12:04 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sovereign Flame Thrower",
+      "isrc": null,
+      "date": "4/5/26 6:51 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sovereign Generation",
+      "isrc": null,
+      "date": "4/2/26 10:37 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sovereign in the Soul",
+      "isrc": null,
+      "date": "3/31/26 1:51 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sovereign Ledger",
+      "isrc": null,
+      "date": "3/31/26 4:23 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Sovereign on Throne",
+      "isrc": null,
+      "date": "4/5/26 7:47 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Spiced Cherry Cheesecake",
+      "isrc": null,
+      "date": "4/19/25 7:57 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "STARGATE RESURRECTION",
+      "isrc": null,
+      "date": "7/9/25 10:21 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Staring at the Drywall",
+      "isrc": null,
+      "date": "4/3/26 3:50 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Steel Wool Soul",
+      "isrc": null,
+      "date": "4/4/26 11:23 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Stepping Out the Quarry",
+      "isrc": null,
+      "date": "4/7/26 7:59 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Street Legend Volume 2",
+      "isrc": null,
+      "date": "6/20/26 12:09 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Street Legend Volume 3",
+      "isrc": null,
+      "date": "6/20/26 1:35 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Street Legend Volume 4",
+      "isrc": null,
+      "date": "6/20/26 5:45 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Street Legend Volume 5",
+      "isrc": null,
+      "date": "6/20/26 11:24 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Street Legend Volume 6",
+      "isrc": null,
+      "date": "6/21/26 6:01 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Subsonic Rituals",
+      "isrc": null,
+      "date": "4/21/26 9:18 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Subsonic Sermons",
+      "isrc": null,
+      "date": "4/4/25 5:44 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Synthetic Dark Matter",
+      "isrc": null,
+      "date": "4/5/25 9:59 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Synthetic Dark Matter Theory",
+      "isrc": null,
+      "date": "4/4/25 4:20 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "The Door",
+      "isrc": null,
+      "date": "4/3/26 5:51 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "The Witness",
+      "isrc": null,
+      "date": "3/31/26 7:53 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "THOTH CODEX",
+      "isrc": null,
+      "date": "6/12/26 6:35 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Time Synchronization",
+      "isrc": null,
+      "date": "5/31/26 9:44 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Tired Eyes",
+      "isrc": null,
+      "date": "4/28/26 11:02 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Total Silence (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "12/28/25 11:35 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Trauma Codex Volume 2",
+      "isrc": null,
+      "date": "6/18/26 2:48 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Trial Period Expired",
+      "isrc": null,
+      "date": "4/27/26 2:37 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Trunk Full of Thunder",
+      "isrc": null,
+      "date": "4/7/26 9:32 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "TRUTH \u00d7 LIGHT",
+      "isrc": null,
+      "date": "4/4/26 11:47 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Twighlight World",
+      "isrc": null,
+      "date": "3/24/25 11:30 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Underground Legends",
+      "isrc": null,
+      "date": "7/4/25 4:51 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Valkyrie Decent",
+      "isrc": null,
+      "date": "6/2/26 6:33 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Valley of Blades",
+      "isrc": null,
+      "date": "7/4/25 4:31 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Vector Gun (feat. FeezMuzik & AdAmEaSt1)",
+      "isrc": null,
+      "date": "8/11/25 7:47 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Velocity is Ours",
+      "isrc": null,
+      "date": "3/30/26 2:47 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Velvet Whisper",
+      "isrc": null,
+      "date": "5/7/25 4:53 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Venom Spitting Viper",
+      "isrc": null,
+      "date": "3/16/26 8:32 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Virtually Lethal",
+      "isrc": null,
+      "date": "6/22/26 6:44 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Virtually Lethal Volume 2",
+      "isrc": null,
+      "date": "6/23/26 2:54 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Void Vortex Sustain",
+      "isrc": null,
+      "date": "7/9/25 4:04 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Voidborn Symphony",
+      "isrc": null,
+      "date": "4/18/25 5:35 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Voynich Manuscript",
+      "isrc": null,
+      "date": "6/12/26 11:22 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "WAR INSIDE",
+      "isrc": null,
+      "date": "4/6/26 12:52 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Warp 311 Velocity (feat. Justin Helmer)",
+      "isrc": null,
+      "date": "10/12/25 10:50 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Warp 311 Veracity",
+      "isrc": null,
+      "date": "10/12/25 10:53 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Wasteland Sessions",
+      "isrc": null,
+      "date": "7/4/26 9:18 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "We Don't Ever Go Home",
+      "isrc": null,
+      "date": "3/30/26 8:48 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "When The Sun Hits",
+      "isrc": null,
+      "date": "4/22/26 6:43 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Where Dark Ends",
+      "isrc": null,
+      "date": "4/4/26 8:52 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Where The Dark Bends",
+      "isrc": null,
+      "date": "4/4/26 5:19 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Where the Sky Begins",
+      "isrc": null,
+      "date": "5/9/26 8:57 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Whisper Girl",
+      "isrc": null,
+      "date": "5/15/25 11:50 AM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Wobble Love",
+      "isrc": null,
+      "date": "5/15/25 7:44 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Wreckage of the Bridges",
+      "isrc": null,
+      "date": "4/1/26 11:12 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "Yuki Blade Prototype",
+      "isrc": null,
+      "date": "5/20/26 10:44 PM",
+      "source": "restore_list"
+    },
+    {
+      "title": "YUMMY YUMMY YUM YUM",
+      "isrc": null,
+      "date": "4/28/26 4:02 PM",
+      "source": "restore_list"
+    }
+  ],
+  "matched_sample": [
+    {
+      "title": "Attack With Fire",
+      "how": "fuzzy",
+      "score": 0.843,
+      "file": "Fire Storm Feat Justin Helmer (Mastered with Sunroof at 95pct) QZS652494827.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Terrible People",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "People QZMHN2386579.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Master of Art (feat. Yuki Blade)",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "20250301-0328-43.732_Create-Hip-Hop-style-of-artist-50-Cent-themed-flows-with-smooth-internal-rhymes-and-vivid-imagery_-Use-a-conversational-tone_-balancing-vulnerability-_e_g_-anxiety_-isolation_.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Black out Faction (feat. Yuki Blade)",
+      "how": "fuzzy",
+      "score": 0.875,
+      "file": "Black Out Instrumental Beat QZMHK2251751.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Katana Slicing Dreams (feat. Yuki Blade)",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Dream QZMHK2429319.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Permanent Quake (feat. Yuki Blade)",
+      "how": "fuzzy",
+      "score": 0.733,
+      "file": "Permanent Scars QZMHM2504654.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Taking Up Space (feat. Kenzie Jade)",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Space ft Justin Helmer QZMHM2497019.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Permanent Grit",
+      "how": "fuzzy",
+      "score": 0.759,
+      "file": "Permanent Scars QZMHM2504654.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Punching the Ghost",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "ghost.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Ghosted The Pack",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Ghosted QZMHM2225302.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Ghost Mode",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "ghost.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Grind Don't Care",
+      "how": "fuzzy",
+      "score": 0.89,
+      "file": "You Don't Care QZS672239318.wav",
+      "root": "HOME"
+    },
+    {
+      "title": "One Breath At A Time",
+      "how": "fuzzy",
+      "score": 0.9,
+      "file": "One Day at a Time feat Justin Helmer.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Mirror and the Phone",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Mirror QZMHL2473409.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Walking to the Water",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Water QZS632483496.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Mirror Teeth",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Mirror QZMHL2473409.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Fortress of Broken Trust",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Broken feat Justin Helmer QZMHL2468532.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Knocking Forever",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Forever QZMHL2390755.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Max Dose Lethal Injection",
+      "how": "fuzzy",
+      "score": 0.92,
+      "file": "Lethal Injection QZMHM2410784.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Focused On Me",
+      "how": "fuzzy",
+      "score": 0.86,
+      "file": "Cheated On Me Bpm136 QM42K2359345.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Ghost Without Chains",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "ghost.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Closed Forever",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Forever QZMHL2390755.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Looking at the Mirror",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Mirror QZMHL2473409.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Dream Decree",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Dream QZMHK2429319.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Darkness Sealed",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Darkness QZS662217137.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Unbroken Decree",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Broken feat Justin Helmer QZMHL2468532.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Unbroken Measure",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Broken feat Justin Helmer QZMHL2468532.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Law Is Unbroken",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Broken feat Justin Helmer QZMHL2468532.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Eternal Return",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Eternal QM42K2312577.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "New Creation Stands",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Creation QZMHN2493342.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Claim The Flame",
+      "how": "fuzzy",
+      "score": 0.875,
+      "file": "Light The Flame QZMHM2400015.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Mirror Stands Alone",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Mirror QZMHL2473409.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Standing Alone",
+      "how": "fuzzy",
+      "score": 0.741,
+      "file": "Walking Alone QM42K2353905.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "West and Beyond",
+      "how": "fuzzy",
+      "score": 0.81,
+      "file": "20250308-1450-16.186_Inspiring-male-Dr-Dre-Gangster-Pop-Rap-West-Coast---Drum-and-Bass-beat-Style-100bpm_seed123_tp0.93_T1.0_rp1.2_maxtk3900_mixed.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Throne of Eternal Light",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Eternal QM42K2312577.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Stars Kept Course",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Stars QZS662413033.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Head of Days",
+      "how": "fuzzy",
+      "score": 0.875,
+      "file": "End of Days feat Justin Helmer QZMHN2456159.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Righteous Sealing",
+      "how": "fuzzy",
+      "score": 0.765,
+      "file": "Righteous Passion QZS662403846.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Prison Stars",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Stars QZS662413033.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Tree of Judgement",
+      "how": "fuzzy",
+      "score": 0.875,
+      "file": "Tree of Life Instrumental QZMHM2328508.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Precious Stones",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Precious QZS662274873.wav",
+      "root": "HOME"
+    },
+    {
+      "title": "Stars That Failed",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Stars QZS662413033.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "The Elect",
+      "how": "fuzzy",
+      "score": 0.737,
+      "file": "The Legacy QM42K2346770.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Children from Stars",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Stars QZS662413033.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Logical Relapse",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Logical QZMHM2489962.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Mirror Manipulation",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Mirror QZMHL2473409.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Asian Flower",
+      "how": "fuzzy",
+      "score": 0.72,
+      "file": "April FLowers QZS672141382.mp3",
+      "root": "HOME"
+    },
+    {
+      "title": "Fathers Day",
+      "how": "fuzzy",
+      "score": 0.818,
+      "file": "Another Day QZMHM2431258.wav",
+      "root": "HOME"
+    },
+    {
+      "title": "What the Darkness Cost",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Darkness QZS662217137.wav",
+      "root": "DONE"
+    },
+    {
+      "title": "Ghost Human Space",
+      "how": "fuzzy",
+      "score": 0.85,
+      "file": "Human QZMHN2486568.wav",
+      "root": "DONE"
+    }
+  ],
+  "by_root_audio": {
+    "DONE": 926,
+    "HOME": 927
+  }
+}

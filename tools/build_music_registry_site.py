@@ -40,7 +40,11 @@ def norm(t: str) -> str:
     t = (t or "").lower().strip()
     t = re.sub(r"\(feat\.?[^)]*\)", "", t)
     t = re.sub(r"\(with[^)]*\)", "", t)
-    t = re.sub(r"[^a-z0-9\s]", "", t)
+    t = re.sub(r"\b(feat|ft|featuring)\.?\s*", " ", t)
+    t = re.sub(r"\bjustin helmer\b", " ", t)
+    t = re.sub(r"\bexcavationpro\b", " ", t)
+    t = re.sub(r"\b(hd|mastered|master|explicit|lyrics|radio edit)\b", " ", t)
+    t = re.sub(r"[^a-z0-9\s]", " ", t)
     t = re.sub(r"\s+", " ", t).strip()
     return t
 
@@ -242,31 +246,49 @@ def build() -> dict:
     tracks = cat.get("tracks") or []
     albums = cat.get("albums") or []
 
-    # indexes
+    # indexes (tracks + nested Spotify album tracks + cleaned filename stems)
     by_title: dict[str, list] = {}
+
+    def _index(entry: dict, *extra_keys: str) -> None:
+        keys = [norm(entry.get("title") or "")]
+        keys.extend(extra_keys)
+        for k in keys:
+            if k:
+                by_title.setdefault(k, []).append(entry)
+
     for t in tracks:
-        k = norm(t.get("title") or "")
-        if k:
-            by_title.setdefault(k, []).append(t)
-        # also index filename stem
         fn = t.get("filename") or ""
-        fk = norm(Path(fn).stem if fn else "")
-        if fk and fk != k:
-            by_title.setdefault(fk, []).append(t)
+        stem = Path(fn).stem if fn else ""
+        # strip compact ISRC from stem for indexing
+        stem_clean = re.sub(r"(?i)[A-Z]{2}[A-Z0-9]{10}", "", stem)
+        stem_clean = re.sub(r"(?i)QZ-?[A-Z0-9]{3}-?\d{2}-?\d{5}", "", stem_clean)
+        stem_clean = re.sub(r"(?i)^hd[_ ]+", "", stem_clean)
+        _index(t, norm(stem), norm(stem_clean))
 
     for a in albums:
-        k = norm(a.get("title") or "")
-        if k:
-            by_title.setdefault(k, []).append(
+        album_meta = {
+            "title": a.get("title"),
+            "album": a.get("title"),
+            "spotify_url": a.get("spotify_url"),
+            "spotify_album_id": a.get("spotify_album_id"),
+            "date_published": a.get("date_published"),
+            "track_count": a.get("track_count"),
+            "isrc": None,
+            "sources": ["spotify_album"],
+        }
+        _index(album_meta)
+        for tr in a.get("tracks") or []:
+            _index(
                 {
-                    "title": a.get("title"),
+                    "title": tr.get("title"),
                     "album": a.get("title"),
-                    "spotify_url": a.get("spotify_url"),
+                    "spotify_url": tr.get("spotify_url"),
+                    "spotify_track_id": tr.get("spotify_track_id"),
                     "spotify_album_id": a.get("spotify_album_id"),
-                    "date_published": a.get("date_published"),
-                    "track_count": a.get("track_count"),
-                    "isrc": None,
-                    "sources": ["spotify_album"],
+                    "isrc": tr.get("isrc"),
+                    "local_path": tr.get("local_path"),
+                    "filename": tr.get("filename"),
+                    "sources": ["spotify_album_track"],
                 }
             )
 
@@ -349,6 +371,30 @@ def build() -> dict:
 
     matched = []
     missing = []
+    title_keys = list(by_title.keys())
+
+    def _fuzzy_lookup(k: str) -> tuple[str | None, float]:
+        if not k:
+            return None, 0.0
+        best, score = None, 0.0
+        for ck in title_keys:
+            if not ck:
+                continue
+            # fast path: substring / token overlap
+            if len(k) >= 5 and len(ck) >= 5 and (k in ck or ck in k):
+                s = 0.9
+            else:
+                kt, ct = set(k.split()), set(ck.split())
+                if len(kt) >= 2 and kt <= ct:
+                    s = 0.88
+                elif len(kt) >= 2 and len(kt & ct) >= max(2, len(kt) - 1):
+                    s = 0.84
+                else:
+                    s = SequenceMatcher(None, k, ck).ratio()
+            if s > score:
+                score, best = s, ck
+        return best, score
+
     for r in restore:
         k = norm(r["title"])
         entries = by_title.get(k) or []
@@ -357,19 +403,20 @@ def build() -> dict:
         if entries:
             status = "have"
         else:
-            best, score = None, 0.0
-            for ck, ents in by_title.items():
-                s = SequenceMatcher(None, k, ck).ratio()
-                if s > score:
-                    score, best = s, ck
-            if best and score >= 0.82:
+            best, score = _fuzzy_lookup(k)
+            if best and score >= 0.75:
                 status = "fuzzy"
-                fuzzy = {"score": round(score, 3), "matched_as": by_title[best][0].get("title"), "key": best}
+                fuzzy = {
+                    "score": round(score, 3),
+                    "matched_as": by_title[best][0].get("title"),
+                    "key": best,
+                }
                 entries = by_title[best]
 
         restore_isrc = r.get("isrc")
         local_isrcs = list({e.get("isrc") for e in entries if e.get("isrc")})
-        isrcs = list(local_isrcs)
+        vault_isrcs = list({e.get("vault_isrc") for e in entries if e.get("vault_isrc")})
+        isrcs = list(dict.fromkeys([*local_isrcs, *vault_isrcs]))
         if restore_isrc and restore_isrc not in isrcs:
             isrcs.insert(0, restore_isrc)
         for alt in r.get("alt_isrcs") or []:
@@ -378,12 +425,25 @@ def build() -> dict:
 
         has_isrc = bool(isrcs)
         has_local = any(e.get("local_path") for e in entries)
-        has_spotify = any(e.get("spotify_url") or e.get("spotify_track_id") or e.get("spotify_album_id") for e in entries)
+        has_spotify = any(
+            e.get("spotify_url") or e.get("spotify_track_id") or e.get("spotify_album_id") for e in entries
+        )
         spotify_url = next(
             (e.get("spotify_url") for e in entries if e.get("spotify_url")),
             None,
         )
         local_files = list({e.get("filename") for e in entries if e.get("filename")})[:5]
+        local_paths = list({e.get("local_path") for e in entries if e.get("local_path")})[:3]
+
+        # Refine status for public ledger honesty
+        if has_local and status in ("have", "fuzzy", "missing"):
+            status = "have" if not fuzzy else "fuzzy"
+        elif has_spotify and not has_local:
+            status = "spotify_fuzzy" if fuzzy else "spotify"
+        elif restore_isrc and not has_local and not has_spotify:
+            status = "vault_isrc"
+        elif not has_local and not has_spotify and not restore_isrc:
+            status = "missing"
 
         row = {
             "title": r.get("title"),
@@ -399,15 +459,27 @@ def build() -> dict:
             "isrcs": isrcs,
             "spotify_url": spotify_url,
             "local_files": local_files,
+            "local_paths": local_paths,
             "entry_count": len(entries),
         }
+        # Matched = recoverable/known (local, spotify, or vault ISRC). Missing = no trace.
         if status == "missing":
+            missing.append(row)
+        elif status == "vault_isrc":
+            # Known DistroKid code but no local master / Spotify hit yet — recovery gap
             missing.append(row)
         else:
             matched.append(row)
 
     restore_with_isrc = sum(1 for r in restore if r.get("isrc"))
     local_only_isrcs = sum(1 for r in isrc_rows if r.get("source") == "local_catalog")
+    status_counts = {}
+    for row in matched + missing:
+        status_counts[row["status"]] = status_counts.get(row["status"], 0) + 1
+    have_local_n = sum(1 for r in matched if r.get("has_local"))
+    have_spotify_n = sum(1 for r in matched if r.get("has_spotify"))
+    vault_only_n = sum(1 for r in missing if r.get("status") == "vault_isrc")
+    true_missing_n = sum(1 for r in missing if r.get("status") == "missing")
 
     # merkle-ish ledger of catalog snapshot
     payload = {
@@ -432,11 +504,20 @@ def build() -> dict:
             "restore_with_vault_isrc": restore_with_isrc,
             "matched_titles": len(matched),
             "missing_titles": len(missing),
+            "have_local_master": have_local_n,
+            "have_spotify": have_spotify_n,
+            "vault_isrc_only_no_file": vault_only_n,
+            "true_missing_no_trace": true_missing_n,
+            "status_counts": status_counts,
             "unique_isrcs_local": local_only_isrcs,
             "unique_isrcs_vault_added": vault_isrc_count,
             "unique_isrcs_total": len(isrc_rows),
             "spotify_albums": len(albums),
             "catalog_track_rows": len(tracks),
+            "scan_roots_note": (
+                r"DONE ALBUM + HOME\HOME on J: hold local masters (QZ/QM ISRCs in filenames). "
+                "Newer DistroKid vault QT* titles often exist only on streaming / DistroKid until WAVs are re-downloaded."
+            ),
         },
         "restore_matched": matched,
         "restore_missing": missing,
@@ -797,14 +878,19 @@ function renderStats() {{
   const total = (s.restore_unique_titles || 0);
   const isrcs = s.unique_isrcs_total || s.unique_isrcs_local || (DATA.isrc_registry || []).length;
   const vault = s.restore_with_vault_isrc || 0;
-  const live = allReleases().filter(r => r.has_spotify || r.spotify_url).length;
+  const localM = s.have_local_master || allReleases().filter(r => r.has_local).length;
+  const spotifyN = s.have_spotify || allReleases().filter(r => r.has_spotify || r.spotify_url).length;
+  const gap = s.vault_isrc_only_no_file || 0;
+  const unknown = s.true_missing_no_trace || 0;
   $('#stats').innerHTML = [
     ['Releases', total],
+    ['Local masters', localM],
+    ['On Spotify', spotifyN],
     ['ISRCs on ledger', isrcs],
     ['Vault ISRCs', vault],
+    ['Need re-download', gap],
+    ['No trace yet', unknown],
     ['Spotify albums', s.spotify_albums || 0],
-    ['Live-linked titles', live],
-    ['Catalog rows', s.catalog_track_rows || 0],
   ].map(([l,v]) => `<div class="card"><b>${{v}}</b><span>${{l}}</span></div>`).join('');
 }}
 
@@ -977,12 +1063,20 @@ Generated: {payload['generated_at']}
 |--------|------:|
 | Unique titles in `All music Restore.txt` | {s['restore_unique_titles']} |
 | Titles with DistroKid vault ISRC (QT*) | {s.get('restore_with_vault_isrc', 0)} |
-| Matched in our catalog (exact/fuzzy) | {s['matched_titles']} |
-| **Missing from catalog** | **{s['missing_titles']}** |
+| Known / matched (local or Spotify) | {s['matched_titles']} |
+| Local masters found | {s.get('have_local_master', 0)} |
+| On Spotify (no local or with) | {s.get('have_spotify', 0)} |
+| Vault ISRC only (no local file — re-download) | {s.get('vault_isrc_only_no_file', 0)} |
+| **No local / Spotify / ISRC trace** | **{s.get('true_missing_no_trace', s['missing_titles'])}** |
 | Unique ISRCs from J: filenames | {s['unique_isrcs_local']} |
 | Vault ISRCs newly on ledger | {s.get('unique_isrcs_vault_added', 0)} |
 | **Total unique ISRCs on ledger** | **{s.get('unique_isrcs_total', s['unique_isrcs_local'])}** |
 | Spotify albums (public page) | {s['spotify_albums']} |
+
+### Why DONE ALBUM / HOME are not 100%
+Those folders were fully scanned. Local masters there use older **QZ/QM** ISRCs in filenames.
+Many DistroKid vault rows use newer **QT*** codes and exist on streaming only until WAVs are saved again.
+See `restore_NO_LOCAL_FILE.txt` and `restore_STILL_MISSING_after_disk_scan.txt`.
 
 ## Ledger
 `{payload['ledger']['content_sha256']}`

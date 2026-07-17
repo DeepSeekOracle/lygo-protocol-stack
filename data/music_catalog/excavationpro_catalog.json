@@ -1167,6 +1167,8 @@
       "filename": "Bleeding Out feat Justin Helmer QZK6M2575311.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1193,6 +1195,8 @@
       "filename": "Sunset Algorithm HD Mastered feat Justin Helmer QZK6J2533001.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1206,6 +1210,8 @@
       "filename": "System Lock feat Justin Helmer QZK6K2514884.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1219,6 +1225,8 @@
       "filename": "hd_Digital Serenade HD feat Justin Helmer QZK6J2525568.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1232,6 +1240,8 @@
       "filename": "Lunar Echo QZK6L2558644.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1245,6 +1255,8 @@
       "filename": "Pixel Paradise QZK6L2556304.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1258,6 +1270,8 @@
       "filename": "Quantum Heartbeat QZK6J2554708.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -1453,6 +1467,8 @@
       "filename": "Reflection QZS642430171.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -2961,6 +2977,8 @@
       "filename": "hd_Thunder Claps QZK6M2519272.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -2987,6 +3005,8 @@
       "filename": "hd_Zero Gravity Blur QZK6L2534243.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -3091,6 +3111,8 @@
       "filename": "Sonic Whisper feat Justin Helmer QM42K2517183.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -3182,6 +3204,8 @@
       "filename": "Brain Flipped feat Justin Helmer QZK6M2594364.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -3559,8 +3583,11 @@
       "filename": "Black Birds  QZS642421325.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
-      ]
+      ],
+      "vault_isrc": "QT6E82661623"
     },
     {
       "title": "Clowning",
@@ -3767,6 +3794,8 @@
       "filename": "Shock  QZS652474538.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -4365,8 +4394,11 @@
       "filename": "Another Day QZMHM2431258.wav",
       "spotify_url": null,
       "sources": [
-        "filesystem"
-      ]
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
+      ],
+      "vault_isrc": "QT6E92651089"
     },
     {
       "title": "Ascended",
@@ -4703,6 +4735,8 @@
       "filename": "Flying High QZMHL2208044.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -4885,6 +4919,8 @@
       "filename": "Black Out Instrumental Beat QZMHK2251751.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -4898,6 +4934,8 @@
       "filename": "Cooked Instrumental Beat QZKDK2205700.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -4963,6 +5001,8 @@
       "filename": "Golden Age QZS642268790.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -5028,6 +5068,8 @@
       "filename": "Lost in Love QM42K2232271.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -5145,8 +5187,11 @@
       "filename": "Darkness QZS662217137.wav",
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
-      ]
+      ],
+      "vault_isrc": "QT3FH2635952"
     },
     {
       "title": "Data Overload",
@@ -7771,7 +7816,9 @@
       "filename": "Money Making Couple QZMHM2351526.wav",
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -12676,7 +12723,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -12718,7 +12767,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -12746,7 +12797,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -12774,7 +12827,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13306,7 +13361,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13460,7 +13517,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13488,7 +13547,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13530,7 +13591,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13586,7 +13649,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13600,7 +13665,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13670,7 +13737,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13726,7 +13795,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -13796,6 +13867,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -14571,7 +14644,7 @@
     },
     {
       "title": "ghost",
-      "isrc": null,
+      "isrc": "QT6E82611594",
       "upc": null,
       "album": "Win or Lose",
       "artist": "Excavationpro",
@@ -14580,8 +14653,11 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
-      ]
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
+      ],
+      "vault_isrc": "QT6E82611594"
     },
     {
       "title": "input",
@@ -14734,7 +14810,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -14790,7 +14868,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -15098,6 +15178,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -15154,7 +15236,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -16111,7 +16195,7 @@
     },
     {
       "title": "20250308 1450 16.186 Inspiring male Dr Dre Gangster Pop Rap West Coast Drum and Bass beat Style 100bpm seed123 tp0.93 T1.0 rp1.2 maxtk3900 mixed",
-      "isrc": null,
+      "isrc": "QT3FE2656307",
       "upc": null,
       "album": "Straps",
       "artist": "Excavationpro",
@@ -16120,8 +16204,11 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
-      ]
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
+      ],
+      "vault_isrc": "QT3FE2656307"
     },
     {
       "title": "20250308 1849 01.816 Clear on beat Inspiring male Dr Dre Gangster Vocals with a Pop Rap West Coast Drum and Bass beat Style 100bpm seed123 tp0.93 T1.0 rp1.2 maxtk4200 mixed",
@@ -40287,6 +40374,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -40390,7 +40479,7 @@
     },
     {
       "title": "One Day at a Time feat Justin Helmer",
-      "isrc": null,
+      "isrc": "QT6E72605534",
       "upc": null,
       "album": "3",
       "artist": "Excavationpro",
@@ -40399,8 +40488,11 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
-      ]
+      ],
+      "vault_isrc": "QT6E72605534"
     },
     {
       "title": "Sandstorm feat Justin Helmer",
@@ -48869,7 +48961,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -49157,7 +49251,7 @@
     },
     {
       "title": "Lose It All Tonight",
-      "isrc": null,
+      "isrc": "QZ-MHM-22-93650",
       "upc": null,
       "album": "April 2",
       "artist": "Excavationpro",
@@ -49166,7 +49260,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -49185,7 +49281,7 @@
     },
     {
       "title": "Occupying Space",
-      "isrc": null,
+      "isrc": "QZ-MHM-24-97019",
       "upc": null,
       "album": "April 2",
       "artist": "Excavationpro",
@@ -49194,6 +49290,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -49446,7 +49544,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -49619,7 +49719,7 @@
     },
     {
       "title": "Braiding the Light",
-      "isrc": null,
+      "isrc": "QZ-MHM-24-00015",
       "upc": null,
       "album": "NEW",
       "artist": "Excavationpro",
@@ -49628,6 +49728,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -50053,7 +50155,7 @@
     },
     {
       "title": "Bricks in the Basement",
-      "isrc": null,
+      "isrc": "QZ-S64-25-94075",
       "upc": null,
       "album": "APRIL ALBUM",
       "artist": "Excavationpro",
@@ -50062,6 +50164,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -51381,6 +51485,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -51638,7 +51744,7 @@
     },
     {
       "title": "Standing in the Open",
-      "isrc": null,
+      "isrc": "QZ-MHM-24-22250",
       "upc": null,
       "album": "Beatstars",
       "artist": "Excavationpro",
@@ -51647,6 +51753,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -51666,7 +51774,7 @@
     },
     {
       "title": "Talk to Shadows",
-      "isrc": null,
+      "isrc": "QZ-MHK-22-01770",
       "upc": null,
       "album": "Beatstars",
       "artist": "Excavationpro",
@@ -51675,7 +51783,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -52025,7 +52135,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -52067,7 +52179,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -52128,7 +52242,7 @@
     },
     {
       "title": "Black Road",
-      "isrc": null,
+      "isrc": "QZ-S64-24-21325",
       "upc": null,
       "album": "Chopped",
       "artist": "Excavationpro",
@@ -52137,6 +52251,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -52268,7 +52384,7 @@
     },
     {
       "title": "Human Wreck",
-      "isrc": null,
+      "isrc": "QZ-MHN-24-86568",
       "upc": null,
       "album": "CHAOS Album",
       "artist": "Excavationpro",
@@ -52277,6 +52393,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -52632,7 +52750,7 @@
     },
     {
       "title": "CROWN ME IN CHAOS",
-      "isrc": null,
+      "isrc": "QZ-S66-24-74510",
       "upc": null,
       "album": "JUSTIN MODE",
       "artist": "Excavationpro",
@@ -52641,6 +52759,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -53677,7 +53797,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -53761,7 +53883,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -54144,7 +54268,7 @@
     },
     {
       "title": "Architecture of Escape",
-      "isrc": null,
+      "isrc": "QZ-S66-24-65442",
       "upc": null,
       "album": "NEED TO POST",
       "artist": "Excavationpro",
@@ -54153,6 +54277,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -54186,7 +54312,7 @@
     },
     {
       "title": "Dead to Me",
-      "isrc": null,
+      "isrc": "QZ-MHK-22-01770",
       "upc": null,
       "album": "NEED TO POST",
       "artist": "Excavationpro",
@@ -54195,7 +54321,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -54783,7 +54911,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -80520,7 +80650,7 @@
     },
     {
       "title": "Human Monster feat Justin Helmer",
-      "isrc": null,
+      "isrc": "QZ-MHN-24-86568",
       "upc": null,
       "album": "MONSTER",
       "artist": "Excavationpro",
@@ -80529,6 +80659,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -80716,7 +80848,7 @@
     },
     {
       "title": "Midnight Static",
-      "isrc": null,
+      "isrc": "QZ-S63-25-06313",
       "upc": null,
       "album": "Cryptic Vow",
       "artist": "Excavationpro",
@@ -80725,6 +80857,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -81010,7 +81144,7 @@
     },
     {
       "title": "Starcore Super Nova",
-      "isrc": null,
+      "isrc": "QZ-MHL-23-93254",
       "upc": null,
       "album": "Feb 2026 NEW MUSIC",
       "artist": "Excavationpro",
@@ -81019,6 +81153,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -81430,7 +81566,7 @@
     },
     {
       "title": "Broken Mirror Protocol",
-      "isrc": null,
+      "isrc": "QZ-MHL-24-68532",
       "upc": null,
       "album": "Hopeless",
       "artist": "Excavationpro",
@@ -81439,6 +81575,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -82396,7 +82534,7 @@
     },
     {
       "title": "Insane World feat Justin Helmer",
-      "isrc": null,
+      "isrc": "QZ-MHN-22-67142",
       "upc": null,
       "album": "Clappin Smackin Jackin",
       "artist": "Excavationpro",
@@ -82405,6 +82543,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -84127,7 +84267,9 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
-        "filesystem"
+        "disk_reconcile",
+        "filesystem",
+        "home_home"
       ]
     },
     {
@@ -84706,7 +84848,7 @@
     },
     {
       "title": "City Lights feat Justin Helmer",
-      "isrc": null,
+      "isrc": "QZ-S63-25-21424",
       "upc": null,
       "album": "Viral 0817",
       "artist": "Excavationpro",
@@ -84715,6 +84857,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -85112,7 +85256,7 @@
     },
     {
       "title": "Legacy Unbroken feat Justin Helmer",
-      "isrc": null,
+      "isrc": "QZ-MHL-24-68532",
       "upc": null,
       "album": "Legacy Unbroken",
       "artist": "Excavationpro",
@@ -85121,6 +85265,8 @@
       "spotify_track_id": null,
       "spotify_url": null,
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "filesystem"
       ]
     },
@@ -130698,19 +130844,22 @@
     },
     {
       "title": "Attack With Fire",
-      "isrc": null,
+      "isrc": "QZ-S65-24-94827",
       "upc": null,
       "album": "Art of War Codex",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\6\\Fire Storm Feat Justin Helmer (Mastered with Sunroof at 95pct) QZS652494827.wav",
+      "filename": "Fire Storm Feat Justin Helmer (Mastered with Sunroof at 95pct) QZS652494827.wav",
       "spotify_track_id": "73fPr1EzUIxMj0ViBCWqTd",
       "spotify_url": "https://open.spotify.com/track/73fPr1EzUIxMj0ViBCWqTd",
       "spotify_album_id": "6YWjA49tiYLY8WaEa6IOq3",
       "spotify_album_url": "https://open.spotify.com/album/6YWjA49tiYLY8WaEa6IOq3",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EG2627796"
     },
     {
       "title": "Thousand Pounds of Pressure",
@@ -131034,19 +131183,22 @@
     },
     {
       "title": "Master of Art",
-      "isrc": null,
+      "isrc": "QT6EB2624034",
       "upc": null,
       "album": "Virtually Lethal Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\Rewind the World\\20250301-0328-43.732_Create-Hip-Hop-style-of-artist-50-Cent-themed-flows-with-smooth-internal-rhymes-and-vivid-imagery_-Use-a-conversational-tone_-balancing-vulnerability-_e_g_-anxiety_-isolation_.mp3",
+      "filename": "20250301-0328-43.732_Create-Hip-Hop-style-of-artist-50-Cent-themed-flows-with-smooth-internal-rhymes-and-vivid-imagery_-Use-a-conversational-tone_-balancing-vulnerability-_e_g_-anxiety_-isolation_.mp3",
       "spotify_track_id": "0PBSlVsERcr8jNw9WPPEvm",
       "spotify_url": "https://open.spotify.com/track/0PBSlVsERcr8jNw9WPPEvm",
       "spotify_album_id": "5pLa0IHqOiYanSVgWfYM0t",
       "spotify_album_url": "https://open.spotify.com/album/5pLa0IHqOiYanSVgWfYM0t",
       "sources": [
+        "disk_reconcile",
+        "home_home",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EB2624034"
     },
     {
       "title": "Steel and Gravity",
@@ -131082,19 +131234,22 @@
     },
     {
       "title": "Black out Faction",
-      "isrc": null,
+      "isrc": "QZ-MHK-22-51751",
       "upc": null,
       "album": "Virtually Lethal Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\18\\Instrumentals\\Black Out Instrumental Beat QZMHK2251751.wav",
+      "filename": "Black Out Instrumental Beat QZMHK2251751.wav",
       "spotify_track_id": "4oTcDf4k58x9NRaYeKC862",
       "spotify_url": "https://open.spotify.com/track/4oTcDf4k58x9NRaYeKC862",
       "spotify_album_id": "5pLa0IHqOiYanSVgWfYM0t",
       "spotify_album_url": "https://open.spotify.com/album/5pLa0IHqOiYanSVgWfYM0t",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EB2624037"
     },
     {
       "title": "Finish Line Silence",
@@ -131242,19 +131397,22 @@
     },
     {
       "title": "Katana Slicing Dreams",
-      "isrc": null,
+      "isrc": "QZ-MHK-24-29319",
       "upc": null,
       "album": "Virtually Lethal Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\12\\New folder\\Dream QZMHK2429319.wav",
+      "filename": "Dream QZMHK2429319.wav",
       "spotify_track_id": "0FZozlTJK2RRFyRIdEt1B2",
       "spotify_url": "https://open.spotify.com/track/0FZozlTJK2RRFyRIdEt1B2",
       "spotify_album_id": "5pLa0IHqOiYanSVgWfYM0t",
       "spotify_album_url": "https://open.spotify.com/album/5pLa0IHqOiYanSVgWfYM0t",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EB2624047"
     },
     {
       "title": "Blade Mason",
@@ -131274,19 +131432,22 @@
     },
     {
       "title": "Permanent Quake",
-      "isrc": null,
+      "isrc": "QZ-MHM-25-04654",
       "upc": null,
       "album": "Virtually Lethal Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\2\\Permanent Scars QZMHM2504654.wav",
+      "filename": "Permanent Scars QZMHM2504654.wav",
       "spotify_track_id": "5QRBJB5d0jHdaGpNh80FM4",
       "spotify_url": "https://open.spotify.com/track/5QRBJB5d0jHdaGpNh80FM4",
       "spotify_album_id": "5pLa0IHqOiYanSVgWfYM0t",
       "spotify_album_url": "https://open.spotify.com/album/5pLa0IHqOiYanSVgWfYM0t",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EB2624049"
     },
     {
       "title": "Wound is Real",
@@ -131498,19 +131659,22 @@
     },
     {
       "title": "Asian Flower",
-      "isrc": null,
+      "isrc": "QZ-S67-21-41382",
       "upc": null,
       "album": "Virtually Lethal",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\PG 39\\April FLowers QZS672141382.mp3",
+      "filename": "April FLowers QZS672141382.mp3",
       "spotify_track_id": "6PPBo3ZKtnYG957q6n2wof",
       "spotify_url": "https://open.spotify.com/track/6PPBo3ZKtnYG957q6n2wof",
       "spotify_album_id": "6OdhN6UNEN1GVMtlMVh9V2",
       "spotify_album_url": "https://open.spotify.com/album/6OdhN6UNEN1GVMtlMVh9V2",
       "sources": [
+        "disk_reconcile",
+        "home_home",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EA2632506"
     },
     {
       "title": "Chalk Line Winter",
@@ -131674,19 +131838,22 @@
     },
     {
       "title": "Taking Up Space",
-      "isrc": null,
+      "isrc": "QZ-MHM-24-97019",
       "upc": null,
       "album": "Kenzie Jade Unfiltered",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\8\\Space ft Justin Helmer QZMHM2497019.wav",
+      "filename": "Space ft Justin Helmer QZMHM2497019.wav",
       "spotify_track_id": "13y2x6vYJd0jiyQ2Zi3m21",
       "spotify_url": "https://open.spotify.com/track/13y2x6vYJd0jiyQ2Zi3m21",
       "spotify_album_id": "0OZl0jQCrrqdyhxi7xcXWv",
       "spotify_album_url": "https://open.spotify.com/album/0OZl0jQCrrqdyhxi7xcXWv",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EA2667916"
     },
     {
       "title": "Quiet Gold",
@@ -131738,19 +131905,22 @@
     },
     {
       "title": "What the Darkness Cost",
-      "isrc": null,
+      "isrc": "QZ-S66-22-17137",
       "upc": null,
       "album": "Street Legend Volume 6",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\19\\instrumentals\\Darkness QZS662217137.wav",
+      "filename": "Darkness QZS662217137.wav",
       "spotify_track_id": "4fDEZDmuTRVpjtBXjJqhZG",
       "spotify_url": "https://open.spotify.com/track/4fDEZDmuTRVpjtBXjJqhZG",
       "spotify_album_id": "36XTI5nDYePiiLTVnEtuLS",
       "spotify_album_url": "https://open.spotify.com/album/36XTI5nDYePiiLTVnEtuLS",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6E92639253"
     },
     {
       "title": "Plan They Mocked",
@@ -131882,19 +132052,22 @@
     },
     {
       "title": "Ghost Human Space",
-      "isrc": null,
+      "isrc": "QZ-MHN-24-86568",
       "upc": null,
       "album": "Street Legend Volume 6",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\12\\New folder\\Human QZMHN2486568.wav",
+      "filename": "Human QZMHN2486568.wav",
       "spotify_track_id": "4FjoFyxHyJvN6CXL9ZsRMg",
       "spotify_url": "https://open.spotify.com/track/4FjoFyxHyJvN6CXL9ZsRMg",
       "spotify_album_id": "36XTI5nDYePiiLTVnEtuLS",
       "spotify_album_url": "https://open.spotify.com/album/36XTI5nDYePiiLTVnEtuLS",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6E92639262"
     },
     {
       "title": "He Used To Glow",
@@ -131962,19 +132135,22 @@
     },
     {
       "title": "Good We Made",
-      "isrc": null,
+      "isrc": "QZ-S65-24-83234",
       "upc": null,
       "album": "Street Legend Volume 6",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\8\\Good Head QZS652483234.wav",
+      "filename": "Good Head QZS652483234.wav",
       "spotify_track_id": "57RJIkC1Sg6GoMGwNTAzI1",
       "spotify_url": "https://open.spotify.com/track/57RJIkC1Sg6GoMGwNTAzI1",
       "spotify_album_id": "36XTI5nDYePiiLTVnEtuLS",
       "spotify_album_url": "https://open.spotify.com/album/36XTI5nDYePiiLTVnEtuLS",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6E92639269"
     },
     {
       "title": "Sidewalk Crown",
@@ -132170,19 +132346,22 @@
     },
     {
       "title": "Mirror Teeth",
-      "isrc": null,
+      "isrc": "QZ-MHL-24-73409",
       "upc": null,
       "album": "Trauma Codex Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\6\\Mirror QZMHL2473409.wav",
+      "filename": "Mirror QZMHL2473409.wav",
       "spotify_track_id": "0ya419kNPfggjjVcPO01tf",
       "spotify_url": "https://open.spotify.com/track/0ya419kNPfggjjVcPO01tf",
       "spotify_album_id": "0cDhiBiwG7bhkV6wVcSPyZ",
       "spotify_album_url": "https://open.spotify.com/album/0cDhiBiwG7bhkV6wVcSPyZ",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6E62640728"
     },
     {
       "title": "Silence You Get",
@@ -132202,19 +132381,22 @@
     },
     {
       "title": "Fortress of Broken Trust",
-      "isrc": null,
+      "isrc": "QZ-MHL-24-68532",
       "upc": null,
       "album": "Trauma Codex Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\11\\Broken feat Justin Helmer QZMHL2468532.wav",
+      "filename": "Broken feat Justin Helmer QZMHL2468532.wav",
       "spotify_track_id": "7uWRgxJUUExgGzTJ5n5mVd",
       "spotify_url": "https://open.spotify.com/track/7uWRgxJUUExgGzTJ5n5mVd",
       "spotify_album_id": "0cDhiBiwG7bhkV6wVcSPyZ",
       "spotify_album_url": "https://open.spotify.com/album/0cDhiBiwG7bhkV6wVcSPyZ",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6E62640730"
     },
     {
       "title": "Heavy Pour",
@@ -132234,19 +132416,22 @@
     },
     {
       "title": "Knocking Forever",
-      "isrc": null,
+      "isrc": "QZ-MHL-23-90755",
       "upc": null,
       "album": "Trauma Codex Volume 2",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\26\\instrumentals\\Forever QZMHL2390755.wav",
+      "filename": "Forever QZMHL2390755.wav",
       "spotify_track_id": "0eCVFdmwJbI3xZD81ii0vd",
       "spotify_url": "https://open.spotify.com/track/0eCVFdmwJbI3xZD81ii0vd",
       "spotify_album_id": "0cDhiBiwG7bhkV6wVcSPyZ",
       "spotify_album_url": "https://open.spotify.com/album/0cDhiBiwG7bhkV6wVcSPyZ",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6E62640732"
     },
     {
       "title": "Double Locked Door",
@@ -132346,19 +132531,22 @@
     },
     {
       "title": "Terrible People",
-      "isrc": null,
+      "isrc": "QZ-MHN-23-86579",
       "upc": null,
       "album": "After The Shocks",
       "artist": "Excavationpro",
-      "local_path": null,
-      "filename": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\24\\People QZMHN2386579.wav",
+      "filename": "People QZMHN2386579.wav",
       "spotify_track_id": "17Pj346jkmMrbCXR3VDdfv",
       "spotify_url": "https://open.spotify.com/track/17Pj346jkmMrbCXR3VDdfv",
       "spotify_album_id": "1bi1Nw745MU3ULopvpnOeS",
       "spotify_album_url": "https://open.spotify.com/album/1bi1Nw745MU3ULopvpnOeS",
       "sources": [
+        "disk_reconcile",
+        "done_album",
         "spotify"
-      ]
+      ],
+      "vault_isrc": "QT6EF2658113"
     },
     {
       "title": "Bronze Bedrock.",
@@ -133031,9 +133219,683 @@
         "filesystem"
       ],
       "done_album_folder": "7"
+    },
+    {
+      "title": "Ghosted The Pack",
+      "artist": "Excavationpro",
+      "album": "Instrumentals",
+      "isrc": "QZ-MHM-22-25302",
+      "vault_isrc": "QT6E82601406",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\32\\Instrumentals\\Ghosted QZMHM2225302.mp3",
+      "filename": "Ghosted QZMHM2225302.mp3",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Grind Don't Care",
+      "artist": "Excavationpro",
+      "album": "Instrumentals",
+      "isrc": "QZ-S67-22-39318",
+      "vault_isrc": "QT6E82601413",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\32\\Instrumentals\\You Don't Care QZS672239318.wav",
+      "filename": "You Don't Care QZS672239318.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.89
+    },
+    {
+      "title": "Mirror and the Phone",
+      "artist": "Excavationpro",
+      "album": "6",
+      "isrc": "QZ-MHL-24-73409",
+      "vault_isrc": "QT6E72605536",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\6\\Mirror QZMHL2473409.wav",
+      "filename": "Mirror QZMHL2473409.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Walking to the Water",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-S63-24-83496",
+      "vault_isrc": "QT6E72605541",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\11\\Done\\Water QZS632483496.wav",
+      "filename": "Water QZS632483496.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Max Dose Lethal Injection",
+      "artist": "Excavationpro",
+      "album": "New folder",
+      "isrc": "QZ-MHM-24-10784",
+      "vault_isrc": "QT6E52667281",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\12\\New folder\\Lethal Injection QZMHM2410784.wav",
+      "filename": "Lethal Injection QZMHM2410784.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.92
+    },
+    {
+      "title": "Focused On Me",
+      "artist": "Excavationpro",
+      "album": "Vocals",
+      "isrc": "QM-42K-23-59345",
+      "vault_isrc": "QT6E52656590",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\26\\Vocals\\Cheated On Me Bpm136 QM42K2359345.wav",
+      "filename": "Cheated On Me Bpm136 QM42K2359345.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.86
+    },
+    {
+      "title": "Eternal Return",
+      "artist": "Excavationpro",
+      "album": "instrumentals",
+      "isrc": "QM-42K-23-12577",
+      "vault_isrc": "QT3FG2671217",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\26\\instrumentals\\Eternal QM42K2312577.wav",
+      "filename": "Eternal QM42K2312577.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "New Creation Stands",
+      "artist": "Excavationpro",
+      "album": "6",
+      "isrc": "QZ-MHN-24-93342",
+      "vault_isrc": "QT3FF2623724",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\6\\Creation QZMHN2493342.wav",
+      "filename": "Creation QZMHN2493342.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Claim The Flame",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-MHM-24-00015",
+      "vault_isrc": "QT3FE2656292",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\15\\Done\\Light The Flame QZMHM2400015.wav",
+      "filename": "Light The Flame QZMHM2400015.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.875
+    },
+    {
+      "title": "Standing Alone",
+      "artist": "Excavationpro",
+      "album": "27",
+      "isrc": "QM-42K-23-53905",
+      "vault_isrc": "QT3FE2656295",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\27\\Walking Alone QM42K2353905.wav",
+      "filename": "Walking Alone QM42K2353905.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.741
+    },
+    {
+      "title": "Stars Kept Course",
+      "artist": "Excavationpro",
+      "album": "New folder",
+      "isrc": "QZ-S66-24-13033",
+      "vault_isrc": "QT3FD2660584",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\8\\New folder\\Stars QZS662413033.wav",
+      "filename": "Stars QZS662413033.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Head of Days",
+      "artist": "Excavationpro",
+      "album": "6",
+      "isrc": "QZ-MHN-24-56159",
+      "vault_isrc": "QT3FD2690875",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\6\\End of Days feat Justin Helmer QZMHN2456159.wav",
+      "filename": "End of Days feat Justin Helmer QZMHN2456159.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.875
+    },
+    {
+      "title": "Righteous Sealing",
+      "artist": "Excavationpro",
+      "album": "New folder",
+      "isrc": "QZ-S66-24-03846",
+      "vault_isrc": "QT3FD2690885",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\8\\New folder\\Righteous Passion QZS662403846.wav",
+      "filename": "Righteous Passion QZS662403846.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.765
+    },
+    {
+      "title": "Tree of Judgement",
+      "artist": "Excavationpro",
+      "album": "22",
+      "isrc": "QZ-MHM-23-28508",
+      "vault_isrc": "QT3FC2660986",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\22\\Tree of Life Instrumental QZMHM2328508.wav",
+      "filename": "Tree of Life Instrumental QZMHM2328508.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.875
+    },
+    {
+      "title": "Precious Stones",
+      "artist": "Excavationpro",
+      "album": "Instrumentals",
+      "isrc": "QZ-S66-22-74873",
+      "vault_isrc": "QT3FC2660987",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\32\\Instrumentals\\Precious QZS662274873.wav",
+      "filename": "Precious QZS662274873.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "The Elect",
+      "artist": "Excavationpro",
+      "album": "23",
+      "isrc": "QM-42K-23-46770",
+      "vault_isrc": "QT3FC2661000",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\23\\The Legacy QM42K2346770.wav",
+      "filename": "The Legacy QM42K2346770.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.737
+    },
+    {
+      "title": "Logical Relapse",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-MHM-24-89962",
+      "vault_isrc": "QT3FB2655054",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\10\\New folder\\Done\\Done\\Logical QZMHM2489962.wav",
+      "filename": "Logical QZMHM2489962.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Dead Zone",
+      "artist": "Excavationpro",
+      "album": "16",
+      "isrc": "QZ-S66-22-69992",
+      "vault_isrc": "QT6E82677573",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\16\\Dead Zone feat Stevie Rain QZS662269992.wav",
+      "filename": "Dead Zone feat Stevie Rain QZS662269992.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Under The Dirt",
+      "artist": "Excavationpro",
+      "album": "vocal",
+      "isrc": "QZ-MHN-22-65828",
+      "vault_isrc": "QT6E82661624",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\36\\vocal\\Freak Under The Sheets Beat QZMHN2265828.wav",
+      "filename": "Freak Under The Sheets Beat QZMHN2265828.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Strangers in a Corridor",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-MHM-24-10411",
+      "vault_isrc": "QT6E82661628",
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\15\\Done\\Strangers QZMHM2410411.wav",
+      "filename": "Strangers QZMHM2410411.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Astral Serenade",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-K6J-25-25568",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\1\\Done\\Digital Serenade HD feat Justin Helmer QZK6J2525568.wav",
+      "filename": "Digital Serenade HD feat Justin Helmer QZK6J2525568.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.774
+    },
+    {
+      "title": "Break The Refraction",
+      "artist": "Excavationpro",
+      "album": "Instrumentals",
+      "isrc": "QZ-MHP-23-90871",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\21\\Instrumentals\\Break the Silence QZMHP2390871.wav",
+      "filename": "Break the Silence QZMHP2390871.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.875
+    },
+    {
+      "title": "Coded Memory",
+      "artist": "Excavationpro",
+      "album": "7",
+      "isrc": "QZ-S66-24-64177",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\7\\Memory QZS662464177.wav",
+      "filename": "Memory QZS662464177.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Depend on You",
+      "artist": "Excavationpro",
+      "album": "20",
+      "isrc": "QM-42K-23-55253",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\20\\switched sides on you hoes QM42K2355253.wav",
+      "filename": "switched sides on you hoes QM42K2355253.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Dirt Road Flying High",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-MHL-22-08044",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\16\\Instru\\Done\\Flying High QZMHL2208044.wav",
+      "filename": "Flying High QZMHL2208044.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Doom Nightmare Fantasy",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-S67-24-93223",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\10\\New folder\\Done\\Done\\Fantasy QZS672493223.wav",
+      "filename": "Fantasy QZS672493223.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Glitched Matrixed (Slowed)",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-MHL-24-19432",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\11\\Done\\Matrix QZMHL2419432.wav",
+      "filename": "Matrix QZMHL2419432.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Immortal Symphony",
+      "artist": "Excavationpro",
+      "album": "instrumental",
+      "isrc": "QZ-S64-22-61368",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\34\\instrumental\\Soul Symphony QZS642261368.wav",
+      "filename": "Soul Symphony QZS642261368.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.733
+    },
+    {
+      "title": "Lava Sunset (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "album": "instrumental",
+      "isrc": "QZ-MHN-23-08558",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\25\\instrumental\\Havana Sunrise QZMHN2308558.wav",
+      "filename": "Havana Sunrise QZMHN2308558.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.72
+    },
+    {
+      "title": "Master of Reality",
+      "artist": "Excavationpro",
+      "album": "22",
+      "isrc": "QZ-MHM-23-04893",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\22\\Ponder Reality QZMHM2304893.wav",
+      "filename": "Ponder Reality QZMHM2304893.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.75
+    },
+    {
+      "title": "Me Against The World",
+      "artist": "Excavationpro",
+      "album": "2",
+      "isrc": "QZ-S64-25-16404",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\2\\Rewind the World feat Justin Helmer QZS642516404.wav",
+      "filename": "Rewind the World feat Justin Helmer QZS642516404.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.722
+    },
+    {
+      "title": "Midnight Frequency",
+      "artist": "Excavationpro",
+      "album": "23",
+      "isrc": "QZ-S65-23-11438",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\23\\Midnight Feels QZS652311438.wav",
+      "filename": "Midnight Feels QZS652311438.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.75
+    },
+    {
+      "title": "Road To Nowhere",
+      "artist": "Excavationpro",
+      "album": "Vocals",
+      "isrc": "QZ-MHK-22-76694",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\34\\Vocals\\Road Tripping To Alaska Cruising QZMHK2276694.wav",
+      "filename": "Road Tripping To Alaska Cruising QZMHK2276694.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Street Power",
+      "artist": "Excavationpro",
+      "album": "3",
+      "isrc": "QZ-MHM-25-72272",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\3\\Street Wise feat Justin Helmer QZMHM2572272.wav",
+      "filename": "Street Wise feat Justin Helmer QZMHM2572272.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.783
+    },
+    {
+      "title": "Tattoo Scar Goodbye (feat. Justin Helmer)",
+      "artist": "Excavationpro",
+      "album": "New folder",
+      "isrc": "QZ-S67-24-04929",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\8\\New folder\\Goodbye QZS672404929.wav",
+      "filename": "Goodbye QZS672404929.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Temporary Cast",
+      "artist": "Excavationpro",
+      "album": "2",
+      "isrc": "QM-42K-25-28687",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\2\\Temporary Heaven QM42K2528687.wav",
+      "filename": "Temporary Heaven QM42K2528687.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.733
+    },
+    {
+      "title": "The World I Touched",
+      "artist": "Excavationpro",
+      "album": "New folder",
+      "isrc": "QM-42K-24-42401",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\10\\New folder\\Touch QM42K2442401.wav",
+      "filename": "Touch QM42K2442401.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Warriors after Battle",
+      "artist": "Excavationpro",
+      "album": "DONE",
+      "isrc": "QZ-S63-24-51169",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\14\\DONE\\Warrior QZS632451169.wav",
+      "filename": "Warrior QZS632451169.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "done_album"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.85
+    },
+    {
+      "title": "Working Under Moonlight",
+      "artist": "Excavationpro",
+      "album": "Done",
+      "isrc": "QZ-S67-22-22351",
+      "vault_isrc": null,
+      "upc": null,
+      "local_path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME\\1 SOUNDCLOUD  DISTRO KID\\PG 37\\Vocals\\Done\\Working Tonight QZS672222351.wav",
+      "filename": "Working Tonight QZS672222351.wav",
+      "spotify_url": null,
+      "sources": [
+        "disk_reconcile",
+        "home_home"
+      ],
+      "match_how": "fuzzy",
+      "match_score": 0.737
     }
   ],
-  "track_count": 9448,
-  "tracks_with_isrc": 718,
-  "tracks_with_local_file": 9287
+  "track_count": 9487,
+  "tracks_with_isrc": 792,
+  "tracks_with_local_file": 9287,
+  "disk_reconcile": {
+    "done": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM",
+    "home": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\HOME",
+    "exact": 25,
+    "fuzzy": 128,
+    "isrc": 0,
+    "missing": 609,
+    "coverage_pct": 20.08,
+    "added_rows": 39,
+    "updated_rows": 54
+  }
 }
