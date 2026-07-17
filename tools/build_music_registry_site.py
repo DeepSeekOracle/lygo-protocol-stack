@@ -45,28 +45,188 @@ def norm(t: str) -> str:
     return t
 
 
+# Compact ISRC: CC-XXX-YY-NNNNN without dashes (e.g. QT6EW2634453, QZS672411119)
+ISRC_COMPACT_RE = re.compile(r"^[A-Z]{2}[A-Z0-9]{10}$")
+# Dashed display form from local filenames (QZ-S67-24-11119)
+ISRC_DASHED_RE = re.compile(r"^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$", re.I)
+DATE_RE = re.compile(r"^\d{1,2}/\d{1,2}/\d{2,4}")
+TRACK_NUM_RE = re.compile(r"^\d{1,4}$")
+VAULT_UI = {
+    "plain lyrics",
+    "synced lyrics",
+    "credits",
+    "vizy",
+    "audio swap",
+    "download",
+    "isrc",
+    "lyrics",
+    "explicit lyrics",
+}
+
+
+def is_isrc_code(s: str) -> bool:
+    s = (s or "").strip().upper().replace(" ", "")
+    if ISRC_COMPACT_RE.match(s):
+        return True
+    if ISRC_DASHED_RE.match(s):
+        return True
+    return False
+
+
+def normalize_isrc(s: str) -> str:
+    """Return compact uppercase ISRC (no dashes)."""
+    s = (s or "").strip().upper().replace(" ", "").replace("-", "")
+    return s if ISRC_COMPACT_RE.match(s) else (s or "")
+
+
+def clean_vault_title(t: str) -> str:
+    t = (t or "").strip()
+    t = re.sub(r"\s+Explicit lyrics\s*$", "", t, flags=re.I).strip()
+    t = re.sub(r"\s+Clean lyrics\s*$", "", t, flags=re.I).strip()
+    return t
+
+
 def parse_restore(path: Path) -> list[dict]:
-    lines = [ln.strip() for ln in path.read_text(encoding="utf-8", errors="replace").splitlines() if ln.strip()]
-    releases = []
+    """
+    Parse DistroKid restore export. Supports mixed formats:
+    1) Vault export blocks: track# / title [Explicit lyrics] / UI rows / ISRC / QT…
+    2) Legacy triples: title / artist / date  (or title / date)
+    """
+    raw = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    lines = [ln.strip() for ln in raw]
+    releases: list[dict] = []
+
+    # --- Format 1: vault ISRC blocks (label "ISRC" then code) ---
+    for i, ln in enumerate(lines):
+        if ln.upper() != "ISRC":
+            continue
+        if i + 1 >= len(lines) or not is_isrc_code(lines[i + 1]):
+            continue
+        isrc = normalize_isrc(lines[i + 1])
+        title = None
+        for j in range(i - 1, max(-1, i - 25), -1):
+            cand = lines[j]
+            if not cand:
+                continue
+            low = cand.lower()
+            if low in VAULT_UI:
+                continue
+            if TRACK_NUM_RE.match(cand):
+                continue
+            if is_isrc_code(cand):
+                continue
+            if DATE_RE.match(cand):
+                continue
+            if low == "excavationpro":
+                continue
+            title = clean_vault_title(cand)
+            break
+        if title:
+            releases.append(
+                {
+                    "title": title,
+                    "artist": "Excavationpro",
+                    "date": "",
+                    "isrc": isrc,
+                    "source": "distrokid_vault",
+                }
+            )
+
+    # --- Format 2: title / artist / date triples (and title / date) ---
+    # Skip lines already consumed as vault UI / ISRCs / track numbers.
+    vault_noise = set()
+    for i, ln in enumerate(lines):
+        if ln.upper() == "ISRC" and i + 1 < len(lines) and is_isrc_code(lines[i + 1]):
+            vault_noise.add(i)
+            vault_noise.add(i + 1)
+            # mark UI + track# window above
+            for j in range(max(0, i - 12), i):
+                c = lines[j]
+                if not c or c.lower() in VAULT_UI or TRACK_NUM_RE.match(c) or is_isrc_code(c):
+                    vault_noise.add(j)
+                # title line itself — still allow re-parse as triple only if no vault hit;
+                # vault already captured it with ISRC, so mark title as used for triple skip via dedupe
+
     i = 0
-    while i < len(lines):
+    n = len(lines)
+    while i < n:
+        if i in vault_noise:
+            i += 1
+            continue
         title = lines[i]
-        artist = lines[i + 1] if i + 1 < len(lines) else "Excavationpro"
-        date = lines[i + 2] if i + 2 < len(lines) else ""
-        if re.match(r"^\d{1,2}/", artist):
-            date = artist
-            artist = "Excavationpro"
+        if not title or title.lower() in VAULT_UI or TRACK_NUM_RE.match(title) or is_isrc_code(title):
+            i += 1
+            continue
+        if title.upper() == "ISRC":
+            i += 1
+            continue
+
+        artist = lines[i + 1] if i + 1 < n else ""
+        date = lines[i + 2] if i + 2 < n else ""
+
+        # title / date (artist omitted)
+        if DATE_RE.match(artist or ""):
+            releases.append(
+                {
+                    "title": clean_vault_title(title),
+                    "artist": "Excavationpro",
+                    "date": artist,
+                    "isrc": None,
+                    "source": "restore_list",
+                }
+            )
             i += 2
-        else:
+            continue
+
+        # title / artist / date
+        if artist and DATE_RE.match(date or ""):
+            # skip if artist looks like vault UI
+            if artist.lower() in VAULT_UI or is_isrc_code(artist):
+                i += 1
+                continue
+            releases.append(
+                {
+                    "title": clean_vault_title(title),
+                    "artist": artist or "Excavationpro",
+                    "date": date,
+                    "isrc": None,
+                    "source": "restore_list",
+                }
+            )
             i += 3
-        releases.append({"title": title, "artist": artist, "date": date})
+            continue
+
+        i += 1
+
+    # Dedupe by normalized title; prefer row with ISRC, then with date
     uniq: OrderedDict[str, dict] = OrderedDict()
     for r in releases:
-        k = norm(r["title"])
-        if k and k not in uniq:
+        title = (r.get("title") or "").strip()
+        if not title:
+            continue
+        k = norm(title)
+        if not k:
+            continue
+        if k not in uniq:
             uniq[k] = r
-        elif k in uniq and r.get("date") and not uniq[k].get("date"):
-            uniq[k]["date"] = r["date"]
+            continue
+        cur = uniq[k]
+        if r.get("isrc") and not cur.get("isrc"):
+            # keep dates/artist from existing if present
+            merged = {**cur, **{kk: vv for kk, vv in r.items() if vv}}
+            if cur.get("date") and not r.get("date"):
+                merged["date"] = cur["date"]
+            if cur.get("artist") and cur.get("artist") != "Excavationpro":
+                merged["artist"] = cur["artist"]
+            uniq[k] = merged
+        elif r.get("date") and not cur.get("date"):
+            cur["date"] = r["date"]
+        elif r.get("isrc") and cur.get("isrc") and r["isrc"] != cur["isrc"]:
+            # keep first; attach alternate
+            alts = list(cur.get("alt_isrcs") or [])
+            if r["isrc"] not in alts and r["isrc"] != cur["isrc"]:
+                alts.append(r["isrc"])
+            cur["alt_isrcs"] = alts
     return list(uniq.values())
 
 
@@ -110,25 +270,82 @@ def build() -> dict:
                 }
             )
 
-    # ISRC registry
+    # ISRC registry from local catalog files (QZ/QM dashed + compact)
     isrc_rows = []
     seen_isrc = set()
     for t in tracks:
         isrc = t.get("isrc")
-        if not isrc or isrc in seen_isrc:
+        if not isrc:
             continue
-        seen_isrc.add(isrc)
+        # store both display and compact keys for dedupe
+        compact = normalize_isrc(isrc) if is_isrc_code(isrc) else (isrc or "").upper()
+        key = compact or isrc
+        if key in seen_isrc:
+            continue
+        seen_isrc.add(key)
         isrc_rows.append(
             {
                 "title": t.get("title"),
                 "isrc": isrc,
+                "isrc_compact": compact or None,
                 "upc": t.get("upc"),
                 "album": t.get("album"),
                 "local_path": t.get("local_path"),
                 "filename": t.get("filename"),
                 "spotify_url": t.get("spotify_url"),
+                "source": "local_catalog",
             }
         )
+
+    # Merge DistroKid vault ISRCs (QT* etc.) from restore list
+    vault_isrc_count = 0
+    for r in restore:
+        isrc = r.get("isrc")
+        if not isrc:
+            continue
+        compact = normalize_isrc(isrc)
+        key = compact or isrc
+        if key in seen_isrc:
+            # enrich existing row title if blank
+            continue
+        seen_isrc.add(key)
+        vault_isrc_count += 1
+        isrc_rows.append(
+            {
+                "title": r.get("title"),
+                "isrc": compact or isrc,
+                "isrc_compact": compact or isrc,
+                "upc": None,
+                "album": None,
+                "local_path": None,
+                "filename": None,
+                "spotify_url": None,
+                "source": "distrokid_vault",
+                "date": r.get("date") or None,
+            }
+        )
+        for alt in r.get("alt_isrcs") or []:
+            ak = normalize_isrc(alt) or alt
+            if ak in seen_isrc:
+                continue
+            seen_isrc.add(ak)
+            vault_isrc_count += 1
+            isrc_rows.append(
+                {
+                    "title": r.get("title"),
+                    "isrc": ak,
+                    "isrc_compact": ak,
+                    "upc": None,
+                    "album": None,
+                    "local_path": None,
+                    "filename": None,
+                    "spotify_url": None,
+                    "source": "distrokid_vault",
+                    "date": r.get("date") or None,
+                }
+            )
+
+    isrc_rows.sort(key=lambda x: ((x.get("title") or "").lower(), x.get("isrc") or ""))
 
     matched = []
     missing = []
@@ -150,18 +367,30 @@ def build() -> dict:
                 fuzzy = {"score": round(score, 3), "matched_as": by_title[best][0].get("title"), "key": best}
                 entries = by_title[best]
 
-        has_isrc = any(e.get("isrc") for e in entries)
+        restore_isrc = r.get("isrc")
+        local_isrcs = list({e.get("isrc") for e in entries if e.get("isrc")})
+        isrcs = list(local_isrcs)
+        if restore_isrc and restore_isrc not in isrcs:
+            isrcs.insert(0, restore_isrc)
+        for alt in r.get("alt_isrcs") or []:
+            if alt not in isrcs:
+                isrcs.append(alt)
+
+        has_isrc = bool(isrcs)
         has_local = any(e.get("local_path") for e in entries)
         has_spotify = any(e.get("spotify_url") or e.get("spotify_track_id") or e.get("spotify_album_id") for e in entries)
         spotify_url = next(
             (e.get("spotify_url") for e in entries if e.get("spotify_url")),
             None,
         )
-        isrcs = list({e.get("isrc") for e in entries if e.get("isrc")})
         local_files = list({e.get("filename") for e in entries if e.get("filename")})[:5]
 
         row = {
-            **r,
+            "title": r.get("title"),
+            "artist": r.get("artist") or "Excavationpro",
+            "date": r.get("date") or "",
+            "isrc": restore_isrc,
+            "source": r.get("source"),
             "status": status,
             "fuzzy": fuzzy,
             "has_isrc": has_isrc,
@@ -176,6 +405,9 @@ def build() -> dict:
             missing.append(row)
         else:
             matched.append(row)
+
+    restore_with_isrc = sum(1 for r in restore if r.get("isrc"))
+    local_only_isrcs = sum(1 for r in isrc_rows if r.get("source") == "local_catalog")
 
     # merkle-ish ledger of catalog snapshot
     payload = {
@@ -197,9 +429,12 @@ def build() -> dict:
         },
         "stats": {
             "restore_unique_titles": len(restore),
+            "restore_with_vault_isrc": restore_with_isrc,
             "matched_titles": len(matched),
             "missing_titles": len(missing),
-            "unique_isrcs_local": len(isrc_rows),
+            "unique_isrcs_local": local_only_isrcs,
+            "unique_isrcs_vault_added": vault_isrc_count,
+            "unique_isrcs_total": len(isrc_rows),
             "spotify_albums": len(albums),
             "catalog_track_rows": len(tracks),
         },
@@ -223,14 +458,15 @@ def build() -> dict:
     core = json.dumps(
         {
             "restore_titles": sorted(r["title"] for r in restore),
-            "isrcs": sorted(r["isrc"] for r in isrc_rows),
+            "restore_isrcs": sorted(r["isrc"] for r in restore if r.get("isrc")),
+            "isrcs": sorted((r.get("isrc_compact") or r.get("isrc") or "") for r in isrc_rows),
             "spotify_albums": sorted(a.get("spotify_album_id") or "" for a in albums),
         },
         sort_keys=True,
     ).encode("utf-8")
     payload["ledger"] = {
         "content_sha256": hashlib.sha256(core).hexdigest(),
-        "note": "SHA-256 of sorted restore titles + ISRCs + Spotify album IDs. Recompute after each catalog growth.",
+        "note": "SHA-256 of sorted restore titles + vault ISRCs + full ISRC registry + Spotify album IDs. Recompute after each catalog growth.",
         "lattice_role": "music-catalog-anchor",
         "anchor_paths": [
             "Excavationpro/excavationpro-music-catalog.html",
@@ -559,11 +795,13 @@ function allReleases() {{
 function renderStats() {{
   const s = DATA.stats || {{}};
   const total = (s.restore_unique_titles || 0);
-  const isrcs = s.unique_isrcs_local || (DATA.isrc_registry || []).length;
+  const isrcs = s.unique_isrcs_total || s.unique_isrcs_local || (DATA.isrc_registry || []).length;
+  const vault = s.restore_with_vault_isrc || 0;
   const live = allReleases().filter(r => r.has_spotify || r.spotify_url).length;
   $('#stats').innerHTML = [
     ['Releases', total],
     ['ISRCs on ledger', isrcs],
+    ['Vault ISRCs', vault],
     ['Spotify albums', s.spotify_albums || 0],
     ['Live-linked titles', live],
     ['Catalog rows', s.catalog_track_rows || 0],
@@ -604,13 +842,16 @@ function renderCatalog() {{
 }}
 
 function renderIsrc() {{
-  const rows = (DATA.isrc_registry||[]).filter(r => rowMatch([r.isrc,r.title,r.album,r.filename].join(' ')));
-  $('#tb-isrc').innerHTML = rows.map(r => `
+  const rows = (DATA.isrc_registry||[]).filter(r => rowMatch([r.isrc,r.title,r.album,r.filename,r.source].join(' ')));
+  $('#tb-isrc').innerHTML = rows.map(r => {{
+    const src = r.source === 'distrokid_vault' ? '<span class="badge live">vault</span>' : (r.album ? esc(r.album) : '<span class="badge catalog">local</span>');
+    return `
     <tr>
       <td><span class="badge isrc">${{esc(r.isrc)}}</span></td>
       <td>${{esc(r.title||'')}}</td>
-      <td>${{esc(r.album||'')}}</td>
-    </tr>`).join('') || '<tr><td colspan="3">No ISRCs</td></tr>';
+      <td>${{src}}</td>
+    </tr>`;
+  }}).join('') || '<tr><td colspan="3">No ISRCs</td></tr>';
 }}
 
 function renderSpotify() {{
@@ -735,9 +976,12 @@ Generated: {payload['generated_at']}
 | Metric | Count |
 |--------|------:|
 | Unique titles in `All music Restore.txt` | {s['restore_unique_titles']} |
+| Titles with DistroKid vault ISRC (QT*) | {s.get('restore_with_vault_isrc', 0)} |
 | Matched in our catalog (exact/fuzzy) | {s['matched_titles']} |
 | **Missing from catalog** | **{s['missing_titles']}** |
 | Unique ISRCs from J: filenames | {s['unique_isrcs_local']} |
+| Vault ISRCs newly on ledger | {s.get('unique_isrcs_vault_added', 0)} |
+| **Total unique ISRCs on ledger** | **{s.get('unique_isrcs_total', s['unique_isrcs_local'])}** |
 | Spotify albums (public page) | {s['spotify_albums']} |
 
 ## Ledger
@@ -755,6 +999,25 @@ python tools/build_music_registry_site.py
         encoding="utf-8",
     )
     print("wrote", md)
+
+    # snapshot restore source + vault ISRC export for recovery
+    try:
+        if RESTORE.exists():
+            (CAT_DIR / "All_music_Restore.txt").write_bytes(RESTORE.read_bytes())
+            print("copied restore snapshot ->", CAT_DIR / "All_music_Restore.txt")
+    except OSError as e:
+        print("warn: could not copy restore file:", e)
+
+    vault_csv = CAT_DIR / "excavationpro_vault_isrcs.csv"
+    vault_lines = ["title,isrc,source"]
+    for r in payload.get("isrc_registry") or []:
+        if r.get("source") != "distrokid_vault":
+            continue
+        title = (r.get("title") or "").replace('"', '""')
+        vault_lines.append(f'"{title}",{r.get("isrc") or ""},distrokid_vault')
+    vault_csv.write_text("\n".join(vault_lines) + "\n", encoding="utf-8")
+    print("wrote", vault_csv)
+
     return 0
 
 
