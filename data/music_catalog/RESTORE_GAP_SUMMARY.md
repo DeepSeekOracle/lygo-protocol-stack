@@ -1,19 +1,19 @@
 # DistroKid Restore vs Local Catalog
 
-Generated: 2026-07-17T04:34:21.827576+00:00
+Generated: 2026-07-17T04:49:19.429840+00:00
 
 | Metric | Count |
 |--------|------:|
-| Unique titles in `All music Restore.txt` | 761 |
-| Titles with DistroKid vault ISRC (QT*) | 392 |
-| Known / matched (local or Spotify) | 475 |
-| Local masters found | 347 |
-| On Spotify (no local or with) | 160 |
-| Vault ISRC only (no local file — re-download) | 179 |
-| **No local / Spotify / ISRC trace** | **107** |
+| Unique titles in `All music Restore.txt` | 1151 |
+| Titles with DistroKid vault ISRC (QT*) | 816 |
+| Known / matched (local or Spotify) | 862 |
+| Local masters found | 734 |
+| On Spotify (no local or with) | 168 |
+| Vault ISRC only (no local file — re-download) | 187 |
+| **No local / Spotify / ISRC trace** | **102** |
 | Unique ISRCs from J: filenames | 722 |
-| Vault ISRCs newly on ledger | 424 |
-| **Total unique ISRCs on ledger** | **1146** |
+| Vault ISRCs newly on ledger | 448 |
+| **Total unique ISRCs on ledger** | **1170** |
 | Spotify albums (public page) | 22 |
 
 ### Why DONE ALBUM / HOME are not 100%
@@ -22,7 +22,7 @@ Many DistroKid vault rows use newer **QT*** codes and exist on streaming only un
 See `restore_NO_LOCAL_FILE.txt` and `restore_STILL_MISSING_after_disk_scan.txt`.
 
 ## Ledger
-`6f451d1560977955adbf06f9ffd2939d6e337866654208f3c73d32d874240700`
+`f235b859de346f601448b5957d161129d15da05ed3d7a770bdbd6d7a56991014`
 
 ## Site
 - https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html
