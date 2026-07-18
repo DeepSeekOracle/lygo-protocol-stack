@@ -288,6 +288,8 @@ def scan_and_build(
     print(f"[scan] audio files: {len(files)}", flush=True)
 
     by_hash: dict[str, dict[str, Any]] = {}
+    # path -> (sha256, size) for skip-rehash when unchanged
+    path_cache: dict[str, tuple[str, int]] = {}
     prior_roots: list[str] = []
     if merge_existing:
         for prior in (
@@ -301,19 +303,34 @@ def scan_and_build(
                         d = o.get("sha256")
                         if d:
                             by_hash[d] = o
+                            sz = int(o.get("size") or 0)
+                            for pth in o.get("paths") or []:
+                                path_cache[str(pth)] = (d, sz)
                     prior_roots = list(old.get("scan_roots") or [])
-                    print(f"[merge] loaded {len(by_hash)} existing from {prior}", flush=True)
+                    print(
+                        f"[merge] loaded {len(by_hash)} existing, "
+                        f"{len(path_cache)} path cache from {prior}",
+                        flush=True,
+                    )
                     break
                 except Exception as e:
                     print(f"[merge] skip {prior}: {e}", flush=True)
 
     errors = 0
     new_count = 0
+    cache_hits = 0
 
     for i, path in enumerate(files):
         try:
             st = path.stat()
-            digest = sha256_file(path)
+            sp = str(path)
+            # Fast path: known path + same size → reuse SHA-256 (own-music gap fill)
+            cached = path_cache.get(sp)
+            if cached and cached[1] == st.st_size:
+                digest = cached[0]
+                cache_hits += 1
+            else:
+                digest = sha256_file(path)
             fn = path.name
             isrcs = extract_isrcs(fn)
             guess = title_from_fn(fn)
@@ -331,8 +348,8 @@ def scan_and_build(
             if digest in by_hash:
                 row = by_hash[digest]
                 paths = list(row.get("paths") or [])
-                if str(path) not in paths:
-                    paths.append(str(path))
+                if sp not in paths:
+                    paths.append(sp)
                 row["paths"] = paths
                 fns = list(row.get("filenames") or [])
                 if fn not in fns:
@@ -350,6 +367,7 @@ def scan_and_build(
                 row["isrcs"] = ir
                 if commercial and not row.get("commercial_title"):
                     row["commercial_title"] = commercial
+                path_cache[sp] = (digest, st.st_size)
             else:
                 cas_path = None
                 if do_ingest:
@@ -362,17 +380,23 @@ def scan_and_build(
                     "commercial_title": commercial,
                     "aliases": aliases,
                     "isrcs": isrcs,
-                    "paths": [str(path)],
+                    "paths": [sp],
                     "filenames": [fn],
                     "cas_path": cas_path,
                     "mtime": datetime.fromtimestamp(st.st_mtime, tz=timezone.utc).isoformat(),
+                    "steward_claim": "own_work",  # Excavationpro / Justin Helmer vault
                 }
                 new_count += 1
+                path_cache[sp] = (digest, st.st_size)
         except Exception as e:
             errors += 1
             print(f"[err] {path}: {e}", flush=True)
         if (i + 1) % 50 == 0 or i == 0:
-            print(f"  hashed {i+1}/{len(files)} unique={len(by_hash)} new={new_count}", flush=True)
+            print(
+                f"  hashed {i+1}/{len(files)} unique={len(by_hash)} "
+                f"new={new_count} cache_hit={cache_hits}",
+                flush=True,
+            )
 
     objects = sorted(
         by_hash.values(),

@@ -1,0 +1,18 @@
+{
+  "signature": "Δ9Φ963-ACTORS-COMPLETE-v1",
+  "generated_at": "2026-07-18",
+  "root": "I:\\Actors",
+  "policy": "own_work_only_excavationpro",
+  "disk_audio_files": 2597,
+  "vault_path_entries": 2597,
+  "vault_unique_sha256": 2499,
+  "internal_duplicates_same_hash": 98,
+  "disk_paths_missing_from_vault": 0,
+  "unique_with_public_stream_mp3": 2499,
+  "unique_missing_stream": 0,
+  "unique_in_playlist": 2499,
+  "hf_dataset": "DeepSeekOracle/excavationpro-music-stream",
+  "hf_sample_probe": "HTTP 200 for Actors track stream",
+  "conclusion": "ALL I:\\Actors audio is already in the sovereign vault (path-matched). All unique hashes have public streams and playlist entries on HF. No gap merge required for Actors. 98 of 2597 files are content-duplicates (same SHA as another Actors path or shared master).",
+  "note": "Duplicates watched via SHA-256 — not double-encoded or double-uploaded."
+}
