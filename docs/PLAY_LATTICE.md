@@ -3,6 +3,10 @@
 **Signature:** `Δ9Φ963-PLAY-LATTICE-v1`  
 **Purpose:** Real multi-listener play tallies for the Excavationpro listen portal — append-only, hash-chained, CAS-backed, public-readable.
 
+> **Read first:** [PLAY_LISTING_SYSTEM_DESIGN.md](./PLAY_LISTING_SYSTEM_DESIGN.md)  
+> **Live listen page must stay free of inlined play-count JS.** Listing is an **additive plugin** only.  
+> Baseline working portal (no listing module): Excavationpro `655f29d` / rollback era.
+
 ## Why not plain page analytics?
 
 | Approach | Problem |
