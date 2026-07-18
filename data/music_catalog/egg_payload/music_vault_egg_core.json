@@ -1,0 +1,18 @@
+{
+  "signature": "\u03949\u03a6963-SOVEREIGN-MUSIC-VAULT-v1",
+  "egg_id": "excavationpro-music-vault-v1",
+  "merkle_root": "1b55258de956a64e6d0045f50671ef9dcbe873ff305f6711c9f0f399bc390fbe",
+  "stats": {
+    "files_seen": 1853,
+    "unique_objects": 1784,
+    "total_bytes": 79729915034,
+    "total_gb": 74.254,
+    "deduped_away": 69,
+    "with_isrc": 1394,
+    "with_commercial_title": 955,
+    "ingested_to_cas": 0,
+    "errors": 0
+  },
+  "generated_at": "2026-07-18T01:18:15.829675+00:00",
+  "hub": "excavationpro-sovereign-music-hub.html"
+}
