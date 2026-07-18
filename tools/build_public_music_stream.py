@@ -306,11 +306,14 @@ def _load_lattice_payload() -> dict:
         "deezer": "https://www.deezer.com/artist/146004952",
         "feature_fm": "https://ffm.to/eovnvo9",
         "rumble_channel": "https://rumble.com/user/Excavationpro",
-        "rumble_live": (
+        "rumble_live": "https://rumble.com/user/excavationpro/live",
+        "rumble_live_radio": (
             "https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html"
             "?mref=1th29y&mc=2p3fp"
         ),
         "rumble_embed": "https://rumble.com/embed/v7anxls/?pub=1th29y",
+        "kick_live": "https://kick.com/excavationpro",
+        "twitch_live": "https://twitch.tv/excavationpro",
         "hf_streams": f"https://huggingface.co/datasets/{HF_REPO_DEFAULT}",
         "twitter": "https://twitter.com/Excavationpro",
         "instagram": "https://instagram.com/Excavationpro",
@@ -366,37 +369,162 @@ def write_public_player_hub(base_url: str | None = None) -> None:
     data_js = json.dumps(page_data, ensure_ascii=False).replace("</", "<\\/")
     og = "https://deepseekoracle.github.io/Excavationpro/assets/og-haven-star-chart.jpg"
     rumble_embed = lattice["sites"]["rumble_embed"]
+    n_tracks = len(slim_tracks)
+    n_play = playable or n_tracks
+    desc = (
+        f"Free Excavationpro music portal: {n_play}+ playable streams, sovereign SHA-256 vault, "
+        "immutable ledger, Kick/Rumble/Twitch live portals, Eternal Haven lattice. "
+        "Independent of DistroKid. Listen free in your browser — Justin Helmer / Lightfather."
+    )
+    # JSON-LD sample tracks (first 40 for crawlers without huge payload)
+    sample_tracks = [
+        {
+            "@type": "MusicRecording",
+            "name": t.get("title") or "Track",
+            "url": t.get("stream_url") or "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+            "byArtist": {"@type": "MusicGroup", "name": "Excavationpro"},
+        }
+        for t in slim_tracks[:40]
+        if t.get("title")
+    ]
+    json_ld = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://deepseekoracle.github.io/Excavationpro/#website",
+                "name": "Excavationpro / Eternal Haven",
+                "url": "https://deepseekoracle.github.io/Excavationpro/",
+                "publisher": {"@id": "https://deepseekoracle.github.io/Excavationpro/#org"},
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q={search_term_string}",
+                    "query-input": "required name=search_term_string",
+                },
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html#webpage",
+                "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+                "name": "Excavationpro Listen Free — Sovereign Music Portal",
+                "description": desc,
+                "isPartOf": {"@id": "https://deepseekoracle.github.io/Excavationpro/#website"},
+                "about": {"@id": "https://deepseekoracle.github.io/Excavationpro/#artist"},
+                "primaryImageOfPage": {"@type": "ImageObject", "url": og},
+                "inLanguage": "en",
+            },
+            {
+                "@type": "MusicPlaylist",
+                "@id": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html#playlist",
+                "name": "Excavationpro Sovereign Stream Pack",
+                "numTracks": n_tracks,
+                "description": desc,
+                "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+                "author": {"@id": "https://deepseekoracle.github.io/Excavationpro/#artist"},
+                "track": sample_tracks,
+            },
+            {
+                "@type": "MusicGroup",
+                "@id": "https://deepseekoracle.github.io/Excavationpro/#artist",
+                "name": "Excavationpro",
+                "alternateName": ["Justin Helmer", "Lightfather"],
+                "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+                "sameAs": [
+                    "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S",
+                    "https://music.youtube.com/@Excavationpro",
+                    "https://www.deezer.com/artist/146004952",
+                    "https://kick.com/excavationpro",
+                    "https://twitch.tv/excavationpro",
+                    "https://rumble.com/user/Excavationpro",
+                    "https://twitter.com/Excavationpro",
+                    "https://instagram.com/Excavationpro",
+                    "https://excavationpro.ca/",
+                    "https://ffm.to/eovnvo9",
+                ],
+                "genre": ["Hip Hop", "Experimental", "Electronic"],
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://deepseekoracle.github.io/Excavationpro/#org",
+                "name": "Excavationpro / LYGO / Eternal Haven",
+                "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+                "logo": og,
+                "sameAs": [
+                    "https://github.com/DeepSeekOracle/Excavationpro",
+                    "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+                ],
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Eternal Haven",
+                        "item": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Listen Free",
+                        "item": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+                    },
+                ],
+            },
+            {
+                "@type": "DonateAction",
+                "name": "Support Excavationpro via PayPal",
+                "recipient": {"@id": "https://deepseekoracle.github.io/Excavationpro/#artist"},
+                "target": "https://www.paypal.com/paypalme/ExcavationPro",
+            },
+        ],
+    }
+    json_ld_s = json.dumps(json_ld, ensure_ascii=False).replace("</", "<\\/")
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Excavationpro Listen — Free Sovereign Music Player + Lattice Ledger</title>
-<meta name="description" content="Fully interactive free player for Excavationpro: 1700+ streams, SHA-256 vault, immutable music ledger, Eternal Haven lattice links, 24/7 Rumble radio. Independent of DistroKid and Spotify.">
-<meta name="keywords" content="Excavationpro, free music player, sovereign stream, immutable ledger, LYGO lattice, Eternal Haven, Justin Helmer, independent artist">
+<title>Excavationpro Listen Free — {n_play}+ Songs · Sovereign Music Portal · Lattice Ledger</title>
+<meta name="description" content="{desc}">
+<meta name="keywords" content="Excavationpro, free music stream, listen free, independent artist, Justin Helmer, Lightfather, sovereign music vault, LYGO lattice, Eternal Haven, Kick live, Twitch, Rumble, hip hop, experimental, donate PayPal">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<meta name="theme-color" content="#0a0a12">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
 <link rel="canonical" href="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html">
-<meta property="og:title" content="Excavationpro — Listen Free + Lattice Ledger">
-<meta property="og:description" content="Interactive sovereign music hub: play free streams, verify immutable ledger, explore the lattice.">
+<link rel="alternate" type="application/json" href="data/public_stream_playlist.json" title="Stream playlist JSON">
+<meta property="og:site_name" content="Excavationpro / Eternal Haven">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Excavationpro Listen Free — {n_play}+ Sovereign Streams">
+<meta property="og:description" content="{desc}">
 <meta property="og:type" content="music.playlist">
 <meta property="og:url" content="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html">
 <meta property="og:image" content="{og}">
+<meta property="og:image:alt" content="Excavationpro Eternal Haven music portal">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Excavationpro Listen Free">
-<meta name="twitter:description" content="Sovereign player + immutable ledger + full lattice links.">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="Excavationpro Listen Free — {n_play}+ Streams">
+<meta name="twitter:description" content="Free sovereign player · ledger · Kick/Rumble/Twitch live · support via PayPal.">
 <meta name="twitter:image" content="{og}">
+<link rel="sitemap" type="application/xml" href="sitemap.xml">
+<script type="application/ld+json">{json_ld_s}</script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {{
   --void:#06060e; --panel:#12121f; --cyan:#00f0ff; --mag:#b06bff; --gold:#d4af37;
-  --ok:#3dd68c; --text:#eeeef6; --muted:#9a9ab0; --live:#ff4d6d;
+  --ok:#3dd68c; --text:#eeeef6; --muted:#9a9ab0; --live:#ff4d6d; --paypal:#0070ba;
 }}
 * {{ box-sizing:border-box; }}
 html {{ scroll-behavior:smooth; }}
 body {{
   margin:0; font-family:Inter,system-ui,sans-serif; color:var(--text);
   background:radial-gradient(1100px 560px at 12% -8%,#2a1450 0%,var(--void) 48%);
-  min-height:100vh; padding-bottom:110px;
+  min-height:100vh; padding-bottom:120px;
 }}
 a {{ color:var(--cyan); text-decoration:none; }}
 a:hover {{ text-decoration:underline; }}
@@ -411,6 +539,44 @@ h1 {{ font-family:Cinzel,serif; color:var(--gold); margin:0 0 8px; font-size:cla
 }}
 .nav-main a:hover {{ border-color:var(--gold); color:var(--gold); text-decoration:none; }}
 .nav-main a.pri {{ border-color:rgba(212,175,55,.5); background:rgba(212,175,55,.12); color:var(--gold); }}
+.nav-main a.donate {{ border-color:rgba(0,112,186,.6); background:rgba(0,112,186,.2); color:#7ec8ff; }}
+.donate-strip {{
+  margin:14px 0 0; padding:14px 16px; border-radius:12px;
+  border:1px solid rgba(0,112,186,.45); background:linear-gradient(135deg,rgba(0,112,186,.18),rgba(176,107,255,.12));
+  display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+}}
+.donate-strip p {{ margin:0; color:var(--muted); font-size:.88rem; line-height:1.45; max-width:60ch; }}
+.paypal-btn {{
+  display:inline-flex; align-items:center; gap:8px; padding:12px 18px; border-radius:10px;
+  background:var(--paypal); color:#fff !important; font-weight:700; font-size:.92rem;
+  border:none; text-decoration:none !important; box-shadow:0 4px 18px rgba(0,112,186,.35);
+}}
+.paypal-btn:hover {{ filter:brightness(1.12); color:#fff !important; }}
+.live-pills {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }}
+.live-pills a {{
+  font-size:.8rem; font-weight:600; padding:8px 12px; border-radius:8px;
+  border:1px solid rgba(255,77,109,.4); background:rgba(255,77,109,.12); color:#ffb3c1;
+}}
+.live-pills a:hover {{ border-color:var(--gold); color:var(--gold); text-decoration:none; }}
+.ad-region {{
+  display:none; margin:14px 0; padding:10px 12px; border-radius:12px;
+  border:1px dashed rgba(255,255,255,.12); background:rgba(0,0,0,.25); text-align:center;
+}}
+.ad-region.ads-consent {{ display:block; }}
+.ad-label {{ font-size:.68rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; }}
+.ad-box {{ min-height:90px; overflow:hidden; }}
+.cookie-banner {{
+  position:fixed; left:12px; right:12px; bottom:108px; z-index:60; max-width:560px; margin:0 auto;
+  background:rgba(12,12,22,.97); border:1px solid rgba(0,240,255,.3); border-radius:12px;
+  padding:14px 16px; box-shadow:0 8px 32px rgba(0,0,0,.5); font-size:.84rem; color:var(--muted);
+}}
+.cookie-banner strong {{ color:var(--text); }}
+.cookie-actions {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }}
+.cookie-actions button {{
+  cursor:pointer; border-radius:8px; padding:8px 14px; font-weight:600; font-size:.82rem;
+  border:1px solid rgba(0,240,255,.35); background:rgba(0,240,255,.12); color:var(--text);
+}}
+.cookie-actions button.accept {{ border-color:rgba(0,112,186,.6); background:var(--paypal); color:#fff; }}
 .tabs {{ display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 10px; }}
 .tabs button {{
   cursor:pointer; border-radius:8px; border:1px solid rgba(176,107,255,.35);
@@ -498,17 +664,34 @@ footer {{ max-width:1120px; margin:24px auto 0; padding:16px; color:var(--muted)
 <body>
 <header class="hero wrap">
   <h1>Excavationpro — Listen Free</h1>
-  <p class="sub">Fully interactive sovereign player. Streams host outside DistroKid/Spotify.
-  Immutable music ledger + vault Merkle root live on this page. Linked to the full Eternal Haven / LYGO lattice.</p>
+  <p class="sub">Epic sovereign music portal — free browser player, immutable ledger, SHA-256 vault, and live portals.
+  Independent of DistroKid and Spotify. Support keeps hosting &amp; tools free for everyone.</p>
   <nav class="nav-main" id="nav-main" aria-label="All sites"></nav>
+  <div class="live-pills" aria-label="Live streaming portals">
+    <a href="https://kick.com/excavationpro" target="_blank" rel="noopener">● Kick Live</a>
+    <a href="https://rumble.com/user/excavationpro/live" target="_blank" rel="noopener">● Rumble Live</a>
+    <a href="https://twitch.tv/excavationpro" target="_blank" rel="noopener">● Twitch Live</a>
+  </div>
+  <div class="donate-strip" id="donate">
+    <p><strong style="color:var(--text)">Support Excavationpro / LYGO / Eternal Haven</strong><br>
+    Donations are appreciated, never expected — they help cover hosting, streams, and lattice tools.
+    PayPal: <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">paypal.me/ExcavationPro</a></p>
+    <a class="paypal-btn" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
+  </div>
 </header>
 
 <div class="wrap">
+  <div class="ad-region" id="ad-top" aria-label="Advertisement">
+    <div class="ad-label">Advertisement</div>
+    <div class="ad-box"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+  </div>
+
   <div class="tabs" role="tablist">
     <button type="button" class="active" data-tab="player">Player</button>
     <button type="button" data-tab="ledger">Immutable Ledger</button>
     <button type="button" data-tab="lattice">Lattice &amp; Links</button>
-    <button type="button" data-tab="radio">Live Radio</button>
+    <button type="button" data-tab="radio">Live Portals</button>
+    <button type="button" data-tab="support">Support</button>
   </div>
 
   <section class="stats" id="stats"></section>
@@ -530,6 +713,10 @@ footer {{ max-width:1120px; margin:24px auto 0; padding:16px; color:var(--muted)
     </div>
     <p class="kb">Keys: <b>Space</b> play/pause · <b>N</b> next · <b>P</b> prev · <b>S</b> shuffle · <b>/</b> focus search</p>
     <div class="list" id="list"></div>
+    <div class="ad-region" id="ad-mid" aria-label="Advertisement" style="margin-top:16px">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-box"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
+    </div>
   </div>
 
   <div id="panel-ledger" class="panel hidden">
@@ -552,18 +739,68 @@ footer {{ max-width:1120px; margin:24px auto 0; padding:16px; color:var(--muted)
   </div>
 
   <div id="panel-radio" class="panel hidden">
-    <h2>24/7 Live Radio (Rumble)</h2>
+    <h2>Live portals</h2>
+    <div class="grid2 link-grid" style="margin-bottom:14px">
+      <div>
+        <h3 style="color:var(--gold);font-size:.95rem;margin:0 0 8px">Watch live</h3>
+        <a id="kick-open" href="https://kick.com/excavationpro" target="_blank" rel="noopener">Kick — kick.com/excavationpro<small>Primary live stream portal</small></a>
+        <a id="rumble-open" href="https://rumble.com/user/excavationpro/live" target="_blank" rel="noopener">Rumble Live — rumble.com/user/excavationpro/live<small>Live room</small></a>
+        <a id="twitch-open" href="https://twitch.tv/excavationpro" target="_blank" rel="noopener">Twitch — twitch.tv/excavationpro<small>Live portal</small></a>
+      </div>
+      <div>
+        <h3 style="color:var(--gold);font-size:.95rem;margin:0 0 8px">24/7 radio embed</h3>
+        <p class="sub" style="margin:0 0 8px">Always-on coffee-room radio (Rumble embed).</p>
+      </div>
+    </div>
     <div class="embed-wrap">
       <iframe src="{rumble_embed}" title="Excavationpro Live Radio" allowfullscreen allow="autoplay"></iframe>
     </div>
-    <p class="sub" style="margin-top:10px"><a id="rumble-open" href="#" target="_blank" rel="noopener">Open live on Rumble ↗</a></p>
+    <p class="sub" style="margin-top:10px"><a id="rumble-radio-open" href="#" target="_blank" rel="noopener">Open 24/7 radio on Rumble ↗</a></p>
+  </div>
+
+  <div id="panel-support" class="panel hidden">
+    <h2>Support the portal</h2>
+    <div class="note">
+      This listen hub, stream hosting, and lattice docs stay free for the public.
+      If the music or tools help you, a PayPal tip keeps the lights on.
+    </div>
+    <div class="donate-strip">
+      <p><strong style="color:var(--text)">PayPal.me/ExcavationPro</strong><br>
+      Official donate link for Justin Helmer / Excavationpro / LYGO Systems / Eternal Haven.
+      Donations appreciated, never expected.</p>
+      <a class="paypal-btn" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
+    </div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="card">
+        <b style="font-size:1rem;color:var(--gold)">What support funds</b>
+        <span style="display:block;margin-top:8px;line-height:1.5">Public stream hosting · GitHub Pages · Rumble/Kick presence · catalog &amp; ledger rebuilds · Eternal Haven lattice tools</span>
+      </div>
+      <div class="card">
+        <b style="font-size:1rem;color:var(--gold)">Also free forever</b>
+        <span style="display:block;margin-top:8px;line-height:1.5">Search &amp; play · immutable ledger verification · open lattice links · no account required to listen</span>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:14px">Privacy: Advertising cookies load only after you accept the banner. See Eternal Haven for full cookie policy.
+    AdSense publisher: <code>ca-pub-0646320966060599</code> · <a href="ads.txt">ads.txt</a></p>
+  </div>
+</div>
+
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-label="Cookie consent" style="display:none">
+  <strong>Cookies &amp; ads</strong>
+  <p style="margin:6px 0 0">We use cookies for optional Google AdSense ads that help support free hosting.
+  Streams and the player work without accepting ads. <a href="eternalhaven.html#privacy" style="color:var(--gold)">Privacy notes</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="accept" id="cookieAccept">Accept ads &amp; cookies</button>
+    <button type="button" id="cookieDecline">Essential only</button>
   </div>
 </div>
 
 <footer class="wrap">
   Δ9Φ963 Sovereign Listen Hub · Steward: Justin Helmer / Lightfather / Excavationpro ·
   Free to listen · Streams on Hugging Face · Ledger on LYGO lattice ·
-  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SOVEREIGN_MUSIC_VAULT.md">Vault spec</a>
+  <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">Donate PayPal</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SOVEREIGN_MUSIC_VAULT.md">Vault spec</a> ·
+  <a href="sitemap.xml">Sitemap</a> · <a href="robots.txt">robots.txt</a>
 </footer>
 
 <div class="dock">
@@ -597,27 +834,84 @@ let filteredIdx = order.slice();
 
 // --- nav ---
 const NAV = [
-  ['▶ Listen', SITES.listen, true],
-  ['Catalog', SITES.catalog],
-  ['Hash Vault', SITES.sovereign_vault],
-  ['Eternal Haven', SITES.eternal_haven],
-  ['Haven Star Chart', SITES.haven_star_chart],
-  ['LYGO Resonance', SITES.lygo_resonance],
-  ['LYGO Stack', SITES.lygo_stack],
-  ['Spotify', SITES.spotify],
-  ['YouTube Music', SITES.youtube_music],
-  ['Deezer', SITES.deezer],
-  ['Feature.fm', SITES.feature_fm],
-  ['Rumble Live', SITES.rumble_live],
-  ['HF Streams', SITES.hf_streams],
-  ['GitHub', SITES.github_excavationpro],
-  ['excavationpro.ca', SITES.website],
-  ['X', SITES.twitter],
-  ['Instagram', SITES.instagram],
+  ['▶ Listen', SITES.listen, 'pri'],
+  ['Catalog', SITES.catalog, ''],
+  ['Hash Vault', SITES.sovereign_vault, ''],
+  ['Eternal Haven', SITES.eternal_haven, ''],
+  ['Haven Star Chart', SITES.haven_star_chart, ''],
+  ['LYGO Resonance', SITES.lygo_resonance, ''],
+  ['LYGO Stack', SITES.lygo_stack, ''],
+  ['Kick Live', SITES.kick_live, ''],
+  ['Rumble Live', SITES.rumble_live, ''],
+  ['Twitch Live', SITES.twitch_live, ''],
+  ['Spotify', SITES.spotify, ''],
+  ['YouTube Music', SITES.youtube_music, ''],
+  ['Deezer', SITES.deezer, ''],
+  ['Feature.fm', SITES.feature_fm, ''],
+  ['HF Streams', SITES.hf_streams, ''],
+  ['GitHub', SITES.github_excavationpro, ''],
+  ['excavationpro.ca', SITES.website, ''],
+  ['Donate PayPal', 'https://www.paypal.com/paypalme/ExcavationPro', 'donate'],
+  ['X', SITES.twitter, ''],
+  ['Instagram', SITES.instagram, ''],
 ];
-document.getElementById('nav-main').innerHTML = NAV.map(([label, href, pri]) =>
-  href ? `<a href="${{href}}" class="${{pri ? 'pri' : ''}}" ${{href.startsWith('http') && !href.includes('deepseekoracle.github.io/Excavationpro') ? 'target="_blank" rel="noopener"' : ''}}>${{label}}</a>` : ''
+document.getElementById('nav-main').innerHTML = NAV.map(([label, href, cls]) =>
+  href ? `<a href="${{href}}" class="${{cls || ''}}" ${{href.startsWith('http') && !href.includes('deepseekoracle.github.io/Excavationpro') ? 'target="_blank" rel="noopener"' : ''}}>${{label}}</a>` : ''
 ).join('');
+
+// Cookie consent + AdSense (load script only after accept — policy aligned with Eternal Haven)
+const ADSENSE_SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599';
+function showAdRegions() {{
+  document.querySelectorAll('.ad-region').forEach(el => el.classList.add('ads-consent'));
+}}
+function pushAdUnits() {{
+  document.querySelectorAll('ins.adsbygoogle').forEach(el => {{
+    if (el.getAttribute('data-adsbygoogle-status')) return;
+    try {{
+      (window.adsbygoogle = window.adsbygoogle || []).push({{}});
+      el.setAttribute('data-adsbygoogle-status', 'done');
+    }} catch (e) {{ console.warn('AdSense', e); }}
+  }});
+}}
+function loadAdSenseScript() {{
+  showAdRegions();
+  if (window.adsbygoogle) {{ pushAdUnits(); return; }}
+  if (document.querySelector('script[data-lygo-adsense]')) {{ pushAdUnits(); return; }}
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = ADSENSE_SRC;
+  s.crossOrigin = 'anonymous';
+  s.setAttribute('data-lygo-adsense', '1');
+  s.onload = () => pushAdUnits();
+  document.head.appendChild(s);
+}}
+(function cookieConsent() {{
+  const banner = document.getElementById('cookieBanner');
+  const consent = localStorage.getItem('cookiesAccepted');
+  if (consent === 'true') {{ loadAdSenseScript(); return; }}
+  if (consent === 'false') {{ if (banner) banner.style.display = 'none'; return; }}
+  if (banner) banner.style.display = 'block';
+  const acc = document.getElementById('cookieAccept');
+  const dec = document.getElementById('cookieDecline');
+  if (acc) acc.onclick = () => {{
+    localStorage.setItem('cookiesAccepted', 'true');
+    if (banner) banner.style.display = 'none';
+    loadAdSenseScript();
+  }};
+  if (dec) dec.onclick = () => {{
+    localStorage.setItem('cookiesAccepted', 'false');
+    if (banner) banner.style.display = 'none';
+  }};
+}})();
+
+// ?q= search from URL (SEO SearchAction)
+try {{
+  const uq = new URLSearchParams(location.search).get('q');
+  if (uq) {{
+    const qi = document.getElementById('q');
+    if (qi) {{ qi.value = uq; }}
+  }}
+}} catch (e) {{}}
 
 // --- stats ---
 const led = LATTICE.music_ledger || {{}};
@@ -668,13 +962,18 @@ const LINK_SECTIONS = [
     ['Public link archive', SITES.public_link_archive],
     ['Stack GitHub', SITES.github_stack],
   ]],
+  ['Live portals', [
+    ['Kick Live', SITES.kick_live],
+    ['Rumble Live', SITES.rumble_live],
+    ['Twitch Live', SITES.twitch_live],
+    ['Rumble channel', SITES.rumble_channel],
+    ['Rumble 24/7 radio room', SITES.rumble_live_radio],
+  ]],
   ['Streaming & social', [
     ['Spotify artist', SITES.spotify],
     ['YouTube Music', SITES.youtube_music],
     ['Deezer', SITES.deezer],
     ['Feature.fm', SITES.feature_fm],
-    ['Rumble channel', SITES.rumble_channel],
-    ['Rumble 24/7 live', SITES.rumble_live],
     ['X / Twitter', SITES.twitter],
     ['Instagram', SITES.instagram],
     ['excavationpro.ca', SITES.website],
@@ -685,14 +984,20 @@ document.getElementById('link-grid').innerHTML = LINK_SECTIONS.map(([h, items]) 
     items.map(([lab, href]) => href ? `<a href="${{href}}" target="_blank" rel="noopener">${{lab}}<small>${{href}}</small></a>` : ''
   ).join('')}}</div>`
 ).join('');
+const kickA = document.getElementById('kick-open');
 const rumbleA = document.getElementById('rumble-open');
+const twitchA = document.getElementById('twitch-open');
+const rumbleRadioA = document.getElementById('rumble-radio-open');
+if (kickA && SITES.kick_live) kickA.href = SITES.kick_live;
 if (rumbleA && SITES.rumble_live) rumbleA.href = SITES.rumble_live;
+if (twitchA && SITES.twitch_live) twitchA.href = SITES.twitch_live;
+if (rumbleRadioA && (SITES.rumble_live_radio || SITES.rumble_live)) rumbleRadioA.href = SITES.rumble_live_radio || SITES.rumble_live;
 
 // --- tabs ---
 document.querySelectorAll('.tabs button').forEach(btn => {{
   btn.addEventListener('click', () => {{
     document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b === btn));
-    ['player','ledger','lattice','radio'].forEach(n => {{
+    ['player','ledger','lattice','radio','support'].forEach(n => {{
       const el = document.getElementById('panel-' + n);
       if (el) el.classList.toggle('hidden', n !== btn.dataset.tab);
     }});
