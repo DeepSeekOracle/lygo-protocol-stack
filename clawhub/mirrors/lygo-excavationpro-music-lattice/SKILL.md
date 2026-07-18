@@ -1,12 +1,14 @@
 ---
 name: lygo-excavationpro-music-lattice
 description: "Excavationpro sovereign music portal on the LYGO lattice — free listen hub, CAS vault Merkle, ISRC ledger, HF streams, Kick/Rumble/Twitch live portals, PayPal support. Agents route/verify/operate; no auto publish."
-metadata: {"lygo": true, "music": true, "lattice": true, "excavationpro": true, "consent_required": true, "version": "1.0.0", "requires_lygo_stack": false, "security_audit": "SkillSpector-hardened", "capability_filesystem_read": "skill_mirror_and_optional_LYGO_STACK_ROOT", "capability_network": "optional_public_https_status_only", "capability_git_publish": "human_only", "capability_hf_publish": "human_only", "publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "mirror": "clawhub/mirrors/lygo-excavationpro-music-lattice", "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LATTICE-v1.0"}
+metadata: {"lygo": true, "music": true, "lattice": true, "excavationpro": true, "consent_required": true, "version": "1.1.0", "requires_lygo_stack": false, "security_audit": "SkillSpector-hardened", "capability_filesystem_read": "skill_mirror_and_optional_LYGO_STACK_ROOT", "capability_network": "optional_public_https_status_only", "capability_git_publish": "human_only", "capability_hf_publish": "human_only", "publisher": "deepseekoracle", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "mirror": "clawhub/mirrors/lygo-excavationpro-music-lattice", "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LATTICE-v1.1", "ownership": "own_work_only"}
 ---
 
-# LYGO Excavationpro Music Lattice v1.0
+# LYGO Excavationpro Music Lattice v1.1
 
 **One skill that ties free listening, the sovereign vault, the catalog ledger, live portals, and LYGO lattice docs together.**
+
+**Ownership:** steward-created music only (Excavationpro / Justin Helmer / Lightfather). No iPod/third-party libraries. Listen page includes copyright + disclaimer footer.
 
 ```text
 Listen portal  ←→  HF streams  ←→  CAS vault (SHA-256)
@@ -93,20 +95,28 @@ Architecture diagram: `references/LATTICE_MAP.md`
 ```bash
 export LYGO_STACK_ROOT=...
 
-# Hash new masters (merge)
-python tools/build_music_cas_vault.py --scan --root "I:\Actors" --hub
+# Hash own-music masters only (Actors + Kick Stream + Music 2024 + Haven…; never IPOD)
+python tools/build_music_cas_vault.py --scan --hub
 
-# Encode 160k streams (skips existing)
+# Confirm I:\Actors complete (should report 0 missing)
+python tools/_actors_gap_and_merge.py
+
+# Encode 160k streams (skips existing / SHA dedup)
 python tools/build_public_music_stream.py --encode --workers 4
 
 # Publish HF + rebuild epic listen page (HUMAN OK)
 python tools/build_public_music_stream.py --publish-hf --hub
+
+# Re-apply listen v2 (Media Session, sleep, Radio, favs, PWA) + copyright footer
+python tools/_enhance_listen_portal_v2.py
+python tools/_add_copyright_notice.py
 
 # Catalog / ledger site
 python tools/build_music_registry_site.py
 
 # Verify
 python tools/_verify_listen_portal.py
+python tools/_verify_listen_player_features.py
 ```
 
 Kernel eggs (metadata anchors — via planter skill, consent-gated):

@@ -8,7 +8,19 @@ https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
 **Stream host (HTTPS audio):**  
 https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream
 
-**Signature:** `Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1`
+**Signature:** `Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1`  
+**Policy:** **Own-work only** (Justin Helmer / Excavationpro / Lightfather). iPod, iTunes, and other third-party libraries are blocked. Accidental non-owned material is removed when filters catch it. Copyright + disclaimer live on the listen page footer.
+
+### Status snapshot (2026-07-18)
+
+| Item | Value |
+|------|------:|
+| Unique vault masters (SHA-256) | **10,762** |
+| New this full own-music merge | **2,911** |
+| iPod / third-party leftovers | **0** |
+| `I:\Actors` paths on disk | **2,597** (100% vaulted) |
+| `I:\Actors` unique hashes | **2,499** (all streamed) |
+| Merkle root (prefix) | `df3ef8f21510d508…` |
 
 ---
 

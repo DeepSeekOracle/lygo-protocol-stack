@@ -1,11 +1,50 @@
 {
-  "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LATTICE-v1",
-  "version": "1.0.0",
+  "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LATTICE-v1.1",
+  "version": "1.1.0",
   "artist": "Excavationpro",
   "steward": "Justin Helmer / Lightfather",
   "skill": "lygo-excavationpro-music-lattice",
+  "ownership_policy": {
+    "claim": "own_work_only",
+    "note": "Vault and public streams are steward-created music (and steward-produced Haven narration). iPod/iTunes/third-party libraries are blocked. Accidental non-owned material is removed when filters catch it.",
+    "blocked_roots": ["J:\\IPOD", "iTunes", "Amazon Music", "Google Play Music"],
+    "primary_own_roots": [
+      "I:\\Actors",
+      "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER",
+      "J:\\ALL SOUND FILES\\2026 NEW MUSIC",
+      "J:\\Music 2024",
+      "J:\\FINISHED BEAT STARS MUSIC",
+      "J:\\STREAM STUFF",
+      "J:\\FULL ADUIO BOOKS",
+      "J:\\LIGHTFATHER"
+    ],
+    "actors_status": "COMPLETE — all I:\\Actors paths vaulted; unique hashes streamed"
+  },
+  "player_features": [
+    "continuous_auto_next",
+    "shuffle_bag",
+    "radio_random_forever",
+    "media_session",
+    "sleep_timer",
+    "crossfade",
+    "local_favorites_queue",
+    "haven_books_filter",
+    "share_card",
+    "pwa_install",
+    "copyright_disclaimer_footer",
+    "sticky_header_bio_sovereign_tagline",
+    "smart_filters_vocals_instrumental_feat_excavation_bpm",
+    "waveform_visualizer",
+    "category_sections",
+    "favorites_export_ledger_json_csv",
+    "mini_sticky_player",
+    "donation_progress_cheer",
+    "bpmfinder_ca_highlight"
+  ],
   "public": {
     "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+    "bpm_finder": "https://bpmfinder.ca/",
+    "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
     "sovereign_vault": "https://deepseekoracle.github.io/Excavationpro/excavationpro-sovereign-music-hub.html",
     "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
@@ -77,6 +116,36 @@
       "id": "verify_portal",
       "cmd": "python tools/_verify_listen_portal.py",
       "role": "integrity check playlist/HTML/HF/Pages",
+      "consent": false
+    },
+    {
+      "id": "actors_gap",
+      "cmd": "python tools/_actors_gap_and_merge.py",
+      "role": "check I:\\Actors vs vault (optional --merge)",
+      "consent": false
+    },
+    {
+      "id": "own_music_scan",
+      "cmd": "python tools/_scan_own_music_only.py --hash",
+      "role": "inventory own-music roots only (no iPod)",
+      "consent": false
+    },
+    {
+      "id": "purge_ipod",
+      "cmd": "python tools/_purge_ipod_from_vault.py",
+      "role": "remove third-party iPod objects from vault",
+      "consent": false
+    },
+    {
+      "id": "enhance_listen_v2",
+      "cmd": "python tools/_enhance_listen_portal_v2.py",
+      "role": "re-apply Media Session/sleep/favs/PWA layer",
+      "consent": false
+    },
+    {
+      "id": "copyright_notice",
+      "cmd": "python tools/_add_copyright_notice.py",
+      "role": "own-work copyright + disclaimer footer",
       "consent": false
     }
   ],
