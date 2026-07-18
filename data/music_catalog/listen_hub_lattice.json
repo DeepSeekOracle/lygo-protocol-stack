@@ -1,0 +1,89 @@
+{
+  "signature": "Δ9Φ963-SOVEREIGN-LISTEN-HUB-v1",
+  "steward": "Justin Helmer / Lightfather / Excavationpro",
+  "generated_at": "2026-07-18T12:00:25.482250+00:00",
+  "music_ledger": {
+    "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LEDGER-v1",
+    "generated_at": "2026-07-18T02:56:11.099624+00:00",
+    "steward": "Justin Helmer / Lightfather / Excavationpro",
+    "content_sha256": "e451c37e706377bdf40b0e11c6247a5ece1093e808b225e421c6dc5cfbb7fa6a",
+    "lattice_role": "music-catalog-anchor",
+    "note": "SHA-256 of sorted restore titles + vault ISRCs + full ISRC registry + Spotify album IDs. Recompute after each catalog growth.",
+    "stats": {
+      "restore_unique_titles": 1151,
+      "restore_with_vault_isrc": 816,
+      "matched_titles": 1075,
+      "missing_titles": 76,
+      "have_local_master": 587,
+      "have_spotify": 1067,
+      "vault_isrc_only_no_file": 1,
+      "true_missing_no_trace": 75,
+      "status_counts": {
+        "spotify": 487,
+        "have": 580,
+        "fuzzy": 7,
+        "spotify_fuzzy": 1,
+        "vault_isrc": 1,
+        "missing": 75
+      },
+      "unique_isrcs_local": 722,
+      "unique_isrcs_vault_added": 448,
+      "unique_isrcs_total": 1170,
+      "spotify_albums": 407,
+      "catalog_track_rows": 10640,
+      "scan_roots_note": "DONE ALBUM + HOME\\HOME on J: hold local masters (QZ/QM ISRCs in filenames). Newer DistroKid vault QT* titles often exist only on streaming / DistroKid until WAVs are re-downloaded."
+    },
+    "live_links": {
+      "spotify_artist": "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S",
+      "feature_fm": "https://ffm.to/eovnvo9",
+      "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "rumble_live_radio": "https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp",
+      "rumble_embed": "https://rumble.com/embed/v7anxls/?pub=1th29y",
+      "rumble_channel": "https://rumble.com/user/Excavationpro",
+      "lygo_stack_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "public_link_archive": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
+      "music_catalog_page": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+      "og_image": "https://deepseekoracle.github.io/Excavationpro/assets/og-haven-star-chart.jpg"
+    }
+  },
+  "vault": {
+    "signature": "Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1",
+    "merkle_root": "1b55258de956a64e6d0045f50671ef9dcbe873ff305f6711c9f0f399bc390fbe",
+    "stats": {
+      "files_seen": 1853,
+      "unique_objects": 1784,
+      "total_bytes": 79729915034,
+      "total_gb": 74.254,
+      "deduped_away": 69,
+      "with_isrc": 1394,
+      "with_commercial_title": 955,
+      "ingested_to_cas": 0,
+      "errors": 0
+    },
+    "generated_at": "2026-07-18T01:18:15.829675+00:00"
+  },
+  "sites": {
+    "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+    "catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+    "sovereign_vault": "https://deepseekoracle.github.io/Excavationpro/excavationpro-sovereign-music-hub.html",
+    "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+    "haven_star_chart": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+    "lygo_resonance": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+    "lygo_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "github_excavationpro": "https://github.com/DeepSeekOracle/Excavationpro",
+    "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "spotify": "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S",
+    "youtube_music": "https://music.youtube.com/@Excavationpro",
+    "deezer": "https://www.deezer.com/artist/146004952",
+    "feature_fm": "https://ffm.to/eovnvo9",
+    "rumble_channel": "https://rumble.com/user/Excavationpro",
+    "rumble_live": "https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&mc=2p3fp",
+    "rumble_embed": "https://rumble.com/embed/v7anxls/?pub=1th29y",
+    "hf_streams": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+    "twitter": "https://twitter.com/Excavationpro",
+    "instagram": "https://instagram.com/Excavationpro",
+    "website": "https://excavationpro.ca/",
+    "public_link_archive": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_PUBLIC_LINK_ARCHIVE.json",
+    "sovereign_vault_spec": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SOVEREIGN_MUSIC_VAULT.md"
+  }
+}
