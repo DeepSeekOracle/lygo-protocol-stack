@@ -26,23 +26,18 @@ Also: full catalog still at https://deepseekoracle.github.io/Excavationpro/ (all
 
 ---
 
-## Current problem (all six)
+## Status (2026-07-18 evening)
 
-DNS A records still point at **GoDaddy parking**:
-
-- `3.33.251.168`
-- `15.197.225.128`
-
-Effects:
+DNS for all six was switched to **GitHub Pages A records** (`185.199.108–111.153`). Live checks:
 
 | Check | Result |
 |-------|--------|
-| Homepage | Often works via forward/mask/frame |
-| **`/ads.txt`** | **404 on every custom domain** ← AdSense fails here |
-| **www** | Missing |
-| bpmfinder.ca | Thin frameset (no meta/script on outer shell) |
+| Homepages | Serving real site packages (not frameset parking) |
+| **`/ads.txt`** | Correct pub line on each domain (http) |
+| **www** | CNAME → `deepseekoracle.github.io` |
+| **HTTPS padlock** | Pending GitHub free cert + **Enforce HTTPS** in each repo Pages settings |
 
-GitHub Pages repos are ready; domains must point at GitHub, not parking.
+asiancoastline.com homepage = **full music portal** (10,762 streams) for AdSense.
 
 ---
 

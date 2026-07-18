@@ -1,22 +1,14 @@
 {
   "signature": "\u03949\u03a6963-MUSIC-LATTICE-SEED-v1",
-  "generated_at": "2026-07-18T13:30:24.969918+00:00",
+  "generated_at": "2026-07-18T19:43:14.400935+00:00",
   "eggs": [
     "excavationpro-music-catalog-v1",
     "excavationpro-music-vault-v1",
     "excavationpro-music-lattice-skill-v1"
   ],
   "catalog_content_sha256": "681e6dacc3d66f4c216fe337d73e38f70dcfd4afc877e42df7cbee4039ad44f1",
-  "vault_merkle_root": "ef8abe8cef50f7f9ce67a915cec28b49d307c6cafc35aece3b4dc25ea82921e0",
-  "public_streams": 4283,
+  "vault_merkle_root": "df3ef8f21510d508f7bf559288f7993f85f927ff63f0cff6f25a6cb1db56cd15",
+  "public_streams": 10762,
   "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
-  "skill_slug": "lygo-excavationpro-music-lattice",
-  "planted_at": "2026-07-18T13:34:58.163105+00:00",
-  "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
-  "verdict": "ALIGNED",
-  "clawhub": {
-    "lygo-excavationpro-music-lattice": "https://clawhub.ai/deepseekoracle/lygo-excavationpro-music-lattice",
-    "lygo-tools-portal": "https://clawhub.ai/deepseekoracle/lygo-tools-portal",
-    "lygo-kernel-egg-planter": "https://clawhub.ai/deepseekoracle/lygo-kernel-egg-planter"
-  }
+  "skill_slug": "lygo-excavationpro-music-lattice"
 }

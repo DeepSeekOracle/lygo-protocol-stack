@@ -5,7 +5,8 @@
 
 > **Read first:** [PLAY_LISTING_SYSTEM_DESIGN.md](./PLAY_LISTING_SYSTEM_DESIGN.md)  
 > **Live listen page must stay free of inlined play-count JS.** Listing is an **additive plugin** only.  
-> Baseline working portal (no listing module): Excavationpro `655f29d` / rollback era.
+> **Shipped (2026-07-18):** `listen-plugins/play-listing.js` + `#play-listing-mount` + `window.LYGO_LISTEN`  
+> Full catalog: **10,762** public streams (see `docs/SOVEREIGN_MUSIC_VAULT.md`).
 
 ## Why not plain page analytics?
 

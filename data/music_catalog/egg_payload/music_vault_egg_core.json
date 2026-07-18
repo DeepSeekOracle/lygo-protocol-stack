@@ -1,19 +1,31 @@
 {
-  "signature": "\u03949\u03a6963-SOVEREIGN-MUSIC-VAULT-v1",
+  "signature": "Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1",
   "egg_id": "excavationpro-music-vault-v1",
-  "merkle_root": "3ec538ffc3e192e56bbdde1cdf957a8bedc8cc98eb08eb55c076c56087480c4f",
+  "merkle_root": "df3ef8f21510d508f7bf559288f7993f85f927ff63f0cff6f25a6cb1db56cd15",
   "stats": {
-    "files_seen": 14389,
-    "files_seen_this_scan": 14389,
-    "unique_objects": 16347,
-    "new_objects_this_scan": 12064,
-    "total_bytes": 302047535934,
-    "total_gb": 281.304,
-    "with_isrc": 1397,
-    "with_commercial_title": 1866,
+    "files_seen": 14190,
+    "files_seen_this_scan": 14190,
+    "unique_objects": 10762,
+    "new_objects_this_scan": 2911,
+    "total_bytes": 293677909181,
+    "total_gb": 273.509,
+    "with_isrc": 1401,
+    "with_commercial_title": 1968,
     "ingested_to_cas": 0,
     "errors": 0
   },
-  "generated_at": "2026-07-18T14:25:47.184845+00:00",
-  "hub": "excavationpro-sovereign-music-hub.html"
+  "generated_at": "2026-07-18T19:43:14.352350+00:00",
+  "public_streams": 10762,
+  "stream_gb": 41.613,
+  "stream_base": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
+  "hub": "excavationpro-sovereign-music-hub.html",
+  "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+  "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+  "skill": "lygo-excavationpro-music-lattice",
+  "live_portals": {
+    "kick": "https://kick.com/excavationpro",
+    "rumble_live": "https://rumble.com/user/excavationpro/live",
+    "twitch": "https://twitch.tv/excavationpro"
+  },
+  "donate_paypal": "https://www.paypal.com/paypalme/ExcavationPro"
 }

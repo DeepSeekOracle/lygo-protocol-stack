@@ -11,20 +11,61 @@ https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream
 **Signature:** `Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1`  
 **Policy:** **Own-work only** (Justin Helmer / Excavationpro / Lightfather). iPod, iTunes, and other third-party libraries are blocked. Accidental non-owned material is removed when filters catch it. Copyright + disclaimer live on the listen page footer.
 
-### Status snapshot (2026-07-18)
+### Status snapshot (2026-07-18 — complete)
 
 | Item | Value |
 |------|------:|
 | Unique vault masters (SHA-256) | **10,762** |
 | New this full own-music merge | **2,911** |
+| Public 160 kbps stream MP3s (local) | **10,762** (0 vault gaps) |
+| Public streams on Hugging Face | **10,762** (0 missing) |
+| Playlist / listen hub playable URLs | **10,762 / 10,762** |
 | iPod / third-party leftovers | **0** |
-| `I:\Actors` paths on disk | **2,597** (100% vaulted) |
-| `I:\Actors` unique hashes | **2,499** (all streamed) |
+| `I:\Actors` unique hashes | **2,499** (vaulted + streamed) |
 | Merkle root (prefix) | `df3ef8f21510d508…` |
+
+### Public stream layout (HF)
+
+Dataset: `DeepSeekOracle/excavationpro-music-stream`
+
+Hugging Face limits **10,000 files per directory**. Streams are stored as:
+
+| Layout | Count | Path pattern |
+|--------|------:|--------------|
+| Flat (legacy) | ~9,995 | `stream/<sha256>.mp3` |
+| Sharded (overflow) | ~767 | `stream/<xx>/<sha256>.mp3` (`xx` = first 2 hex of sha) |
+
+Playlist `public_stream_playlist.json` carries full `stream_url` (and `hf_path`) per track — **do not** assume a single flat base for every file.
+
+```bash
+# Encode (skips existing)
+python tools/build_public_music_stream.py --encode --workers 4
+
+# Wire public URLs + rebuild listen hub
+python tools/build_public_music_stream.py --base-url "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream" --hub
+
+# Finish missing remote files (sharded when flat dir is full)
+python tools/_hf_finish_sharded.py
+```
+
+### Listen portals
+
+| Surface | URL |
+|---------|-----|
+| GitHub Pages | https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html |
+| asiancoastline.com | http://asiancoastline.com/ (music portal + AdSense) |
+| Stack mirror | `docs/excavationpro-listen.html` |
+
+Additive **play listing** plugin: `listen-plugins/play-listing.js` (never rewrites `playIndex`).
 
 ### Play lattice (multi-listener counts)
 
-See **`docs/PLAY_LATTICE.md`**. Append-only hash-chained play events, local CAS, public aggregate on HF (`play/play_counts.json`). Ingest via `lygo_play_ingest_server.py` or Cloudflare Worker. Trophy + per-track counts on the listen portal.
+See **`docs/PLAY_LATTICE.md`**. Append-only hash-chained play events, local CAS, public aggregate on HF (`play/play_counts.json`). Live UI: additive plugin + dwyl + jsonblob board. Steward:
+
+```bash
+python tools/lygo_play_lattice.py --rebuild --status
+python tools/lygo_play_lattice.py --publish-hf   # optional HF mirror
+```
 
 ---
 

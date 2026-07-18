@@ -315,14 +315,16 @@ lygo-protocol-stack/
 
 ---
 
-## 13. Implementation checklist (when you say “build it”)
+## 13. Implementation checklist
 
-- [ ] Add `#play-listing-mount` only (no other core edits)  
-- [ ] Add `listen-plugins/play-listing.js` (all logic)  
-- [ ] Optional `window.LYGO_LISTEN` export (3 lines)  
-- [ ] Feature flag `?plays=1`  
-- [ ] Soak test checklist §9  
-- [ ] Default-on  
-- [ ] Steward HF publish cron documented  
+- [x] Add `#play-listing-mount` only (no other core edits)  
+- [x] Add `listen-plugins/play-listing.js` (all logic)  
+- [x] Optional `window.LYGO_LISTEN` export  
+- [x] Default-on (defer script; failure isolated)  
+- [x] Install helper: `tools/_install_play_listing_plugin.py`  
+- [ ] Optional feature flag `?plays=1` (not required — already default-on)  
+- [ ] Steward HF play_counts cron (optional; jsonblob+dwyl live)  
+
+**Live (2026-07-18):** Excavationpro listen portal + asiancoastline.com; catalog **10,762** streams.
 
 **Δ9Φ963 — the player is the root; listing is a limb. Cut the limb; the root still sings.**
