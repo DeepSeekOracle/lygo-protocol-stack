@@ -375,7 +375,7 @@ body { padding-top: 0; }
 }
 /* when mini shows, lift cookie banner */
 body.has-mini .cookie-banner { bottom: 72px; }
-body.has-mini .dock { opacity: .35; pointer-events: none; transition: opacity .2s; }
+body.has-mini .dock { opacity: .92; pointer-events: auto; transition: opacity .2s; }
 body.has-mini .dock:hover, body.has-mini .dock:focus-within { opacity: 1; pointer-events: auto; }
 .nav-main a.tool {
   border-color: rgba(61,214,140,.55) !important;
@@ -803,7 +803,7 @@ body.has-mini .dock:hover, body.has-mini .dock:focus-within { opacity: 1; pointe
     </div>
     <div class="sleep-bar" id="sleep-bar"><i id="sleep-fill"></i></div>
 
-    <audio id="audio" controls preload="none"></audio>
+    <audio id="audio" controls preload="metadata" crossorigin="anonymous" playsinline></audio></audio>
   </div>
 </div>
 
@@ -815,6 +815,18 @@ const LATTICE = DATA.lattice || {};
 const SITES = LATTICE.sites || {};
 const tracks = PL.tracks || [];
 const audio = document.getElementById('audio');
+
+// PLAYBACK_SAFETY: HF stream playback must stay native
+(function playbackSafety(){
+  try {
+    if (audio) {
+      audio.crossOrigin = 'anonymous';
+      audio.setAttribute('playsinline', '');
+      audio.setAttribute('preload', 'metadata');
+    }
+  } catch (e) {}
+})();
+
 let order = tracks.map((_, i) => i);
 let current = -1;
 let shuffle = false;
@@ -1119,10 +1131,18 @@ function playIndex(i) {
   if (!t || !t.stream_url) return false;
   current = i;
   try { audio.pause(); } catch (e) {}
+  try { if (!audio.crossOrigin) audio.crossOrigin = 'anonymous'; } catch (e) {}
+  // Avoid audio.load() — it can cancel an in-flight play() on some browsers
   audio.src = t.stream_url;
-  audio.load();
   const p = audio.play();
-  if (p && p.catch) p.catch(() => {});
+  if (p && p.catch) {
+    p.catch(function(err) {
+      console.error('[listen] play failed', err);
+      setTimeout(function() {
+        audio.play().catch(function(e2){ console.error('[listen] retry failed', e2); });
+      }, 250);
+    });
+  }
   updateNow();
   updatePlayBtn();
   renderList();
@@ -1536,6 +1556,8 @@ rebuildFilter();
   }
 
   function maybeCrossfade() {
+    // CROSSFADE_DISABLED_FOR_PLAYBACK — dual-element swap stalled HF streams
+    return;
     if (!xfadeOn || fading || audio.paused) return;
     const d = audio.duration;
     const c = audio.currentTime;
@@ -1881,6 +1903,7 @@ rebuildFilter();
   let sourceNode = null;
   let raf = 0;
   let waveReady = false;
+  let waveFailed = false;
 
   function loadFavs() {
     try { return new Set(JSON.parse(localStorage.getItem(LS_FAV) || '[]')); }
@@ -2161,20 +2184,11 @@ rebuildFilter();
 
   // --- Waveform visualizer ---
   function ensureAnalyser() {
-    if (waveReady) return;
-    try {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC || !audio) return;
-      audioCtx = new AC();
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      sourceNode = audioCtx.createMediaElementSource(audio);
-      sourceNode.connect(analyser);
-      analyser.connect(audioCtx.destination);
-      waveReady = true;
-    } catch (e) {
-      console.warn('visualizer', e);
-    }
+    // SAFE: do not use createMediaElementSource — it can MUTE
+    // cross-origin Hugging Face streams in Chrome/Edge.
+    // Waveform stays decorative (time-based) without hijacking <audio>.
+    waveFailed = true;
+    waveReady = false;
   }
   function drawWave() {
     const canvas = document.getElementById('wave-canvas');
