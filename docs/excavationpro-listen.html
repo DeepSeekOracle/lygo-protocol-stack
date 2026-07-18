@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- listen-build: eab3f05-playback-restore-v4 -->
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Excavationpro Listen Free — 4283+ Songs · Sovereign Music Portal · Lattice Ledger</title>
@@ -1725,7 +1727,7 @@ rebuildFilter();
 
   // Register service worker
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw-listen.js', { scope: './' }).catch(() => {});
+    navigator.serviceWorker.register('./sw-listen.js?v=4', { scope: './' }).catch(() => {});
   }
 
   // Manifest link if missing
@@ -2239,6 +2241,30 @@ rebuildFilter();
   console.info('[listen-v3] sticky · smart filters · waveform · fav export · mini player · donate · BPMFINDER.CA');
 })();
 /* ===== END v3 ===== */
+
+
+
+// CACHE_BUST_v4: drop stale PWA shells that pinned broken play-count builds
+(function(){
+  if (window.caches && caches.keys) {
+    caches.keys().then(function(keys){
+      keys.forEach(function(k){
+        if (/excavationpro-listen-shell-v[123]/.test(k) || k === 'excavationpro-listen-shell-v2') {
+          caches.delete(k);
+          console.info('[listen] deleted old cache', k);
+        }
+      });
+    });
+  }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(regs){
+      regs.forEach(function(reg){
+        // re-register will pick up ?v=4
+        console.info('[listen] SW scope', reg.scope);
+      });
+    });
+  }
+})();
 
 </script>
 
