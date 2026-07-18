@@ -39,7 +39,10 @@
     "favorites_export_ledger_json_csv",
     "mini_sticky_player",
     "donation_progress_cheer",
-    "bpmfinder_ca_highlight"
+    "bpmfinder_ca_highlight",
+    "play_counts_per_track",
+    "total_plays_trophy",
+    "append_only_play_ledger_export"
   ],
   "public": {
     "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
