@@ -1320,6 +1320,27 @@ rebuildFilter();
         out.write_text(html, encoding="utf-8")
         print(f"wrote {out}", flush=True)
 
+    # Re-apply Media Session / sleep / favs / Haven / share / PWA layer
+    enhance = STACK / "tools" / "_enhance_listen_portal_v2.py"
+    if enhance.is_file():
+        try:
+            import subprocess
+
+            r = subprocess.run(
+                [sys.executable, str(enhance)],
+                cwd=str(STACK),
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+            print(r.stdout or "", flush=True)
+            if r.returncode != 0:
+                print(f"[hub] enhance warn: {r.stderr[-400:]}", flush=True)
+            else:
+                print("[hub] listen v2 enhancements re-applied", flush=True)
+        except Exception as e:
+            print(f"[hub] enhance skip: {e}", flush=True)
+
     if EXCAV.exists():
         (EXCAV / "data").mkdir(exist_ok=True)
         (EXCAV / "data" / "public_stream_playlist.json").write_text(
