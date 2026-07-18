@@ -523,6 +523,7 @@ body { padding-top: 0; }
 </div>
 
 
+    <div id="play-listing-mount" aria-live="polite"></div>
     <div class="list" id="list"></div>
     <div class="ad-region" id="ad-mid" aria-label="Advertisement" style="margin-top:16px">
       <div class="ad-label">Advertisement</div>
@@ -2199,6 +2200,16 @@ rebuildFilter();
   }
 })();
 
+
+// LYGO_LISTEN_EXPORT — safe hook for additive plugins (do not remove playIndex)
+window.LYGO_LISTEN = {
+  playIndex: function (i) { return playIndex(i); },
+  getTracks: function () { return tracks; },
+  getCurrent: function () { return current; },
+  getAudio: function () { return audio; }
+};
+
 </script>
+<script src="listen-plugins/play-listing.js?v=1" defer></script>
 </body>
 </html>
