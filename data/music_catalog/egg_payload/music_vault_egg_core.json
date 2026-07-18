@@ -1,5 +1,5 @@
 {
-  "signature": "\u03949\u03a6963-SOVEREIGN-MUSIC-VAULT-v1",
+  "signature": "Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1",
   "egg_id": "excavationpro-music-vault-v1",
   "merkle_root": "ef8abe8cef50f7f9ce67a915cec28b49d307c6cafc35aece3b4dc25ea82921e0",
   "stats": {
@@ -14,6 +14,18 @@
     "ingested_to_cas": 0,
     "errors": 0
   },
-  "generated_at": "2026-07-18T12:19:29.973541+00:00",
-  "hub": "excavationpro-sovereign-music-hub.html"
+  "generated_at": "2026-07-18T13:30:24.939433+00:00",
+  "public_streams": 4283,
+  "stream_gb": 16.314,
+  "stream_base": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
+  "hub": "excavationpro-sovereign-music-hub.html",
+  "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+  "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+  "skill": "lygo-excavationpro-music-lattice",
+  "live_portals": {
+    "kick": "https://kick.com/excavationpro",
+    "rumble_live": "https://rumble.com/user/excavationpro/live",
+    "twitch": "https://twitch.tv/excavationpro"
+  },
+  "donate_paypal": "https://www.paypal.com/paypalme/ExcavationPro"
 }

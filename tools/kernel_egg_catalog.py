@@ -35,7 +35,21 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("music_egg_readme", REPO / "data/music_catalog/egg_payload/README.md"),
         ("restore_gap_summary", REPO / "data/music_catalog/RESTORE_GAP_SUMMARY.md"),
         ("isrcs_unique", REPO / "data/music_catalog/excavationpro_isrcs_unique.txt"),
-        ("catalog_page_mirror", REPO / "docs/excavationpro-music-catalog.html"),
+        ("ledger_sha_note", REPO / "data/music_catalog/music_vault_merkle_root.txt"),
+    ],
+    # Sovereign CAS vault Merkle + public stream lattice map (slim, plantable)
+    "excavationpro-music-vault-v1": [
+        ("music_vault_egg_core", REPO / "data/music_catalog/egg_payload/music_vault_egg_core.json"),
+        ("vault_merkle_root", REPO / "data/music_catalog/music_vault_merkle_root.txt"),
+        ("listen_hub_lattice", REPO / "data/music_catalog/listen_hub_lattice.json"),
+        ("music_portal_map", REPO / "clawhub/mirrors/lygo-excavationpro-music-lattice/references/MUSIC_PORTAL.json"),
+    ],
+    # ClawHub music-lattice skill pin (metadata only — no audio)
+    "excavationpro-music-lattice-skill-v1": [
+        ("skill_md", REPO / "clawhub/mirrors/lygo-excavationpro-music-lattice/SKILL.md"),
+        ("music_portal_json", REPO / "clawhub/mirrors/lygo-excavationpro-music-lattice/references/MUSIC_PORTAL.json"),
+        ("lattice_map", REPO / "clawhub/mirrors/lygo-excavationpro-music-lattice/references/LATTICE_MAP.md"),
+        ("agent_contract", REPO / "clawhub/mirrors/lygo-excavationpro-music-lattice/references/AGENT_CONTRACT.md"),
     ],
     "firmware-p04-drivers": [
         ("p0_nano_gate", E_DRIVE / "2026/lygo_p0_nano_gate.py"),
