@@ -42,12 +42,32 @@
     "bpmfinder_ca_highlight",
     "play_counts_per_track",
     "total_plays_trophy",
-    "append_only_play_ledger_export"
+    "append_only_play_ledger_export",
+    "lygo_play_lattice_hash_chain",
+    "lygo_play_ingest_api",
+    "play_counts_hf_public_read"
   ],
+  "play_lattice": {
+    "signature": "Δ9Φ963-PLAY-LATTICE-v1",
+    "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/PLAY_LATTICE.md",
+    "counts_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_counts.json",
+    "merkle_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_merkle_root.txt",
+    "ingest_url": "",
+    "ingest_note": "Set to https://YOUR_HOST:8777 or Cloudflare Worker origin for multi-listener live writes. Empty = local hash-chain + export/import sync.",
+    "local_cas": "MUSIC_VAULT/play_lattice/",
+    "cli": {
+      "status": "python tools/lygo_play_lattice.py --status",
+      "rebuild": "python tools/lygo_play_lattice.py --rebuild",
+      "publish_hf": "python tools/lygo_play_lattice.py --publish-hf",
+      "ingest_server": "python tools/lygo_play_ingest_server.py --port 8777",
+      "import_export": "python tools/lygo_play_lattice.py --import-ledger excavationpro-play-lattice-export.json"
+    }
+  },
   "public": {
     "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
     "bpm_finder": "https://bpmfinder.ca/",
     "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+    "play_counts": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_counts.json",
     "catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
     "sovereign_vault": "https://deepseekoracle.github.io/Excavationpro/excavationpro-sovereign-music-hub.html",
     "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",

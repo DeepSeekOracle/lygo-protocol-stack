@@ -2283,300 +2283,296 @@ rebuildFilter();
 
 
 
-/* ===== PLAY COUNTS (global + local immutable ledger) ===== */
-(function playCounts() {
-  // Global counters via hits.dwyl.com (public badge API — works on static Pages)
-  // Local append-only ledger in localStorage for export / device truth
-  const NS = 'excavationpro';
-  const TOTAL_KEY = 'listen-total-plays-v1';
-  const LS_LEDGER = 'lygo_listen_play_ledger_v1';
-  const LS_CACHE = 'lygo_listen_play_cache_v1';
-  const LS_SESSION = 'lygo_listen_play_session_v1'; // sha -> counted this tab session
-  const MIN_SECONDS = 20; // real listen before count
-  const MIN_RATIO = 0.35; // or 35% of duration
 
-  let playCache = {}; // sha -> count
+
+/* ===== LYGO PLAY LATTICE CLIENT ===== */
+(function lygoPlayLatticeClient() {
+  const HF_COUNTS = "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_counts.json";
+  const LS_CHAIN = "lygo_play_lattice_chain_v1";
+  const LS_CLIENT = "lygo_play_lattice_client_id_v1";
+  const LS_SESSION = "lygo_play_lattice_session_v1";
+  const LS_CACHE = "lygo_play_lattice_cache_v1";
+  const LS_TOTAL = "lygo_play_lattice_total_v1";
+  const MIN_SECONDS = 20;
+  const MIN_RATIO = 0.35;
+
+  const LATTICE = (typeof DATA !== "undefined" && DATA.lattice) ? DATA.lattice : {};
+  const PLAY_CFG = LATTICE.play_lattice || {};
+  const INGEST = (
+    window.LYGO_PLAY_INGEST ||
+    PLAY_CFG.ingest_url ||
+    PLAY_CFG.ingest ||
+    (function(){ try { return localStorage.getItem("lygo_play_ingest_url") || ""; } catch(e){ return ""; } })()
+  ).replace(/\/$/, "");
+  const COUNTS_URLS = [INGEST ? INGEST + "/v1/counts" : null, PLAY_CFG.counts_url || HF_COUNTS, HF_COUNTS].filter(Boolean);
+
+  let playCache = {};
   let sessionCounted = new Set();
-  let listenStart = 0;
-  let listenSha = null;
   let accumSeconds = 0;
   let lastTick = 0;
-  let totalPlays = null;
-  let pendingCount = false;
+  let listenSha = null;
+  let pending = false;
+  let chain = loadChain();
+  let clientId = loadClientId();
 
-  try { playCache = JSON.parse(localStorage.getItem(LS_CACHE) || '{}') || {}; } catch (e) {}
-  try {
-    const s = JSON.parse(sessionStorage.getItem(LS_SESSION) || '[]');
-    sessionCounted = new Set(s);
-  } catch (e) {}
+  try { playCache = JSON.parse(localStorage.getItem(LS_CACHE) || "{}") || {}; } catch (e) {}
+  try { sessionCounted = new Set(JSON.parse(sessionStorage.getItem(LS_SESSION) || "[]")); } catch (e) {}
 
-  function saveCache() {
-    try { localStorage.setItem(LS_CACHE, JSON.stringify(playCache)); } catch (e) {}
-  }
-  function saveSession() {
-    try { sessionStorage.setItem(LS_SESSION, JSON.stringify([...sessionCounted])); } catch (e) {}
-  }
-  function loadLedger() {
+  function loadClientId() {
     try {
-      const L = JSON.parse(localStorage.getItem(LS_LEDGER) || 'null');
-      if (L && Array.isArray(L.events)) return L;
+      let id = localStorage.getItem(LS_CLIENT);
+      if (id) return id;
+      id = "web-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem(LS_CLIENT, id);
+      return id;
+    } catch (e) { return "web-anon"; }
+  }
+  function loadChain() {
+    try {
+      const c = JSON.parse(localStorage.getItem(LS_CHAIN) || "null");
+      if (c && Array.isArray(c.events)) return c;
     } catch (e) {}
-    return {
-      signature: 'Δ9Φ963-LISTEN-PLAY-LEDGER-v1',
-      append_only: true,
-      events: [],
-      note: 'Local append-only play events. Global counts also hit public counter for multi-listener trophy.',
-    };
+    return { signature: "Δ9Φ963-PLAY-LATTICE-v1", append_only: true, events: [], tip_hash: "0".repeat(64) };
   }
-  function appendLedger(ev) {
-    const L = loadLedger();
-    L.events.push(ev);
-    // keep last 5000 events
-    if (L.events.length > 5000) L.events = L.events.slice(-5000);
-    L.updated_at = new Date().toISOString();
-    L.event_count = L.events.length;
-    try { localStorage.setItem(LS_LEDGER, JSON.stringify(L)); } catch (e) {}
-    return L;
+  function saveChain() {
+    try {
+      chain.updated_at = new Date().toISOString();
+      chain.event_count = chain.events.length;
+      localStorage.setItem(LS_CHAIN, JSON.stringify(chain));
+    } catch (e) {}
   }
+  function saveCache() { try { localStorage.setItem(LS_CACHE, JSON.stringify(playCache)); } catch (e) {} }
+  function saveSession() { try { sessionStorage.setItem(LS_SESSION, JSON.stringify([...sessionCounted])); } catch (e) {} }
 
-  function counterUrl(key) {
-    // hits.dwyl.com increments on each fetch and returns shields-style JSON
-    return 'https://hits.dwyl.com/' + NS + '/' + encodeURIComponent(key) + '.json';
+  async function sha256Hex(str) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
   }
-  async function hitCounter(key) {
-    const url = counterUrl(key);
-    const r = await fetch(url, { cache: 'no-store', mode: 'cors' });
-    if (!r.ok) throw new Error('counter ' + r.status);
-    const j = await r.json();
-    // message is the count as string
-    const n = parseInt(j.message || j.count || j.value || '0', 10);
-    return isNaN(n) ? 0 : n;
+  async function computeEventHash(ev) {
+    const body = Object.assign({}, ev);
+    delete body.event_hash;
+    const ordered = {};
+    Object.keys(body).sort().forEach(k => { ordered[k] = body[k]; });
+    return sha256Hex(JSON.stringify(ordered));
   }
-  async function getCounter(key) {
-    // same endpoint increments — for display-only we still use cache first
-    // Prefer GET without increment: dwyl always increments. So we only hit on real plays,
-    // and use cached values for UI; refresh total periodically with care.
-    return hitCounter(key);
+  function uuid() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
+    });
   }
-
   function fmt(n) {
-    if (n == null || isNaN(n)) return '—';
-    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
-    if (n >= 1e4) return (n / 1e3).toFixed(1) + 'k';
+    if (n == null || isNaN(n)) return "—";
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
+    if (n >= 1e4) return (n / 1e3).toFixed(1) + "k";
     return String(n);
   }
-
   function updateTrophy(n) {
-    totalPlays = n;
-    const el = document.getElementById('trophy-total');
-    if (el) el.textContent = fmt(n) + ' plays';
-    try { localStorage.setItem('lygo_listen_total_last', String(n)); } catch (e) {}
+    const el = document.getElementById("trophy-total");
+    if (el) el.textContent = fmt(n) + " plays";
+    try { localStorage.setItem(LS_TOTAL, String(n)); } catch (e) {}
   }
-
   function updateRowPlays() {
-    document.querySelectorAll('.row[data-i]').forEach(row => {
+    document.querySelectorAll(".row[data-i]").forEach(row => {
       const i = +row.dataset.i;
       const t = tracks[i];
       if (!t || !t.sha256) return;
-      let badge = row.querySelector('.plays');
+      let badge = row.querySelector(".plays");
       if (!badge) {
-        badge = document.createElement('div');
-        badge.className = 'plays';
-        // insert before heart or play button
-        const heart = row.querySelector('[data-heart]');
+        badge = document.createElement("div");
+        badge.className = "plays";
+        const heart = row.querySelector("[data-heart]");
+        const play = row.querySelector("[data-play]");
         if (heart) row.insertBefore(badge, heart);
-        else {
-          const play = row.querySelector('[data-play]');
-          if (play) row.insertBefore(badge, play);
-          else row.appendChild(badge);
-        }
+        else if (play) row.insertBefore(badge, play);
+        else row.appendChild(badge);
       }
       const c = playCache[t.sha256];
       if (c != null) {
-        badge.innerHTML = '<b>' + fmt(c) + '</b> ▶';
-        badge.classList.toggle('hot', c >= 10);
-        badge.title = c + ' plays (global + local cache)';
+        badge.innerHTML = "<b>" + fmt(c) + "</b> ▶";
+        badge.classList.toggle("hot", c >= 10);
+        badge.title = c + " plays (LYGO play lattice)";
       } else {
-        badge.innerHTML = '·';
-        badge.title = 'Play to count';
+        badge.textContent = "·";
+        badge.title = "Play ≥20s to count on the lattice";
       }
     });
-    // now playing
-    if (current >= 0 && tracks[current]) {
-      const t = tracks[current];
-      const c = playCache[t.sha256];
-      const now = document.getElementById('now');
-      if (now && c != null) {
-        let span = now.querySelector('.plays-inline');
-        if (!span) {
-          span = document.createElement('span');
-          span.className = 'plays-inline';
-          now.querySelector('span')?.appendChild(span);
+  }
+
+  async function buildEvent(trackSha, title, listenSec) {
+    const ev = {
+      v: 1,
+      signature: "Δ9Φ963-PLAY-EVENT-v1",
+      event_id: uuid(),
+      track_sha256: trackSha,
+      title: title || null,
+      ts: new Date().toISOString(),
+      client_id: clientId,
+      listen_sec: listenSec || MIN_SECONDS,
+      prev_hash: chain.tip_hash || "0".repeat(64),
+    };
+    ev.event_hash = await computeEventHash(ev);
+    return ev;
+  }
+  function appendLocal(ev) {
+    chain.events.push(ev);
+    if (chain.events.length > 3000) chain.events = chain.events.slice(-3000);
+    chain.tip_hash = ev.event_hash;
+    saveChain();
+  }
+
+  async function refreshCountsFromNetwork() {
+    for (const url of COUNTS_URLS) {
+      try {
+        const r = await fetch(url, { cache: "no-store", mode: "cors" });
+        if (!r.ok) continue;
+        const j = await r.json();
+        if (j.by_track && typeof j.by_track === "object") {
+          Object.keys(j.by_track).forEach(k => {
+            playCache[k] = Math.max(playCache[k] || 0, j.by_track[k] || 0);
+          });
+          saveCache();
         }
-        span.textContent = ' · ' + fmt(c) + ' plays';
+        if (typeof j.total_plays === "number") updateTrophy(j.total_plays);
+        updateRowPlays();
+        console.info("[play-lattice] counts", url, j.total_plays);
+        return j;
+      } catch (e) {}
+    }
+    try {
+      const last = parseInt(localStorage.getItem(LS_TOTAL) || "0", 10);
+      if (last > 0) updateTrophy(last);
+      else {
+        const sum = Object.values(playCache).reduce((a, b) => a + (Number(b) || 0), 0);
+        if (sum > 0) updateTrophy(sum);
+        else {
+          const el = document.getElementById("trophy-total");
+          if (el) el.textContent = "▶ plays";
+        }
       }
+    } catch (e) {}
+    updateRowPlays();
+    return null;
+  }
+
+  async function submitEvent(ev) {
+    appendLocal(ev);
+    playCache[ev.track_sha256] = (playCache[ev.track_sha256] || 0) + 1;
+    saveCache();
+    updateRowPlays();
+    if (!INGEST) {
+      updateTrophy(Object.values(playCache).reduce((a, b) => a + (Number(b) || 0), 0));
+      return;
+    }
+    try {
+      const r = await fetch(INGEST + "/v1/play", {
+        method: "POST", mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: ev }),
+      });
+      if (!r.ok) throw new Error("ingest " + r.status);
+      const j = await r.json();
+      if (typeof j.total_plays === "number") updateTrophy(j.total_plays);
+      if (typeof j.track_plays === "number") {
+        playCache[ev.track_sha256] = Math.max(playCache[ev.track_sha256] || 0, j.track_plays);
+        saveCache(); updateRowPlays();
+      }
+    } catch (e) {
+      console.warn("[play-lattice] ingest fail, local chain kept", e);
+      updateTrophy(Object.values(playCache).reduce((a, b) => a + (Number(b) || 0), 0));
     }
   }
 
   async function recordPlay(sha, title) {
-    if (!sha || sessionCounted.has(sha) || pendingCount) return;
-    pendingCount = true;
+    if (!sha || sessionCounted.has(sha) || pending) return;
+    pending = true;
     sessionCounted.add(sha);
     saveSession();
     try {
-      // per-track global
-      const n = await hitCounter('stream-' + sha.slice(0, 24));
-      playCache[sha] = n;
-      // total trophy
-      const tot = await hitCounter(TOTAL_KEY);
-      updateTrophy(tot);
-      saveCache();
-      appendLedger({
-        type: 'play',
-        sha256: sha,
-        title: title || null,
-        global_count_after: n,
-        total_after: tot,
-        ts: new Date().toISOString(),
-        source: 'hits.dwyl.com+local_ledger',
-      });
-      updateRowPlays();
-      console.info('[plays] counted', sha.slice(0, 12), '→', n, 'total', tot);
-    } catch (e) {
-      // offline fallback: local-only immutable-ish tally
-      playCache[sha] = (playCache[sha] || 0) + 1;
-      const localTotal = Object.values(playCache).reduce((a, b) => a + (b || 0), 0);
-      updateTrophy(localTotal);
-      saveCache();
-      appendLedger({
-        type: 'play_local',
-        sha256: sha,
-        title: title || null,
-        local_count: playCache[sha],
-        ts: new Date().toISOString(),
-        source: 'local_only_offline',
-      });
-      updateRowPlays();
-      console.warn('[plays] local fallback', e);
-    } finally {
-      pendingCount = false;
-    }
+      const played = accumSeconds + (lastTick ? (Date.now() - lastTick) / 1000 : 0);
+      const ev = await buildEvent(sha, title, Math.max(played, MIN_SECONDS));
+      await submitEvent(ev);
+    } finally { pending = false; }
   }
 
   function maybeCount() {
     if (current < 0 || !tracks[current]) return;
     const t = tracks[current];
-    const sha = t.sha256;
-    if (!sha || sessionCounted.has(sha)) return;
+    if (!t.sha256 || sessionCounted.has(t.sha256)) return;
     const dur = audio.duration;
     const played = accumSeconds + (lastTick ? (Date.now() - lastTick) / 1000 : 0);
-    const enoughTime = played >= MIN_SECONDS;
-    const enoughRatio = isFinite(dur) && dur > 0 && (audio.currentTime / dur) >= MIN_RATIO;
-    if (enoughTime || enoughRatio) {
-      recordPlay(sha, t.title);
+    if (played >= MIN_SECONDS || (isFinite(dur) && dur > 0 && audio.currentTime / dur >= MIN_RATIO)) {
+      recordPlay(t.sha256, t.title);
     }
   }
 
-  // Accumulate listening time only while playing
-  audio.addEventListener('play', () => {
+  audio.addEventListener("play", () => {
     const t = current >= 0 ? tracks[current] : null;
     const sha = t && t.sha256;
-    if (sha !== listenSha) {
-      listenSha = sha;
-      accumSeconds = 0;
-    }
+    if (sha !== listenSha) { listenSha = sha; accumSeconds = 0; }
     lastTick = Date.now();
   });
-  audio.addEventListener('pause', () => {
-    if (lastTick) {
-      accumSeconds += (Date.now() - lastTick) / 1000;
-      lastTick = 0;
-    }
+  audio.addEventListener("pause", () => {
+    if (lastTick) { accumSeconds += (Date.now() - lastTick) / 1000; lastTick = 0; }
     maybeCount();
   });
-  audio.addEventListener('ended', () => {
-    if (lastTick) {
-      accumSeconds += (Date.now() - lastTick) / 1000;
-      lastTick = 0;
-    }
-    // always count on natural end if not yet
-    if (current >= 0 && tracks[current] && tracks[current].sha256) {
-      recordPlay(tracks[current].sha256, tracks[current].title);
-    }
+  audio.addEventListener("ended", () => {
+    if (lastTick) { accumSeconds += (Date.now() - lastTick) / 1000; lastTick = 0; }
+    if (current >= 0 && tracks[current] && tracks[current].sha256) recordPlay(tracks[current].sha256, tracks[current].title);
   });
-  audio.addEventListener('timeupdate', () => {
-    if (!audio.paused) maybeCount();
-  });
-  // reset accum on track change
-  const _pi = window.playIndex || (typeof playIndex === 'function' ? playIndex : null);
+  audio.addEventListener("timeupdate", () => { if (!audio.paused) maybeCount(); });
+
+  const _pi = window.playIndex || (typeof playIndex === "function" ? playIndex : null);
   if (_pi) {
     window.playIndex = function (i) {
-      if (lastTick) {
-        accumSeconds += (Date.now() - lastTick) / 1000;
-        lastTick = 0;
-      }
-      maybeCount(); // previous track
-      accumSeconds = 0;
-      listenSha = null;
+      if (lastTick) { accumSeconds += (Date.now() - lastTick) / 1000; lastTick = 0; }
+      maybeCount();
+      accumSeconds = 0; listenSha = null;
       const r = _pi(i);
-      const t = tracks[i];
-      listenSha = t && t.sha256;
+      listenSha = tracks[i] && tracks[i].sha256;
       lastTick = Date.now();
-      // prefetch cached count display
-      setTimeout(updateRowPlays, 50);
+      setTimeout(updateRowPlays, 40);
       return r;
     };
     try { playIndex = window.playIndex; } catch (e) {}
   }
 
-  // Do NOT hit TOTAL_KEY on load (would inflate trophy). Seed from last known total only.
-  (function seedTrophy() {
-    try {
-      const last = parseInt(localStorage.getItem('lygo_listen_total_last') || '0', 10);
-      if (last > 0) { updateTrophy(last); return; }
-    } catch (e) {}
-    const sum = Object.values(playCache).reduce((a, b) => a + (Number(b) || 0), 0);
-    if (sum > 0) updateTrophy(sum);
-    else {
-      const el = document.getElementById('trophy-total');
-      if (el) el.textContent = '▶ plays';
-    }
-  })();
-
-  // Re-render plays after list renders
-  const obs = new MutationObserver(() => {
-    if (document.querySelector('.row[data-i]')) updateRowPlays();
-  });
-  const list = document.getElementById('list');
-  if (list) obs.observe(list, { childList: true, subtree: true });
-
-  // Export play ledger button in fav panel or create
-  function ensureExportBtn() {
-    const host = document.querySelector('.fav-actions') || document.getElementById('smart-filters');
-    if (!host || document.getElementById('btn-export-plays')) return;
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.id = 'btn-export-plays';
-    b.textContent = 'Export play ledger';
-    b.style.cssText = host.classList.contains('fav-actions') ? '' :
-      'cursor:pointer;border-radius:999px;padding:7px 12px;font-size:.76rem;font-weight:600;border:1px solid rgba(212,175,55,.4);background:rgba(212,175,55,.1);color:var(--gold)';
+  function ensureExport() {
+    const host = document.querySelector(".fav-actions") || document.getElementById("smart-filters");
+    if (!host || document.getElementById("btn-export-play-lattice")) return;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.id = "btn-export-play-lattice";
+    b.textContent = "Export play lattice";
+    b.title = "Hash-chained events — import: lygo_play_lattice.py --import-ledger";
+    b.style.cssText = "cursor:pointer;border-radius:999px;padding:7px 12px;font-size:.76rem;font-weight:600;border:1px solid rgba(212,175,55,.45);background:rgba(212,175,55,.12);color:var(--gold)";
     b.onclick = () => {
-      const L = loadLedger();
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob([JSON.stringify(L, null, 2)], { type: 'application/json' }));
-      a.download = 'excavationpro-play-ledger.json';
+      const payload = Object.assign({}, chain, { exported_at: new Date().toISOString(), client_id: clientId });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }));
+      a.download = "excavationpro-play-lattice-export.json";
       a.click();
     };
     host.appendChild(b);
   }
-  ensureExportBtn();
-  setTimeout(ensureExportBtn, 500);
+  ensureExport();
+  setTimeout(ensureExport, 800);
 
-  // Lazy: when scrolling rows into view, show cached counts only (no network inflate)
-  updateRowPlays();
-  console.info('[plays] trophy + per-track counts · count after', MIN_SECONDS, 's or', MIN_RATIO * 100, '% · append-only local ledger');
+  const sub = document.querySelector("#play-trophy .sub");
+  if (sub) {
+    sub.textContent = INGEST
+      ? "LYGO play lattice · multi-listener live · hash-chained"
+      : "LYGO play lattice · local chain on · deploy ingest for global live tally";
+  }
+
+  const list = document.getElementById("list");
+  if (list) new MutationObserver(() => updateRowPlays()).observe(list, { childList: true, subtree: true });
+
+  refreshCountsFromNetwork();
+  console.info("[play-lattice] ready · ingest=", INGEST || "(local-only)");
 })();
-/* ===== END PLAY COUNTS ===== */
+/* ===== END LYGO PLAY LATTICE CLIENT ===== */
 
 </script>
 

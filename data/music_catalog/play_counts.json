@@ -1,0 +1,23 @@
+{
+  "signature": "Δ9Φ963-PLAY-AGGREGATE-v1",
+  "lattice": "Δ9Φ963-PLAY-LATTICE-v1",
+  "updated_at": "2026-07-18T16:16:38.113593+00:00",
+  "total_plays": 1,
+  "unique_events": 1,
+  "unique_tracks_played": 1,
+  "by_track": {
+    "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef": 1
+  },
+  "by_client_approx": {
+    "steward-local": 1
+  },
+  "merkle_root": "9e7b7f750fc03c254e472ea235b7d3856f33aaf403b13885e28d1686090d0a31",
+  "event_count": 1,
+  "public_read": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_counts.json",
+  "policy": {
+    "count_trigger": "real_listen_client_side_min_seconds",
+    "dedupe": "event_id + event_hash",
+    "ownership": "steward_streams_own_work",
+    "note": "Append-only hash-chained play events. Aggregate is derived; events are truth."
+  }
+}

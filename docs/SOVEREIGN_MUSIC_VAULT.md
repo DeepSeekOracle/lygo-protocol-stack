@@ -22,6 +22,10 @@ https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream
 | `I:\Actors` unique hashes | **2,499** (all streamed) |
 | Merkle root (prefix) | `df3ef8f21510d508…` |
 
+### Play lattice (multi-listener counts)
+
+See **`docs/PLAY_LATTICE.md`**. Append-only hash-chained play events, local CAS, public aggregate on HF (`play/play_counts.json`). Ingest via `lygo_play_ingest_server.py` or Cloudflare Worker. Trophy + per-track counts on the listen portal.
+
 ---
 
 ## Truth (what “eternal” can mean)
