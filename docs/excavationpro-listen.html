@@ -168,7 +168,10 @@ h1 { font-family:Cinzel,serif; color:var(--gold); margin:0 0 8px; font-size:clam
   background:rgba(18,18,31,.95); color:var(--text); padding:8px 12px; font-size:.82rem; font-weight:600;
 }
 .controls button.on { border-color:var(--gold); color:var(--gold); }
+.controls button.radio-btn.on { border-color:#ff6b9d; color:#ff6b9d; box-shadow:0 0 12px rgba(255,107,157,.35); }
 .controls button:hover { border-color:var(--cyan); }
+.mode-pill { font-size:.72rem; color:var(--muted); margin-left:4px; letter-spacing:.03em; }
+.mode-pill.on { color:var(--gold); }
 audio { width:100%; height:36px; }
 footer { max-width:1120px; margin:24px auto 0; padding:16px; color:var(--muted); font-size:.76rem; }
 .kb { font-size:.72rem; color:var(--muted); margin-top:6px; }
@@ -228,7 +231,7 @@ footer { max-width:1120px; margin:24px auto 0; padding:16px; color:var(--muted);
         <option value="playable">Playable only</option>
       </select>
     </div>
-    <p class="kb">Keys: <b>Space</b> play/pause · <b>N</b> next · <b>P</b> prev · <b>S</b> shuffle · <b>/</b> focus search</p>
+    <p class="kb">Keys: <b>Space</b> play/pause · <b>N</b> next · <b>P</b> prev · <b>S</b> shuffle · <b>R</b> radio · <b>/</b> search · continuous auto-next always on</p>
     <div class="list" id="list"></div>
     <div class="ad-region" id="ad-mid" aria-label="Advertisement" style="margin-top:16px">
       <div class="ad-label">Advertisement</div>
@@ -327,8 +330,9 @@ footer { max-width:1120px; margin:24px auto 0; padding:16px; color:var(--muted);
       <button type="button" id="btn-prev" title="Previous (P)">⏮ Prev</button>
       <button type="button" id="btn-play" title="Play/Pause (Space)">▶ Play</button>
       <button type="button" id="btn-next" title="Next (N)">Next ⏭</button>
-      <button type="button" id="btn-shuffle" title="Shuffle (S)">Shuffle</button>
-      <button type="button" id="btn-repeat" title="Repeat one">Repeat</button>
+      <button type="button" id="btn-shuffle" title="Shuffle queue (S)">Shuffle</button>
+      <button type="button" id="btn-radio" title="Radio — random forever (R)" class="radio-btn">📡 Radio</button>
+      <button type="button" id="btn-repeat" title="Repeat one track">Repeat 1</button>
       <button type="button" id="btn-copy" title="Copy stream URL">Copy link</button>
     </div>
     <audio id="audio" controls preload="none"></audio>
@@ -346,8 +350,11 @@ const audio = document.getElementById('audio');
 let order = tracks.map((_, i) => i);
 let current = -1;
 let shuffle = false;
-let repeat = false;
+let repeatOne = false;   // loop current track only
+let radio = false;       // infinite random (radio station)
 let filteredIdx = order.slice();
+let shuffleBag = [];     // no-repeat-until-exhausted bag for shuffle/radio
+let advancing = false;   // re-entrancy guard for error/end skip
 
 // --- nav ---
 const NAV = [
@@ -530,6 +537,54 @@ function fmtSize(n) {
   return (n/1e3).toFixed(0) + ' KB';
 }
 
+function playablePool() {
+  return filteredIdx.filter(i => tracks[i] && tracks[i].stream_url);
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function refillBag(exclude) {
+  let pool = playablePool();
+  if (exclude != null && exclude >= 0 && pool.length > 1) {
+    pool = pool.filter(i => i !== exclude);
+  }
+  shuffleBag = shuffleArray(pool);
+}
+
+function updateModeUI() {
+  const sh = document.getElementById('btn-shuffle');
+  const rp = document.getElementById('btn-repeat');
+  const rd = document.getElementById('btn-radio');
+  if (sh) {
+    sh.classList.toggle('on', shuffle && !radio);
+    sh.textContent = shuffle && !radio ? 'Shuffle ✓' : 'Shuffle';
+  }
+  if (rp) {
+    rp.classList.toggle('on', repeatOne);
+    rp.textContent = repeatOne ? 'Repeat 1 ✓' : 'Repeat 1';
+  }
+  if (rd) {
+    rd.classList.toggle('on', radio);
+    rd.textContent = radio ? '📡 Radio ON' : '📡 Radio';
+  }
+  const pill = document.getElementById('mode-pill');
+  if (pill) {
+    let label = 'Continuous · auto-next';
+    if (radio) label = '📡 RADIO · random forever';
+    else if (shuffle) label = 'Shuffle · continuous';
+    if (repeatOne) label += ' · loop track';
+    pill.textContent = label;
+    pill.classList.toggle('on', radio || shuffle || repeatOne);
+  }
+}
+
 function rebuildFilter() {
   const q = (document.getElementById('q').value || '').toLowerCase().trim();
   const f = document.getElementById('filter').value;
@@ -551,6 +606,7 @@ function rebuildFilter() {
     return (ta.title||'').localeCompare(tb.title||'');
   });
   filteredIdx = idx;
+  if (radio || shuffle) refillBag(current);
   renderList();
 }
 
@@ -581,9 +637,10 @@ function renderList() {
 
 function updateNow() {
   const t = current >= 0 ? tracks[current] : null;
+  const mode = radio ? ' · 📡 RADIO' : (shuffle ? ' · shuffle' : '');
   document.getElementById('now').innerHTML = t
-    ? `<span>▶ ${esc(t.title)}</span><div class="sub2">${esc((t.isrcs||[])[0]||'')} · ${t.sha256 ? t.sha256.slice(0,16)+'…' : ''}</div>`
-    : '<span>Select a track…</span><div class="sub2"></div>';
+    ? `<span>▶ ${esc(t.title)}${mode}</span><div class="sub2">${esc((t.isrcs||[])[0]||'')} · ${t.sha256 ? t.sha256.slice(0,16)+'…' : ''}</div>`
+    : '<span>Select a track… or hit 📡 Radio</span><div class="sub2"></div>';
 }
 function updatePlayBtn() {
   document.getElementById('btn-play').textContent = (!audio.paused && current >= 0) ? '⏸ Pause' : '▶ Play';
@@ -591,38 +648,97 @@ function updatePlayBtn() {
 
 function playIndex(i) {
   const t = tracks[i];
-  if (!t || !t.stream_url) return;
+  if (!t || !t.stream_url) return false;
   current = i;
+  try { audio.pause(); } catch (e) {}
   audio.src = t.stream_url;
-  audio.play().catch(() => {});
+  audio.load();
+  const p = audio.play();
+  if (p && p.catch) p.catch(() => {});
   updateNow();
   updatePlayBtn();
   renderList();
-  // deep link
   try { history.replaceState(null, '', '#' + (t.sha256 || i)); } catch (e) {}
+  return true;
+}
+
+/** Pick next index. dir: +1 next, -1 prev. Continuous wrap always. */
+function pickNext(dir) {
+  const pool = playablePool();
+  if (!pool.length) return -1;
+
+  // Repeat-one only on natural advance
+  if (repeatOne && dir > 0 && current >= 0 && tracks[current] && tracks[current].stream_url) {
+    return current;
+  }
+
+  // Radio or Shuffle: random from bag (no immediate full-catalog repeats)
+  if ((radio || shuffle) && dir > 0) {
+    if (!shuffleBag.length) refillBag(current);
+    if (!shuffleBag.length) return pool[Math.floor(Math.random() * pool.length)];
+    return shuffleBag.pop();
+  }
+
+  // Sequential through playable filtered list (wraps forever)
+  let pos = pool.indexOf(current);
+  if (pos < 0) pos = dir > 0 ? -1 : 0;
+  let npos = pos + dir;
+  if (npos >= pool.length) npos = 0;
+  if (npos < 0) npos = pool.length - 1;
+  return pool[npos];
 }
 
 function nextTrack(dir) {
-  if (!filteredIdx.length) return;
-  let pos = filteredIdx.indexOf(current);
-  if (pos < 0) pos = dir > 0 ? -1 : 0;
-  let npos = pos + dir;
-  if (repeat && current >= 0 && dir === 0) { playIndex(current); return; }
-  if (npos >= filteredIdx.length) npos = 0;
-  if (npos < 0) npos = filteredIdx.length - 1;
-  playIndex(filteredIdx[npos]);
+  if (advancing) return;
+  advancing = true;
+  try {
+    const pool = playablePool();
+    const maxTry = Math.min(25, Math.max(1, pool.length));
+    for (let t = 0; t < maxTry; t++) {
+      const i = pickNext(dir);
+      if (i < 0) break;
+      if (playIndex(i)) break;
+      shuffleBag = shuffleBag.filter(x => x !== i);
+      current = i;
+    }
+  } finally {
+    advancing = false;
+  }
 }
 
-function shuffleOrder() {
-  shuffle = !shuffle;
-  document.getElementById('btn-shuffle').classList.toggle('on', shuffle);
+function setShuffle(on) {
+  shuffle = !!on;
   if (shuffle) {
-    filteredIdx = filteredIdx.slice().sort(() => Math.random() - 0.5);
+    radio = false;
+    refillBag(current);
   } else {
-    rebuildFilter();
-    return;
+    shuffleBag = [];
   }
+  updateModeUI();
   renderList();
+}
+
+function toggleShuffle() {
+  setShuffle(!shuffle);
+}
+
+function toggleRadio() {
+  radio = !radio;
+  if (radio) {
+    shuffle = false;
+    repeatOne = false;
+    refillBag(-1);
+    updateModeUI();
+    nextTrack(1); // 1-click: start random forever
+  } else {
+    shuffleBag = [];
+    updateModeUI();
+  }
+}
+
+function toggleRepeatOne() {
+  repeatOne = !repeatOne;
+  updateModeUI();
 }
 
 document.getElementById('btn-prev').onclick = () => nextTrack(-1);
@@ -632,23 +748,28 @@ document.getElementById('btn-play').onclick = () => {
   if (audio.paused) audio.play().catch(()=>{}); else audio.pause();
   updatePlayBtn(); renderList();
 };
-document.getElementById('btn-shuffle').onclick = shuffleOrder;
-document.getElementById('btn-repeat').onclick = () => {
-  repeat = !repeat;
-  document.getElementById('btn-repeat').classList.toggle('on', repeat);
-};
+document.getElementById('btn-shuffle').onclick = toggleShuffle;
+const btnRadio = document.getElementById('btn-radio');
+if (btnRadio) btnRadio.onclick = toggleRadio;
+document.getElementById('btn-repeat').onclick = toggleRepeatOne;
 document.getElementById('btn-copy').onclick = async () => {
   const t = current >= 0 ? tracks[current] : null;
   const url = t && t.stream_url ? t.stream_url : location.href;
   try { await navigator.clipboard.writeText(url); document.getElementById('btn-copy').textContent = 'Copied'; setTimeout(() => document.getElementById('btn-copy').textContent = 'Copy link', 1200); }
   catch (e) { prompt('Copy URL', url); }
 };
+
+// Continuous listening: always auto-advance on end (Repeat 1 handled in pickNext)
 audio.addEventListener('play', () => { updatePlayBtn(); renderList(); });
 audio.addEventListener('pause', () => { updatePlayBtn(); renderList(); });
-audio.addEventListener('ended', () => {
-  if (repeat) { playIndex(current); return; }
-  nextTrack(1);
+audio.addEventListener('ended', () => { nextTrack(1); });
+// Skip dead streams so radio/continuous never stalls
+audio.addEventListener('error', () => {
+  if (current < 0) return;
+  console.warn('stream error, skipping', current);
+  setTimeout(() => nextTrack(1), 250);
 });
+
 document.getElementById('q').addEventListener('input', rebuildFilter);
 document.getElementById('sort').addEventListener('change', rebuildFilter);
 document.getElementById('filter').addEventListener('change', rebuildFilter);
@@ -661,9 +782,22 @@ document.addEventListener('keydown', e => {
   if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-play').click(); }
   if (e.key === 'n' || e.key === 'N') nextTrack(1);
   if (e.key === 'p' || e.key === 'P') nextTrack(-1);
-  if (e.key === 's' || e.key === 'S') shuffleOrder();
+  if (e.key === 's' || e.key === 'S') toggleShuffle();
+  if (e.key === 'r' || e.key === 'R') toggleRadio();
   if (e.key === '/') { e.preventDefault(); document.getElementById('q').focus(); }
 });
+
+(function injectModePill() {
+  const dock = document.querySelector('.dock-inner .controls');
+  if (dock && !document.getElementById('mode-pill')) {
+    const span = document.createElement('span');
+    span.id = 'mode-pill';
+    span.className = 'mode-pill';
+    span.textContent = 'Continuous · auto-next';
+    dock.appendChild(span);
+  }
+  updateModeUI();
+})();
 
 // deep link #sha256
 rebuildFilter();
@@ -677,6 +811,7 @@ rebuildFilter();
     if (n >= 0 && n < tracks.length) playIndex(n);
   }
 })();
+
 </script>
 </body>
 </html>
