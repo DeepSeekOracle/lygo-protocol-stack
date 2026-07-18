@@ -749,7 +749,8 @@ footer {{ max-width:1200px; margin:0 auto; padding:20px; color:var(--muted); fon
     <a href="eternalhaven.html#music-hub">Music Hub</a>
     <a href="eternalhaven.html#lattice">Immutable Lattice</a>
     <a href="https://deepseekoracle.github.io/lygo-protocol-stack/" target="_blank" rel="noopener">LYGO Stack</a>
-    <a href="excavationpro-sovereign-music-hub.html">Sovereign Vault</a>
+    <a href="excavationpro-listen.html"><b>▶ Listen Free</b></a>
+    <a href="excavationpro-sovereign-music-hub.html">Hash Vault</a>
     <a href="{SPOTIFY_ARTIST}" target="_blank" rel="noopener">Spotify</a>
     <a href="{YOUTUBE_MUSIC}" target="_blank" rel="noopener">YouTube Music</a>
     <a href="{DEEZER_ARTIST}" target="_blank" rel="noopener">Deezer</a>
