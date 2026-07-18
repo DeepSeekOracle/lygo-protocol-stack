@@ -238,6 +238,55 @@
     border-radius: 999px;
     transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
   }
+  .lygo-top-link.music {
+    border-color: rgba(212, 175, 55, 0.55);
+    background: rgba(212, 175, 55, 0.12);
+    color: #e8c96a;
+    font-weight: 700;
+  }
+  .lygo-top-link.music:hover {
+    border-color: #d4af37;
+    color: #fff;
+  }
+  .music-portal-strip {
+    max-width: 52rem;
+    margin: 0 auto 1.25rem;
+    padding: 1rem 1.15rem;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(0, 240, 255, 0.06));
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .music-portal-strip p {
+    margin: 0;
+    color: var(--muted, #a89f94);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    max-width: 36ch;
+  }
+  .music-portal-strip strong { color: var(--text, #f2ece3); }
+  .music-portal-strip a.btn-music {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    text-decoration: none;
+    color: #0a0a12;
+    background: linear-gradient(135deg, #d4af37, #e8c96a);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+  }
+  .music-portal-strip a.btn-music:hover {
+    filter: brightness(1.08);
+    color: #0a0a12;
+  }
   .lygo-top-link:hover {
     color: var(--amber);
     border-color: var(--amber);
@@ -700,6 +749,7 @@
   <div class="lygo-top-inner">
     <span class="lygo-pulse-node" aria-hidden="true"></span>
     <span class="lygo-top-title">LYGO // BPM FINDER</span>
+    <a class="lygo-top-link music" href="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html">♪ Music Portal</a>
     <a class="lygo-top-link" href="https://bpmfinder.ca/">BPMfinder.ca</a>
   </div>
 </header>
@@ -723,11 +773,21 @@
   <div class="lygo-ad-box" id="lygo-ad-top"></div>
 </div>
 
+<div class="music-portal-strip" aria-label="Excavationpro music portal">
+  <p>
+    <strong>Excavationpro Music Portal</strong> — free sovereign player, full catalog streams,
+    radio mode, lattice ledger. After you find the BPM, go listen.
+  </p>
+  <a class="btn-music" href="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html">
+    ▶ Open Music Portal
+  </a>
+</div>
+
 <main class="rack lygo-panel" id="bpm-finder-app">
   <div class="rack-head">
     <p class="eyebrow">LYGO / Biophase7 / Creative</p>
     <h1>Free BPM Finder — online tempo detector</h1>
-    <p class="lede">Find the BPM of any song free at <strong>BPMfinder.ca</strong>. Drop MP3, WAV, or FLAC — tempo is analyzed privately in your browser (no signup, no server upload).</p>
+    <p class="lede">Find the BPM of any song free at <strong>BPMfinder.ca</strong>. Drop MP3, WAV, or FLAC — tempo is analyzed privately in your browser (no signup, no server upload). Pair with the <a href="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html">Excavationpro music portal</a> to listen free.</p>
   </div>
 
   <div class="dropzone" id="dropzone">
@@ -789,6 +849,8 @@
 <aside class="lygo-loop lygo-panel" id="lygo-links" aria-label="LYGO related pages">
   <h2>LYGO lattice</h2>
   <ul>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html"><strong>♪ Excavationpro Music Portal</strong> — listen free</a></li>
+    <li><a href="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html">Music catalog + ISRC ledger</a></li>
     <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/">Protocol stack index</a></li>
     <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html">Sovereign Lattice Mesh</a></li>
     <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html">Biometric harness</a></li>
@@ -816,7 +878,8 @@
 
 <p class="site-footer">
   <strong>BPMfinder.ca</strong> — free BPM finder &amp; online tempo detector.
-  <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
+  · <a href="https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html">Music Portal (listen free)</a>
+  · <strong>Privacy:</strong> <a href="https://www.npmjs.com/package/bpm-detective" rel="noopener noreferrer" target="_blank">bpm-detective</a> runs locally — no server upload.
   · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/BIOPHASE7_BPM_FINDER.md">Spec</a>
 </p>
 </div>
