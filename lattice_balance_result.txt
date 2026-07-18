@@ -1,181 +1,26 @@
-LYGO Lattice alignment verify
+LYGO Lattice alignment verify (LISTEN PORTAL v2 + MUSIC VAULT)
 ==================================================
-  [OK] clawhub/skills.json ΓÇö published=36 listed=36
-  [OK] operator in catalog
-  [OK] mirrors count ΓÇö mirrored=36
-  [OK] operator mirror
-  [OK] STACK_STATUS
-  [OK] LYGO_LATTICE
-  [OK] sovereign test
-  [OK] p0 golden
-  [OK] README link github_pages_stack
-  [OK] README link github_stack
-  [OK] README link hf_dataset
-  [OK] README link hf_space
-  [OK] README link clawhub
-  [OK] README link grokipedia
-  [FAIL] README link resonance_docs
-  [OK] README link biometric_harness_pages
-  [FAIL] README link biometric_harness_excavationpro
-  [OK] README link slm_pages_stack
-  [OK] README link slm_pages_excavationpro
-  [OK] HF protocol_stack bundle ΓÇö hf_vault ┬╖ I:\E Drive\Hugging face\protocol_stack\stack
-  [OK] HF text_semantic_gate ΓÇö hf_vault
-  [OK] HF TWIN_GATE_MODE ΓÇö hf_vault
-  [OK] HF ethical guardian module
-  [OK] twin calibration tool
-  [OK] twin vector suite tool
-  [OK] grok audit tool
-  [OK] Dockerfile
-  [OK] docker-compose
-  [OK] setup.sh
-  [OK] alignment badge tool
-  [OK] phase1 elasticity
-  [OK] phase3-4 federation
-  [OK] PHASE2 doc
-  [OK] BLUEPRINT
-  [OK] lattice gauntlet
-  [OK] mesh gossip
-  [OK] mesh scale sim
-  [OK] mesh gossip protocol doc
-  [OK] agent memory snapshot
-  [OK] biometric harness page
-  [OK] bpm finder page
-  [OK] biophase7 bpm finder doc
-  [OK] sync excavationpro bpm finder
-  [OK] materialize bpm finder pages
-  [OK] pages sitemap
-  [OK] pages robots
-  [OK] slm interactive page
-  [OK] public link archive
-  [OK] log public surface tool
-  [OK] sync excavationpro slm
-  [OK] phase7 haip ui tool
-  [OK] p6 hardened verify
-  [OK] p7 ble ingest
-  [OK] p7 live stream hub
-  [OK] p7 ble ws broadcast
-  [OK] biophase7 objective live ble doc
-  [OK] biophase7 pxpipe lygo doc
-  [OK] pxpipe lygo module
-  [OK] pxpipe lygo proxy tool
-  [OK] pxpipe lygo agent tool
-  [OK] pxpipe lygo manifest dir
-  [OK] p7 live ble pipeline
-  [OK] kernel egg build
-  [OK] kernel egg registry
-  [OK] kernel egg soa doc
-  [OK] kernel egg retrieval page
-  [OK] scalable registry doc
-  [OK] scalable registry chunking
-  [OK] scalable registry manifest builder
-  [OK] register synthetic data CLI
-  [OK] verify registry CLI
-  [OK] registry v2 checklist
-  [OK] registry architecture doc
-  [OK] content addressable physics doc
-  [OK] build cas manifest CLI
-  [OK] cas registry full CLI
-  [OK] network builder doc
-  [OK] network builder anchors
-  [OK] network builder verify tool
-  [OK] network builder clawhub mirror
-  [OK] haven star chart page
-  [OK] haven star chart data
-  [OK] haven star chart builder
-  [OK] champion egg schema
-  [OK] champion egg builder
-  [OK] champion egg planter
-  [OK] champion bootloader
-  [OK] champion egg registry doc
-  [OK] joy loop protocol
-  [OK] joy loop planter
-  [OK] joy loop doc
-  [OK] joy loop public registry
-  [OK] phase7 polish doc
-  [OK] slm merkle sync
-  [OK] slm mycelium mesh
-  [OK] slm harmonic consensus
-  [OK] slm runtime
-  [OK] slm doc
-  [OK] slm audit tool
-  [OK] phase9 tls manager
-  [OK] phase9 ldq synthesis
-  [OK] phase9 audit tool
-  [OK] phase9 public mesh doc
-  [OK] slm audit last run ΓÇö ms=150
-  [OK] phase9 audit last run ΓÇö ms=590
-  [OK] mesh scale last run ΓÇö rounds=7
-  [OK] compass master canonical
-  [OK] grok operator SKILL.md ΓÇö workspace
-  [OK] clawhub operator published ΓÇö latest=1.0.7
-{
-  "signature": "\u03949\u03a6963-PUBLIC-PAGES-VERIFY-v1",
-  "vectors": [
-    {
-      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
-      "status": 200,
-      "ok": true,
-      "id": "stack_index"
-    },
-    {
-      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
-      "status": 200,
-      "ok": true,
-      "id": "stack_compass"
-    },
-    {
-      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
-      "status": 200,
-      "ok": true,
-      "id": "stack_slm"
-    },
-    {
-      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
-      "status": 200,
-      "ok": true,
-      "id": "stack_harness"
-    },
-    {
-      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
-      "status": 200,
-      "ok": true,
-      "marker": "lygo-top-bar",
-      "marker_found": true,
-      "id": "stack_bpm_finder"
-    },
-    {
-      "url": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
-      "status": 200,
-      "ok": true,
-      "id": "excavationpro_slm"
-    },
-    {
-      "url": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
-      "status": 200,
-      "ok": true,
-      "id": "excavationpro_harness"
-    }
-  ],
-  "stack_pages_live": true,
-  "stack_compass_live": true,
-  "excavationpro_mirrors_live": true,
-  "duration_ms": 737
-}
-  [OK] excavationpro public mirrors
-  [OK] stack github pages
-  [OK] anchor lygo_anchor tool
-  [OK] anchor stack bridge
-  [OK] anchor deployment doc
-  [OK] lattice intel index
-  [OK] ldq vault reference
-{
-  "verdict": "ALIGNED",
-  "all_pass": true
-}
-  [OK] kernel eggs tamper verify ΓÇö ALIGNED
-champion_eggs verdict=ALIGNED count=15
-  [OK] champion eggs tamper verify ΓÇö ALIGNED
-verdict=ALIGNED all_pass=True
-global_merkle_root=e8194731a3ce88872c42ce7d875d4ccdΓÇª
-  [OK] scalable registry verify ΓÇö ALIGNED
+  Date (UTC): 2026-07-18
+  Canonical stack: I:\E Drive\lygo-protocol-stack
+  Excavationpro: I:\E Drive\Excavationpro
+
+  [OK] verify_lattice_alignment — LATTICE ALIGNED
+  [OK] audit_github_lattice_links — all_live=true (12/12 Pages HTTP 200)
+  [OK] verify_public_pages — stack_pages_live + excavationpro_mirrors_live
+  [OK] network builder — LATTICE ALIGNED (required_failures=0)
+  [OK] kernel/champion eggs tamper — ALIGNED
+  [OK] scalable registry — ALIGNED
+  [OK] clawhub skills — published=38 listed=38 mirrored=38
+
+  [OK] Listen portal v2 on GitHub main + Pages
+       https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
+       features: continuous · shuffle bag · radio · media session · sleep
+                 crossfade · favorites · Haven filter · share · PWA
+  [OK] Git HEAD Excavationpro = origin/main (4079dff+)
+  [OK] Git HEAD lygo-protocol-stack = origin/main (053814b+)
+
+  [NOTE] soft: bpmfinder.ca timeout (WinError 10060) — stack/Pages mirrors OK
+  [NOTE] own-music hash scan in progress (iPod excluded) — vault merge pending
+==================================================
+LATTICE ALIGNED — LISTEN_V2_PUBLIC
+Resonance: Δ9Φ963-LISTEN-PORTAL-v2

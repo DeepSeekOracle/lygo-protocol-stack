@@ -32,12 +32,47 @@ DOCS = STACK / "docs"
 
 DEFAULT_VAULT = Path(r"I:\E Drive\MUSIC_VAULT")
 DEFAULT_ROOTS = [
-    Path(r"J:\ALL SOUND FILES\. KICK STREAM FOLDER\HOME\1 SOUNDCLOUD  DISTRO KID\0 DONE ALBUM"),
-    Path(r"J:\ALL SOUND FILES\. KICK STREAM FOLDER\HOME\HOME"),
+    # Full Excavationpro production trees (own music only — never IPOD/iTunes)
+    Path(r"J:\ALL SOUND FILES\. KICK STREAM FOLDER"),
+    Path(r"J:\ALL SOUND FILES\2026 NEW MUSIC"),
     Path(r"I:\Actors"),
+    # Haven / Eternal Haven book narration + Lightfather seals audio
+    Path(r"J:\FULL ADUIO BOOKS"),
+    Path(r"J:\LIGHTFATHER"),
+    # Additional own libraries
+    Path(r"J:\Music 2024"),
+    Path(r"J:\FINISHED BEAT STARS MUSIC"),
+    Path(r"J:\STREAM STUFF"),
+    Path(r"I:\Distrokid music restore ALL MUSIC"),
+    # I:\ album project folders (singles/masters outside Actors)
+    Path(r"I:\GLITCH BEATS VOL 1"),
+    Path(r"I:\FeelMyPain"),
+    Path(r"I:\Nightfall Therapist"),
+    Path(r"I:\One Day at a Time"),
+    Path(r"I:\Painless"),
+    Path(r"I:\Perception Codex"),
+    Path(r"I:\Quantum Tears"),
+    Path(r"I:\Screams in the Void"),
+    Path(r"I:\So What"),
+    Path(r"I:\SOUL SPIKE STACCATO"),
+    Path(r"I:\Street Wise"),
+    Path(r"I:\Subsonic Whisper"),
+    Path(r"I:\Trance Overdose"),
+    Path(r"I:\Twighlight World"),
+    Path(r"I:\Waking up"),
+    Path(r"I:\Whiskey Secrets"),
+    Path(r"I:\White Heat"),
+    Path(r"I:\Sandstorm"),
+    Path(r"I:\Robot Reboot"),
+    Path(r"I:\Mutation"),
+    Path(r"I:\Energy"),
+    Path(r"I:\Prison Systems"),
+    Path(r"I:\OUTROS CLIPS"),
+    Path(r"I:\1DESKTOP\AI music"),
+    Path(r"I:\Future"),
 ]
 
-AUDIO_EXT = {".mp3", ".wav", ".flac", ".m4a", ".aiff", ".aif", ".ogg", ".aac", ".wma"}
+AUDIO_EXT = {".mp3", ".wav", ".flac", ".m4a", ".aiff", ".aif", ".ogg", ".aac", ".wma", ".opus", ".m4b"}
 SKIP_DIR = (
     "apache-openoffice",
     "\\windows\\",
@@ -46,6 +81,11 @@ SKIP_DIR = (
     "\\.git\\",
     "\\steam\\",
     "\\program files",
+    # Third-party / copyright libraries — never ingest
+    "\\ipod\\",
+    "\\itunes\\",
+    "\\amazon music\\",
+    "\\google play music\\",
 )
 ISRC_IN_NAME = re.compile(
     r"(?i)(?:QZ[A-Z0-9]{10}|QM42K\d{7}|QT[A-Z0-9]{10})"
@@ -113,9 +153,19 @@ def cas_relpath(digest: str, ext: str) -> Path:
     return Path(digest[:2]) / f"{digest}{ext}"
 
 
+def _is_blocked_root(root: Path) -> bool:
+    """Refuse iPod / third-party libraries — own music + Haven only."""
+    low = str(root).lower().replace("/", "\\")
+    blocked = ("\\ipod", "ipod\\", "\\itunes", "\\amazon music", "\\google play music")
+    return any(b in low for b in blocked) or low.rstrip("\\").endswith("ipod")
+
+
 def iter_audio(roots: Iterable[Path]) -> list[Path]:
     files: list[Path] = []
     for root in roots:
+        if _is_blocked_root(root):
+            print(f"[skip] blocked third-party root (own music only): {root}", flush=True)
+            continue
         if not root.exists():
             print(f"[warn] missing root {root}", flush=True)
             continue
@@ -125,7 +175,12 @@ def iter_audio(roots: Iterable[Path]) -> list[Path]:
             if any(s in low for s in SKIP_DIR):
                 dirnames[:] = []
                 continue
-            dirnames[:] = [d for d in dirnames if "apache-openoffice" not in d.lower()]
+            dirnames[:] = [
+                d
+                for d in dirnames
+                if "apache-openoffice" not in d.lower()
+                and d.lower() not in ("ipod", "itunes")
+            ]
             for fn in filenames:
                 if Path(fn).suffix.lower() in AUDIO_EXT:
                     files.append(Path(dirpath) / fn)

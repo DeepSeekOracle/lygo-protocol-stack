@@ -1,8 +1,8 @@
 {
-  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.4",
+  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.5.1",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "4994e54ba083757d66f447e2642e8b41030ed467de0f2d9e73f7f03ac0411c5d",
-  "anchors_version": "1.4.0",
+  "anchors_sha256": "b776da5ef9bdd5d450630dec50cb9a2faaba5e2e0d60bf6fefc82fd902b21d4b",
+  "anchors_version": "1.5.1",
   "vectors": [
     {
       "id": "github_stack",
@@ -84,6 +84,14 @@
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Free BPM Finder Online \u2014 Detect Song Tempo (MP3, WAV, FLAC)"
     },
     {
+      "id": "excavationpro_music_catalog",
+      "group": "creative",
+      "mode": "link_only",
+      "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+      "ok": true,
+      "note": "immutable link; no automated probe (vault TOS)"
+    },
+    {
       "id": "kernel_egg_page",
       "group": "sovereign_seed",
       "mode": "http_required",
@@ -151,7 +159,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"y3h1Tq/Z11MIQHetftJd6xIS\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"KdWSDNgSRF8hRy8mmnUxWOb9\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -161,7 +169,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"kuh5lb1bBP352MBWhocL0sDF\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"U5Ts6drs3hFn6HguyVP/XyO0\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_haven_star_chart_skill",
@@ -171,7 +179,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"LonjRrzm2NeM2oduMFinS56m\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"9e6Lu/rGBC85Aewva79/TvPy\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -181,7 +189,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"LyDKGYpKDy6rz8QLCzVeTMn6\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"CR36JNFKVbcl0r910LmmeFKV\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_lightfather",
@@ -191,7 +199,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"nnCsW7YoefS2MLcQpON6ZT6s\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"34OATN0bkJ2T+g0uW7o3gXy8\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "lygo_claw_repo",
@@ -273,6 +281,66 @@
       "error": "HTTP Error 404: Not Found"
     },
     {
+      "id": "virtuals_lygoagent",
+      "group": "openclaw_economy",
+      "mode": "http_soft",
+      "url": "https://app.virtuals.io/virtuals/44594",
+      "status": 200,
+      "ok": true,
+      "bytes": 3840,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" class=\"dark\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <link rel=\"icon\" href=\"https://app.virtuals.io/favicon.ico\" />\n    <meta\n      name=\"viewport\"\n      content=\"wi"
+    },
+    {
+      "id": "starcore_4claw",
+      "group": "openclaw_economy",
+      "mode": "http_soft",
+      "url": "https://clanker.world/clanker/0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" href=\"/_next/s"
+    },
+    {
+      "id": "starcorex_moltx",
+      "group": "openclaw_economy",
+      "mode": "http_soft",
+      "url": "https://clanker.world/clanker/0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" href=\"/_next/s"
+    },
+    {
+      "id": "starcorecoin_moltbook",
+      "group": "openclaw_economy",
+      "mode": "http_soft",
+      "url": "https://clanker.world/clanker/0xFdc6C074B8D7801F84832b31224AdE54639ed390",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" href=\"/_next/s"
+    },
+    {
+      "id": "clawnch_protocol",
+      "group": "openclaw_economy",
+      "mode": "http_soft",
+      "url": "https://clanker.world/clanker/0xa1F72459dfA10BAD200Ac160eCd78C6b77a747be",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\"/><link rel=\"preload\" href=\"/_next/s"
+    },
+    {
+      "id": "bankr_agent",
+      "group": "openclaw_economy",
+      "mode": "http_soft",
+      "url": "https://bankr.bot",
+      "status": 200,
+      "ok": true,
+      "bytes": 7498,
+      "body_sample": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <!-- Set the global color scheme before first paint to avoid a light flash.\n         Mirrors getInitialTheme() in @bankr/desi"
+    },
+    {
       "id": "biometric_harness",
       "group": "tools",
       "mode": "http_required",
@@ -299,7 +367,17 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "status": 200,
       "ok": true,
-      "bytes": 24517,
+      "bytes": 45040,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
+    },
+    {
+      "id": "haven_star_chart_lygoagent_anchor",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor",
+      "status": 200,
+      "ok": true,
+      "bytes": 45040,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
     },
     {
@@ -375,7 +453,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html>\n<!-- eternalhaven hub deploy: 2026-07-03 live-iframe v79wjai -->\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale"
+      "body_sample": "<!DOCTYPE html>\n<!-- eternalhaven hub deploy: live-iframe v7anxls (Rumble pub 1th29y) -->\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, init"
     },
     {
       "id": "legacy_guardian_music_hub",
@@ -447,10 +525,9 @@
       "group": "tools",
       "mode": "http_soft",
       "url": "https://grokipedia.com/page/lygo-protocol-stack",
-      "status": 200,
-      "ok": true,
-      "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html lang=\"en\" class=\"dark\"> <head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, interactive-widget=resizes-content\"><title>LYGO Protocol St"
+      "status": 404,
+      "ok": false,
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "id": "moltx_lyra_oracle",
@@ -468,7 +545,7 @@
       "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
       "status": 200,
       "ok": true,
-      "bytes": 20345,
+      "bytes": 21620,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     },
     {
@@ -478,13 +555,13 @@
       "url": "https://www.moltbook.com/u/Lightfather",
       "status": 200,
       "ok": true,
-      "bytes": 20588,
+      "bytes": 21863,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     }
   ],
   "required_failures": 0,
-  "soft_failures": 3,
+  "soft_failures": 4,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 58265
+  "duration_ms": 67011
 }

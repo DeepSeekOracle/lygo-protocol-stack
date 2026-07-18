@@ -1,0 +1,11 @@
+{
+  "purged_at": "2026-07-18T14:29:58.700658+00:00",
+  "kept": 7851,
+  "purged": 8496,
+  "purged_gb": 47.403,
+  "merkle_root": "2220d7b32ebbd39672adb92aed0f6255e1944d093ba976293cbc187fc37dc90e",
+  "blocked_roots": [
+    "J:\\IPOD"
+  ],
+  "note": "Own music + Haven books only. iPod / third-party libraries excluded."
+}

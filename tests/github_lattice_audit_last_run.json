@@ -1,8 +1,8 @@
 {
   "signature": "\u03949\u03a6963-GITHUB-LATTICE-AUDIT-v1",
-  "audited_utc": "2026-07-13T05:53:07.501360+00:00",
+  "audited_utc": "2026-07-18T15:08:04.902590+00:00",
   "canonical_html_count": 12,
-  "archive_paths_count": 17,
+  "archive_paths_count": 21,
   "sitemap_paths_count": 11,
   "missing_from_link_archive": [],
   "missing_from_sitemap": [],
@@ -83,5 +83,5 @@
   ],
   "all_live": true,
   "restore_doc": "I:/E Drive/GITHUB_AGENT_RESTORE.txt",
-  "duration_ms": 2128
+  "duration_ms": 1452
 }

@@ -10,7 +10,8 @@
     "skipped_existing": 1784,
     "failed": 0,
     "total_stream_bytes": 17516874794,
-    "total_stream_gb": 16.314
+    "total_stream_gb": 16.314,
+    "purged_ipod_from_playlist": 0
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
   "tracks": [
