@@ -1,7 +1,7 @@
 {
   "signature": "Δ9Φ963-SOVEREIGN-LISTEN-HUB-v1",
   "steward": "Justin Helmer / Lightfather / Excavationpro",
-  "generated_at": "2026-07-18T12:55:48.653491+00:00",
+  "generated_at": "2026-07-18T19:18:06.995337+00:00",
   "music_ledger": {
     "signature": "Δ9Φ963-EXCAVATIONPRO-MUSIC-LEDGER-v1",
     "generated_at": "2026-07-18T02:56:11.099624+00:00",
@@ -48,20 +48,20 @@
   },
   "vault": {
     "signature": "Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1",
-    "merkle_root": "ef8abe8cef50f7f9ce67a915cec28b49d307c6cafc35aece3b4dc25ea82921e0",
+    "merkle_root": "df3ef8f21510d508f7bf559288f7993f85f927ff63f0cff6f25a6cb1db56cd15",
     "stats": {
-      "files_seen": 2597,
-      "files_seen_this_scan": 2597,
-      "unique_objects": 4283,
-      "new_objects_this_scan": 2499,
-      "total_bytes": 110786394830,
-      "total_gb": 103.178,
-      "with_isrc": 1394,
-      "with_commercial_title": 1701,
+      "files_seen": 14190,
+      "files_seen_this_scan": 14190,
+      "unique_objects": 10762,
+      "new_objects_this_scan": 2911,
+      "total_bytes": 293677909181,
+      "total_gb": 273.509,
+      "with_isrc": 1401,
+      "with_commercial_title": 1968,
       "ingested_to_cas": 0,
       "errors": 0
     },
-    "generated_at": "2026-07-18T12:19:29.973541+00:00"
+    "generated_at": "2026-07-18T15:36:45.634634+00:00"
   },
   "sites": {
     "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
@@ -70,6 +70,8 @@
     "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
     "haven_star_chart": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
     "lygo_resonance": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+    "bpm_finder": "https://bpmfinder.ca/",
+    "bpm_finder_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
     "lygo_stack": "https://deepseekoracle.github.io/lygo-protocol-stack/",
     "github_excavationpro": "https://github.com/DeepSeekOracle/Excavationpro",
     "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
