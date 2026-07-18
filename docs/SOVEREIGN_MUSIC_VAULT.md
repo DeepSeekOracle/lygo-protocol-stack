@@ -1,6 +1,12 @@
 # Sovereign Music Vault — Excavationpro
 
-**Goal:** Keep *your actual masters* findable and playable even if DistroKid / Spotify / YouTube Music take them down.
+**Goal:** Keep *your actual masters* findable and **publicly playable** even if DistroKid / Spotify / YouTube Music take them down.
+
+**Public player (this is the product):**  
+https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html  
+
+**Stream host (HTTPS audio):**  
+https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream
 
 **Signature:** `Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1`
 
