@@ -48,12 +48,25 @@
     "play_counts_hf_public_read"
   ],
   "play_lattice": {
-    "signature": "Δ9Φ963-PLAY-LATTICE-v1",
+    "signature": "LYGO-PLAY-LATTICE-v1",
     "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/PLAY_LATTICE.md",
+    "global_public": true,
+    "public_board_url": "https://jsonblob.com/api/jsonBlob/019f7611-e28e-7de6-87df-5f5e4e8c4690",
+    "global_increment": "https://hits.dwyl.com/excavationpro/{key}.json",
     "counts_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_counts.json",
     "merkle_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/play/play_merkle_root.txt",
     "ingest_url": "",
-    "ingest_note": "Set to https://YOUR_HOST:8777 or Cloudflare Worker origin for multi-listener live writes. Empty = local hash-chain + export/import sync.",
+    "ui": {
+      "trophy": "total global plays",
+      "most_played": true,
+      "least_played": true,
+      "never_played": true,
+      "recent": true,
+      "per_track_badge": true,
+      "poll_seconds": 20,
+      "count_after_seconds": 20
+    },
+    "ingest_note": "Global board uses jsonblob+dwyl (no server). Optional steward gateway: lygo_play_ingest_server.py / Cloudflare Worker / HF Space (PRO).",
     "local_cas": "MUSIC_VAULT/play_lattice/",
     "cli": {
       "status": "python tools/lygo_play_lattice.py --status",

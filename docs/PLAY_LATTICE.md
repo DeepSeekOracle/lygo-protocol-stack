@@ -11,20 +11,20 @@
 | localStorage only | One browser, not “people” |
 | Third-party only | No steward CAS / Merkle |
 
-## Architecture (LYGO layers)
+## Architecture (LYGO layers) — GLOBAL public counts
 
 ```text
-  Browser play (≥20s or 35% of track)
+  Anyone plays ≥20s (or 35% / track end) on the listen page
         │
-        ├─ local hash-chain event (append-only ledger)
-        ├─ POST /v1/play  →  ingest (gateway or Cloudflare Worker)
-        │                         │
-        │                         ▼
-        │                  CAS events + aggregate rebuild
-        │                         │
-        └─ GET play_counts.json ← HF CDN (read-only, no increment)
-                                  + live ingest GET /v1/counts
+        ├─ 1) hits.dwyl.com  →  atomic global +1 (per track + total trophy)
+        ├─ 2) jsonblob public board → merge most / least / recent (everyone sees)
+        ├─ 3) local hash-chain event (exportable steward ledger)
+        │
+        └─ Poll board every ~20s → live growing trophy + charts
 ```
+
+**Why this works on free GitHub Pages:** no HF Space PRO, no server required for multi-listener writes.
+Steward can still import browser exports into `MUSIC_VAULT/play_lattice/` + HF mirror via `lygo_play_lattice.py`.
 
 ### Components
 
