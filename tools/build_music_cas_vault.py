@@ -34,6 +34,7 @@ DEFAULT_VAULT = Path(r"I:\E Drive\MUSIC_VAULT")
 DEFAULT_ROOTS = [
     Path(r"J:\ALL SOUND FILES\. KICK STREAM FOLDER\HOME\1 SOUNDCLOUD  DISTRO KID\0 DONE ALBUM"),
     Path(r"J:\ALL SOUND FILES\. KICK STREAM FOLDER\HOME\HOME"),
+    Path(r"I:\Actors"),
 ]
 
 AUDIO_EXT = {".mp3", ".wav", ".flac", ".m4a", ".aiff", ".aif", ".ogg", ".aac", ".wma"}
@@ -223,6 +224,7 @@ def scan_and_build(
     do_ingest: bool = False,
     ingest_mode: str = "hardlink",
     max_files: int = 0,
+    merge_existing: bool = True,
 ) -> dict[str, Any]:
     isrc_map, title_map = load_commercial_maps()
     files = iter_audio(roots)
@@ -231,14 +233,32 @@ def scan_and_build(
     print(f"[scan] audio files: {len(files)}", flush=True)
 
     by_hash: dict[str, dict[str, Any]] = {}
-    total_bytes = 0
+    prior_roots: list[str] = []
+    if merge_existing:
+        for prior in (
+            vault_root / "manifest" / "vault_index.json",
+            CAT / "music_vault_index_full.json",
+        ):
+            if prior.exists():
+                try:
+                    old = json.loads(prior.read_text(encoding="utf-8"))
+                    for o in old.get("objects") or []:
+                        d = o.get("sha256")
+                        if d:
+                            by_hash[d] = o
+                    prior_roots = list(old.get("scan_roots") or [])
+                    print(f"[merge] loaded {len(by_hash)} existing from {prior}", flush=True)
+                    break
+                except Exception as e:
+                    print(f"[merge] skip {prior}: {e}", flush=True)
+
     errors = 0
+    new_count = 0
 
     for i, path in enumerate(files):
         try:
             st = path.stat()
             digest = sha256_file(path)
-            total_bytes += st.st_size
             fn = path.name
             isrcs = extract_isrcs(fn)
             guess = title_from_fn(fn)
@@ -255,14 +275,24 @@ def scan_and_build(
 
             if digest in by_hash:
                 row = by_hash[digest]
-                row["paths"].append(str(path))
-                row["filenames"].append(fn)
+                paths = list(row.get("paths") or [])
+                if str(path) not in paths:
+                    paths.append(str(path))
+                row["paths"] = paths
+                fns = list(row.get("filenames") or [])
+                if fn not in fns:
+                    fns.append(fn)
+                row["filenames"] = fns
+                al = list(row.get("aliases") or [])
                 for a in aliases:
-                    if a not in row["aliases"]:
-                        row["aliases"].append(a)
+                    if a not in al:
+                        al.append(a)
+                row["aliases"] = al
+                ir = list(row.get("isrcs") or [])
                 for c in isrcs:
-                    if c not in row["isrcs"]:
-                        row["isrcs"].append(c)
+                    if c not in ir:
+                        ir.append(c)
+                row["isrcs"] = ir
                 if commercial and not row.get("commercial_title"):
                     row["commercial_title"] = commercial
             else:
@@ -282,15 +312,21 @@ def scan_and_build(
                     "cas_path": cas_path,
                     "mtime": datetime.fromtimestamp(st.st_mtime, tz=timezone.utc).isoformat(),
                 }
+                new_count += 1
         except Exception as e:
             errors += 1
             print(f"[err] {path}: {e}", flush=True)
         if (i + 1) % 50 == 0 or i == 0:
-            print(f"  hashed {i+1}/{len(files)} unique={len(by_hash)}", flush=True)
+            print(f"  hashed {i+1}/{len(files)} unique={len(by_hash)} new={new_count}", flush=True)
 
-    objects = sorted(by_hash.values(), key=lambda r: (r.get("commercial_title") or r.get("title_guess") or "").lower())
+    objects = sorted(
+        by_hash.values(),
+        key=lambda r: (r.get("commercial_title") or r.get("title_guess") or "").lower(),
+    )
     leaves = [o["sha256"] for o in objects]
     root = merkle_root(leaves)
+    all_bytes = sum(int(o.get("size") or 0) for o in objects)
+    scan_roots = list(dict.fromkeys(prior_roots + [str(r) for r in roots]))
 
     manifest = {
         "signature": SIGNATURE,
@@ -298,13 +334,14 @@ def scan_and_build(
         "steward": "Justin Helmer / Lightfather",
         "generated_at": utc_now(),
         "vault_root": str(vault_root),
-        "scan_roots": [str(r) for r in roots],
+        "scan_roots": scan_roots,
         "stats": {
             "files_seen": len(files),
+            "files_seen_this_scan": len(files),
             "unique_objects": len(objects),
-            "total_bytes": total_bytes,
-            "total_gb": round(total_bytes / (1024**3), 3),
-            "deduped_away": len(files) - len(objects),
+            "new_objects_this_scan": new_count,
+            "total_bytes": all_bytes,
+            "total_gb": round(all_bytes / (1024**3), 3),
             "with_isrc": sum(1 for o in objects if o.get("isrcs")),
             "with_commercial_title": sum(1 for o in objects if o.get("commercial_title")),
             "ingested_to_cas": sum(1 for o in objects if o.get("cas_path")),
@@ -549,6 +586,7 @@ def main() -> int:
     ap.add_argument("--vault", type=Path, default=DEFAULT_VAULT)
     ap.add_argument("--root", action="append", type=Path, help="Extra/override scan root (repeatable)")
     ap.add_argument("--max-files", type=int, default=0, help="Cap for testing")
+    ap.add_argument("--no-merge", action="store_true", help="Do not merge prior vault objects")
     args = ap.parse_args()
 
     if not args.scan and not args.hub:
@@ -564,6 +602,7 @@ def main() -> int:
             do_ingest=args.ingest,
             ingest_mode=args.ingest_mode,
             max_files=args.max_files,
+            merge_existing=not args.no_merge,
         )
         write_manifest(manifest, args.vault)
         # egg-ready core (stats + merkle only, small)
