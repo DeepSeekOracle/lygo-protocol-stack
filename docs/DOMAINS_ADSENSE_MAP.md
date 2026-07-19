@@ -26,16 +26,27 @@ Also: full catalog still at https://deepseekoracle.github.io/Excavationpro/ (all
 
 ---
 
-## Status (2026-07-18 evening)
+## Status (2026-07-19)
 
-DNS for all six was switched to **GitHub Pages A records** (`185.199.108–111.153`). Live checks:
+DNS for all six uses **GitHub Pages A records** (`185.199.108–111.153`). Live checks:
 
 | Check | Result |
 |-------|--------|
-| Homepages | Serving real site packages (not frameset parking) |
-| **`/ads.txt`** | Correct pub line on each domain (http) |
+| Homepages | Serving real site packages (HTTP 200) |
+| **`/ads.txt`** | Correct pub line on each domain |
 | **www** | CNAME → `deepseekoracle.github.io` |
-| **HTTPS padlock** | Pending GitHub free cert + **Enforce HTTPS** in each repo Pages settings |
+| **HTTPS padlock** | **LIVE** — custom certs issued for all six apex+www; **Enforce HTTPS = true** (2026-07-19) |
+
+| Domain | HTTPS cert SAN | Enforce HTTPS |
+|--------|----------------|---------------|
+| eternalhaven.ca | apex + www | ✅ |
+| excavationpro.ca | apex + www | ✅ |
+| bpmfinder.ca | apex + www | ✅ |
+| asiancoastline.com | apex + www | ✅ |
+| chatagent.ca | apex + www | ✅ |
+| deepseekoracle.com | apex + www | ✅ |
+
+**Security error root cause (fixed):** GitHub was still serving `*.github.io` cert until custom-domain certs were issued; browser showed hostname mismatch. Re-set custom domain on each Pages site → certs provisioned → Enforce HTTPS.
 
 asiancoastline.com homepage = **full music portal** (10,762 streams) for AdSense.
 
