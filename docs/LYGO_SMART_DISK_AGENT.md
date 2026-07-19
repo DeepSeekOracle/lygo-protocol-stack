@@ -36,8 +36,10 @@ Lineage: USB LYGO CLAW · Ethical Chip Firmware · LYGO Guardian · P0–P9 · B
 
 | Item | Value |
 |------|-------|
-| Bind | `127.0.0.1:9631` (loopback only) |
-| Password gate | **false** (one-shot open portal) |
+| Bind | `localhost:9631` only |
+| Password gate | **false** (no remote/vendor password wall) |
+| Local token | **true** by default (`auth.required`, `data/.sda_local_token`, header `X-SDA-Token`) |
+| HTTP memory export | **false** (CLI only) |
 | Config | `lygo_smart_disk/config/smart_disk.json` |
 | Firmware seal | `lygo_smart_disk/firmware/seal.json` |
 | Portal | `lygo_smart_disk/portal/` |
@@ -49,7 +51,7 @@ ollama pull qwen2.5:3b
 python verify/self_check.py
 python -m unittest tests/test_smart_disk.py -v
 python agent/smart_disk_agent.py
-# open http://127.0.0.1:9631/
+# browser opens with ?t=<local-token> once; token also printed + saved under data/
 ```
 
 ## Relation to OpenClaw / LYGO-OpenClaw

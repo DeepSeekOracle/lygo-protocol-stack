@@ -57,9 +57,13 @@ lygo_smart_disk/data/mycelium/*
 !lygo_smart_disk/data/mycelium/.gitkeep
 lygo_smart_disk/data/sessions/*
 !lygo_smart_disk/data/sessions/.gitkeep
+lygo_smart_disk/data/.sda_local_token
 lygo_smart_disk/workspace/*
 !lygo_smart_disk/workspace/.gitkeep
 lygo_smart_disk/**/__pycache__/
+clawhub/mirrors/lygo-smart-disk-agent/public/data/.sda_local_token
+clawhub/mirrors/lygo-smart-disk-agent/public/data/mycelium/*
+!clawhub/mirrors/lygo-smart-disk-agent/public/data/mycelium/.gitkeep
 data/prompt_vault/*.txt
 data/prompt_vault/prompt_*.json
 data/prompt_vault/sovereign_*.json

@@ -48,7 +48,7 @@ Support (optional): [PayPal @ExcavationPro](https://www.paypal.com/paypalme/Exca
 
 ## LYGO SMART DISK AGENT (lean CLAW · open portal)
 
-**100% LYGO CLAW** kernel-up product: P0–P5 kernel + browser portal + host Ollama — **no password gate**, loopback **127.0.0.1:9631**.
+**100% LYGO CLAW** kernel-up product: P0–P5 kernel + browser portal + host Ollama — **local operator token (localhost)**, loopback **127.0.0.1:9631**.
 
 | Resource | Link |
 |----------|------|

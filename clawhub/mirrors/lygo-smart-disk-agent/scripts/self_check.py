@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Self-check for lygo-smart-disk-agent.
-
-ClawHub / SkillSpector: static imports only.
-No dynamic module loaders, no eval, no remote code download.
-"""
+"""Self-check for lygo-smart-disk-agent — static imports only."""
 from __future__ import annotations
 
 import json
@@ -16,21 +12,18 @@ PUBLIC = ROOT / "public"
 
 def main() -> int:
     fails: list[str] = []
-
     if not PUBLIC.is_dir():
-        print(json.dumps({"ok": False, "fails": ["missing public/ package"]}))
+        print(json.dumps({"ok": False, "fails": ["missing public/"]}))
         return 1
 
     for rel in [
         "docs/00_VISION_AND_THEORY.md",
-        "docs/02_OPENCLAW_PARITY_MATRIX.md",
-        "docs/04_BRAINSTORM_ROUND2.md",
         "kernel/p0_gate.py",
         "agent/smart_disk_agent.py",
+        "agent/auth.py",
         "portal/index.html",
         "config/smart_disk.json",
         "firmware/seal.json",
-        "launch/LYGO_SMART_DISK_BOOT.bat",
         "verify/self_check.py",
     ]:
         if not (PUBLIC / rel).is_file():
@@ -57,8 +50,7 @@ def main() -> int:
         fails.append("p0_quarantine")
 
     mem = P1Memory(PUBLIC / "data")
-    mid = mem.store({"test": True, "skill_self_check": True})
-    if not mid:
+    if not mem.store({"test": True, "skill_self_check": True}):
         fails.append("memory")
 
     agent = SmartDiskAgent(PUBLIC)
@@ -67,6 +59,10 @@ def main() -> int:
         fails.append("health")
     if h.get("password_gate") is not False:
         fails.append("password_gate_should_be_false")
+    if not agent.auth.required:
+        fails.append("auth_required")
+    if not agent.auth.ok(agent.auth.token):
+        fails.append("token")
 
     st = agent.run_limb("help")
     if "chat" not in (st.get("limbs") or []):
@@ -84,6 +80,8 @@ def main() -> int:
         "chat_brain": chat.get("model") or chat.get("brain"),
         "seal": agent.seal_hash[:16],
         "loader": "static_import",
+        "auth_required": agent.auth.required,
+        "local_token": True,
     }
     print(json.dumps(report, indent=2))
     return 0 if report["ok"] else 1

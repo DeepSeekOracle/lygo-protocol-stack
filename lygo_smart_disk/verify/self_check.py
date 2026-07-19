@@ -12,13 +12,13 @@ sys.path.insert(0, str(ROOT))
 
 def main() -> int:
     fails = []
-    # structure
     for rel in [
         "docs/00_VISION_AND_THEORY.md",
         "docs/02_OPENCLAW_PARITY_MATRIX.md",
         "docs/04_BRAINSTORM_ROUND2.md",
         "kernel/p0_gate.py",
         "agent/smart_disk_agent.py",
+        "agent/auth.py",
         "portal/index.html",
         "config/smart_disk.json",
         "firmware/seal.json",
@@ -27,8 +27,9 @@ def main() -> int:
         if not (ROOT / rel).is_file():
             fails.append(f"missing:{rel}")
 
-    from kernel import P0Gate, P1Memory, P5Identity
+    from kernel import P0Gate, P1Memory
     from agent.smart_disk_agent import SmartDiskAgent
+    from agent.auth import LocalTokenAuth
 
     g = P0Gate()
     if g.validate("hello lattice").get("verdict") != "ALLOW":
@@ -47,12 +48,19 @@ def main() -> int:
         fails.append("health")
     if h.get("password_gate") is not False:
         fails.append("password_gate_should_be_false")
+    if not agent.auth.required:
+        fails.append("auth_should_be_required_by_default")
+    if not agent.auth.token or len(agent.auth.token) < 16:
+        fails.append("token_missing")
+    if not agent.auth.ok(agent.auth.token):
+        fails.append("token_verify")
+    if agent.auth.ok("definitely-wrong-token-value"):
+        fails.append("token_should_reject_wrong")
 
     st = agent.run_limb("help")
     if "chat" not in (st.get("limbs") or []):
         fails.append("limbs")
 
-    # chat: soft — ok if brain missing
     chat = agent.chat("Reply with exactly: SDA_OK")
     if chat.get("verdict") == "QUARANTINE":
         fails.append("chat_quarantine_false_positive")
@@ -60,10 +68,12 @@ def main() -> int:
     report = {
         "ok": len(fails) == 0,
         "fails": fails,
-        "health": h,
+        "health": {**h, **agent.auth.public_info()},
         "chat_ok": chat.get("ok"),
         "chat_brain": chat.get("model") or chat.get("brain"),
         "seal": agent.seal_hash[:16],
+        "auth_required": agent.auth.required,
+        "token_file": str(agent.auth.path.name),
     }
     print(json.dumps(report, indent=2))
     return 0 if report["ok"] else 1

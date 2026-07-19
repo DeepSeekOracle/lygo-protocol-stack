@@ -1,5 +1,15 @@
 # Changelog — LYGO Protocol Stack
 
+## [LYGO SMART DISK AGENT 1.1.0] — 2026-07-19
+
+**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.1.0`
+
+### Security finish
+- Local operator token auth (default on) for HTTP chat/limbs/status
+- One-shot boot injects `?t=`; token file gitignored
+- HTTP memory export blocked; chat store hash-only
+- Static analysis clean (localhost, static self_check)
+- ClawHub skill **1.1.0**
 ## [LYGO SMART DISK AGENT public] — 2026-07-19
 
 **Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1`

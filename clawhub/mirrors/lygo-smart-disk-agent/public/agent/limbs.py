@@ -52,6 +52,12 @@ def build_limbs(ctx: dict[str, Any]) -> dict[str, Callable[..., dict[str, Any]]]
         fallbacks = cfg.get("models", {}).get("fallbacks") or []
         picked = ollama.pick_model(primary, fallbacks)
         free = shutil.disk_usage(str(root)).free
+        auth = ctx.get("auth")
+        auth_info = auth.public_info() if auth is not None else {
+            "password_gate": False,
+            "local_token": False,
+            "auth_required": False,
+        }
         return {
             "ok": True,
             "brain": "warm" if picked else ("cold" if ollama._ping() else "missing"),
@@ -59,7 +65,9 @@ def build_limbs(ctx: dict[str, Any]) -> dict[str, Callable[..., dict[str, Any]]]
             "models": tags,
             "disk_free_bytes": free,
             "bind": f"{cfg.get('bind')}:{cfg.get('port')}",
-            "password_gate": False,
+            "password_gate": False,  # not a remote/vendor password wall
+            "local_token": bool(auth_info.get("local_token")),
+            "auth_required": bool(auth_info.get("auth_required")),
             "firmware_signature": seal.get("signature"),
         }
 

@@ -9,7 +9,7 @@
 <body>
 <header>
   <div class="brand">Δ9Φ963 · LYGO SMART DISK AGENT</div>
-  <div class="sub">Kernel-up CLAW · localhost only · no password (local operator) · offline brain</div>
+  <div class="sub">Kernel-up CLAW · localhost only · local operator token · offline brain</div>
   <div id="health" class="health">probing…</div>
 </header>
 <main>
@@ -30,7 +30,11 @@
       <button type="button" data-limb="army-sentinel">army-sentinel</button>
     </div>
     <pre id="limb-out" class="limb-out">—</pre>
-    <p class="hint">Local operator trust model: no password on <strong>localhost</strong> only. Chat memory is <strong>not</strong> exported over HTTP (CLI only). Dual-use portal + daemon on :9631.</p>
+    <p class="hint">
+      <strong>Local operator token</strong> (not a cloud password): boot injects it once via URL, or use
+      <code>data/.sda_local_token</code>. Chat history is <strong>not</strong> exported over HTTP.
+      Bind is localhost only.
+    </p>
   </aside>
 </main>
 <script src="/static/app.js"></script>

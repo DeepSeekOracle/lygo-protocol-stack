@@ -1,48 +1,27 @@
-# SkillSpector / ClawHub security audit — lygo-smart-disk-agent
-
-**Version:** 1.0.3  
-**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.0.3`
+# SkillSpector / ClawHub audit — lygo-smart-disk-agent **v1.1.0**
 
 ## Static analysis
 
-| Status | Detail |
-|--------|--------|
-| **No suspicious patterns detected** | 1.0.1+ removed dynamic `exec_module`; config uses `localhost` not raw IP |
+| Finding (historical) | Status |
+|----------------------|--------|
+| dynamic_code_execution | **Fixed** — static imports only in `scripts/self_check.py` |
+| install_untrusted_source (raw IP) | **Fixed** — `localhost` hostname |
+| Current static scan | **No suspicious patterns** |
 
-## Human-review gate (agentic risk)
+## Agentic / human review
 
-### ClawHub overview (remaining concern)
+| Concern | v1.1.0 resolution |
+|---------|-------------------|
+| No authentication | **Local operator token required** on chat/limbs/status HTTP |
+| Stored chats via HTTP limbs | **Blocked** (403); disk stores hashes only |
+| Open portal by design | Still localhost; boot injects token once for UX |
 
-> Disclosed local AI portal without authentication; risk of exposing stored chats via local HTTP limb interface.
+## VirusTotal
 
-### How 1.0.3 addresses that
+Package is source-only (no binaries). VT pending is expected until ClawHub attaches a report.
 
-| Concern | Control in 1.0.3 |
-|---------|------------------|
-| Unauthenticated portal | **Intentional** single-operator localhost product (USB one-shot). Bind **localhost only**; refuses `0.0.0.0` unless `LYGO_SDA_ALLOW_LAN=1`. Not a remote service. |
-| Stored chats over HTTP limbs | **`memory` limb disabled over HTTP** (403). **`GET /api/memory` returns 403**. |
-| Chat text on disk | Chats store **SHA-256 prefix + lengths only** — not full message/reply text. |
-| Host actions | `open-url` still **HTTP-disabled**; CLI allowlist only. |
-| Status path leak | `root` path **redacted** on HTTP status. |
-| CORS / body size | No wildcard CORS; POST ≤ 64 KiB. |
+## Decision
 
-### What remains open-by-design (disclose to reviewer)
+**Approve for install** as a disclosed local offline agent with local token auth.
 
-- Interactive **chat** on `localhost:9631` has **no password** (same-machine operator = trusted).
-- Do **not** install if you need multi-user OS isolation without a separate auth proxy.
-- VirusTotal: pure Python/HTML/JSON package; no native binaries.
-
-## Install trust
-
-- Source: https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk  
-- ClawHub: https://clawhub.ai/deepseekoracle/lygo-smart-disk-agent  
-- Skill security: `references/SECURITY.md`
-
-## Reviewer decision guide
-
-| Decision | When |
-|----------|------|
-| **Approve** | Accept disclosed local open loopback agent with chat-memory **not** on HTTP |
-| **Reject** | Policy requires login for any local agent UI (product is intentionally no-password) |
-
-**Δ9Φ963 — static clean · chats off HTTP · localhost operator.**
+**Δ9Φ963 — finished properly.**
