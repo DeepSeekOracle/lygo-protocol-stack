@@ -76,10 +76,21 @@ def build_limbs(ctx: dict[str, Any]) -> dict[str, Callable[..., dict[str, Any]]]
         }
 
     def memory_limb(args: list[str] | None = None) -> dict[str, Any]:
+        """Local/CLI recall only. HTTP API blocks this limb (see smart_disk_agent handler)."""
         n = 10
         if args and args[0].isdigit():
             n = min(50, int(args[0]))
-        return {"ok": True, "recent": memory.list_recent(n)}
+        # Only metadata-style rows should be present (chat text not stored)
+        recent = memory.list_recent(n)
+        safe = []
+        for row in recent:
+            b = dict(row.get("bundle") or {})
+            # Defense in depth: never return message/reply text keys if present
+            for k in list(b.keys()):
+                if k in ("message", "reply", "result") or "content" in k.lower():
+                    b.pop(k, None)
+            safe.append({"id": row.get("id"), "ts": row.get("ts"), "bundle": b})
+        return {"ok": True, "recent": safe, "http_export": False}
 
     def open_url_limb(args: list[str] | None = None) -> dict[str, Any]:
         """CLI-only host open. Allowlist loopback + documented LYGO public sites."""

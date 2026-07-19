@@ -1,43 +1,48 @@
-# SkillSpector / ClawHub security audit notes — lygo-smart-disk-agent
+# SkillSpector / ClawHub security audit — lygo-smart-disk-agent
 
-**Version:** 1.0.2  
-**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.0.2`
+**Version:** 1.0.3  
+**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.0.3`
 
-## Scanner findings addressed
+## Static analysis
 
-| Code | Severity | Location (1.0.0) | Resolution in 1.0.2 |
-|------|----------|------------------|---------------------|
-| `suspicious.dynamic_code_execution` | Critical | `scripts/self_check.py:22` (`importlib.exec_module`) | Removed. Self-check uses **static imports** only (`from kernel …`, `from agent …`). |
-| `suspicious.install_untrusted_source` | Warn | `public/config/smart_disk.json:5` raw IP in URL | `ollama_base` is now `http://localhost:11434` (hostname, not raw IP). Bind is `localhost`. |
+| Status | Detail |
+|--------|--------|
+| **No suspicious patterns detected** | 1.0.1+ removed dynamic `exec_module`; config uses `localhost` not raw IP |
 
-## Human-review summary (agentic risk)
+## Human-review gate (agentic risk)
 
-The product is a **disclosed local offline agent**:
+### ClawHub overview (remaining concern)
 
-| Surface | Mitigation |
-|---------|------------|
-| No-login loopback portal | **By design** for USB one-shot; bind **localhost only**; refuse `0.0.0.0` unless `LYGO_SDA_ALLOW_LAN=1` |
-| Stored chats | Full JSONL local only; **HTTP `/api/memory` returns previews** (80-char), not full dump |
-| Host actions (`open-url`) | **Disabled over HTTP API**; CLI-only + allowlisted HTTPS/localhost prefixes |
-| CORS | Wildcard CORS **removed** (same-origin portal) |
-| POST bodies | Hard cap **64 KiB** |
-| P0 | Input quarantine patterns + size cap |
-| Secrets | No API keys or cloud credentials in package |
-| Models | Weights not shipped; host Ollama only |
+> Disclosed local AI portal without authentication; risk of exposing stored chats via local HTTP limb interface.
+
+### How 1.0.3 addresses that
+
+| Concern | Control in 1.0.3 |
+|---------|------------------|
+| Unauthenticated portal | **Intentional** single-operator localhost product (USB one-shot). Bind **localhost only**; refuses `0.0.0.0` unless `LYGO_SDA_ALLOW_LAN=1`. Not a remote service. |
+| Stored chats over HTTP limbs | **`memory` limb disabled over HTTP** (403). **`GET /api/memory` returns 403**. |
+| Chat text on disk | Chats store **SHA-256 prefix + lengths only** — not full message/reply text. |
+| Host actions | `open-url` still **HTTP-disabled**; CLI allowlist only. |
+| Status path leak | `root` path **redacted** on HTTP status. |
+| CORS / body size | No wildcard CORS; POST ≤ 64 KiB. |
+
+### What remains open-by-design (disclose to reviewer)
+
+- Interactive **chat** on `localhost:9631` has **no password** (same-machine operator = trusted).
+- Do **not** install if you need multi-user OS isolation without a separate auth proxy.
+- VirusTotal: pure Python/HTML/JSON package; no native binaries.
 
 ## Install trust
 
-- Canonical source: https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk  
-- ClawHub: `deepseekoracle/lygo-smart-disk-agent`  
-- Do **not** install from third-party mirrors or shortener links.
+- Source: https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk  
+- ClawHub: https://clawhub.ai/deepseekoracle/lygo-smart-disk-agent  
+- Skill security: `references/SECURITY.md`
 
-## VirusTotal
+## Reviewer decision guide
 
-ClawHub may attach VT after publish. Package is pure Python/HTML/JSON (no binaries). Expect clean once scanned.
+| Decision | When |
+|----------|------|
+| **Approve** | Accept disclosed local open loopback agent with chat-memory **not** on HTTP |
+| **Reject** | Policy requires login for any local agent UI (product is intentionally no-password) |
 
-## Operator consent
-
-Installing this skill means you accept a **local open control plane** on your machine when you run the portal. Do not expose port 9631 to the network.
-
-**Δ9Φ963 — static load · localhost · human review OK.**
-
+**Δ9Φ963 — static clean · chats off HTTP · localhost operator.**

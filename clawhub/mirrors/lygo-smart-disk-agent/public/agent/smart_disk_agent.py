@@ -84,11 +84,14 @@ class SmartDiskAgent:
             temperature=float(chat_cfg.get("temperature", 0.35)),
             num_predict=int(chat_cfg.get("num_predict", 384)),
         )
+        # Store metadata only (no full chat text on disk) — reduces local HTTP/disk exposure
         bundle = {
             "kind": "chat",
             "model": model,
-            "message": message,
-            "result": result,
+            "message_sha256": hashlib.sha256(message.encode("utf-8", errors="ignore")).hexdigest()[:16],
+            "message_len": len(message),
+            "reply_len": len((result.get("reply") or "") if result.get("ok") else ""),
+            "ok": bool(result.get("ok")),
             "light_code": node["light_code"],
             "verdict": v.get("verdict"),
             "consensus": self.consensus.achieve({"command": "chat"}),
@@ -123,8 +126,15 @@ class SmartDiskAgent:
         if not fn:
             return {"ok": False, "error": "unknown_limb", "limb": name}
         result = fn(args)
+        # Persist metadata only — never full limb args/results (may contain chat text)
         mid = self.memory.store(
-            {"kind": "limb", "limb": name, "args": args, "result": result, "light_code": node["light_code"]}
+            {
+                "kind": "limb",
+                "limb": name,
+                "args_len": len(args),
+                "ok": bool((result or {}).get("ok", True)),
+                "light_code": node["light_code"],
+            }
         )
         result = dict(result)
         result["memory_id"] = mid
@@ -178,30 +188,21 @@ def make_handler(agent: SmartDiskAgent):
                 self._json(200, h)
                 return
             if path == "/api/status":
-                self._json(200, agent.run_limb("status"))
+                st = agent.run_limb("status")
+                # Redact host path from unauthenticated HTTP status
+                st = dict(st)
+                st.pop("root", None)
+                st["root_redacted"] = True
+                self._json(200, st)
                 return
             if path == "/api/memory":
-                # Truncated recent metadata only (not full raw transcript dump)
-                raw = agent.run_limb("memory", ["5"])
-                recent = []
-                for row in (raw.get("recent") or [])[:5]:
-                    b = row.get("bundle") or {}
-                    recent.append(
-                        {
-                            "id": row.get("id"),
-                            "ts": row.get("ts"),
-                            "kind": b.get("kind"),
-                            "limb": b.get("limb"),
-                            "verdict": b.get("verdict") or (b.get("result") or {}).get("verdict"),
-                            "message_preview": str(b.get("message") or "")[:80],
-                        }
-                    )
+                # Chats are NOT exposed over HTTP (agentic / human-review control)
                 self._json(
-                    200,
+                    403,
                     {
-                        "ok": True,
-                        "recent": recent,
-                        "note": "previews only; full JSONL stays on local disk under data/mycelium/",
+                        "ok": False,
+                        "error": "memory_not_available_over_http",
+                        "note": "Stored memory is local disk + CLI only. Use: python agent/smart_disk_agent.py limb memory",
                     },
                 )
                 return
@@ -229,23 +230,32 @@ def make_handler(agent: SmartDiskAgent):
                 return
             if path == "/api/limb":
                 limb = (data.get("limb") or "").strip()
-                # Host-action limbs disabled over HTTP API (agentic risk reduction).
-                # Use CLI: python agent/smart_disk_agent.py limb open-url <url>
-                if limb in ("open-url",):
+                # Sensitive / host-action limbs: CLI only (no unauth HTTP exposure)
+                blocked = {
+                    "open-url": "CLI-only; prevent unauth host browser opens",
+                    "memory": "CLI-only; chat memory not exposed over HTTP limb API",
+                    "chat": "use POST /api/chat (does not export history over limbs)",
+                }
+                if limb in blocked:
                     self._json(
                         403,
                         {
                             "ok": False,
                             "error": "limb_disabled_over_http",
                             "limb": limb,
-                            "note": "open-url is CLI-only to prevent unauth host browser opens",
+                            "note": blocked[limb],
                         },
                     )
                     return
                 args = data.get("args") or []
                 if not isinstance(args, list):
                     args = [str(args)]
-                self._json(200, agent.run_limb(limb, [str(a) for a in args]))
+                out = agent.run_limb(limb, [str(a) for a in args])
+                if limb == "status" and isinstance(out, dict):
+                    out = dict(out)
+                    out.pop("root", None)
+                    out["root_redacted"] = True
+                self._json(200, out)
                 return
             self._json(404, {"error": "not_found"})
 

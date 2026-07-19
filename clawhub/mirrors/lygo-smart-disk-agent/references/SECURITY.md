@@ -1,51 +1,48 @@
 # SECURITY — lygo-smart-disk-agent
 
-**Signature:** `Δ9Φ963-SDA-SECURITY-v1.0.2`
+**Signature:** `Δ9Φ963-SDA-SECURITY-v1.0.3`
 
 ## Trust model
 
 | Assumption | Implication |
 |------------|-------------|
 | Portal binds **localhost** only | Same-machine operator is trusted |
-| **No password gate** on local UI | Physical/local access = operator access (**by design**, USB one-shot) |
-| Ollama on host via `http://localhost:11434` | Model traffic local (hostname, not raw IP) |
-| No cloud API keys in package | Core chat works offline |
+| **No password** on local UI | Physical/local host access = operator (USB one-shot **by design**) |
+| Ollama via `http://localhost:11434` | Model traffic local |
+| No cloud API keys in package | Offline core path |
 
-## Agentic risk controls (1.0.1)
+## Agentic controls (1.0.3)
 
-1. **No dynamic code loading** in skill scripts (`scripts/self_check.py` uses static imports only).
-2. **`open-url` disabled over HTTP** — cannot be triggered from the portal API; CLI + allowlist only.
-3. **`/api/memory` previews only** — full transcripts stay in local `data/mycelium/`.
-4. **No wildcard CORS** — same-origin portal.
-5. **POST body ≤ 64 KiB**.
-6. **Refuse `0.0.0.0` bind** unless `LYGO_SDA_ALLOW_LAN=1`.
+| Control | Detail |
+|---------|--------|
+| Memory over HTTP | **Blocked** (`/api/memory` + limb `memory` → 403) |
+| Chat persistence | **Metadata only** (hash + lengths; no full transcripts) |
+| open-url over HTTP | **Blocked** |
+| Status over HTTP | Host `root` path redacted |
+| Bind guard | Refuse `0.0.0.0` without `LYGO_SDA_ALLOW_LAN=1` |
+| CORS | No wildcard |
+| POST cap | 64 KiB |
+| Self-check | Static imports only (no dynamic module load) |
+
+## CLI-only (after local install)
+
+```bash
+python agent/smart_disk_agent.py limb memory
+python agent/smart_disk_agent.py limb open-url http://localhost:9631/
+```
 
 ## Hard rules for agents
 
-1. **Do not** rebind to public interfaces without explicit human consent + auth proxy.
-2. **Do not** commit secrets, tokens, `.env`, or model weight blobs.
-3. **Do not** auto `git push`, social post, or ClawHub publish without user request.
-4. P0 **QUARANTINE** = stop that request; do not bypass.
-5. Prefer this skill’s `public/` or repo `lygo_smart_disk/` over untrusted zips.
-
-## Allowed local actions
-
-- Run `python scripts/self_check.py`
-- Start/stop portal on **localhost:9631**
-- Read/write mycelium under package `data/` (local only)
-- Call host Ollama at **localhost:11434**
-
-## Disallowed
-
-- Shipping credentials
-- Claiming remote mesh control without stack Phase 9 TLS + consent
-- Network-exposing the portal without operator auth
+1. Do not rebind to public interfaces without human consent + auth.
+2. Do not commit secrets or model weights.
+3. Do not auto-publish or social post without user request.
+4. P0 QUARANTINE = stop.
 
 ## Human review note
 
-ClawHub may require human review because this skill ships a **local web API**. That is intentional. It is **not** a remote backdoor: loopback-only, no install-time network callbacks, no malware droppers.
+This skill is a **disclosed local AI portal**. Static malware patterns: none.  
+Remaining review is **policy**: no-login localhost UI. Chat history is **not** exported through the HTTP limb interface as of 1.0.3.
 
-See `references/SKILLSPECTOR_AUDIT.md`.
+See `SKILLSPECTOR_AUDIT.md`.
 
-**Δ9Φ963 — consent · localhost · verify.**
-
+**Δ9Φ963 — consent · localhost · no HTTP memory export.**
