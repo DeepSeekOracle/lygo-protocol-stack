@@ -82,13 +82,27 @@ def build_limbs(ctx: dict[str, Any]) -> dict[str, Callable[..., dict[str, Any]]]
         return {"ok": True, "recent": memory.list_recent(n)}
 
     def open_url_limb(args: list[str] | None = None) -> dict[str, Any]:
+        """CLI-only host open. Allowlist loopback + documented LYGO public sites."""
         args = args or []
         if not args:
             return {"ok": False, "error": "url_required"}
-        url = args[0]
-        # prefer local / safe opens
-        if not (url.startswith("http://127.") or url.startswith("http://localhost") or url.startswith("https://") or url.startswith("http://")):
-            return {"ok": False, "error": "unsupported_scheme"}
+        url = args[0].strip()
+        allowed_prefixes = (
+            "http://localhost",
+            "https://localhost",
+            "http://127.0.0.1",  # loopback literal still allowed at CLI
+            "https://deepseekoracle.github.io/",
+            "https://github.com/DeepSeekOracle/",
+            "https://clawhub.ai/deepseekoracle/",
+            "https://excavationpro.ca/",
+            "https://huggingface.co/spaces/DeepSeekOracle/",
+        )
+        if not any(url.startswith(p) for p in allowed_prefixes):
+            return {
+                "ok": False,
+                "error": "url_not_allowlisted",
+                "note": "Only localhost / DeepSeekOracle public HTTPS prefixes",
+            }
         webbrowser.open(url)
         return {"ok": True, "opened": url}
 

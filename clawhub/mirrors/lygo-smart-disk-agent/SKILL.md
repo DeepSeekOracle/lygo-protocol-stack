@@ -1,7 +1,7 @@
 ---
 name: lygo-smart-disk-agent
 description: "LYGO SMART DISK AGENT — lean 100% LYGO CLAW kernel-up disk product. Open loopback portal (no password), P0–P5, host Ollama brain, OpenClaw-shaped limbs. Public package under lygo-protocol-stack/lygo_smart_disk. Read references/SECURITY.md first."
-metadata: {"lygo": true, "biophase7": true, "version": "1.0.0", "signature": "Δ9Φ963-LYGO-SMART-DISK-AGENT-v1", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "tree": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk", "publisher": "deepseekoracle", "portal": "http://127.0.0.1:9631/", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "security_doc": "references/SECURITY.md"}
+metadata: {"lygo": true, "biophase7": true, "version": "1.0.1", "signature": "Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.0.1", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "tree": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk", "publisher": "deepseekoracle", "portal": "http://localhost:9631/", "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "security_doc": "references/SECURITY.md", "skillspector": "references/SKILLSPECTOR_AUDIT.md"}
 ---
 
 # LYGO SMART DISK AGENT
@@ -10,7 +10,8 @@ metadata: {"lygo": true, "biophase7": true, "version": "1.0.0", "signature": "Δ
 
 | | |
 |--|--|
-| Portal | http://127.0.0.1:9631/ |
+| Portal | http://localhost:9631/ (loopback only) |
+| Version | **1.0.1** (ClawHub scanner fixes + agentic hardening) |
 | Public tree | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk |
 | Stack doc | https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_SMART_DISK_AGENT.md |
 | Models | `qwen2.5:3b` primary · `llama3.2:1b` / `gemma2:2b` fallbacks (host Ollama) |
@@ -61,7 +62,13 @@ Windows: `public/launch/LYGO_SMART_DISK_BOOT.bat`
 | **Portal** | static HTML/JS — one-shot open loopback |
 | **Seal** | `firmware/seal.json` |
 
-**No password gate.** Bind **127.0.0.1 only**. Weights are **not** shipped — discover host Ollama.
+**No password gate.** Bind **localhost only**. Weights are **not** shipped — discover host Ollama.
+
+### Security (read first)
+
+- `references/SECURITY.md` — trust model + agentic controls  
+- `references/SKILLSPECTOR_AUDIT.md` — ClawHub static findings fixed in 1.0.1  
+- HTTP API: **no open-url**, **memory previews only**, **no wildcard CORS**, body cap 64 KiB
 
 ## Skill chain
 

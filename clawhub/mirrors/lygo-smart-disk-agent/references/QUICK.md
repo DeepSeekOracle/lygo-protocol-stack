@@ -9,7 +9,7 @@ cd lygo_smart_disk   # or skill's public/
 ollama pull qwen2.5:3b
 python verify/self_check.py
 python agent/smart_disk_agent.py
-# browser → http://127.0.0.1:9631/
+# browser → http://localhost:9631/
 ```
 
 Windows: `launch/LYGO_SMART_DISK_BOOT.bat`

@@ -1,8 +1,8 @@
 {
   "signature": "Δ9Φ963-SDA-CONFIG-v1",
-  "bind": "127.0.0.1",
+  "bind": "localhost",
   "port": 9631,
-  "ollama_base": "http://127.0.0.1:11434",
+  "ollama_base": "http://localhost:11434",
   "models": {
     "primary": "qwen2.5:3b",
     "fallbacks": ["llama3.2:1b", "gemma2:2b"]

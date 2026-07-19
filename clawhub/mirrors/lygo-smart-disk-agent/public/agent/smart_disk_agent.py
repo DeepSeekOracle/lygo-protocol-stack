@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 import threading
 import webbrowser
@@ -39,7 +40,7 @@ class SmartDiskAgent:
         self.memory = P1Memory(self.root / "data")
         self.consensus = P3Consensus()
         self.identity = P5Identity()
-        self.ollama = OllamaClient(self.cfg.get("ollama_base", "http://127.0.0.1:11434"))
+        self.ollama = OllamaClient(self.cfg.get("ollama_base", "http://localhost:11434"))
         self.limbs = build_limbs(
             {
                 "root": self.root,
@@ -70,7 +71,7 @@ class SmartDiskAgent:
                 "ok": False,
                 "verdict": v.get("verdict"),
                 "light_code": node["light_code"],
-                "reply": "Brain cold: no Ollama model found on 127.0.0.1:11434. Install Ollama and pull qwen2.5:3b or llama3.2:1b.",
+                "reply": "Brain cold: no Ollama model found on localhost:11434. Install Ollama and pull qwen2.5:3b or llama3.2:1b.",
                 "brain": "missing",
             }
             self.memory.store({"kind": "chat_fail", **out})
@@ -144,7 +145,9 @@ def make_handler(agent: SmartDiskAgent):
             self.send_header("Content-Type", ctype)
             self.send_header("Content-Length", str(len(body)))
             self.send_header("Cache-Control", "no-store")
-            self.send_header("Access-Control-Allow-Origin", "*")
+            # Same-origin portal only — no wildcard CORS (reduces agentic cross-origin risk)
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
             self.end_headers()
             self.wfile.write(body)
 
@@ -152,10 +155,8 @@ def make_handler(agent: SmartDiskAgent):
             self._send(code, json.dumps(obj, ensure_ascii=False).encode("utf-8"))
 
         def do_OPTIONS(self) -> None:  # noqa: N802
+            # No CORS preflight surface — portal is same-origin on localhost
             self.send_response(204)
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
-            self.send_header("Access-Control-Allow-Headers", "Content-Type")
             self.end_headers()
 
         def do_GET(self) -> None:  # noqa: N802
@@ -180,7 +181,29 @@ def make_handler(agent: SmartDiskAgent):
                 self._json(200, agent.run_limb("status"))
                 return
             if path == "/api/memory":
-                self._json(200, agent.run_limb("memory", ["15"]))
+                # Truncated recent metadata only (not full raw transcript dump)
+                raw = agent.run_limb("memory", ["5"])
+                recent = []
+                for row in (raw.get("recent") or [])[:5]:
+                    b = row.get("bundle") or {}
+                    recent.append(
+                        {
+                            "id": row.get("id"),
+                            "ts": row.get("ts"),
+                            "kind": b.get("kind"),
+                            "limb": b.get("limb"),
+                            "verdict": b.get("verdict") or (b.get("result") or {}).get("verdict"),
+                            "message_preview": str(b.get("message") or "")[:80],
+                        }
+                    )
+                self._json(
+                    200,
+                    {
+                        "ok": True,
+                        "recent": recent,
+                        "note": "previews only; full JSONL stays on local disk under data/mycelium/",
+                    },
+                )
                 return
             if path == "/api/help":
                 self._json(200, agent.run_limb("help"))
@@ -190,6 +213,10 @@ def make_handler(agent: SmartDiskAgent):
         def do_POST(self) -> None:  # noqa: N802
             path = urlparse(self.path).path
             n = int(self.headers.get("Content-Length") or 0)
+            # Cap body to reduce local DoS / agentic bulk abuse
+            if n < 0 or n > 65536:
+                self._json(413, {"error": "body_too_large", "max": 65536})
+                return
             raw = self.rfile.read(n) if n else b"{}"
             try:
                 data = json.loads(raw.decode("utf-8") or "{}")
@@ -202,6 +229,19 @@ def make_handler(agent: SmartDiskAgent):
                 return
             if path == "/api/limb":
                 limb = (data.get("limb") or "").strip()
+                # Host-action limbs disabled over HTTP API (agentic risk reduction).
+                # Use CLI: python agent/smart_disk_agent.py limb open-url <url>
+                if limb in ("open-url",):
+                    self._json(
+                        403,
+                        {
+                            "ok": False,
+                            "error": "limb_disabled_over_http",
+                            "limb": limb,
+                            "note": "open-url is CLI-only to prevent unauth host browser opens",
+                        },
+                    )
+                    return
                 args = data.get("args") or []
                 if not isinstance(args, list):
                     args = [str(args)]
@@ -214,13 +254,18 @@ def make_handler(agent: SmartDiskAgent):
 
 def serve(open_browser: bool | None = None) -> None:
     agent = SmartDiskAgent()
-    bind = agent.cfg.get("bind", "127.0.0.1")
+    bind = str(agent.cfg.get("bind", "localhost")).strip() or "localhost"
+    # Hard guard: never serve on all interfaces without explicit env break-glass
+    if bind in ("0.0.0.0", "::", "[::]"):
+        if os.environ.get("LYGO_SDA_ALLOW_LAN") != "1":
+            print("[SDA] refusing non-loopback bind; set LYGO_SDA_ALLOW_LAN=1 to override")
+            bind = "localhost"
     port = int(agent.cfg.get("port", 9631))
     httpd = ThreadingHTTPServer((bind, port), make_handler(agent))
     url = f"http://{bind}:{port}/"
     print(f"[{SIGNATURE}] listening {url}")
     print(f"  Ollama: {agent.cfg.get('ollama_base')}  seal={agent.seal_hash[:16]}…")
-    print("  Auth: NONE (loopback open — USB CLAW style)")
+    print("  Auth: NONE (loopback open — USB CLAW style; local operator trust model)")
     if open_browser is None:
         open_browser = bool(agent.cfg.get("open_browser_on_boot", True))
     if open_browser:

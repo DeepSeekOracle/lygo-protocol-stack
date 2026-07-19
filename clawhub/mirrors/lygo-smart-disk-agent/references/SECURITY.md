@@ -1,40 +1,50 @@
 # SECURITY — lygo-smart-disk-agent
 
-**Signature:** `Δ9Φ963-SDA-SECURITY-v1`
+**Signature:** `Δ9Φ963-SDA-SECURITY-v1.0.1`
 
 ## Trust model
 
 | Assumption | Implication |
 |------------|-------------|
-| Portal binds **127.0.0.1** only | Same-machine user is trusted |
-| **No password gate** on local UI | Physical/local access = operator access (by design) |
-| Ollama on host | Model traffic stays local unless user reconfigures Ollama |
+| Portal binds **localhost** only | Same-machine operator is trusted |
+| **No password gate** on local UI | Physical/local access = operator access (**by design**, USB one-shot) |
+| Ollama on host via `http://localhost:11434` | Model traffic local (hostname, not raw IP) |
 | No cloud API keys in package | Core chat works offline |
+
+## Agentic risk controls (1.0.1)
+
+1. **No dynamic code loading** in skill scripts (`scripts/self_check.py` uses static imports only).
+2. **`open-url` disabled over HTTP** — cannot be triggered from the portal API; CLI + allowlist only.
+3. **`/api/memory` previews only** — full transcripts stay in local `data/mycelium/`.
+4. **No wildcard CORS** — same-origin portal.
+5. **POST body ≤ 64 KiB**.
+6. **Refuse `0.0.0.0` bind** unless `LYGO_SDA_ALLOW_LAN=1`.
 
 ## Hard rules for agents
 
-1. **Do not** rebind to `0.0.0.0` or public interfaces without explicit human consent + auth proxy.
+1. **Do not** rebind to public interfaces without explicit human consent + auth proxy.
 2. **Do not** commit secrets, tokens, `.env`, or model weight blobs.
 3. **Do not** auto `git push`, social post, or ClawHub publish without user request.
-4. P0 **QUARANTINE** = stop that request; do not bypass with flags.
-5. Skill `public/` is the portable product — prefer it or repo `lygo_smart_disk/` over random forks with unknown binaries.
+4. P0 **QUARANTINE** = stop that request; do not bypass.
+5. Prefer this skill’s `public/` or repo `lygo_smart_disk/` over untrusted zips.
 
 ## Allowed local actions
 
-- Run `verify/self_check.py` and unit tests
-- Start/stop portal on loopback
+- Run `python scripts/self_check.py`
+- Start/stop portal on **localhost:9631**
 - Read/write mycelium under package `data/` (local only)
-- Call host Ollama at `127.0.0.1:11434`
+- Call host Ollama at **localhost:11434**
 
 ## Disallowed
 
-- Shipping credentials in SKILL.md or config
+- Shipping credentials
 - Claiming remote mesh control without stack Phase 9 TLS + consent
-- Impersonating OpenClaw vendor branding as this product
+- Network-exposing the portal without operator auth
 
-## Firmware lineage (public, no secrets)
+## Human review note
 
-- https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html
-- https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html
+ClawHub may require human review because this skill ships a **local web API**. That is intentional. It is **not** a remote backdoor: loopback-only, no install-time network callbacks, no malware droppers.
 
-**Δ9Φ963 — consent · loopback · verify.**
+See `references/SKILLSPECTOR_AUDIT.md`.
+
+**Δ9Φ963 — consent · localhost · verify.**

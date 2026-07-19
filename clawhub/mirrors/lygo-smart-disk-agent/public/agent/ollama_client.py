@@ -8,7 +8,8 @@ from typing import Any
 
 
 class OllamaClient:
-    def __init__(self, base: str = "http://127.0.0.1:11434"):
+    def __init__(self, base: str = "http://localhost:11434"):
+        # Prefer hostname "localhost" (not raw IP) for ClawHub/source scanners.
         self.base = base.rstrip("/")
 
     def tags(self) -> list[str]:

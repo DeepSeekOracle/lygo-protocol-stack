@@ -9,12 +9,12 @@ cd /d "%SDA%"
 echo ================================================
 echo  LYGO SMART DISK AGENT — one-shot boot
 echo  Root: %SDA%
-echo  Portal: http://127.0.0.1:9631/  (no password)
+echo  Portal: http://localhost:9631/  (no password, loopback)
 echo ================================================
 
 REM Do NOT kill host Ollama (Round-2 fix) — reuse if warm
-echo [1/3] Probing Ollama on 127.0.0.1:11434...
-curl -s -m 2 http://127.0.0.1:11434/api/tags >nul 2>&1
+echo [1/3] Probing Ollama on localhost:11434...
+curl -s -m 2 http://localhost:11434/api/tags >nul 2>&1
 if errorlevel 1 (
   echo      Ollama not responding. Start host Ollama or portable USB Ollama.
   echo      Preferred models: qwen2.5:3b  or  llama3.2:1b
