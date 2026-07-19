@@ -2,12 +2,13 @@
  * LYGO Play Listing — ADDITIVE plugin (never touches playIndex / audio.src).
  * Signature: Δ9Φ963-PLAY-LISTING-ADDITIVE-v1
  *
- * Load: <script src="listen-plugins/play-listing.js?v=3" defer></script>
+ * Load: <script src="listen-plugins/play-listing.js?v=5" defer></script>
  * Mount: #play-listing-mount
  *
  * If this file fails to load or throws, core player keeps working.
- * v2: most/least recompute from by_track; least excludes most when possible.
- * v3: harden board refresh (no thrash); lastAgg badge-only; skip refresh while writing.
+ * v4: write queue; getCurrent resolve; MIN_SEC 12
+ * v5: new jsonblob after 404; dual-write localStorage cache so totals never die offline;
+ *     merge remote+local by max per track; keep board warm with PUT on poll success.
  */
 (function () {
   "use strict";
@@ -19,8 +20,9 @@
   }
 
   function initPlayListing() {
+    // Recreated 2026-07-19 after prior blob expired (jsonblob free TTL) → total frozen at 27
     var BLOB =
-      "https://jsonblob.com/api/jsonBlob/019f7611-e28e-7de6-87df-5f5e4e8c4690";
+      "https://jsonblob.com/api/jsonBlob/019f7b41-4e4a-7856-8ad1-9248e1abf0a2";
     var DWYL = "https://hits.dwyl.com/excavationpro/";
     var TOTAL_KEY = "listen-total-plays-v2";
     var HF_COUNTS =
@@ -28,9 +30,11 @@
     var LS_CLIENT = "lygo_play_listing_client_v1";
     var LS_SESSION = "lygo_play_listing_session_v1";
     var LS_CHAIN = "lygo_play_listing_chain_v1";
-    var MIN_SEC = 20;
-    var MIN_RATIO = 0.35;
-    var POLL_MS = 25000;
+    var LS_BOARD = "lygo_play_listing_board_cache_v1";
+    var MIN_SEC = 12;
+    var MIN_RATIO = 0.3;
+    var POLL_MS = 20000;
+    var LS_PENDING = "lygo_play_listing_pending_v1";
 
     var audio = document.getElementById("audio");
     var mount = document.getElementById("play-listing-mount");
@@ -179,7 +183,7 @@
         '<div class="pl-trophy" id="pl-trophy">' +
         '<span class="cup" aria-hidden="true">🏆</span>' +
         '<div><div class="big" id="pl-total">▶ plays</div>' +
-        '<div class="sub">Global listens · counts after ~20s play · does not affect the player</div></div></div>' +
+        '<div class="sub">Global listens · counts after ~12s play · does not affect the player</div></div></div>' +
         '<div class="pl-board">' +
         '<div class="pl-box most"><h3>Most played</h3><ol id="pl-most"><li class="empty">Loading…</li></ol></div>' +
         '<div class="pl-box least"><h3>Least played</h3><ol id="pl-least"><li class="empty">Loading…</li></ol></div>' +
@@ -221,6 +225,16 @@
 
     // ---- resolve current track WITHOUT using playIndex ----
     function trackFromAudio() {
+      // Prefer player export (most reliable during continuous play)
+      try {
+        if (window.LYGO_LISTEN && typeof window.LYGO_LISTEN.getCurrent === "function") {
+          var ci = window.LYGO_LISTEN.getCurrent();
+          if (typeof ci === "number" && ci >= 0 && tracks[ci] && tracks[ci].sha256) {
+            return tracks[ci];
+          }
+        }
+      } catch (e0) {}
+
       var src = "";
       try {
         src = audio.currentSrc || audio.src || "";
@@ -228,13 +242,21 @@
         src = "";
       }
       if (!src) return null;
+      // normalize
+      try {
+        src = decodeURIComponent(src);
+      } catch (e1) {}
       for (var i = 0; i < tracks.length; i++) {
+        var sha = tracks[i] && tracks[i].sha256;
+        if (!sha) continue;
+        if (src.indexOf(sha) >= 0) return tracks[i];
         var u = tracks[i].stream_url || "";
         if (!u) continue;
-        if (src.indexOf(tracks[i].sha256) >= 0) return tracks[i];
-        // strip query
         var base = u.split("?")[0];
         if (src.indexOf(base) >= 0 || src === u) return tracks[i];
+        // filename only
+        var file = sha + ".mp3";
+        if (src.indexOf(file) >= 0) return tracks[i];
       }
       // hash in location
       try {
@@ -294,18 +316,119 @@
       });
     }
 
+    function emptyAgg() {
+      return {
+        signature: "LYGO-PLAY-AGGREGATE-v1",
+        by_track: {},
+        recent: [],
+        most_played: [],
+        least_played: [],
+        total_plays: 0,
+        unique_tracks_played: 0,
+        updated_at: new Date().toISOString(),
+      };
+    }
+
+    function loadLocalBoard() {
+      try {
+        var c = JSON.parse(localStorage.getItem(LS_BOARD) || "null");
+        if (c && typeof c === "object") {
+          if (!c.by_track) c.by_track = {};
+          return c;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function saveLocalBoard(agg) {
+      try {
+        localStorage.setItem(LS_BOARD, JSON.stringify(agg));
+      } catch (e) {}
+    }
+
+    /** Merge two boards taking max plays per track (never lose local progress). */
+    function mergeAggs(a, b) {
+      var out = emptyAgg();
+      var maps = [a && a.by_track, b && b.by_track];
+      maps.forEach(function (m) {
+        if (!m) return;
+        Object.keys(m).forEach(function (k) {
+          var n = Number(m[k]) || 0;
+          out.by_track[k] = Math.max(Number(out.by_track[k]) || 0, n);
+        });
+      });
+      var recent = []
+        .concat((a && a.recent) || [], (b && b.recent) || [])
+        .filter(Boolean);
+      // dedupe recent by sha keep newest first
+      var seen = {};
+      out.recent = [];
+      recent.forEach(function (it) {
+        var s = it && it.sha256;
+        if (!s || seen[s]) return;
+        seen[s] = true;
+        out.recent.push({
+          sha256: s,
+          title: it.title || titleOf(s),
+          plays: out.by_track[s] || it.plays || 0,
+          ts: it.ts || out.updated_at,
+        });
+      });
+      out.recent = out.recent.slice(0, 40);
+      var sum = 0;
+      Object.keys(out.by_track).forEach(function (k) {
+        sum += Number(out.by_track[k]) || 0;
+      });
+      out.total_plays = sum;
+      out.unique_tracks_played = Object.keys(out.by_track).length;
+      var r = rank(out.by_track);
+      out.most_played = r.most;
+      out.least_played = r.least;
+      out.updated_at = new Date().toISOString();
+      return out;
+    }
+
     function getBlob() {
+      var local = loadLocalBoard();
       return fetch(BLOB, {
         cache: "no-store",
         mode: "cors",
         headers: { Accept: "application/json" },
-      }).then(function (r) {
-        if (!r.ok) throw new Error("blob " + r.status);
-        return r.json();
-      });
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error("blob " + r.status);
+          return r.json();
+        })
+        .then(function (remote) {
+          if (!remote || typeof remote !== "object") remote = emptyAgg();
+          if (!remote.by_track) remote.by_track = {};
+          var merged = mergeAggs(remote, local);
+          saveLocalBoard(merged);
+          return merged;
+        })
+        .catch(function (err) {
+          // Remote dead (jsonblob expiry) — use local so UI keeps working
+          if (local) {
+            console.warn("[play-listing] remote board unavailable, using local cache", err && err.message);
+            return local;
+          }
+          return fetch(HF_COUNTS, { cache: "no-store", mode: "cors" })
+            .then(function (r) {
+              if (!r.ok) throw new Error("hf");
+              return r.json();
+            })
+            .then(function (hf) {
+              var m = mergeAggs(hf, null);
+              saveLocalBoard(m);
+              return m;
+            })
+            .catch(function () {
+              return emptyAgg();
+            });
+        });
     }
 
-    function putBlob(agg) {
+    function putBlobRemote(agg) {
       return fetch(BLOB, {
         method: "PUT",
         mode: "cors",
@@ -318,6 +441,12 @@
         if (!r.ok) throw new Error("blob put " + r.status);
         return true;
       });
+    }
+
+    function putBlob(agg) {
+      // Always persist locally first (durable for this browser / device)
+      saveLocalBoard(agg);
+      return putBlobRemote(agg);
     }
 
     function rank(by) {
@@ -435,7 +564,7 @@
       if (!items || !items.length) {
         el.innerHTML =
           '<li class="empty">' +
-          (mode === "never" ? "All listed tracks have plays" : "No public plays yet — listen ≥20s") +
+          (mode === "never" ? "All listed tracks have plays" : "No public plays yet — listen ≥12s") +
           "</li>";
         return;
       }
@@ -586,11 +715,46 @@
       if (enoughTime || enoughRatio) qualifyAndRecord(t);
     }
 
+    // ---- pending queue (survives failed PUTs; never silent-drop) ----
+    var writeQueue = loadPending();
+    var countingLock = false; // one qualify pipeline at a time for session mark
+
+    function loadPending() {
+      try {
+        var arr = JSON.parse(localStorage.getItem(LS_PENDING) || "[]");
+        return Array.isArray(arr) ? arr : [];
+      } catch (e) {
+        return [];
+      }
+    }
+    function savePending() {
+      try {
+        if (writeQueue.length > 200) writeQueue = writeQueue.slice(-200);
+        localStorage.setItem(LS_PENDING, JSON.stringify(writeQueue));
+      } catch (e) {}
+    }
+    function enqueueCount(sha, title) {
+      if (!sha) return;
+      writeQueue.push({
+        sha256: sha,
+        title: title || titleOf(sha),
+        ts: new Date().toISOString(),
+        inc: 1,
+      });
+      savePending();
+      drainQueue();
+    }
+
     function qualifyAndRecord(t) {
-      if (!t || !t.sha256 || sessionCounted.has(t.sha256) || pending) return;
-      pending = true;
+      if (!t || !t.sha256) return;
+      if (sessionCounted.has(t.sha256)) return;
+      if (countingLock) return;
+      countingLock = true;
+
+      // optimistic session mark to avoid double-fire while waiting 12s+network
       sessionCounted.add(t.sha256);
       saveSession();
+
       var played = accum + (lastTick ? (Date.now() - lastTick) / 1000 : 0);
 
       // local chain only (no player touch)
@@ -608,97 +772,108 @@
       chain.tip_hash = ev.event_id;
       saveChain();
 
-      // Global increment + board merge (async; never blocks UI)
-      Promise.resolve()
-        .then(function () {
-          return Promise.all([
-            hitDwyl("stream-" + t.sha256.slice(0, 24)).catch(function () {
-              return 0;
-            }),
-            hitDwyl(TOTAL_KEY).catch(function () {
-              return 0;
-            }),
-          ]);
-        })
-        .then(function (pair) {
-          var trackN = pair[0];
-          var totalN = pair[1];
-          return mergeBoard(t.sha256, t.title, trackN, totalN);
-        })
-        .then(function () {
-          console.info("[play-listing] counted", (t.title || "").slice(0, 40));
-        })
-        .catch(function (e) {
-          console.warn("[play-listing] count pipeline", e);
-        })
-        .then(function () {
-          pending = false;
-        });
+      // fire-and-forget dwyl (telemetry only; board is source of truth for UI)
+      hitDwyl("stream-" + t.sha256.slice(0, 24)).catch(function () {});
+      hitDwyl(TOTAL_KEY).catch(function () {});
+
+      // queue board write (always; never drop)
+      enqueueCount(t.sha256, t.title);
+      console.info("[play-listing] queued count", (t.title || t.sha256).slice(0, 40));
+      countingLock = false;
     }
 
-    function mergeBoard(sha, title, trackN, totalN) {
-      if (writing) return Promise.resolve();
+    function drainQueue() {
+      if (writing) return;
+      if (!writeQueue.length) return;
       writing = true;
+      var batch = writeQueue.slice(); // merge all pending into one GET/PUT
       var attempt = 0;
+
       function once() {
         return getBlob()
           .then(function (agg) {
+            if (!agg || typeof agg !== "object") agg = {};
             if (!agg.by_track) agg.by_track = {};
             if (!agg.recent) agg.recent = [];
-            var prev = Number(agg.by_track[sha]) || 0;
-            // Prefer durable dwyl only if it is a real increment for this key;
-            // never let a zero/failed hit wipe progress. Prefer local bump.
-            var next = prev + 1;
-            if (trackN && trackN > prev && trackN <= prev + 5) {
-              // dwyl sometimes returns global noise; only accept small bumps
-              next = trackN;
-            }
-            agg.by_track[sha] = next;
+
+            batch.forEach(function (item) {
+              var sha = item.sha256;
+              if (!sha) return;
+              var prev = Number(agg.by_track[sha]) || 0;
+              var inc = Number(item.inc) || 1;
+              agg.by_track[sha] = prev + inc;
+              agg.recent.unshift({
+                sha256: sha,
+                title: item.title || titleOf(sha),
+                plays: agg.by_track[sha],
+                ts: item.ts || new Date().toISOString(),
+              });
+            });
+            if (agg.recent.length > 40) agg.recent = agg.recent.slice(0, 40);
+
             var sum = 0;
             Object.keys(agg.by_track).forEach(function (k) {
               sum += Number(agg.by_track[k]) || 0;
             });
-            // Trophy: trust sum of tracks (dwyl total can diverge)
-            agg.total_plays = Math.max(sum, Number(agg.total_plays) || 0);
-            if (totalN && totalN > agg.total_plays && totalN <= sum + 20) {
-              agg.total_plays = totalN;
-            }
+            agg.total_plays = sum;
             agg.unique_tracks_played = Object.keys(agg.by_track).length;
             agg.updated_at = new Date().toISOString();
             agg.signature = "LYGO-PLAY-AGGREGATE-v1";
-            agg.recent.unshift({
-              sha256: sha,
-              title: title || titleOf(sha),
-              plays: agg.by_track[sha],
-              ts: agg.updated_at,
-            });
-            if (agg.recent.length > 40) agg.recent = agg.recent.slice(0, 40);
-            var r = rank(agg.by_track);
-            agg.most_played = r.most;
-            agg.least_played = r.least;
+            // Apply locally first so totals never freeze if remote is dead
+            var rnk = rank(agg.by_track);
+            agg.most_played = rnk.most;
+            agg.least_played = rnk.least;
             lastAgg = agg;
-            return putBlob(agg).then(function () {
-              renderBoard(agg);
+            saveLocalBoard(agg);
+            renderBoard(agg);
+            // Drop queue only after local apply (avoid double-count on retry)
+            writeQueue = writeQueue.slice(batch.length);
+            savePending();
+            console.info(
+              "[play-listing] board local total=",
+              agg.total_plays,
+              "flushed=",
+              batch.length,
+              "pending=",
+              writeQueue.length
+            );
+            // Best-effort remote warm (jsonblob free TTL can expire)
+            return putBlobRemote(agg).catch(function (e) {
+              console.warn(
+                "[play-listing] remote board put failed (local OK)",
+                e && e.message ? e.message : e
+              );
+              return false;
             });
           })
           .catch(function (e) {
             attempt++;
-            if (attempt < 3) {
+            console.warn("[play-listing] board write fail", attempt, e && e.message ? e.message : e);
+            if (attempt < 5) {
               return new Promise(function (res) {
-                setTimeout(res, 250 * attempt + Math.floor(Math.random() * 150));
+                setTimeout(res, 400 * attempt + Math.floor(Math.random() * 300));
               }).then(once);
             }
             throw e;
           });
       }
-      return once().then(
+
+      once().then(
         function () {
           writing = false;
+          if (writeQueue.length) setTimeout(drainQueue, 500);
         },
         function () {
           writing = false;
+          setTimeout(drainQueue, 8000);
         }
       );
     }
+
+    // retry pending on boot / visibility
+    setTimeout(drainQueue, 1500);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible") drainQueue();
+    });
   }
 })();

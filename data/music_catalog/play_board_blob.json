@@ -1,0 +1,6 @@
+{
+  "blob_id": "019f7b41-4e4a-7856-8ad1-9248e1abf0a2",
+  "url": "https://jsonblob.com/api/jsonBlob/019f7b41-4e4a-7856-8ad1-9248e1abf0a2",
+  "created": "2026-07-19T16:41:45Z",
+  "note": "Free jsonblob TTL is short; plugin dual-writes localStorage. Recreate with tools/_recreate_play_board.py if remote 404s."
+}
