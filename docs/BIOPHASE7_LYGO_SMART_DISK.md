@@ -2,7 +2,8 @@
 
 **Package:** `lygo_smart_disk/`  
 **ClawHub:** `deepseekoracle/lygo-smart-disk-agent`  
-**Portal:** http://127.0.0.1:9631/  
+**Portal:** http://localhost:9631/ (local operator token, v1.1.0)  
+**USB restore:** `E:\LYGO_BUILDER_KEY\product\lygo_smart_disk` · launch `LYGO_SMART_DISK_BOOT.bat`  
 **Doc:** [LYGO_SMART_DISK_AGENT.md](./LYGO_SMART_DISK_AGENT.md)
 
 ## Philosophy

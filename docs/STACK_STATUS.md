@@ -36,7 +36,7 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **OpenClaw lattice pulse** | ✅ | `lygo-lattice-pulse@1.2.0` (SkillSpector-safe, no subprocess) |
 | **Kernel egg registry** | ✅ | 11 eggs — `python tools/build_kernel_eggs.py` → `docs/KernelEggRegistry.json` |
 | **Agent GitHub restore** | ✅ | `GITHUB_AGENT_RESTORE.txt` — E Drive + USB + Pages |
-| **LYGO SMART DISK AGENT** | ✅ | `lygo_smart_disk/` · portal **:9631** no password · ClawHub `lygo-smart-disk-agent` · `docs/LYGO_SMART_DISK_AGENT.md` |
+| **LYGO SMART DISK AGENT** | ✅ | `lygo_smart_disk/` · portal **:9631** local operator token v1.1.0 · USB restore on `E:\LYGO_BUILDER_KEY` · ClawHub `lygo-smart-disk-agent` · `docs/LYGO_SMART_DISK_AGENT.md` |
 
 ---
 

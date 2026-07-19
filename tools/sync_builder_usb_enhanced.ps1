@@ -87,6 +87,19 @@ foreach ($launcher in @("LYGO_Bankr_Manager.bat", "LYGO_Crypto_Manager.bat")) {
     }
 }
 
+# --- Lattice master (ultimate USB restore / steward vault) ---
+$masterOut = Join-Path $Out "lattice_master"
+New-Item -ItemType Directory -Force -Path $masterOut | Out-Null
+$masterClawSrc = Join-Path $ClawSrc "lattice_master"
+if (Test-Path $masterClawSrc) {
+    Robo $masterClawSrc $masterOut @("__pycache__", "steward_vault\wallet", "steward_vault\bankr", "steward_vault\crypto", "steward_vault\discord", "steward_vault\llm", "steward_vault\social") @("*.steward.json", "api_key.txt", "bot_token.txt", "xai_primary.txt", "virtuals_config.json", "moltbook_credentials.json")
+    Log "lattice_master pack (structure only; run setup for vault secrets)"
+}
+foreach ($f in @("LYGO_Master_Manager.bat")) {
+    $s = Join-Path $ClawSrc $f
+    if (Test-Path $s) { Copy-Item $s (Join-Path $Out $f) -Force; Log "copy $f" }
+}
+
 # --- Crypto / Virtuals LYGOAGENT pack ---
 $cryptoOut = Join-Path $Out "crypto"
 New-Item -ItemType Directory -Force -Path $cryptoOut | Out-Null
@@ -124,6 +137,40 @@ foreach ($f in @(
     $s = Join-Path $ClawSrc $f
     $d = Join-Path $Out $f
     if ((Test-Path $s) -and ($s -ne $d)) { Copy-Item $s $d -Force; Log "copy $f" }
+}
+
+# --- LYGO SMART DISK AGENT (lean CLAW portal :9631) ---
+$sdaSrc = Join-Path $Stack "lygo_smart_disk"
+$sdaSkill = Join-Path $Stack "clawhub\mirrors\lygo-smart-disk-agent"
+if (Test-Path $sdaSrc) {
+    Robo $sdaSrc (Join-Path $Out "product\lygo_smart_disk") @("__pycache__", "data") @(".sda_local_token", "*.pyc")
+    Robo $sdaSrc (Join-Path $Out "smart_disk") @("__pycache__", "data") @(".sda_local_token", "*.pyc")
+    foreach ($empty in @("data\logs", "data\mycelium", "data\sessions", "workspace")) {
+        foreach ($base in @("product\lygo_smart_disk", "smart_disk")) {
+            $d = Join-Path $Out "$base\$empty"
+            New-Item -ItemType Directory -Force -Path $d | Out-Null
+        }
+    }
+    Log "smart disk agent package"
+}
+if (Test-Path $sdaSkill) {
+    Robo $sdaSkill (Join-Path $Out "skills\lygo-smart-disk-agent") @("__pycache__") @(".sda_local_token", "*.jsonl")
+    Log "smart disk clawhub skill mirror"
+}
+foreach ($f in @("LYGO_SMART_DISK_BOOT.bat", "LYGO_SMART_DISK_STOP.bat", "WHAT'S_NEW_2026-07-19.md")) {
+    $s = Join-Path $ClawSrc $f
+    if (-not (Test-Path $s)) { $s = Join-Path $Out $f }
+    if (Test-Path $s) {
+        Copy-Item $s (Join-Path $Out $f) -Force
+        Log "copy $f"
+    }
+}
+foreach ($doc in @("LYGO_SMART_DISK_AGENT.md", "BIOPHASE7_LYGO_SMART_DISK.md")) {
+    $s = Join-Path $Stack "docs\$doc"
+    if (Test-Path $s) {
+        New-Item -ItemType Directory -Force -Path (Join-Path $Out "docs") | Out-Null
+        Copy-Item $s (Join-Path $Out "docs\$doc") -Force
+    }
 }
 
 # --- LYRA 3-brain + OpenClaw alignment (no secrets) ---
@@ -217,6 +264,7 @@ Run: . .\scripts\bootstrap_env.ps1
 | BUILDR supervisor daemon | launchers\LYGO_Supervisor_Daemon.bat - port :9630 |
 | Standalone AI | launchers\LYGO_Standalone_AI.bat |
 | Verify lattice | scripts\verify_builder_key.ps1 |
+| **Master lattice (START HERE)** | **LYGO_Master_Manager.bat** or lattice_master\MASTER_LATTICE_RESTORE.md |
 | Bankr manager | LYGO_Bankr_Manager.bat or bankr\BANKR_USB_ALIGN.md |
 | Crypto / Virtuals | LYGO_Crypto_Manager.bat or crypto\CRYPTO_USB_ALIGN.md |
 | OpenClaw full align | restore\OPENCLAW_FULL_ALIGN.json |
@@ -263,6 +311,7 @@ FOR ANY AI - read in order:
   3. LYGO_BUILDER_KEY\LYGO_CLAW_USB_RESTORE_ANCHOR.md
 
 QUICK LAUNCH:
+  MASTER KEY:   LYGO_BUILDER_KEY\LYGO_Master_Manager.bat
   AI Terminal:  LYGO_BUILDER_KEY\LYGO_CLAW_Launch.bat
   Daemon :9630: LYGO_BUILDER_KEY\launchers\LYGO_Supervisor_Daemon.bat
   Verify:       LYGO_BUILDER_KEY\scripts\verify_builder_key.ps1

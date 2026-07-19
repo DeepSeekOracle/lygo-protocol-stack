@@ -119,6 +119,12 @@ This is the **LYGO CLAW Standalone USB** (also called LYGO_BUILDER_KEY on E:).
   - Starts own Ollama (minimized, titled "LYGO Ollama").
   - Starts own Gateway via clean delegation (titled "LYGO CLAW Gateway").
   - Opens both dashboards (file://).
+- **`LYGO_SMART_DISK_BOOT.bat`** — **Lean Smart Disk Agent** (v1.1.0) portal on **localhost:9631**.
+  - Package: `product\lygo_smart_disk\` (alias `smart_disk\`).
+  - Local operator token (auto; one-shot `?t=` URL) — not a cloud password wall.
+  - Stop: `LYGO_SMART_DISK_STOP.bat`.
+  - Skill mirror: `skills\lygo-smart-disk-agent\`.
+  - Docs: `docs\LYGO_SMART_DISK_AGENT.md`, session delta `WHAT'S_NEW_2026-07-19.md`.
 - `LYGO_Gateway.cmd` — The dedicated, titled gateway script. Computes USB dynamically or uses E: hardwire. Sets full isolation envs. Runs the engine.
 - `LYGO_Ollama_USB_Boot.bat` — Portable Ollama with explicit OLLAMA_* envs.
 
@@ -154,8 +160,25 @@ This is the **LYGO CLAW Standalone USB** (also called LYGO_BUILDER_KEY on E:).
 - `dashboard\control-ui\` — Full upstream control-ui (copied + titles rebranded to "LYGO CLAW Control").
   - Served/loaded as static for features.
 
+**Smart Disk Agent (lean CLAW — restored 2026-07-19)**
+- `product\lygo_smart_disk\` — kernel P0/P1/P3/P5 + portal + Ollama client (weights stay on host/USB models).
+- `smart_disk\` — short alias of the same tree.
+- `stack\lygo-protocol-stack\lygo_smart_disk\` — stack mirror when stack pack is present.
+- Portal **:9631** · Auth: local token (`data\.sda_local_token`, header `X-SDA-Token`) · HTTP memory export **off**.
+- ClawHub: `deepseekoracle/lygo-smart-disk-agent@1.1.0` · GitHub: `lygo-protocol-stack/lygo_smart_disk`.
+- Verify: `cd product\lygo_smart_disk && python verify\self_check.py`
+
+**Port map (full + lean)**
+| Service | Port |
+|---------|------|
+| Gateway | 18789 |
+| BUILDR supervisor | 9630 |
+| Smart Disk Agent | **9631** |
+| Ollama | 11434 |
+
 **Other Data in Build**
 - `README_LYGO_CLAW_USB.md` — Local summary (keep in sync with this anchor).
+- `WHAT'S_NEW_2026-07-19.md` — Smart Disk restore delta.
 - `models\*.json` / `STANDALONE_MODEL_DESIGN.md`
 - `product\runtime\ollama\LYGO_BUNDLE.json`
 
@@ -303,15 +326,41 @@ This is the **LYGO CLAW Standalone USB** (also called LYGO_BUILDER_KEY on E:).
 
 ---
 
-## 8. Other Critical Components (Clawnch, Molt, Browser, etc.)
+## 8. Other Critical Components (Clawnch, Molt, Browser, Economy, Vaults)
 
-- **Clawnch / 4Claw / Token Launches**: CLAWNCH_TOKEN_BACKUP/, brainwave/CLAWNCH/. Use MCP or clawnch tools. Wallet from token_config. Launch with consent.
-- **Moltbook/MoltX**: MOLTBOOK/ folders, API via skills. Rate limits in CURRENT_STATE_MEMORY.md.
-- **Browser (Yandex etc.)**: .openclaw/browser or legacy. Use via lyra-openclaw for LEFT/RIGHT obs/action. CDP ports.
-- **General Ops**: Use `lyra_openclaw_os.py organ <name>` or CLI. Load keys runtime.
-- **Ollama in Army/USB**: Always prefer portable E: instance for isolation.
-- **Kernel Eggs / Planting**: Use lygo-kernel-egg-planter with `--i-consent` + verify.
-- **Resonance / Creative**: Hugging face/ or skills/lygo-resonance/ etc.
+### Δ9 Quantum Vault (original Google Drive swal vault)
+- **URL**: https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4?usp=sharing
+- **Immutable anchor id**: `delta9_gdrive` in `IMMUTABLE_ANCHORS.json`
+- **Public hub**: https://deepseekoracle.github.io/Excavationpro/eternalhaven.html#sovereign-vaults
+
+### Full OpenClaw align registry (USB)
+- **`restore/OPENCLAW_FULL_ALIGN.json`** — tokens, vaults, agent accounts, USB managers (no secrets)
+- **`restore/openclaw-legacy/STARCORE_LAUNCH_RECEIPTS.md`** — Clawnch receipt copy
+
+### Launched tokens (Old openclaw managed)
+| Symbol | Platform | Contract / URL |
+|--------|----------|----------------|
+| LYGOAGENT | Virtuals ACP | https://app.virtuals.io/virtuals/44594 · `0x32B513…c09f` |
+| STARCORE | 4claw | `0xe52A34…75eaB` |
+| STARCOREX | Moltx | `0x9395b6…8fC31` |
+| STARCORECOIN | Moltbook | `0xFdc6C0…ed390` |
+| CLAWNCH | Protocol | `0xa1F724…747be` |
+
+**USB managers**: `LYGO_Crypto_Manager.bat` (Virtuals), `LYGO_Bankr_Manager.bat` (Bankr)
+
+### Steward secrets (runtime load only — never USB git)
+- Wallet + 4claw: `I:\E Drive\boot\token_config.json`
+- Bankr: `E:\Bankr\Bankr.txt` → `lygo-data\bankr\config.json`
+- Virtuals ACP: Old openclaw `virtuals-protocol-acp\config.json` → `lygo-data\crypto\virtuals_config.json`
+
+### Other ops surfaces
+- **Clawnch / 4Claw**: `brainwave/CLAWNCH/` (Old openclaw) + USB `crypto/references/CLAWNCH/`
+- **Moltbook/Moltx**: `LYRA_CORE/MOLTBOOK_LATTICE_ADMIN.md`, `MOLTX_LYRA_ACCOUNT.md`
+- **Browser (Yandex etc.)**: `.openclaw/browser` or legacy — lyra-openclaw LEFT/RIGHT
+- **General Ops**: `lyra_openclaw_os.py` — load keys at runtime only
+- **Ollama in Army/USB**: portable E: instance for isolation
+- **Kernel Eggs**: lygo-kernel-egg-planter with `--i-consent` + verify
+- **Resonance / Creative**: lygo-resonance skill chain
 
 **Running Anything**:
 - Always: Set LYGO_STACK_ROOT if needed.
