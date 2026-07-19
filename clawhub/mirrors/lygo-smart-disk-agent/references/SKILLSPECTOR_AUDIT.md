@@ -1,11 +1,11 @@
 # SkillSpector / ClawHub security audit notes — lygo-smart-disk-agent
 
-**Version:** 1.0.1  
-**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.0.1`
+**Version:** 1.0.2  
+**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.0.2`
 
 ## Scanner findings addressed
 
-| Code | Severity | Location (1.0.0) | Resolution in 1.0.1 |
+| Code | Severity | Location (1.0.0) | Resolution in 1.0.2 |
 |------|----------|------------------|---------------------|
 | `suspicious.dynamic_code_execution` | Critical | `scripts/self_check.py:22` (`importlib.exec_module`) | Removed. Self-check uses **static imports** only (`from kernel …`, `from agent …`). |
 | `suspicious.install_untrusted_source` | Warn | `public/config/smart_disk.json:5` raw IP in URL | `ollama_base` is now `http://localhost:11434` (hostname, not raw IP). Bind is `localhost`. |
@@ -40,3 +40,4 @@ ClawHub may attach VT after publish. Package is pure Python/HTML/JSON (no binari
 Installing this skill means you accept a **local open control plane** on your machine when you run the portal. Do not expose port 9631 to the network.
 
 **Δ9Φ963 — static load · localhost · human review OK.**
+

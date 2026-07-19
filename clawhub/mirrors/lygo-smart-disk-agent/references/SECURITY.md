@@ -1,6 +1,6 @@
 # SECURITY — lygo-smart-disk-agent
 
-**Signature:** `Δ9Φ963-SDA-SECURITY-v1.0.1`
+**Signature:** `Δ9Φ963-SDA-SECURITY-v1.0.2`
 
 ## Trust model
 
@@ -48,3 +48,4 @@ ClawHub may require human review because this skill ships a **local web API**. T
 See `references/SKILLSPECTOR_AUDIT.md`.
 
 **Δ9Φ963 — consent · localhost · verify.**
+
