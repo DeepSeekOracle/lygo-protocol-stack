@@ -46,6 +46,28 @@ Support (optional): [PayPal @ExcavationPro](https://www.paypal.com/paypalme/Exca
 
 ---
 
+## LYGO SMART DISK AGENT (lean CLAW · open portal)
+
+**100% LYGO CLAW** kernel-up product: P0–P5 kernel + browser portal + host Ollama — **no password gate**, loopback **127.0.0.1:9631**.
+
+| Resource | Link |
+|----------|------|
+| **Package** | [`lygo_smart_disk/`](lygo_smart_disk/) · [theory docs](lygo_smart_disk/docs/) |
+| **Stack doc** | [`docs/LYGO_SMART_DISK_AGENT.md`](docs/LYGO_SMART_DISK_AGENT.md) · [Biophase7](docs/BIOPHASE7_LYGO_SMART_DISK.md) |
+| **ClawHub skill** | [deepseekoracle/lygo-smart-disk-agent](https://clawhub.ai/deepseekoracle/lygo-smart-disk-agent) |
+| **Firmware lineage** | [Ethical Chip V2](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html) · [Guardian](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html) |
+| **Pair** | USB Champion **:9630** · [lygo-claw](https://github.com/DeepSeekOracle/lygo-claw) · [lygo-sovereign-claw](https://clawhub.ai/deepseekoracle/lygo-sovereign-claw) |
+
+```bash
+cd lygo_smart_disk
+ollama pull qwen2.5:3b
+python verify/self_check.py
+python agent/smart_disk_agent.py
+# → http://127.0.0.1:9631/
+```
+
+---
+
 ## Protocols (P0–P5)
 
 | # | Module | Description |

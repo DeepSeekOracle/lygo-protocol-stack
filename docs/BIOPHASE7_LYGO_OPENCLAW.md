@@ -33,3 +33,7 @@ python clawhub/mirrors/lygo-openclaw/scripts/self_check.py
 python tools/lygo_openclaw.py run help
 python -m pytest tests/test_lygo_openclaw.py -q
 ```
+
+## Sibling product — LYGO SMART DISK AGENT
+
+Lean disk CLAW with open portal (**:9631**, no password): package `lygo_smart_disk/`, doc [LYGO_SMART_DISK_AGENT.md](./LYGO_SMART_DISK_AGENT.md), ClawHub `deepseekoracle/lygo-smart-disk-agent`. See [BIOPHASE7_LYGO_SMART_DISK.md](./BIOPHASE7_LYGO_SMART_DISK.md).

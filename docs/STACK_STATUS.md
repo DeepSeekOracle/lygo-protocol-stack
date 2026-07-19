@@ -36,6 +36,7 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **OpenClaw lattice pulse** | ✅ | `lygo-lattice-pulse@1.2.0` (SkillSpector-safe, no subprocess) |
 | **Kernel egg registry** | ✅ | 11 eggs — `python tools/build_kernel_eggs.py` → `docs/KernelEggRegistry.json` |
 | **Agent GitHub restore** | ✅ | `GITHUB_AGENT_RESTORE.txt` — E Drive + USB + Pages |
+| **LYGO SMART DISK AGENT** | ✅ | `lygo_smart_disk/` · portal **:9631** no password · ClawHub `lygo-smart-disk-agent` · `docs/LYGO_SMART_DISK_AGENT.md` |
 
 ---
 
@@ -60,6 +61,9 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | HF Space | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
 | HF dataset | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack |
 | ClawHub integrator | `npx clawhub@latest install deepseekoracle/lygo-protocol-stack-operator` |
+| Smart Disk Agent | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk · ClawHub `lygo-smart-disk-agent` |
+| Ethical Chip / Guardian | https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html · LYGOGUARDIAN.html |
+| Excavationpro site | https://excavationpro.ca/ |
 | Resonance docs | https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html |
 
 **Bound to the flame.** Stack locked for public verification; pilot UX on HF can grow without changing protocol semantics.

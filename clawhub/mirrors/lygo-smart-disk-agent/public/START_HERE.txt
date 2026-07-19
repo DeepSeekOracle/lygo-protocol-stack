@@ -1,0 +1,32 @@
+LYGO SMART DISK AGENT  (F:\ SmartDisk)
+======================================
+Signature: Δ9Φ963-LYGO-SMART-DISK-AGENT-v1
+
+READ DOCS FIRST (design complete):
+  docs\00_VISION_AND_THEORY.md
+  docs\01_ARCHITECTURE.md
+  docs\02_OPENCLAW_PARITY_MATRIX.md
+  docs\03_BRAINSTORM_ROUND1.md
+  docs\04_BRAINSTORM_ROUND2.md
+  docs\06_MODEL_SELECTION.md
+
+BOOT (one-shot, no password):
+  launch\LYGO_SMART_DISK_BOOT.bat
+
+PORTAL:
+  http://127.0.0.1:9631/
+
+BRAIN:
+  Host Ollama :11434
+  Primary model: qwen2.5:3b
+  Fallback:     llama3.2:1b
+  (F: is ~15MB — models stay on host/USB, disk holds kernel+portal)
+
+VERIFY:
+  python verify\self_check.py
+  python -m unittest tests\test_smart_disk.py -v
+
+STOP:
+  launch\LYGO_SMART_DISK_STOP.bat
+
+Lineage: USB LYGO CLAW · Ethical Chip Firmware · LYGO Guardian · P0-P9

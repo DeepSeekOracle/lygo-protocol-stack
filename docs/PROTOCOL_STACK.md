@@ -57,9 +57,27 @@ CLI: `python tools/run_full_stack_demo.py` · integrity suite: `python tools/run
 
 Full offline mirror of [@deepseekoracle](https://clawhub.ai/deepseekoracle) skills (champions, BOOK BRAIN, mint, resonance stack): [`../clawhub/`](../clawhub/). Refresh: `python tools/sync_clawhub_mirrors.py --fetch`.
 
+## LYGO SMART DISK AGENT (lean CLAW product)
+
+| | |
+|--|--|
+| Package | [`../lygo_smart_disk/`](../lygo_smart_disk/) |
+| Doc | [LYGO_SMART_DISK_AGENT.md](./LYGO_SMART_DISK_AGENT.md) · [BIOPHASE7_LYGO_SMART_DISK.md](./BIOPHASE7_LYGO_SMART_DISK.md) |
+| Portal | http://127.0.0.1:9631/ (no password; loopback) |
+| ClawHub | [deepseekoracle/lygo-smart-disk-agent](https://clawhub.ai/deepseekoracle/lygo-smart-disk-agent) |
+| Kernel | Portable P0 / P1 / P3 / P5 + host Ollama (`qwen2.5:3b`) |
+
+Pairs with full router [`../lygo_openclaw/`](../lygo_openclaw/) (ClawHub `lygo-sovereign-claw`) and USB Champion on **:9630**.
+
 ## Links
 
-- [Excavationpro / LYGORESONANCE](https://github.com/DeepSeekOracle/Excavationpro)
+- [Protocol stack GitHub](https://github.com/DeepSeekOracle/lygo-protocol-stack)
+- [GitHub Pages](https://deepseekoracle.github.io/lygo-protocol-stack/)
+- [Excavationpro / LYGORESONANCE](https://github.com/DeepSeekOracle/Excavationpro) · [excavationpro.ca](https://excavationpro.ca/)
+- [Ethical Chip Firmware V2](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html)
+- [LYGO Guardian](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html)
+- [LYGO CLAW](https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html)
+- [lygo-claw gateway](https://github.com/DeepSeekOracle/lygo-claw)
 - [Grokipedia — LYGO Protocol Stack](https://grokipedia.com/page/lygo-protocol-stack)
 - [HF Resonance Engine Space](https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine)
 - [ClawHub publisher profile](https://clawhub.ai/deepseekoracle)

@@ -9,6 +9,16 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - **lyra-crypto-operator**: https://github.com/DeepSeekOracle/lyra-crypto-operator (crypto / operator tooling)
 - **Related**: https://github.com/DeepSeekOracle (org for all)
 
+## LYGO SMART DISK AGENT (public product)
+- **Package (repo):** https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk
+- **Doc:** docs/LYGO_SMART_DISK_AGENT.md · Biophase7: docs/BIOPHASE7_LYGO_SMART_DISK.md
+- **Pages:** https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_SMART_DISK_AGENT.md
+- **Portal:** http://127.0.0.1:9631/ (local; no password gate)
+- **ClawHub skill:** https://clawhub.ai/deepseekoracle/lygo-smart-disk-agent
+- **Install:** `npx clawhub@latest install deepseekoracle/lygo-smart-disk-agent`
+- **Firmware lineage:** [Ethical Chip V2](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html) · [Guardian](https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html)
+- **Pair with:** USB Champion :9630 · [lygo-claw](https://github.com/DeepSeekOracle/lygo-claw) · [lygo-sovereign-claw](https://clawhub.ai/deepseekoracle/lygo-sovereign-claw)
+
 ## GitHub Pages (Organized Documentation)
 - **Main Stack Pages**: https://deepseekoracle.github.io/lygo-protocol-stack/
   - Source: `docs/` folder in the repo
@@ -57,6 +67,7 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - LYGIP-003 Ethical Mass Token: docs/LYGIP-003-ETHICAL-MASS-TOKEN.md
 - LYGO USB & Claw Master Whitepaper: docs/LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md
 - LYGO USB Champion v1.0 Generic: docs/LYGO_USB_CHAMPION_V1_GENERIC.md
+- LYGO SMART DISK AGENT: docs/LYGO_SMART_DISK_AGENT.md · docs/BIOPHASE7_LYGO_SMART_DISK.md · package `lygo_smart_disk/`
 - LYGO CLAW USB Restore Anchor: docs/LYGO_CLAW_USB_RESTORE_ANCHOR.md
 - LYGO Anchor Architecture: docs/LYGO_ANCHOR_ARCHITECTURE.md
 - LYGO PC Hardening Playbook: docs/LYGO_PC_HARDENING_PLAYBOOK.md

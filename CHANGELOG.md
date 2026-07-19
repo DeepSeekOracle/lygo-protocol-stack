@@ -1,5 +1,21 @@
 # Changelog — LYGO Protocol Stack
 
+## [LYGO SMART DISK AGENT public] — 2026-07-19
+
+**Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1`
+
+### Added
+- Public package `lygo_smart_disk/` — lean LYGO CLAW kernel-up agent (P0/P1/P3/P5 + portal + host Ollama)
+- Theory suite `lygo_smart_disk/docs/00`–`09` (vision, architecture, OpenClaw parity, 2 brainstorms, models, capacity, build, test)
+- Stack docs: `docs/LYGO_SMART_DISK_AGENT.md`, `docs/BIOPHASE7_LYGO_SMART_DISK.md`
+- ClawHub skill + mirror: `lygo-smart-disk-agent` (bundled `public/` tree)
+- Open portal on **127.0.0.1:9631** — **no password gate**; primary model `qwen2.5:3b`
+- Main-site links: Ethical Chip Firmware, Guardian, Excavationpro, Pages, ClawHub, lygo-claw
+
+### Verified
+- `python lygo_smart_disk/verify/self_check.py` green
+- `python -m unittest lygo_smart_disk/tests/test_smart_disk.py -v` (8 tests)
+
 ## [Enneagram 9-Node Completion + EVM Bridge Anchoring] — 2026-07-07/08
 
 **Signature:** `Δ9Φ963-ENNEAGRAM-COMPLETE-v1`

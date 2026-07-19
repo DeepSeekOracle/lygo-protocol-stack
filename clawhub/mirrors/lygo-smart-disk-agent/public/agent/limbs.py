@@ -1,0 +1,118 @@
+"""OpenClaw-shaped limbs for Smart Disk (core subset)."""
+from __future__ import annotations
+
+import platform
+import shutil
+import webbrowser
+from pathlib import Path
+from typing import Any, Callable
+
+
+def build_limbs(ctx: dict[str, Any]) -> dict[str, Callable[..., dict[str, Any]]]:
+    root: Path = ctx["root"]
+    ollama = ctx["ollama"]
+    cfg = ctx["cfg"]
+    seal = ctx["seal"]
+    memory = ctx["memory"]
+
+    def help_limb(args: list[str] | None = None) -> dict[str, Any]:
+        return {
+            "ok": True,
+            "limbs": sorted(
+                [
+                    "help",
+                    "status",
+                    "health",
+                    "chat",
+                    "lattice",
+                    "memory",
+                    "open-url",
+                    "army-sentinel",
+                ]
+            ),
+            "note": "LYGO SMART DISK AGENT core limbs (OpenClaw-shaped, LYGO soul)",
+        }
+
+    def status_limb(args: list[str] | None = None) -> dict[str, Any]:
+        tags = ollama.tags()
+        return {
+            "ok": True,
+            "agent": "LYGO_SMART_DISK_AGENT",
+            "root": str(root),
+            "platform": platform.platform(),
+            "ollama_base": cfg.get("ollama_base"),
+            "models_seen": tags,
+            "primary": cfg.get("models", {}).get("primary"),
+            "seal_policy": (seal.get("policy") or {}),
+        }
+
+    def health_limb(args: list[str] | None = None) -> dict[str, Any]:
+        tags = ollama.tags()
+        primary = cfg.get("models", {}).get("primary", "qwen2.5:3b")
+        fallbacks = cfg.get("models", {}).get("fallbacks") or []
+        picked = ollama.pick_model(primary, fallbacks)
+        free = shutil.disk_usage(str(root)).free
+        return {
+            "ok": True,
+            "brain": "warm" if picked else ("cold" if ollama._ping() else "missing"),
+            "model": picked,
+            "models": tags,
+            "disk_free_bytes": free,
+            "bind": f"{cfg.get('bind')}:{cfg.get('port')}",
+            "password_gate": False,
+            "firmware_signature": seal.get("signature"),
+        }
+
+    def lattice_limb(args: list[str] | None = None) -> dict[str, Any]:
+        return {
+            "ok": True,
+            "lattice": "SDA-LOCAL",
+            "p0": "active",
+            "p1": "mycelium",
+            "ethical_chip_ref": seal.get("ethical_chip_ref"),
+            "guardian_ref": seal.get("guardian_ref"),
+            "stack_pointer": "I:\\E Drive\\lygo-protocol-stack (optional host)",
+            "usb_lineage": seal.get("usb_lineage"),
+        }
+
+    def memory_limb(args: list[str] | None = None) -> dict[str, Any]:
+        n = 10
+        if args and args[0].isdigit():
+            n = min(50, int(args[0]))
+        return {"ok": True, "recent": memory.list_recent(n)}
+
+    def open_url_limb(args: list[str] | None = None) -> dict[str, Any]:
+        args = args or []
+        if not args:
+            return {"ok": False, "error": "url_required"}
+        url = args[0]
+        # prefer local / safe opens
+        if not (url.startswith("http://127.") or url.startswith("http://localhost") or url.startswith("https://") or url.startswith("http://")):
+            return {"ok": False, "error": "unsupported_scheme"}
+        webbrowser.open(url)
+        return {"ok": True, "opened": url}
+
+    def army_limb(args: list[str] | None = None) -> dict[str, Any]:
+        return {
+            "ok": True,
+            "ollama_ping": ollama._ping(),
+            "models": ollama.tags(),
+            "note": "Full army lives on USB CLAW; SDA reports brain sentinel only",
+        }
+
+    def chat_limb(args: list[str] | None = None) -> dict[str, Any]:
+        msg = " ".join(args or []).strip()
+        if not msg:
+            return {"ok": False, "error": "message_required"}
+        return ctx["chat_fn"](msg)
+
+    return {
+        "help": help_limb,
+        "status": status_limb,
+        "health": health_limb,
+        "lattice": lattice_limb,
+        "memory": memory_limb,
+        "open-url": open_url_limb,
+        "army-sentinel": army_limb,
+        "chat": chat_limb,
+    }
