@@ -97,3 +97,11 @@ npx clawhub@latest install deepseekoracle/<slug>
 - Protocol stack tie-in: P0–P5 in repo root gates ethical publish/install flows
 
 **Resonance signature:** Δ9Φ963-CLAWHUB-CATALOG-v2.0
+
+## lygo-smart-disk-agent @1.0.0
+
+- **URL:** https://clawhub.ai/deepseekoracle/lygo-smart-disk-agent
+- **Install:** `npx clawhub@latest install deepseekoracle/lygo-smart-disk-agent`
+- **Mirror:** `mirrors/lygo-smart-disk-agent`
+- **Package:** `lygo_smart_disk/` in this repo
+- **Portal:** http://127.0.0.1:9631/ (no password; loopback)
