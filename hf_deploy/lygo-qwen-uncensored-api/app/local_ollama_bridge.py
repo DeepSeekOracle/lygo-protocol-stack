@@ -63,10 +63,12 @@ class H(BaseHTTPRequestHandler):
             self._json(404, {"error": "not_found"})
             return
         messages = data.get("messages") or []
+        # Qwen3.6 thinking models: disable think so content is not empty
         payload = {
             "model": data.get("model") or MODEL,
             "messages": messages,
             "stream": False,
+            "think": False,
             "options": {
                 "temperature": data.get("temperature", 0.85),
                 "top_p": data.get("top_p", 0.95),
@@ -85,7 +87,11 @@ class H(BaseHTTPRequestHandler):
         except Exception as e:
             self._json(502, {"error": str(e)})
             return
-        msg = (o.get("message") or {}).get("content") or ""
+        m = o.get("message") or {}
+        msg = (m.get("content") or "").strip()
+        if not msg:
+            # fallback: some builds only fill thinking
+            msg = (m.get("thinking") or "").strip()
         self._json(
             200,
             {
