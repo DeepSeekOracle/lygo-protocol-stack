@@ -1,0 +1,31 @@
+{
+  "signature": "Δ9Φ963-LYGO-HIGHPERF-v1",
+  "default_engine": "llamacpp",
+  "default_model": "LYGO-Qwen3.6-35B-A3B-Uncensored-Q4_K_M.gguf",
+  "ollama_source": "AI-TAVS/Qwen3.6-35b-a3b-Uncensored:35b",
+  "blob": "D:\\Ollama\\.ollama\\models\\blobs\\sha256-2c4d55a83ad26df460fd9ff72962add4dec7756168f1d0da7afff5f68dd1c025",
+  "tokenizer_hf": "Qwen/Qwen3.6-35B-A3B",
+  "openai_base_url": "http://127.0.0.1:8000/v1",
+  "api_key": "lygo-local",
+  "gpu": {
+    "name": "RTX 4060 Ti",
+    "vram_gb": 8,
+    "note": "35B Q4_K_M MoE (~3B active) — llama.cpp GPU offload; full vLLM weights will OOM on 8GB"
+  },
+  "llamacpp": {
+    "port": 8000,
+    "ctx_size": 8192,
+    "n_gpu_layers": 99,
+    "parallel": 2,
+    "flash_attn": true,
+    "cont_batching": true,
+    "threads": 8,
+    "chat_template": "chatml"
+  },
+  "vllm": {
+    "enabled": false,
+    "port": 8001,
+    "max_model_len": 4096,
+    "note": "Experimental GGUF path; prefer llamacpp on 8GB cards. Enable when VRAM >= 24GB or use HF safetensors."
+  }
+}
