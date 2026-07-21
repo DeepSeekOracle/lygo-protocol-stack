@@ -1,8 +1,8 @@
 {
-  "signature": "Δ9Φ963-NETWORK-BUILDER-ANCHORS-v1.5.1",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.2",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.1",
-  "updated_utc": "2026-07-13T14:00:00Z",
+  "version": "1.5.2",
+  "updated_utc": "2026-07-21T19:03:35Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -112,6 +112,15 @@
       }
     ],
     "agents": [
+      {
+        "id": "lygo_turbo_models_whitepaper",
+        "label": "LYGO Turbo Models Whitepaper — flagship local AI starting lineup",
+        "url": "https://eternalhaven.ca/lygo-turbo-models-whitepaper.html",
+        "verify": "http_required",
+        "mirror": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_TURBO_MODELS_WHITEPAPER.md",
+        "mirror_html": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_TURBO_MODELS_WHITEPAPER.html",
+        "note": "Four Turbo models: coder 131k, hermes 65k, uncensored 8k, agent 32k. First LYGO-specialized local lineup."
+      },
       {
         "id": "clawhub_publisher",
         "label": "ClawHub Operations",
