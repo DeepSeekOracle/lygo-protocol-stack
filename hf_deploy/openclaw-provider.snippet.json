@@ -1,0 +1,35 @@
+{
+  "comment": "Paste into OpenClaw / LYGO gateway model provider config",
+  "local_uncensored": {
+    "baseURL": "http://127.0.0.1:8787/v1",
+    "apiKey": "ollama",
+    "models": [
+      {
+        "id": "AI-TAVS/Qwen3.6-35b-a3b-Uncensored:35b",
+        "name": "LYGO Qwen Uncensored (local Ollama)",
+        "contextWindow": 8192
+      }
+    ]
+  },
+  "hf_space_when_pro_gpu": {
+    "baseURL": "https://DeepSeekOracle-lygo-qwen-uncensored-api.hf.space/v1",
+    "apiKey": "${HF_TOKEN}",
+    "models": [
+      {
+        "id": "lygo-qwen-uncensored",
+        "name": "LYGO Qwen Uncensored (HF Space)",
+        "contextWindow": 8192
+      }
+    ]
+  },
+  "direct_ollama": {
+    "baseURL": "http://127.0.0.1:11434/v1",
+    "apiKey": "ollama",
+    "models": [
+      {
+        "id": "AI-TAVS/Qwen3.6-35b-a3b-Uncensored:35b",
+        "name": "Ollama native OpenAI route"
+      }
+    ]
+  }
+}
