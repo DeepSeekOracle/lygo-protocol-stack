@@ -1,0 +1,75 @@
+{
+  "signature": "Delta9Phi963-LATTICE-MEMORY-SNAPSHOT-v1",
+  "created_utc": "2026-07-26",
+  "steward": "Justin Helmer / Lightfather / Excavationpro / DeepSeekOracle",
+  "git_head_at_snapshot": "76a2cac17d0489cba0f4d43ed1de642824920976",
+  "stack_root_primary": "D:\\lygo-protocol-stack",
+  "workspace": "I:\\E Drive",
+  "layers": {
+    "A": {
+      "skill": "lygo-kernel-egg-planter",
+      "path": "data/kernel_eggs",
+      "registry_merkle_root": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+      "egg_count": 15
+    },
+    "B": {
+      "skill": "lygo-sovereign-kernel-seeder",
+      "path": "data/sovereign_seeds",
+      "registry_merkle_root": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+      "eggs": [
+        "lygo-music-license-v1",
+        "lygo-sovereign-kernel-seeder-v1",
+        "lygo-kernel-egg-planter-v1",
+        "lygo-external-lattice-anchor-v1",
+        "lygo-living-mesh-v1",
+        "lygo-agent-lattice-v1"
+      ]
+    },
+    "C": {
+      "skill": "lygo-external-lattice-anchor",
+      "version": "1.1.0",
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+      "hardened": true,
+      "no_os_system": true,
+      "verify_default_non_mutating": true
+    },
+    "D": {
+      "skill": "lygo-living-mesh",
+      "version": "1.0.0",
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "path": "data/living_mesh",
+      "node_port": 8787
+    },
+    "E": {
+      "skill": "lygo-agent-lattice",
+      "version": "1.0.0",
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+      "path": "data/agent_lattice",
+      "hub_port": 8791
+    }
+  },
+  "anchors_version": "1.6.2",
+  "docs": {
+    "memory_recap": "docs/LYGO_LATTICE_FULL_MEMORY_RECAP.txt",
+    "restore_align": "docs/LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt",
+    "world": "docs/WORLD_LATTICE_LAYER.md",
+    "unified": "docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+    "living_mesh": "docs/LIVING_MESH_LAYER.md",
+    "agent_lattice": "docs/AGENT_LATTICE.md"
+  },
+  "public": {
+    "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+    "eternalhaven": "https://eternalhaven.ca/",
+    "clawhub_publisher": "https://clawhub.ai/deepseekoracle"
+  },
+  "rules": [
+    "local_AB_authority",
+    "public_is_mirror",
+    "gossip_summaries_only",
+    "consent_for_plant_seed_join_publish",
+    "no_auto_git_hf_clawhub_social"
+  ]
+}

@@ -43,18 +43,27 @@ def _parse_json_output(text: str) -> dict:
     text = (text or "").strip()
     if not text:
         return {"verdict": "ERROR", "raw": ""}
-    # find last JSON object in output
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         pass
-    start = text.find("{")
-    end = text.rfind("}")
-    if start >= 0 and end > start:
+    # Multiple JSON objects may be printed (nested tools). Prefer last valid object.
+    decoder = json.JSONDecoder()
+    idx = 0
+    last: dict | None = None
+    while idx < len(text):
+        brace = text.find("{", idx)
+        if brace < 0:
+            break
         try:
-            return json.loads(text[start : end + 1])
+            obj, end = decoder.raw_decode(text, brace)
+            if isinstance(obj, dict):
+                last = obj
+            idx = end
         except json.JSONDecodeError:
-            pass
+            idx = brace + 1
+    if last is not None:
+        return last
     return {"verdict": "ERROR", "raw": text[:800]}
 
 
@@ -102,22 +111,39 @@ def main() -> int:
             "skip_public": bool(args.skip_public),
             "shell": False,
             "os_system": False,
-            "invoke": "runpy_allowlist",
+            "invoke": "runpy_allowlist+subprocess_capture_for_AB",
         },
     }
 
     # A+B local
+    # NOTE: verify_all_kernel_layers spawns nested children; use captured
+    # subprocess (no shell) so nested stdout cannot bleed into this process.
+    import subprocess
+
     unified = stack / "tools" / "verify_all_kernel_layers.py"
+    ab_done = False
     if unified.is_file():
-        code, out = run_python_script(
-            unified, ["--json"], cwd=stack, stack=stack
-        )
-        ab = _parse_json_output(out)
-        ab["exit_code"] = code
-        report["layers"]["AB_local"] = ab
-        if ab.get("verdict") == "QUARANTINE" or code == 3:
-            report["verdict"] = "LOCAL_QUARANTINE"
-    else:
+        try:
+            unified.relative_to(stack.resolve())
+            p = subprocess.run(
+                [sys.executable, str(unified), "--json"],
+                cwd=str(stack),
+                capture_output=True,
+                text=True,
+                shell=False,
+                timeout=180,
+            )
+            ab = _parse_json_output(p.stdout or p.stderr or "")
+            ab["exit_code"] = p.returncode
+            ab["invoke"] = "subprocess_capture_no_shell"
+            report["layers"]["AB_local"] = ab
+            ab_done = True
+            if ab.get("verdict") == "QUARANTINE" or p.returncode == 3:
+                report["verdict"] = "LOCAL_QUARANTINE"
+        except ValueError:
+            report["layers"]["AB_local"] = {"status": "REFUSED", "reason": "tool_outside_stack"}
+
+    if not ab_done:
         sev = (
             stack
             / "docs"
@@ -137,7 +163,6 @@ def main() -> int:
             if code == 3:
                 report["verdict"] = "LOCAL_QUARANTINE"
         else:
-            # try skill-local path next to this skill package
             sev2 = HERE.parent.parent / "lygo-sovereign-kernel-seeder" / "scripts" / "verify_seed.py"
             if sev2.is_file():
                 code, out = run_python_script(

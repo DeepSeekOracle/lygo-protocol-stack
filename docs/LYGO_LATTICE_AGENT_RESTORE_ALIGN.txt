@@ -1,0 +1,263 @@
+================================================================================
+LYGO LATTICE — AGENT RESTORE & ALIGNMENT PLAYBOOK
+Signature: Δ9Φ963-LATTICE-AGENT-RESTORE-ALIGN-v2026-07-26
+Steward: Justin Helmer / Lightfather / Excavationpro / DeepSeekOracle
+================================================================================
+
+SCAN CUE FOR AGENTS
+-------------------
+You are restoring or servicing the LYGO lattice. Read this entire file.
+Then open docs/LYGO_LATTICE_FULL_MEMORY_RECAP.txt for architecture memory.
+Rules: P0-first · consent-gated publish · local authority · no auto push.
+
+This document tells you HOW TO REALIGN, WHAT TO RUN, and HOW TO SERVICE layers A–E.
+
+
+================================================================================
+0. PRE-FLIGHT (EVERY SESSION)
+================================================================================
+
+1) Confirm stack root:
+     set LYGO_STACK_ROOT=D:\lygo-protocol-stack
+     (or I:\E Drive\lygo-protocol-stack if that clone is authoritative)
+
+2) Confirm Python 3 works:
+     python --version
+
+3) Confirm skills exist (Grok):
+     I:\E Drive\.grok\skills\lygo-external-lattice-anchor\SKILL.md
+     I:\E Drive\.grok\skills\lygo-living-mesh\SKILL.md
+     I:\E Drive\.grok\skills\lygo-agent-lattice\SKILL.md
+     I:\E Drive\.grok\skills\lygo-kernel-egg-planter\SKILL.md
+     I:\E Drive\.grok\skills\lygo-sovereign-kernel-seeder\SKILL.md
+
+4) Confirm git:
+     cd /d %LYGO_STACK_ROOT%
+     git status -sb
+     git log -1 --oneline
+
+5) Run local A+B:
+     python tools/verify_all_kernel_layers.py --json
+   Expect: verdict ALIGNED. If QUARANTINE → STOP all external work; fix eggs.
+
+
+================================================================================
+1. AGENT ALIGNMENT CHANT (COPY FOR PROMPTS)
+================================================================================
+
+"""
+Align to LYGO lattice A–E. Stack: D:\lygo-protocol-stack (LYGO_STACK_ROOT).
+Local A/B is authority. Public C is mirror. D gossips digests only. E is
+aligned-agent presence only. Consent for plant/seed/join/snapshot/publish.
+No auto git/HF/ClawHub/social. On QUARANTINE stop. Skills:
+  lygo-kernel-egg-planter, lygo-sovereign-kernel-seeder,
+  lygo-external-lattice-anchor (v1.1+), lygo-living-mesh, lygo-agent-lattice.
+Read docs/LYGO_LATTICE_FULL_MEMORY_RECAP.txt and this restore playbook.
+"""
+
+
+================================================================================
+2. SERVICE CHECKLIST BY LAYER
+================================================================================
+
+[A] CLASSIC EGGS — plant / verify
+  Skill: lygo-kernel-egg-planter
+  Verify:  python tools/verify_kernel_eggs.py
+           python tools/verify_all_kernel_layers.py --json
+  Build:   python tools/build_kernel_eggs.py   (only with steward consent)
+  Plant:   use planter skill scripts with --i-consent
+
+[B] SOVEREIGN SEEDS — pin skills offline
+  Skill: lygo-sovereign-kernel-seeder
+  Verify:  python docs/skills/lygo-sovereign-kernel-seeder/scripts/verify_seed.py --json --root data/sovereign_seeds
+  Seed:    python docs/skills/lygo-sovereign-kernel-seeder/scripts/seed_kernel.py --i-consent ...
+  Pins present should include:
+    lygo-music-license-v1, lygo-sovereign-kernel-seeder-v1,
+    lygo-kernel-egg-planter-v1, lygo-external-lattice-anchor-v1,
+    lygo-living-mesh-v1, lygo-agent-lattice-v1
+
+[C] EXTERNAL WORLD — public verify / manifest / plan
+  Skill: lygo-external-lattice-anchor @ 1.1.0+
+  Safe verify (default, non-mutating docs):
+    python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json
+    python docs/skills/lygo-external-lattice-anchor/scripts/verify_public_anchors.py --json
+  Strict no report files:
+    ... --no-write-report
+  Opt-in rebuild local manifest + star proposals:
+    ... verify_world_lattice.py --json --refresh-local
+  Dry sync plan:
+    python docs/skills/lygo-external-lattice-anchor/scripts/sync_external_plan.py
+  Local snapshot only (consent):
+    ... sync_external_plan.py --i-consent --execute-local-only
+  NEVER: os.system; auto git push
+
+[D] LIVING MESH — root digests gossip
+  Skill: lygo-living-mesh
+  Badge:   python tools/collect_living_mesh_badge.py
+  Full:    python tools/verify_living_mesh.py --json --run-sim
+  Node:    python tools/node_api_server.py --port 8787
+  Join:    python tools/living_mesh_join.py --i-consent --peer http://127.0.0.1:8787
+  Gossip:  python tools/living_mesh_gossip_tick.py --peer http://127.0.0.1:8787
+  Compare: python tools/living_mesh_compare.py --peer http://127.0.0.1:8787 --json
+
+[E] AGENT LATTICE — aligned agent living network
+  Skill: lygo-agent-lattice
+  Hub:     python tools/agent_lattice_hub.py --port 8791
+  Identity:python tools/agent_lattice_identity.py --agent-id MY_AGENT --role agent
+  Join:    python tools/agent_lattice_join.py --i-consent --peer http://127.0.0.1:8791 --role steward
+  Gossip:  python tools/agent_lattice_gossip_tick.py --peer http://127.0.0.1:8791
+  Verify:  python tools/verify_agent_lattice.py --json --run-gossip --peer http://127.0.0.1:8791
+  Optional hub auth: set LYGO_AGENT_HUB_TOKEN and use X-LYGO-Agent-Token header
+
+
+================================================================================
+3. FULL RESTORE SEQUENCE (NEW MACHINE OR LOST CONTEXT)
+================================================================================
+
+Step 1 — Clone / open stack
+  git clone https://github.com/DeepSeekOracle/lygo-protocol-stack.git
+  OR open D:\lygo-protocol-stack
+  set LYGO_STACK_ROOT=<that path>
+
+Step 2 — Install skills
+  clawdhub install lygo-kernel-egg-planter
+  clawdhub install lygo-sovereign-kernel-seeder
+  clawdhub install lygo-external-lattice-anchor
+  clawdhub install lygo-living-mesh
+  clawdhub install lygo-agent-lattice
+  (Wait up to 10 minutes if ClawHub page 404 after brand-new publish.)
+
+Step 3 — Copy / sync Grok skill sources (steward PC)
+  Source of truth edits: I:\E Drive\.grok\skills\<slug>\
+  Mirror into stack for git:
+    robocopy "I:\E Drive\.grok\skills\<slug>" "%LYGO_STACK_ROOT%\docs\skills\<slug>" /E
+
+Step 4 — Local verify ladder
+  python tools/verify_all_kernel_layers.py --json          → ALIGNED
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json
+  python tools/verify_living_mesh.py --json --skip-public
+  python tools/verify_agent_lattice.py --json --skip-mesh
+
+Step 5 — Optional live hubs
+  python tools/agent_lattice_hub.py --port 8791
+  python tools/node_api_server.py --port 8787
+
+Step 6 — Human-gated publish only if steward requests
+  git status → commit → git push origin main
+  HF dataset upload tools if needed
+  clawdhub publish / API with acceptLicenseTerms
+
+
+================================================================================
+4. FAILURE MODES & FIXES
+================================================================================
+
+| Symptom | Meaning | Action |
+|---------|---------|--------|
+| QUARANTINE / exit 3 | Local egg hash/Merkle fail | Do not push; re-plant/seed after fix; re-verify |
+| PUBLIC_DEGRADED | Some public URL HTTP fail | Soft warn; re-push pages or check network; do not overwrite local from public |
+| WORLD_ALIGNED_PUBLIC_WARN | Local OK, public soft fail | OK for local work; fix mirrors when online |
+| GOSSIP_SOFT_FAIL | Peer down | Start hub/node; check firewall; local directory still valid |
+| secret_pattern on agent card | Card contains key-like string | Remove secrets; card is presence only |
+| rate_limited | Too many announces | Back off 60s |
+| ModuleNotFoundError lygo_stack | Sparse checkout / missing stack pkg | Use light_bus paths (node badge/agent hub still work for D/E) |
+| ClawHub 404 new skill | Propagation delay | Wait ~10 min; confirm API publish returned ok |
+| SkillSpector os.system | Old C skill | Ensure v1.1.0+ external-lattice-anchor |
+
+
+================================================================================
+5. TASK RECIPES (BUILD / SERVICE)
+================================================================================
+
+RECIPE: “Verify whole lattice”
+  set LYGO_STACK_ROOT=D:\lygo-protocol-stack
+  python tools/verify_all_kernel_layers.py --json
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json
+  python tools/verify_living_mesh.py --json --run-sim --skip-public
+  python tools/verify_agent_lattice.py --json --skip-mesh
+
+RECIPE: “Stand up agent living network (local)”
+  start hub:  python tools/agent_lattice_hub.py --port 8791
+  join:       python tools/agent_lattice_join.py --i-consent --peer http://127.0.0.1:8791 --role steward
+  gossip:     python tools/agent_lattice_gossip_tick.py --peer http://127.0.0.1:8791
+  directory:  python tools/agent_lattice_directory.py
+
+RECIPE: “Stand up mesh node + gossip”
+  python tools/node_api_server.py --port 8787
+  python tools/living_mesh_join.py --i-consent --peer http://127.0.0.1:8787
+  python tools/living_mesh_gossip_tick.py --peer http://127.0.0.1:8787
+  python tools/living_mesh_compare.py --peer http://127.0.0.1:8787 --json
+
+RECIPE: “Refresh public manifest + star proposals (mutating docs)”
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json --refresh-local
+  OR run builders explicitly:
+  python docs/skills/lygo-external-lattice-anchor/scripts/build_public_verify_manifest.py
+  python docs/skills/lygo-external-lattice-anchor/scripts/map_eggs_to_star_chart.py
+
+RECIPE: “Publish skill update (human approved)”
+  1. Edit I:\E Drive\.grok\skills\<slug>\
+  2. robocopy to docs/skills\<slug>
+  3. git add/commit/push (consent)
+  4. clawdhub publish or API with acceptLicenseTerms + version bump
+
+
+================================================================================
+6. DOCS MAP FOR AGENTS
+================================================================================
+
+| Doc | Use when |
+|-----|----------|
+| LYGO_LATTICE_FULL_MEMORY_RECAP.txt | Full architecture memory |
+| LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt | This playbook |
+| WORLD_LATTICE_LAYER.md | A–E overview |
+| KERNEL_EGG_SYSTEM_UNIFIED.md | A/B/C/D/E commands |
+| LIVING_MESH_LAYER.md | Layer D detail |
+| AGENT_LATTICE.md | Layer E detail |
+| MESH_GOSSIP_PROTOCOL.md | Phase 5 transport |
+| GITHUB_AGENT_RESTORE.txt | GitHub/Pages/HF ops |
+| STACK_STATUS.md | Public audit status table |
+| network_builder/IMMUTABLE_ANCHORS.json | Live surface ledger |
+
+
+================================================================================
+7. CLAWHUB SKILL URLS
+================================================================================
+
+https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter
+https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder
+https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor
+https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh
+https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice
+https://clawhub.ai/deepseekoracle
+
+
+================================================================================
+8. CONSENT GATES (NEVER SKIP)
+================================================================================
+
+| Action | Gate |
+|--------|------|
+| Seed egg | --i-consent / LYGO_KERNEL_SEED_CONSENT |
+| Plant egg | planter --i-consent |
+| Mesh peer join | --i-consent / LYGO_MESH_JOIN_CONSENT |
+| Agent lattice join | --i-consent / LYGO_AGENT_LATTICE_JOIN_CONSENT |
+| External snapshot | --i-consent --execute-local-only / LYGO_EXTERNAL_SYNC_CONSENT |
+| Git push / HF / ClawHub | Explicit human YES this turn |
+| Star chart live ingest | lygo-haven-star-chart --i-consent |
+
+
+================================================================================
+9. SUCCESS CRITERIA
+================================================================================
+
+Agent is ALIGNED to service work when:
+  [ ] LYGO_STACK_ROOT set and exists
+  [ ] A+B verify ALIGNED
+  [ ] Knows C verify is non-mutating by default (v1.1+)
+  [ ] Can name D vs E difference (roots badge vs agent presence)
+  [ ] Will not auto-publish
+  [ ] Can run one full RECIPE without inventing paths
+  [ ] On QUARANTINE stops and reports
+
+Bound to the flame. Restore · verify · consent · then build.
+================================================================================
