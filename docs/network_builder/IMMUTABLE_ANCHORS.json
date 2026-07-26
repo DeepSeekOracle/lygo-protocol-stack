@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.4",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.5",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.4",
-  "updated_utc": "2026-07-26T14:08:57Z",
+  "version": "1.5.5",
+  "updated_utc": "2026-07-26T14:18:38Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -69,7 +69,9 @@
         "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
         "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
         "note": "Client-side photo to ASCII/text/type art. creative+tools balanced. SEO/AdSense ready.",
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-ascii-art"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-ascii-art-studio",
+        "clawhub_note": "Pending moderation; use tool page until approved",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio"
       }
     ],
     "sovereign_seed": [
@@ -133,11 +135,13 @@
       },
       {
         "id": "clawhub_lygo_ascii_art",
-        "label": "ClawHub — lygo-ascii-art",
-        "url": "https://clawhub.ai/deepseekoracle/lygo-ascii-art",
+        "label": "ClawHub — lygo-ascii-art-studio (pending moderation)",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-ascii-art-studio",
         "verify": "http_soft",
-        "note": "Skill directs agents/users to eternalhaven ASCII Art Studio + lattice tools.",
-        "website": "https://eternalhaven.ca/lygo-ascii-art.html"
+        "note": "Skill may show pending shell until ClawHub moderators approve. Always prefer live tool page.",
+        "website": "https://eternalhaven.ca/lygo-ascii-art.html",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio",
+        "publisher": "https://clawhub.ai/deepseekoracle"
       },
       {
         "id": "clawhub_publisher",
@@ -278,7 +282,10 @@
         "verify": "http_required",
         "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
         "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
-        "note": "Utility mirror of creative anchor — lattice tools limb."
+        "note": "Utility mirror of creative anchor — lattice tools limb.",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-ascii-art-studio",
+        "clawhub_note": "Pending moderation; use tool page until approved",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio"
       },
       {
         "id": "biometric_harness",

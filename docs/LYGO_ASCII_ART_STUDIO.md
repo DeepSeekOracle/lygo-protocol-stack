@@ -1,25 +1,33 @@
 # LYGO ASCII Art Studio
 
-**Canonical:** https://eternalhaven.ca/lygo-ascii-art.html  
+**Live tool (works now):** https://eternalhaven.ca/lygo-ascii-art.html  
 
 **Mirrors:**  
 - https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html  
 - https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html  
 
-**ClawHub skill:** `lygo-ascii-art` → https://clawhub.ai/deepseekoracle/lygo-ascii-art  
+## ClawHub status
 
-## What it is
+- Attempted slug `lygo-ascii-art` → **hidden by moderation** (owner cannot re-delete).  
+- Republished as `lygo-ascii-art-studio` → API accepted but **`publicationStatus: pending`** (not installable until moderators approve).  
+- Until approved, use the **live tool** and the **git skill package** below.
 
-Client-side **photo → ASCII / text / type art** (letters, numbers, symbols). No upload. SEO + Google AdSense ready (cookie consent). Immutable Lattice footer on the page.
+**ClawHub publisher:** https://clawhub.ai/deepseekoracle  
+
+**Expected skill URL after approval:** https://clawhub.ai/deepseekoracle/lygo-ascii-art-studio  
+
+## Git skill package (available now)
+
+```
+https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio
+```
+
+Agents: open the live tool page; install skill from git package or ClawHub when moderation clears.
 
 ## Lattice (IMMUTABLE_ANCHORS.json)
 
-| Id | Group |
-|----|--------|
-| `lygo_ascii_art_studio` | creative |
-| `lygo_ascii_art_studio_tool` | tools |
-| `clawhub_lygo_ascii_art` | agents |
-
-## Related
-
-- BPM Finder · LYGO Resonance · Turbo Models whitepaper · Network Builder skill
+| Id | Group | Primary URL |
+|----|--------|-------------|
+| `lygo_ascii_art_studio` | creative | eternalhaven tool page |
+| `lygo_ascii_art_studio_tool` | tools | eternalhaven tool page |
+| `clawhub_lygo_ascii_art` | agents | ClawHub skill (soft) + git package |
