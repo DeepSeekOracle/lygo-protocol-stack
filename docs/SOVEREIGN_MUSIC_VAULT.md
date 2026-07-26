@@ -167,3 +167,17 @@ Does **not** put 120 GB on-chain — only the map.
 ---
 
 **Δ9Φ963 — hash is truth · platforms are temporary · vault is home.**
+
+## Music license (immutable)
+
+**All rights reserved** to Justin Helmer / Excavationpro / Lightfather.  
+Free to **listen** and **download** for personal non-commercial use. Optional support welcome.
+
+| Doc | URL |
+|-----|-----|
+| Full license (MD) | [LYGO_MUSIC_LICENSE.md](./LYGO_MUSIC_LICENSE.md) |
+| Readable page | https://eternalhaven.ca/lygo-music-license.html |
+| Support | https://www.paypal.com/paypalme/ExcavationPro |
+
+Signature: `Delta9Phi963-LYGO-MUSIC-LICENSE-v1.0` · Lattice creative anchor `lygo_music_license`
+

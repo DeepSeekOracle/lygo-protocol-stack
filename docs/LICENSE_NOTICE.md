@@ -33,3 +33,7 @@ ClawHub registry terms may still require MIT-0 **checkbox** to host a skill list
 
 - License: https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/LICENSE  
 - ClawHub skill: `https://clawhub.ai/deepseekoracle/skills/<slug>`
+
+## Music (separate)
+
+Original music is **not** under the software license. See **[LYGO_MUSIC_LICENSE.md](./LYGO_MUSIC_LICENSE.md)** (v1.0): free listen/download, steward keeps all rights, optional donations.

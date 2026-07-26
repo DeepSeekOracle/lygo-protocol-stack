@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.7",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.8",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.7",
-  "updated_utc": "2026-07-26T15:12:50Z",
+  "version": "1.5.8",
+  "updated_utc": "2026-07-26T15:28:09Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -60,6 +60,20 @@
       {
         "id": "excavationpro_music_catalog",
         "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
+      },
+      {
+        "id": "lygo_music_license",
+        "label": "LYGO / Excavationpro Music License v1.0 — free listen, all rights reserved",
+        "url": "https://eternalhaven.ca/lygo-music-license.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-music-license.html",
+        "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-music-license.html",
+        "source_md": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_MUSIC_LICENSE.md",
+        "listen": "https://asiancoastline.com/",
+        "listen_pages": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+        "catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+        "support": "https://www.paypal.com/paypalme/ExcavationPro",
+        "note": "Steward Justin Helmer keeps all rights. Free personal listen/download. Optional donate. Honest growth. Music limb of LYGO lattice."
       },
       {
         "id": "lygo_ascii_art_studio",
