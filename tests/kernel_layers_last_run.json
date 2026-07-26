@@ -1,0 +1,31 @@
+{
+  "signature": "Delta9Phi963-KERNEL-LAYERS-VERIFY-v1",
+  "stack": "D:\\lygo-protocol-stack",
+  "layers": [
+    {
+      "layer": "classic_kernel_eggs",
+      "exit_code": 0,
+      "verdict": "ALIGNED",
+      "all_pass": true,
+      "artifact": "tests/kernel_eggs_last_run.json",
+      "status": "ALIGNED"
+    },
+    {
+      "layer": "sovereign_seeds",
+      "exit_code": 0,
+      "root": "D:\\lygo-protocol-stack\\data\\sovereign_seeds",
+      "verdict": "ALIGNED",
+      "errors": [],
+      "eggs_checked": 5,
+      "registry_merkle_root": "bf768c3a7d6678ff00845b4189ba7b11dd6fe50b7b3e6db28d7c6012608b8010",
+      "computed_merkle_root": "bf768c3a7d6678ff00845b4189ba7b11dd6fe50b7b3e6db28d7c6012608b8010",
+      "status": "ALIGNED"
+    }
+  ],
+  "verdict": "ALIGNED",
+  "doc": "docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+  "summary": {
+    "classic": "ALIGNED",
+    "sovereign": "ALIGNED"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
-  "created_utc": "2026-07-26T16:00:31Z",
+  "created_utc": "2026-07-26T16:12:13Z",
   "stack_root": "D:\\lygo-protocol-stack",
   "user_protection": {
     "local_is_source_of_truth": true,
@@ -57,7 +57,20 @@
       "name": "world_network",
       "skill": "lygo-external-lattice-anchor",
       "role": "public_verify + star_chart_map + free_surface_sync",
-      "endpoint_count": 12
+      "endpoint_count": 14
+    },
+    "D_living_mesh": {
+      "name": "living_mesh",
+      "skill": "lygo-living-mesh",
+      "role": "multi_node_root_digest_gossip + sentinel",
+      "docs": "docs/LIVING_MESH_LAYER.md",
+      "tools": [
+        "tools/collect_living_mesh_badge.py",
+        "tools/verify_living_mesh.py",
+        "tools/living_mesh_sentinel.py"
+      ],
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "local_path": "data/living_mesh/"
     }
   },
   "public_endpoints": [
@@ -124,6 +137,18 @@
       "verify": "http_soft"
     },
     {
+      "id": "clawhub_living_mesh",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "role": "layer_d_skill",
+      "verify": "http_soft"
+    },
+    {
+      "id": "living_mesh_layer_doc",
+      "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/LIVING_MESH_LAYER.md",
+      "role": "layer_d_docs",
+      "verify": "http_soft"
+    },
+    {
       "id": "eternalhaven_hub",
       "url": "https://eternalhaven.ca/",
       "role": "public_hub",
@@ -163,9 +188,9 @@
     "feed_sha256": "31113d95cb978f466316b50acf40e2f412c4073a565875c852f29aa2a529780a"
   },
   "immutable_anchors": {
-    "version": "1.6.0",
-    "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.0",
-    "local_sha256": "5d28e3874a7ddcebae28e9a5829a3f207a048bbaf45c51f82766f09a87a66d2a"
+    "version": "1.6.1",
+    "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.1",
+    "local_sha256": "b3abdaaad77ed5e93ce702dfa87deffdb837a31461d99713e02792835a11f00d"
   },
   "last_unified_verify": {
     "signature": "Delta9Phi963-KERNEL-LAYERS-VERIFY-v1",

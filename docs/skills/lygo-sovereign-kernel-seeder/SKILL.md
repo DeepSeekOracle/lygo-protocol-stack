@@ -286,3 +286,9 @@ External public verify + Star Chart + free servers: **`lygo-external-lattice-anc
 https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor  
 Doc: `docs/WORLD_LATTICE_LAYER.md`  
 
+## Layer D (living mesh)
+
+Multi-node root-digest gossip: **`lygo-living-mesh`**  
+https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh  
+Doc: `docs/LIVING_MESH_LAYER.md`  
+

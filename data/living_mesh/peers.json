@@ -1,0 +1,13 @@
+{
+  "signature": "Delta9Phi963-LIVING-MESH-JOIN-v1",
+  "peers": [
+    {
+      "base_url": "http://127.0.0.1:8787",
+      "label": "home-node",
+      "joined_utc": "2026-07-26T16:12:40.635816+00:00",
+      "local_node_id": "LIGHTFATHER_HOME",
+      "local_roots_digest": "af697d8389d9628edf252b2cb12506023419bf552c071ea86feaf13c6001cced"
+    }
+  ],
+  "updated_utc": "2026-07-26T16:12:40.635816+00:00"
+}

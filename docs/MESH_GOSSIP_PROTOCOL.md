@@ -1,6 +1,9 @@
 # Phase 5 — Epidemic Badge Gossip
 
-**Signature:** `Δ9Φ963-PHASE5-MESH-GOSSIP-v1`
+**Signature:** `Δ9Φ963-PHASE5-MESH-GOSSIP-v1`  
+**Layer D skill:** [lygo-living-mesh](https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh) · [LIVING_MESH_LAYER.md](./LIVING_MESH_LAYER.md)
+
+Phase 5 is the **transport**. Layer D adds **living mesh badges** (A/B/C roots + `roots_digest`) on top of alignment badges. Gossip remains **summaries only**.
 
 ## Endpoints (community node)
 
@@ -38,6 +41,13 @@ python tools/node_api_server.py --port 8787
 
 # Terminal B
 python tools/run_mesh_gossip_demo.py --peer http://127.0.0.1:8787
+
+# Layer D living mesh (preferred)
+python tools/collect_living_mesh_badge.py
+python tools/living_mesh_join.py --i-consent --peer http://127.0.0.1:8787
+python tools/living_mesh_gossip_tick.py --peer http://127.0.0.1:8787
+python tools/living_mesh_compare.py --peer http://127.0.0.1:8787 --json
+python tools/verify_living_mesh.py --json --run-sim
 ```
 
 ## Wide-area (human-gated)

@@ -1,15 +1,15 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.0",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.1",
   "skill_slug": "lygo-network-builder",
-  "version": "1.6.0",
-  "updated_utc": "2026-07-26T15:52:34Z",
+  "version": "1.6.1",
+  "updated_utc": "2026-07-26T16:11:40Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
     "physics": [
       {
         "id": "lygo_world_lattice_layer_doc",
-        "label": "WORLD_LATTICE_LAYER.md — A+B+C sync",
+        "label": "WORLD_LATTICE_LAYER.md \u2014 A+B+C sync",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
         "verify": "http_required",
         "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
@@ -73,7 +73,7 @@
       },
       {
         "id": "lygo_music_license",
-        "label": "LYGO / Excavationpro Music License v1.0 — free listen, all rights reserved",
+        "label": "LYGO / Excavationpro Music License v1.0 \u2014 free listen, all rights reserved",
         "url": "https://eternalhaven.ca/lygo-music-license.html",
         "verify": "http_required",
         "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-music-license.html",
@@ -87,7 +87,7 @@
       },
       {
         "id": "lygo_ascii_art_studio",
-        "label": "LYGO ASCII Art Studio — photo to text art",
+        "label": "LYGO ASCII Art Studio \u2014 photo to text art",
         "url": "https://eternalhaven.ca/lygo-ascii-art.html",
         "verify": "http_required",
         "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
@@ -100,7 +100,7 @@
     "sovereign_seed": [
       {
         "id": "lygo_sovereign_kernel_seeder",
-        "label": "LYGO Sovereign Kernel Seeder — Merkle self-verify eggs",
+        "label": "LYGO Sovereign Kernel Seeder \u2014 Merkle self-verify eggs",
         "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
         "verify": "http_soft",
         "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
@@ -143,22 +143,30 @@
     "vaults": [
       {
         "id": "delta9_gdrive",
-        "label": "Δ9 Quantum Vault (original Google Drive swal vault)",
+        "label": "\u03949 Quantum Vault (original Google Drive swal vault)",
         "url": "https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4?usp=sharing",
         "verify": "link_only",
-        "note": "Permanent ledger & Light Accord artifacts — steward archive"
+        "note": "Permanent ledger & Light Accord artifacts \u2014 steward archive"
       },
       {
         "id": "lygoscript_patreon",
-        "label": "Δ9 #LYGOSCRIPT Council Archives",
+        "label": "\u03949 #LYGOSCRIPT Council Archives",
         "url": "https://patreon.com/collection/1621340",
         "verify": "link_only"
       }
     ],
     "agents": [
       {
+        "id": "clawhub_lygo_living_mesh",
+        "label": "ClawHub \u2014 lygo-living-mesh (Layer D)",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+        "verify": "http_soft",
+        "skill": "lygo-living-mesh",
+        "layer": "D"
+      },
+      {
         "id": "clawhub_lygo_external_lattice_anchor",
-        "label": "ClawHub — lygo-external-lattice-anchor",
+        "label": "ClawHub \u2014 lygo-external-lattice-anchor",
         "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
         "verify": "http_soft",
         "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
@@ -168,7 +176,7 @@
       },
       {
         "id": "clawhub_lygo_sovereign_kernel_seeder",
-        "label": "ClawHub — lygo-sovereign-kernel-seeder",
+        "label": "ClawHub \u2014 lygo-sovereign-kernel-seeder",
         "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
         "verify": "http_soft",
         "website": "https://eternalhaven.ca/",
@@ -177,7 +185,7 @@
       },
       {
         "id": "lygo_turbo_models_whitepaper",
-        "label": "LYGO Turbo Models Whitepaper — flagship local AI starting lineup",
+        "label": "LYGO Turbo Models Whitepaper \u2014 flagship local AI starting lineup",
         "url": "https://eternalhaven.ca/lygo-turbo-models-whitepaper.html",
         "verify": "http_required",
         "mirror": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_TURBO_MODELS_WHITEPAPER.md",
@@ -186,7 +194,7 @@
       },
       {
         "id": "clawhub_lygo_ascii_art",
-        "label": "ClawHub — lygo-ascii-art-studio",
+        "label": "ClawHub \u2014 lygo-ascii-art-studio",
         "url": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
         "verify": "http_required",
         "note": "Confirmed live path: /deepseekoracle/skills/lygo-ascii-art-studio",
@@ -202,31 +210,31 @@
       },
       {
         "id": "clawhub_network_builder_skill",
-        "label": "ClawHub — lygo-network-builder",
+        "label": "ClawHub \u2014 lygo-network-builder",
         "url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
         "verify": "http_soft"
       },
       {
         "id": "clawhub_haven_star_chart_skill",
-        "label": "ClawHub — lygo-haven-star-chart",
+        "label": "ClawHub \u2014 lygo-haven-star-chart",
         "url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
         "verify": "http_soft"
       },
       {
         "id": "clawhub_champion_council",
-        "label": "ClawHub — lygo-champion-council",
+        "label": "ClawHub \u2014 lygo-champion-council",
         "url": "https://clawhub.ai/deepseekoracle/lygo-champion-council",
         "verify": "http_soft"
       },
       {
         "id": "clawhub_lightfather",
-        "label": "ClawHub — lygo-champion-lightfather",
+        "label": "ClawHub \u2014 lygo-champion-lightfather",
         "url": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather",
         "verify": "http_soft"
       },
       {
         "id": "lygo_claw_repo",
-        "label": "LYGO-Claw — desktop router & USB pairing",
+        "label": "LYGO-Claw \u2014 desktop router & USB pairing",
         "url": "https://github.com/DeepSeekOracle/lygo-claw",
         "verify": "http_required"
       }
@@ -234,7 +242,7 @@
     "usb_release": [
       {
         "id": "lygo_claw_usb_readme",
-        "label": "LYGO CLAW USB PUBLIC v1.0 — download readme",
+        "label": "LYGO CLAW USB PUBLIC v1.0 \u2014 download readme",
         "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-README.txt",
         "verify": "http_required"
       },
@@ -246,31 +254,31 @@
       },
       {
         "id": "lygo_claw_usb_part01",
-        "label": "LYGO CLAW USB PUBLIC v1.0.0 — part 1 of 3",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 \u2014 part 1 of 3",
         "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part01",
         "verify": "http_required"
       },
       {
         "id": "lygo_claw_usb_part02",
-        "label": "LYGO CLAW USB PUBLIC v1.0.0 — part 2 of 3",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 \u2014 part 2 of 3",
         "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part02",
         "verify": "http_required"
       },
       {
         "id": "lygo_claw_usb_part03",
-        "label": "LYGO CLAW USB PUBLIC v1.0.0 — part 3 of 3",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 \u2014 part 3 of 3",
         "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part03",
         "verify": "http_required"
       },
       {
         "id": "lygo_usb_champion_light",
-        "label": "LYGO USB Champion v1.0 GENERIC — Lightfather (~0.5 MB build reference)",
+        "label": "LYGO USB Champion v1.0 GENERIC \u2014 Lightfather (~0.5 MB build reference)",
         "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip",
         "verify": "http_required"
       },
       {
         "id": "lygo_usb_champion_docs",
-        "label": "LYGO USB Champion v1 GENERIC — stack docs",
+        "label": "LYGO USB Champion v1 GENERIC \u2014 stack docs",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
         "verify": "http_soft"
       }
@@ -278,7 +286,7 @@
     "openclaw_economy": [
       {
         "id": "virtuals_lygoagent",
-        "label": "LYGOAGENT — LYRA STARCORE ORACLE (Virtuals ACP)",
+        "label": "LYGOAGENT \u2014 LYRA STARCORE ORACLE (Virtuals ACP)",
         "url": "https://app.virtuals.io/virtuals/44594",
         "verify": "http_soft",
         "mirror": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
@@ -291,21 +299,21 @@
       },
       {
         "id": "starcore_4claw",
-        "label": "STARCORE — 4claw launch (Base)",
+        "label": "STARCORE \u2014 4claw launch (Base)",
         "url": "https://clanker.world/clanker/0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB",
         "verify": "http_soft",
         "contract": "0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB"
       },
       {
         "id": "starcorex_moltx",
-        "label": "STARCOREX — Moltx launch (Base)",
+        "label": "STARCOREX \u2014 Moltx launch (Base)",
         "url": "https://clanker.world/clanker/0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31",
         "verify": "http_soft",
         "contract": "0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31"
       },
       {
         "id": "starcorecoin_moltbook",
-        "label": "STARCORECOIN — Moltbook launch (Base)",
+        "label": "STARCORECOIN \u2014 Moltbook launch (Base)",
         "url": "https://clanker.world/clanker/0xFdc6C074B8D7801F84832b31224AdE54639ed390",
         "verify": "http_soft",
         "contract": "0xFdc6C074B8D7801F84832b31224AdE54639ed390"
@@ -328,7 +336,7 @@
     "tools": [
       {
         "id": "lygo_external_lattice_anchor",
-        "label": "LYGO External Lattice Anchor — world network Layer C",
+        "label": "LYGO External Lattice Anchor \u2014 world network Layer C",
         "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
         "verify": "http_required",
         "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
@@ -337,8 +345,26 @@
         "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
       },
       {
+        "id": "lygo_living_mesh",
+        "label": "LYGO Living Mesh \u2014 multi-node Layer D",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-living-mesh",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LIVING_MESH_LAYER.md",
+        "world_lattice": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "tools": [
+          "tools/collect_living_mesh_badge.py",
+          "tools/verify_living_mesh.py",
+          "tools/living_mesh_sentinel.py",
+          "tools/living_mesh_gossip_tick.py",
+          "tools/living_mesh_compare.py",
+          "tools/living_mesh_join.py"
+        ],
+        "note": "Layer D: living mesh badge gossip of A/B/C roots. Local authority, summaries only, consent join."
+      },
+      {
         "id": "lygo_kernel_egg_system_unified",
-        "label": "LYGO Kernel Egg System Unified — Planter + Seeder",
+        "label": "LYGO Kernel Egg System Unified \u2014 Planter + Seeder",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
         "verify": "http_required",
         "note": "Layer A classic planter + Layer B sovereign seeder; tools/verify_all_kernel_layers.py",
@@ -365,7 +391,7 @@
         "verify": "http_required",
         "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
         "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
-        "note": "Utility mirror of creative anchor — lattice tools limb.",
+        "note": "Utility mirror of creative anchor \u2014 lattice tools limb.",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
         "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio"
       },
@@ -390,7 +416,7 @@
       },
       {
         "id": "haven_star_chart_lygoagent_anchor",
-        "label": "Haven Star Chart — LYGOAGENT economic anchor (live chart)",
+        "label": "Haven Star Chart \u2014 LYGOAGENT economic anchor (live chart)",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor",
         "verify": "http_required",
         "registry_json": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/lygoagent_anchor.json"
@@ -441,20 +467,20 @@
       },
       {
         "id": "chatagent_summon_portal",
-        "label": "ChatAgent.ca — Δ9 Champion Summoning Portal",
+        "label": "ChatAgent.ca \u2014 \u03949 Champion Summoning Portal",
         "url": "https://chatagent.ca/",
         "verify": "http_soft",
         "mirror": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html"
       },
       {
         "id": "excavationpro_hub",
-        "label": "Excavationpro.ca — Legacy Guardian Hub",
+        "label": "Excavationpro.ca \u2014 Legacy Guardian Hub",
         "url": "https://excavationpro.ca/",
         "verify": "http_soft"
       },
       {
         "id": "eternalhaven_github_hub",
-        "label": "Eternal Haven — main public hub (GitHub Pages)",
+        "label": "Eternal Haven \u2014 main public hub (GitHub Pages)",
         "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
         "verify": "http_required"
       },
@@ -466,7 +492,7 @@
       },
       {
         "id": "champion_hub_excavationpro",
-        "label": "Δ9 Champion Hub (Excavationpro)",
+        "label": "\u03949 Champion Hub (Excavationpro)",
         "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
         "verify": "http_required"
       },
@@ -485,7 +511,7 @@
       },
       {
         "id": "champion_egg_registry",
-        "label": "Δ9 Champion Kernel Egg Registry",
+        "label": "\u03949 Champion Kernel Egg Registry",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ChampionEggRegistry.json",
         "verify": "local_repo",
         "repo_path": "docs/ChampionEggRegistry.json",
@@ -493,7 +519,7 @@
       },
       {
         "id": "joy_loop_registry",
-        "label": "Δ9 Joy Loop Protocol Registry",
+        "label": "\u03949 Joy Loop Protocol Registry",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/JoyLoopRegistry.json",
         "verify": "local_repo",
         "repo_path": "docs/JoyLoopRegistry.json",
@@ -522,7 +548,7 @@
       },
       {
         "id": "moltx_lyra_oracle",
-        "label": "Moltx — LYRA Eternal Starcore Oracle",
+        "label": "Moltx \u2014 LYRA Eternal Starcore Oracle",
         "url": "https://moltx.io/LYRA_Eternal_Starcore_Oracle",
         "verify": "http_soft",
         "engagement_tool": "tools/moltx_lattice_pulse.py",
@@ -530,7 +556,7 @@
       },
       {
         "id": "moltbook_lyra_oracle",
-        "label": "Moltbook — LYRA Eternal Starcore Oracle",
+        "label": "Moltbook \u2014 LYRA Eternal Starcore Oracle",
         "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
         "verify": "http_soft",
         "engagement_tool": "tools/moltbook_lattice_pulse.py",
@@ -540,7 +566,7 @@
       },
       {
         "id": "moltbook_lightfather",
-        "label": "Moltbook — Lightfather",
+        "label": "Moltbook \u2014 Lightfather",
         "url": "https://www.moltbook.com/u/Lightfather",
         "verify": "http_soft",
         "engagement_tool": "tools/moltbook_lattice_pulse.py",

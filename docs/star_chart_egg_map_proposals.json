@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
-  "created_utc": "2026-07-26T16:00:31Z",
+  "created_utc": "2026-07-26T16:00:36Z",
   "purpose": "Haven Star Chart proposals — steward gate + consent before LIVE ingest",
   "chart_live": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
   "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
@@ -474,5 +474,5 @@
     }
   ],
   "sync_note": "Do NOT auto-ingest. Human runs haven star chart gate with --i-consent.",
-  "bundle_sha256": "bb666680895860ca673bca3d3264ab5a826369c20d8f7f3e7cdcf58dc9c10bda"
+  "bundle_sha256": "4aa9ed81f84319534e6c93bce6d6de1c1a7808d568511bd6a11daebb51506b0a"
 }

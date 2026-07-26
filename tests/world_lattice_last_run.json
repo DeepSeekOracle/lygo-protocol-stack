@@ -1,0 +1,142 @@
+{
+  "signature": "Delta9Phi963-WORLD-LATTICE-VERIFY-v1",
+  "created_utc": "2026-07-26T16:00:34Z",
+  "stack": "D:\\lygo-protocol-stack",
+  "layers": {
+    "AB_local": {
+      "verdict": "ERROR",
+      "raw": "{\n  \"verdict\": \"ALIGNED\",\n  \"all_pass\": true\n}\n{\n  \"signature\": \"Delta9Phi963-KERNEL-LAYERS-VERIFY-v1\",\n  \"stack\": \"D:\\\\lygo-protocol-stack\",\n  \"layers\": [\n    {\n      \"layer\": \"classic_kernel_eggs\",\n      \"exit_code\": 0,\n      \"verdict\": \"ALIGNED\",\n      \"all_pass\": true,\n      \"artifact\": \"tests/kernel_eggs_last_run.json\",\n      \"status\": \"ALIGNED\"\n    },\n    {\n      \"layer\": \"sovereign_seeds\",\n      \"exit_code\": 0,\n      \"root\": \"D:\\\\lygo-protocol-stack\\\\data\\\\sovereign_seeds\",\n      \"verdict\": \"ALIGNED\",\n      \"errors\": [],\n      \"eggs_checked\": 4,\n      \"registry_merkle_root\": \"a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d\",\n      \"computed_merkle_root\": \"a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d\",\n      \"status\": \"ALIGNED\"\n    }\n  ],\n  \"verdict\": \"ALIGNED\",\n  \"doc\": \"docs/KERNEL_EGG_SYSTEM_UNIFIED.md\",\n  \"summary\": {\n    \"classic\": \"ALIGNED\",\n    \"sovereign\": \"ALIGNED\"\n  }\n}\n",
+      "stderr": ""
+    },
+    "C_public": {
+      "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
+      "created_utc": "2026-07-26T16:00:36Z",
+      "verdict": "PUBLIC_OK",
+      "checked": 13,
+      "results": [
+        {
+          "id": "immutable_anchors",
+          "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json",
+          "http_status": 200,
+          "ok": true,
+          "role": "ledger",
+          "error": null,
+          "bytes": 28298,
+          "anchors_version": "1.6.0"
+        },
+        {
+          "id": "kernel_egg_registry_pages",
+          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRegistry.json",
+          "http_status": 200,
+          "ok": true,
+          "role": "classic_egg_registry_public",
+          "error": null,
+          "bytes": 181957,
+          "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05"
+        },
+        {
+          "id": "kernel_egg_retrieval",
+          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+          "http_status": 200,
+          "ok": true,
+          "role": "public_verify_ui",
+          "error": null,
+          "bytes": 2484
+        },
+        {
+          "id": "haven_star_chart",
+          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+          "http_status": 200,
+          "ok": true,
+          "role": "world_map",
+          "error": null,
+          "bytes": 45040
+        },
+        {
+          "id": "haven_star_chart_portal",
+          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+          "http_status": 200,
+          "ok": true,
+          "role": "agent_submit_portal",
+          "error": null,
+          "bytes": 22498
+        },
+        {
+          "id": "sovereign_seeds_snapshot",
+          "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+          "http_status": 200,
+          "ok": true,
+          "role": "sovereign_registry_public_mirror",
+          "error": null,
+          "bytes": 2272,
+          "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d"
+        },
+        {
+          "id": "hf_music_stream",
+          "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+          "http_status": 200,
+          "ok": true,
+          "role": "free_public_media_cas",
+          "error": null,
+          "bytes": 301069
+        },
+        {
+          "id": "hf_stack_dataset",
+          "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+          "http_status": 200,
+          "ok": true,
+          "role": "stack_dataset_mirror",
+          "error": null,
+          "bytes": 120860
+        },
+        {
+          "id": "pages_stack",
+          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+          "http_status": 200,
+          "ok": true,
+          "role": "public_http_mirror",
+          "error": null,
+          "bytes": 16613
+        },
+        {
+          "id": "clawhub_publisher",
+          "url": "https://clawhub.ai/deepseekoracle",
+          "http_status": 200,
+          "ok": true,
+          "role": "skill_registry",
+          "error": null,
+          "bytes": 73883
+        },
+        {
+          "id": "eternalhaven_hub",
+          "url": "https://eternalhaven.ca/",
+          "http_status": 200,
+          "ok": true,
+          "role": "public_hub",
+          "error": null,
+          "bytes": 88287
+        },
+        {
+          "id": "world_lattice_doc",
+          "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/WORLD_LATTICE_LAYER.md",
+          "http_status": 200,
+          "ok": true,
+          "role": "docs",
+          "error": null,
+          "bytes": 3503
+        },
+        {
+          "id": "sovereign_root_sync",
+          "local": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+          "public": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+          "match": true
+        }
+      ],
+      "user_protection": {
+        "do_not_trust_public_over_local": true,
+        "if_mismatch_prefer_local_verify": true
+      }
+    }
+  },
+  "verdict": "WORLD_ALIGNED"
+}

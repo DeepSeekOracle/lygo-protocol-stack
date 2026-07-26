@@ -1,0 +1,39 @@
+{
+  "signature": "Delta9Phi963-LIVING-MESH-SENTINEL-v1",
+  "timestamp": "2026-07-26T16:13:51.726053+00:00",
+  "node_id": "NODE_GamePC",
+  "local_status": "ALIGNED",
+  "roots_digest": "af697d8389d9628edf252b2cb12506023419bf552c071ea86feaf13c6001cced",
+  "roots": {
+    "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+    "B_sovereign_merkle": "bf768c3a7d6678ff00845b4189ba7b11dd6fe50b7b3e6db28d7c6012608b8010",
+    "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+    "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c"
+  },
+  "peer_compare": {
+    "signature": "Delta9Phi963-LIVING-MESH-COMPARE-v1",
+    "local_node_id": "NODE_GamePC",
+    "local_roots_digest": "af697d8389d9628edf252b2cb12506023419bf552c071ea86feaf13c6001cced",
+    "peers": [
+      {
+        "peer": "http://127.0.0.1:8787",
+        "ok": true,
+        "status": "HARMONIC",
+        "matches": {
+          "A_classic_merkle": true,
+          "B_sovereign_merkle": true,
+          "C_public_manifest_sha256": true,
+          "star_chart_registry_sha256": true
+        },
+        "diffs": {},
+        "local_status": "ALIGNED",
+        "remote_status": "ALIGNED",
+        "remote_node_id": "LIGHTFATHER_HOME",
+        "protection": "do_not_merge_eggs_on_fork; local remains authority"
+      }
+    ],
+    "verdict": "HARMONIC"
+  },
+  "mesh_scale_sim": null,
+  "verdict": "SENTINEL_OK"
+}

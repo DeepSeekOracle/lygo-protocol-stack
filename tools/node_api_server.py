@@ -14,6 +14,46 @@ from urllib.parse import parse_qs, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class _LightGossipBus:
+    """Fallback when full lygo_stack is unavailable (sparse checkout / Layer D only)."""
+
+    def __init__(self) -> None:
+        self.local_node_id = os.environ.get("LYGO_NODE_ID", "DOCKER_NODE")
+        self.gossip_recent: list[dict] = []
+        self.peers: list[dict] = []
+        self.peer_badges: dict[str, dict] = {}
+
+    def publish_badge(self, from_node: str, badge: dict) -> dict:
+        from datetime import datetime, timezone
+
+        entry = {
+            "node_id": from_node,
+            "badge": badge,
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "layer": badge.get("layer") or (badge.get("living_mesh") and "D") or "badge",
+        }
+        self.gossip_recent.append(entry)
+        self.gossip_recent = self.gossip_recent[-200:]
+        self.peer_badges[str(from_node)] = badge if isinstance(badge, dict) else {"raw": badge}
+        return {"ok": True, "stored": True, "mode": "light_bus"}
+
+    def snapshot(self) -> dict:
+        return {
+            "peers": self.peers,
+            "gossip_recent": self.gossip_recent,
+            "local_node_id": self.local_node_id,
+            "badge_count": len(self.gossip_recent),
+            "mode": "light_bus",
+            "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1",
+        }
+
+
+_LIGHT_BUS = _LightGossipBus()
+_STACK = None
+_STACK_FAILED = False
+_TLS = None
+
+
 def _stack():
     import sys
 
@@ -34,10 +74,6 @@ def _stack():
     return deploy_stack(os.environ.get("LYGO_NODE_ID", "DOCKER_NODE"))
 
 
-_STACK = None
-_TLS = None
-
-
 def get_tls_manager():
     global _TLS
     if _TLS is None:
@@ -55,10 +91,59 @@ def get_tls_manager():
 
 
 def get_stack():
-    global _STACK
-    if _STACK is None:
+    """Return full stack or None if unavailable (caller must handle)."""
+    global _STACK, _STACK_FAILED
+    if _STACK is not None:
+        return _STACK
+    if _STACK_FAILED:
+        return None
+    try:
         _STACK = _stack()
-    return _STACK
+        return _STACK
+    except Exception:
+        _STACK_FAILED = True
+        return None
+
+
+def get_gossip_snapshot() -> dict:
+    stack = get_stack()
+    if stack is not None:
+        try:
+            return stack.federation.snapshot()
+        except Exception:
+            pass
+    return _LIGHT_BUS.snapshot()
+
+
+def ingest_gossip_badge(from_node: str, badge: dict) -> dict:
+    stack = get_stack()
+    if stack is not None:
+        try:
+            msg = stack.federation.gossip.publish_badge(str(from_node), badge)
+            try:
+                stack.slm.ingest_gossip_badge(str(from_node), badge)
+                merkle = stack.slm.merkle.get_root_hash()
+            except Exception:
+                merkle = None
+            return {
+                "ok": True,
+                "signature": "Δ9Φ963-SLM-v1.0",
+                "gossip": msg,
+                "merkle_root": merkle,
+                "mode": "full_stack",
+            }
+        except Exception as e:
+            # fall through to light bus
+            pass
+    msg = _LIGHT_BUS.publish_badge(str(from_node), badge)
+    return {
+        "ok": True,
+        "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1",
+        "gossip": msg,
+        "merkle_root": None,
+        "mode": "light_bus",
+        "layer_d": True,
+    }
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -220,15 +305,21 @@ class Handler(BaseHTTPRequestHandler):
                 return
             self._json(200, body)
             return
-        if path == "/badge":
+        if path == "/badge" or path == "/badge/living":
             import sys
 
             tools = ROOT / "tools"
             if str(tools) not in sys.path:
                 sys.path.insert(0, str(tools))
-            from verify_alignment_badge import collect_badge  # noqa: E402
+            # Prefer Layer D living mesh badge (includes A/B/C roots)
+            try:
+                from collect_living_mesh_badge import collect_living_badge  # noqa: E402
 
-            badge = collect_badge(quick=True)
+                badge = collect_living_badge(quick=True)
+            except Exception:
+                from verify_alignment_badge import collect_badge  # noqa: E402
+
+                badge = collect_badge(quick=True)
             self._json(200, badge)
             return
         if path == "/demo":
@@ -243,7 +334,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, get_stack().federation.snapshot())
             return
         if path == "/gossip":
-            snap = get_stack().federation.snapshot()
+            snap = get_gossip_snapshot()
             recent = snap.get("gossip_recent") or []
             self._json(
                 200,
@@ -252,17 +343,26 @@ class Handler(BaseHTTPRequestHandler):
                     "badge_count": len(recent),
                     "gossip_recent": recent,
                     "local_node_id": snap.get("local_node_id"),
+                    "mode": snap.get("mode"),
                     "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1",
                 },
             )
             return
         if path.startswith("/badge/"):
             node_id = path.split("/")[-1]
-            slm = get_stack().slm
-            if node_id in slm.peer_badges:
-                self._json(200, {"node_id": node_id, "badge": slm.peer_badges[node_id]})
+            stack = get_stack()
+            if stack is not None:
+                try:
+                    slm = stack.slm
+                    if node_id in slm.peer_badges:
+                        self._json(200, {"node_id": node_id, "badge": slm.peer_badges[node_id]})
+                        return
+                except Exception:
+                    pass
+            if node_id in _LIGHT_BUS.peer_badges:
+                self._json(200, {"node_id": node_id, "badge": _LIGHT_BUS.peer_badges[node_id]})
                 return
-            snap = get_stack().federation.snapshot()
+            snap = get_gossip_snapshot()
             for entry in reversed(snap.get("gossip_recent") or []):
                 if str(entry.get("node_id")) == node_id:
                     self._json(200, entry.get("badge") or entry)
@@ -270,12 +370,43 @@ class Handler(BaseHTTPRequestHandler):
             self._json(404, {"error": "node badge not in gossip log", "node_id": node_id})
             return
         if path == "/gossip/root":
-            slm = get_stack().slm
-            slm.rebuild_from_gossip_log(get_stack().federation.snapshot().get("gossip_recent") or [])
-            self._json(200, slm.gossip_root())
+            stack = get_stack()
+            if stack is not None:
+                try:
+                    slm = stack.slm
+                    slm.rebuild_from_gossip_log(get_gossip_snapshot().get("gossip_recent") or [])
+                    self._json(200, slm.gossip_root())
+                    return
+                except Exception:
+                    pass
+            self._json(
+                200,
+                {
+                    "mode": "light_bus",
+                    "badge_count": len(_LIGHT_BUS.gossip_recent),
+                    "nodes": list(_LIGHT_BUS.peer_badges.keys()),
+                    "signature": "Δ9Φ963-PHASE5-MESH-GOSSIP-v1",
+                },
+            )
             return
         if path == "/slm/snapshot":
-            self._json(200, get_stack().slm.snapshot())
+            stack = get_stack()
+            if stack is not None:
+                try:
+                    self._json(200, stack.slm.snapshot())
+                    return
+                except Exception as e:
+                    self._json(503, {"error": str(e), "mode": "stack_error"})
+                    return
+            self._json(
+                200,
+                {
+                    "mode": "light_bus",
+                    "note": "full SLM unavailable (sparse checkout) — Layer D gossip bus active",
+                    "peer_badges": list(_LIGHT_BUS.peer_badges.keys()),
+                    "badge_count": len(_LIGHT_BUS.gossip_recent),
+                },
+            )
             return
         if path == "/cert/pin":
             self._json(200, get_tls_manager().pin_payload())
@@ -307,6 +438,7 @@ class Handler(BaseHTTPRequestHandler):
                 "paths": [
                     "/health",
                     "/badge",
+                    "/badge/living",
                     "/badge/{node_id}",
                     "/attestation/health",
                     "/attestation/badge",
@@ -344,19 +476,31 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/gossip/badge":
             body = self._read_json_body()
             badge = body.get("badge") or body
-            from_node = body.get("from") or badge.get("node_id") or "remote"
-            stack = get_stack()
+            from_node = body.get("from") or body.get("node_id") or (
+                badge.get("node_id") if isinstance(badge, dict) else None
+            ) or "remote"
             badge_obj = badge if isinstance(badge, dict) else {"raw": badge}
-            msg = stack.federation.gossip.publish_badge(str(from_node), badge_obj)
-            stack.slm.ingest_gossip_badge(str(from_node), badge_obj)
-            self._json(200, {"ok": True, "signature": "Δ9Φ963-SLM-v1.0", "gossip": msg, "merkle_root": stack.slm.merkle.get_root_hash()})
+            result = ingest_gossip_badge(str(from_node), badge_obj)
+            self._json(200, result)
             return
         if path == "/gossip/sync":
             body = self._read_json_body()
-            slm = get_stack().slm
+            stack = get_stack()
+            if stack is not None:
+                try:
+                    slm = stack.slm
+                    if isinstance(body.get("peer_badges"), dict):
+                        slm.merge_remote_badges(body["peer_badges"])
+                    self._json(200, slm.gossip_sync(body))
+                    return
+                except Exception as e:
+                    self._json(503, {"error": str(e)})
+                    return
+            # light bus merge
             if isinstance(body.get("peer_badges"), dict):
-                slm.merge_remote_badges(body["peer_badges"])
-            self._json(200, slm.gossip_sync(body))
+                for nid, b in body["peer_badges"].items():
+                    _LIGHT_BUS.publish_badge(str(nid), b if isinstance(b, dict) else {"raw": b})
+            self._json(200, {"ok": True, "mode": "light_bus", "snapshot": _LIGHT_BUS.snapshot()})
             return
         if path == "/mycelium/store":
             body = self._read_json_body()

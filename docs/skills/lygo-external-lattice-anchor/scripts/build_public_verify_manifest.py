@@ -136,6 +136,18 @@ def main() -> int:
             "verify": "http_soft",
         },
         {
+            "id": "clawhub_living_mesh",
+            "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+            "role": "layer_d_skill",
+            "verify": "http_soft",
+        },
+        {
+            "id": "living_mesh_layer_doc",
+            "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/LIVING_MESH_LAYER.md",
+            "role": "layer_d_docs",
+            "verify": "http_soft",
+        },
+        {
             "id": "eternalhaven_hub",
             "url": "https://eternalhaven.ca/",
             "role": "public_hub",
@@ -214,6 +226,19 @@ def main() -> int:
                 "skill": "lygo-external-lattice-anchor",
                 "role": "public_verify + star_chart_map + free_surface_sync",
                 "endpoint_count": len(public_endpoints),
+            },
+            "D_living_mesh": {
+                "name": "living_mesh",
+                "skill": "lygo-living-mesh",
+                "role": "multi_node_root_digest_gossip + sentinel",
+                "docs": "docs/LIVING_MESH_LAYER.md",
+                "tools": [
+                    "tools/collect_living_mesh_badge.py",
+                    "tools/verify_living_mesh.py",
+                    "tools/living_mesh_sentinel.py",
+                ],
+                "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+                "local_path": "data/living_mesh/",
             },
         },
         "public_endpoints": public_endpoints,

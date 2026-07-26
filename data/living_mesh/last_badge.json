@@ -1,0 +1,52 @@
+{
+  "signature": "Delta9Phi963-LIVING-MESH-BADGE-v1",
+  "timestamp": "2026-07-26T16:13:45.901993+00:00",
+  "repo": "D:\\lygo-protocol-stack",
+  "checks": {
+    "p0_golden_sha": true,
+    "stack_demo": false,
+    "kernel_eggs": true,
+    "scalable_registry": null,
+    "phase5_mesh_scale": true,
+    "phase1_elasticity": false,
+    "phase3_4_federation": false,
+    "grok_audit_cli": null,
+    "lattice": null
+  },
+  "status": "NEEDS_FIX",
+  "stack_error": "No module named 'lygo_stack'",
+  "kernel_egg_registry_merkle_root": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+  "mesh_convergence_rounds": 8,
+  "layer": "D",
+  "node_id": "LIGHTFATHER_HOME",
+  "hostname": "GamePC",
+  "living_mesh": {
+    "version": "1.0.0",
+    "local_status": "ALIGNED",
+    "roots": {
+      "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+      "B_sovereign_merkle": "bf768c3a7d6678ff00845b4189ba7b11dd6fe50b7b3e6db28d7c6012608b8010",
+      "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+      "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c"
+    },
+    "counts": {
+      "classic_eggs": 15,
+      "sovereign_eggs": 5
+    },
+    "public_endpoints_hint": [
+      "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json"
+    ],
+    "protection": {
+      "local_is_authority": true,
+      "gossip_summaries_only": true,
+      "no_egg_payloads_on_wire": true,
+      "consent_for_join": true
+    },
+    "world_verdict": "WORLD_ALIGNED",
+    "ab_verdict": "ALIGNED",
+    "public_manifest_present": true,
+    "roots_digest": "af697d8389d9628edf252b2cb12506023419bf552c071ea86feaf13c6001cced"
+  }
+}

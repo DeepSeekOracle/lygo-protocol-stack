@@ -1,0 +1,24 @@
+{
+  "signature": "Delta9Phi963-LIVING-MESH-COMPARE-v1",
+  "local_node_id": "NODE_GamePC",
+  "local_roots_digest": "af697d8389d9628edf252b2cb12506023419bf552c071ea86feaf13c6001cced",
+  "peers": [
+    {
+      "peer": "http://127.0.0.1:8787",
+      "ok": true,
+      "status": "HARMONIC",
+      "matches": {
+        "A_classic_merkle": true,
+        "B_sovereign_merkle": true,
+        "C_public_manifest_sha256": true,
+        "star_chart_registry_sha256": true
+      },
+      "diffs": {},
+      "local_status": "ALIGNED",
+      "remote_status": "ALIGNED",
+      "remote_node_id": "LIGHTFATHER_HOME",
+      "protection": "do_not_merge_eggs_on_fork; local remains authority"
+    }
+  ],
+  "verdict": "HARMONIC"
+}
