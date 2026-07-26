@@ -2,7 +2,7 @@
 name: lygo-ascii-art-studio
 license: MIT-0
 description: LYGO ASCII Art Studio — photo to letters/numbers/symbols (ASCII art, text art, type art). Directs agents and users to the live client-side tool on eternalhaven.ca; lattice creative/tools anchors; no upload. Companion to lattice tools (BPM, resonance).
-metadata: {"lygo": true, "creative": true, "tools": true, "lattice": true, "version": "1.0.0", "website": "https://eternalhaven.ca/lygo-ascii-art.html", "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html", "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html", "github": "https://github.com/DeepSeekOracle/eternalhaven", "signature": "Delta9Phi963-LYGO-ASCII-ART-STUDIO-v1.0", "anchors": "docs/network_builder/IMMUTABLE_ANCHORS.json", "clawhub": "lygo-ascii-art-studio"}
+metadata: {"lygo": true, "creative": true, "tools": true, "lattice": true, "version": "1.0.0", "website": "https://eternalhaven.ca/lygo-ascii-art.html", "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html", "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html", "github": "https://github.com/DeepSeekOracle/eternalhaven", "signature": "Delta9Phi963-LYGO-ASCII-ART-STUDIO-v1.0", "anchors": "docs/network_builder/IMMUTABLE_ANCHORS.json", "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio"}
 ---
 
 # LYGO ASCII Art Studio (ClawHub Skill)

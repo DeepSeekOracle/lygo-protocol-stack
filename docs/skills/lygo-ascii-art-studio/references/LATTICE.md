@@ -14,7 +14,7 @@
 - https://eternalhaven.ca/lygo-ascii-art-studio.html
 - https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art-studio.html
 - https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art-studio.html
-- https://clawhub.ai/deepseekoracle/lygo-ascii-art-studio (after publish)
+- https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio (live)
 
 ## Ledger file
 `docs/network_builder/IMMUTABLE_ANCHORS.json` in lygo-protocol-stack (v1.5.3+)
