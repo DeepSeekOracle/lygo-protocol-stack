@@ -1,0 +1,39 @@
+{
+  "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
+  "version": "1.0.0",
+  "updated_utc": "2026-07-26T15:37:35Z",
+  "registry_merkle_root": "7f36c33c43b273dbeecd37fd4114d055371965c51cf5d8df4abc8b5e9688a215",
+  "eggs": {
+    "lygo-music-license-v1": {
+      "egg_id": "lygo-music-license-v1",
+      "version": "1.0.0",
+      "kind": "policy",
+      "content_sha256": "ad25be70372e239d003b3b22e3c45b979d0d09bf9c51469fb526220a1caa46c8",
+      "leaf_hash": "42a55f022c32cb61eebc109fa8fe4d40d6c3de78b234270e4a69110c4efe70ff",
+      "path": "lygo-music-license-v1.egg.json",
+      "created_utc": "2026-07-26T15:32:02Z",
+      "signature": "Delta9Phi963-EGG-lygo-music-license-v1-v1.0.0"
+    },
+    "lygo-sovereign-kernel-seeder-v1": {
+      "egg_id": "lygo-sovereign-kernel-seeder-v1",
+      "version": "1.0.1",
+      "kind": "skill-pin",
+      "content_sha256": "2737d4d5d2701674fbff45a7e0bdc90e5aa4240b48e277d32f1c83c92bd81df5",
+      "leaf_hash": "5dee9d3aa1a6f4514cd9526761d961e7292c8b079990dffdf182b3ff50a84bdd",
+      "path": "lygo-sovereign-kernel-seeder-v1.egg.json",
+      "created_utc": "2026-07-26T15:37:35Z",
+      "signature": "Delta9Phi963-EGG-lygo-sovereign-kernel-seeder-v1-v1.0.1"
+    },
+    "lygo-kernel-egg-planter-v1": {
+      "egg_id": "lygo-kernel-egg-planter-v1",
+      "version": "1.2.0",
+      "kind": "skill-pin",
+      "content_sha256": "b226c5ee174d1bc9c6db95fe63049267ca89fd908e7e0c47b25aee6816e4ec5f",
+      "leaf_hash": "faba53c16b5c20c5cbb926e70cf621b7dd901af1a4aff82110d78644a52bb008",
+      "path": "lygo-kernel-egg-planter-v1.egg.json",
+      "created_utc": "2026-07-26T15:37:35Z",
+      "signature": "Delta9Phi963-EGG-lygo-kernel-egg-planter-v1-v1.2.0"
+    }
+  },
+  "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0"
+}
