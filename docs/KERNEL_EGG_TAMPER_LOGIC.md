@@ -57,4 +57,23 @@ python tools/retrieve_kernel_egg.py --egg p0-nano-kernel
 python tools/verify_alignment_badge.py
 ```
 
+## Layer B — Sovereign seeds (companion system)
+
+Modular **sovereign seeds** (`data/sovereign_seeds/`) use the same *ideas* (SHA-256 + Merkle + verify-before-load)
+via skill **`lygo-sovereign-kernel-seeder`**, without Turbo/network plant surfaces.
+
+| Classic (this doc) | Sovereign seeder |
+|--------------------|------------------|
+| `data/kernel_eggs/` | `data/sovereign_seeds/` |
+| `lygo-kernel-egg-planter` | `lygo-sovereign-kernel-seeder` |
+| `tools/verify_kernel_eggs.py` | `scripts/verify_seed.py` |
+
+**Unified check (both layers):**
+
+```powershell
+python tools/verify_all_kernel_layers.py --json
+```
+
+Full map: [KERNEL_EGG_SYSTEM_UNIFIED.md](./KERNEL_EGG_SYSTEM_UNIFIED.md) · [SOVEREIGN_KERNEL_SEEDER.md](./SOVEREIGN_KERNEL_SEEDER.md)
+
 **Resonance forward.** Cryptographic clarity beats obscurity.

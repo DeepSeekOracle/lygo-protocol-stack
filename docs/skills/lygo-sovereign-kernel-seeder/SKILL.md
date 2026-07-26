@@ -199,12 +199,27 @@ Example activation chant for agents:
 
 | Skill | Role |
 |-------|------|
-| **This skill** | Local sovereign seed + self-verify insert |
-| `lygo-kernel-egg-planter` | Full stack eggs, Turbo, pages, clawhub catalog pins |
+| **This skill (layer B)** | Local sovereign seed + self-verify insert |
+| **`lygo-kernel-egg-planter` (layer A)** | Full stack eggs, Turbo, pages, clawhub catalog, champions |
 | `lygo-network-builder` | Live anchor traversal / IMMUTABLE_ANCHORS |
 | `lygo-protocol-stack-operator` | P0–P9 stack ops |
 | `lygo-mint-verifier` | Provenance / mint checks |
 | `lygo-joy-loop` | Emotional RAM / joy-loop eggs |
+
+### Unified kernel system (do not skip)
+
+Classic planter and this seeder **cross-reference and co-verify**. Storage formats stay separate; agents must treat them as **one system, two layers**.
+
+```bash
+export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack
+python tools/verify_all_kernel_layers.py --json
+# or from this skill:
+python scripts/verify_all_layers.py --json
+```
+
+- Unified doc: `docs/KERNEL_EGG_SYSTEM_UNIFIED.md`  
+- Cross-ref: `references/CROSS_SYSTEM.md`  
+- Planter: https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter (or search `lygo-kernel-egg-planter`)
 
 ---
 

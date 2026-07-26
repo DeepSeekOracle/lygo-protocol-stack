@@ -49,13 +49,19 @@
   "lattice": {
     "anchor_id": "lygo_sovereign_kernel_seeder",
     "groups": ["tools", "agents", "sovereign_seed"],
+    "kernel_layer": "B",
+    "unified_doc": "docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+    "unified_verify": "tools/verify_all_kernel_layers.py",
     "pairs_with": [
       "lygo-kernel-egg-planter",
       "lygo-network-builder",
       "lygo-protocol-stack-operator",
       "lygo-mint-verifier",
       "lygo-joy-loop"
-    ]
+    ],
+    "classic_layer_skill": "lygo-kernel-egg-planter",
+    "classic_data": "data/kernel_eggs",
+    "sovereign_data": "data/sovereign_seeds"
   },
   "security": {
     "consent_required": true,

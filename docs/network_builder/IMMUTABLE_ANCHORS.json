@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.8",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.9",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.8",
-  "updated_utc": "2026-07-26T15:28:09Z",
+  "version": "1.5.9",
+  "updated_utc": "2026-07-26T15:37:47Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -307,12 +307,23 @@
     ],
     "tools": [
       {
+        "id": "lygo_kernel_egg_system_unified",
+        "label": "LYGO Kernel Egg System Unified — Planter + Seeder",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+        "verify": "http_required",
+        "note": "Layer A classic planter + Layer B sovereign seeder; tools/verify_all_kernel_layers.py",
+        "planter": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter",
+        "seeder": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
+      {
         "id": "lygo_sovereign_kernel_seeder_tool",
         "label": "Sovereign Kernel Seeder (tool/skill)",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
         "verify": "http_required",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
-        "note": "Git skill package + ClawHub /skills/ path"
+        "note": "Git skill package + ClawHub /skills/ path",
+        "unified": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+        "pairs_with": "lygo-kernel-egg-planter"
       },
       {
         "id": "lygo_ascii_art_studio_tool",

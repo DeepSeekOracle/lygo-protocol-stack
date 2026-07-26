@@ -51,6 +51,22 @@ python docs/skills/lygo-sovereign-kernel-seeder/scripts/smoke_test.py
 - `tools` → `lygo_sovereign_kernel_seeder_tool`
 - `agents` → `clawhub_lygo_sovereign_kernel_seeder`
 
+## Unified with classic Kernel Egg Planter
+
+This seeder is **layer B**. Classic eggs (**layer A**) are owned by `lygo-kernel-egg-planter`.
+
+| | Planter | Seeder |
+|--|---------|--------|
+| Skill | `lygo-kernel-egg-planter` | **this** |
+| Data | `data/kernel_eggs/` | `data/sovereign_seeds/` |
+| Doc | [KERNEL_EGG_TAMPER_LOGIC.md](./KERNEL_EGG_TAMPER_LOGIC.md) | this file |
+
+```bash
+python tools/verify_all_kernel_layers.py --json
+```
+
+Map: [KERNEL_EGG_SYSTEM_UNIFIED.md](./KERNEL_EGG_SYSTEM_UNIFIED.md)
+
 ## Package files
 
 - `claw.json` — ClawHub/OpenClaw manifest  

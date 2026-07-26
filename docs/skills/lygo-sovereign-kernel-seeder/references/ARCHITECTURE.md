@@ -36,5 +36,9 @@
 ## Bridge to stack
 
 If `LYGO_STACK_ROOT` set → default root `{stack}/data/sovereign_seeds`  
-Classic kernel eggs remain under `data/kernel_eggs/` (planter skill).  
-Both may be checked by lattice alignment tooling when wired.  
+Classic kernel eggs remain under `data/kernel_eggs/` (**lygo-kernel-egg-planter**).  
+
+**Unified verify:** `tools/verify_all_kernel_layers.py` runs classic + sovereign and writes  
+`tests/kernel_layers_last_run.json`.
+
+See `references/CROSS_SYSTEM.md` and `docs/KERNEL_EGG_SYSTEM_UNIFIED.md`.  
