@@ -2,6 +2,13 @@
 """
 World lattice verify: Layer A+B (local) then Layer C (public HTTP).
 
+Default behavior (hardened v1.1):
+  - Verify only (local tools + public GET)
+  - Does NOT refresh manifest / star-map files unless --refresh-local
+  - No os.system / shell
+  - Sibling scripts via in-process runpy allowlist
+  - Stack A+B tool via in-process runpy when path is under stack root
+
 Protects user: local mismatch = hard fail; public degrade = soft warn unless --strict-public.
 """
 from __future__ import annotations
@@ -9,13 +16,15 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SIG = "Delta9Phi963-WORLD-LATTICE-VERIFY-v1"
+SIG = "Delta9Phi963-WORLD-LATTICE-VERIFY-v1.1"
+
+sys.path.insert(0, str(HERE))
+from _safe_invoke import run_python_script  # noqa: E402
 
 
 def stack_root() -> Path:
@@ -30,13 +39,56 @@ def stack_root() -> Path:
     return Path.cwd()
 
 
+def _parse_json_output(text: str) -> dict:
+    text = (text or "").strip()
+    if not text:
+        return {"verdict": "ERROR", "raw": ""}
+    # find last JSON object in output
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    start = text.find("{")
+    end = text.rfind("}")
+    if start >= 0 and end > start:
+        try:
+            return json.loads(text[start : end + 1])
+        except json.JSONDecodeError:
+            pass
+    return {"verdict": "ERROR", "raw": text[:800]}
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(
+        description="World lattice verify A+B+C. Default does not mutate local manifests."
+    )
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--strict-public", action="store_true")
     ap.add_argument("--stack-root", default="")
+    ap.add_argument(
+        "--refresh-local",
+        action="store_true",
+        help="Opt-in: rebuild public_verify_manifest + star_chart proposals (writes docs/)",
+    )
+    ap.add_argument(
+        "--write-report",
+        action="store_true",
+        default=True,
+        help="Write tests/world_lattice_last_run.json (default on)",
+    )
+    ap.add_argument(
+        "--no-write-report",
+        action="store_true",
+        help="Strict read-only: do not write report files",
+    )
+    ap.add_argument(
+        "--skip-public",
+        action="store_true",
+        help="Skip Layer C HTTP checks (local A+B only)",
+    )
     args = ap.parse_args()
     stack = Path(args.stack_root).resolve() if args.stack_root else stack_root()
+    write_report = args.write_report and not args.no_write_report
 
     report = {
         "signature": SIG,
@@ -44,26 +96,28 @@ def main() -> int:
         "stack": str(stack),
         "layers": {},
         "verdict": "WORLD_ALIGNED",
+        "mode": {
+            "refresh_local": bool(args.refresh_local),
+            "write_report": write_report,
+            "skip_public": bool(args.skip_public),
+            "shell": False,
+            "os_system": False,
+            "invoke": "runpy_allowlist",
+        },
     }
 
-    # A+B
+    # A+B local
     unified = stack / "tools" / "verify_all_kernel_layers.py"
     if unified.is_file():
-        p = subprocess.run(
-            [sys.executable, str(unified), "--json"],
-            capture_output=True,
-            text=True,
-            cwd=str(stack),
+        code, out = run_python_script(
+            unified, ["--json"], cwd=stack, stack=stack
         )
-        try:
-            ab = json.loads(p.stdout or "{}")
-        except json.JSONDecodeError:
-            ab = {"verdict": "ERROR", "raw": p.stdout, "stderr": p.stderr}
+        ab = _parse_json_output(out)
+        ab["exit_code"] = code
         report["layers"]["AB_local"] = ab
-        if ab.get("verdict") == "QUARANTINE" or p.returncode == 3:
+        if ab.get("verdict") == "QUARANTINE" or code == 3:
             report["verdict"] = "LOCAL_QUARANTINE"
     else:
-        # sovereign only fallback
         sev = (
             stack
             / "docs"
@@ -74,57 +128,85 @@ def main() -> int:
         )
         if sev.is_file():
             root = stack / "data" / "sovereign_seeds"
-            p = subprocess.run(
-                [sys.executable, str(sev), "--root", str(root), "--json"],
-                capture_output=True,
-                text=True,
+            code, out = run_python_script(
+                sev, ["--root", str(root), "--json"], cwd=stack, stack=stack
             )
-            try:
-                report["layers"]["B_sovereign_only"] = json.loads(p.stdout or "{}")
-            except json.JSONDecodeError:
-                report["layers"]["B_sovereign_only"] = {"verdict": "ERROR"}
-            if p.returncode == 3:
+            b = _parse_json_output(out)
+            b["exit_code"] = code
+            report["layers"]["B_sovereign_only"] = b
+            if code == 3:
                 report["verdict"] = "LOCAL_QUARANTINE"
         else:
-            report["layers"]["AB_local"] = {"status": "SKIP", "reason": "no unified tool"}
+            # try skill-local path next to this skill package
+            sev2 = HERE.parent.parent / "lygo-sovereign-kernel-seeder" / "scripts" / "verify_seed.py"
+            if sev2.is_file():
+                code, out = run_python_script(
+                    sev2,
+                    ["--root", str(stack / "data" / "sovereign_seeds"), "--json"],
+                    cwd=stack,
+                    stack=stack,
+                )
+                b = _parse_json_output(out)
+                report["layers"]["B_sovereign_only"] = b
+                if code == 3:
+                    report["verdict"] = "LOCAL_QUARANTINE"
+            else:
+                report["layers"]["AB_local"] = {"status": "SKIP", "reason": "no unified tool"}
 
-    # C public
-    pub = HERE / "verify_public_anchors.py"
-    p2 = subprocess.run(
-        [sys.executable, str(pub), "--json", "--stack-root", str(stack)],
-        capture_output=True,
-        text=True,
-    )
-    try:
-        c = json.loads(p2.stdout or "{}")
-    except json.JSONDecodeError:
-        c = {"verdict": "ERROR", "raw": p2.stdout}
-    report["layers"]["C_public"] = c
-    if c.get("verdict") == "PUBLIC_DEGRADED":
-        if args.strict_public:
-            report["verdict"] = "PUBLIC_DEGRADED"
-        elif report["verdict"] == "WORLD_ALIGNED":
-            report["verdict"] = "WORLD_ALIGNED_PUBLIC_WARN"
+    # C public (skill-local)
+    c = {"verdict": "SKIP", "reason": "skip_public"}
+    if not args.skip_public:
+        pub = HERE / "verify_public_anchors.py"
+        code, out = run_python_script(
+            pub,
+            ["--json", "--stack-root", str(stack)]
+            + (["--no-write-report"] if not write_report else []),
+            cwd=stack,
+            stack=stack,
+        )
+        c = _parse_json_output(out)
+        c["exit_code"] = code
+        report["layers"]["C_public"] = c
+        if c.get("verdict") == "PUBLIC_DEGRADED":
+            if args.strict_public:
+                report["verdict"] = "PUBLIC_DEGRADED"
+            elif report["verdict"] == "WORLD_ALIGNED":
+                report["verdict"] = "WORLD_ALIGNED_PUBLIC_WARN"
+    else:
+        report["layers"]["C_public"] = c
 
-    # refresh map + manifest (local files)
-    for script in ("build_public_verify_manifest.py", "map_eggs_to_star_chart.py"):
-        sp = HERE / script
-        if sp.is_file():
-            subprocess.run([sys.executable, str(sp), "--stack-root", str(stack)], cwd=str(stack))
+    # Opt-in local refresh (mutating) — never default
+    refresh_results = []
+    if args.refresh_local:
+        for script in ("build_public_verify_manifest.py", "map_eggs_to_star_chart.py"):
+            sp = HERE / script
+            if sp.is_file():
+                code, out = run_python_script(
+                    sp, ["--stack-root", str(stack)], cwd=stack, stack=stack
+                )
+                refresh_results.append(
+                    {"script": script, "exit_code": code, "ok": code == 0, "out_tail": out[-200:]}
+                )
+        report["refresh_local"] = refresh_results
 
-    out = stack / "tests" / "world_lattice_last_run.json"
-    try:
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    except OSError:
-        pass
+    if write_report:
+        out_path = stack / "tests" / "world_lattice_last_run.json"
+        try:
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            report["report_path"] = str(out_path)
+        except OSError as e:
+            report["report_write_error"] = str(e)
 
     if args.json:
         print(json.dumps(report, indent=2))
     else:
         print(f"verdict={report['verdict']}")
-        print(f"  AB={report['layers'].get('AB_local', report['layers'].get('B_sovereign_only', {})).get('verdict')}")
+        abv = report["layers"].get("AB_local", report["layers"].get("B_sovereign_only", {}))
+        print(f"  AB={abv.get('verdict') or abv.get('status')}")
         print(f"  C={c.get('verdict')}")
+        if args.refresh_local:
+            print(f"  refresh_local={refresh_results}")
 
     if report["verdict"] == "LOCAL_QUARANTINE":
         return 3

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-HTTP-check public verify components (Layer C). Network required.
-Compares optional local merkle roots to public mirrors when JSON available.
+HTTP-check public verify components (Layer C).
+
+Default: read-only network GET + optional report write under stack/tests/.
+Does NOT auto-run builders (use --build-manifest explicitly).
+No os.system / shell.
 """
 from __future__ import annotations
 
@@ -14,12 +17,58 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-SIG = "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0"
-UA = "LYGO-ExternalLatticeAnchor/1.0 (+https://eternalhaven.ca)"
+SIG = "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1"
+UA = "LYGO-ExternalLatticeAnchor/1.1 (+https://eternalhaven.ca)"
+
+# Fallback when no local manifest (no local code execution required)
+DEFAULT_ENDPOINTS = [
+    {
+        "id": "immutable_anchors",
+        "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json",
+        "role": "ledger",
+        "verify": "http_required",
+    },
+    {
+        "id": "haven_star_chart",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "role": "world_map",
+        "verify": "http_required",
+    },
+    {
+        "id": "kernel_egg_retrieval",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "role": "public_verify_ui",
+        "verify": "http_required",
+    },
+    {
+        "id": "pages_stack",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+        "role": "public_http_mirror",
+        "verify": "http_required",
+    },
+    {
+        "id": "eternalhaven_hub",
+        "url": "https://eternalhaven.ca/",
+        "role": "public_hub",
+        "verify": "http_required",
+    },
+    {
+        "id": "sovereign_seeds_snapshot",
+        "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+        "role": "sovereign_mirror",
+        "verify": "http_soft",
+    },
+    {
+        "id": "clawhub_publisher",
+        "url": "https://clawhub.ai/deepseekoracle",
+        "role": "skill_registry",
+        "verify": "http_soft",
+    },
+]
 
 
 def fetch(url: str, timeout: int = 25) -> tuple[int, bytes | None, str | None]:
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    req = urllib.request.Request(url, headers={"User-Agent": UA}, method="GET")
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             return resp.status, resp.read(), None
@@ -41,40 +90,65 @@ def stack_root() -> Path:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(
+        description="Layer C public HTTP verify (GET only). No auto-builder."
+    )
     ap.add_argument("--manifest", default="")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--stack-root", default="")
+    ap.add_argument(
+        "--build-manifest",
+        action="store_true",
+        help="Opt-in: run build_public_verify_manifest.py in-process if manifest missing",
+    )
+    ap.add_argument(
+        "--write-report",
+        action="store_true",
+        default=True,
+        help="Write tests/public_anchors_last_run.json (default on)",
+    )
+    ap.add_argument(
+        "--no-write-report",
+        action="store_true",
+        help="Do not write any local report files (strict read-only)",
+    )
     args = ap.parse_args()
     stack = Path(args.stack_root).resolve() if args.stack_root else stack_root()
+    write_report = args.write_report and not args.no_write_report
 
     man_path = Path(args.manifest) if args.manifest else stack / "docs" / "public_verify_manifest.json"
-    if not man_path.is_file():
-        # build first
+    built = False
+    if not man_path.is_file() and args.build_manifest:
         builder = Path(__file__).resolve().parent / "build_public_verify_manifest.py"
         if builder.is_file():
-            os.system(f'"{sys.executable}" "{builder}" --stack-root "{stack}"')
+            from _safe_invoke import run_python_script  # noqa: E402
+
+            code, out = run_python_script(
+                builder,
+                ["--stack-root", str(stack)],
+                cwd=stack,
+                stack=stack,
+            )
+            built = code == 0
+            if code != 0:
+                print(f"build_manifest_failed code={code} {out[:300]}", file=sys.stderr)
+
     endpoints = []
     if man_path.is_file():
         man = json.loads(man_path.read_text(encoding="utf-8"))
         endpoints = man.get("public_endpoints") or []
     else:
-        endpoints = [
-            {
-                "id": "anchors",
-                "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json",
-            },
-            {
-                "id": "star",
-                "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
-            },
-        ]
+        endpoints = list(DEFAULT_ENDPOINTS)
 
     results = []
     hard_fail = False
     for ep in endpoints:
         url = ep.get("url")
         if not url:
+            continue
+        # only http(s)
+        if not (str(url).startswith("https://") or str(url).startswith("http://")):
+            results.append({"id": ep.get("id"), "url": url, "ok": False, "error": "non_http_url"})
             continue
         status, body, err = fetch(url)
         ok = 200 <= status < 400
@@ -101,7 +175,6 @@ def main() -> int:
             hard_fail = True
         results.append(item)
 
-    # local vs public sovereign root if both present
     local_sov = stack / "data" / "sovereign_seeds" / "registry.json"
     if local_sov.is_file():
         try:
@@ -114,10 +187,9 @@ def main() -> int:
                     "public": pub.get("registry_merkle_root"),
                     "match": lr == pub.get("registry_merkle_root"),
                 }
-                results.append(item)
                 if not item["match"]:
-                    # not quarantine — mirror lag is OK; warn only
                     item["note"] = "mirror lag or unpublished snapshot — re-run local snapshot + git push"
+                results.append(item)
         except Exception:
             pass
 
@@ -127,18 +199,30 @@ def main() -> int:
         "verdict": "PUBLIC_OK" if not hard_fail else "PUBLIC_DEGRADED",
         "checked": len(results),
         "results": results,
+        "mode": {
+            "network": "http_get_only",
+            "auto_build_manifest": False,
+            "build_manifest_opt_in": bool(args.build_manifest),
+            "built_manifest": built,
+            "write_report": write_report,
+            "shell": False,
+            "os_system": False,
+        },
         "user_protection": {
             "do_not_trust_public_over_local": True,
             "if_mismatch_prefer_local_verify": True,
+            "trust_stack_root": "only use LYGO_STACK_ROOT you control",
         },
     }
 
-    out = stack / "tests" / "public_anchors_last_run.json"
-    try:
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    except OSError:
-        pass
+    if write_report:
+        out = stack / "tests" / "public_anchors_last_run.json"
+        try:
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+            report["report_path"] = str(out)
+        except OSError as e:
+            report["report_write_error"] = str(e)
 
     if args.json:
         print(json.dumps(report, indent=2))

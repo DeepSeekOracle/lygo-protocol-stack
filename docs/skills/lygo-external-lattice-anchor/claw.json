@@ -1,15 +1,15 @@
 {
   "name": "lygo-external-lattice-anchor",
   "displayName": "LYGO External Lattice Anchor (World Network Layer C)",
-  "version": "1.0.0",
-  "description": "Layer C: public verify components, Haven Star Chart mapping, external egg plant to free internet surfaces (Pages/HF/Turbo/registry). Synchronizes with classic eggs (A) and sovereign seeds (B). Protects users: consent-gated, no auto-publish, quarantine on mismatch.",
+  "version": "1.1.0",
+  "description": "Layer C public verify + Star Chart proposals + external sync plan. Verify is non-mutating by default (HTTP GET + optional report). Manifest/map refresh and local snapshot are opt-in. No os.system, no auto-publish. Requires trusted LYGO_STACK_ROOT.",
   "slug": "lygo-external-lattice-anchor",
   "publisher": "deepseekoracle",
   "license": "LYGO-Sovereign-v2.0",
   "homepage": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
-  "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
-  "tags": ["lygo", "lattice", "external", "star-chart", "kernel", "mesh", "public-verify", "world-network"],
+  "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1",
+  "tags": ["latest", "lygo", "lattice", "external", "star-chart", "kernel", "mesh", "public-verify", "world-network", "security"],
   "entry": "SKILL.md",
   "scripts": {
     "manifest": "scripts/build_public_verify_manifest.py",
@@ -26,12 +26,40 @@
     },
     "os": ["windows", "macos", "linux"]
   },
+  "permissions": {
+    "network": {
+      "http_get": true,
+      "http_post": false,
+      "domains_hint": [
+        "raw.githubusercontent.com",
+        "deepseekoracle.github.io",
+        "github.com",
+        "huggingface.co",
+        "clawhub.ai",
+        "eternalhaven.ca"
+      ]
+    },
+    "filesystem": {
+      "read_stack": true,
+      "write_reports": "tests/*_last_run.json (default; disable --no-write-report)",
+      "write_docs": "only explicit builders or --refresh-local / consent snapshot",
+      "shell": false,
+      "os_system": false
+    },
+    "publish": {
+      "git_push": false,
+      "huggingface": false,
+      "clawhub": false,
+      "social": false
+    }
+  },
   "lattice": {
     "layer": "C",
     "pairs_with": [
       "lygo-kernel-egg-planter",
       "lygo-sovereign-kernel-seeder",
       "lygo-living-mesh",
+      "lygo-agent-lattice",
       "lygo-haven-star-chart",
       "lygo-network-builder",
       "lygo-protocol-stack-operator",
@@ -52,6 +80,10 @@
     "protect_user": true,
     "no_auto_publish": true,
     "local_first": true,
-    "external_is_mirror_not_source_of_truth": true
+    "external_is_mirror_not_source_of_truth": true,
+    "verify_default_non_mutating": true,
+    "no_os_system": true,
+    "invoke_model": "runpy_allowlist",
+    "version": "1.1.0"
   }
 }

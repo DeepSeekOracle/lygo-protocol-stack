@@ -15,7 +15,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-SIG = "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0"
+SIG = "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1"
 
 
 def stack_root() -> Path:

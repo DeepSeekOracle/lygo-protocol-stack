@@ -1,8 +1,12 @@
-# Agent contract — Layer C
+# Agent contract — Layer C v1.1
 
-1. Always run local A+B verify before public claims.  
-2. Never auto-publish. Present `sync_external_plan.py` dry output and wait for user YES.  
-3. Star Chart: only generate proposals; hand to `lygo-haven-star-chart` with consent.  
-4. On LOCAL_QUARANTINE — stop all external steps.  
-5. On PUBLIC_DEGRADED — report which URL failed; offer re-push plan; do not rewrite local eggs.  
-6. Cite public_verify_manifest path + world_lattice verdict.  
+1. Only activate for **explicit** public verify / external sync / star map / manifest jobs.  
+2. Require trusted `LYGO_STACK_ROOT` (never invent a random path).  
+3. Prefer **read-only verify** first: `verify_world_lattice.py` / `verify_public_anchors.py` without refresh flags.  
+4. Do **not** pass `--refresh-local` or `--build-manifest` unless the user asked to rebuild local docs.  
+5. Never auto-publish (git / HF / ClawHub / social).  
+6. Snapshot: only with user `--i-consent` this turn.  
+7. On LOCAL_QUARANTINE — stop all external steps.  
+8. On PUBLIC_DEGRADED — report URLs; do not rewrite local eggs from public.  
+9. Cite verdict JSON path + local vs public note.  
+10. Do not use shell wrappers; call skill scripts with Python only.  

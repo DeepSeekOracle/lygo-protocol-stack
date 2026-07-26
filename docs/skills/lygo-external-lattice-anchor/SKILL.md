@@ -1,7 +1,7 @@
 ---
 name: lygo-external-lattice-anchor
-description: "LYGO External Lattice Anchor (Layer C / world network) — public verify components, Haven Star Chart egg mapping, external plant to free internet surfaces (Pages/HF/Turbo). Synchronizes with classic eggs (A) and sovereign seeds (B). Protects users: consent-gated, local authority, no auto-publish."
-version: 1.0.0
+description: "Use when the user asks to verify public LYGO lattice mirrors, build a public verify manifest, map eggs to Haven Star Chart proposals, or plan external free-server sync (Pages/HF/Turbo). Layer C world network. Requires LYGO_STACK_ROOT you trust. HTTP GET + local JSON under that stack. Verify is non-mutating by default; snapshot needs --i-consent. No auto git/HF/ClawHub publish."
+version: 1.1.0
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
@@ -14,21 +14,24 @@ metadata:
   external: true
   world_network: true
   layer: "C"
-  signature: "Delta9Φ963-EXTERNAL-LATTICE-ANCHOR-v1.0"
+  signature: "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor"
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
+  security_review: "1.1.0-skillspector-harden"
 ---
 
-# LYGO External Lattice Anchor — Layer C (World Network)
+# LYGO External Lattice Anchor — Layer C (World Network) v1.1
 
-**Grow the lattice worldwide without abandoning the user.**
+**Grow the lattice worldwide without abandoning the user.**  
+**v1.1 security harden:** no `os.system`, verify non-mutating by default, declared capabilities.
 
 ```text
 Layer A  Classic kernel eggs     lygo-kernel-egg-planter      data/kernel_eggs/
 Layer B  Sovereign seeds         lygo-sovereign-kernel-seeder data/sovereign_seeds/
 Layer C  External world network  lygo-external-lattice-anchor public verify + star chart + free servers
-Layer D  Living mesh             lygo-living-mesh             badge gossip · peer compare · sentinel
+Layer D  Living mesh             lygo-living-mesh
+Layer E  Agent lattice           lygo-agent-lattice
 ```
 
 | Surface | URL |
@@ -36,22 +39,48 @@ Layer D  Living mesh             lygo-living-mesh             badge gossip · pe
 | **ClawHub** | https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor |
 | **World lattice doc** | https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md |
 | **Star Chart LIVE** | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html |
-| **Star Chart portal** | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html |
-| **Egg retrieval UI** | https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html |
 | **Hub** | https://eternalhaven.ca/ |
 
-**Signature:** `Delta9Φ963-EXTERNAL-LATTICE-ANCHOR-v1.0`  
+**Signature:** `Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1`  
 **License:** LYGO Sovereign License v2.0 (not MIT)
+
+---
+
+## When to use (triggers)
+
+Invoke this skill **only** when the user explicitly wants one of:
+
+1. **Public mirror verify** — HTTP-check LYGO Pages / raw GitHub / Star Chart / anchors  
+2. **Build public verify manifest** — local JSON linking A/B roots to public endpoints  
+3. **Star Chart egg map proposals** — generate proposals file (not live chart write)  
+4. **External sync plan** — dry-run free-server steps; optional local sovereign snapshot with consent  
+
+**Do not** auto-run on generic “check the lattice” without a Layer C / public / external intent.  
+**Precondition:** set `LYGO_STACK_ROOT` to a **trusted** lygo-protocol-stack checkout (not untrusted input).
+
+---
+
+## Declared capabilities (least privilege transparency)
+
+| Capability | Default | Notes |
+|------------|---------|--------|
+| **Network HTTP GET** | Yes (verify scripts) | Public endpoints only; no POST; no credentials |
+| **Local file read** | Yes | Stack registries, anchors, manifests |
+| **Local file write** | Opt-in / limited | Report JSON under `tests/`; builders write `docs/` when invoked; snapshot needs consent |
+| **Shell / os.system** | **No** | Removed in v1.1 |
+| **subprocess shell** | **No** | In-process `runpy` allowlist for sibling/stack tools |
+| **Git push / HF / ClawHub publish** | **Never** | Human-only outside this skill |
+| **Auto-publish** | **No** | |
 
 ---
 
 ## Mission
 
-1. **Public verify components** — HTTP-check free mirrors (Pages, raw GitHub, HF, Star Chart, anchors).  
-2. **Star Chart map** — turn A/B eggs + surfaces into **proposals** for Haven Star Chart (steward ingest).  
-3. **External plant path** — plan (and consent-gated local snapshot) that feeds planter surfaces: Pages registry, Turbo, HF, ClawHub metadata.  
-4. **Synchronization** — one world-verify pipeline: local A+B first, then C; **local wins** on conflict.  
-5. **User protection** — external is **mirror, not authority**; no auto push/upload; quarantine on local hash fail.
+1. **Public verify components** — HTTP GET free mirrors.  
+2. **Star Chart map** — proposals only (steward ingest separate).  
+3. **External plant path** — plan + consent-gated **local** snapshot.  
+4. **Sync order** — local A+B first, then C; **local wins**.  
+5. **User protection** — external is mirror, not authority.
 
 ---
 
@@ -59,11 +88,9 @@ Layer D  Living mesh             lygo-living-mesh             badge gossip · pe
 
 ```bash
 clawdhub install lygo-external-lattice-anchor
-export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack
-# also install layers A + B
+export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack   # must be trusted
 clawdhub install lygo-kernel-egg-planter
 clawdhub install lygo-sovereign-kernel-seeder
-clawdhub install lygo-haven-star-chart
 ```
 
 ---
@@ -71,100 +98,68 @@ clawdhub install lygo-haven-star-chart
 ## Quick commands
 
 ```bash
-export LYGO_STACK_ROOT=D:\lygo-protocol-stack   # example
+export LYGO_STACK_ROOT=D:\lygo-protocol-stack
 
-# 1) World verify (A+B local, then C public)
+# 1) World verify — READ-mostly (no auto manifest/map refresh)
 python scripts/verify_world_lattice.py --json
 
-# 2) Public verify components only (network)
+# Strict read-only (no report file either)
+python scripts/verify_world_lattice.py --json --no-write-report
+
+# Opt-in: also rebuild local manifest + star proposals
+python scripts/verify_world_lattice.py --json --refresh-local
+
+# 2) Public HTTP verify only (GET). No auto-builder.
 python scripts/verify_public_anchors.py --json
 
-# 3) Build public verify manifest (links all layers + endpoints)
-python scripts/build_public_verify_manifest.py
+# Opt-in: build missing manifest then verify
+python scripts/verify_public_anchors.py --json --build-manifest
 
-# 4) Map eggs → Star Chart proposals (does NOT live-write chart)
+# 3) Explicit builders (mutating docs/)
+python scripts/build_public_verify_manifest.py
 python scripts/map_eggs_to_star_chart.py
 
-# 5) External sync PLAN (dry-run)
+# 4) Sync PLAN dry-run (no writes beyond stdout)
 python scripts/sync_external_plan.py
 
-# 6) Local-only snapshot sovereign → docs/ (consent)
+# 5) Local-only snapshot (consent required)
 python scripts/sync_external_plan.py --i-consent --execute-local-only
 ```
 
-Outputs (under stack):
-
-| File | Purpose |
-|------|---------|
-| `docs/public_verify_manifest.json` | Layer A/B/C + public endpoints |
-| `docs/star_chart_egg_map_proposals.json` | Star Chart proposals for steward |
-| `tests/public_anchors_last_run.json` | Last HTTP verify |
-| `tests/world_lattice_last_run.json` | Full world verdict |
+| File | Written by | When |
+|------|------------|------|
+| `tests/public_anchors_last_run.json` | public verify | default (disable: `--no-write-report`) |
+| `tests/world_lattice_last_run.json` | world verify | default (disable: `--no-write-report`) |
+| `docs/public_verify_manifest.json` | build_public_verify_manifest | explicit or `--refresh-local` / `--build-manifest` |
+| `docs/star_chart_egg_map_proposals.json` | map_eggs_to_star_chart | explicit or `--refresh-local` |
+| `docs/sovereign_seeds_snapshot/` | sync_external_plan | `--i-consent --execute-local-only` only |
 
 ---
 
-## Synchronization order (agents must follow)
+## Synchronization order
 
 ```text
 1  verify_all_kernel_layers (A+B)     → must not QUARANTINE
-2  build_public_verify_manifest
-3  map_eggs_to_star_chart
+2  build_public_verify_manifest       → explicit
+3  map_eggs_to_star_chart             → explicit
 4  HUMAN consent
-5  planter --surfaces local,registry,pages,turbo   (layer A externalize)
-6  sovereign snapshot → docs/                      (layer B mirror)
-7  HUMAN git push  → GitHub Pages / raw
-8  HUMAN HF push   → free dataset servers
-9  verify_public_anchors
-10 star chart steward ingest (lygo-haven-star-chart --i-consent)
-```
-
-**Never skip 1 for 7–10.** Public network grows from verified local truth.
-
----
-
-## Free internet / worldwide anchors
-
-| Surface | Role |
-|---------|------|
-| GitHub Pages | Public HTTP verify UI + registries |
-| GitHub raw | IMMUTABLE_ANCHORS + sovereign snapshot |
-| Hugging Face | Free dataset mirrors (stack + music CAS) |
-| Arweave Turbo | Optional small permaweb anchors (planter) |
-| ClawHub | Skill metadata worldwide |
-| Haven Star Chart | Living map of eggs + surfaces |
-| Eternalhaven / asiancoastline | Human-facing portals |
-
----
-
-## User protection (non-negotiable)
-
-1. **Local A/B is source of truth** — if public JSON disagrees, re-publish after local verify; do not “fix local from public” blindly.  
-2. **Consent** for any plant, snapshot execute, chart ingest, push.  
-3. **No auto git / HF / ClawHub / social.**  
-4. **QUARANTINE** on local tamper — stop; do not push bad eggs.  
-5. **P0** before destructive path ops.  
-6. **No secrets** in public manifests or eggs.  
-7. Public HTTP failures → **PUBLIC_WARN** (soft) unless `--strict-public`.
-
----
-
-## Skill chain
-
-```text
-lygo-protocol-stack-operator
-  → lygo-network-builder          (anchor verify)
-  → lygo-kernel-egg-planter       (A)
-  → lygo-sovereign-kernel-seeder  (B)
-  → lygo-external-lattice-anchor  (C)  ← this skill
-  → lygo-living-mesh              (D multi-node roots)
-  → lygo-haven-star-chart         (map ingest)
-  → lygo-mesh-deploy              (Phase 5/9 transport)
+5  planter surfaces / snapshot
+6  HUMAN git push / HF
+7  verify_public_anchors              → GET only
+8  star chart steward ingest          → separate skill + consent
 ```
 
 ---
 
-## Agent contract
+## User protection
 
-See `references/AGENT_CONTRACT.md` and `references/SECURITY.md`.
+1. Local A/B is source of truth.  
+2. Consent for snapshot execute / chart live write / publish.  
+3. No auto git / HF / ClawHub / social.  
+4. QUARANTINE → stop external growth.  
+5. Trust only your own `LYGO_STACK_ROOT`.  
+6. Verify scripts do **not** shell out via `os.system` (v1.1).  
 
-**Δ9Φ963 — local seal · public mirror · star map · human consent · world lattice grows in light.**
+See `references/SECURITY.md` and `references/AGENT_CONTRACT.md`.
+
+**Δ9Φ963 — local seal · public mirror · star map · human consent · least surprise.**
