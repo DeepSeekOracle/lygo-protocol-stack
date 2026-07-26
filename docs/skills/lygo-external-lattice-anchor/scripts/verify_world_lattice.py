@@ -2,12 +2,13 @@
 """
 World lattice verify: Layer A+B (local) then Layer C (public HTTP).
 
-Default behavior (hardened v1.1):
+Default behavior (hardened v1.1.1):
   - Verify only (local tools + public GET)
-  - Does NOT refresh manifest / star-map files unless --refresh-local
+  - Does NOT write report files unless --write-report
+  - Does NOT refresh manifest / star-map files unless --refresh-local (+ --i-trust-stack)
   - No os.system / shell
-  - Sibling scripts via in-process runpy allowlist
-  - Stack A+B tool via in-process runpy when path is under stack root
+  - Skill-local scripts via in-process runpy allowlist
+  - Stack A+B via subprocess capture (no shell) under trusted stack root
 
 Protects user: local mismatch = hard fail; public degrade = soft warn unless --strict-public.
 """
@@ -21,7 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SIG = "Delta9Phi963-WORLD-LATTICE-VERIFY-v1.1"
+SIG = "Delta9Phi963-WORLD-LATTICE-VERIFY-v1.1.1"
 
 sys.path.insert(0, str(HERE))
 from _safe_invoke import run_python_script  # noqa: E402
@@ -69,26 +70,36 @@ def _parse_json_output(text: str) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(
-        description="World lattice verify A+B+C. Default does not mutate local manifests."
+        description=(
+            "World lattice verify A+B+C. Default: no report write, no docs mutation, no shell. "
+            "Opt-in: --write-report; --refresh-local requires --i-trust-stack (executes builders)."
+        )
     )
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--strict-public", action="store_true")
     ap.add_argument("--stack-root", default="")
     ap.add_argument(
+        "--i-trust-stack",
+        action="store_true",
+        help="Required with --refresh-local: affirm stack root is code you trust",
+    )
+    ap.add_argument(
         "--refresh-local",
         action="store_true",
-        help="Opt-in: rebuild public_verify_manifest + star_chart proposals (writes docs/)",
+        help=(
+            "OPT-IN EXECUTE+WRITE: rebuild public_verify_manifest + star_chart proposals under docs/. "
+            "Runs skill-local Python via runpy. Requires --i-trust-stack."
+        ),
     )
     ap.add_argument(
         "--write-report",
         action="store_true",
-        default=True,
-        help="Write tests/world_lattice_last_run.json (default on)",
+        help="OPT-IN WRITE: persist tests/world_lattice_last_run.json under stack root",
     )
     ap.add_argument(
         "--no-write-report",
         action="store_true",
-        help="Strict read-only: do not write report files",
+        help="Deprecated alias: default already does not write reports",
     )
     ap.add_argument(
         "--skip-public",
@@ -97,7 +108,18 @@ def main() -> int:
     )
     args = ap.parse_args()
     stack = Path(args.stack_root).resolve() if args.stack_root else stack_root()
-    write_report = args.write_report and not args.no_write_report
+    write_report = bool(args.write_report) and not args.no_write_report
+    if args.refresh_local and not args.i_trust_stack:
+        print(
+            json.dumps(
+                {
+                    "verdict": "BLOCKED",
+                    "errors": ["refresh_local_requires_i_trust_stack"],
+                    "hint": "pass --i-trust-stack only for a stack checkout you control",
+                }
+            )
+        )
+        return 2
 
     report = {
         "signature": SIG,
@@ -200,9 +222,9 @@ def main() -> int:
     else:
         report["layers"]["C_public"] = c
 
-    # Opt-in local refresh (mutating) — never default
+    # Opt-in local refresh (mutating) — never default; requires --i-trust-stack (checked above)
     refresh_results = []
-    if args.refresh_local:
+    if args.refresh_local and args.i_trust_stack:
         for script in ("build_public_verify_manifest.py", "map_eggs_to_star_chart.py"):
             sp = HERE / script
             if sp.is_file():
@@ -213,6 +235,7 @@ def main() -> int:
                     {"script": script, "exit_code": code, "ok": code == 0, "out_tail": out[-200:]}
                 )
         report["refresh_local"] = refresh_results
+        report["mode"]["i_trust_stack"] = True
 
     if write_report:
         out_path = stack / "tests" / "world_lattice_last_run.json"

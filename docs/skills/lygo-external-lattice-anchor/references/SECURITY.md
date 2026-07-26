@@ -1,10 +1,10 @@
-# Security — External Lattice Anchor (Layer C) v1.1
+# Security — External Lattice Anchor (Layer C) v1.1.1
 
 ## Trust boundary
 
 - Point `LYGO_STACK_ROOT` only at a **checkout you control**.  
 - Untrusted stack roots can feed untrusted Python tools into allowlisted `runpy` paths under that root — treat stack as trusted code.  
-- Public HTTP is **mirror data**, not authority over local eggs.
+- Public HTTPS is **mirror data**, not authority over local eggs.
 
 ## Protect the user
 
@@ -15,35 +15,37 @@
 | Poisoned chart growth | Star **proposals** only; steward gate + consent |
 | Registry lag as tamper | Mismatch note “mirror lag”; not exit 3 |
 | Shell injection | **No `os.system`**; no shell=True |
-| Surprising mutation | Verify **does not** auto-run builders (v1.1) |
+| Surprising mutation | Default verify = **zero writes** (v1.1.1) |
+| Untrusted execute | `--build-manifest` / `--refresh-local` require `--i-trust-stack` |
+| Manifest field abuse | `role`/`verify` enums; HTTPS-only URL; unknown verify → soft; role never dispatches |
 | Skill supply chain | Install from `deepseekoracle`; LYGO Sovereign v2.0 |
 
-## What runs by default
+## What runs by default (v1.1.1)
 
-| Script | Network | Writes | Spawns builders |
-|--------|---------|--------|-----------------|
-| `verify_public_anchors.py` | HTTP GET | `tests/public_anchors_last_run.json` unless `--no-write-report` | Only if `--build-manifest` |
-| `verify_world_lattice.py` | via public verify | `tests/world_lattice_last_run.json` unless `--no-write-report` | Only if `--refresh-local` |
-| `build_public_verify_manifest.py` | no | `docs/public_verify_manifest.json` | n/a |
+| Script | Network | Writes | Executes builders |
+|--------|---------|--------|-------------------|
+| `verify_public_anchors.py` | HTTPS GET | **none** | **no** |
+| `verify_world_lattice.py` | via public verify | **none** | **no** |
+| + `--write-report` | same | `tests/*_last_run.json` | no |
+| + `--build-manifest --i-trust-stack` | same | may write docs/manifest | skill-local builder (runpy) |
+| + `--refresh-local --i-trust-stack` | same | docs/manifest + proposals | skill-local builders (runpy) |
+| `build_public_verify_manifest.py` | no | docs/manifest | n/a |
 | `map_eggs_to_star_chart.py` | no | proposals JSON | n/a |
-| `sync_external_plan.py` | no | none (dry) / docs snapshot with `--i-consent --execute-local-only` | n/a |
+| `sync_external_plan.py` | no | none (dry) / snapshot with consent | n/a |
 
-## Invocation model (v1.1)
+## Invocation model
 
-- Sibling and stack scripts: `scripts/_safe_invoke.py` → `runpy.run_path`  
-- Path must be under skill `scripts/` or under trusted `stack` root  
+- Skill scripts: `scripts/_safe_invoke.py` → `runpy.run_path` (allowlisted path)  
+- A+B stack tool: `subprocess` list-argv, `shell=False`, `capture_output=True`  
 - Argv rejects shell metacharacters  
-- No `eval` / string `exec`
+- No `eval` / string `exec`  
+- Endpoint `role` is **classification only** (never used for code routing)
 
 ## Network
 
-- GET only for verify  
-- No credentials, cookies, or POST in this skill  
+- **HTTPS GET only** for verify  
+- No credentials, cookies, or POST  
 
 ## Consent env
 
 `LYGO_EXTERNAL_SYNC_CONSENT=yes` only for explicit snapshot execute (with `--execute-local-only`).
-
-## VirusTotal / static
-
-Prior clean VT scan expected; re-scan after publish if required by policy.

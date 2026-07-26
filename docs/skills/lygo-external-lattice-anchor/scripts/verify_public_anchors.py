@@ -2,8 +2,10 @@
 """
 HTTP-check public verify components (Layer C).
 
-Default: read-only network GET + optional report write under stack/tests/.
-Does NOT auto-run builders (use --build-manifest explicitly).
+Default (v1.1.1): true non-mutating verify
+  - HTTP GET public endpoints only
+  - Does NOT write report files (use --write-report to persist tests/*.json)
+  - Does NOT run builders (use --build-manifest explicitly; executes skill-local Python)
 No os.system / shell.
 """
 from __future__ import annotations
@@ -17,8 +19,8 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-SIG = "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1"
-UA = "LYGO-ExternalLatticeAnchor/1.1 (+https://eternalhaven.ca)"
+SIG = "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1.1"
+UA = "LYGO-ExternalLatticeAnchor/1.1.1 (+https://eternalhaven.ca)"
 
 # Fallback when no local manifest (no local code execution required)
 DEFAULT_ENDPOINTS = [
@@ -91,47 +93,70 @@ def stack_root() -> Path:
 
 def main() -> int:
     ap = argparse.ArgumentParser(
-        description="Layer C public HTTP verify (GET only). No auto-builder."
+        description=(
+            "Layer C public HTTP verify. Default: GET-only, zero filesystem writes, no builder. "
+            "Opt-in: --write-report (tests/), --build-manifest (executes skill-local builder; needs --i-trust-stack)."
+        )
     )
     ap.add_argument("--manifest", default="")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--stack-root", default="")
     ap.add_argument(
+        "--i-trust-stack",
+        action="store_true",
+        help="Required with --build-manifest: affirm LYGO_STACK_ROOT / --stack-root is code you trust",
+    )
+    ap.add_argument(
         "--build-manifest",
         action="store_true",
-        help="Opt-in: run build_public_verify_manifest.py in-process if manifest missing",
+        help=(
+            "OPT-IN EXECUTE: if manifest missing, run skill-local build_public_verify_manifest.py "
+            "in-process (runpy; may write docs/public_verify_manifest.json). Requires --i-trust-stack."
+        ),
     )
     ap.add_argument(
         "--write-report",
         action="store_true",
-        default=True,
-        help="Write tests/public_anchors_last_run.json (default on)",
+        help="OPT-IN WRITE: persist tests/public_anchors_last_run.json under stack root",
     )
     ap.add_argument(
         "--no-write-report",
         action="store_true",
-        help="Do not write any local report files (strict read-only)",
+        help="Deprecated alias: default already does not write reports",
     )
     args = ap.parse_args()
     stack = Path(args.stack_root).resolve() if args.stack_root else stack_root()
-    write_report = args.write_report and not args.no_write_report
+    write_report = bool(args.write_report) and not args.no_write_report
 
     man_path = Path(args.manifest) if args.manifest else stack / "docs" / "public_verify_manifest.json"
     built = False
-    if not man_path.is_file() and args.build_manifest:
-        builder = Path(__file__).resolve().parent / "build_public_verify_manifest.py"
-        if builder.is_file():
-            from _safe_invoke import run_python_script  # noqa: E402
-
-            code, out = run_python_script(
-                builder,
-                ["--stack-root", str(stack)],
-                cwd=stack,
-                stack=stack,
+    if args.build_manifest:
+        if not args.i_trust_stack:
+            print(
+                json.dumps(
+                    {
+                        "verdict": "BLOCKED",
+                        "errors": ["build_manifest_requires_i_trust_stack"],
+                        "hint": "pass --i-trust-stack only for a stack checkout you control",
+                    }
+                ),
+                file=sys.stderr,
             )
-            built = code == 0
-            if code != 0:
-                print(f"build_manifest_failed code={code} {out[:300]}", file=sys.stderr)
+            return 2
+        if not man_path.is_file():
+            builder = Path(__file__).resolve().parent / "build_public_verify_manifest.py"
+            if builder.is_file():
+                from _safe_invoke import run_python_script  # noqa: E402
+
+                code, out = run_python_script(
+                    builder,
+                    ["--stack-root", str(stack)],
+                    cwd=stack,
+                    stack=stack,
+                )
+                built = code == 0
+                if code != 0:
+                    print(f"build_manifest_failed code={code} {out[:300]}", file=sys.stderr)
 
     endpoints = []
     if man_path.is_file():
@@ -140,16 +165,34 @@ def main() -> int:
     else:
         endpoints = list(DEFAULT_ENDPOINTS)
 
+    ALLOWED_VERIFY = {"http_required", "http_soft", "skip"}
     results = []
     hard_fail = False
     for ep in endpoints:
+        if not isinstance(ep, dict):
+            continue
         url = ep.get("url")
         if not url:
             continue
-        # only http(s)
-        if not (str(url).startswith("https://") or str(url).startswith("http://")):
-            results.append({"id": ep.get("id"), "url": url, "ok": False, "error": "non_http_url"})
+        # HTTPS only (no file://, no SSRF to localhost via http cleartext policy)
+        if not str(url).startswith("https://"):
+            results.append(
+                {
+                    "id": ep.get("id"),
+                    "url": url,
+                    "ok": False,
+                    "error": "https_only",
+                    "note": "non-https endpoints are skipped for safety",
+                }
+            )
             continue
+        vmode = str(ep.get("verify") or "http_soft")
+        if vmode not in ALLOWED_VERIFY:
+            vmode = "http_soft"  # unknown verify strings never escalate to dispatch
+        if vmode == "skip":
+            results.append({"id": ep.get("id"), "url": url, "ok": True, "verify": "skip", "skipped": True})
+            continue
+        # role is classification only — never used for code dispatch
         status, body, err = fetch(url)
         ok = 200 <= status < 400
         item = {
@@ -158,6 +201,7 @@ def main() -> int:
             "http_status": status,
             "ok": ok,
             "role": ep.get("role"),
+            "verify": vmode,
             "error": err,
             "bytes": len(body) if body else 0,
         }
@@ -171,7 +215,7 @@ def main() -> int:
                         item["anchors_version"] = data.get("version")
             except Exception:
                 item["json_parse"] = False
-        if ep.get("verify") == "http_required" and not ok:
+        if vmode == "http_required" and not ok:
             hard_fail = True
         results.append(item)
 

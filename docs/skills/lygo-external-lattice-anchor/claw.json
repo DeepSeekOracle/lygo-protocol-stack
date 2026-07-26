@@ -1,14 +1,14 @@
 {
   "name": "lygo-external-lattice-anchor",
   "displayName": "LYGO External Lattice Anchor (World Network Layer C)",
-  "version": "1.1.0",
-  "description": "Layer C public verify + Star Chart proposals + external sync plan. Verify is non-mutating by default (HTTP GET + optional report). Manifest/map refresh and local snapshot are opt-in. No os.system, no auto-publish. Requires trusted LYGO_STACK_ROOT.",
+  "version": "1.1.1",
+  "description": "Layer C public HTTPS verify + Star Chart proposals + external sync plan. Default verify: zero disk writes, no builders. Opt-in --write-report; --build-manifest/--refresh-local require --i-trust-stack. No os.system, no auto-publish. Trusted LYGO_STACK_ROOT only.",
   "slug": "lygo-external-lattice-anchor",
   "publisher": "deepseekoracle",
   "license": "LYGO-Sovereign-v2.0",
   "homepage": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
-  "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1",
+  "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1.1",
   "tags": ["latest", "lygo", "lattice", "external", "star-chart", "kernel", "mesh", "public-verify", "world-network", "security"],
   "entry": "SKILL.md",
   "scripts": {
@@ -28,7 +28,7 @@
   },
   "permissions": {
     "network": {
-      "http_get": true,
+      "https_get": true,
       "http_post": false,
       "domains_hint": [
         "raw.githubusercontent.com",
@@ -41,8 +41,8 @@
     },
     "filesystem": {
       "read_stack": true,
-      "write_reports": "tests/*_last_run.json (default; disable --no-write-report)",
-      "write_docs": "only explicit builders or --refresh-local / consent snapshot",
+      "write_reports": "only with --write-report → tests/*_last_run.json",
+      "write_docs": "only explicit builders or --refresh-local/--build-manifest with --i-trust-stack, or consent snapshot",
       "shell": false,
       "os_system": false
     },
@@ -81,9 +81,12 @@
     "no_auto_publish": true,
     "local_first": true,
     "external_is_mirror_not_source_of_truth": true,
+    "verify_default_zero_writes": true,
     "verify_default_non_mutating": true,
     "no_os_system": true,
-    "invoke_model": "runpy_allowlist",
-    "version": "1.1.0"
+    "builders_require_i_trust_stack": true,
+    "https_only_endpoints": true,
+    "invoke_model": "runpy_allowlist+subprocess_capture_AB",
+    "version": "1.1.1"
   }
 }

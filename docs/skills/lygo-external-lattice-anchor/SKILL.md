@@ -1,7 +1,7 @@
 ---
 name: lygo-external-lattice-anchor
 description: "Use when the user asks to verify public LYGO lattice mirrors, build a public verify manifest, map eggs to Haven Star Chart proposals, or plan external free-server sync (Pages/HF/Turbo). Layer C world network. Requires LYGO_STACK_ROOT you trust. HTTP GET + local JSON under that stack. Verify is non-mutating by default; snapshot needs --i-consent. No auto git/HF/ClawHub publish."
-version: 1.1.0
+version: 1.1.1
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
@@ -14,17 +14,17 @@ metadata:
   external: true
   world_network: true
   layer: "C"
-  signature: "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1"
+  signature: "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1.1"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor"
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
-  security_review: "1.1.0-skillspector-harden"
+  security_review: "1.1.1-skillspector-default-no-write"
 ---
 
-# LYGO External Lattice Anchor — Layer C (World Network) v1.1
+# LYGO External Lattice Anchor — Layer C (World Network) v1.1.1
 
 **Grow the lattice worldwide without abandoning the user.**  
-**v1.1 security harden:** no `os.system`, verify non-mutating by default, declared capabilities.
+**v1.1.1:** default verify = **zero filesystem writes**; report/docs mutation is opt-in only.
 
 ```text
 Layer A  Classic kernel eggs     lygo-kernel-egg-planter      data/kernel_eggs/
@@ -41,7 +41,7 @@ Layer E  Agent lattice           lygo-agent-lattice
 | **Star Chart LIVE** | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html |
 | **Hub** | https://eternalhaven.ca/ |
 
-**Signature:** `Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1`  
+**Signature:** `Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.1.1`  
 **License:** LYGO Sovereign License v2.0 (not MIT)
 
 ---
@@ -64,11 +64,12 @@ Invoke this skill **only** when the user explicitly wants one of:
 
 | Capability | Default | Notes |
 |------------|---------|--------|
-| **Network HTTP GET** | Yes (verify scripts) | Public endpoints only; no POST; no credentials |
+| **Network HTTPS GET** | Yes (verify) | `https://` only; no POST; no credentials |
 | **Local file read** | Yes | Stack registries, anchors, manifests |
-| **Local file write** | Opt-in / limited | Report JSON under `tests/`; builders write `docs/` when invoked; snapshot needs consent |
+| **Local file write** | **Off by default** | `--write-report` → `tests/*_last_run.json`; builders/`--refresh-local` → `docs/` |
+| **Execute local Python builder** | **Off** | `--build-manifest` / `--refresh-local` require `--i-trust-stack` |
 | **Shell / os.system** | **No** | Removed in v1.1 |
-| **subprocess shell** | **No** | In-process `runpy` allowlist for sibling/stack tools |
+| **subprocess shell** | **No** | Captured list-argv for A+B only; runpy allowlist for skill scripts |
 | **Git push / HF / ClawHub publish** | **Never** | Human-only outside this skill |
 | **Auto-publish** | **No** | |
 
@@ -100,20 +101,23 @@ clawdhub install lygo-sovereign-kernel-seeder
 ```bash
 export LYGO_STACK_ROOT=D:\lygo-protocol-stack
 
-# 1) World verify — READ-mostly (no auto manifest/map refresh)
+# 1) World verify — DEFAULT: no report write, no docs mutation
 python scripts/verify_world_lattice.py --json
 
-# Strict read-only (no report file either)
-python scripts/verify_world_lattice.py --json --no-write-report
+# Opt-in: write tests/world_lattice_last_run.json
+python scripts/verify_world_lattice.py --json --write-report
 
-# Opt-in: also rebuild local manifest + star proposals
-python scripts/verify_world_lattice.py --json --refresh-local
+# Opt-in: rebuild local manifest + star proposals (EXECUTE+WRITE; trust stack)
+python scripts/verify_world_lattice.py --json --refresh-local --i-trust-stack
 
-# 2) Public HTTP verify only (GET). No auto-builder.
+# 2) Public HTTPS verify only (GET). DEFAULT: no report write, no builder.
 python scripts/verify_public_anchors.py --json
 
-# Opt-in: build missing manifest then verify
-python scripts/verify_public_anchors.py --json --build-manifest
+# Opt-in report write
+python scripts/verify_public_anchors.py --json --write-report
+
+# Opt-in: build missing manifest then verify (EXECUTE; trust stack)
+python scripts/verify_public_anchors.py --json --build-manifest --i-trust-stack
 
 # 3) Explicit builders (mutating docs/)
 python scripts/build_public_verify_manifest.py
@@ -128,10 +132,10 @@ python scripts/sync_external_plan.py --i-consent --execute-local-only
 
 | File | Written by | When |
 |------|------------|------|
-| `tests/public_anchors_last_run.json` | public verify | default (disable: `--no-write-report`) |
-| `tests/world_lattice_last_run.json` | world verify | default (disable: `--no-write-report`) |
-| `docs/public_verify_manifest.json` | build_public_verify_manifest | explicit or `--refresh-local` / `--build-manifest` |
-| `docs/star_chart_egg_map_proposals.json` | map_eggs_to_star_chart | explicit or `--refresh-local` |
+| `tests/public_anchors_last_run.json` | public verify | **only** `--write-report` |
+| `tests/world_lattice_last_run.json` | world verify | **only** `--write-report` |
+| `docs/public_verify_manifest.json` | build_public_verify_manifest | explicit or `--refresh-local --i-trust-stack` / `--build-manifest --i-trust-stack` |
+| `docs/star_chart_egg_map_proposals.json` | map_eggs_to_star_chart | explicit or `--refresh-local --i-trust-stack` |
 | `docs/sovereign_seeds_snapshot/` | sync_external_plan | `--i-consent --execute-local-only` only |
 
 ---
