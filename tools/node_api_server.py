@@ -411,6 +411,33 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/cert/pin":
             self._json(200, get_tls_manager().pin_payload())
             return
+        # Layer E — agent lattice
+        if path in ("/agent/directory", "/agent/lattice"):
+            try:
+                if str(ROOT / "tools") not in sys.path:
+                    sys.path.insert(0, str(ROOT / "tools"))
+                from agent_lattice_core import AgentDirectory  # noqa: E402
+
+                self._json(200, AgentDirectory().snapshot())
+            except Exception as e:
+                self._json(503, {"error": str(e), "layer": "E"})
+            return
+        if path.startswith("/agent/") and path.count("/") == 2:
+            aid = path.rsplit("/", 1)[-1]
+            if aid not in ("announce", "gossip", "directory", "lattice"):
+                try:
+                    if str(ROOT / "tools") not in sys.path:
+                        sys.path.insert(0, str(ROOT / "tools"))
+                    from agent_lattice_core import AgentDirectory  # noqa: E402
+
+                    for c in AgentDirectory().list_cards():
+                        if c.get("agent_id") == aid:
+                            self._json(200, {"agent_id": aid, "card": c})
+                            return
+                    self._json(404, {"error": "unknown_agent", "agent_id": aid})
+                except Exception as e:
+                    self._json(503, {"error": str(e)})
+                return
         if path.startswith("/mycelium/fragment/"):
             frag_id = path.rsplit("/", 1)[-1]
             frag = get_stack().slm.mycelium.get_fragment(frag_id)
@@ -467,12 +494,91 @@ class Handler(BaseHTTPRequestHandler):
                     "POST /synthesis/run",
                     "/kernel/eggs",
                     "/kernel/egg/{egg_id}",
+                    "/agent/directory",
+                    "/agent/{agent_id}",
+                    "POST /agent/announce",
+                    "POST /agent/gossip",
                 ],
             },
         )
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        if path == "/agent/announce":
+            body = self._read_json_body()
+            card = body.get("card") or body
+            try:
+                if str(ROOT / "tools") not in sys.path:
+                    sys.path.insert(0, str(ROOT / "tools"))
+                from agent_lattice_core import AgentDirectory, validate_card  # noqa: E402
+
+                if not isinstance(card, dict):
+                    self._json(400, {"error": "bad_card"})
+                    return
+                errs = validate_card(card, require_aligned=False)
+                hard = [
+                    e
+                    for e in errs
+                    if e
+                    in (
+                        "secret_pattern",
+                        "card_too_large",
+                        "quarantine_card",
+                        "bad_agent_id",
+                        "agent_id_charset",
+                        "bad_signature",
+                        "expired",
+                    )
+                ]
+                if hard:
+                    self._json(400, {"ok": False, "errors": hard})
+                    return
+                result = AgentDirectory().upsert(card, source="node_api_announce")
+                code = 200 if result.get("ok") else 429 if "rate_limited" in (result.get("errors") or []) else 400
+                self._json(code, {**result, "layer": "E"})
+            except Exception as e:
+                self._json(503, {"error": str(e)})
+            return
+        if path == "/agent/gossip":
+            body = self._read_json_body()
+            try:
+                if str(ROOT / "tools") not in sys.path:
+                    sys.path.insert(0, str(ROOT / "tools"))
+                from agent_lattice_core import AgentDirectory  # noqa: E402
+
+                directory = AgentDirectory()
+                cards = body.get("cards") or body.get("agents") or []
+                if isinstance(cards, dict):
+                    cards = list(cards.values())
+                merged = 0
+                rejected = 0
+                for item in cards:
+                    c = item.get("card") if isinstance(item, dict) and "card" in item else item
+                    if not isinstance(c, dict):
+                        rejected += 1
+                        continue
+                    r = directory.upsert(c, source="node_api_gossip")
+                    if r.get("ok"):
+                        merged += 1
+                    else:
+                        rejected += 1
+                if isinstance(body.get("card"), dict):
+                    r = directory.upsert(body["card"], source="node_api_gossip")
+                    if r.get("ok"):
+                        merged += 1
+                self._json(
+                    200,
+                    {
+                        "ok": True,
+                        "merged": merged,
+                        "rejected": rejected,
+                        "directory_digest": directory.snapshot().get("directory_digest"),
+                        "layer": "E",
+                    },
+                )
+            except Exception as e:
+                self._json(503, {"error": str(e)})
+            return
         if path == "/gossip/badge":
             body = self._read_json_body()
             badge = body.get("badge") or body

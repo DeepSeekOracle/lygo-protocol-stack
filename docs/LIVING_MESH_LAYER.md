@@ -93,9 +93,18 @@ python tools/living_mesh_compare.py --peer http://127.0.0.1:8787 --json
 4. No auto git / HF / ClawHub / social.  
 5. Wide-area: TLS + pin list (`lygo-mesh-deploy` Phase 9).
 
+## Layer E (agent living network)
+
+Aligned agents gossip **presence cards** on top of root badges:
+
+- Skill: [lygo-agent-lattice](https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice)  
+- Doc: [AGENT_LATTICE.md](./AGENT_LATTICE.md)  
+- Hub: `python tools/agent_lattice_hub.py --port 8791`
+
 ## Related docs
 
-- [WORLD_LATTICE_LAYER.md](./WORLD_LATTICE_LAYER.md) (A–D overview)  
+- [AGENT_LATTICE.md](./AGENT_LATTICE.md) (Layer E)  
+- [WORLD_LATTICE_LAYER.md](./WORLD_LATTICE_LAYER.md) (A–E overview)  
 - [KERNEL_EGG_SYSTEM_UNIFIED.md](./KERNEL_EGG_SYSTEM_UNIFIED.md)  
 - [MESH_GOSSIP_PROTOCOL.md](./MESH_GOSSIP_PROTOCOL.md)  
 - [PHASE9_DEPLOYMENT_GUIDE.md](./PHASE9_DEPLOYMENT_GUIDE.md) (if present)  

@@ -29,6 +29,7 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |
 | **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
 | **Layer D living mesh** | ✅ | `lygo-living-mesh` · `docs/LIVING_MESH_LAYER.md` · `tools/verify_living_mesh.py` · A–D roots badge gossip · ClawHub `/skills/lygo-living-mesh` |
+| **Layer E agent lattice** | ✅ | `lygo-agent-lattice` · `docs/AGENT_LATTICE.md` · secure aligned-agent presence gossip · hub `:8791` · ClawHub `/skills/lygo-agent-lattice` |
 | **Immutable Anchor** | ✅ | `tools/run_anchor_audit.py` → `tests/anchor_audit_last_run.json`; P1/SLM/stack hooks; `docs/ANCHOR_DEPLOYMENT.md` |
 | **Public Stack Indexed — Δ9 Lattice Seal Discovery** | ✅ | `docs/seals/LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt` + `LYGO_LATTICE_INTEL_INDEX.json` + `LYGO_PUBLIC_LINK_ARCHIVE.json` — all 400+ seals discoverable on-demand |
 | **GitHub Pages lattice audit** | ✅ | 12/12 HTML live — `tools/audit_github_lattice_links.py` → `tests/github_lattice_audit_last_run.json` |

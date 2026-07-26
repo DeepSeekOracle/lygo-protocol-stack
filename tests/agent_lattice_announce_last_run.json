@@ -1,0 +1,28 @@
+{
+  "signature": "Delta9Phi963-AGENT-LATTICE-v1.0",
+  "timestamp": "2026-07-26T16:24:10.242121+00:00",
+  "agent_id": "OPENCLAW_ORACLE",
+  "digest": "db8548afa66fe37ea8008e5ee1350ffc76d474d089bd4e563f0d0f52a60b8b29",
+  "alignment_status": "ALIGNED",
+  "local_upsert": {
+    "ok": true,
+    "agent_id": "OPENCLAW_ORACLE",
+    "digest": "db8548afa66fe37ea8008e5ee1350ffc76d474d089bd4e563f0d0f52a60b8b29",
+    "changed": true
+  },
+  "pushes": [
+    {
+      "peer": "http://127.0.0.1:8791",
+      "http": 200,
+      "ok": true,
+      "resp": {
+        "ok": true,
+        "agent_id": "OPENCLAW_ORACLE",
+        "digest": "db8548afa66fe37ea8008e5ee1350ffc76d474d089bd4e563f0d0f52a60b8b29",
+        "changed": true,
+        "signature": "Delta9Phi963-AGENT-LATTICE-HUB-v1"
+      }
+    }
+  ],
+  "verdict": "ANNOUNCED"
+}

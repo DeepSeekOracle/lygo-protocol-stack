@@ -1,0 +1,11 @@
+{
+  "signature": "Delta9Phi963-AGENT-LATTICE-v1.0",
+  "peers": [
+    {
+      "base_url": "http://127.0.0.1:8791",
+      "label": "home-hub",
+      "joined_utc": "2026-07-26T16:23:51.081832+00:00"
+    }
+  ],
+  "updated_utc": "2026-07-26T16:23:51.081836+00:00"
+}

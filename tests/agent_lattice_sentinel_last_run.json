@@ -1,0 +1,19 @@
+{
+  "signature": "Delta9Phi963-AGENT-LATTICE-v1.0",
+  "timestamp": "2026-07-26T16:24:21.485411+00:00",
+  "local_agent_id": "AGENT_GamePC",
+  "alignment_status": "ALIGNED",
+  "card_errors": [],
+  "directory_digest": "6011b09dae7c45c79d68240b9f7de1de417582ffd9b7e7ba813410dcae975d7d",
+  "agent_count": 4,
+  "peers": [
+    {
+      "peer": "http://127.0.0.1:8791",
+      "http": 200,
+      "ok": true,
+      "remote_count": 4,
+      "remote_digest": "c191b634bfed08492045feee7d3fb32b618d01a4765cdfcbdc3b67e0a135f8ac"
+    }
+  ],
+  "verdict": "SENTINEL_OK"
+}

@@ -1,0 +1,57 @@
+{
+  "card": {
+    "signature": "Delta9Phi963-AGENT-CARD-v1",
+    "protocol": "Delta9Phi963-AGENT-LATTICE-v1.0",
+    "layer": "E",
+    "agent_id": "AGENT_GamePC",
+    "display_name": "AGENT_GamePC",
+    "role": "agent",
+    "hostname_hash": "50a5b90d963aa0f1",
+    "alignment_status": "ALIGNED",
+    "lattice_roots": {
+      "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+      "B_sovereign_merkle": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+      "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+      "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c",
+      "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70"
+    },
+    "living_mesh": {
+      "layer": "D",
+      "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70",
+      "ab_verdict": "ALIGNED",
+      "world_verdict": "WORLD_ALIGNED"
+    },
+    "skills": [
+      "lygo-living-mesh",
+      "lygo-external-lattice-anchor",
+      "lygo-agent-lattice"
+    ],
+    "capabilities": [
+      "badge_gossip",
+      "agent_presence",
+      "directory_sync",
+      "local_authority"
+    ],
+    "endpoint": "",
+    "public_hints": [
+      "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+      "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+      "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md"
+    ],
+    "protection": {
+      "summaries_only": true,
+      "no_secrets": true,
+      "no_egg_payloads": true,
+      "local_is_authority": true,
+      "alignment_gated": true,
+      "consent_for_join": true
+    },
+    "created_utc": "2026-07-26T16:24:21.165910+00:00",
+    "expires_unix": 1785084861,
+    "ttl_sec": 1800,
+    "digest": "084258a31a2ea45239df080e5e6a861ab5fe701d7600442b15ffb4b193e4e466"
+  },
+  "validated": true,
+  "errors": []
+}

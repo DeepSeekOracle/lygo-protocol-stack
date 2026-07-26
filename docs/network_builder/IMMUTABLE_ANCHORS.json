@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.1",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.2",
   "skill_slug": "lygo-network-builder",
-  "version": "1.6.1",
-  "updated_utc": "2026-07-26T16:11:40Z",
+  "version": "1.6.2",
+  "updated_utc": "2026-07-26T16:22:38Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -156,6 +156,14 @@
       }
     ],
     "agents": [
+      {
+        "id": "clawhub_lygo_agent_lattice",
+        "label": "ClawHub \u2014 lygo-agent-lattice (Layer E)",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+        "verify": "http_soft",
+        "skill": "lygo-agent-lattice",
+        "layer": "E"
+      },
       {
         "id": "clawhub_lygo_living_mesh",
         "label": "ClawHub \u2014 lygo-living-mesh (Layer D)",
@@ -361,6 +369,16 @@
           "tools/living_mesh_join.py"
         ],
         "note": "Layer D: living mesh badge gossip of A/B/C roots. Local authority, summaries only, consent join."
+      },
+      {
+        "id": "lygo_agent_lattice",
+        "label": "LYGO Agent Lattice \u2014 aligned agent living network Layer E",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-agent-lattice",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md",
+        "hub": "tools/agent_lattice_hub.py :8791",
+        "note": "Layer E: alignment-gated agent presence cards, directory gossip, rate limits, secret rejection."
       },
       {
         "id": "lygo_kernel_egg_system_unified",

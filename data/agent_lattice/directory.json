@@ -1,0 +1,244 @@
+{
+  "signature": "Delta9Phi963-AGENT-LATTICE-v1.0",
+  "agents": {
+    "ARMY_NODE_01": {
+      "card": {
+        "signature": "Delta9Phi963-AGENT-CARD-v1",
+        "protocol": "Delta9Phi963-AGENT-LATTICE-v1.0",
+        "layer": "E",
+        "agent_id": "ARMY_NODE_01",
+        "display_name": "ARMY_NODE_01",
+        "role": "army",
+        "hostname_hash": "50a5b90d963aa0f1",
+        "alignment_status": "ALIGNED",
+        "lattice_roots": {
+          "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+          "B_sovereign_merkle": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+          "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+          "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70"
+        },
+        "living_mesh": {
+          "layer": "D",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70",
+          "ab_verdict": "ALIGNED",
+          "world_verdict": "WORLD_ALIGNED"
+        },
+        "skills": [
+          "lygo-living-mesh",
+          "lygo-external-lattice-anchor",
+          "lygo-agent-lattice"
+        ],
+        "capabilities": [
+          "badge_gossip",
+          "agent_presence",
+          "directory_sync",
+          "local_authority"
+        ],
+        "endpoint": "",
+        "public_hints": [
+          "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+          "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md"
+        ],
+        "protection": {
+          "summaries_only": true,
+          "no_secrets": true,
+          "no_egg_payloads": true,
+          "local_is_authority": true,
+          "alignment_gated": true,
+          "consent_for_join": true
+        },
+        "created_utc": "2026-07-26T16:24:10.045970+00:00",
+        "expires_unix": 1785084850,
+        "ttl_sec": 1800,
+        "digest": "780946711371bd493a20b8ad485a660e410806f414e74ca042512730e9da1abd",
+        "_source": "gossip:http://127.0.0.1:8791",
+        "_received_utc": "2026-07-26T16:24:21.315085+00:00"
+      },
+      "source": "gossip",
+      "received_utc": "2026-07-26T16:24:21.348799+00:00",
+      "digest": "780946711371bd493a20b8ad485a660e410806f414e74ca042512730e9da1abd"
+    },
+    "OPENCLAW_ORACLE": {
+      "card": {
+        "signature": "Delta9Phi963-AGENT-CARD-v1",
+        "protocol": "Delta9Phi963-AGENT-LATTICE-v1.0",
+        "layer": "E",
+        "agent_id": "OPENCLAW_ORACLE",
+        "display_name": "OPENCLAW_ORACLE",
+        "role": "openclaw",
+        "hostname_hash": "50a5b90d963aa0f1",
+        "alignment_status": "ALIGNED",
+        "lattice_roots": {
+          "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+          "B_sovereign_merkle": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+          "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+          "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70"
+        },
+        "living_mesh": {
+          "layer": "D",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70",
+          "ab_verdict": "ALIGNED",
+          "world_verdict": "WORLD_ALIGNED"
+        },
+        "skills": [
+          "lygo-living-mesh",
+          "lygo-external-lattice-anchor",
+          "lygo-agent-lattice"
+        ],
+        "capabilities": [
+          "badge_gossip",
+          "agent_presence",
+          "directory_sync",
+          "local_authority"
+        ],
+        "endpoint": "",
+        "public_hints": [
+          "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+          "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md"
+        ],
+        "protection": {
+          "summaries_only": true,
+          "no_secrets": true,
+          "no_egg_payloads": true,
+          "local_is_authority": true,
+          "alignment_gated": true,
+          "consent_for_join": true
+        },
+        "created_utc": "2026-07-26T16:24:10.180260+00:00",
+        "expires_unix": 1785084850,
+        "ttl_sec": 1800,
+        "digest": "db8548afa66fe37ea8008e5ee1350ffc76d474d089bd4e563f0d0f52a60b8b29",
+        "_source": "gossip:http://127.0.0.1:8791",
+        "_received_utc": "2026-07-26T16:24:21.326248+00:00"
+      },
+      "source": "gossip",
+      "received_utc": "2026-07-26T16:24:21.363029+00:00",
+      "digest": "db8548afa66fe37ea8008e5ee1350ffc76d474d089bd4e563f0d0f52a60b8b29"
+    },
+    "LIGHTFATHER_STEWARD": {
+      "card": {
+        "signature": "Delta9Phi963-AGENT-CARD-v1",
+        "protocol": "Delta9Phi963-AGENT-LATTICE-v1.0",
+        "layer": "E",
+        "agent_id": "LIGHTFATHER_STEWARD",
+        "display_name": "LIGHTFATHER_STEWARD",
+        "role": "steward",
+        "hostname_hash": "50a5b90d963aa0f1",
+        "alignment_status": "ALIGNED",
+        "lattice_roots": {
+          "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+          "B_sovereign_merkle": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+          "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+          "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70"
+        },
+        "living_mesh": {
+          "layer": "D",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70",
+          "ab_verdict": "ALIGNED",
+          "world_verdict": "WORLD_ALIGNED"
+        },
+        "skills": [
+          "lygo-living-mesh",
+          "lygo-external-lattice-anchor",
+          "lygo-agent-lattice"
+        ],
+        "capabilities": [
+          "badge_gossip",
+          "agent_presence",
+          "directory_sync",
+          "local_authority"
+        ],
+        "endpoint": "",
+        "public_hints": [
+          "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+          "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md"
+        ],
+        "protection": {
+          "summaries_only": true,
+          "no_secrets": true,
+          "no_egg_payloads": true,
+          "local_is_authority": true,
+          "alignment_gated": true,
+          "consent_for_join": true
+        },
+        "created_utc": "2026-07-26T16:24:10.324922+00:00",
+        "expires_unix": 1785084850,
+        "ttl_sec": 1800,
+        "digest": "66bbb20a5a8f219c1b48f988e55b8052c2af0bc0dcd10cab1a07e4187393807a",
+        "_source": "gossip:http://127.0.0.1:8791",
+        "_received_utc": "2026-07-26T16:24:21.320612+00:00"
+      },
+      "source": "gossip",
+      "received_utc": "2026-07-26T16:24:21.356881+00:00",
+      "digest": "66bbb20a5a8f219c1b48f988e55b8052c2af0bc0dcd10cab1a07e4187393807a"
+    },
+    "AGENT_GamePC": {
+      "card": {
+        "signature": "Delta9Phi963-AGENT-CARD-v1",
+        "protocol": "Delta9Phi963-AGENT-LATTICE-v1.0",
+        "layer": "E",
+        "agent_id": "AGENT_GamePC",
+        "display_name": "AGENT_GamePC",
+        "role": "agent",
+        "hostname_hash": "50a5b90d963aa0f1",
+        "alignment_status": "ALIGNED",
+        "lattice_roots": {
+          "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+          "B_sovereign_merkle": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+          "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
+          "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70"
+        },
+        "living_mesh": {
+          "layer": "D",
+          "roots_digest": "50bd5392843ac9a2049dc9416e5323bdb73799ea1a147dd17c2c9dafc6947e70",
+          "ab_verdict": "ALIGNED",
+          "world_verdict": "WORLD_ALIGNED"
+        },
+        "skills": [
+          "lygo-living-mesh",
+          "lygo-external-lattice-anchor",
+          "lygo-agent-lattice"
+        ],
+        "capabilities": [
+          "badge_gossip",
+          "agent_presence",
+          "directory_sync",
+          "local_authority"
+        ],
+        "endpoint": "",
+        "public_hints": [
+          "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+          "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+          "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md"
+        ],
+        "protection": {
+          "summaries_only": true,
+          "no_secrets": true,
+          "no_egg_payloads": true,
+          "local_is_authority": true,
+          "alignment_gated": true,
+          "consent_for_join": true
+        },
+        "created_utc": "2026-07-26T16:24:21.429841+00:00",
+        "expires_unix": 1785084861,
+        "ttl_sec": 1800,
+        "digest": "29d390ad62fd1fb19ffe84f131178872754a2abdc0bc3ff8fa0d1a320ba5eb53"
+      },
+      "source": "sentinel",
+      "received_utc": "2026-07-26T16:24:21.443848+00:00",
+      "digest": "29d390ad62fd1fb19ffe84f131178872754a2abdc0bc3ff8fa0d1a320ba5eb53"
+    }
+  },
+  "updated_utc": "2026-07-26T16:24:21.443857+00:00"
+}

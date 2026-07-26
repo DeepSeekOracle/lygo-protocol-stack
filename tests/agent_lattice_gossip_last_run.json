@@ -1,0 +1,51 @@
+{
+  "signature": "Delta9Phi963-AGENT-LATTICE-v1.0",
+  "timestamp": "2026-07-26T16:24:21.363875+00:00",
+  "local_agent_id": "AGENT_GamePC",
+  "local_digest": "150111850275607722593e3433ba2e4569133bbcdfa0247f08de2f3e3a172c70",
+  "directory_digest": "c191b634bfed08492045feee7d3fb32b618d01a4765cdfcbdc3b67e0a135f8ac",
+  "agent_count": 4,
+  "pushes": [
+    {
+      "peer": "http://127.0.0.1:8791",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "peer": "http://127.0.0.1:8791",
+      "path": "/agent/gossip",
+      "http": 200,
+      "ok": true
+    }
+  ],
+  "pulls": [
+    {
+      "peer": "http://127.0.0.1:8791",
+      "http": 200,
+      "ok": true
+    }
+  ],
+  "merges": [
+    {
+      "agent_id": "AGENT_GamePC",
+      "ok": true,
+      "errors": null
+    },
+    {
+      "agent_id": "ARMY_NODE_01",
+      "ok": true,
+      "errors": null
+    },
+    {
+      "agent_id": "LIGHTFATHER_STEWARD",
+      "ok": true,
+      "errors": null
+    },
+    {
+      "agent_id": "OPENCLAW_ORACLE",
+      "ok": true,
+      "errors": null
+    }
+  ],
+  "verdict": "GOSSIP_OK"
+}

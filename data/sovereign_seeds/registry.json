@@ -1,8 +1,8 @@
 {
   "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
   "version": "1.0.0",
-  "updated_utc": "2026-07-26T16:12:13Z",
-  "registry_merkle_root": "bf768c3a7d6678ff00845b4189ba7b11dd6fe50b7b3e6db28d7c6012608b8010",
+  "updated_utc": "2026-07-26T16:23:01Z",
+  "registry_merkle_root": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
   "eggs": {
     "lygo-music-license-v1": {
       "egg_id": "lygo-music-license-v1",
@@ -53,6 +53,16 @@
       "path": "lygo-living-mesh-v1.egg.json",
       "created_utc": "2026-07-26T16:12:13Z",
       "signature": "Delta9Phi963-EGG-lygo-living-mesh-v1-v1.0.0"
+    },
+    "lygo-agent-lattice-v1": {
+      "egg_id": "lygo-agent-lattice-v1",
+      "version": "1.0.0",
+      "kind": "skill-pin",
+      "content_sha256": "e2ba49b2d8e439f04ed5a3077e6f74a2f836d242a5b18c4dc55f29dce150c660",
+      "leaf_hash": "36da00be336ac5b0499ec0121ffae7a4abbef6068754f60ee7f283a8090e74ff",
+      "path": "lygo-agent-lattice-v1.egg.json",
+      "created_utc": "2026-07-26T16:23:01Z",
+      "signature": "Delta9Phi963-EGG-lygo-agent-lattice-v1-v1.0.0"
     }
   },
   "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0"

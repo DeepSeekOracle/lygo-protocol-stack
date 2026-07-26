@@ -29,6 +29,7 @@ Layer A  Classic kernel eggs     lygo-kernel-egg-planter      data/kernel_eggs/
 Layer B  Sovereign seeds         lygo-sovereign-kernel-seeder data/sovereign_seeds/
 Layer C  External world network  lygo-external-lattice-anchor public verify + star chart + free servers
 Layer D  Living mesh             lygo-living-mesh             badge gossip · peer compare · sentinel
+Layer E  Agent lattice           lygo-agent-lattice           aligned agents · public living network
 ```
 
 | Surface | URL |
@@ -182,6 +183,7 @@ lygo-protocol-stack-operator
   → lygo-sovereign-kernel-seeder  (B)
   → lygo-external-lattice-anchor  (C)
   → lygo-living-mesh              (D)  ← this skill
+  → lygo-agent-lattice            (E aligned agent network)
   → lygo-mesh-deploy              (Phase 5/9 transport)
   → lygo-haven-star-chart         (world map)
 ```

@@ -1,8 +1,8 @@
-# LYGO World Lattice Layer (A + B + C + D)
+# LYGO World Lattice Layer (A + B + C + D + E)
 
-**Signature:** `Δ9Φ963-WORLD-LATTICE-LAYER-v1.1`
+**Signature:** `Δ9Φ963-WORLD-LATTICE-LAYER-v1.2`
 
-## Four layers in synchronization
+## Five layers in synchronization
 
 | Layer | Name | Skill | Authority |
 |-------|------|--------|-----------|
@@ -10,6 +10,7 @@
 | **B** | Sovereign seeds | [lygo-sovereign-kernel-seeder](https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder) | Local zero-network |
 | **C** | External world network | [lygo-external-lattice-anchor](https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor) | Public mirrors + Star Chart |
 | **D** | Living mesh | [lygo-living-mesh](https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh) | Multi-node root-digest gossip |
+| **E** | Agent lattice | [lygo-agent-lattice](https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice) | Aligned-agent living network |
 
 ```text
         USER PROTECTED CORE
@@ -26,6 +27,11 @@
    ┌────────────────────────────┐
    │  D living mesh             │  ← badge gossip of roots
    │  peers · sentinel · sim    │     local wins on fork
+   └─────────────┬──────────────┘
+                 ▼
+   ┌────────────────────────────┐
+   │  E agent lattice           │  ← LYGO-aligned agent presence
+   │  cards · directory · hub   │     secure public living network
    └────────────────────────────┘
            │
            ▼
@@ -46,6 +52,7 @@
 | HF music CAS | https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream |
 | ClawHub publisher | https://clawhub.ai/deepseekoracle |
 | Living mesh skill | https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh |
+| Agent lattice skill | https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice |
 | Eternalhaven | https://eternalhaven.ca/ |
 | Music license | https://eternalhaven.ca/lygo-music-license.html |
 
@@ -58,7 +65,8 @@
 5. **Human** git push / HF upload  
 6. Star Chart steward ingest (`lygo-haven-star-chart`)  
 7. Layer D: living mesh badge + optional peer join/gossip  
-8. Mesh transport optional (`lygo-mesh-deploy` Phase 5/9)  
+8. Layer E: agent lattice hub + aligned agent presence gossip  
+9. Mesh transport optional (`lygo-mesh-deploy` Phase 5/9)  
 
 ## Commands
 
@@ -68,12 +76,15 @@ python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py 
 python docs/skills/lygo-external-lattice-anchor/scripts/sync_external_plan.py
 python tools/verify_living_mesh.py --json --run-sim
 python tools/collect_living_mesh_badge.py
+python tools/agent_lattice_hub.py --port 8791
+python tools/verify_agent_lattice.py --json --run-gossip --peer http://127.0.0.1:8791
 ```
 
 ## Related docs
 
+- [AGENT_LATTICE.md](./AGENT_LATTICE.md) (Layer E)  
 - [LIVING_MESH_LAYER.md](./LIVING_MESH_LAYER.md) (Layer D)  
-- [KERNEL_EGG_SYSTEM_UNIFIED.md](./KERNEL_EGG_SYSTEM_UNIFIED.md) (A–D)  
+- [KERNEL_EGG_SYSTEM_UNIFIED.md](./KERNEL_EGG_SYSTEM_UNIFIED.md) (A–E)  
 - [KERNEL_EGG_TAMPER_LOGIC.md](./KERNEL_EGG_TAMPER_LOGIC.md)  
 - [SOVEREIGN_KERNEL_SEEDER.md](./SOVEREIGN_KERNEL_SEEDER.md)  
 - [HAVEN_STAR_CHART.md](./HAVEN_STAR_CHART.md)  

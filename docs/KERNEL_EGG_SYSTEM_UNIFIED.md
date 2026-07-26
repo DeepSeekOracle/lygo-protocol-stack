@@ -1,9 +1,9 @@
-# LYGO Kernel Egg System — Unified Map (A + B + C + D)
+# LYGO Kernel Egg System — Unified Map (A + B + C + D + E)
 
-**Signature:** `Δ9Φ963-KERNEL-EGG-SYSTEM-UNIFIED-v1.2`  
+**Signature:** `Δ9Φ963-KERNEL-EGG-SYSTEM-UNIFIED-v1.3`  
 **Updated:** 2026-07-26
 
-Four complementary layers. **Do not treat them as duplicates.** Agents use **all four**, in order.
+Five complementary layers. **Do not treat them as duplicates.** Agents use them **in order**.
 
 | Layer | Skill | Storage / surface | Role |
 |-------|--------|-------------------|------|
@@ -11,9 +11,11 @@ Four complementary layers. **Do not treat them as duplicates.** Agents use **all
 | **B · Sovereign seeds** | `lygo-sovereign-kernel-seeder` | `data/sovereign_seeds/` | Zero-network modular seeds: policy pins, skill pins, local self-verify insert |
 | **C · External world network** | `lygo-external-lattice-anchor` | Pages · HF · Star Chart · anchors · free servers | Public verify, chart mapping, external plant sync — **mirrors only** |
 | **D · Living mesh** | `lygo-living-mesh` | `data/living_mesh/` · node `/badge` · gossip | Multi-node root digests; local authority; summaries only |
+| **E · Agent lattice** | `lygo-agent-lattice` | `data/agent_lattice/` · hub `:8791` · `/agent/*` | Aligned-agent public living network |
 
 **World lattice doc:** [WORLD_LATTICE_LAYER.md](./WORLD_LATTICE_LAYER.md)  
-**Living mesh doc:** [LIVING_MESH_LAYER.md](./LIVING_MESH_LAYER.md)
+**Living mesh doc:** [LIVING_MESH_LAYER.md](./LIVING_MESH_LAYER.md)  
+**Agent lattice doc:** [AGENT_LATTICE.md](./AGENT_LATTICE.md)
 
 ```text
                     ┌─────────────────────────────┐
@@ -59,6 +61,7 @@ Four complementary layers. **Do not treat them as duplicates.** Agents use **all
 | Prove nothing is tampered before agent load | **A+B** via unified verify |
 | Public mirrors + Star Chart map | **External lattice (C)** |
 | Multi-node root agreement / mesh health | **Living mesh (D)** |
+| LYGO-aligned agent presence / public living network | **Agent lattice (E)** |
 
 ## Shared rules (all systems)
 
@@ -79,7 +82,8 @@ Four complementary layers. **Do not treat them as duplicates.** Agents use **all
 | `lygo-sovereign-kernel-seeder-v1` | Sovereign | Seeder skill-pin |
 | `lygo-kernel-egg-planter-v1` | Sovereign | Planter skill-pin |
 | `lygo-external-lattice-anchor-v1` | Sovereign | Layer C skill-pin |
-| `lygo-living-mesh-v1` | Sovereign | Layer D skill-pin (seed after publish) |
+| `lygo-living-mesh-v1` | Sovereign | Layer D skill-pin |
+| `lygo-agent-lattice-v1` | Sovereign | Layer E skill-pin |
 
 ## Commands
 
@@ -109,6 +113,10 @@ python docs/skills/lygo-external-lattice-anchor/scripts/sync_external_plan.py
 # Layer D badge / sentinel
 python tools/collect_living_mesh_badge.py
 python tools/living_mesh_sentinel.py --run-sim
+
+# Layer E agent lattice
+python tools/agent_lattice_hub.py --port 8791
+python tools/verify_agent_lattice.py --json --run-gossip --peer http://127.0.0.1:8791
 ```
 
 ## Skill install
@@ -118,12 +126,14 @@ clawdhub install lygo-kernel-egg-planter
 clawdhub install lygo-sovereign-kernel-seeder
 clawdhub install lygo-external-lattice-anchor
 clawdhub install lygo-living-mesh
+clawdhub install lygo-agent-lattice
 clawdhub install lygo-haven-star-chart
-# URLs use /skills/:
+# URLs use /skills/ (first publish may take ~10 min to show):
 # https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter
 # https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder
 # https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor
 # https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh
+# https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice
 ```
 
 ## Docs
