@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
-  "created_utc": "2026-07-26T15:53:21Z",
+  "created_utc": "2026-07-26T16:00:31Z",
   "stack_root": "D:\\lygo-protocol-stack",
   "user_protection": {
     "local_is_source_of_truth": true,
@@ -16,7 +16,7 @@
     "A_classic": {
       "name": "classic_kernel_eggs",
       "present": true,
-      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "registry_merkle_root": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
       "egg_count": 15,
       "sample_egg_ids": [
         "p0-nano-kernel",
@@ -138,7 +138,7 @@
   ],
   "star_chart": {
     "present": true,
-    "node_count": 403,
+    "node_count": 394,
     "keys": [
       "signature",
       "generated_utc",
@@ -159,8 +159,8 @@
     ],
     "live_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
     "portal_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
-    "local_data_sha256": "e38c12aa88fc8fba4cefa0ce87897156779e4033eab1806165bf96cc7a6b6dc5",
-    "feed_sha256": "347e2f822141f67d313623b67307afade5a4613b2ac7b1c01fc69f9e2c174dd4"
+    "local_data_sha256": "2d868298ce068a8ba036de69761231f587e1c4ff289c69fc9c4f174ef65b2ff6",
+    "feed_sha256": "31113d95cb978f466316b50acf40e2f412c4073a565875c852f29aa2a529780a"
   },
   "immutable_anchors": {
     "version": "1.6.0",
@@ -173,8 +173,11 @@
     "layers": [
       {
         "layer": "classic_kernel_eggs",
-        "status": "SKIP",
-        "reason": "tools/verify_kernel_eggs.py not present (sparse checkout or missing tools)"
+        "exit_code": 0,
+        "verdict": "ALIGNED",
+        "all_pass": true,
+        "artifact": "tests/kernel_eggs_last_run.json",
+        "status": "ALIGNED"
       },
       {
         "layer": "sovereign_seeds",
@@ -182,16 +185,16 @@
         "root": "D:\\lygo-protocol-stack\\data\\sovereign_seeds",
         "verdict": "ALIGNED",
         "errors": [],
-        "eggs_checked": 3,
-        "registry_merkle_root": "7f36c33c43b273dbeecd37fd4114d055371965c51cf5d8df4abc8b5e9688a215",
-        "computed_merkle_root": "7f36c33c43b273dbeecd37fd4114d055371965c51cf5d8df4abc8b5e9688a215",
+        "eggs_checked": 4,
+        "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+        "computed_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
         "status": "ALIGNED"
       }
     ],
     "verdict": "ALIGNED",
     "doc": "docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
     "summary": {
-      "classic": "SKIP",
+      "classic": "ALIGNED",
       "sovereign": "ALIGNED"
     }
   },
