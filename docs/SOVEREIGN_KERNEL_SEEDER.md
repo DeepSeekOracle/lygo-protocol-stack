@@ -60,3 +60,7 @@ python docs/skills/lygo-sovereign-kernel-seeder/scripts/smoke_test.py
 - `references/` — security, contract, architecture  
 
 **Δ9Φ963 — consent · seal · verify · plug in.**
+
+## License
+**LYGO Sovereign License v2.0** — see [LICENSE](../LICENSE) and [LICENSE_NOTICE.md](./LICENSE_NOTICE.md). Not MIT/MIT-0. No commercial resale or rebranded forks.
+

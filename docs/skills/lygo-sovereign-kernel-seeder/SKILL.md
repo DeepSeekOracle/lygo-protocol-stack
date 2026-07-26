@@ -2,7 +2,7 @@
 name: lygo-sovereign-kernel-seeder
 description: "Sovereign Kernel Seeder for LYGO lattice — Merkle-anchored eggs that self-verify on insert, sovereign-sealed, zero external surface. Agents plug modular kernels instantly across the stack. Pure on-lattice modularity; consent-gated; pairs with kernel-egg-planter."
 version: 1.0.0
-license: MIT-0
+license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
     emoji: "🌱"
@@ -243,7 +243,7 @@ Not a substitute for host AV. Not a bootable OS kernel. Eggs are **verified mani
 ## Maintainer publish (ClawHub)
 
 ```bash
-# From skill folder — accept MIT-0 terms
+# From skill folder — accept LYGO Sovereign License v2.0 terms
 # Payload must include acceptLicenseTerms: true
 clawdhub publish . --slug lygo-sovereign-kernel-seeder \
   --name "LYGO Sovereign Kernel Seeder" \

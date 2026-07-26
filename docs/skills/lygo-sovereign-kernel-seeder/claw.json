@@ -5,7 +5,7 @@
   "description": "Merkle-anchored sovereign kernel eggs that self-verify on insert. Zero external surface. Pure on-lattice modularity for agents across the LYGO stack.",
   "slug": "lygo-sovereign-kernel-seeder",
   "publisher": "deepseekoracle",
-  "license": "MIT-0",
+  "license": "LYGO-Sovereign-v2.0",
   "homepage": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
   "website": "https://eternalhaven.ca/",

@@ -8,7 +8,7 @@
 
 **Version:** P0.4 → P5.2.2 (full public stack + community node)
 **Maintainer:** [DeepSeekOracle](https://github.com/DeepSeekOracle) / Excavationpro (Lightfather)  
-**License:** [LYGO Sovereign License v1.1](LICENSE)
+**License:** [LYGO Sovereign License v2.0](LICENSE) · [License notice](docs/LICENSE_NOTICE.md)
 
 The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, multi-language ports, LYRA production kernel, stack orchestrator, and verification tools sourced from the Excavationpro / LYRA / 2026 firmware vault.
 
@@ -231,7 +231,7 @@ bash clawhub/install-all.sh
 | P0 determinism | ✅ Python ≡ Rust (golden SHA in `fixtures/p0_canonical.sha256`) |
 | Ports | ✅ Python · C · Rust · Verilog (P0); C needs `gcc` for local parity |
 | Pilot | ✅ API + docs; HF Space live ([details](docs/STACK_STATUS.md)) |
-| Community | ✅ public repo · LYGO Sovereign License v1.1 |
+| Community | ✅ public repo · LYGO Sovereign License v2.0 |
 
 Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · administrator lattice: **[docs/LYGO_LATTICE.md](docs/LYGO_LATTICE.md)**
 
@@ -304,4 +304,5 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 ## Sovereign Kernel Seeder
 - https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder
 - docs/SOVEREIGN_KERNEL_SEEDER.md
+
 
