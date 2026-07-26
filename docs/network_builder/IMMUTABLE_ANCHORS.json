@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.3",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.4",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.3",
-  "updated_utc": "2026-07-21T22:30:00Z",
+  "version": "1.5.4",
+  "updated_utc": "2026-07-26T14:08:57Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -68,7 +68,8 @@
         "verify": "http_required",
         "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
         "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
-        "note": "Client-side photo → ASCII/text/type art. Letters, numbers, symbols. No upload."
+        "note": "Client-side photo to ASCII/text/type art. creative+tools balanced. SEO/AdSense ready.",
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-ascii-art"
       }
     ],
     "sovereign_seed": [
@@ -129,6 +130,14 @@
         "mirror": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_TURBO_MODELS_WHITEPAPER.md",
         "mirror_html": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_TURBO_MODELS_WHITEPAPER.html",
         "note": "Four Turbo models: coder 131k, hermes 65k, uncensored 8k, agent 32k. First LYGO-specialized local lineup."
+      },
+      {
+        "id": "clawhub_lygo_ascii_art",
+        "label": "ClawHub — lygo-ascii-art",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-ascii-art",
+        "verify": "http_soft",
+        "note": "Skill directs agents/users to eternalhaven ASCII Art Studio + lattice tools.",
+        "website": "https://eternalhaven.ca/lygo-ascii-art.html"
       },
       {
         "id": "clawhub_publisher",
@@ -262,6 +271,15 @@
       }
     ],
     "tools": [
+      {
+        "id": "lygo_ascii_art_studio_tool",
+        "label": "LYGO ASCII Art Studio (tool page)",
+        "url": "https://eternalhaven.ca/lygo-ascii-art.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
+        "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
+        "note": "Utility mirror of creative anchor — lattice tools limb."
+      },
       {
         "id": "biometric_harness",
         "label": "Biometric Entropy Harness",
