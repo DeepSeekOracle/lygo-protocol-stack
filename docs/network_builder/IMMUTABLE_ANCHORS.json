@@ -1,12 +1,22 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.9",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.0",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.9",
-  "updated_utc": "2026-07-26T15:37:47Z",
+  "version": "1.6.0",
+  "updated_utc": "2026-07-26T15:52:34Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
     "physics": [
+      {
+        "id": "lygo_world_lattice_layer_doc",
+        "label": "WORLD_LATTICE_LAYER.md — A+B+C sync",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
+      },
       {
         "id": "github_stack",
         "label": "GitHub Canonical",
@@ -146,6 +156,16 @@
       }
     ],
     "agents": [
+      {
+        "id": "clawhub_lygo_external_lattice_anchor",
+        "label": "ClawHub — lygo-external-lattice-anchor",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+        "verify": "http_soft",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
+      },
       {
         "id": "clawhub_lygo_sovereign_kernel_seeder",
         "label": "ClawHub — lygo-sovereign-kernel-seeder",
@@ -307,13 +327,26 @@
     ],
     "tools": [
       {
+        "id": "lygo_external_lattice_anchor",
+        "label": "LYGO External Lattice Anchor — world network Layer C",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
+      },
+      {
         "id": "lygo_kernel_egg_system_unified",
         "label": "LYGO Kernel Egg System Unified — Planter + Seeder",
         "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
         "verify": "http_required",
         "note": "Layer A classic planter + Layer B sovereign seeder; tools/verify_all_kernel_layers.py",
         "planter": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter",
-        "seeder": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+        "seeder": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "layers": "A+B+C",
+        "layer_c": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+        "world_doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md"
       },
       {
         "id": "lygo_sovereign_kernel_seeder_tool",

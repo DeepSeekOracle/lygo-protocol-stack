@@ -1,0 +1,478 @@
+{
+  "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
+  "created_utc": "2026-07-26T15:53:21Z",
+  "purpose": "Haven Star Chart proposals — steward gate + consent before LIVE ingest",
+  "chart_live": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+  "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+  "skill_gate": "lygo-haven-star-chart",
+  "count": 27,
+  "proposals": [
+    {
+      "proposal_id": "egg-cls-p0-nano-kernel",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "p0-nano-kernel",
+      "label": "Classic egg: p0-nano-kernel",
+      "star_role": "kernel_egg",
+      "content_sha256": "1588767a5214ef3815de0d7013802a63feda1cc4acab488f70ab380362222455",
+      "merkle_root": "c77fa5117090489f273e68d86d4f0cc1e9e06ddb01ab3366dfee66a464652c88",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-stack-anchor-hook",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "stack-anchor-hook",
+      "label": "Classic egg: stack-anchor-hook",
+      "star_role": "kernel_egg",
+      "content_sha256": "769b5bbaac4dd7cb0d2d1f2971784ff43b5eb1d6207d2d7a660abf36766900b2",
+      "merkle_root": "d0354f8bea8c9ab80347e398037db4f9820ce4f4cf1482e48be6c098c38183b0",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-stack-orchestrator-slim",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "stack-orchestrator-slim",
+      "label": "Classic egg: stack-orchestrator-slim",
+      "star_role": "kernel_egg",
+      "content_sha256": "bbb5d9903300ed9c7547190a4891c8a782cbf697e762c2bd46a711cdd5233b37",
+      "merkle_root": "c8d7fa5981fde97ec6bbfe9ab5bdd5e3b898044e8184cb60d2c457c5ca67baba",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-lattice-soa-index",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "lattice-soa-index",
+      "label": "Classic egg: lattice-soa-index",
+      "star_role": "kernel_egg",
+      "content_sha256": "bb8d7ffbc47c770cf2bedbbfdf6b15271497f898ddd2036f71d3aa9feb08542d",
+      "merkle_root": "4e49b9d4a165443bec5bf9488cf9ffd5ea9288741b99c605f5bb9a61ef050dac",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-excavationpro-music-catalog-v1",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "excavationpro-music-catalog-v1",
+      "label": "Classic egg: excavationpro-music-catalog-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "e6189777012d3a8cdc88a8deaf5aff9be72d703b84b346f325435776cce1cedd",
+      "merkle_root": "aa914de9144f018039a57b8caf6db957758f3bccf50b001bd07b4b2c7e9768ed",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-excavationpro-music-vault-v1",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "excavationpro-music-vault-v1",
+      "label": "Classic egg: excavationpro-music-vault-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "67411c9ffdfa1a7fcf7acb9938a09da8cc1964591c86139239b8cbf70b6e3cd0",
+      "merkle_root": "10bc183ea43945191698a6795096fec4bc310fddda2114dcbcd38a9a70b58bc5",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-excavationpro-music-lattice-skill-v1",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "excavationpro-music-lattice-skill-v1",
+      "label": "Classic egg: excavationpro-music-lattice-skill-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "b4a89741e8541e33feb840002acccd5ce8e63d7b5695fa5c4fd3009774cf46cc",
+      "merkle_root": "33160c350b2dd4433263144cbccafac9d887fd97484082bf5d6ae608c748cba5",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-firmware-p04-drivers",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "firmware-p04-drivers",
+      "label": "Classic egg: firmware-p04-drivers",
+      "star_role": "kernel_egg",
+      "content_sha256": "041d0002fcdf12e1864ac252630e83de147b40b844ca673a1846247c5e697681",
+      "merkle_root": "b779cdd8cfd010fef1ca89b9c48282e9bf7f39b2c1feaa40557609dd55fd69a9",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-protocol-drivers-p2-p5",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "protocol-drivers-p2-p5",
+      "label": "Classic egg: protocol-drivers-p2-p5",
+      "star_role": "kernel_egg",
+      "content_sha256": "98d7ec117d56f6c33216d01e85bf7e96faf6ddfcd4b579daf4cfba752e9c4841",
+      "merkle_root": "809b758976321cb937193d8ffe3f18d473adbfa8901f98cf52abaaff45a35619",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-joy-loop-protocol-v21",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "joy-loop-protocol-v21",
+      "label": "Classic egg: joy-loop-protocol-v21",
+      "star_role": "kernel_egg",
+      "content_sha256": "d0b2f6b3999720ac4ff1e9b48c15e05ba4d8d144ce90e42243bfda6ac88424a2",
+      "merkle_root": "979486b3ce24ced45862f9a2da3e3c5c5238df2bfa1c29de690894e3e8a5ee07",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-lygo-second-brain-v10",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "lygo-second-brain-v10",
+      "label": "Classic egg: lygo-second-brain-v10",
+      "star_role": "kernel_egg",
+      "content_sha256": "b44d887079910789c3fc1b5463bad13df515ad7d625f3e58778d3004ec7d75c3",
+      "merkle_root": "f22af12c09bb978da7510ecc03ba7e0c147553fe893a058a91c44719354003b4",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-lygo-sandcastle-v10",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "lygo-sandcastle-v10",
+      "label": "Classic egg: lygo-sandcastle-v10",
+      "star_role": "kernel_egg",
+      "content_sha256": "dd6788b12907559c355c7bb8c5f7fb96e76bc7797889aed16e72c833234a708c",
+      "merkle_root": "e185ce59c5976bed3e816da07cd231e5f0004006b4d243a4327c29a6cbac5791",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-lygo-openclaw-v10",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "lygo-openclaw-v10",
+      "label": "Classic egg: lygo-openclaw-v10",
+      "star_role": "kernel_egg",
+      "content_sha256": "82e7bf184ddd0be34058ec1075cb3e2ddfa820dc4a54620842354956a59d31fd",
+      "merkle_root": "7b5b28d1beadebf8fa77a60eb44894e9f25daa5f0dd07e4a0fa188ffffc25281",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-lygo-lpis-v10",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "lygo-lpis-v10",
+      "label": "Classic egg: lygo-lpis-v10",
+      "star_role": "kernel_egg",
+      "content_sha256": "dac6ac3663ea1bbfd24ac3ed0c0261118e5318a2b48dd2dc52f7775dc4198dd7",
+      "merkle_root": "84eaa66d244791ee0861b74a92c923d0d9578b99f046b9602d1e037cedb96d0e",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-cls-lygo-ops-detector-v1",
+      "kind": "kernel_egg",
+      "layer": "A_classic",
+      "egg_id": "lygo-ops-detector-v1",
+      "label": "Classic egg: lygo-ops-detector-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "8407e3dc9d12583f1c813f30b61de54982763824426266f15acd9cc51db292ff",
+      "merkle_root": "8a53d7d415641ff57c0601c1a37db6aac20f12a5c9bf40d700924a547d98407f",
+      "registry_merkle_root": "dfe0f38296dd5d131b63d857eaee43e7ac973a4d9dc5eeb5aeafa385c90e6f05",
+      "links": {
+        "retrieval": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "planter_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "four_pillars": true
+      }
+    },
+    {
+      "proposal_id": "egg-sov-lygo-music-license-v1",
+      "kind": "kernel_egg",
+      "layer": "B_sovereign",
+      "egg_id": "lygo-music-license-v1",
+      "label": "Sovereign egg: lygo-music-license-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "ad25be70372e239d003b3b22e3c45b979d0d09bf9c51469fb526220a1caa46c8",
+      "leaf_hash": "42a55f022c32cb61eebc109fa8fe4d40d6c3de78b234270e4a69110c4efe70ff",
+      "version": "1.0.0",
+      "egg_kind": "policy",
+      "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+      "links": {
+        "snapshot": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+        "seeder_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "quarantine_on_mismatch": true
+      }
+    },
+    {
+      "proposal_id": "egg-sov-lygo-sovereign-kernel-seeder-v1",
+      "kind": "kernel_egg",
+      "layer": "B_sovereign",
+      "egg_id": "lygo-sovereign-kernel-seeder-v1",
+      "label": "Sovereign egg: lygo-sovereign-kernel-seeder-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "2737d4d5d2701674fbff45a7e0bdc90e5aa4240b48e277d32f1c83c92bd81df5",
+      "leaf_hash": "5dee9d3aa1a6f4514cd9526761d961e7292c8b079990dffdf182b3ff50a84bdd",
+      "version": "1.0.1",
+      "egg_kind": "skill-pin",
+      "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+      "links": {
+        "snapshot": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+        "seeder_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "quarantine_on_mismatch": true
+      }
+    },
+    {
+      "proposal_id": "egg-sov-lygo-kernel-egg-planter-v1",
+      "kind": "kernel_egg",
+      "layer": "B_sovereign",
+      "egg_id": "lygo-kernel-egg-planter-v1",
+      "label": "Sovereign egg: lygo-kernel-egg-planter-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "b226c5ee174d1bc9c6db95fe63049267ca89fd908e7e0c47b25aee6816e4ec5f",
+      "leaf_hash": "faba53c16b5c20c5cbb926e70cf621b7dd901af1a4aff82110d78644a52bb008",
+      "version": "1.2.0",
+      "egg_kind": "skill-pin",
+      "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+      "links": {
+        "snapshot": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+        "seeder_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "quarantine_on_mismatch": true
+      }
+    },
+    {
+      "proposal_id": "egg-sov-lygo-external-lattice-anchor-v1",
+      "kind": "kernel_egg",
+      "layer": "B_sovereign",
+      "egg_id": "lygo-external-lattice-anchor-v1",
+      "label": "Sovereign egg: lygo-external-lattice-anchor-v1",
+      "star_role": "kernel_egg",
+      "content_sha256": "78aa90c2c8bb0c60756942e61f065401313f8c16f1311543ffb0a38804cf35f6",
+      "leaf_hash": "699f058951810e373ba653570ec210522aebb312dd1e92e8fc5cc0a67efbbd35",
+      "version": "1.0.0",
+      "egg_kind": "skill-pin",
+      "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+      "links": {
+        "snapshot": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+        "seeder_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
+      "protection": {
+        "verify_before_load": true,
+        "quarantine_on_mismatch": true
+      }
+    },
+    {
+      "proposal_id": "surface-pages-stack",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "GitHub Pages stack mirror",
+      "star_role": "public_mirror",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-anchors",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "Immutable Anchors ledger",
+      "star_role": "ledger",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/network_builder/IMMUTABLE_ANCHORS.json",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-star-chart",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "Haven Star Chart LIVE",
+      "star_role": "world_map",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-hf-stack",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "HF stack dataset",
+      "star_role": "free_server",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-hf-music",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "HF music stream CAS",
+      "star_role": "free_server",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-clawhub",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "ClawHub publisher",
+      "star_role": "skill_registry",
+      "url": "https://clawhub.ai/deepseekoracle",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-eternalhaven",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "Eternal Haven hub",
+      "star_role": "public_hub",
+      "url": "https://eternalhaven.ca/",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    },
+    {
+      "proposal_id": "surface-music-license",
+      "kind": "lattice_surface",
+      "layer": "C_external",
+      "label": "LYGO Music License",
+      "star_role": "rights",
+      "url": "https://eternalhaven.ca/lygo-music-license.html",
+      "protection": {
+        "public_verify": true,
+        "user_facing": true
+      }
+    }
+  ],
+  "sync_note": "Do NOT auto-ingest. Human runs haven star chart gate with --i-consent.",
+  "bundle_sha256": "cd7b7009ce22b29ca50ad38bef668c8fb738b556a7f7990224ee16be7209513c"
+}

@@ -145,3 +145,10 @@ npx clawhub@latest publish "…/clawhub/mirrors/lygo-kernel-egg-planter" --slug 
 ```
 
 **Δ9Φ963 — consent · verify · then spread.**
+
+## Layer C (world network)
+
+External public verify + Star Chart + free servers: **`lygo-external-lattice-anchor`**  
+https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor  
+Doc: `docs/WORLD_LATTICE_LAYER.md`  
+

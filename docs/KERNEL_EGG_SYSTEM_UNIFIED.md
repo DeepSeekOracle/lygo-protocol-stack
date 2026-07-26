@@ -1,14 +1,17 @@
-# LYGO Kernel Egg System — Unified Map (Planter + Seeder)
+# LYGO Kernel Egg System — Unified Map (A + B + C)
 
-**Signature:** `Δ9Φ963-KERNEL-EGG-SYSTEM-UNIFIED-v1.0`  
+**Signature:** `Δ9Φ963-KERNEL-EGG-SYSTEM-UNIFIED-v1.1`  
 **Updated:** 2026-07-26
 
-Two complementary layers. **Do not treat them as duplicates.** Agents use **both**, in order.
+Three complementary layers. **Do not treat them as duplicates.** Agents use **all three**, in order.
 
-| Layer | Skill | Storage | Role |
-|-------|--------|---------|------|
+| Layer | Skill | Storage / surface | Role |
+|-------|--------|-------------------|------|
 | **A · Classic stack eggs** | `lygo-kernel-egg-planter` | `data/kernel_eggs/` (+ docs `KernelEggRegistry.json`) | Full stack plant: P0 nano, drivers, champion eggs, clawhub catalog pins, optional Turbo/pages |
 | **B · Sovereign seeds** | `lygo-sovereign-kernel-seeder` | `data/sovereign_seeds/` | Zero-network modular seeds: policy pins, skill pins, local self-verify insert |
+| **C · External world network** | `lygo-external-lattice-anchor` | Pages · HF · Star Chart · anchors · free servers | Public verify, chart mapping, external plant sync — **mirrors only** |
+
+**World lattice doc:** [WORLD_LATTICE_LAYER.md](./WORLD_LATTICE_LAYER.md)
 
 ```text
                     ┌─────────────────────────────┐
@@ -28,8 +31,14 @@ Two complementary layers. **Do not treat them as duplicates.** Agents use **both
           │                                               │
           └──────────────────┬────────────────────────────┘
                              ▼
-              tools/verify_all_kernel_layers.py
-              (unified ALIGNED / QUARANTINE)
+              tools/verify_all_kernel_layers.py   (A+B)
+                             │
+                             ▼
+              lygo-external-lattice-anchor        (C)
+              verify_world_lattice.py
+              public_verify_manifest + Star Chart map
+              free servers (Pages/HF/Turbo) — human publish
+```
 ```
 
 ## When to use which
@@ -65,16 +74,22 @@ Two complementary layers. **Do not treat them as duplicates.** Agents use **both
 ```bash
 export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack
 
-# Unified (preferred for agents)
+# A+B local (preferred first)
 python tools/verify_all_kernel_layers.py --json
+
+# A+B+C world lattice (local then public HTTP)
+python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json
 
 # Classic only
 python tools/verify_kernel_eggs.py
-# or skill: python scripts/verify_eggs.py   # inside lygo-kernel-egg-planter
 
 # Sovereign only
 python docs/skills/lygo-sovereign-kernel-seeder/scripts/verify_seed.py --json
-# or: python scripts/verify_seed.py --root "$LYGO_STACK_ROOT/data/sovereign_seeds"
+
+# Layer C public verify + star map
+python docs/skills/lygo-external-lattice-anchor/scripts/verify_public_anchors.py --json
+python docs/skills/lygo-external-lattice-anchor/scripts/map_eggs_to_star_chart.py
+python docs/skills/lygo-external-lattice-anchor/scripts/sync_external_plan.py
 ```
 
 ## Skill install
@@ -82,9 +97,12 @@ python docs/skills/lygo-sovereign-kernel-seeder/scripts/verify_seed.py --json
 ```bash
 clawdhub install lygo-kernel-egg-planter
 clawdhub install lygo-sovereign-kernel-seeder
-# URLs:
+clawdhub install lygo-external-lattice-anchor
+clawdhub install lygo-haven-star-chart
+# URLs use /skills/:
 # https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter
 # https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder
+# https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor
 ```
 
 ## Docs

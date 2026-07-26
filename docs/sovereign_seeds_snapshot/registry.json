@@ -1,8 +1,8 @@
 {
   "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
   "version": "1.0.0",
-  "updated_utc": "2026-07-26T15:37:35Z",
-  "registry_merkle_root": "7f36c33c43b273dbeecd37fd4114d055371965c51cf5d8df4abc8b5e9688a215",
+  "updated_utc": "2026-07-26T15:52:34Z",
+  "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
   "eggs": {
     "lygo-music-license-v1": {
       "egg_id": "lygo-music-license-v1",
@@ -33,6 +33,16 @@
       "path": "lygo-kernel-egg-planter-v1.egg.json",
       "created_utc": "2026-07-26T15:37:35Z",
       "signature": "Delta9Phi963-EGG-lygo-kernel-egg-planter-v1-v1.2.0"
+    },
+    "lygo-external-lattice-anchor-v1": {
+      "egg_id": "lygo-external-lattice-anchor-v1",
+      "version": "1.0.0",
+      "kind": "skill-pin",
+      "content_sha256": "78aa90c2c8bb0c60756942e61f065401313f8c16f1311543ffb0a38804cf35f6",
+      "leaf_hash": "699f058951810e373ba653570ec210522aebb312dd1e92e8fc5cc0a67efbbd35",
+      "path": "lygo-external-lattice-anchor-v1.egg.json",
+      "created_utc": "2026-07-26T15:52:34Z",
+      "signature": "Delta9Phi963-EGG-lygo-external-lattice-anchor-v1-v1.0.0"
     }
   },
   "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0"
