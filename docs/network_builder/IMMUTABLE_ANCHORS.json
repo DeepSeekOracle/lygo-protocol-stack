@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.2",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.3",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.2",
-  "updated_utc": "2026-07-21T19:03:35Z",
+  "version": "1.5.3",
+  "updated_utc": "2026-07-21T22:30:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -60,6 +60,15 @@
       {
         "id": "excavationpro_music_catalog",
         "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
+      },
+      {
+        "id": "lygo_ascii_art_studio",
+        "label": "LYGO ASCII Art Studio — photo to text art",
+        "url": "https://eternalhaven.ca/lygo-ascii-art.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
+        "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
+        "note": "Client-side photo → ASCII/text/type art. Letters, numbers, symbols. No upload."
       }
     ],
     "sovereign_seed": [
