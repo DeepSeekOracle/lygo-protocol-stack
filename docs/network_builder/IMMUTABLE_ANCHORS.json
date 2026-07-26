@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.6",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.5.7",
   "skill_slug": "lygo-network-builder",
-  "version": "1.5.6",
-  "updated_utc": "2026-07-26T14:33:42Z",
+  "version": "1.5.7",
+  "updated_utc": "2026-07-26T15:12:50Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py.",
   "immutable_anchors": {
@@ -75,6 +75,15 @@
     ],
     "sovereign_seed": [
       {
+        "id": "lygo_sovereign_kernel_seeder",
+        "label": "LYGO Sovereign Kernel Seeder — Merkle self-verify eggs",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "verify": "http_soft",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SOVEREIGN_KERNEL_SEEDER.md",
+        "note": "Merkle-anchored eggs, self-verify on insert, zero external surface. Install: clawdhub install lygo-sovereign-kernel-seeder"
+      },
+      {
         "id": "kernel_egg_page",
         "label": "Kernel Egg Retrieval",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
@@ -123,6 +132,15 @@
       }
     ],
     "agents": [
+      {
+        "id": "clawhub_lygo_sovereign_kernel_seeder",
+        "label": "ClawHub — lygo-sovereign-kernel-seeder",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "verify": "http_soft",
+        "website": "https://eternalhaven.ca/",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+        "note": "ClawHub path: /deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
       {
         "id": "lygo_turbo_models_whitepaper",
         "label": "LYGO Turbo Models Whitepaper — flagship local AI starting lineup",
@@ -274,6 +292,14 @@
       }
     ],
     "tools": [
+      {
+        "id": "lygo_sovereign_kernel_seeder_tool",
+        "label": "Sovereign Kernel Seeder (tool/skill)",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+        "verify": "http_required",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "note": "Git skill package + ClawHub /skills/ path"
+      },
       {
         "id": "lygo_ascii_art_studio_tool",
         "label": "LYGO ASCII Art Studio (tool page)",

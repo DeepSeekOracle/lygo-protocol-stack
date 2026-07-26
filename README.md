@@ -300,3 +300,8 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 **Resonance signature:** Δ9Φ963-FULL-SYSTEM-RESOURCES
 
 (Compiled from full repo scans, LYGO_PUBLIC_LINK_ARCHIVE.json, docs/, memory files, GitHub, related repos, ClawHub, HF, and live Pages. All whitepapers pushed as pages content and linked. GitHub Pages organized with dedicated whitepapers nav + central hub.)
+
+## Sovereign Kernel Seeder
+- https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder
+- docs/SOVEREIGN_KERNEL_SEEDER.md
+
