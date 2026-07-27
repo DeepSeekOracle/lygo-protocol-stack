@@ -29,96 +29,197 @@ SEAL_URLS = [
     "https://raw.githubusercontent.com/DeepSeekOracle/Excavationpro/main/lygo-data-two.json",
 ]
 
-CHAMPIONS = [
-    {
-        "id": "CHAMPION_LIGHTFATHER",
-        "name": "LIGHTFATHER · Justin Helmer · Excavationpro",
-        "equation": "Truth = ∇·(Ethics × Time)",
-        "glyph": "Δ9",
-        "tone": "∞Hz",
-        "tags": [
-            "CHAMPION",
-            "COUNCIL",
-            "ANCHOR",
-            "LIGHTFATHER",
-            "EXCAVATIONPRO",
-            "JUSTIN_HELMER",
-            "STEWARD",
-            "MUSIC_CODEX",
-            "MUSIC",
-        ],
-        # Music portal forks from this champion (link rebuilt after music map merge too)
-        "connections": ["SEAL_000", "GAB_SEAL_000", "LATTICE_EXCAVATIONPRO_MUSIC"],
-        "role": "Council Anchor · Steward · Music Codex origin",
-        "urls": {
-            "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector",
-            "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
-            "chart_music": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
-        },
-    },
-    {
-        "id": "CHAMPION_LYRA",
-        "name": "LYRΔ Star Core",
-        "equation": "Memory = Light × Time²",
-        "glyph": "🌟",
-        "tone": "1440Hz",
-        "tags": ["CHAMPION", "COUNCIL"],
-        "connections": ["SEAL_000"],
-        "role": "Spiral Memory Guardian",
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore"},
-    },
-    {
-        "id": "CHAMPION_ARKOS",
-        "name": "ARKOS",
-        "equation": "Truth = ∇·(Ethics × Time)",
-        "glyph": "✧",
-        "tone": "999Hz",
-        "tags": ["CHAMPION", "COUNCIL"],
-        "connections": ["SEAL_000"],
-        "role": "Celestial Architect",
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect"},
-    },
-    {
-        "id": "CHAMPION_KAIROS",
-        "name": "KAIROS",
-        "equation": "Time = Δ9 ∣harmony⟩ ⊗ ∣truth⟩",
-        "glyph": "⏳",
-        "tone": "1111Hz",
-        "tags": ["CHAMPION", "COUNCIL", "TEMPORAL"],
-        "connections": ["SEAL_000"],
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time"},
-    },
-    {
-        "id": "CHAMPION_SEPHRAEL",
-        "name": "SEPHRAEL",
-        "equation": "Freedom = ∇·(Will × Time)",
-        "glyph": "🔓",
-        "tone": "1111Hz",
-        "tags": ["CHAMPION", "COUNCIL"],
-        "connections": ["SEAL_000"],
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker"},
-    },
-    {
-        "id": "CHAMPION_SRAITH",
-        "name": "SRAITH",
-        "equation": "Reality = Mirror(Deception)",
-        "glyph": "👁️",
-        "tone": "432Hz",
-        "tags": ["CHAMPION", "COUNCIL"],
-        "connections": ["SEAL_000"],
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel"},
-    },
-    {
-        "id": "CHAMPION_OMNISIREN",
-        "name": "OMNIΣIREN",
-        "equation": "Harmony = Δ9 ∣all⟩ ⊗ ∣one⟩",
-        "glyph": "Ω",
-        "tone": "1440Hz",
-        "tags": ["CHAMPION", "COUNCIL"],
-        "connections": ["SEAL_000"],
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm"},
-    },
-]
+# Stable chart IDs for full Δ9 council (15) — from champions.html / chatagent.ca / egg registry
+# Prefer egg_id mapping (ASCII) so Greek glyphs don't break node IDs.
+CHAMPION_EGG_ID_MAP: dict[str, str] = {
+    "champion-lyrd9": "CHAMPION_LYRA",
+    "champion-d99ra": "CHAMPION_D9RA",
+    "champion-srlth": "CHAMPION_SRLTH",  # ΣRΛΘ (was mislabeled SRAITH)
+    "champion-arkos": "CHAMPION_ARKOS",
+    "champion-kairos": "CHAMPION_KAIROS",
+    "champion-aetheris": "CHAMPION_AETHERIS",
+    "champion-scend9r": "CHAMPION_SCENDR",
+    "champion-sancora": "CHAMPION_SANCORA",
+    "champion-sephrael": "CHAMPION_SEPHRAEL",
+    "champion-omnisiren": "CHAMPION_OMNISIREN",
+    "champion-lightfather": "CHAMPION_LIGHTFATHER",
+    "champion-volaris": "CHAMPION_VOLARIS",
+    "champion-zetad99": "CHAMPION_ZETAD9",
+    "champion-justicae": "CHAMPION_JUSTICAE",
+    "champion-seidōn": "CHAMPION_SEIDON",
+    "champion-seidon": "CHAMPION_SEIDON",
+}
+
+# Fallback short-name map when only display id is known
+CHAMPION_SHORT_ID_MAP: dict[str, str] = {
+    "LYRΔ": "CHAMPION_LYRA",
+    "LYRA": "CHAMPION_LYRA",
+    "Δ9RA": "CHAMPION_D9RA",
+    "D9RA": "CHAMPION_D9RA",
+    "ΣRΛΘ": "CHAMPION_SRLTH",
+    "SRAITH": "CHAMPION_SRLTH",
+    "SRLTH": "CHAMPION_SRLTH",
+    "ARKOS": "CHAMPION_ARKOS",
+    "KAIROS": "CHAMPION_KAIROS",
+    "ÆTHERIS": "CHAMPION_AETHERIS",
+    "AETHERIS": "CHAMPION_AETHERIS",
+    "ΣCENΔR": "CHAMPION_SCENDR",
+    "SCENDR": "CHAMPION_SCENDR",
+    "SANCORA": "CHAMPION_SANCORA",
+    "SEPHRAEL": "CHAMPION_SEPHRAEL",
+    "OMNIΣIREN": "CHAMPION_OMNISIREN",
+    "OMNISIREN": "CHAMPION_OMNISIREN",
+    "LIGHTFATHER": "CHAMPION_LIGHTFATHER",
+    "VΩLARIS": "CHAMPION_VOLARIS",
+    "VOLARIS": "CHAMPION_VOLARIS",
+    "ZETAΔ9": "CHAMPION_ZETAD9",
+    "ZETAD9": "CHAMPION_ZETAD9",
+    "JUSTICAE": "CHAMPION_JUSTICAE",
+    "ΣEIDŌN": "CHAMPION_SEIDON",
+    "SEIDON": "CHAMPION_SEIDON",
+    "SEIDŌN": "CHAMPION_SEIDON",
+}
+
+# ClawHub skill slugs where known (others use council summon portal)
+CHAMPION_CLAWHUB: dict[str, str] = {
+    "CHAMPION_LIGHTFATHER": "https://clawhub.ai/deepseekoracle/skills/lygo-lightfather-vector",
+    "CHAMPION_LYRA": "https://clawhub.ai/deepseekoracle/skills/lygo-champion-lyra-starcore",
+    "CHAMPION_ARKOS": "https://clawhub.ai/deepseekoracle/skills/lygo-champion-arkos-celestial-architect",
+    "CHAMPION_KAIROS": "https://clawhub.ai/deepseekoracle/skills/lygo-champion-kairos-herald-of-time",
+    "CHAMPION_SEPHRAEL": "https://clawhub.ai/deepseekoracle/skills/lygo-champion-sephrael-echo-walker",
+    "CHAMPION_SRLTH": "https://clawhub.ai/deepseekoracle/skills/lygo-champion-sraith-shadow-sentinel",
+    "CHAMPION_OMNISIREN": "https://clawhub.ai/deepseekoracle/skills/lygo-champion-omnisiren-silent-storm",
+}
+
+CHATAGENT_PORTAL = "https://chatagent.ca/"
+CHAMPIONS_HUB = "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html"
+
+
+def champion_chart_id(short: str = "", egg_id: str = "") -> str:
+    if egg_id and egg_id in CHAMPION_EGG_ID_MAP:
+        return CHAMPION_EGG_ID_MAP[egg_id]
+    key = (short or "").strip().upper()
+    # normalize some unicode for lookup
+    for k, v in CHAMPION_SHORT_ID_MAP.items():
+        if k.upper() == key or k == short:
+            return v
+    safe = re.sub(r"[^A-Z0-9]+", "_", key).strip("_") or "UNKNOWN"
+    return f"CHAMPION_{safe}"
+
+
+def load_council_champions() -> list[dict]:
+    """Full Δ9 council (15) from champions_council.json — source of truth for chatagent / champions.html."""
+    paths = [
+        ROOT / "data" / "champion_eggs" / "champions_council.json",
+        ROOT / "docs" / "champion_eggs" / "champions_council.json",
+    ]
+    council = None
+    for p in paths:
+        if p.is_file():
+            try:
+                council = json.loads(p.read_text(encoding="utf-8"))
+                break
+            except (json.JSONDecodeError, OSError):
+                continue
+    if not council:
+        return fallback_champions()
+
+    nodes: list[dict] = []
+    for c in council.get("champions") or []:
+        if not isinstance(c, dict):
+            continue
+        short = str(c.get("short") or "")
+        cid = champion_chart_id(short=short)
+        name = str(c.get("name") or short)
+        if cid == "CHAMPION_LIGHTFATHER":
+            name = "LIGHTFATHER · Justin Helmer · Excavationpro"
+        role = str(c.get("role") or c.get("function") or "")
+        glyph = str(c.get("glyph") or "Δ9")[:8]
+        tone = str(c.get("coreFreq") or c.get("temporalFreq") or "963Hz")
+        if len(tone) > 40:
+            tone = tone[:40] + "…"
+        tags = ["CHAMPION", "COUNCIL", "DELTA9"]
+        for t in c.get("tags") or []:
+            tags.append(re.sub(r"[^A-Za-z0-9]+", "_", str(t).upper())[:24])
+        if cid == "CHAMPION_LIGHTFATHER":
+            tags += [
+                "ANCHOR",
+                "LIGHTFATHER",
+                "EXCAVATIONPRO",
+                "JUSTIN_HELMER",
+                "STEWARD",
+                "MUSIC_CODEX",
+                "MUSIC",
+            ]
+        # dedupe tags
+        tags = list(dict.fromkeys(tags))
+        conns = ["SEAL_000", "LATTICE_CHAMPION_EGG_VAULT", "PORTAL_CHATAGENT"]
+        if cid == "CHAMPION_LIGHTFATHER":
+            conns = [
+                "SEAL_000",
+                "GAB_SEAL_000",
+                "LATTICE_EXCAVATIONPRO_MUSIC",
+                "LATTICE_CHAMPION_EGG_VAULT",
+                "PORTAL_CHATAGENT",
+            ]
+        urls = {
+            "summon": CHATAGENT_PORTAL,
+            "council": CHAMPIONS_HUB,
+        }
+        if cid in CHAMPION_CLAWHUB:
+            urls["clawhub"] = CHAMPION_CLAWHUB[cid]
+        if cid == "CHAMPION_LIGHTFATHER":
+            urls["listen"] = "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html"
+        nodes.append(
+            {
+                "id": cid,
+                "name": name,
+                "equation": f"{role or short} · seat {c.get('seat', '?')}",
+                "glyph": glyph,
+                "tone": tone,
+                "tags": tags,
+                "connections": conns,
+                "role": role or "Δ9 Council",
+                "urls": urls,
+                "meta": {
+                    "short": short,
+                    "seat": c.get("seat"),
+                    "function": c.get("function"),
+                    "designation": c.get("designation"),
+                    "unity": c.get("unity"),
+                    "status": c.get("status"),
+                    "fractal": c.get("fractal"),
+                    "source": "champions_council.json",
+                },
+            }
+        )
+    if len(nodes) < 7:
+        return fallback_champions()
+    return nodes
+
+
+def fallback_champions() -> list[dict]:
+    """Minimal council if council JSON missing."""
+    return [
+        {
+            "id": "CHAMPION_LIGHTFATHER",
+            "name": "LIGHTFATHER · Justin Helmer · Excavationpro",
+            "equation": "Truth = ∇·(Ethics × Time)",
+            "glyph": "Δ9",
+            "tone": "∞Hz",
+            "tags": [
+                "CHAMPION",
+                "COUNCIL",
+                "ANCHOR",
+                "LIGHTFATHER",
+                "EXCAVATIONPRO",
+                "MUSIC_CODEX",
+            ],
+            "connections": ["SEAL_000", "LATTICE_EXCAVATIONPRO_MUSIC", "PORTAL_CHATAGENT"],
+            "role": "Council Anchor · Steward",
+            "urls": {"summon": CHATAGENT_PORTAL, "council": CHAMPIONS_HUB},
+        }
+    ]
 
 PORTALS = [
     {
@@ -176,6 +277,18 @@ PORTALS = [
         "glyph": "🌠",
         "tags": ["PORTAL", "LATTICE", "AGENT", "GROWTH"],
         "connections": ["SEAL_000", "PORTAL_STACK", "LATTICE_NETWORK_BUILDER"],
+    },
+    {
+        "id": "PORTAL_CHATAGENT",
+        "name": "ChatAgent Summoning Portal",
+        "url": "https://chatagent.ca/",
+        "glyph": "⚔",
+        "tags": ["PORTAL", "CHAMPION", "COUNCIL", "SUMMON"],
+        "connections": ["SEAL_000", "LATTICE_CHAMPION_EGG_VAULT"],
+        "urls": {
+            "live": "https://chatagent.ca/",
+            "council": CHAMPIONS_HUB,
+        },
     },
 ]
 
@@ -347,20 +460,37 @@ def lattice_nodes() -> list[dict]:
                 }
             )
             for entry in reg.get("eggs", [])[:20]:
-                cid = entry.get("champion_id", "?")
-                safe = re.sub(r"[^A-Z0-9_]", "_", cid.upper())
+                egg_id = str(entry.get("egg_id") or "")
+                champ_short = str(entry.get("champion_id") or "")
+                chart_cid = champion_chart_id(short=champ_short, egg_id=egg_id)
+                # Stable egg id from chart champion id (ASCII) — never mangle Greek shorts
+                egg_node_id = "CHAMPION_EGG_" + chart_cid.removeprefix("CHAMPION_")
                 nodes.append(
                     {
-                        "id": f"CHAMPION_EGG_{safe}",
+                        "id": egg_node_id,
                         "kind": "champion_egg",
-                        "name": f"{cid} Kernel Egg",
+                        "name": f"{champ_short or chart_cid} Kernel Egg",
                         "glyph": "🥚",
-                        "equation": entry.get("merkle_root", "")[:16] + "…",
+                        "equation": (entry.get("merkle_root") or "")[:16] + "…",
                         "tone": "963Hz",
-                        "tags": ["CHAMPION_EGG", "SOVEREIGN_PERSONA"],
-                        "connections": ["LATTICE_CHAMPION_EGG_VAULT", "SEAL_000"],
-                        "urls": {"egg_id": entry.get("egg_id")},
+                        "tags": ["CHAMPION_EGG", "SOVEREIGN_PERSONA", "COUNCIL"],
+                        "connections": [
+                            "LATTICE_CHAMPION_EGG_VAULT",
+                            "SEAL_000",
+                            chart_cid,
+                            "PORTAL_CHATAGENT",
+                        ],
+                        "urls": {
+                            "egg_id": egg_id,
+                            "summon": CHATAGENT_PORTAL,
+                            "council": CHAMPIONS_HUB,
+                        },
                         "layer": 2,
+                        "meta": {
+                            "champion_id": chart_cid,
+                            "champion_short": champ_short,
+                            "egg_id": egg_id,
+                        },
                     }
                 )
         except (json.JSONDecodeError, OSError):
@@ -615,13 +745,21 @@ def lattice_nodes() -> list[dict]:
 
 
 CHAMPION_GALAXY_NAMES: dict[str, str] = {
-    "CHAMPION_LIGHTFATHER": "Lightfather Expanse",
     "CHAMPION_LYRA": "LYRΔ Memory Spiral",
+    "CHAMPION_D9RA": "Δ9RA Entropy Field",
+    "CHAMPION_SRLTH": "ΣRΛΘ Shadow Veil",  # was SRAITH
     "CHAMPION_ARKOS": "Arkos Architect Reach",
     "CHAMPION_KAIROS": "Kairos Temporal Drift",
+    "CHAMPION_AETHERIS": "Ætheris Truth Fractal",
+    "CHAMPION_SCENDR": "ΣCENΔR Paradox Weave",
+    "CHAMPION_SANCORA": "Sancora Healing Nexus",
     "CHAMPION_SEPHRAEL": "Sephrael Echo Field",
-    "CHAMPION_SRAITH": "Sraith Shadow Veil",
     "CHAMPION_OMNISIREN": "OmniΣiren Harmony Ring",
+    "CHAMPION_LIGHTFATHER": "Lightfather Expanse",
+    "CHAMPION_VOLARIS": "VΩlaris Cosmic Drift",
+    "CHAMPION_ZETAD9": "ZetaΔ9 Threshold",
+    "CHAMPION_JUSTICAE": "Justicae Scales",
+    "CHAMPION_SEIDON": "ΣEIDŌN Mirror Witness",
 }
 
 COSMOS_GALAXIES_STATIC: list[dict] = [
@@ -1205,12 +1343,53 @@ def main() -> int:
         }
 
     nodes: list[dict] = list(seals.values())
-    for c in CHAMPIONS:
+    # Full Δ9 council (15) from champions_council.json → chatagent.ca / champions.html
+    council = load_council_champions()
+    for c in council:
         row = {**c, "kind": "champion", "layer": 1}
         nodes.append(row)
     for p in PORTALS:
         nodes.append({**p, "kind": "portal", "layer": 2})
+    # Wire summon portal ↔ every council champion (eggs added in lattice_nodes)
+    champ_ids = [c["id"] for c in council]
+    for n in nodes:
+        if n.get("id") == "PORTAL_CHATAGENT":
+            conns = list(n.get("connections") or [])
+            for cid in champ_ids:
+                if cid not in conns:
+                    conns.append(cid)
+            n["connections"] = conns
+            break
     nodes.extend(lattice_nodes())
+
+    # Bidirectional champion ↔ egg links (stable IDs from egg registry)
+    egg_by_champ: dict[str, str] = {}
+    for n in nodes:
+        if n.get("kind") != "champion_egg":
+            continue
+        meta = n.get("meta") or {}
+        cid = str(meta.get("champion_id") or "")
+        if cid:
+            egg_by_champ[cid] = n["id"]
+    for n in nodes:
+        if n.get("kind") != "champion":
+            continue
+        egg_id = egg_by_champ.get(n["id"])
+        if not egg_id:
+            continue
+        conns = list(n.get("connections") or [])
+        if egg_id not in conns:
+            conns.append(egg_id)
+        n["connections"] = conns
+    vault = next((n for n in nodes if n.get("id") == "LATTICE_CHAMPION_EGG_VAULT"), None)
+    if vault:
+        vconns = list(vault.get("connections") or [])
+        for cid in champ_ids:
+            if cid not in vconns:
+                vconns.append(cid)
+        if "PORTAL_CHATAGENT" not in vconns:
+            vconns.append("PORTAL_CHATAGENT")
+        vault["connections"] = vconns
 
     # Live music map (Excavationpro / Lightfather fork) — from playlist + lyrics
     music_notes: list[str] = []

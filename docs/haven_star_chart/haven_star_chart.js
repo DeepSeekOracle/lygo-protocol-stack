@@ -52,6 +52,9 @@
     const tags = (n.tags || []).map((t) => String(t).toUpperCase());
     const ft = (c.filter_tags || []).map((t) => String(t).toUpperCase());
     if (n.kind === "champion" && cid === "council_ring") return true;
+    // Eggs + summon portal ride the council ring with the 15 champions
+    if (cid === "council_ring" && (n.kind === "champion_egg" || n.id === "PORTAL_CHATAGENT" || n.id === "LATTICE_CHAMPION_EGG_VAULT"))
+      return true;
     if (n.kind === "lattice" && cid === "lattice_growth") return true;
     if (n.kind === "portal" && cid === "guardian_veil") return true;
     // Music Codex always keeps Lightfather origin + core so fork lines stay visible
@@ -486,11 +489,26 @@
     el("detailTone").textContent = d.tone || "—";
     el("detailTags").textContent = (d.tags || []).join(" · ") || "—";
     const urls = d.urls || {};
-    const live = urls.live || urls.clawhub || urls.repo || d.url || "";
+    // Champions/eggs: prefer ChatAgent summon portal; else clawhub / live anchors
+    const live =
+      urls.summon ||
+      urls.council ||
+      urls.live ||
+      urls.clawhub ||
+      urls.listen ||
+      urls.repo ||
+      d.url ||
+      "";
     const link = el("detailLink");
     if (live) {
       link.href = live;
-      link.textContent = "Open anchor →";
+      if (urls.summon && (d.kind === "champion" || d.kind === "champion_egg")) {
+        link.textContent = "Summon at chatagent.ca →";
+      } else if (urls.council && d.kind === "champion") {
+        link.textContent = "Council roster →";
+      } else {
+        link.textContent = "Open anchor →";
+      }
       link.style.display = "inline";
     } else {
       link.style.display = "none";
