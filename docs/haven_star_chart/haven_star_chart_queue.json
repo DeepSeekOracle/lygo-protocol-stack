@@ -1,7 +1,7 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-QUEUE-v1",
-  "updated_utc": "2026-07-27T03:58:52.089886+00:00",
-  "registry_sha256": "ef1a2837727bb78e5de448e4560898d9d56b8c7c17996dd5252cb901c6495a2c",
+  "updated_utc": "2026-07-27T04:05:16.228729+00:00",
+  "registry_sha256": "ef01834fa94875baedf947ac02722f69cfcf4ba517c4f9f041638e22c94154d9",
   "pending": 0,
   "accepted": 30,
   "agent_submissions_merged": 30,
@@ -36,7 +36,8 @@
     "merged:PORTAL_PAGES_STACK",
     "merged:PORTAL_STAR_CHART",
     "merged:SEAL_401",
-    "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)"
+    "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)",
+    "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
   ],
   "portal_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html"
 }

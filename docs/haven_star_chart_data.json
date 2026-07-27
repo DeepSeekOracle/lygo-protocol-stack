@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-27T03:58:52.089886+00:00",
+  "generated_utc": "2026-07-27T04:05:16.228729+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 1147,
-  "link_count": 2722,
+  "link_count": 2724,
   "seal_count": 323,
   "champion_count": 7,
   "lattice_count": 29,
-  "registry_sha256": "ef1a2837727bb78e5de448e4560898d9d56b8c7c17996dd5252cb901c6495a2c",
+  "registry_sha256": "ef01834fa94875baedf947ac02722f69cfcf4ba517c4f9f041638e22c94154d9",
   "constellations": [
     {
       "id": "primordial_core",
@@ -10351,22 +10351,32 @@
     },
     {
       "id": "CHAMPION_LIGHTFATHER",
-      "name": "LIGHTFATHER",
+      "name": "LIGHTFATHER \u00b7 Justin Helmer \u00b7 Excavationpro",
       "equation": "Truth = \u2207\u00b7(Ethics \u00d7 Time)",
       "glyph": "\u03949",
       "tone": "\u221eHz",
       "tags": [
+        "ANCHOR",
         "CHAMPION",
         "COUNCIL",
-        "ANCHOR"
+        "EXCAVATIONPRO",
+        "JUSTIN_HELMER",
+        "LIGHTFATHER",
+        "MUSIC",
+        "MUSIC_CODEX",
+        "STEWARD"
       ],
       "connections": [
         "SEAL_000",
-        "GAB_SEAL_000"
+        "GAB_SEAL_000",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "MUSIC_ISRC_REGISTRY"
       ],
-      "role": "Council Anchor",
+      "role": "Council Anchor \u00b7 Steward \u00b7 Music Codex origin",
       "urls": {
-        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector"
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector",
+        "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+        "chart_music": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html"
       },
       "kind": "champion",
       "layer": 1,
@@ -11604,6 +11614,8 @@
       "layer": 2,
       "meta": {
         "steward": "Justin Helmer / Lightfather / Excavationpro",
+        "origin_champion": "CHAMPION_LIGHTFATHER",
+        "origin_note": "Music Codex forks from CHAMPION_LIGHTFATHER (steward node)",
         "stream_count": 10775,
         "unique_isrcs": 718,
         "tagged_albums": 1,
@@ -47869,6 +47881,16 @@
       "kind": "lattice"
     },
     {
+      "source": "CHAMPION_LIGHTFATHER",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "fork"
+    },
+    {
+      "source": "CHAMPION_LIGHTFATHER",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "fork"
+    },
+    {
       "source": "CHAMPION_LYRA",
       "target": "SEAL_000",
       "kind": "lattice"
@@ -48236,7 +48258,7 @@
     {
       "source": "LATTICE_EXCAVATIONPRO_MUSIC",
       "target": "CHAMPION_LIGHTFATHER",
-      "kind": "lattice"
+      "kind": "fork"
     },
     {
       "source": "LATTICE_EXCAVATIONPRO_MUSIC",
@@ -48261,7 +48283,7 @@
     {
       "source": "LATTICE_LYGO_MUSIC_LICENSE",
       "target": "CHAMPION_LIGHTFATHER",
-      "kind": "lattice"
+      "kind": "fork"
     },
     {
       "source": "MUSIC_ISRC_REGISTRY",
@@ -48271,7 +48293,7 @@
     {
       "source": "MUSIC_ISRC_REGISTRY",
       "target": "CHAMPION_LIGHTFATHER",
-      "kind": "lattice"
+      "kind": "fork"
     },
     {
       "source": "MUSIC_ISRC_REGISTRY",
@@ -59216,7 +59238,7 @@
     {
       "source": "MUSIC_ALBUM_VENGEANCE_CODEX",
       "target": "CHAMPION_LIGHTFATHER",
-      "kind": "lattice"
+      "kind": "fork"
     },
     {
       "source": "MUSIC_ALBUM_VENGEANCE_CODEX",
@@ -59426,7 +59448,7 @@
     {
       "source": "MUSIC_CATALOG_CLOUD",
       "target": "CHAMPION_LIGHTFATHER",
-      "kind": "lattice"
+      "kind": "fork"
     },
     {
       "source": "LATTICE_EGG_CLS_EXCAVATIONPRO_MUSIC_CATALOG_V1",
@@ -61620,7 +61642,8 @@
         "merged:PORTAL_PAGES_STACK",
         "merged:PORTAL_STAR_CHART",
         "merged:SEAL_401",
-        "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)"
+        "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)",
+        "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
       ]
     },
     "music_live_map": {
@@ -61630,7 +61653,8 @@
       "fork_of": "CHAMPION_LIGHTFATHER",
       "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
       "notes": [
-        "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)"
+        "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)",
+        "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
       ]
     },
     "errors": [],

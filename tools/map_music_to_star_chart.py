@@ -228,6 +228,8 @@ def build_music_nodes() -> tuple[list[dict], dict]:
             "layer": 2,
             "meta": {
                 "steward": "Justin Helmer / Lightfather / Excavationpro",
+                "origin_champion": LIGHTFATHER,
+                "origin_note": "Music Codex forks from CHAMPION_LIGHTFATHER (steward node)",
                 "stream_count": total,
                 "unique_isrcs": len(by_isrc),
                 "tagged_albums": len(by_album),

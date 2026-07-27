@@ -32,14 +32,29 @@ SEAL_URLS = [
 CHAMPIONS = [
     {
         "id": "CHAMPION_LIGHTFATHER",
-        "name": "LIGHTFATHER",
+        "name": "LIGHTFATHER · Justin Helmer · Excavationpro",
         "equation": "Truth = ∇·(Ethics × Time)",
         "glyph": "Δ9",
         "tone": "∞Hz",
-        "tags": ["CHAMPION", "COUNCIL", "ANCHOR"],
-        "connections": ["SEAL_000", "GAB_SEAL_000"],
-        "role": "Council Anchor",
-        "urls": {"clawhub": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector"},
+        "tags": [
+            "CHAMPION",
+            "COUNCIL",
+            "ANCHOR",
+            "LIGHTFATHER",
+            "EXCAVATIONPRO",
+            "JUSTIN_HELMER",
+            "STEWARD",
+            "MUSIC_CODEX",
+            "MUSIC",
+        ],
+        # Music portal forks from this champion (link rebuilt after music map merge too)
+        "connections": ["SEAL_000", "GAB_SEAL_000", "LATTICE_EXCAVATIONPRO_MUSIC"],
+        "role": "Council Anchor · Steward · Music Codex origin",
+        "urls": {
+            "clawhub": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector",
+            "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+            "chart_music": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+        },
     },
     {
         "id": "CHAMPION_LYRA",
@@ -1130,9 +1145,23 @@ def build_links(nodes: list[dict]) -> list[dict]:
         seen.add(k)
         links.append({"source": s, "target": t, "kind": kind})
 
+    def _link_kind(src_id: str, tgt_id: str, node_kind: str) -> str:
+        pair = {src_id, tgt_id}
+        # Explicit lineage/fork: Lightfather champion ↔ Excavationpro music tree
+        if "CHAMPION_LIGHTFATHER" in pair and (
+            "LATTICE_EXCAVATIONPRO_MUSIC" in pair
+            or "MUSIC_ISRC_REGISTRY" in pair
+            or "LATTICE_LYGO_MUSIC_LICENSE" in pair
+            or any(x.startswith("MUSIC_") for x in pair)
+        ):
+            return "fork"
+        if node_kind == "seal":
+            return "canon"
+        return "lattice"
+
     for n in nodes:
         for t in n.get("connections") or []:
-            add(n["id"], t, "canon" if n.get("kind") == "seal" else "lattice")
+            add(n["id"], t, _link_kind(n["id"], str(t), n.get("kind") or ""))
     # Gravity to core for orphans
     core = "SEAL_000" if "SEAL_000" in ids else "GAB_SEAL_000"
     if core in ids:
@@ -1202,6 +1231,34 @@ def main() -> int:
             f"(albums={music_stats.get('album_stars')} tracks={music_stats.get('track_stars')} "
             f"playlist={music_stats.get('total_playlist_tracks')})"
         )
+        # Ensure Lightfather is the visible origin of the music fork
+        for n in nodes:
+            if n.get("id") != "CHAMPION_LIGHTFATHER":
+                continue
+            n["name"] = "LIGHTFATHER · Justin Helmer · Excavationpro"
+            tags = set(str(t).upper() for t in (n.get("tags") or []))
+            tags.update(
+                {
+                    "CHAMPION",
+                    "COUNCIL",
+                    "ANCHOR",
+                    "LIGHTFATHER",
+                    "EXCAVATIONPRO",
+                    "JUSTIN_HELMER",
+                    "STEWARD",
+                    "MUSIC_CODEX",
+                    "MUSIC",
+                }
+            )
+            n["tags"] = sorted(tags)
+            conns = list(n.get("connections") or [])
+            for must in ("SEAL_000", "LATTICE_EXCAVATIONPRO_MUSIC", "MUSIC_ISRC_REGISTRY"):
+                if must not in conns and any(x.get("id") == must for x in nodes):
+                    conns.append(must)
+            n["connections"] = conns
+            n["role"] = "Council Anchor · Steward · Music Codex origin"
+            music_notes.append("lightfather_origin: linked → LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry")
+            break
     except Exception as exc:
         music_notes.append(f"music_map_error: {exc}")
 

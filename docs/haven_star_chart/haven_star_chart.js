@@ -54,11 +54,19 @@
     if (n.kind === "champion" && cid === "council_ring") return true;
     if (n.kind === "lattice" && cid === "lattice_growth") return true;
     if (n.kind === "portal" && cid === "guardian_veil") return true;
+    // Music Codex always keeps Lightfather origin + core so fork lines stay visible
+    if (cid === "music_codex") {
+      if (n.id === "CHAMPION_LIGHTFATHER" || n.id === "CHAMPION_EGG_LIGHTFATHER") return true;
+      if ((n.kind || "").startsWith("music") || tags.includes("MUSIC_CODEX") || tags.includes("MUSIC"))
+        return true;
+    }
     return ft.some((t) => tags.includes(t)) || parseSealId(n.id).isCore;
   }
 
   function nodeMatchesGalaxy(n, gid) {
     if (gid === "all") return true;
+    // Keep Lightfather visible as origin when viewing the music galaxy
+    if (gid === "GALAXY_EXCAVATIONPRO_MUSIC" && n.id === "CHAMPION_LIGHTFATHER") return true;
     return (n.cosmos || {}).galaxy_id === gid;
   }
 
@@ -82,6 +90,8 @@
     if (gid === "GALAXY_LATTICE") return R * 0.48;
     if (gid === "GALAXY_AGENT_GROWTH") return R * 0.42;
     if (gid === "GALAXY_ETERNAL_HAVEN") return R * 0.38;
+    // Sit Music Codex near Lightfather champion orbit so fork line is readable
+    if (gid === "GALAXY_EXCAVATIONPRO_MUSIC") return R * 0.36;
     return R * 0.36;
   }
 
@@ -291,9 +301,22 @@
       .data(links)
       .join("line")
       .attr("class", "chart-link")
-      .attr("stroke", (d) => (d.kind === "gravity" ? "#5a4a7a" : "#00d8e8"))
-      .attr("stroke-width", (d) => (d.kind === "gravity" ? 0.55 : 1.1))
-      .attr("stroke-dasharray", (d) => (d.kind === "gravity" ? "5,7" : null))
+      .attr("stroke", (d) => {
+        if (d.kind === "fork" || d.kind === "lineage") return "#ffd76a";
+        if (d.kind === "gravity") return "#5a4a7a";
+        return "#00d8e8";
+      })
+      .attr("stroke-width", (d) => {
+        if (d.kind === "fork" || d.kind === "lineage") return 2.6;
+        if (d.kind === "gravity") return 0.55;
+        return 1.1;
+      })
+      .attr("stroke-opacity", (d) => (d.kind === "fork" || d.kind === "lineage" ? 0.85 : 0.38))
+      .attr("stroke-dasharray", (d) => {
+        if (d.kind === "gravity") return "5,7";
+        if (d.kind === "fork" || d.kind === "lineage") return "2,3";
+        return null;
+      })
       .attr("stroke-linecap", "round");
 
     nodeSel = gRoot
