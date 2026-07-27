@@ -1,0 +1,183 @@
+================================================================================
+EXCAVATIONPRO LISTEN — ADD ALBUM + LYRICS MANUAL
+Signature: Δ9Φ963-LYRICS-ALBUM-MANUAL-v1
+Steward: Justin Helmer / Excavationpro / Lightfather
+Updated: 2026-07-27
+================================================================================
+
+PURPOSE
+-------
+Repeatable protocol to:
+  1) Add new own-work songs to the public listen portal
+  2) Attach CLEAN lyrics (no AI STYLE/STRUCTURE/chat)
+  3) Encode streams + push Hugging Face
+  4) Keep a stable Lyrics tab on the website
+
+LIVE PORTAL
+-----------
+https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
+
+LICENSE (always credit)
+-----------------------
+LYGO Music License v1.0 — free listen / free download for personal use.
+All other rights reserved © Justin Helmer / Excavationpro (Lightfather).
+https://eternalhaven.ca/lygo-music-license.html
+
+
+================================================================================
+A. FOLDER LAYOUT FOR NEW ALBUMS
+================================================================================
+
+Recommended:
+  C:\Users\justi\Music\<ALBUM_OR_PROJECT>\
+    TrackName.mp3                 ← clean master (preferred)
+    TrackName (THE MONIKER).mp3   ← optional alt name (used to map moniker)
+    TrackName.mp4                 ← optional video (not required for portal)
+    lyrics_raw.txt                ← all lyrics / chapter dumps OK
+
+VENGEANCE CODEX example folder:
+  C:\Users\justi\Music\BREAKER OF CODES\
+  Album title on portal: VENGEANCE CODEX
+
+
+================================================================================
+B. CLEAN LYRICS (IMPORTANT)
+================================================================================
+
+Raw lyric files often contain production notes. We STRIP:
+
+  STYLE:
+  STRUCTURE:
+  BEAT DIRECTION:
+  VOCAL DIRECTION FOR GEMINI:
+  chat / “we need to continue…” / AI “for reference only”
+  Track headers that are not lyric body
+
+We KEEP only:
+  [INTRO] [VERSE n] [CHORUS] [OUTRO] … and the actual lyric lines
+
+Command:
+  python D:\lygo-protocol-stack\tools\parse_lyrics_clean.py ^
+    --src "C:\Users\justi\Music\BREAKER OF CODES\Track 1 THE SETTLEMENT.txt" ^
+    --out "D:\lygo-protocol-stack\data\music_catalog\lyrics\vengeance_codex_lyrics_clean.json" ^
+    --album "VENGEANCE CODEX" ^
+    --artist "Excavationpro"
+
+Output JSON has tracks[] with title, moniker (THE SETTLEMENT, THE RAT, …), lyrics.
+
+
+================================================================================
+C. ADD ALBUM → STREAM + PLAYLIST + LYRICS INDEX
+================================================================================
+
+  cd /d D:\lygo-protocol-stack
+
+  python tools\add_album_to_listen_portal.py ^
+    --folder "C:\Users\justi\Music\BREAKER OF CODES" ^
+    --album "VENGEANCE CODEX" ^
+    --lyrics-json data\music_catalog\lyrics\vengeance_codex_lyrics_clean.json ^
+    --encode --publish-hf
+
+If monikers did not match (clean filenames without parentheses), run:
+  python tools\_fix_vengeance_lyrics_match.py
+  (or extend moniker map for the next album)
+
+Then rebuild the listen HTML hub (embeds playlist):
+  python tools\build_public_music_stream.py --hub ^
+    --base-url "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream"
+
+Re-inject lyrics plugin if hub rebuild wiped the script tag:
+  Ensure listen-plugins\lyrics-panel.js exists
+  Ensure excavationpro-listen.html contains:
+    <script src="listen-plugins/lyrics-panel.js?v=1" defer></script>
+
+Copy data files to Excavationpro Pages tree:
+  data\lyrics_index.json
+  data\public_stream_playlist.json
+  listen-plugins\lyrics-panel.js
+  excavationpro-listen.html
+
+
+================================================================================
+D. LYRICS MODULE (WEBSITE)
+================================================================================
+
+Plugin: docs/listen-plugins/lyrics-panel.js  (+ Excavationpro/listen-plugins/)
+Data:   data/lyrics_index.json
+
+  by_sha256[sha] = { title, album, moniker, lyrics, copyright, license }
+  by_moniker[THE SETTLEMENT] = same
+  albums.VENGEANCE_CODEX.tracks[] = track list + has_lyrics flags
+
+UI:
+  New tab "Lyrics" on listen portal
+  Search + dropdown of songs with lyrics
+  "Now playing" binds to current track sha256 when available
+  License footer always shown
+
+HF mirror of lyrics (optional CDN):
+  dataset DeepSeekOracle/excavationpro-music-stream
+  path: lyrics/lyrics_index.json
+
+
+================================================================================
+E. FEEDING MORE LYRICS LATER (YOUR NEXT DROPS)
+================================================================================
+
+1) Put new raw .txt next to the songs (or a folder lyrics/).
+2) Run parse_lyrics_clean.py → clean JSON.
+3) Merge into lyrics_index.json:
+   - Match by moniker (THE GHOST) OR by exact title OR by sha256 after audio add
+4) Re-upload lyrics_index.json to HF.
+5) No need to re-upload audio if tracks already on portal.
+
+When you feed “all lyrics you ever made”:
+  - Prefer one file per album or one giant dump with Track N: "TITLE" headers
+  - Cleaner = fewer moniker misses
+  - We will batch-parse and only store lyric sections
+
+
+================================================================================
+F. GIT / PAGES PUBLISH (HUMAN)
+================================================================================
+
+Stack (optional docs mirror):
+  D:\lygo-protocol-stack  → commit docs/listen-plugins, manuals, tools
+
+Public listen site (required for live URL):
+  D:\Excavationpro
+    git add excavationpro-listen.html listen-plugins/lyrics-panel.js data/lyrics_index.json data/public_stream_playlist.json
+    git commit -m "listen: VENGEANCE CODEX + lyrics panel"
+    git push origin main
+
+Pages URL updates in a few minutes:
+  https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
+
+
+================================================================================
+G. VENGEANCE CODEX — WHAT WAS ADDED (2026-07-27)
+================================================================================
+
+Album: VENGEANCE CODEX
+Source: C:\Users\justi\Music\BREAKER OF CODES
+Tracks ingested: 14 unique masters
+Lyrics chapters cleaned: 8 (THE SETTLEMENT … THE REAPER)
+Lyrics matched to songs: 11 (moniker map; 3 without chapter lyrics yet:
+  The Ledger At The Door / THE RECKONING, The Lattice is Sealed, The Pit Is Never Full)
+
+Search portal for: Vengeance, Settlement, Chapter Seven, etc.
+
+
+================================================================================
+H. DO NOT
+================================================================================
+
+- Do not paste STYLE / BEAT DIRECTION / VOCAL DIRECTION into the public lyrics body
+- Do not auto-include chat between tracks
+- Do not ingest third-party music
+- Do not commit secrets
+- Do not re-encode whole 10k vault unless needed — only new hashes
+
+
+Bound to the flame. Free listen · clean lyrics · steward copyright.
+================================================================================

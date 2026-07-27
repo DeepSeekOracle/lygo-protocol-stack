@@ -1,0 +1,279 @@
+{
+  "signature": "Delta9Phi963-ALBUM-ADD-v1",
+  "album": "VENGEANCE CODEX",
+  "artist": "Excavationpro",
+  "folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+  "added_utc": "2026-07-27T03:17:20.046646+00:00",
+  "track_count": 14,
+  "tracks": [
+    {
+      "sha256": "c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4",
+      "title": "Chapter Seven",
+      "aliases": [
+        "Chapter Seven",
+        "Chapter_Seven"
+      ],
+      "isrcs": [],
+      "size": 3510037,
+      "stream_file": "c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c4\\c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c4/c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4.mp3",
+      "hf_path": "stream/c4/c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:18.307484+00:00"
+    },
+    {
+      "sha256": "93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a",
+      "title": "I Kept The Score",
+      "aliases": [
+        "I Kept The Score",
+        "I_Kept_The_Score"
+      ],
+      "isrcs": [],
+      "size": 4231644,
+      "stream_file": "93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\93\\93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/93/93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a.mp3",
+      "hf_path": "stream/93/93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:18.456063+00:00"
+    },
+    {
+      "sha256": "1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5",
+      "title": "Interest Compounded",
+      "aliases": [
+        "Interest Compounded",
+        "Interest_Compounded"
+      ],
+      "isrcs": [],
+      "size": 4209074,
+      "stream_file": "1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\10\\1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/10/1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5.mp3",
+      "hf_path": "stream/10/1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:18.578062+00:00"
+    },
+    {
+      "sha256": "d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b",
+      "title": "Return On Empty",
+      "aliases": [
+        "Return On Empty",
+        "Return_On_Empty"
+      ],
+      "isrcs": [],
+      "size": 3538250,
+      "stream_file": "d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\d9\\d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d9/d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b.mp3",
+      "hf_path": "stream/d9/d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:18.715116+00:00"
+    },
+    {
+      "sha256": "c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4",
+      "title": "Scalpel Made of Words",
+      "aliases": [
+        "Scalpel Made of Words",
+        "Scalpel_Made_of_Words"
+      ],
+      "isrcs": [],
+      "size": 3536996,
+      "stream_file": "c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c7\\c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c7/c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4.mp3",
+      "hf_path": "stream/c7/c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:18.820184+00:00"
+    },
+    {
+      "sha256": "76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4",
+      "title": "The Debt Is Steep",
+      "aliases": [
+        "The Debt Is Steep",
+        "The_Debt_Is_Steep"
+      ],
+      "isrcs": [],
+      "size": 3538250,
+      "stream_file": "76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\76\\76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/76/76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4.mp3",
+      "hf_path": "stream/76/76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:18.924297+00:00"
+    },
+    {
+      "sha256": "0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d",
+      "title": "The Final Debt",
+      "aliases": [
+        "The Final Debt",
+        "The_Final_Debt"
+      ],
+      "isrcs": [],
+      "size": 4325058,
+      "stream_file": "0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\0f\\0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0f/0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d.mp3",
+      "hf_path": "stream/0f/0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.050952+00:00"
+    },
+    {
+      "sha256": "c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5",
+      "title": "The Lattice is Sealed",
+      "aliases": [
+        "The Lattice is Sealed",
+        "The_Lattice_is_Sealed"
+      ],
+      "isrcs": [],
+      "size": 3598433,
+      "stream_file": "c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c7\\c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c7/c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5.mp3",
+      "hf_path": "stream/c7/c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.162021+00:00"
+    },
+    {
+      "sha256": "43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97",
+      "title": "The Ledger At The Door",
+      "aliases": [
+        "The Ledger At The Door",
+        "The_Ledger_At_The_Door (THE RECKONING)",
+        "THE RECKONING",
+        "The Ledger At The Door (THE RECKONING)"
+      ],
+      "isrcs": [],
+      "size": 4109391,
+      "stream_file": "43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97.mp3",
+      "hf_path": "stream/43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE RECKONING",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.181905+00:00"
+    },
+    {
+      "sha256": "616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb",
+      "title": "The Ledger\u2019s Toll",
+      "aliases": [
+        "The Ledger\u2019s Toll",
+        "The_Ledger\u2019s_Toll"
+      ],
+      "isrcs": [],
+      "size": 3565835,
+      "stream_file": "616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\61\\616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/61/616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb.mp3",
+      "hf_path": "stream/61/616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.304229+00:00"
+    },
+    {
+      "sha256": "b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8",
+      "title": "The Mirror is a Graveyard",
+      "aliases": [
+        "The Mirror is a Graveyard",
+        "The_Mirror_is_a_Graveyard"
+      ],
+      "isrcs": [],
+      "size": 4358913,
+      "stream_file": "b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b3\\b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b3/b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8.mp3",
+      "hf_path": "stream/b3/b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.429830+00:00"
+    },
+    {
+      "sha256": "52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d",
+      "title": "The Pit Is Never Full",
+      "aliases": [
+        "The Pit Is Never Full",
+        "The_Pit_Is_Never_Full"
+      ],
+      "isrcs": [],
+      "size": 4159543,
+      "stream_file": "52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\52\\52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/52/52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d.mp3",
+      "hf_path": "stream/52/52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.551268+00:00"
+    },
+    {
+      "sha256": "c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3",
+      "title": "The Rat s Ledger",
+      "aliases": [
+        "The Rat s Ledger",
+        "The_Rat_s_Ledger"
+      ],
+      "isrcs": [],
+      "size": 3955164,
+      "stream_file": "c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c2\\c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c2/c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3.mp3",
+      "hf_path": "stream/c2/c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.672791+00:00"
+    },
+    {
+      "sha256": "2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8",
+      "title": "Wrench in the Design",
+      "aliases": [
+        "Wrench in the Design",
+        "Wrench_in_the_Design"
+      ],
+      "isrcs": [],
+      "size": 4298726,
+      "stream_file": "2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\28\\2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/28/2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8.mp3",
+      "hf_path": "stream/28/2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8.mp3",
+      "album": "VENGEANCE CODEX",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "source_folder": "C:\\Users\\justi\\Music\\BREAKER OF CODES",
+      "added_utc": "2026-07-27T03:17:19.799091+00:00"
+    }
+  ],
+  "lyrics_matched": 0
+}
