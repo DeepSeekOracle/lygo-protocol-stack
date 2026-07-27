@@ -1262,6 +1262,11 @@ def main() -> int:
                 "LIGHTFATHER",
                 "LISTEN_PORTAL",
                 "HAS_LYRICS",
+                "HAS_ISRC",
+                "ISRC_STAR",
+                "ISRC_REGISTRY",
+                "ISRC_BUCKET",
+                "ISRC_MAP",
             ],
         },
     ]
