@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-26T16:00:16.585039+00:00",
+  "generated_utc": "2026-07-27T03:34:52.735355+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 394,
-  "link_count": 483,
+  "node_count": 412,
+  "link_count": 532,
   "seal_count": 323,
   "champion_count": 7,
   "lattice_count": 29,
-  "registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c",
+  "registry_sha256": "9f3c6e91a339c501807ac116e4c03379f3ec72b6831fc818f9f5a68708f9f021",
   "constellations": [
     {
       "id": "primordial_core",
@@ -65,6 +65,22 @@
         "LORE",
         "HAVEN"
       ]
+    },
+    {
+      "id": "music_codex",
+      "name": "Excavationpro Music Codex",
+      "glyph": "\ud83c\udfa7",
+      "description": "Lightfather / Excavationpro sovereign music fork \u2014 listen portal, tagged albums & track stars (live rebuild from playlist).",
+      "filter_tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "MUSIC_TRACK",
+        "MUSIC_CODEX",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "LISTEN_PORTAL",
+        "HAS_LYRICS"
+      ]
     }
   ],
   "cosmos": {
@@ -108,6 +124,18 @@
         "constellation_id": "lattice_growth",
         "angle_deg": 200,
         "star_count": 28
+      },
+      {
+        "id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "name": "Excavationpro Music Codex",
+        "glyph": "\ud83c\udfa7",
+        "tier": "galaxy",
+        "description": "Lightfather / Justin Helmer / Excavationpro sovereign music fork \u2014 listen portal, tagged albums, live track stars. Rebuilds from playlist.",
+        "color": "#ff66cc",
+        "constellation_id": "music_codex",
+        "angle_deg": 155,
+        "fork_of": "CHAMPION_LIGHTFATHER",
+        "star_count": 18
       },
       {
         "id": "GALAXY_GUARDIAN_VEIL",
@@ -247,6 +275,26 @@
         ]
       },
       {
+        "id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "name": "Album Vengeance Codex",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 15,
+        "star_ids": [
+          "MUSIC_ALBUM_VENGEANCE_CODEX",
+          "MUSIC_TRACK_43235AE88F3A7BB4",
+          "MUSIC_TRACK_C47419E3322A752A",
+          "MUSIC_TRACK_93B742D7B0E3EC9A",
+          "MUSIC_TRACK_1069CF0991FB9645",
+          "MUSIC_TRACK_D9AD68212086AFBC",
+          "MUSIC_TRACK_C792B4FE2EBFA3C1",
+          "MUSIC_TRACK_76B426BEDE427421",
+          "MUSIC_TRACK_0F000900E4AE1879",
+          "MUSIC_TRACK_C79ECB73D198FF54",
+          "MUSIC_TRACK_616EF4102A483788",
+          "MUSIC_TRACK_B308CDC0FB552A62"
+        ]
+      },
+      {
         "id": "NEBULA_CHAMPION_ARKOS_ANCHOR",
         "name": "Arkos Architect Reach Anchor",
         "galaxy_id": "GALAXY_CHAMPION_ARKOS",
@@ -364,6 +412,17 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_KERNEL_EGGS"
+        ]
+      },
+      {
+        "id": "NEBULA_MUSIC_PORTAL_CORE",
+        "name": "Music Portal Core",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 3,
+        "star_ids": [
+          "LATTICE_EXCAVATIONPRO_MUSIC",
+          "LATTICE_LYGO_MUSIC_LICENSE",
+          "MUSIC_CATALOG_CLOUD"
         ]
       },
       {
@@ -949,6 +1008,16 @@
         ]
       },
       {
+        "id": "CLUSTER_ALBUM_VENGEANCE_CODEX",
+        "name": "ALBUM VENGEANCE CODEX",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_VENGEANCE_CODEX"
+        ]
+      },
+      {
         "id": "CLUSTER_CHAMPION_ARKOS_COUNCIL",
         "name": "CHAMPION ARKOS COUNCIL",
         "nebula_id": "NEBULA_CHAMPION_ARKOS_ANCHOR",
@@ -1318,6 +1387,36 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_WORKFLOW_ORCHESTRATOR"
+        ]
+      },
+      {
+        "id": "CLUSTER_MUSIC_HUB_LATTICE_EXCAVATIONPRO_MUSIC",
+        "name": "MUSIC HUB LATTICE EXCAVATIONPRO MUSIC",
+        "nebula_id": "NEBULA_MUSIC_PORTAL_CORE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_EXCAVATIONPRO_MUSIC"
+        ]
+      },
+      {
+        "id": "CLUSTER_MUSIC_HUB_LATTICE_LYGO_MUSIC_LICENSE",
+        "name": "MUSIC HUB LATTICE LYGO MUSIC LICENSE",
+        "nebula_id": "NEBULA_MUSIC_PORTAL_CORE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_LYGO_MUSIC_LICENSE"
+        ]
+      },
+      {
+        "id": "CLUSTER_MUSIC_HUB_MUSIC_CATALOG_CLOUD",
+        "name": "MUSIC HUB MUSIC CATALOG CLOUD",
+        "nebula_id": "NEBULA_MUSIC_PORTAL_CORE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_CATALOG_CLOUD"
         ]
       },
       {
@@ -1911,11 +2010,28 @@
           "SEAL_000",
           "GAB_SEAL_000"
         ]
+      },
+      {
+        "id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "name": "TRACKS VENGEANCE CODEX",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 14,
+        "star_ids": [
+          "MUSIC_TRACK_43235AE88F3A7BB4",
+          "MUSIC_TRACK_C47419E3322A752A",
+          "MUSIC_TRACK_93B742D7B0E3EC9A",
+          "MUSIC_TRACK_1069CF0991FB9645",
+          "MUSIC_TRACK_D9AD68212086AFBC",
+          "MUSIC_TRACK_C792B4FE2EBFA3C1",
+          "MUSIC_TRACK_76B426BEDE427421",
+          "MUSIC_TRACK_0F000900E4AE1879"
+        ]
       }
     ],
-    "galaxy_count": 12,
-    "nebula_count": 36,
-    "cluster_count": 107
+    "galaxy_count": 13,
+    "nebula_count": 38,
+    "cluster_count": 112
   },
   "nodes": [
     {
@@ -11238,6 +11354,728 @@
       }
     },
     {
+      "id": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "music_hub",
+      "name": "Excavationpro Music Portal",
+      "glyph": "\ud83c\udfa7",
+      "equation": "Listen(10775) \u2297 CAS \u2297 HF",
+      "tone": "432Hz",
+      "tags": [
+        "MUSIC",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "LATTICE",
+        "LISTEN_PORTAL",
+        "MUSIC_CODEX"
+      ],
+      "connections": [
+        "CHAMPION_LIGHTFATHER",
+        "SEAL_000",
+        "PORTAL_HF_MUSIC",
+        "PORTAL_STACK"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 2,
+      "meta": {
+        "steward": "Justin Helmer / Lightfather / Excavationpro",
+        "stream_count": 10775,
+        "tagged_albums": 1,
+        "untagged_streams": 10761,
+        "live_map": true
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_MUSIC_PORTAL_CORE",
+        "nebula_name": "Music Portal Core",
+        "cluster_id": "CLUSTER_MUSIC_HUB_LATTICE_EXCAVATIONPRO_MUSIC",
+        "cluster_name": "MUSIC HUB LATTICE EXCAVATIONPRO MUSIC",
+        "star_role": "music_hub"
+      }
+    },
+    {
+      "id": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "music_hub",
+      "name": "LYGO Music License v1.0",
+      "glyph": "\ud83d\udcdc",
+      "equation": "FreeListen \u2227 FreeDownload \u2227 AllRightsReserved",
+      "tone": "528Hz",
+      "tags": [
+        "MUSIC",
+        "LICENSE",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "live": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_MUSIC_PORTAL_CORE",
+        "nebula_name": "Music Portal Core",
+        "cluster_id": "CLUSTER_MUSIC_HUB_LATTICE_LYGO_MUSIC_LICENSE",
+        "cluster_name": "MUSIC HUB LATTICE LYGO MUSIC LICENSE",
+        "star_role": "music_hub"
+      }
+    },
+    {
+      "id": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "music_album",
+      "name": "VENGEANCE CODEX",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(14) \u00b7 lyrics=11",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "VENGEANCE_CODEX"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=VENGEANCE+CODEX",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "VENGEANCE CODEX",
+        "track_count": 14,
+        "lyrics_count": 11,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_ALBUM_VENGEANCE_CODEX",
+        "cluster_name": "ALBUM VENGEANCE CODEX",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_43235AE88F3A7BB4",
+      "kind": "music_track",
+      "name": "The Ledger At The Door \u00b7 THE RECKONING",
+      "glyph": "\u00b7",
+      "equation": "SHA256(43235ae88f3a\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=43235ae88f3a7bb4"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE RECKONING",
+        "has_lyrics": false,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C47419E3322A752A",
+      "kind": "music_track",
+      "name": "Chapter Seven \u00b7 THE GHOST",
+      "glyph": "\u266a",
+      "equation": "SHA256(c47419e3322a\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c47419e3322a752a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c47419e3322a752a4aecd5d2358e282f3daa1a58d565f7f3e5f79fe3715952d4",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE GHOST",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_93B742D7B0E3EC9A",
+      "kind": "music_track",
+      "name": "I Kept The Score \u00b7 THE SETTLEMENT",
+      "glyph": "\u266a",
+      "equation": "SHA256(93b742d7b0e3\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=93b742d7b0e3ec9a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "93b742d7b0e3ec9ac6d2acc423fb76619e0067cc22e8c1c9e5aaa7411590151a",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE SETTLEMENT",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_1069CF0991FB9645",
+      "kind": "music_track",
+      "name": "Interest Compounded \u00b7 THE LEECH",
+      "glyph": "\u266a",
+      "equation": "SHA256(1069cf0991fb\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=1069cf0991fb9645"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "1069cf0991fb96457dc556d6b2b5150e1ec283a4587077b3bca53377269b29c5",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE LEECH",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_D9AD68212086AFBC",
+      "kind": "music_track",
+      "name": "Return On Empty \u00b7 THE LEECH",
+      "glyph": "\u266a",
+      "equation": "SHA256(d9ad68212086\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=d9ad68212086afbc"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "d9ad68212086afbc92dd114591aec7371c3a9e67d99312db5c69dd31421cfb3b",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE LEECH",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C792B4FE2EBFA3C1",
+      "kind": "music_track",
+      "name": "Scalpel Made of Words \u00b7 THE SERPENT",
+      "glyph": "\u266a",
+      "equation": "SHA256(c792b4fe2ebf\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c792b4fe2ebfa3c1"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c792b4fe2ebfa3c14044b9374a6b2a000fd01dce533db1a4f39d57d63f5d89e4",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE SERPENT",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_76B426BEDE427421",
+      "kind": "music_track",
+      "name": "The Debt Is Steep \u00b7 THE RAT",
+      "glyph": "\u266a",
+      "equation": "SHA256(76b426bede42\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=76b426bede427421"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "76b426bede427421196b9bd63a21289257579ab33318c50b7f1ccf95db7a6ec4",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE RAT",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_0F000900E4AE1879",
+      "kind": "music_track",
+      "name": "The Final Debt \u00b7 THE REAPER",
+      "glyph": "\u266a",
+      "equation": "SHA256(0f000900e4ae\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=0f000900e4ae1879"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "0f000900e4ae187921c78293724aa3d1083a8f5ee1ae861930c467bb1aaa0d5d",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE REAPER",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C79ECB73D198FF54",
+      "kind": "music_track",
+      "name": "The Lattice is Sealed \u00b7 BREAKER OF CODES",
+      "glyph": "\u00b7",
+      "equation": "SHA256(c79ecb73d198\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c79ecb73d198ff54"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c79ecb73d198ff54726d7665a3c304dd7cde92a6d53a887f7894e78fc6dcc6f5",
+        "album": "VENGEANCE CODEX",
+        "moniker": "BREAKER OF CODES",
+        "has_lyrics": false,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_616EF4102A483788",
+      "kind": "music_track",
+      "name": "The Ledger\u2019s Toll \u00b7 THE SETTLEMENT",
+      "glyph": "\u266a",
+      "equation": "SHA256(616ef4102a48\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=616ef4102a483788"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "616ef4102a4837884604fd8faf24f475d3ebb3dd41c4703a5f8763e7e8436bdb",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE SETTLEMENT",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_B308CDC0FB552A62",
+      "kind": "music_track",
+      "name": "The Mirror is a Graveyard \u00b7 THE MIRROR",
+      "glyph": "\u266a",
+      "equation": "SHA256(b308cdc0fb55\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=b308cdc0fb552a62"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "b308cdc0fb552a62b89cf1f5f6c3d6f5f01396ced9b395d1f095eb672b2075a8",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE MIRROR",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_52158D5F87020F5B",
+      "kind": "music_track",
+      "name": "The Pit Is Never Full \u00b7 BREAKER OF CODES",
+      "glyph": "\u00b7",
+      "equation": "SHA256(52158d5f8702\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=52158d5f87020f5b"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "52158d5f87020f5be3fc0ebd0f7a0a638e9a8bd3afd0ae17902e13ceb1b6f58d",
+        "album": "VENGEANCE CODEX",
+        "moniker": "BREAKER OF CODES",
+        "has_lyrics": false,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C22604665F02AD1A",
+      "kind": "music_track",
+      "name": "The Rat s Ledger \u00b7 THE RAT",
+      "glyph": "\u266a",
+      "equation": "SHA256(c22604665f02\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c22604665f02ad1a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c22604665f02ad1af4e24c4b831bf37312d53833359b9c0e777bb2b07362d1a3",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE RAT",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_2882023F4B80E139",
+      "kind": "music_track",
+      "name": "Wrench in the Design \u00b7 THE MACHINE",
+      "glyph": "\u266a",
+      "equation": "SHA256(2882023f4b80\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=2882023f4b80e139"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "2882023f4b80e13951ab26a1acd0c5d6c567fa60c600334e6269851dcaf197f8",
+        "album": "VENGEANCE CODEX",
+        "moniker": "THE MACHINE",
+        "has_lyrics": true,
+        "isrcs": []
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_CATALOG_CLOUD",
+      "kind": "music_hub",
+      "name": "Sovereign Stream Cloud (10761)",
+      "glyph": "\u2601\u266a",
+      "equation": "CAS_streams=10761+tagged",
+      "tone": "174Hz",
+      "tags": [
+        "MUSIC",
+        "EXCAVATIONPRO",
+        "CATALOG_CLOUD",
+        "MUSIC_CODEX"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream"
+      },
+      "layer": 3,
+      "meta": {
+        "untagged_count": 10761,
+        "note": "Full 10k+ vault playable on listen portal; chart shows tagged albums as live forks."
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_MUSIC_PORTAL_CORE",
+        "nebula_name": "Music Portal Core",
+        "cluster_id": "CLUSTER_MUSIC_HUB_MUSIC_CATALOG_CLOUD",
+        "cluster_name": "MUSIC HUB MUSIC CATALOG CLOUD",
+        "star_role": "music_hub"
+      }
+    },
+    {
       "id": "LATTICE_EGG_CLS_EXCAVATIONPRO_MUSIC_CATALOG_V1",
       "kind": "lattice",
       "name": "Classic egg: excavationpro-music-catalog-v1",
@@ -12792,6 +13630,251 @@
     {
       "source": "LPIS_EGG_V10",
       "target": "LATTICE_PROMPT_IMPLANT_VAULT",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "target": "PORTAL_HF_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_LYGO_MUSIC_LICENSE",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_LYGO_MUSIC_LICENSE",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_43235AE88F3A7BB4",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_43235AE88F3A7BB4",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C47419E3322A752A",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C47419E3322A752A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C47419E3322A752A",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_93B742D7B0E3EC9A",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_93B742D7B0E3EC9A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_93B742D7B0E3EC9A",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1069CF0991FB9645",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1069CF0991FB9645",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1069CF0991FB9645",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D9AD68212086AFBC",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D9AD68212086AFBC",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D9AD68212086AFBC",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C792B4FE2EBFA3C1",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C792B4FE2EBFA3C1",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C792B4FE2EBFA3C1",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_76B426BEDE427421",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_76B426BEDE427421",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_76B426BEDE427421",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_0F000900E4AE1879",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_0F000900E4AE1879",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_0F000900E4AE1879",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C79ECB73D198FF54",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C79ECB73D198FF54",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_616EF4102A483788",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_616EF4102A483788",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_616EF4102A483788",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B308CDC0FB552A62",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B308CDC0FB552A62",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B308CDC0FB552A62",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_52158D5F87020F5B",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_52158D5F87020F5B",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C22604665F02AD1A",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C22604665F02AD1A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C22604665F02AD1A",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2882023F4B80E139",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2882023F4B80E139",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2882023F4B80E139",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_CATALOG_CLOUD",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_CATALOG_CLOUD",
+      "target": "CHAMPION_LIGHTFATHER",
       "kind": "lattice"
     },
     {
@@ -14932,7 +16015,7 @@
   ],
   "lore": {
     "title": "Eternal Haven \u2014 stars as memory nodes",
-    "summary": "Each seal and champion is a star; connections form constellations and LYGO cosmology (galaxies, nebulae, clusters). Champions own galaxies; forked seals share nebula branches; agent submissions spawn clusters in the Agent Growth galaxy.",
+    "summary": "Each seal and champion is a star; connections form constellations and LYGO cosmology (galaxies, nebulae, clusters). Champions own galaxies; forked seals share nebula branches; agent submissions spawn clusters in the Agent Growth galaxy. Excavationpro music lives in GALAXY_EXCAVATIONPRO_MUSIC (Music Codex) \u2014 a Lightfather fork rebuilt live from the sovereign listen playlist.",
     "sources": [
       "clawhub: eternal-haven-lore-pack",
       "I:\\E Drive\\2026\\Disclaimer.txt (Eternal Haven series)",
@@ -14985,7 +16068,18 @@
         "merged:PORTAL_MUSIC_LICENSE",
         "merged:PORTAL_PAGES_STACK",
         "merged:PORTAL_STAR_CHART",
-        "merged:SEAL_401"
+        "merged:SEAL_401",
+        "music_map: +18 nodes (albums=1 tracks=14 playlist=10775)"
+      ]
+    },
+    "music_live_map": {
+      "tool": "tools/map_music_to_star_chart.py",
+      "galaxy": "GALAXY_EXCAVATIONPRO_MUSIC",
+      "constellation": "music_codex",
+      "fork_of": "CHAMPION_LIGHTFATHER",
+      "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+      "notes": [
+        "music_map: +18 nodes (albums=1 tracks=14 playlist=10775)"
       ]
     },
     "errors": [],

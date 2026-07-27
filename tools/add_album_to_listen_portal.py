@@ -384,7 +384,23 @@ def main() -> int:
             cwd=str(STACK),
         )
         print("hub rebuild exit", r.returncode)
-        return r.returncode
+        if r.returncode != 0:
+            return r.returncode
+
+    # Live-map music into Haven Star Chart (tagged albums → track stars)
+    if args.publish_hf or args.hub or args.encode:
+        import subprocess
+
+        chart = subprocess.run(
+            [
+                sys.executable,
+                str(STACK / "tools" / "map_music_to_star_chart.py"),
+                "--rebuild-chart",
+                "--sync-excav",
+            ],
+            cwd=str(STACK),
+        )
+        print("star chart music map exit", chart.returncode)
 
     return 0
 

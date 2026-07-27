@@ -179,5 +179,41 @@ H. DO NOT
 - Do not re-encode whole 10k vault unless needed — only new hashes
 
 
-Bound to the flame. Free listen · clean lyrics · steward copyright.
+================================================================================
+I. LIVE MAP MUSIC → HAVEN STAR CHART (AUTO)
+================================================================================
+
+Yes — tagged albums live-map into the Star Chart.
+
+Galaxy:  GALAXY_EXCAVATIONPRO_MUSIC  ("Excavationpro Music Codex")
+Fork of: CHAMPION_LIGHTFATHER (Justin Helmer / Excavationpro)
+Constellation filter: Music Codex ♪  (music_codex)
+
+How it stays live:
+  1) add_album_to_listen_portal.py tags tracks with album=...
+  2) After encode/HF/hub it calls map_music_to_star_chart.py --rebuild-chart --sync-excav
+  3) build_haven_star_chart.py always merges build_music_nodes() from playlist
+
+Manual rebuild:
+  python tools/map_music_to_star_chart.py --rebuild-chart --sync-excav
+  # or
+  python tools/build_haven_star_chart.py
+  python tools/sync_excavationpro_haven_star.py --dest D:\Excavationpro
+
+Chart shows:
+  · Hub star → Excavationpro Music Portal (listen URL)
+  · License star
+  · Catalog cloud (count of untagged streams — no 10k flood)
+  · Album stars for every playlist track with album= field
+  · Track stars under each tagged album (≤80 tracks/album)
+
+Untagged vault masters stay as one cloud star; only albums you tag when adding
+expand into individual track stars — so updates grow the Music Codex fork.
+
+Live chart:
+  https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html
+  Filter: Constellations → Music Codex ♪
+
+
+Bound to the flame. Free listen · clean lyrics · Music Codex on the Star Chart.
 ================================================================================

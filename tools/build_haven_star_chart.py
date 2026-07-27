@@ -670,6 +670,20 @@ COSMOS_GALAXIES_STATIC: list[dict] = [
         "constellation_id": "eternal_haven",
         "angle_deg": 330,
     },
+    {
+        "id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "name": "Excavationpro Music Codex",
+        "glyph": "🎧",
+        "tier": "galaxy",
+        "description": (
+            "Lightfather / Justin Helmer / Excavationpro sovereign music fork — "
+            "listen portal, tagged albums, live track stars. Rebuilds from playlist."
+        ),
+        "color": "#ff66cc",
+        "constellation_id": "music_codex",
+        "angle_deg": 155,
+        "fork_of": "CHAMPION_LIGHTFATHER",
+    },
 ]
 
 
@@ -874,16 +888,49 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
             neb_id = f"NEBULA_PORTAL_{nid}"
             clu_id = f"CLUSTER_PORTAL_{nid}"
             role = "portal"
-        elif kind == "lattice" or nid.startswith("LATTICE_"):
-            gal_id = "GALAXY_LATTICE"
-            if nid.startswith("LATTICE_SKILL_"):
-                slug = nid.replace("LATTICE_SKILL_", "")
-                neb_id = "NEBULA_CLAWHUB_SKILLS"
-                clu_id = f"CLUSTER_SKILL_{slug}"
+        elif kind in ("music_hub", "music_album", "music_track") or nid.startswith("MUSIC_"):
+            gal_id = "GALAXY_EXCAVATIONPRO_MUSIC"
+            if kind == "music_hub" or nid in (
+                "LATTICE_EXCAVATIONPRO_MUSIC",
+                "LATTICE_LYGO_MUSIC_LICENSE",
+                "MUSIC_CATALOG_CLOUD",
+            ):
+                neb_id = "NEBULA_MUSIC_PORTAL_CORE"
+                clu_id = f"CLUSTER_MUSIC_HUB_{nid}"
+                role = "music_hub"
+            elif kind == "music_album" or nid.startswith("MUSIC_ALBUM_"):
+                neb_id = f"NEBULA_ALBUM_{nid.replace('MUSIC_ALBUM_', '')[:40]}"
+                clu_id = f"CLUSTER_ALBUM_{nid.replace('MUSIC_ALBUM_', '')[:40]}"
+                role = "music_album"
             else:
-                neb_id = _vault_nebula_id(nid)
-                clu_id = f"CLUSTER_{nid}"
-            role = "lattice_vault" if kind == "lattice" else "lattice"
+                # track — hang under album connection if present
+                alb_conn = next(
+                    (c for c in (n.get("connections") or []) if str(c).startswith("MUSIC_ALBUM_")),
+                    "LATTICE_EXCAVATIONPRO_MUSIC",
+                )
+                short = str(alb_conn).replace("MUSIC_ALBUM_", "")[:40]
+                neb_id = f"NEBULA_ALBUM_{short}"
+                clu_id = f"CLUSTER_TRACKS_{short}"
+                role = "music_track"
+        elif kind == "lattice" or nid.startswith("LATTICE_"):
+            # Excavationpro music hub is lattice-tagged but belongs in music galaxy
+            if nid in ("LATTICE_EXCAVATIONPRO_MUSIC", "LATTICE_LYGO_MUSIC_LICENSE") or (
+                "MUSIC_CODEX" in tags or "MUSIC" in tags and "EXCAVATIONPRO" in tags
+            ):
+                gal_id = "GALAXY_EXCAVATIONPRO_MUSIC"
+                neb_id = "NEBULA_MUSIC_PORTAL_CORE"
+                clu_id = f"CLUSTER_MUSIC_HUB_{nid}"
+                role = "music_hub"
+            else:
+                gal_id = "GALAXY_LATTICE"
+                if nid.startswith("LATTICE_SKILL_"):
+                    slug = nid.replace("LATTICE_SKILL_", "")
+                    neb_id = "NEBULA_CLAWHUB_SKILLS"
+                    clu_id = f"CLUSTER_SKILL_{slug}"
+                else:
+                    neb_id = _vault_nebula_id(nid)
+                    clu_id = f"CLUSTER_{nid}"
+                role = "lattice_vault" if kind == "lattice" else "lattice"
         elif kind.endswith("_egg") or nid.endswith("_EGG_V10") or nid.endswith("_EGG_V21"):
             gal_id = "GALAXY_LATTICE"
             if parent.startswith("LATTICE_"):
@@ -1136,6 +1183,28 @@ def main() -> int:
         nodes.append({**p, "kind": "portal", "layer": 2})
     nodes.extend(lattice_nodes())
 
+    # Live music map (Excavationpro / Lightfather fork) — from playlist + lyrics
+    music_notes: list[str] = []
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from map_music_to_star_chart import build_music_nodes  # noqa: E402
+
+        music_nodes, music_stats = build_music_nodes()
+        existing_pre = {n["id"] for n in nodes}
+        added_m = 0
+        for mn in music_nodes:
+            if mn["id"] not in existing_pre:
+                nodes.append(mn)
+                existing_pre.add(mn["id"])
+                added_m += 1
+        music_notes.append(
+            f"music_map: +{added_m} nodes "
+            f"(albums={music_stats.get('album_stars')} tracks={music_stats.get('track_stars')} "
+            f"playlist={music_stats.get('total_playlist_tracks')})"
+        )
+    except Exception as exc:
+        music_notes.append(f"music_map_error: {exc}")
+
     existing_ids = {n["id"] for n in nodes}
     agent_nodes, sub_notes = load_accepted_submissions(existing_ids)
     nodes.extend(agent_nodes)
@@ -1176,6 +1245,25 @@ def main() -> int:
             "description": "Story-driven memory — lore packs and the living library.",
             "filter_tags": ["LORE", "HAVEN"],
         },
+        {
+            "id": "music_codex",
+            "name": "Excavationpro Music Codex",
+            "glyph": "🎧",
+            "description": (
+                "Lightfather / Excavationpro sovereign music fork — listen portal, "
+                "tagged albums & track stars (live rebuild from playlist)."
+            ),
+            "filter_tags": [
+                "MUSIC",
+                "MUSIC_ALBUM",
+                "MUSIC_TRACK",
+                "MUSIC_CODEX",
+                "EXCAVATIONPRO",
+                "LIGHTFATHER",
+                "LISTEN_PORTAL",
+                "HAS_LYRICS",
+            ],
+        },
     ]
 
     links = build_links(nodes)
@@ -1206,7 +1294,9 @@ def main() -> int:
             "summary": (
                 "Each seal and champion is a star; connections form constellations and LYGO cosmology "
                 "(galaxies, nebulae, clusters). Champions own galaxies; forked seals share nebula "
-                "branches; agent submissions spawn clusters in the Agent Growth galaxy."
+                "branches; agent submissions spawn clusters in the Agent Growth galaxy. "
+                "Excavationpro music lives in GALAXY_EXCAVATIONPRO_MUSIC (Music Codex) — "
+                "a Lightfather fork rebuilt live from the sovereign listen playlist."
             ),
             "sources": [
                 "clawhub: eternal-haven-lore-pack",
@@ -1227,7 +1317,15 @@ def main() -> int:
                 "pending": pending_n,
                 "accepted": accepted_n,
                 "agent_submissions_merged": len(agent_nodes),
-                "ingest_notes": sub_notes,
+                "ingest_notes": sub_notes + music_notes,
+            },
+            "music_live_map": {
+                "tool": "tools/map_music_to_star_chart.py",
+                "galaxy": "GALAXY_EXCAVATIONPRO_MUSIC",
+                "constellation": "music_codex",
+                "fork_of": "CHAMPION_LIGHTFATHER",
+                "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+                "notes": music_notes,
             },
             "errors": errors,
         },
@@ -1261,9 +1359,9 @@ def main() -> int:
         encoding="utf-8",
     )
 
-    import sys
-
-    sys.path.insert(0, str(ROOT / "tools"))
+    # sys already imported at module scope (do not re-import here — shadows outer sys)
+    if str(ROOT / "tools") not in sys.path:
+        sys.path.insert(0, str(ROOT / "tools"))
     from haven_star_chart_feed import publish_feed  # noqa: E402
 
     feed = publish_feed()
