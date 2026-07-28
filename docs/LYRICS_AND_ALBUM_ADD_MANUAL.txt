@@ -13,9 +13,27 @@ Repeatable protocol to:
   3) Encode streams + push Hugging Face
   4) Keep a stable Lyrics tab on the website
 
-LIVE PORTAL
------------
-https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
+LIVE PORTALS (DEPLOY ORDER — READ THIS)
+---------------------------------------
+PRIMARY (push first, test here):
+  https://asiancoastline.com/
+  repo: DeepSeekOracle/asiancoastline
+
+BACKUP (do not push first; promote only after asian is verified):
+  https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
+  repo: DeepSeekOracle/Excavationpro → excavationpro-listen.html
+
+SAFE OPS (required reading for agents):
+  docs/LISTEN_PORTAL_SAFE_OPS.md
+
+EASY ADD (do NOT rebuild/redesign the website HTML):
+  python tools/safe_add_music_to_listen_portal.py ^
+    --folder "C:\path\to\album" --album "ALBUM" --publish-hf --deploy-asian
+
+  # After human verifies asiancoastline.com:
+  python tools/safe_add_music_to_listen_portal.py --promote-backup-excav
+
+Never run full hub rebuild / enhance injectors just to add songs or lyrics.
 
 PARQUET CATALOG (agents / DuckDB — not required for human listen)
 -----------------------------------------------------------------
