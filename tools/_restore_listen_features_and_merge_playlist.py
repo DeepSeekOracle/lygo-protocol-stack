@@ -26,6 +26,24 @@ FEATURE_MARKERS = [
 ]
 
 
+def _canonical_stream_url(t: dict) -> str:
+    """Prefer hf_path (supports stream/<xx>/<sha>.mp3 shard layout)."""
+    base = "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main"
+    sha = str(t.get("sha256") or "").strip()
+    hf = str(t.get("hf_path") or "").strip().lstrip("/")
+    url = str(t.get("stream_url") or "").strip()
+    if hf.startswith("stream/"):
+        return f"{base}/{hf}"
+    # repair flat URL when file is sharded
+    if sha and f"/stream/{sha}.mp3" in url and f"/stream/{sha[:2]}/" not in url:
+        return f"{base}/stream/{sha[:2]}/{sha}.mp3"
+    if url:
+        return url
+    if sha:
+        return f"{base}/stream/{sha[:2]}/{sha}.mp3"
+    return ""
+
+
 def slim_playlist(pl: dict) -> dict:
     tracks = []
     for t in pl.get("tracks") or []:
@@ -36,10 +54,11 @@ def slim_playlist(pl: dict) -> dict:
                 "isrcs": t.get("isrcs") or [],
                 "aliases": t.get("aliases") or [],
                 "size": t.get("size"),
-                "stream_url": t.get("stream_url"),
+                "stream_url": _canonical_stream_url(t),
                 "album": t.get("album"),
                 "artist": t.get("artist"),
                 "moniker": t.get("moniker"),
+                "upc": t.get("upc"),
             }
         )
     return {

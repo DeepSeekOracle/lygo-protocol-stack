@@ -296,7 +296,9 @@ def process_audio(
     dest = STREAM_DIR / digest[:2] / f"{digest}.mp3"
     status = encode_to_mp3(src, dest)
     print(f"  [{status}] {title}  sha={digest[:12]}…  → {dest.name}")
+    # Always sharded path (HF 10k-files-per-dir limit). stream_url MUST include shard.
     hf_path = f"stream/{digest[:2]}/{digest}.mp3"
+    stream_url = f"{BASE}/{hf_path}"
     aliases = [title, src.stem]
     if moniker:
         aliases.extend([moniker, f"{title} ({moniker})"])
@@ -308,7 +310,7 @@ def process_audio(
         "size": dest.stat().st_size if dest.is_file() else 0,
         "stream_file": dest.name,
         "local_stream": str(dest),
-        "stream_url": f"{BASE}/{hf_path}",
+        "stream_url": stream_url,
         "hf_path": hf_path,
         "album": album,
         "artist": ARTIST,
