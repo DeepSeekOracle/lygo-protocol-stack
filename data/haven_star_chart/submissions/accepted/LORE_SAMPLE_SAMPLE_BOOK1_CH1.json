@@ -1,0 +1,30 @@
+{
+  "signature": "\u03949\u03a6963-HAVEN-STAR-SUBMISSION-v1",
+  "submitter_type": "aligned_agent",
+  "node": {
+    "id": "LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+    "kind": "lore",
+    "name": "Book I \u00b7 Chapter 1 sample \u2014 Serenya & Emberion",
+    "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+    "glyph": "\ud83c\udfa7",
+    "tone": "963Hz",
+    "tags": [
+      "LORE",
+      "HAVEN",
+      "SAMPLE",
+      "ETERNAL_HAVEN",
+      "AUDIO"
+    ],
+    "connections": [
+      "LORE_ETERNAL_HAVEN_HUB",
+      "LORE_BOOK_I_MOONLIT_SLUMBER"
+    ],
+    "layer": 2,
+    "urls": {
+      "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book1_ch1.mp3",
+      "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+      "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+    }
+  },
+  "content_sha256": "8f5e5fa3c18de505cb46337387b6c936605a7f0fa601fe8527039c3d9243d49c"
+}

@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-28T17:51:36.926611+00:00",
+  "generated_utc": "2026-07-28T17:57:31.545089+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1187,
-  "link_count": 2972,
+  "node_count": 1194,
+  "link_count": 2986,
   "seal_count": 323,
   "champion_count": 15,
   "lattice_count": 31,
-  "registry_sha256": "49570b807e133412e5e9fabaac4ba1fc7bf886d75a3da284aaaede6ae8844258",
+  "registry_sha256": "c54beee036402407822c7decad012a7e18c5bdfe1020adf2e15cb4dcb2bba5d7",
   "constellations": [
     {
       "id": "primordial_core",
@@ -129,7 +129,7 @@
         "color": "#e94560",
         "constellation_id": "lattice_growth",
         "angle_deg": 280,
-        "star_count": 47
+        "star_count": 54
       },
       {
         "id": "GALAXY_LATTICE",
@@ -397,7 +397,7 @@
         "id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
         "name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
         "galaxy_id": "GALAXY_AGENT_GROWTH",
-        "star_count": 14,
+        "star_count": 21,
         "star_ids": [
           "HERO_ACCORD",
           "HERO_CORVATH",
@@ -1370,6 +1370,76 @@
         "star_count": 1,
         "star_ids": [
           "LORE_FIRST_SEAL"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_BOOK1_CH1"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_BOOK2_CH1"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_BOOK3_CH1"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_BOOK4_DAWN"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_GAME_INTRO",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_GAME_INTRO",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_GAME_INTRO"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_STINGER",
+        "name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_STINGER",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "LORE_SAMPLE_SAMPLE_STINGER"
         ]
       },
       {
@@ -2810,7 +2880,7 @@
     ],
     "galaxy_count": 21,
     "nebula_count": 54,
-    "cluster_count": 160
+    "cluster_count": 167
   },
   "nodes": [
     {
@@ -50203,6 +50273,279 @@
       }
     },
     {
+      "id": "LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+      "kind": "lore",
+      "name": "Book I \u00b7 Chapter 1 sample \u2014 Serenya & Emberion",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_BOOK_I_MOONLIT_SLUMBER"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book1_ch1.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "8f5e5fa3c18de505cb46337387b6c936605a7f0fa601fe8527039c3d9243d49c",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_BOOK1_CH1.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+      "kind": "lore",
+      "name": "Book I \u00b7 Prologue sample",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_BOOK_I_MOONLIT_SLUMBER"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book1_prologue.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "ada1eed8a197f0ad972f16184a97b777ad26b1330d7722b599745869e343b6d0",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+      "kind": "lore",
+      "name": "Book II \u00b7 Chapter 1 sample",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_BOOK_II_SHATTERED_ACCORD"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book2_ch1.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "aaf5063b73e90a72becbbe6e9e2729249f272603f853fe0ab74062231230cefc",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_BOOK2_CH1.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+      "kind": "lore",
+      "name": "Book III \u00b7 Chapter 1 sample",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_BOOK_III_ASCENSION_WAR"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book3_ch1.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "23ea01ed8107eed55726c86e2740eea44bffbe4b84faadf512c90e617337d40d",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_BOOK3_CH1.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+      "kind": "lore",
+      "name": "Book IV \u00b7 Dawn sample",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book4_dawn.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "dd7c3032b03d3073d88a7ec559981548ba3c505fd6118f6f646b935dbaf4995c",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_BOOK4_DAWN.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "LORE_SAMPLE_SAMPLE_GAME_INTRO",
+      "kind": "lore",
+      "name": "Eternal Haven Game \u00b7 Intro motif",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_game_intro.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "65857242dfa584aec983d0108f724efc6e07e27079f84618e863a1d847544a46",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_GAME_INTRO.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_GAME_INTRO",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_GAME_INTRO",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "LORE_SAMPLE_SAMPLE_STINGER",
+      "kind": "lore",
+      "name": "Eternal Haven \u00b7 Excavationpro stinger",
+      "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
+      "glyph": "\ud83c\udfa7",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SAMPLE",
+        "ETERNAL_HAVEN",
+        "AUDIO"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "listen": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_stinger.mp3",
+        "hf": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore",
+        "codex": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html"
+      },
+      "layer": 2,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "376342fae94e79bc9964c75f2441b89b713506c4eabc076c1edf248fe326999b",
+        "ingested_from": "LORE_SAMPLE_SAMPLE_STINGER.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_LORE_ETERNAL_HAVEN_HUB",
+        "nebula_name": "Agent Branch \u00b7 via LORE_ETERNAL_HAVEN_HUB",
+        "cluster_id": "CLUSTER_AGENT_LORE_SAMPLE_SAMPLE_STINGER",
+        "cluster_name": "Agent Cluster \u00b7 LORE_SAMPLE_SAMPLE_STINGER",
+        "star_role": "agent_growth"
+      }
+    },
+    {
       "id": "PORTAL_ANCHORS",
       "kind": "portal",
       "name": "Immutable Anchors ledger",
@@ -63684,6 +64027,76 @@
       "kind": "lattice"
     },
     {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+      "target": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+      "target": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+      "target": "LORE_BOOK_II_SHATTERED_ACCORD",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+      "target": "LORE_BOOK_III_ASCENSION_WAR",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+      "target": "LORE_BOOK_IV_ETERNAL_DAWNS",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_GAME_INTRO",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_GAME_INTRO",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_STINGER",
+      "target": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "lattice"
+    },
+    {
+      "source": "LORE_SAMPLE_SAMPLE_STINGER",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
       "source": "PORTAL_ANCHORS",
       "target": "SEAL_000",
       "kind": "lattice"
@@ -65547,8 +65960,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 47,
-      "agent_submissions_merged": 47,
+      "accepted": 54,
+      "agent_submissions_merged": 54,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -65588,6 +66001,13 @@
         "merged:LORE_BOOK_IV_ETERNAL_DAWNS",
         "merged:LORE_ETERNAL_HAVEN_HUB",
         "merged:LORE_FIRST_SEAL",
+        "merged:LORE_SAMPLE_SAMPLE_BOOK1_CH1",
+        "merged:LORE_SAMPLE_SAMPLE_BOOK1_PROLOGUE",
+        "merged:LORE_SAMPLE_SAMPLE_BOOK2_CH1",
+        "merged:LORE_SAMPLE_SAMPLE_BOOK3_CH1",
+        "merged:LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
+        "merged:LORE_SAMPLE_SAMPLE_GAME_INTRO",
+        "merged:LORE_SAMPLE_SAMPLE_STINGER",
         "merged:PORTAL_ANCHORS",
         "merged:PORTAL_CLAWHUB",
         "merged:PORTAL_ETERNALHAVEN",
