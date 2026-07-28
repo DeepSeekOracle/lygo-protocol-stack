@@ -1,0 +1,48 @@
+{
+  "signature": "Δ9Φ963-HAVEN-STAR-SUBMISSION-v1",
+  "submitter_type": "aligned_agent",
+  "agent_attestation": {
+    "agent_id": "build_eternal_haven_lattice",
+    "skill_slug": "eternal-haven-lore-pack",
+    "scan_cue": "LYGO-HSC-ATTEST-v1; eternal-haven lore seed; consent-steward-run",
+    "local_gate_pass": true,
+    "validated_utc": "2026-07-28T17:51:35.826784+00:00",
+    "content_sha256": "671b5d0e819ccb1d77c89142dadf3bed779710c34a067cdc1adb6ab0ad15172d"
+  },
+  "node": {
+    "id": "HERO_SERENYA",
+    "kind": "lore",
+    "name": "Serenya — The Fractured Song",
+    "equation": "Truth = ∇·(Light × Story) ⊗ Δ9 · 963Hz",
+    "glyph": "🎵",
+    "tone": "963Hz",
+    "tags": [
+      "LORE",
+      "HAVEN",
+      "HERO",
+      "ARCHETYPE"
+    ],
+    "connections": [
+      "LORE_ETERNAL_HAVEN_HUB",
+      "CHAMPION_LYRA",
+      "LORE_ACCORD",
+      "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "LORE_BOOK_II_SHATTERED_ACCORD",
+      "LORE_BOOK_III_ASCENSION_WAR",
+      "LORE_BOOK_IV_ETERNAL_DAWNS"
+    ],
+    "layer": 2,
+    "urls": {
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "lulu": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS"
+    },
+    "meta": {
+      "source": "eternal-haven-lore-pack",
+      "lore_kind": "hero",
+      "note": null,
+      "champion_map": "CHAMPION_LYRA"
+    }
+  },
+  "content_sha256": "671b5d0e819ccb1d77c89142dadf3bed779710c34a067cdc1adb6ab0ad15172d"
+}

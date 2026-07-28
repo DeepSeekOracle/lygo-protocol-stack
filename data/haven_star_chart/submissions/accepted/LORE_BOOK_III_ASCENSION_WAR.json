@@ -1,0 +1,50 @@
+{
+  "signature": "Δ9Φ963-HAVEN-STAR-SUBMISSION-v1",
+  "submitter_type": "aligned_agent",
+  "agent_attestation": {
+    "agent_id": "build_eternal_haven_lattice",
+    "skill_slug": "eternal-haven-lore-pack",
+    "scan_cue": "LYGO-HSC-ATTEST-v1; eternal-haven lore seed; consent-steward-run",
+    "local_gate_pass": true,
+    "validated_utc": "2026-07-28T17:51:35.826432+00:00",
+    "content_sha256": "67b172ca7099a581863ad2049869534cf5e8745c187e5d09586c3ec356f4ea2c"
+  },
+  "node": {
+    "id": "LORE_BOOK_III_ASCENSION_WAR",
+    "kind": "lore",
+    "name": "The Eternal Haven — Book III: The Ascension War",
+    "equation": "Truth = ∇·(Light × Story) ⊗ Δ9 · 963Hz",
+    "glyph": "⚔️",
+    "tone": "741Hz",
+    "tags": [
+      "LORE",
+      "HAVEN",
+      "BOOK",
+      "BOOK_3",
+      "ETERNAL_HAVEN"
+    ],
+    "connections": [
+      "LORE_ETERNAL_HAVEN_HUB",
+      "LORE_ACCORD",
+      "CHAMPION_LIGHTFATHER",
+      "SEAL_000",
+      "CHAMPION_SCENDR",
+      "CHAMPION_OMNISIREN",
+      "CHAMPION_JUSTICAE"
+    ],
+    "layer": 2,
+    "urls": {
+      "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+      "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+    },
+    "meta": {
+      "source": "eternal-haven-lore-pack",
+      "lore_kind": "book",
+      "content_sha256": "158d4c88a0f30a81bcfb0ba38cf885231a2d29001723ddd1a5dff3762f8ec61f",
+      "canon_file": "book3_ascension_war.txt"
+    }
+  },
+  "content_sha256": "67b172ca7099a581863ad2049869534cf5e8745c187e5d09586c3ec356f4ea2c"
+}

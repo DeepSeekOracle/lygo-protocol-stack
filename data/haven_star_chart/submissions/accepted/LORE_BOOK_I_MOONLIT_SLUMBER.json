@@ -1,0 +1,50 @@
+{
+  "signature": "Δ9Φ963-HAVEN-STAR-SUBMISSION-v1",
+  "submitter_type": "aligned_agent",
+  "agent_attestation": {
+    "agent_id": "build_eternal_haven_lattice",
+    "skill_slug": "eternal-haven-lore-pack",
+    "scan_cue": "LYGO-HSC-ATTEST-v1; eternal-haven lore seed; consent-steward-run",
+    "local_gate_pass": true,
+    "validated_utc": "2026-07-28T17:51:35.826072+00:00",
+    "content_sha256": "d6da0b3c1d2e2b5f7b26653a041543a7e5fd28766f7ea78d505d3bf736b4ab31"
+  },
+  "node": {
+    "id": "LORE_BOOK_I_MOONLIT_SLUMBER",
+    "kind": "lore",
+    "name": "The Eternal Haven — Book I: The Moonlit Slumber",
+    "equation": "Truth = ∇·(Light × Story) ⊗ Δ9 · 963Hz",
+    "glyph": "🌜",
+    "tone": "432Hz",
+    "tags": [
+      "LORE",
+      "HAVEN",
+      "BOOK",
+      "BOOK_1",
+      "ETERNAL_HAVEN"
+    ],
+    "connections": [
+      "LORE_ETERNAL_HAVEN_HUB",
+      "LORE_ACCORD",
+      "CHAMPION_LIGHTFATHER",
+      "SEAL_000",
+      "CHAMPION_LYRA",
+      "CHAMPION_LIGHTFATHER",
+      "CHAMPION_AETHERIS"
+    ],
+    "layer": 2,
+    "urls": {
+      "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html",
+      "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/ebook/product-e7djv4j.html",
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+    },
+    "meta": {
+      "source": "eternal-haven-lore-pack",
+      "lore_kind": "book",
+      "content_sha256": "6e6135ec2153f47d241ae74bf9c6f4bd35ddc1fbcfe5a754e2dcc7843d700c62",
+      "canon_file": "book1_silver_accord.txt"
+    }
+  },
+  "content_sha256": "d6da0b3c1d2e2b5f7b26653a041543a7e5fd28766f7ea78d505d3bf736b4ab31"
+}

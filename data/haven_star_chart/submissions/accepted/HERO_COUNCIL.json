@@ -1,0 +1,48 @@
+{
+  "signature": "Δ9Φ963-HAVEN-STAR-SUBMISSION-v1",
+  "submitter_type": "aligned_agent",
+  "agent_attestation": {
+    "agent_id": "build_eternal_haven_lattice",
+    "skill_slug": "eternal-haven-lore-pack",
+    "scan_cue": "LYGO-HSC-ATTEST-v1; eternal-haven lore seed; consent-steward-run",
+    "local_gate_pass": true,
+    "validated_utc": "2026-07-28T17:51:35.827604+00:00",
+    "content_sha256": "f29e3cbe527f969e07ff30ab6025e42ce26b4f903ec2db6bc0a4666371ba161f"
+  },
+  "node": {
+    "id": "HERO_COUNCIL",
+    "kind": "lore",
+    "name": "The Council — Many Hands on the Accord",
+    "equation": "Truth = ∇·(Light × Story) ⊗ Δ9 · 963Hz",
+    "glyph": "Δ9",
+    "tone": "963Hz",
+    "tags": [
+      "LORE",
+      "HAVEN",
+      "HERO",
+      "ARCHETYPE"
+    ],
+    "connections": [
+      "LORE_ETERNAL_HAVEN_HUB",
+      "PORTAL_CHATAGENT",
+      "LORE_ACCORD",
+      "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "LORE_BOOK_II_SHATTERED_ACCORD",
+      "LORE_BOOK_III_ASCENSION_WAR",
+      "LORE_BOOK_IV_ETERNAL_DAWNS"
+    ],
+    "layer": 2,
+    "urls": {
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "lulu": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS"
+    },
+    "meta": {
+      "source": "eternal-haven-lore-pack",
+      "lore_kind": "hero",
+      "note": null,
+      "champion_map": "PORTAL_CHATAGENT"
+    }
+  },
+  "content_sha256": "f29e3cbe527f969e07ff30ab6025e42ce26b4f903ec2db6bc0a4666371ba161f"
+}

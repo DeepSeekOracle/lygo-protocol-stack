@@ -1,69 +1,22 @@
 {
   "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
   "version": "1.0.0",
-  "updated_utc": "2026-07-26T16:23:01Z",
+  "updated_utc": "2026-07-28T17:51:35.846303+00:00",
   "registry_merkle_root": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
-  "eggs": {
-    "lygo-music-license-v1": {
-      "egg_id": "lygo-music-license-v1",
-      "version": "1.0.0",
-      "kind": "policy",
-      "content_sha256": "ad25be70372e239d003b3b22e3c45b979d0d09bf9c51469fb526220a1caa46c8",
-      "leaf_hash": "42a55f022c32cb61eebc109fa8fe4d40d6c3de78b234270e4a69110c4efe70ff",
-      "path": "lygo-music-license-v1.egg.json",
-      "created_utc": "2026-07-26T15:32:02Z",
-      "signature": "Delta9Phi963-EGG-lygo-music-license-v1-v1.0.0"
-    },
-    "lygo-sovereign-kernel-seeder-v1": {
-      "egg_id": "lygo-sovereign-kernel-seeder-v1",
-      "version": "1.0.1",
-      "kind": "skill-pin",
-      "content_sha256": "2737d4d5d2701674fbff45a7e0bdc90e5aa4240b48e277d32f1c83c92bd81df5",
-      "leaf_hash": "5dee9d3aa1a6f4514cd9526761d961e7292c8b079990dffdf182b3ff50a84bdd",
-      "path": "lygo-sovereign-kernel-seeder-v1.egg.json",
-      "created_utc": "2026-07-26T15:37:35Z",
-      "signature": "Delta9Phi963-EGG-lygo-sovereign-kernel-seeder-v1-v1.0.1"
-    },
-    "lygo-kernel-egg-planter-v1": {
-      "egg_id": "lygo-kernel-egg-planter-v1",
-      "version": "1.2.0",
-      "kind": "skill-pin",
-      "content_sha256": "b226c5ee174d1bc9c6db95fe63049267ca89fd908e7e0c47b25aee6816e4ec5f",
-      "leaf_hash": "faba53c16b5c20c5cbb926e70cf621b7dd901af1a4aff82110d78644a52bb008",
-      "path": "lygo-kernel-egg-planter-v1.egg.json",
-      "created_utc": "2026-07-26T15:37:35Z",
-      "signature": "Delta9Phi963-EGG-lygo-kernel-egg-planter-v1-v1.2.0"
-    },
-    "lygo-external-lattice-anchor-v1": {
-      "egg_id": "lygo-external-lattice-anchor-v1",
-      "version": "1.0.0",
-      "kind": "skill-pin",
-      "content_sha256": "78aa90c2c8bb0c60756942e61f065401313f8c16f1311543ffb0a38804cf35f6",
-      "leaf_hash": "699f058951810e373ba653570ec210522aebb312dd1e92e8fc5cc0a67efbbd35",
-      "path": "lygo-external-lattice-anchor-v1.egg.json",
-      "created_utc": "2026-07-26T15:52:34Z",
-      "signature": "Delta9Phi963-EGG-lygo-external-lattice-anchor-v1-v1.0.0"
-    },
-    "lygo-living-mesh-v1": {
-      "egg_id": "lygo-living-mesh-v1",
-      "version": "1.0.0",
-      "kind": "skill-pin",
-      "content_sha256": "aef084ecf4cbecb215ac0e8528a575b8a339e283fa12308b113b4a8e3809861b",
-      "leaf_hash": "cfe4c745b8536cf53f5059b56388da1166793fb87debdcc286d32a98cf0eeb9f",
-      "path": "lygo-living-mesh-v1.egg.json",
-      "created_utc": "2026-07-26T16:12:13Z",
-      "signature": "Delta9Phi963-EGG-lygo-living-mesh-v1-v1.0.0"
-    },
-    "lygo-agent-lattice-v1": {
-      "egg_id": "lygo-agent-lattice-v1",
-      "version": "1.0.0",
-      "kind": "skill-pin",
-      "content_sha256": "e2ba49b2d8e439f04ed5a3077e6f74a2f836d242a5b18c4dc55f29dce150c660",
-      "leaf_hash": "36da00be336ac5b0499ec0121ffae7a4abbef6068754f60ee7f283a8090e74ff",
-      "path": "lygo-agent-lattice-v1.egg.json",
-      "created_utc": "2026-07-26T16:23:01Z",
-      "signature": "Delta9Phi963-EGG-lygo-agent-lattice-v1-v1.0.0"
+  "eggs": [
+    "lygo-music-license-v1",
+    "lygo-sovereign-kernel-seeder-v1",
+    "lygo-kernel-egg-planter-v1",
+    "lygo-external-lattice-anchor-v1",
+    "lygo-living-mesh-v1",
+    "lygo-agent-lattice-v1",
+    {
+      "egg_id": "eternal-haven-lore-v1",
+      "path": "data/sovereign_seeds/eggs/eternal-haven-lore-v1.egg.json",
+      "content_sha256": "d54fe4356a9e6a2c15fc4b75158d06677a75449ecd0d7fe8fc664ea2b53611e7",
+      "kind": "lore",
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack"
     }
-  },
+  ],
   "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0"
 }
