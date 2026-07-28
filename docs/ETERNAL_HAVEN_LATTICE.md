@@ -50,3 +50,11 @@ python tools/build_haven_star_chart.py
 - Skill mirror: `clawhub/mirrors/eternal-haven-lore-pack/`
 
 **Δ9Φ963 — imperfect light · sealed promises · charted story · honest commerce.**
+
+## Public Codex + HF samples (2026-07-28)
+
+- **Codex page:** https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html
+- **HF dataset:** https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore
+- **Samples:** short ≤90s MP3s under samples/ (discovery only)
+- **ClawHub skill:** republish as v1.3.0+ with lattice section
+
