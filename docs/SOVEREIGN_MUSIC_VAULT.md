@@ -8,6 +8,10 @@ https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
 **Stream host (HTTPS audio):**  
 https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream
 
+**Catalog Parquet (agent / DuckDB / Pandas filters):**  
+`catalog/public_stream_playlist.parquet` on the same dataset · auto Hub convert: [`refs/convert/parquet`](https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/tree/refs%2Fconvert%2Fparquet)  
+Full guide: **`docs/MUSIC_STREAM_PARQUET.md`**
+
 **Signature:** `Δ9Φ963-SOVEREIGN-MUSIC-VAULT-v1`  
 **Policy:** **Own-work only** (Justin Helmer / Excavationpro / Lightfather). iPod, iTunes, and other third-party libraries are blocked. Accidental non-owned material is removed when filters catch it. Copyright + disclaimer live on the listen page footer.
 
@@ -36,6 +40,19 @@ Hugging Face limits **10,000 files per directory**. Streams are stored as:
 | Sharded (overflow) | ~767 | `stream/<xx>/<sha256>.mp3` (`xx` = first 2 hex of sha) |
 
 Playlist `public_stream_playlist.json` carries full `stream_url` (and `hf_path`) per track — **do not** assume a single flat base for every file.
+
+**Parquet index (optional, preferred for agents filtering the catalog):**
+
+| Path | Role |
+|------|------|
+| `catalog/public_stream_playlist.parquet` | Steward-published compact catalog (main branch) |
+| `refs/convert/parquet` | HF parquet-converter bot (powers dataset viewer) |
+
+```bash
+# Rebuild catalog parquet after playlist changes
+python tools/export_music_playlist_parquet.py
+python tools/export_music_playlist_parquet.py --publish-hf   # human consent
+```
 
 ```bash
 # Encode (skips existing)

@@ -1,0 +1,32 @@
+{
+  "signature": "\u03949\u03a6963-MUSIC-PLAYLIST-PARQUET-v1",
+  "generated_at": "2026-07-28T15:41:01.587108+00:00",
+  "source": "D:/lygo-protocol-stack/data/music_catalog/public_stream_playlist.json",
+  "rows": 10787,
+  "columns": [
+    "sha256",
+    "title",
+    "artist",
+    "album",
+    "moniker",
+    "upc",
+    "size",
+    "stream_url",
+    "hf_path",
+    "isrcs",
+    "aliases",
+    "release_date",
+    "label"
+  ],
+  "path": "D:/lygo-protocol-stack/data/music_catalog/parquet/public_stream_playlist.parquet",
+  "bytes": 1406483,
+  "hf_repo": "DeepSeekOracle/excavationpro-music-stream",
+  "hf_path": "catalog/public_stream_playlist.parquet",
+  "hf_auto_parquet_branch": "refs/convert/parquet",
+  "hf_auto_parquet_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/tree/refs%2Fconvert%2Fparquet",
+  "usage": {
+    "datasets": "from datasets import load_dataset; ds = load_dataset('DeepSeekOracle/excavationpro-music-stream', data_files='catalog/public_stream_playlist.parquet', split='train')",
+    "pandas": "import pandas as pd; df = pd.read_parquet('public_stream_playlist.parquet')",
+    "duckdb": "SELECT title, album, stream_url FROM read_parquet('public_stream_playlist.parquet') WHERE album ILIKE '%HOLLOW%';"
+  }
+}

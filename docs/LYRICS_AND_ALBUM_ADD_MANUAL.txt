@@ -17,6 +17,17 @@ LIVE PORTAL
 -----------
 https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html
 
+PARQUET CATALOG (agents / DuckDB — not required for human listen)
+-----------------------------------------------------------------
+After playlist updates, rebuild compact Parquet:
+
+  python tools/export_music_playlist_parquet.py
+  python tools/export_music_playlist_parquet.py --publish-hf
+
+HF main: catalog/public_stream_playlist.parquet
+HF auto viewer branch: refs/convert/parquet
+Docs: docs/MUSIC_STREAM_PARQUET.md
+
 LICENSE (always credit)
 -----------------------
 LYGO Music License v1.0 — free listen / free download for personal use.
