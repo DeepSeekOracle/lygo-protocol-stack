@@ -12,7 +12,7 @@
   "node": {
     "id": "LORE_BOOK_IV_ETERNAL_DAWNS",
     "kind": "lore",
-    "name": "The Eternal Haven — Book IV: Eternal Dawns",
+    "name": "The Eternal Haven — Book IV: Eternal Haven Dawns",
     "equation": "Truth = ∇·(Light × Story) ⊗ Δ9 · 963Hz",
     "glyph": "🌅",
     "tone": "963Hz",
@@ -37,7 +37,9 @@
       "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
       "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
       "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "amazon": "https://amazon.com/dp/1069823236",
+      "primary": "https://amazon.com/dp/1069823236"
     },
     "meta": {
       "source": "eternal-haven-lore-pack",

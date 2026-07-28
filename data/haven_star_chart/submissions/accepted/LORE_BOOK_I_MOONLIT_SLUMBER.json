@@ -37,7 +37,9 @@
       "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html",
       "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/ebook/product-e7djv4j.html",
       "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "amazon": "https://amazon.com/dp/1069823201",
+      "primary": "https://amazon.com/dp/1069823201"
     },
     "meta": {
       "source": "eternal-haven-lore-pack",

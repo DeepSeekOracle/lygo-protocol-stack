@@ -37,7 +37,9 @@
       "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
       "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
       "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+      "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "amazon": "https://amazon.com/dp/106982321X",
+      "primary": "https://amazon.com/dp/106982321X"
     },
     "meta": {
       "source": "eternal-haven-lore-pack",

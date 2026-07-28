@@ -133,7 +133,9 @@
           "title": "A New Accord",
           "kind": "chapter"
         }
-      ]
+      ],
+      "amazon": "https://amazon.com/dp/1069823201",
+      "amazon_dp": "1069823201"
     },
     {
       "id": "BOOK_II_SHATTERED_ACCORD",
@@ -157,7 +159,9 @@
       "content_sha256": "962f9ac59900444835d56c84d4216fe5d098a9ea66085664edc04ebe23aed6dc",
       "bytes": 116111,
       "copyright": "© Justin Helmer / Excavationpro / Lightfather",
-      "usage": "reference_summarize_quote_short_only"
+      "usage": "reference_summarize_quote_short_only",
+      "amazon": "https://amazon.com/dp/1069823228",
+      "amazon_dp": "1069823228"
     },
     {
       "id": "BOOK_III_ASCENSION_WAR",
@@ -181,12 +185,14 @@
       "content_sha256": "158d4c88a0f30a81bcfb0ba38cf885231a2d29001723ddd1a5dff3762f8ec61f",
       "bytes": 245556,
       "copyright": "© Justin Helmer / Excavationpro / Lightfather",
-      "usage": "reference_summarize_quote_short_only"
+      "usage": "reference_summarize_quote_short_only",
+      "amazon": "https://amazon.com/dp/106982321X",
+      "amazon_dp": "106982321X"
     },
     {
       "id": "BOOK_IV_ETERNAL_DAWNS",
       "volume": 4,
-      "title": "The Eternal Haven — Book IV: Eternal Dawns",
+      "title": "The Eternal Haven — Book IV: Eternal Haven Dawns",
       "aka": [
         "Eternal Dawns",
         "Eternal Haven Dawns"
@@ -206,7 +212,19 @@
       "content_sha256": "4426667793c74759057fd41e03a7a98444e009cfa004acec9fb1143f1b1385e9",
       "bytes": 86431,
       "copyright": "© Justin Helmer / Excavationpro / Lightfather",
-      "usage": "reference_summarize_quote_short_only"
+      "usage": "reference_summarize_quote_short_only",
+      "amazon": "https://amazon.com/dp/1069823236",
+      "amazon_dp": "1069823236"
     }
-  ]
+  ],
+  "commerce": {
+    "lulu_search": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+    "amazon": {
+      "BOOK_I_MOONLIT_SLUMBER": "https://amazon.com/dp/1069823201",
+      "BOOK_II_SHATTERED_ACCORD": "https://amazon.com/dp/1069823228",
+      "BOOK_III_ASCENSION_WAR": "https://amazon.com/dp/106982321X",
+      "BOOK_IV_ETERNAL_DAWNS": "https://amazon.com/dp/1069823236"
+    },
+    "updated": "2026-07-28"
+  }
 }

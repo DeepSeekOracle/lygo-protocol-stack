@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-28T17:57:31.545089+00:00",
+  "generated_utc": "2026-07-28T18:05:15.236295+00:00",
   "core_anchor": "SEAL_000",
   "node_count": 1194,
   "link_count": 2986,
   "seal_count": 323,
   "champion_count": 15,
   "lattice_count": 31,
-  "registry_sha256": "c54beee036402407822c7decad012a7e18c5bdfe1020adf2e15cb4dcb2bba5d7",
+  "registry_sha256": "66f2ff0362a5bbb8856a68c68901bc953ebc7cce3ba5a0e84b259e7871c2a658",
   "constellations": [
     {
       "id": "primordial_core",
@@ -50040,7 +50040,9 @@
         "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html",
         "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/ebook/product-e7djv4j.html",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/1069823201",
+        "primary": "https://amazon.com/dp/1069823201"
       },
       "layer": 2,
       "meta": {
@@ -50085,7 +50087,9 @@
         "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/paperback/product-578nykz.html",
         "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/ebook/product-jed8wdz.html",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/1069823228",
+        "primary": "https://amazon.com/dp/1069823228"
       },
       "layer": 2,
       "meta": {
@@ -50130,7 +50134,9 @@
         "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
         "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/106982321X",
+        "primary": "https://amazon.com/dp/106982321X"
       },
       "layer": 2,
       "meta": {
@@ -50151,7 +50157,7 @@
     {
       "id": "LORE_BOOK_IV_ETERNAL_DAWNS",
       "kind": "lore",
-      "name": "The Eternal Haven \u2014 Book IV: Eternal Dawns",
+      "name": "The Eternal Haven \u2014 Book IV: Eternal Haven Dawns",
       "equation": "Truth = \u2207\u00b7(Light \u00d7 Story) \u2297 \u03949 \u00b7 963Hz",
       "glyph": "\ud83c\udf05",
       "tone": "963Hz",
@@ -50175,7 +50181,9 @@
         "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
         "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
-        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/1069823236",
+        "primary": "https://amazon.com/dp/1069823236"
       },
       "layer": 2,
       "meta": {
