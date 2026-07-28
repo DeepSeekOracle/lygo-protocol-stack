@@ -503,22 +503,32 @@ def main() -> int:
     if len(html) < 500000 and before > 500000:
         raise SystemExit(f"abort shrink {before}->{len(html)}")
 
-    # trophy ensure
+    # trophy ensure — only inside hero header (never raw <body> prepend; that broke the header)
     if 'id="play-trophy"' not in html:
         trophy = '''
-<div class="play-trophy" id="play-trophy">
-  <span class="cup">🏆</span>
-  <div class="nums">
-    <div class="big" id="trophy-total">▶ plays</div>
-    <div class="sub">GLOBAL multi-listener plays</div>
+  <div class="play-trophy" id="play-trophy" title="Global play tally">
+    <span class="cup" aria-hidden="true">🏆</span>
+    <div class="nums">
+      <div class="big" id="trophy-total">—</div>
+      <div class="sub">Total plays · live across listeners</div>
+    </div>
+    <span class="live-dot" title="Live counter"></span>
   </div>
-  <span class="live-dot"></span>
-</div>
 '''
-        if '<div class="tools">' in html:
+        if "<h1>Excavationpro — Listen Free</h1>" in html:
+            html = html.replace(
+                "<h1>Excavationpro — Listen Free</h1>",
+                "<h1>Excavationpro — Listen Free</h1>\n" + trophy,
+                1,
+            )
+        elif '<header class="hero wrap">' in html:
+            html = html.replace(
+                '<header class="hero wrap">',
+                '<header class="hero wrap">\n' + trophy,
+                1,
+            )
+        elif '<div class="tools">' in html:
             html = html.replace('<div class="tools">', '<div class="tools">\n' + trophy + "\n", 1)
-        else:
-            html = html.replace("<body>", "<body>\n" + trophy + "\n", 1)
 
     LISTEN.write_text(html, encoding="utf-8")
     shutil.copy2(LISTEN, DOCS)
