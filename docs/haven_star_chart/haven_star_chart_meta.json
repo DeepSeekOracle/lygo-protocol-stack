@@ -1,8 +1,8 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-27T04:47:13.339069+00:00",
-  "registry_sha256": "2b84d8936f6d7f8470dc1f5b0fec220dc96e47009183842b77422d64ec9286f8",
-  "node_count": 1156,
+  "generated_utc": "2026-07-28T15:38:26.833097+00:00",
+  "registry_sha256": "dddfef98d7b611082d160153a2a228a834dffe154d4fa4363555846a2e89eced",
+  "node_count": 1170,
   "submission_queue": {
     "pending": 0,
     "accepted": 30,
@@ -38,7 +38,7 @@
       "merged:PORTAL_PAGES_STACK",
       "merged:PORTAL_STAR_CHART",
       "merged:SEAL_401",
-      "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)",
+      "music_map: +767 nodes (albums=3 tracks=744 playlist=10787)",
       "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
     ]
   },

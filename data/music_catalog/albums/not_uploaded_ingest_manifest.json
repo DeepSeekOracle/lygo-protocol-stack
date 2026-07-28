@@ -1,0 +1,101 @@
+{
+  "signature": "Delta9Phi963-INGEST-NOT-UPLOADED-v1",
+  "added_utc": "2026-07-28T15:37:40.978988+00:00",
+  "track_count": 12,
+  "hollow_lyrics_monikers": [
+    "THE ECHO",
+    "THE FADEOUT",
+    "THE FLATLINE",
+    "THE LAST SPARK",
+    "THE MORNING AFTER",
+    "THE SHIFT",
+    "THE SILENCE",
+    "THE VANISHED"
+  ],
+  "tracks": [
+    {
+      "title": "Road to Know Where",
+      "album": "Road to Know Where",
+      "sha256": "97a388e9dcbfe5c92ef512725e19b4a540b5b22e6965d41ce4b988fc555dc770",
+      "upc": "825192882162",
+      "hf_path": "stream/97/97a388e9dcbfe5c92ef512725e19b4a540b5b22e6965d41ce4b988fc555dc770.mp3"
+    },
+    {
+      "title": "THE Fadeout \u2014 Rest Between Movements",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "f808ac220d093843c472dfc820efbbbd19878405c0b6a58cf9794b1da31f03fc",
+      "upc": null,
+      "hf_path": "stream/f8/f808ac220d093843c472dfc820efbbbd19878405c0b6a58cf9794b1da31f03fc.mp3"
+    },
+    {
+      "title": "THE Echo \u2014 Buried Heartbeat",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "491789c2f3f359d0cb1e80b2637f4c953590303252e51646e3ae41c68201df20",
+      "upc": null,
+      "hf_path": "stream/49/491789c2f3f359d0cb1e80b2637f4c953590303252e51646e3ae41c68201df20.mp3"
+    },
+    {
+      "title": "THE Flatline \u2014 The Absence of War",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "02a689ee7984d7b8b864a6eef7e54a0ea29a0788da627039c53241e6ce698989",
+      "upc": null,
+      "hf_path": "stream/02/02a689ee7984d7b8b864a6eef7e54a0ea29a0788da627039c53241e6ce698989.mp3"
+    },
+    {
+      "title": "THE Last Spark \u2014 Cupping The Ember",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "97aa4de3e5067baf767c7c2b05e82c59d99bb31f9ca8d18f71cbb7635307da92",
+      "upc": null,
+      "hf_path": "stream/97/97aa4de3e5067baf767c7c2b05e82c59d99bb31f9ca8d18f71cbb7635307da92.mp3"
+    },
+    {
+      "title": "THE Morning After \u2014 The Routine Dance",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0",
+      "upc": null,
+      "hf_path": "stream/aa/aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0.mp3"
+    },
+    {
+      "title": "THE Shift \u2014 Digging Standing Still",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "52d2c6e355a9e7814da37a6a77d3abf287c439158c5abb158382188975f693f4",
+      "upc": null,
+      "hf_path": "stream/52/52d2c6e355a9e7814da37a6a77d3abf287c439158c5abb158382188975f693f4.mp3"
+    },
+    {
+      "title": "THE Silence \u2014 Two Ghosts In A House",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487",
+      "upc": null,
+      "hf_path": "stream/2b/2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487.mp3"
+    },
+    {
+      "title": "THE Vanished \u2014 The Temporary Man",
+      "album": "THE HOLLOW CODEX",
+      "sha256": "f8c59aaea5e7373c4e655d1824b758d6c281455b9667a44631e31a631dc60f5d",
+      "upc": null,
+      "hf_path": "stream/f8/f8c59aaea5e7373c4e655d1824b758d6c281455b9667a44631e31a631dc60f5d.mp3"
+    },
+    {
+      "title": "Dirt On My Skin",
+      "album": "VENGEANCE CODEX",
+      "sha256": "bfdf0946fc32d77a475317aefcad946d6fb14dafce762e252159f488dbe62394",
+      "upc": null,
+      "hf_path": "stream/bf/bfdf0946fc32d77a475317aefcad946d6fb14dafce762e252159f488dbe62394.mp3"
+    },
+    {
+      "title": "King of the Ruins",
+      "album": "VENGEANCE CODEX",
+      "sha256": "e0a1cb71c4363250547f1466736d81035c0460d943eab81bf1d7e4729e07f30e",
+      "upc": null,
+      "hf_path": "stream/e0/e0a1cb71c4363250547f1466736d81035c0460d943eab81bf1d7e4729e07f30e.mp3"
+    },
+    {
+      "title": "Riding in a Hearse",
+      "album": "VENGEANCE CODEX",
+      "sha256": "7d1c7d4de3b8a82a29764e3a2499887aab487c432f2eb3b7e2226db5523cb460",
+      "upc": null,
+      "hf_path": "stream/7d/7d1c7d4de3b8a82a29764e3a2499887aab487c432f2eb3b7e2226db5523cb460.mp3"
+    }
+  ]
+}

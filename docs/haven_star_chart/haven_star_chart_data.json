@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-27T04:47:13.339069+00:00",
+  "generated_utc": "2026-07-28T15:38:26.833097+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1156,
-  "link_count": 2839,
+  "node_count": 1170,
+  "link_count": 2877,
   "seal_count": 323,
   "champion_count": 15,
   "lattice_count": 29,
-  "registry_sha256": "2b84d8936f6d7f8470dc1f5b0fec220dc96e47009183842b77422d64ec9286f8",
+  "registry_sha256": "dddfef98d7b611082d160153a2a228a834dffe154d4fa4363555846a2e89eced",
   "constellations": [
     {
       "id": "primordial_core",
@@ -107,7 +107,7 @@
         "constellation_id": "music_codex",
         "angle_deg": 155,
         "fork_of": "CHAMPION_LIGHTFATHER",
-        "star_count": 753
+        "star_count": 767
       },
       {
         "id": "GALAXY_PRIMORDIAL_VAULT",
@@ -396,10 +396,37 @@
         ]
       },
       {
+        "id": "NEBULA_ALBUM_ROAD_TO_KNOW_WHERE",
+        "name": "Album Road To Know Where",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 2,
+        "star_ids": [
+          "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+          "MUSIC_TRACK_97A388E9DCBFE5C9"
+        ]
+      },
+      {
+        "id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "name": "Album The Hollow Codex",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 9,
+        "star_ids": [
+          "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+          "MUSIC_TRACK_F808AC220D093843",
+          "MUSIC_TRACK_491789C2F3F359D0",
+          "MUSIC_TRACK_02A689EE7984D7B8",
+          "MUSIC_TRACK_97AA4DE3E5067BAF",
+          "MUSIC_TRACK_AAC0D48A114D1D0D",
+          "MUSIC_TRACK_52D2C6E355A9E781",
+          "MUSIC_TRACK_2B1506A7D63CDAE9",
+          "MUSIC_TRACK_F8C59AAEA5E7373C"
+        ]
+      },
+      {
         "id": "NEBULA_ALBUM_VENGEANCE_CODEX",
         "name": "Album Vengeance Codex",
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 15,
+        "star_count": 18,
         "star_ids": [
           "MUSIC_ALBUM_VENGEANCE_CODEX",
           "MUSIC_TRACK_43235AE88F3A7BB4",
@@ -1216,6 +1243,26 @@
         "star_count": 1,
         "star_ids": [
           "SEAL_401"
+        ]
+      },
+      {
+        "id": "CLUSTER_ALBUM_ROAD_TO_KNOW_WHERE",
+        "name": "ALBUM ROAD TO KNOW WHERE",
+        "nebula_id": "NEBULA_ALBUM_ROAD_TO_KNOW_WHERE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE"
+        ]
+      },
+      {
+        "id": "CLUSTER_ALBUM_THE_HOLLOW_CODEX",
+        "name": "ALBUM THE HOLLOW CODEX",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_THE_HOLLOW_CODEX"
         ]
       },
       {
@@ -2500,11 +2547,38 @@
         ]
       },
       {
+        "id": "CLUSTER_TRACKS_ROAD_TO_KNOW_WHERE",
+        "name": "TRACKS ROAD TO KNOW WHERE",
+        "nebula_id": "NEBULA_ALBUM_ROAD_TO_KNOW_WHERE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_TRACK_97A388E9DCBFE5C9"
+        ]
+      },
+      {
+        "id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "name": "TRACKS THE HOLLOW CODEX",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 8,
+        "star_ids": [
+          "MUSIC_TRACK_F808AC220D093843",
+          "MUSIC_TRACK_491789C2F3F359D0",
+          "MUSIC_TRACK_02A689EE7984D7B8",
+          "MUSIC_TRACK_97AA4DE3E5067BAF",
+          "MUSIC_TRACK_AAC0D48A114D1D0D",
+          "MUSIC_TRACK_52D2C6E355A9E781",
+          "MUSIC_TRACK_2B1506A7D63CDAE9",
+          "MUSIC_TRACK_F8C59AAEA5E7373C"
+        ]
+      },
+      {
         "id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
         "name": "TRACKS VENGEANCE CODEX",
         "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 14,
+        "star_count": 17,
         "star_ids": [
           "MUSIC_TRACK_43235AE88F3A7BB4",
           "MUSIC_TRACK_C47419E3322A752A",
@@ -2518,8 +2592,8 @@
       }
     ],
     "galaxy_count": 21,
-    "nebula_count": 48,
-    "cluster_count": 139
+    "nebula_count": 50,
+    "cluster_count": 143
   },
   "nodes": [
     {
@@ -12661,7 +12735,7 @@
       "kind": "music_hub",
       "name": "Excavationpro Music Portal",
       "glyph": "\ud83c\udfa7",
-      "equation": "Listen(10775) \u2297 ISRC(718) \u2297 HF",
+      "equation": "Listen(10787) \u2297 ISRC(718) \u2297 HF",
       "tone": "432Hz",
       "tags": [
         "MUSIC",
@@ -12688,9 +12762,9 @@
         "steward": "Justin Helmer / Lightfather / Excavationpro",
         "origin_champion": "CHAMPION_LIGHTFATHER",
         "origin_note": "Music Codex forks from CHAMPION_LIGHTFATHER (steward node)",
-        "stream_count": 10775,
+        "stream_count": 10787,
         "unique_isrcs": 718,
-        "tagged_albums": 1,
+        "tagged_albums": 3,
         "no_album_streams": 10761,
         "live_map": true,
         "map_policy": "isrc_stars_primary"
@@ -47084,11 +47158,481 @@
       }
     },
     {
+      "id": "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+      "kind": "music_album",
+      "name": "Road to Know Where",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(1) \u00b7 ISRC=0 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "ROAD_TO_KNOW_WHERE"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=Road+to+Know+Where",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "Road to Know Where",
+        "track_count": 1,
+        "lyrics_count": 0,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ROAD_TO_KNOW_WHERE",
+        "nebula_name": "Album Road To Know Where",
+        "cluster_id": "CLUSTER_ALBUM_ROAD_TO_KNOW_WHERE",
+        "cluster_name": "ALBUM ROAD TO KNOW WHERE",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_97A388E9DCBFE5C9",
+      "kind": "music_track",
+      "name": "Road to Know Where",
+      "glyph": "\u00b7",
+      "equation": "SHA256(97a388e9dcbf\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/97a388e9dcbfe5c92ef512725e19b4a540b5b22e6965d41ce4b988fc555dc770.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=97a388e9dcbfe5c9"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "97a388e9dcbfe5c92ef512725e19b4a540b5b22e6965d41ce4b988fc555dc770",
+        "album": "Road to Know Where",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ROAD_TO_KNOW_WHERE",
+        "nebula_name": "Album Road To Know Where",
+        "cluster_id": "CLUSTER_TRACKS_ROAD_TO_KNOW_WHERE",
+        "cluster_name": "TRACKS ROAD TO KNOW WHERE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "music_album",
+      "name": "THE HOLLOW CODEX",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(8) \u00b7 ISRC=0 \u00b7 lyrics=8",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "THE_HOLLOW_CODEX"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=THE+HOLLOW+CODEX",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "THE HOLLOW CODEX",
+        "track_count": 8,
+        "lyrics_count": 8,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_ALBUM_THE_HOLLOW_CODEX",
+        "cluster_name": "ALBUM THE HOLLOW CODEX",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_F808AC220D093843",
+      "kind": "music_track",
+      "name": "THE Fadeout \u2014 Rest Between Movements \u00b7 THE FADEOUT",
+      "glyph": "\u266a",
+      "equation": "SHA256(f808ac220d09\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f808ac220d093843c472dfc820efbbbd19878405c0b6a58cf9794b1da31f03fc.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=f808ac220d093843"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "f808ac220d093843c472dfc820efbbbd19878405c0b6a58cf9794b1da31f03fc",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE FADEOUT",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_491789C2F3F359D0",
+      "kind": "music_track",
+      "name": "THE Echo \u2014 Buried Heartbeat \u00b7 THE ECHO",
+      "glyph": "\u266a",
+      "equation": "SHA256(491789c2f3f3\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/491789c2f3f359d0cb1e80b2637f4c953590303252e51646e3ae41c68201df20.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=491789c2f3f359d0"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "491789c2f3f359d0cb1e80b2637f4c953590303252e51646e3ae41c68201df20",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE ECHO",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_02A689EE7984D7B8",
+      "kind": "music_track",
+      "name": "THE Flatline \u2014 The Absence of War \u00b7 THE FLATLINE",
+      "glyph": "\u266a",
+      "equation": "SHA256(02a689ee7984\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/02a689ee7984d7b8b864a6eef7e54a0ea29a0788da627039c53241e6ce698989.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=02a689ee7984d7b8"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "02a689ee7984d7b8b864a6eef7e54a0ea29a0788da627039c53241e6ce698989",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE FLATLINE",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_97AA4DE3E5067BAF",
+      "kind": "music_track",
+      "name": "THE Last Spark \u2014 Cupping The Ember \u00b7 THE LAST SPARK",
+      "glyph": "\u266a",
+      "equation": "SHA256(97aa4de3e506\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/97aa4de3e5067baf767c7c2b05e82c59d99bb31f9ca8d18f71cbb7635307da92.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=97aa4de3e5067baf"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "97aa4de3e5067baf767c7c2b05e82c59d99bb31f9ca8d18f71cbb7635307da92",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE LAST SPARK",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_AAC0D48A114D1D0D",
+      "kind": "music_track",
+      "name": "THE Morning After \u2014 The Routine Dance \u00b7 THE MORNING AFTER",
+      "glyph": "\u266a",
+      "equation": "SHA256(aac0d48a114d\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=aac0d48a114d1d0d"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE MORNING AFTER",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_52D2C6E355A9E781",
+      "kind": "music_track",
+      "name": "THE Shift \u2014 Digging Standing Still \u00b7 THE SHIFT",
+      "glyph": "\u266a",
+      "equation": "SHA256(52d2c6e355a9\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/52d2c6e355a9e7814da37a6a77d3abf287c439158c5abb158382188975f693f4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=52d2c6e355a9e781"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "52d2c6e355a9e7814da37a6a77d3abf287c439158c5abb158382188975f693f4",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE SHIFT",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_2B1506A7D63CDAE9",
+      "kind": "music_track",
+      "name": "THE Silence \u2014 Two Ghosts In A House \u00b7 THE SILENCE",
+      "glyph": "\u266a",
+      "equation": "SHA256(2b1506a7d63c\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=2b1506a7d63cdae9"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE SILENCE",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_F8C59AAEA5E7373C",
+      "kind": "music_track",
+      "name": "THE Vanished \u2014 The Temporary Man \u00b7 THE VANISHED",
+      "glyph": "\u266a",
+      "equation": "SHA256(f8c59aaea5e7\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "HAS_LYRICS"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "LATTICE_LYGO_MUSIC_LICENSE"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f8c59aaea5e7373c4e655d1824b758d6c281455b9667a44631e31a631dc60f5d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=f8c59aaea5e7373c"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "f8c59aaea5e7373c4e655d1824b758d6c281455b9667a44631e31a631dc60f5d",
+        "album": "THE HOLLOW CODEX",
+        "moniker": "THE VANISHED",
+        "has_lyrics": true,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
+        "nebula_name": "Album The Hollow Codex",
+        "cluster_id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
+        "cluster_name": "TRACKS THE HOLLOW CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
       "id": "MUSIC_ALBUM_VENGEANCE_CODEX",
       "kind": "music_album",
       "name": "VENGEANCE CODEX",
       "glyph": "\ud83d\udcbf",
-      "equation": "Album(14) \u00b7 ISRC=0 \u00b7 lyrics=11",
+      "equation": "Album(17) \u00b7 ISRC=0 \u00b7 lyrics=11",
       "tone": "440Hz",
       "tags": [
         "MUSIC",
@@ -47110,7 +47654,7 @@
       "layer": 3,
       "meta": {
         "album": "VENGEANCE CODEX",
-        "track_count": 14,
+        "track_count": 17,
         "lyrics_count": 11,
         "isrc_count": 0,
         "artist": "Excavationpro"
@@ -47725,11 +48269,137 @@
       }
     },
     {
+      "id": "MUSIC_TRACK_BFDF0946FC32D77A",
+      "kind": "music_track",
+      "name": "Dirt On My Skin",
+      "glyph": "\u00b7",
+      "equation": "SHA256(bfdf0946fc32\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bfdf0946fc32d77a475317aefcad946d6fb14dafce762e252159f488dbe62394.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=bfdf0946fc32d77a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "bfdf0946fc32d77a475317aefcad946d6fb14dafce762e252159f488dbe62394",
+        "album": "VENGEANCE CODEX",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E0A1CB71C4363250",
+      "kind": "music_track",
+      "name": "King of the Ruins",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e0a1cb71c436\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e0a1cb71c4363250547f1466736d81035c0460d943eab81bf1d7e4729e07f30e.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e0a1cb71c4363250"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e0a1cb71c4363250547f1466736d81035c0460d943eab81bf1d7e4729e07f30e",
+        "album": "VENGEANCE CODEX",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_7D1C7D4DE3B8A82A",
+      "kind": "music_track",
+      "name": "Riding in a Hearse",
+      "glyph": "\u00b7",
+      "equation": "SHA256(7d1c7d4de3b8\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_VENGEANCE_CODEX",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/7d1c7d4de3b8a82a29764e3a2499887aab487c432f2eb3b7e2226db5523cb460.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=7d1c7d4de3b8a82a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "7d1c7d4de3b8a82a29764e3a2499887aab487c432f2eb3b7e2226db5523cb460",
+        "album": "VENGEANCE CODEX",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_VENGEANCE_CODEX",
+        "nebula_name": "Album Vengeance Codex",
+        "cluster_id": "CLUSTER_TRACKS_VENGEANCE_CODEX",
+        "cluster_name": "TRACKS VENGEANCE CODEX",
+        "star_role": "music_track"
+      }
+    },
+    {
       "id": "MUSIC_CATALOG_CLOUD",
       "kind": "music_hub",
-      "name": "Non-ISRC Stream Cloud (9374)",
+      "name": "Non-ISRC Stream Cloud (9386)",
       "glyph": "\u2601\u266a",
-      "equation": "streams_without_ISRC=9374",
+      "equation": "streams_without_ISRC=9386",
       "tone": "174Hz",
       "tags": [
         "MUSIC",
@@ -47747,7 +48417,7 @@
       },
       "layer": 3,
       "meta": {
-        "non_isrc_count": 9374,
+        "non_isrc_count": 9386,
         "note": "Vault streams without ISRC stay in this cloud. Commercial ISRC identity stars live under MUSIC_ISRC_REGISTRY."
       },
       "cosmos": {
@@ -60878,6 +61548,166 @@
       "kind": "lattice"
     },
     {
+      "source": "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_97A388E9DCBFE5C9",
+      "target": "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_97A388E9DCBFE5C9",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F808AC220D093843",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F808AC220D093843",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F808AC220D093843",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_491789C2F3F359D0",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_491789C2F3F359D0",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_491789C2F3F359D0",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_02A689EE7984D7B8",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_02A689EE7984D7B8",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_02A689EE7984D7B8",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_97AA4DE3E5067BAF",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_97AA4DE3E5067BAF",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_97AA4DE3E5067BAF",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_AAC0D48A114D1D0D",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_AAC0D48A114D1D0D",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_AAC0D48A114D1D0D",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_52D2C6E355A9E781",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_52D2C6E355A9E781",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_52D2C6E355A9E781",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2B1506A7D63CDAE9",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2B1506A7D63CDAE9",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2B1506A7D63CDAE9",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F8C59AAEA5E7373C",
+      "target": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F8C59AAEA5E7373C",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F8C59AAEA5E7373C",
+      "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
       "source": "MUSIC_ALBUM_VENGEANCE_CODEX",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
@@ -61085,6 +61915,36 @@
     {
       "source": "MUSIC_TRACK_2882023F4B80E139",
       "target": "LATTICE_LYGO_MUSIC_LICENSE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_BFDF0946FC32D77A",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_BFDF0946FC32D77A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E0A1CB71C4363250",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E0A1CB71C4363250",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_7D1C7D4DE3B8A82A",
+      "target": "MUSIC_ALBUM_VENGEANCE_CODEX",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_7D1C7D4DE3B8A82A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
     },
     {
@@ -63309,7 +64169,7 @@
         "merged:PORTAL_PAGES_STACK",
         "merged:PORTAL_STAR_CHART",
         "merged:SEAL_401",
-        "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)",
+        "music_map: +767 nodes (albums=3 tracks=744 playlist=10787)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
       ]
     },
@@ -63320,7 +64180,7 @@
       "fork_of": "CHAMPION_LIGHTFATHER",
       "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
       "notes": [
-        "music_map: +753 nodes (albums=1 tracks=732 playlist=10775)",
+        "music_map: +767 nodes (albums=3 tracks=744 playlist=10787)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
       ]
     },
