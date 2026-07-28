@@ -1,0 +1,54 @@
+{
+  "signature": "\u03949\u03a6963-EXCAVATIONPRO-SOCIAL-HUBS-v1",
+  "updated_utc": "2026-07-28T16:21:16.811169+00:00",
+  "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "hubs": {
+    "linktree": {
+      "url": "https://linktr.ee/excavationpro",
+      "role": "Official link-in-bio hub (all social + music + lattice)",
+      "source": "https://linktr.ee/excavationpro"
+    },
+    "feature_fm": {
+      "url": "https://ffm.to/eovnvo9",
+      "role": "Smartlink \u2014 pick Spotify / Apple / Tidal / Deezer / Amazon / YouTube",
+      "source": "https://ffm.to/eovnvo9",
+      "artist": "Excavationpro"
+    }
+  },
+  "resolved_destinations": {
+    "linktree": "https://linktr.ee/excavationpro",
+    "feature_fm": "https://ffm.to/eovnvo9",
+    "feature_fm_smartlink": "https://ffm.to/eovnvo9",
+    "spotify": "https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S",
+    "apple_music": "https://music.apple.com/us/artist/excavationpro/1586588545",
+    "tidal": "https://tidal.com/browse/artist/28494039",
+    "deezer": "https://www.deezer.com/artist/146004952",
+    "amazon_music": "https://music.amazon.ca/artists/B09GPD3K68/excavationpro",
+    "youtube": "https://youtube.com/excavationpro",
+    "youtube_music": "https://music.youtube.com/channel/UCnCf9gjhMEfUFPvGkdlUabQ",
+    "beatstars": "https://www.beatstars.com/excavationpro",
+    "beatstars_store": "https://excavationpro.beatstars.com",
+    "audius": "https://audius.co/excavationpro",
+    "instagram": "https://www.instagram.com/excavationpro/",
+    "twitter": "https://twitter.com/ExcavationPro",
+    "bluesky": "https://bsky.app/profile/excavationpro.bsky.social",
+    "kick_live": "https://kick.com/excavationpro",
+    "twitch_live": "https://twitch.tv/excavationpro",
+    "rumble": "https://rumble.com/c/Excavationpro",
+    "bpm_finder": "https://bpmfinder.ca/",
+    "chatagent": "https://chatagent.ca/",
+    "clawhub": "https://clawhub.ai/deepseekoracle",
+    "eternalhaven_ca": "https://eternalhaven.ca/",
+    "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
+    "merch_distrokid": "https://direct.distrokid.com/excavationpro/home",
+    "lulu_books": "https://www.lulu.com/search?contributor=Justin+Helmer&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+    "looperman": "https://www.looperman.com/users/profile/5711248",
+    "linkedin": "https://www.linkedin.com/in/excavationpro/",
+    "followmymusic": "http://Followmymusic.ca"
+  },
+  "notes": [
+    "ffm.to/eovnvo9 is a Feature.fm smartlink chooser (not a single store).",
+    "Linktree is the full bio hub; keep both on primary portals.",
+    "Deploy listen-page changes to asiancoastline first; Excavationpro listen is backup."
+  ]
+}
