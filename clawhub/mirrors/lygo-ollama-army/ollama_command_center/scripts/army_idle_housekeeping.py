@@ -194,7 +194,10 @@ def op_living_memory_audit(stack: Path) -> dict:
     )
     if not script.is_file():
         return {"ok": True, "skipped": "audit_library.py not in mirror"}
-    authority = os.environ.get("LYGO_AUTHORITY_ROOT", "").strip() or str(stack.parent)
+    # v0.8.0: no LYGO_AUTHORITY_ROOT default to parent drive — explicit only
+    authority = (os.environ.get("LYGO_AUTHORITY_ROOT") or "").strip()
+    if not authority:
+        return {"ok": True, "skipped": "set LYGO_AUTHORITY_ROOT for living-memory audit base"}
     cp = run_python(script, ["--base", authority], cwd=script.parent, timeout=180, stack_root=stack)
     return {"ok": cp.returncode == 0, "exit_code": cp.returncode, "stdout_tail": (cp.stdout or "")[-2000:]}
 

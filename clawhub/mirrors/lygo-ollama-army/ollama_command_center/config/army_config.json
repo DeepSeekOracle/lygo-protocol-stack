@@ -47,7 +47,8 @@
     "workspace_write": true,
     "social_publish": false,
     "remote_llm": false,
-    "outbound_webhook": false
+    "outbound_webhook": false,
+    "allow_privileged_roles": false
   },
   "notifications": {
     "local_alerts_only": true

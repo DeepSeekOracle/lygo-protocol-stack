@@ -27,16 +27,10 @@ $hbPath = Join-Path $Desktop "LYGO Ollama Heartbeats.bat"
 $armyPath = Join-Path $Desktop "LYGO Ollama Army.bat"
 Set-Content -Path $hbPath -Value $HeartbeatsBat -Encoding ASCII
 Set-Content -Path $armyPath -Value $ArmyBat -Encoding ASCII
-$GenesisInstaller = Join-Path $ArmyRoot "install_genesis_desktop.ps1"
-if (Test-Path $GenesisInstaller) {
-    & $GenesisInstaller
-}
-
-$IdleInstaller = Join-Path $ArmyRoot "install_idle_guardian_desktop.ps1"
-if (Test-Path $IdleInstaller) {
-    & $IdleInstaller
-}
-
+# v0.8.0: do NOT auto-chain genesis/idle installers (explicit only)
 Write-Host "Created:"
 Write-Host "  $hbPath"
 Write-Host "  $armyPath"
+Write-Host "Optional (run yourself if needed):"
+Write-Host "  .\install_genesis_desktop.ps1"
+Write-Host "  .\install_idle_guardian_desktop.ps1"

@@ -109,11 +109,55 @@ def get_champion_system(champion: str) -> str:
     }
     return champions.get(champion.upper(), f"You are {champion}, a specialized LYGO champion agent.")
 
+SOCIAL_ROLES = frozenset({
+    "moltx-lattice-pulse",
+    "moltbook-lyra-pulse",
+    "moltbook-lightfather-pulse",
+    "discord-triage",
+})
+HEAVY_STACK_ROLES = frozenset({
+    "audit-suite",
+    "stack-integrity",
+    "mesh-cartographer",
+    "anchor-health",
+    "champion-egg-boot",
+})
+
+
+def _army_cfg() -> dict:
+    try:
+        if ARMY_CFG.is_file():
+            return json.loads(ARMY_CFG.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        pass
+    return {}
+
+
 def process_task(task: dict, model: str, champion: str = None) -> dict:
     role = task.get("role", "general")
     payload = task.get("payload", {})
     out = {"task_id": task.get("id", "unknown"), "role": role, "ts": datetime.now().isoformat(), "model": model}
-    
+    cfg = _army_cfg()
+    access = cfg.get("access") or {}
+    planting = cfg.get("planting") or {}
+    sent = cfg.get("sentinel") or {}
+
+    # v0.8.0 role gates (config-enforced; queue injection cannot bypass)
+    if role in SOCIAL_ROLES and not access.get("social_publish"):
+        out["result"] = {"skipped": "access.social_publish=false"}
+        return out
+    if role == "public-pages-check" and not sent.get("probe_public_pages"):
+        out["result"] = {"skipped": "sentinel.probe_public_pages=false"}
+        return out
+    if role in ("egg-planter", "registry-planter") and not (
+        planting.get("enabled") and planting.get("consent")
+    ):
+        out["result"] = {"skipped": "planting.enabled+consent required"}
+        return out
+    if role in HEAVY_STACK_ROLES and not access.get("allow_privileged_roles", False):
+        out["result"] = {"skipped": "access.allow_privileged_roles=false"}
+        return out
+
     system = get_champion_system(champion) if champion else "You are a helpful generic LYGO local assistant. Be concise and useful."
 
     if role == "discord-triage":

@@ -52,6 +52,6 @@ Then open Genesis → **Joy Loop** tab (embeds Architect).
 
 ## Ollama heartbeats
 
-`ollama_command_center/scripts/heartbeats_only.py` still runs `collector.py` after sentinel pulses.
+`ollama_command_center/scripts/heartbeats_only.py runs **only** sentinel_heartbeat (v0.8.0).
 
 **Δ9Φ963-GENESIS-v3**
