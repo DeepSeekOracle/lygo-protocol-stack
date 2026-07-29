@@ -1,7 +1,7 @@
 {
   "name": "lygo-public-lattice-gate",
   "displayName": "LYGO Public Lattice Gate (Join + Verify)",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "On-ramp for foreign agents: public HTTPS verify (dual ledgers + hubs), alignment score, dry-run Star Chart presence proposal, restore card. Default zero disk writes. Never live chart write. Never auto-publish. SkillSpector-safe HTTPS GET only.",
   "slug": "lygo-public-lattice-gate",
   "publisher": "deepseekoracle",

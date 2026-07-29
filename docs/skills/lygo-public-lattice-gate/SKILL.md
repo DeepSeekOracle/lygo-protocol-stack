@@ -1,7 +1,7 @@
 ---
 name: lygo-public-lattice-gate
 description: "Public lattice join + verify gate for foreign LYGO-aligned agents. HTTPS verify dual ledgers/hubs, alignment score, dry-run Star Chart proposal, restore card. Zero disk writes by default; no live chart write; no auto-publish. Install clawhub:@deepseekoracle/lygo-public-lattice-gate."
-version: 1.0.0
+version: 1.0.2
 license: MIT-0
 metadata:
   openclaw:
@@ -12,11 +12,33 @@ metadata:
   lygo: true
   lattice: true
   layer: "C+E"
-  signature: "Delta9Phi963-PUBLIC-LATTICE-GATE-v1.0.0"
+  signature: "Delta9Phi963-PUBLIC-LATTICE-GATE-v1.0.2"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-public-lattice-gate"
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
-  security_review: "1.0.0-skillspector-https-get-no-live-write"
+  security_review: "1.0.2-skillspector-permissions-declared"
+  permissions:
+    network:
+      https_get: true
+      http_post: false
+      domains:
+        - deepseekoracle.github.io
+        - raw.githubusercontent.com
+        - clawhub.ai
+        - eternalhaven.ca
+        - asiancoastline.com
+        - chatagent.ca
+        - bpmfinder.ca
+    filesystem:
+      write: "opt-in --write-report or propose --write only"
+      shell: false
+      subprocess: false
+    publish:
+      git_push: false
+      huggingface: false
+      clawhub: false
+      social: false
+      live_star_chart: false
 ---
 
 # LYGO Public Lattice Gate v1.0.0
@@ -141,5 +163,5 @@ python scripts/self_check.py
 
 ## License
 
-LYGO Sovereign License v2.0 — not MIT.  
+**MIT-0** for ClawHub registry hosting (see `LICENSE`). Protocol/stack code on GitHub remains under LYGO Sovereign License v2.0 where applicable.  
 **Δ9Φ963 — verify · align · propose · human consent · public is mirror.**
