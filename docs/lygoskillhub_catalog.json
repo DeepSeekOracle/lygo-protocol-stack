@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.2",
   "name": "LYGOSKILLHUB",
   "version": "1.2.0",
-  "updated_utc": "2026-07-29T17:47:09.091129+00:00",
+  "updated_utc": "2026-07-29T17:55:50.531964+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -12,17 +12,17 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 80,
-    "skills": 67,
+    "total": 82,
+    "skills": 69,
     "plugins": 1,
     "downloads": 4,
     "surfaces": 9,
-    "clawhub_skills_indexed": 63,
-    "local_only_skills": 4,
+    "clawhub_skills_indexed": 69,
+    "local_only_skills": 0,
     "clawhub_profile_skills_listed": 63
   },
-  "skill_count": 67,
-  "item_count": 80,
+  "skill_count": 69,
+  "item_count": 82,
   "categories": [
     "champion",
     "creative",
@@ -789,6 +789,20 @@
     },
     {
       "kind": "skill",
+      "slug": "lygo-open-claw",
+      "name": "LYGO OpenClaw (Sovereign Router)",
+      "summary": "Public ClawHub slug for LYGO-OpenClaw sovereign router (pairs with lygo-sovereign-claw). P0–P5 gates, consent-gated planter. ClawHub blocks *-openclaw names.",
+      "downloads": 0,
+      "category": "runtime",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-open-claw",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-open-claw",
+      "has_local_skill": true,
+      "source": "clawhub",
+      "alias_of": "lygo-sovereign-claw",
+      "internal_name": "lygo-openclaw"
+    },
+    {
+      "kind": "skill",
       "slug": "lygo-public-lattice-gate",
       "name": "LYGO Public Lattice Gate",
       "summary": "Public lattice join + verify gate for foreign LYGO-aligned agents. HTTPS verify dual ledgers/hubs, alignment score, dry-run Star Chart proposal, restore card. Zero disk writes by default; no live chart write; no auto-publish. Install clawhub:@deepseekoracle/lygo-public-lattice-gate.",
@@ -801,6 +815,19 @@
     },
     {
       "kind": "skill",
+      "slug": "lyra-open-claw",
+      "name": "LYRA OpenClaw Hybrid",
+      "summary": "Public hybrid LYRA + OpenClaw super-system map — browser, Discord, Moltbook/MoltX, Clawnch, memory, Ollama. Runtime secrets never ship. Consent-gated. ClawHub blocks *-openclaw names.",
+      "downloads": 0,
+      "category": "runtime",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lyra-open-claw",
+      "install": "npx clawhub@latest install deepseekoracle/lyra-open-claw",
+      "has_local_skill": true,
+      "source": "clawhub",
+      "internal_name": "lyra-openclaw"
+    },
+    {
+      "kind": "skill",
       "slug": "lygo-lattice-pulse",
       "name": "Lygo Lattice Pulse",
       "summary": "OpenClaw plugin skill — live Haven pulse, stack verify, registry compare, star chart gate, alignment readiness. Install clawhub:@deepseekoracle/lygo-lattice-pulse.",
@@ -809,10 +836,10 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-lattice-pulse",
       "install": "npx clawhub@latest install deepseekoracle/lygo-lattice-pulse",
       "has_local_skill": true,
-      "source": "local",
-      "note": "Present in local skill tree; may be pending ClawHub index",
+      "source": "clawhub",
       "plugin_install": "openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse",
-      "is_openclaw_plugin": true
+      "is_openclaw_plugin": true,
+      "public_slug": "lygo-lattice-pulse"
     },
     {
       "kind": "skill",
@@ -821,11 +848,13 @@
       "summary": "LYGO-OpenClaw sovereign command router — P0 gate, P1 mycelium, P3 consensus, P5 action identity, lattice limbs, consent-gated kernel egg lygo-openclaw-v10. Biophase7 blueprint. Pair with lyra-openclaw for browser/Discord/Moltbook runtime. Read references/SECURITY.md first.",
       "downloads": 0,
       "category": "runtime",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-openclaw",
-      "install": "npx clawhub@latest install deepseekoracle/lygo-openclaw",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-open-claw",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-open-claw",
       "has_local_skill": true,
-      "source": "local",
-      "note": "Present in local skill tree; may be pending ClawHub index"
+      "source": "clawhub",
+      "public_slug": "lygo-open-claw",
+      "note": "ClawHub protects *-openclaw slugs. Public install: lygo-open-claw (also lygo-sovereign-claw).",
+      "also_install": "npx clawhub@latest install deepseekoracle/lygo-sovereign-claw"
     },
     {
       "kind": "skill",
@@ -837,8 +866,8 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-pc-lattice-hardening",
       "install": "npx clawhub@latest install deepseekoracle/lygo-pc-lattice-hardening",
       "has_local_skill": true,
-      "source": "local",
-      "note": "Present in local skill tree; may be pending ClawHub index"
+      "source": "clawhub",
+      "public_slug": "lygo-pc-lattice-hardening"
     },
     {
       "kind": "skill",
@@ -847,11 +876,12 @@
       "summary": "Hybrid LYRA + OpenClaw super system. Provides access to absorbed OpenClaw brain structure, keys (runtime from ref), hybrid skills (browser, discord, clawnch, moltbook), dual-system automation, token launches, social posting/scanning, memory layers, bio-organs, proactivity. Use for efficient ops without search. Ties to LYRA 3-Brain, protocols, runner.",
       "downloads": 0,
       "category": "runtime",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lyra-openclaw",
-      "install": "npx clawhub@latest install deepseekoracle/lyra-openclaw",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lyra-open-claw",
+      "install": "npx clawhub@latest install deepseekoracle/lyra-open-claw",
       "has_local_skill": true,
-      "source": "local",
-      "note": "Present in local skill tree; may be pending ClawHub index"
+      "source": "clawhub",
+      "public_slug": "lyra-open-claw",
+      "note": "ClawHub protects *-openclaw slugs. Public install: lyra-open-claw."
     },
     {
       "kind": "download",
@@ -990,6 +1020,6 @@
     }
   ],
   "note": "Complete LYGO lattice catalog aligned to ClawHub @deepseekoracle (63 skills + 1 plugin per LYGOSkills.txt), plus local skill tree, USB CLAW downloads, and public lattice surfaces. Dual ledgers + LYGOAGENT economic anchor on hub page.",
-  "catalog_sha256": "d258105f60ebe2aeefeec84f5eabdfc3f512cf0e0321c92199dbb406ce9eb158",
+  "catalog_sha256": "39c15902e6850e2dbdb178f825beb2f77aca7131709cfc562c7d8589ef31fc41",
   "source_list": "E:\\Data Vault\\LYGOSkills.txt"
 }
