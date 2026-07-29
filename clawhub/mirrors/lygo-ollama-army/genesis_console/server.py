@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""LYGO Genesis Console v3 — unified LYGO monitor (GitHub, HF, lattice, Joy, army)."""
+"""LYGO Genesis Console v3 — unified LYGO monitor (local HTTP only). SkillSpector-safe."""
 
 from __future__ import annotations
 
 import json
 import os
-import subprocess
 import sys
 import threading
 import time
@@ -15,6 +14,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
+SKILL = ROOT.parent
+sys.path.insert(0, str(SKILL))
+from _safe_invoke import run_python  # noqa: E402
+
 STATIC = ROOT / "static"
 COLLECTOR = ROOT / "collector.py"
 DATA = ROOT / "data" / "status.json"
@@ -27,12 +30,7 @@ _collector_lock = threading.Lock()
 
 def run_collector() -> None:
     with _collector_lock:
-        subprocess.run(
-            [sys.executable, str(COLLECTOR)],
-            cwd=str(ROOT),
-            timeout=300,
-            check=False,
-        )
+        run_python(COLLECTOR, cwd=ROOT, timeout=300)
 
 
 def collector_loop() -> None:
@@ -45,72 +43,52 @@ def collector_loop() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    def log_message(self, fmt, *args):
-        pass
+    def log_message(self, fmt: str, *args) -> None:
+        return
 
-    def _send_json(self, body: str, code: int = 200) -> None:
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-        self.wfile.write(body.encode())
-
-    def do_GET(self):
+    def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if path == "/api/status":
+        if path in ("/", "/index.html"):
+            body = (STATIC / "index.html").read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        if path in ("/api/status", "/status.json"):
             if not DATA.is_file():
                 run_collector()
-            body = DATA.read_text(encoding="utf-8") if DATA.is_file() else "{}"
-            self._send_json(body)
+            raw = DATA.read_bytes() if DATA.is_file() else b"{}"
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(raw)))
+            self.end_headers()
+            self.wfile.write(raw)
             return
         if path == "/api/refresh":
             run_collector()
-            body = DATA.read_text(encoding="utf-8") if DATA.is_file() else "{}"
-            self._send_json(body)
+            self.send_response(204)
+            self.end_headers()
             return
-        if path == "/api/joy-proxy":
-            try:
-                import urllib.request
-
-                req = urllib.request.Request(
-                    f"http://127.0.0.1:{JOY_PORT}/api/joy",
-                    headers={"User-Agent": "LYGO-Genesis-Console/3.0"},
-                )
-                with urllib.request.urlopen(req, timeout=3) as resp:
-                    self._send_json(resp.read().decode())
-            except Exception as exc:
-                self._send_json(json.dumps({"ok": False, "error": str(exc)}), code=503)
-            return
-        if path in ("/", "/index.html"):
-            path = "/index.html"
-        file_path = STATIC / path.lstrip("/")
-        if not file_path.is_file() or not str(file_path.resolve()).startswith(str(STATIC.resolve())):
-            self.send_error(404)
-            return
-        content = file_path.read_bytes()
-        ctype = "text/html" if file_path.suffix == ".html" else "application/octet-stream"
-        self.send_response(200)
-        self.send_header("Content-Type", ctype)
-        self.end_headers()
-        self.wfile.write(content)
+        self.send_error(404)
 
 
 def main() -> int:
+    DATA.parent.mkdir(parents=True, exist_ok=True)
+    threading.Thread(target=collector_loop, name="genesis-collector", daemon=True).start()
     run_collector()
-    threading.Thread(target=collector_loop, daemon=True).start()
-    server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+    httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     url = f"http://127.0.0.1:{PORT}/"
-    print(f"LYGO Genesis Console v3 → {url}")
-    print(f"Joy Architect (if running) → http://127.0.0.1:{JOY_PORT}/architect")
-    print(f"Background sync every {REFRESH_SEC}s")
+    print(f"Genesis console on {url} (localhost only)")
     try:
         webbrowser.open(url)
     except Exception:
         pass
     try:
-        server.serve_forever()
+        httpd.serve_forever()
     except KeyboardInterrupt:
-        print("Genesis Console stopped.")
+        print("shutdown")
     return 0
 
 

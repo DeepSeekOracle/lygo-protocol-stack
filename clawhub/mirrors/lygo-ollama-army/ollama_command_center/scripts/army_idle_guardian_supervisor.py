@@ -8,9 +8,15 @@ idle_guardian.allow_planting is true in army_config.json.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
 import os
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -34,31 +40,25 @@ def idle_cfg(cfg: dict) -> dict:
     return cfg.get("idle_guardian") or {}
 
 
-def launch_idle_daemons(cfg: dict) -> list[subprocess.Popen]:
-    idle = idle_cfg(cfg)
-    cap = cfg.get("army_capacity") or {}
-    model = cap.get("model", "llama3.2:1b")
-    count = max(1, int(idle.get("count_per_role", 1)))
-    roles: list[str] = list(
-        idle.get("roles")
-        or ["idle-housekeep", "lattice-check", "memory-sync", "kernel-verify-only"]
-    )
-    forbidden = set(idle.get("forbidden_roles") or [])
-    roles = [r for r in roles if r not in forbidden]
 
-    env = os.environ.copy()
-    stack = (cfg.get("lygo_stack_root") or env.get("LYGO_STACK_ROOT", "")).strip()
-    if stack:
-        env["LYGO_STACK_ROOT"] = stack
-
-    procs: list[subprocess.Popen] = []
+def launch_idle_daemons(cfg: dict):
+    """In-process army threads (v0.6.0 — no Popen)."""
+    import ollama_daemon as od
+    roles = (cfg.get("roles") or cfg.get("daemon_roles") or ["hb-light", "draft-simple"])
+    model = cfg.get("model") or os.environ.get("LYGO_OLLAMA_MODEL", "llama3.2:1b")
+    threads = []
     for role in roles:
-        for _ in range(count):
-            cmd = [sys.executable, "-B", str(DAEMON), "--role", role, "--model", model, "--poll", "8.0"]
-            procs.append(subprocess.Popen(cmd, cwd=str(ARMY), env=env))
-            time.sleep(0.3)
-    print(f"Idle daemons: {roles} x{count}")
-    return procs
+        def worker(r=role, m=model):
+            old = sys.argv[:]
+            try:
+                sys.argv = ["ollama_daemon.py", "--role", r, "--model", m, "--poll", "5.0"]
+                if hasattr(od, "main"):
+                    od.main()
+            finally:
+                sys.argv = old
+        threads.append(run_daemon_thread(worker, name=f"army-{role}"))
+        print(f"[LAUNCHED] army-{role} thread")
+    return threads
 
 
 def main() -> int:
@@ -91,10 +91,10 @@ def main() -> int:
     last_cron = 0.0
     try:
         while True:
-            subprocess.run([sys.executable, str(SENTINEL)], check=False, timeout=240)
+            run_python(SENTINEL, timeout=240)
             now = time.time()
             if now - last_cron >= cron_iv:
-                subprocess.run([sys.executable, str(IDLE_CRON)], check=False, timeout=1200)
+                run_python(IDLE_CRON, timeout=1200)
                 last_cron = now
             time.sleep(sentinel_iv)
     except KeyboardInterrupt:

@@ -12,13 +12,17 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import subprocess
 import sys
 import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+
+SKILL_ROOT = Path(__file__).resolve().parents[2]
+import sys as _sys
+_sys.path.insert(0, str(SKILL_ROOT))
+from _safe_invoke import run_python, git_status_summary, write_local_alert
 
 CC = Path(__file__).resolve().parents[1]
 CONFIG_PATH = CC / "config" / "army_config.json"
@@ -38,13 +42,7 @@ def run_lattice(stack_root: Path) -> dict:
     script = stack_root / "tools" / "verify_lattice_alignment.py"
     if not script.is_file():
         return {"ok": False, "detail": "verify_lattice_alignment.py missing"}
-    cp = subprocess.run(
-        [sys.executable, str(script)],
-        cwd=str(stack_root),
-        capture_output=True,
-        text=True,
-        timeout=180,
-    )
+    cp = run_python(script, cwd=stack_root, timeout=180, stack_root=stack_root)
     aligned = cp.returncode == 0 and "ALIGNED" in (cp.stdout or "")
     return {
         "ok": aligned,
@@ -55,22 +53,7 @@ def run_lattice(stack_root: Path) -> dict:
 
 
 def run_git_clean(stack_root: Path) -> dict:
-    if not (stack_root / ".git").is_dir():
-        return {"ok": True, "detail": "not a git checkout"}
-    cp = subprocess.run(
-        ["git", "status", "-sb"],
-        cwd=str(stack_root),
-        capture_output=True,
-        text=True,
-        timeout=60,
-    )
-    lines = [ln for ln in (cp.stdout or "").splitlines() if ln.strip()]
-    # First line is branch summary (## ...); dirty only if more lines or modified/untracked markers
-    dirty = len(lines) > 1 or any(
-        ln.startswith("??") or ln.startswith(" M") or ln.startswith("M ") or ln.startswith("A ")
-        for ln in lines[1:]
-    )
-    return {"ok": cp.returncode == 0, "clean": not dirty, "status_line": lines[0][:200] if lines else ""}
+    return git_status_summary(stack_root)
 
 
 def probe_hf_space() -> dict:
@@ -148,13 +131,7 @@ def run_network_builder(stack_root: Path) -> dict:
     script = stack_root / "tools" / "lygo_network_builder_verify.py"
     if not script.is_file():
         return {"ok": True, "detail": "network builder tool not in stack"}
-    cp = subprocess.run(
-        [sys.executable, str(script)],
-        cwd=str(stack_root),
-        capture_output=True,
-        text=True,
-        timeout=180,
-    )
+    cp = run_python(script, cwd=stack_root, timeout=180, stack_root=stack_root)
     try:
         blob = json.loads(cp.stdout or "{}")
         ok = bool(blob.get("all_pass"))
@@ -178,22 +155,12 @@ def queue_depth(cc: Path) -> dict:
 
 
 def send_alert(message: str, cfg: dict) -> None:
-    print(f"[ALERT] {message}")
+    # v0.6.0: local alerts only (SkillSpector — no env→webhook HTTP)
+    alert_path = LOGS / "alerts.jsonl"
+    write_local_alert(message, alert_path)
     notes = cfg.get("notifications") or {}
-    enable_env = notes.get("webhook_enable_env", "LYGO_ARMY_WEBHOOK_ENABLE")
-    if os.environ.get(enable_env, "").strip().lower() not in ("1", "true", "yes"):
-        return
-    webhook = os.environ.get(notes.get("webhook_url_env", "LYGO_ARMY_WEBHOOK_URL") or "")
-    if not webhook:
-        return
-    try:
-        body = json.dumps({"text": message}).encode()
-        urllib.request.urlopen(
-            urllib.request.Request(webhook, data=body, headers={"Content-Type": "application/json"}),
-            timeout=10,
-        )
-    except Exception as exc:
-        print(f"[ALERT] webhook failed: {exc}")
+    if notes.get("webhook_url_env") or notes.get("webhook_enable_env"):
+        print("[ALERT] outbound webhook disabled in v0.6.0 — see logs/alerts.jsonl")
 
 
 def one_pulse(cfg: dict, army_root: Path) -> dict:

@@ -3,9 +3,15 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
 import os
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -28,19 +34,23 @@ def _stack() -> Path:
     return resolve_stack_root(config_path=CONFIG)
 
 
-def _run(cmd: list[str], cwd: Path, *, env: dict | None = None, timeout: int = 600) -> subprocess.CompletedProcess:
-    return subprocess.run(
-        cmd,
-        cwd=str(cwd),
-        capture_output=True,
-        text=True,
+def _run(script: Path, args: list[str] | None = None, cwd: Path | None = None, *, env: dict | None = None, timeout: int = 600, stack_root: Path | None = None):
+    """Allowlisted in-process run (v0.6.0 — no subprocess)."""
+    extra = {}
+    if env and env.get("LYGO_STACK_ROOT"):
+        extra["LYGO_STACK_ROOT"] = env["LYGO_STACK_ROOT"]
+    return run_python(
+        script,
+        list(args or []),
+        cwd=cwd or script.parent,
         timeout=timeout,
-        env=env,
+        stack_root=stack_root,
+        env_extra=extra or None,
     )
 
 
 def lattice_aligned(stack: Path) -> bool:
-    cp = _run([sys.executable, str(stack / "tools" / "verify_lattice_alignment.py")], stack, timeout=300)
+    cp = _run(stack / "tools" / "verify_lattice_alignment.py", cwd=stack, timeout=300, stack_root=stack)
     return cp.returncode == 0 and "ALIGNED" in (cp.stdout or "")
 
 
@@ -68,38 +78,35 @@ def egg_planter() -> dict:
     env["LYGO_STACK_ROOT"] = str(stack)
 
     if preflight.is_file():
-        cp = _run([sys.executable, str(preflight)], skill_scripts, env=env, timeout=120)
+        # planter scripts under skill mirror — allow if under stack
+        cp = run_python(preflight, cwd=skill_scripts, timeout=120, stack_root=stack, env_extra={"LYGO_STACK_ROOT": str(stack)})
         out["preflight"] = cp.returncode == 0
+        if cp.returncode == 2 and "not allowlisted" in (cp.stderr or ""):
+            out["preflight_note"] = "preflight skipped (not in STACK_TOOL_ALLOW; run planter skill directly)"
     if smoke.is_file():
-        cp = _run([sys.executable, str(smoke)], skill_scripts, env=env, timeout=180)
+        cp = run_python(smoke, cwd=skill_scripts, timeout=180, stack_root=stack, env_extra={"LYGO_STACK_ROOT": str(stack)})
         out["smoke_test"] = cp.returncode == 0
 
     consent = bool(planting.get("consent")) or env.get("LYGO_EGG_PLANT_CONSENT", "").lower() in ("yes", "1", "true")
     if consent and plant.is_file():
         env["LYGO_EGG_PLANT_CONSENT"] = "yes"
         surfaces = ",".join(planting.get("egg_surfaces") or ["local", "registry", "stubs"])
-        cmd = [
-            sys.executable,
-            str(plant),
-            "--i-consent",
-            "--stack-root",
-            str(stack),
-            "--surfaces",
-            surfaces,
-        ]
+        args = ["--i-consent", "--stack-root", str(stack), "--surfaces", surfaces]
         if planting.get("local_only_anchor", True):
-            cmd.append("--local-only")
-        cp = _run(cmd, skill_scripts, env=env, timeout=900)
+            args.append("--local-only")
+        cp = run_python(plant, args, cwd=skill_scripts, timeout=900, stack_root=stack, env_extra={"LYGO_STACK_ROOT": str(stack)})
         out["plant_exit"] = cp.returncode
         out["planted"] = cp.returncode == 0
         if cp.stdout:
             out["plant_tail"] = cp.stdout[-2000:]
+        if cp.returncode == 2:
+            out["plant_note"] = "use lygo-kernel-egg-planter skill for plant_with_consent (allowlisted path)"
     else:
         out["skipped_plant"] = "consent_false"
 
     verify = stack / "tools" / "verify_kernel_eggs.py"
     if verify.is_file():
-        cp = _run([sys.executable, str(verify)], stack, timeout=120)
+        cp = _run(verify, cwd=stack, timeout=120, stack_root=stack)
         out["kernel_eggs_verify"] = cp.returncode == 0
     return out
 
@@ -123,9 +130,11 @@ def registry_planter() -> dict:
     cli = stack / "tools" / "cas_registry_cli.py"
     verify = stack / "tools" / "verify_registry.py"
     if verify.is_file():
-        _run([sys.executable, str(verify), "--repair"], stack, timeout=180)
-        cp = _run([sys.executable, str(verify)], stack, timeout=180)
+        # verify_registry may not be in STACK_TOOL_ALLOW — soft-fail
+        cp = run_python(verify, cwd=stack, timeout=180, stack_root=stack)
         out["registry_verify"] = cp.returncode == 0
+        if cp.returncode == 2:
+            out["registry_note"] = "verify_registry not allowlisted; install stack tool path or run manually"
 
     rel = planting.get("registry_smoke_file") or "docs/STACK_STATUS.md"
     target = stack / rel
@@ -133,24 +142,18 @@ def registry_planter() -> dict:
         target = stack / "docs" / "AGENT_MEMORY_SNAPSHOT.json"
     if cli.is_file() and target.is_file():
         meta = json.dumps({"name": "army-lattice-plant", "source": rel, "army": True})
-        cp = _run(
-            [
-                sys.executable,
-                str(cli),
-                "build",
-                "--file",
-                str(target),
-                "--metadata",
-                meta,
-                "--no-p6",
-                "--verify",
-            ],
-            stack,
+        cp = run_python(
+            cli,
+            ["build", "--file", str(target), "--metadata", meta, "--no-p6", "--verify"],
+            cwd=stack,
             timeout=600,
+            stack_root=stack,
         )
         out["register_exit"] = cp.returncode
         out["registered"] = cp.returncode == 0
         out["file"] = str(target)
+        if cp.returncode == 2:
+            out["register_note"] = "cas_registry_cli not in STACK_TOOL_ALLOW — run from stack tools manually"
     else:
         out["skipped_register"] = "missing_cli_or_file"
     return out

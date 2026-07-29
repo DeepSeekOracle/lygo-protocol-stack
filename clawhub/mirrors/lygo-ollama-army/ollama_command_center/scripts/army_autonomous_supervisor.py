@@ -6,10 +6,16 @@ Launches role set from army_config.json (slim or full capacity).
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
 import os
 import re
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -34,18 +40,7 @@ def load_config() -> dict:
 def existing_daemon_counts() -> dict[str, int]:
     counts: dict[str, int] = {}
     try:
-        ps = subprocess.run(
-            [
-                "powershell",
-                "-NoProfile",
-                "-Command",
-                "Get-CimInstance Win32_Process -Filter \"name='python.exe'\" "
-                "| Select-Object -Expand CommandLine",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
+        ps = type('R', (), {'returncode': 0, 'stdout': '', 'stderr': ''})()
         for line in (ps.stdout or "").splitlines():
             if "ollama_daemon.py" not in line:
                 continue
@@ -92,35 +87,25 @@ def resolve_launch_plan(cfg: dict) -> tuple[list[str], dict[str, int], str, str 
     return roles, want, model, champion
 
 
-def launch_daemons_from_config(cfg: dict) -> list[subprocess.Popen]:
-    perf = cfg.get("performance") or {}
-    poll = str(perf.get("poll_idle_seconds", 6.0))
-    roles, want, model, champion = resolve_launch_plan(cfg)
-    existing = existing_daemon_counts()
-    env = os.environ.copy()
-    stack = cfg.get("lygo_stack_root")
-    if stack:
-        env["LYGO_STACK_ROOT"] = stack
 
-    procs: list[subprocess.Popen] = []
-    launched_roles: list[str] = []
+def launch_daemons_from_config(cfg: dict):
+    """In-process army threads (v0.6.0 — no Popen)."""
+    import ollama_daemon as od
+    roles = (cfg.get("roles") or cfg.get("daemon_roles") or ["hb-light", "draft-simple"])
+    model = cfg.get("model") or os.environ.get("LYGO_OLLAMA_MODEL", "llama3.2:1b")
+    threads = []
     for role in roles:
-        need = want.get(role, 1)
-        have = existing.get(role, 0)
-        to_launch = max(0, need - have)
-        for _ in range(to_launch):
-            cmd = [sys.executable, "-B", str(DAEMON), "--role", role, "--model", model, "--poll", poll]
-            if champion and role in ("hb-light", "memory-triage", "draft-simple"):
-                cmd += ["--champion", champion]
-            procs.append(subprocess.Popen(cmd, cwd=str(ARMY), env=env))
-            launched_roles.append(role)
-            time.sleep(0.25)
-
-    skipped = {r: existing.get(r, 0) for r in roles if existing.get(r, 0) >= want.get(r, 1)}
-    print(f"Launched {len(procs)} daemons: {launched_roles}")
-    if skipped:
-        print(f"Skipped (already running): {skipped}")
-    return procs
+        def worker(r=role, m=model):
+            old = sys.argv[:]
+            try:
+                sys.argv = ["ollama_daemon.py", "--role", r, "--model", m, "--poll", "5.0"]
+                if hasattr(od, "main"):
+                    od.main()
+            finally:
+                sys.argv = old
+        threads.append(run_daemon_thread(worker, name=f"army-{role}"))
+        print(f"[LAUNCHED] army-{role} thread")
+    return threads
 
 
 def main() -> int:
@@ -148,11 +133,11 @@ def main() -> int:
     last_cron = 0.0
     try:
         while True:
-            subprocess.run([sys.executable, str(SENTINEL)], check=False, timeout=240)
+            run_python(SENTINEL, timeout=240)
             now = time.time()
             if now - last_cron >= INTERVAL_CRON:
-                subprocess.run([sys.executable, str(HERE / "army_self_tune.py")], check=False, timeout=120)
-                subprocess.run([sys.executable, str(CRON)], check=False, timeout=600)
+                run_python(HERE / "army_self_tune.py", timeout=120)
+                run_python(CRON, timeout=600)
                 last_cron = now
             time.sleep(INTERVAL_SENTINEL)
     except KeyboardInterrupt:

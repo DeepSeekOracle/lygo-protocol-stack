@@ -6,9 +6,15 @@ Never enables github_push, hf_write, or clawhub_publish.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
 import shutil
-import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -162,7 +168,7 @@ def main() -> int:
     stack = Path(cfg.get("lygo_stack_root", r"I:\E Drive\lygo-protocol-stack"))
     sentinel = load_json(STATUS_FILE)
     if not sentinel and (CC / "scripts" / "sentinel_heartbeat.py").is_file():
-        subprocess.run([sys.executable, str(CC / "scripts" / "sentinel_heartbeat.py")], check=False, timeout=240)
+        run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
         sentinel = load_json(STATUS_FILE)
 
     actions: list[str] = []
@@ -204,7 +210,7 @@ def main() -> int:
     if hsc.get("rebuild_on_self_tune", True) and (sentinel.get("lattice") or {}).get("ok"):
         builder = stack / "tools" / "build_haven_star_chart.py"
         if builder.is_file():
-            cp = subprocess.run([sys.executable, str(builder)], cwd=stack, capture_output=True, text=True, timeout=120)
+            cp = run_python(builder, cwd=stack, timeout=120, stack_root=stack)
             if cp.returncode == 0:
                 actions.append("haven_star_chart.rebuilt")
             else:

@@ -7,10 +7,16 @@ in army_config idle_guardian.allow_planting (default false).
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
 import os
 import re
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -88,13 +94,7 @@ def _run_tool(stack: Path, rel: str, timeout: int = 300) -> dict:
     script = stack / "tools" / rel
     if not script.is_file():
         return {"ok": False, "error": f"missing {rel}"}
-    cp = subprocess.run(
-        [sys.executable, str(script)],
-        cwd=str(stack),
-        capture_output=True,
-        text=True,
-        timeout=timeout,
-    )
+    cp = run_python(script, cwd=stack, timeout=timeout, stack_root=stack)
     out: dict = {"exit_code": cp.returncode, "ok": cp.returncode == 0}
     if cp.stdout:
         try:
@@ -199,12 +199,7 @@ def op_living_memory_audit(stack: Path) -> dict:
     if not script.is_file():
         return {"ok": True, "skipped": "audit_library.py not in mirror"}
     authority = os.environ.get("LYGO_AUTHORITY_ROOT", "").strip() or str(stack.parent)
-    cp = subprocess.run(
-        [sys.executable, str(script), "--base", authority],
-        capture_output=True,
-        text=True,
-        timeout=180,
-    )
+    cp = run_python(script, ["--base", authority], cwd=script.parent, timeout=180, stack_root=stack)
     return {"ok": cp.returncode == 0, "exit_code": cp.returncode, "stdout_tail": (cp.stdout or "")[-2000:]}
 
 
@@ -217,13 +212,7 @@ def op_haven_chart_refresh(stack: Path) -> dict:
 
 
 def op_lattice_light(stack: Path) -> dict:
-    cp = subprocess.run(
-        [sys.executable, str(stack / "tools" / "verify_kernel_eggs.py")],
-        cwd=str(stack),
-        capture_output=True,
-        text=True,
-        timeout=90,
-    )
+    cp = run_python(stack / "tools" / "verify_kernel_eggs.py", cwd=stack, timeout=90, stack_root=stack)
     skills = stack / "clawhub" / "skills.json"
     pub = listed = None
     if skills.is_file():
@@ -249,25 +238,10 @@ def op_upgrade_scout(stack: Path) -> dict:
     head = ""
     dirty = 0
     try:
-        cp = subprocess.run(
-            ["git", "rev-parse", "--short", "HEAD"],
-            cwd=str(stack),
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if cp.returncode == 0:
-            head = cp.stdout.strip()
-        cp2 = subprocess.run(
-            ["git", "status", "--porcelain"],
-            cwd=str(stack),
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if cp2.returncode == 0:
-            dirty = len([ln for ln in cp2.stdout.splitlines() if ln.strip()])
-    except (subprocess.TimeoutExpired, FileNotFoundError):
+        g = git_status_summary(stack)
+        head = (g.get("status_line") or "")[:80]
+        dirty = 0 if g.get("clean", True) else 1
+    except Exception:
         pass
 
     skills_path = stack / "clawhub" / "skills.json"

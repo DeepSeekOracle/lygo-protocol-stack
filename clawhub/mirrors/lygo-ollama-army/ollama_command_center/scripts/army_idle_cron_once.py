@@ -3,8 +3,14 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,7 +27,7 @@ def _idle_cfg() -> dict:
 
 
 def main() -> int:
-    subprocess.run([sys.executable, str(CC / "scripts" / "sentinel_heartbeat.py")], check=False, timeout=240)
+    run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
 
     idle = _idle_cfg()
     forbidden = set(idle.get("forbidden_roles") or [])
@@ -56,11 +62,7 @@ def main() -> int:
             payload = {"ops": idle.get("housekeep_ops") or ["memory_sync", "three_brain_index", "upgrade_scout"]}
         path.write_text(json.dumps({"id": tid, "role": role, "payload": payload}), encoding="utf-8")
 
-    subprocess.run(
-        [sys.executable, str(CC / "scripts" / "army_idle_housekeeping.py"), "--tick"],
-        check=False,
-        timeout=900,
-    )
+    run_python(CC / "scripts" / "army_idle_housekeeping.py", ["--tick"], cwd=CC.parent, timeout=900)
     print(f"Idle cron OK — tasks in {TASKS}")
     return 0
 

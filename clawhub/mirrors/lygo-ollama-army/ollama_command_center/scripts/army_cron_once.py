@@ -3,8 +3,14 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -63,13 +69,13 @@ def main() -> int:
     if max_per_role > 0:
         dedupe_by_role(dirs, max_per_role=max_per_role)
 
-    subprocess.run([sys.executable, str(CC / "scripts" / "army_self_tune.py")], check=False, timeout=120)
-    subprocess.run([sys.executable, str(CC / "scripts" / "sentinel_heartbeat.py")], check=False)
+    run_python(CC / "scripts" / "army_self_tune.py", timeout=120)
+    run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
     ts_hub = Path.home() / ".grok" / "skills" / "lygo-api-token-saver" / "scripts" / "token_saver_once.py"
     if not ts_hub.is_file():
         ts_hub = Path(r"I:\E Drive\.grok\skills\lygo-api-token-saver\scripts\token_saver_once.py")
     if ts_hub.is_file() and load_cfg().get("token_saver", {}).get("enabled", True):
-        subprocess.run([sys.executable, str(ts_hub)], check=False, timeout=60)
+        run_python(ts_hub, timeout=60)
 
     pending = pending_roles(dirs)
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")

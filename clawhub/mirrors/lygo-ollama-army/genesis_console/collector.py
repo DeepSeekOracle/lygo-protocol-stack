@@ -5,12 +5,15 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 import sys
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
+_sysp=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(_sysp))
+from _safe_invoke import run_python, git_status_summary
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
@@ -136,27 +139,16 @@ def run_lattice() -> dict:
     script = STACK / "tools" / "verify_lattice_alignment.py"
     if not script.is_file():
         return {"ok": False, "detail": "missing verify script"}
-    cp = subprocess.run(
-        [sys.executable, str(script)],
-        cwd=str(STACK),
-        capture_output=True,
-        text=True,
-        timeout=180,
-    )
+    cp = run_python(script, cwd=STACK, timeout=180, stack_root=STACK)
     aligned = cp.returncode == 0 and "ALIGNED" in (cp.stdout or "")
     return {"ok": aligned, "summary": "ALIGNED" if aligned else "NEEDS_FIX", "exit_code": cp.returncode}
 
 
+
 def local_git() -> dict:
-    if not (STACK / ".git").is_dir():
-        return {"ok": True, "detail": "no git"}
-    cp = subprocess.run(["git", "log", "-1", "--oneline"], cwd=str(STACK), capture_output=True, text=True, timeout=30)
-    st = subprocess.run(["git", "status", "-sb"], cwd=str(STACK), capture_output=True, text=True, timeout=30)
-    lines = [ln for ln in (st.stdout or "").splitlines() if ln.strip()]
-    dirty = len(lines) > 1 or any(
-        ln.startswith("??") or ln.startswith(" M") or ln.startswith("M ") for ln in lines[1:]
-    )
-    return {"ok": True, "head": (cp.stdout or "").strip(), "dirty": dirty, "branch_line": lines[0] if lines else ""}
+    g = git_status_summary(STACK)
+    return {"ok": g.get("ok", True), "head": g.get("status_line", ""), "dirty": not g.get("clean", True), "branch_line": g.get("status_line", "")}
+
 
 
 def clawhub_index() -> dict:
@@ -357,14 +349,7 @@ def ensure_sentinel_fresh(max_age_sec: int = 420) -> None:
         except Exception:
             pass
     if stale:
-        subprocess.run(
-            [sys.executable, str(script)],
-            cwd=str(CC),
-            capture_output=True,
-            text=True,
-            timeout=200,
-            check=False,
-        )
+        run_python(script, cwd=CC.parent, timeout=200)
 
 
 def resolve_buildr_key_root() -> Path | None:

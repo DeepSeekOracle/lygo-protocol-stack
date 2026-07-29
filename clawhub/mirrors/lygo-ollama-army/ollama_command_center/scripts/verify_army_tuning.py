@@ -3,8 +3,14 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
-import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -53,7 +59,7 @@ def main() -> int:
 
     lat = stack / "tools" / "verify_lattice_alignment.py"
     if lat.is_file():
-        cp = subprocess.run([sys.executable, str(lat)], cwd=stack, capture_output=True, text=True, timeout=240)
+        cp = run_python(lat, cwd=stack, timeout=240, stack_root=stack)
         add("lattice_aligned", cp.returncode == 0, "ALIGNED" if cp.returncode == 0 else "NEEDS_FIX")
     else:
         add("lattice_aligned", False, "missing script")

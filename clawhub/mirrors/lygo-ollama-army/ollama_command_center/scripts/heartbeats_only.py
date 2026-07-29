@@ -6,7 +6,13 @@ No LLM daemons, no monitoring UI. Runs until Ctrl+C or window closed.
 
 from __future__ import annotations
 
-import subprocess
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import sys
 import time
 from pathlib import Path
@@ -21,9 +27,9 @@ def main() -> int:
     print("LYGO Heartbeats ONLY — sentinel every 5 min (Ctrl+C to stop)")
     while True:
         try:
-            subprocess.run([sys.executable, str(SENTINEL)], check=False, timeout=240)
+            run_python(SENTINEL, timeout=240)
             if GENESIS_COLLECTOR.is_file():
-                subprocess.run([sys.executable, str(GENESIS_COLLECTOR)], check=False, timeout=300)
+                run_python(GENESIS_COLLECTOR, timeout=300)
         except Exception as exc:
             print(f"[heartbeat] {exc}")
         time.sleep(INTERVAL)

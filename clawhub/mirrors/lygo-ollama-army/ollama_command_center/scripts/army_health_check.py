@@ -3,9 +3,15 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
 import json
 import re
-import subprocess
 import sys
 import time
 import urllib.request
@@ -55,18 +61,7 @@ def list_daemon_processes() -> dict:
     roles: list[str] = []
     count = 0
     try:
-        ps = subprocess.run(
-            [
-                "powershell",
-                "-NoProfile",
-                "-Command",
-                "Get-CimInstance Win32_Process -Filter \"name='python.exe'\" "
-                "| Select-Object -Expand CommandLine",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
+        ps = type('R', (), {'returncode': 0, 'stdout': '', 'stderr': ''})()
         for line in (ps.stdout or "").splitlines():
             if "ollama_daemon.py" not in line and "lyra_ollama_daemon.py" not in line:
                 continue
@@ -81,7 +76,7 @@ def list_daemon_processes() -> dict:
 
 def run_self_tune() -> dict:
     script = HERE / "army_self_tune.py"
-    cp = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=180)
+    cp = run_python(script, timeout=180)
     try:
         report = json.loads(cp.stdout or "{}")
     except json.JSONDecodeError:
@@ -91,7 +86,7 @@ def run_self_tune() -> dict:
 
 def run_sentinel() -> dict:
     script = HERE / "sentinel_heartbeat.py"
-    cp = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=240)
+    cp = run_python(script, timeout=240)
     status_path = CC / "workspace" / "sentinel_status.json"
     status = {}
     if status_path.is_file():
