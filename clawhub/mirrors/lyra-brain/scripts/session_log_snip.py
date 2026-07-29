@@ -1,21 +1,48 @@
 #!/usr/bin/env python3
-"""Write topic snip + optional brain grow in one step."""
+"""Write topic snip + optional brain grow. Requires --i-consent (v2.1.0)."""
 from __future__ import annotations
 
 import argparse
+import re
+import sys
 from datetime import datetime, timezone
 
 from _lyra_core_paths import lyra_core_root
 
+# Rough secret shapes — refuse write if present in lines
+_SECRETISH = re.compile(
+    r"(?i)(api[_-]?key|secret|password|token|private[_-]?key|moltx_sk_|sk-|xai-|nvapi-)\s*[:=]"
+)
 
-def main():
-    ap = argparse.ArgumentParser()
+
+def main() -> int:
+    ap = argparse.ArgumentParser(
+        description="Persist a LYRA memory snip under LYRA_CORE_ROOT/memory (consent required)"
+    )
+    ap.add_argument(
+        "--i-consent",
+        action="store_true",
+        help="Required: confirm persistent disk write under LYRA_CORE_ROOT",
+    )
     ap.add_argument("--slug", required=True)
     ap.add_argument("--title", required=True)
     ap.add_argument("--lines", nargs="+", required=True)
     ap.add_argument("--grow", action="store_true")
     ap.add_argument("--ref-to", help="Outer ref label")
     args = ap.parse_args()
+
+    if not args.i_consent:
+        print(
+            "REFUSED: persistent write requires --i-consent "
+            "(this stores session-derived text on disk under LYRA_CORE_ROOT/memory).",
+            file=sys.stderr,
+        )
+        return 2
+
+    for line in args.lines:
+        if _SECRETISH.search(line):
+            print("REFUSED: line looks like a secret/credential — do not store in memory.", file=sys.stderr)
+            return 2
 
     root = lyra_core_root()
     mem = root / "memory"
@@ -37,8 +64,6 @@ def main():
         f.write(f"- snip: `{path.name}` — {args.title}\n")
 
     if args.grow:
-        import sys
-
         sys.path.insert(0, str(root / "modules"))
         import seals as seals_mod
         import lyra_brain
@@ -58,7 +83,8 @@ def main():
             encoding="utf-8",
         )
         print(f"ref {stub}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
