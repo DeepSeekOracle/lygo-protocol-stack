@@ -9,19 +9,19 @@ metadata:
   champion_egg: true
   tamper_verify: true
   consent_required: true
-  version: "1.3.0"
+  version: "1.3.1"
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
   publisher: deepseekoracle
   mirror: "docs/skills/lygo-kernel-egg-planter"
-  signature: "Delta9Phi963-KERNEL-EGG-PLANTER-v1.3"
-  security_review: "1.3.0-skillspector-no-skip-verify-no-force"
+  signature: "Delta9Phi963-KERNEL-EGG-PLANTER-v1.3.1"
+  security_review: "1.3.1-skillspector-core-path-local-catalog"
   openclaw:
     emoji: "🥚"
     requires:
       anyBins: [python, python3]
 ---
 
-# LYGO Kernel Egg Planter v1.3 (bulletproof + SkillSpector hardened)
+# LYGO Kernel Egg Planter v1.3.1 (bulletproof + SkillSpector hardened)
 
 **Plant seeds, verify always, retrieve only when ALIGNED + consented. Never auto-publish.**
 
@@ -42,7 +42,7 @@ preflight → consent → plant → verify (ALIGNED, mandatory) → consent → 
 |------|---------|-------------|
 | 1 Preflight | `python scripts/preflight.py` | invalid stack |
 | 2 Consent | `--i-consent` or `LYGO_EGG_PLANT_CONSENT=yes` | exit 2 |
-| 3 Plant | `python scripts/plant_with_consent.py --i-consent …` | build/anchor error |
+| 3 Plant | `python scripts/plant_with_consent.py --i-consent --i-trust-stack …` | build/anchor error |
 | 4 Verify | **always** after plant + `python scripts/verify_eggs.py` | **QUARANTINE** |
 | 5 Retrieve | `python scripts/retrieve_egg.py --i-consent --egg …` | blocked if verify failed |
 
@@ -62,24 +62,31 @@ Tampered egg → retrieve blocked → **P0 QUARANTINE**.
 ## Plant (local-first)
 
 ```bash
-# Recommended default — local only
-python scripts/plant_with_consent.py --i-consent --local-only
+# Recommended default — local only (trusted stack you control)
+python scripts/plant_with_consent.py --i-consent --i-trust-stack --local-only
 
-# With Turbo attempt (still no git/ClawHub publish)
-python scripts/plant_with_consent.py --i-consent --surfaces local,turbo,registry
+# With Turbo attempt (still no git / clawhub.ai skill publish)
+python scripts/plant_with_consent.py --i-consent --i-trust-stack --surfaces local,turbo,registry
 ```
 
-### Surfaces (what they mean)
+`--i-trust-stack` is required: the planter runs **allowlisted** tools under your `LYGO_STACK_ROOT` (`build_kernel_eggs.py`, `anchor_kernel_eggs.py` only). Treat that path as executable trust.
+
+### Core surfaces
 
 | Surface | Effect | Auto-publish? |
 |---------|--------|---------------|
 | `local` / `registry` | Local kernel egg registry | No |
-| `turbo` | Optional permaweb anchor via stack | No |
-| `clawhub` | **Local** ClawHub catalog pin JSON | **No** (not clawhub.ai API) |
-| `pages` | Prepare `KernelEggRegistry.json` for **human** Pages push | **No** |
-| `stubs` / `champions` | Local stubs / champion eggs with consent | No |
+| `turbo` | Optional permaweb via stack anchor tool | No |
 
-**“No auto-publish”** = this skill never runs `git push`, HF upload, `clawhub publish`, or social post. Human does those separately if desired.
+### Separate scripts (not inlined in core planter)
+
+| Workflow | Command |
+|----------|---------|
+| Local ClawHub catalog egg | `python scripts/plant_clawhub_catalog.py --i-consent --stack-root $LYGO_STACK_ROOT` (add `--anchor-external` only if you want MultiAnchor) |
+| Champions | `python scripts/plant_champion_council.py --i-consent` |
+| Book-brain stubs | `python scripts/write_book_brain_stubs.py --i-consent --stack-root $LYGO_STACK_ROOT` |
+
+**“No auto-publish”** = never `git push`, HF upload, `clawhub publish` API, or social.
 
 ## Verify only
 
