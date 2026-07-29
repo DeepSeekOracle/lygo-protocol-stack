@@ -463,8 +463,10 @@ def main() -> int:
     save_playlist(pl)
 
     if not args.no_inject and (args.deploy_asian or args.inject_playlist_only or args.promote_backup_excav or uploaded):
-        # Always inject asian when deploying asian or when we added tracks
-        asian_html = ASIAN / "index.html"
+        # PRIMARY listen shell is listen.html (not AdSense landing index.html)
+        asian_html = ASIAN / "listen.html"
+        if not asian_html.is_file():
+            asian_html = ASIAN / "index.html"
         if asian_html.is_file() and (args.deploy_asian or args.inject_playlist_only or uploaded):
             # ensure plugins present
             plug = ASIAN / "listen-plugins"
@@ -481,17 +483,23 @@ def main() -> int:
         if args.promote_backup_excav:
             excav_html = EXCAV / "excavationpro-listen.html"
             if excav_html.is_file():
-                # copy asian shell→excav only if user promotes (keeps them twins)
-                if asian_html.is_file():
-                    shutil.copy2(asian_html, excav_html)
-                else:
-                    surgical_inject_boot(excav_html, slim)
-                print("[backup] Excavationpro listen updated from asian / inject")
+                # Surgical inject only — never overwrite excav shell with asian landing page
+                plug_e = EXCAV / "listen-plugins"
+                plug_e.mkdir(parents=True, exist_ok=True)
+                for name in ("play-listing.js", "lyrics-panel.js"):
+                    src = STACK / "docs" / "listen-plugins" / name
+                    if src.is_file():
+                        try:
+                            shutil.copy2(src, plug_e / name)
+                        except OSError:
+                            pass
+                surgical_inject_boot(excav_html, slim)
+                print("[backup] Excavationpro excavationpro-listen.html playlist injected")
 
     if args.deploy_asian:
         git_push_repo(
             ASIAN,
-            ["index.html", "data", "listen-plugins"],
+            ["listen.html", "index.html", "data", "listen-plugins"],
             "music: safe playlist/lyrics update (asian primary)",
         )
 
