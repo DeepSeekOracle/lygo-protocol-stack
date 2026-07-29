@@ -141,11 +141,19 @@ footer {
   </div>
   <div class="toolbar">
     <input id="q" type="search" placeholder="Search slug, name, summary…" autocomplete="off" />
+    <select id="kind">
+      <option value="">All types</option>
+      <option value="skill">Skills</option>
+      <option value="plugin">Plugins</option>
+      <option value="download">USB / Downloads</option>
+      <option value="surface">Lattice surfaces</option>
+    </select>
     <select id="cat"><option value="">All categories</option></select>
     <select id="sort">
       <option value="downloads">Sort: downloads</option>
       <option value="name">Sort: name</option>
       <option value="category">Sort: category</option>
+      <option value="kind">Sort: type</option>
     </select>
   </div>
   <div class="grid" id="grid"></div>
@@ -166,6 +174,7 @@ footer {
   const stats = document.getElementById('stats');
   const ledger = document.getElementById('ledger');
   const q = document.getElementById('q');
+  const kind = document.getElementById('kind');
   const cat = document.getElementById('cat');
   const sort = document.getElementById('sort');
 
@@ -173,28 +182,41 @@ footer {
     return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  function renderStats(skills) {
-    const cats = new Set(skills.map(s => s.category));
-    const dls = skills.reduce((a, s) => a + (s.downloads || 0), 0);
-    const local = skills.filter(s => s.has_local_skill).length;
+  function allItems() { return catalog.skills || catalog.items || []; }
+
+  function renderStats(items) {
+    const counts = catalog.counts || {};
+    const skillsN = counts.skills || items.filter(s => (s.kind||'skill')==='skill').length;
+    const dls = items.filter(s => (s.kind||'skill')==='skill').reduce((a, s) => a + (s.downloads || 0), 0);
+    const dlN = counts.downloads || items.filter(s => s.kind==='download').length;
+    const surfN = counts.surfaces || items.filter(s => s.kind==='surface').length;
+    const plugN = counts.plugins || items.filter(s => s.kind==='plugin' || s.is_openclaw_plugin).length;
     stats.innerHTML = [
-      ['Skills', skills.length],
-      ['Categories', cats.size],
-      ['Downloads (Σ)', dls.toLocaleString()],
-      ['Local mirrors', local],
+      ['Total entries', counts.total || items.length],
+      ['ClawHub skills', skillsN],
+      ['Plugins', plugN],
+      ['USB / kits', dlN],
+      ['Surfaces', surfN],
+      ['Skill downloads (Σ)', dls.toLocaleString()],
     ].map(([k,v]) => `<div class="stat"><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join('');
   }
 
-  function fillCats(skills) {
-    const set = [...new Set(skills.map(s => s.category))].sort();
+  function fillCats(items) {
+    const set = [...new Set(items.map(s => s.category).filter(Boolean))].sort();
     cat.innerHTML = '<option value="">All categories</option>' +
       set.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
   }
 
   function filtered() {
-    let list = (catalog.skills || []).slice();
+    let list = allItems().slice();
     const qq = (q.value || '').toLowerCase().trim();
     const c = cat.value;
+    const k = kind.value;
+    if (k) list = list.filter(s => {
+      const kk = s.kind || 'skill';
+      if (k === 'plugin') return kk === 'plugin' || s.is_openclaw_plugin;
+      return kk === k;
+    });
     if (c) list = list.filter(s => s.category === c);
     if (qq) {
       list = list.filter(s =>
@@ -207,6 +229,7 @@ footer {
     list.sort((a, b) => {
       if (mode === 'name') return (a.name || '').localeCompare(b.name || '');
       if (mode === 'category') return (a.category || '').localeCompare(b.category || '') || (b.downloads||0)-(a.downloads||0);
+      if (mode === 'kind') return (a.kind||'skill').localeCompare(b.kind||'skill') || (b.downloads||0)-(a.downloads||0);
       return (b.downloads || 0) - (a.downloads || 0);
     });
     return list;
@@ -216,53 +239,78 @@ footer {
     if (navigator.clipboard) navigator.clipboard.writeText(cmd);
   }
 
+  function primaryHref(s) {
+    if (s.url) return s.url;
+    if (s.clawhub_url) return s.clawhub_url;
+    return 'https://clawhub.ai/deepseekoracle/skills/' + (s.slug || '');
+  }
+
+  function primaryLabel(s) {
+    const k = s.kind || 'skill';
+    if (k === 'download') return 'Download';
+    if (k === 'surface') return 'Open surface';
+    if (k === 'plugin') return 'Plugin page';
+    return 'Open on ClawHub';
+  }
+
   function render() {
     const list = filtered();
     grid.innerHTML = list.map(s => {
-      const install = s.install || ('npx clawhub@latest install deepseekoracle/' + s.slug);
+      const install = s.install || (s.kind === 'skill' ? ('npx clawhub@latest install deepseekoracle/' + s.slug) : '');
+      const href = primaryHref(s);
+      const kind = s.kind || 'skill';
       return `<article class="card">
         <h3>${esc(s.name)}</h3>
-        <div class="slug">${esc(s.slug)}</div>
+        <div class="slug">${esc(s.slug)} · ${esc(kind)}</div>
         <div class="meta">
-          <span class="pill cat">${esc(s.category)}</span>
-          <span class="pill dl">${(s.downloads||0).toLocaleString()} dl</span>
-          ${s.has_local_skill ? '<span class="pill local">local skill</span>' : ''}
+          <span class="pill cat">${esc(s.category || kind)}</span>
+          ${kind==='skill' ? `<span class="pill dl">${(s.downloads||0).toLocaleString()} dl</span>` : ''}
+          ${s.has_local_skill ? '<span class="pill local">local</span>' : ''}
+          ${s.is_openclaw_plugin || kind==='plugin' ? '<span class="pill local">plugin</span>' : ''}
+          ${s.source ? `<span class="pill">${esc(s.source)}</span>` : ''}
         </div>
-        <p>${esc(s.summary || 'LYGO lattice skill on ClawHub.')}</p>
+        <p>${esc(s.summary || s.note || 'LYGO lattice entry.')}</p>
         <div class="actions">
-          <a class="primary" href="${esc(s.clawhub_url)}" target="_blank" rel="noopener">Open on ClawHub</a>
-          <button type="button" data-cmd="${esc(install)}">Copy install</button>
+          <a class="primary" href="${esc(href)}" target="_blank" rel="noopener">${esc(primaryLabel(s))}</a>
+          ${install ? `<button type="button" data-cmd="${esc(install)}">Copy install</button>` : ''}
+          ${s.docs ? `<a href="${esc(s.docs)}" target="_blank" rel="noopener">Docs</a>` : ''}
+          ${s.plugin_install ? `<button type="button" data-cmd="${esc(s.plugin_install)}">Copy plugin install</button>` : ''}
         </div>
       </article>`;
-    }).join('') || '<p class="sub">No skills match.</p>';
+    }).join('') || '<p class="sub">No entries match.</p>';
 
     grid.querySelectorAll('button[data-cmd]').forEach(btn => {
       btn.addEventListener('click', () => {
         copyInstall(btn.getAttribute('data-cmd'));
         btn.textContent = 'Copied';
-        setTimeout(() => { btn.textContent = 'Copy install'; }, 1200);
+        setTimeout(() => { btn.textContent = btn.getAttribute('data-cmd').includes('plugins') ? 'Copy plugin install' : 'Copy install'; }, 1200);
       });
     });
   }
 
   function renderLedger() {
     const sha = (catalog.catalog_sha256 || '').slice(0, 16);
+    const c = catalog.counts || {};
     ledger.innerHTML = `<strong>Lattice record</strong> · signature <code>${esc(catalog.signature || '')}</code>
-      · version ${esc(catalog.version || '')}
-      · skills ${catalog.skill_count || (catalog.skills||[]).length}
+      · catalog v${esc(catalog.version || '')}
+      · total ${c.total || allItems().length}
+      · skills ${c.skills || '—'} (ClawHub ${c.clawhub_skills_indexed || '—'} · local-only ${c.local_only_skills || 0})
+      · USB/kits ${c.downloads || 0} · surfaces ${c.surfaces || 0}
       · sha256 <code>${esc(sha)}…</code>
       · updated ${esc(catalog.updated_utc || '')}
       · <a href="lygoskillhub_catalog.json">catalog JSON</a>
       · <a href="https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json">IMMUTABLE_ANCHORS</a>
-      · <a href="https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json">star feed</a>`;
+      · <a href="https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json">star feed</a>
+      · <a href="https://clawhub.ai/deepseekoracle" target="_blank" rel="noopener">ClawHub @deepseekoracle</a>`;
   }
 
-  const skills = catalog.skills || [];
-  renderStats(skills);
-  fillCats(skills);
+  const items = allItems();
+  renderStats(items);
+  fillCats(items);
   renderLedger();
   render();
   q.addEventListener('input', render);
+  kind.addEventListener('change', render);
   cat.addEventListener('change', render);
   sort.addEventListener('change', render);
 })();
