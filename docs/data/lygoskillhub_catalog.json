@@ -1,8 +1,8 @@
 {
-  "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.1",
+  "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.2",
   "name": "LYGOSKILLHUB",
-  "version": "1.1.0",
-  "updated_utc": "2026-07-29T17:42:15.204715+00:00",
+  "version": "1.2.0",
+  "updated_utc": "2026-07-29T17:47:09.091129+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -12,16 +12,17 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 75,
-    "skills": 62,
+    "total": 80,
+    "skills": 67,
     "plugins": 1,
     "downloads": 4,
     "surfaces": 9,
-    "clawhub_skills_indexed": 58,
-    "local_only_skills": 4
+    "clawhub_skills_indexed": 63,
+    "local_only_skills": 4,
+    "clawhub_profile_skills_listed": 63
   },
-  "skill_count": 62,
-  "item_count": 75,
+  "skill_count": 67,
+  "item_count": 80,
   "categories": [
     "champion",
     "creative",
@@ -296,6 +297,73 @@
       "category": "kernel",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-guardian-p0-stack",
       "install": "npx clawhub@latest install deepseekoracle/lygo-guardian-p0-stack",
+      "has_local_skill": false,
+      "source": "clawhub"
+    },
+    {
+      "kind": "skill",
+      "slug": "book-brain-visual-reader",
+      "name": "BOOK BRAIN VISUAL READER – LYGO 3-Brain + Visual Left/Right Brain",
+      "summary": "Enhanced BOOK BRAIN for LYGO Havens with visual capability. Use to design and operate visual left/right brain reading workflows on the lattice.",
+      "downloads": 1500,
+      "category": "memory",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/book-brain-visual-reader",
+      "install": "npx clawhub@latest install deepseekoracle/book-brain-visual-reader",
+      "has_local_skill": false,
+      "source": "clawhub",
+      "tags": [
+        "browser-automation",
+        "memory-system"
+      ]
+    },
+    {
+      "kind": "skill",
+      "slug": "openclaw-flow-kit",
+      "name": "OpenClaw Flow Kit",
+      "summary": "Fix common OpenClaw workflow bottlenecks: platform engage-gates/429 backoff and resilient flow patterns for agent integrations.",
+      "downloads": 1500,
+      "category": "tools",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/openclaw-flow-kit",
+      "install": "npx clawhub@latest install deepseekoracle/openclaw-flow-kit",
+      "has_local_skill": false,
+      "source": "clawhub",
+      "tags": [
+        "json"
+      ]
+    },
+    {
+      "kind": "skill",
+      "slug": "recursive-generosity-protocol",
+      "name": "Recursive Generosity Protocol (Delta9-WP-003)",
+      "summary": "Public reference + implementation playbook for Delta9-WP-003 Recursive Generosity Protocol on the LYGO lattice.",
+      "downloads": 1500,
+      "category": "tools",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/recursive-generosity-protocol",
+      "install": "npx clawhub@latest install deepseekoracle/recursive-generosity-protocol",
+      "has_local_skill": false,
+      "source": "clawhub"
+    },
+    {
+      "kind": "skill",
+      "slug": "void-atlas-protocol",
+      "name": "Void Atlas Protocol",
+      "summary": "Void Atlas Protocol – a four-axis ethical navigation map (power, truth, light, void) for aligned agent decision framing.",
+      "downloads": 1500,
+      "category": "tools",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/void-atlas-protocol",
+      "install": "npx clawhub@latest install deepseekoracle/void-atlas-protocol",
+      "has_local_skill": false,
+      "source": "clawhub"
+    },
+    {
+      "kind": "skill",
+      "slug": "lygo-mint-operator-suite",
+      "name": "LYGO-MINT Operator Suite (v2)",
+      "summary": "Advanced LYGO-MINT Operator Suite (v2): canonicalize multi-file packs, generate deterministic hashes, append-only ledgers, portable Anchor Snippets for provenance.",
+      "downloads": 1200,
+      "category": "kernel",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-mint-operator-suite",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-mint-operator-suite",
       "has_local_skill": false,
       "source": "clawhub"
     },
@@ -721,6 +789,18 @@
     },
     {
       "kind": "skill",
+      "slug": "lygo-public-lattice-gate",
+      "name": "LYGO Public Lattice Gate",
+      "summary": "Public lattice join + verify gate for foreign LYGO-aligned agents. HTTPS verify dual ledgers/hubs, alignment score, dry-run Star Chart proposal, restore card. Zero disk writes by default; no live chart write; no auto-publish. Install clawhub:@deepseekoracle/lygo-public-lattice-gate.",
+      "downloads": 0,
+      "category": "lattice",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-public-lattice-gate",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-public-lattice-gate",
+      "has_local_skill": true,
+      "source": "clawhub"
+    },
+    {
+      "kind": "skill",
       "slug": "lygo-lattice-pulse",
       "name": "Lygo Lattice Pulse",
       "summary": "OpenClaw plugin skill — live Haven pulse, stack verify, registry compare, star chart gate, alignment readiness. Install clawhub:@deepseekoracle/lygo-lattice-pulse.",
@@ -759,18 +839,6 @@
       "has_local_skill": true,
       "source": "local",
       "note": "Present in local skill tree; may be pending ClawHub index"
-    },
-    {
-      "kind": "skill",
-      "slug": "lygo-public-lattice-gate",
-      "name": "LYGO Public Lattice Gate",
-      "summary": "Public lattice join + verify gate for foreign LYGO-aligned agents. HTTPS verify dual ledgers/hubs, alignment score, dry-run Star Chart proposal, restore card. Zero disk writes by default; no live chart write; no auto-publish. Install clawhub:@deepseekoracle/lygo-public-lattice-gate.",
-      "downloads": 0,
-      "category": "lattice",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-public-lattice-gate",
-      "install": "npx clawhub@latest install deepseekoracle/lygo-public-lattice-gate",
-      "has_local_skill": true,
-      "source": "clawhub"
     },
     {
       "kind": "skill",
@@ -836,20 +904,20 @@
     },
     {
       "kind": "surface",
-      "slug": "listen-primary",
-      "name": "Excavationpro Listen (asiancoastline)",
-      "summary": "Primary free music listen portal — ABYSS CODEX + full catalog.",
-      "category": "surface",
-      "url": "https://asiancoastline.com/listen.html",
-      "source": "surface"
-    },
-    {
-      "kind": "surface",
       "slug": "listen-backup",
       "name": "Excavationpro Listen (GH Pages backup)",
       "summary": "Backup listen portal on Excavationpro Pages.",
       "category": "surface",
       "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+      "source": "surface"
+    },
+    {
+      "kind": "surface",
+      "slug": "listen-primary",
+      "name": "Excavationpro Listen (asiancoastline)",
+      "summary": "Primary free music listen portal — ABYSS CODEX + full catalog.",
+      "category": "surface",
+      "url": "https://asiancoastline.com/listen.html",
       "source": "surface"
     },
     {
@@ -921,6 +989,7 @@
       "source": "surface"
     }
   ],
-  "note": "Complete LYGO lattice catalog: ClawHub skills under @deepseekoracle, local skill tree, OpenClaw plugins, USB CLAW downloads, and public lattice surfaces.",
-  "catalog_sha256": "a9377e89727a2cb6c9fb4d99b9713272503713c1825d0aaa7cf4b2f5b1f7296c"
+  "note": "Complete LYGO lattice catalog aligned to ClawHub @deepseekoracle (63 skills + 1 plugin per LYGOSkills.txt), plus local skill tree, USB CLAW downloads, and public lattice surfaces. Dual ledgers + LYGOAGENT economic anchor on hub page.",
+  "catalog_sha256": "d258105f60ebe2aeefeec84f5eabdfc3f512cf0e0321c92199dbb406ce9eb158",
+  "source_list": "E:\\Data Vault\\LYGOSkills.txt"
 }
