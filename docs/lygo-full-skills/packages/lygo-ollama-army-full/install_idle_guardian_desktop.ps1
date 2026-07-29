@@ -17,10 +17,10 @@ title LYGO Army Idle Guardian
 cd /d "$Scripts"
 set LYGO_ARMY_IDLE_GUARDIAN=1
 set LYGO_STACK_ROOT=$Stack
-set LYRA_CORE_ROOT=$Lyra
-set LYGO_AUTHORITY_ROOT=I:\E Drive
+REM Optional: set LYRA_CORE_ROOT yourself if you enable external memory ops in config
+if defined LYRA_CORE_ROOT set LYRA_CORE_ROOT=%LYRA_CORE_ROOT%
 echo.
-echo  LYGO Idle Guardian — housekeeping only (no social, no push).
+echo  LYGO Idle Guardian — local housekeeping only (no social, no push, no hardcoded authority root).
 echo  Journal: ollama_command_center\workspace\idle_guardian_journal.jsonl
 echo  Upgrades: ollama_command_center\workspace\idle_upgrade_findings.jsonl
 echo  Close this window to stop.

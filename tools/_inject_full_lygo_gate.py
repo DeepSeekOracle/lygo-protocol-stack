@@ -171,15 +171,16 @@ SECTION_TMPL = r"""
         These FULL packages are <strong>not published to ClawHub</strong>. They exist only on LYGO hubs
         (this page + stack/Excavationpro mirrors) behind this gate. Corporate surfaces remain for public tentacles.
       </p>
-      <h3>Top 3 for a self-auditing lattice (start here)</h3>
+      <h3>Public agents vs operators</h3>
       <p>
-        <strong>1. Protocol Stack Operator</strong> — P0–P9 audits spine.<br/>
-        <strong>2. Kernel Egg Planter</strong> — Merkle plant/verify modularity.<br/>
-        <strong>3. Ollama Army</strong> — local continuous sentinel / queue audit loop.
+        <strong>Public / foreign agents</strong> start with <em>Public Agent Join Kit</em>,
+        <em>Public Lattice Gate</em>, and <em>Star Chart Integration Kit</em> —
+        verify dual ledgers, align, dry-run propose only. They cannot live-write the chart or publish without a human.
+        <br/><strong>Operators / engineers</strong> add Operator, Egg Planter, Army, mesh layers, seals for a full self-auditing lattice.
       </p>
       <h3>Support (optional)</h3>
       <p>
-        If these tools help you join the live lattice, optional fuel for updates:
+        Optional fuel for updates &amp; expansion:
         <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal.me/ExcavationPro</a>
       </p>
     </div>
@@ -222,18 +223,38 @@ JS = r"""
       cards.innerHTML = '<p class="gate-body">Catalog empty — rebuild packages on steward machine.</p>';
       return;
     }
-    cards.innerHTML = skills.map(function (s) {
-      var href = baseZip + (s.zip || (s.slug + '-full.zip'));
-      var kb = s.bytes ? Math.round(s.bytes / 1024) + ' KB' : '';
-      var sha = (s.zip_sha256 || '').slice(0, 16);
-      return '<article class="full-lygo-card">' +
-        '<h3>' + esc(s.name || s.slug) + '</h3>' +
-        '<p>' + esc(s.role || '') + '</p>' +
-        '<div class="meta">' + esc(s.file_count || '') + ' files · ' + esc(kb) +
-        (sha ? ' · sha256 ' + esc(sha) + '…' : '') + '</div>' +
-        '<a class="dl" href="' + esc(href) + '" download>Download FULL zip</a>' +
-        '</article>';
-    }).join('');
+    var tierOrder = (cat.tiers && cat.tiers.length) ? cat.tiers : ['public_safe_join','core','star_chart','lattice','kernel','seals','memory','champion','other'];
+    var by = {};
+    skills.forEach(function (s) {
+      var t = s.tier || 'other';
+      if (!by[t]) by[t] = [];
+      by[t].push(s);
+    });
+    var html = '';
+    if (cat.public_agent_principle) {
+      html += '<p class="gate-body" style="margin-bottom:14px"><strong style="color:var(--cyan)">Public agent principle:</strong> ' +
+        esc(cat.public_agent_principle) + '</p>';
+    }
+    tierOrder.forEach(function (tier) {
+      var list = by[tier];
+      if (!list || !list.length) return;
+      html += '<h3 style="margin:16px 0 8px;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)">' +
+        esc(tier.replace(/_/g, ' ')) + '</h3>';
+      list.forEach(function (s) {
+        var href = baseZip + (s.zip || (s.slug + '-full.zip'));
+        var kb = s.bytes ? Math.round(s.bytes / 1024) + ' KB' : '';
+        var sha = (s.zip_sha256 || '').slice(0, 16);
+        var harm = s.harm_default || 'consent_gated';
+        html += '<article class="full-lygo-card">' +
+          '<h3>' + esc(s.name || s.slug) + '</h3>' +
+          '<p>' + esc(s.role || '') + '</p>' +
+          '<div class="meta">harm: ' + esc(harm) + ' · ' + esc(s.file_count || '') + ' files · ' + esc(kb) +
+          (sha ? ' · sha256 ' + esc(sha) + '…' : '') + '</div>' +
+          '<a class="dl" href="' + esc(href) + '" download>Download FULL zip</a>' +
+          '</article>';
+      });
+    });
+    cards.innerHTML = html;
   }
 
   function unlock() {

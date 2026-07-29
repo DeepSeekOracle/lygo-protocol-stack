@@ -1,7 +1,7 @@
 ---
 name: lygo-ollama-army
-description: "Local Ollama multi-role army (in-process threads) + reviewed task queue. Optional stack lattice tools only via STRICT basename allowlist under LYGO_STACK_ROOT/tools. Localhost Ollama (127.0.0.1). Sentinel defaults to local probes only; public HTTPS page probes OFF unless you enable them in config. Local alerts JSONL only. No process spawn, no outbound webhook, no auto social, no git/HF/ClawHub publish, no remote LLM. Read references/SECURITY.md first."
-version: 0.7.0
+description: "Local Ollama multi-role army (in-process threads) + reviewed task queue. Strict basename allowlist under skill + LYGO_STACK_ROOT/tools (in-process runpy, no shell/OS process spawn). Localhost Ollama. Public HTTPS probes OFF unless sentinel.probe_public_pages=true. Social/planting roles OFF unless config consent flags. Local alerts JSONL only. No webhook, no remote LLM, no git/HF/ClawHub publish. Read references/SECURITY.md first."
+version: 0.8.0
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
@@ -13,16 +13,17 @@ metadata:
   ollama: true
   army: true
   consent_required: true
-  version: "0.7.0"
-  security_audit: "skillspector-2026-07-29-v0.7.0"
-  signature: "Δ9Φ963-ARMY-SKILL-v0.7.0"
+  version: "0.8.0"
+  security_audit: "skillspector-2026-07-29-v0.8.0"
+  signature: "Δ9Φ963-ARMY-SKILL-v0.8.0"
   publisher: deepseekoracle
   permissions_declared:
     filesystem: "army_workspace_and_optional_validated_LYGO_STACK_ROOT"
-    process_spawn: false
+    os_process_spawn: false
     shell: false
+    in_process_runpy: "allowlisted basenames only"
     network_default: "127.0.0.1_ollama"
-    network_optional: "public_https_get_probes_if_sentinel_flags_enabled"
+    network_optional: "public_https_get_only_if_sentinel_probe_flags_true"
     outbound_webhook: false
     remote_llm: false
     social_autopublish: false
@@ -31,32 +32,43 @@ metadata:
     clawhub_publish: false
 ---
 
-# LYGO Ollama Army & Assistant Hub v0.7.0
+# LYGO Ollama Army & Assistant Hub v0.8.0
 
-**Local Ollama automation** for operators who want a queue-driven light-model army on the LYGO lattice.
+**Local Ollama automation** for a queue-driven light-model army on a trusted LYGO stack.
+
+## Execution model (honest)
+
+| Mechanism | Meaning |
+|-----------|---------|
+| **OS process spawn / shell** | **Never** (`subprocess` not used) |
+| **In-process `runpy`** | Allowed only for **named** scripts in `ARMY_SCRIPT_ALLOW` / `STACK_TOOL_ALLOW` |
+| **Daemon threads** | Multi-role workers inside one Python process |
+| **Task queue** | JSON files you write; roles still **config-gated** (injection cannot enable social/planting alone) |
 
 ## Honest capability surface
 
 | Surface | Default | Network |
 |---------|---------|---------|
-| Multi-role army (threads) | On when you launch | `127.0.0.1:11434` Ollama only |
-| Task queue `tasks/` `results/` | You drop JSON | None |
-| Genesis console | Optional localhost HTTP | `127.0.0.1` bind only |
-| Sentinel | Local ollama + queue + optional stack lattice | Stack tools only if `LYGO_STACK_ROOT` set |
-| Public page / HF probes | **OFF** | Enable only via `sentinel.probe_*` flags |
-| Outbound webhook / Telegram | **Not supported** | Local `logs/alerts.jsonl` only |
-| Social pulse / Moltbook / Moltx roles | **Not cron-seeded** | Forbidden in public cron |
-| GitHub push / HF write / ClawHub publish | **Never** | — |
-| Process spawn / shell | **Never** | `runpy` allowlist only |
+| Multi-role army (threads) | On when you launch | `127.0.0.1:11434` Ollama |
+| Task queue | You drop JSON | None |
+| Genesis console | Optional | **127.0.0.1 only** (metadata warning) |
+| Sentinel | Ollama + queue + optional stack lattice | Stack tools if `LYGO_STACK_ROOT` set |
+| Public page / HF probes | **OFF** | Only if `sentinel.probe_*=true` **and** task/role allowed |
+| Planting / registry | **OFF** | `planting.enabled` + `consent` |
+| Social / Moltx / Moltbook roles | **OFF** | `access.social_publish=true` |
+| Heavy stack roles (audit/mesh/anchor/boot) | **OFF** | `access.allow_privileged_roles=true` |
+| Webhook / Telegram | **Not supported** | Local `logs/alerts.jsonl` |
+| git / HF / ClawHub publish | **Never** | — |
 
-## Strict allowlist (v0.7.0 SkillSpector fix)
+## Strict allowlist + role gates (v0.8.0)
 
-`_safe_invoke.allowed_script` only permits:
+`_safe_invoke.allowed_script` only permits **named** basenames (no wildcard `.py`).  
 
-- Named files in `ARMY_SCRIPT_ALLOW` under this skill package  
-- Named files in `STACK_TOOL_ALLOW` under `LYGO_STACK_ROOT/tools/`  
+Daemon **also** refuses roles unless config allows them (see surface table).  
 
-**No** “any .py under skill tree” and **no** “any .py under tools/”.
+**Heartbeats ONLY** runs `sentinel_heartbeat.py` alone (no genesis collector).  
+
+**Seed / idle cron** never enqueue `public-pages-check` unless `LYGO_ARMY_SEED_PUBLIC_PAGES=1` **and** probe flag true.
 
 ## Install
 
@@ -95,6 +107,7 @@ export LYGO_STACK_ROOT=/absolute/path/to/lygo-protocol-stack
 | Ver | Change |
 |-----|--------|
 | 0.6.0 | No process spawn; no webhook HTTP |
-| **0.7.0** | **Strict allowlists**; genesis local-only; cron without social/cross-skill; sentinel remote probes default OFF; example config honest; health read-only |
+| 0.7.0 | Strict allowlists; local-first defaults |
+| **0.8.0** | Config-gated roles; no default public-pages seed; pure heartbeats; no hard-coded authority root; planting consent parity; genesis warning; no installer chaining |
 
 **Δ9Φ963 — local Ollama · strict allowlist · opt-in stack · local alerts · no silent outbound.**

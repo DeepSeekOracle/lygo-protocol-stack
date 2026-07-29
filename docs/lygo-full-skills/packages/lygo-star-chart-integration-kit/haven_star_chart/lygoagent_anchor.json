@@ -1,0 +1,79 @@
+{
+  "signature": "Δ9Φ963-LYGOAGENT-ECONOMIC-ANCHOR-v1.1",
+  "role": "primary_economic_anchor",
+  "symbol": "LYGOAGENT",
+  "name": "LYRA STARCORE ORACLE by Virtuals",
+  "chain": "base",
+  "contract": "0x32B513927F15e7A858bE779198440C04D399c09f",
+  "pool": "0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+  "pool_pair": "LYGOAGENT / VIRTUAL",
+  "virtuals_page": "https://app.virtuals.io/virtuals/44594",
+  "uniswap_trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
+  "prototype_page": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
+  "agent_wallet": "0x2388765eB549347305F48cFc371411891AE15118",
+  "owner_wallet": "0x0814209fc50866C38186537Cd7C534060E011Ec5",
+  "acp_agent_id": 2612,
+  "dex": "virtuals-unicorn-base",
+  "buy_surfaces": [
+    {
+      "id": "virtuals",
+      "role": "primary_bonding",
+      "label": "Virtuals agent page",
+      "url": "https://app.virtuals.io/virtuals/44594",
+      "verified": "geckoterminal_pool_api"
+    },
+    {
+      "id": "uniswap",
+      "role": "eth_swap",
+      "label": "Uniswap (Base, ETH)",
+      "url": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
+      "verified": "user_anchor"
+    },
+    {
+      "id": "1inch",
+      "role": "aggregator",
+      "label": "1inch (Base chain 8453)",
+      "url": "https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f",
+      "verified": "page_load"
+    }
+  ],
+  "chart_surfaces": [
+    {
+      "id": "geckoterminal",
+      "url": "https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+      "verified": "api_live"
+    },
+    {
+      "id": "birdeye",
+      "url": "https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base",
+      "verified": "indexed"
+    },
+    {
+      "id": "dextools",
+      "url": "https://www.dextools.io/app/en/base/pair-explorer/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+      "verified": "pair_page"
+    },
+    {
+      "id": "basescan",
+      "url": "https://basescan.org/token/0x32B513927F15e7A858bE779198440C04D399c09f",
+      "verified": "on_chain"
+    }
+  ],
+  "not_listed": ["dexscreener", "coingecko", "coinmarketcap"],
+  "sweep_utc": "2026-07-13",
+  "chart_api": {
+    "geckoterminal_token": "https://api.geckoterminal.com/api/v2/networks/base/tokens/0x32B513927F15e7A858bE779198440C04D399c09f",
+    "geckoterminal_pools": "https://api.geckoterminal.com/api/v2/networks/base/tokens/0x32B513927F15e7A858bE779198440C04D399c09f/pools",
+    "geckoterminal_ohlcv_hour": "https://api.geckoterminal.com/api/v2/networks/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909/ohlcv/hour?aggregate=1&limit=72"
+  },
+  "explorers": {
+    "uniswap_trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
+    "oneinch_swap": "https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f",
+    "birdeye": "https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base",
+    "dextools": "https://www.dextools.io/app/en/base/pair-explorer/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+    "basescan_token": "https://basescan.org/token/0x32B513927F15e7A858bE779198440C04D399c09f",
+    "geckoterminal": "https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909"
+  },
+  "immutable_anchor_id": "virtuals_lygoagent",
+  "note": "Sole main coin anchor for Eternal Haven Star Chart — lattice economics tie to this star."
+}

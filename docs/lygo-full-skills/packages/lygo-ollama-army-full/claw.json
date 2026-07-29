@@ -1,10 +1,10 @@
 {
   "name": "lygo-ollama-army",
   "displayName": "LYGO Ollama Army & Assistant Hub",
-  "version": "0.7.0",
-  "description": "Local Ollama multi-role army (threads) + queue. Strict basename allowlists. Sentinel remote probes OFF by default. Local alerts only. No process spawn, webhook, social auto-publish.",
+  "version": "0.8.0",
+  "description": "Local Ollama army: threads + allowlisted in-process runpy (no shell/OS spawn). Role gates for social/planting/public probes. Local alerts. No webhook.",
   "slug": "lygo-ollama-army",
   "publisher": "deepseekoracle",
   "license": "LYGO-Sovereign-v2.0",
-  "signature": "Delta9Phi963-ARMY-v0.7.0"
+  "signature": "Delta9Phi963-ARMY-v0.8.0"
 }
