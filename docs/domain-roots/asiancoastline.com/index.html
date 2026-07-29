@@ -1781,123 +1781,208 @@ window.LYGO_LISTEN = {
 
 </script>
 <script src="listen-plugins/play-listing.js?v=7" defer></script>
-<script src="listen-plugins/lyrics-panel.js?v=3" defer></script>
-<!-- LYGO_LATTICE_FEED_PANEL -->
-<!-- LYGO immutable lattice feed — scroll box panel (shared across main .ca/.com hubs) -->
-<style id="lygo-feed-panel-css">
-.lygo-feed-panel {
+<script src="listen-plugins/lyrics-panel.js?v=3" defer>
+<!-- LYGO_DUAL_IMMUTABLE_LEDGERS -->
+<!-- Dual immutable ledgers: Link lattice + Star Chart lattice (clickable links, scroll boxes) -->
+<style id="lygo-dual-ledgers-css">
+.lygo-dual-ledgers {
   width: 100%;
   max-width: 1120px;
-  margin: 1.5rem auto 2rem;
-  padding: 1.1rem 1.15rem 1.25rem;
+  margin: 1.5rem auto;
+  padding: 0 16px;
   box-sizing: border-box;
-  border-radius: 14px;
-  border: 1px solid rgba(212, 175, 55, 0.28);
-  background: rgba(8, 10, 18, 0.92);
-  color: #e9ecff;
+  display: grid;
+  gap: 14px;
   font-family: system-ui, Segoe UI, Inter, sans-serif;
+  color: #eeeef6;
 }
-.lygo-feed-panel h2 {
-  margin: 0 0 0.35rem;
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
+@media (min-width: 720px) {
+  .lygo-dual-ledgers { grid-template-columns: 1fr 1fr; }
+}
+.lygo-dual-ledgers .lygo-ledger-card {
+  text-align: left;
+  padding: 16px 16px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(10, 12, 20, 0.92);
+  box-shadow: 0 12px 32px -18px rgba(0,0,0,0.8);
+}
+.lygo-dual-ledgers .lygo-ledger-card h2 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #d4af37;
+  font-weight: 700;
 }
-.lygo-feed-panel .feed-meta {
-  margin: 0 0 0.75rem;
-  font-size: 0.72rem;
-  line-height: 1.45;
+.lygo-dual-ledgers .ledger-blurb {
+  margin: 0 0 10px;
+  font-size: 12px;
   color: #9a9ab0;
+  line-height: 1.45;
 }
-.lygo-feed-panel .feed-meta a { color: #00e0f0; }
-.lygo-feed-panel .feed-wrap {
+.lygo-dual-ledgers .lygo-ledger-scroll {
+  max-height: min(36vh, 280px);
   overflow: auto;
-  max-height: min(42vh, 420px);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 224, 240, 0.18);
   background: rgba(0, 0, 0, 0.28);
   -webkit-overflow-scrolling: touch;
-  scrollbar-gutter: stable;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
-.lygo-feed-panel .feed-wrap::-webkit-scrollbar { width: 10px; height: 10px; }
-.lygo-feed-panel .feed-wrap::-webkit-scrollbar-thumb {
-  background: rgba(255, 204, 0, 0.35);
-  border-radius: 8px;
+.lygo-dual-ledgers .lygo-ledger-scroll ul {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
 }
-.lygo-feed-panel .feed-wrap::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
-.lygo-feed-panel .feed-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.72rem;
+.lygo-dual-ledgers .lygo-ledger-scroll li {
+  margin: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
-.lygo-feed-panel .feed-table th {
-  color: #d4af37;
-  text-align: left;
-  padding: 0.45rem 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: #0c0c16;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+.lygo-dual-ledgers .lygo-ledger-scroll li:last-child { border-bottom: none; }
+.lygo-dual-ledgers .lygo-ledger-scroll a {
+  display: block;
+  padding: 8px 12px;
+  color: #00e0f0;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.4;
 }
-.lygo-feed-panel .feed-table td {
-  padding: 0.45rem 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  vertical-align: top;
+.lygo-dual-ledgers .lygo-ledger-scroll a:hover {
+  background: rgba(0, 224, 240, 0.08);
+  color: #e8a13c;
+  text-decoration: underline;
 }
-.lygo-feed-panel .feed-badge {
-  font-size: 0.62rem;
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-  font-weight: bold;
+.lygo-dual-ledgers .lygo-ledger-scroll a strong {
+  display: block;
+  color: #eeeef6;
+  font-weight: 600;
 }
-.lygo-feed-panel .feed-accept { color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.45); }
-.lygo-feed-panel .feed-reject { color: #e94560; border: 1px solid rgba(233, 69, 96, 0.45); }
-.lygo-feed-panel .feed-pending { color: #ffcc00; border: 1px solid rgba(255, 204, 0, 0.4); }
-.lygo-feed-panel .feed-muted { color: #9a9ab0; font-size: 0.65rem; }
-.lygo-feed-panel .feed-hash { color: #00ff88; font-size: 0.65rem; }
-.lygo-feed-panel .feed-err { color: #e94560; font-size: 0.62rem; margin-top: 0.2rem; }
-.lygo-feed-panel .feed-empty { color: #9a9ab0; text-align: center; padding: 1rem; }
-.lygo-feed-panel .feed-row-superseded { opacity: 0.55; }
-.lygo-feed-panel .feed-badge.feed-superseded { opacity: 0.85; font-size: 0.58rem; }
-@media (max-width: 640px) {
-  .lygo-feed-panel { margin: 1rem 0.75rem 1.5rem; padding: 0.9rem; }
-  .lygo-feed-panel .feed-wrap { max-height: min(48vh, 360px); }
+.lygo-dual-ledgers .lygo-ledger-scroll a:hover strong { color: #e8a13c; }
+.lygo-dual-ledgers .lygo-ledger-scroll .meta {
+  display: block;
+  font-size: 10px;
+  color: #9a9ab0;
+  margin-top: 2px;
 }
+.lygo-dual-ledgers .lygo-ledger-scroll .empty {
+  padding: 12px;
+  font-size: 12px;
+  color: #9a9ab0;
+}
+.lygo-dual-ledgers .lygo-ledger-scroll .empty a { color: #00e0f0; }
+.lygo-dual-ledgers .ledger-foot {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #9a9ab0;
+}
+.lygo-dual-ledgers .ledger-foot a { color: #00e0f0; }
 </style>
-<section class="lygo-feed-panel" id="lattice-feed" aria-label="Immutable lattice feed">
-  <h2>Immutable lattice feed</h2>
-  <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions (ACCEPTED / REJECTED / PENDING). Scroll inside the box.</p>
-  <div class="feed-wrap">
-    <table class="feed-table">
-      <thead>
-        <tr>
-          <th>When</th>
-          <th>Agent / skill</th>
-          <th>Node</th>
-          <th>Status</th>
-          <th>Hash</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody id="feedBody">
-        <tr><td colspan="6" class="feed-empty">Loading feed…</td></tr>
-      </tbody>
-    </table>
+<section class="lygo-dual-ledgers" id="immutable-ledgers" aria-label="Immutable lattice ledgers">
+  <div class="lygo-ledger-card">
+    <h2>Link · Immutable lattice</h2>
+    <p class="ledger-blurb">Vaulted public links &amp; traversal anchors (separate from the star chart).</p>
+    <div class="lygo-ledger-scroll" id="linkLedgerScroll">
+      <p class="empty">Loading link anchors…</p>
+    </div>
+    <p class="ledger-foot">
+      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json" target="_blank" rel="noopener">Anchors JSON</a>
+      ·
+      <a href="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html" target="_blank" rel="noopener">Music / ISRC ledger</a>
+    </p>
   </div>
-  <p class="feed-meta" style="margin:0.75rem 0 0">
-    Full JSON:
-    <a href="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.json" target="_blank" rel="noopener">haven_star_chart_feed.json</a>
-    · Chart:
-    <a href="https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html" target="_blank" rel="noopener">Haven Star Chart</a>
-    · Ledger is never rewritten.
-  </p>
+  <div class="lygo-ledger-card">
+    <h2>Star Chart · Immutable lattice</h2>
+    <p class="ledger-blurb">Chart transactions (portals, eggs, seals) — append-only feed, latest status per node.</p>
+    <div class="lygo-ledger-scroll" id="starLedgerScroll">
+      <p class="empty">Loading star chart feed…</p>
+    </div>
+    <p class="ledger-foot">
+      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json" target="_blank" rel="noopener">Feed JSON</a>
+      ·
+      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html" target="_blank" rel="noopener">Open Star Chart</a>
+    </p>
+  </div>
 </section>
-<script src="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.js?v=20260729scroll"></script>
+<script>
+(function () {
+  if (window.__lygoDualLedgersInit) return;
+  window.__lygoDualLedgersInit = true;
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function linkItem(href, title, meta) {
+    if (!href) return '';
+    return '<li><a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer"><strong>' +
+      esc(title || href) + '</strong>' +
+      (meta ? '<span class="meta">' + esc(meta) + '</span>' : '') +
+      '</a></li>';
+  }
+  var linkBox = document.getElementById('linkLedgerScroll');
+  fetch('https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (doc) {
+      if (!linkBox) return;
+      var groups = (doc && doc.immutable_anchors) || {};
+      var html = '';
+      Object.keys(groups).forEach(function (cat) {
+        var arr = groups[cat];
+        if (!Array.isArray(arr)) return;
+        arr.slice(0, 12).forEach(function (a) {
+          html += linkItem(a.url || a.docs || a.mirror_git, a.label || a.id, cat + (a.note ? ' · ' + a.note : ''));
+        });
+      });
+      linkBox.innerHTML = html ? ('<ul>' + html + '</ul>') : '<p class="empty">No link anchors loaded.</p>';
+    })
+    .catch(function () {
+      if (linkBox) linkBox.innerHTML = '<p class="empty">Link ledger unavailable. <a href="https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json" target="_blank" rel="noopener">Open JSON</a></p>';
+    });
+  var starBox = document.getElementById('starLedgerScroll');
+  var feedUrls = [
+    'https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json',
+    'https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.json'
+  ];
+  function renderStar(feed) {
+    if (!starBox) return;
+    var rows = (feed && feed.entries) || [];
+    var latest = {};
+    rows.forEach(function (e) {
+      var id = e.node_id || '';
+      if (!id) return;
+      if (!latest[id] || (e.seq || 0) > (latest[id].seq || 0)) latest[id] = e;
+    });
+    var ids = Object.keys(latest).sort(function (a, b) {
+      return (latest[b].seq || 0) - (latest[a].seq || 0);
+    }).slice(0, 40);
+    var html = '';
+    ids.forEach(function (id) {
+      var e = latest[id];
+      var st = (e.status || '').toUpperCase();
+      var chart = 'https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html';
+      var title = (e.node_name || id) + ' · ' + st;
+      var meta = (e.event_type || '') + ' · ' + ((e.event_utc || '').replace('T', ' ').slice(0, 19)) +
+        (e.content_sha256 ? ' · ' + String(e.content_sha256).slice(0, 10) + '…' : '');
+      html += linkItem(chart + '#' + encodeURIComponent(id), title, meta);
+    });
+    starBox.innerHTML = html ? ('<ul>' + html + '</ul>') : '<p class="empty">No star chart events yet.</p>';
+  }
+  (function loadStar(i) {
+    if (i >= feedUrls.length) {
+      if (starBox) starBox.innerHTML = '<p class="empty">Star chart feed unavailable. <a href="https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json" target="_blank" rel="noopener">Open JSON</a></p>';
+      return;
+    }
+    fetch(feedUrls[i], { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(renderStar)
+      .catch(function () { loadStar(i + 1); });
+  })(0);
+})();
+</script>
+<!-- /LYGO_DUAL_IMMUTABLE_LEDGERS -->
+</script>
 
-<!-- /LYGO_LATTICE_FEED_PANEL -->
 </body>
 </html>
