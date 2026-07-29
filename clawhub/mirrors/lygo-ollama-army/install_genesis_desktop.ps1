@@ -1,12 +1,12 @@
 # LYGO Genesis Console — Desktop launcher
 $Desktop = [Environment]::GetFolderPath("Desktop")
-$Genesis = "I:\E Drive\.grok\skills\lygo-ollama-army\genesis_console"
+$Genesis = "$PSScriptRoot\genesis_console"
 
 $Bat = @"
 @echo off
 title LYGO Lightfather Genesis Console
 cd /d "$Genesis"
-set LYGO_STACK_ROOT=I:\E Drive\lygo-protocol-stack
+set LYGO_STACK_ROOT=%LYGO_STACK_ROOT%
 set LYGO_GENESIS_PORT=9963
 set LYGO_GENESIS_REFRESH=120
 echo Starting Genesis Console v3 (full LYGO monitor) on http://127.0.0.1:9963/

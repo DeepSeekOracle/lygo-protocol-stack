@@ -2,14 +2,14 @@
 $ErrorActionPreference = "Stop"
 $Desktop = [Environment]::GetFolderPath("Desktop")
 
-$ArmyRoot = if (Test-Path "I:\E Drive\.grok\skills\lygo-ollama-army") {
-    "I:\E Drive\.grok\skills\lygo-ollama-army"
+$ArmyRoot = if (Test-Path "$PSScriptRoot") {
+    "$PSScriptRoot"
 } else {
     $PSScriptRoot
 }
 $Scripts = Join-Path $ArmyRoot "ollama_command_center\scripts"
-$Stack = "I:\E Drive\lygo-protocol-stack"
-$Lyra = "I:\E Drive\LYRA_CORE"
+$Stack = "%LYGO_STACK_ROOT%"
+$Lyra = "%LYRA_CORE_ROOT%"
 
 $Bat = @"
 @echo off

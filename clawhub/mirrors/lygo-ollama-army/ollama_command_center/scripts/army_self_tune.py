@@ -14,6 +14,7 @@ if str(_SKILL) not in sys.path:
 from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
 
 import json
+import os
 import shutil
 import sys
 import urllib.request
@@ -152,20 +153,18 @@ def apply_runtime_tuning(cfg: dict, sentinel: dict) -> list[str]:
             planting["enabled"] = False
             actions.append("planting.enabled=false (lattice fail)")
 
-    if not sent.get("probe_network_builder"):
-        sent["probe_network_builder"] = True
-        actions.append("probe_network_builder=true")
-
+    # v0.7.0: never auto-enable outbound public/HF probes
     return actions
 
 
 def main() -> int:
     cfg = load_json(CONFIG_PATH)
-    if not cfg.get("self_tune", {}).get("enabled", True):
+    if not (cfg.get("self_tune") or {}).get("enabled", False):
         print(json.dumps({"skipped": "self_tune.disabled"}))
         return 0
 
-    stack = Path(cfg.get("lygo_stack_root", r"I:\E Drive\lygo-protocol-stack"))
+    stack_raw = (cfg.get("lygo_stack_root") or os.environ.get("LYGO_STACK_ROOT") or "").strip()
+    stack = Path(stack_raw) if stack_raw else Path(".")
     sentinel = load_json(STATUS_FILE)
     if not sentinel and (CC / "scripts" / "sentinel_heartbeat.py").is_file():
         run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
@@ -207,14 +206,15 @@ def main() -> int:
     perf["queue_unique_tasks"] = unique_task_count(dirs)
 
     hsc = cfg.get("haven_star_chart") or {}
-    if hsc.get("rebuild_on_self_tune", True) and (sentinel.get("lattice") or {}).get("ok"):
-        builder = stack / "tools" / "build_haven_star_chart.py"
+    # Only allowlisted artifact builder (never arbitrary stack tool names)
+    if hsc.get("rebuild_on_self_tune", False) and (sentinel.get("lattice") or {}).get("ok"):
+        builder = stack / "tools" / "build_haven_star_chart_artifacts.py"
         if builder.is_file():
             cp = run_python(builder, cwd=stack, timeout=120, stack_root=stack)
             if cp.returncode == 0:
-                actions.append("haven_star_chart.rebuilt")
+                actions.append("haven_star_chart_artifacts.rebuilt")
             else:
-                actions.append("haven_star_chart.rebuild_failed")
+                actions.append(f"haven_star_chart.rebuild_refused_or_failed rc={cp.returncode}")
 
     backup = CONFIG_PATH.with_suffix(".json.bak")
     shutil.copy2(CONFIG_PATH, backup)

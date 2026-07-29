@@ -31,7 +31,7 @@ STATE = WORKSPACE / "idle_upgrade_state.json"
 
 DEFAULT_OPS = [
     "memory_sync",
-    "three_brain_index",
+    # "three_brain_index",  # requires allow_external_memory_write
     "kernel_verify",
     "self_grow_check",
     "living_memory_audit",
@@ -64,19 +64,15 @@ def _stack() -> Path:
 
 
 def _lyra_core() -> Path | None:
-    for key in ("LYRA_CORE_ROOT", "LYRA_CORE"):
-        raw = os.environ.get(key, "").strip()
-        if raw:
-            p = Path(raw)
-            if (p / "memory").is_dir() or (p / "modules" / "lyra_brain.py").is_file():
-                return p
-    for candidate in (
-        Path(r"I:\E Drive\LYRA_CORE"),
-        _stack().parent / "LYRA_CORE",
-        Path.home() / "LYRA_CORE",
-    ):
-        if (candidate / "memory").is_dir():
-            return candidate
+    # v0.7.0: only when allow_external_memory_write + explicit LYRA_CORE_ROOT
+    if not _external_writes_allowed():
+        return None
+    raw = (os.environ.get('LYRA_CORE_ROOT') or '').strip()
+    if not raw:
+        return None
+    p = Path(raw)
+    if (p / 'memory').is_dir() or (p / 'modules' / 'lyra_brain.py').is_file():
+        return p
     return None
 
 
@@ -301,7 +297,13 @@ OPS = {
 def run_ops(ops: list[str]) -> dict:
     stack = _stack()
     summary: dict = {"ts": _utc(), "ops": {}, "all_ok": True}
+    external = {"three_brain_index", "self_grow_check", "living_memory_audit"}
     for name in ops:
+        if name in external and not _external_writes_allowed():
+            detail = {"ok": True, "skipped": "external_memory_write_disabled"}
+            summary["ops"][name] = detail
+            _log(name, True, detail)
+            continue
         fn = OPS.get(name)
         if not fn:
             detail = {"ok": False, "error": "unknown op"}
@@ -317,6 +319,11 @@ def run_ops(ops: list[str]) -> dict:
     tick = WORKSPACE / "idle_guardian_last_tick.json"
     tick.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     return summary
+
+
+def _external_writes_allowed() -> bool:
+    idle = _idle_cfg()
+    return bool(idle.get("allow_external_memory_write", False))
 
 
 def main() -> int:

@@ -1,14 +1,9 @@
 #!/usr/bin/env python3
-"""Single cron tick: sentinel pulse + seed deterministic army tasks (no LLM)."""
+"""Single cron tick: local sentinel + seed deterministic LOCAL roles only (v0.7.0).
 
+No cross-skill execution, no social pulse roles, no token-saver external path.
+"""
 from __future__ import annotations
-
-import sys
-from pathlib import Path as _P
-_SKILL = _P(__file__).resolve().parents[2]
-if str(_SKILL) not in sys.path:
-    sys.path.insert(0, str(_SKILL))
-from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
 
 import json
 import sys
@@ -17,34 +12,25 @@ from pathlib import Path
 
 CC = Path(__file__).resolve().parents[1]
 ARMY = CC.parent
+_SKILL = ARMY
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python  # noqa: E402
+
 CONFIG = CC / "config" / "army_config.json"
 TASKS = CC / "tasks"
 TASKS.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(CC / "scripts"))
-from army_queue_utils import (  # noqa: E402
-    cleanup_stale_locks,
-    dedupe_by_role,
-    dedupe_cron_by_role,
-    pending_roles,
-    queue_dirs,
-)
+from army_queue_utils import cleanup_stale_locks, dedupe_by_role, pending_roles, queue_dirs  # noqa: E402
 
+# Local-only deterministic roles (no social / moltbook / planter by default)
 CRON_ROLES = [
     ("lattice-check", "cron-lattice"),
-    ("stack-integrity", "cron-stack"),
     ("clawhub-catalog-audit", "cron-clawhub"),
-    ("public-pages-check", "cron-pages"),
-    ("audit-suite", "cron-audit-suite"),
     ("memory-sync", "cron-memory"),
-    ("anchor-health", "cron-anchor"),
-    ("mesh-cartographer", "cron-mesh"),
+    ("kernel-verify-only", "cron-kernel-verify"),
     ("self-tune", "cron-self-tune"),
-    ("egg-planter", "cron-egg-plant"),
-    ("registry-planter", "cron-registry-plant"),
-    ("moltx-lattice-pulse", "cron-moltx"),
-    ("moltbook-lyra-pulse", "cron-moltbook-lyra"),
-    ("moltbook-lightfather-pulse", "cron-moltbook-lf"),
 ]
 
 
@@ -54,37 +40,33 @@ def load_cfg() -> dict:
     return json.loads(CONFIG.read_text(encoding="utf-8"))
 
 
-def load_perf() -> dict:
-    return load_cfg().get("performance") or {}
-
-
 def main() -> int:
-    perf = load_perf()
-    dirs = queue_dirs(CC, ARMY)
-    stale_s = float(perf.get("stale_lock_seconds", 600))
-    cleanup_stale_locks(dirs, stale_s)
-    if perf.get("dedupe_cron_by_role", True):
-        dedupe_cron_by_role(dirs)
-    max_per_role = int(perf.get("max_pending_per_role", 1))
-    if max_per_role > 0:
-        dedupe_by_role(dirs, max_per_role=max_per_role)
+    cfg = load_cfg()
+    planting = cfg.get("planting") or {}
+    access = cfg.get("access") or {}
+    if access.get("social_publish"):
+        print("[refuse] social_publish must stay false in public army")
+        return 2
 
-    run_python(CC / "scripts" / "army_self_tune.py", timeout=120)
+    dirs = queue_dirs(CC, ARMY)
+    cleanup_stale_locks(dirs, 600)
+    dedupe_by_role(dirs, max_per_role=1)
+
+    # self-tune only if explicitly enabled
+    if (cfg.get("self_tune") or {}).get("enabled"):
+        run_python(CC / "scripts" / "army_self_tune.py", timeout=120)
     run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
-    ts_hub = Path.home() / ".grok" / "skills" / "lygo-api-token-saver" / "scripts" / "token_saver_once.py"
-    if not ts_hub.is_file():
-        ts_hub = Path(r"I:\E Drive\.grok\skills\lygo-api-token-saver\scripts\token_saver_once.py")
-    if ts_hub.is_file() and load_cfg().get("token_saver", {}).get("enabled", True):
-        run_python(ts_hub, timeout=60)
+
+    roles = list(CRON_ROLES)
+    # planter only if both enabled AND consent (still local queue seed only)
+    if planting.get("enabled") and planting.get("consent"):
+        roles.append(("egg-planter", "cron-egg-plant"))
 
     pending = pending_roles(dirs)
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     seeded = 0
-    skipped = 0
-
-    for role, prefix in CRON_ROLES:
+    for role, prefix in roles:
         if role in pending:
-            skipped += 1
             continue
         tid = f"{prefix}-{ts}"
         path = TASKS / f"{tid}.task.json"
@@ -92,15 +74,7 @@ def main() -> int:
         pending.add(role)
         seeded += 1
 
-    legacy = ARMY / "ollama_queue"
-    if perf.get("mirror_legacy_queue", False):
-        legacy.mkdir(parents=True, exist_ok=True)
-        for p in TASKS.glob("cron-*.task.json"):
-            dest = legacy / p.name
-            if not dest.exists():
-                dest.write_text(p.read_text(encoding="utf-8"), encoding="utf-8")
-
-    print(f"Cron tick OK — seeded={seeded} skipped={skipped} tasks={TASKS}")
+    print(f"Cron tick OK — seeded={seeded} tasks={TASKS} (local roles only)")
     return 0
 
 

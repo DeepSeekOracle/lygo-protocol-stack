@@ -1,27 +1,10 @@
 {
   "name": "LYGO Ollama Army Command Center",
-  "signature": "Δ9Φ963-ARMY-CC-v3",
+  "signature": "Δ9Φ963-ARMY-CC-v3.1",
   "lygo_stack_root": "",
   "system_profile": {
-    "stack_version": "P9-SLM-NETWORK-BUILDER",
-    "operator_clawhub": "1.0.7",
-    "clawhub_expect": {
-      "count_published": 42,
-      "required_slugs": [
-        "lygo-protocol-stack-operator",
-        "lygo-network-builder",
-        "lygo-kernel-egg-planter",
-        "lygo-ollama-army",
-        "lygo-alignment-badge"
-      ]
-    },
-    "public_pages": [
-      "https://deepseekoracle.github.io/lygo-protocol-stack/",
-      "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
-      "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
-      "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
-      "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html"
-    ]
+    "stack_version": "P9-SLM",
+    "public_pages": []
   },
   "poll_seconds": 180,
   "army_capacity": {
@@ -35,16 +18,16 @@
     ],
     "count_per_role": 1,
     "hb_light_instances": 1,
-    "champion_egg_boot_instances": 0,
-    "champion_default": "ARKOS"
+    "champion_egg_boot_instances": 0
   },
   "sentinel": {
     "enabled": true,
-    "interval_seconds": 180,
+    "interval_seconds": 300,
     "alert_on_lattice_fail": true,
-    "probe_public_pages": true,
-    "probe_network_builder": true,
-    "require_ollama_for_healthy": false
+    "probe_public_pages": false,
+    "probe_network_builder": false,
+    "probe_hf_space": false,
+    "require_ollama_for_healthy": true
   },
   "paths": {
     "tasks": "tasks",
@@ -54,54 +37,42 @@
   },
   "planting": {
     "enabled": false,
-    "consent": true,
-    "egg_surfaces": ["local", "registry", "stubs"],
+    "consent": false,
     "local_only_anchor": true
   },
   "access": {
     "hf_write": false,
     "github_push": false,
     "clawhub_publish": false,
-    "workspace_write": true
+    "workspace_write": true,
+    "social_publish": false,
+    "remote_llm": false,
+    "outbound_webhook": false
   },
   "notifications": {
-    "webhook_url_env": "LYGO_ARMY_WEBHOOK_URL",
-    "webhook_enable_env": "LYGO_ARMY_WEBHOOK_ENABLE",
-    "telegram_env": "LYGO_ARMY_TELEGRAM_BOT"
+    "local_alerts_only": true
   },
   "self_tune": {
     "enabled": false,
     "max_queued_tasks": 30,
     "auto_enable_planting": false,
     "pause_planting_on_lattice_fail": true,
-    "sync_clawhub_expect_from_stack": true
+    "sync_clawhub_expect_from_stack": false
   },
   "haven_star_chart": {
     "enabled": false,
     "rebuild_on_self_tune": false
   },
+  "token_saver": {
+    "enabled": false
+  },
   "idle_guardian": {
-    "enabled": true,
-    "sentinel_interval_seconds": 300,
-    "cron_interval_seconds": 1800,
-    "roles": [
-      "idle-housekeep",
-      "lattice-check",
-      "memory-sync",
-      "kernel-verify-only"
-    ],
-    "count_per_role": 1,
-    "housekeep_ops": [
-      "memory_sync",
-      "three_brain_index",
-      "kernel_verify",
-      "self_grow_check",
-      "living_memory_audit",
-      "clawhub_catalog_render",
-      "haven_chart_refresh",
-      "upgrade_scout",
-      "lattice_light"
-    ],
+    "enabled": false,
+    "allow_planting": false,
+    "allow_social_pulse": false,
+    "allow_external_memory_write": false,
+    "roles": ["hb-light", "lattice-check"],
+    "housekeep_ops": ["lattice_light"],
     "forbidden_roles": [
       "egg-planter",
       "registry-planter",
@@ -109,8 +80,6 @@
       "moltbook-lyra-pulse",
       "moltbook-lightfather-pulse",
       "discord-triage"
-    ],
-    "allow_planting": false,
-    "allow_social_pulse": false
+    ]
   }
 }

@@ -1,13 +1,13 @@
 # Install LYGO Ollama desktop launchers (Heartbeats + Full Army)
 $Desktop = [Environment]::GetFolderPath("Desktop")
-$ArmyRoot = "I:\E Drive\.grok\skills\lygo-ollama-army"
+$ArmyRoot = "$PSScriptRoot"
 $Scripts = "$ArmyRoot\ollama_command_center\scripts"
 
 $HeartbeatsBat = @"
 @echo off
 title LYGO Ollama Heartbeats
 cd /d "$Scripts"
-set LYGO_STACK_ROOT=I:\E Drive\lygo-protocol-stack
+set LYGO_STACK_ROOT=%LYGO_STACK_ROOT%
 echo LYGO Heartbeats ONLY - sentinel every 5 min. Close window to stop.
 python heartbeats_only.py
 pause
@@ -17,7 +17,7 @@ $ArmyBat = @"
 @echo off
 title LYGO Ollama Army (Autonomous)
 cd /d "$Scripts"
-set LYGO_STACK_ROOT=I:\E Drive\lygo-protocol-stack
+set LYGO_STACK_ROOT=%LYGO_STACK_ROOT%
 echo LYGO Full Army - supervisor + queue daemon. Close window to stop.
 python army_autonomous_supervisor.py
 pause
