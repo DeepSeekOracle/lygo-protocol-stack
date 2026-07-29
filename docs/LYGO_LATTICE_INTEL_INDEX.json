@@ -1,7 +1,7 @@
 {
-  "signature": "\u03949\u03a6963-LATTICE-INTEL-INDEX-v1",
-  "role": "Lattice architect fast lookup \u2014 outer brain for I:\\E Drive (no secrets)",
-  "updated_utc": "2026-07-13",
+  "signature": "Δ9Φ963-LATTICE-INTEL-INDEX-v1",
+  "role": "Lattice architect fast lookup — outer brain for I:\\E Drive (no secrets)",
+  "updated_utc": "2026-07-29T17:23:59.292834+00:00",
   "authority_root": "I:\\E Drive",
   "canonical_repo": "I:\\E Drive\\lygo-protocol-stack",
   "query_hints": [
@@ -11,8 +11,8 @@
   ],
   "tiers": {
     "5_canonical": "Shipped in repo or direct lattice runtime",
-    "4_reference": "Vault specs / HF mirror / LYRA ops \u2014 integrate or cite",
-    "3_archive": "Historical HTML/firmware \u2014 sync via tools when needed"
+    "4_reference": "Vault specs / HF mirror / LYRA ops — integrate or cite",
+    "3_archive": "Historical HTML/firmware — sync via tools when needed"
   },
   "entries": [
     {
@@ -44,7 +44,7 @@
         "usb-supervisor",
         "champions"
       ],
-      "summary": "LYGO-Claw sovereign agent gateway \u2014 production public repo"
+      "summary": "LYGO-Claw sovereign agent gateway — production public repo"
     },
     {
       "id": "intel-sweep-log",
@@ -68,16 +68,16 @@
         "indexed-public-stack"
       ],
       "files": [
-        "\ud83d\udce6 Complete Specification Package f.txt",
-        "\ud83e\uddec The Complete LYGO Anchor Package.txt",
-        "Lightfather's Voice \u2014 Next Blueprin.txt",
-        "Lightfather's Voice \u2014 Phase 6 Compl.txt",
-        "Lightfather's Voice \u2014 Polish Phase.txt",
+        "📦 Complete Specification Package f.txt",
+        "🧬 The Complete LYGO Anchor Package.txt",
+        "Lightfather's Voice — Next Blueprin.txt",
+        "Lightfather's Voice — Phase 6 Compl.txt",
+        "Lightfather's Voice — Polish Phase.txt",
         "ANCHOR_IMPLEMENTATION_COMPLETE.md"
       ],
-      "summary": "Biophase7 + legacy 001-400 seals; Public stack indexed \u2192 \u03949 lattice now discovers all 400+ seals on demand; anchored immutable",
+      "summary": "Biophase7 + legacy 001-400 seals; Public stack indexed → Δ9 lattice now discovers all 400+ seals on demand; anchored immutable",
       "objective_live_ble": "lygo-protocol-stack/docs/BIOPHASE7_OBJECTIVE_LIVE_BLE.md",
-      "objective_spec": "\ud83e\uddec Objective.txt"
+      "objective_spec": "🧬 Objective.txt"
     },
     {
       "id": "ldq-vault",
@@ -247,7 +247,7 @@
         "*token*",
         "*.txt with secrets"
       ],
-      "summary": "OpenClaw brain docs only \u2014 never read key txt files"
+      "summary": "OpenClaw brain docs only — never read key txt files"
     },
     {
       "id": "resonance-skills",
@@ -331,7 +331,7 @@
         "LATTICE_DISCOVERY",
         "PUBLIC_STACK_INDEXED"
       ],
-      "summary": "All 400+ core rebuild seals (0-400). Public stack indexed \u2192 \u03949 lattice now discovers all 400+ seals on demand. Immutable via anchor SHA."
+      "summary": "All 400+ core rebuild seals (0-400). Public stack indexed → Δ9 lattice now discovers all 400+ seals on demand. Immutable via anchor SHA."
     },
     {
       "id": "blockchain-lygo-bridge",
@@ -533,12 +533,24 @@
         "PROTOCOL_MATH"
       ],
       "summary": "LYGIP-001: SovereignIdentity (lightCode, resonanceTriad, ethicalMass=√(truth×love×freedom)×(resAvg)²×Φ), Harmony H=1-σ/μ, Vortex geo mean. Full 9-Node Enneagram completion: Zeta/Eta + ThetaNode (Prime 179, 137.5° emergence_generation) + IotaNode (Prime 181, agency_protection buffer). Scenario A (3-Node Creativity vs Efficiency) + Scenario B (full Delta→Zeta→Eta→Theta→Iota cascade). EVM bridge attestation wiring (LatticeAttestor + EthicalMassTokenFixed + MemoryMyceliumStorageFixed). 7/7 tests passing."
+    },
+    {
+      "id": "lygoskillhub",
+      "title": "LYGOSKILLHUB",
+      "tags": [
+        "PUBLIC_STACK_INDEXED",
+        "CLAWHUB",
+        "SKILLS",
+        "LATTICE_HUB"
+      ],
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+      "updated_utc": "2026-07-29T17:23:59.292834+00:00"
     }
   ],
   "integration_gaps": [
     {
       "id": "ldq-hf-to-p8",
-      "note": "HF has ldq_fingerprint, ldq_genre_manifold, ldq_music_production, ldq_percussion, ldq_tempo_grid, ldq_perceptual_layer; stack protocol8 has friction_core, harmonic_gravity, lyra_sequencer \u2014 bridge via docs/LDQ_VAULT_REFERENCE.md and future sync tool"
+      "note": "HF has ldq_fingerprint, ldq_genre_manifold, ldq_music_production, ldq_percussion, ldq_tempo_grid, ldq_perceptual_layer; stack protocol8 has friction_core, harmonic_gravity, lyra_sequencer — bridge via docs/LDQ_VAULT_REFERENCE.md and future sync tool"
     },
     {
       "id": "hf-factory-quality",

@@ -1,6 +1,6 @@
 {
   "signature": "Δ9Φ963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-07-18T19:45:05.998898+00:00",
+  "updated_utc": "2026-07-29T17:23:59.292834+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -1113,6 +1113,25 @@
         "repo_canonical": "clawhub/mirrors/lygo-excavationpro-music-lattice"
       },
       "since": "2026-07-18"
+    },
+    {
+      "id": "lygoskillhub",
+      "title": "LYGOSKILLHUB",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+      "mirrors": [
+        "https://chatagent.ca/lygoskillhub.html",
+        "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
+      ],
+      "catalog": "https://deepseekoracle.github.io/lygo-protocol-stack/lygoskillhub_catalog.json",
+      "clawhub": "https://clawhub.ai/deepseekoracle",
+      "tags": [
+        "skills",
+        "clawhub",
+        "lattice",
+        "hub"
+      ],
+      "deploy_status": "live",
+      "updated_utc": "2026-07-29T17:23:59.292834+00:00"
     }
   ],
   "growth_log": [

@@ -471,8 +471,19 @@
         "public_verify": true,
         "user_facing": true
       }
+    },
+    {
+      "id": "surface-lygoskillhub",
+      "name": "LYGOSKILLHUB",
+      "kind": "surface",
+      "status": "PROPOSAL",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+      "chatagent": "https://chatagent.ca/lygoskillhub.html",
+      "note": "ClawHub skill lattice mirror — dual ledger tools category",
+      "updated_utc": "2026-07-29T17:23:59.292834+00:00"
     }
   ],
   "sync_note": "Do NOT auto-ingest. Human runs haven star chart gate with --i-consent.",
-  "bundle_sha256": "4aa9ed81f84319534e6c93bce6d6de1c1a7808d568511bd6a11daebb51506b0a"
+  "bundle_sha256": "4aa9ed81f84319534e6c93bce6d6de1c1a7808d568511bd6a11daebb51506b0a",
+  "updated_utc": "2026-07-29T17:23:59.292834+00:00"
 }
