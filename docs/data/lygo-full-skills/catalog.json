@@ -1,0 +1,48 @@
+{
+  "signature": "Delta9Phi963-FULL-LYGO-SKILLS-v1",
+  "version": "1.0.0",
+  "updated_utc": "2026-07-29T20:03:30.390340+00:00",
+  "channel": "FULL_LYGO_ENGINEER",
+  "clawhub": "never",
+  "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
+  "steward": "Justin Helmer / Excavationpro (Lightfather)",
+  "purpose": "Engineer-grade FULL packages for self-auditing LYGO lattice \u2014 not ClawHub public safety shells",
+  "skills": [
+    {
+      "slug": "lygo-protocol-stack-operator",
+      "name": "Lygo Protocol Stack Operator (FULL LYGO)",
+      "package": "lygo-protocol-stack-operator-full",
+      "zip": "lygo-protocol-stack-operator-full.zip",
+      "zip_rel": "dist/lygo-protocol-stack-operator-full.zip",
+      "zip_sha256": "0360c14199097015a31a05850c3294703a9f8eb6c74b116cf0f8e2e019da5eca",
+      "bytes": 11951,
+      "file_count": 11,
+      "role": "P0\u2013P9 stack integrator + audits (self-check spine of the lattice)",
+      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-protocol-stack-operator"
+    },
+    {
+      "slug": "lygo-kernel-egg-planter",
+      "name": "Lygo Kernel Egg Planter (FULL LYGO)",
+      "package": "lygo-kernel-egg-planter-full",
+      "zip": "lygo-kernel-egg-planter-full.zip",
+      "zip_rel": "dist/lygo-kernel-egg-planter-full.zip",
+      "zip_sha256": "7978d2736edec72ff71618b5bde9ac21255f87c986ea3e049e407215fe5d24c6",
+      "bytes": 23031,
+      "file_count": 22,
+      "role": "Merkle eggs, plant/verify, modular lattice limbs",
+      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-kernel-egg-planter"
+    },
+    {
+      "slug": "lygo-ollama-army",
+      "name": "Lygo Ollama Army (FULL LYGO)",
+      "package": "lygo-ollama-army-full",
+      "zip": "lygo-ollama-army-full.zip",
+      "zip_rel": "dist/lygo-ollama-army-full.zip",
+      "zip_sha256": "1660b9c2d365b3157cbd257412123976c2f7988e839b405bb720ca81830c7a74",
+      "bytes": 73198,
+      "file_count": 46,
+      "role": "Local army + sentinel + queue (continuous self-audit loop)",
+      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ollama-army"
+    }
+  ]
+}

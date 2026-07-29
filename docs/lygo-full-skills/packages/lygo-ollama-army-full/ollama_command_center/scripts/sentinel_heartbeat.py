@@ -1,0 +1,251 @@
+#!/usr/bin/env python3
+"""
+LYGO Network Sentinel — lattice + local git + optional HF Space probe.
+Read-only on remotes. Writes status to workspace for dashboard.
+
+  python sentinel_heartbeat.py           # one shot
+  python sentinel_heartbeat.py --loop    # every 5 min (configurable)
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+import time
+import urllib.error
+import urllib.request
+from datetime import datetime, timezone
+from pathlib import Path
+
+SKILL_ROOT = Path(__file__).resolve().parents[2]
+import sys as _sys
+_sys.path.insert(0, str(SKILL_ROOT))
+from _safe_invoke import run_python, git_status_summary, write_local_alert
+
+CC = Path(__file__).resolve().parents[1]
+CONFIG_PATH = CC / "config" / "army_config.json"
+LOGS = CC / "logs"
+WORKSPACE = CC / "workspace"
+STATUS_FILE = WORKSPACE / "sentinel_status.json"
+HEARTBEAT_LOG = LOGS / "sentinel.log"
+
+
+def load_config() -> dict:
+    if CONFIG_PATH.is_file():
+        return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    return {"lygo_stack_root": os.environ.get("LYGO_STACK_ROOT", ""), "sentinel": {"interval_seconds": 300}}
+
+
+def run_lattice(stack_root: Path) -> dict:
+    script = stack_root / "tools" / "verify_lattice_alignment.py"
+    if not script.is_file():
+        return {"ok": False, "detail": "verify_lattice_alignment.py missing"}
+    cp = run_python(script, cwd=stack_root, timeout=180, stack_root=stack_root)
+    aligned = cp.returncode == 0 and "ALIGNED" in (cp.stdout or "")
+    return {
+        "ok": aligned,
+        "exit_code": cp.returncode,
+        "summary": "ALIGNED" if aligned else "NEEDS_FIX",
+        "tail": (cp.stdout or "")[-1500:],
+    }
+
+
+def run_git_clean(stack_root: Path) -> dict:
+    return git_status_summary(stack_root)
+
+
+def probe_hf_space() -> dict:
+    url = "https://huggingface.co/api/spaces/DeepSeekOracle/LYGO-Resonance-Engine"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "LYGO-Sentinel/1.0"})
+        with urllib.request.urlopen(req, timeout=25) as resp:
+            data = json.loads(resp.read().decode())
+        runtime = data.get("runtime") or {}
+        stage = runtime.get("stage") or data.get("stage") or "unknown"
+        err = (runtime.get("errorMessage") or "")[:240]
+        stage_ok = stage in (
+            "RUNNING",
+            "BUILDING",
+            "STARTING",
+            "PAUSED",
+            "APP_STARTING",
+            "RUNNING_APP_STARTING",
+        )
+        return {
+            "ok": stage_ok,
+            "stage": stage,
+            "id": data.get("id", "LYGO-Resonance-Engine"),
+            "error_preview": err or None,
+        }
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        return {"ok": False, "error": str(exc)[:200]}
+
+
+def probe_public_pages(cfg: dict) -> dict:
+    """HEAD/GET check of stack public URLs from army_config system_profile."""
+    profile = cfg.get("system_profile") or {}
+    urls = profile.get("public_pages") or []
+    if not urls:
+        return {"ok": True, "detail": "no urls configured", "checked": 0}
+    ok_count = 0
+    rows: list[dict] = []
+    for url in urls:
+        row = {"url": url, "status": None, "ok": False}
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "LYGO-Sentinel/2.0"}, method="HEAD")
+            try:
+                with urllib.request.urlopen(req, timeout=20) as resp:
+                    row["status"] = resp.status
+                    row["ok"] = 200 <= resp.status < 400
+            except urllib.error.HTTPError as he:
+                if he.code == 405:
+                    req = urllib.request.Request(url, headers={"User-Agent": "LYGO-Sentinel/2.0"})
+                    with urllib.request.urlopen(req, timeout=25) as resp:
+                        row["status"] = resp.status
+                        row["ok"] = 200 <= resp.status < 400
+                else:
+                    row["status"] = he.code
+                    row["ok"] = False
+        except Exception as exc:
+            row["error"] = str(exc)[:160]
+        if row.get("ok"):
+            ok_count += 1
+        rows.append(row)
+    return {"ok": ok_count == len(urls), "checked": len(urls), "live": ok_count, "pages": rows}
+
+
+def probe_ollama() -> dict:
+    try:
+        req = urllib.request.Request("http://127.0.0.1:11434/api/tags")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode())
+        models = [m.get("name") for m in data.get("models", [])]
+        return {"ok": bool(models), "models": models[:8]}
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)[:120]}
+
+
+def run_network_builder(stack_root: Path) -> dict:
+    script = stack_root / "tools" / "lygo_network_builder_verify.py"
+    if not script.is_file():
+        return {"ok": True, "detail": "network builder tool not in stack"}
+    cp = run_python(script, cwd=stack_root, timeout=180, stack_root=stack_root)
+    try:
+        blob = json.loads(cp.stdout or "{}")
+        ok = bool(blob.get("all_pass"))
+        return {"ok": ok, "verdict": blob.get("verdict"), "anchors_sha256": blob.get("anchors_sha256")}
+    except json.JSONDecodeError:
+        return {"ok": cp.returncode == 0, "parse_error": True}
+
+
+def queue_depth(cc: Path) -> dict:
+    sys.path.insert(0, str(CC / "scripts"))
+    from army_queue_utils import queue_dirs, unique_task_count  # noqa: E402
+
+    army_root = cc.parent
+    dirs = queue_dirs(CC, army_root)
+    n = unique_task_count(dirs)
+    results = CC / "results"
+    legacy_r = army_root / "ollama_results"
+    nr = len(list(results.glob("*.json"))) if results.is_dir() else 0
+    nr += len(list(legacy_r.glob("*.json"))) if legacy_r.is_dir() else 0
+    return {"queued": n, "results": nr, "unique_by_name": True}
+
+
+def send_alert(message: str, cfg: dict) -> None:
+    # v0.7.0: local JSONL only — no outbound webhook/Telegram
+    alert_path = LOGS / "alerts.jsonl"
+    write_local_alert(message, alert_path)
+
+
+def one_pulse(cfg: dict, army_root: Path) -> dict:
+    army_root = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(army_root))
+    from lygo_stack_root import resolve_stack_root_or_none
+
+    stack = resolve_stack_root_or_none(
+        config_path=army_root / "ollama_command_center" / "config" / "army_config.json"
+    )
+    ts = datetime.now(timezone.utc).isoformat()
+    sent = cfg.get("sentinel") or {}
+    report = {
+        "timestamp": ts,
+        "signature": cfg.get("signature", "Δ9Φ963-SENTINEL-v0.7"),
+        "ollama": probe_ollama(),
+        "queue": queue_depth(army_root),
+    }
+    if stack:
+        report["lattice"] = run_lattice(stack)
+        report["git"] = run_git_clean(stack)
+    else:
+        report["lattice"] = {"ok": True, "summary": "SKIP", "detail": "LYGO_STACK_ROOT unset"}
+        report["git"] = {"ok": True, "detail": "no stack"}
+
+    # Optional remote probes — OFF by default (honest local-first skill)
+    if sent.get("probe_hf_space", False):
+        report["hf_space"] = probe_hf_space()
+    else:
+        report["hf_space"] = {"ok": True, "detail": "probe_hf_space disabled"}
+
+    if sent.get("probe_public_pages", False):
+        report["public_pages"] = probe_public_pages(cfg)
+    else:
+        report["public_pages"] = {"ok": True, "detail": "probe_public_pages disabled"}
+
+    if stack and sent.get("probe_network_builder", False):
+        report["network_builder"] = run_network_builder(stack)
+    else:
+        report["network_builder"] = {"ok": True, "detail": "probe_network_builder disabled"}
+
+    require_ollama = bool(sent.get("require_ollama_for_healthy", True))
+    ollama_ok = report["ollama"].get("ok", True) if require_ollama else True
+    report["healthy"] = (
+        report["lattice"].get("ok", True)
+        and report["public_pages"].get("ok", True)
+        and report["network_builder"].get("ok", True)
+        and ollama_ok
+    )
+
+    LOGS.mkdir(parents=True, exist_ok=True)
+    WORKSPACE.mkdir(parents=True, exist_ok=True)
+    line = (
+        f"{ts} | lattice={report['lattice'].get('summary')} | "
+        f"queue={report['queue']['queued']} | ollama={report['ollama'].get('ok')} | "
+        f"healthy={report['healthy']}\n"
+    )
+    with HEARTBEAT_LOG.open("a", encoding="utf-8") as f:
+        f.write(line)
+    STATUS_FILE.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    if sent.get("alert_on_lattice_fail") and stack and not report["lattice"].get("ok"):
+        send_alert(f"LYGO lattice check FAILED at {ts}", cfg)
+    return report
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--loop", action="store_true", help="Run every interval (default 300s)")
+    ap.add_argument("--interval", type=int, default=0, help="Override interval seconds")
+    args = ap.parse_args()
+    cfg = load_config()
+    army_root = Path(__file__).resolve().parents[2]
+    interval = args.interval or int(cfg.get("sentinel", {}).get("interval_seconds", 300))
+
+    if not args.loop:
+        one_pulse(cfg, army_root)
+        print(json.dumps(json.loads(STATUS_FILE.read_text(encoding="utf-8")), indent=2))
+        return 0 if json.loads(STATUS_FILE.read_text(encoding="utf-8"))["lattice"]["ok"] else 1
+
+    print(f"Sentinel loop every {interval}s — Ctrl+C to stop")
+    while True:
+        try:
+            one_pulse(cfg, army_root)
+        except Exception as exc:
+            print(f"[sentinel err] {exc}")
+        time.sleep(interval)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
