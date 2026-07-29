@@ -59,7 +59,8 @@
         '<strong style="color:#2ecc71">' + nAccepted + ' ACCEPTED</strong> · ' +
         '<strong style="color:var(--gold,#ffcc00)">' + nPendingOnly + ' still PENDING</strong> · ' +
         '<strong style="color:#e94560">' + nRejected + ' REJECTED</strong>. ' +
-        'PENDING rows below that later show ACCEPTED are historical (submit → steward ingest).</span>';
+        'PENDING rows that later show ACCEPTED are historical (submit → steward ingest). ' +
+        'Feed scrolls inside the box — full ledger stays in JSON.</span>';
     }
 
     if (!rows.length) {

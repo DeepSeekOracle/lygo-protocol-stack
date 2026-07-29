@@ -198,7 +198,31 @@
     .feed-hash { color:#00ff88; font-size:.65rem; }
     .feed-err { color:var(--reject); font-size:.62rem; margin-top:.2rem; }
     .feed-empty { color:var(--muted); text-align:center; padding:1rem; }
-    .feed-wrap { overflow-x:auto; }
+    .feed-wrap {
+      overflow: auto;
+      max-height: min(42vh, 420px);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.28);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable;
+      overscroll-behavior: contain;
+    }
+    .feed-wrap::-webkit-scrollbar { width: 10px; height: 10px; }
+    .feed-wrap::-webkit-scrollbar-thumb {
+      background: rgba(255, 204, 0, 0.35);
+      border-radius: 8px;
+    }
+    .feed-wrap::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+    .feed-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #0c0c16;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .feed-row-superseded { opacity: 0.55; }
+    .feed-badge.feed-superseded { opacity: 0.85; font-size: 0.58rem; }
   </style>
 </head>
 <body>
