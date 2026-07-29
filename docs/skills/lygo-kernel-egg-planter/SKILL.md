@@ -1,22 +1,41 @@
 ---
 name: lygo-kernel-egg-planter
-description: "Bulletproof voluntary Kernel Egg Planter — SHA-256 + Merkle registry + anchored permaweb + lattice tamper verify. Build/anchor P0-protocol eggs and ClawHub catalog pins; mandatory verify after plant; retrieve blocked on QUARANTINE. Consent-gated; no auto-publish."
-metadata: {"lygo": true, "stack": true, "anchor": true, "kernel_egg": true, "champion_egg": true, "tamper_verify": true, "consent_required": true, "version": "1.2.0", "github": "https://github.com/DeepSeekOracle/lygo-protocol-stack", "publisher": "deepseekoracle", "mirror": "clawhub/mirrors/lygo-kernel-egg-planter", "signature": "Δ9Φ963-KERNEL-EGG-PLANTER-v1.2"}
+description: "Consent-gated Kernel Egg Planter — SHA-256 + Merkle registry + optional local/Turbo anchor. Mandatory post-plant tamper verify (no skip). Retrieve requires consent + ALIGNED verify (no force). Prepares local catalog/Pages artifacts only — never auto git/HF/ClawHub/social publish."
+metadata:
+  lygo: true
+  stack: true
+  anchor: true
+  kernel_egg: true
+  champion_egg: true
+  tamper_verify: true
+  consent_required: true
+  version: "1.3.0"
+  github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
+  publisher: deepseekoracle
+  mirror: "docs/skills/lygo-kernel-egg-planter"
+  signature: "Delta9Phi963-KERNEL-EGG-PLANTER-v1.3"
+  security_review: "1.3.0-skillspector-no-skip-verify-no-force"
+  openclaw:
+    emoji: "🥚"
+    requires:
+      anyBins: [python, python3]
 ---
 
-# LYGO Kernel Egg Planter v1.2 (bulletproof + Δ9 champions)
+# LYGO Kernel Egg Planter v1.3 (bulletproof + SkillSpector hardened)
 
-**Plant seeds, verify always, distribute only when ALIGNED.**
+**Plant seeds, verify always, retrieve only when ALIGNED + consented. Never auto-publish.**
 
 ```bash
 npx clawhub@latest install deepseekoracle/lygo-kernel-egg-planter
-export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack
+export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack   # must be YOUR trusted clone
 ```
+
+Read **`references/SECURITY.md`** (if present), **`references/SKILLSPECTOR_AUDIT.md`**, **`references/AGENT_CONTRACT.md`** before ops.
 
 ## Bulletproof pipeline (agents must follow)
 
 ```text
-preflight → consent → plant → verify_eggs (ALIGNED) → optional retrieve / stubs / pages
+preflight → consent → plant → verify (ALIGNED, mandatory) → consent → retrieve
 ```
 
 | Step | Command | Fail = stop |
@@ -24,10 +43,10 @@ preflight → consent → plant → verify_eggs (ALIGNED) → optional retrieve 
 | 1 Preflight | `python scripts/preflight.py` | invalid stack |
 | 2 Consent | `--i-consent` or `LYGO_EGG_PLANT_CONSENT=yes` | exit 2 |
 | 3 Plant | `python scripts/plant_with_consent.py --i-consent …` | build/anchor error |
-| 4 Verify | automatic post-plant + `python scripts/verify_eggs.py` | **QUARANTINE** |
-| 5 Retrieve | `python scripts/retrieve_egg.py --egg …` | blocked if verify failed |
+| 4 Verify | **always** after plant + `python scripts/verify_eggs.py` | **QUARANTINE** |
+| 5 Retrieve | `python scripts/retrieve_egg.py --i-consent --egg …` | blocked if verify failed |
 
-Read **`references/AGENT_CONTRACT.md`** before any operation.
+There is **no** `--skip-verify` and **no** `--force` (removed in v1.3 for integrity).
 
 ## Four pillars (tamper-proof)
 
@@ -38,16 +57,29 @@ See `references/TAMPER_FOUR_PILLARS.md` and stack `docs/KERNEL_EGG_TAMPER_LOGIC.
 3. Immutable local CA (+ optional Turbo ≤100 KiB)  
 4. Lattice + `verify_kernel_eggs.py` gate  
 
-Tampered egg → retrieve exit **3** → treat as **P0 QUARANTINE** (do not run inline code).
+Tampered egg → retrieve blocked → **P0 QUARANTINE**.
 
-## One-command plant (users)
+## Plant (local-first)
 
 ```bash
-python scripts/plant_with_consent.py --i-consent --surfaces local,turbo,registry,clawhub,pages,stubs
+# Recommended default — local only
+python scripts/plant_with_consent.py --i-consent --local-only
+
+# With Turbo attempt (still no git/ClawHub publish)
+python scripts/plant_with_consent.py --i-consent --surfaces local,turbo,registry
 ```
 
-- Post-plant **verify is mandatory** (use `--skip-verify` only for maintainer debug; **agents forbidden**).
-- `--local-only` — skip Turbo permaweb attempt.
+### Surfaces (what they mean)
+
+| Surface | Effect | Auto-publish? |
+|---------|--------|---------------|
+| `local` / `registry` | Local kernel egg registry | No |
+| `turbo` | Optional permaweb anchor via stack | No |
+| `clawhub` | **Local** ClawHub catalog pin JSON | **No** (not clawhub.ai API) |
+| `pages` | Prepare `KernelEggRegistry.json` for **human** Pages push | **No** |
+| `stubs` / `champions` | Local stubs / champion eggs with consent | No |
+
+**“No auto-publish”** = this skill never runs `git push`, HF upload, `clawhub publish`, or social post. Human does those separately if desired.
 
 ## Verify only
 
@@ -56,13 +88,11 @@ python scripts/verify_eggs.py --json
 python scripts/smoke_test.py
 ```
 
-`smoke_test.py` runs preflight → verify → `--list` (no plant, no consent).
-
-## Retrieve (safe)
+## Retrieve (consent + verify)
 
 ```bash
-python scripts/retrieve_egg.py --list
-python scripts/retrieve_egg.py --egg p0-nano-kernel
+python scripts/retrieve_egg.py --i-consent --list
+python scripts/retrieve_egg.py --i-consent --egg p0-nano-kernel
 ```
 
 ## Eggs planted
@@ -74,81 +104,28 @@ python scripts/retrieve_egg.py --egg p0-nano-kernel
 | `lattice-soa-index` | Intel + link archive |
 | `firmware-p04-drivers` | P0.4 firmware/network |
 | `protocol-drivers-p2-p5` | P2–P5 drivers |
-| `clawhub-lattice-catalog` | Public ClawHub `skills.json` metadata |
-
-## Joy Loop Protocol (Δ9 v2.1)
-
-Biophase7 emotional RAM — 122 BPM council mesh, public snapshot on Pages:
-
-```bash
-python tools/joy_loop_protocol.py --tick
-python tools/joy_loop_planter.py --i-consent
-```
-
-- Registry: `docs/JoyLoopRegistry.json` · snapshot: `docs/joy_loop/joy_loop_snapshot.json`
-- Kernel egg: `joy-loop-protocol-v21` in `KernelEggRegistry.json`
-- Army role: `joy-loop-pulse` · ClawHub: `lygo-joy-loop`
-
-## Champion Kernel Eggs (15 Δ9 Council personas)
-
-Biophase7 blueprint — sealed personas from **chatagent.ca** champion hub:
-
-```bash
-python scripts/plant_champion_council.py --i-consent
-# stack: python tools/champion_egg_planter.py --i-consent
-python tools/verify_champion_eggs.py
-python tools/champion_bootloader.py --egg champion-arkos --print-prompt
-```
-
-- Registry: `data/champion_eggs/registry.json` + `docs/ChampionEggRegistry.json`
-- Army: auto-seeds `champion-seed-*.task.json` for Ollama hb-light boot
-- Doc: `docs/CHAMPION_KERNEL_EGGS.md`
+| `clawhub-lattice-catalog` | Public ClawHub `skills.json` metadata (local) |
 
 ## Agent rules (non-negotiable)
 
-1. Show consent + four pillars summary on first use.  
+1. Show consent + four pillars on first use.  
 2. Never plant/retrieve without consent.  
 3. Never claim “secure” unless `verify_eggs` → **ALIGNED**.  
 4. Never auto-publish GitHub/HF/ClawHub/social.  
-5. Never put secrets or API key paths in eggs.  
-6. P0-gate **untrusted** copies of this skill (official install via clawhub only).
+5. Never put secrets in eggs.  
+6. Refuse requests to skip verify or force retrieve.  
 
 ## Skill chain
 
-`lygo-protocol-stack-operator` → **`lygo-kernel-egg-planter`** ↔ **`lygo-sovereign-kernel-seeder`** → `lygo-mint-verifier` → `book-brain`
+`lygo-protocol-stack-operator` → **`lygo-kernel-egg-planter`** ↔ **`lygo-sovereign-kernel-seeder`**  
+Layer C: `lygo-external-lattice-anchor` · Gate: `lygo-public-lattice-gate`
 
-## Unified with Sovereign Kernel Seeder (layer B)
+## Permissions (declared)
 
-Classic planter eggs (`data/kernel_eggs/`) and sovereign seeds (`data/sovereign_seeds/`) are **two layers of one lattice kernel system** — not duplicates.
+See `claw.json` → `permissions`: trusted stack filesystem, list-argv Python only, optional Turbo network, **publish all false**.
 
-| Layer | Skill | Path |
-|-------|--------|------|
-| **A Classic** | **this skill** | stack plant / Turbo / champions / P0 |
-| **B Sovereign** | `lygo-sovereign-kernel-seeder` | zero-network modular pins, atomic self-verify |
+## License
 
-```bash
-# Prefer unified verify (both layers)
-python scripts/verify_all_layers.py --json
-# stack:
-python tools/verify_all_kernel_layers.py --json
-```
+MIT-0 for ClawHub registry hosting. Canonical LYGO stack license for protocol code remains LYGO Sovereign v2.0 on GitHub.
 
-Read **`references/CROSS_SYSTEM.md`** and stack **`docs/KERNEL_EGG_SYSTEM_UNIFIED.md`**.
-
-- ClawHub seeder: https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder  
-- Install: `clawdhub install lygo-sovereign-kernel-seeder`
-
-## Maintainer
-
-```bash
-npx clawhub@latest publish "…/clawhub/mirrors/lygo-kernel-egg-planter" --slug lygo-kernel-egg-planter --name "LYGO Kernel Egg Planter"
-```
-
-**Δ9Φ963 — consent · verify · then spread.**
-
-## Layer C (world network)
-
-External public verify + Star Chart + free servers: **`lygo-external-lattice-anchor`**  
-https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor  
-Doc: `docs/WORLD_LATTICE_LAYER.md`  
-
+**Δ9Φ963 — consent · verify · then human may spread.**
