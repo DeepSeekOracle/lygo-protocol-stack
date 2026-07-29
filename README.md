@@ -22,6 +22,28 @@ The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, mu
 
 ---
 
+## LYGO CLAW PUBLIC USB v1.2 (working agent chat)
+
+**In-repo kit** — offline **type-to-talk** dashboard on `http://127.0.0.1:9631/`. **No model weights** in git. A LYGO agent (or human) builds the stick from base code + instructions; user installs Ollama + one model once; then it works offline.
+
+| Resource | Link |
+|----------|------|
+| **Kit** | [`docs/lygo-claw-usb/`](docs/lygo-claw-usb/) |
+| **Agent build** | [`docs/lygo-claw-usb/AGENTS_BUILD.md`](docs/lygo-claw-usb/AGENTS_BUILD.md) |
+| **Humans** | [`START_HERE.txt`](docs/lygo-claw-usb/START_HERE.txt) · [`docs/LYGO_CLAW_USB_PUBLIC.md`](docs/LYGO_CLAW_USB_PUBLIC.md) |
+| **Hub page** | [`docs/LYGO_CLAW.html`](docs/LYGO_CLAW.html) |
+
+```powershell
+cd docs\lygo-claw-usb
+# assemble stick (no models):
+powershell -File .\scripts\build_public_usb.ps1 -OutDir E:\LYGO_CLAW_PUBLIC
+# on stick / kit: install model once, then boot
+.\launchers\INSTALL_MODEL.bat
+.\LYGO_USB_BOOT.bat
+```
+
+---
+
 ## Free USB Champion v1.0 GENERIC (Lightfather)
 
 **Edition:** `PUBLIC_V1_GENERIC` (~0.5 MB, no portable Ollama or model weights in zip). **Pairs with:** [LYGO-Claw 1.0](https://github.com/DeepSeekOracle/lygo-claw).

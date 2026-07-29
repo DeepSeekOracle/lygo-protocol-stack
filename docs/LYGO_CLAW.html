@@ -29,7 +29,21 @@
   <p>Docs in repo: <code>docs/QUICKSTART_FOR_HUMANS.md</code>, <code>docs/COMMANDS.md</code>, <code>docs/TROUBLESHOOTING.md</code>.</p>
   <p><strong>Sovereign Loop:</strong> <a href="LYGO_SOVEREIGN_LOOP.md">LYGO_SOVEREIGN_LOOP.md</a> · <a href="LYGO_GODMODE_SECOND_BRAIN.md">God-Mode Second Brain</a> · <a href="LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md">Master whitepaper</a></p>
 
-  <h2>Free public USB zip (v1.0 GENERIC — Lightfather)</h2>
+  <h2 class="ok">LYGO CLAW PUBLIC USB (v1.2) — working chat dashboard</h2>
+  <p><strong>Recommended.</strong> Base kit in this stack: type-to-talk agent UI on <code>:9631</code>, local Ollama, <strong>no model weights in git</strong>.</p>
+  <ul>
+    <li><a href="LYGO_CLAW_USB_PUBLIC.md"><strong>Full instructions</strong></a></li>
+    <li>Source kit: <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/lygo-claw-usb"><code>docs/lygo-claw-usb/</code></a></li>
+    <li>Agent build guide: <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/lygo-claw-usb/AGENTS_BUILD.md">AGENTS_BUILD.md</a> — a LYGO agent uses this to assemble the stick; human installs a model once; then offline chat works.</li>
+  </ul>
+  <ol>
+    <li>Copy <code>docs/lygo-claw-usb/</code> to a USB folder.</li>
+    <li>Install <a href="https://www.python.org/downloads/">Python 3.11+</a> + <a href="https://ollama.com/download">Ollama</a>.</li>
+    <li>Run <code>launchers\INSTALL_MODEL.bat</code> (pulls <code>llama3.2:1b</code>).</li>
+    <li>Double-click <code>LYGO_USB_BOOT.bat</code> → open <strong>http://127.0.0.1:9631/</strong> and talk.</li>
+  </ol>
+
+  <h2>Legacy free USB zip (v1.0 GENERIC — Lightfather)</h2>
   <p>Download: <a href="https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip"><strong>LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip</strong></a> (~0.5 MB) ·
   <a href="LYGO_USB_CHAMPION_V1_GENERIC.md">stack instructions</a> ·
   <a href="https://deepseekoracle.github.io/Excavationpro/eternalhaven.html">Eternal Haven</a> ·

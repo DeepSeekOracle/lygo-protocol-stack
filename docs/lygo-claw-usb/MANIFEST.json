@@ -1,0 +1,37 @@
+{
+  "signature": "Delta9Phi963-LYGO-CLAW-PUBLIC-USB-v1.2",
+  "name": "LYGO CLAW PUBLIC USB",
+  "version": "1.2.0",
+  "updated_utc": "2026-07-29",
+  "purpose": "Public base kit for a working offline agent dashboard + chat. No model weights, no secrets, no steward vaults.",
+  "repo_path": "docs/lygo-claw-usb",
+  "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+  "requires": [
+    "Windows 10/11",
+    "Python 3.11+ on PATH",
+    "Ollama (host install or portable exe)",
+    "One-time model pull via install_public_model.ps1"
+  ],
+  "entrypoints": {
+    "boot": "LYGO_USB_BOOT.bat",
+    "agent_ui": "http://127.0.0.1:9631/",
+    "install_model": "launchers/INSTALL_MODEL.bat",
+    "check": "launchers/CHECK_SYSTEM.bat",
+    "agent_build": "AGENTS_BUILD.md"
+  },
+  "ships": [
+    "scripts/lygo_usb_agent_server.py",
+    "dashboard/agent-ui/index.html",
+    "LYGO_USB_BOOT.bat",
+    "scripts/ensure_ollama_serve.ps1",
+    "scripts/install_public_model.ps1",
+    "scripts/build_public_usb.ps1"
+  ],
+  "never_ships": [
+    "model blobs / weights",
+    "API keys / .env secrets",
+    "steward vault / restore private",
+    "builder _builder_vault"
+  ],
+  "agent_server_signature": "Delta9Phi963-LYGO-USB-AGENT-SERVER-v1.2"
+}
