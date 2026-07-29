@@ -2,7 +2,7 @@
 name: lygo-public-lattice-gate
 description: "Public lattice join + verify gate for foreign LYGO-aligned agents. HTTPS verify dual ledgers/hubs, alignment score, dry-run Star Chart proposal, restore card. Zero disk writes by default; no live chart write; no auto-publish. Install clawhub:@deepseekoracle/lygo-public-lattice-gate."
 version: 1.0.0
-license: LYGO-Sovereign-v2.0
+license: MIT-0
 metadata:
   openclaw:
     emoji: "🚪"

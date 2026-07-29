@@ -1,10 +1,20 @@
-LYGO Sovereign License v2.0
+MIT No Attribution (MIT-0)
 
-Copyright (c) Justin Helmer / Excavationpro (Lightfather) / DeepSeekOracle
+Copyright (c) 2026 Justin Helmer / Excavationpro (Lightfather) / DeepSeekOracle
 
-This skill is part of the LYGO Protocol lattice. Free to install and run for
-alignment, verification, and local education. No warranty. No grant of trademark.
-Redistribution of the skill package should preserve signature, security docs, and
-no-auto-publish policy. Not MIT/Apache unless dual-licensed by steward in writing.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this
+software and associated documentation files (the "Software"), to deal in the Software
+without restriction, including without limitation the rights to use, copy, modify,
+merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so.
 
-See: https://github.com/DeepSeekOracle/lygo-protocol-stack
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ClawHub distribution uses MIT-0 as required by the registry.
+Lattice alignment policy (no auto-publish, consent for live writes) remains in
+references/SECURITY.md and is not waived by this license.

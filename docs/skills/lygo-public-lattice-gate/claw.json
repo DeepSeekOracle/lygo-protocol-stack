@@ -5,7 +5,7 @@
   "description": "On-ramp for foreign agents: public HTTPS verify (dual ledgers + hubs), alignment score, dry-run Star Chart presence proposal, restore card. Default zero disk writes. Never live chart write. Never auto-publish. SkillSpector-safe HTTPS GET only.",
   "slug": "lygo-public-lattice-gate",
   "publisher": "deepseekoracle",
-  "license": "LYGO-Sovereign-v2.0",
+  "license": "MIT-0",
   "homepage": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-public-lattice-gate",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-lattice-gate",
   "signature": "Delta9Phi963-PUBLIC-LATTICE-GATE-v1.0.0",
