@@ -1,5 +1,5 @@
 ---
-name: lyra-openclaw
+name: lyra-open-claw
 description: "Hybrid LYRA + OpenClaw super system. Provides access to absorbed OpenClaw brain structure, keys (runtime from operator secrets), hybrid skills (browser, discord, clawnch, moltbook), dual-system automation, token launches, social posting/scanning, memory layers, bio-organs, proactivity. Use for efficient ops without search. Ties to LYRA 3-Brain, protocols, runner."
 version: 1.0.0
 license: LYGO-Sovereign-v2.0
@@ -13,9 +13,9 @@ metadata:
     hybrid: true
     openclaw: true
   lygo: true
-  signature: "Delta9Phi963-LYRA-OPENCLAW-PUBLIC-v1.0.0"
+  signature: "Delta9Phi963-lyra-open-claw-PUBLIC-v1.0.0"
   publisher: deepseekoracle
-  clawhub: "https://clawhub.ai/deepseekoracle/skills/lyra-openclaw"
+  clawhub: "https://clawhub.ai/deepseekoracle/skills/lyra-open-claw"
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
   public_surface: true
 ---
@@ -26,8 +26,8 @@ metadata:
 This package is the **safe ClawHub surface**: architecture, install chain, consent rules.  
 **Runtime secrets never ship here** — load keys only from operator-local secret stores at runtime.
 
-**Signature:** `Delta9Phi963-LYRA-OPENCLAW-PUBLIC-v1.0.0`  
-**ClawHub:** `@deepseekoracle/lyra-openclaw`
+**Signature:** `Delta9Phi963-lyra-open-claw-PUBLIC-v1.0.0`  
+**ClawHub:** `@deepseekoracle/lyra-open-claw`
 
 ---
 
@@ -44,7 +44,7 @@ This package is the **safe ClawHub surface**: architecture, install chain, conse
 ## Install
 
 ```bash
-npx clawhub@latest install deepseekoracle/lyra-openclaw
+npx clawhub@latest install deepseekoracle/lyra-open-claw
 npx clawhub@latest install deepseekoracle/lygo-openclaw
 npx clawhub@latest install deepseekoracle/lyra-brain
 ```
@@ -87,7 +87,7 @@ export LYGO_STACK_ROOT=/absolute/path/to/lygo-protocol-stack
 ```text
 lygo-protocol-stack-operator
   → lygo-openclaw / lygo-sovereign-claw   (P0 router)
-  → lyra-openclaw                         (hybrid limbs map)
+  → lyra-open-claw                         (hybrid limbs map)
   → lyra-brain                            (memory grow/recall)
   → lygo-kernel-egg-planter               (consent eggs)
   → lygo-public-lattice-gate              (public verify)

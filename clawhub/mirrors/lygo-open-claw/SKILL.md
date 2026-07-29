@@ -1,6 +1,6 @@
 ---
-name: lygo-openclaw
-description: "LYGO-OpenClaw sovereign command router — P0 gate, P1 mycelium, P3 consensus, P5 action identity, lattice limbs, consent-gated kernel egg lygo-openclaw-v10. Biophase7 blueprint. Pair with lyra-openclaw for browser/Discord/Moltbook runtime. Read references/SECURITY.md first."
+name: lygo-open-claw
+description: "lygo-open-claw sovereign command router — P0 gate, P1 mycelium, P3 consensus, P5 action identity, lattice limbs, consent-gated kernel egg lygo-open-claw-v10. Biophase7 blueprint. Pair with lyra-openclaw for browser/Discord/Moltbook runtime. Read references/SECURITY.md first."
 version: 1.0.0
 license: LYGO-Sovereign-v2.0
 metadata:
@@ -11,9 +11,9 @@ metadata:
       anyBins: [python, python3]
   lygo: true
   biophase7: true
-  signature: "Delta9Phi963-LYGO-OPENCLAW-v1.0.0"
+  signature: "Delta9Phi963-lygo-open-claw-v1.0.0"
   publisher: deepseekoracle
-  clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-openclaw"
+  clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-open-claw"
   canonical_slug: lygo-sovereign-claw
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
 ---
@@ -23,17 +23,17 @@ metadata:
 Stack-native **agent command framework**: every limb passes P0 before dispatch; results land in mycelium + action ledger (no fake permaweb URLs).
 
 **Canonical install slug (also published):** `lygo-sovereign-claw`  
-**This slug (`lygo-openclaw`):** public alias so lattice maps, Grok skills, and ClawHub search all resolve.
+**This slug (`lygo-open-claw`):** public alias so lattice maps, Grok skills, and ClawHub search all resolve.
 
-**Signature:** `Delta9Phi963-LYGO-OPENCLAW-v1.0.0`  
-**ClawHub:** `@deepseekoracle/lygo-openclaw` · `@deepseekoracle/lygo-sovereign-claw`
+**Signature:** `Delta9Phi963-lygo-open-claw-v1.0.0`  
+**ClawHub:** `@deepseekoracle/lygo-open-claw` · `@deepseekoracle/lygo-sovereign-claw`
 
 ---
 
 ## Install
 
 ```bash
-npx clawhub@latest install deepseekoracle/lygo-openclaw
+npx clawhub@latest install deepseekoracle/lygo-open-claw
 # or canonical:
 npx clawhub@latest install deepseekoracle/lygo-sovereign-claw
 ```
@@ -52,7 +52,7 @@ Hybrid browser/social/token ops: install **`lyra-openclaw`** (public ClawHub ski
 
 ## When to use
 
-- Biophase7 **LYGO-OpenClaw** full build blueprint  
+- Biophase7 **lygo-open-claw** full build blueprint  
 - Lattice alignment, army sentinel, flow-kit paths without loading full hybrid OS  
 - Gated alternative to raw OpenClaw CLI for stack operators  
 
@@ -78,11 +78,11 @@ Hybrid browser/social/token ops: install **`lyra-openclaw`** (public ClawHub ski
 - **P1** — mycelium memory fragments under stack data  
 - **P3** — optional multi-agent consensus  
 - **P5** — Light Code / action identity  
-- **Anchor** — consent-gated kernel egg (`lygo-openclaw-v10`)  
+- **Anchor** — consent-gated kernel egg (`lygo-open-claw-v10`)  
 
 ## Skill chain
 
-`lygo-protocol-stack-operator` → **`lygo-openclaw` / `lygo-sovereign-claw`** → `lyra-openclaw` → `lygo-kernel-egg-planter` → `lygo-ollama-army`
+`lygo-protocol-stack-operator` → **`lygo-open-claw` / `lygo-sovereign-claw`** → `lyra-openclaw` → `lygo-kernel-egg-planter` → `lygo-ollama-army`
 
 ## Security
 

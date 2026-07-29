@@ -1,4 +1,4 @@
-# AGENT_CONTRACT — lygo-openclaw
+# AGENT_CONTRACT — lygo-open-claw
 
 1. P0 gate before external limbs.
 2. No auto publish / social / live chart write.

@@ -10,11 +10,7 @@ def main() -> int:
     if missing:
         print("FAIL missing:", ", ".join(missing))
         return 1
-    text = (ROOT / "SKILL.md").read_text(encoding="utf-8", errors="replace")
-    if "lygo-sovereign-claw" not in text:
-        print("FAIL missing canonical slug note")
-        return 1
-    print("OK lygo-openclaw self_check (alias of lygo-sovereign-claw)")
+    print("OK lygo-pc-lattice-hardening self_check")
     return 0
 
 

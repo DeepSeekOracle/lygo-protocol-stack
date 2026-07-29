@@ -14,7 +14,7 @@ def main() -> int:
     if "lygo-sovereign-claw" not in text:
         print("FAIL missing canonical slug note")
         return 1
-    print("OK lygo-openclaw self_check (alias of lygo-sovereign-claw)")
+    print("OK lygo-open-claw self_check (alias of lygo-sovereign-claw)")
     return 0
 
 
