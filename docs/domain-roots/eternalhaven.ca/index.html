@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- eternalhaven hub deploy: live-iframe v7anxls (Rumble pub 1th29y) -->
+<!-- eternalhaven hub deploy: live-iframe v7b5p30 (Rumble pub 1th29y) always-live -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -712,6 +712,37 @@
             color: rgba(245, 245, 245, 0.65);
         }
         .rumble-live-caption a { text-decoration: underline; }
+        .rumble-cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 14px;
+        }
+        .rumble-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            text-decoration: none !important;
+            border: 1px solid transparent;
+            transition: filter 0.15s, transform 0.15s, box-shadow 0.15s;
+        }
+        .rumble-cta-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .rumble-cta-btn.primary {
+            background: linear-gradient(135deg, #85c742, #b8e986);
+            color: #0a1206 !important;
+            box-shadow: 0 6px 22px rgba(133, 199, 66, 0.35);
+        }
+        .rumble-cta-btn.secondary {
+            background: rgba(133, 199, 66, 0.12);
+            border-color: rgba(133, 199, 66, 0.45);
+            color: #c8f0a0 !important;
+        }
 
         .usb-path-grid {
             display: grid;
@@ -863,24 +894,75 @@
     </div>
 
     <div class="rumble-live-hero" id="live-radio">
-        <div class="live-badge"><span class="pulse-dot" aria-hidden="true"></span> LIVE · 24/7 ORIGINAL MUSIC RADIO</div>
+        <div class="live-badge" id="rumbleLiveBadge"><span class="pulse-dot" aria-hidden="true"></span> LIVE · 24/7 ORIGINAL MUSIC RADIO</div>
         <h2 style="font-size: clamp(1.1rem, 2.5vw, 1.45rem); margin-bottom: 14px; color: var(--gold); border: none; display: block;">
             <i class="fas fa-tower-broadcast"></i> Excavationpro × LYGO — Coffee Room / Lurk Friendly
         </h2>
-        <div class="rumble-live-frame" title="Excavationpro 24/7 live radio">
+        <div class="rumble-live-frame" title="Excavationpro always-on Rumble live">
             <iframe
-                src="https://rumble.com/embed/v7anxls/?pub=1th29y"
+                id="rumbleLiveFrame"
+                src="https://rumble.com/embed/v7b5p30/?pub=1th29y"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen
                 loading="eager"
                 referrerpolicy="strict-origin-when-cross-origin"
-                title="Excavationpro × LYGO — 24/7 original music radio (Rumble live)"></iframe>
+                title="Excavationpro × LYGO — always-on original music radio (Rumble live)"></iframe>
         </div>
-        <p class="rumble-live-caption">
-            Monetized stream — all Excavationpro &amp; LYGO originals.
-            <a href="https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Open on Rumble</a>
-            · <a href="https://rumble.com/embed/v7anxls/?pub=1th29y" target="_blank" rel="noopener noreferrer">Pop-out player</a>
+        <p class="rumble-live-caption" id="rumbleLiveMeta">
+            Monetized always-live feed — all Excavationpro &amp; LYGO originals.
+            <a id="rumbleLiveLink" href="https://rumble.com/Excavationpro/live?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Open full LIVE on Rumble</a>
+            · <a id="rumblePopoutLink" href="https://rumble.com/embed/v7b5p30/?pub=1th29y" target="_blank" rel="noopener noreferrer">Pop-out player</a>
+        </p>
+        <div class="rumble-cta-row" role="group" aria-label="Rumble referral and live links">
+            <a class="rumble-cta-btn primary" href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">
+                <i class="fas fa-user-plus" aria-hidden="true"></i> Join Rumble via Excavationpro
+            </a>
+            <a class="rumble-cta-btn secondary" id="rumbleLiveCta" href="https://rumble.com/Excavationpro/live?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-tower-broadcast" aria-hidden="true"></i> Watch LIVE
+            </a>
+        </div>
+        <p class="rumble-live-caption" style="margin-top:8px;font-size:0.78rem;">
+            Referral signup: <a href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">rumble.com/register/Excavationpro</a>
+            — free Rumble account, supports the channel.
         </p>
     </div>
+    <script>
+    (function () {
+      var PUB = '1th29y';
+      var FALLBACK = 'v7b5p30';
+      var frame = document.getElementById('rumbleLiveFrame');
+      var badge = document.getElementById('rumbleLiveBadge');
+      var link = document.getElementById('rumbleLiveLink');
+      var liveCta = document.getElementById('rumbleLiveCta');
+      var pop = document.getElementById('rumblePopoutLink');
+      function apply(d) {
+        var id = (d && d.embed_id) ? String(d.embed_id) : FALLBACK;
+        if (id.charAt(0) !== 'v') id = 'v' + id;
+        var live = !!(d && d.is_live);
+        var watch = (d && d.watch_url) ? String(d.watch_url)
+          : ('https://rumble.com/Excavationpro/live?mref=' + PUB + '&mc=2p3fp');
+        var embed = 'https://rumble.com/embed/' + encodeURIComponent(id) + '/?pub=' + encodeURIComponent(PUB);
+        if (frame && frame.getAttribute('src') !== embed) frame.setAttribute('src', embed);
+        if (pop) pop.href = embed;
+        if (link) link.href = watch;
+        if (liveCta) liveCta.href = watch;
+        if (badge) {
+          badge.style.opacity = live ? '1' : '0.55';
+          badge.innerHTML = live
+            ? '<span class="pulse-dot" aria-hidden="true"></span> LIVE · 24/7 ORIGINAL MUSIC RADIO'
+            : '<span class="pulse-dot" aria-hidden="true"></span> STANDBY · OPEN RUMBLE FOR SCHEDULE';
+        }
+      }
+      function load() {
+        fetch('data/rumble-live.json?t=' + Date.now(), { cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) { apply(d || { embed_id: FALLBACK, is_live: true }); })
+          .catch(function () { apply({ embed_id: FALLBACK, is_live: true }); });
+      }
+      load();
+      setInterval(load, 180000);
+    })();
+    </script>
 
     <section class="main-hero" style="min-height:auto; padding: 2rem 0 2rem;">
         <div class="container hero-content">
@@ -1023,7 +1105,8 @@
                         <a class="link-row" href="https://www.looperman.com/users/profile/5711248" target="_blank" rel="noopener"><i class="fas fa-loop"></i><span>Looperman</span></a>
                         <a class="link-row" href="https://deepseekoracle.github.io/Excavationpro/Musicplayer" target="_blank" rel="noopener"><i class="fas fa-play"></i><span>Music Player</span></a>
                         <a class="link-row" href="https://bpmfinder.ca/" target="_blank" rel="noopener noreferrer"><i class="fas fa-drum"></i><span>LYGO BPM Finder<span class="link-meta">client-side tempo — no upload</span></span></a>
-                        <a class="link-row" href="https://rumble.com/v7cuiw2-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener"><i class="fas fa-tower-broadcast"></i><span>24/7 Live Radio (monetized)<span class="link-meta">LYGO &amp; Excavationpro originals</span></span></a>
+                        <a class="link-row" href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored"><i class="fas fa-user-plus"></i><span>Join Rumble (referral)<span class="link-meta">rumble.com/register/Excavationpro — free signup</span></span></a>
+                        <a class="link-row" href="https://rumble.com/Excavationpro/live?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener"><i class="fas fa-tower-broadcast"></i><span>24/7 Live Radio (monetized)<span class="link-meta">LYGO &amp; Excavationpro originals — always LIVE</span></span></a>
                         <a class="link-row" href="https://rumble.com/user/Excavationpro" target="_blank" rel="noopener"><i class="fas fa-video"></i><span>Rumble channel</span></a>
                         <a class="link-row" href="https://linktr.ee/excavationpro" target="_blank" rel="noopener"><i class="fas fa-link"></i><span>Linktree</span></a>
                         <a class="link-row" href="https://patreon.com/collection/1621340" target="_blank" rel="noopener"><i class="fab fa-patreon"></i><span>Patreon</span></a>
@@ -1239,7 +1322,7 @@
                 Mirror: <a href="https://deepseekoracle.github.io/Excavationpro/LYGO-Network/legacy-guardian-music.html#lattice">Legacy Guardian Music lattice</a>
                 · <a href="https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html#ledger">Music Catalog Ledger</a>
                 · <a href="https://deepseekoracle.github.io/Excavationpro/data/excavationpro_music_ledger.json">Music ledger JSON</a>
-                · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/network_builder/IMMUTABLE_ANCHORS.json" target="_blank" rel="noopener">Source JSON</a>
+                · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/network_builder/IMMUTABLE_ANCHORS.json" target="_blank" rel="noopener">Source JSON</a> · <a href="lygo-turbo-models-whitepaper.html">LYGO Turbo Models Whitepaper</a> · <a href="lygo-ascii-art.html">LYGO ASCII Art Studio</a> · <a href="lygo-music-license.html">Music License</a> · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md">World Lattice (A+B+C)</a> · <a href="https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor">External Lattice Anchor</a> · <a href="https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder">Sovereign Kernel Seeder</a> · <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SOVEREIGN_KERNEL_SEEDER.md">Seeder docs</a>
             </p>
         </div>
     </section>
@@ -1419,7 +1502,11 @@
             else if (rumbleScript) rumbleScript.addEventListener('load', initAudiobookRumble);
 
             // --- Immutable Lattice (IMMUTABLE_ANCHORS.json) ---
-            const ANCHORS_RAW = 'https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json';
+            // Prefer jsDelivr (fresher than raw.githubusercontent CDN); fall back to GitHub raw.
+            const ANCHORS_SOURCES = [
+                'https://cdn.jsdelivr.net/gh/DeepSeekOracle/lygo-protocol-stack@main/docs/network_builder/IMMUTABLE_ANCHORS.json',
+                'https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json'
+            ];
             function renderLattice(doc) {
                 const meta = document.getElementById('lattice-meta');
                 const list = document.getElementById('lattice-list');
@@ -1446,8 +1533,18 @@
                     </div>
                 `).join('');
             }
-            fetch(ANCHORS_RAW)
-                .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+            async function loadAnchors() {
+                let lastErr;
+                for (const url of ANCHORS_SOURCES) {
+                    try {
+                        const res = await fetch(url, { cache: 'no-store' });
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        return await res.json();
+                    } catch (e) { lastErr = e; }
+                }
+                throw lastErr || new Error('anchors unavailable');
+            }
+            loadAnchors()
                 .then(renderLattice)
                 .catch(err => {
                     const meta = document.getElementById('lattice-meta');
@@ -1457,10 +1554,130 @@
                         <div class="lattice-item"><span class="mono" style="font-size:0.72rem;opacity:0.55;text-transform:uppercase;">vaults</span>
                         <strong>Δ9 Quantum Vault</strong>
                         <a href="https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4?usp=sharing" target="_blank" rel="noopener">Google Drive</a></div>
+                        <div class="lattice-item"><span class="mono" style="font-size:0.72rem;opacity:0.55;text-transform:uppercase;">agents</span>
+                        <strong>LYGO Turbo Models Whitepaper — flagship local AI starting lineup</strong>
+                        <a href="lygo-turbo-models-whitepaper.html">https://eternalhaven.ca/lygo-turbo-models-whitepaper.html</a></div>
                         <div class="mono" style="opacity:0.5;margin-top:8px;">Full ledger unavailable offline — open stack JSON.</div>`;
                 });
 
         });
     </script>
+<!-- LYGO_LATTICE_FEED_PANEL -->
+<!-- LYGO immutable lattice feed — scroll box panel (shared across main .ca/.com hubs) -->
+<style id="lygo-feed-panel-css">
+.lygo-feed-panel {
+  width: 100%;
+  max-width: 1120px;
+  margin: 1.5rem auto 2rem;
+  padding: 1.1rem 1.15rem 1.25rem;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: rgba(8, 10, 18, 0.92);
+  color: #e9ecff;
+  font-family: system-ui, Segoe UI, Inter, sans-serif;
+}
+.lygo-feed-panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d4af37;
+}
+.lygo-feed-panel .feed-meta {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #9a9ab0;
+}
+.lygo-feed-panel .feed-meta a { color: #00e0f0; }
+.lygo-feed-panel .feed-wrap {
+  overflow: auto;
+  max-height: min(42vh, 420px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.28);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar { width: 10px; height: 10px; }
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 204, 0, 0.35);
+  border-radius: 8px;
+}
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+.lygo-feed-panel .feed-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.lygo-feed-panel .feed-table th {
+  color: #d4af37;
+  text-align: left;
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #0c0c16;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.lygo-feed-panel .feed-table td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: top;
+}
+.lygo-feed-panel .feed-badge {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.lygo-feed-panel .feed-accept { color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.45); }
+.lygo-feed-panel .feed-reject { color: #e94560; border: 1px solid rgba(233, 69, 96, 0.45); }
+.lygo-feed-panel .feed-pending { color: #ffcc00; border: 1px solid rgba(255, 204, 0, 0.4); }
+.lygo-feed-panel .feed-muted { color: #9a9ab0; font-size: 0.65rem; }
+.lygo-feed-panel .feed-hash { color: #00ff88; font-size: 0.65rem; }
+.lygo-feed-panel .feed-err { color: #e94560; font-size: 0.62rem; margin-top: 0.2rem; }
+.lygo-feed-panel .feed-empty { color: #9a9ab0; text-align: center; padding: 1rem; }
+.lygo-feed-panel .feed-row-superseded { opacity: 0.55; }
+.lygo-feed-panel .feed-badge.feed-superseded { opacity: 0.85; font-size: 0.58rem; }
+@media (max-width: 640px) {
+  .lygo-feed-panel { margin: 1rem 0.75rem 1.5rem; padding: 0.9rem; }
+  .lygo-feed-panel .feed-wrap { max-height: min(48vh, 360px); }
+}
+</style>
+<section class="lygo-feed-panel" id="lattice-feed" aria-label="Immutable lattice feed">
+  <h2>Immutable lattice feed</h2>
+  <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions (ACCEPTED / REJECTED / PENDING). Scroll inside the box.</p>
+  <div class="feed-wrap">
+    <table class="feed-table">
+      <thead>
+        <tr>
+          <th>When</th>
+          <th>Agent / skill</th>
+          <th>Node</th>
+          <th>Status</th>
+          <th>Hash</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="feedBody">
+        <tr><td colspan="6" class="feed-empty">Loading feed…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="feed-meta" style="margin:0.75rem 0 0">
+    Full JSON:
+    <a href="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.json" target="_blank" rel="noopener">haven_star_chart_feed.json</a>
+    · Chart:
+    <a href="https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html" target="_blank" rel="noopener">Haven Star Chart</a>
+    · Ledger is never rewritten.
+  </p>
+</section>
+<script src="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.js?v=20260729scroll"></script>
+
+<!-- /LYGO_LATTICE_FEED_PANEL -->
 </body>
 </html>

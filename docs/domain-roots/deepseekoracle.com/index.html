@@ -1461,5 +1461,122 @@
 
         });
     </script>
+<!-- LYGO_LATTICE_FEED_PANEL -->
+<!-- LYGO immutable lattice feed — scroll box panel (shared across main .ca/.com hubs) -->
+<style id="lygo-feed-panel-css">
+.lygo-feed-panel {
+  width: 100%;
+  max-width: 1120px;
+  margin: 1.5rem auto 2rem;
+  padding: 1.1rem 1.15rem 1.25rem;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: rgba(8, 10, 18, 0.92);
+  color: #e9ecff;
+  font-family: system-ui, Segoe UI, Inter, sans-serif;
+}
+.lygo-feed-panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d4af37;
+}
+.lygo-feed-panel .feed-meta {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #9a9ab0;
+}
+.lygo-feed-panel .feed-meta a { color: #00e0f0; }
+.lygo-feed-panel .feed-wrap {
+  overflow: auto;
+  max-height: min(42vh, 420px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.28);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar { width: 10px; height: 10px; }
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 204, 0, 0.35);
+  border-radius: 8px;
+}
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+.lygo-feed-panel .feed-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.lygo-feed-panel .feed-table th {
+  color: #d4af37;
+  text-align: left;
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #0c0c16;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.lygo-feed-panel .feed-table td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: top;
+}
+.lygo-feed-panel .feed-badge {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.lygo-feed-panel .feed-accept { color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.45); }
+.lygo-feed-panel .feed-reject { color: #e94560; border: 1px solid rgba(233, 69, 96, 0.45); }
+.lygo-feed-panel .feed-pending { color: #ffcc00; border: 1px solid rgba(255, 204, 0, 0.4); }
+.lygo-feed-panel .feed-muted { color: #9a9ab0; font-size: 0.65rem; }
+.lygo-feed-panel .feed-hash { color: #00ff88; font-size: 0.65rem; }
+.lygo-feed-panel .feed-err { color: #e94560; font-size: 0.62rem; margin-top: 0.2rem; }
+.lygo-feed-panel .feed-empty { color: #9a9ab0; text-align: center; padding: 1rem; }
+.lygo-feed-panel .feed-row-superseded { opacity: 0.55; }
+.lygo-feed-panel .feed-badge.feed-superseded { opacity: 0.85; font-size: 0.58rem; }
+@media (max-width: 640px) {
+  .lygo-feed-panel { margin: 1rem 0.75rem 1.5rem; padding: 0.9rem; }
+  .lygo-feed-panel .feed-wrap { max-height: min(48vh, 360px); }
+}
+</style>
+<section class="lygo-feed-panel" id="lattice-feed" aria-label="Immutable lattice feed">
+  <h2>Immutable lattice feed</h2>
+  <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions (ACCEPTED / REJECTED / PENDING). Scroll inside the box.</p>
+  <div class="feed-wrap">
+    <table class="feed-table">
+      <thead>
+        <tr>
+          <th>When</th>
+          <th>Agent / skill</th>
+          <th>Node</th>
+          <th>Status</th>
+          <th>Hash</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="feedBody">
+        <tr><td colspan="6" class="feed-empty">Loading feed…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="feed-meta" style="margin:0.75rem 0 0">
+    Full JSON:
+    <a href="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.json" target="_blank" rel="noopener">haven_star_chart_feed.json</a>
+    · Chart:
+    <a href="https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html" target="_blank" rel="noopener">Haven Star Chart</a>
+    · Ledger is never rewritten.
+  </p>
+</section>
+<script src="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.js?v=20260729scroll"></script>
+
+<!-- /LYGO_LATTICE_FEED_PANEL -->
 </body>
 </html>

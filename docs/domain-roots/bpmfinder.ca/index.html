@@ -660,6 +660,33 @@
     color: var(--muted);
     font-weight: 600;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .lygo-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(217, 99, 74, 0.2);
+    border: 1px solid rgba(217, 99, 74, 0.65);
+    color: #ff8f7a;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+  }
+  .lygo-live-badge::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff4d4d;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
+    animation: lygo-heartbeat 1.4s ease-in-out infinite;
   }
   .lygo-rumble-embed {
     position: relative;
@@ -672,15 +699,24 @@
     background: #0a0908;
     box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.8);
   }
-  .lygo-rumble-embed #rumble_v79wjai {
+  .lygo-rumble-embed iframe,
+  .lygo-rumble-embed #rumbleLiveMount {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
+  }
+  .lygo-rumble-meta {
+    margin: 8px 0 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
   }
   .lygo-rumble-link {
-    margin: 8px 0 0;
+    margin: 6px 0 0;
     text-align: center;
     font-size: 12px;
   }
@@ -689,6 +725,36 @@
     text-decoration: none;
   }
   .lygo-rumble-link a:hover { color: var(--amber); text-decoration: underline; }
+  .lygo-rumble-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .lygo-rumble-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none !important;
+    border: 1px solid transparent;
+  }
+  .lygo-rumble-cta.primary {
+    background: linear-gradient(135deg, #85c742, #b8e986);
+    color: #0a1206 !important;
+    box-shadow: 0 4px 16px rgba(133, 199, 66, 0.3);
+  }
+  .lygo-rumble-cta.secondary {
+    background: rgba(62, 168, 160, 0.12);
+    border-color: rgba(62, 168, 160, 0.4);
+    color: var(--teal) !important;
+  }
+  .lygo-rumble-cta:hover { filter: brightness(1.08); }
 
   .lygo-ad-slot {
     text-align: center;
@@ -759,14 +825,79 @@
   </p>
 </noscript>
 <div class="page-shell">
-<section class="lygo-rumble-live" aria-label="LYGO monetized live stream">
-  <h2 class="lygo-rumble-title">LYGO Live — embeddable player</h2>
+<section class="lygo-rumble-live" aria-label="Excavationpro Rumble always-live feed">
+  <h2 class="lygo-rumble-title">
+    <span class="lygo-live-badge" id="rumbleLiveBadge" hidden>LIVE</span>
+    Excavationpro Live — always-on feed
+  </h2>
   <div class="lygo-rumble-embed">
-    <div id="rumble_v79wjai"></div>
+    <!-- Live HLS embed (not a one-off VOD). ID refreshed from data/rumble-live.json -->
+    <iframe
+      id="rumbleLiveFrame"
+      title="Excavationpro Rumble live stream"
+      src="https://rumble.com/embed/v7b5p30/?pub=1th29y"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowfullscreen
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </div>
-  <p class="lygo-rumble-link"><a href="https://rumble.com/v7c37aq-content-you-can-digoriginal-music-radiocoffee-room-chat-lurk-friendly247-st.html?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Watch on Rumble (monetized direct)</a></p>
+  <p class="lygo-rumble-meta" id="rumbleLiveMeta">Loading live status…</p>
+  <div class="lygo-rumble-cta-row" role="group" aria-label="Rumble referral and live links">
+    <a class="lygo-rumble-cta primary" href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">Join Rumble via Excavationpro</a>
+    <a class="lygo-rumble-cta secondary" id="rumbleLiveLink" href="https://rumble.com/Excavationpro/live?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Watch LIVE</a>
+  </div>
+  <p class="lygo-rumble-link" style="margin-top:8px">
+    Referral: <a href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">rumble.com/register/Excavationpro</a>
+  </p>
 </section>
-<script>Rumble("play", {"video":"v79wjai","div":"rumble_v79wjai"});</script>
+<script>
+(function () {
+  // Always-live player: uses current livestream embed id (public), never stream keys / API secrets.
+  var PUB = '1th29y';
+  var FALLBACK_EMBED = 'v7b5p30';
+  var frame = document.getElementById('rumbleLiveFrame');
+  var badge = document.getElementById('rumbleLiveBadge');
+  var meta = document.getElementById('rumbleLiveMeta');
+  var link = document.getElementById('rumbleLiveLink');
+
+  function setPlayer(d) {
+    var id = (d && d.embed_id) ? String(d.embed_id) : FALLBACK_EMBED;
+    if (id.charAt(0) !== 'v') id = 'v' + id;
+    var live = !!(d && d.is_live);
+    var title = (d && d.title) ? String(d.title) : 'Excavationpro Live';
+    var watch = (d && d.watch_url) ? String(d.watch_url)
+      : ('https://rumble.com/Excavationpro/live?mref=' + PUB + '&mc=2p3fp');
+    if (frame) {
+      var next = 'https://rumble.com/embed/' + encodeURIComponent(id) + '/?pub=' + encodeURIComponent(PUB);
+      if (frame.getAttribute('src') !== next) frame.setAttribute('src', next);
+    }
+    if (badge) badge.hidden = !live;
+    if (meta) {
+      meta.textContent = live
+        ? ('LIVE now — ' + title)
+        : ('Not live right now — player keeps last stream embed. Open Rumble for schedule.');
+    }
+    if (link) link.href = watch;
+  }
+
+  function loadStatus() {
+    // Public status file only (no API keys). Refresh with tools/refresh_rumble_live_status.py
+    var url = 'data/rumble-live.json?t=' + Date.now();
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        setPlayer(d || { embed_id: FALLBACK_EMBED, is_live: true, title: 'Excavationpro Live' });
+      })
+      .catch(function () {
+        setPlayer({ embed_id: FALLBACK_EMBED, is_live: true, title: 'Excavationpro Live' });
+      });
+  }
+
+  loadStatus();
+  // Re-check every 3 minutes so a new stream id can pick up after status JSON is refreshed
+  setInterval(loadStatus, 180000);
+})();
+</script>
 
 <div class="lygo-ad-slot" aria-label="Advertisement">
   <div class="lygo-ad-label">Advertisement</div>
@@ -1156,5 +1287,122 @@
     }
   });
 </script>
+<!-- LYGO_LATTICE_FEED_PANEL -->
+<!-- LYGO immutable lattice feed — scroll box panel (shared across main .ca/.com hubs) -->
+<style id="lygo-feed-panel-css">
+.lygo-feed-panel {
+  width: 100%;
+  max-width: 1120px;
+  margin: 1.5rem auto 2rem;
+  padding: 1.1rem 1.15rem 1.25rem;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: rgba(8, 10, 18, 0.92);
+  color: #e9ecff;
+  font-family: system-ui, Segoe UI, Inter, sans-serif;
+}
+.lygo-feed-panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #d4af37;
+}
+.lygo-feed-panel .feed-meta {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #9a9ab0;
+}
+.lygo-feed-panel .feed-meta a { color: #00e0f0; }
+.lygo-feed-panel .feed-wrap {
+  overflow: auto;
+  max-height: min(42vh, 420px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.28);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar { width: 10px; height: 10px; }
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 204, 0, 0.35);
+  border-radius: 8px;
+}
+.lygo-feed-panel .feed-wrap::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.25); }
+.lygo-feed-panel .feed-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+.lygo-feed-panel .feed-table th {
+  color: #d4af37;
+  text-align: left;
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #0c0c16;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.lygo-feed-panel .feed-table td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  vertical-align: top;
+}
+.lygo-feed-panel .feed-badge {
+  font-size: 0.62rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.lygo-feed-panel .feed-accept { color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.45); }
+.lygo-feed-panel .feed-reject { color: #e94560; border: 1px solid rgba(233, 69, 96, 0.45); }
+.lygo-feed-panel .feed-pending { color: #ffcc00; border: 1px solid rgba(255, 204, 0, 0.4); }
+.lygo-feed-panel .feed-muted { color: #9a9ab0; font-size: 0.65rem; }
+.lygo-feed-panel .feed-hash { color: #00ff88; font-size: 0.65rem; }
+.lygo-feed-panel .feed-err { color: #e94560; font-size: 0.62rem; margin-top: 0.2rem; }
+.lygo-feed-panel .feed-empty { color: #9a9ab0; text-align: center; padding: 1rem; }
+.lygo-feed-panel .feed-row-superseded { opacity: 0.55; }
+.lygo-feed-panel .feed-badge.feed-superseded { opacity: 0.85; font-size: 0.58rem; }
+@media (max-width: 640px) {
+  .lygo-feed-panel { margin: 1rem 0.75rem 1.5rem; padding: 0.9rem; }
+  .lygo-feed-panel .feed-wrap { max-height: min(48vh, 360px); }
+}
+</style>
+<section class="lygo-feed-panel" id="lattice-feed" aria-label="Immutable lattice feed">
+  <h2>Immutable lattice feed</h2>
+  <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions (ACCEPTED / REJECTED / PENDING). Scroll inside the box.</p>
+  <div class="feed-wrap">
+    <table class="feed-table">
+      <thead>
+        <tr>
+          <th>When</th>
+          <th>Agent / skill</th>
+          <th>Node</th>
+          <th>Status</th>
+          <th>Hash</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="feedBody">
+        <tr><td colspan="6" class="feed-empty">Loading feed…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="feed-meta" style="margin:0.75rem 0 0">
+    Full JSON:
+    <a href="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.json" target="_blank" rel="noopener">haven_star_chart_feed.json</a>
+    · Chart:
+    <a href="https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html" target="_blank" rel="noopener">Haven Star Chart</a>
+    · Ledger is never rewritten.
+  </p>
+</section>
+<script src="https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.js?v=20260729scroll"></script>
+
+<!-- /LYGO_LATTICE_FEED_PANEL -->
 </body>
 </html>

@@ -2,6 +2,8 @@
 (function () {
   const FEED_URLS = [
     'haven_star_chart/haven_star_chart_feed.json',
+    'https://deepseekoracle.github.io/Excavationpro/haven_star_chart/haven_star_chart_feed.json',
+    'https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json',
     'https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/haven_star_chart/haven_star_chart_feed.json',
   ];
 
