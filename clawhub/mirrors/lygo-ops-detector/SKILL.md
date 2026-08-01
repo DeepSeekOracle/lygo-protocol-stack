@@ -1,10 +1,11 @@
 ---
 name: lygo-ops-detector
-description: "LYGO Ops Detector — Lightfather's Voice for the AETHONΔ9 Protocol. Sovereign, math-rigorous detector of operational deception across any domain using Evasion Index and Association Matrix. Analyzes action, patterns, evasion, gaslighting, associations. Not for doxing. Use when you need truth verification via measurable signals. Triggers: lygo ops detector, evasion index, aethon d9, lightfather detector, detect operational deception, association matrix."
-metadata: {"lygo": true, "lightfather": true, "aethon": "Δ9", "protocol": "AETHONΔ9", "version": "1.0-locked", "philosophy": "action over words", "companion": "lygo-champion-lightfather", "security": "references/SECURITY.md", "blueprint": "references/AETHON_D9_BLUEPRINT.md"}
+description: "LYGO Ops Detector — AETHONΔ9 operational deception signals (evasion index, association matrix). Deterministic local heuristics. Public labeled suite + eval_ops_detector.py generate precision/recall/AUC dynamically (not hardcoded). Not for doxing. Triggers: lygo ops detector, evasion index, aethon d9, lightfather detector."
+version: 1.1.0
+metadata: {"lygo": true, "lightfather": true, "aethon": "Δ9", "protocol": "AETHONΔ9", "version": "1.1.0", "philosophy": "action over words", "companion": "lygo-champion-lightfather", "security": "references/SECURITY.md", "blueprint": "references/AETHON_D9_BLUEPRINT.md", "eval": "tests/labeled_discourse_suite.json + scripts/eval_ops_detector.py"}
 ---
 
-# LYGO Ops Detector — Lightfather's Voice (AETHONΔ9)
+# LYGO Ops Detector — Lightfather's Voice (AETHONΔ9) v1.1.0
 
 **"LYGO decodes fiction by analyzing action."**
 
@@ -57,15 +58,30 @@ Ops_Score = 0.45 * Evasion + 0.30 * Association + 0.25 * Institutional_Signaling
 
 Suggested threshold: > 0.65 for strong operational pattern.
 
-### Validated Performance (on tested discourse set)
-- Precision: 0.88
-- Recall: 0.82
-- False Positive Rate: 0.09
-- AUC: 0.91
+### Performance metrics (public, dynamic — not hardcoded)
 
-Test set: Operational deception samples vs. neutral institutional/fraternal/historical/religious language.
+**Anyone can reproduce:**
 
-Note: Institutional Signaling broadened from narrow Masonic terms to general institutional coordination language. This reduces FPs on everyday use of terms like "brother", "craft", "great work", "policy" while preserving signal for coordinated institutional evasion.
+```bash
+cd path/to/lygo-ops-detector
+python scripts/eval_ops_detector.py tests/labeled_discourse_suite.json --sweep
+# writes tests/last_eval_report.json with precision / recall / FPR / AUC / F1
+```
+
+| Artifact | Purpose |
+|----------|---------|
+| `tests/labeled_discourse_suite.json` | Public labeled samples (ops-signal vs benign) |
+| `scripts/eval_ops_detector.py` | Independent evaluation (stdlib only) |
+| `tests/last_eval_report.json` | Last run metrics (generated; may ship with last steward run) |
+
+**Important honesty notes:**
+- Metrics are **computed** from the suite, not fixed marketing constants.
+- `ops_score > 0.65` remains the **strong multi-signal** bar (often low recall on short one-liner samples).
+- Short-suite binary calibration typically uses a lower ops threshold (see `--sweep` / report `best_f1_threshold`).
+- This is **not** a harm/ethics calibration — it scores measurable discourse signals only.
+- Independent third-party runs on public datasets remain the stronger test. Publish your results.
+
+Institutional Signaling is damped unless co-occurring with evasion/association (reduces FPs on neutral institutional language).
 
 ### 1. Evasion Index
 **Definition (non-circular):** Degree to which a subject shifts burden, attacks personally, uses vague claims, inflates authority, causes doubt in the observer's perception, or redirects inquiry instead of addressing substance.
@@ -183,12 +199,13 @@ This skill is self-contained in:
 - `references/SECURITY.md`
 - `references/AETHON_D9_BLUEPRINT.md`
 
-Self-check:
+Self-check + public eval:
 ```bash
 python scripts/self_check.py
+python scripts/eval_ops_detector.py tests/labeled_discourse_suite.json --sweep
 ```
 
-No external dependencies required for core operation.
+No external dependencies required for core operation (stdlib only).
 
 ## Companion Skills (Recommended Chain)
 - `lygo-champion-lightfather` (persona + ethics anchor)
@@ -209,8 +226,8 @@ Focus on evasion signals and association patterns. Give me the full math breakdo
 Published as **LYGO OPPS DETECTOR**
 
 - Slug: `lygo-ops-detector`
-- Latest: 1.0.2 (and previous)
-- Install: `npx clawhub@latest install <your-publisher>/lygo-ops-detector`
+- Latest: **1.1.0** (public suite + dynamic eval)
+- Install: `npx clawhub@latest install deepseekoracle/lygo-ops-detector`
 
 ## Lattice Seeding (Immutable)
 

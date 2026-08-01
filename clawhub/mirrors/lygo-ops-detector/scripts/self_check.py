@@ -14,6 +14,8 @@ REQ_FILES = [
     ROOT / "references" / "SECURITY.md",
     ROOT / "references" / "AETHON_D9_BLUEPRINT.md",
     ROOT / "scripts" / "lygo_ops_detector.py",
+    ROOT / "scripts" / "eval_ops_detector.py",
+    ROOT / "tests" / "labeled_discourse_suite.json",
 ]
 
 missing = [str(p.relative_to(ROOT)) for p in REQ_FILES if not p.exists()]
@@ -53,9 +55,26 @@ if "GASLIGHTING" not in report.evasion_verdict.upper() and report.evasion_index 
     # Not strict, but expect elevated
     pass
 
+# Smoke eval path exists and can score the suite (dynamic metrics)
+suite = ROOT / "tests" / "labeled_discourse_suite.json"
+samples = json.loads(suite.read_text(encoding="utf-8")).get("samples") or []
+if len(samples) < 10:
+    print("SUITE_TOO_SMALL")
+    sys.exit(5)
+# one deceptive + one benign
+d0 = next(s for s in samples if s.get("label") == 1)
+b0 = next(s for s in samples if s.get("label") == 0)
+rd = det.analyze(d0["text"])
+rb = det.analyze(b0["text"])
+if rd.ops_score < rb.ops_score and rd.evasion_index <= rb.evasion_index:
+    print("RANK_FAIL: deceptive sample not ranked above benign")
+    sys.exit(6)
+
 print("OK")
 print("EVASION", report.evasion_index)
 print("ASSOC", report.association_index)
 print("RISK", report.combined_risk)
 print("VERDICT", report.overall_verdict)
 print("LIGHTFATHER", report.lightfather_note)
+print("SUITE_SAMPLES", len(samples))
+print("METRICS_SOURCE", det.PERFORMANCE_METRICS.get("source"))

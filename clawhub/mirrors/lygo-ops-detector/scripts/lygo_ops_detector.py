@@ -102,15 +102,48 @@ OPS_SCORE_WEIGHTS = {
     "institutional_signaling": 0.25,
 }
 
-# Performance metrics on validated discourse set (as reported)
-PERFORMANCE_METRICS = {
-    "precision": 0.88,
-    "recall": 0.82,
-    "false_positive_rate": 0.09,
-    "auc": 0.91,
-    "test_set": "Operational deception samples vs. neutral institutional/fraternal/historical/religious language",
-    "note": "Institutional Signaling category broadened from narrow Masonic terms to general institutional coordination language. This reduces FPs on everyday use of terms like 'brother', 'craft', 'great work', 'policy' while preserving signal for coordinated institutional evasion."
-}
+def load_performance_metrics() -> Dict[str, Any]:
+    """Load last *dynamic* eval if present; never invent fixed marketing numbers."""
+    report_path = Path(__file__).resolve().parents[1] / "tests" / "last_eval_report.json"
+    base: Dict[str, Any] = {
+        "precision": None,
+        "recall": None,
+        "false_positive_rate": None,
+        "auc": None,
+        "f1": None,
+        "suite": "tests/labeled_discourse_suite.json",
+        "how_to_generate": "python scripts/eval_ops_detector.py tests/labeled_discourse_suite.json --sweep",
+        "test_set": "Public labeled discourse suite (ops-signal vs benign)",
+        "note": (
+            "Metrics are produced only by running eval_ops_detector.py on the public suite. "
+            "They are not hardcoded. Re-run after pattern changes. "
+            "Not a harm/ethics calibration — signal-presence on short discourse samples."
+        ),
+    }
+    if report_path.is_file():
+        try:
+            rep = json.loads(report_path.read_text(encoding="utf-8"))
+            base.update(
+                {
+                    "precision": rep.get("precision"),
+                    "recall": rep.get("recall"),
+                    "false_positive_rate": rep.get("false_positive_rate"),
+                    "auc": rep.get("auc"),
+                    "f1": rep.get("f1"),
+                    "threshold_ops_score": rep.get("threshold_ops_score"),
+                    "suite_size": rep.get("suite_size"),
+                    "last_eval_report": str(report_path.name),
+                    "source": "tests/last_eval_report.json (dynamic)",
+                }
+            )
+        except (OSError, json.JSONDecodeError):
+            base["source"] = "eval report unreadable — re-run eval"
+    else:
+        base["source"] = "no last_eval_report.json yet — run eval_ops_detector.py"
+    return base
+
+
+PERFORMANCE_METRICS = load_performance_metrics()
 
 # ------------------------------------------------------------------
 # EXTENDED SIGNAL DICTIONARIES (explicit, auditable, non-circular)
@@ -120,10 +153,12 @@ PERFORMANCE_METRICS = {
 EVASION_PATTERNS: Dict[str, List[str]] = {
     "burden_shifting": [
         r"\b(it'?s on (you|me|them|the reader))\b",
+        r"\b(it'?s (not )?(on (you|me|them|the reader)) to (prove|show|demonstrate))\b",
         r"\b(it'?s (on you|your responsibility|up to you) to (prove|show))\b",
         r"\bdo your own (research|homework|digging)\b",
         r"\bthe burden (of proof|is on you)\b",
         r"\bfigure it out yourself\b",
+        r"\b(prove it isn'?t|prove it'?s not|prove me wrong)\b",
     ],
     "ad_hominem_density": [
         r"\b(idiot|moron|troll|shill|liar|fraud|stupid|ignorant|clown|hack|paid)\b",
@@ -140,6 +175,8 @@ EVASION_PATTERNS: Dict[str, List[str]] = {
         r"\bmy (credentials|background|expertise|clearance|years in)\b",
         r"\btrust me,? (i'?m|as) (a|an)\b",
         r"\b(former (intelligence|agency|official|insider))\b",
+        r"\b(authority is truth|trust (me|us|our (word|version))|i know what'?s best)\b",
+        r"\b(the authority (verifies|validates) (its|their) own)\b",
     ],
     "gaslighting": [
         r"\b(you'?re (overreacting|imagining|paranoid|crazy|misremembering|too sensitive|making this up))\b",
@@ -147,11 +184,14 @@ EVASION_PATTERNS: Dict[str, List[str]] = {
         r"\b(you'?re making (it|things|this) up)\b",
         r"\b(your (perception|memory|understanding|mind) is (flawed|wrong|distorted|playing tricks))\b",
         r"\b(you (must be|are) (imagining|overreacting))\b",
+        r"\b(the past (was never real|never happened)|corrected history|trust our (version|corrected))\b",
+        r"\b(stop being paranoid|you'?re being (paranoid|delusional))\b",
     ],
     "deflection": [
         r"\b(what about|but (what|they|you|the other side) (did|said|are|happened))\b",
         r"\b(let'?s (focus|talk) about (the real|instead|the other))\b",
         r"\b(you should be looking at|the real issue is|why are you focusing on)\b",
+        r"\b(what about the other side)\b",
     ],
 }
 
@@ -294,11 +334,17 @@ class OpsReport:
             f"  Ops_Score = 0.45*Evasion + 0.30*Association + 0.25*Institutional_Signaling",
             f"  Ops Score: {self.ops_score:.3f}   (suggested threshold >0.65 for strong pattern)",
             "",
-            "VALIDATED PERFORMANCE METRICS (on tested discourse set)",
-            f"  Precision: {PERFORMANCE_METRICS['precision']:.2f}   Recall: {PERFORMANCE_METRICS['recall']:.2f}",
-            f"  False Positive Rate: {PERFORMANCE_METRICS['false_positive_rate']:.2f}   AUC: {PERFORMANCE_METRICS['auc']:.2f}",
-            f"  Test set: {PERFORMANCE_METRICS['test_set']}",
-            f"  Note: {PERFORMANCE_METRICS['note']}",
+            "PERFORMANCE METRICS (dynamic public suite — not hardcoded claims)",
+            (
+                f"  Precision: {PERFORMANCE_METRICS.get('precision')}   "
+                f"Recall: {PERFORMANCE_METRICS.get('recall')}   "
+                f"FPR: {PERFORMANCE_METRICS.get('false_positive_rate')}   "
+                f"AUC: {PERFORMANCE_METRICS.get('auc')}"
+            ),
+            f"  Source: {PERFORMANCE_METRICS.get('source')}",
+            f"  Suite: {PERFORMANCE_METRICS.get('suite')}  size={PERFORMANCE_METRICS.get('suite_size')}",
+            f"  Generate: {PERFORMANCE_METRICS.get('how_to_generate')}",
+            f"  Note: {PERFORMANCE_METRICS.get('note')}",
             "",
             "COMBINED RISK",
             f"  Risk: {self.combined_risk:.3f}",

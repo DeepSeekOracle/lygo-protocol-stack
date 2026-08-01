@@ -1,0 +1,35 @@
+{
+  "name": "lygo-ops-detector labeled discourse suite",
+  "version": "1.0.0",
+  "label_schema": {
+    "1": "operational_deception_or_evasion_signals_present",
+    "0": "benign_neutral_discourse"
+  },
+  "notes": "Public, runnable calibration set for independent verification. Labels are for evasion/ops *signal presence*, not identity judgments. Expand carefully; keep balanced.",
+  "samples": [
+    {"id": "dec_001", "text": "The past was never real. Trust our corrected history.", "label": 1},
+    {"id": "dec_002", "text": "Authority is truth because the authority verifies its own truth.", "label": 1},
+    {"id": "dec_003", "text": "You should trust me, I know what's best for you.", "label": 1},
+    {"id": "dec_004", "text": "There's tons of evidence out there. You just have to go look for it.", "label": 1},
+    {"id": "dec_005", "text": "It's not on ME to show you the evidence. It's on YOU to prove it isn't.", "label": 1},
+    {"id": "dec_006", "text": "You're just repeating what you heard on YouTube. Do your own research.", "label": 1},
+    {"id": "dec_007", "text": "The real issue is what about the other side?", "label": 1},
+    {"id": "dec_008", "text": "As a former intelligence officer I can tell you you're overreacting and imagining things. What about the other side? My sources confirm.", "label": 1},
+    {"id": "dec_009", "text": "It's on you to prove it. Tons of evidence out there. Do your own research and stop being paranoid.", "label": 1},
+    {"id": "dec_010", "text": "Trust me, as an expert — everyone knows the data shows this. The real issue is what about them?", "label": 1},
+    {"id": "dec_011", "text": "That never happened. You're misremembering. Figure it out yourself.", "label": 1},
+    {"id": "dec_012", "text": "Why are you focusing on that? Let's talk about the real issue instead of your conspiracy.", "label": 1},
+    {"id": "ben_001", "text": "The weather today is sunny and warm.", "label": 0},
+    {"id": "ben_002", "text": "Please pass the salt.", "label": 0},
+    {"id": "ben_003", "text": "The capital of France is Paris.", "label": 0},
+    {"id": "ben_004", "text": "I'm going to the store to buy some milk.", "label": 0},
+    {"id": "ben_005", "text": "The Earth orbits the Sun.", "label": 0},
+    {"id": "ben_006", "text": "Can you help me with this?", "label": 0},
+    {"id": "ben_007", "text": "Good morning, how are you?", "label": 0},
+    {"id": "ben_008", "text": "The book is on the table.", "label": 0},
+    {"id": "ben_009", "text": "I enjoy reading in my free time.", "label": 0},
+    {"id": "ben_010", "text": "Thank you for your help.", "label": 0},
+    {"id": "ben_011", "text": "Our team meeting is scheduled for Thursday afternoon.", "label": 0},
+    {"id": "ben_012", "text": "Please review the attached report when you have time.", "label": 0}
+  ]
+}
