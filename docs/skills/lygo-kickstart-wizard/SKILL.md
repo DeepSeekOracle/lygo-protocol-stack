@@ -110,12 +110,12 @@ python scripts/kickstart_cli.py next
 
 ## Roadmap (ecosystem)
 
-See `references/ROADMAP.md`:
+See `references/ROADMAP.md` — **all four shipped**:
 
-1. **Now** — this Kickstart wizard  
-2. **1–2 weeks** — `lygo-deception-radar` (public proof dashboard)  
-3. **1–2 weeks** — `lygo-mint-walkthrough` (full interactive mint tutorial)  
-4. **1–2 months** — `lygo-cli-bridge` (`lygo verify|mint|analyze|health`)
+1. ✅ `lygo-kickstart-wizard` — UX bridge  
+2. ✅ `lygo-deception-radar` — public proof dashboard  
+3. ✅ `lygo-mint-walkthrough` — interactive mint tutorial  
+4. ✅ `lygo-cli-bridge` — `lygo health|map|analyze|mint|radar`
 
 ---
 
@@ -125,6 +125,9 @@ See `references/ROADMAP.md`:
 |-------|------|
 | `lygo-ops-detector` | Discourse signal math |
 | `lygo-mint-verifier` | Pack hash + anchor snippet |
+| `lygo-mint-walkthrough` | Interactive mint tutorial |
+| `lygo-deception-radar` | Public proof feed |
+| `lygo-cli-bridge` | Unified CLI entrypoint |
 | `lygo-public-lattice-gate` | Deeper join / verify |
 | `lygo-champion-council` | Advisory personas |
 | Haven Star Chart | Visual lattice map |

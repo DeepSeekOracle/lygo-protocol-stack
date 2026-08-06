@@ -5,9 +5,9 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 69,
-  "count_mirrored": 70,
-  "updated_utc": "2026-08-06T03:45:56.402698+00:00",
+  "count_published": 73,
+  "count_mirrored": 73,
+  "updated_utc": "2026-08-06T04:13:58.858228+00:00",
   "skills": [
     {
       "slug": "lygo-kickstart-wizard",
@@ -708,6 +708,36 @@
       "published": true,
       "downloads": 1355,
       "version": "0.0.0"
+    },
+    {
+      "slug": "lygo-deception-radar",
+      "name": "LYGO Deception Radar",
+      "summary": "Public proof dashboard for Ops Detector on labeled discourse samples. Anonymized bands; operational threshold 0.65. Not for doxing.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-deception-radar",
+      "mirror": "mirrors/lygo-deception-radar",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-mint-walkthrough",
+      "name": "LYGO Mint Walkthrough",
+      "summary": "Interactive mint\u2192verify\u2192anchor tutorial. Local SHA-256 ledgers. Plain English. No auto-post.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-mint-walkthrough",
+      "mirror": "mirrors/lygo-mint-walkthrough",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-cli-bridge",
+      "name": "LYGO CLI Bridge",
+      "summary": "Unified entrypoint: lygo health|map|analyze|mint|radar. Local-first companions. No subprocess, no auto-publish.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-cli-bridge",
+      "mirror": "mirrors/lygo-cli-bridge",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
     }
   ]
 }

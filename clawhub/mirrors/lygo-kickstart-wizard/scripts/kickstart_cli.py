@@ -212,8 +212,8 @@ def cmd_map() -> dict[str, Any]:
             "infrastructure": "Protocol stack operator — full engineer audits",
         },
         "gap_note": (
-            "This Kickstart wizard is the UX bridge: plain English routing. "
-            "Next: deception radar dashboard, mint walkthrough skill, unified CLI bridge."
+            "Kickstart is the UX bridge. Shipped companions: "
+            "lygo-deception-radar (proof), lygo-mint-walkthrough (tutorial), lygo-cli-bridge (unified CLI)."
         ),
     }
 
@@ -403,31 +403,31 @@ def cmd_next() -> dict[str, Any]:
             {
                 "when": "now",
                 "slug": "lygo-kickstart-wizard",
-                "status": "this skill",
+                "status": "shipped",
                 "goal": "UX bridge: route users to mint / ops / lattice in plain English",
             },
             {
-                "when": "1–2 weeks",
+                "when": "shipped",
                 "slug": "lygo-deception-radar",
-                "status": "planned",
+                "status": "shipped v1.0.0",
                 "goal": "Public dashboard of anonymized Ops Detector signals on public samples only",
             },
             {
-                "when": "1–2 weeks",
+                "when": "shipped",
                 "slug": "lygo-mint-walkthrough",
-                "status": "planned (mint intent here is the seed)",
+                "status": "shipped v1.0.0",
                 "goal": "Interactive end-to-end mint-verify-anchor tutorial skill",
             },
             {
-                "when": "1–2 months",
+                "when": "shipped",
                 "slug": "lygo-cli-bridge",
-                "status": "planned",
-                "goal": "Single CLI: lygo verify | mint | health | analyze",
+                "status": "shipped v1.0.0",
+                "goal": "Single CLI: lygo health | map | analyze | mint | radar",
             },
         ],
         "plain_english": (
-            "Kickstart closes the onboarding gap. Radar proves value publicly. "
-            "Walkthrough teaches mint end-to-end. CLI unifies power users."
+            "Adoption stack complete: Kickstart (UX) → Radar (proof) → "
+            "Mint walkthrough (tutorial) → CLI bridge (unified entry)."
         ),
     }
 

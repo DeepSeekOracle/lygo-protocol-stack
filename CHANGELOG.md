@@ -15,6 +15,15 @@
 - Full-capacity PS1: dual gate + honest process-spawn warnings; optional one-shots only
 # Changelog — LYGO Protocol Stack
 
+## 2026-08-06 — Adoption stack complete (radar · mint walkthrough · CLI bridge)
+
+- **lygo-deception-radar** v1.0.0 — public Ops Detector proof feed + HTML dashboard under `docs/deception-radar/`
+- **lygo-mint-walkthrough** v1.0.0 — interactive mint → verify → anchor tutorial (stdlib ledger)
+- **lygo-cli-bridge** v1.0.0 — unified `lygo health|map|analyze|mint|radar|next`
+- Kickstart `ROADMAP.md` + `next` intent marked shipped
+- Mirrors: `clawhub/mirrors/{lygo-deception-radar,lygo-mint-walkthrough,lygo-cli-bridge}/` + `docs/skills/`
+- SkillSpector-safe: no subprocess, public samples only for radar, consent-gated writes
+
 ## [lygo-geodesic-sealer 1.0.0] — 2026-08-06
 
 **Signature:** `Delta9Phi963-GEODESIC-SEALER-v1.0.0`
