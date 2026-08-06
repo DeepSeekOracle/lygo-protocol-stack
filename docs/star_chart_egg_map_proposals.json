@@ -1,11 +1,11 @@
 {
   "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
   "created_utc": "2026-07-26T16:00:36Z",
-  "purpose": "Haven Star Chart proposals — steward gate + consent before LIVE ingest",
+  "purpose": "Haven Star Chart proposals \u2014 steward gate + consent before LIVE ingest",
   "chart_live": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
   "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
   "skill_gate": "lygo-haven-star-chart",
-  "count": 27,
+  "count": 28,
   "proposals": [
     {
       "proposal_id": "egg-cls-p0-nano-kernel",
@@ -437,18 +437,6 @@
       }
     },
     {
-      "proposal_id": "surface-clawhub",
-      "kind": "lattice_surface",
-      "layer": "C_external",
-      "label": "ClawHub publisher",
-      "star_role": "skill_registry",
-      "url": "https://clawhub.ai/deepseekoracle",
-      "protection": {
-        "public_verify": true,
-        "user_facing": true
-      }
-    },
-    {
       "proposal_id": "surface-eternalhaven",
       "kind": "lattice_surface",
       "layer": "C_external",
@@ -479,11 +467,26 @@
       "status": "PROPOSAL",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
       "chatagent": "https://chatagent.ca/lygoskillhub.html",
-      "note": "ClawHub skill lattice mirror — dual ledger tools category",
+      "note": "ClawHub skill lattice mirror \u2014 dual ledger tools category",
       "updated_utc": "2026-07-29T17:23:59.292834+00:00"
+    },
+    {
+      "proposal_id": "surface-clawhub-skills-full",
+      "kind": "surface",
+      "layer": "C_world",
+      "label": "ClawHub @deepseekoracle full skill constellation",
+      "star_role": "skill_registry",
+      "url": "https://clawhub.ai/deepseekoracle",
+      "chart_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "skill_count": 63,
+      "node_prefix": "LATTICE_SKILL_",
+      "nebula": "NEBULA_CLAWHUB_SKILLS",
+      "status": "live_in_chart_rebuild",
+      "updated_utc": "2026-08-06T03:45:08.586994+00:00"
     }
   ],
   "sync_note": "Do NOT auto-ingest. Human runs haven star chart gate with --i-consent.",
   "bundle_sha256": "4aa9ed81f84319534e6c93bce6d6de1c1a7808d568511bd6a11daebb51506b0a",
-  "updated_utc": "2026-07-29T17:23:59.292834+00:00"
+  "updated_utc": "2026-08-06T03:45:08.587003+00:00",
+  "clawhub_skills_mapped": 63
 }

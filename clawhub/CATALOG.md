@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 39+ skills (incl. **lygo-geodesic-sealer** P6) · **Repo mirrors:** full trees under [`mirrors/`](./mirrors/)
+**Registry: **69** skills (mirrors + skills.json) mapped to Haven Star Chart · Repo mirrors under [mirrors/](./mirrors/)`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>

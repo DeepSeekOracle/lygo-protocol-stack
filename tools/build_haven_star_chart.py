@@ -271,6 +271,14 @@ PORTALS = [
         "connections": ["SEAL_000", "CHAMPION_LYRA"],
     },
     {
+        "id": "PORTAL_CLAWHUB",
+        "name": "ClawHub @deepseekoracle",
+        "url": "https://clawhub.ai/deepseekoracle",
+        "glyph": "🦞",
+        "tags": ["PORTAL", "CLAWHUB", "SKILL_REGISTRY", "LATTICE"],
+        "connections": ["PORTAL_STACK", "SEAL_000", "LATTICE_CLAWHUB_PUBLISHER"],
+    },
+    {
         "id": "PORTAL_STAR_CHART_AGENT",
         "name": "Haven Star Chart Agent Portal",
         "url": f"{PAGES_BASE}/HavenStarChartPortal.html",
@@ -386,27 +394,122 @@ def normalize_seal(item: dict) -> dict | None:
     }
 
 
-def lattice_nodes() -> list[dict]:
-    nodes: list[dict] = []
+def _collect_clawhub_skills() -> list[dict]:
+    """Full ClawHub skill catalog for star map — skills.json + mirrors (no hard cap)."""
+    by_slug: dict[str, dict] = {}
     skills_path = ROOT / "clawhub" / "skills.json"
     if skills_path.is_file():
-        data = json.loads(skills_path.read_text(encoding="utf-8"))
-        for s in data.get("skills", [])[:40]:
-            slug = s.get("slug", "")
-            nodes.append(
-                {
-                    "id": f"LATTICE_SKILL_{slug}",
-                    "kind": "lattice",
-                    "name": s.get("name", slug),
-                    "glyph": "◈",
-                    "equation": "skill ⊗ lattice",
-                    "tone": "8787Hz",
-                    "tags": ["LATTICE", "CLAWHUB", "GROWTH"],
-                    "connections": ["PORTAL_STACK", "SEAL_000"],
-                    "urls": {"clawhub": s.get("clawhub_url", "")},
-                    "layer": 3,
-                }
-            )
+        try:
+            data = json.loads(skills_path.read_text(encoding="utf-8"))
+            for s in data.get("skills") or []:
+                slug = (s.get("slug") or "").strip()
+                if slug:
+                    by_slug[slug] = s
+        except (json.JSONDecodeError, OSError):
+            pass
+    mirrors = ROOT / "clawhub" / "mirrors"
+    if mirrors.is_dir():
+        for d in sorted(mirrors.iterdir()):
+            if not d.is_dir():
+                continue
+            slug = d.name
+            if slug in by_slug:
+                continue
+            name, version, summary = slug, "0.0.0", ""
+            claw = d / "claw.json"
+            if claw.is_file():
+                try:
+                    cj = json.loads(claw.read_text(encoding="utf-8"))
+                    name = cj.get("displayName") or cj.get("name") or name
+                    version = str(cj.get("version") or version)
+                    summary = (cj.get("description") or "")[:240]
+                except (json.JSONDecodeError, OSError):
+                    pass
+            by_slug[slug] = {
+                "slug": slug,
+                "name": name,
+                "version": version,
+                "summary": summary,
+                "clawhub_url": f"https://clawhub.ai/deepseekoracle/{slug}",
+                "mirror": f"mirrors/{slug}",
+                "published": True,
+            }
+    return [by_slug[k] for k in sorted(by_slug.keys())]
+
+
+def lattice_nodes() -> list[dict]:
+    nodes: list[dict] = []
+    skills = _collect_clawhub_skills()
+    # Hub node for the whole ClawHub publisher surface
+    nodes.append(
+        {
+            "id": "LATTICE_CLAWHUB_PUBLISHER",
+            "kind": "lattice",
+            "name": f"ClawHub @deepseekoracle ({len(skills)} skills)",
+            "glyph": "🦞",
+            "equation": f"skills={len(skills)}",
+            "tone": "8787Hz",
+            "tags": ["LATTICE", "CLAWHUB", "PUBLISHER", "GROWTH", "SKILL_REGISTRY"],
+            "connections": ["PORTAL_STACK", "SEAL_000"],
+            "urls": {
+                "clawhub": "https://clawhub.ai/deepseekoracle",
+                "catalog": f"{PAGES_BASE}/",
+                "star_chart": f"{PAGES_BASE}/HavenStarChart.html",
+            },
+            "layer": 3,
+            "meta": {"skill_count": len(skills), "source": "clawhub/skills.json+mirrors"},
+        }
+    )
+    for s in skills:
+        slug = (s.get("slug") or "").strip()
+        if not slug:
+            continue
+        safe_id = re.sub(r"[^A-Za-z0-9_\-]+", "_", slug)
+        url = s.get("clawhub_url") or f"https://clawhub.ai/deepseekoracle/{slug}"
+        # Also expose /skills/ form used by some links
+        url_skills = f"https://clawhub.ai/deepseekoracle/skills/{slug}"
+        name = s.get("name") or slug
+        ver = s.get("version") or ""
+        label = f"{name}" + (f" · v{ver}" if ver else "")
+        tags = ["LATTICE", "CLAWHUB", "GROWTH", "SKILL", "CLAWHUB_SKILL"]
+        # light category tags from slug
+        if slug.startswith("lygo-champion-") or "champion" in slug:
+            tags.append("CHAMPION_SKILL")
+        if "music" in slug or "resonance" in slug or "glyph" in slug or "fractal" in slug:
+            tags.append("CREATIVE")
+        if any(x in slug for x in ("lattice", "mesh", "network", "gate", "pulse", "living")):
+            tags.append("LATTICE_OPS")
+        if any(x in slug for x in ("kernel", "egg", "seeder", "planter", "sovereign")):
+            tags.append("KERNEL")
+        nodes.append(
+            {
+                "id": f"LATTICE_SKILL_{safe_id}",
+                "kind": "lattice",
+                "name": label[:120],
+                "glyph": "◈",
+                "equation": f"clawhub:{slug}",
+                "tone": "8787Hz",
+                "tags": tags,
+                "connections": [
+                    "LATTICE_CLAWHUB_PUBLISHER",
+                    "PORTAL_STACK",
+                    "SEAL_000",
+                ],
+                "urls": {
+                    "clawhub": url,
+                    "clawhub_skills_path": url_skills,
+                    "profile": "https://clawhub.ai/deepseekoracle",
+                },
+                "layer": 3,
+                "meta": {
+                    "slug": slug,
+                    "version": ver,
+                    "summary": (s.get("summary") or "")[:200],
+                    "mirror": s.get("mirror") or f"mirrors/{slug}",
+                    "downloads": s.get("downloads"),
+                },
+            }
+        )
     nodes.append(
         {
             "id": "LATTICE_KERNEL_EGGS",

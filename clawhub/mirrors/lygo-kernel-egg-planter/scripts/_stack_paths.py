@@ -39,6 +39,7 @@ def _assert_stack(p: Path) -> None:
 
 
 def require_consent(flag: bool) -> None:
+    """Require explicit plant/retrieve consent. Never infer from chat alone."""
     if flag:
         return
     if os.environ.get("LYGO_EGG_PLANT_CONSENT", "").lower() in ("yes", "1", "true"):

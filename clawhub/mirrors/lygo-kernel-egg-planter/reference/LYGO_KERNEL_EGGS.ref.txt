@@ -1,20 +1,15 @@
 # LYGO Kernel Eggs — book-brain reference stub
-# generated 2026-07-13T07:14:31.870461+00:00
+# generated 2026-07-03T23:45:09.205980+00:00
 tamper_verdict: ALIGNED
-registry_merkle_root: df78b1b56d542f83fc1596cb4da0df75249b10fe0fe6a773b25fa367aa99a3ae
-git_head: 5ce90375fca3
+registry_merkle_root: 5ddb340ba4f6f544da3f8994d2e89d1fe55145f18bd42e06938cae2c48c8f464
+git_head: 990b5bbf9a88
 retrieval: https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html
 cli: python tools/retrieve_kernel_egg.py --list
 
-egg:p0-nano-kernel sha256:e953e2cf926f0b6f… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e953e2cf926f0b6f611ad305edc0084ed7f34083f9ec1b00863bcb153d3bfaf7.json
-egg:stack-anchor-hook sha256:c7053769359f843c… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c7053769359f843c0f7193ab6c40af1037542fd9fb59aeb618a06b2be58059bf.json
-egg:stack-orchestrator-slim sha256:84dd1cce7a94a036… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/84dd1cce7a94a036cfc8980b69dc1a53b1d95550cdeda5d1cbfab7527d5b366c.json
-egg:lattice-soa-index sha256:403ebf132ccdae88… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/403ebf132ccdae88677cba44b638cbd9d33e05b0666d10e634468843b4add022.json
-egg:firmware-p04-drivers sha256:3dd925ca0feedf04… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/3dd925ca0feedf0448bfc9b1e923dab7a0bfc4949c94e6c716ec04bc0b5613da.json
-egg:protocol-drivers-p2-p5 sha256:9b4a8971c141b143… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/9b4a8971c141b14334eb4b4722af31b0d32a52d28704654177e55ba3ef616a96.json
-egg:joy-loop-protocol-v21 sha256:ef1fbe7af240e4bb… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ef1fbe7af240e4bb9832038e399202bd6eaa0be9ad8673995e49a5e77c32bb3b.json
-egg:lygo-second-brain-v10 sha256:bd39d7bb1bfcf253… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/bd39d7bb1bfcf2535eae1532afe68a657392a82f798e8ad727a45e08ef4440e3.json
-egg:lygo-sandcastle-v10 sha256:a33131fa597db2a8… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/a33131fa597db2a8f503814b9e281e086c780dd886232ee57ec5cde99c1b769f.json
-egg:lygo-openclaw-v10 sha256:4b79e8c71ade77ab… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/4b79e8c71ade77abb3c132ce51ba880ba5bcdfe62e97ce79af4218a133fd7b1c.json
-egg:lygo-lpis-v10 sha256:c1298f7b60f34695… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c1298f7b60f346952f0618360e2b513137cb52e78ac7dd728b816685efac7b86.json
-egg:lygo-ops-detector-v1 sha256:e1dd0d0081070598… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e1dd0d0081070598639712993e586cfd3d1494d84223cc37c75768155b7724e2.json
+egg:p0-nano-kernel sha256:962a22b21e943759… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/962a22b21e943759e21a6daf73b5daf698e4d4bc3b8fb304f87b7c1bc9181b9d.json
+egg:stack-anchor-hook sha256:e8227c0971e23ee2… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e8227c0971e23ee2e0fa171261967dcf62230c52cbe872631d63c0ab00e5d531.json
+egg:stack-orchestrator-slim sha256:e8b9c8e1c28b5edf… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e8b9c8e1c28b5edfa5145dc04fa2df3097b43aaa52aa9a9c22de710e7ecf128c.json
+egg:lattice-soa-index sha256:b69298d5488ae579… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b69298d5488ae57934046e7632085912225354e44b46578023d73f5f2ca219b6.json
+egg:firmware-p04-drivers sha256:4dcad550521fa64c… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/4dcad550521fa64c4e431204ebe3dee80aed71d60f6f97c2f341fd6a2121f1e3.json
+egg:protocol-drivers-p2-p5 sha256:c933a77538e3333b… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c933a77538e3333b74b7ff174d243c34fe5ea2324c59019fb06d9038a0ebc9b5.json
+egg:joy-loop-protocol-v21 sha256:ebd04d108bc5eb73… url:file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ebd04d108bc5eb7330b1462e14c932aba16db00a5d16f17a42f53513f2ed59e4.json
