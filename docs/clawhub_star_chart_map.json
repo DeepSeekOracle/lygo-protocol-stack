@@ -1,12 +1,10 @@
 {
-  "signature": "Delta9Phi963-CLAWHUB-STAR-MAP-v1.2",
-  "generated_utc": "2026-08-06T03:55:11.175578+00:00",
-  "clawhub_profile": "https://clawhub.ai/deepseekoracle",
-  "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
-  "skill_nodes": 69,
-  "publisher_hub": true,
-  "portal_node": "PORTAL_CLAWHUB",
-  "nebula": "NEBULA_CLAWHUB_SKILLS",
+  "signature": "Delta9Phi963-CLAWHUB-STAR-MAP-v1.3",
+  "generated_utc": "2026-08-06T04:03:37.571967+00:00",
+  "skill_nodes": 70,
+  "includes_kickstart": true,
+  "registry_sha256": "1f8672eae59ad177f7528870c4583375da7c5c9b2ee0be7f3bfef1111115cbd1",
+  "node_count": 1302,
   "slugs": [
     "book-brain",
     "book-brain-visual-reader",
@@ -43,6 +41,7 @@
     "lygo-haven-star-chart",
     "lygo-joy-loop",
     "lygo-kernel-egg-planter",
+    "lygo-kickstart-wizard",
     "lygo-lattice-birth",
     "lygo-lattice-pulse",
     "lygo-lightfather-vector",
@@ -77,15 +76,5 @@
     "openclaw-flow-kit",
     "recursive-generosity-protocol",
     "void-atlas-protocol"
-  ],
-  "registry_sha256": "0b4ca34a5c0d74f1226c1f0131be9929555b1ea16dc9d569ccd7ff9869cbc5f7",
-  "node_count": 1301,
-  "cosmology_fix": {
-    "champion_galaxies_filled": true,
-    "lore_in_eternal_haven": true,
-    "agent_submission_no_longer_overrides_kind": true,
-    "seal_chain_wired": true,
-    "dangling_and_self_loops_cleared": true
-  },
-  "note": "Stable cosmology: seals owned by champions; lore\u2192Eternal Haven; skills\u2192Lattice/ClawHub nebula."
+  ]
 }

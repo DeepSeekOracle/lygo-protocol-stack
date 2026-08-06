@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-08-06T03:55:11.175578+00:00",
+  "generated_utc": "2026-08-06T04:03:37.571967+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1301,
-  "link_count": 3606,
+  "node_count": 1302,
+  "link_count": 3609,
   "seal_count": 323,
   "champion_count": 15,
-  "lattice_count": 101,
-  "registry_sha256": "0b4ca34a5c0d74f1226c1f0131be9929555b1ea16dc9d569ccd7ff9869cbc5f7",
+  "lattice_count": 102,
+  "registry_sha256": "1f8672eae59ad177f7528870c4583375da7c5c9b2ee0be7f3bfef1111115cbd1",
   "constellations": [
     {
       "id": "primordial_core",
@@ -118,7 +118,7 @@
         "color": "#00ff88",
         "constellation_id": "lattice_growth",
         "angle_deg": 200,
-        "star_count": 119
+        "star_count": 120
       },
       {
         "id": "GALAXY_ETERNAL_HAVEN",
@@ -927,7 +927,7 @@
         "id": "NEBULA_CLAWHUB_SKILLS",
         "name": "ClawHub Skill Nebula",
         "galaxy_id": "GALAXY_LATTICE",
-        "star_count": 69,
+        "star_count": 70,
         "star_ids": [
           "LATTICE_SKILL_book-brain",
           "LATTICE_SKILL_book-brain-visual-reader",
@@ -3345,6 +3345,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-kickstart-wizard",
+        "name": "Skill Pin \u00b7 lygo-kickstart-wizard",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-kickstart-wizard"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-lattice-birth",
         "name": "Skill Pin \u00b7 lygo-lattice-birth",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -3782,7 +3792,7 @@
     ],
     "galaxy_count": 21,
     "nebula_count": 87,
-    "cluster_count": 223
+    "cluster_count": 224
   },
   "nodes": [
     {
@@ -14826,9 +14836,9 @@
     {
       "id": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice",
-      "name": "ClawHub @deepseekoracle (69 skills)",
+      "name": "ClawHub @deepseekoracle (70 skills)",
       "glyph": "\ud83e\udd9e",
-      "equation": "skills=69",
+      "equation": "skills=70",
       "tone": "8787Hz",
       "tags": [
         "LATTICE",
@@ -14848,7 +14858,7 @@
       },
       "layer": 3,
       "meta": {
-        "skill_count": 69,
+        "skill_count": 70,
         "source": "clawhub/skills.json+mirrors"
       },
       "cosmos": {
@@ -16351,6 +16361,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-kernel-egg-planter",
         "cluster_name": "Skill Pin \u00b7 lygo-kernel-egg-planter",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-kickstart-wizard",
+      "kind": "lattice",
+      "name": "LYGO Kickstart Wizard \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-kickstart-wizard",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-kickstart-wizard",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-kickstart-wizard",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-kickstart-wizard",
+        "version": "1.0.0",
+        "summary": "Plain-English onboarding for the ClawHub lattice. Map, lattice health, ops analyze, mint guide. UX bridge.",
+        "mirror": "mirrors/lygo-kickstart-wizard",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-kickstart-wizard",
+        "cluster_name": "Skill Pin \u00b7 lygo-kickstart-wizard",
         "star_role": "lattice_vault"
       }
     },
@@ -62409,6 +62461,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-kernel-egg-planter",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-kickstart-wizard",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-kickstart-wizard",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-kickstart-wizard",
       "target": "SEAL_000",
       "kind": "lattice"
     },

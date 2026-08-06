@@ -6,9 +6,19 @@
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "count_published": 69,
-  "count_mirrored": 69,
+  "count_mirrored": 70,
   "updated_utc": "2026-08-06T03:45:56.402698+00:00",
   "skills": [
+    {
+      "slug": "lygo-kickstart-wizard",
+      "name": "LYGO Kickstart Wizard",
+      "summary": "Plain-English onboarding for the ClawHub lattice. Map, lattice health, ops analyze, mint guide. UX bridge.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-kickstart-wizard",
+      "mirror": "mirrors/lygo-kickstart-wizard",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "book-brain",
       "name": "book-brain",
