@@ -1,74 +1,68 @@
 # Productive army tasks (set-and-review-later)
 
-## One-shot seed (lattice / stack / ClawHub)
+## Safety first
+
+- **Default path:** drop reviewed `.task.json` files; run `ollama_army_launcher.py` (in-process).
+- **Planting / social pulse roles are OFF** unless `army_config.json` sets explicit consent flags.
+- **No auto social, no auto ClawHub publish, no git/HF push** from defaults.
+- Social role names below are **queue role labels** for optional operator-gated tools — not auto engagement.
+
+## One-shot seed (requires env)
 
 ```bash
 cd path/to/lygo-ollama-army
 set LYGO_STACK_ROOT=I:\E Drive\lygo-protocol-stack
+set LYGO_ARMY_SEED_TASKS=1
 python seed_productive_tasks.py
 ```
 
-Daemons (already running or launch with launcher) drain `ollama_queue/*.task.json` → `ollama_results/*.result.json`.
+## Task types (roles)
 
-## Task types
+| Role | What it does | Needs Ollama | Default gate |
+|------|----------------|--------------|--------------|
+| `lattice-check` | Runs `verify_lattice_alignment.py` | No | Safe |
+| `stack-integrity` | Runs `run_sovereign_integrity_test.py` | No | Safe |
+| `clawhub-catalog-audit` | Reads local `clawhub/skills.json` stats | No | Safe (local file) |
+| `public-pages-check` | Optional HTTPS GET public pages | No | `sentinel.probe_public_pages` |
+| `audit-suite` | Local audit tools under stack | No | Safe |
+| `memory-sync` | Snapshot → army workspace only | No | Safe |
+| `egg-planter` | Kernel egg plant | No | `planting.enabled` **+** `planting.consent` |
+| `registry-planter` | Local registry plant | No | same planting consent |
+| `moltx-lattice-pulse` | Optional Moltx tool (operator) | No | `social_publish` flags |
+| `moltbook-*-pulse` | Optional Moltbook tool (operator) | No | `social_publish` flags |
+| `joy-loop-pulse` | Joy Loop tick | No | Safe local |
+| `mesh-cartographer` | Network builder verify | No | Safe |
+| `champion-egg-boot` | Vault champion load | Yes | `allow_privileged_roles` |
+| `hb-light` / `draft-simple` | Lightweight local LLM roles | Yes | Safe |
 
-| Role | What it does | Needs Ollama |
-|------|----------------|--------------|
-| `lattice-check` | Runs `verify_lattice_alignment.py` | No |
-| `stack-integrity` | Runs `run_sovereign_integrity_test.py` | No |
-| `clawhub-catalog-audit` | Reads `clawhub/skills.json` stats | No |
-| `public-pages-check` | Runs `verify_public_pages.py` | No |
-| `audit-suite` | SLM + phase7 + phase9 audits | No |
-| `memory-sync` | Copies snapshot → `workspace/LYGO_MEMORY_SYNC.json` | No |
-| `egg-planter` | Lattice OK → preflight/smoke → **kernel egg plant** (consent in `army_config.planting`) | No |
-| `registry-planter` | Lattice OK → CAS **registry plant** + verify (`cas_registry_cli`) | No |
-| `moltx-lattice-pulse` | Moltx gated engage: 5 likes, reply, repost, article → `tools/moltx_lattice_pulse.py` | No |
-| `moltbook-lyra-pulse` | Moltbook LYRA: scan + 5 upvotes + comment → `tools/moltbook_lattice_pulse.py --account lyra` | No |
-| `moltbook-lightfather-pulse` | Moltbook Lightfather: same pulse → `--account lightfather` | No |
-| `joy-loop-pulse` | Joy Loop tick + persist | No |
-| `mesh-cartographer` | Runs `lygo_network_builder_verify.py` (SLM anchors) | No |
-| **`champion-egg-boot`** | **Vault-only:** `champion_bootloader.py` → Merkle verify → P6 handshake → Ollama loads manifest `system_prompt` (never hb-light chat) | Yes (after vault) |
-| `memory-triage` / `hb-light` | Lightweight heartbeat / memory prompts (not council seed) | Yes |
-| `draft-simple` | Upgrade copy / public blurbs | Yes |
-
-## Full capacity (Windows)
+## Full capacity (Windows — OPERATOR SPAWN)
 
 ```powershell
+$env:LYGO_ARMY_FULL_CAPACITY=1
+$env:LYGO_ARMY_AUTONOMOUS=1
+$env:LYGO_ARMY_I_CONSENT=1
+$env:LYGO_STACK_ROOT="D:\lygo-protocol-stack"
 .\start_army_full_capacity.ps1
 ```
 
-Uses `ollama_command_center/config/army_config.json` **v3** — all roles + **3× `champion-egg-boot`** + `mesh-cartographer` + 2× `hb-light` + ARKOS on triage/draft. Council seeds: `python tools/champion_egg_planter.py --i-consent` (stack).
+This **spawns** `python.exe` processes — not the SkillSpector in-process path.
 
-## Re-seed anytime
+## Planting (consent only)
 
-Safe to run `seed_productive_tasks.py` again after lattice or ClawHub changes.
+Local lattice artifacts only. **Never** auto-enabled by self_tune.
 
-## Command Center (hands)
-
-`ollama_command_center/` — sentinel, dashboard, cron, config (`access.*_write: false`).
-
-```bash
-python ollama_command_center/scripts/sentinel_heartbeat.py --loop
-python ollama_command_center/scripts/army_cron_once.py
+```
+planting.enabled=true AND planting.consent=true
 ```
 
-Hourly Grok scheduler task seeded for `army_cron_once.py`.
-
-## Planting (v3)
-
-`army_config.json` → `planting.enabled`, `planting.consent`, `egg_surfaces`, `local_only_anchor`.  
-No GitHub/HF/ClawHub push (`access.*_write: false`).  
-Artifacts: `workspace/egg_plant_last_run.json`, `registry_plant_last_run.json`.
+No GitHub/HF/ClawHub **publish**. Planting ≠ publish.
 
 ```bash
 python ollama_command_center/scripts/run_army_planting.py all
 ```
 
-```bash
-python ollama_command_center/scripts/verify_army_tuning.py
-python ollama_command_center/scripts/army_self_tune.py
-```
+## Self-tune (mutating)
 
-**Self-tune** (hourly via cron/supervisor): syncs ClawHub expect from stack, prunes completed queue tasks, adjusts sentinel interval / hb-light / planting from lattice+sentinel (never enables external push).
+`self_tune.enabled` default **false**. When on: may rewrite config + prune queue. **Never** enables planting.
 
-**Δ9Φ963-ARMY-TASKS-v4**
+**Δ9Φ963-ARMY-TASKS-v5**

@@ -1,7 +1,7 @@
 ---
 name: lygo-ollama-army
-description: "Local Ollama multi-role army + assistant hub. HONEST SURFACE: (1) Default Python path = in-process worker threads + allowlisted runpy under validated LYGO_STACK_ROOT — no subprocess from skill Python. (2) Optional localhost-only HTTP genesis dashboard (127.0.0.1); browser open only if LYGO_GENESIS_OPEN_BROWSER=1. (3) Optional HTTPS GET public lattice probes if sentinel.probe_public_pages=true. (4) Optional command-center scripts: sentinel, self_tune (MUTATING config/queue when enabled), idle housekeeping, cron task seeding, planting runner — all OFF/gated by config+consent. (5) army_autonomous_supervisor requires LYGO_ARMY_AUTONOMOUS=1 AND LYGO_ARMY_I_CONSENT=1. (6) start_army_full_capacity.ps1 is OPERATOR-ONLY and SPAWNS python.exe — not the no-spawn path. No outbound webhook, no auto git/HF/ClawHub/social. Planting NEVER auto-enabled. Read references/SECURITY.md first."
-version: 0.8.1
+description: "Local Ollama multi-role army + assistant hub. FULL HONEST SURFACE: (1) Default = in-process threads + STRICT name allowlist runpy (no arbitrary skill .py, no any tools/*.py). (2) Genesis localhost HTTP 127.0.0.1 only; browser open only LYGO_GENESIS_OPEN_BROWSER=1; outbound GitHub/HF/Pages probes only LYGO_GENESIS_PROBE_PUBLIC=1; no Discord/crypto/wallets in status by default. (3) Command-center: sentinel/self_tune/idle/cron/planting all gated OFF; self_tune MUTATES config when enabled and NEVER auto-enables planting. (4) Supervisor needs LYGO_ARMY_AUTONOMOUS=1 + LYGO_ARMY_I_CONSENT=1. (5) PS1 full-capacity OPERATOR-ONLY SPAWNS python.exe. (6) Social pulse / plant roles = optional consent-gated queue labels, not auto engagement. (7) No outbound webhook POST. (8) Desktop installers require LYGO_ARMY_INSTALL_DESKTOP=1. Read references/SECURITY.md first."
+version: 0.8.2
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
@@ -15,13 +15,13 @@ metadata:
   champions: true
   consent_required: true
   requires_lygo_stack: false
-  version: "0.8.1"
-  army_cc: "v0.8.1"
-  security_audit: "skillspector-2026-08-06-v0.8.1"
+  version: "0.8.2"
+  army_cc: "v0.8.2"
+  security_audit: "skillspector-2026-08-06-v0.8.2-full-audit"
   capability_network: "127.0.0.1_ollama_plus_optional_https_get_probes_optional_localhost_http_dashboard"
   publisher: deepseekoracle
   website: "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html"
-  signature: "Δ9Φ963-ARMY-SKILL-v0.8.1"
+  signature: "Δ9Φ963-ARMY-SKILL-v0.8.2"
   permissions_declared:
     filesystem: "army_folder_and_validated_LYGO_STACK_ROOT"
     process_spawn_python_skill: false
@@ -38,7 +38,7 @@ metadata:
     browser_open_default: false
 ---
 
-# LYGO Ollama Army & Assistant Hub v0.8.1
+# LYGO Ollama Army & Assistant Hub v0.8.2
 
 **SkillSpector-hardened** local Ollama automation. This page is the **full honest surface** — not a minimal marketing blurb.
 
@@ -146,6 +146,7 @@ Read **before** install:
 | 0.5.0 | Declared permissions, webhook double-gate |
 | 0.6.0 | runpy + threads; no outbound webhook |
 | 0.7.1 | No auto-plant; self_tune default off; autonomous env gate |
-| **0.8.1** | Full honest description; dual consent supervisor; PS1 triple gate; browser open off; idle plant flag enforced; self_tune clamps planting forever; stack-mutating idle tools gated |
+| 0.8.1 | Dual consent supervisor; PS1 triple gate; browser open off |
+| **0.8.2** | Full ClawHub audit: strict runpy allowlist; local-only genesis collect; no bak planting config; health probes-only default; no cross-skill cron; no Discord/crypto status; no autostart/push commands; desktop installers gated |
 
 **Δ9Φ963 — local flame, reviewed queue, allowlisted tools, no silent outbound, honest agency.**
