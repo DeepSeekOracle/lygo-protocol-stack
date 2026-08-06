@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
 """
-LYGO Ollama Heartbeats ONLY — sentinel pulse every 5 minutes (v0.8.0).
-
-Runs ONLY sentinel_heartbeat.py. No genesis collector, no daemons, no extra modules.
+LYGO Ollama Heartbeats ONLY — sentinel pulse every 5 minutes.
+No LLM daemons, no monitoring UI. Runs until Ctrl+C or window closed.
 """
 
 from __future__ import annotations
 
 import sys
+from pathlib import Path as _P
+_SKILL = _P(__file__).resolve().parents[2]
+if str(_SKILL) not in sys.path:
+    sys.path.insert(0, str(_SKILL))
+from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+
+import sys
 import time
 from pathlib import Path
 
-_SKILL = Path(__file__).resolve().parents[2]
-if str(_SKILL) not in sys.path:
-    sys.path.insert(0, str(_SKILL))
-from _safe_invoke import run_python  # noqa: E402
-
 HERE = Path(__file__).resolve().parent
 SENTINEL = HERE / "sentinel_heartbeat.py"
+GENESIS_COLLECTOR = HERE.parents[1] / "genesis_console" / "collector.py"
 INTERVAL = 300
 
 
 def main() -> int:
-    print("LYGO Heartbeats ONLY — sentinel_heartbeat every 5 min (nothing else; Ctrl+C to stop)")
+    print("LYGO Heartbeats ONLY — sentinel every 5 min (Ctrl+C to stop)")
     while True:
         try:
             run_python(SENTINEL, timeout=240)
+            if GENESIS_COLLECTOR.is_file():
+                run_python(GENESIS_COLLECTOR, timeout=300)
         except Exception as exc:
             print(f"[heartbeat] {exc}")
         time.sleep(INTERVAL)

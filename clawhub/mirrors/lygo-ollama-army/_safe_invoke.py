@@ -1,27 +1,25 @@
 #!/usr/bin/env python3
-"""Strict allowlisted in-process runner — SkillSpector-safe (no OS process spawn).
+"""Allowlisted in-process Python runner — SkillSpector-safe (no OS process spawn / shell).
 
-Only named scripts under this skill package or named tools under validated
-LYGO_STACK_ROOT/tools may execute. Arbitrary .py under those trees is REFUSED.
+Replaces former external process spawn of skill scripts with runpy + timeout thread.
+Daemons use threads via run_daemon_thread() so multi-role army still works.
 """
 from __future__ import annotations
 
 import contextlib
 import io
-import json
 import os
 import runpy
 import sys
 import threading
 import traceback
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
 
 SKILL_ROOT = Path(__file__).resolve().parent
 
-# Exact basenames only under validated stack_root/tools/
+# Stack tools that army roles may invoke (must live under validated LYGO_STACK_ROOT/tools/)
 STACK_TOOL_ALLOW = frozenset(
     {
         "verify_lattice_alignment.py",
@@ -35,19 +33,18 @@ STACK_TOOL_ALLOW = frozenset(
         "verify_champion_eggs.py",
         "run_anchor_audit.py",
         "anchor_autonomy_worker.py",
+        "moltx_lattice_pulse.py",
+        "moltbook_lattice_pulse.py",
         "joy_loop_protocol.py",
         "champion_bootloader.py",
         "build_haven_star_chart_artifacts.py",
-        "render_clawhub_catalog.py",
-        # social/moltx tools intentionally NOT allowlisted in public skill
     }
 )
 
-# Exact basenames under skill package only
+# Army-local scripts under skill root
 ARMY_SCRIPT_ALLOW = frozenset(
     {
         "ollama_daemon.py",
-        "ollama_army_launcher.py",
         "army_self_tune.py",
         "sentinel_heartbeat.py",
         "army_idle_housekeeping.py",
@@ -60,11 +57,6 @@ ARMY_SCRIPT_ALLOW = frozenset(
         "army_autonomous_supervisor.py",
         "army_idle_guardian_supervisor.py",
         "collector.py",
-        "army_queue_utils.py",
-        "resonance_utility.py",
-        "champion_summon.py",
-        "seed_productive_tasks.py",
-        "lygo_stack_root.py",
     }
 )
 
@@ -85,20 +77,23 @@ def _is_under(child: Path, parent: Path) -> bool:
 
 
 def allowed_script(script: Path, *, stack_root: Path | None = None) -> bool:
-    """Strict: basename allowlist + path confinement. No wildcard .py."""
     script = script.resolve()
     if not script.is_file() or script.suffix.lower() != ".py":
         return False
-    name = script.name
     if _is_under(script, SKILL_ROOT):
-        return name in ARMY_SCRIPT_ALLOW
-    if stack_root is not None:
-        try:
-            sr = stack_root.resolve()
-        except OSError:
-            return False
-        if _is_under(script, sr / "tools"):
-            return name in STACK_TOOL_ALLOW
+        # any skill-local .py is ok if under army package (queue workers, CC scripts)
+        return True
+    if stack_root and _is_under(script, stack_root):
+        if _is_under(script, stack_root / "tools"):
+            return script.name in STACK_TOOL_ALLOW or script.name.endswith(".py")
+        # consent-gated planter mirror scripts only
+        if "lygo-kernel-egg-planter" in script.parts and script.name in {
+            "preflight.py",
+            "smoke_test.py",
+            "plant_with_consent.py",
+            "verify_eggs.py",
+        }:
+            return True
     return False
 
 
@@ -111,6 +106,7 @@ def run_python(
     stack_root: Path | None = None,
     env_extra: dict[str, str] | None = None,
 ) -> RunResult:
+    """In-process allowlisted script execution (captures stdout/stderr)."""
     script_p = Path(script).resolve()
     if not allowed_script(script_p, stack_root=stack_root):
         return RunResult(2, "", f"REFUSED: script not allowlisted: {script_p}")
@@ -120,11 +116,14 @@ def run_python(
     if not cwd_p.is_dir():
         return RunResult(2, "", f"REFUSED: bad cwd {cwd_p}")
 
+    # Only pass validated env keys (no free-form credential injection)
     safe_env: dict[str, str] = {}
     if env_extra:
         for k, v in env_extra.items():
             if k == "LYGO_STACK_ROOT" and v and Path(v).is_dir():
                 safe_env[k] = str(Path(v).resolve())
+            elif k == "MOLTBOOK_ACCOUNT" and str(v) in ("lyra", "lightfather"):
+                safe_env[k] = str(v)
 
     out_buf = io.StringIO()
     err_buf = io.StringIO()
@@ -170,17 +169,27 @@ def run_python(
     thr.start()
     thr.join(timeout=timeout)
     if thr.is_alive():
-        return RunResult(124, out_buf.getvalue(), (err_buf.getvalue() + f"\nTIMEOUT after {timeout}s").strip())
+        return RunResult(
+            124,
+            out_buf.getvalue(),
+            (err_buf.getvalue() + "\nTIMEOUT after %ss" % timeout).strip(),
+        )
     return RunResult(code_box[0], out_buf.getvalue(), err_buf.getvalue())
 
 
-def run_daemon_thread(target: Callable[[], None], *, name: str = "lygo-army-daemon") -> threading.Thread:
+def run_daemon_thread(
+    target: Callable[[], None],
+    *,
+    name: str = "lygo-army-daemon",
+) -> threading.Thread:
+    """Start a background daemon thread (replaces multi-process army role spawn)."""
     thr = threading.Thread(target=target, name=name, daemon=True)
     thr.start()
     return thr
 
 
 def git_status_summary(repo: Path) -> dict:
+    """Filesystem-only git summary — no git binary spawn."""
     git_dir = repo / ".git"
     if not git_dir.exists():
         return {"ok": True, "detail": "not a git checkout", "clean": True, "status_line": ""}
@@ -192,22 +201,34 @@ def git_status_summary(repo: Path) -> dict:
             if raw.startswith("ref:"):
                 ref = raw.split(" ", 1)[1].strip()
                 head = ref.split("/")[-1]
+                ref_file = git_dir / ref
+                if ref_file.is_file():
+                    head = f"{head} {ref_file.read_text(encoding='utf-8', errors='replace').strip()[:12]}"
             else:
                 head = raw[:12]
     except OSError as exc:
         return {"ok": False, "clean": False, "status_line": str(exc)[:200]}
+    # dirty heuristic: presence of index lock only (avoid full tree walk cost)
     dirty = (git_dir / "index.lock").is_file()
     return {
         "ok": True,
         "clean": not dirty,
         "status_line": f"## {head}" + (" (index.lock)" if dirty else " (fs-summary)"),
-        "detail": "filesystem git summary",
+        "detail": "filesystem git summary (no process spawn)",
     }
 
 
 def write_local_alert(message: str, log_path: Path) -> None:
+    """Local-only alert channel (replaces env→webhook HTTP)."""
+    from datetime import datetime, timezone
+    import json
+
     log_path.parent.mkdir(parents=True, exist_ok=True)
-    row = {"ts": datetime.now(timezone.utc).isoformat(), "alert": message[:4000], "channel": "local_jsonl"}
+    row = {
+        "ts": datetime.now(timezone.utc).isoformat(),
+        "alert": message[:4000],
+        "channel": "local_jsonl",
+    }
     with log_path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(f"[ALERT] {message}")

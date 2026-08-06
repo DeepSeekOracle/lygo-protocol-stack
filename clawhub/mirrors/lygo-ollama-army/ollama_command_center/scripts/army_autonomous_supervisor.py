@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-Autonomous army supervisor: heartbeats (5m) + cron tick (1h).
-Launches role set from army_config.json (slim or full capacity).
+Autonomous army supervisor: in-process daemon threads + sentinel + hourly cron.
+
+REQUIRES env LYGO_ARMY_AUTONOMOUS=1 (and usually LYGO_STACK_ROOT).
+Long-running; no interactive confirmation after env gate — set deliberately.
+
+Uses in-process threads + runpy only (no OS process spawn from this Python file).
+Operator PowerShell full-capacity launcher is a separate surface that does spawn Python.
 """
 
 from __future__ import annotations
@@ -11,12 +16,10 @@ from pathlib import Path as _P
 _SKILL = _P(__file__).resolve().parents[2]
 if str(_SKILL) not in sys.path:
     sys.path.insert(0, str(_SKILL))
-from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+from _safe_invoke import run_python, run_daemon_thread  # noqa: E402
 
 import json
 import os
-import re
-import sys
 import time
 from pathlib import Path
 
@@ -26,7 +29,6 @@ ARMY = CC.parent
 CONFIG_PATH = CC / "config" / "army_config.json"
 SENTINEL = HERE / "sentinel_heartbeat.py"
 CRON = HERE / "army_cron_once.py"
-DAEMON = ARMY / "ollama_daemon.py"
 INTERVAL_SENTINEL = 300
 INTERVAL_CRON = 3600
 
@@ -37,98 +39,104 @@ def load_config() -> dict:
     return {}
 
 
-def existing_daemon_counts() -> dict[str, int]:
-    counts: dict[str, int] = {}
-    try:
-        ps = type('R', (), {'returncode': 0, 'stdout': '', 'stderr': ''})()
-        for line in (ps.stdout or "").splitlines():
-            if "ollama_daemon.py" not in line:
-                continue
-            m = re.search(r"--role\s+(\S+)", line)
-            if not m:
-                continue
-            role = m.group(1)
-            counts[role] = counts.get(role, 0) + 1
-    except Exception:
-        pass
-    return counts
-
-
-def resolve_launch_plan(cfg: dict) -> tuple[list[str], dict[str, int], str, str | None]:
+def resolve_launch_plan(cfg: dict) -> tuple[list[str], dict[str, int], str]:
     cap = cfg.get("army_capacity") or {}
     perf = cfg.get("performance") or {}
     model = cap.get("model", "llama3.2:1b")
-    champion = cap.get("champion_default")
     count = int(cap.get("count_per_role", 1))
     hb_n = int(cap.get("hb_light_instances", 1))
-    boot_n = int(cap.get("champion_egg_boot_instances", 1))
+    boot_n = int(cap.get("champion_egg_boot_instances", 0))
+
+    # Privileged roles need explicit allow
+    allow_priv = bool((cfg.get("access") or {}).get("allow_privileged_roles", False))
+    privileged = {
+        "egg-planter",
+        "registry-planter",
+        "champion-egg-boot",
+        "moltx-lattice-pulse",
+        "moltbook-lyra-pulse",
+        "moltbook-lightfather-pulse",
+    }
 
     if perf.get("slim_boot", True):
-        roles = list(perf.get("slim_roles") or ["hb-light", "stack-worker", "champion-egg-boot"])
-        want: dict[str, int] = {}
-        for role in roles:
-            if role == "hb-light":
-                want[role] = hb_n
-            elif role == "champion-egg-boot":
-                want[role] = boot_n
-            else:
-                want[role] = count
-        return roles, want, model, champion
+        roles = list(perf.get("slim_roles") or ["hb-light", "draft-simple"])
+    else:
+        roles = list(cap.get("roles") or ["hb-light", "lattice-check"])
 
-    roles = list(cap.get("roles") or ["hb-light", "lattice-check"])
-    want = {}
+    if not allow_priv:
+        roles = [r for r in roles if r not in privileged]
+
+    want: dict[str, int] = {}
     for role in roles:
         if role == "hb-light":
-            want[role] = hb_n
+            want[role] = max(1, hb_n)
         elif role == "champion-egg-boot":
-            want[role] = boot_n
+            want[role] = boot_n if allow_priv else 0
         else:
             want[role] = count
-    return roles, want, model, champion
-
+    # drop zero-count roles
+    roles = [r for r in roles if want.get(r, 0) > 0]
+    return roles, want, model
 
 
 def launch_daemons_from_config(cfg: dict):
-    """In-process army threads (v0.6.0 — no Popen)."""
+    """In-process army threads (no Popen / no subprocess)."""
     import ollama_daemon as od
-    roles = (cfg.get("roles") or cfg.get("daemon_roles") or ["hb-light", "draft-simple"])
-    model = cfg.get("model") or os.environ.get("LYGO_OLLAMA_MODEL", "llama3.2:1b")
+
+    roles, want, model = resolve_launch_plan(cfg)
     threads = []
     for role in roles:
-        def worker(r=role, m=model):
-            old = sys.argv[:]
-            try:
-                sys.argv = ["ollama_daemon.py", "--role", r, "--model", m, "--poll", "5.0"]
-                if hasattr(od, "main"):
-                    od.main()
-            finally:
-                sys.argv = old
-        threads.append(run_daemon_thread(worker, name=f"army-{role}"))
-        print(f"[LAUNCHED] army-{role} thread")
+        for i in range(int(want.get(role, 1))):
+            def worker(r=role, m=model, n=i):
+                old = sys.argv[:]
+                try:
+                    sys.argv = ["ollama_daemon.py", "--role", r, "--model", m, "--poll", "5.0"]
+                    if hasattr(od, "main"):
+                        od.main()
+                finally:
+                    sys.argv = old
+
+            t = run_daemon_thread(worker, name=f"army-{role}-{i}")
+            threads.append(t)
+            print(f"[LAUNCHED] in-process thread army-{role}-{i}")
     return threads
 
 
 def main() -> int:
+    if os.environ.get("LYGO_ARMY_AUTONOMOUS", "").strip() not in ("1", "true", "yes"):
+        print(
+            "Refusing autonomous supervisor.\n"
+            "Set LYGO_ARMY_AUTONOMOUS=1 after reading references/SECURITY.md\n"
+            "This starts long-running in-process daemons + periodic sentinel/cron.",
+            file=sys.stderr,
+        )
+        return 2
+
     cfg = load_config()
     if not os.environ.get("LYGO_STACK_ROOT", "").strip():
         stack = (cfg.get("lygo_stack_root") or "").strip()
         if stack:
             os.environ["LYGO_STACK_ROOT"] = stack
-        else:
-            print(
-                "Set LYGO_STACK_ROOT or lygo_stack_root in army_config.json",
-                file=sys.stderr,
-            )
-            return 2
+
+    planting = cfg.get("planting") or {}
+    self_tune = cfg.get("self_tune") or {}
+    social = cfg.get("social_publish") or {}
     perf = cfg.get("performance") or {}
     mode = "slim" if perf.get("slim_boot", True) else "full"
-    print("LYGO Army Autonomous Supervisor (v3.1)")
-    print(f"  - boot mode: {mode}")
-    print("  - sentinel every 5 min (+ network-builder probe)")
-    print("  - cron (lattice/stack/pages/mesh/audit/memory/planting) every 60 min")
-    print("  - daemons: dedupe existing processes before launch")
 
-    daemon_procs = launch_daemons_from_config(cfg)
+    print("LYGO Army Autonomous Supervisor v0.7.0")
+    print("  WARNING: long-running autonomous loop (env-gated only)")
+    print(f"  - boot mode: {mode}")
+    print("  - sentinel every 5 min (local + optional HTTPS GET probes per config)")
+    print(
+        "  - hourly cron: safe roles only; "
+        f"planting={'ON' if planting.get('enabled') else 'OFF'}; "
+        f"self_tune={'ON' if self_tune.get('enabled') else 'OFF'}; "
+        f"social={'ON' if social.get('enabled') else 'OFF'}"
+    )
+    print("  - daemons: in-process threads (no OS spawn from this script)")
+
+    daemon_threads = launch_daemons_from_config(cfg)
 
     last_cron = 0.0
     try:
@@ -136,14 +144,13 @@ def main() -> int:
             run_python(SENTINEL, timeout=240)
             now = time.time()
             if now - last_cron >= INTERVAL_CRON:
-                run_python(HERE / "army_self_tune.py", timeout=120)
+                if self_tune.get("enabled", False):
+                    run_python(HERE / "army_self_tune.py", timeout=120)
                 run_python(CRON, timeout=600)
                 last_cron = now
             time.sleep(INTERVAL_SENTINEL)
     except KeyboardInterrupt:
-        print("Stopping supervisor...")
-        for p in daemon_procs:
-            p.terminate()
+        print("Stopping supervisor (threads are daemon; process exit ends them)...")
         return 0
 
 

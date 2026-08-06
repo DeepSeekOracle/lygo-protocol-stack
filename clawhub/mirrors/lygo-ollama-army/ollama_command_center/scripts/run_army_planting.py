@@ -123,15 +123,6 @@ def registry_planter() -> dict:
     if not planting.get("enabled", False):
         out["skipped"] = "planting.disabled"
         return out
-    # v0.8.0: registry plant also requires consent (parity with egg_planter)
-    consent = bool(planting.get("consent")) or os.environ.get("LYGO_EGG_PLANT_CONSENT", "").lower() in (
-        "yes",
-        "1",
-        "true",
-    )
-    if not consent:
-        out["skipped"] = "consent_false"
-        return out
     if not lattice_aligned(stack):
         out["skipped"] = "lattice_not_aligned"
         return out

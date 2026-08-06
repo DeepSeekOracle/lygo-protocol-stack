@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
-"""Seed local-only deterministic tasks (v0.8.0).
+"""Seed productive deterministic + optional LLM tasks for the Ollama army (v2 system)."""
 
-Requires LYGO_ARMY_SEED_TASKS=1 after reviewing SECURITY.md.
-Never seeds public-pages, social pulses, or planting unless extra env gates are set.
-"""
 from __future__ import annotations
 
 import json
@@ -26,48 +23,41 @@ def main() -> int:
             "references/SECURITY.md"
         )
         return 0
-
     stack = os.environ.get("LYGO_STACK_ROOT", "").strip()
-    cfg = {}
     if CONFIG.is_file():
-        cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
-        stack = (cfg.get("lygo_stack_root") or stack or "").strip()
+        stack = json.loads(CONFIG.read_text(encoding="utf-8")).get("lygo_stack_root", stack) or stack
     if not stack:
         print("ERROR: set LYGO_STACK_ROOT or lygo_stack_root in army_config.json", file=sys.stderr)
         return 2
     os.environ.setdefault("LYGO_STACK_ROOT", stack)
 
-    # Safe local defaults only
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     seeds = [
         ("lattice-check", f"seed-lattice-{ts}", {}),
+        ("stack-integrity", f"seed-stack-{ts}", {}),
         ("clawhub-catalog-audit", f"seed-clawhub-{ts}", {}),
+        ("public-pages-check", f"seed-pages-{ts}", {}),
+        ("audit-suite", f"seed-audit-{ts}", {}),
         ("memory-sync", f"seed-memory-{ts}", {}),
-        ("kernel-verify-only", f"seed-kernel-verify-{ts}", {}),
+        ("mesh-cartographer", f"seed-mesh-{ts}", {}),
+        ("self-tune", f"seed-self-tune-{ts}", {}),
+        ("egg-planter", f"seed-egg-plant-{ts}", {}),
+        ("registry-planter", f"seed-registry-plant-{ts}", {}),
         (
             "memory-triage",
             f"seed-triage-{ts}",
             {
                 "prompt": (
-                    "Review local army queue and lattice status. "
+                    "Review LYGO lattice: Pages (harness, SLM, compass, kernel eggs), "
+                    "network-builder v1.1.0, ClawHub 37 skills, operator 1.0.6, army planting. "
                     'Output compact JSON: {"priority":"low|med|high","summary":"one line","next_action":"one step"}'
                 ),
             },
         ),
     ]
-
-    # Optional high-risk seeds — each requires its own env gate
-    if os.environ.get("LYGO_ARMY_SEED_SELF_TUNE", "").strip().lower() in ("1", "true", "yes"):
-        if (cfg.get("self_tune") or {}).get("enabled"):
-            seeds.append(("self-tune", f"seed-self-tune-{ts}", {}))
-    if os.environ.get("LYGO_ARMY_SEED_PUBLIC_PAGES", "").strip().lower() in ("1", "true", "yes"):
-        if (cfg.get("sentinel") or {}).get("probe_public_pages"):
-            seeds.append(("public-pages-check", f"seed-pages-{ts}", {}))
-    if os.environ.get("LYGO_ARMY_SEED_PLANTING", "").strip().lower() in ("1", "true", "yes"):
-        planting = cfg.get("planting") or {}
-        if planting.get("enabled") and planting.get("consent"):
-            seeds.append(("egg-planter", f"seed-egg-plant-{ts}", {}))
-            seeds.append(("registry-planter", f"seed-registry-plant-{ts}", {}))
+    planting_ok = os.environ.get("LYGO_ARMY_SEED_PLANTING", "").strip().lower() in ("1", "true", "yes")
+    if not planting_ok:
+        seeds = [s for s in seeds if s[0] not in ("egg-planter", "registry-planter", "self-tune")]
 
     TASKS.mkdir(parents=True, exist_ok=True)
     LEGACY.mkdir(parents=True, exist_ok=True)
@@ -77,7 +67,7 @@ def main() -> int:
         (TASKS / f"{tid}.task.json").write_text(text, encoding="utf-8")
         (LEGACY / f"{tid}.task.json").write_text(text, encoding="utf-8")
 
-    print(f"Seeded {len(seeds)} local-safe tasks -> {TASKS}")
+    print(f"Seeded {len(seeds)} tasks -> {TASKS} and {LEGACY}")
     return 0
 
 

@@ -155,71 +155,62 @@ def queue_depth(cc: Path) -> dict:
 
 
 def send_alert(message: str, cfg: dict) -> None:
-    # v0.7.0: local JSONL only — no outbound webhook/Telegram
+    # v0.6.0: local alerts only (SkillSpector — no env→webhook HTTP)
     alert_path = LOGS / "alerts.jsonl"
     write_local_alert(message, alert_path)
+    notes = cfg.get("notifications") or {}
+    if notes.get("webhook_url_env") or notes.get("webhook_enable_env"):
+        print("[ALERT] outbound webhook disabled in v0.6.0 — see logs/alerts.jsonl")
 
 
 def one_pulse(cfg: dict, army_root: Path) -> dict:
     army_root = Path(__file__).resolve().parents[2]
     sys.path.insert(0, str(army_root))
-    from lygo_stack_root import resolve_stack_root_or_none
+    from lygo_stack_root import resolve_stack_root
 
-    stack = resolve_stack_root_or_none(
-        config_path=army_root / "ollama_command_center" / "config" / "army_config.json"
-    )
+    stack = resolve_stack_root(config_path=army_root / "ollama_command_center" / "config" / "army_config.json")
     ts = datetime.now(timezone.utc).isoformat()
-    sent = cfg.get("sentinel") or {}
     report = {
         "timestamp": ts,
-        "signature": cfg.get("signature", "Δ9Φ963-SENTINEL-v0.7"),
+        "signature": cfg.get("signature", "Δ9Φ963-SENTINEL"),
+        "lattice": run_lattice(stack),
+        "git": run_git_clean(stack),
+        "hf_space": probe_hf_space(),
         "ollama": probe_ollama(),
         "queue": queue_depth(army_root),
     }
-    if stack:
-        report["lattice"] = run_lattice(stack)
-        report["git"] = run_git_clean(stack)
-    else:
-        report["lattice"] = {"ok": True, "summary": "SKIP", "detail": "LYGO_STACK_ROOT unset"}
-        report["git"] = {"ok": True, "detail": "no stack"}
-
-    # Optional remote probes — OFF by default (honest local-first skill)
-    if sent.get("probe_hf_space", False):
-        report["hf_space"] = probe_hf_space()
-    else:
-        report["hf_space"] = {"ok": True, "detail": "probe_hf_space disabled"}
-
-    if sent.get("probe_public_pages", False):
+    if cfg.get("sentinel", {}).get("probe_public_pages", True):
         report["public_pages"] = probe_public_pages(cfg)
     else:
-        report["public_pages"] = {"ok": True, "detail": "probe_public_pages disabled"}
-
-    if stack and sent.get("probe_network_builder", False):
+        report["public_pages"] = {"ok": True, "detail": "probe disabled"}
+    sent = cfg.get("sentinel") or {}
+    if sent.get("probe_network_builder", False):
         report["network_builder"] = run_network_builder(stack)
-    else:
-        report["network_builder"] = {"ok": True, "detail": "probe_network_builder disabled"}
-
     require_ollama = bool(sent.get("require_ollama_for_healthy", True))
     ollama_ok = report["ollama"].get("ok", True) if require_ollama else True
+    nb_ok = (report.get("network_builder") or {}).get("ok", True)
     report["healthy"] = (
-        report["lattice"].get("ok", True)
+        report["lattice"]["ok"]
+        and report["hf_space"].get("ok", True)
         and report["public_pages"].get("ok", True)
-        and report["network_builder"].get("ok", True)
+        and nb_ok
         and ollama_ok
     )
 
     LOGS.mkdir(parents=True, exist_ok=True)
     WORKSPACE.mkdir(parents=True, exist_ok=True)
+    pp = report.get("public_pages") or {}
     line = (
         f"{ts} | lattice={report['lattice'].get('summary')} | "
-        f"queue={report['queue']['queued']} | ollama={report['ollama'].get('ok')} | "
-        f"healthy={report['healthy']}\n"
+        f"hf={report['hf_space'].get('stage', report['hf_space'].get('error', '?'))} | "
+        f"pages={pp.get('live', '?')}/{pp.get('checked', '?')} | "
+        f"queue={report['queue']['queued']} | ollama={report['ollama']['ok']}\n"
     )
     with HEARTBEAT_LOG.open("a", encoding="utf-8") as f:
         f.write(line)
     STATUS_FILE.write_text(json.dumps(report, indent=2), encoding="utf-8")
 
-    if sent.get("alert_on_lattice_fail") and stack and not report["lattice"].get("ok"):
+    if cfg.get("sentinel", {}).get("alert_on_lattice_fail") and not report["lattice"]["ok"]:
         send_alert(f"LYGO lattice check FAILED at {ts}", cfg)
     return report
 

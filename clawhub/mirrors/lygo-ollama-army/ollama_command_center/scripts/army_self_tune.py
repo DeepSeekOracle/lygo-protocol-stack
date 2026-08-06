@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 """
-Autonomous army self-tune — read-only stack probes + safe local config/queue hygiene.
-Never enables github_push, hf_write, or clawhub_publish.
+Army self-tune — LOCAL MUTATING hygiene (not read-only).
+
+When self_tune.enabled is true (default **false**), this script may:
+  - rewrite army_config.json (with .bak backup)
+  - prune/dedupe queued task files
+  - write workspace reports + logs
+  - optionally run allowlisted stack tools (e.g. haven chart rebuild)
+
+NEVER enables: github_push, hf_write, clawhub_publish, social publish.
+NEVER auto-enables planting (removed SkillSpector high-risk path).
 """
 
 from __future__ import annotations
@@ -144,34 +152,37 @@ def apply_runtime_tuning(cfg: dict, sentinel: dict) -> list[str]:
     sent["require_ollama_for_healthy"] = False
 
     planting = cfg.setdefault("planting", {})
-    if lattice_ok and tune.get("auto_enable_planting", True):
-        if not planting.get("enabled"):
-            planting["enabled"] = True
-            actions.append("planting.enabled=true (lattice OK)")
-    elif not lattice_ok and tune.get("pause_planting_on_lattice_fail", True):
+    # SkillSpector: NEVER auto-enable planting. Only pause when lattice fails
+    # if operator already had planting on and pause_planting_on_lattice_fail.
+    if tune.get("auto_enable_planting"):
+        # Explicitly refuse silent enable even if misconfigured true
+        actions.append("refused_auto_enable_planting (policy: manual consent only)")
+    if not lattice_ok and tune.get("pause_planting_on_lattice_fail", True):
         if planting.get("enabled"):
             planting["enabled"] = False
-            actions.append("planting.enabled=false (lattice fail)")
+            actions.append("planting.enabled=false (lattice fail; pause only)")
 
-    # v0.7.0: never auto-enable outbound public/HF probes
+    # Do not force public/network probes on — operator must set in config
     return actions
 
 
 def main() -> int:
     cfg = load_json(CONFIG_PATH)
-    if not (cfg.get("self_tune") or {}).get("enabled", False):
-        print(json.dumps({"skipped": "self_tune.disabled"}))
+    # Default OFF — operators must set self_tune.enabled true deliberately
+    if not cfg.get("self_tune", {}).get("enabled", False):
+        print(json.dumps({"skipped": "self_tune.disabled", "note": "set self_tune.enabled=true to allow local config/queue mutation"}))
         return 0
 
-    stack_raw = (cfg.get("lygo_stack_root") or os.environ.get("LYGO_STACK_ROOT") or "").strip()
-    stack = Path(stack_raw) if stack_raw else Path(".")
+    stack = Path(cfg.get("lygo_stack_root") or os.environ.get("LYGO_STACK_ROOT") or "")
+    if not stack:
+        stack = Path(r"I:\E Drive\lygo-protocol-stack")
     sentinel = load_json(STATUS_FILE)
     if not sentinel and (CC / "scripts" / "sentinel_heartbeat.py").is_file():
         run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
         sentinel = load_json(STATUS_FILE)
 
     actions: list[str] = []
-    if (cfg.get("self_tune") or {}).get("sync_clawhub_expect_from_stack", True):
+    if (cfg.get("self_tune") or {}).get("sync_clawhub_expect_from_stack", False):
         actions.extend(sync_clawhub_expect(cfg, stack))
     perf = cfg.setdefault("performance", {})
     dirs = queue_dirs(CC, ARMY)
@@ -206,29 +217,37 @@ def main() -> int:
     perf["queue_unique_tasks"] = unique_task_count(dirs)
 
     hsc = cfg.get("haven_star_chart") or {}
-    # Only allowlisted artifact builder (never arbitrary stack tool names)
+    # Default rebuild OFF — mutating stack docs only when explicitly enabled
     if hsc.get("rebuild_on_self_tune", False) and (sentinel.get("lattice") or {}).get("ok"):
-        builder = stack / "tools" / "build_haven_star_chart_artifacts.py"
+        builder = stack / "tools" / "build_haven_star_chart.py"
         if builder.is_file():
             cp = run_python(builder, cwd=stack, timeout=120, stack_root=stack)
             if cp.returncode == 0:
-                actions.append("haven_star_chart_artifacts.rebuilt")
+                actions.append("haven_star_chart.rebuilt")
             else:
-                actions.append(f"haven_star_chart.rebuild_refused_or_failed rc={cp.returncode}")
+                actions.append("haven_star_chart.rebuild_failed")
 
     backup = CONFIG_PATH.with_suffix(".json.bak")
-    shutil.copy2(CONFIG_PATH, backup)
+    if CONFIG_PATH.is_file():
+        shutil.copy2(CONFIG_PATH, backup)
     CONFIG_PATH.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
 
     report = {
-        "signature": "Δ9Φ963-ARMY-SELF-TUNE-v1",
+        "signature": "Δ9Φ963-ARMY-SELF-TUNE-v2",
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "mutating": True,
         "actions": actions,
         "healthy": sentinel.get("healthy"),
         "lattice": (sentinel.get("lattice") or {}).get("summary"),
         "queue": sentinel.get("queue"),
         "config_backup": str(backup),
         "verdict": "SELF_TUNED" if actions else "NOOP",
+        "policy": {
+            "auto_enable_planting": False,
+            "github_push": False,
+            "hf_write": False,
+            "clawhub_publish": False,
+        },
     }
     WORKSPACE.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(report, indent=2), encoding="utf-8")

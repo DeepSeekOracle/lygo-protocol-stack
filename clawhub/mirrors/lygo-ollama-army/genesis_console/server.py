@@ -76,23 +76,15 @@ class Handler(BaseHTTPRequestHandler):
 
 def main() -> int:
     DATA.parent.mkdir(parents=True, exist_ok=True)
-    # Force loopback only — never bind 0.0.0.0
-    host = "127.0.0.1"
     threading.Thread(target=collector_loop, name="genesis-collector", daemon=True).start()
     run_collector()
-    httpd = ThreadingHTTPServer((host, PORT), Handler)
-    url = f"http://{host}:{PORT}/"
-    print(f"Genesis console on {url}")
-    print(
-        "WARNING: status JSON may include queue/model/git metadata. "
-        "Bound to 127.0.0.1 only — do not tunnel or re-bind publicly."
-    )
-    # Auto-open browser only if LYGO_GENESIS_OPEN_BROWSER=1
-    if os.environ.get("LYGO_GENESIS_OPEN_BROWSER", "").strip().lower() in ("1", "true", "yes"):
-        try:
-            webbrowser.open(url)
-        except Exception:
-            pass
+    httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+    url = f"http://127.0.0.1:{PORT}/"
+    print(f"Genesis console on {url} (localhost only)")
+    try:
+        webbrowser.open(url)
+    except Exception:
+        pass
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

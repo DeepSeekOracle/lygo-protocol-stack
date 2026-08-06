@@ -281,12 +281,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama daemons + optional LYGO stack queue roles when LYGO_STACK_ROOT is set. Read references/SECURITY.md and SECURITY_AUDIT.md before install. Not for...",
+      "summary": "Local Ollama multi-role army. In-process threads + allowlisted runpy. Supervisors/self_tune/planting/social/full-capacity PS1 env-gated OFF by default. Honest spawn boundary. SkillSpector v0.7.0.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 226,
-      "version": "0.5.0"
+      "version": "0.7.1"
     },
     {
       "slug": "lygo-glyph2resonance",

@@ -1,3 +1,14 @@
+
+## [lygo-ollama-army 0.7.1] — 2026-08-06
+
+**Signature:** `Δ9Φ963-ARMY-SKILL-v0.7.1`
+
+### SkillSpector hardening
+- Never auto-enable planting (refuse even if self_tune.auto_enable_planting)
+- self_tune default off; honest mutating docstring + report
+- Cron plant/social roles gated; external LYRA memory write gated
+- Autonomous supervisor requires LYGO_ARMY_AUTONOMOUS=1
+- Full-capacity PS1: dual gate + honest process-spawn warnings; optional one-shots only
 # Changelog — LYGO Protocol Stack
 
 ## [lygo-geodesic-sealer 1.0.0] — 2026-08-06
@@ -290,3 +301,4 @@
 ## [P5.2.0 Public stack] — prior
 
 - Full P0–P5 orchestrator, ClawHub operator, HF ethical guardian bundle
+

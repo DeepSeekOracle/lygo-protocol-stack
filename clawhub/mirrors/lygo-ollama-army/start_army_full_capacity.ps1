@@ -1,18 +1,45 @@
-# LYGO Ollama Army — full capacity v3 (network-builder + mesh-cartographer)
+# LYGO Ollama Army — OPERATOR full-capacity launcher (PowerShell)
+# =============================================================================
+# WARNING (SkillSpector): This file is NOT the Python skill runtime.
+# It deliberately SPAWNS multiple external `python` processes via the shell.
+# The Python skill surface (ollama_army_launcher / _safe_invoke) uses in-process
+# threads + runpy only. Do not treat this PS1 as "no process spawn".
+#
+# Prefer safer entrypoints:
+#   python ollama_army_launcher.py --model llama3.2:1b --roles hb-light,draft-simple
+#   set LYGO_ARMY_AUTONOMOUS=1 && python ollama_command_center/scripts/army_autonomous_supervisor.py
+#
+# Gates required:
+#   LYGO_ARMY_FULL_CAPACITY=1
+#   LYGO_STACK_ROOT=<trusted clone>
+#   LYGO_ARMY_AUTONOMOUS=1  (for supervisor)
+# Read references/SECURITY.md first.
+# =============================================================================
 $ErrorActionPreference = "Stop"
 $ArmyRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $ArmyRoot
+
 if ($env:LYGO_ARMY_FULL_CAPACITY -ne "1") {
-    Write-Error "Refusing full-capacity start. Set LYGO_ARMY_FULL_CAPACITY=1 after reading references/SECURITY.md"
+    Write-Error @"
+Refusing full-capacity start.
+This launcher SPAWNS Python OS processes (not in-process threads).
+Set LYGO_ARMY_FULL_CAPACITY=1 only after reading references/SECURITY.md
+Prefer: python ollama_army_launcher.py  (SkillSpector-safe in-process path)
+"@
     exit 1
 }
 if (-not $env:LYGO_STACK_ROOT) {
-    Write-Error "Set LYGO_STACK_ROOT to your lygo-protocol-stack clone before full-capacity mode."
+    Write-Error "Set LYGO_STACK_ROOT to a trusted lygo-protocol-stack clone before full-capacity mode."
+    exit 1
+}
+if ($env:LYGO_ARMY_AUTONOMOUS -ne "1") {
+    Write-Error "Set LYGO_ARMY_AUTONOMOUS=1 to accept long-running autonomous supervisor."
     exit 1
 }
 
-Write-Host "=== LYGO Army Full Capacity v3 ===" -ForegroundColor Cyan
+Write-Host "=== LYGO Army Full Capacity — OPERATOR SHELL (process spawn) ===" -ForegroundColor Yellow
 Write-Host "Stack root: $env:LYGO_STACK_ROOT"
+Write-Host "This path uses external python.exe processes. Not the no-spawn Python skill surface." -ForegroundColor Yellow
 
 # Ollama quick check
 try {
@@ -22,11 +49,26 @@ try {
     Write-Host "[WARN] Ollama not ready — deterministic tasks still run; LLM roles wait." -ForegroundColor Yellow
 }
 
-python -B ollama_command_center\scripts\army_self_tune.py
-python -B seed_productive_tasks.py
-python -B ollama_command_center\scripts\army_cron_once.py
-python -B ollama_command_center\scripts\verify_army_tuning.py
+# Optional one-shots (each is a separate OS process)
+if ($env:LYGO_ARMY_RUN_SELF_TUNE -eq "1") {
+    Write-Host "[SPAWN] army_self_tune.py (mutating if self_tune.enabled)" -ForegroundColor DarkYellow
+    python -B ollama_command_center\scripts\army_self_tune.py
+}
+if ($env:LYGO_ARMY_SEED_TASKS -eq "1") {
+    Write-Host "[SPAWN] seed_productive_tasks.py" -ForegroundColor DarkYellow
+    python -B seed_productive_tasks.py
+}
+if ($env:LYGO_ARMY_RUN_CRON -eq "1") {
+    Write-Host "[SPAWN] army_cron_once.py" -ForegroundColor DarkYellow
+    python -B ollama_command_center\scripts\army_cron_once.py
+}
+if ($env:LYGO_ARMY_VERIFY_TUNE -eq "1") {
+    Write-Host "[SPAWN] verify_army_tuning.py" -ForegroundColor DarkYellow
+    python -B ollama_command_center\scripts\verify_army_tuning.py
+}
+
+Write-Host "[SPAWN] sentinel_heartbeat.py" -ForegroundColor DarkYellow
 python -B ollama_command_center\scripts\sentinel_heartbeat.py
 
-Write-Host "Starting autonomous supervisor (daemons + sentinel loop + hourly cron)..." -ForegroundColor Cyan
+Write-Host "Starting autonomous supervisor (SPAWN python — env already gated)..." -ForegroundColor Cyan
 python -B ollama_command_center\scripts\army_autonomous_supervisor.py
