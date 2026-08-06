@@ -1,7 +1,7 @@
 ---
 name: lygo-lattice-pulse
 description: "OpenClaw plugin skill — live Haven pulse, stack verify, registry compare, star chart gate, alignment readiness. Install clawhub:@deepseekoracle/lygo-lattice-pulse."
-metadata: {"lygo": true, "openclaw_plugin": "lygo-lattice-pulse", "version": "1.2.0", "signature": "Δ9Φ963-LYGO-LATTICE-PULSE-SKILL-v1.2", "security_audit": "SkillSpector-v1.2-no-subprocess"}
+metadata: {"lygo": true, "openclaw_plugin": "lygo-lattice-pulse", "version": "1.2.2", "signature": "Δ9Φ963-LYGO-LATTICE-PULSE-SKILL-v1.2.2", "security_audit": "SkillSpector-v1.2-no-subprocess", "manifest_fix": "removed-uiHints-and-catalog"}
 ---
 
 # LYGO Lattice Pulse (bundled plugin skill)

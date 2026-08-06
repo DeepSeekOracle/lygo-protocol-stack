@@ -2,16 +2,12 @@
   "id": "lygo-lattice-pulse",
   "name": "LYGO Lattice Pulse",
   "description": "Live Haven heartbeat, stack verify, registry compare, star chart gate, and alignment readiness for LYGO OpenClaw agents.",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "icon": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-haven-star-chart.jpg",
   "activation": {
     "onStartup": false
   },
   "skills": ["./skills"],
-  "catalog": {
-    "featured": true,
-    "order": 3
-  },
   "contracts": {
     "tools": [
       "lygo_lattice_pulse",
@@ -32,24 +28,20 @@
     "lygo_star_chart_gate": { "optional": true },
     "lygo_p0_quick_scan": { "optional": true }
   },
-  "uiHints": {
-    "stackRoot": {
-      "label": "LYGO stack root",
-      "help": "Absolute path to your trusted lygo-protocol-stack clone (fallback: LYGO_STACK_ROOT env).",
-      "placeholder": "I:/path/to/lygo-protocol-stack"
-    },
-    "pagesBase": {
-      "label": "Pages base URL",
-      "help": "GitHub Pages base for live Haven registry JSON.",
-      "placeholder": "https://deepseekoracle.github.io/lygo-protocol-stack"
-    }
-  },
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "stackRoot": { "type": "string" },
-      "pagesBase": { "type": "string" }
+      "stackRoot": {
+        "type": "string",
+        "title": "LYGO stack root",
+        "description": "Absolute path to your trusted lygo-protocol-stack clone (fallback: LYGO_STACK_ROOT env). Example: I:/path/to/lygo-protocol-stack"
+      },
+      "pagesBase": {
+        "type": "string",
+        "title": "Pages base URL",
+        "description": "GitHub Pages base for live Haven registry JSON. Example: https://deepseekoracle.github.io/lygo-protocol-stack"
+      }
     }
   }
 }

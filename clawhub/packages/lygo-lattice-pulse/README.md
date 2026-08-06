@@ -10,7 +10,9 @@
 openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
 ```
 
-## Tools (v1.2 — SkillSpector-safe)
+## Tools (v1.2.2 — SkillSpector-safe)
+
+**v1.2.2:** ClawHub `manifest-unknown-fields` fixed — removed top-level `uiHints` and `catalog` from `openclaw.plugin.json`. Config labels live under `configSchema.properties.*.title/description`.
 
 | Tool | Purpose |
 |------|---------|

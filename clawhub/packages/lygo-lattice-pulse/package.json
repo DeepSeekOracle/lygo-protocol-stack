@@ -1,6 +1,6 @@
 {
   "name": "@deepseekoracle/lygo-lattice-pulse",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "LYGO Lattice Pulse — live Haven heartbeat, stack verify, registry compare, star chart gate, alignment readiness",
   "type": "module",
   "license": "MIT-0",
