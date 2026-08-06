@@ -75,16 +75,27 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main() -> int:
+    """Localhost-only dashboard. Optional browser open is OFF by default (SkillSpector)."""
     DATA.parent.mkdir(parents=True, exist_ok=True)
     threading.Thread(target=collector_loop, name="genesis-collector", daemon=True).start()
     run_collector()
     httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     url = f"http://127.0.0.1:{PORT}/"
-    print(f"Genesis console on {url} (localhost only)")
-    try:
-        webbrowser.open(url)
-    except Exception:
-        pass
+    print(f"Genesis console on {url} (localhost only — not public)")
+    print("  bind: 127.0.0.1 only · no remote clients · no auth (local operator trust)")
+    open_browser = os.environ.get("LYGO_GENESIS_OPEN_BROWSER", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    )
+    if open_browser:
+        try:
+            webbrowser.open(url)
+            print("  browser: opened (LYGO_GENESIS_OPEN_BROWSER=1)")
+        except Exception as exc:
+            print(f"  browser: open failed ({exc})")
+    else:
+        print("  browser: not opened (set LYGO_GENESIS_OPEN_BROWSER=1 to auto-open)")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

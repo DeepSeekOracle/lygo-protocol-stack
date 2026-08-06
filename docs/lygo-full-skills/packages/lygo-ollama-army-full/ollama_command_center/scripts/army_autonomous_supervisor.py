@@ -103,11 +103,15 @@ def launch_daemons_from_config(cfg: dict):
 
 
 def main() -> int:
-    if os.environ.get("LYGO_ARMY_AUTONOMOUS", "").strip() not in ("1", "true", "yes"):
+    auto = os.environ.get("LYGO_ARMY_AUTONOMOUS", "").strip().lower() in ("1", "true", "yes")
+    consent = os.environ.get("LYGO_ARMY_I_CONSENT", "").strip().lower() in ("1", "true", "yes")
+    if not auto or not consent:
         print(
-            "Refusing autonomous supervisor.\n"
-            "Set LYGO_ARMY_AUTONOMOUS=1 after reading references/SECURITY.md\n"
-            "This starts long-running in-process daemons + periodic sentinel/cron.",
+            "Refusing autonomous supervisor (SkillSpector dual gate).\n"
+            "  Set LYGO_ARMY_AUTONOMOUS=1\n"
+            "  Set LYGO_ARMY_I_CONSENT=1  (operator accepts long-running daemons + cron)\n"
+            "Read references/SECURITY.md first.\n"
+            "Safer entry: python ollama_army_launcher.py --roles hb-light,draft-simple",
             file=sys.stderr,
         )
         return 2
@@ -122,19 +126,30 @@ def main() -> int:
     self_tune = cfg.get("self_tune") or {}
     social = cfg.get("social_publish") or {}
     perf = cfg.get("performance") or {}
+    sent = cfg.get("sentinel") or {}
     mode = "slim" if perf.get("slim_boot", True) else "full"
+    plant_on = bool(planting.get("enabled") and planting.get("consent"))
+    tune_on = bool(self_tune.get("enabled", False))
+    social_on = bool(social.get("enabled") and social.get("allow_social_pulse"))
+    probes_on = bool(sent.get("probe_public_pages") or sent.get("probe_network_builder"))
 
-    print("LYGO Army Autonomous Supervisor v0.7.0")
-    print("  WARNING: long-running autonomous loop (env-gated only)")
+    print("LYGO Army Autonomous Supervisor v0.8.1")
+    print("  WARNING: long-running autonomous loop — dual env gate accepted")
+    print("  CAUTION: no further interactive confirmation after env gates")
     print(f"  - boot mode: {mode}")
-    print("  - sentinel every 5 min (local + optional HTTPS GET probes per config)")
+    print("  - sentinel every 5 min")
+    print(f"  - public HTTPS GET probes: {'ON' if probes_on else 'OFF (default)'}")
     print(
-        "  - hourly cron: safe roles only; "
-        f"planting={'ON' if planting.get('enabled') else 'OFF'}; "
-        f"self_tune={'ON' if self_tune.get('enabled') else 'OFF'}; "
-        f"social={'ON' if social.get('enabled') else 'OFF'}"
+        "  - hourly cron seeds SAFE roles only "
+        "(lattice/stack/pages/mesh/audit/memory names are task *roles*, not auto-plant)"
     )
-    print("  - daemons: in-process threads (no OS spawn from this script)")
+    print(
+        f"  - consent gates now: planting={'ON' if plant_on else 'OFF'}; "
+        f"self_tune={'ON' if tune_on else 'OFF'}; "
+        f"social_pulse={'ON' if social_on else 'OFF'}"
+    )
+    print("  - daemons: in-process threads only (no OS spawn from this Python file)")
+    print("  - Operator PS1 full-capacity is a SEPARATE surface that spawns python.exe")
 
     daemon_threads = launch_daemons_from_config(cfg)
 

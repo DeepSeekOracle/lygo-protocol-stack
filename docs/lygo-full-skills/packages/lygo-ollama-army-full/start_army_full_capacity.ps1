@@ -1,18 +1,18 @@
-# LYGO Ollama Army — OPERATOR full-capacity launcher (PowerShell)
+# LYGO Ollama Army — OPERATOR-ONLY full-capacity launcher (PowerShell)
 # =============================================================================
-# WARNING (SkillSpector): This file is NOT the Python skill runtime.
-# It deliberately SPAWNS multiple external `python` processes via the shell.
-# The Python skill surface (ollama_army_launcher / _safe_invoke) uses in-process
-# threads + runpy only. Do not treat this PS1 as "no process spawn".
+# NOT the SkillSpector Python skill surface.
+# This script deliberately SPAWNS multiple external `python.exe` OS processes.
+# Python skill path (ollama_army_launcher / _safe_invoke) = in-process threads + runpy.
+# Do NOT claim "no process spawn" for this file.
 #
-# Prefer safer entrypoints:
+# Prefer safer entrypoints (no OS spawn):
 #   python ollama_army_launcher.py --model llama3.2:1b --roles hb-light,draft-simple
-#   set LYGO_ARMY_AUTONOMOUS=1 && python ollama_command_center/scripts/army_autonomous_supervisor.py
 #
-# Gates required:
+# Gates required (all three):
 #   LYGO_ARMY_FULL_CAPACITY=1
+#   LYGO_ARMY_AUTONOMOUS=1
+#   LYGO_ARMY_I_CONSENT=1
 #   LYGO_STACK_ROOT=<trusted clone>
-#   LYGO_ARMY_AUTONOMOUS=1  (for supervisor)
 # Read references/SECURITY.md first.
 # =============================================================================
 $ErrorActionPreference = "Stop"
@@ -22,7 +22,7 @@ Set-Location $ArmyRoot
 if ($env:LYGO_ARMY_FULL_CAPACITY -ne "1") {
     Write-Error @"
 Refusing full-capacity start.
-This launcher SPAWNS Python OS processes (not in-process threads).
+This OPERATOR launcher SPAWNS Python OS processes (not in-process threads).
 Set LYGO_ARMY_FULL_CAPACITY=1 only after reading references/SECURITY.md
 Prefer: python ollama_army_launcher.py  (SkillSpector-safe in-process path)
 "@
@@ -34,6 +34,15 @@ if (-not $env:LYGO_STACK_ROOT) {
 }
 if ($env:LYGO_ARMY_AUTONOMOUS -ne "1") {
     Write-Error "Set LYGO_ARMY_AUTONOMOUS=1 to accept long-running autonomous supervisor."
+    exit 1
+}
+if ($env:LYGO_ARMY_I_CONSENT -ne "1") {
+    Write-Error @"
+Set LYGO_ARMY_I_CONSENT=1 to confirm you accept:
+  - OS process spawn of python.exe
+  - long-running supervisor loop
+  - optional one-shot scripts (self_tune/seed/cron only if LYGO_ARMY_RUN_*=1)
+"@
     exit 1
 }
 

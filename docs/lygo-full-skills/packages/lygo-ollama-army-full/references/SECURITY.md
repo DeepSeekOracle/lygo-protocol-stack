@@ -1,6 +1,6 @@
 # LYGO Ollama Army — Security
 
-**Version:** 0.7.0 · **Signature:** `Δ9Φ963-ARMY-SECURITY-v4`  
+**Version:** 0.8.1 · **Signature:** `Δ9Φ963-ARMY-SECURITY-v5`  
 **Audit:** `references/SECURITY_AUDIT.md` · `references/SKILLSPECTOR_AUDIT.md`
 
 ## Install only if
@@ -17,6 +17,7 @@
 | OS process spawn (Python skill scripts) | **No** | `_safe_invoke.run_python` (runpy) + threads |
 | OS process spawn (operator PS1) | **Yes** | `start_army_full_capacity.ps1` only — env gated |
 | Network | **Yes** | `127.0.0.1:11434` Ollama; optional HTTPS **GET** public probes; optional localhost HTTP dashboard |
+| Browser open | **No** default | Genesis only if `LYGO_GENESIS_OPEN_BROWSER=1` |
 | Outbound webhook POST | **No** | Alerts → `logs/alerts.jsonl` |
 | Git / HF / ClawHub publish | **No** | Defaults false |
 | Autonomous social publish | **No** | Requires `social_publish` flags |
@@ -26,26 +27,29 @@
 
 | Variable | Required for |
 |----------|----------------|
-| `LYGO_ARMY_AUTONOMOUS=1` | `army_autonomous_supervisor.py` |
+| `LYGO_ARMY_AUTONOMOUS=1` | `army_autonomous_supervisor.py` (with I_CONSENT) |
+| `LYGO_ARMY_I_CONSENT=1` | Supervisor + full-capacity PS1 (operator accepts long loop / spawn) |
 | `LYGO_ARMY_FULL_CAPACITY=1` | Operator PS1 full-capacity (process spawn) |
 | `LYGO_ARMY_SEED_TASKS=1` | `seed_productive_tasks.py` (PS1 one-shot) |
 | `LYGO_ARMY_RUN_SELF_TUNE=1` | PS1 one-shot self_tune spawn |
 | `LYGO_ARMY_RUN_CRON=1` | PS1 one-shot cron spawn |
 | `LYGO_ARMY_IDLE_GUARDIAN=1` | Idle guardian supervisor |
+| `LYGO_GENESIS_OPEN_BROWSER=1` | Auto-open system browser for genesis |
 | `LYGO_STACK_ROOT` | Stack-touching roles (trusted clone only) |
 
 ## High-risk features (user opt-in)
 
 | Feature | Risk | Rule |
 |---------|------|------|
-| `self_tune.enabled` | Config rewrite + queue prune | Default **false**; docstring: **mutating** |
-| `auto_enable_planting` | Policy bypass | **Refused** in code even if true |
+| `self_tune.enabled` | Config rewrite + queue prune | Default **false**; **mutating** (not read-only) |
+| `auto_enable_planting` | Policy bypass | **Forced false** every self_tune write |
 | Queue `.task.json` | Auto-exec when daemon runs | Human review before drop |
 | `egg-planter` / `registry-planter` | Stack mutation | `planting.enabled` + `consent` |
-| `allow_external_memory_write` | LYRA_CORE daily write | Default **false** |
-| `allow_privileged_roles` | Plant/social/boot roles in supervisor | Default **false** |
-| Supervisors | Long-running loops | `LYGO_ARMY_AUTONOMOUS=1` |
-| Full-capacity PS1 | Multi-process | Full_CAPACITY + AUTONOMOUS |
+| `allow_external_memory_write` | LYRA_CORE daily write | Default **false** (≠ allow_planting) |
+| `allow_stack_mutating_tools` | Chart/catalog write | Default **false** |
+| `allow_privileged_roles` | Plant/social/boot roles | Default **false** |
+| Supervisors | Long-running loops | AUTONOMOUS + I_CONSENT |
+| Full-capacity PS1 | Multi-process | FULL_CAPACITY + AUTONOMOUS + I_CONSENT |
 
 ## Forbidden for agents
 

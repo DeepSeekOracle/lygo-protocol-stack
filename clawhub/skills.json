@@ -7,7 +7,7 @@
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "count_published": 73,
   "count_mirrored": 73,
-  "updated_utc": "2026-08-06T04:31:03.604398+00:00",
+  "updated_utc": "2026-08-06T04:39:51.656113+00:00",
   "skills": [
     {
       "slug": "lygo-kickstart-wizard",
@@ -462,12 +462,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama multi-role army. Default path: in-process threads + allowlisted runpy (no subprocess). Optional localhost HTTP dashboard/genesis. Optional HTTPS GET public lattice probes. Supervisors/self_tune/planting/social/full-capacity PS1 are env/config gated and OFF by default",
+      "summary": "Local Ollama multi-role army. In-process threads + runpy; optional localhost dashboard; optional HTTPS GET probes; supervisors/self_tune/planting/PS1 spawn gated OFF. Planting never auto-enabled. Operator PS1 spawns python.exe (separate surface).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 226,
-      "version": "0.7.1"
+      "version": "0.8.1"
     },
     {
       "slug": "lygo-open-claw",

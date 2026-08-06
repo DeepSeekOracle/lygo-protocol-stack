@@ -118,7 +118,8 @@
     ],
     "allow_planting": false,
     "allow_social_pulse": false,
-    "allow_external_memory_write": false
+    "allow_external_memory_write": false,
+    "allow_stack_mutating_tools": false
   },
   "social_publish": {
     "enabled": false,

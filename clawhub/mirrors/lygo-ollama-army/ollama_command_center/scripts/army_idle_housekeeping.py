@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Safe idle housekeeping — catalog memory, 3-brain index, verify eggs, scout upgrades.
+"""Idle housekeeping — catalog memory, 3-brain index, verify eggs, scout upgrades.
 
-Policy gates (all default false / safe):
-  - idle_guardian.allow_planting — kernel plant ops (not used in this module's OPS)
-  - idle_guardian.allow_external_memory_write — may append to LYRA_CORE daily index
-  - Without allow_external_memory_write: 3-brain op catalogs into army workspace only
+Policy gates (read from army_config idle_guardian; defaults safe):
+  - allow_planting (default false): if true would allow plant-adjacent ops — THIS MODULE
+    still has NO plant ops; flag is checked and any future plant op must honor it.
+  - allow_external_memory_write (default false): may append to LYRA_CORE daily index.
+    Independent of allow_planting — planting flag never implies external memory write.
+  - allow_stack_mutating_tools (default false): haven chart rebuild / catalog render that write stack.
 
+Without allow_external_memory_write: 3-brain op catalogs into army workspace only.
 No git push, ClawHub publish, social posts, or kernel planting from this script.
 """
 
@@ -226,10 +229,24 @@ def op_living_memory_audit(stack: Path) -> dict:
 
 
 def op_clawhub_catalog_render(stack: Path) -> dict:
+    idle = _idle_cfg()
+    if not idle.get("allow_stack_mutating_tools", False):
+        return {
+            "ok": True,
+            "skipped": True,
+            "reason": "allow_stack_mutating_tools=false (default)",
+        }
     return _run_tool(stack, "render_clawhub_catalog.py", 60)
 
 
 def op_haven_chart_refresh(stack: Path) -> dict:
+    idle = _idle_cfg()
+    if not idle.get("allow_stack_mutating_tools", False):
+        return {
+            "ok": True,
+            "skipped": True,
+            "reason": "allow_stack_mutating_tools=false (default)",
+        }
     return _run_tool(stack, "build_haven_star_chart.py", 120)
 
 
@@ -352,16 +369,40 @@ def main() -> int:
     if args.list:
         print("\n".join(sorted(OPS.keys())))
         return 0
+    idle = _idle_cfg()
+    # Explicit allow_planting check (SkillSpector): this module has no plant OPS,
+    # but refuse any op name that looks plant-like if allow_planting is false.
+    allow_plant = bool(idle.get("allow_planting", False))
     if args.op:
         ops = args.op
     elif args.tick:
-        idle = _idle_cfg()
         ops = list(idle.get("housekeep_ops") or DEFAULT_OPS)
     else:
         ap.print_help()
         return 2
+
+    plant_like = [o for o in ops if "plant" in o.lower() or "seed" in o.lower()]
+    if plant_like and not allow_plant:
+        print(
+            json.dumps(
+                {
+                    "ok": False,
+                    "refused": plant_like,
+                    "reason": "idle_guardian.allow_planting=false (default) — plant-like ops blocked",
+                    "allow_external_memory_write": bool(idle.get("allow_external_memory_write", False)),
+                    "note": "allow_planting and allow_external_memory_write are independent flags",
+                }
+            )
+        )
+        return 3
+
     summary = run_ops(ops)
-    print(json.dumps({"all_ok": summary["all_ok"], "ops": list(summary["ops"].keys())}))
+    summary["policy"] = {
+        "allow_planting": allow_plant,
+        "allow_external_memory_write": bool(idle.get("allow_external_memory_write", False)),
+        "allow_stack_mutating_tools": bool(idle.get("allow_stack_mutating_tools", False)),
+    }
+    print(json.dumps({"all_ok": summary["all_ok"], "ops": list(summary["ops"].keys()), "policy": summary["policy"]}))
     return 0 if summary["all_ok"] else 1
 
 

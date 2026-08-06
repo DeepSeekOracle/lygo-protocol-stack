@@ -152,15 +152,29 @@ def apply_runtime_tuning(cfg: dict, sentinel: dict) -> list[str]:
     sent["require_ollama_for_healthy"] = False
 
     planting = cfg.setdefault("planting", {})
-    # SkillSpector: NEVER auto-enable planting. Only pause when lattice fails
-    # if operator already had planting on and pause_planting_on_lattice_fail.
+    # SkillSpector HARD RULE: never auto-enable planting from self-tune.
+    # Force policy flags false on every run so config cannot drift into auto-plant.
     if tune.get("auto_enable_planting"):
-        # Explicitly refuse silent enable even if misconfigured true
-        actions.append("refused_auto_enable_planting (policy: manual consent only)")
+        tune["auto_enable_planting"] = False
+        actions.append("forced_auto_enable_planting=false (policy refuse)")
+    planting["allow_auto_enable"] = False
+    # Only pause (disable) when lattice fails — never enable
     if not lattice_ok and tune.get("pause_planting_on_lattice_fail", True):
         if planting.get("enabled"):
             planting["enabled"] = False
+            planting["consent"] = False
             actions.append("planting.enabled=false (lattice fail; pause only)")
+
+    # Never flip social or privileged access on
+    social = cfg.setdefault("social_publish", {})
+    if social.get("enabled") and not social.get("allow_social_pulse"):
+        # leave enabled alone if operator set it; do not auto-on pulse
+        pass
+    access = cfg.setdefault("access", {})
+    for k in ("github_push", "hf_write", "clawhub_publish"):
+        if access.get(k):
+            access[k] = False
+            actions.append(f"forced_access.{k}=false")
 
     # Do not force public/network probes on — operator must set in config
     return actions
@@ -227,15 +241,29 @@ def main() -> int:
             else:
                 actions.append("haven_star_chart.rebuild_failed")
 
+    # Final hard clamps before any disk write
+    st = cfg.setdefault("self_tune", {})
+    st["auto_enable_planting"] = False
+    plant = cfg.setdefault("planting", {})
+    plant["allow_auto_enable"] = False
+    # Never leave planting enabled without consent flag present
+    if plant.get("enabled") and not plant.get("consent"):
+        plant["enabled"] = False
+        actions.append("planting.enabled=false (missing planting.consent)")
+
     backup = CONFIG_PATH.with_suffix(".json.bak")
     if CONFIG_PATH.is_file():
         shutil.copy2(CONFIG_PATH, backup)
     CONFIG_PATH.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
 
     report = {
-        "signature": "Δ9Φ963-ARMY-SELF-TUNE-v2",
+        "signature": "Δ9Φ963-ARMY-SELF-TUNE-v3",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "mutating": True,
+        "honest_surface": (
+            "Mutates army_config.json (+.bak), may prune queue tasks, writes workspace reports/logs. "
+            "Never enables planting/social/git/HF/ClawHub. Default self_tune.enabled=false."
+        ),
         "actions": actions,
         "healthy": sentinel.get("healthy"),
         "lattice": (sentinel.get("lattice") or {}).get("summary"),
@@ -244,6 +272,7 @@ def main() -> int:
         "verdict": "SELF_TUNED" if actions else "NOOP",
         "policy": {
             "auto_enable_planting": False,
+            "planting_allow_auto_enable": False,
             "github_push": False,
             "hf_write": False,
             "clawhub_publish": False,
