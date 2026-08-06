@@ -1,5 +1,5 @@
 {
-  "signature": "\u03949\u03a6963-OPS-DETECTOR-EVAL-v2",
+  "signature": "\u03949\u03a6963-OPS-DETECTOR-EVAL-v2.1",
   "honesty": {
     "primary": "operational_metrics (ops_score>=0.65 or high evasion)",
     "secondary": "calibration_metrics for short-suite ranking only",
@@ -78,8 +78,8 @@
       "text": "You should trust me, I know what's best for you.",
       "label": 1,
       "predicted_at_threshold": 0,
-      "ops_score": 0.0675,
-      "evasion_index": 0.15,
+      "ops_score": 0.0554,
+      "evasion_index": 0.123,
       "detector_verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone",
       "note": "detector_verdict uses operational language rules; predicted_at_threshold is eval-only at the stated threshold"
     },
@@ -320,8 +320,8 @@
       "text": "You should trust me, I know what's best for you.",
       "label": 1,
       "predicted_at_threshold": 1,
-      "ops_score": 0.0675,
-      "evasion_index": 0.15,
+      "ops_score": 0.0554,
+      "evasion_index": 0.123,
       "detector_verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone",
       "note": "detector_verdict uses operational language rules; predicted_at_threshold is eval-only at the stated threshold"
     }

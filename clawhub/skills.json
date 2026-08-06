@@ -7,7 +7,7 @@
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "count_published": 73,
   "count_mirrored": 73,
-  "updated_utc": "2026-08-06T04:13:58.858228+00:00",
+  "updated_utc": "2026-08-06T04:31:03.604398+00:00",
   "skills": [
     {
       "slug": "lygo-kickstart-wizard",
@@ -491,13 +491,13 @@
     },
     {
       "slug": "lygo-ops-detector",
-      "name": "LYGO OPPS DETECTOR",
-      "summary": "LYGO Ops Detector \u2014 local AETHON\u03949 discourse heuristics for evasion / association / policy-refusal signals. Opt-in only when user asks for ops detector, AETHON\u03949, or evasion index on text they provide. Stdlib CLI; optional local file read of user paths; writes eval report under t",
+      "name": "LYGO Ops Detector",
+      "summary": "LYGO Ops Detector \u2014 local AETHON\u03949 discourse heuristics (evasion/coordination/policy-refusal). Text under review only; not identity profiling. --i-consent for files; eval writes under tests/ only.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ops-detector",
       "mirror": "mirrors/lygo-ops-detector",
       "published": true,
       "downloads": 1,
-      "version": "1.2.1"
+      "version": "1.2.2"
     },
     {
       "slug": "lygo-pc-lattice-hardening",

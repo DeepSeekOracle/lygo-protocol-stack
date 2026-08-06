@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `D:\lygo-protocol-stack\clawhub\mirrors\lygo-lattice-birth`
-Packaged: 2026-08-06T04:19:10.275809+00:00
+Packaged: 2026-08-06T04:32:02.800652+00:00
 Files: 11
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

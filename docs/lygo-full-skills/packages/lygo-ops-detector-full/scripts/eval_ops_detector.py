@@ -11,7 +11,7 @@ Usage:
   python eval_ops_detector.py tests/labeled_discourse_suite.json --sweep
   python eval_ops_detector.py --operational-threshold 0.65 --calibration-threshold 0.05
 
-Writes tests/last_eval_report.json. Stdlib only.
+Writes only under skill tests/ (least privilege). Stdlib only.
 """
 from __future__ import annotations
 
@@ -23,14 +23,37 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
+TESTS = ROOT / "tests"
 sys.path.insert(0, str(SCRIPTS))
 
 import lygo_ops_detector as det  # noqa: E402
 
-DEFAULT_SUITE = ROOT / "tests" / "labeled_discourse_suite.json"
-DEFAULT_OUT = ROOT / "tests" / "last_eval_report.json"
+DEFAULT_SUITE = TESTS / "labeled_discourse_suite.json"
+DEFAULT_OUT = TESTS / "last_eval_report.json"
 OPERATIONAL_DEFAULT = 0.65
 CALIBRATION_DEFAULT = 0.05
+
+
+def resolve_write_path(raw: str) -> Path:
+    """Constrain writes to skill tests/ only (SkillSpector least-privilege)."""
+    tests = TESTS.resolve()
+    candidate = Path(raw)
+    if candidate.is_absolute():
+        p = candidate.resolve()
+    else:
+        # bare name or relative → under tests/; allow "tests/foo.json" from skill root
+        if candidate.parts and candidate.parts[0] == "tests":
+            p = (ROOT / candidate).resolve()
+        else:
+            p = (tests / candidate).resolve()
+    try:
+        p.relative_to(tests)
+    except ValueError:
+        raise SystemExit(
+            f"REFUSED: --out must be under skill tests/ ({tests}). Got: {p}\n"
+            f"Default: {DEFAULT_OUT}"
+        )
+    return p
 
 
 def load_suite(path: Path) -> list[dict[str, Any]]:
@@ -173,12 +196,22 @@ def main() -> int:
         help="Short-suite ranking only (default 0.05). NOT production performance.",
     )
     ap.add_argument("--sweep", action="store_true")
-    ap.add_argument("--out", default=str(DEFAULT_OUT))
+    ap.add_argument(
+        "--out",
+        default=str(DEFAULT_OUT),
+        help=f"Write JSON report under skill tests/ only (default: {DEFAULT_OUT.name})",
+    )
     args = ap.parse_args()
 
     suite_path = Path(args.suite)
     if not suite_path.is_file():
         print(f"MISSING suite: {suite_path}", file=sys.stderr)
+        return 2
+
+    try:
+        out_path = resolve_write_path(args.out)
+    except SystemExit as e:
+        print(str(e), file=sys.stderr)
         return 2
 
     samples = load_suite(suite_path)
@@ -195,7 +228,7 @@ def main() -> int:
     )}
 
     report: dict[str, Any] = {
-        "signature": "Δ9Φ963-OPS-DETECTOR-EVAL-v2",
+        "signature": "Δ9Φ963-OPS-DETECTOR-EVAL-v2.1",
         "honesty": {
             "primary": "operational_metrics (ops_score>=0.65 or high evasion)",
             "secondary": "calibration_metrics for short-suite ranking only",
@@ -230,8 +263,11 @@ def main() -> int:
     if args.sweep:
         report["threshold_sweep"] = sweep_thresholds(samples)
 
-    out_path = Path(args.out)
+    # Write only under tests/ (already resolved). Never mkdir outside skill tree.
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    if not str(out_path.resolve()).startswith(str(TESTS.resolve())):
+        print("REFUSED: write path escaped tests/", file=sys.stderr)
+        return 2
     out_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
     print(

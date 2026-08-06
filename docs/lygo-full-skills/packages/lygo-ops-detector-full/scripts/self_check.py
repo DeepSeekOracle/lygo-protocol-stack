@@ -70,6 +70,33 @@ if rd.ops_score < rb.ops_score and rd.evasion_index <= rb.evasion_index:
     print("RANK_FAIL: deceptive sample not ranked above benign")
     sys.exit(6)
 
+# SkillSpector gates: consent on files; no bare job association cue scoring
+rc = det.main(["--text-file", str(suite), "--json"])
+if rc != 3:
+    print("CONSENT_GATE_FAIL: expected exit 3 without --i-consent, got", rc)
+    sys.exit(7)
+
+# Bare profession word alone must not drive association channel high
+bare = det.analyze(text="I work in military intelligence at an agency.")
+if bare.association_index > 0.35:
+    print("AFFILIATION_LEAK: bare job words scored association", bare.association_index)
+    sys.exit(8)
+
+# Boundaries export present
+dicts = det.get_measurement_dictionaries()
+if not dicts.get("signal_boundaries") or dicts.get("identity_markers_scored") is not False:
+    print("BOUNDARIES_MISSING")
+    sys.exit(9)
+
+# Eval out-path guard
+import eval_ops_detector as ev
+try:
+    ev.resolve_write_path(str(Path.home() / "evil_out.json"))
+    print("OUT_PATH_GUARD_FAIL")
+    sys.exit(10)
+except SystemExit:
+    pass
+
 print("OK")
 print("EVASION", report.evasion_index)
 print("ASSOC", report.association_index)
@@ -78,3 +105,4 @@ print("VERDICT", report.overall_verdict)
 print("LIGHTFATHER", report.lightfather_note)
 print("SUITE_SAMPLES", len(samples))
 print("METRICS_SOURCE", det.PERFORMANCE_METRICS.get("source"))
+print("VERSION_HINT", "1.2.2")
