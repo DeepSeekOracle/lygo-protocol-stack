@@ -380,6 +380,8 @@ def normalize_seal(item: dict) -> dict | None:
         else:
             norm_conns.append(c)
     repo = item.get("whitepaperLink") or item.get("sealPhotoLink") or ""
+    # Drop self-links early; unknown targets filtered in wire_graph_integrity
+    norm_conns = [c for c in norm_conns if c and c != sid]
     return {
         "id": sid,
         "kind": "seal",
@@ -392,6 +394,123 @@ def normalize_seal(item: dict) -> dict | None:
         "urls": {"repo": repo} if repo else {},
         "layer": 0 if sid in ("SEAL_000", "GAB_SEAL_000") else 2,
     }
+
+
+def _seal_number(nid: str) -> int | None:
+    m = re.match(r"^SEAL_(\d+)$", str(nid).upper())
+    if not m:
+        return None
+    return int(m.group(1))
+
+
+def wire_graph_integrity(nodes: list[dict]) -> dict[str, int]:
+    """Sanitize connections, chain seals, assign champion ownership for cosmology.
+
+    Fixes empty seal graphs (all seals dumping into Primordial Vault with no
+    champion linkage) and dangling / self-loop connections.
+    """
+    stats = {
+        "dropped_unknown": 0,
+        "dropped_self": 0,
+        "sealed_chained": 0,
+        "champion_owned": 0,
+    }
+    id_set = {str(n.get("id")) for n in nodes if n.get("id")}
+    champions = [n for n in nodes if n.get("kind") == "champion"]
+    champ_ids = [c["id"] for c in champions]
+    # Prefer stable council order for seal → galaxy distribution
+    champ_order = sorted(champ_ids)
+
+    # 1) Sanitize every node's connections
+    for n in nodes:
+        nid = str(n.get("id") or "")
+        cleaned: list[str] = []
+        seen: set[str] = set()
+        for c in n.get("connections") or []:
+            c = str(c)
+            if not c or c == nid:
+                stats["dropped_self"] += 1
+                continue
+            if c not in id_set:
+                stats["dropped_unknown"] += 1
+                continue
+            if c not in seen:
+                seen.add(c)
+                cleaned.append(c)
+        n["connections"] = cleaned
+
+    # 2) Sequential seal chain when connections empty
+    for n in nodes:
+        if n.get("kind") != "seal":
+            continue
+        nid = str(n["id"])
+        num = _seal_number(nid)
+        if num is None or num == 0:
+            continue
+        if n.get("connections"):
+            continue
+        # Prefer previous numeric seal, then SEAL_000
+        prev = None
+        for p in (num - 1, num - 2, num - 3):
+            if p < 0:
+                break
+            cand = f"SEAL_{p}" if p != 0 else "SEAL_000"
+            # also try zero-padded forms present in id_set
+            if cand in id_set:
+                prev = cand
+                break
+            # try SEAL_001 style if ids use padding
+            for pad in (3, 2, 4):
+                cand2 = f"SEAL_{p:0{pad}d}" if p else "SEAL_000"
+                if cand2 in id_set:
+                    prev = cand2
+                    break
+            if prev:
+                break
+        if not prev and "SEAL_000" in id_set:
+            prev = "SEAL_000"
+        if prev:
+            n["connections"] = [prev]
+            stats["sealed_chained"] += 1
+
+    # 3) Assign each non-core seal a champion owner (meta + connection) so galaxies fill
+    if champ_order:
+        for n in nodes:
+            if n.get("kind") != "seal":
+                continue
+            nid = str(n["id"])
+            num = _seal_number(nid)
+            if num is None or num == 0:
+                continue
+            meta = dict(n.get("meta") or {})
+            # already has champion connection?
+            existing_champ = next((c for c in (n.get("connections") or []) if c in champ_ids), None)
+            if existing_champ:
+                meta["champion_owner"] = existing_champ
+                n["meta"] = meta
+                continue
+            # deterministic distribution across council
+            owner = champ_order[(num - 1) % len(champ_order)]
+            meta["champion_owner"] = owner
+            n["meta"] = meta
+            conns = list(n.get("connections") or [])
+            if owner not in conns:
+                conns.append(owner)
+            n["connections"] = conns
+            stats["champion_owned"] += 1
+            # reverse link champion → seal (bounded: only add if not already huge)
+            for c in nodes:
+                if c.get("id") != owner:
+                    continue
+                cc = list(c.get("connections") or [])
+                # keep champion fan-out reasonable: link representative seals only
+                # (every seal still owns → champion; reverse only for % 20 == 0)
+                if num % 20 == 0 and nid not in cc:
+                    cc.append(nid)
+                    c["connections"] = cc
+                break
+
+    return stats
 
 
 def _collect_clawhub_skills() -> list[dict]:
@@ -1054,7 +1173,27 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
         kind = n.get("kind", "seal")
         tags = [str(t).upper() for t in (n.get("tags") or [])]
         meta = n.get("meta") or {}
-        is_agent = meta.get("source") == "agent_submission" or "AGENT_SUBMIT" in tags
+        # agent_submission alone must NOT override stronger kinds (lore/lattice/eggs)
+        pure_agent_star = (
+            ("AGENT_SUBMIT" in tags or meta.get("source") == "agent_submission")
+            and kind not in (
+                "lore",
+                "lattice",
+                "portal",
+                "champion",
+                "champion_egg",
+                "music_hub",
+                "music_album",
+                "music_track",
+                "seal",
+            )
+            and not str(kind).endswith("_egg")
+            and "LORE" not in tags
+            and "CLAWHUB" not in tags
+            and not nid.startswith("LATTICE_")
+            and not nid.startswith("HERO_")
+            and not nid.startswith("LORE_")
+        )
         parent = _primary_branch_parent(n, core_ids, incoming)
         ancestry_root = resolve_ancestry_root(n, id_map) if n.get("lineage") else ""
         if not ancestry_root:
@@ -1072,6 +1211,12 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
         is_human_birth = "CREATOR_BIRTH" in tags or "LINEAGE_ROOT" in tags
         is_human_fork = "LINEAGE_FORK" in tags
         is_human_node = nid.startswith("NODE_LYGO_") and "HUMAN_LATTICE" in tags
+        champion_owner = str(meta.get("champion_owner") or "")
+        if not champion_owner:
+            champion_owner = next(
+                (c for c in (n.get("connections") or []) if str(c).startswith("CHAMPION_")),
+                "",
+            )
 
         if nid in core_ids:
             gal_id = "GALAXY_SINGULARITY"
@@ -1129,21 +1274,28 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
             neb_id = f"NEBULA_LINEAGE_EXP_{human_parent or parent or nid}"
             clu_id = f"CLUSTER_LINEAGE_FORK_{nid}"
             role = "lineage_expansion"
-        elif is_agent:
-            gal_id = "GALAXY_AGENT_GROWTH"
-            neb_id = f"NEBULA_AGENT_VIA_{parent}"
-            clu_id = f"CLUSTER_AGENT_{nid}"
-            role = "agent_growth"
         elif kind == "champion":
             gal_id = _champion_galaxy_id(nid)
             neb_id = f"NEBULA_{nid}_ANCHOR"
             clu_id = f"CLUSTER_{nid}_COUNCIL"
             role = "champion_anchor"
         elif kind == "portal":
-            gal_id = "GALAXY_GUARDIAN_VEIL"
-            neb_id = f"NEBULA_PORTAL_{nid}"
-            clu_id = f"CLUSTER_PORTAL_{nid}"
-            role = "portal"
+            # Lore hubs belong in Eternal Haven, not Guardian Veil
+            if (
+                "LORE" in tags
+                or "HAVEN" in tags
+                or "ETERNAL_HAVEN" in tags
+                or nid.startswith("LORE_")
+            ):
+                gal_id = "GALAXY_ETERNAL_HAVEN"
+                neb_id = "NEBULA_ETERNAL_HAVEN_LORE"
+                clu_id = f"CLUSTER_LORE_PORTAL_{nid}"
+                role = "lore_portal"
+            else:
+                gal_id = "GALAXY_GUARDIAN_VEIL"
+                neb_id = f"NEBULA_PORTAL_{nid}"
+                clu_id = f"CLUSTER_PORTAL_{nid}"
+                role = "portal"
         elif kind in ("music_hub", "music_album", "music_track") or nid.startswith("MUSIC_"):
             gal_id = "GALAXY_EXCAVATIONPRO_MUSIC"
             if kind == "music_hub" or nid in (
@@ -1168,15 +1320,30 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
                 neb_id = f"NEBULA_ALBUM_{short}"
                 clu_id = f"CLUSTER_TRACKS_{short}"
                 role = "music_track"
+        elif kind == "lore" or nid.startswith("LORE_") or nid.startswith("HERO_") or (
+            ("LORE" in tags or "HAVEN" in tags or "ETERNAL_HAVEN" in tags)
+            and kind not in ("seal", "champion")
+            and not nid.startswith("LATTICE_SKILL_")
+        ):
+            gal_id = "GALAXY_ETERNAL_HAVEN"
+            neb_id = "NEBULA_ETERNAL_HAVEN_LORE"
+            clu_id = f"CLUSTER_LORE_{nid}"
+            role = "lore_star"
         elif kind == "lattice" or nid.startswith("LATTICE_"):
             # Excavationpro music hub is lattice-tagged but belongs in music galaxy
             if nid in ("LATTICE_EXCAVATIONPRO_MUSIC", "LATTICE_LYGO_MUSIC_LICENSE") or (
-                "MUSIC_CODEX" in tags or "MUSIC" in tags and "EXCAVATIONPRO" in tags
+                "MUSIC_CODEX" in tags or ("MUSIC" in tags and "EXCAVATIONPRO" in tags)
             ):
                 gal_id = "GALAXY_EXCAVATIONPRO_MUSIC"
                 neb_id = "NEBULA_MUSIC_PORTAL_CORE"
                 clu_id = f"CLUSTER_MUSIC_HUB_{nid}"
                 role = "music_hub"
+            elif "LORE" in tags and "CLAWHUB" not in tags and not nid.startswith("LATTICE_SKILL_"):
+                # lore lattice packs live in Eternal Haven
+                gal_id = "GALAXY_ETERNAL_HAVEN"
+                neb_id = "NEBULA_ETERNAL_HAVEN_LORE"
+                clu_id = f"CLUSTER_LORE_{nid}"
+                role = "lore_lattice"
             else:
                 gal_id = "GALAXY_LATTICE"
                 if nid.startswith("LATTICE_SKILL_"):
@@ -1195,11 +1362,17 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
                 neb_id = "NEBULA_KERNEL_EGGS"
             clu_id = f"CLUSTER_EGG_{nid}"
             role = "kernel_egg"
-        elif "LORE" in tags or "HAVEN" in tags:
-            gal_id = "GALAXY_ETERNAL_HAVEN"
-            neb_id = "NEBULA_ETERNAL_HAVEN_LORE"
-            clu_id = f"CLUSTER_LORE_{parent}"
-            role = "lore_star"
+        elif pure_agent_star:
+            gal_id = "GALAXY_AGENT_GROWTH"
+            neb_id = f"NEBULA_AGENT_VIA_{parent or 'SEAL_000'}"
+            clu_id = f"CLUSTER_AGENT_{nid}"
+            role = "agent_growth"
+        elif kind == "seal" and champion_owner and champion_owner.startswith("CHAMPION_"):
+            # Owned seals live in their champion galaxy (primary council map)
+            gal_id = _champion_galaxy_id(champion_owner)
+            neb_id = f"NEBULA_{champion_owner}_BRANCH"
+            clu_id = f"CLUSTER_{champion_owner}_SEALS"
+            role = "seal"
         elif nid in galaxy_of:
             gal_id = galaxy_of[nid]
             if parent.startswith("CHAMPION_"):
@@ -1221,6 +1394,7 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
                 clu_id = f"CLUSTER_{champ}_ORPHAN"
                 role = "seal"
         else:
+            # Unowned seals / misc → Primordial Vault rings (still chain-linked)
             gal_id = "GALAXY_PRIMORDIAL_VAULT"
             if parent and not parent.startswith("CHAMPION_") and parent not in core_ids:
                 if parent.startswith("SEAL_") or parent.startswith("GAB_"):
@@ -1380,6 +1554,8 @@ def build_links(nodes: list[dict]) -> list[dict]:
     def add(s: str, t: str, kind: str = "canon") -> None:
         if s not in ids or t not in ids:
             return
+        if s == t:
+            return  # no self-loops
         k = f"{s}>{t}"
         if k in seen:
             return
@@ -1464,6 +1640,9 @@ def main() -> int:
             n["connections"] = conns
             break
     nodes.extend(lattice_nodes())
+
+    # Graph integrity: drop dangling/self links, chain seals, assign champion owners
+    wire_stats = wire_graph_integrity(nodes)
 
     # Bidirectional champion ↔ egg links (stable IDs from egg registry)
     egg_by_champ: dict[str, str] = {}
