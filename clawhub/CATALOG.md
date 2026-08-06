@@ -2,18 +2,19 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 38 skills verified via ClawHub API · **Repo mirrors:** 38 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 39+ skills (incl. **lygo-geodesic-sealer** P6) · **Repo mirrors:** full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
 # Refresh mirrors: python tools/sync_clawhub_mirrors.py --fetch
 ```
 
-## Protocol stack & integrator (P0–P5)
+## Protocol stack & integrator (P0–P6)
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
 | [lygo-protocol-stack-operator](https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator) | LYGO Protocol Stack Operator | `1.0.7` · 149 dl | [mirror](./mirrors/lygo-protocol-stack-operator/) |
+| [lygo-geodesic-sealer](https://clawhub.ai/deepseekoracle/lygo-geodesic-sealer) | LYGO Geodesic Sealer (P6 Quantum-Attest) | `1.0.0` · new | [mirror](./mirrors/lygo-geodesic-sealer/) |
 | [lygo-network-builder](https://clawhub.ai/deepseekoracle/lygo-network-builder) | LYGO Network Builder | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-network-builder/) |
 | [lygo-haven-star-chart](https://clawhub.ai/deepseekoracle/lygo-haven-star-chart) | LYGO Haven Star Chart Agent Portal | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-haven-star-chart/) |
 | [lygo-pxpipe-lygo](https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo) | LYGO pxpipe-LYGO | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-pxpipe-lygo/) |

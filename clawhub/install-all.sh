@@ -45,3 +45,5 @@ for slug in "${SKILLS[@]}"; do
 done
 
 echo "Done: ${#SKILLS[@]} skills."
+
+npx clawhub@latest install deepseekoracle/lygo-geodesic-sealer

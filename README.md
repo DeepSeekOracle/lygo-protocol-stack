@@ -227,7 +227,7 @@ clawhub/                 # ClawHub catalog, install scripts, local skill mirrors
 
 ## ClawHub skills (@deepseekoracle)
 
-**32 published skills** mirrored in-repo — start with **`lygo-protocol-stack-operator`** (P0–P5 + GitHub/HF/ClawHub integrator), then champions, BOOK BRAIN, mint/flow tools, lore, and the LYGO creative audio stack.
+Published skills mirrored in-repo — start with **`lygo-protocol-stack-operator`** (P0–P9 + GitHub/HF/ClawHub integrator), **`lygo-geodesic-sealer`** (P6 quantum-attest / geodesic dual-ledger lock), then champions, BOOK BRAIN, mint/flow tools, lore, and the LYGO creative audio stack.
 
 | Resource | Link |
 |----------|------|
@@ -235,10 +235,12 @@ clawhub/                 # ClawHub catalog, install scripts, local skill mirrors
 | **Catalog (by category)** | [clawhub/CATALOG.md](clawhub/CATALOG.md) |
 | **Index + versions/downloads** | [clawhub/skills.json](clawhub/skills.json) |
 | **Full skill trees** | [clawhub/mirrors/](clawhub/mirrors/) (SKILL.md, scripts, champion canon) |
+| **P6 geodesic sealer** | [docs/skills/lygo-geodesic-sealer](docs/skills/lygo-geodesic-sealer/) · [ClawHub](https://clawhub.ai/deepseekoracle/lygo-geodesic-sealer) |
 | **Sync / publish** | [clawhub/PUBLISH.md](clawhub/PUBLISH.md) · `python tools/sync_clawhub_mirrors.py --fetch` |
 
 ```bash
 npx clawhub@latest install deepseekoracle/lygo-protocol-stack-operator
+npx clawhub@latest install deepseekoracle/lygo-geodesic-sealer
 npx clawhub@latest install deepseekoracle/lygo-resonance
 bash clawhub/install-all.sh
 ```

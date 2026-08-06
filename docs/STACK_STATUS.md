@@ -36,6 +36,7 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **Lattice birth + Haven v2.2** | ✅ | 403+ nodes — `lygo-lattice-birth@1.0.0`, `HavenStarChartPortal.html`, live **LYGOAGENT** crypto anchor (`#crypto-anchor`) |
 | **Immutable anchors v1.5.1** | ✅ | `docs/network_builder/IMMUTABLE_ANCHORS.json` — Δ9 Vault, `openclaw_economy` (LYGOAGENT, STARCORE family, CLAWNCH, Bankr) |
 | **OpenClaw lattice pulse** | ✅ | `lygo-lattice-pulse@1.2.0` (SkillSpector-safe, no subprocess) |
+| **P6 geodesic sealer** | ✅ | `lygo-geodesic-sealer@1.0.0` — \|ψ⟩ sign, dual-ledger Merkle lock, phase-align no collapse · ClawHub `/skills/lygo-geodesic-sealer` · `docs/skills/lygo-geodesic-sealer/` |
 | **Kernel egg registry** | ✅ | 11 eggs — `python tools/build_kernel_eggs.py` → `docs/KernelEggRegistry.json` |
 | **Agent GitHub restore** | ✅ | `GITHUB_AGENT_RESTORE.txt` — E Drive + USB + Pages |
 | **LYGO SMART DISK AGENT** | ✅ | `lygo_smart_disk/` · portal **:9631** local operator token v1.1.0 · USB restore on `E:\LYGO_BUILDER_KEY` · ClawHub `lygo-smart-disk-agent` · `docs/LYGO_SMART_DISK_AGENT.md` |
@@ -63,6 +64,7 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | HF Space | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
 | HF dataset | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack |
 | ClawHub integrator | `npx clawhub@latest install deepseekoracle/lygo-protocol-stack-operator` |
+| P6 geodesic sealer | `npx clawhub@latest install deepseekoracle/lygo-geodesic-sealer` · [docs/skills/lygo-geodesic-sealer](./skills/lygo-geodesic-sealer/) |
 | Smart Disk Agent | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_smart_disk · ClawHub `lygo-smart-disk-agent` |
 | Ethical Chip / Guardian | https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html · LYGOGUARDIAN.html |
 | Excavationpro site | https://excavationpro.ca/ |

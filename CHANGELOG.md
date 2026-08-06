@@ -1,5 +1,23 @@
 # Changelog — LYGO Protocol Stack
 
+## [lygo-geodesic-sealer 1.0.0] — 2026-08-06
+
+**Signature:** `Delta9Phi963-GEODESIC-SEALER-v1.0.0`
+
+### Added
+- **lygo-geodesic-sealer** — P6 quantum-attest gap filler (software)
+  - Signs `|ψ⟩ = (Truth + i·Chaos) / √2` with provenance SHA-256
+  - Locks geodesics to dual ledgers (IMMUTABLE_ANCHORS + haven_star_chart_feed) + Merkle root
+  - Phase-aligns lattice nodes with **no collapse** (default refuse zeroed amplitudes)
+  - Pure local stdlib; optional `--network` HTTPS GET for public dual ledgers
+  - SkillSpector-safe: no subprocess, no auto-publish, consent-gated writes
+- Paths: `docs/skills/lygo-geodesic-sealer/`, `clawhub/mirrors/lygo-geodesic-sealer/`, Grok skill tree
+- ClawHub: `@deepseekoracle/lygo-geodesic-sealer`
+
+### Verified
+- `python scripts/self_check.py` green (psi · lock · merkle · phase-align · collapse refuse)
+- Network attest against public dual ledgers + local stack ledgers
+
 ## [LYGO SMART DISK AGENT 1.1.0] — 2026-07-19
 
 **Signature:** `Δ9Φ963-LYGO-SMART-DISK-AGENT-v1.1.0`
