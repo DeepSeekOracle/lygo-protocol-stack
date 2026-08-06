@@ -81,7 +81,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
 | [lygo-lattice-birth](https://clawhub.ai/deepseekoracle/lygo-lattice-birth) | LYGO Lattice Birth | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-lattice-birth/) |
-| [lygo-ops-detector](https://clawhub.ai/deepseekoracle/lygo-ops-detector) | LYGO OPPS DETECTOR | `1.0.2` · 1 dl | [mirror](./mirrors/lygo-ops-detector/) |
+| [lygo-ops-detector](https://clawhub.ai/deepseekoracle/lygo-ops-detector) | LYGO Ops Detector | `1.2.0` · SkillSpector | [mirror](./mirrors/lygo-ops-detector/) |
 
 ## Repo-only workflow mirrors
 

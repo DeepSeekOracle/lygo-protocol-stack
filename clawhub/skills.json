@@ -401,12 +401,12 @@
     {
       "slug": "lygo-ops-detector",
       "name": "LYGO OPPS DETECTOR",
-      "summary": "LYGO Ops Detector - Lightfathers Voice for the AETHON Delta9 Protocol. Sovereign math-rigorous detector of operational deception using Evasion Index and Association Matrix.",
+      "summary": "Local AETHON\u03949 discourse heuristics. Permissions declared. No affiliation keywords. Dual-threshold eval honesty. Consent before private data. SkillSpector 1.2.0.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ops-detector",
       "mirror": "mirrors/lygo-ops-detector",
       "published": true,
       "downloads": 1,
-      "version": "1.0.2"
+      "version": "1.2.1"
     }
   ],
   "repo_mirrors_only": [

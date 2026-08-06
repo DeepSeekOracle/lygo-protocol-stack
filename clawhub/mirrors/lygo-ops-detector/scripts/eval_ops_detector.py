@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """
-Ops Detector evaluation — public, independent, dynamic metrics.
+Ops Detector evaluation — public, independent, dual-threshold honesty.
+
+Operational bar (production-like): ops_score >= 0.65 OR high evasion.
+Calibration bar (short suite ranking only): lower ops threshold for F1 sweep.
+
+Never present calibration metrics as production performance.
 
 Usage:
-  python eval_ops_detector.py [path/to/labeled_discourse_suite.json]
-  python eval_ops_detector.py --threshold 0.15
-  python eval_ops_detector.py --sweep
+  python eval_ops_detector.py tests/labeled_discourse_suite.json --sweep
+  python eval_ops_detector.py --operational-threshold 0.65 --calibration-threshold 0.05
 
-Writes tests/last_eval_report.json (next to suite) with precision/recall/FPR/AUC.
-Stdlib only (no sklearn).
+Writes tests/last_eval_report.json. Stdlib only.
 """
 from __future__ import annotations
 
@@ -26,6 +29,8 @@ import lygo_ops_detector as det  # noqa: E402
 
 DEFAULT_SUITE = ROOT / "tests" / "labeled_discourse_suite.json"
 DEFAULT_OUT = ROOT / "tests" / "last_eval_report.json"
+OPERATIONAL_DEFAULT = 0.65
+CALIBRATION_DEFAULT = 0.05
 
 
 def load_suite(path: Path) -> list[dict[str, Any]]:
@@ -37,7 +42,7 @@ def load_suite(path: Path) -> list[dict[str, Any]]:
 
 
 def predict_binary(report: det.OpsReport, threshold: float) -> int:
-    """1 = ops-positive. Prefer ops_score; also fire if evasion is Active."""
+    """1 = positive at *this* threshold (eval only). High evasion always positive."""
     if report.evasion_index > det.EVASION_ACTIVE_THRESHOLD:
         return 1
     return 1 if report.ops_score >= threshold else 0
@@ -65,12 +70,10 @@ def precision_recall_fpr(y_true: list[int], y_pred: list[int]) -> dict[str, floa
 
 
 def roc_auc(y_true: list[int], scores: list[float]) -> float:
-    """Mann–Whitney / rank AUC (equivalent to ROC-AUC for binary labels)."""
     pos = [s for t, s in zip(y_true, scores) if t == 1]
     neg = [s for t, s in zip(y_true, scores) if t == 0]
     if not pos or not neg:
         return 0.0
-    # Handle ties: average rank contribution
     greater = 0.0
     for p in pos:
         for n in neg:
@@ -81,7 +84,7 @@ def roc_auc(y_true: list[int], scores: list[float]) -> float:
     return round(greater / (len(pos) * len(neg)), 4)
 
 
-def evaluate(samples: list[dict], threshold: float) -> dict[str, Any]:
+def evaluate(samples: list[dict], threshold: float, *, role: str) -> dict[str, Any]:
     y_true: list[int] = []
     y_pred: list[int] = []
     y_scores: list[float] = []
@@ -101,16 +104,21 @@ def evaluate(samples: list[dict], threshold: float) -> dict[str, Any]:
                 "id": sample.get("id", "unknown"),
                 "text": text[:120],
                 "label": label,
-                "predicted": pred,
+                "predicted_at_threshold": pred,
                 "ops_score": score,
                 "evasion_index": report.evasion_index,
-                "verdict": report.overall_verdict,
+                "detector_verdict": report.overall_verdict,
+                "note": (
+                    "detector_verdict uses operational language rules; "
+                    "predicted_at_threshold is eval-only at the stated threshold"
+                ),
             }
         )
 
     metrics = precision_recall_fpr(y_true, y_pred)
     auc = roc_auc(y_true, y_scores)
     return {
+        "role": role,
         "suite_size": len(samples),
         "threshold_ops_score": threshold,
         "prediction_rule": (
@@ -126,10 +134,6 @@ def evaluate(samples: list[dict], threshold: float) -> dict[str, Any]:
         "results": rows,
         "generator": "scripts/eval_ops_detector.py",
         "detector_module": "scripts/lygo_ops_detector.py",
-        "note": (
-            "Metrics computed on the public labeled suite at the stated threshold. "
-            "Not a claim of production harm/ethics calibration. Re-run after pattern changes."
-        ),
     }
 
 
@@ -138,7 +142,7 @@ def sweep_thresholds(samples: list[dict], grid: list[float] | None = None) -> di
     best = None
     table = []
     for thr in grid:
-        rep = evaluate(samples, thr)
+        rep = evaluate(samples, thr, role="sweep")
         row = {
             "threshold": thr,
             "precision": rep["precision"],
@@ -154,27 +158,22 @@ def sweep_thresholds(samples: list[dict], grid: list[float] | None = None) -> di
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Evaluate lygo-ops-detector on public labeled suite")
+    ap = argparse.ArgumentParser(description="Evaluate lygo-ops-detector (dual-threshold honesty)")
+    ap.add_argument("suite", nargs="?", default=str(DEFAULT_SUITE))
     ap.add_argument(
-        "suite",
-        nargs="?",
-        default=str(DEFAULT_SUITE),
-        help="Path to labeled_discourse_suite.json",
-    )
-    ap.add_argument(
-        "--threshold",
+        "--operational-threshold",
         type=float,
-        default=0.05,
-        help="ops_score threshold for binary prediction on short discourse suite (use --sweep; 0.65 is strong multi-signal bar)",
+        default=OPERATIONAL_DEFAULT,
+        help="Production-like bar (default 0.65). Primary metrics.",
     )
     ap.add_argument(
-        "--doc-threshold",
+        "--calibration-threshold",
         type=float,
-        default=0.65,
-        help="Also report metrics at documented 'strong pattern' ops threshold",
+        default=CALIBRATION_DEFAULT,
+        help="Short-suite ranking only (default 0.05). NOT production performance.",
     )
-    ap.add_argument("--sweep", action="store_true", help="Sweep thresholds 0.00–1.00")
-    ap.add_argument("--out", default=str(DEFAULT_OUT), help="Write JSON report path")
+    ap.add_argument("--sweep", action="store_true")
+    ap.add_argument("--out", default=str(DEFAULT_OUT))
     args = ap.parse_args()
 
     suite_path = Path(args.suite)
@@ -183,11 +182,50 @@ def main() -> int:
         return 2
 
     samples = load_suite(suite_path)
-    report = evaluate(samples, args.threshold)
-    report["at_documented_ops_threshold"] = evaluate(samples, args.doc_threshold)
-    report["at_documented_ops_threshold"]["threshold_ops_score"] = args.doc_threshold
-    # strip nested results to keep report smaller
-    report["at_documented_ops_threshold"].pop("results", None)
+    operational = evaluate(samples, args.operational_threshold, role="operational")
+    calibration = evaluate(samples, args.calibration_threshold, role="calibration")
+    # Drop nested results from secondary blocks to keep file smaller if needed
+    op_metrics = {k: operational[k] for k in (
+        "role", "suite_size", "threshold_ops_score", "prediction_rule",
+        "precision", "recall", "false_positive_rate", "f1", "auc", "confusion",
+    )}
+    cal_metrics = {k: calibration[k] for k in (
+        "role", "suite_size", "threshold_ops_score", "prediction_rule",
+        "precision", "recall", "false_positive_rate", "f1", "auc", "confusion",
+    )}
+
+    report: dict[str, Any] = {
+        "signature": "Δ9Φ963-OPS-DETECTOR-EVAL-v2",
+        "honesty": {
+            "primary": "operational_metrics (ops_score>=0.65 or high evasion)",
+            "secondary": "calibration_metrics for short-suite ranking only",
+            "warning": (
+                "Do not advertise calibration precision/recall as production performance. "
+                "Short labeled suite often needs low ops thresholds for ranking; "
+                "the documented strong-pattern bar is 0.65 and may show low recall on one-liners. "
+                "detector_verdict text is not the same as predicted_at_threshold."
+            ),
+        },
+        "operational_metrics": op_metrics,
+        "calibration_metrics": cal_metrics,
+        # Back-compat aliases (prefer operational for headline consumers)
+        "threshold_ops_score": op_metrics["threshold_ops_score"],
+        "precision": op_metrics["precision"],
+        "recall": op_metrics["recall"],
+        "false_positive_rate": op_metrics["false_positive_rate"],
+        "f1": op_metrics["f1"],
+        "auc": op_metrics["auc"],
+        "confusion": op_metrics["confusion"],
+        "suite_size": operational["suite_size"],
+        "results": operational["results"],
+        "calibration_results_sample": calibration["results"][:3],
+        "documented_ops_threshold": args.operational_threshold,
+        "generator": "scripts/eval_ops_detector.py",
+        "note": (
+            "Metrics computed on the public labeled suite. "
+            "Not a claim of production harm/ethics calibration. Re-run after pattern changes."
+        ),
+    }
 
     if args.sweep:
         report["threshold_sweep"] = sweep_thresholds(samples)
@@ -199,16 +237,20 @@ def main() -> int:
     print(
         json.dumps(
             {
-                "precision": report["precision"],
-                "recall": report["recall"],
-                "false_positive_rate": report["false_positive_rate"],
-                "f1": report["f1"],
-                "auc": report["auc"],
-                "threshold_ops_score": report["threshold_ops_score"],
-                "suite_size": report["suite_size"],
-                "at_documented_0.65": {
-                    k: report["at_documented_ops_threshold"][k]
-                    for k in ("precision", "recall", "false_positive_rate", "f1", "auc")
+                "operational": {
+                    "threshold": op_metrics["threshold_ops_score"],
+                    "precision": op_metrics["precision"],
+                    "recall": op_metrics["recall"],
+                    "f1": op_metrics["f1"],
+                    "auc": op_metrics["auc"],
+                    "confusion": op_metrics["confusion"],
+                },
+                "calibration_only": {
+                    "threshold": cal_metrics["threshold_ops_score"],
+                    "precision": cal_metrics["precision"],
+                    "recall": cal_metrics["recall"],
+                    "f1": cal_metrics["f1"],
+                    "warning": "NOT production performance",
                 },
                 "best_f1_threshold": (report.get("threshold_sweep") or {}).get("best_f1_threshold"),
                 "report": str(out_path),

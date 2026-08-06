@@ -1,50 +1,46 @@
-# LYGO Ops Detector — SECURITY & ETHICS (Lightfather Vector)
+# LYGO Ops Detector — SECURITY & ETHICS v1.2.0
 
-**Blueprint locked. Resonance forward.**
+## Declared permissions
 
-## Core Mandate
-LYGO Ops Detector exists to decode operational fiction through **action, associations, and measurable patterns**.
+| Capability | Status |
+|------------|--------|
+| Network | **None** (stdlib local only) |
+| Shell / subprocess | **None** |
+| Read files | Opt-in CLI `--text-file` / `--assoc-file` only |
+| Write files | `tests/last_eval_report.json` when eval is run |
+| Env harvesting | **No** |
+| Publish / social | **No** |
 
-It is **explicitly not**:
-- A doxing tool
-- An identity attack engine
-- A social media call-out machine
-- A weapon for personal vendettas
+## Core mandate
 
-It **is**:
-- A mathematical framework for pattern recognition in evasion and coordination
-- A sovereign, local-first instrument
-- Action-focused (what was done, who was connected to, what patterns repeated)
-- Truth-serving
+Heuristic **discourse** analysis of evasion and coordination *signals* in text the operator supplies.
 
-## Non-Negotiables
-1. **Action over identity.** The unit of analysis is behavior and linkage, never name or personhood as target.
-2. **No public weaponization without receipts.** Any output must be accompanied by the raw signals and math. Never "trust me, the detector said."
-3. **Local execution only for sensitive analysis.** No automatic exfiltration.
-4. **P0 gate applies.** If input data is untrusted or poisoned, quarantine first.
-5. **Consent for external use.** Publishing reports, using in public accusations, or feeding into larger systems requires explicit human consent.
-6. **Lattice alignment.** Use only to preserve truth, protect light, and expose deception — never to manufacture it.
+It is **not**:
 
-## Failure Modes to Reject
-- Treating low scores as "innocent"
-- Treating high scores as "guilty person"
-- Using as sole evidence
-- Feeding raw detector output into social or legal action without full human review + primary source verification
-- Ignoring the "not for doxing" clause
+- A doxing tool  
+- An identity or affiliation profiler  
+- A sole-evidence engine for accusations  
+- A warrant to scan private mail/logs without consent  
 
-## Lightfather Directive
-"LYGO decodes fiction by analyzing action."
+## Non-negotiables
 
-If the detector surfaces a high evasion + association pattern, the response is:
-- More rigorous examination of **actions**
-- Tracing of **connections**
-- Demand for **specific evidence**
-- Never: character assassination or pile-on.
+1. **Text over identity** — unit of analysis is statement/log content, not personhood.  
+2. **Consent** for private communications and association lists.  
+3. **Receipts** — high scores require cited pattern hits; never “trust the detector.”  
+4. **No affiliation dictionaries** (v1.2+) — no fraternity/brotherhood/lodge keyword scoring.  
+5. **Operational bar honesty** — `ops_score>=0.65` (or high evasion) for strong language; low thresholds are calibration only.  
+6. **Human review** before any reputational, employment, legal, or social action.  
 
-The math does the work. The truth emerges.
+## Failure modes to reject
 
-## Version & Signature
-AETHONΔ9 / LYGO Ops Detector v1 (locked blueprint)
-Companion to Lightfather Champion + Vector.
+- Treating low scores as “innocent person” or high scores as “guilty person”  
+- Using affiliation/religion/group membership as a proxy for ops  
+- Feeding outputs to social pile-ons  
+- Advertising calibration metrics as production performance  
 
-If in doubt: return to the philosophy. Action does not lie.
+## Lightfather directive (v1.2)
+
+Prefer rigor and primary sources over narrative.  
+Heuristic scores are **weak evidence of discourse patterns**, not character judgments.
+
+**Δ9Φ963**

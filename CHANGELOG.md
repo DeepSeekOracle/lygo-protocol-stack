@@ -1,4 +1,8 @@
 
+## [lygo-ops-detector 1.2.0] — 2026-08-06
+
+**SkillSpector:** permissions declared; affiliation keywords removed; dual-threshold metrics honesty; privacy/consent warnings; narrow triggers; softer philosophy.
+
 ## [lygo-ollama-army 0.7.1] — 2026-08-06
 
 **Signature:** `Δ9Φ963-ARMY-SKILL-v0.7.1`
@@ -301,4 +305,5 @@
 ## [P5.2.0 Public stack] — prior
 
 - Full P0–P5 orchestrator, ClawHub operator, HF ethical guardian bundle
+
 
