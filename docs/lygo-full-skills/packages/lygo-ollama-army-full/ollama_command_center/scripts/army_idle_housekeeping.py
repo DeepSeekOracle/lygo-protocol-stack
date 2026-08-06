@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """Safe idle housekeeping — catalog memory, 3-brain index, verify eggs, scout upgrades.
 
-No git push, ClawHub publish, social posts, or kernel planting unless explicitly enabled
-in army_config idle_guardian.allow_planting (default false).
+Policy gates (all default false / safe):
+  - idle_guardian.allow_planting — kernel plant ops (not used in this module's OPS)
+  - idle_guardian.allow_external_memory_write — may append to LYRA_CORE daily index
+  - Without allow_external_memory_write: 3-brain op catalogs into army workspace only
+
+No git push, ClawHub publish, social posts, or kernel planting from this script.
 """
 
 from __future__ import annotations
@@ -31,7 +35,7 @@ STATE = WORKSPACE / "idle_upgrade_state.json"
 
 DEFAULT_OPS = [
     "memory_sync",
-    # "three_brain_index",  # requires allow_external_memory_write
+    "three_brain_index",
     "kernel_verify",
     "self_grow_check",
     "living_memory_audit",
@@ -64,15 +68,19 @@ def _stack() -> Path:
 
 
 def _lyra_core() -> Path | None:
-    # v0.7.0: only when allow_external_memory_write + explicit LYRA_CORE_ROOT
-    if not _external_writes_allowed():
-        return None
-    raw = (os.environ.get('LYRA_CORE_ROOT') or '').strip()
-    if not raw:
-        return None
-    p = Path(raw)
-    if (p / 'memory').is_dir() or (p / 'modules' / 'lyra_brain.py').is_file():
-        return p
+    for key in ("LYRA_CORE_ROOT", "LYRA_CORE"):
+        raw = os.environ.get(key, "").strip()
+        if raw:
+            p = Path(raw)
+            if (p / "memory").is_dir() or (p / "modules" / "lyra_brain.py").is_file():
+                return p
+    for candidate in (
+        Path(r"I:\E Drive\LYRA_CORE"),
+        _stack().parent / "LYRA_CORE",
+        Path.home() / "LYRA_CORE",
+    ):
+        if (candidate / "memory").is_dir():
+            return candidate
     return None
 
 
@@ -144,7 +152,20 @@ def op_three_brain_index(_stack: Path) -> dict:
     }
     out_path = WORKSPACE / "three_brain_catalog.json"
     out_path.write_text(json.dumps(catalog, indent=2), encoding="utf-8")
-    # Append missing snips to today's daily index (additive only)
+
+    idle = _idle_cfg()
+    allow_ext = bool(idle.get("allow_external_memory_write", False))
+    # allow_planting does NOT imply external memory write
+    if not allow_ext:
+        return {
+            "ok": True,
+            "catalog": str(out_path),
+            "daily_appended": 0,
+            "external_write": False,
+            "note": "set idle_guardian.allow_external_memory_write=true to append LYRA daily index",
+        }
+
+    # Append missing snips to today's daily index (additive only; explicit opt-in)
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     daily = mem / f"{day}.md"
     if not daily.exists():
@@ -156,7 +177,12 @@ def op_three_brain_index(_stack: Path) -> dict:
             with daily.open("a", encoding="utf-8") as f:
                 f.write(f"- snip: `{p.name}` — (idle index)\n")
             appended += 1
-    return {"ok": True, "catalog": str(out_path), "daily_appended": appended}
+    return {
+        "ok": True,
+        "catalog": str(out_path),
+        "daily_appended": appended,
+        "external_write": True,
+    }
 
 
 def op_kernel_verify(stack: Path) -> dict:
@@ -194,10 +220,7 @@ def op_living_memory_audit(stack: Path) -> dict:
     )
     if not script.is_file():
         return {"ok": True, "skipped": "audit_library.py not in mirror"}
-    # v0.8.0: no LYGO_AUTHORITY_ROOT default to parent drive — explicit only
-    authority = (os.environ.get("LYGO_AUTHORITY_ROOT") or "").strip()
-    if not authority:
-        return {"ok": True, "skipped": "set LYGO_AUTHORITY_ROOT for living-memory audit base"}
+    authority = os.environ.get("LYGO_AUTHORITY_ROOT", "").strip() or str(stack.parent)
     cp = run_python(script, ["--base", authority], cwd=script.parent, timeout=180, stack_root=stack)
     return {"ok": cp.returncode == 0, "exit_code": cp.returncode, "stdout_tail": (cp.stdout or "")[-2000:]}
 
@@ -300,13 +323,7 @@ OPS = {
 def run_ops(ops: list[str]) -> dict:
     stack = _stack()
     summary: dict = {"ts": _utc(), "ops": {}, "all_ok": True}
-    external = {"three_brain_index", "self_grow_check", "living_memory_audit"}
     for name in ops:
-        if name in external and not _external_writes_allowed():
-            detail = {"ok": True, "skipped": "external_memory_write_disabled"}
-            summary["ops"][name] = detail
-            _log(name, True, detail)
-            continue
         fn = OPS.get(name)
         if not fn:
             detail = {"ok": False, "error": "unknown op"}
@@ -322,11 +339,6 @@ def run_ops(ops: list[str]) -> dict:
     tick = WORKSPACE / "idle_guardian_last_tick.json"
     tick.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     return summary
-
-
-def _external_writes_allowed() -> bool:
-    idle = _idle_cfg()
-    return bool(idle.get("allow_external_memory_write", False))
 
 
 def main() -> int:

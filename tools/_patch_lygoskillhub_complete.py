@@ -380,11 +380,13 @@ footer {
 <header>
   <div class="wrap">
     <h1 class="brand">LYGOSKILLHUB</h1>
-    <p class="sub">Sovereign mirror of <strong>@deepseekoracle</strong> ClawHub skills on the LYGO lattice — install, verify, wire into dual ledgers &amp; Star Chart. Aligned to ClawHub profile list (<strong>63 skills · 1 plugin</strong>). Not a ClawHub fork: lattice catalog + provenance.</p>
+    <p class="sub"><strong>Immutable skill ledger</strong> — every skill that ships to ClawHub <strong>@deepseekoracle</strong> is listed here (catalog tracks live count from <code>clawhub/skills.json</code>). Public tentacles use ClawHub install links; engineer-grade <strong>RAW unlocked</strong> packages for pure LYGO operation live only behind the FULL LYGO gate on this hub (not ClawHub).</p>
     <nav class="nav" aria-label="Lattice">
       <a href="https://clawhub.ai/deepseekoracle" target="_blank" rel="noopener">ClawHub profile</a>
+      <a href="#full-lygo" style="border-color:rgba(255,138,138,.45);color:#ff8a8a;">FULL LYGO</a>
       <a href="https://chatagent.ca/app.html">Champion summon</a>
       <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Star Chart</a>
+      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/deception-radar/">Deception Radar</a>
       <a href="#immutable-ledgers">Dual ledgers</a>
       <a href="#crypto-anchor" style="border-color:rgba(0,255,136,.4);color:#00ff88;">LYGOAGENT</a>
       <a href="https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html">LYGO CLAW</a>
@@ -586,7 +588,7 @@ footer {
   <footer id="copyright" class="copyright-block">
     <h2>Copyright &amp; license</h2>
     <p><strong>Δ9Φ963 · LYGOSKILLHUB</strong> — Steward: <strong>Justin Helmer / Excavationpro (Lightfather)</strong>.</p>
-    <p>Skills remain on ClawHub under each skill’s published terms; this hub is a lattice mirror + install map. Consent-gated ops; no auto-publish from install alone. Catalog list source: <code>LYGOSkills.txt</code> (63 skills · 1 plugin) + USB kits + public lattice surfaces.</p>
+    <p>Skills remain on ClawHub under each skill’s published terms; this hub is the <strong>immutable skill ledger</strong> + install map. Consent-gated ops; no auto-publish from install alone. Catalog source: <code>clawhub/skills.json</code> (live ClawHub-bound skill set) + USB kits + public lattice surfaces. Engineer RAW packages: FULL LYGO vault only (not ClawHub).</p>
     <div class="license-box">© Justin Helmer (Lightfather · Excavationpro · DeepSeekOracle).
 LYGO Sovereign License v2.0 — source-available.
 Use and build upon under LYGO protocol standards with attribution.
@@ -735,13 +737,18 @@ https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/LICENSE</div>
   function renderLedger() {
     const sha = (catalog.catalog_sha256 || '').slice(0, 16);
     const c = catalog.counts || {};
-    ledger.innerHTML = `<strong>Lattice record</strong> · signature <code>${esc(catalog.signature || '')}</code>
+    const ledgerRule = (catalog.immutable_ledger && catalog.immutable_ledger.role)
+      ? catalog.immutable_ledger.role
+      : 'Anything published to ClawHub @deepseekoracle must appear on this hub';
+    ledger.innerHTML = `<strong>Immutable skill ledger</strong> · ${esc(ledgerRule)}
+      · signature <code>${esc(catalog.signature || '')}</code>
       · catalog v${esc(catalog.version || '')}
       · total ${c.total || allItems().length}
-      · skills ${c.skills || '—'} (ClawHub profile 63 · indexed ${c.clawhub_skills_indexed || '—'} · local-only ${c.local_only_skills || 0})
+      · skills ${c.skills || '—'} (ClawHub-indexed ${c.clawhub_skills_indexed || '—'} · local-only ${c.local_only_skills || 0})
       · USB/kits ${c.downloads || 0} · surfaces ${c.surfaces || 0}
       · sha256 <code>${esc(sha)}…</code>
       · updated ${esc(catalog.updated_utc || '')}
+      · public tentacle: ClawHub install · engineer RAW: <a href="#full-lygo">FULL LYGO vault</a>
       · <a href="lygoskillhub_catalog.json">catalog JSON</a>
       · <a href="#immutable-ledgers">dual ledgers</a>
       · <a href="#crypto-anchor">LYGOAGENT</a>
@@ -876,18 +883,28 @@ def patch_catalog() -> dict:
         "surfaces": n_surf,
         "clawhub_skills_indexed": n_claw,
         "local_only_skills": n_local,
-        "clawhub_profile_skills_listed": 63,
+        "clawhub_profile_skills_listed": n_claw,
     }
     cat["skill_count"] = n_skill
     cat["item_count"] = len(skills)
     cat["updated_utc"] = datetime.now(timezone.utc).isoformat()
-    cat["version"] = "1.2.0"
-    cat["signature"] = "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.2"
-    cat["source_list"] = r"E:\Data Vault\LYGOSkills.txt"
+    # Preserve catalog version if already built by _build_lygoskillhub_catalog
+    if not str(cat.get("version") or "").startswith("1.4"):
+        cat["version"] = "1.4.0"
+        cat["signature"] = "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4"
+    cat["source_list"] = "clawhub/skills.json + clawhub/mirrors + local skill tree"
+    cat["immutable_ledger"] = {
+        "role": "Anything published to ClawHub @deepseekoracle must appear on this hub",
+        "public_channel": "ClawHub install links (public tentacle)",
+        "engineer_channel": "FULL LYGO vault (#full-lygo) — unlocked RAW packages",
+        "primary_page": "https://chatagent.ca/lygoskillhub.html",
+    }
     cat["categories"] = sorted({s.get("category") for s in skills if s.get("category")})
     cat["note"] = (
-        "Complete LYGO lattice catalog aligned to ClawHub @deepseekoracle (63 skills + 1 plugin per LYGOSkills.txt), "
-        "plus local skill tree, USB CLAW downloads, and public lattice surfaces. Dual ledgers + LYGOAGENT economic anchor on hub page."
+        "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. "
+        f"Skills indexed: {n_skill} (ClawHub source {n_claw}). "
+        "Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo only. "
+        "Dual ledgers + LYGOAGENT economic anchor on hub page."
     )
     tmp = {k: v for k, v in cat.items() if k != "catalog_sha256"}
     raw = json.dumps(tmp, ensure_ascii=False, sort_keys=True, separators=(",", ":"))

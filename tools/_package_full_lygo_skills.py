@@ -86,6 +86,36 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-champion-lightfather",
         GROK / "lygo-champion-lightfather",
     ],
+    # Adoption stack + P6 + security (FULL unlocked RAW)
+    "lygo-kickstart-wizard": [
+        STACK / "docs" / "skills" / "lygo-kickstart-wizard",
+        STACK / "clawhub" / "mirrors" / "lygo-kickstart-wizard",
+        GROK / "lygo-kickstart-wizard",
+    ],
+    "lygo-deception-radar": [
+        STACK / "docs" / "skills" / "lygo-deception-radar",
+        STACK / "clawhub" / "mirrors" / "lygo-deception-radar",
+        GROK / "lygo-deception-radar",
+    ],
+    "lygo-mint-walkthrough": [
+        STACK / "docs" / "skills" / "lygo-mint-walkthrough",
+        STACK / "clawhub" / "mirrors" / "lygo-mint-walkthrough",
+        GROK / "lygo-mint-walkthrough",
+    ],
+    "lygo-cli-bridge": [
+        STACK / "docs" / "skills" / "lygo-cli-bridge",
+        STACK / "clawhub" / "mirrors" / "lygo-cli-bridge",
+        GROK / "lygo-cli-bridge",
+    ],
+    "lygo-geodesic-sealer": [
+        STACK / "docs" / "skills" / "lygo-geodesic-sealer",
+        STACK / "clawhub" / "mirrors" / "lygo-geodesic-sealer",
+        GROK / "lygo-geodesic-sealer",
+    ],
+    "lygo-ops-detector": [
+        STACK / "clawhub" / "mirrors" / "lygo-ops-detector",
+        GROK / "lygo-ops-detector",
+    ],
 }
 
 ROLES = {
@@ -104,6 +134,12 @@ ROLES = {
     "lygo-sovereign-super-skill": "Map of eggs + champions + planter chain",
     "lyra-brain": "3-Brain memory (consent writes under LYRA_CORE_ROOT)",
     "lygo-champion-lightfather": "Lightfather champion + operator map (advisor-first)",
+    "lygo-kickstart-wizard": "UX bridge — plain-English lattice onboarding",
+    "lygo-deception-radar": "Public Ops Detector proof feed + HTML (public suite only)",
+    "lygo-mint-walkthrough": "Interactive mint→verify→anchor tutorial (stdlib ledger)",
+    "lygo-cli-bridge": "Unified lygo health|map|analyze|mint|radar CLI",
+    "lygo-geodesic-sealer": "P6 quantum-attest geodesic dual-ledger seal",
+    "lygo-ops-detector": "AETHONΔ9 discourse ops/evasion heuristics (FULL eval suite)",
 }
 
 TIERS = {
@@ -122,6 +158,12 @@ TIERS = {
     "lygo-sovereign-super-skill": "kernel",
     "lyra-brain": "memory",
     "lygo-champion-lightfather": "champion",
+    "lygo-kickstart-wizard": "onboarding",
+    "lygo-deception-radar": "security",
+    "lygo-mint-walkthrough": "onboarding",
+    "lygo-cli-bridge": "onboarding",
+    "lygo-geodesic-sealer": "kernel",
+    "lygo-ops-detector": "security",
 }
 
 SKIP_PARTS = {
@@ -474,6 +516,8 @@ def main() -> int:
             "lattice",
             "kernel",
             "seals",
+            "security",
+            "onboarding",
             "memory",
             "champion",
         ],

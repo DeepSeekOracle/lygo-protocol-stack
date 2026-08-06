@@ -1,33 +1,89 @@
 {
   "name": "LYGO Ollama Army Command Center",
-  "signature": "Δ9Φ963-ARMY-CC-v3.1",
-  "lygo_stack_root": "",
+  "signature": "\u03949\u03a6963-ARMY-CC-v0.7.0",
+  "lygo_stack_root": "I:\\E Drive\\lygo-protocol-stack",
   "system_profile": {
-    "stack_version": "P9-SLM",
-    "public_pages": []
+    "stack_version": "P9-SLM-NETWORK-BUILDER",
+    "operator_clawhub": "1.0.6",
+    "clawhub_expect": {
+      "count_published": 38,
+      "required_slugs": [
+        "lygo-protocol-stack-operator",
+        "lygo-network-builder",
+        "lygo-kernel-egg-planter",
+        "lygo-ollama-army",
+        "lygo-alignment-badge"
+      ]
+    },
+    "public_pages": [
+      "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html",
+      "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html"
+    ],
+    "link_archive": "docs/LYGO_PUBLIC_LINK_ARCHIVE.json"
   },
-  "poll_seconds": 180,
+  "poll_seconds": 300,
+  "performance": {
+    "slim_boot": true,
+    "slim_roles": [
+      "hb-light",
+      "stack-worker",
+      "champion-egg-boot"
+    ],
+    "poll_idle_seconds": 8.0,
+    "poll_busy_seconds": 1.5,
+    "batch_max": 8,
+    "dedupe_cron_by_role": true,
+    "max_pending_per_role": 1,
+    "mirror_legacy_queue": false,
+    "stale_lock_seconds": 600,
+    "gateway_port": 18789,
+    "gateway_last_probe": {
+      "port": 18789,
+      "listening": true,
+      "http_ok": true
+    },
+    "queue_unique_tasks": 1
+  },
   "army_capacity": {
     "model": "llama3.2:1b",
     "roles": [
+      "champion-egg-boot",
       "hb-light",
       "memory-triage",
       "draft-simple",
+      "discord-triage",
       "resonance-analyst",
-      "lattice-check"
+      "lattice-check",
+      "stack-integrity",
+      "clawhub-catalog-audit",
+      "public-pages-check",
+      "audit-suite",
+      "memory-sync",
+      "anchor-health",
+      "mesh-cartographer",
+      "self-tune",
+      "egg-planter",
+      "registry-planter",
+      "joy-loop-pulse",
+      "moltx-lattice-pulse",
+      "moltbook-lyra-pulse",
+      "moltbook-lightfather-pulse"
     ],
     "count_per_role": 1,
-    "hb_light_instances": 1,
-    "champion_egg_boot_instances": 0
+    "hb_light_instances": 2,
+    "champion_egg_boot_instances": 3,
+    "champion_default": "ARKOS"
   },
   "sentinel": {
     "enabled": true,
     "interval_seconds": 300,
     "alert_on_lattice_fail": true,
-    "probe_public_pages": false,
-    "probe_network_builder": false,
-    "probe_hf_space": false,
-    "require_ollama_for_healthy": true
+    "probe_public_pages": true,
+    "probe_network_builder": true,
+    "require_ollama_for_healthy": false
   },
   "paths": {
     "tasks": "tasks",
@@ -38,20 +94,35 @@
   "planting": {
     "enabled": false,
     "consent": false,
-    "local_only_anchor": true
+    "egg_surfaces": [
+      "local",
+      "registry",
+      "stubs"
+    ],
+    "local_only_anchor": true,
+    "registry_smoke_file": "docs/STACK_STATUS.md",
+    "allow_auto_enable": false
   },
   "access": {
     "hf_write": false,
     "github_push": false,
     "clawhub_publish": false,
     "workspace_write": true,
-    "social_publish": false,
-    "remote_llm": false,
-    "outbound_webhook": false,
     "allow_privileged_roles": false
   },
   "notifications": {
-    "local_alerts_only": true
+    "webhook_url_env": "LYGO_ARMY_WEBHOOK_URL",
+    "webhook_enable_env": "LYGO_ARMY_WEBHOOK_ENABLE",
+    "telegram_env": "LYGO_ARMY_TELEGRAM_BOT"
+  },
+  "token_saver": {
+    "enabled": false,
+    "default_model": "llama3.2:1b",
+    "compress_threshold_chars": 6000,
+    "truncate_chars": 8000,
+    "prefer_queue": false,
+    "queue_timeout_seconds": 90,
+    "journal": "workspace/token_saver_journal.jsonl"
   },
   "self_tune": {
     "enabled": false,
@@ -61,19 +132,31 @@
     "sync_clawhub_expect_from_stack": false
   },
   "haven_star_chart": {
-    "enabled": false,
+    "enabled": true,
     "rebuild_on_self_tune": false
   },
-  "token_saver": {
-    "enabled": false
-  },
   "idle_guardian": {
-    "enabled": false,
-    "allow_planting": false,
-    "allow_social_pulse": false,
-    "allow_external_memory_write": false,
-    "roles": ["hb-light", "lattice-check"],
-    "housekeep_ops": ["lattice_light"],
+    "enabled": true,
+    "sentinel_interval_seconds": 300,
+    "cron_interval_seconds": 1800,
+    "roles": [
+      "idle-housekeep",
+      "lattice-check",
+      "memory-sync",
+      "kernel-verify-only"
+    ],
+    "count_per_role": 1,
+    "housekeep_ops": [
+      "memory_sync",
+      "three_brain_index",
+      "kernel_verify",
+      "self_grow_check",
+      "living_memory_audit",
+      "clawhub_catalog_render",
+      "haven_chart_refresh",
+      "upgrade_scout",
+      "lattice_light"
+    ],
     "forbidden_roles": [
       "egg-planter",
       "registry-planter",
@@ -81,6 +164,13 @@
       "moltbook-lyra-pulse",
       "moltbook-lightfather-pulse",
       "discord-triage"
-    ]
+    ],
+    "allow_planting": false,
+    "allow_social_pulse": false,
+    "allow_external_memory_write": false
+  },
+  "social_publish": {
+    "enabled": false,
+    "allow_social_pulse": false
   }
 }

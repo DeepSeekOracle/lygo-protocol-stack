@@ -1,42 +1,36 @@
-# SkillSpector / ClawHub response — lygo-ollama-army v0.6.0
+# Security audit notes — lygo-ollama-army v0.7.0
 
-**Date:** 2026-07-29  
-**Prior findings (v0.5.0):** 72 findings — process spawn, taint flows, webhook Critical, description mismatch.
+## Process model
 
-## Remediation summary
+| Entry | Spawn model |
+|-------|-------------|
+| `ollama_army_launcher.py` | In-process threads |
+| `ollama_daemon.py` roles | runpy allowlisted stack tools |
+| `army_autonomous_supervisor.py` | Threads + runpy; env `LYGO_ARMY_AUTONOMOUS=1` |
+| `start_army_full_capacity.ps1` | **OS `python` processes** (operator only) |
 
-| Finding class | v0.5.0 | v0.6.0 |
-|---------------|--------|--------|
-| `subprocess.run` / `Popen` | Widespread | **Removed** — `_safe_invoke.run_python` (runpy) + `run_daemon_thread` |
-| Env → process spawn taint | script path / env | **N/A** — no process spawn |
-| Env → webhook `urlopen` (Critical) | Double-gated still present | **Removed** — `write_local_alert` → `logs/alerts.jsonl` only |
-| Git CLI spawn | `git status` | **Filesystem** `git_status_summary` |
-| Description mismatch (Tp4) | Marketed as simple local | **Honest** surface table in SKILL.md (threads, stack tools, localhost dashboard, local alerts) |
-| Shell / `cmd /k` windows | Opt-in visible | **Removed** — `--visible-windows` no-op |
+## Planting
 
-## Function preserved
+- `army_self_tune` **cannot** set `planting.enabled=true`  
+- Cron plant roles require `planting.enabled` + `planting.consent`  
+- Idle plant seeds require `idle_guardian.allow_planting`  
+- `run_army_planting.py` re-checks gates  
 
-- Multi-role army (threaded daemons)  
-- Queue + results  
-- Champion personas + resonance-analyst  
-- Stack roles via allowlisted in-process tools  
-- Sentinel, idle guardian, self-tune, planting **gates** (consent)  
-- Genesis localhost dashboard  
+## External memory
 
-## Residual accepted surface
+- `three_brain_index` writes army workspace catalog always (local)  
+- Appends to `LYRA_CORE/memory` only if `idle_guardian.allow_external_memory_write`  
 
-- HTTPS GET to operator-configured **public** lattice URLs (sentinel page probe)  
-- HTTP client to `127.0.0.1:11434` (Ollama)  
-- Filesystem under army folder + validated stack root  
+## Network
 
-## Operator verify
+- Ollama: `127.0.0.1:11434`  
+- Sentinel public page probes: config-gated HTTPS GET  
+- Genesis dashboard: bind localhost only  
 
-```bash
-python -c "import pathlib; import re; root=pathlib.Path('.');
-assert not any(re.search(r'import subprocess', p.read_text(encoding='utf-8',errors='replace')) for p in root.rglob('*.py') if p.name!='_safe_invoke.py' or True);
-print('ok')"
-python ollama_army_launcher.py --help
-python ollama_command_center/scripts/sentinel_heartbeat.py
-```
+## Residual risk (accepted)
 
-**Δ9Φ963 — disclose · gate · local-first · no silent outbound.**
+- Queue tasks execute when a daemon role is running — human must review task JSON  
+- Validated `LYGO_STACK_ROOT` tools can mutate stack files if those tools do (operator trust)  
+- Operator PS1 is intentionally powerful when dual-gated  
+
+**Δ9Φ963**

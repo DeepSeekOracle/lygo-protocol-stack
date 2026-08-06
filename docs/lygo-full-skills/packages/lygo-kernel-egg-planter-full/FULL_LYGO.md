@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `D:\lygo-protocol-stack\docs\skills\lygo-kernel-egg-planter`
-Packaged: 2026-07-29T20:14:19.430624+00:00
+Packaged: 2026-08-06T04:19:10.275809+00:00
 Files: 20
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

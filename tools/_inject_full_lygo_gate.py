@@ -223,7 +223,7 @@ JS = r"""
       cards.innerHTML = '<p class="gate-body">Catalog empty — rebuild packages on steward machine.</p>';
       return;
     }
-    var tierOrder = (cat.tiers && cat.tiers.length) ? cat.tiers : ['public_safe_join','core','star_chart','lattice','kernel','seals','memory','champion','other'];
+    var tierOrder = (cat.tiers && cat.tiers.length) ? cat.tiers : ['public_safe_join','core','star_chart','lattice','kernel','seals','security','onboarding','memory','champion','other'];
     var by = {};
     skills.forEach(function (s) {
       var t = s.tier || 'other';

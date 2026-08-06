@@ -34,18 +34,15 @@ def main() -> int:
     allow_plant = bool(idle.get("allow_planting", False))
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    # v0.8.0: no public-pages seed; planting only if allow_planting + config consent
     seeds = [
         ("lattice-check", f"idle-lattice-{ts}"),
         ("memory-sync", f"idle-memory-{ts}"),
         ("kernel-verify-only", f"idle-kernel-verify-{ts}"),
         ("idle-housekeep", f"idle-housekeep-{ts}"),
         ("clawhub-catalog-audit", f"idle-clawhub-{ts}"),
+        ("public-pages-check", f"idle-pages-{ts}"),
     ]
-    planting = {}
-    if CONFIG.is_file():
-        planting = (json.loads(CONFIG.read_text(encoding="utf-8")).get("planting") or {})
-    if allow_plant and planting.get("enabled") and planting.get("consent"):
+    if allow_plant:
         seeds.extend(
             [
                 ("egg-planter", f"idle-egg-plant-{ts}"),
@@ -62,8 +59,7 @@ def main() -> int:
             continue
         payload: dict = {}
         if role == "idle-housekeep":
-            # local-safe default ops only (no external memory by default)
-            payload = {"ops": idle.get("housekeep_ops") or ["memory_sync", "lattice_light"]}
+            payload = {"ops": idle.get("housekeep_ops") or ["memory_sync", "three_brain_index", "upgrade_scout"]}
         path.write_text(json.dumps({"id": tid, "role": role, "payload": payload}), encoding="utf-8")
 
     run_python(CC / "scripts" / "army_idle_housekeeping.py", ["--tick"], cwd=CC.parent, timeout=900)

@@ -1,12 +1,12 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-07-28T18:05:15.236295+00:00",
-  "registry_sha256": "66f2ff0362a5bbb8856a68c68901bc953ebc7cce3ba5a0e84b259e7871c2a658",
-  "node_count": 1194,
+  "generated_utc": "2026-08-06T04:13:59.608371+00:00",
+  "registry_sha256": "a1dbd5f4ec889d64a9c460864823fc0a80cd30091e329e48a5528ccd4434a923",
+  "node_count": 1305,
   "submission_queue": {
     "pending": 0,
     "accepted": 54,
-    "agent_submissions_merged": 54,
+    "agent_submissions_merged": 53,
     "ingest_notes": [
       "merged:HERO_ACCORD",
       "merged:HERO_CORVATH",
@@ -54,7 +54,7 @@
       "merged:LORE_SAMPLE_SAMPLE_GAME_INTRO",
       "merged:LORE_SAMPLE_SAMPLE_STINGER",
       "merged:PORTAL_ANCHORS",
-      "merged:PORTAL_CLAWHUB",
+      "PORTAL_CLAWHUB.json:skip_duplicate:PORTAL_CLAWHUB",
       "merged:PORTAL_ETERNALHAVEN",
       "merged:PORTAL_HF_MUSIC",
       "merged:PORTAL_HF_STACK",
@@ -62,7 +62,7 @@
       "merged:PORTAL_PAGES_STACK",
       "merged:PORTAL_STAR_CHART",
       "merged:SEAL_401",
-      "music_map: +767 nodes (albums=3 tracks=744 playlist=10787)",
+      "music_map: +804 nodes (albums=5 tracks=779 playlist=10822)",
       "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
     ]
   },
