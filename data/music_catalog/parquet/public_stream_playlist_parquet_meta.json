@@ -1,8 +1,8 @@
 {
   "signature": "\u03949\u03a6963-MUSIC-PLAYLIST-PARQUET-v1",
-  "generated_at": "2026-07-28T15:41:01.587108+00:00",
+  "generated_at": "2026-08-06T03:36:44.038863+00:00",
   "source": "D:/lygo-protocol-stack/data/music_catalog/public_stream_playlist.json",
-  "rows": 10787,
+  "rows": 10822,
   "columns": [
     "sha256",
     "title",
@@ -19,7 +19,7 @@
     "label"
   ],
   "path": "D:/lygo-protocol-stack/data/music_catalog/parquet/public_stream_playlist.parquet",
-  "bytes": 1406483,
+  "bytes": 1402056,
   "hf_repo": "DeepSeekOracle/excavationpro-music-stream",
   "hf_path": "catalog/public_stream_playlist.parquet",
   "hf_auto_parquet_branch": "refs/convert/parquet",

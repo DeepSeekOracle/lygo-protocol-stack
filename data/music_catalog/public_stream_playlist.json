@@ -1,7 +1,7 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-07-28T16:05:26.416318+00:00",
+  "generated_at": "2026-08-06T03:36:34.853417+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
@@ -13,7 +13,7 @@
     "total_stream_gb": 41.613,
     "remote_streams": 10762,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 10787,
+    "playlist_tracks": 10822,
     "last_ingest": {
       "utc": "2026-07-28T15:37:40.802878+00:00",
       "added_or_updated": 12,
@@ -144285,6 +144285,637 @@
       "source_path": "C:\\Users\\justi\\Music\\NOT UPLOADED to Git\\Riding_in_a_Hearse.mp3",
       "added_utc": "2026-07-28T15:37:40.802260+00:00",
       "release_type": "single"
+    },
+    {
+      "sha256": "2589d3afe61af8e1bd69bb6ae43e94fc7516d8bfb0d5eaf4fb1893fd112c0874",
+      "title": "THE BECOMING - Carnival of Suffering",
+      "aliases": [
+        "THE BECOMING - Carnival of Suffering",
+        "THE BECOMING"
+      ],
+      "isrcs": [],
+      "size": 3680565,
+      "stream_file": "2589d3afe61af8e1bd69bb6ae43e94fc7516d8bfb0d5eaf4fb1893fd112c0874.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\25\\2589d3afe61af8e1bd69bb6ae43e94fc7516d8bfb0d5eaf4fb1893fd112c0874.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/25/2589d3afe61af8e1bd69bb6ae43e94fc7516d8bfb0d5eaf4fb1893fd112c0874.mp3",
+      "hf_path": "stream/25/2589d3afe61af8e1bd69bb6ae43e94fc7516d8bfb0d5eaf4fb1893fd112c0874.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE BECOMING",
+      "added_utc": "2026-07-29T16:06:10.457409+00:00"
+    },
+    {
+      "sha256": "4fc6efef45e6180a546b37f83eb10e1c02e9fb603d96c192cc05f0690d1bdb6e",
+      "title": "THE BREAK - The Honesty I Craved",
+      "aliases": [
+        "THE BREAK - The Honesty I Craved",
+        "THE BREAK"
+      ],
+      "isrcs": [],
+      "size": 3586524,
+      "stream_file": "4fc6efef45e6180a546b37f83eb10e1c02e9fb603d96c192cc05f0690d1bdb6e.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\4f\\4fc6efef45e6180a546b37f83eb10e1c02e9fb603d96c192cc05f0690d1bdb6e.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4f/4fc6efef45e6180a546b37f83eb10e1c02e9fb603d96c192cc05f0690d1bdb6e.mp3",
+      "hf_path": "stream/4f/4fc6efef45e6180a546b37f83eb10e1c02e9fb603d96c192cc05f0690d1bdb6e.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE BREAK",
+      "added_utc": "2026-07-29T16:06:10.603897+00:00"
+    },
+    {
+      "sha256": "cba63491f31ca9b93f5d6b61e2797da04e460b0de10792025d3f0df38e089621",
+      "title": "THE DESCENT - Where the Ground Ends",
+      "aliases": [
+        "THE DESCENT - Where the Ground Ends",
+        "THE DESCENT"
+      ],
+      "isrcs": [],
+      "size": 4207193,
+      "stream_file": "cba63491f31ca9b93f5d6b61e2797da04e460b0de10792025d3f0df38e089621.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\cb\\cba63491f31ca9b93f5d6b61e2797da04e460b0de10792025d3f0df38e089621.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cb/cba63491f31ca9b93f5d6b61e2797da04e460b0de10792025d3f0df38e089621.mp3",
+      "hf_path": "stream/cb/cba63491f31ca9b93f5d6b61e2797da04e460b0de10792025d3f0df38e089621.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE DESCENT",
+      "added_utc": "2026-07-29T16:06:10.757974+00:00"
+    },
+    {
+      "sha256": "998bd21b1a6449bf772b299a1b9f307ecb91465c2bdfd1068c9bd0d4dece09c7",
+      "title": "THE EMERGENCE - Weaponizing the Wound",
+      "aliases": [
+        "THE EMERGENCE - Weaponizing the Wound",
+        "THE EMERGENCE"
+      ],
+      "isrcs": [],
+      "size": 4301234,
+      "stream_file": "998bd21b1a6449bf772b299a1b9f307ecb91465c2bdfd1068c9bd0d4dece09c7.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\99\\998bd21b1a6449bf772b299a1b9f307ecb91465c2bdfd1068c9bd0d4dece09c7.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/99/998bd21b1a6449bf772b299a1b9f307ecb91465c2bdfd1068c9bd0d4dece09c7.mp3",
+      "hf_path": "stream/99/998bd21b1a6449bf772b299a1b9f307ecb91465c2bdfd1068c9bd0d4dece09c7.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE EMERGENCE",
+      "added_utc": "2026-07-29T16:06:10.923094+00:00"
+    },
+    {
+      "sha256": "c9b6a925f7ca48953d1152e245c44d445316eeda718d6e694251a11c279a414a",
+      "title": "THE MIRROR - The Monster I Shaped",
+      "aliases": [
+        "THE MIRROR - The Monster I Shaped",
+        "THE MIRROR"
+      ],
+      "isrcs": [],
+      "size": 4246690,
+      "stream_file": "c9b6a925f7ca48953d1152e245c44d445316eeda718d6e694251a11c279a414a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c9\\c9b6a925f7ca48953d1152e245c44d445316eeda718d6e694251a11c279a414a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c9/c9b6a925f7ca48953d1152e245c44d445316eeda718d6e694251a11c279a414a.mp3",
+      "hf_path": "stream/c9/c9b6a925f7ca48953d1152e245c44d445316eeda718d6e694251a11c279a414a.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE MIRROR",
+      "added_utc": "2026-07-29T16:06:11.083010+00:00"
+    },
+    {
+      "sha256": "2fc2069bc8ab0b983000e95be6acb7b70876da3e29c61c0e25eaf3bcd7be84b5",
+      "title": "THE SILENCE - The Burden of the Mask",
+      "aliases": [
+        "THE SILENCE - The Burden of the Mask",
+        "THE SILENCE"
+      ],
+      "isrcs": [],
+      "size": 4365809,
+      "stream_file": "2fc2069bc8ab0b983000e95be6acb7b70876da3e29c61c0e25eaf3bcd7be84b5.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\2f\\2fc2069bc8ab0b983000e95be6acb7b70876da3e29c61c0e25eaf3bcd7be84b5.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2f/2fc2069bc8ab0b983000e95be6acb7b70876da3e29c61c0e25eaf3bcd7be84b5.mp3",
+      "hf_path": "stream/2f/2fc2069bc8ab0b983000e95be6acb7b70876da3e29c61c0e25eaf3bcd7be84b5.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE SILENCE",
+      "added_utc": "2026-07-29T16:06:11.252021+00:00"
+    },
+    {
+      "sha256": "14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0",
+      "title": "THE STATIC - Truth Without The Mask",
+      "aliases": [
+        "THE STATIC - Truth Without The Mask",
+        "THE STATIC"
+      ],
+      "isrcs": [],
+      "size": 3557058,
+      "stream_file": "14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\14\\14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/14/14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0.mp3",
+      "hf_path": "stream/14/14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE STATIC",
+      "added_utc": "2026-07-29T16:06:11.405052+00:00"
+    },
+    {
+      "sha256": "795178e287ec039d1ab9fe1abf66c6581381133d9fe6e1e8206882353e67c4dd",
+      "title": "THE WHISPER - Gravitys Reminder",
+      "aliases": [
+        "THE WHISPER - Gravitys Reminder",
+        "THE WHISPER"
+      ],
+      "isrcs": [],
+      "size": 3592793,
+      "stream_file": "795178e287ec039d1ab9fe1abf66c6581381133d9fe6e1e8206882353e67c4dd.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\79\\795178e287ec039d1ab9fe1abf66c6581381133d9fe6e1e8206882353e67c4dd.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/79/795178e287ec039d1ab9fe1abf66c6581381133d9fe6e1e8206882353e67c4dd.mp3",
+      "hf_path": "stream/79/795178e287ec039d1ab9fe1abf66c6581381133d9fe6e1e8206882353e67c4dd.mp3",
+      "album": "ABYSS CODEX",
+      "artist": "Excavationpro",
+      "moniker": "THE WHISPER",
+      "added_utc": "2026-07-29T16:06:11.548317+00:00"
+    },
+    {
+      "sha256": "e463ba1d22204efe2530d5ce0f9a1fc77de4bed969a23e0a7245e5851b53b19b",
+      "title": "AGAINST THE CLOCK - Against the Seconds",
+      "aliases": [
+        "AGAINST THE CLOCK - Against the Seconds",
+        "AGAINST THE CLOCK - Against_the_Seconds"
+      ],
+      "isrcs": [],
+      "size": 4280543,
+      "stream_file": "e463ba1d22204efe2530d5ce0f9a1fc77de4bed969a23e0a7245e5851b53b19b.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e4\\e463ba1d22204efe2530d5ce0f9a1fc77de4bed969a23e0a7245e5851b53b19b.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e4/e463ba1d22204efe2530d5ce0f9a1fc77de4bed969a23e0a7245e5851b53b19b.mp3",
+      "hf_path": "stream/e4/e463ba1d22204efe2530d5ce0f9a1fc77de4bed969a23e0a7245e5851b53b19b.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:10.692320+00:00"
+    },
+    {
+      "sha256": "78daee7d378f5e36c42030d9dabe2f8f8b045fc7900157bd18b265cdf90d56fa",
+      "title": "BREAK THE CYCLE - Bare Hands and Heart",
+      "aliases": [
+        "BREAK THE CYCLE - Bare Hands and Heart",
+        "BREAK THE CYCLE - Bare_Hands_and_Heart"
+      ],
+      "isrcs": [],
+      "size": 3626647,
+      "stream_file": "78daee7d378f5e36c42030d9dabe2f8f8b045fc7900157bd18b265cdf90d56fa.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\78\\78daee7d378f5e36c42030d9dabe2f8f8b045fc7900157bd18b265cdf90d56fa.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/78/78daee7d378f5e36c42030d9dabe2f8f8b045fc7900157bd18b265cdf90d56fa.mp3",
+      "hf_path": "stream/78/78daee7d378f5e36c42030d9dabe2f8f8b045fc7900157bd18b265cdf90d56fa.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:10.776714+00:00"
+    },
+    {
+      "sha256": "d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604",
+      "title": "BURN THE ASHES -The Soil Underneath",
+      "aliases": [
+        "BURN THE ASHES -The Soil Underneath",
+        "BURN THE ASHES -The_Soil_Underneath"
+      ],
+      "isrcs": [],
+      "size": 4411575,
+      "stream_file": "d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\d9\\d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d9/d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604.mp3",
+      "hf_path": "stream/d9/d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:10.924967+00:00"
+    },
+    {
+      "sha256": "18c5b205ca50c4a9e56f7f668cbdd3da45b56c3f99030ecb5b2708b617037e38",
+      "title": "CATHEDRAL - Coffee and My Dead",
+      "aliases": [
+        "CATHEDRAL - Coffee and My Dead",
+        "CATHEDRAL - Coffee_and_My_Dead"
+      ],
+      "isrcs": [],
+      "size": 4145125,
+      "stream_file": "18c5b205ca50c4a9e56f7f668cbdd3da45b56c3f99030ecb5b2708b617037e38.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\18\\18c5b205ca50c4a9e56f7f668cbdd3da45b56c3f99030ecb5b2708b617037e38.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18/18c5b205ca50c4a9e56f7f668cbdd3da45b56c3f99030ecb5b2708b617037e38.mp3",
+      "hf_path": "stream/18/18c5b205ca50c4a9e56f7f668cbdd3da45b56c3f99030ecb5b2708b617037e38.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.083383+00:00"
+    },
+    {
+      "sha256": "534e2886638240e7398a4e0cf25ecaa28e56e8426305f7e696b4f87b59a90bb6",
+      "title": "CATHEDRAL - I m a Cathedral Now",
+      "aliases": [
+        "CATHEDRAL - I m a Cathedral Now",
+        "CATHEDRAL - I_m_a_Cathedral_Now"
+      ],
+      "isrcs": [],
+      "size": 4374585,
+      "stream_file": "534e2886638240e7398a4e0cf25ecaa28e56e8426305f7e696b4f87b59a90bb6.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\53\\534e2886638240e7398a4e0cf25ecaa28e56e8426305f7e696b4f87b59a90bb6.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/53/534e2886638240e7398a4e0cf25ecaa28e56e8426305f7e696b4f87b59a90bb6.mp3",
+      "hf_path": "stream/53/534e2886638240e7398a4e0cf25ecaa28e56e8426305f7e696b4f87b59a90bb6.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.226107+00:00"
+    },
+    {
+      "sha256": "0f2eda6ade961b53e139bffab53b4351ebde0c5a68327f6113c5311749b80c6a",
+      "title": "CRAWLING OUT - Fire in My Eye",
+      "aliases": [
+        "CRAWLING OUT - Fire in My Eye",
+        "CRAWLING OUT - Fire_in_My_Eye"
+      ],
+      "isrcs": [],
+      "size": 2505054,
+      "stream_file": "0f2eda6ade961b53e139bffab53b4351ebde0c5a68327f6113c5311749b80c6a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\0f\\0f2eda6ade961b53e139bffab53b4351ebde0c5a68327f6113c5311749b80c6a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0f/0f2eda6ade961b53e139bffab53b4351ebde0c5a68327f6113c5311749b80c6a.mp3",
+      "hf_path": "stream/0f/0f2eda6ade961b53e139bffab53b4351ebde0c5a68327f6113c5311749b80c6a.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.292854+00:00"
+    },
+    {
+      "sha256": "a660fc9d1220bc59caf03add0d7b2a954ae347dec0dfd9a20e0ef4eb0ca4ec69",
+      "title": "FAKE FRIEND - Blacktop and Bitter Coffee",
+      "aliases": [
+        "FAKE FRIEND - Blacktop and Bitter Coffee",
+        "FAKE FRIEND - Blacktop_and_Bitter_Coffee"
+      ],
+      "isrcs": [],
+      "size": 4347627,
+      "stream_file": "a660fc9d1220bc59caf03add0d7b2a954ae347dec0dfd9a20e0ef4eb0ca4ec69.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\a6\\a660fc9d1220bc59caf03add0d7b2a954ae347dec0dfd9a20e0ef4eb0ca4ec69.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a6/a660fc9d1220bc59caf03add0d7b2a954ae347dec0dfd9a20e0ef4eb0ca4ec69.mp3",
+      "hf_path": "stream/a6/a660fc9d1220bc59caf03add0d7b2a954ae347dec0dfd9a20e0ef4eb0ca4ec69.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.425436+00:00"
+    },
+    {
+      "sha256": "b94dd9b5d6ab3dbf2f33917a2685a0874fa2a1599dfb942673fd5510699c4a86",
+      "title": "FAST FADE. - The Clock s Last Kiss",
+      "aliases": [
+        "FAST FADE. - The Clock s Last Kiss",
+        "FAST FADE. - The_Clock_s_Last_Kiss"
+      ],
+      "isrcs": [],
+      "size": 3313804,
+      "stream_file": "b94dd9b5d6ab3dbf2f33917a2685a0874fa2a1599dfb942673fd5510699c4a86.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b9\\b94dd9b5d6ab3dbf2f33917a2685a0874fa2a1599dfb942673fd5510699c4a86.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b9/b94dd9b5d6ab3dbf2f33917a2685a0874fa2a1599dfb942673fd5510699c4a86.mp3",
+      "hf_path": "stream/b9/b94dd9b5d6ab3dbf2f33917a2685a0874fa2a1599dfb942673fd5510699c4a86.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.508475+00:00"
+    },
+    {
+      "sha256": "d3c432fc3bce0ed1c7ff1fe3cf35a9ed89d419b312b535dd480cca9d30c065db",
+      "title": "GHOST TOWN feat Justin Helmer and Kenzie Jade - Heart in My Hand",
+      "aliases": [
+        "GHOST TOWN feat Justin Helmer and Kenzie Jade - Heart in My Hand",
+        "GHOST TOWN feat Justin Helmer and Kenzie Jade - Heart_in_My_Hand"
+      ],
+      "isrcs": [],
+      "size": 4215970,
+      "stream_file": "d3c432fc3bce0ed1c7ff1fe3cf35a9ed89d419b312b535dd480cca9d30c065db.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\d3\\d3c432fc3bce0ed1c7ff1fe3cf35a9ed89d419b312b535dd480cca9d30c065db.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d3/d3c432fc3bce0ed1c7ff1fe3cf35a9ed89d419b312b535dd480cca9d30c065db.mp3",
+      "hf_path": "stream/d3/d3c432fc3bce0ed1c7ff1fe3cf35a9ed89d419b312b535dd480cca9d30c065db.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.657446+00:00"
+    },
+    {
+      "sha256": "fae97a7ef45d0589b818c2cac04708751eb3d0bd1c54bdf6add9710c59931afe",
+      "title": "GRAVITY - Standing In The Deep",
+      "aliases": [
+        "GRAVITY - Standing In The Deep",
+        "GRAVITY - Standing_In_The_Deep"
+      ],
+      "isrcs": [],
+      "size": 4267377,
+      "stream_file": "fae97a7ef45d0589b818c2cac04708751eb3d0bd1c54bdf6add9710c59931afe.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\fa\\fae97a7ef45d0589b818c2cac04708751eb3d0bd1c54bdf6add9710c59931afe.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fa/fae97a7ef45d0589b818c2cac04708751eb3d0bd1c54bdf6add9710c59931afe.mp3",
+      "hf_path": "stream/fa/fae97a7ef45d0589b818c2cac04708751eb3d0bd1c54bdf6add9710c59931afe.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.801675+00:00"
+    },
+    {
+      "sha256": "4c3e93f382732e7f7e6343286c492ff47aad6cef841450db0b81fe4366aecd42",
+      "title": "IGNITION - Born From The Frost",
+      "aliases": [
+        "IGNITION - Born From The Frost",
+        "IGNITION - Born_From_The_Frost"
+      ],
+      "isrcs": [],
+      "size": 4251705,
+      "stream_file": "4c3e93f382732e7f7e6343286c492ff47aad6cef841450db0b81fe4366aecd42.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\4c\\4c3e93f382732e7f7e6343286c492ff47aad6cef841450db0b81fe4366aecd42.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4c/4c3e93f382732e7f7e6343286c492ff47aad6cef841450db0b81fe4366aecd42.mp3",
+      "hf_path": "stream/4c/4c3e93f382732e7f7e6343286c492ff47aad6cef841450db0b81fe4366aecd42.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:11.934154+00:00"
+    },
+    {
+      "sha256": "b4614a089aa16cb1571046880d9ec71d6704cec84acbf0b0ac163a2d33f5dd06",
+      "title": "LAST LAP - Unbowed at the Line",
+      "aliases": [
+        "LAST LAP - Unbowed at the Line",
+        "LAST LAP - Unbowed_at_the_Line"
+      ],
+      "isrcs": [],
+      "size": 4323175,
+      "stream_file": "b4614a089aa16cb1571046880d9ec71d6704cec84acbf0b0ac163a2d33f5dd06.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b4\\b4614a089aa16cb1571046880d9ec71d6704cec84acbf0b0ac163a2d33f5dd06.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b4/b4614a089aa16cb1571046880d9ec71d6704cec84acbf0b0ac163a2d33f5dd06.mp3",
+      "hf_path": "stream/b4/b4614a089aa16cb1571046880d9ec71d6704cec84acbf0b0ac163a2d33f5dd06.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:12.083105+00:00"
+    },
+    {
+      "sha256": "0126ecaddf4302e3629a69596b0e23db3b25767d87ac5cf27463088df0deccea",
+      "title": "OVERTIME - The Second Shift",
+      "aliases": [
+        "OVERTIME - The Second Shift",
+        "OVERTIME - The_Second_Shift"
+      ],
+      "isrcs": [],
+      "size": 3693103,
+      "stream_file": "0126ecaddf4302e3629a69596b0e23db3b25767d87ac5cf27463088df0deccea.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\01\\0126ecaddf4302e3629a69596b0e23db3b25767d87ac5cf27463088df0deccea.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/01/0126ecaddf4302e3629a69596b0e23db3b25767d87ac5cf27463088df0deccea.mp3",
+      "hf_path": "stream/01/0126ecaddf4302e3629a69596b0e23db3b25767d87ac5cf27463088df0deccea.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:12.323043+00:00"
+    },
+    {
+      "sha256": "9d178d9d6e46a3b7d9f05ce278ff1cb365eccb7db55c6853cf5fb9fe9f8c472b",
+      "title": "SECOND MUG - Riding in a Hearse",
+      "aliases": [
+        "SECOND MUG - Riding in a Hearse",
+        "SECOND MUG - Riding_in_a_Hearse"
+      ],
+      "isrcs": [],
+      "size": 4351388,
+      "stream_file": "9d178d9d6e46a3b7d9f05ce278ff1cb365eccb7db55c6853cf5fb9fe9f8c472b.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\9d\\9d178d9d6e46a3b7d9f05ce278ff1cb365eccb7db55c6853cf5fb9fe9f8c472b.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9d/9d178d9d6e46a3b7d9f05ce278ff1cb365eccb7db55c6853cf5fb9fe9f8c472b.mp3",
+      "hf_path": "stream/9d/9d178d9d6e46a3b7d9f05ce278ff1cb365eccb7db55c6853cf5fb9fe9f8c472b.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:12.454855+00:00"
+    },
+    {
+      "sha256": "f6fbfb5cfd1a4581d21574bb4fb2ee3e8910144f296609921c0b25ba8e596e90",
+      "title": "SIGNAL FIRE - Burning Through the Rain",
+      "aliases": [
+        "SIGNAL FIRE - Burning Through the Rain",
+        "SIGNAL FIRE - Burning_Through_the_Rain"
+      ],
+      "isrcs": [],
+      "size": 4288694,
+      "stream_file": "f6fbfb5cfd1a4581d21574bb4fb2ee3e8910144f296609921c0b25ba8e596e90.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f6\\f6fbfb5cfd1a4581d21574bb4fb2ee3e8910144f296609921c0b25ba8e596e90.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f6/f6fbfb5cfd1a4581d21574bb4fb2ee3e8910144f296609921c0b25ba8e596e90.mp3",
+      "hf_path": "stream/f6/f6fbfb5cfd1a4581d21574bb4fb2ee3e8910144f296609921c0b25ba8e596e90.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:12.587352+00:00"
+    },
+    {
+      "sha256": "2c329701a7d6d0802762cdcf77e255ecde49def3ffd348f05f60bf3295069f4d",
+      "title": "Steel Toes and Gasoline",
+      "aliases": [
+        "Steel Toes and Gasoline",
+        "Steel_Toes_and_Gasoline"
+      ],
+      "isrcs": [],
+      "size": 4308129,
+      "stream_file": "2c329701a7d6d0802762cdcf77e255ecde49def3ffd348f05f60bf3295069f4d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\2c\\2c329701a7d6d0802762cdcf77e255ecde49def3ffd348f05f60bf3295069f4d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2c/2c329701a7d6d0802762cdcf77e255ecde49def3ffd348f05f60bf3295069f4d.mp3",
+      "hf_path": "stream/2c/2c329701a7d6d0802762cdcf77e255ecde49def3ffd348f05f60bf3295069f4d.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:12.735211+00:00"
+    },
+    {
+      "sha256": "5a435c1b6d2c79b7768b0444e5d171c8c7951629ce9220c29252ca9087c31f2f",
+      "title": "STILL BREATHING - Ashes in the Flood",
+      "aliases": [
+        "STILL BREATHING - Ashes in the Flood",
+        "STILL BREATHING - Ashes_in_the_Flood"
+      ],
+      "isrcs": [],
+      "size": 4280545,
+      "stream_file": "5a435c1b6d2c79b7768b0444e5d171c8c7951629ce9220c29252ca9087c31f2f.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\5a\\5a435c1b6d2c79b7768b0444e5d171c8c7951629ce9220c29252ca9087c31f2f.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/5a/5a435c1b6d2c79b7768b0444e5d171c8c7951629ce9220c29252ca9087c31f2f.mp3",
+      "hf_path": "stream/5a/5a435c1b6d2c79b7768b0444e5d171c8c7951629ce9220c29252ca9087c31f2f.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:12.866915+00:00"
+    },
+    {
+      "sha256": "d789d136336f3bbc948fcd47dc6603e3b44c0a483d542357e006d2bcbb6a7f9a",
+      "title": "Sublevel Pursuit",
+      "aliases": [
+        "Sublevel Pursuit",
+        "Sublevel_Pursuit"
+      ],
+      "isrcs": [],
+      "size": 2783414,
+      "stream_file": "d789d136336f3bbc948fcd47dc6603e3b44c0a483d542357e006d2bcbb6a7f9a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\d7\\d789d136336f3bbc948fcd47dc6603e3b44c0a483d542357e006d2bcbb6a7f9a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d7/d789d136336f3bbc948fcd47dc6603e3b44c0a483d542357e006d2bcbb6a7f9a.mp3",
+      "hf_path": "stream/d7/d789d136336f3bbc948fcd47dc6603e3b44c0a483d542357e006d2bcbb6a7f9a.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:13.042998+00:00"
+    },
+    {
+      "sha256": "52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d",
+      "title": "THE CATHEDRAL - Architecture of My Peace",
+      "aliases": [
+        "THE CATHEDRAL - Architecture of My Peace",
+        "THE CATHEDRAL - Architecture_of_My_Peace",
+        "THE CATHEDRAL"
+      ],
+      "isrcs": [],
+      "size": 4245437,
+      "stream_file": "52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\52\\52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/52/52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d.mp3",
+      "hf_path": "stream/52/52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "THE CATHEDRAL",
+      "added_utc": "2026-08-06T03:35:13.219114+00:00"
+    },
+    {
+      "sha256": "4f3514e91b5ce011ef2f42df855c9676334fd30436426bde92954d99653c9102",
+      "title": "THE CATHEDRAL REBUILT - Blueprints in the Bones",
+      "aliases": [
+        "THE CATHEDRAL REBUILT - Blueprints in the Bones",
+        "THE CATHEDRAL REBUILT - Blueprints_in_the_Bones",
+        "THE CATHEDRAL REBUILT"
+      ],
+      "isrcs": [],
+      "size": 4236032,
+      "stream_file": "4f3514e91b5ce011ef2f42df855c9676334fd30436426bde92954d99653c9102.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\4f\\4f3514e91b5ce011ef2f42df855c9676334fd30436426bde92954d99653c9102.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4f/4f3514e91b5ce011ef2f42df855c9676334fd30436426bde92954d99653c9102.mp3",
+      "hf_path": "stream/4f/4f3514e91b5ce011ef2f42df855c9676334fd30436426bde92954d99653c9102.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "THE CATHEDRAL REBUILT",
+      "added_utc": "2026-08-06T03:35:13.373059+00:00"
+    },
+    {
+      "sha256": "a50dcea51d4e089fdd95286b2d1d96bbb7f82b37618b43380424df5aeb287b98",
+      "title": "THE RITUAL - The Second Cup",
+      "aliases": [
+        "THE RITUAL - The Second Cup",
+        "THE RITUAL - The_Second_Cup",
+        "THE RITUAL"
+      ],
+      "isrcs": [],
+      "size": 4125690,
+      "stream_file": "a50dcea51d4e089fdd95286b2d1d96bbb7f82b37618b43380424df5aeb287b98.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\a5\\a50dcea51d4e089fdd95286b2d1d96bbb7f82b37618b43380424df5aeb287b98.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a5/a50dcea51d4e089fdd95286b2d1d96bbb7f82b37618b43380424df5aeb287b98.mp3",
+      "hf_path": "stream/a5/a50dcea51d4e089fdd95286b2d1d96bbb7f82b37618b43380424df5aeb287b98.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "THE RITUAL",
+      "added_utc": "2026-08-06T03:35:13.522211+00:00"
+    },
+    {
+      "sha256": "43222fed996061c2e66ad04089635942b00491c820a67e2162432b123e5bbd66",
+      "title": "THE SECOND MUG - Coffee and My Dead",
+      "aliases": [
+        "THE SECOND MUG - Coffee and My Dead",
+        "THE SECOND MUG - Coffee_and_My_Dead",
+        "THE SECOND MUG"
+      ],
+      "isrcs": [],
+      "size": 4387124,
+      "stream_file": "43222fed996061c2e66ad04089635942b00491c820a67e2162432b123e5bbd66.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\43\\43222fed996061c2e66ad04089635942b00491c820a67e2162432b123e5bbd66.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43/43222fed996061c2e66ad04089635942b00491c820a67e2162432b123e5bbd66.mp3",
+      "hf_path": "stream/43/43222fed996061c2e66ad04089635942b00491c820a67e2162432b123e5bbd66.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "THE SECOND MUG",
+      "added_utc": "2026-08-06T03:35:14.310875+00:00"
+    },
+    {
+      "sha256": "cde91e1576daa73b83acf2f23bb7b844374009e7f20d543f198a17fd9dd249ba",
+      "title": "Where The Gravel Ends",
+      "aliases": [
+        "Where The Gravel Ends",
+        "Where_The_Gravel_Ends"
+      ],
+      "isrcs": [],
+      "size": 4168322,
+      "stream_file": "cde91e1576daa73b83acf2f23bb7b844374009e7f20d543f198a17fd9dd249ba.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\cd\\cde91e1576daa73b83acf2f23bb7b844374009e7f20d543f198a17fd9dd249ba.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cd/cde91e1576daa73b83acf2f23bb7b844374009e7f20d543f198a17fd9dd249ba.mp3",
+      "hf_path": "stream/cd/cde91e1576daa73b83acf2f23bb7b844374009e7f20d543f198a17fd9dd249ba.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:14.557757+00:00"
+    },
+    {
+      "sha256": "fd7b18f67f4bde77c20fbd64babbdaa4dea2dcc0b578c127fe7475551fe92edd",
+      "title": "1 FAST FADE. - The Clock s Last Kiss",
+      "aliases": [
+        "1 FAST FADE. - The Clock s Last Kiss",
+        "1_FAST FADE. - The_Clock_s_Last_Kiss_(Vocals)"
+      ],
+      "isrcs": [],
+      "size": 2757530,
+      "stream_file": "fd7b18f67f4bde77c20fbd64babbdaa4dea2dcc0b578c127fe7475551fe92edd.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\fd\\fd7b18f67f4bde77c20fbd64babbdaa4dea2dcc0b578c127fe7475551fe92edd.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fd/fd7b18f67f4bde77c20fbd64babbdaa4dea2dcc0b578c127fe7475551fe92edd.mp3",
+      "hf_path": "stream/fd/fd7b18f67f4bde77c20fbd64babbdaa4dea2dcc0b578c127fe7475551fe92edd.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:16.409059+00:00"
+    },
+    {
+      "sha256": "82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f",
+      "title": "BREAK THE CYCLE - Bare Hand and Heart",
+      "aliases": [
+        "BREAK THE CYCLE - Bare Hand and Heart"
+      ],
+      "isrcs": [],
+      "size": 3015620,
+      "stream_file": "82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\82\\82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/82/82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f.mp3",
+      "hf_path": "stream/82/82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:17.732215+00:00"
+    },
+    {
+      "sha256": "ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913",
+      "title": "FAST FADE - Clocks Last Kiss Excavationpro Original",
+      "aliases": [
+        "FAST FADE - Clocks Last Kiss Excavationpro Original"
+      ],
+      "isrcs": [],
+      "size": 2301955,
+      "stream_file": "ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\ec\\ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ec/ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913.mp3",
+      "hf_path": "stream/ec/ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:18.840363+00:00"
+    },
+    {
+      "sha256": "bba7bc8a29a3dea16a49d8495415a1982379b765abae611eff962f42437a26ea",
+      "title": "Ritual Excavationpro Original",
+      "aliases": [
+        "Ritual Excavationpro Original"
+      ],
+      "isrcs": [],
+      "size": 3172355,
+      "stream_file": "bba7bc8a29a3dea16a49d8495415a1982379b765abae611eff962f42437a26ea.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\bb\\bba7bc8a29a3dea16a49d8495415a1982379b765abae611eff962f42437a26ea.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bb/bba7bc8a29a3dea16a49d8495415a1982379b765abae611eff962f42437a26ea.mp3",
+      "hf_path": "stream/bb/bba7bc8a29a3dea16a49d8495415a1982379b765abae611eff962f42437a26ea.mp3",
+      "album": "July 30 2026",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-06T03:35:20.290223+00:00"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
