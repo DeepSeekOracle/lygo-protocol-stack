@@ -1,4 +1,12 @@
 
+## 2026-08-07 — LYGO Context Guard (viral utility)
+
+- **lygo-context-guard** v1.0.0 — token budget preflight, secret redaction, deterministic compact/toolpack
+- Targets universal agent pain: context overflow + API token burn + secret leaks into prompts
+- SkillSpector-safe: no network, no subprocess; writes under state/ with --i-consent only
+- ClawHub + docs/skills + Star Chart + LYGOSKILLHUB catalog
+
+
 ## [lygo-ops-detector 1.2.0] — 2026-08-06
 
 **SkillSpector:** permissions declared; affiliation keywords removed; dual-threshold metrics honesty; privacy/consent warnings; narrow triggers; softer philosophy.

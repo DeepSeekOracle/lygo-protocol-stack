@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-08-06T04:13:59.608371+00:00",
+  "generated_utc": "2026-08-07T03:51:01.018822+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1305,
-  "link_count": 3618,
+  "node_count": 1306,
+  "link_count": 3621,
   "seal_count": 323,
   "champion_count": 15,
-  "lattice_count": 105,
-  "registry_sha256": "a1dbd5f4ec889d64a9c460864823fc0a80cd30091e329e48a5528ccd4434a923",
+  "lattice_count": 106,
+  "registry_sha256": "e9bb4927d22c2f61b01325ef5663151ddaa991a48c66f2480f8a5318bd41f8e4",
   "constellations": [
     {
       "id": "primordial_core",
@@ -118,7 +118,7 @@
         "color": "#00ff88",
         "constellation_id": "lattice_growth",
         "angle_deg": 200,
-        "star_count": 123
+        "star_count": 124
       },
       {
         "id": "GALAXY_ETERNAL_HAVEN",
@@ -927,7 +927,7 @@
         "id": "NEBULA_CLAWHUB_SKILLS",
         "name": "ClawHub Skill Nebula",
         "galaxy_id": "GALAXY_LATTICE",
-        "star_count": 73,
+        "star_count": 74,
         "star_ids": [
           "LATTICE_SKILL_book-brain",
           "LATTICE_SKILL_book-brain-visual-reader",
@@ -3245,6 +3245,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-context-guard",
+        "name": "Skill Pin \u00b7 lygo-context-guard",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-context-guard"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-deception-radar",
         "name": "Skill Pin \u00b7 lygo-deception-radar",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -3822,7 +3832,7 @@
     ],
     "galaxy_count": 21,
     "nebula_count": 87,
-    "cluster_count": 227
+    "cluster_count": 228
   },
   "nodes": [
     {
@@ -14866,9 +14876,9 @@
     {
       "id": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice",
-      "name": "ClawHub @deepseekoracle (73 skills)",
+      "name": "ClawHub @deepseekoracle (74 skills)",
       "glyph": "\ud83e\udd9e",
-      "equation": "skills=73",
+      "equation": "skills=74",
       "tone": "8787Hz",
       "tags": [
         "LATTICE",
@@ -14888,7 +14898,7 @@
       },
       "layer": 3,
       "meta": {
-        "skill_count": 73,
+        "skill_count": 74,
         "source": "clawhub/skills.json+mirrors"
       },
       "cosmos": {
@@ -15969,6 +15979,48 @@
       }
     },
     {
+      "id": "LATTICE_SKILL_lygo-context-guard",
+      "kind": "lattice",
+      "name": "LYGO Context Guard \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-context-guard",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-context-guard",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-context-guard",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-context-guard",
+        "version": "1.0.0",
+        "summary": "Pre-flight token budget, secret redaction, and deterministic context compaction for AI agents. Save tokens. Stop secret leaks into context. Pure local stdlib.",
+        "mirror": "mirrors/lygo-context-guard",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-context-guard",
+        "cluster_name": "Skill Pin \u00b7 lygo-context-guard",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
       "id": "LATTICE_SKILL_lygo-deception-radar",
       "kind": "lattice",
       "name": "LYGO Deception Radar \u00b7 v1.0.0",
@@ -16948,7 +17000,7 @@
     {
       "id": "LATTICE_SKILL_lygo-ollama-army",
       "kind": "lattice",
-      "name": "LYGO Ollama Army & Assistant Hub \u00b7 v0.7.1",
+      "name": "LYGO Ollama Army & Assistant Hub \u00b7 v0.8.2",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-ollama-army",
       "tone": "8787Hz",
@@ -16972,8 +17024,8 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-ollama-army",
-        "version": "0.7.1",
-        "summary": "Local Ollama multi-role army. Default path: in-process threads + allowlisted runpy (no subprocess). Optional localhost HTTP dashboard/genesis. Optional HTTPS GET public lattice probes. Supervisors/sel",
+        "version": "0.8.2",
+        "summary": "Local Ollama multi-role army. Strict allowlist runpy; local-only genesis; dual-consent supervisor; PS1 process-spawn operator path; planting never auto-enabled; no outbound webhook.",
         "mirror": "mirrors/lygo-ollama-army",
         "downloads": 226
       },
@@ -17074,7 +17126,7 @@
     {
       "id": "LATTICE_SKILL_lygo-ops-detector",
       "kind": "lattice",
-      "name": "LYGO OPPS DETECTOR \u00b7 v1.2.1",
+      "name": "LYGO Ops Detector \u00b7 v1.2.2",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-ops-detector",
       "tone": "8787Hz",
@@ -17098,8 +17150,8 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-ops-detector",
-        "version": "1.2.1",
-        "summary": "LYGO Ops Detector \u2014 local AETHON\u03949 discourse heuristics for evasion / association / policy-refusal signals. Opt-in only when user asks for ops detector, AETHON\u03949, or evasion index on text they provide",
+        "version": "1.2.2",
+        "summary": "LYGO Ops Detector \u2014 local AETHON\u03949 discourse heuristics (evasion/coordination/policy-refusal). Text under review only; not identity profiling. --i-consent for files; eval writes under tests/ only.",
         "mirror": "mirrors/lygo-ops-detector",
         "downloads": 1
       },
@@ -62467,6 +62519,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-cli-bridge",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-context-guard",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-context-guard",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-context-guard",
       "target": "SEAL_000",
       "kind": "lattice"
     },

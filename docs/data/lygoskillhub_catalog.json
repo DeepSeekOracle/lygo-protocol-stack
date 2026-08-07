@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
   "version": "1.4.0",
-  "updated_utc": "2026-08-06T04:21:10.246107+00:00",
+  "updated_utc": "2026-08-07T03:50:59.148164+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -18,17 +18,17 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 88,
-    "skills": 73,
+    "total": 89,
+    "skills": 74,
     "plugins": 1,
     "downloads": 4,
     "surfaces": 11,
-    "clawhub_skills_indexed": 73,
+    "clawhub_skills_indexed": 74,
     "local_only_skills": 0,
-    "clawhub_profile_skills_listed": 73
+    "clawhub_profile_skills_listed": 74
   },
-  "skill_count": 73,
-  "item_count": 88,
+  "skill_count": 74,
+  "item_count": 89,
   "categories": [
     "champion",
     "creative",
@@ -463,9 +463,9 @@
       "kind": "skill",
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama multi-role army. Default path: in-process threads + allowlisted runpy (no subprocess). Optional localhost HTTP dashboard/genesis. Optional HTTPS GET public lattice probes. Supervisors/self_tune/planting/social/full-capacity PS1 are env/config gated and OFF by default. Operator PowerShell full-capacity intentionally spawns python.exe — not the no-spawn path. No outbound webhook, no auto git/HF/ClawHub/social. Read references/SECURITY.md first.",
+      "summary": "Local Ollama multi-role army + assistant hub. FULL HONEST SURFACE: (1) Default = in-process threads + STRICT name allowlist runpy (no arbitrary skill .py, no any tools/*.py). (2) Genesis localhost HTTP 127.0.0.1 only; browser open only LYGO_GENESIS_OPEN_BROWSER=1; outbound GitHub/HF/Pages probes only LYGO_GENESIS_PROBE_PUBLIC=1; no Discord/crypto/wallets in status by default. (3) Command-center: sentinel/self_tune/idle/cron/planting all gated OFF; self_tune MUTATES config when enabled and NEVER",
       "downloads": 226,
-      "version": "0.7.1",
+      "version": "0.8.2",
       "published": true,
       "category": "runtime",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
@@ -558,10 +558,10 @@
     {
       "kind": "skill",
       "slug": "lygo-ops-detector",
-      "name": "LYGO OPPS DETECTOR",
-      "summary": "LYGO Ops Detector — local AETHONΔ9 discourse heuristics for evasion / association / policy-refusal signals. Opt-in only when user asks for ops detector, AETHONΔ9, or evasion index on text they provide. Stdlib CLI; optional local file read of user paths; writes eval report under tests/ only when eval is run. Not for doxing, identity profiling, or unsolicited email/log analysis. Consent before private data. Metrics dual-threshold (operational 0.65 vs calibration). Triggers: lygo ops detector, aeth",
+      "name": "LYGO Ops Detector",
+      "summary": "LYGO Ops Detector — local AETHONΔ9 discourse heuristics for evasion / coordination / policy-refusal signals in text the operator supplies. Opt-in only when user asks for ops detector, AETHONΔ9, or evasion index. Stdlib CLI; --text-file/--assoc-file require --i-consent; eval writes only under tests/. Not for doxing, identity/profession profiling, or unsolicited email/log analysis. Dual-threshold metrics (operational 0.65 vs calibration). Triggers: lygo ops detector, aethon d9, evasion index (expl",
       "downloads": 1,
-      "version": "1.2.1",
+      "version": "1.2.2",
       "published": true,
       "category": "security",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ops-detector",
@@ -582,6 +582,22 @@
       "category": "runtime",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-cli-bridge",
       "install": "npx clawhub@latest install deepseekoracle/lygo-cli-bridge",
+      "has_local_skill": true,
+      "has_stack_mirror": true,
+      "source": "clawhub",
+      "ledger": "clawhub/skills.json"
+    },
+    {
+      "kind": "skill",
+      "slug": "lygo-context-guard",
+      "name": "LYGO Context Guard",
+      "summary": "LYGO Context Guard — pre-flight token budget, secret redaction, and deterministic context compaction for AI agents. Use when stuffing tool dumps, logs, files, or long chats into a model; when context is too large; when you need to save tokens / reduce API cost; when you must redact API keys before re-injection. Pure local stdlib. No network, no subprocess. Commands: estimate, redact, compact, budget, toolpack, preflight. Install clawhub:@deepseekoracle/lygo-context-guard.",
+      "downloads": 0,
+      "version": "1.0.0",
+      "published": true,
+      "category": "other",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-context-guard",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-context-guard",
       "has_local_skill": true,
       "has_stack_mirror": true,
       "source": "clawhub",
@@ -1367,7 +1383,7 @@
       "source": "surface"
     }
   ],
-  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Skills indexed: 73 (ClawHub source 73). Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo only. Dual ledgers + LYGOAGENT economic anchor on hub page.",
-  "catalog_sha256": "17b081a2905bae2d1e63e2f682319ddad26e72db5015160cd14c6a3e4a5ec7b0",
+  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Skills indexed: 74 (ClawHub source 74). Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo only. Dual ledgers + LYGOAGENT economic anchor on hub page.",
+  "catalog_sha256": "afffe1c61e75051b9e2befbbff4bf3a1f347bb283b899ef2c6417c528e81a805",
   "source_list": "clawhub/skills.json + clawhub/mirrors + local skill tree"
 }

@@ -5,9 +5,9 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 73,
-  "count_mirrored": 73,
-  "updated_utc": "2026-08-06T05:45:33.119576+00:00",
+  "count_published": 74,
+  "count_mirrored": 74,
+  "updated_utc": "2026-08-07T03:50:58.714726+00:00",
   "skills": [
     {
       "slug": "lygo-kickstart-wizard",
@@ -735,6 +735,16 @@
       "summary": "Unified entrypoint: lygo health|map|analyze|mint|radar. Local-first companions. No subprocess, no auto-publish.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-cli-bridge",
       "mirror": "mirrors/lygo-cli-bridge",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-context-guard",
+      "name": "LYGO Context Guard",
+      "summary": "Pre-flight token budget, secret redaction, and deterministic context compaction for AI agents. Save tokens. Stop secret leaks into context. Pure local stdlib.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-context-guard",
+      "mirror": "mirrors/lygo-context-guard",
       "published": true,
       "downloads": 0,
       "version": "1.0.0"
