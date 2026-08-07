@@ -1,4 +1,11 @@
 
+## 2026-08-07 — LYGO Skill Gate (safe-install utility)
+
+- **lygo-skill-gate** v1.0.0 — local pre-install skill risk scanner (subprocess/network/secrets/claim mismatch)
+- FULL RAW zip on SkillHub engineer vault; ClawHub public tentacle published
+- Pairs with lygo-context-guard (token preflight)
+
+
 ## 2026-08-07 — LYGO Context Guard (viral utility)
 
 - **lygo-context-guard** v1.0.0 — token budget preflight, secret redaction, deterministic compact/toolpack

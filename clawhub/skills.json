@@ -5,9 +5,9 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 74,
-  "count_mirrored": 74,
-  "updated_utc": "2026-08-07T03:50:58.714726+00:00",
+  "count_published": 75,
+  "count_mirrored": 75,
+  "updated_utc": "2026-08-07T04:20:52.956754+00:00",
   "skills": [
     {
       "slug": "lygo-kickstart-wizard",
@@ -745,6 +745,16 @@
       "summary": "Pre-flight token budget, secret redaction, and deterministic context compaction for AI agents. Save tokens. Stop secret leaks into context. Pure local stdlib.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-context-guard",
       "mirror": "mirrors/lygo-context-guard",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
+    {
+      "slug": "lygo-skill-gate",
+      "name": "LYGO Skill Gate",
+      "summary": "Local pre-install skill risk scanner for OpenClaw/ClawHub packages. Subprocess, network, secrets, claim mismatches. No auto-install. Pure stdlib.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-skill-gate",
+      "mirror": "mirrors/lygo-skill-gate",
       "published": true,
       "downloads": 0,
       "version": "1.0.0"

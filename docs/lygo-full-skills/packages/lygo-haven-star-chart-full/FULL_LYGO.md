@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `D:\lygo-protocol-stack\clawhub\mirrors\lygo-haven-star-chart`
-Packaged: 2026-08-07T03:52:41.726342+00:00
+Packaged: 2026-08-07T04:21:35.130217+00:00
 Files: 11
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

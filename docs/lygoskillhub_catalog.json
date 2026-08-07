@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
   "version": "1.4.0",
-  "updated_utc": "2026-08-07T03:50:59.148164+00:00",
+  "updated_utc": "2026-08-07T04:21:36.861244+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -18,17 +18,17 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 89,
-    "skills": 74,
+    "total": 90,
+    "skills": 75,
     "plugins": 1,
     "downloads": 4,
     "surfaces": 11,
-    "clawhub_skills_indexed": 74,
+    "clawhub_skills_indexed": 75,
     "local_only_skills": 0,
-    "clawhub_profile_skills_listed": 74
+    "clawhub_profile_skills_listed": 75
   },
-  "skill_count": 74,
-  "item_count": 89,
+  "skill_count": 75,
+  "item_count": 90,
   "categories": [
     "champion",
     "creative",
@@ -678,6 +678,22 @@
       "category": "kernel",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-mint-walkthrough",
       "install": "npx clawhub@latest install deepseekoracle/lygo-mint-walkthrough",
+      "has_local_skill": true,
+      "has_stack_mirror": true,
+      "source": "clawhub",
+      "ledger": "clawhub/skills.json"
+    },
+    {
+      "kind": "skill",
+      "slug": "lygo-skill-gate",
+      "name": "LYGO Skill Gate",
+      "summary": "LYGO Skill Gate — local pre-install skill risk scanner for OpenClaw/ClawHub packages. Scan any skill folder before you install or trust it: subprocess/shell, network/HTTP, secrets in source, eval/exec, webhook/exfil hints, permission-claim mismatches. Use when auditing ClawHub skills, reviewing SKILL.md safety, safe install checks, malware triage, or SkillSpector-style local gates. Pure stdlib. No network, no subprocess, no auto-install. Install clawhub:@deepseekoracle/lygo-skill-gate.",
+      "downloads": 0,
+      "version": "1.0.0",
+      "published": true,
+      "category": "lattice",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-skill-gate",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-skill-gate",
       "has_local_skill": true,
       "has_stack_mirror": true,
       "source": "clawhub",
@@ -1383,7 +1399,7 @@
       "source": "surface"
     }
   ],
-  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Skills indexed: 74 (ClawHub source 74). Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo only. Dual ledgers + LYGOAGENT economic anchor on hub page.",
-  "catalog_sha256": "afffe1c61e75051b9e2befbbff4bf3a1f347bb283b899ef2c6417c528e81a805",
+  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Skills indexed: 75 (ClawHub source 75). Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo only. Dual ledgers + LYGOAGENT economic anchor on hub page.",
+  "catalog_sha256": "88d9360345ff505e1683e89b4f0429c22e5fea35ab06bf5c4db9975b15fa4459",
   "source_list": "clawhub/skills.json + clawhub/mirrors + local skill tree"
 }

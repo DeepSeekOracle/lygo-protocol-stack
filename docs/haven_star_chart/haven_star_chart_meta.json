@@ -1,8 +1,8 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-08-07T03:51:01.018822+00:00",
-  "registry_sha256": "e9bb4927d22c2f61b01325ef5663151ddaa991a48c66f2480f8a5318bd41f8e4",
-  "node_count": 1306,
+  "generated_utc": "2026-08-07T04:21:58.175262+00:00",
+  "registry_sha256": "43d0b2b6577f37ef2e4eb3dbd32c74ee95ec70d8935cbaa6fd780ce394dbd4fc",
+  "node_count": 1307,
   "submission_queue": {
     "pending": 0,
     "accepted": 54,
