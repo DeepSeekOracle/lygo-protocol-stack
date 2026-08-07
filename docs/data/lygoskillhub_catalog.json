@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
   "version": "1.4.0",
-  "updated_utc": "2026-08-07T04:21:36.861244+00:00",
+  "updated_utc": "2026-08-07T04:29:52.971162+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -595,7 +595,7 @@
       "downloads": 0,
       "version": "1.0.0",
       "published": true,
-      "category": "other",
+      "category": "tools",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-context-guard",
       "install": "npx clawhub@latest install deepseekoracle/lygo-context-guard",
       "has_local_skill": true,
@@ -1400,6 +1400,6 @@
     }
   ],
   "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Skills indexed: 75 (ClawHub source 75). Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo only. Dual ledgers + LYGOAGENT economic anchor on hub page.",
-  "catalog_sha256": "88d9360345ff505e1683e89b4f0429c22e5fea35ab06bf5c4db9975b15fa4459",
+  "catalog_sha256": "5667967a283ba2328860b887d4eed9c24e7bfe068c09277ee60c10c960df1775",
   "source_list": "clawhub/skills.json + clawhub/mirrors + local skill tree"
 }

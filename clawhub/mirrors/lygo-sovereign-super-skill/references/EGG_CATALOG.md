@@ -13,8 +13,12 @@
 - `lygo-sandcastle-v10`
 - `lygo-openclaw-v10`
 - `lygo-lpis-v10`
+- `lygo-ops-detector-v1`
+- `lygo-context-guard-v1` — token budget / redact / compact utility
+- `lygo-skill-gate-v1` — local pre-install skill risk scanner
+- music lattice eggs (`excavationpro-music-*`) when catalog includes them
 
-## Planters (refresh product manifests + rebuild all 11)
+## Planters (refresh product manifests + rebuild catalog eggs)
 
 | Tool | Product egg |
 |------|-------------|

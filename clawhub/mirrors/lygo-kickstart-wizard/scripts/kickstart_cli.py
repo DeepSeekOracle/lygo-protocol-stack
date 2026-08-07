@@ -75,14 +75,24 @@ ECOSYSTEM_MAP = [
         "plain": "Local heuristics only. Not a person verdict. Consent before private mail/logs.",
     },
     {
+        "need": "Save tokens / compact tool dumps / redact secrets before model inject",
+        "skill": "lygo-context-guard",
+        "plain": "Pre-flight token budget + redact + deterministic compact. Pure local. ClawHub + FULL SkillHub vault.",
+    },
+    {
+        "need": "Audit a ClawHub/OpenClaw skill before install",
+        "skill": "lygo-skill-gate",
+        "plain": "Local risk scan: subprocess, network, secrets, claim mismatches. Never auto-installs.",
+    },
+    {
         "need": "Turn a prompt pack into a verifiable hash + anchor snippet",
         "skill": "lygo-mint-verifier (this wizard → mint guides you)",
         "plain": "Create a receipt you can post anywhere. No secrets in the pack.",
     },
     {
-        "need": "See the full skill constellation",
-        "skill": "Haven Star Chart",
-        "plain": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html — filter CLAWHUB / SKILL",
+        "need": "See the full skill constellation + FULL unlocked engineer vault",
+        "skill": "Haven Star Chart + https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "plain": "Public ClawHub tentacles on SkillHub; FULL RAW zips behind engineer gate.",
     },
     {
         "need": "Champion advice (truth, architecture, time…)",

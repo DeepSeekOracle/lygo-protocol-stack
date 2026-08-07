@@ -104,6 +104,19 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("aethon_blueprint", REPO / "clawhub" / "mirrors" / "lygo-ops-detector" / "references" / "AETHON_D9_BLUEPRINT.md"),
         ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-ops-detector" / "references" / "SECURITY.md"),
     ],
+    # Universal agent utilities (ClawHub + FULL SkillHub vault)
+    "lygo-context-guard-v1": [
+        ("context_guard_skill", REPO / "clawhub" / "mirrors" / "lygo-context-guard" / "SKILL.md"),
+        ("context_guard_core", REPO / "clawhub" / "mirrors" / "lygo-context-guard" / "scripts" / "context_guard.py"),
+        ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-context-guard" / "references" / "SECURITY.md"),
+        ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-context-guard" / "examples" / "quickstart.md"),
+    ],
+    "lygo-skill-gate-v1": [
+        ("skill_gate_skill", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "SKILL.md"),
+        ("skill_gate_core", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "scripts" / "skill_gate.py"),
+        ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "references" / "SECURITY.md"),
+        ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "examples" / "quickstart.md"),
+    ],
 }
 
 RETRIEVAL_SOA = {
