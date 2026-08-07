@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Army skill self-check — policy clamps + import smoke (no autonomous loop)."""
+"""Army skill self-check — allowlist + policy + import smoke (no autonomous loop)."""
 from __future__ import annotations
 
 import json
@@ -15,71 +15,96 @@ sys.path.insert(0, str(ROOT / "ollama_command_center" / "scripts"))
 def main() -> int:
     report: dict = {"ok": True, "checks": {}}
 
-    # 1) SKILL frontmatter honesty markers
     skill = (ROOT / "SKILL.md").read_text(encoding="utf-8", errors="replace")
-    for needle in (
-        "0.8.1",
-        "start_army_full_capacity.ps1",
-        "LYGO_ARMY_I_CONSENT",
-        "localhost",
-        "auto_enable_planting",
-        "process spawn",
-    ):
-        report["checks"][f"skill_has_{needle[:24]}"] = needle.lower() in skill.lower() or needle in skill
+    report["checks"]["version_082"] = "0.8.2" in skill
+    report["checks"]["honest_strict_allowlist"] = "STRICT" in skill or "strict" in skill.lower()
 
-    # 2) Supervisor dual gate
-    sup = (ROOT / "ollama_command_center" / "scripts" / "army_autonomous_supervisor.py").read_text(
-        encoding="utf-8", errors="replace"
-    )
+    import _safe_invoke as si
+
+    # Strict allowlist: random skill .py must fail; known name under root ok
+    fake = ROOT / "not_allowlisted_evil.py"
+    try:
+        fake.write_text("# evil\n", encoding="utf-8")
+        report["checks"]["refuses_arbitrary_skill_py"] = not si.allowed_script(fake)
+    finally:
+        fake.unlink(missing_ok=True)
+
+    ok_script = ROOT / "ollama_daemon.py"
+    report["checks"]["allows_named_daemon"] = si.allowed_script(ok_script)
+
+    # stack tools: arbitrary tools/foo.py must fail
+    stack = Path(os.environ.get("LYGO_STACK_ROOT", r"D:\lygo-protocol-stack"))
+    if (stack / "tools").is_dir():
+        evil_tool = stack / "tools" / "_army_ss_evil_probe_should_not_exist.py"
+        report["checks"]["refuses_arbitrary_stack_tool"] = not si.allowed_script(
+            evil_tool, stack_root=stack
+        )
+        good = stack / "tools" / "verify_lattice_alignment.py"
+        report["checks"]["allows_named_stack_tool"] = (
+            si.allowed_script(good, stack_root=stack) if good.is_file() else True
+        )
+    else:
+        report["checks"]["refuses_arbitrary_stack_tool"] = True
+        report["checks"]["allows_named_stack_tool"] = True
+
+    # no bak config
+    bak = ROOT / "ollama_command_center" / "config" / "army_config.json.bak"
+    report["checks"]["no_bak_config"] = not bak.is_file()
+
+    # example planting off
+    ex = ROOT / "ollama_command_center" / "config" / "army_config.example.json"
+    if ex.is_file():
+        cfg = json.loads(ex.read_text(encoding="utf-8"))
+        report["checks"]["example_planting_off"] = not (cfg.get("planting") or {}).get("enabled")
+        report["checks"]["example_self_tune_off"] = not (cfg.get("self_tune") or {}).get("enabled")
+        report["checks"]["example_no_auto_plant"] = not (cfg.get("self_tune") or {}).get(
+            "auto_enable_planting"
+        )
+        report["checks"]["example_no_notifications"] = "notifications" not in cfg
+
+    # supervisor dual gate
+    sup = (
+        ROOT / "ollama_command_center" / "scripts" / "army_autonomous_supervisor.py"
+    ).read_text(encoding="utf-8", errors="replace")
     report["checks"]["supervisor_dual_gate"] = (
         "LYGO_ARMY_AUTONOMOUS" in sup and "LYGO_ARMY_I_CONSENT" in sup
     )
-    report["checks"]["supervisor_no_popen"] = (
-        "import subprocess" not in sup and "subprocess.Popen" not in sup and "Popen(" not in sup
-    )
 
-    # 3) self_tune refuses auto plant
-    st = (ROOT / "ollama_command_center" / "scripts" / "army_self_tune.py").read_text(
-        encoding="utf-8", errors="replace"
-    )
-    report["checks"]["self_tune_refuses_auto_plant"] = (
-        "auto_enable_planting" in st
-        and "Never auto-enable planting" in st
-        or "forced_auto_enable_planting" in st
-        or "NEVER auto-enable planting" in st
-        or "never auto-enable planting" in st.lower()
-    )
-    report["checks"]["self_tune_mutating_doc"] = "MUTATING" in st or "mutating" in st
+    # collector local-only default markers
+    col = (ROOT / "genesis_console" / "collector.py").read_text(encoding="utf-8", errors="replace")
+    report["checks"]["collector_local_default"] = "LYGO_GENESIS_PROBE_PUBLIC" in col
+    report["checks"]["collector_no_default_discord"] = "LYGO_GENESIS_OPS_DISCORD" in col
 
-    # 4) PS1 spawn warning + gates
-    ps1 = (ROOT / "start_army_full_capacity.ps1").read_text(encoding="utf-8", errors="replace")
-    report["checks"]["ps1_spawn_warning"] = "SPAWN" in ps1.upper() or "SPAWNS" in ps1
-    report["checks"]["ps1_triple_gate"] = all(
-        x in ps1 for x in ("LYGO_ARMY_FULL_CAPACITY", "LYGO_ARMY_AUTONOMOUS", "LYGO_ARMY_I_CONSENT")
-    )
+    # health default probes
+    hc = (
+        ROOT / "ollama_command_center" / "scripts" / "army_health_check.py"
+    ).read_text(encoding="utf-8", errors="replace")
+    report["checks"]["health_probes_only"] = "probes_only" in hc and "--run-self-tune" in hc
 
-    # 5) Genesis browser default off
-    gen = (ROOT / "genesis_console" / "server.py").read_text(encoding="utf-8", errors="replace")
-    report["checks"]["browser_gated"] = "LYGO_GENESIS_OPEN_BROWSER" in gen
+    # cron no token_saver path
+    cron = (
+        ROOT / "ollama_command_center" / "scripts" / "army_cron_once.py"
+    ).read_text(encoding="utf-8", errors="replace")
+    report["checks"]["cron_no_token_saver_exec"] = "token_saver_once" not in cron
 
-    # 6) Supervisor refuses without env
+    # supervisor refuses without env
     old = os.environ.pop("LYGO_ARMY_AUTONOMOUS", None)
     old2 = os.environ.pop("LYGO_ARMY_I_CONSENT", None)
     try:
-        import army_autonomous_supervisor as aas  # noqa: E402
+        import army_autonomous_supervisor as aas
 
         rc = aas.main()
-        report["checks"]["supervisor_refuses_without_env"] = rc == 2
+        report["checks"]["supervisor_refuses"] = rc == 2
     except Exception as e:
-        report["checks"]["supervisor_refuses_without_env"] = False
-        report["supervisor_err"] = str(e)[:120]
+        report["checks"]["supervisor_refuses"] = False
+        report["err"] = str(e)[:100]
     finally:
         if old is not None:
             os.environ["LYGO_ARMY_AUTONOMOUS"] = old
         if old2 is not None:
             os.environ["LYGO_ARMY_I_CONSENT"] = old2
 
-    report["ok"] = all(bool(v) for k, v in report["checks"].items() if k != "ok")
+    report["ok"] = all(bool(v) for v in report["checks"].values())
     print(json.dumps(report, indent=2))
     return 0 if report["ok"] else 1
 

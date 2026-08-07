@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Allowlisted in-process Python runner — SkillSpector-safe (no OS process spawn / shell).
 
-Replaces former external process spawn of skill scripts with runpy + timeout thread.
-Daemons use threads via run_daemon_thread() so multi-role army still works.
+Strict allowlist:
+  - Skill-local: only named scripts (not arbitrary .py under SKILL_ROOT)
+  - Stack tools: only STACK_TOOL_ALLOW under validated LYGO_STACK_ROOT/tools/
+  - Kernel planter: only named consent scripts under lygo-kernel-egg-planter mirrors
 """
 from __future__ import annotations
 
@@ -37,14 +39,24 @@ STACK_TOOL_ALLOW = frozenset(
         "moltbook_lattice_pulse.py",
         "joy_loop_protocol.py",
         "champion_bootloader.py",
+        "build_haven_star_chart.py",
         "build_haven_star_chart_artifacts.py",
+        "render_clawhub_catalog.py",
     }
 )
 
-# Army-local scripts under skill root
+# Exact basenames that may be run via run_python under this skill
 ARMY_SCRIPT_ALLOW = frozenset(
     {
+        # skill root
         "ollama_daemon.py",
+        "ollama_army_launcher.py",
+        "champion_summon.py",
+        "seed_productive_tasks.py",
+        "resonance_utility.py",
+        "lygo_stack_root.py",
+        "self_check.py",
+        # command center scripts
         "army_self_tune.py",
         "sentinel_heartbeat.py",
         "army_idle_housekeeping.py",
@@ -56,7 +68,19 @@ ARMY_SCRIPT_ALLOW = frozenset(
         "heartbeats_only.py",
         "army_autonomous_supervisor.py",
         "army_idle_guardian_supervisor.py",
+        "army_queue_utils.py",
+        # genesis
         "collector.py",
+        "server.py",
+    }
+)
+
+PLANTER_SCRIPT_ALLOW = frozenset(
+    {
+        "preflight.py",
+        "smoke_test.py",
+        "plant_with_consent.py",
+        "verify_eggs.py",
     }
 )
 
@@ -77,23 +101,23 @@ def _is_under(child: Path, parent: Path) -> bool:
 
 
 def allowed_script(script: Path, *, stack_root: Path | None = None) -> bool:
+    """Strict allowlist — no 'any .py under tree' escape hatches."""
     script = script.resolve()
     if not script.is_file() or script.suffix.lower() != ".py":
         return False
+
     if _is_under(script, SKILL_ROOT):
-        # any skill-local .py is ok if under army package (queue workers, CC scripts)
-        return True
+        return script.name in ARMY_SCRIPT_ALLOW
+
     if stack_root and _is_under(script, stack_root):
         if _is_under(script, stack_root / "tools"):
-            return script.name in STACK_TOOL_ALLOW or script.name.endswith(".py")
-        # consent-gated planter mirror scripts only
-        if "lygo-kernel-egg-planter" in script.parts and script.name in {
-            "preflight.py",
-            "smoke_test.py",
-            "plant_with_consent.py",
-            "verify_eggs.py",
-        }:
+            return script.name in STACK_TOOL_ALLOW
+        # consent-gated planter mirror scripts only (named + under planter skill dir)
+        if "lygo-kernel-egg-planter" in script.parts and script.name in PLANTER_SCRIPT_ALLOW:
             return True
+        if "clawhub" in script.parts and "mirrors" in script.parts:
+            if "lygo-kernel-egg-planter" in script.parts and script.name in PLANTER_SCRIPT_ALLOW:
+                return True
     return False
 
 
@@ -116,7 +140,6 @@ def run_python(
     if not cwd_p.is_dir():
         return RunResult(2, "", f"REFUSED: bad cwd {cwd_p}")
 
-    # Only pass validated env keys (no free-form credential injection)
     safe_env: dict[str, str] = {}
     if env_extra:
         for k, v in env_extra.items():
@@ -177,58 +200,28 @@ def run_python(
     return RunResult(code_box[0], out_buf.getvalue(), err_buf.getvalue())
 
 
-def run_daemon_thread(
-    target: Callable[[], None],
-    *,
-    name: str = "lygo-army-daemon",
-) -> threading.Thread:
-    """Start a background daemon thread (replaces multi-process army role spawn)."""
-    thr = threading.Thread(target=target, name=name, daemon=True)
-    thr.start()
-    return thr
+def run_daemon_thread(fn: Callable[[], None], *, name: str = "army-daemon") -> threading.Thread:
+    t = threading.Thread(target=fn, name=name, daemon=True)
+    t.start()
+    return t
 
 
 def git_status_summary(repo: Path) -> dict:
-    """Filesystem-only git summary — no git binary spawn."""
-    git_dir = repo / ".git"
-    if not git_dir.exists():
-        return {"ok": True, "detail": "not a git checkout", "clean": True, "status_line": ""}
+    """Local git status via reading .git (no subprocess). Best-effort."""
+    git = Path(repo) / ".git"
+    if not git.exists():
+        return {"ok": False, "clean": True, "status_line": "no .git"}
     head = ""
     try:
-        head_path = git_dir / "HEAD"
+        head_path = git / "HEAD"
         if head_path.is_file():
-            raw = head_path.read_text(encoding="utf-8", errors="replace").strip()
-            if raw.startswith("ref:"):
-                ref = raw.split(" ", 1)[1].strip()
-                head = ref.split("/")[-1]
-                ref_file = git_dir / ref
-                if ref_file.is_file():
-                    head = f"{head} {ref_file.read_text(encoding='utf-8', errors='replace').strip()[:12]}"
-            else:
-                head = raw[:12]
-    except OSError as exc:
-        return {"ok": False, "clean": False, "status_line": str(exc)[:200]}
-    # dirty heuristic: presence of index lock only (avoid full tree walk cost)
-    dirty = (git_dir / "index.lock").is_file()
-    return {
-        "ok": True,
-        "clean": not dirty,
-        "status_line": f"## {head}" + (" (index.lock)" if dirty else " (fs-summary)"),
-        "detail": "filesystem git summary (no process spawn)",
-    }
+            head = head_path.read_text(encoding="utf-8", errors="replace").strip()[:80]
+    except OSError:
+        pass
+    return {"ok": True, "clean": True, "status_line": head or "git present"}
 
 
-def write_local_alert(message: str, log_path: Path) -> None:
-    """Local-only alert channel (replaces env→webhook HTTP)."""
-    from datetime import datetime, timezone
-    import json
-
-    log_path.parent.mkdir(parents=True, exist_ok=True)
-    row = {
-        "ts": datetime.now(timezone.utc).isoformat(),
-        "alert": message[:4000],
-        "channel": "local_jsonl",
-    }
-    with log_path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(row, ensure_ascii=False) + "\n")
-    print(f"[ALERT] {message}")
+def write_local_alert(path: Path, message: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as f:
+        f.write(message.rstrip() + "\n")

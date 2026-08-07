@@ -1,40 +1,44 @@
-# SkillSpector audit response — lygo-ollama-army v0.8.1
+# SkillSpector audit response — lygo-ollama-army v0.8.2
 
-**Signature:** `Δ9Φ963-ARMY-SKILLSPECTOR-v0.8.1`
+**Signature:** `Δ9Φ963-ARMY-SKILLSPECTOR-v0.8.2`  
+**Source:** https://clawhub.ai/deepseekoracle/skills/lygo-ollama-army/security-audit (47 findings addressed)
 
-## NVIDIA findings (ClawHub outstanding) → fixes
+## High-severity fixes
 
-| Finding | Severity | Fix in 0.8.1 |
-|---------|----------|--------------|
-| Description understates dashboard / HTTPS probes / browser / roles | High | SKILL frontmatter lists **full honest surface**; browser only if `LYGO_GENESIS_OPEN_BROWSER=1` |
-| Supervisor overbroad cron/plant messaging | Medium | Banner lists consent gates; cron seeds safe roles only; plant needs enabled+consent |
-| idle allow_planting vs external memory | Medium | Flags independent; plant-like op names refused when `allow_planting=false`; external write separate |
-| self_tune auto_enable_planting | High | **Never enables planting**; forces `auto_enable_planting=false` + `allow_auto_enable=false` every write |
-| self_tune “read-only” mismatch | Medium | Docstring + report `mutating: true` + honest_surface text |
-| PS1 expands beyond reviewed queue | Medium/High | PS1 documented as OPERATOR-ONLY process spawn; triple env gate; optional one-shots off |
-| PS1 process spawn vs no-spawn claim | High | Manifest splits Python skill vs PS1; PS1 header refuses mislabeling |
-| Supervisor no confirmation | Medium | Requires `LYGO_ARMY_AUTONOMOUS=1` **and** `LYGO_ARMY_I_CONSENT=1` |
+| Finding | Fix |
+|---------|-----|
+| Manifest understates network/automation | SKILL description lists every surface + env gates |
+| ARMY_TASKS social likes/reposts as auto | Reframed as optional consent-gated **role labels**, not auto engagement |
+| Planting docs vs never auto-enabled | ARMY_TASKS/SECURITY: planting = local eggs only; never self_tune-on |
+| Planting vs ClawHub publish confusion | Explicit: planting ≠ git/HF/ClawHub publish |
+| run_python any skill .py | **Strict** `ARMY_SCRIPT_ALLOW` basenames only |
+| stack tools any .py | **Strict** `STACK_TOOL_ALLOW` only (removed `endswith(".py")`) |
+| collector unconditional outbound | Default **local_only**; `LYGO_GENESIS_PROBE_PUBLIC=1` for GitHub/HF/Pages |
+| ensure_sentinel_fresh side effect | Only if `LYGO_GENESIS_RUN_SENTINEL=1` |
+| Discord/crypto/wallets in status | Disabled; optional steward env; no tokens/wallets |
+| Command catalog autostart/push/export | Replaced with **safe** army/stack commands only |
+| Desktop army launcher no consent | Bat embeds dual consent; installer needs `LYGO_ARMY_INSTALL_DESKTOP=1` |
+| Discord+crypto desktop scope | Steward installer separate + `LYGO_ARMY_INSTALL_STEWARD_DESKTOP=1` |
+| README webhook vs no webhook | README: no outbound webhook POST |
+| army_config.json.bak planting on | **Deleted** from package; example forced safe |
+| self_tune auto_enable_planting true in bak | Removed with bak; live example clamps false |
+| notifications webhook hooks | Removed from example config |
+| cron runs external token_saver | **Removed** cross-skill execution |
+| health_check auto self_tune/sentinel | Probes only; flags `--run-self-tune` / `--run-sentinel` |
+| health_check “read-only” but mutates | Doc + flags; default no queue mutation |
+| suspicious status.json install source | Minimal local status.json (no shortener/IP) |
 
-## Runtime split (reviewers)
+## Residual accepted risk
 
-| Path | Spawn | Gates |
-|------|-------|-------|
-| `ollama_army_launcher.py` | None (threads) | None beyond user run |
-| `army_autonomous_supervisor.py` | None (threads + runpy) | AUTONOMOUS + I_CONSENT |
-| `start_army_full_capacity.ps1` | **Yes** `python.exe` | FULL_CAPACITY + AUTONOMOUS + I_CONSENT + STACK_ROOT |
-| `genesis_console/server.py` | None; optional browser | Localhost bind; OPEN_BROWSER env |
+- Operator who sets all consent flags can plant eggs / run social tools  
+- Operator PS1 still spawns python when triple-gated  
+- Public probes when env explicitly set  
 
-## Residual risk (accepted)
+## Verify
 
-- Operator who sets all env gates + planting.consent can plant eggs  
-- self_tune when enabled rewrites local config (documented)  
-- Validated `LYGO_STACK_ROOT` runpy can run allowlisted stack tools  
-
-## Operator checklist
-
-1. Copy `army_config.example.json` → `army_config.json`  
-2. Confirm planting/self_tune/social/probes all false  
-3. Prefer `python ollama_army_launcher.py`  
-4. Never set FULL_CAPACITY unless you accept OS process spawn  
+```bash
+python scripts/self_check.py
+python ollama_command_center/scripts/army_health_check.py
+```
 
 **Δ9Φ963**

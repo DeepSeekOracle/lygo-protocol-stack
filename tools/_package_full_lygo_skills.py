@@ -116,6 +116,11 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-ops-detector",
         GROK / "lygo-ops-detector",
     ],
+    "lygo-context-guard": [
+        STACK / "docs" / "skills" / "lygo-context-guard",
+        STACK / "clawhub" / "mirrors" / "lygo-context-guard",
+        GROK / "lygo-context-guard",
+    ],
 }
 
 ROLES = {
@@ -140,6 +145,7 @@ ROLES = {
     "lygo-cli-bridge": "Unified lygo health|map|analyze|mint|radar CLI",
     "lygo-geodesic-sealer": "P6 quantum-attest geodesic dual-ledger seal",
     "lygo-ops-detector": "AETHONΔ9 discourse ops/evasion heuristics (FULL eval suite)",
+    "lygo-context-guard": "Token budget preflight · secret redact · deterministic compact (FULL RAW)",
 }
 
 TIERS = {
@@ -164,6 +170,7 @@ TIERS = {
     "lygo-cli-bridge": "onboarding",
     "lygo-geodesic-sealer": "kernel",
     "lygo-ops-detector": "security",
+    "lygo-context-guard": "tools",
 }
 
 SKIP_PARTS = {
@@ -517,6 +524,7 @@ def main() -> int:
             "kernel",
             "seals",
             "security",
+            "tools",
             "onboarding",
             "memory",
             "champion",

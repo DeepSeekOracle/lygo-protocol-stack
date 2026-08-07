@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `I:\E Drive\.grok\skills\lyra-brain`
-Packaged: 2026-08-06T04:32:02.800652+00:00
+Packaged: 2026-08-07T03:52:41.726342+00:00
 Files: 12
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

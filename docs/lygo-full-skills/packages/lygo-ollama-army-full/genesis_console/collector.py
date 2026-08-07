@@ -240,6 +240,17 @@ def army_state() -> dict:
 
 
 def ops_discord_crypto() -> dict:
+    """DISABLED by default — Discord/crypto ops are out of scope for this skill package.
+
+    Set LYGO_GENESIS_OPS_DISCORD=1 only on a steward machine that intentionally
+    bridges LYRA_CORE. Never ships tokens/wallets in status by default.
+    """
+    if os.environ.get("LYGO_GENESIS_OPS_DISCORD", "").strip().lower() not in ("1", "true", "yes"):
+        return {
+            "ok": True,
+            "skipped": True,
+            "detail": "discord/crypto ops disabled (set LYGO_GENESIS_OPS_DISCORD=1 to enable steward bridge)",
+        }
     script = LYRA_CORE / "lygo_ops_status.py"
     if not script.is_file():
         return {"ok": False, "detail": "missing lygo_ops_status.py"}
@@ -250,9 +261,12 @@ def ops_discord_crypto() -> dict:
 
         payload = lygo_ops_status.collect_ops_status()
         d = payload.get("discord") or {}
-        c = payload.get("crypto") or {}
-        healthy = bool(d.get("online") or d.get("api_me", {}).get("ok"))
-        return {"ok": True, "healthy": healthy, "discord": d, "crypto": c, "integrations": payload.get("integrations")}
+        # Never include token/wallet secrets — strip sensitive keys
+        safe_d = {
+            "online": d.get("online"),
+            "api_ok": bool((d.get("api_me") or {}).get("ok")),
+        }
+        return {"ok": True, "healthy": bool(safe_d.get("online") or safe_d.get("api_ok")), "discord": safe_d}
     except Exception as exc:
         return {"ok": False, "detail": str(exc)[:200]}
 
@@ -332,6 +346,13 @@ def joy_loop() -> dict:
 
 
 def ensure_sentinel_fresh(max_age_sec: int = 420) -> None:
+    """Only refresh sentinel when explicitly enabled (not during default collect)."""
+    if os.environ.get("LYGO_GENESIS_RUN_SENTINEL", "").strip().lower() not in (
+        "1",
+        "true",
+        "yes",
+    ):
+        return
     script = CC / "scripts" / "sentinel_heartbeat.py"
     sentinel = CC / "workspace" / "sentinel_status.json"
     if not script.is_file():
@@ -397,41 +418,49 @@ def buildr_usb_status() -> dict:
 
 
 def quick_commands() -> list[dict]:
-    """Copy-paste commands for Genesis dashboard (BUILDR USB, Claw, army, retail)."""
-    key = resolve_buildr_key_root()
-    key_s = str(key) if key else r"E:\LYGO_BUILDER_KEY"
-    overlay = r"I:\E Drive\LYGO_BUILDR_USB"
-    claw = r"I:\E Drive\lygo-claw"
+    """Safe copy-paste commands for Genesis dashboard (local army only).
+
+    No autostart, no git push, no packaging/export, no subprocess launchers.
+    """
     stack = str(STACK)
     cc = str(CC / "scripts")
-    exports = r"I:\E Drive\LYGO_BUILDR_EXPORTS"
+    army = str(ARMY)
     return [
-        {"group": "Genesis / Army", "label": "Army hourly cron (once)", "cmd": f'cd "{cc}" && python army_cron_once.py'},
-        {"group": "Genesis / Army", "label": "Genesis collector refresh", "cmd": f'cd "{ROOT}" && python collector.py'},
-        {"group": "Genesis / Army", "label": "Genesis UI server", "cmd": f'cd "{ROOT}" && python server.py'},
-        {"group": "BUILDR USB — Tray & daemon", "label": "Daemon tray (double-click)", "cmd": f'"{key_s}\\launchers\\LYGO_Daemon_Tray.bat"'},
-        {"group": "BUILDR USB — Tray & daemon", "label": "Install logon autostart (+ Ollama)", "cmd": f'powershell -ExecutionPolicy Bypass -File "{key_s}\\launchers\\install_buildr_autostart.ps1" -WithOllama'},
-        {"group": "BUILDR USB — Tray & daemon", "label": "Remove autostart task", "cmd": f'powershell -ExecutionPolicy Bypass -File "{key_s}\\launchers\\install_buildr_autostart.ps1" -Remove'},
-        {"group": "BUILDR USB — Tray & daemon", "label": "Console daemon + Ollama", "cmd": f'"{key_s}\\launchers\\LYGO_BUILDR_Daemon.bat"'},
-        {"group": "BUILDR USB — Tray & daemon", "label": "Daemon health (browser/curl)", "cmd": "http://127.0.0.1:9630/health"},
-        {"group": "BUILDR USB — AI & verify", "label": "One-Boot offline chat", "cmd": f'"{key_s}\\launchers\\LYGO_One_Boot_AI.bat"'},
-        {"group": "BUILDR USB — AI & verify", "label": "System check", "cmd": f'"{key_s}\\launchers\\CHECK_SYSTEM.bat"'},
-        {"group": "BUILDR USB — AI & verify", "label": "Standalone verify", "cmd": f'cd /d "{key_s}" && python scripts\\verify_standalone_usb.py'},
-        {"group": "BUILDR USB — AI & verify", "label": "Phase 2 bootstrap verify", "cmd": f'cd /d "{key_s}" && python verify_bootstrap.py --edition GROK_BUILDR --phase2'},
-        {"group": "BUILDR USB — AI & verify", "label": "Full stick benchmark", "cmd": f'cd /d "{key_s}" && python scripts\\benchmark_buildr_stick.py --network --lygo-claw-root "{claw}"'},
-        {"group": "BUILDR USB — AI & verify", "label": "Benchmark launcher", "cmd": f'"{key_s}\\launchers\\LYGO_Run_Benchmark.bat"'},
-        {"group": "BUILDR USB — Sync & retail", "label": "Sync overlay to stick", "cmd": f'powershell -ExecutionPolicy Bypass -File "{overlay}\\scripts\\sync_overlay_to_builder_key.ps1"'},
-        {"group": "BUILDR USB — Sync & retail", "label": "Export all PUBLIC SKUs", "cmd": f'powershell -ExecutionPolicy Bypass -File "{key_s}\\scripts\\build_phase3_all_skus.ps1"'},
-        {"group": "BUILDR USB — Sync & retail", "label": "Zip SKUs for Gumroad", "cmd": f'powershell -ExecutionPolicy Bypass -File "{overlay}\\scripts\\package_public_sku_zips.ps1"'},
-        {"group": "LYGO-Claw", "label": "Install + self-check", "cmd": f'"{claw}\\launchers\\INSTALL_AND_CHECK.bat"'},
-        {"group": "LYGO-Claw", "label": "USB supervisor health", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && python -m lygo_claw.cli usb-health'},
-        {"group": "LYGO-Claw", "label": "Gateway test", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && python -m lygo_claw.cli gateway "hello"'},
-        {"group": "LYGO-Claw", "label": "Queue stick task", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && python -m lygo_claw.cli buildr-task verify_standalone --wait'},
-        {"group": "LYGO-Claw", "label": "Sovereign loop (desktop+USB+lattice)", "cmd": f'"{claw}\\launchers\\RUN_SOVEREIGN_LOOP.bat"'},
-        {"group": "LYGO-Claw", "label": "God-Mode brain init", "cmd": f'cd /d "{claw}" && set PYTHONPATH={claw}\\src && set LYGO_BUILDER_KEY_ROOT={key_s} && python -m lygo_claw.cli brain-init'},
-        {"group": "BUILDR USB — Tray & daemon", "label": "Nightly brain loop (USB)", "cmd": f'"{key_s}\\launchers\\LYGO_Nightly_Brain_Loop.bat"'},
-        {"group": "Stack", "label": "Lattice verify", "cmd": f'cd /d "{stack}" && python tools\\verify_lattice_alignment.py'},
-        {"group": "Stack", "label": "Push with credential helper", "cmd": f'python "{stack}\\tools\\push_with_git_credential.py"'},
+        {
+            "group": "Army (safe)",
+            "label": "In-process army launcher (reviewed roles)",
+            "cmd": f'cd "{army}" && python ollama_army_launcher.py --roles hb-light,draft-simple --count 1',
+        },
+        {
+            "group": "Army (safe)",
+            "label": "Health probes only (no self_tune)",
+            "cmd": f'cd "{cc}" && python army_health_check.py',
+        },
+        {
+            "group": "Army (safe)",
+            "label": "Sentinel once (explicit)",
+            "cmd": f'cd "{cc}" && python sentinel_heartbeat.py',
+        },
+        {
+            "group": "Army (safe)",
+            "label": "Genesis collector (local-only)",
+            "cmd": f'cd "{ROOT}" && python collector.py',
+        },
+        {
+            "group": "Army (safe)",
+            "label": "Genesis UI server (localhost)",
+            "cmd": f'cd "{ROOT}" && python server.py',
+        },
+        {
+            "group": "Stack (opt-in)",
+            "label": "Lattice verify (needs LYGO_STACK_ROOT)",
+            "cmd": f'cd /d "{stack}" && python tools\\verify_lattice_alignment.py',
+        },
+        {
+            "group": "Army (gated)",
+            "label": "Autonomous supervisor (needs dual env consent)",
+            "cmd": f'cd "{cc}" && set LYGO_ARMY_AUTONOMOUS=1&& set LYGO_ARMY_I_CONSENT=1&& python army_autonomous_supervisor.py',
+        },
     ]
 
 
@@ -458,51 +487,94 @@ def sentinel_status() -> dict:
 
 
 def collect() -> dict:
+    """Collect status. Default = local/offline probes only.
+
+    Outbound public probes (GitHub/HF/Pages) require LYGO_GENESIS_PROBE_PUBLIC=1.
+    Sentinel auto-run requires LYGO_GENESIS_RUN_SENTINEL=1.
+    Discord/crypto ops require LYGO_GENESIS_OPS_DISCORD=1.
+    """
     ts = datetime.now(timezone.utc).isoformat()
+    probe_public = os.environ.get("LYGO_GENESIS_PROBE_PUBLIC", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    )
+    # Never auto-run sentinel unless opted in
     ensure_sentinel_fresh()
+
     lattice = run_lattice()
-    gh = github_repo()
-    commit = github_last_commit()
-    space = hf_space()
-    dataset = hf_dataset()
-    ops = ops_discord_crypto()
+    army = army_state()
+    claw = clawhub_index()
+    p0 = p0_golden()
     phase5 = phase5_metrics()
     twin = twin_gate()
     sentinel = sentinel_status()
     joy = joy_loop()
-    public = internet_lattice()
-    healthy = bool(
-        lattice.get("ok")
-        and gh.get("ok")
-        and space.get("ok")
-        and (sentinel.get("ok") or lattice.get("ok"))
-    )
-    return {
-        "signature": "Δ9Φ963-GENESIS-CONSOLE-v3",
-        "title": "LYGO Lightfather Genesis Console — Full Lattice Monitor",
+    local = local_git()
+
+    payload: dict = {
+        "signature": "Δ9Φ963-GENESIS-CONSOLE-v4",
+        "title": "LYGO Genesis Console — local army / lattice monitor",
         "updated_at": ts,
-        "healthy": healthy,
-        "links": LINKS,
+        "mode": "public_probe" if probe_public else "local_only",
+        "policy": {
+            "public_probes": probe_public,
+            "run_sentinel_on_collect": os.environ.get("LYGO_GENESIS_RUN_SENTINEL", "")
+            in ("1", "true", "yes"),
+            "ops_discord": os.environ.get("LYGO_GENESIS_OPS_DISCORD", "")
+            in ("1", "true", "yes"),
+            "no_tokens_in_status": True,
+            "no_webhook": True,
+        },
+        "links": {
+            "genesis_local": LINKS["genesis_local"],
+            "army_dashboard_local": LINKS["army_dashboard_local"],
+            "clawhub": LINKS["clawhub"],
+            "github_stack": LINKS["github_stack"],
+            "haven_star_chart": LINKS["haven_star_chart"],
+        },
         "services": {
             "genesis_port": GENESIS_PORT,
             "joy_api_port": JOY_API_PORT,
             "stack_root": str(STACK),
         },
         "lattice": lattice,
-        "internet_lattice": public,
         "sentinel": sentinel,
         "joy_loop": joy,
-        "github": {"repo": gh, "last_commit": commit, "local": local_git()},
-        "huggingface": {"space": space, "dataset": dataset},
-        "clawhub": clawhub_index(),
-        "p0": p0_golden(),
-        "army": army_state(),
-        "ops": ops,
+        "github": {"local": local},
+        "clawhub": claw,
+        "p0": p0,
+        "army": army,
         "phase5": phase5,
         "twin_gate": twin,
-        "buildr_usb": buildr_usb_status(),
         "commands": quick_commands(),
     }
+
+    if probe_public:
+        gh = github_repo()
+        commit = github_last_commit()
+        space = hf_space()
+        dataset = hf_dataset()
+        public = internet_lattice()
+        payload["github"] = {"repo": gh, "last_commit": commit, "local": local}
+        payload["huggingface"] = {"space": space, "dataset": dataset}
+        payload["internet_lattice"] = public
+        payload["healthy"] = bool(
+            lattice.get("ok") and (gh.get("ok") or army.get("ollama_online"))
+        )
+    else:
+        payload["healthy"] = bool(army.get("ollama_online") or lattice.get("ok"))
+        payload["internet_lattice"] = {
+            "ok": False,
+            "skipped": True,
+            "detail": "set LYGO_GENESIS_PROBE_PUBLIC=1 for outbound HTTPS GET probes",
+        }
+
+    # Optional steward Discord bridge (no wallets/tokens)
+    if os.environ.get("LYGO_GENESIS_OPS_DISCORD", "").strip().lower() in ("1", "true", "yes"):
+        payload["ops"] = ops_discord_crypto()
+
+    return payload
 
 
 def main() -> int:

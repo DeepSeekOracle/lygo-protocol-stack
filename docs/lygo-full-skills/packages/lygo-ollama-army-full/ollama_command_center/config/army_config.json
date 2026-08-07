@@ -110,11 +110,6 @@
     "workspace_write": true,
     "allow_privileged_roles": false
   },
-  "notifications": {
-    "webhook_url_env": "LYGO_ARMY_WEBHOOK_URL",
-    "webhook_enable_env": "LYGO_ARMY_WEBHOOK_ENABLE",
-    "telegram_env": "LYGO_ARMY_TELEGRAM_BOT"
-  },
   "token_saver": {
     "enabled": false,
     "default_model": "llama3.2:1b",

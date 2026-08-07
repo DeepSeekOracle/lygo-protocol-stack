@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
-"""LYGO Army + USB daemon health suite (read-only probes + optional queue smoke)."""
+"""LYGO Army health suite — probes only by default (no self_tune, no queue mutation).
+
+Flags (opt-in):
+  --run-sentinel   run sentinel_heartbeat once
+  --run-self-tune  run army_self_tune (mutating if self_tune.enabled)
+  --dedupe         prune/dedupe queue files
+  --smoke          enqueue one lattice-check task and wait for result
+"""
 
 from __future__ import annotations
 
 import sys
 from pathlib import Path as _P
+
 _SKILL = _P(__file__).resolve().parents[2]
 if str(_SKILL) not in sys.path:
     sys.path.insert(0, str(_SKILL))
-from _safe_invoke import run_python, run_daemon_thread, git_status_summary, write_local_alert  # noqa: E402
+from _safe_invoke import run_python  # noqa: E402
 
 import json
 import re
-import sys
 import time
 import urllib.request
 from datetime import datetime, timezone
@@ -58,20 +65,8 @@ def probe_gateway(port: int) -> dict:
 
 
 def list_daemon_processes() -> dict:
-    roles: list[str] = []
-    count = 0
-    try:
-        ps = type('R', (), {'returncode': 0, 'stdout': '', 'stderr': ''})()
-        for line in (ps.stdout or "").splitlines():
-            if "ollama_daemon.py" not in line and "lyra_ollama_daemon.py" not in line:
-                continue
-            count += 1
-            m = re.search(r"--role\s+(\S+)", line)
-            if m:
-                roles.append(m.group(1))
-    except Exception as exc:
-        return {"count": count, "roles": roles, "error": str(exc)}
-    return {"count": count, "roles": roles, "unique_roles": sorted(set(roles))}
+    # Process listing intentionally not implemented (no subprocess/ps).
+    return {"count": 0, "roles": [], "note": "no process enumeration (SkillSpector)"}
 
 
 def run_self_tune() -> dict:
@@ -81,7 +76,12 @@ def run_self_tune() -> dict:
         report = json.loads(cp.stdout or "{}")
     except json.JSONDecodeError:
         report = {"raw": (cp.stdout or "")[-1500:]}
-    return {"exit_code": cp.returncode, "verdict": report.get("verdict"), "actions": len(report.get("actions", []))}
+    return {
+        "exit_code": cp.returncode,
+        "verdict": report.get("verdict"),
+        "actions": len(report.get("actions", [])),
+        "mutating": True,
+    }
 
 
 def run_sentinel() -> dict:
@@ -99,14 +99,17 @@ def run_sentinel() -> dict:
 
 
 def smoke_lattice_task(timeout: float = 120.0) -> dict:
-    """Enqueue one lattice-check, wait for result (stack-worker or lattice-check daemon)."""
+    """Enqueue one lattice-check, wait for result."""
     tasks = CC / "tasks"
     results = CC / "results"
     tasks.mkdir(parents=True, exist_ok=True)
     results.mkdir(parents=True, exist_ok=True)
     tid = f"health-lattice-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
     task_path = tasks / f"{tid}.task.json"
-    task_path.write_text(json.dumps({"id": tid, "role": "lattice-check", "payload": {}}), encoding="utf-8")
+    task_path.write_text(
+        json.dumps({"id": tid, "role": "lattice-check", "payload": {}}),
+        encoding="utf-8",
+    )
 
     deadline = time.time() + timeout
     result_path = results / f"{tid}.result.json"
@@ -120,44 +123,82 @@ def smoke_lattice_task(timeout: float = 120.0) -> dict:
 
 
 def main() -> int:
+    argv = sys.argv[1:]
+    want_sentinel = "--run-sentinel" in argv
+    want_tune = "--run-self-tune" in argv
+    want_dedupe = "--dedupe" in argv
+    want_smoke = "--smoke" in argv
+
     cfg = load_config()
     perf = cfg.get("performance") or {}
     dirs = queue_dirs(CC, ARMY)
 
-    before = unique_task_count(dirs)
-    pruned = dedupe_cron_by_role(dirs)
-    max_per_role = int(perf.get("max_pending_per_role", 1))
-    if max_per_role > 0:
-        pruned += dedupe_by_role(dirs, max_per_role=max_per_role)
-    after = unique_task_count(dirs)
-
-    report = {
-        "signature": "Δ9Φ963-ARMY-HEALTH-v1",
+    report: dict = {
+        "signature": "Δ9Φ963-ARMY-HEALTH-v2",
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "mode": "probes_only",
+        "mutating": want_dedupe or want_tune or want_smoke,
         "ollama": probe_ollama(),
         "gateway": probe_gateway(int(perf.get("gateway_port", 18789))),
         "queue": {
+            "unique_tasks": unique_task_count(dirs),
+        },
+        "daemons": list_daemon_processes(),
+        "flags": {
+            "run_sentinel": want_sentinel,
+            "run_self_tune": want_tune,
+            "dedupe": want_dedupe,
+            "smoke": want_smoke,
+        },
+    }
+
+    if want_dedupe:
+        before = unique_task_count(dirs)
+        pruned = dedupe_cron_by_role(dirs)
+        max_per_role = int(perf.get("max_pending_per_role", 1))
+        if max_per_role > 0:
+            pruned += dedupe_by_role(dirs, max_per_role=max_per_role)
+        after = unique_task_count(dirs)
+        report["queue"] = {
             "unique_tasks_before": before,
             "unique_tasks_after": after,
             "cron_deduped": pruned,
-        },
-        "daemons": list_daemon_processes(),
-        "self_tune": run_self_tune(),
-        "sentinel": run_sentinel(),
-    }
+        }
+        report["mode"] = "probes+dedupe"
 
-    if "--smoke" in sys.argv:
+    if want_tune:
+        report["self_tune"] = run_self_tune()
+        report["mode"] = "probes+self_tune"
+    else:
+        report["self_tune"] = {"skipped": True, "hint": "pass --run-self-tune"}
+
+    if want_sentinel:
+        report["sentinel"] = run_sentinel()
+    else:
+        # read-only load of last status if present
+        status_path = CC / "workspace" / "sentinel_status.json"
+        if status_path.is_file():
+            st = json.loads(status_path.read_text(encoding="utf-8"))
+            report["sentinel"] = {
+                "skipped_run": True,
+                "last_healthy": st.get("healthy"),
+                "timestamp": st.get("timestamp"),
+            }
+        else:
+            report["sentinel"] = {"skipped_run": True, "hint": "pass --run-sentinel"}
+
+    if want_smoke:
         report["lattice_smoke"] = smoke_lattice_task()
 
-    checks = [
-        report["ollama"]["ok"],
-        report["sentinel"].get("healthy") is not False,
-        report["self_tune"]["exit_code"] == 0,
-    ]
-    if "--smoke" in sys.argv:
+    checks = [report["ollama"]["ok"]]
+    if want_sentinel:
+        checks.append(report["sentinel"].get("healthy") is not False)
+    if want_tune:
+        checks.append(report["self_tune"].get("exit_code") == 0)
+    if want_smoke:
         checks.append(report.get("lattice_smoke", {}).get("ok") is True)
 
-    report["all_pass"] = all(checks)
+    report["all_pass"] = all(checks) if checks else True
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps(report, indent=2))

@@ -100,15 +100,8 @@ def main() -> int:
         run_python(CC / "scripts" / "army_self_tune.py", timeout=120)
     run_python(CC / "scripts" / "sentinel_heartbeat.py", timeout=240)
 
-    ts_hub = Path.home() / ".grok" / "skills" / "lygo-api-token-saver" / "scripts" / "token_saver_once.py"
-    if not ts_hub.is_file():
-        ts_hub = Path(r"I:\E Drive\.grok\skills\lygo-api-token-saver\scripts\token_saver_once.py")
-    if ts_hub.is_file() and (cfg.get("token_saver") or {}).get("enabled", False):
-        # token_saver may be outside army allowlist — only if path is under skill trees
-        try:
-            run_python(ts_hub, timeout=60)
-        except Exception:
-            pass
+    # Cross-skill token_saver intentionally removed (SkillSpector trust boundary).
+    # Run lygo-api-token-saver separately if needed — never from army cron.
 
     pending = pending_roles(dirs)
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
