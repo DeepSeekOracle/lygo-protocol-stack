@@ -95,3 +95,9 @@ npx clawhub@latest install deepseekoracle/<slug>
 - Protocol stack tie-in: P0–P5 in repo root gates ethical publish/install flows
 
 **Resonance signature:** Δ9Φ963-CLAWHUB-CATALOG-v2.0
+
+## Continuum
+
+| slug | name | version | url |
+|------|------|---------|-----|
+| lygo-continuum | LYGO Continuum | 1.0.0 | https://clawhub.ai/deepseekoracle/lygo-continuum |

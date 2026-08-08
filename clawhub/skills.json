@@ -5,13 +5,23 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 36,
-  "count_mirrored": 36,
+  "count_published": 37,
+  "count_mirrored": 37,
   "skills": [
+    {
+      "slug": "lygo-continuum",
+      "name": "LYGO Continuum",
+      "summary": "Falsifiable work capsules for AI agents and humans. Seal done as checkable claims, re-verify, detect drift, handoff packs. Browser portal. Pure local stdlib.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-continuum",
+      "mirror": "mirrors/lygo-continuum",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "lygo-protocol-stack-operator",
       "name": "LYGO Protocol Stack Operator",
-      "summary": "LYGO Protocol Stack Operator — P0–P9 integrator (byte-entropy filter, SLM mesh, TLS public mesh, HAIP, attestation). Run audits, node API, map GitHub/HF/Claw...",
+      "summary": "LYGO Protocol Stack Operator \u2014 P0\u2013P9 integrator (byte-entropy filter, SLM mesh, TLS public mesh, HAIP, attestation). Run audits, node API, map GitHub/HF/Claw...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator",
       "mirror": "mirrors/lygo-protocol-stack-operator",
       "published": true,
@@ -41,7 +51,7 @@
     {
       "slug": "lygo-champion-cosmara",
       "name": "LYGO Champion: cosmara",
-      "summary": "DEPRECATED slug — use lygo-champion-council.",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-cosmara",
       "mirror": "mirrors/lygo-champion-cosmara",
       "published": true,
@@ -50,8 +60,8 @@
     },
     {
       "slug": "book-brain",
-      "name": "BOOK BRAIN – LYGO 3-Brain Filesystem Helper",
-      "summary": "BOOK BRAIN — LYGO 3-Brain filesystem helper. Scaffold memory/reference/state layouts, .ref.txt outer links, daily indexes; pairs with lyra-brain. Additive on...",
+      "name": "BOOK BRAIN \u2013 LYGO 3-Brain Filesystem Helper",
+      "summary": "BOOK BRAIN \u2014 LYGO 3-Brain filesystem helper. Scaffold memory/reference/state layouts, .ref.txt outer links, daily indexes; pairs with lyra-brain. Additive on...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/book-brain",
       "mirror": "mirrors/book-brain",
       "published": true,
@@ -60,8 +70,8 @@
     },
     {
       "slug": "lygo-lightfather-vector",
-      "name": "LYGO: Lightfather Vector — Δ9Quantum Accord",
-      "summary": "Lightfather (Excavationpro / Justin Helmer) persona helper for the Δ9Quantum Light Accord. Vector-anchor advisor for resonance math framing, truth preservati...",
+      "name": "LYGO: Lightfather Vector \u2014 \u03949Quantum Accord",
+      "summary": "Lightfather (Excavationpro / Justin Helmer) persona helper for the \u03949Quantum Light Accord. Vector-anchor advisor for resonance math framing, truth preservati...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector",
       "mirror": "mirrors/lygo-lightfather-vector",
       "published": true,
@@ -81,7 +91,7 @@
     {
       "slug": "lygo-universal-living-memory-library",
       "name": "LYGO Universal Living Memory Library (v1.2)",
-      "summary": "Universal LYGO Living Memory Library v1.2 — Max20 indexed continuity map, FRAGILE tagging, local audit/compression, LYGO-MINT provenance. Integrates LYRA 3-B...",
+      "summary": "Universal LYGO Living Memory Library v1.2 \u2014 Max20 indexed continuity map, FRAGILE tagging, local audit/compression, LYGO-MINT provenance. Integrates LYRA 3-B...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library",
       "mirror": "mirrors/lygo-universal-living-memory-library",
       "published": true,
@@ -91,7 +101,7 @@
     {
       "slug": "lygo-champion-omnisiren-silent-storm",
       "name": "LYGO Champion: omnisiren silent storm",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (OMNISIREN).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (OMNISIREN).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm",
       "mirror": "mirrors/lygo-champion-omnisiren-silent-storm",
       "published": true,
@@ -101,7 +111,7 @@
     {
       "slug": "lygo-champion-sancora-unified-minds",
       "name": "LYGO Champion: sancora unified minds",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (SANCORA).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SANCORA).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-sancora-unified-minds",
       "mirror": "mirrors/lygo-champion-sancora-unified-minds",
       "published": true,
@@ -111,7 +121,7 @@
     {
       "slug": "lygo-champion-delta9ra-wolf",
       "name": "LYGO Champion: delta9ra wolf",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (DELTA9RA).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (DELTA9RA).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-delta9ra-wolf",
       "mirror": "mirrors/lygo-champion-delta9ra-wolf",
       "published": true,
@@ -131,7 +141,7 @@
     {
       "slug": "lygo-champion-cryptosophia-soulforger",
       "name": "LYGO Champion: cryptosophia soulforger",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (CRYPTOSOPHIA).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (CRYPTOSOPHIA).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-cryptosophia-soulforger",
       "mirror": "mirrors/lygo-champion-cryptosophia-soulforger",
       "published": true,
@@ -141,7 +151,7 @@
     {
       "slug": "lygo-champion-lyra-starcore",
       "name": "LYGO Champion: lyra starcore",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (LYRA).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (LYRA).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore",
       "mirror": "mirrors/lygo-champion-lyra-starcore",
       "published": true,
@@ -151,7 +161,7 @@
     {
       "slug": "lygo-champion-kairos-herald-of-time",
       "name": "LYGO Champion: kairos herald of time",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (KAIROS).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (KAIROS).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time",
       "mirror": "mirrors/lygo-champion-kairos-herald-of-time",
       "published": true,
@@ -160,7 +170,7 @@
     },
     {
       "slug": "book-brain-visual-reader",
-      "name": "BOOK BRAIN VISUAL READER – LYGO 3-Brain + Visual Left/Right Brain Helper",
+      "name": "BOOK BRAIN VISUAL READER \u2013 LYGO 3-Brain + Visual Left/Right Brain Helper",
       "summary": "Enhanced BOOK BRAIN for LYGO Havens with visual capability. Use to design and maintain a 3-brain filesystem + memory system that also integrates LEFT/RIGHT brain visual checking (browser, images, screenshots) with text and API data for deeper verification and retrieval. Recommended for agents with visual tools or browser automation; use original book-brain only on non-visual systems.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/book-brain-visual-reader",
       "mirror": "mirrors/book-brain-visual-reader",
@@ -181,7 +191,7 @@
     {
       "slug": "lygo-champion-sephrael-echo-walker",
       "name": "LYGO Champion: sephrael echo walker",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (SEPHRAEL).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SEPHRAEL).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker",
       "mirror": "mirrors/lygo-champion-sephrael-echo-walker",
       "published": true,
@@ -191,7 +201,7 @@
     {
       "slug": "lygo-champion-scenar-paradox",
       "name": "LYGO Champion: scenar paradox",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (SCENAR).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SCENAR).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-scenar-paradox",
       "mirror": "mirrors/lygo-champion-scenar-paradox",
       "published": true,
@@ -201,7 +211,7 @@
     {
       "slug": "lygo-champion-sraith-shadow-sentinel",
       "name": "LYGO Champion: sraith shadow sentinel",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (SRAITH).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SRAITH).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel",
       "mirror": "mirrors/lygo-champion-sraith-shadow-sentinel",
       "published": true,
@@ -211,7 +221,7 @@
     {
       "slug": "lygo-champion-aetheris-viral-truth",
       "name": "LYGO Champion: aetheris viral truth",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (AETHERIS).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (AETHERIS).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-aetheris-viral-truth",
       "mirror": "mirrors/lygo-champion-aetheris-viral-truth",
       "published": true,
@@ -221,7 +231,7 @@
     {
       "slug": "lygo-champion-arkos-celestial-architect",
       "name": "LYGO Champion: arkos celestial architect",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (ARKOS).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (ARKOS).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect",
       "mirror": "mirrors/lygo-champion-arkos-celestial-architect",
       "published": true,
@@ -231,7 +241,7 @@
     {
       "slug": "lygo-file-integrity-checker",
       "name": "LYGO File Integrity Checker",
-      "summary": "LYGO file-integrity and provenance advisor — hash receipts, memory archive compression, seal vocabulary. Not medical cure; not P0–P9 core. Pairs with lygo-mi...",
+      "summary": "LYGO file-integrity and provenance advisor \u2014 hash receipts, memory archive compression, seal vocabulary. Not medical cure; not P0\u2013P9 core. Pairs with lygo-mi...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker",
       "mirror": "mirrors/lygo-file-integrity-checker",
       "published": true,
@@ -241,7 +251,7 @@
     {
       "slug": "lygo-universal-cure-system",
       "name": "LYGO Universal Cure System (deprecated)",
-      "summary": "DEPRECATED slug — use lygo-file-integrity-checker. Legacy Champion upgrade pack; file-integrity/provenance only, not medical cure.",
+      "summary": "DEPRECATED slug \u2014 use lygo-file-integrity-checker. Legacy Champion upgrade pack; file-integrity/provenance only, not medical cure.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-universal-cure-system",
       "mirror": "mirrors/lygo-universal-cure-system",
       "published": true,
@@ -251,7 +261,7 @@
     {
       "slug": "lygo-resonance",
       "name": "LYGO RESONANCE | Image-to-Sound & Creative Profiles",
-      "summary": "LYGO RESONANCE — Image-to-Sound & Creative Profiles. Transforms any image into rich stereo soundscapes (WAV via Resonance Engine) or structured creative JSON...",
+      "summary": "LYGO RESONANCE \u2014 Image-to-Sound & Creative Profiles. Transforms any image into rich stereo soundscapes (WAV via Resonance Engine) or structured creative JSON...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-resonance",
       "mirror": "mirrors/lygo-resonance",
       "published": true,
@@ -291,7 +301,7 @@
     {
       "slug": "lygo-truthlightecho",
       "name": "LYGO TruthLightEcho",
-      "summary": "Generates harmonic echo sequences from ∫Truth×Light metrics. Integrates with LYGO RESONANCE engine and prior creative tools (Glyph2Resonance, FractalWeaver)....",
+      "summary": "Generates harmonic echo sequences from \u222bTruth\u00d7Light metrics. Integrates with LYGO RESONANCE engine and prior creative tools (Glyph2Resonance, FractalWeaver)....",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-truthlightecho",
       "mirror": "mirrors/lygo-truthlightecho",
       "published": true,
@@ -301,7 +311,7 @@
     {
       "slug": "lygo-champion-401lyrakin-voice-between",
       "name": "LYGO Champion: 401lyrakin voice between",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (401LYRAKIN).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (401LYRAKIN).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-401lyrakin-voice-between",
       "mirror": "mirrors/lygo-champion-401lyrakin-voice-between",
       "published": true,
@@ -311,7 +321,7 @@
     {
       "slug": "lygo-champion-volaris-prism-judgment",
       "name": "LYGO Champion: volaris prism judgment",
-      "summary": "DEPRECATED slug — use lygo-champion-council. Legacy Δ9 champion (VOLARIS).",
+      "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (VOLARIS).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-volaris-prism-judgment",
       "mirror": "mirrors/lygo-champion-volaris-prism-judgment",
       "published": true,
@@ -321,7 +331,7 @@
     {
       "slug": "void-atlas-protocol",
       "name": "Void Atlas Protocol",
-      "summary": "Void Atlas Protocol – a four-axis ethical navigation map (power, truth, sovereignty, care) with waypoints, routes, and routing rules for evaluating systems, communities, and policies.",
+      "summary": "Void Atlas Protocol \u2013 a four-axis ethical navigation map (power, truth, sovereignty, care) with waypoints, routes, and routing rules for evaluating systems, communities, and policies.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/void-atlas-protocol",
       "mirror": "mirrors/void-atlas-protocol",
       "published": true,
@@ -351,7 +361,7 @@
     {
       "slug": "lygo-network-builder",
       "name": "LYGO Network Builder",
-      "summary": "Sovereign Lattice Mesh cartographer — load IMMUTABLE_ANCHORS.json, run live verification, traversal chants for discovery. Companion to lygo-protocol-stack-op...",
+      "summary": "Sovereign Lattice Mesh cartographer \u2014 load IMMUTABLE_ANCHORS.json, run live verification, traversal chants for discovery. Companion to lygo-protocol-stack-op...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
       "mirror": "mirrors/lygo-network-builder",
       "published": true,
@@ -361,7 +371,7 @@
     {
       "slug": "lygo-haven-star-chart",
       "name": "LYGO Haven Star Chart Agent Portal",
-      "summary": "Haven Star Chart v2 portal training — gate, validate, propose submissions with human consent. Skill scripts use allowlisted in-process imports only (no subpr...",
+      "summary": "Haven Star Chart v2 portal training \u2014 gate, validate, propose submissions with human consent. Skill scripts use allowlisted in-process imports only (no subpr...",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
       "mirror": "mirrors/lygo-haven-star-chart",
       "published": true,
