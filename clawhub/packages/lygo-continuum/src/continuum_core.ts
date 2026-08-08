@@ -1,0 +1,595 @@
+/**
+ * LYGO Continuum core — pure Node/TS port of the falsifiable claim engine.
+ * No network. No subprocess. Signature aligned with skill v1.0.0.
+ */
+import { createHash, randomBytes } from "node:crypto";
+import {
+  existsSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import os from "node:os";
+import path from "node:path";
+
+export const SIG = "Delta9Phi963-CONTINUUM-v1.0.0";
+export const VERSION = "1.0.0";
+export const SCHEMA = "lygo.continuum.v1";
+
+export const CLAIM_KINDS = [
+  "file_exists",
+  "file_missing",
+  "file_sha256",
+  "file_contains",
+  "file_not_contains",
+  "line_count_gte",
+  "line_count_eq",
+  "bytes_gte",
+  "bytes_eq",
+  "glob_count_gte",
+  "json_path_eq",
+  "text_sha256",
+  "regex_match",
+  "regex_not_match",
+] as const;
+
+export type ClaimKind = (typeof CLAIM_KINDS)[number];
+
+export type Claim = {
+  id?: string;
+  kind: string;
+  path?: string;
+  file?: string;
+  pattern?: string;
+  glob?: string;
+  needle?: string;
+  expect?: unknown;
+  sha256?: string;
+  n?: number;
+  jpath?: string;
+  json_path?: string;
+  text?: string;
+};
+
+export type ClaimResult = {
+  id: string;
+  kind: string;
+  ok: boolean;
+  detail: string;
+  observed: unknown;
+  expected: unknown;
+};
+
+function sha256Bytes(data: Buffer | string): string {
+  return createHash("sha256").update(data).digest("hex");
+}
+
+export function sha256Text(text: string): string {
+  return sha256Bytes(Buffer.from(text, "utf8"));
+}
+
+function sha256File(filePath: string): string {
+  return sha256Bytes(readFileSync(filePath));
+}
+
+/** Stable JSON with sorted keys (recursive). Matches Python json.dumps(sort_keys=True, separators=(',',':')). */
+export function stableStringify(value: unknown): string {
+  if (value === null || typeof value !== "object") {
+    return JSON.stringify(value);
+  }
+  if (Array.isArray(value)) {
+    return `[${value.map((v) => stableStringify(v)).join(",")}]`;
+  }
+  const o = value as Record<string, unknown>;
+  const keys = Object.keys(o).sort();
+  return `{${keys.map((k) => `${JSON.stringify(k)}:${stableStringify(o[k])}`).join(",")}}`;
+}
+
+export function rootHashOf(capsule: Record<string, unknown>): string {
+  const body: Record<string, unknown> = {};
+  for (const k of Object.keys(capsule).sort()) {
+    if (k === "root_hash" || k === "chain" || k === "last_verify") continue;
+    body[k] = capsule[k];
+  }
+  return sha256Text(stableStringify(body));
+}
+
+function utcNow(): string {
+  return new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
+function newCapsuleId(): string {
+  return "CONT-" + randomBytes(6).toString("hex").toUpperCase();
+}
+
+function resolvePath(pathStr: string, base: string | null): string {
+  if (path.isAbsolute(pathStr)) return path.resolve(pathStr);
+  if (base) return path.resolve(base, pathStr);
+  return path.resolve(pathStr);
+}
+
+function getJsonPath(data: unknown, dotted: string): unknown {
+  if (!dotted) return data;
+  let cur: unknown = data;
+  for (const part of dotted.split(".")) {
+    if (cur == null) return undefined;
+    if (Array.isArray(cur)) {
+      const idx = Number(part);
+      if (!Number.isInteger(idx) || idx < 0 || idx >= cur.length) return undefined;
+      cur = cur[idx];
+    } else if (typeof cur === "object") {
+      const o = cur as Record<string, unknown>;
+      if (!(part in o)) return undefined;
+      cur = o[part];
+    } else return undefined;
+  }
+  return cur;
+}
+
+function safeGlobCount(root: string, pattern: string): number {
+  // Limited glob: only * and ? in basename or simple relative segments — no recursive **
+  if (pattern.includes("**") || pattern.includes("..") || pattern.length > 200) {
+    return -1;
+  }
+  const parts = pattern.replace(/\\/g, "/").split("/");
+  let dirs = [root];
+  for (let i = 0; i < parts.length; i++) {
+    const seg = parts[i];
+    const isLast = i === parts.length - 1;
+    const next: string[] = [];
+    const rx = new RegExp(
+      "^" +
+        seg
+          .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+          .replace(/\*/g, ".*")
+          .replace(/\?/g, ".") +
+        "$",
+    );
+    for (const d of dirs) {
+      let names: string[] = [];
+      try {
+        names = readdirSync(d);
+      } catch {
+        continue;
+      }
+      for (const name of names) {
+        if (!rx.test(name)) continue;
+        const full = path.join(d, name);
+        let st;
+        try {
+          st = statSync(full);
+        } catch {
+          continue;
+        }
+        if (isLast) {
+          if (st.isFile() || st.isDirectory()) next.push(full);
+        } else if (st.isDirectory()) {
+          next.push(full);
+        }
+      }
+    }
+    dirs = next;
+  }
+  return dirs.length;
+}
+
+export function evaluateClaim(claim: Claim, base: string | null): ClaimResult {
+  const kind = String(claim.kind || "").trim();
+  const id = String(claim.id || "?");
+  const out: ClaimResult = {
+    id,
+    kind,
+    ok: false,
+    detail: "",
+    observed: null,
+    expected: null,
+  };
+  if (!(CLAIM_KINDS as readonly string[]).includes(kind)) {
+    out.detail = `unknown kind: ${kind}`;
+    return out;
+  }
+  try {
+    if (kind === "text_sha256") {
+      const text = String(claim.text ?? "");
+      const expect = String(claim.expect ?? claim.sha256 ?? "").toLowerCase();
+      const got = sha256Text(text);
+      out.observed = got;
+      out.expected = expect;
+      out.ok = !!expect && got === expect;
+      out.detail = out.ok ? "match" : "text hash mismatch";
+      return out;
+    }
+    if (kind === "glob_count_gte") {
+      const pattern = String(claim.pattern ?? claim.glob ?? "");
+      if (!pattern) {
+        out.detail = "missing pattern";
+        return out;
+      }
+      const root = base || process.cwd();
+      const n = Number(claim.n ?? claim.expect ?? 0);
+      const count = safeGlobCount(root, pattern);
+      if (count < 0) {
+        out.detail = "unsafe or unsupported glob";
+        return out;
+      }
+      out.observed = count;
+      out.expected = n;
+      out.ok = count >= n;
+      out.detail = out.ok ? `found ${count} >= ${n}` : `found ${count} < ${n}`;
+      return out;
+    }
+
+    const pathStr = claim.path || claim.file;
+    if (!pathStr) {
+      out.detail = "missing path";
+      return out;
+    }
+    const filePath = resolvePath(String(pathStr), base);
+
+    if (kind === "file_exists") {
+      const ok = existsSync(filePath) && statSync(filePath).isFile();
+      out.observed = ok;
+      out.expected = true;
+      out.ok = ok;
+      out.detail = ok ? "exists" : `missing: ${filePath}`;
+      return out;
+    }
+    if (kind === "file_missing") {
+      const missing = !existsSync(filePath);
+      out.observed = missing;
+      out.expected = true;
+      out.ok = missing;
+      out.detail = missing ? "absent" : `still present: ${filePath}`;
+      return out;
+    }
+    if (!existsSync(filePath) || !statSync(filePath).isFile()) {
+      out.detail = `file not found: ${pathStr}`;
+      return out;
+    }
+
+    if (kind === "file_sha256") {
+      const expect = String(claim.expect ?? claim.sha256 ?? "").toLowerCase();
+      const got = sha256File(filePath);
+      out.observed = got;
+      out.expected = expect;
+      out.ok = !!expect && got === expect;
+      out.detail = out.ok ? "hash match" : "hash mismatch";
+      return out;
+    }
+
+    const raw = readFileSync(filePath);
+    const text = raw.toString("utf8");
+
+    if (kind === "file_contains") {
+      const needle = String(claim.needle ?? claim.expect ?? "");
+      out.expected = needle;
+      out.observed = needle ? text.includes(needle) : false;
+      out.ok = !!needle && text.includes(needle);
+      out.detail = out.ok ? "contains" : "needle not found";
+      return out;
+    }
+    if (kind === "file_not_contains") {
+      const needle = String(claim.needle ?? claim.expect ?? "");
+      const found = !!needle && text.includes(needle);
+      out.expected = `NOT ${needle}`;
+      out.observed = !found;
+      out.ok = !!needle && !found;
+      out.detail = out.ok ? "absent" : "needle present (fail)";
+      return out;
+    }
+    if (kind === "line_count_gte") {
+      const n = Number(claim.n ?? claim.expect ?? 0);
+      const lines = text === "" ? 0 : text.split(/\r?\n/).length;
+      out.observed = lines;
+      out.expected = n;
+      out.ok = lines >= n;
+      out.detail = `${lines} >= ${n}`;
+      return out;
+    }
+    if (kind === "line_count_eq") {
+      const n = Number(claim.n ?? claim.expect ?? 0);
+      const lines = text === "" ? 0 : text.split(/\r?\n/).length;
+      out.observed = lines;
+      out.expected = n;
+      out.ok = lines === n;
+      out.detail = `${lines} == ${n}`;
+      return out;
+    }
+    if (kind === "bytes_gte") {
+      const n = Number(claim.n ?? claim.expect ?? 0);
+      out.observed = raw.length;
+      out.expected = n;
+      out.ok = raw.length >= n;
+      out.detail = `${raw.length} >= ${n}`;
+      return out;
+    }
+    if (kind === "bytes_eq") {
+      const n = Number(claim.n ?? claim.expect ?? 0);
+      out.observed = raw.length;
+      out.expected = n;
+      out.ok = raw.length === n;
+      out.detail = `${raw.length} == ${n}`;
+      return out;
+    }
+    if (kind === "json_path_eq") {
+      const jpath = String(claim.jpath ?? claim.json_path ?? "");
+      let data: unknown;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        out.detail = `invalid json: ${e}`;
+        return out;
+      }
+      const got = getJsonPath(data, jpath);
+      out.observed = got;
+      out.expected = claim.expect;
+      out.ok = stableStringify(got) === stableStringify(claim.expect);
+      out.detail = out.ok ? "json path match" : `${jpath} mismatch`;
+      return out;
+    }
+    if (kind === "regex_match" || kind === "regex_not_match") {
+      const pattern = String(claim.pattern ?? claim.expect ?? "");
+      if (!pattern || pattern.length > 500) {
+        out.detail = "bad pattern";
+        return out;
+      }
+      let rx: RegExp;
+      try {
+        rx = new RegExp(pattern, "m");
+      } catch (e) {
+        out.detail = `bad regex: ${e}`;
+        return out;
+      }
+      const found = rx.test(text);
+      if (kind === "regex_match") {
+        out.expected = true;
+        out.observed = found;
+        out.ok = found;
+        out.detail = found ? "matched" : "no match";
+      } else {
+        out.expected = false;
+        out.observed = found;
+        out.ok = !found;
+        out.detail = !found ? "no match (ok)" : "matched (fail)";
+      }
+      return out;
+    }
+    out.detail = `unhandled kind: ${kind}`;
+    return out;
+  } catch (e) {
+    out.detail = `error: ${e instanceof Error ? e.message : String(e)}`;
+    return out;
+  }
+}
+
+export function sealCapsule(opts: {
+  claims: Claim[];
+  task_summary: string;
+  agent?: string;
+  decisions?: string[];
+  next_actions?: string[];
+  base?: string | null;
+  meta?: Record<string, unknown>;
+  evaluate_now?: boolean;
+}): Record<string, unknown> {
+  const base = opts.base ?? null;
+  const normalized: Claim[] = opts.claims.map((c, i) => {
+    const cc: Claim = { ...c, id: c.id || `c${i + 1}` };
+    if (cc.kind === "file_sha256" && !cc.expect && !cc.sha256) {
+      const p = cc.path || cc.file;
+      if (p) {
+        const fp = resolvePath(String(p), base);
+        if (existsSync(fp) && statSync(fp).isFile()) {
+          cc.expect = sha256File(fp);
+        }
+      }
+    }
+    if (cc.kind === "text_sha256" && !cc.expect && cc.text != null) {
+      cc.expect = sha256Text(String(cc.text));
+    }
+    return cc;
+  });
+
+  const capsule: Record<string, unknown> = {
+    schema: SCHEMA,
+    version: VERSION,
+    signature: SIG,
+    id: newCapsuleId(),
+    created_utc: utcNow(),
+    agent: opts.agent || "openclaw",
+    task_summary: opts.task_summary,
+    base_hint: base,
+    decisions: opts.decisions || [],
+    next_actions: opts.next_actions || [],
+    claims: normalized,
+    meta: opts.meta || {},
+  };
+
+  if (opts.evaluate_now !== false) {
+    const sealed_results = normalized.map((c) => evaluateClaim(c, base));
+    capsule.sealed_results = sealed_results;
+    capsule.sealed_ok = sealed_results.every((r) => r.ok);
+    capsule.sealed_pass = sealed_results.filter((r) => r.ok).length;
+    capsule.sealed_fail = sealed_results.filter((r) => !r.ok).length;
+  }
+
+  capsule.root_hash = rootHashOf(capsule);
+  capsule.chain = [
+    {
+      event: "seal",
+      utc: capsule.created_utc,
+      root_hash: capsule.root_hash,
+      claim_count: normalized.length,
+      sealed_ok: capsule.sealed_ok,
+    },
+  ];
+  return capsule;
+}
+
+export function verifyCapsule(
+  capsule: Record<string, unknown>,
+  base?: string | null,
+): Record<string, unknown> {
+  const stored = String(capsule.root_hash || "");
+  const recomputed = rootHashOf(capsule);
+  const integrity_ok = stored === recomputed;
+
+  let baseUse = base ?? null;
+  if (!baseUse && capsule.base_hint) {
+    baseUse = String(capsule.base_hint);
+  }
+
+  const claims = Array.isArray(capsule.claims) ? (capsule.claims as Claim[]) : [];
+  const results = claims.map((c) => evaluateClaim(c, baseUse));
+  const all_ok = results.length === 0 ? true : results.every((r) => r.ok);
+  const pass_n = results.filter((r) => r.ok).length;
+  const fail_n = results.filter((r) => !r.ok).length;
+
+  const drift: Record<string, unknown>[] = [];
+  const sealed = Array.isArray(capsule.sealed_results)
+    ? (capsule.sealed_results as ClaimResult[])
+    : [];
+  const byId = new Map(sealed.map((r) => [r.id, r]));
+  for (const r of results) {
+    const prev = byId.get(r.id);
+    if (!prev) continue;
+    if (Boolean(prev.ok) !== Boolean(r.ok) || stableStringify(prev.observed) !== stableStringify(r.observed)) {
+      drift.push({
+        id: r.id,
+        kind: r.kind,
+        was_ok: prev.ok,
+        now_ok: r.ok,
+        was_observed: prev.observed,
+        now_observed: r.observed,
+        detail: r.detail,
+      });
+    }
+  }
+
+  return {
+    ok: integrity_ok && all_ok,
+    integrity_ok,
+    claims_ok: all_ok,
+    pass: pass_n,
+    fail: fail_n,
+    total: results.length,
+    drift_count: drift.length,
+    drift,
+    results,
+    capsule_id: capsule.id,
+    root_hash: stored,
+    root_hash_recomputed: recomputed,
+    verified_utc: utcNow(),
+    signature: SIG,
+    version: VERSION,
+  };
+}
+
+export function handoffMarkdown(
+  capsule: Record<string, unknown>,
+  verifyReport?: Record<string, unknown> | null,
+): string {
+  const lines: string[] = [
+    `# LYGO Continuum Handoff — ${capsule.id ?? "?"}`,
+    "",
+    `**Schema:** \`${capsule.schema}\` · **Root:** \`${String(capsule.root_hash || "").slice(0, 16)}…\``,
+    `**Agent:** ${capsule.agent} · **Sealed:** ${capsule.created_utc}`,
+    `**Task:** ${capsule.task_summary}`,
+    "",
+    "## Claims (falsifiable)",
+    "",
+  ];
+  for (const c of (capsule.claims as Claim[]) || []) {
+    const pathHint = c.path || c.file || c.pattern || "(inline)";
+    const expect = c.expect ?? c.needle ?? c.n ?? c.sha256 ?? "";
+    lines.push(`- \`${c.id}\` **${c.kind}** \`${pathHint}\` → \`${expect}\``);
+  }
+  if (Array.isArray(capsule.decisions) && capsule.decisions.length) {
+    lines.push("", "## Decisions", "");
+    for (const d of capsule.decisions as string[]) lines.push(`- ${d}`);
+  }
+  if (Array.isArray(capsule.next_actions) && capsule.next_actions.length) {
+    lines.push("", "## Next actions", "");
+    for (const a of capsule.next_actions as string[]) lines.push(`- ${a}`);
+  }
+  if (verifyReport) {
+    const status = verifyReport.ok ? "HOLDS" : "BROKEN / DRIFT";
+    lines.push(
+      "",
+      `## Verify status: **${status}**`,
+      `- pass ${verifyReport.pass}/${verifyReport.total} · drift ${verifyReport.drift_count}`,
+      `- integrity: ${verifyReport.integrity_ok}`,
+      `- at: ${verifyReport.verified_utc}`,
+    );
+  }
+  lines.push(
+    "",
+    "## Capsule JSON",
+    "",
+    "```json",
+    JSON.stringify(capsule, null, 2),
+    "```",
+    "",
+    "_Re-verify with lygo-continuum plugin tools or https://chatagent.ca/lygo-continuum.html_",
+    "",
+    `_${SIG}_`,
+  );
+  return lines.join("\n");
+}
+
+export function runDemo(): Record<string, unknown> {
+  const td = mkdtempSync(path.join(os.tmpdir(), "lygo-continuum-"));
+  try {
+    writeFileSync(
+      path.join(td, "app.py"),
+      "# demo app\nSTATUS = 'ready'\ndef main():\n    return 42\n",
+      "utf8",
+    );
+    writeFileSync(path.join(td, "out.json"), '{"status":"ok","score":0.99}\n', "utf8");
+    writeFileSync(path.join(td, "README.md"), "# Continuum Demo\nDone claim sealed.\n", "utf8");
+    const claims: Claim[] = [
+      { id: "c1", kind: "file_exists", path: "app.py" },
+      { id: "c2", kind: "file_sha256", path: "app.py" },
+      { id: "c3", kind: "file_contains", path: "app.py", needle: "STATUS = 'ready'" },
+      { id: "c4", kind: "json_path_eq", path: "out.json", jpath: "status", expect: "ok" },
+      { id: "c5", kind: "line_count_gte", path: "README.md", n: 2 },
+      { id: "c6", kind: "glob_count_gte", pattern: "*.py", n: 1 },
+      {
+        id: "c7",
+        kind: "text_sha256",
+        text: "portable witness",
+        expect: sha256Text("portable witness"),
+      },
+    ];
+    const capsule = sealCapsule({
+      claims,
+      task_summary: "Demo: prove a mini project still holds",
+      agent: "lygo-continuum-plugin-demo",
+      decisions: ["node in-process only", "no network"],
+      next_actions: ["hand off capsule"],
+      base: td,
+    });
+    const report = verifyCapsule(capsule, td);
+    writeFileSync(path.join(td, "app.py"), "# demo app\nSTATUS = 'broken'\n", "utf8");
+    const driftReport = verifyCapsule(capsule, td);
+    return {
+      ok: report.ok === true && driftReport.ok === false && Number(driftReport.drift_count) >= 1,
+      signature: SIG,
+      capsule_id: capsule.id,
+      root_hash: capsule.root_hash,
+      verify_holds: report.ok,
+      after_tamper_ok: driftReport.ok,
+      drift_count: driftReport.drift_count,
+      message: "Continuum plugin demo: seal → verify HOLDS → tamper → drift",
+    };
+  } finally {
+    try {
+      rmSync(td, { recursive: true, force: true });
+    } catch {
+      /* ignore */
+    }
+  }
+}

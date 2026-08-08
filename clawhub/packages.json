@@ -9,7 +9,17 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lattice-pulse",
       "path": "packages/lygo-lattice-pulse",
       "install": "openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse",
-      "signature": "Δ9Φ963-LYGO-LATTICE-PULSE-PKG-v1.2"
+      "signature": "\u03949\u03a6963-LYGO-LATTICE-PULSE-PKG-v1.2"
+    },
+    {
+      "name": "@deepseekoracle/lygo-continuum",
+      "slug": "lygo-continuum",
+      "family": "code-plugin",
+      "version": "1.0.0",
+      "install": "openclaw plugins install clawhub:@deepseekoracle/lygo-continuum",
+      "path": "packages/lygo-continuum",
+      "clawhub": "https://clawhub.ai/deepseekoracle/lygo-continuum",
+      "description": "Falsifiable work capsules \u2014 seal/verify/drift/handoff/preflight-done"
     }
   ]
 }

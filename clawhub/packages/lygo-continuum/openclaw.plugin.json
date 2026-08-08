@@ -1,0 +1,42 @@
+{
+  "id": "lygo-continuum",
+  "name": "LYGO Continuum",
+  "description": "Falsifiable work capsules for OpenClaw: seal done-claims, re-verify, detect drift, handoff packs. Agents must not claim done without preflight. Pure local — no network, no subprocess.",
+  "version": "1.0.0",
+  "icon": "https://chatagent.ca/assets/champions/aetheris.jpg",
+  "activation": {
+    "onStartup": false
+  },
+  "skills": ["./skills"],
+  "contracts": {
+    "tools": [
+      "lygo_continuum_kinds",
+      "lygo_continuum_seal",
+      "lygo_continuum_verify",
+      "lygo_continuum_drift",
+      "lygo_continuum_handoff",
+      "lygo_continuum_preflight_done",
+      "lygo_continuum_demo"
+    ]
+  },
+  "toolMetadata": {
+    "lygo_continuum_kinds": { "optional": false },
+    "lygo_continuum_seal": { "optional": false },
+    "lygo_continuum_verify": { "optional": false },
+    "lygo_continuum_drift": { "optional": false },
+    "lygo_continuum_handoff": { "optional": false },
+    "lygo_continuum_preflight_done": { "optional": false },
+    "lygo_continuum_demo": { "optional": true }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "defaultBase": {
+        "type": "string",
+        "title": "Default base directory",
+        "description": "Default base path for relative claim paths (fallback: cwd or LYGO_CONTINUUM_BASE)."
+      }
+    }
+  }
+}

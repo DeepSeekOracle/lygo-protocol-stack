@@ -1,0 +1,68 @@
+{
+  "name": "@deepseekoracle/lygo-continuum",
+  "version": "1.0.0",
+  "description": "LYGO Continuum — falsifiable work capsules for OpenClaw agents (seal, verify, drift, handoff, preflight-done). Pure local, no network, no subprocess.",
+  "type": "module",
+  "license": "MIT-0",
+  "dependencies": {
+    "typebox": "1.1.39"
+  },
+  "openclaw": {
+    "extensions": ["./src/index.ts"],
+    "runtimeExtensions": ["./dist/index.js"],
+    "install": {
+      "clawhubSpec": "clawhub:@deepseekoracle/lygo-continuum",
+      "npmSpec": "@deepseekoracle/lygo-continuum",
+      "defaultChoice": "clawhub",
+      "minHostVersion": ">=2026.6.11"
+    },
+    "compat": {
+      "pluginApi": ">=2026.6.11",
+      "minGatewayVersion": ">=2026.6.11"
+    },
+    "build": {
+      "openclawVersion": "2026.6.11",
+      "pluginSdkVersion": "2026.6.11",
+      "bundledDist": false
+    },
+    "release": {
+      "publishToClawHub": true,
+      "publishToNpm": false
+    }
+  },
+  "files": [
+    "dist/**",
+    "openclaw.plugin.json",
+    "README.md",
+    "references/**",
+    "skills/**"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --external:openclaw/plugin-sdk/plugin-entry --external:typebox --outfile=dist/index.js",
+    "demo": "node --input-type=module -e \"import('./dist/index.js').then(()=>import('./dist/index.js'))\"",
+    "validate": "clawhub package validate ."
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.6.11"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": { "optional": true }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "directory": "clawhub/packages/lygo-continuum"
+  },
+  "keywords": [
+    "lygo",
+    "continuum",
+    "openclaw",
+    "falsifiable",
+    "receipts",
+    "handoff",
+    "drift",
+    "agent-done",
+    "verification",
+    "delta9"
+  ]
+}

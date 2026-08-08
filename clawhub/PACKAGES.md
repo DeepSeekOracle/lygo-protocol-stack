@@ -34,3 +34,5 @@ npm run build
 clawhub package validate .
 # pack tgz, then clawhub package publish <tgz> --source-repo ... --source-commit ...
 ```
+| [@deepseekoracle/lygo-continuum](./packages/lygo-continuum/) | Code Plugin · v1.0.0 | https://clawhub.ai/deepseekoracle/lygo-continuum |
+
