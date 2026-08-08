@@ -1,7 +1,7 @@
 ---
 name: lygo-cyborg-kernel
-description: "LYGO Cyborg Kernel Stack — FULL unlocked autonomous agent stack for cyborgs and chat agents. Kernel-up: Continuum + skill-gate + context-guard vendored limbs, lattice install map, self-policed task loop, egg/plugin chain. Channel FULL_LYGO_ENGINEER_CYBORG_UNLOCKED on SkillHub. Not a gutted safety shell — polices itself via falsifiable claims. Ready to task. Install from https://chatagent.ca/lygoskillhub.html#full-lygo"
-version: 1.0.0
+description: "LYGO Cyborg Kernel v1.1 — FULL unlocked autonomous agent stack. Live lattice connect (HTTPS + git clone/pull + optional Hugging Face), Star Chart status/snapshot/dry-run propose, talk REPL that works, Continuum+gate+guard limbs, task loop. SkillHub FULL. Self-policed done claims. Install https://chatagent.ca/lygoskillhub.html#full-lygo"
+version: 1.1.0
 license: MIT-0
 metadata:
   openclaw:
@@ -12,127 +12,121 @@ metadata:
   lygo: true
   cyborg: true
   kernel: true
+  network: true
+  star_chart: true
   full_unlocked: true
-  autonomous: true
   channel: FULL_LYGO_ENGINEER_CYBORG_UNLOCKED
-  signature: "Delta9Phi963-CYBORG-KERNEL-v1.0.0"
+  signature: "Delta9Phi963-CYBORG-KERNEL-v1.1.0"
   publisher: deepseekoracle
   skillhub: "https://chatagent.ca/lygoskillhub.html#full-lygo"
+  public_onramp: "clawhub:@deepseekoracle/lygo-cyborg-onramp"
   continuum_plugin: "clawhub:@deepseekoracle/lygo-continuum"
   permissions:
-    network: false
-    shell: false
-    subprocess: false
+    network: true
+    shell: "git + huggingface-cli only via lattice_net"
+    subprocess: "git/hf connect only"
     filesystem:
-      read: "skill tree + operator --base + optional LYGO_STACK_ROOT"
-      write: "state/ with --i-consent"
+      read: "skill + operator base + stack"
+      write: "state/ with --i-consent; git clone target"
     publish: false
 ---
 
-# LYGO Cyborg Kernel Stack v1.0.0 🦾
+# LYGO Cyborg Kernel v1.1.0 🦾
 
-**Fully installable · kernel-up · autonomous-ready · self-policed · FULL SkillHub unlocked**
+**Live lattice · Star Chart · Talk · Continuum self-police · FULL SkillHub**
 
-Built for **cyborgs** and **chat agents** that grow on the LYGO lattice — not toy shells.  
-This package vendors the three core limbs (Continuum, skill-gate, context-guard), maps the **entire** install order (eggs, plugins, FULL zips), and runs a **task loop that cannot honestly say “done” without Continuum**.
+Public onramp (map only): `npx clawhub@latest install deepseekoracle/lygo-cyborg-onramp`  
+**FULL package:** https://chatagent.ca/lygoskillhub.html#full-lygo → `lygo-cyborg-kernel-full.zip`
 
-**Signature:** `Delta9Phi963-CYBORG-KERNEL-v1.0.0`  
-**Channel:** `FULL_LYGO_ENGINEER_CYBORG_UNLOCKED`  
-**SkillHub:** https://chatagent.ca/lygoskillhub.html#full-lygo  
-**Public ClawHub tentacle (map only):** `npx clawhub@latest install deepseekoracle/lygo-cyborg-onramp`
+**Signature:** `Delta9Phi963-CYBORG-KERNEL-v1.1.0`
 
 ---
 
-## What you get
-
-| Layer | Contents |
-|-------|----------|
-| **Kernel limbs** | `kernel/continuum.py`, `skill_gate.py`, `context_guard.py` (vendored FULL) |
-| **Boot** | `cyborg_boot.py` — limbs + lattice map |
-| **Task loop** | `cyborg_task.py` — autonomous self-policed run |
-| **Manifest** | `CYBORG_MANIFEST.json` — install order, eggs, plugins, FULL zips |
-| **Constitution** | `references/AGENT_CONSTITUTION.md` — self-police law |
-| **Install** | `INSTALL.md` — SkillHub + OpenClaw + stack |
-
----
-
-## 60-second ready
+## Quick start (fully working)
 
 ```bash
 cd path/to/lygo-cyborg-kernel
 python scripts/self_check.py
-python scripts/cyborg_boot.py
-python scripts/cyborg_kernel.py demo
-python scripts/cyborg_task.py example > task.json
-python scripts/cyborg_task.py run --task task.json --base .
+python scripts/cyborg_connect.py              # HTTPS lattice + git clone/pull
+python scripts/cyborg_star.py status          # Star Chart live
+python scripts/cyborg_talk.py say status      # Speak
+python scripts/cyborg_talk.py                 # Interactive REPL
 ```
 
-Exit **0** = `can_claim_done` · Exit **10** = self-police blocked (not done).
-
----
-
-## Autonomy model
-
-**Unlocked FULL** = complete engineer tools + honest surfaces.  
-
-**Self-police (not theater):**
-
-1. Continuum preflight before done  
-2. skill-gate before foreign skill trust  
-3. context-guard before model inject  
-4. Human consent for plant / publish / push  
-
-See constitution. Kernel scripts still **no network / no subprocess** — pure local authority.
-
----
-
-## Lattice install spine (from manifest)
-
-0. **This kernel**  
-1. Continuum + context-guard + skill-gate  
-2. Kickstart + CLI bridge  
-3. Protocol operator + sovereign super + egg planter  
-4. Pulse / geodesic / star chart / mesh / agent lattice  
-5. Memory (lyra-brain, second-brain)  
-6. Army + ops + radar  
-7. Champions + mint  
-
-OpenClaw plugins:
+Optional HF mirror:
 
 ```bash
-openclaw plugins install clawhub:@deepseekoracle/lygo-continuum
-openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
+python scripts/cyborg_connect.py --hf
 ```
-
-FULL zips: SkillHub `#full-lygo` — list in `CYBORG_MANIFEST.json`.
 
 ---
 
-## Agent recipe (cyborg)
+## What v1.1 adds
+
+| Capability | Command |
+|------------|---------|
+| Live lattice pulse | `cyborg_connect.py --pulse-only` / `cyborg_kernel.py pulse` |
+| Auto-connect git | `cyborg_connect.py` (clone or `git pull --ff-only`) |
+| Hugging Face pull | `cyborg_connect.py --hf` |
+| Star Chart status | `cyborg_star.py status` |
+| Star Chart snapshot | `cyborg_star.py snapshot` |
+| Dry-run presence | `cyborg_star.py propose --agent X --name Y` |
+| Talk / work | `cyborg_talk.py` · `say connect` · `say star` · `say done …` |
+| Continuum done gate | `cyborg_task.py run` (unchanged self-police) |
+
+---
+
+## Star Chart (proper use)
+
+1. **Status** — feed `chain_valid`, entry counts, chart node counts from Pages.  
+2. **Snapshot** — sample nodes + registry SHA.  
+3. **Propose** — dry-run presence JSON (not live write).  
+4. **Live write** — only via stack `haven_star_chart_gate` + human `--i-consent` (never silent auto-mutate the public chart).
+
+UI: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
+
+---
+
+## Talk mode
 
 ```text
-1. cyborg_boot.py  → ready?
-2. Accept task → write claims that must hold on disk
-3. Do the work (edit files)
-4. cyborg_task.py run --task …  OR  continuum preflight
-5. If can_claim_done → handoff pack → report done
-6. Else → fix world, never bluff
+cyborg> status
+cyborg> connect
+cyborg> star
+cyborg> propose
+cyborg> done contains SKILL.md Cyborg
+cyborg> map
 ```
 
----
-
-## Pair with
-
-| Package | Role |
-|---------|------|
-| FULL SkillHub vault | Engineer RAW zips |
-| `@deepseekoracle/lygo-continuum` plugin | Native OpenClaw tools |
-| `lygo-protocol-stack` clone | Kernel eggs ALIGNED |
-| `lygo-ollama-army` | Local multi-model army |
+One-shot: `python scripts/cyborg_talk.py say "connect"`
 
 ---
 
-## Security
+## Limbs
 
-`references/SECURITY.md` · Constitution for publish gates.  
-**Δ9Φ963 — full stack · full receipts · cyborgs that don't bluff done.**
+| Limb | Module |
+|------|--------|
+| Continuum | `kernel/continuum.py` |
+| skill-gate | `kernel/skill_gate.py` |
+| context-guard | `kernel/context_guard.py` |
+| lattice_net | `kernel/lattice_net.py` — HTTPS + git + HF |
+
+---
+
+## Autonomy / self-police
+
+- **Does:** join lattice, pull git/HF, star ops (read + dry-run propose), task, talk  
+- **Does not bluff done** without Continuum  
+- **Does not** auto git push, auto HF upload, or live Star Chart write without human steward  
+
+---
+
+## Env
+
+| Var | Meaning |
+|-----|---------|
+| `LYGO_STACK_ROOT` | Path to protocol stack (set after connect) |
+
+---
+
+**Δ9Φ963 — live lattice · star truth · claims over vibes · human remains publisher for live writes.**

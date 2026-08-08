@@ -6,7 +6,7 @@ Channel: FULL_LYGO_ENGINEER / CYBORG_UNLOCKED
 Self-police: Continuum preflight + skill_gate + context_guard (not gutted safety theater).
 No network in this module. No subprocess. Writes only under skill state/ with consent.
 
-Signature: Delta9Phi963-CYBORG-KERNEL-v1.0.0
+Signature: Delta9Phi963-CYBORG-KERNEL-v1.1.0
 """
 from __future__ import annotations
 
@@ -17,8 +17,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SIG = "Delta9Phi963-CYBORG-KERNEL-v1.0.0"
-VERSION = "1.0.0"
+SIG = "Delta9Phi963-CYBORG-KERNEL-v1.1.0"
+VERSION = "1.1.0"
 HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
 KERNEL = SKILL / "kernel"
@@ -27,6 +27,7 @@ STATE = SKILL / "state"
 sys.path.insert(0, str(KERNEL))
 import continuum as cont  # noqa: E402
 import context_guard as cg  # noqa: E402
+import lattice_net as lnet  # noqa: E402
 import skill_gate as sg  # noqa: E402
 
 
@@ -45,6 +46,7 @@ def boot_report(stack_root: str | None = None) -> dict[str, Any]:
         "continuum": hasattr(cont, "seal_capsule"),
         "skill_gate": hasattr(sg, "scan_skill"),
         "context_guard": hasattr(cg, "toolpack") or hasattr(cg, "estimate_tokens"),
+        "lattice_net": hasattr(lnet, "lattice_pulse"),
     }
     stack_ok = None
     markers_hit = []
@@ -149,6 +151,8 @@ def lattice_map() -> dict[str, Any]:
         "kernel_eggs": man.get("kernel_eggs"),
         "self_police": man.get("self_police"),
         "autonomy": man.get("autonomy"),
+        "network": man.get("network"),
+        "star_chart": man.get("star_chart"),
     }
 
 
@@ -159,6 +163,8 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--stack-root", default=None)
     sub.add_parser("map")
     sub.add_parser("demo")
+    sub.add_parser("pulse", help="Live lattice HTTPS pulse")
+    sub.add_parser("connect", help="Auto-connect lattice + git")
     pf = sub.add_parser("preflight")
     pf.add_argument("--claims", required=True)
     pf.add_argument("--task", required=True)
@@ -177,11 +183,27 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "map":
         print(json.dumps(lattice_map(), indent=2))
         return 0
+    if args.cmd == "pulse":
+        print(json.dumps(lnet.lattice_pulse(), indent=2, default=str))
+        return 0
+    if args.cmd == "connect":
+        print(json.dumps(lnet.auto_connect(use_git=True, use_hf=False), indent=2, default=str))
+        return 0
     if args.cmd == "demo":
-        # continuum demo + boot
+        # continuum demo + boot + soft pulse
         d = cont.cmd_demo()
         b = boot_report()
-        print(json.dumps({"boot": b, "continuum_demo": d, "signature": SIG}, indent=2))
+        try:
+            pulse = lnet.lattice_pulse()
+        except Exception as e:
+            pulse = {"ok": False, "error": str(e)}
+        print(
+            json.dumps(
+                {"boot": b, "continuum_demo": d, "lattice_pulse": pulse, "signature": SIG},
+                indent=2,
+                default=str,
+            )
+        )
         return 0 if d.get("ok") and b.get("ready") else 1
     if args.cmd == "preflight":
         claims = json.loads(Path(args.claims).read_text(encoding="utf-8"))

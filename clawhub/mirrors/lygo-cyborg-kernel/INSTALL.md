@@ -1,11 +1,13 @@
 # Install — LYGO Cyborg Kernel Stack
 
-## 60-second boot (this package alone)
+## 60-second boot (live lattice)
 
 ```bash
 cd path/to/lygo-cyborg-kernel
 python scripts/self_check.py
-python scripts/cyborg_boot.py
+python scripts/cyborg_connect.py          # HTTPS + git clone/pull
+python scripts/cyborg_star.py status
+python scripts/cyborg_talk.py say status
 python scripts/cyborg_kernel.py demo
 ```
 

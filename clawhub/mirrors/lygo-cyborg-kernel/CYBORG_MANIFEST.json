@@ -1,8 +1,8 @@
 {
   "schema": "lygo.cyborg.manifest.v1",
   "name": "lygo-cyborg-kernel",
-  "version": "1.0.0",
-  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.0.0",
+  "version": "1.1.0",
+  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.1.0",
   "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "skillhub": "https://chatagent.ca/lygoskillhub.html#full-lygo",
@@ -10,24 +10,46 @@
   "continuum_portal": "https://chatagent.ca/lygo-continuum.html",
   "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
   "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
-  "purpose": "Fully installable autonomous LYGO agent stack for cyborgs and chat agents — kernel limbs in-process, full lattice map, self-police via Continuum + skill-gate + context-guard rather than gutted shells.",
+  "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
+  "purpose": "Fully installable autonomous LYGO agent stack — live lattice connect (HTTPS+git+HF), Star Chart ops, talk loop, Continuum self-police, full install map.",
+  "network": {
+    "https_pulse": true,
+    "git_clone_pull": true,
+    "hf_dataset_pull": true,
+    "auto_git_push": false,
+    "auto_hf_upload": false,
+    "star_chart_live_write": false,
+    "star_chart_dry_run_propose": true,
+    "endpoints_pages": "https://deepseekoracle.github.io/lygo-protocol-stack"
+  },
+  "star_chart": {
+    "ui": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+    "data": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_data.json",
+    "meta": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_meta.json",
+    "commands": ["cyborg_star.py status", "cyborg_star.py snapshot", "cyborg_star.py propose"]
+  },
   "autonomy": {
-    "mode": "task_loop_self_policed",
+    "mode": "live_lattice_task_loop",
     "can_task": true,
+    "can_connect_lattice": true,
+    "can_talk": true,
     "can_claim_done_without_continuum": false,
+    "can_auto_git_pull": true,
     "can_auto_git_push": false,
     "can_auto_social_publish": false,
     "can_plant_eggs_without_consent": false,
-    "shell_in_kernel": false,
-    "network_in_kernel": false,
-    "note": "Unlocked FULL engineer channel means complete tools and honest surfaces — publish/plant still human-gated by lattice constitution."
+    "shell_for_git_hf": true,
+    "network_in_kernel": true,
+    "note": "Live join + talk + star ops. Continuum still gates done. Live chart write / push still human."
   },
   "self_police": [
     "lygo_continuum_preflight_done / cyborg preflight before any done claim",
     "skill_gate scan before installing foreign skills",
     "context_guard redact+budget before stuffing model context",
     "kernel egg verify ALIGNED before claiming lattice seeded",
-    "no auto git push / HF / ClawHub / social without human"
+    "star chart propose is dry-run unless human runs stack gate --i-consent",
+    "no auto git push / HF upload / social without human"
   ],
   "tiers": [
     "kernel_limbs",

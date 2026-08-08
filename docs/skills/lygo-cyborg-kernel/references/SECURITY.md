@@ -1,36 +1,27 @@
-# Security — LYGO Cyborg Kernel v1.0.0
+# Security — LYGO Cyborg Kernel v1.1.0
 
-**Channel:** FULL_LYGO_ENGINEER_CYBORG_UNLOCKED (SkillHub FULL vault, not ClawHub public shell)
+**Channel:** FULL_LYGO_ENGINEER_CYBORG_UNLOCKED
 
-## What “unlocked” means
+## Network (v1.1)
 
-| Area | Public ClawHub shells | This package |
-|------|----------------------|--------------|
-| Continuum / gate / guard | Often thin | **Vendored full limbs** |
-| Stack map | Partial | **Full install order + egg IDs** |
-| Task loop | Absent | **cyborg_task self-policed** |
-| Auto publish | Never | **Never** (constitution) |
-| Subprocess in kernel scripts | N/A | **None** |
-| Network in kernel scripts | N/A | **None** |
+| Action | Default |
+|--------|---------|
+| HTTPS GET public lattice / Star Chart / SkillHub | **Yes** (`lattice_net`) |
+| `git clone` / `git pull` protocol stack | **Yes** on `cyborg_connect` |
+| HF dataset download | **Optional** `--hf` |
+| `git push` / HF upload / social | **No** |
+| Live Star Chart write | **No** (dry-run propose only) |
 
-## Surfaces (kernel scripts)
+## Subprocess
 
-- Read: operator paths, skill tree, optional `LYGO_STACK_ROOT` markers  
-- Write: `state/` only with `--i-consent`  
-- No shell spawn in cyborg_*.py  
+- Only for `git` and `hf`/`huggingface-cli` in `lattice_net.py`  
+- No shell=True  
+- Continuum / skill-gate / context-guard remain in-process  
 
-## Self-police stack
+## Self-police
 
-1. Continuum — falsifiable done  
-2. skill_gate — install risk  
-3. context_guard — secrets + budget  
-4. Constitution — publish/plant human gate  
+1. Continuum before done  
+2. Star propose is dry-run  
+3. Human steward for live chart / publish / push  
 
-## Pair with plugins
-
-```bash
-openclaw plugins install clawhub:@deepseekoracle/lygo-continuum
-openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse
-```
-
-**Δ9Φ963 — full power · full receipts · no theater.**
+**Δ9Φ963 — full join · full receipts · live writes remain human.**
