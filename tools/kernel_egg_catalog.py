@@ -117,6 +117,12 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "references" / "SECURITY.md"),
         ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "examples" / "quickstart.md"),
     ],
+    "lygo-continuum-v1": [
+        ("continuum_skill", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "SKILL.md"),
+        ("continuum_core", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "scripts" / "continuum.py"),
+        ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "references" / "SECURITY.md"),
+        ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "examples" / "quickstart.md"),
+    ],
 }
 
 RETRIEVAL_SOA = {

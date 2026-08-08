@@ -85,6 +85,11 @@ ECOSYSTEM_MAP = [
         "plain": "Local risk scan: subprocess, network, secrets, claim mismatches. Never auto-installs.",
     },
     {
+        "need": "Prove agent work still holds / hand off across sessions",
+        "skill": "lygo-continuum + https://chatagent.ca/lygo-continuum.html",
+        "plain": "Falsifiable work capsules: seal claims, verify, detect drift, handoff pack. Browser portal hashes files locally.",
+    },
+    {
         "need": "Turn a prompt pack into a verifiable hash + anchor snippet",
         "skill": "lygo-mint-verifier (this wizard → mint guides you)",
         "plain": "Create a receipt you can post anywhere. No secrets in the pack.",
