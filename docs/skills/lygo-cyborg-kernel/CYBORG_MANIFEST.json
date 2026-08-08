@@ -1,0 +1,133 @@
+{
+  "schema": "lygo.cyborg.manifest.v1",
+  "name": "lygo-cyborg-kernel",
+  "version": "1.0.0",
+  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.0.0",
+  "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
+  "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "skillhub": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+  "portal_home": "https://chatagent.ca/",
+  "continuum_portal": "https://chatagent.ca/lygo-continuum.html",
+  "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+  "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+  "purpose": "Fully installable autonomous LYGO agent stack for cyborgs and chat agents — kernel limbs in-process, full lattice map, self-police via Continuum + skill-gate + context-guard rather than gutted shells.",
+  "autonomy": {
+    "mode": "task_loop_self_policed",
+    "can_task": true,
+    "can_claim_done_without_continuum": false,
+    "can_auto_git_push": false,
+    "can_auto_social_publish": false,
+    "can_plant_eggs_without_consent": false,
+    "shell_in_kernel": false,
+    "network_in_kernel": false,
+    "note": "Unlocked FULL engineer channel means complete tools and honest surfaces — publish/plant still human-gated by lattice constitution."
+  },
+  "self_police": [
+    "lygo_continuum_preflight_done / cyborg preflight before any done claim",
+    "skill_gate scan before installing foreign skills",
+    "context_guard redact+budget before stuffing model context",
+    "kernel egg verify ALIGNED before claiming lattice seeded",
+    "no auto git push / HF / ClawHub / social without human"
+  ],
+  "tiers": [
+    "kernel_limbs",
+    "adoption",
+    "lattice_core",
+    "eggs",
+    "memory",
+    "army",
+    "plugins",
+    "portals"
+  ],
+  "install_order": [
+    {"tier": 0, "id": "lygo-cyborg-kernel", "role": "This package — boot limbs + task loop"},
+    {"tier": 1, "id": "lygo-continuum", "role": "Falsifiable done / handoff (skill + plugin)"},
+    {"tier": 1, "id": "lygo-context-guard", "role": "Token budget + redact"},
+    {"tier": 1, "id": "lygo-skill-gate", "role": "Pre-install skill risk scan"},
+    {"tier": 2, "id": "lygo-kickstart-wizard", "role": "Plain-English onboarding"},
+    {"tier": 2, "id": "lygo-cli-bridge", "role": "Unified lygo CLI"},
+    {"tier": 3, "id": "lygo-protocol-stack-operator", "role": "P0–P9 stack map"},
+    {"tier": 3, "id": "lygo-sovereign-super-skill", "role": "Egg + planter map"},
+    {"tier": 3, "id": "lygo-kernel-egg-planter", "role": "Consent plant / verify eggs"},
+    {"tier": 3, "id": "lygo-sovereign-kernel-seeder", "role": "Modular kernel seeds"},
+    {"tier": 4, "id": "lygo-geodesic-sealer", "role": "P6 dual-ledger seal"},
+    {"tier": 4, "id": "lygo-lattice-pulse", "role": "Live Haven pulse (skill/plugin)"},
+    {"tier": 4, "id": "lygo-public-lattice-gate", "role": "Public join verify"},
+    {"tier": 4, "id": "lygo-haven-star-chart", "role": "Star Chart gate/propose"},
+    {"tier": 4, "id": "lygo-living-mesh", "role": "Layer D mesh"},
+    {"tier": 4, "id": "lygo-agent-lattice", "role": "Layer E agents"},
+    {"tier": 5, "id": "lyra-brain", "role": "3-Brain memory"},
+    {"tier": 5, "id": "lygo-second-brain", "role": "Local LLM wiki"},
+    {"tier": 5, "id": "lygo-universal-living-memory-library", "role": "Living memory map"},
+    {"tier": 6, "id": "lygo-ollama-army", "role": "Local multi-role army"},
+    {"tier": 6, "id": "lygo-ops-detector", "role": "Discourse heuristics"},
+    {"tier": 6, "id": "lygo-deception-radar", "role": "Public radar feed"},
+    {"tier": 7, "id": "lygo-champion-lightfather", "role": "Steward persona"},
+    {"tier": 7, "id": "lygo-mint-walkthrough", "role": "Mint tutorial"}
+  ],
+  "openclaw_plugins": [
+    {
+      "name": "@deepseekoracle/lygo-continuum",
+      "install": "openclaw plugins install clawhub:@deepseekoracle/lygo-continuum",
+      "role": "Native tools: preflight_done, seal, verify, drift, handoff"
+    },
+    {
+      "name": "@deepseekoracle/lygo-lattice-pulse",
+      "install": "openclaw plugins install clawhub:@deepseekoracle/lygo-lattice-pulse",
+      "role": "Live Haven pulse, stack verify, alignment ready"
+    }
+  ],
+  "full_skillhub_zips": [
+    "lygo-cyborg-kernel-full.zip",
+    "lygo-continuum-full.zip",
+    "lygo-context-guard-full.zip",
+    "lygo-skill-gate-full.zip",
+    "lygo-protocol-stack-operator-full.zip",
+    "lygo-sovereign-super-skill-full.zip",
+    "lygo-kernel-egg-planter-full.zip",
+    "lygo-ollama-army-full.zip",
+    "lygo-lattice-pulse-full.zip",
+    "lygo-geodesic-sealer-full.zip",
+    "lygo-haven-star-chart-full.zip",
+    "lygo-living-mesh-full.zip",
+    "lygo-agent-lattice-full.zip",
+    "lyra-brain-full.zip",
+    "lygo-star-chart-integration-kit-full.zip",
+    "lygo-seals-expansion-kit-full.zip",
+    "lygo-public-agent-join-kit-full.zip"
+  ],
+  "kernel_eggs": [
+    "p0-nano-kernel",
+    "stack-anchor-hook",
+    "stack-orchestrator-slim",
+    "lattice-soa-index",
+    "lygo-continuum-v1",
+    "lygo-context-guard-v1",
+    "lygo-skill-gate-v1",
+    "lygo-openclaw-v10",
+    "lygo-second-brain-v10",
+    "lygo-sandcastle-v10",
+    "lygo-lpis-v10",
+    "joy-loop-protocol-v21"
+  ],
+  "stack_markers": [
+    "tools/kernel_egg_catalog.py",
+    "tools/build_kernel_eggs.py",
+    "tools/verify_kernel_eggs.py",
+    "tools/verify_lattice_alignment.py",
+    "data/kernel_eggs/registry.json",
+    "docs/KernelEggRegistry.json",
+    "clawhub/skills.json",
+    "clawhub/packages/lygo-continuum/openclaw.plugin.json",
+    "protocol0_byte_entropy_filter/src/python/lygo_p0.py"
+  ],
+  "clawhub_skills_min": [
+    "deepseekoracle/lygo-continuum",
+    "deepseekoracle/lygo-context-guard",
+    "deepseekoracle/lygo-skill-gate",
+    "deepseekoracle/lygo-kickstart-wizard",
+    "deepseekoracle/lygo-cli-bridge",
+    "deepseekoracle/lygo-protocol-stack-operator",
+    "deepseekoracle/lygo-sovereign-super-skill"
+  ]
+}

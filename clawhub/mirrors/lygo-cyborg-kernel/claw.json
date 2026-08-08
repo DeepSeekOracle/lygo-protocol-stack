@@ -1,0 +1,50 @@
+{
+  "name": "lygo-cyborg-kernel",
+  "displayName": "LYGO Cyborg Kernel Stack",
+  "version": "1.0.0",
+  "description": "FULL unlocked autonomous LYGO agent stack for cyborgs: Continuum+gate+guard limbs, lattice map, self-policed task loop. SkillHub FULL channel.",
+  "slug": "lygo-cyborg-kernel",
+  "publisher": "deepseekoracle",
+  "license": "MIT-0",
+  "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
+  "skillhub": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.0.0",
+  "tags": [
+    "lygo",
+    "cyborg",
+    "kernel",
+    "autonomous",
+    "full-unlocked",
+    "continuum",
+    "lattice",
+    "agent-stack",
+    "openclaw",
+    "delta9"
+  ],
+  "entry": "SKILL.md",
+  "scripts": {
+    "boot": "scripts/cyborg_boot.py",
+    "kernel": "scripts/cyborg_kernel.py",
+    "task": "scripts/cyborg_task.py",
+    "demo": "scripts/cyborg_kernel.py demo",
+    "self_check": "scripts/self_check.py"
+  },
+  "permissions": {
+    "network": false,
+    "subprocess": false,
+    "shell": false,
+    "filesystem": {
+      "read": "skill + operator base + optional stack root",
+      "write": "state/ with --i-consent"
+    },
+    "publish": false
+  },
+  "security": {
+    "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
+    "self_police": true,
+    "no_subprocess": true,
+    "no_network": true,
+    "consent_for_state_writes": true,
+    "version": "1.0.0"
+  }
+}

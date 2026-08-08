@@ -131,6 +131,11 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-continuum",
         GROK / "lygo-continuum",
     ],
+    "lygo-cyborg-kernel": [
+        STACK / "docs" / "skills" / "lygo-cyborg-kernel",
+        STACK / "clawhub" / "mirrors" / "lygo-cyborg-kernel",
+        GROK / "lygo-cyborg-kernel",
+    ],
 }
 
 ROLES = {
@@ -158,6 +163,7 @@ ROLES = {
     "lygo-context-guard": "Token budget preflight · secret redact · deterministic compact (FULL RAW)",
     "lygo-skill-gate": "Local pre-install skill risk scanner — subprocess/network/secrets/claim mismatch (FULL RAW)",
     "lygo-continuum": "Falsifiable work capsules — seal done-claims, verify, drift, handoff + portal (FULL RAW)",
+    "lygo-cyborg-kernel": "🦾 CYBORG KERNEL STACK — FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
 }
 
 TIERS = {
@@ -185,6 +191,7 @@ TIERS = {
     "lygo-context-guard": "tools",
     "lygo-skill-gate": "security",
     "lygo-continuum": "tools",
+    "lygo-cyborg-kernel": "kernel",
 }
 
 SKIP_PARTS = {
@@ -532,6 +539,7 @@ def main() -> int:
         ),
         "tiers": [
             "public_safe_join",
+            "cyborg",
             "core",
             "star_chart",
             "lattice",
@@ -544,6 +552,8 @@ def main() -> int:
             "champion",
         ],
         "public_agent_principle": "verify dual ledgers → align → dry-run propose → human consent → optional live chart",
+        "cyborg_principle": "boot limbs → task with Continuum self-police → can_claim_done only when claims hold → human consent for plant/publish",
+        "featured": ["lygo-cyborg-kernel", "lygo-continuum", "lygo-protocol-stack-operator"],
         "skills": [],
     }
 
@@ -554,7 +564,14 @@ def main() -> int:
             catalog["skills"].append(entry)
             print("kit", entry["slug"], entry["bytes"] // 1024, "KB")
 
-    for slug, cands in SKILL_SOURCES.items():
+    # Prefer cyborg kernel early in catalog (featured autonomous stack)
+    ordered_slugs = list(SKILL_SOURCES.keys())
+    if "lygo-cyborg-kernel" in ordered_slugs:
+        ordered_slugs.remove("lygo-cyborg-kernel")
+        ordered_slugs.insert(0, "lygo-cyborg-kernel")
+
+    for slug in ordered_slugs:
+        cands = SKILL_SOURCES[slug]
         src = pick_src(cands)
         if not src:
             print("MISSING", slug)
@@ -567,7 +584,11 @@ def main() -> int:
         catalog["skills"].append(
             {
                 "slug": slug,
-                "name": slug.replace("-", " ").title() + " (FULL LYGO)",
+                "name": (
+                    "🦾 LYGO Cyborg Kernel Stack (FULL UNLOCKED)"
+                    if slug == "lygo-cyborg-kernel"
+                    else slug.replace("-", " ").title() + " (FULL LYGO)"
+                ),
                 "package": f"{slug}-full",
                 "zip": f"{slug}-full.zip",
                 "zip_rel": f"dist/{slug}-full.zip",
@@ -576,10 +597,15 @@ def main() -> int:
                 "file_count": n + 2,
                 "role": ROLES.get(slug, ""),
                 "tier": TIERS.get(slug, "other"),
+                "featured": slug in ("lygo-cyborg-kernel", "lygo-continuum"),
                 "harm_default": (
-                    "read_only"
-                    if slug in ("lygo-public-lattice-gate", "lygo-external-lattice-anchor")
-                    else "consent_gated"
+                    "self_policed_unlocked"
+                    if slug == "lygo-cyborg-kernel"
+                    else (
+                        "read_only"
+                        if slug in ("lygo-public-lattice-gate", "lygo-external-lattice-anchor")
+                        else "consent_gated"
+                    )
                 ),
                 "source_path": str(src),
             }
