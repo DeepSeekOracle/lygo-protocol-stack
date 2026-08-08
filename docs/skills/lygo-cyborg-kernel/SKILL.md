@@ -39,6 +39,7 @@ This package vendors the three core limbs (Continuum, skill-gate, context-guard)
 **Signature:** `Delta9Phi963-CYBORG-KERNEL-v1.0.0`  
 **Channel:** `FULL_LYGO_ENGINEER_CYBORG_UNLOCKED`  
 **SkillHub:** https://chatagent.ca/lygoskillhub.html#full-lygo  
+**Public ClawHub tentacle (map only):** `npx clawhub@latest install deepseekoracle/lygo-cyborg-onramp`
 
 ---
 
