@@ -7,8 +7,8 @@ For a **self-auditing LYGO lattice**. Integrity comes from the lattice
 not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
-Source: `I:\E Drive\.grok\skills\lygo-ollama-army`
-Packaged: 2026-08-07T04:21:35.130217+00:00
+Source: `D:\lygo-protocol-stack\clawhub\mirrors\lygo-ollama-army`
+Packaged: 2026-08-12T03:00:56.352282+00:00
 Files: 44
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

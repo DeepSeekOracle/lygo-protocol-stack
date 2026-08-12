@@ -117,6 +117,13 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "references" / "SECURITY.md"),
         ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-skill-gate" / "examples" / "quickstart.md"),
     ],
+    "lygo-skill-spector-v1": [
+        ("skill_spector_skill", REPO / "clawhub" / "mirrors" / "lygo-skill-spector" / "SKILL.md"),
+        ("skill_spector_core", REPO / "clawhub" / "mirrors" / "lygo-skill-spector" / "scripts" / "skill_spector.py"),
+        ("skill_spector_builder", REPO / "clawhub" / "mirrors" / "lygo-skill-spector" / "builder" / "skill_spector_builder.py"),
+        ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-skill-spector" / "references" / "SECURITY.md"),
+        ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-skill-spector" / "examples" / "quickstart.md"),
+    ],
     "lygo-continuum-v1": [
         ("continuum_skill", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "SKILL.md"),
         ("continuum_core", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "scripts" / "continuum.py"),

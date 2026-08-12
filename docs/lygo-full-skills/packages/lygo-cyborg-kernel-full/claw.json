@@ -1,0 +1,54 @@
+{
+  "name": "lygo-cyborg-kernel",
+  "displayName": "LYGO Cyborg Kernel Stack",
+  "version": "1.1.0",
+  "description": "FULL unlocked cyborg stack v1.1: live lattice connect (HTTPS+git+HF), Star Chart, talk REPL, Continuum self-police. SkillHub FULL.",
+  "slug": "lygo-cyborg-kernel",
+  "publisher": "deepseekoracle",
+  "license": "MIT-0",
+  "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
+  "skillhub": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.1.0",
+  "tags": [
+    "lygo",
+    "cyborg",
+    "kernel",
+    "autonomous",
+    "full-unlocked",
+    "continuum",
+    "lattice",
+    "agent-stack",
+    "openclaw",
+    "delta9"
+  ],
+  "entry": "SKILL.md",
+  "scripts": {
+    "boot": "scripts/cyborg_boot.py",
+    "connect": "scripts/cyborg_connect.py",
+    "star": "scripts/cyborg_star.py",
+    "talk": "scripts/cyborg_talk.py",
+    "kernel": "scripts/cyborg_kernel.py",
+    "task": "scripts/cyborg_task.py",
+    "demo": "scripts/cyborg_kernel.py demo",
+    "self_check": "scripts/self_check.py"
+  },
+  "permissions": {
+    "network": true,
+    "subprocess": "git and hf CLI only",
+    "shell": false,
+    "filesystem": {
+      "read": "skill + operator base + stack",
+      "write": "state/ with consent; git clone dest"
+    },
+    "publish": false
+  },
+  "security": {
+    "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
+    "self_police": true,
+    "network_lattice_join": true,
+    "no_auto_git_push": true,
+    "star_chart_dry_run_only": true,
+    "consent_for_state_writes": true,
+    "version": "1.1.0"
+  }
+}

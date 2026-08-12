@@ -6,8 +6,19 @@
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "count_published": 37,
-  "count_mirrored": 37,
+  "count_mirrored": 38,
   "skills": [
+    {
+      "slug": "lygo-skill-spector",
+      "name": "LYGO SkillSpector",
+      "summary": "Enhanced local pre-install skill risk scanner: scan/gate/batch/report. Builder HTML multi-root pack on SkillHub FULL if running a full stack.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-skill-spector",
+      "mirror": "mirrors/lygo-skill-spector",
+      "published": false,
+      "downloads": 0,
+      "version": "1.0.0",
+      "notes": "Builder version: https://chatagent.ca/lygoskillhub.html#full-lygo"
+    },
     {
       "slug": "lygo-continuum",
       "name": "LYGO Continuum",

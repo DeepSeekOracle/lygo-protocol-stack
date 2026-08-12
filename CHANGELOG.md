@@ -1,4 +1,14 @@
 
+## 2026-08-12 — LYGO SkillSpector (enhanced skill risk scanner)
+
+- **lygo-skill-spector** v1.0.0 — enhanced local pre-install scanner: `scan` · `gate` · `batch` · `report`
+- Extra rules: httpx/aiohttp, curl|bash, PowerShell IEX, miners, HF/OpenAI key shapes, force-push
+- **Dual channel:** ClawHub public tentacle notes FULL **builder** (HTML multi-root, multi-gate CI, ci-summary) on SkillHub
+- FULL RAW: `lygo-skill-spector-full.zip` at https://chatagent.ca/lygoskillhub.html#full-lygo
+- Kernel egg: `lygo-skill-spector-v1` (Merkle-planted, ALIGNED)
+- Signature: `Delta9Phi963-SKILL-SPECTOR-v1.0.0`
+
+
 ## 2026-08-07 — LYGO Skill Gate (safe-install utility)
 
 - **lygo-skill-gate** v1.0.0 — local pre-install skill risk scanner (subprocess/network/secrets/claim mismatch)

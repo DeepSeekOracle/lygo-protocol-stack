@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `D:\lygo-protocol-stack\docs\skills\lygo-living-mesh`
-Packaged: 2026-08-07T04:21:35.130217+00:00
+Packaged: 2026-08-12T03:00:56.352282+00:00
 Files: 13
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

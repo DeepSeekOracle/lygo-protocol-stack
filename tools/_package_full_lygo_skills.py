@@ -126,6 +126,11 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-skill-gate",
         GROK / "lygo-skill-gate",
     ],
+    "lygo-skill-spector": [
+        STACK / "docs" / "skills" / "lygo-skill-spector",
+        STACK / "clawhub" / "mirrors" / "lygo-skill-spector",
+        GROK / "lygo-skill-spector",
+    ],
     "lygo-continuum": [
         STACK / "docs" / "skills" / "lygo-continuum",
         STACK / "clawhub" / "mirrors" / "lygo-continuum",
@@ -162,6 +167,7 @@ ROLES = {
     "lygo-ops-detector": "AETHONΔ9 discourse ops/evasion heuristics (FULL eval suite)",
     "lygo-context-guard": "Token budget preflight · secret redact · deterministic compact (FULL RAW)",
     "lygo-skill-gate": "Local pre-install skill risk scanner — subprocess/network/secrets/claim mismatch (FULL RAW)",
+    "lygo-skill-spector": "SkillSpector — enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
     "lygo-continuum": "Falsifiable work capsules — seal done-claims, verify, drift, handoff + portal (FULL RAW)",
     "lygo-cyborg-kernel": "🦾 CYBORG KERNEL STACK — FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
 }
@@ -190,6 +196,7 @@ TIERS = {
     "lygo-ops-detector": "security",
     "lygo-context-guard": "tools",
     "lygo-skill-gate": "security",
+    "lygo-skill-spector": "security",
     "lygo-continuum": "tools",
     "lygo-cyborg-kernel": "kernel",
 }

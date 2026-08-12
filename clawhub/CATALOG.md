@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 36 skills verified via ClawHub API · **Repo mirrors:** 36 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 37 skills verified via ClawHub API · **Repo mirrors:** 38 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -78,7 +78,9 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
+| [lygo-continuum](https://clawhub.ai/deepseekoracle/lygo-continuum) | LYGO Continuum | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-continuum/) |
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 175 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
+| [lygo-skill-spector](https://clawhub.ai/deepseekoracle/lygo-skill-spector) | LYGO SkillSpector | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-skill-spector/) |
 
 ## Repo-only workflow mirrors
 
@@ -95,9 +97,3 @@ npx clawhub@latest install deepseekoracle/<slug>
 - Protocol stack tie-in: P0–P5 in repo root gates ethical publish/install flows
 
 **Resonance signature:** Δ9Φ963-CLAWHUB-CATALOG-v2.0
-
-## Continuum
-
-| slug | name | version | url |
-|------|------|---------|-----|
-| lygo-continuum | LYGO Continuum | 1.0.0 | https://clawhub.ai/deepseekoracle/lygo-continuum |
