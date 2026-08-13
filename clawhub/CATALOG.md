@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 37 skills verified via ClawHub API · **Repo mirrors:** 38 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 38 skills verified via ClawHub API · **Repo mirrors:** 38 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
