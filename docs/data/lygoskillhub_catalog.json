@@ -1,15 +1,20 @@
 {
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
-  "version": "1.4.0",
-  "updated_utc": "2026-08-12T03:01:08.393653+00:00",
+  "version": "1.4.1",
+  "updated_utc": "2026-08-13T03:09:57.724587+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
+  "clawhub_status": {
+    "public_profile": "https://clawhub.ai/deepseekoracle",
+    "security": "all_public_skills_green",
+    "note": "ClawHub @deepseekoracle public tentacles SkillSpector-clean (2026-08). Recent: lygo-ollama-army 0.9.0 local-only rebuild, lygo-continuum 1.0.1 path/write fix, lygo-skill-spector 1.0.1 audit harden."
+  },
   "immutable_ledger": {
     "role": "Anything published to ClawHub @deepseekoracle must appear on this hub",
     "source": "clawhub/skills.json + clawhub/mirrors + local skill tree",
-    "public_channel": "ClawHub install links (public tentacle)",
+    "public_channel": "ClawHub install links (public tentacle) — green security surface",
     "engineer_channel": "FULL LYGO vault on this page (#full-lygo) — unlocked RAW packages, not ClawHub",
     "primary_page": "https://chatagent.ca/lygoskillhub.html"
   },
@@ -27,7 +32,7 @@
     "clawhub_skills_indexed": 79,
     "local_only_skills": 0,
     "clawhub_profile_skills_listed": 79,
-    "stack_skills_json": 37
+    "stack_skills_json": 38
   },
   "skill_count": 79,
   "item_count": 94,
@@ -465,9 +470,9 @@
       "kind": "skill",
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama multi-role army + assistant hub. FULL HONEST SURFACE: (1) Default = in-process threads + STRICT name allowlist runpy (no arbitrary skill .py, no any tools/*.py). (2) Genesis localhost HTTP 127.0.0.1 only; browser open only LYGO_GENESIS_OPEN_BROWSER=1; outbound GitHub/HF/Pages probes only LYGO_GENESIS_PROBE_PUBLIC=1; no Discord/crypto/wallets in status by default. (3) Command-center: sentinel/self_tune/idle/cron/planting all gated OFF; self_tune MUTATES config when enabled and NEVER",
+      "summary": "Local Ollama multi-role army (ClawHub-safe). In-process threaded daemons for hb-light, draft-simple, memory-triage, classify, champion-chat only. Queue JSON under ollama_queue/. localhost Ollama only. No planting, no social outbound, no public HTTPS probes, no desktop installers, no subprocess shell. FULL operator stack (optional) on SkillHub if running full LYGO. Install clawhub:@deepseekoracle/lygo-ollama-army.",
       "downloads": 658,
-      "version": "0.8.2",
+      "version": "0.9.0",
       "published": true,
       "category": "runtime",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
@@ -751,9 +756,9 @@
       "kind": "skill",
       "slug": "lygo-continuum",
       "name": "LYGO Continuum",
-      "summary": "LYGO Continuum — falsifiable work capsules for AI agents and humans. Seal 'done' as checkable claims (file SHA-256, contains, JSON paths, globs), re-verify across sessions, detect drift, and hand off to the next agent with a portable pack. Browser portal verifies dropped files client-side. Pure local stdlib. No network, no subprocess. Commands: seal, verify, drift, handoff, card, demo. Install clawhub:@deepseekoracle/lygo-continuum.",
+      "summary": "LYGO Continuum — falsifiable work capsules for AI agents and humans. Seal 'done' as checkable claims (file SHA-256, contains, JSON paths, globs under --base), re-verify, drift, handoff. CLI: pure local stdlib — no network, no subprocess. Paths/globs confined under --base; --out under base or state/ with --i-consent. Optional separate browser portal is NOT opened by the skill. Commands: seal, verify, drift, handoff, card, demo. Install clawhub:@deepseekoracle/lygo-continuum.",
       "downloads": 0,
-      "version": "1.0.0",
+      "version": "1.0.1",
       "published": true,
       "category": "other",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-continuum",
@@ -1118,16 +1123,18 @@
     {
       "kind": "skill",
       "slug": "lygo-skill-spector",
-      "name": "Lygo Skill Spector",
+      "name": "LYGO SkillSpector",
       "summary": "LYGO SkillSpector — enhanced local pre-install skill risk scanner for OpenClaw/ClawHub packages. Scan, gate (CI max-band), batch, and Markdown report: subprocess/shell, network/HTTP/httpx, secrets, eval/exec, curl|bash, miners, claim mismatches. Use when auditing ClawHub skills, SkillSpector-style gates, safe install checks, malware triage. Pure stdlib. No network, no subprocess, no auto-install. Builder HTML/multi-root pack on SkillHub FULL if running a full stack. Install clawhub:@deepseekorac",
       "downloads": 0,
+      "version": "1.0.1",
+      "published": true,
       "category": "other",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-skill-spector",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-skill-spector",
       "install": "npx clawhub@latest install deepseekoracle/lygo-skill-spector",
       "has_local_skill": true,
       "has_stack_mirror": true,
-      "source": "mirror",
-      "note": "Present in clawhub/mirrors; ensure skills.json + ClawHub stay in sync"
+      "source": "clawhub",
+      "ledger": "clawhub/skills.json"
     },
     {
       "kind": "skill",
@@ -1381,6 +1388,6 @@
       "source": "surface"
     }
   ],
-  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo vault only.",
-  "catalog_sha256": "ad029ce97fc0a8ef2497fc0be7d808f247622be1579d3b5749f65c14a8de8ea9"
+  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only.",
+  "catalog_sha256": "7afe49a66286e83f5b9e5e30970b3d8d265a2347001af136c7a1ac4ce34633c5"
 }

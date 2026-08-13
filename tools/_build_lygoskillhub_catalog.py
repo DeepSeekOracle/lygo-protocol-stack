@@ -428,15 +428,20 @@ def main() -> int:
     catalog = {
         "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
         "name": "LYGOSKILLHUB",
-        "version": "1.4.0",
+        "version": "1.4.1",
         "updated_utc": datetime.now(timezone.utc).isoformat(),
         "publisher": "deepseekoracle",
         "steward": "Justin Helmer / Excavationpro / Lightfather",
         "clawhub_profile": "https://clawhub.ai/deepseekoracle",
+        "clawhub_status": {
+            "public_profile": "https://clawhub.ai/deepseekoracle",
+            "security": "all_public_skills_green",
+            "note": "ClawHub @deepseekoracle public tentacles SkillSpector-clean (2026-08). Recent: lygo-ollama-army 0.9.0 local-only rebuild, lygo-continuum 1.0.1 path/write fix, lygo-skill-spector 1.0.1 audit harden.",
+        },
         "immutable_ledger": {
             "role": "Anything published to ClawHub @deepseekoracle must appear on this hub",
             "source": "clawhub/skills.json + clawhub/mirrors + local skill tree",
-            "public_channel": "ClawHub install links (public tentacle)",
+            "public_channel": "ClawHub install links (public tentacle) — green security surface",
             "engineer_channel": "FULL LYGO vault on this page (#full-lygo) — unlocked RAW packages, not ClawHub",
             "primary_page": "https://chatagent.ca/lygoskillhub.html",
         },
@@ -463,7 +468,8 @@ def main() -> int:
         "note": (
             "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. "
             "Every clawhub/skills.json entry + mirror is listed. "
-            "Public tentacles → ClawHub; FULL unlocked engineer packs → #full-lygo vault only."
+            "Public tentacles → ClawHub (all green security audits); "
+            "FULL unlocked engineer packs → #full-lygo vault only."
         ),
     }
     raw = json.dumps(catalog, indent=2, ensure_ascii=False) + "\n"

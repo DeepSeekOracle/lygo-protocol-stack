@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `D:\lygo-protocol-stack\clawhub\mirrors\lygo-sovereign-super-skill`
-Packaged: 2026-08-13T02:22:43.736834+00:00
+Packaged: 2026-08-13T03:09:56.281826+00:00
 Files: 7
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

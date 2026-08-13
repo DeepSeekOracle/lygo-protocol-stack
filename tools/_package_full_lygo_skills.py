@@ -146,7 +146,7 @@ SKILL_SOURCES: dict[str, list[Path]] = {
 ROLES = {
     "lygo-protocol-stack-operator": "P0–P9 audits + stack map — self-check spine",
     "lygo-kernel-egg-planter": "Merkle plant/verify eggs — modular limbs",
-    "lygo-ollama-army": "Local army + sentinel — continuous audit loop",
+    "lygo-ollama-army": "Local Ollama multi-role army (v0.9 ClawHub-safe SAFE_ROLES; FULL zip matches public tentacle)",
     "lygo-public-lattice-gate": "Public agent on-ramp: dual-ledger verify, align score, dry-run propose — zero harm default",
     "lygo-external-lattice-anchor": "World Layer C: public mirror verify + manifests",
     "lygo-haven-star-chart": "Star Chart portal skill: gate/validate/propose (live write needs human consent)",
