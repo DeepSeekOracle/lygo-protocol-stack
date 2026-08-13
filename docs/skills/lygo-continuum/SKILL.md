@@ -1,7 +1,7 @@
 ---
 name: lygo-continuum
-description: "LYGO Continuum — falsifiable work capsules for AI agents and humans. Seal 'done' as checkable claims (file SHA-256, contains, JSON paths, globs), re-verify across sessions, detect drift, and hand off to the next agent with a portable pack. Browser portal verifies dropped files client-side. Pure local stdlib. No network, no subprocess. Commands: seal, verify, drift, handoff, card, demo. Install clawhub:@deepseekoracle/lygo-continuum."
-version: 1.0.0
+description: "LYGO Continuum — falsifiable work capsules for AI agents and humans. Seal 'done' as checkable claims (file SHA-256, contains, JSON paths, globs under --base), re-verify, drift, handoff. CLI: pure local stdlib — no network, no subprocess. Paths/globs confined under --base; --out under base or state/ with --i-consent. Optional separate browser portal is NOT opened by the skill. Commands: seal, verify, drift, handoff, card, demo. Install clawhub:@deepseekoracle/lygo-continuum."
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
@@ -14,31 +14,31 @@ metadata:
   receipts: true
   handoff: true
   security: true
-  signature: "Delta9Phi963-CONTINUUM-v1.0.0"
+  signature: "Delta9Phi963-CONTINUUM-v1.0.1"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-continuum"
-  portal: "https://chatagent.ca/lygo-continuum.html"
+  portal_optional: "https://chatagent.ca/lygo-continuum.html"
   permissions:
     network: false
     shell: false
     subprocess: false
     filesystem:
-      read: "user --claims/--capsule/--base paths"
-      write: "user --out paths; skill state/ only with --i-consent"
+      read: "claim paths relative to --base only"
+      write: "--out under --base; skill state/ with --i-consent; --i-allow-any-out override"
     publish: false
 ---
 
-# LYGO Continuum v1.0.0
+# LYGO Continuum v1.0.1
 
 **The work still holds.**
 
 Agents say “done.” Sessions die. Files change. The next human or AI cannot tell what still holds.
 
-**Continuum** seals work as a **falsifiable capsule**: structured claims any script (or browser) can prove true or false against real files — plus decisions, next actions, and a Merkle-style root hash. Re-verify later. Drift becomes visible. Handoffs become portable.
+**Continuum** seals work as a **falsifiable capsule**: structured claims any script can prove true or false against real files — plus decisions, next actions, and a Merkle-style root hash. Re-verify later. Drift becomes visible. Handoffs become portable.
 
-**Signature:** `Delta9Phi963-CONTINUUM-v1.0.0`  
-**Portal:** https://chatagent.ca/lygo-continuum.html  
-**ClawHub:** `@deepseekoracle/lygo-continuum`
+**Signature:** `Delta9Phi963-CONTINUUM-v1.0.1`  
+**ClawHub:** `@deepseekoracle/lygo-continuum`  
+**CLI:** pure local · no network · no subprocess
 
 ---
 
@@ -88,7 +88,7 @@ python scripts/continuum.py card --capsule capsule.json --verify
 
 | Command | Network | Subprocess | Writes |
 |---------|---------|------------|--------|
-| seal / verify / drift / handoff / card / demo / kinds | none | none | only with explicit `--out` (+ `--i-consent` under `state/`) |
+| seal / verify / drift / handoff / card / demo / kinds | none | none | `--out` under `--base`, or `state/` + `--i-consent` |
 
 **Exit codes:** `0` holds · `10` claims fail / drift · `11` root integrity fail · `2` bad input
 
@@ -125,19 +125,18 @@ Example `claims.json`:
 
 ---
 
-## Portal (humans)
+## Optional portal (humans only — not part of the CLI)
 
-https://chatagent.ca/lygo-continuum.html  
-
-- Paste capsule JSON  
-- Drop matching files — browser computes SHA-256 (no upload)  
-- See HOLDS / BROKEN / DRIFT witness card  
+https://chatagent.ca/lygo-continuum.html is a **separate** web UI.  
+This skill **never** opens it or phones home. Use only if you trust that site with the files you drop.
 
 ---
 
 ## What it does *not* do
 
-- No network, shell, or subprocess  
+- No network, shell, or subprocess **in the CLI**  
+- No absolute / `..` claim paths or escaping globs  
+- No arbitrary `--out` without `--i-allow-any-out`  
 - No cloud signing keys (integrity = root hash of capsule body)  
 - No auto-publish / git push  
 - Does not replace tests — it seals **what landed** so agents cannot bluff  

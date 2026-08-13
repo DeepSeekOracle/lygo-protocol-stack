@@ -22,12 +22,12 @@
     {
       "slug": "lygo-continuum",
       "name": "LYGO Continuum",
-      "summary": "Falsifiable work capsules for AI agents and humans. Seal done as checkable claims, re-verify, detect drift, handoff packs. Browser portal. Pure local stdlib.",
+      "summary": "Falsifiable work capsules. v1.0.1: path confinement under --base; write sandbox; local-first docs.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-continuum",
       "mirror": "mirrors/lygo-continuum",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "slug": "lygo-protocol-stack-operator",
