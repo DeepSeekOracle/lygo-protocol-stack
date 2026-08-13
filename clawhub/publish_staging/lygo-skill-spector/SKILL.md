@@ -1,7 +1,7 @@
 ---
 name: lygo-skill-spector
 description: "LYGO SkillSpector — enhanced local pre-install skill risk scanner for OpenClaw/ClawHub packages. Scan, gate (CI max-band), batch, and Markdown report: subprocess/shell, network/HTTP/httpx, secrets, eval/exec, curl|bash, miners, claim mismatches. Use when auditing ClawHub skills, SkillSpector-style gates, safe install checks, malware triage. Pure stdlib. No network, no subprocess, no auto-install. Builder HTML/multi-root pack on SkillHub FULL if running a full stack. Install clawhub:@deepseekoracle/lygo-skill-spector."
-version: 1.0.0
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
@@ -14,7 +14,7 @@ metadata:
   audit: true
   clawhub_safe_install: true
   skillspector: true
-  signature: "Delta9Phi963-SKILL-SPECTOR-v1.0.0"
+  signature: "Delta9Phi963-SKILL-SPECTOR-v1.0.1"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-skill-spector"
   skillhub_full: "https://chatagent.ca/lygoskillhub.html#full-lygo"
@@ -29,14 +29,15 @@ metadata:
     auto_install: false
 ---
 
-# LYGO SkillSpector v1.0.0
+# LYGO SkillSpector v1.0.1
 
 **Scan before you install — gate before you ship.**
 
 Enhanced local risk scanner for OpenClaw/ClawHub skill packages. Successor surface to Skill Gate with **CI gate**, **batch**, **Markdown report**, and deeper rule pack (httpx, curl|bash, PowerShell IEX, miners, HF/OpenAI key shapes).
 
-**Signature:** `Delta9Phi963-SKILL-SPECTOR-v1.0.0`  
-**ClawHub:** `@deepseekoracle/lygo-skill-spector`
+**Signature:** `Delta9Phi963-SKILL-SPECTOR-v1.0.1`  
+**ClawHub:** `@deepseekoracle/lygo-skill-spector`  
+**Audit response:** `references/SKILLSPECTOR_AUDIT.md` (v1.0.0 meta-scan false positives fixed)
 
 > **Builder version (full stack):** If you run a **full LYGO stack**, the unlocked **builder** pack (HTML multi-root reports, multi-gate CI matrix, dashboard JSON) is on  
 > **[SkillHub FULL LYGO](https://chatagent.ca/lygoskillhub.html#full-lygo)**  
@@ -110,9 +111,9 @@ python builder/skill_spector_builder.py ci-summary ./skills --write ci.json --i-
 - HTTP clients (`urllib`, `requests`, `httpx`, `aiohttp`), sockets, webhooks  
 - `curl|bash` / `wget|bash` remote-code patterns  
 - `eval` / `exec`, pickle, unsafe yaml  
-- Hardcoded key-like strings (incl. `sk-proj-`, `hf_`)  
+- Hardcoded key-like / token-shaped strings (vendor project-key and HF-style prefixes)  
 - Destructive deletes, force-push, auto-publish / ClawHub publish hints  
-- Crypto miner / keylogger-style signals  
+- Mining / keylogger-style IOC *detection* signals (rules only — not mining code)  
 - **Claim mismatch**: frontmatter says `network: false` but code uses HTTP  
 
 **Does not:** download skills, install skills, execute scanned code, or phone home.

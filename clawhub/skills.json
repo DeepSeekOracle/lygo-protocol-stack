@@ -11,12 +11,12 @@
     {
       "slug": "lygo-skill-spector",
       "name": "LYGO SkillSpector",
-      "summary": "Enhanced local pre-install skill risk scanner: scan/gate/batch/report. Builder HTML multi-root pack on SkillHub FULL if running a full stack.",
+      "summary": "Enhanced local pre-install skill risk scanner: scan/gate/batch/report. v1.0.1 audit-hardened (meta-scan false positives). Builder on SkillHub FULL if full stack.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-skill-spector",
       "mirror": "mirrors/lygo-skill-spector",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0",
+      "version": "1.0.1",
       "notes": "Builder version: https://chatagent.ca/lygoskillhub.html#full-lygo"
     },
     {

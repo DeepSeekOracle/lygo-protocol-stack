@@ -1,4 +1,10 @@
 
+## 2026-08-13 — SkillSpector v1.0.1 audit hardening
+
+- **False positives fixed** (NVIDIA SkillSpector / VT 1/65): detection-rule IOC fragmentation; synthetic self_check secrets assembled at runtime
+- `references/SKILLSPECTOR_AUDIT.md` documents crypto_mining + exposed_secret_literal as meta-scan noise
+- ClawHub republish `lygo-skill-spector@1.0.1`
+
 ## 2026-08-12 — LYGO SkillSpector (enhanced skill risk scanner)
 
 - **lygo-skill-spector** v1.0.0 — enhanced local pre-install scanner: `scan` · `gate` · `batch` · `report`
