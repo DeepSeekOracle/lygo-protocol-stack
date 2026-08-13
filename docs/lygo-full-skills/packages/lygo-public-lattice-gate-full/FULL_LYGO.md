@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `D:\lygo-protocol-stack\docs\skills\lygo-public-lattice-gate`
-Packaged: 2026-08-12T03:00:56.352282+00:00
+Packaged: 2026-08-13T02:22:43.736834+00:00
 Files: 9
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

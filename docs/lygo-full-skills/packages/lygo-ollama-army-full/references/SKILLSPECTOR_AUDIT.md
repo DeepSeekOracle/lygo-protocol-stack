@@ -1,44 +1,38 @@
-# SkillSpector audit response — lygo-ollama-army v0.8.2
+# SkillSpector — lygo-ollama-army v0.9.0 ground-up rebuild
 
-**Signature:** `Δ9Φ963-ARMY-SKILLSPECTOR-v0.8.2`  
-**Source:** https://clawhub.ai/deepseekoracle/skills/lygo-ollama-army/security-audit (47 findings addressed)
+**Source:** https://clawhub.ai/deepseekoracle/skills/lygo-ollama-army/security-audit
 
-## High-severity fixes
+## Why rebuild
 
-| Finding | Fix |
-|---------|-----|
-| Manifest understates network/automation | SKILL description lists every surface + env gates |
-| ARMY_TASKS social likes/reposts as auto | Reframed as optional consent-gated **role labels**, not auto engagement |
-| Planting docs vs never auto-enabled | ARMY_TASKS/SECURITY: planting = local eggs only; never self_tune-on |
-| Planting vs ClawHub publish confusion | Explicit: planting ≠ git/HF/ClawHub publish |
-| run_python any skill .py | **Strict** `ARMY_SCRIPT_ALLOW` basenames only |
-| stack tools any .py | **Strict** `STACK_TOOL_ALLOW` only (removed `endswith(".py")`) |
-| collector unconditional outbound | Default **local_only**; `LYGO_GENESIS_PROBE_PUBLIC=1` for GitHub/HF/Pages |
-| ensure_sentinel_fresh side effect | Only if `LYGO_GENESIS_RUN_SENTINEL=1` |
-| Discord/crypto/wallets in status | Disabled; optional steward env; no tokens/wallets |
-| Command catalog autostart/push/export | Replaced with **safe** army/stack commands only |
-| Desktop army launcher no consent | Bat embeds dual consent; installer needs `LYGO_ARMY_INSTALL_DESKTOP=1` |
-| Discord+crypto desktop scope | Steward installer separate + `LYGO_ARMY_INSTALL_STEWARD_DESKTOP=1` |
-| README webhook vs no webhook | README: no outbound webhook POST |
-| army_config.json.bak planting on | **Deleted** from package; example forced safe |
-| self_tune auto_enable_planting true in bak | Removed with bak; live example clamps false |
-| notifications webhook hooks | Removed from example config |
-| cron runs external token_saver | **Removed** cross-skill execution |
-| health_check auto self_tune/sentinel | Probes only; flags `--run-self-tune` / `--run-sentinel` |
-| health_check “read-only” but mutates | Doc + flags; default no queue mutation |
-| suspicious status.json install source | Minimal local status.json (no shortener/IP) |
+v0.8.x kept a large operator surface (plant, social, sentinel HTTPS, desktop installers, idle supervisors).  
+SkillSpector correctly treated **config-gated high-impact paths** and **desktop consent injection** as residual risk.
 
-## Residual accepted risk
+## v0.9.0 public package
 
-- Operator who sets all consent flags can plant eggs / run social tools  
-- Operator PS1 still spawns python when triple-gated  
-- Public probes when env explicitly set  
+| Removed from ClawHub package | Reason |
+|------------------------------|--------|
+| Desktop `install_*.ps1` / full-capacity PS1 | Persistence + consent bypass patterns |
+| Genesis collector + remote probes | Outbound HTTPS / status noise |
+| Plant / registry / self-tune / social roles | High-impact stack & outbound actions |
+| Stack-tool `runpy` allowlist for audits/pulses | Excessive agency via queue |
+| `army_config` automation supervisors | Background high-impact loops |
+| Raw `localhost` install-source style links in status artifacts | Static `install_untrusted_source` |
 
-## Verify
+| Kept | Purpose |
+|------|---------|
+| `ollama_client.py` | localhost Ollama only |
+| `ollama_daemon.py` | SAFE_ROLES only |
+| `ollama_army_launcher.py` | In-process threads |
+| `queue_task.py` | Explicit task drop |
+| `scripts/self_check.py` | Policy tests |
+
+## Residual
+
+- Local Ollama still processes prompts you queue (expected).  
+- FULL operator pack is **not** this slug’s public surface.
 
 ```bash
 python scripts/self_check.py
-python ollama_command_center/scripts/army_health_check.py
 ```
 
-**Δ9Φ963**
+**Δ9Φ963 — pass by removal of unsafe surface, not by comment gates alone.**

@@ -1,15 +1,15 @@
 {
   "name": "lygo-continuum",
   "displayName": "LYGO Continuum",
-  "version": "1.0.0",
-  "description": "Falsifiable work capsules: seal done-claims, re-verify, detect drift, hand off across agents. Browser portal + pure local stdlib.",
+  "version": "1.0.1",
+  "description": "Falsifiable work capsules: seal done-claims, re-verify, detect drift, hand off. Pure local stdlib. Paths confined under --base. Optional portal is separate (not opened by skill).",
   "slug": "lygo-continuum",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-continuum",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-continuum",
-  "portal": "https://chatagent.ca/lygo-continuum.html",
-  "signature": "Delta9Phi963-CONTINUUM-v1.0.0",
+  "portal_optional": "https://chatagent.ca/lygo-continuum.html",
+  "signature": "Delta9Phi963-CONTINUUM-v1.0.1",
   "tags": [
     "latest",
     "lygo",
@@ -22,7 +22,8 @@
     "openclaw",
     "agent-done",
     "falsifiable",
-    "delta9"
+    "delta9",
+    "security"
   ],
   "entry": "SKILL.md",
   "scripts": {
@@ -48,8 +49,8 @@
     "subprocess": false,
     "shell": false,
     "filesystem": {
-      "read": "user --claims/--capsule/--base",
-      "write": "user --out; skill state/ with --i-consent"
+      "read": "claim paths relative to --base",
+      "write": "--out under --base; state/ with --i-consent"
     },
     "publish": false
   },
@@ -58,7 +59,7 @@
     "no_auto_publish": true,
     "no_subprocess": true,
     "no_network": true,
-    "consent_required_for_writes": true,
-    "version": "1.0.0"
+    "path_confinement": true,
+    "version": "1.0.1"
   }
 }

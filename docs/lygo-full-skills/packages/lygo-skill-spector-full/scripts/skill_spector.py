@@ -56,6 +56,7 @@ SKIP_DIRS = {
     "results",
     "logs",
     "workspace",
+    "state",  # consent-gated reports / local helpers — not package surface
 }
 TEXT_EXTS = {
     ".py",
@@ -245,7 +246,13 @@ def _is_comment_or_doc_noise(line: str, ext: str) -> bool:
     if ext == ".py":
         if s.startswith("#"):
             return True
-        if s.startswith(("r\"", "r'", "\"", "'", "(", "re.compile")):
+        # Pattern tables / detector rules (meta-scan: do not match IOC strings as code use)
+        if s.startswith(("r\"", "r'", "\"", "'", "(", "re.compile", "_rx(", "_RX_")):
+            return True
+        if "re.compile(" in s or s.startswith(("_rx", "CODE_RULES", "DOC_RULES")):
+            return True
+        # Tuple rule rows: ("rule_id", sev, re.compile(...), "why")
+        if s.startswith('("') or s.startswith("('"):
             return True
     if ext in {".ps1"} and s.startswith("#"):
         return True

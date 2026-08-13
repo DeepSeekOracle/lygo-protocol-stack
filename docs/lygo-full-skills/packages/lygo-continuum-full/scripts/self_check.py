@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Self-check for lygo-continuum — no network, no subprocess spawn of shell."""
+"""Self-check for lygo-continuum — no network, path confinement, write gates."""
 from __future__ import annotations
 
 import json
@@ -21,7 +21,6 @@ def main() -> int:
 
     demo = c.cmd_demo()
 
-    # Unit: text_sha256 + integrity break
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         (root / "f.txt").write_text("hello continuum\n", encoding="utf-8")
@@ -35,11 +34,36 @@ def main() -> int:
             base=root,
         )
         v1 = c.verify_capsule(cap, base=root)
-        # Tamper root_hash
         broken = dict(cap)
         broken["root_hash"] = "0" * 64
         v2 = c.verify_capsule(broken, base=root)
         kinds_ok = "file_sha256" in c.CLAIM_KINDS and "json_path_eq" in c.CLAIM_KINDS
+
+        # Path confinement
+        esc = c.evaluate_claim(
+            {"id": "x", "kind": "file_exists", "path": "../outside.txt"},
+            base=root,
+        )
+        abs_esc = c.evaluate_claim(
+            {"id": "y", "kind": "file_exists", "path": str(Path.home() / "secret.txt")},
+            base=root,
+        )
+        glob_esc = c.evaluate_claim(
+            {"id": "z", "kind": "glob_count_gte", "pattern": "../*", "n": 1},
+            base=root,
+        )
+        path_ok = (
+            esc.get("ok") is False
+            and "rejected" in (esc.get("detail") or "").lower()
+            and abs_esc.get("ok") is False
+            and glob_esc.get("ok") is False
+        )
+
+        # Write gate
+        outside = root.parent / "continuum_should_not_write.json"
+        ok_w, why = c.authorize_write(outside, base=root, consent=False, allow_any=False)
+        ok_in, _ = c.authorize_write(root / "capsule.json", base=root, consent=False, allow_any=False)
+        write_ok = (not ok_w) and ok_in and why == "out_must_be_under_base_or_state"
 
     ok = (
         demo.get("ok") is True
@@ -49,6 +73,9 @@ def main() -> int:
         and no_urllib
         and no_requests
         and kinds_ok
+        and path_ok
+        and write_ok
+        and c.VERSION == "1.0.1"
         and c.SCHEMA == "lygo.continuum.v1"
     )
     print(
@@ -60,6 +87,8 @@ def main() -> int:
                 "demo_ok": demo.get("ok"),
                 "verify_ok": v1.get("ok"),
                 "integrity_detects_tamper": v2.get("integrity_ok") is False,
+                "path_confinement": path_ok,
+                "write_gate": write_ok,
                 "no_subprocess_import": no_subprocess_import,
                 "no_network_imports": no_urllib and no_requests,
                 "claim_kinds": len(c.CLAIM_KINDS),

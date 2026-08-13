@@ -1,71 +1,28 @@
-# LYGO Ollama Army — Security
+# Security — LYGO Ollama Army v0.9.0
 
-**Version:** 0.8.3 · **Signature:** `Δ9Φ963-ARMY-SECURITY-v6`  
-**Audit:** `references/SECURITY_AUDIT.md` · `references/SKILLSPECTOR_AUDIT.md`
+## Defaults (honest)
 
-## Install only if
+| Capability | Status |
+|------------|--------|
+| Network | **localhost Ollama only** (`http://localhost:11434`) |
+| Public HTTPS | **None** in this package |
+| Subprocess / shell | **None** |
+| Desktop installers | **Not shipped** |
+| Planting / social / publish | **Not shipped** |
+| Queue roles | Hard allowlist `SAFE_ROLES` |
 
-- You run **local Ollama** on a machine you control.
-- You accept **optional** persistent in-process daemons and **queue-driven** work you enable.
-- You understand the **operator PS1** full-capacity path **spawns** `python.exe` (separate from the Python skill surface).
+## Threat model
 
-## Declared permissions (honest)
+1. **Queue injection** — Only `SAFE_ROLES` execute; other roles are refused and logged.  
+2. **Outbound exfil** — No webhook POST; no public probe modules in package.  
+3. **Process spawn** — No PS1 launchers; in-process threads only.  
+4. **Ollama host** — Fixed to localhost (not user-configurable remote URL).
 
-| Capability | Declared | Scope |
-|------------|----------|--------|
-| Filesystem | **Yes** | Army `tasks/`, `results/`, `workspace/`; stack under validated `LYGO_STACK_ROOT` |
-| OS process spawn (Python skill scripts) | **No** | `_safe_invoke.run_python` (runpy) + threads |
-| OS process spawn (operator PS1) | **Yes** | `start_army_full_capacity.ps1` only — env gated |
-| Network | **Yes** | `127.0.0.1:11434` Ollama; optional HTTPS **GET** public probes; optional localhost HTTP dashboard |
-| Browser open | **No** default | Genesis only if `LYGO_GENESIS_OPEN_BROWSER=1` |
-| Outbound webhook POST | **No** | Alerts → `logs/alerts.jsonl` |
-| Git / HF / ClawHub publish | **No** | Defaults false |
-| Autonomous social publish | **No** | Requires `social_publish` flags |
-| Planting | **No** default | `planting.enabled` + `consent`; never auto-enabled by self_tune |
+## Dual channel
 
-## Environment gates
+| Channel | Surface |
+|---------|---------|
+| ClawHub public | This package (local Ollama army) |
+| SkillHub FULL | Optional operator automation (separate zip) |
 
-| Variable | Required for |
-|----------|----------------|
-| `LYGO_ARMY_AUTONOMOUS=1` | `army_autonomous_supervisor.py` (with I_CONSENT) |
-| `LYGO_ARMY_I_CONSENT=1` | Supervisor + full-capacity PS1 (operator accepts long loop / spawn) |
-| `LYGO_ARMY_FULL_CAPACITY=1` | Operator PS1 full-capacity (process spawn) |
-| `LYGO_ARMY_SEED_TASKS=1` | `seed_productive_tasks.py` (PS1 one-shot) |
-| `LYGO_ARMY_RUN_SELF_TUNE=1` | PS1 one-shot self_tune spawn |
-| `LYGO_ARMY_RUN_CRON=1` | PS1 one-shot cron spawn |
-| `LYGO_ARMY_IDLE_GUARDIAN=1` | Idle guardian supervisor |
-| `LYGO_ARMY_INSTALL_DESKTOP=1` | Write Desktop `.bat` launchers (never injects dual consent) |
-| `LYGO_ARMY_INSTALL_STEWARD_DESKTOP=1` | Steward Discord/crypto desktop bridge only |
-| `LYGO_GENESIS_OPEN_BROWSER=1` | Auto-open system browser for genesis |
-| `LYGO_GENESIS_PROBE_PUBLIC=1` | Genesis collector HTTPS public probes |
-| `LYGO_GENESIS_COLLECT=1` | Heartbeats may run genesis collector |
-| `LYGO_GENESIS_OPS_DISCORD=1` | Steward Discord/crypto status in genesis |
-| `LYGO_STACK_ROOT` | Stack-touching roles (trusted clone only) |
-
-## High-risk features (user opt-in)
-
-| Feature | Risk | Rule |
-|---------|------|------|
-| `self_tune.enabled` | Config rewrite + queue prune | Default **false**; **mutating** (not read-only) |
-| `auto_enable_planting` | Policy bypass | **Forced false** every self_tune write |
-| Queue `.task.json` | Auto-exec when daemon runs | Human review before drop |
-| `egg-planter` / `registry-planter` | Stack mutation | `planting.enabled` + `consent` |
-| `allow_external_memory_write` | LYRA_CORE daily write | Default **false** (≠ allow_planting) |
-| `allow_stack_mutating_tools` | Chart/catalog write | Default **false** |
-| `allow_privileged_roles` | Plant/social/boot roles | Default **false** |
-| Supervisors | Long-running loops | AUTONOMOUS + I_CONSENT |
-| Full-capacity PS1 | Multi-process | FULL_CAPACITY + AUTONOMOUS + I_CONSENT |
-
-## Forbidden for agents
-
-- Auto-write queue tasks without user review  
-- `git push`, HF upload, ClawHub publish, social post  
-- Remote Ollama URLs  
-- Planting / full-capacity / seed / autonomous without explicit user request  
-- Enabling `self_tune` or `planting` silently  
-
-## Skill chain
-
-`lygo-protocol-stack-operator` → `lygo-kernel-egg-planter` → `lygo-joy-loop` → **`lygo-ollama-army`**
-
-**Δ9Φ963 — local flame, reviewed queue, validated stack root, no silent outbound, honest spawn boundaries.**
+**Δ9Φ963 — local flame only on ClawHub.**

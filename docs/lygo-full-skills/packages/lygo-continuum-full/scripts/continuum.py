@@ -7,12 +7,15 @@ the work still holds when handing off to another AI or teammate.
 
 Solution: Seal work as a Continuum Capsule — structured, falsifiable claims
 (file hashes, contains, counts, JSON paths) + decisions + next actions.
-Anyone re-verifies locally or in the browser portal. Drift is visible.
+Re-verify locally. Drift is visible.
 
-Pure stdlib. No network. No subprocess.
-Writes only under skill state/ with --i-consent.
+This CLI is pure local stdlib: no network, no subprocess.
+Optional human portal (separate site) is never opened by this script.
 
-Signature: Delta9Phi963-CONTINUUM-v1.0.0
+Writes: under --base (default cwd) for --out, or skill state/ with --i-consent.
+Claim paths and globs are confined under --base (no parent escape).
+
+Signature: Delta9Phi963-CONTINUUM-v1.0.1
 """
 from __future__ import annotations
 
@@ -26,8 +29,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SIG = "Delta9Phi963-CONTINUUM-v1.0.0"
-VERSION = "1.0.0"
+SIG = "Delta9Phi963-CONTINUUM-v1.0.1"
+VERSION = "1.0.1"
 SCHEMA = "lygo.continuum.v1"
 HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
@@ -88,13 +91,86 @@ def new_capsule_id() -> str:
     return "CONT-" + uuid.uuid4().hex[:12].upper()
 
 
-def resolve_path(path_str: str, base: Path | None) -> Path:
-    p = Path(path_str)
-    if p.is_absolute():
-        return p
-    if base is not None:
-        return (base / p).resolve()
-    return p.resolve()
+def _is_under(child: Path, parent: Path) -> bool:
+    try:
+        child.resolve().relative_to(parent.resolve())
+        return True
+    except (ValueError, OSError):
+        return False
+
+
+def resolve_path(path_str: str, base: Path | None) -> Path | None:
+    """Resolve claim path under base. Rejects absolute paths and parent escape."""
+    raw = str(path_str or "").strip()
+    if not raw:
+        return None
+    # No absolute / drive-rooted claim paths (operator must use --base + relative)
+    p = Path(raw)
+    if p.is_absolute() or raw.startswith(("/", "\\")) or (len(raw) >= 2 and raw[1] == ":"):
+        return None
+    # Reject parent traversal in the claim string
+    parts = p.parts
+    if ".." in parts or parts[:1] == ("~",):
+        return None
+    root = (base if base is not None else Path.cwd()).resolve()
+    try:
+        resolved = (root / p).resolve()
+    except (OSError, RuntimeError):
+        return None
+    if not _is_under(resolved, root):
+        return None
+    return resolved
+
+
+def safe_glob(root: Path, pattern: str) -> list[Path]:
+    """Glob only under root; reject traversal / absolute patterns."""
+    pat = str(pattern or "").strip()
+    if not pat:
+        return []
+    if ".." in pat or pat.startswith(("/", "\\")) or (len(pat) >= 2 and pat[1] == ":"):
+        return []
+    # Disallow patterns that Absolute-path style on Windows UNC
+    if pat.startswith("\\\\") or "//" in pat.replace("://", ""):
+        return []
+    root = root.resolve()
+    try:
+        matches = list(root.glob(pat))
+    except (OSError, ValueError):
+        return []
+    # Filter any match that escaped (symlink / odd glob)
+    out: list[Path] = []
+    for m in matches:
+        try:
+            mr = m.resolve()
+        except (OSError, RuntimeError):
+            continue
+        if _is_under(mr, root):
+            out.append(mr)
+    return out
+
+
+def authorize_write(out_path: Path, *, base: Path | None, consent: bool, allow_any: bool) -> tuple[bool, str]:
+    """
+    Writes allowed when:
+      - --i-allow-any-out (operator override), or
+      - path is under skill state/ AND --i-consent, or
+      - path is under --base (default: cwd)
+    """
+    try:
+        target = out_path.expanduser().resolve()
+    except (OSError, RuntimeError):
+        return False, "invalid_out_path"
+    if allow_any:
+        return True, "allow_any"
+    state = STATE.resolve()
+    if _is_under(target, state) or target.parent == state or target == state:
+        if not consent:
+            return False, "state_write_needs_i_consent"
+        return True, "state"
+    root = (base if base is not None else Path.cwd()).resolve()
+    if _is_under(target, root) or target.parent == root:
+        return True, "under_base"
+    return False, "out_must_be_under_base_or_state"
 
 
 def get_json_path(data: Any, dotted: str) -> Any:
@@ -156,9 +232,14 @@ def evaluate_claim(claim: dict[str, Any], base: Path | None) -> dict[str, Any]:
             if not pattern:
                 out["detail"] = "missing pattern"
                 return out
-            root = base if base is not None else Path.cwd()
-            # Safe glob: only under base/cwd, no recursive ** by default unless in pattern
-            matches = list(root.glob(str(pattern)))
+            root = (base if base is not None else Path.cwd()).resolve()
+            matches = safe_glob(root, str(pattern))
+            if not matches and (".." in str(pattern) or str(pattern).startswith(("/", "\\"))):
+                out["detail"] = "glob rejected (path escape / absolute pattern)"
+                out["observed"] = 0
+                out["expected"] = int(claim.get("n") if claim.get("n") is not None else claim.get("expect") or 0)
+                out["ok"] = False
+                return out
             n = int(claim.get("n") if claim.get("n") is not None else claim.get("expect") or 0)
             out["observed"] = len(matches)
             out["expected"] = n
@@ -171,6 +252,9 @@ def evaluate_claim(claim: dict[str, Any], base: Path | None) -> dict[str, Any]:
             return out
 
         path = resolve_path(str(path_str), base) if path_str else None
+        if path_str and path is None:
+            out["detail"] = f"path rejected (absolute or outside --base): {path_str}"
+            return out
 
         if kind == "file_exists":
             exists = path is not None and path.is_file()
@@ -181,6 +265,13 @@ def evaluate_claim(claim: dict[str, Any], base: Path | None) -> dict[str, Any]:
             return out
 
         if kind == "file_missing":
+            # Rejected paths are treated as "not present under base" for safety
+            if path is None and path_str:
+                out["observed"] = True
+                out["expected"] = True
+                out["ok"] = True
+                out["detail"] = "absent_or_outside_base"
+                return out
             missing = path is None or not path.exists()
             out["observed"] = missing
             out["expected"] = True
@@ -333,7 +424,7 @@ def seal_capsule(
             path_str = cc.get("path") or cc.get("file")
             if path_str:
                 p = resolve_path(str(path_str), base)
-                if p.is_file():
+                if p is not None and p.is_file():
                     cc["expect"] = sha256_file(p)
         if cc.get("kind") == "text_sha256" and not cc.get("expect") and "text" in cc:
             cc["expect"] = sha256_text(str(cc["text"]))
@@ -609,8 +700,17 @@ def build_parser() -> argparse.ArgumentParser:
     seal.add_argument("--base", default=None, help="Base directory for relative paths")
     seal.add_argument("--decisions", default=None, help="Path to JSON array of decision strings")
     seal.add_argument("--next", dest="next_actions", default=None, help="Path to JSON array of next actions")
-    seal.add_argument("--out", default=None, help="Write capsule JSON (needs --i-consent if under state/)")
-    seal.add_argument("--i-consent", action="store_true")
+    seal.add_argument(
+        "--out",
+        default=None,
+        help="Write capsule JSON under --base (or state/ with --i-consent)",
+    )
+    seal.add_argument("--i-consent", action="store_true", help="Allow write under skill state/")
+    seal.add_argument(
+        "--i-allow-any-out",
+        action="store_true",
+        help="Operator override: allow --out outside base/state (explicit)",
+    )
     seal.add_argument("--no-eval", action="store_true", help="Do not evaluate claims at seal time")
 
     ver = sub.add_parser("verify", help="Verify a capsule against current disk")
@@ -618,6 +718,7 @@ def build_parser() -> argparse.ArgumentParser:
     ver.add_argument("--base", default=None)
     ver.add_argument("--out", default=None)
     ver.add_argument("--i-consent", action="store_true")
+    ver.add_argument("--i-allow-any-out", action="store_true")
 
     drift = sub.add_parser("drift", help="Verify and highlight drift from sealed results")
     drift.add_argument("--capsule", required=True)
@@ -635,6 +736,7 @@ def build_parser() -> argparse.ArgumentParser:
     card.add_argument("--verify", action="store_true")
     card.add_argument("--out", default=None)
     card.add_argument("--i-consent", action="store_true")
+    card.add_argument("--i-allow-any-out", action="store_true")
 
     sub.add_parser("demo", help="Self-contained seal→verify→drift demo")
     sub.add_parser("kinds", help="List claim kinds")
@@ -685,14 +787,18 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.out:
             outp = Path(args.out)
-            # consent required for writes under skill state/
-            if STATE in outp.resolve().parents or outp.resolve().parent == STATE:
-                if not args.i_consent:
-                    print(json.dumps({"ok": False, "error": "writes under state/ need --i-consent"}), file=sys.stderr)
-                    return 2
+            ok_w, why = authorize_write(
+                outp,
+                base=base,
+                consent=bool(args.i_consent),
+                allow_any=bool(args.i_allow_any_out),
+            )
+            if not ok_w:
+                print(json.dumps({"ok": False, "error": why, "hint": "use --out under --base, or state/ + --i-consent"}), file=sys.stderr)
+                return 2
             outp.parent.mkdir(parents=True, exist_ok=True)
             outp.write_text(json.dumps(capsule, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-            capsule["_wrote"] = str(outp)
+            capsule["_wrote"] = str(outp.resolve())
         print(json.dumps(capsule, indent=2, ensure_ascii=False))
         if capsule.get("sealed_ok") is False:
             return 10
@@ -704,13 +810,18 @@ def main(argv: list[str] | None = None) -> int:
         report = verify_capsule(capsule, base=base)
         if args.out:
             outp = Path(args.out)
-            if STATE in outp.resolve().parents or outp.resolve().parent == STATE:
-                if not args.i_consent:
-                    print(json.dumps({"ok": False, "error": "writes under state/ need --i-consent"}), file=sys.stderr)
-                    return 2
+            ok_w, why = authorize_write(
+                outp,
+                base=base or Path.cwd(),
+                consent=bool(args.i_consent),
+                allow_any=bool(args.i_allow_any_out),
+            )
+            if not ok_w:
+                print(json.dumps({"ok": False, "error": why}), file=sys.stderr)
+                return 2
             outp.parent.mkdir(parents=True, exist_ok=True)
             outp.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-            report["_wrote"] = str(outp)
+            report["_wrote"] = str(outp.resolve())
         print(json.dumps(report, indent=2, ensure_ascii=False))
         if not report.get("integrity_ok"):
             return 11
@@ -757,10 +868,16 @@ def main(argv: list[str] | None = None) -> int:
         html = witness_card_html(capsule, report)
         if args.out:
             outp = Path(args.out)
-            if STATE in outp.resolve().parents or outp.resolve().parent == STATE:
-                if not args.i_consent:
-                    print("need --i-consent for state/", file=sys.stderr)
-                    return 2
+            base = Path(args.base).resolve() if args.base else Path.cwd()
+            ok_w, why = authorize_write(
+                outp,
+                base=base,
+                consent=bool(args.i_consent),
+                allow_any=bool(args.i_allow_any_out),
+            )
+            if not ok_w:
+                print(json.dumps({"ok": False, "error": why}), file=sys.stderr)
+                return 2
             outp.parent.mkdir(parents=True, exist_ok=True)
             outp.write_text(html, encoding="utf-8")
         print(html)

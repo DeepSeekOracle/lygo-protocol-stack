@@ -1,4 +1,7 @@
-# Continuum quickstart
+# Continuum quickstart (local CLI)
+
+This skill’s **CLI is pure local** — no network, no subprocess.  
+An optional **separate** browser portal exists for humans; Continuum never opens it.
 
 ```bash
 python scripts/self_check.py
@@ -7,7 +10,7 @@ python scripts/continuum.py demo
 
 ## Seal a real task
 
-`claims.json`:
+`claims.json` (paths must be **relative** to `--base`):
 
 ```json
 [
@@ -23,6 +26,14 @@ python scripts/continuum.py verify --capsule capsule.json --base .
 python scripts/continuum.py handoff --capsule capsule.json --verify --base .
 ```
 
-## Portal
+`--out` must land under `--base` (default cwd), or under skill `state/` with `--i-consent`.  
+Operator override: `--i-allow-any-out` (explicit).
 
-Open https://chatagent.ca/lygo-continuum.html — paste capsule, drop files, see HOLDS/BROKEN.
+## Optional human portal (not the CLI)
+
+If you want a browser witness card (client-side SHA-256, no skill upload):
+
+- https://chatagent.ca/lygo-continuum.html  
+
+Only paste capsules / drop files you are comfortable showing that site.  
+**Do not treat the portal as part of the “no network” CLI surface.**

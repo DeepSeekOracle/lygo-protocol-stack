@@ -282,12 +282,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama multi-role army. v0.8.3 SkillSpector re-fix: gates enforced in code, defaults OFF, no consent injection.",
+      "summary": "Local Ollama multi-role army v0.9.0 ClawHub-safe: SAFE_ROLES only, no plant/social/public probes/desktop installers.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 658,
-      "version": "0.8.3"
+      "version": "0.9.0"
     },
     {
       "slug": "lygo-glyph2resonance",

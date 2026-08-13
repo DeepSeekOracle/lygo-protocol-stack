@@ -1,37 +1,12 @@
-# LYGO Ollama Army & Assistant Hub
+# LYGO Ollama Army v0.9.0
 
-Local Ollama multi-role army + optional command-center tools.
-
-**Full surface / security:** see `SKILL.md` and `references/SECURITY.md`.
-
-## Safe quick start (in-process, no spawn)
+ClawHub-safe **local** multi-role Ollama helpers.
 
 ```bash
-python ollama_army_launcher.py --roles hb-light,draft-simple --count 1
 python scripts/self_check.py
+python ollama_army_launcher.py --roles hb-light,draft-simple --model llama3.2:1b
+python queue_task.py --role draft-simple --prompt "Hello"
 ```
 
-## Optional surfaces (all gated)
-
-| Surface | Default | Gate |
-|---------|---------|------|
-| Genesis localhost dashboard | Off until you run server | Manual `genesis_console/server.py` |
-| Browser open | Off | `LYGO_GENESIS_OPEN_BROWSER=1` |
-| Public HTTPS probes | Off | config / `LYGO_GENESIS_PROBE_PUBLIC=1` |
-| Autonomous supervisor | Off | `LYGO_ARMY_AUTONOMOUS=1` + `LYGO_ARMY_I_CONSENT=1` |
-| Full-capacity PS1 | Off | Triple env + **spawns python.exe** |
-| Planting | Off | `planting.enabled` + `consent` |
-| self_tune | Off | `self_tune.enabled` (mutating) |
-| Social pulse roles | Off | `social_publish` flags |
-
-## Outbound webhook
-
-**Not supported on the default path.** There is no live outbound webhook implementation in skill scripts for SkillSpector-safe operation. Alert files stay local (`logs/alerts.jsonl`).
-
-Legacy `notifications.webhook_*` keys in example config are **documentation of disabled hooks only** — code does not POST.
-
-## Resonance companion
-
-https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html
-
-**Δ9Φ963**
+FULL operator features (plant / idle / sentinel HTTPS / PS1): SkillHub  
+https://chatagent.ca/lygoskillhub.html#full-lygo
