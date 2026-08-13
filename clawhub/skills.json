@@ -282,12 +282,12 @@
     {
       "slug": "lygo-ollama-army",
       "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama multi-role army + assistant hub. FULL HONEST SURFACE: (1) Default = in-process threads + STRICT name allowlist runpy (no arbitrary skill .py, no any tools/*.py). (2) Genesis localhost HTTP 127.0.0.1 only; browser open only LYGO_GENESIS_OPEN_BROWSER=1; outbound GitHub/HF/Pages probes only LYGO_GENESIS_PROBE_PUBLIC=1; no Discord/crypto/wallets in status by default. (3) Command-center: sentinel/self_tune/idle/cron/planting all gated OFF; self_tune MUTATES config when enabled and NEVER auto-enables planting. (4) Supervisor needs LYGO_ARMY_AUTONOMOUS=1 + LYGO_ARMY_I_CONSENT=1. (5) PS1 full-capacity OPERATOR-ONLY SPAWNS python.exe. (6) Social pulse / plant roles = optional consent-gated queue labels, not auto engagement. (7) No outbound webhook POST. (8) Desktop installers require LYGO_ARMY_INSTALL_DESKTOP=1. Read references/SECURITY.md first.",
+      "summary": "Local Ollama multi-role army. v0.8.3 SkillSpector re-fix: gates enforced in code, defaults OFF, no consent injection.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
       "downloads": 658,
-      "version": "0.8.2"
+      "version": "0.8.3"
     },
     {
       "slug": "lygo-glyph2resonance",

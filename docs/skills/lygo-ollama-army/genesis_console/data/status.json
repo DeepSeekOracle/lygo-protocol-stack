@@ -1,0 +1,22 @@
+{
+  "signature": "Delta9Phi963-GENESIS-CONSOLE-v4",
+  "title": "LYGO Genesis Console \u2014 local army / lattice monitor",
+  "updated_at": "2026-08-06T05:44:22.969862+00:00",
+  "mode": "local_only",
+  "healthy": false,
+  "policy": {
+    "public_probes": false,
+    "no_tokens_in_status": true,
+    "no_webhook": true
+  },
+  "links": {
+    "genesis_local": "http://127.0.0.1:9963/"
+  },
+  "army": {
+    "queued": 0,
+    "results": 0,
+    "ollama_online": false
+  },
+  "commands": [],
+  "note": "Regenerate with: python collector.py (local-only by default)"
+}
