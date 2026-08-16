@@ -1,0 +1,129 @@
+{
+  "signature": "Δ9Φ963-ETERNAL-HAVEN-BOOK-EGG-v1",
+  "egg_id": "eternal-haven-book-v-unwritten-seal-v1",
+  "generated_at": "2026-08-16T04:14:23.219511+00:00",
+  "status": "LIVE_EBOOK",
+  "distribution": {
+    "channel": "Lulu Ebook",
+    "format": "EPUB",
+    "global_distribution": "pending_or_in_progress",
+    "hardcover_paperback": "planned_after_ebook_distribution_clears",
+    "product_url": "https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html",
+    "product_id": "65kg2mr",
+    "publication_date": "2026-08-16",
+    "accessibility": "WCAG 2.0 Level AA (publisher-declared)",
+    "print_status": "WRAP_COVER_PREPARED_EST_450_PAGES",
+    "print_note": "Spine estimate 450 pages Lulu formula; re-run after interior page count known"
+  },
+  "work": {
+    "title": "The Unwritten Seal",
+    "subtitle": "Eternal Haven Chronicles — Book V",
+    "series": "Eternal Haven Chronicles",
+    "volume": 5,
+    "author": "Justin Helmer",
+    "language": "en",
+    "isbn_ebook": "978-1-0698232-9-8",
+    "isbn_bare": "9781069823298",
+    "category": "Fiction",
+    "bisac_hint": [
+      "FICTION / Fantasy / Epic",
+      "FICTION / Fantasy / Dark",
+      "FICTION / Action & Adventure"
+    ],
+    "keywords": [
+      "epic fantasy",
+      "dark fantasy",
+      "gods",
+      "magic"
+    ]
+  },
+  "lore_anchors": {
+    "seal": "Unwritten Seal",
+    "antagonist_shape": "Hollow Index",
+    "practice": "Open Continuance",
+    "places": [
+      "Vellum Reach",
+      "Chordfall",
+      "City of Open Temples",
+      "Ridge of Continuance"
+    ],
+    "cast": [
+      "Nahl",
+      "Kael Riven",
+      "Mira",
+      "Corvath",
+      "Aureon",
+      "Lightfather"
+    ],
+    "next_volume_teaser": "The Remainder Road (Book VI)"
+  },
+  "local_authority": {
+    "manuscript_root": "J:\\FULL ADUIO BOOKS\\Book 5",
+    "lulu_ready": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY",
+    "units": 46,
+    "artifacts": [
+      {
+        "label": "epub",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\BOOK_V_THE_UNWRITTEN_SEAL.epub",
+        "sha256": "939871ca1db374396c2f312a71f2b037d068190ea332d4c35c3e8cb62d9cbc88",
+        "size_bytes": 1483152
+      },
+      {
+        "label": "ebook_cover",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\LULU_EBOOK_COVER_The_Unwritten_Seal.jpg",
+        "sha256": "dcc798155cf4d296f7fd8784525937f6690ce48f0c1c687aadf7006574eda66a",
+        "size_bytes": 987695
+      },
+      {
+        "label": "interior_docx",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\BOOK_V_THE_UNWRITTEN_SEAL_LULU_INTERIOR.docx",
+        "sha256": "79d3af37d1a18fff9d986089339343dcdf3c24f7b8f5889685c91bb460fae7cc",
+        "size_bytes": 1462680
+      },
+      {
+        "label": "source_cover",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\art\\COVER_The_Unwritten_Seal.jpg",
+        "sha256": "ad913bb18f2885379d3b52404bd4149c0104bf3a4362c8b733287517fc939598",
+        "size_bytes": 415281
+      },
+      {
+        "label": "metadata_md",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\LULU_EBOOK_METADATA.md",
+        "sha256": "c936ac7cad626ec88127f274946beb44df26be593ed0a956a9a8153f3967bada",
+        "size_bytes": 5345
+      },
+      {
+        "label": "a11y_md",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\ACCESSIBILITY_WCAG_AA.md",
+        "sha256": "9353190ea497656d701ebbe5479efe7c3583c6a004938c0f3be2ffb99d8a4751",
+        "size_bytes": 1685
+      },
+      {
+        "label": "print_wrap_pdf",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\LULU_PRINT_WRAP_COVER_The_Unwritten_Seal.pdf",
+        "sha256": "39e1ac9cbfad88cef29d653eedb76bcef2f22a0f8519ecd6694b91b251956cec",
+        "size_bytes": 772031
+      },
+      {
+        "label": "print_wrap_jpg",
+        "path": "J:\\FULL ADUIO BOOKS\\Book 5\\LULU_READY\\LULU_PRINT_WRAP_COVER_The_Unwritten_Seal.jpg",
+        "sha256": "cd2e548fe8b705a1407e40a1f43c9298565edfe04df352ffaac7734da7437bcd",
+        "size_bytes": 1380167
+      }
+    ]
+  },
+  "lattice": {
+    "skill_chain": [
+      "lygo-kernel-egg-planter",
+      "lygo-protocol-stack-operator",
+      "book-brain"
+    ],
+    "public_pages": [
+      "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "https://eternalhaven.ca"
+    ],
+    "note": "Local kernel egg + lattice intel update. No auto git/HF/ClawHub publish."
+  },
+  "content_sha256": "f405d77782ee2cf10e2f83a4b30a98d6b117b58281452fedbf85b2d737487ffa",
+  "artifact_merkle": "c514f792b781af0a1f2436908ad86754968629e0a3db7f050b21de6effffda05"
+}

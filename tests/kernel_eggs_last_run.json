@@ -2,183 +2,238 @@
   "signature": "\u03949\u03a6963-KERNEL-EGG-VERIFY-v1",
   "all_pass": true,
   "verdict": "ALIGNED",
-  "registry_merkle_root": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+  "registry_merkle_root": "75ec033a111f8222659306c27145e2eedd8792bb88174a7ce55589933ddd22f3",
   "checks": [
     {
       "id": "egg-bin-p0-nano-kernel",
       "pass": true,
-      "expected_sha256": "7b7acb4aade6e559",
-      "actual_sha256": "7b7acb4aade6e559"
+      "expected_sha256": "e4d1aa2c24a97314",
+      "actual_sha256": "e4d1aa2c24a97314"
     },
     {
       "id": "egg-bin-stack-anchor-hook",
       "pass": true,
-      "expected_sha256": "b8f9e46f8bc7a42e",
-      "actual_sha256": "b8f9e46f8bc7a42e"
+      "expected_sha256": "ba0164fc725243a1",
+      "actual_sha256": "ba0164fc725243a1"
     },
     {
       "id": "egg-bin-stack-orchestrator-slim",
       "pass": true,
-      "expected_sha256": "3aa0c66418bea0ef",
-      "actual_sha256": "3aa0c66418bea0ef"
+      "expected_sha256": "d6959478f6682aa4",
+      "actual_sha256": "d6959478f6682aa4"
     },
     {
       "id": "egg-bin-lattice-soa-index",
       "pass": true,
-      "expected_sha256": "c81d963c9c4b0622",
-      "actual_sha256": "c81d963c9c4b0622"
+      "expected_sha256": "7944f4ade9fe1447",
+      "actual_sha256": "7944f4ade9fe1447"
     },
     {
       "id": "egg-bin-excavationpro-music-catalog-v1",
       "pass": true,
-      "expected_sha256": "26f2ae25a2bd9c65",
-      "actual_sha256": "26f2ae25a2bd9c65"
+      "expected_sha256": "9a813a3f0713baa1",
+      "actual_sha256": "9a813a3f0713baa1"
     },
     {
       "id": "egg-bin-excavationpro-music-vault-v1",
       "pass": true,
-      "expected_sha256": "8327186b1da7e1d4",
-      "actual_sha256": "8327186b1da7e1d4"
+      "expected_sha256": "f7ab340fb34e86d4",
+      "actual_sha256": "f7ab340fb34e86d4"
     },
     {
       "id": "egg-bin-excavationpro-music-lattice-skill-v1",
       "pass": true,
-      "expected_sha256": "4c59d7ebcb81f7d9",
-      "actual_sha256": "4c59d7ebcb81f7d9"
+      "expected_sha256": "b7130adfd11f49ce",
+      "actual_sha256": "b7130adfd11f49ce"
     },
     {
       "id": "egg-bin-firmware-p04-drivers",
       "pass": true,
-      "expected_sha256": "3f1bddd766dc7432",
-      "actual_sha256": "3f1bddd766dc7432"
+      "expected_sha256": "3c96eadf7fbf8b41",
+      "actual_sha256": "3c96eadf7fbf8b41"
     },
     {
       "id": "egg-bin-protocol-drivers-p2-p5",
       "pass": true,
-      "expected_sha256": "0f3788ce8221d81e",
-      "actual_sha256": "0f3788ce8221d81e"
+      "expected_sha256": "b3f0ef4dc6bd4041",
+      "actual_sha256": "b3f0ef4dc6bd4041"
     },
     {
       "id": "egg-bin-joy-loop-protocol-v21",
       "pass": true,
-      "expected_sha256": "ca948885f79c6da6",
-      "actual_sha256": "ca948885f79c6da6"
+      "expected_sha256": "e1e679f573418afa",
+      "actual_sha256": "e1e679f573418afa"
     },
     {
       "id": "egg-bin-lygo-second-brain-v10",
       "pass": true,
-      "expected_sha256": "a5700c0ec56b402f",
-      "actual_sha256": "a5700c0ec56b402f"
+      "expected_sha256": "ff87f90c1ba51788",
+      "actual_sha256": "ff87f90c1ba51788"
     },
     {
       "id": "egg-bin-lygo-sandcastle-v10",
       "pass": true,
-      "expected_sha256": "d2c5d47a6d74c0f0",
-      "actual_sha256": "d2c5d47a6d74c0f0"
+      "expected_sha256": "f42d03e3626cb402",
+      "actual_sha256": "f42d03e3626cb402"
     },
     {
       "id": "egg-bin-lygo-openclaw-v10",
       "pass": true,
-      "expected_sha256": "4e063dcc47be2457",
-      "actual_sha256": "4e063dcc47be2457"
+      "expected_sha256": "0bf66df090d27b0f",
+      "actual_sha256": "0bf66df090d27b0f"
     },
     {
       "id": "egg-bin-lygo-lpis-v10",
       "pass": true,
-      "expected_sha256": "a20919f2d9ded44d",
-      "actual_sha256": "a20919f2d9ded44d"
+      "expected_sha256": "c75471f999d2e359",
+      "actual_sha256": "c75471f999d2e359"
     },
     {
       "id": "egg-bin-lygo-ops-detector-v1",
       "pass": true,
-      "expected_sha256": "53513bbfe4d498e6",
-      "actual_sha256": "53513bbfe4d498e6"
+      "expected_sha256": "cde2c38efa711568",
+      "actual_sha256": "cde2c38efa711568"
+    },
+    {
+      "id": "egg-bin-lygo-context-guard-v1",
+      "pass": true,
+      "expected_sha256": "8024bdeb6557bcee",
+      "actual_sha256": "8024bdeb6557bcee"
+    },
+    {
+      "id": "egg-bin-lygo-skill-gate-v1",
+      "pass": true,
+      "expected_sha256": "9f642870a4941f97",
+      "actual_sha256": "9f642870a4941f97"
+    },
+    {
+      "id": "egg-bin-lygo-skill-spector-v1",
+      "pass": true,
+      "expected_sha256": "68ca4526b8625021",
+      "actual_sha256": "68ca4526b8625021"
+    },
+    {
+      "id": "egg-bin-lygo-continuum-v1",
+      "pass": true,
+      "expected_sha256": "a1acdc93b8b47d0a",
+      "actual_sha256": "a1acdc93b8b47d0a"
+    },
+    {
+      "id": "egg-bin-eternal-haven-book-v-unwritten-seal-v1",
+      "pass": true,
+      "expected_sha256": "6c1aa37c7da0649d",
+      "actual_sha256": "6c1aa37c7da0649d"
     },
     {
       "id": "registry-merkle-root",
       "pass": true,
-      "declared": "bd6249a36c10cf67",
-      "recomputed": "bd6249a36c10cf67"
+      "declared": "75ec033a111f8222",
+      "recomputed": "75ec033a111f8222"
     },
     {
       "id": "anchor-p0-nano-kernel",
       "pass": true,
-      "content_sha256": "7b7acb4aade6e559"
+      "content_sha256": "e4d1aa2c24a97314"
     },
     {
       "id": "anchor-stack-anchor-hook",
       "pass": true,
-      "content_sha256": "b8f9e46f8bc7a42e"
+      "content_sha256": "ba0164fc725243a1"
     },
     {
       "id": "anchor-stack-orchestrator-slim",
       "pass": true,
-      "content_sha256": "3aa0c66418bea0ef"
+      "content_sha256": "d6959478f6682aa4"
     },
     {
       "id": "anchor-lattice-soa-index",
       "pass": true,
-      "content_sha256": "c81d963c9c4b0622"
+      "content_sha256": "7944f4ade9fe1447"
     },
     {
       "id": "anchor-excavationpro-music-catalog-v1",
       "pass": true,
-      "content_sha256": "26f2ae25a2bd9c65"
+      "content_sha256": "9a813a3f0713baa1"
     },
     {
       "id": "anchor-excavationpro-music-vault-v1",
       "pass": true,
-      "content_sha256": "8327186b1da7e1d4"
+      "content_sha256": "f7ab340fb34e86d4"
     },
     {
       "id": "anchor-excavationpro-music-lattice-skill-v1",
       "pass": true,
-      "content_sha256": "4c59d7ebcb81f7d9"
+      "content_sha256": "b7130adfd11f49ce"
     },
     {
       "id": "anchor-firmware-p04-drivers",
       "pass": true,
-      "content_sha256": "3f1bddd766dc7432"
+      "content_sha256": "3c96eadf7fbf8b41"
     },
     {
       "id": "anchor-protocol-drivers-p2-p5",
       "pass": true,
-      "content_sha256": "0f3788ce8221d81e"
+      "content_sha256": "b3f0ef4dc6bd4041"
     },
     {
       "id": "anchor-joy-loop-protocol-v21",
       "pass": true,
-      "content_sha256": "ca948885f79c6da6"
+      "content_sha256": "e1e679f573418afa"
     },
     {
       "id": "anchor-lygo-second-brain-v10",
       "pass": true,
-      "content_sha256": "a5700c0ec56b402f"
+      "content_sha256": "ff87f90c1ba51788"
     },
     {
       "id": "anchor-lygo-sandcastle-v10",
       "pass": true,
-      "content_sha256": "d2c5d47a6d74c0f0"
+      "content_sha256": "f42d03e3626cb402"
     },
     {
       "id": "anchor-lygo-openclaw-v10",
       "pass": true,
-      "content_sha256": "4e063dcc47be2457"
+      "content_sha256": "0bf66df090d27b0f"
     },
     {
       "id": "anchor-lygo-lpis-v10",
       "pass": true,
-      "content_sha256": "a20919f2d9ded44d"
+      "content_sha256": "c75471f999d2e359"
     },
     {
       "id": "anchor-lygo-ops-detector-v1",
       "pass": true,
-      "content_sha256": "53513bbfe4d498e6"
+      "content_sha256": "cde2c38efa711568"
+    },
+    {
+      "id": "anchor-lygo-context-guard-v1",
+      "pass": true,
+      "content_sha256": "8024bdeb6557bcee"
+    },
+    {
+      "id": "anchor-lygo-skill-gate-v1",
+      "pass": true,
+      "content_sha256": "9f642870a4941f97"
+    },
+    {
+      "id": "anchor-lygo-skill-spector-v1",
+      "pass": true,
+      "content_sha256": "68ca4526b8625021"
+    },
+    {
+      "id": "anchor-lygo-continuum-v1",
+      "pass": true,
+      "content_sha256": "a1acdc93b8b47d0a"
+    },
+    {
+      "id": "anchor-eternal-haven-book-v-unwritten-seal-v1",
+      "pass": true,
+      "content_sha256": "6c1aa37c7da0649d"
     },
     {
       "id": "anchor-registry-manifest",
       "pass": true
     }
   ],
-  "timestamp": 1785082431.4941156
+  "timestamp": 1786853898.2642636
 }

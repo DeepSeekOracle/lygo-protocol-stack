@@ -79,10 +79,11 @@ class ArweaveTurboAnchor:
     def upload(self, data: bytes, payload_id: str, tags: list[dict[str, str]] | None = None) -> dict[str, Any]:
         if len(data) > self.profile.free_max_bytes:
             return {"success": False, "error": "exceeds_free_tier", "size": len(data)}
+        # HTTP headers must be latin-1 / ASCII-safe (Δ breaks requests)
         headers = {
             "Content-Type": "application/octet-stream",
-            "X-LYGO-Signature": "Δ9Φ963-PERMAWEB-ANCHOR",
-            "X-LYGO-Payload-ID": payload_id,
+            "X-LYGO-Signature": "Delta9Phi963-PERMAWEB-ANCHOR",
+            "X-LYGO-Payload-ID": payload_id[:200],
         }
         last_err = ""
         for url in (self.profile.turbo_data_url, self.profile.turbo_upload_url):

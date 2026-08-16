@@ -144,3 +144,15 @@ See `lygo-ollama-army/ARMY_TASKS.md` and **`ollama_command_center/`** (sentinel,
 - Directive: Ignore USB; lattice + external only. These seals exist forever outside any single local.
 
 [END 2026-07-06 LATTICE SEAL INDEX CONFIRMATION]
+
+## LIVE publication — Eternal Haven Book V (2026-08-16)
+
+- **Title:** The Unwritten Seal (Eternal Haven Chronicles — Book V)
+- **Author:** Justin Helmer
+- **Ebook (Lulu):** https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html
+- **ISBN:** 978-1-0698232-9-8
+- **Kernel egg:** ternal-haven-book-v-unwritten-seal-v1
+- **Local catalog:** data/eternal_haven_books/
+- **Status:** LIVE_EBOOK; print/hardcopy after distribution clears
+- **Accessibility:** WCAG 2.0 Level AA (publisher-declared)
+

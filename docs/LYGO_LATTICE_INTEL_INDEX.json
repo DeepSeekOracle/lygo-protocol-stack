@@ -1,7 +1,7 @@
 {
   "signature": "Δ9Φ963-LATTICE-INTEL-INDEX-v1",
   "role": "Lattice architect fast lookup — outer brain for I:\\E Drive (no secrets)",
-  "updated_utc": "2026-07-29T17:23:59.292834+00:00",
+  "updated_utc": "2026-08-16",
   "authority_root": "I:\\E Drive",
   "canonical_repo": "I:\\E Drive\\lygo-protocol-stack",
   "query_hints": [
@@ -545,6 +545,33 @@
       ],
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
       "updated_utc": "2026-07-29T17:23:59.292834+00:00"
+    },
+    {
+      "id": "eternal-haven-book-v-unwritten-seal",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-protocol-stack\\data\\eternal_haven_books",
+      "repo_path": "data/eternal_haven_books",
+      "urls": {
+        "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html",
+        "eternal_haven": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html"
+      },
+      "tags": [
+        "eternal-haven",
+        "book-v",
+        "unwritten-seal",
+        "ebook",
+        "lulu",
+        "live",
+        "kernel-egg",
+        "fiction",
+        "fantasy",
+        "isbn-9781069823298"
+      ],
+      "summary": "LIVE Lulu ebook: The Unwritten Seal (Eternal Haven Chronicles Book V) by Justin Helmer. ISBN 978-1-0698232-9-8. Product 65kg2mr. WCAG 2.0 AA declared. Kernel egg eternal-haven-book-v-unwritten-seal-v1. Print after ebook distribution clears.",
+      "egg_id": "eternal-haven-book-v-unwritten-seal-v1",
+      "isbn": "978-1-0698232-9-8",
+      "status": "LIVE_EBOOK",
+      "local_manuscript": "J:\\FULL ADUIO BOOKS\\Book 5"
     }
   ],
   "integration_gaps": [

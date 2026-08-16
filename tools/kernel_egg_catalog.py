@@ -130,6 +130,16 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("security_doc", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "references" / "SECURITY.md"),
         ("quickstart", REPO / "clawhub" / "mirrors" / "lygo-continuum" / "examples" / "quickstart.md"),
     ],
+    "eternal-haven-book-v-unwritten-seal-v1": [
+        (
+            "book_v_core",
+            REPO / "data/eternal_haven_books/egg_payload/book_v_unwritten_seal_core.json",
+        ),
+        ("book_v_readme", REPO / "data/eternal_haven_books/egg_payload/README.md"),
+        ("book_v_live_receipt", REPO / "data/eternal_haven_books/BOOK_V_THE_UNWRITTEN_SEAL_LIVE.md"),
+        ("series_registry", REPO / "data/eternal_haven_books/series_registry.json"),
+        ("content_sha_pin", REPO / "data/eternal_haven_books/book_v_content_sha256.txt"),
+    ],
 }
 
 RETRIEVAL_SOA = {

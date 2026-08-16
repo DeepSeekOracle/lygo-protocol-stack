@@ -3,28 +3,28 @@
     {
       "egg_id": "p0-nano-kernel",
       "payload_id": "kernel_egg_p0-nano-kernel",
-      "content_sha256": "e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19.json",
+      "content_sha256": "e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c.json",
       "service": "LYGO-Local-CA",
       "success": true,
       "size_bytes": 6447,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c.json",
         "description": "KERNEL_EGG:p0-nano-kernel",
         "all_services": [
           {
             "success": true,
-            "id": "e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19.json",
+            "id": "e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c.json",
             "service": "LYGO-Local-CA",
             "size_bytes": 6447,
-            "timestamp": 1783935672.7140543,
+            "timestamp": 1786853897.4569204,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c.json",
               "description": "KERNEL_EGG:p0-nano-kernel"
             },
             "error": null,
-            "content_sha256": "e84aeafece121eaf0610b7e506a4cada2a717d441d4707d53b268be4860aee19"
+            "content_sha256": "e4d1aa2c24a97314d9a1ba13a0c6838f482b0fe6f157fea751109f657b89596c"
           }
         ]
       }
@@ -32,28 +32,28 @@
     {
       "egg_id": "stack-anchor-hook",
       "payload_id": "kernel_egg_stack-anchor-hook",
-      "content_sha256": "6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec.json",
+      "content_sha256": "ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 7922,
+      "size_bytes": 8596,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873.json",
         "description": "KERNEL_EGG:stack-anchor-hook",
         "all_services": [
           {
             "success": true,
-            "id": "6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec.json",
+            "id": "ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 7922,
-            "timestamp": 1783935682.445548,
+            "size_bytes": 8596,
+            "timestamp": 1786853897.5072575,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873.json",
               "description": "KERNEL_EGG:stack-anchor-hook"
             },
             "error": null,
-            "content_sha256": "6a808781869295255210b149e9d91b434b15c0e2c9fee767173e642f840c33ec"
+            "content_sha256": "ba0164fc725243a122248af41c228ae9cdc95b555924d0d916152d46b2021873"
           }
         ]
       }
@@ -61,28 +61,28 @@
     {
       "egg_id": "stack-orchestrator-slim",
       "payload_id": "kernel_egg_stack-orchestrator-slim",
-      "content_sha256": "1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f.json",
+      "content_sha256": "d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99.json",
       "service": "LYGO-Local-CA",
       "success": true,
       "size_bytes": 10399,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99.json",
         "description": "KERNEL_EGG:stack-orchestrator-slim",
         "all_services": [
           {
             "success": true,
-            "id": "1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f.json",
+            "id": "d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99.json",
             "service": "LYGO-Local-CA",
             "size_bytes": 10399,
-            "timestamp": 1783935692.0691922,
+            "timestamp": 1786853897.5315406,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99.json",
               "description": "KERNEL_EGG:stack-orchestrator-slim"
             },
             "error": null,
-            "content_sha256": "1a92bc5606a6fc1ba4541aa69fca72e31f135fa57df0a5897ce3009cf020767f"
+            "content_sha256": "d6959478f6682aa43e629f5a32b7ba09a61e35e281b64fad6853334f1f3f8c99"
           }
         ]
       }
@@ -90,28 +90,115 @@
     {
       "egg_id": "lattice-soa-index",
       "payload_id": "kernel_egg_lattice-soa-index",
-      "content_sha256": "b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171.json",
+      "content_sha256": "7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 12762,
+      "size_bytes": 13343,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4.json",
         "description": "KERNEL_EGG:lattice-soa-index",
         "all_services": [
           {
             "success": true,
-            "id": "b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171.json",
+            "id": "7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 12762,
-            "timestamp": 1783935701.7629156,
+            "size_bytes": 13343,
+            "timestamp": 1786853897.5556037,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4.json",
               "description": "KERNEL_EGG:lattice-soa-index"
             },
             "error": null,
-            "content_sha256": "b17897e237e85b05112a03fb52bf539df0aceee0559255709115cbb772396171"
+            "content_sha256": "7944f4ade9fe1447c102f4596129e4253efce177b79c1f9cbc989f1ca4828cf4"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "excavationpro-music-catalog-v1",
+      "payload_id": "kernel_egg_excavationpro-music-catalog-v1",
+      "content_sha256": "9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 9003,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba.json",
+        "description": "KERNEL_EGG:excavationpro-music-catalog-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 9003,
+            "timestamp": 1786853897.582241,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba.json",
+              "description": "KERNEL_EGG:excavationpro-music-catalog-v1"
+            },
+            "error": null,
+            "content_sha256": "9a813a3f0713baa1b5aadd36c0a32d98628ccacbe8c9be470968b4b4cc356cba"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "excavationpro-music-vault-v1",
+      "payload_id": "kernel_egg_excavationpro-music-vault-v1",
+      "content_sha256": "f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 7985,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704.json",
+        "description": "KERNEL_EGG:excavationpro-music-vault-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 7985,
+            "timestamp": 1786853897.6091092,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704.json",
+              "description": "KERNEL_EGG:excavationpro-music-vault-v1"
+            },
+            "error": null,
+            "content_sha256": "f7ab340fb34e86d4187721a43a8587e8501e9778059c118fbbebe5644f8b8704"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "excavationpro-music-lattice-skill-v1",
+      "payload_id": "kernel_egg_excavationpro-music-lattice-skill-v1",
+      "content_sha256": "b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 10537,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4.json",
+        "description": "KERNEL_EGG:excavationpro-music-lattice-skill-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 10537,
+            "timestamp": 1786853897.6404357,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4.json",
+              "description": "KERNEL_EGG:excavationpro-music-lattice-skill-v1"
+            },
+            "error": null,
+            "content_sha256": "b7130adfd11f49cea3c55ac0a46c2190e1e02c4df6a357493803a5e3f5d1a9e4"
           }
         ]
       }
@@ -119,28 +206,28 @@
     {
       "egg_id": "firmware-p04-drivers",
       "payload_id": "kernel_egg_firmware-p04-drivers",
-      "content_sha256": "1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc.json",
+      "content_sha256": "3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523.json",
       "service": "LYGO-Local-CA",
       "success": true,
       "size_bytes": 12167,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523.json",
         "description": "KERNEL_EGG:firmware-p04-drivers",
         "all_services": [
           {
             "success": true,
-            "id": "1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc.json",
+            "id": "3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523.json",
             "service": "LYGO-Local-CA",
             "size_bytes": 12167,
-            "timestamp": 1783935711.4852803,
+            "timestamp": 1786853897.6647925,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523.json",
               "description": "KERNEL_EGG:firmware-p04-drivers"
             },
             "error": null,
-            "content_sha256": "1912221bc3393da5e4e3405c0a693fa64a1a741f38f1858003c234e7055f90dc"
+            "content_sha256": "3c96eadf7fbf8b4128dca024b64f127b4d6e1dd391857d75587ba5fad296a523"
           }
         ]
       }
@@ -148,28 +235,28 @@
     {
       "egg_id": "protocol-drivers-p2-p5",
       "payload_id": "kernel_egg_protocol-drivers-p2-p5",
-      "content_sha256": "631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e.json",
+      "content_sha256": "b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 10451,
+      "size_bytes": 10449,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1.json",
         "description": "KERNEL_EGG:protocol-drivers-p2-p5",
         "all_services": [
           {
             "success": true,
-            "id": "631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e.json",
+            "id": "b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 10451,
-            "timestamp": 1783935721.243093,
+            "size_bytes": 10449,
+            "timestamp": 1786853897.6914444,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1.json",
               "description": "KERNEL_EGG:protocol-drivers-p2-p5"
             },
             "error": null,
-            "content_sha256": "631a4768252b223be5399e371e61d6fc642bf8d95c1a1db28f6f963aa36ea23e"
+            "content_sha256": "b3f0ef4dc6bd4041cff69a8ae0f529bc6c2a964476620012879bc96b108f14d1"
           }
         ]
       }
@@ -177,28 +264,28 @@
     {
       "egg_id": "joy-loop-protocol-v21",
       "payload_id": "kernel_egg_joy-loop-protocol-v21",
-      "content_sha256": "ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c.json",
+      "content_sha256": "e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 3369,
+      "size_bytes": 3365,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2.json",
         "description": "KERNEL_EGG:joy-loop-protocol-v21",
         "all_services": [
           {
             "success": true,
-            "id": "ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c.json",
+            "id": "e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 3369,
-            "timestamp": 1783935730.971022,
+            "size_bytes": 3365,
+            "timestamp": 1786853897.720202,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2.json",
               "description": "KERNEL_EGG:joy-loop-protocol-v21"
             },
             "error": null,
-            "content_sha256": "ef55b073b03bb515d98680894716407ef74d58a82facca2aea79043506b9283c"
+            "content_sha256": "e1e679f573418afabbd479b02878606bb25fc9bec9311b10f5816ffd308c2ea2"
           }
         ]
       }
@@ -206,28 +293,28 @@
     {
       "egg_id": "lygo-second-brain-v10",
       "payload_id": "kernel_egg_lygo-second-brain-v10",
-      "content_sha256": "09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385.json",
+      "content_sha256": "ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 10880,
+      "size_bytes": 10883,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876.json",
         "description": "KERNEL_EGG:lygo-second-brain-v10",
         "all_services": [
           {
             "success": true,
-            "id": "09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385.json",
+            "id": "ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 10880,
-            "timestamp": 1783935740.675449,
+            "size_bytes": 10883,
+            "timestamp": 1786853897.7461476,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876.json",
               "description": "KERNEL_EGG:lygo-second-brain-v10"
             },
             "error": null,
-            "content_sha256": "09b9b35eeb18661e318ffaee2a621cb755f2d690a18198e38a843a2120aeb385"
+            "content_sha256": "ff87f90c1ba51788ee07eefb257eb74c6876f7d86944e47ad37b736f050aa876"
           }
         ]
       }
@@ -235,28 +322,28 @@
     {
       "egg_id": "lygo-sandcastle-v10",
       "payload_id": "kernel_egg_lygo-sandcastle-v10",
-      "content_sha256": "8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce.json",
+      "content_sha256": "f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e.json",
       "service": "LYGO-Local-CA",
       "success": true,
       "size_bytes": 6979,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e.json",
         "description": "KERNEL_EGG:lygo-sandcastle-v10",
         "all_services": [
           {
             "success": true,
-            "id": "8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce.json",
+            "id": "f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e.json",
             "service": "LYGO-Local-CA",
             "size_bytes": 6979,
-            "timestamp": 1783935750.318005,
+            "timestamp": 1786853897.775321,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e.json",
               "description": "KERNEL_EGG:lygo-sandcastle-v10"
             },
             "error": null,
-            "content_sha256": "8b447214668e34c84c1121b6f9d7adca0c088986bffd2d2aa37b1fefb47433ce"
+            "content_sha256": "f42d03e3626cb402bf4a011252bcfb2bd4d8b52b6a572ce6c6d83df4f606c57e"
           }
         ]
       }
@@ -264,28 +351,28 @@
     {
       "egg_id": "lygo-openclaw-v10",
       "payload_id": "kernel_egg_lygo-openclaw-v10",
-      "content_sha256": "281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2.json",
+      "content_sha256": "0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 8137,
+      "size_bytes": 8360,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581.json",
         "description": "KERNEL_EGG:lygo-openclaw-v10",
         "all_services": [
           {
             "success": true,
-            "id": "281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2.json",
+            "id": "0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 8137,
-            "timestamp": 1783935759.992592,
+            "size_bytes": 8360,
+            "timestamp": 1786853897.803356,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581.json",
               "description": "KERNEL_EGG:lygo-openclaw-v10"
             },
             "error": null,
-            "content_sha256": "281b49ded717f8879fd1689b7850c3d997b82955530b91c9d97d4de79e7d40e2"
+            "content_sha256": "0bf66df090d27b0f56f72aa018fa82e2074572b457f01f6a665f70faf186b581"
           }
         ]
       }
@@ -293,28 +380,28 @@
     {
       "egg_id": "lygo-lpis-v10",
       "payload_id": "kernel_egg_lygo-lpis-v10",
-      "content_sha256": "bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606.json",
+      "content_sha256": "c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 7725,
+      "size_bytes": 7723,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6.json",
         "description": "KERNEL_EGG:lygo-lpis-v10",
         "all_services": [
           {
             "success": true,
-            "id": "bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606.json",
+            "id": "c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 7725,
-            "timestamp": 1783935769.6547446,
+            "size_bytes": 7723,
+            "timestamp": 1786853897.8374157,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6.json",
               "description": "KERNEL_EGG:lygo-lpis-v10"
             },
             "error": null,
-            "content_sha256": "bc4b39d0cba4a311e8de65b66413437df8f7629d7dc68987755a7d647526d606"
+            "content_sha256": "c75471f999d2e3590a06a30f576fa6dee1fe4591ba6f51755ca8fdb52f9a3ff6"
           }
         ]
       }
@@ -322,28 +409,173 @@
     {
       "egg_id": "lygo-ops-detector-v1",
       "payload_id": "kernel_egg_lygo-ops-detector-v1",
-      "content_sha256": "be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614",
-      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614.json",
+      "content_sha256": "cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62.json",
       "service": "LYGO-Local-CA",
       "success": true,
-      "size_bytes": 9737,
+      "size_bytes": 8236,
       "metadata": {
-        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614.json",
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62.json",
         "description": "KERNEL_EGG:lygo-ops-detector-v1",
         "all_services": [
           {
             "success": true,
-            "id": "be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614",
-            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614.json",
+            "id": "cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62.json",
             "service": "LYGO-Local-CA",
-            "size_bytes": 9737,
-            "timestamp": 1783935779.3636806,
+            "size_bytes": 8236,
+            "timestamp": 1786853897.8634756,
             "metadata": {
-              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614.json",
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62.json",
               "description": "KERNEL_EGG:lygo-ops-detector-v1"
             },
             "error": null,
-            "content_sha256": "be54b5a125dcdf3ef497cf3cd3b28c46ea545889f627b53025d4e3288bf5c614"
+            "content_sha256": "cde2c38efa7115687a7ace611f3650ab8fb961f34c3ebda91ea6e75704968f62"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "lygo-context-guard-v1",
+      "payload_id": "kernel_egg_lygo-context-guard-v1",
+      "content_sha256": "8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 12522,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123.json",
+        "description": "KERNEL_EGG:lygo-context-guard-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 12522,
+            "timestamp": 1786853897.8984604,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123.json",
+              "description": "KERNEL_EGG:lygo-context-guard-v1"
+            },
+            "error": null,
+            "content_sha256": "8024bdeb6557bcee1bb8b95259356c7e8d6dea435640cfaaf584a390bc0cb123"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "lygo-skill-gate-v1",
+      "payload_id": "kernel_egg_lygo-skill-gate-v1",
+      "content_sha256": "9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 12829,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf.json",
+        "description": "KERNEL_EGG:lygo-skill-gate-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 12829,
+            "timestamp": 1786853897.9238715,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf.json",
+              "description": "KERNEL_EGG:lygo-skill-gate-v1"
+            },
+            "error": null,
+            "content_sha256": "9f642870a4941f978ad72ee650f10c9be29c2c5b43d40c800d949037f225fdaf"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "lygo-skill-spector-v1",
+      "payload_id": "kernel_egg_lygo-skill-spector-v1",
+      "content_sha256": "68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 9745,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4.json",
+        "description": "KERNEL_EGG:lygo-skill-spector-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 9745,
+            "timestamp": 1786853897.9541764,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4.json",
+              "description": "KERNEL_EGG:lygo-skill-spector-v1"
+            },
+            "error": null,
+            "content_sha256": "68ca4526b86250214e6a99e65eb0ab39d30f2ee9f65c99d50b2792808bf366c4"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "lygo-continuum-v1",
+      "payload_id": "kernel_egg_lygo-continuum-v1",
+      "content_sha256": "a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 6512,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2.json",
+        "description": "KERNEL_EGG:lygo-continuum-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 6512,
+            "timestamp": 1786853897.977442,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2.json",
+              "description": "KERNEL_EGG:lygo-continuum-v1"
+            },
+            "error": null,
+            "content_sha256": "a1acdc93b8b47d0a390ba51f7d55405d8ad5f7ca50633b59287bfb24eb9a28b2"
+          }
+        ]
+      }
+    },
+    {
+      "egg_id": "eternal-haven-book-v-unwritten-seal-v1",
+      "payload_id": "kernel_egg_eternal-haven-book-v-unwritten-seal-v1",
+      "content_sha256": "6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b",
+      "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b.json",
+      "service": "LYGO-Local-CA",
+      "success": true,
+      "size_bytes": 5159,
+      "metadata": {
+        "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b.json",
+        "description": "KERNEL_EGG:eternal-haven-book-v-unwritten-seal-v1",
+        "all_services": [
+          {
+            "success": true,
+            "id": "6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b",
+            "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b.json",
+            "service": "LYGO-Local-CA",
+            "size_bytes": 5159,
+            "timestamp": 1786853898.005668,
+            "metadata": {
+              "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b.json",
+              "description": "KERNEL_EGG:eternal-haven-book-v-unwritten-seal-v1"
+            },
+            "error": null,
+            "content_sha256": "6c1aa37c7da0649d88bfdec5ee59a6d1c63c702aedac2b100108795de0a4e11b"
           }
         ]
       }

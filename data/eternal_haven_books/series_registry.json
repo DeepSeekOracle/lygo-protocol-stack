@@ -1,0 +1,18 @@
+{
+  "signature": "Δ9Φ963-ETERNAL-HAVEN-SERIES-REGISTRY-v1",
+  "updated_at": "2026-08-16T04:12:43.565911+00:00",
+  "series": "Eternal Haven Chronicles",
+  "author": "Justin Helmer",
+  "volumes": [
+    {
+      "volume": 5,
+      "title": "The Unwritten Seal",
+      "status": "LIVE_EBOOK",
+      "isbn": "978-1-0698232-9-8",
+      "lulu_url": "https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html",
+      "egg_id": "eternal-haven-book-v-unwritten-seal-v1",
+      "content_sha256": "f4bbc9c332048ed12074da117fd4d7dfbf0d1ebddbbb1021dbc8aa58fe2cc933",
+      "publication_date": "2026-08-16"
+    }
+  ]
+}
