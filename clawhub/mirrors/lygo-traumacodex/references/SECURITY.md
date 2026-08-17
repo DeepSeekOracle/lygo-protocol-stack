@@ -1,26 +1,31 @@
-# Security — TraumaCodex
+# Security — lygo-traumacodex 1.0.2 (ClawHub public)
 
-## Not medical
+## Audit response (SkillSpector findings addressed)
 
-This skill produces **lattice protocol seals** and audio waveforms from entropy maps.  
-It is **not** a medical device, diagnosis tool, or treatment.
+| Finding | Fix in 1.0.2 |
+|---------|----------------|
+| subprocess to external tool | **Removed.** No `subprocess` module usage. |
+| `LYGO_STACK_ROOT` → code exec | **Removed.** Env is ignored; no external script loading. |
+| Tool poisoning / outside package | All logic in `scripts/traumacodex_core.py` inside this package. |
+| Missing permissions | Declared in `claw.json` → `permissions`. |
+| Vague triggers | SKILL.md / description: when to run + not medical. |
 
-## Protect the user
+## Guarantees
 
-| Threat | Control |
-|--------|---------|
-| Biometric exfil | Online channel never includes raw IBI; only digests |
-| Secret leak | No tokens/keys in packages |
-| Forced mesh merge | Local offline package is authority |
-| Auto-publish | Never git/HF/ClawHub/social from skill |
-| Supply chain | Install from deepseekoracle; verify FULL zip SHA on SkillHub |
+- **No network**
+- **No subprocess / shell**
+- **No eval/exec of user code**
+- **No raw IBI stored** in packages (hash only)
+- **Not medical** — digests are protocol seals only
 
-## Network
+## Writes
 
-Default **offline**. `--seal-mesh` writes local badge only.  
-Optional living-mesh gossip uses **summaries only** (via lygo-living-mesh).
+| Flag | Destination |
+|------|-------------|
+| default | `./traumacodex_out` under current working directory |
+| `--out DIR` | User-chosen directory |
+| `--i-consent` without `--out` | skill `state/` only |
 
-## Dependencies
+## FULL stack channel
 
-- Public skill: stdlib + optional numpy for waveform  
-- Stack mode: `LYGO_STACK_ROOT` with P7 + P8 modules  
+Operator stack `tools/traumacodex_waveform.py` (P7/P8 modules, living-mesh badge) is **not** executed by this public skill. It lives on the LYGO stack / SkillHub FULL vault and is out of this package’s security boundary by design.

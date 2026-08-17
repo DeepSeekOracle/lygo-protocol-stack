@@ -1,31 +1,48 @@
 {
   "name": "lygo-traumacodex",
-  "displayName": "LYGO TraumaCodex (P7→P8→Layer D)",
-  "version": "1.0.0",
-  "description": "Map biometric entropy to P8 LDQ waveform, dual offline/online mirror dig, Layer D healing-code seals (protocol only). Offline-first; online summaries only.",
+  "displayName": "LYGO TraumaCodex",
+  "version": "1.0.2",
+  "description": "Run when user asks for TraumaCodex or IBI timing-list to dual offline/online digests and optional WAV. Pure local stdlib. No network, no subprocess, no external stack exec. Not medical.",
   "slug": "lygo-traumacodex",
   "publisher": "deepseekoracle",
   "license": "LYGO-Sovereign-v2.0",
   "homepage": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/TRAUMA_CODEX.md",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-traumacodex",
-  "signature": "Delta9Phi963-TRAUMACODEX-v1.0",
-  "tags": ["lygo", "lattice", "p7", "p8", "ldq", "traumacodex", "biometric", "living-mesh", "waveform"],
+  "signature": "Delta9Phi963-TRAUMACODEX-v1.0.2",
+  "tags": ["lygo", "traumacodex", "lattice", "digest", "waveform", "offline", "local", "security"],
   "entry": "SKILL.md",
   "scripts": {
     "run": "scripts/traumacodex_cli.py",
-    "verify": "scripts/traumacodex_cli.py"
+    "verify": "scripts/traumacodex_cli.py --verify",
+    "self_check": "scripts/self_check.py"
   },
   "openclaw": {
     "emoji": "🫀",
     "requires": { "anyBins": ["python", "python3"] },
     "os": ["windows", "macos", "linux"]
   },
+  "permissions": {
+    "network": false,
+    "subprocess": false,
+    "shell": false,
+    "filesystem": {
+      "read": "optional user --ibi-file only",
+      "write": "./traumacodex_out or --out DIR; skill state/ only with --i-consent"
+    },
+    "publish": false,
+    "environment": {
+      "LYGO_STACK_ROOT": "ignored — public skill never executes external stack tools"
+    }
+  },
   "security": {
-    "consent_required": false,
-    "protect_user": true,
-    "no_auto_publish": true,
     "local_first": true,
+    "no_auto_publish": true,
+    "no_subprocess": true,
+    "no_network": true,
+    "no_external_stack_exec": true,
+    "in_package_only": true,
     "not_medical": true,
-    "gossip_summaries_only": true
+    "consent_required_for_skill_state_writes": true,
+    "version": "1.0.2"
   }
 }

@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-FULL-LYGO-SKILLS-v2",
   "version": "2.0.0",
-  "updated_utc": "2026-08-17T16:21:41.260921+00:00",
+  "updated_utc": "2026-08-17T16:54:09.069314+00:00",
   "channel": "FULL_LYGO_ENGINEER",
   "clawhub": "never",
   "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
@@ -464,18 +464,19 @@
     },
     {
       "slug": "lygo-traumacodex",
-      "name": "TraumaCodex P7→P8→Layer D (FULL UNLOCKED)",
+      "name": "TraumaCodex (FULL UNLOCKED) + ClawHub-safe core",
       "package": "lygo-traumacodex-full",
       "zip": "lygo-traumacodex-full.zip",
       "zip_rel": "dist/lygo-traumacodex-full.zip",
-      "zip_sha256": "1ae3a0ef4ee1a94a67b650ae67e50c93aaac34ba3224937add9a876837c6a7dd",
-      "bytes": 9940,
+      "zip_sha256": "8539eb3e5ac6a564385382535ac49f83458d7b875917485ef14c9ed1eee98598",
+      "bytes": 15948,
       "file_count": 8,
       "role": "Biometric entropy → LDQ waveform → dual mirror dig → Layer D offline healing-code seals (protocol only)",
       "tier": "lattice",
       "featured": true,
       "harm_default": "self_policed_unlocked",
-      "source_path": "docs/lygo-full-skills/packages/lygo-traumacodex-full"
+      "source_path": "docs/lygo-full-skills/packages/lygo-traumacodex-full",
+      "version": "1.0.1"
     }
   ]
 }
