@@ -329,4 +329,15 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 - https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder
 - docs/SOVEREIGN_KERNEL_SEEDER.md
 
+## Public surfaces
+
+| | |
+|--|--|
+| **Pages hub** | https://deepseekoracle.github.io/lygo-protocol-stack/ |
+| **Traffic / all links** | https://deepseekoracle.github.io/lygo-protocol-stack/traffic-links.html |
+| **Star Chart** | https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html |
+| **SkillHub** | https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html |
+| **ClawHub** | https://clawhub.ai/deepseekoracle |
+| **Book V ebook** | https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html |
+| **Music listen** | https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html |
 
