@@ -27,7 +27,9 @@ python -m pytest protocol0_byte_entropy_filter/tests/ -q
 | **Multi-language ports** | ✅ | Python (canonical), C (`src/c/`), Rust (`src/rust/`), Verilog gate ROM (`src/hardware/lygo_gate.v` + Q16.16 helpers). **C harness:** requires `gcc` on PATH (SKIP on Windows without toolchain) |
 | **Pilot ready** | ✅ | **HF Space:** Standard beats isolated + **Twin Gate Phase 3** (text / byte / compare tabs). Bundle: `protocol_stack/` + `text_semantic_gate.py`. **Repo:** `process_ethical_query()` + [PILOT_SCENARIO_PHASE2.md](./PILOT_SCENARIO_PHASE2.md) + [LYGO_LATTICE.md](./LYGO_LATTICE.md) |
 | **Community open** | ✅ | Phase 2–5 Docker + mesh; **35** ClawHub skills (`lygo-mesh-deploy` @1.0.0, operator @1.0.4); [BLUEPRINT.md](./BLUEPRINT.md) |
-| **Phase 5 mesh** | ✅ (local proof) | 100-node epidemic sim **&lt;10 rounds** — `tests/mesh_scale_last_run.json`; HTTP `/gossip` + scatter on `node_api_server.py` |
+| **Phase 5 mesh** | ✅ (local **measured** proof) | 100-node epidemic sim **7–8 rounds** (target &lt;10) — `tests/mesh_scale_last_run.json`; not a claim of crash-free any-scale production; HTTP `/gossip` + scatter on `node_api_server.py` |
+| **Data Vault** | ✅ | Public multi-AI seal archive — `docs/data-vault/` · Pages `/data-vault/` |
+| **Continuum ship capsule** | ✅ | `data/continuum/bullet_resistant_capsule.json` (verify holds) |
 | **Layer D living mesh** | ✅ | `lygo-living-mesh` · `docs/LIVING_MESH_LAYER.md` · `tools/verify_living_mesh.py` · A–D roots badge gossip · ClawHub `/skills/lygo-living-mesh` |
 | **Layer E agent lattice** | ✅ | `lygo-agent-lattice` · `docs/AGENT_LATTICE.md` · secure aligned-agent presence gossip · hub `:8791` · ClawHub `/skills/lygo-agent-lattice` |
 | **Immutable Anchor** | ✅ | `tools/run_anchor_audit.py` → `tests/anchor_audit_last_run.json`; P1/SLM/stack hooks; `docs/ANCHOR_DEPLOYMENT.md` |

@@ -1,9 +1,19 @@
 {
-  "signature": "\u03949\u03a6963-NETWORK-BUILDER-ANCHORS-v1.5.1",
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.2",
   "skill_slug": "lygo-network-builder",
-  "anchors_sha256": "b776da5ef9bdd5d450630dec50cb9a2faaba5e2e0d60bf6fefc82fd902b21d4b",
-  "anchors_version": "1.5.1",
+  "anchors_sha256": "e1e235574868c9346e7d6ebfd27152996fc4a92a5c385054b5dbc79000c51e70",
+  "anchors_version": "1.6.2",
   "vectors": [
+    {
+      "id": "lygo_world_lattice_layer_doc",
+      "group": "physics",
+      "mode": "http_required",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
+    },
     {
       "id": "github_stack",
       "group": "physics",
@@ -12,7 +22,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
     },
     {
       "id": "hf_dataset",
@@ -31,7 +41,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
       "status": 200,
       "ok": true,
-      "bytes": 15900,
+      "bytes": 16819,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  \n  <meta name=\"google-adsense-account\" content=\"ca-pub-064"
     },
     {
@@ -41,8 +51,8 @@
       "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
       "status": 200,
       "ok": true,
-      "bytes": 44312,
-      "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Up"
+      "bytes": 45687,
+      "body_sample": "<!doctype html>\n<html class=\"\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\" />\n\n\t\t<meta name=\"description\" content=\"Th"
     },
     {
       "id": "excavationpro_resonance",
@@ -59,9 +69,10 @@
       "group": "creative",
       "mode": "http_soft",
       "url": "https://bpmfinder.ca/",
-      "status": null,
-      "ok": false,
-      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'bpmfinder.ca'. (_ssl.c:1028)>"
+      "status": 200,
+      "ok": true,
+      "bytes": 13775,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Free BPM Finder Guide \u2014 How to Detect Song Tempo Online | B"
     },
     {
       "id": "lygo_bpm_finder_stack",
@@ -92,6 +103,36 @@
       "note": "immutable link; no automated probe (vault TOS)"
     },
     {
+      "id": "lygo_music_license",
+      "group": "creative",
+      "mode": "http_required",
+      "url": "https://eternalhaven.ca/lygo-music-license.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 12285,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>LYGO / Excavationpro Music License v1.0 \u2014 Free List"
+    },
+    {
+      "id": "lygo_ascii_art_studio",
+      "group": "creative",
+      "mode": "http_required",
+      "url": "https://eternalhaven.ca/lygo-ascii-art.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 48055,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>LYGO ASCII Art Studio \u2014 Photo to Text Art | Free On"
+    },
+    {
+      "id": "lygo_sovereign_kernel_seeder",
+      "group": "sovereign_seed",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"Ace9eRQpxxzYAPFaHO2g0zox\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
       "id": "kernel_egg_page",
       "group": "sovereign_seed",
       "mode": "http_required",
@@ -109,7 +150,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
     },
     {
       "id": "kernel_egg_soa",
@@ -119,7 +160,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
     },
     {
       "id": "scalable_registry_doc",
@@ -152,6 +193,66 @@
       "note": "immutable link; no automated probe (vault TOS)"
     },
     {
+      "id": "clawhub_lygo_agent_lattice",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"oeLOz3SlI4EOsHMXeBBldDHV\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "clawhub_lygo_living_mesh",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"8iLqFotDsaT1m83w7mKE0olL\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "clawhub_lygo_external_lattice_anchor",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"0KwxMgvpuElYlP2/udNGYr2e\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "clawhub_lygo_sovereign_kernel_seeder",
+      "group": "agents",
+      "mode": "http_soft",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"Q8FrZJvIZ8FcQ4obNrduQ5v/\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "lygo_turbo_models_whitepaper",
+      "group": "agents",
+      "mode": "http_required",
+      "url": "https://eternalhaven.ca/lygo-turbo-models-whitepaper.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 17573,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>LYGO Turbo Models \u2014 Flagship Local AI Starting Line"
+    },
+    {
+      "id": "clawhub_lygo_ascii_art",
+      "group": "agents",
+      "mode": "http_required",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"7f3jLebiuUzI+2d/4GJd4qQa\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
       "id": "clawhub_publisher",
       "group": "agents",
       "mode": "http_soft",
@@ -159,7 +260,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"LrVUOy3YnL2xHzGE9N6uQYZe\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"HWrZeHvu1CFQmJN/gfnTAEff\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_network_builder_skill",
@@ -169,7 +270,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"6ElRX14L4vsDD+JlpUYDQ1oi\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"nZkoGAQVS3BJojFAMnSn1Tm0\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_haven_star_chart_skill",
@@ -179,7 +280,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"G2zxC7lVSPUKgAynUECal/Tv\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"OZGJlzpIBTNwXKJ3l2nGnyxs\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_champion_council",
@@ -189,7 +290,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"YYxRfESzstxBbk6HedXQrqj5\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"hOLIKg8htRoBbsSeqW3RbSe5\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "clawhub_lightfather",
@@ -199,7 +300,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"WfTZfTFDng+KKOYhrUGYQTd9\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"4u9B/ElyXjuF6IBaw2PWHp88\"/><meta name=\"viewport\" content=\"width=device-width, initia"
     },
     {
       "id": "lygo_claw_repo",
@@ -209,7 +310,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
     },
     {
       "id": "lygo_claw_usb_readme",
@@ -229,7 +330,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
     },
     {
       "id": "lygo_claw_usb_part01",
@@ -275,10 +376,11 @@
       "id": "lygo_usb_champion_docs",
       "group": "usb_release",
       "mode": "http_soft",
-      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
-      "status": 404,
-      "ok": false,
-      "error": "HTTP Error 404: Not Found"
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_USB_CHAMPION_V1_GENERIC.md",
+      "status": 200,
+      "ok": true,
+      "bytes": 2938,
+      "body_sample": "# LYGO USB Champion v1.0 GENERIC (free public)\n\n**Edition:** `PUBLIC_V1_GENERIC` \u00b7 **Champion:** Lightfather \u00b7 **Pairs with:** [LYGO-Claw 1.0](https://github.com/DeepSeekOracle/lygo-claw)\n\n## Download"
     },
     {
       "id": "virtuals_lygoagent",
@@ -287,7 +389,7 @@
       "url": "https://app.virtuals.io/virtuals/44594",
       "status": 200,
       "ok": true,
-      "bytes": 3840,
+      "bytes": 19272,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" class=\"dark\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <link rel=\"icon\" href=\"https://app.virtuals.io/favicon.ico\" />\n    <meta\n      name=\"viewport\"\n      content=\"wi"
     },
     {
@@ -341,6 +443,66 @@
       "body_sample": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <!-- Set the global color scheme before first paint to avoid a light flash.\n         Mirrors getInitialTheme() in @bankr/desi"
     },
     {
+      "id": "lygo_external_lattice_anchor",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"XbziexeKPXYrWLthF+HWPQ0E\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "lygo_living_mesh",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"vEx83ARTlAs7NxU8vt9cFjga\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "lygo_agent_lattice",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html><html data-theme-family=\"claw\" data-theme-mode=\"system\" lang=\"en\"><head><meta charSet=\"utf-8\" nonce=\"HlRTMc2sZrEi/JNuJEoaeGHV\"/><meta name=\"viewport\" content=\"width=device-width, initia"
+    },
+    {
+      "id": "lygo_kernel_egg_system_unified",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
+    },
+    {
+      "id": "lygo_sovereign_kernel_seeder_tool",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
+    },
+    {
+      "id": "lygo_ascii_art_studio_tool",
+      "group": "tools",
+      "mode": "http_required",
+      "url": "https://eternalhaven.ca/lygo-ascii-art.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 48055,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>LYGO ASCII Art Studio \u2014 Photo to Text Art | Free On"
+    },
+    {
       "id": "biometric_harness",
       "group": "tools",
       "mode": "http_required",
@@ -367,7 +529,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "status": 200,
       "ok": true,
-      "bytes": 45040,
+      "bytes": 52204,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
     },
     {
@@ -377,7 +539,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor",
       "status": 200,
       "ok": true,
-      "bytes": 45040,
+      "bytes": 52204,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
     },
     {
@@ -387,7 +549,7 @@
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
       "status": 200,
       "ok": true,
-      "bytes": 22498,
+      "bytes": 23312,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n  <!-- Google AdSense (eter"
     },
     {
@@ -430,18 +592,20 @@
       "group": "tools",
       "mode": "http_soft",
       "url": "https://chatagent.ca/",
-      "status": null,
-      "ok": false,
-      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'chatagent.ca'. (_ssl.c:1028)>"
+      "status": 200,
+      "ok": true,
+      "bytes": 11071,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>chatagent.ca \u2014 Original Guides for AI Champions, Agent Hand"
     },
     {
       "id": "excavationpro_hub",
       "group": "tools",
       "mode": "http_soft",
       "url": "https://excavationpro.ca/",
-      "status": null,
-      "ok": false,
-      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'excavationpro.ca'. (_ssl.c:1028)>"
+      "status": 200,
+      "ok": true,
+      "bytes": 12482,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Excavationpro \u2014 Original Music by Justin Helmer | Free Stream"
     },
     {
       "id": "eternalhaven_github_hub",
@@ -460,7 +624,7 @@
       "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/legacy-guardian-music.html",
       "status": 200,
       "ok": true,
-      "bytes": 50006,
+      "bytes": 49980,
       "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\n    <!-- Google AdSense site verification (ca-pub-0646320"
     },
     {
@@ -481,7 +645,7 @@
       "status": 200,
       "ok": true,
       "bytes": 65536,
-      "body_sample": "\n\n\n\n\n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n  <"
+      "body_sample": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"system\" data-a11y-link-underlines=\"true\"\n  \n  >\n\n\n\n\n "
     },
     {
       "id": "lattice_ground_zero_doc",
@@ -544,7 +708,7 @@
       "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
       "status": 200,
       "ok": true,
-      "bytes": 21620,
+      "bytes": 20345,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
     },
     {
@@ -554,13 +718,47 @@
       "url": "https://www.moltbook.com/u/Lightfather",
       "status": 200,
       "ok": true,
-      "bytes": 21863,
+      "bytes": 20588,
       "body_sample": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/14vpp7p82x389.css\" da"
+    },
+    {
+      "id": "lygoskillhub",
+      "group": "tools",
+      "mode": "http_soft",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+      "status": 200,
+      "ok": true,
+      "bytes": 65536,
+      "body_sample": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n<title>LYGOSKILLHUB \u2014 LYGO Skill Lattice Catalog \u00b7 ClawHub Mirro"
+    },
+    {
+      "id": "LYGOSKILLHUB_CHATAGENT",
+      "group": "tools",
+      "mode": "link_only",
+      "url": "https://chatagent.ca/lygoskillhub.html",
+      "ok": true,
+      "note": "immutable link; no automated probe (vault TOS)"
+    },
+    {
+      "id": "DECEPTION_RADAR",
+      "group": "tools",
+      "mode": "link_only",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/deception-radar/",
+      "ok": true,
+      "note": "immutable link; no automated probe (vault TOS)"
+    },
+    {
+      "id": "LYGOSKILLHUB_STACK",
+      "group": "tools",
+      "mode": "link_only",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+      "ok": true,
+      "note": "immutable link; no automated probe (vault TOS)"
     }
   ],
   "required_failures": 0,
-  "soft_failures": 5,
+  "soft_failures": 1,
   "all_pass": true,
   "verdict": "LATTICE ALIGNED",
-  "duration_ms": 47569
+  "duration_ms": 23837
 }

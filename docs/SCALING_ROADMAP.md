@@ -51,9 +51,20 @@ python tools/deploy_mesh_cluster.py stop
 | Live HTTP (100 nodes) | operator script | `deploy_100_nodes.ps1` (validated tooling; scale on build host) |
 | Stochastic sim (100) | **&lt; 10 rounds** | **7–8 rounds** — `tests/mesh_scale_last_run.json` ✅ |
 
-**Phase 5 Live:** complete (HTTP epidemic &lt;20 rounds; sim &lt;10 rounds).
+**Phase 5 Live:** complete (**measured** HTTP epidemic &lt;20 rounds on 8-node live; sim &lt;10 rounds at N=100).
 
-Public reference: https://deepseekoracle.github.io/lygo-protocol-stack/ · Grokipedia: `docs/GROkipedia_SUBMIT.md`
+### Scale language (honest / bullet-resistant)
+
+| Say this | Avoid this |
+|----------|------------|
+| Fixed Φ-structure gate; mesh expands with compute | “Ethics undiluted at infinite scale by physics law” |
+| Epidemic sim **N=100, fanout=2 → 7–8 rounds** (artifact on disk) | “Never crash under expansion at any scale” |
+| Engineering horizon is **measured** (N, fanout, failure model, SLOs) | “Unbounded horizon” as absolute guarantee |
+| Local Continuum / eggs / dual ledgers = authority | “Proven true solely because a public model agreed” |
+
+Public multi-AI restatements (e.g. Grok@X) are **L1 cross-ref anchors**, not L4 disk proof. See `docs/data-vault/multi-ai-canon.html` and `LYRA_CORE/memory/MULTI_AI_PUBLIC_AUDIT_ANCHOR_PROTOCOL.md`.
+
+Public reference: https://deepseekoracle.github.io/lygo-protocol-stack/ · Data Vault: `docs/data-vault/` · Grokipedia: `docs/GROkipedia_SUBMIT.md`
 
 ## Audit scale
 

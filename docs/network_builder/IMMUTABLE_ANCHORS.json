@@ -287,8 +287,9 @@
       {
         "id": "lygo_usb_champion_docs",
         "label": "LYGO USB Champion v1 GENERIC \u2014 stack docs",
-        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_USB_CHAMPION_V1_GENERIC.md",
-        "verify": "http_soft"
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_USB_CHAMPION_V1_GENERIC.md",
+        "verify": "http_soft",
+        "note": "Pages root = docs/; do not double-prefix /docs/"
       }
     ],
     "openclaw_economy": [
@@ -596,18 +597,20 @@
         "id": "lygoskillhub",
         "label": "LYGOSKILLHUB \u2014 LYGO ClawHub skill lattice catalog",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
-        "verify": "https://chatagent.ca/lygoskillhub.html",
+        "verify": "http_soft",
         "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGOSKILLHUB.html",
+        "alt_url": "https://chatagent.ca/lygoskillhub.html",
         "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/lygoskillhub_catalog.json",
         "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
         "clawhub": "https://clawhub.ai/deepseekoracle",
-        "note": "Sovereign skill hub mirror of @deepseekoracle ClawHub skills; dual-ledger + star chart wired.",
+        "note": "Sovereign skill hub mirror of @deepseekoracle ClawHub skills; dual-ledger + star chart wired. chatagent mirror is alt_url (link_only peer LYGOSKILLHUB_CHATAGENT).",
         "added_utc": "2026-07-29T17:23:59.292834+00:00"
       },
       {
         "id": "LYGOSKILLHUB_CHATAGENT",
         "label": "LYGOSKILLHUB (chatagent immutable skill ledger)",
         "url": "https://chatagent.ca/lygoskillhub.html",
+        "verify": "link_only",
         "note": "ClawHub public tentacles + FULL LYGO engineer vault"
       },
       {

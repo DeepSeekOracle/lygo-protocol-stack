@@ -1,0 +1,175 @@
+{
+  "schema": "lygo.continuum.v1",
+  "version": "1.0.1",
+  "signature": "Delta9Phi963-CONTINUUM-v1.0.1",
+  "id": "CONT-F4A7477DC6AD",
+  "created_utc": "2026-08-17T20:11:12Z",
+  "agent": "grok-build",
+  "task_summary": "Bullet-resistant next moves: network builder fix, data vault, L4 stack ship",
+  "base_hint": "I:\\E Drive\\lygo-protocol-stack",
+  "decisions": [],
+  "next_actions": [],
+  "claims": [
+    {
+      "id": "nb_anchors",
+      "kind": "file_exists",
+      "path": "docs/network_builder/IMMUTABLE_ANCHORS.json"
+    },
+    {
+      "id": "nb_verify_tool",
+      "kind": "file_exists",
+      "path": "tools/lygo_network_builder_verify.py"
+    },
+    {
+      "id": "eggs_tool",
+      "kind": "file_exists",
+      "path": "tools/verify_kernel_eggs.py"
+    },
+    {
+      "id": "traumacodex_tool",
+      "kind": "file_exists",
+      "path": "tools/traumacodex_waveform.py"
+    },
+    {
+      "id": "data_vault",
+      "kind": "file_exists",
+      "path": "docs/data-vault/index.html"
+    },
+    {
+      "id": "data_vault_seals",
+      "kind": "file_exists",
+      "path": "docs/data-vault/data/canonical_seals_public.json"
+    },
+    {
+      "id": "scale_roadmap",
+      "kind": "file_exists",
+      "path": "docs/SCALING_ROADMAP.md"
+    },
+    {
+      "id": "index_pages",
+      "kind": "file_exists",
+      "path": "docs/index.html"
+    },
+    {
+      "id": "mesh_sim_result",
+      "kind": "file_exists",
+      "path": "tests/mesh_scale_last_run.json"
+    },
+    {
+      "id": "lygoskillhub_mode_fixed",
+      "kind": "file_contains",
+      "path": "docs/network_builder/IMMUTABLE_ANCHORS.json",
+      "needle": "\"id\": \"lygoskillhub\""
+    },
+    {
+      "id": "lygoskillhub_verify_http_soft",
+      "kind": "regex_match",
+      "path": "docs/network_builder/IMMUTABLE_ANCHORS.json",
+      "pattern": "\"id\": \"lygoskillhub\"[\\s\\S]{0,400}\"verify\": \"http_soft\""
+    }
+  ],
+  "meta": {},
+  "sealed_results": [
+    {
+      "id": "nb_anchors",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "nb_verify_tool",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "eggs_tool",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "traumacodex_tool",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "data_vault",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "data_vault_seals",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "scale_roadmap",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "index_pages",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "mesh_sim_result",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "lygoskillhub_mode_fixed",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "\"id\": \"lygoskillhub\""
+    },
+    {
+      "id": "lygoskillhub_verify_http_soft",
+      "kind": "regex_match",
+      "ok": true,
+      "detail": "matched",
+      "observed": true,
+      "expected": true
+    }
+  ],
+  "sealed_ok": true,
+  "sealed_pass": 11,
+  "sealed_fail": 0,
+  "root_hash": "497f1b1e3550f645dae59aa34d2c530d68713ea43a5bc7a5812f1d5ef567bb44",
+  "chain": [
+    {
+      "event": "seal",
+      "utc": "2026-08-17T20:11:12Z",
+      "root_hash": "497f1b1e3550f645dae59aa34d2c530d68713ea43a5bc7a5812f1d5ef567bb44",
+      "claim_count": 11,
+      "sealed_ok": true
+    }
+  ]
+}
