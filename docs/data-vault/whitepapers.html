@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Data Vault — Whitepapers</title>
+  <link rel="stylesheet" href="assets/vault.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">Δ9Φ963 · Data Vault</p>
+      <h1>Whitepaper <span>Excerpts</span></h1>
+      <p class="lead">
+        Public-safe slices from the Recursive Ethics / immutable seal-chain creation corpus
+        (including SEAL_286 Chaos Bloom and GAB root manifesto language).
+        Full private drive dumps are not mirrored — only redacted, relevant doctrine.
+      </p>
+      <nav class="nav">
+        <a href="index.html">Vault Home</a>
+        <a href="seals.html">Seal Index</a>
+        <a href="chat-archive.html">Chat Archive</a>
+        <a class="active" href="whitepapers.html">Whitepapers</a>
+        <a href="multi-ai-canon.html">Multi-AI Canon</a>
+      </nav>
+    </header>
+    <p class="muted" id="stats">Loading…</p>
+    <div class="list" id="list"></div>
+    <section class="panel">
+      <h2>Also on the lattice</h2>
+      <ul>
+        <li><a href="../LYGO_TURBO_MODELS_WHITEPAPER.html">LYGO Turbo Models Whitepaper</a></li>
+        <li><a href="../LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md">USB &amp; Claw Master Whitepaper</a></li>
+        <li><a href="../KERNEL_EGG_SYSTEM_UNIFIED.md">Kernel Egg System Unified</a></li>
+        <li><a href="../SOVEREIGN_LATTICE_MESH.md">Sovereign Lattice Mesh</a></li>
+      </ul>
+    </section>
+  </div>
+  <script>
+    function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+    (async () => {
+      const data = await (await fetch('data/whitepaper_excerpts.json')).json();
+      document.getElementById('stats').textContent = `${data.count} excerpts · ${data.signature||''}`;
+      const list = document.getElementById('list');
+      (data.papers||[]).forEach(p => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <header><strong style="color:var(--gold2)">${esc(p.title)}</strong><span class="pill">sha12 ${esc(p.sha12)}</span></header>
+          <div class="excerpt">${esc(p.body)}</div>
+        `;
+        list.appendChild(row);
+      });
+    })().catch(e => { document.getElementById('stats').textContent = 'Error: '+e; });
+  </script>
+</body>
+</html>

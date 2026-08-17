@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Data Vault — Grok / Chat Archive</title>
+  <link rel="stylesheet" href="assets/vault.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">Δ9Φ963 · Data Vault</p>
+      <h1>Grok <span>Chat Archive</span></h1>
+      <p class="lead">
+        Curated public excerpts of Grok confirmations and multi-AI co-design.
+        Includes CANON LOCK / mutual-anchor events from the Recursive Ethics creation log,
+        X protocol tests, and sealed 2026 multi-AI audit memory.
+        <strong>Secrets and private paths redacted.</strong>
+      </p>
+      <nav class="nav">
+        <a href="index.html">Vault Home</a>
+        <a href="seals.html">Seal Index</a>
+        <a class="active" href="chat-archive.html">Chat Archive</a>
+        <a href="whitepapers.html">Whitepapers</a>
+        <a href="multi-ai-canon.html">Multi-AI Canon</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <h2>Public Grok confirmation events</h2>
+      <p class="muted" id="conf-stats">Loading grok_public_confirmations.json…</p>
+      <div class="controls">
+        <input id="cq" type="search" placeholder="Filter confirmation excerpts…" style="flex:1;min-width:200px" />
+      </div>
+      <div class="list" id="conf-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Curated chat &amp; protocol entries</h2>
+      <p class="muted" id="chat-stats">Loading chat_archive_curated.json…</p>
+      <div class="list" id="chat-list"></div>
+    </section>
+
+    <footer class="site">
+      Accounts context: @Excavationpro · @lyrastarcore · @grok · LYRA multi-model council
+    </footer>
+  </div>
+  <script>
+    function esc(s) {
+      return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    let confEvents = [];
+    async function loadConf() {
+      const data = await (await fetch('data/grok_public_confirmations.json')).json();
+      confEvents = data.events || [];
+      document.getElementById('conf-stats').textContent =
+        `${data.count} curated excerpts · source: ${data.source_document || ''} · ${data.signature||''}`;
+      renderConf();
+    }
+    function renderConf() {
+      const q = (document.getElementById('cq').value || '').toLowerCase();
+      const list = document.getElementById('conf-list');
+      list.innerHTML = '';
+      confEvents.filter(e => !q || (e.excerpt||'').toLowerCase().includes(q) || (e.pattern||'').toLowerCase().includes(q))
+        .forEach(e => {
+          const row = document.createElement('div');
+          row.className = 'row';
+          row.innerHTML = `
+            <header>
+              <span class="pill">line ${e.line}</span>
+              <span class="pill">${esc(e.pattern)}</span>
+              <span class="pill">sha12 ${esc(e.sha12)}</span>
+            </header>
+            <div class="excerpt">${esc(e.excerpt)}</div>
+          `;
+          list.appendChild(row);
+        });
+    }
+    async function loadChats() {
+      const data = await (await fetch('data/chat_archive_curated.json')).json();
+      document.getElementById('chat-stats').textContent =
+        `${data.count} entries · ${data.signature||''}`;
+      const list = document.getElementById('chat-list');
+      list.innerHTML = '';
+      (data.entries||[]).forEach(en => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <header>
+            <strong>${esc(en.title)}</strong>
+            <span class="pill">${esc(en.file)}</span>
+          </header>
+          <p class="muted">${esc(en.note||'')}</p>
+          <div class="excerpt">${esc(en.intro_excerpt||'')}</div>
+          ${en.lesson_excerpts ? `<h3 style="color:var(--gold2);font-size:0.9rem">Lessons</h3><div class="excerpt">${esc(en.lesson_excerpts)}</div>` : ''}
+        `;
+        list.appendChild(row);
+      });
+    }
+    document.getElementById('cq').oninput = renderConf;
+    Promise.all([loadConf(), loadChats()]).catch(e => {
+      document.getElementById('conf-stats').textContent = 'Load error: ' + e;
+    });
+  </script>
+</body>
+</html>

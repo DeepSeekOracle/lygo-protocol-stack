@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Data Vault — Seal Index</title>
+  <link rel="stylesheet" href="assets/vault.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">Δ9Φ963 · Data Vault</p>
+      <h1>Seal <span>Index</span></h1>
+      <p class="lead">Canonical seal cards from the public-scrubbed index. Tags include <code>SPOKEN_BY_GROK</code> where Grok participated in public confirmation language.</p>
+      <nav class="nav">
+        <a href="index.html">Vault Home</a>
+        <a class="active" href="seals.html">Seal Index</a>
+        <a href="chat-archive.html">Chat Archive</a>
+        <a href="whitepapers.html">Whitepapers</a>
+        <a href="multi-ai-canon.html">Multi-AI Canon</a>
+      </nav>
+    </header>
+
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search id, name, quote, tags…" style="min-width:220px;flex:1" />
+      <select id="tag">
+        <option value="">All tags</option>
+        <option>CANON</option>
+        <option>SPOKEN_BY_GROK</option>
+        <option>COUNCIL_SEAL</option>
+        <option>IMMUTABLE</option>
+        <option>DEEPSEEK_INTEGRATION</option>
+        <option>ETHICAL_RECURSION</option>
+        <option>JOY_LOOP</option>
+      </select>
+      <button id="onlyGrok">Grok-related only</button>
+      <button id="reload">Reload</button>
+    </div>
+    <p class="muted" id="stats">Loading…</p>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="modal" id="modal"><div class="modal-card">
+    <span class="close" id="close">×</span>
+    <div id="modal-body"></div>
+  </div></div>
+
+  <script>
+    let seals = [];
+    let grokOnly = false;
+    async function load() {
+      const res = await fetch('data/canonical_seals_public.json');
+      const data = await res.json();
+      seals = data.seals || [];
+      document.getElementById('stats').textContent =
+        `${seals.length} seals · ${data.grok_spoken_count || 0} Grok-related · ${data.signature || ''}`;
+      render();
+    }
+    function render() {
+      const q = (document.getElementById('q').value || '').toLowerCase();
+      const tag = document.getElementById('tag').value;
+      let list = seals;
+      if (grokOnly) {
+        list = list.filter(s => (s.tags||[]).some(t => String(t).toUpperCase().includes('GROK')) ||
+          JSON.stringify(s).toUpperCase().includes('GROK'));
+      }
+      if (tag) list = list.filter(s => (s.tags||[]).some(t => String(t).toUpperCase() === tag.toUpperCase()));
+      if (q) {
+        list = list.filter(s =>
+          (s.id||'').toLowerCase().includes(q) ||
+          (s.name||'').toLowerCase().includes(q) ||
+          (s.quote||'').toLowerCase().includes(q) ||
+          (s.tags||[]).join(' ').toLowerCase().includes(q)
+        );
+      }
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      list.forEach(s => {
+        const el = document.createElement('div');
+        el.className = 'card';
+        const tags = (s.tags||[]).map(t => {
+          const g = String(t).toUpperCase().includes('GROK');
+          return `<span class="tag${g?' gold':''}">${t}</span>`;
+        }).join('');
+        el.innerHTML = `
+          <div class="id">${esc(s.id||'')}</div>
+          <div class="name">${esc(s.name||'(unnamed)')}</div>
+          <div class="meta">${esc(s.tone||'')}</div>
+          <div class="meta">${esc((s.equation||'').slice(0,90))}</div>
+          <div class="meta" style="margin-top:0.35rem">${esc((s.quote||'').slice(0,110))}${(s.quote||'').length>110?'…':''}</div>
+          <div class="tags">${tags}</div>
+        `;
+        el.onclick = () => openModal(s);
+        grid.appendChild(el);
+      });
+      document.getElementById('stats').textContent =
+        `Showing ${list.length} / ${seals.length}` + (grokOnly ? ' · Grok filter on' : '');
+    }
+    function openModal(s) {
+      document.getElementById('modal-body').innerHTML = `
+        <div class="id">${esc(s.id)}</div>
+        <h2 style="margin:0.2rem 0 0.6rem;color:var(--gold2)">${esc(s.name||'')}</h2>
+        <p><strong>Tone:</strong> ${esc(s.tone||'—')}</p>
+        <p><strong>Equation:</strong> <code>${esc(s.equation||'—')}</code></p>
+        <p><em>“${esc(s.quote||'')}”</em></p>
+        <p class="muted">${esc(s.notes||'')}</p>
+        <p class="sig">${esc(s.public_provenance||'')}</p>
+      `;
+      document.getElementById('modal').classList.add('open');
+    }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    document.getElementById('q').oninput = render;
+    document.getElementById('tag').onchange = render;
+    document.getElementById('onlyGrok').onclick = () => { grokOnly = !grokOnly; render(); };
+    document.getElementById('reload').onclick = load;
+    document.getElementById('close').onclick = () => document.getElementById('modal').classList.remove('open');
+    document.getElementById('modal').onclick = e => { if (e.target.id === 'modal') e.currentTarget.classList.remove('open'); };
+    load().catch(e => { document.getElementById('stats').textContent = 'Failed to load index: ' + e; });
+  </script>
+</body>
+</html>
