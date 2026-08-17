@@ -1,12 +1,12 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-08-07T04:21:58.175262+00:00",
-  "registry_sha256": "43d0b2b6577f37ef2e4eb3dbd32c74ee95ec70d8935cbaa6fd780ce394dbd4fc",
-  "node_count": 1307,
+  "generated_utc": "2026-08-17T16:44:32.749962+00:00",
+  "registry_sha256": "6815877ea34436517ab6fefb5afd5973f5c34105db5e98546a917aec83473a61",
+  "node_count": 1323,
   "submission_queue": {
     "pending": 0,
     "accepted": 54,
-    "agent_submissions_merged": 53,
+    "agent_submissions_merged": 49,
     "ingest_notes": [
       "merged:HERO_ACCORD",
       "merged:HERO_CORVATH",
@@ -40,10 +40,10 @@
       "merged:LATTICE_SOVEREIGN_SEEDS",
       "merged:LATTICE_WORLD_LAYER_C",
       "merged:LORE_ACCORD",
-      "merged:LORE_BOOK_I_MOONLIT_SLUMBER",
-      "merged:LORE_BOOK_II_SHATTERED_ACCORD",
-      "merged:LORE_BOOK_III_ASCENSION_WAR",
-      "merged:LORE_BOOK_IV_ETERNAL_DAWNS",
+      "LORE_BOOK_I_MOONLIT_SLUMBER.json:skip_duplicate:LORE_BOOK_I_MOONLIT_SLUMBER",
+      "LORE_BOOK_II_SHATTERED_ACCORD.json:skip_duplicate:LORE_BOOK_II_SHATTERED_ACCORD",
+      "LORE_BOOK_III_ASCENSION_WAR.json:skip_duplicate:LORE_BOOK_III_ASCENSION_WAR",
+      "LORE_BOOK_IV_ETERNAL_DAWNS.json:skip_duplicate:LORE_BOOK_IV_ETERNAL_DAWNS",
       "merged:LORE_ETERNAL_HAVEN_HUB",
       "merged:LORE_FIRST_SEAL",
       "merged:LORE_SAMPLE_SAMPLE_BOOK1_CH1",
@@ -63,7 +63,9 @@
       "merged:PORTAL_STAR_CHART",
       "merged:SEAL_401",
       "music_map: +804 nodes (albums=5 tracks=779 playlist=10822)",
-      "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry"
+      "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
+      "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
+      "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
     ]
   },
   "portal_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html"

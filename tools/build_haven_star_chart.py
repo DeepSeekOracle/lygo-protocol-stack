@@ -1274,6 +1274,23 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
             neb_id = f"NEBULA_LINEAGE_EXP_{human_parent or parent or nid}"
             clu_id = f"CLUSTER_LINEAGE_FORK_{nid}"
             role = "lineage_expansion"
+        elif kind == "seal" and (
+            "BOOK_ROOT" in tags
+            or "BOOK_ANCHOR" in tags
+            or "TRAUMACODEX" in tags
+            or nid.startswith("SEAL_BOOK_ROOT_")
+            or nid in ("SEAL_EH_BOOK_SERIES_ROOT", "SEAL_TRAUMACODEX_ROOT")
+        ):
+            # Book + TraumaCodex root seals live in Eternal Haven info-map galaxy
+            gal_id = "GALAXY_ETERNAL_HAVEN"
+            if "TRAUMACODEX" in tags or nid == "SEAL_TRAUMACODEX_ROOT":
+                neb_id = "NEBULA_TRAUMACODEX"
+                clu_id = "CLUSTER_TRAUMACODEX_ROOT"
+                role = "traumacodex_root_seal"
+            else:
+                neb_id = "NEBULA_ETERNAL_HAVEN_BOOK_ROOTS"
+                clu_id = f"CLUSTER_BOOK_ROOT_{nid}"
+                role = "book_root_seal"
         elif kind == "champion":
             gal_id = _champion_galaxy_id(nid)
             neb_id = f"NEBULA_{nid}_ANCHOR"
@@ -1723,6 +1740,76 @@ def main() -> int:
     except Exception as exc:
         music_notes.append(f"music_map_error: {exc}")
 
+    # Eternal Haven book root seals + TraumaCodex (info-map anchors for agents)
+    book_notes: list[str] = []
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from map_books_to_star_chart import build_book_nodes  # noqa: E402
+
+        book_nodes, book_stats = build_book_nodes()
+        existing_pre = {n["id"] for n in nodes}
+        added_b = 0
+        for bn in book_nodes:
+            if bn["id"] not in existing_pre:
+                nodes.append(bn)
+                existing_pre.add(bn["id"])
+                added_b += 1
+            else:
+                # Enrich existing lore stars with root seal links
+                for n in nodes:
+                    if n.get("id") != bn["id"]:
+                        continue
+                    # Prefer new meta/urls for book roots & Book V
+                    if bn["id"].startswith("SEAL_BOOK_ROOT") or bn["id"].startswith(
+                        "LORE_BOOK_V"
+                    ) or bn["id"] in (
+                        "LATTICE_ETERNAL_HAVEN_BOOKS",
+                        "SEAL_EH_BOOK_SERIES_ROOT",
+                        "SEAL_TRAUMACODEX_ROOT",
+                        "LATTICE_SKILL_lygo-traumacodex",
+                        "LATTICE_EGG_BOOK_V_UNWRITTEN_SEAL",
+                    ):
+                        n.update({k: bn[k] for k in bn if k != "id"})
+                    else:
+                        conns = list(n.get("connections") or [])
+                        for c in bn.get("connections") or []:
+                            if c not in conns:
+                                conns.append(c)
+                        n["connections"] = conns
+                        meta = dict(n.get("meta") or {})
+                        meta.update(bn.get("meta") or {})
+                        n["meta"] = meta
+                        if bn.get("urls"):
+                            urls = dict(n.get("urls") or {})
+                            urls.update(bn["urls"])
+                            n["urls"] = urls
+                    break
+        book_notes.append(
+            f"book_map: +{added_b} nodes volumes={book_stats.get('volumes')} "
+            f"roots={book_stats.get('book_root_seals')} traumacodex={book_stats.get('traumacodex')}"
+        )
+        # Lightfather origin of book series hub
+        for n in nodes:
+            if n.get("id") != "CHAMPION_LIGHTFATHER":
+                continue
+            conns = list(n.get("connections") or [])
+            for must in (
+                "LATTICE_ETERNAL_HAVEN_BOOKS",
+                "SEAL_EH_BOOK_SERIES_ROOT",
+                "SEAL_BOOK_ROOT_V",
+                "SEAL_TRAUMACODEX_ROOT",
+            ):
+                if must not in conns and any(x.get("id") == must for x in nodes):
+                    conns.append(must)
+            n["connections"] = conns
+            tags = set(str(t).upper() for t in (n.get("tags") or []))
+            tags.update({"BOOK_CODEX", "ETERNAL_HAVEN", "BOOK_ROOT"})
+            n["tags"] = sorted(tags)
+            book_notes.append("lightfather_origin: linked → book series hub + Book V + TraumaCodex")
+            break
+    except Exception as exc:
+        book_notes.append(f"book_map_error: {exc}")
+
     existing_ids = {n["id"] for n in nodes}
     agent_nodes, sub_notes = load_accepted_submissions(existing_ids)
     nodes.extend(agent_nodes)
@@ -1760,8 +1847,24 @@ def main() -> int:
             "id": "eternal_haven",
             "name": "Eternal Haven",
             "glyph": "🌜",
-            "description": "Story-driven memory — lore packs and the living library.",
-            "filter_tags": ["LORE", "HAVEN"],
+            "description": (
+                "Story-driven memory — lore packs, book root seals (I–V+), "
+                "expansion fork log, and living library. Info map for agents."
+            ),
+            "filter_tags": [
+                "LORE",
+                "HAVEN",
+                "BOOK",
+                "BOOK_ROOT",
+                "BOOK_ANCHOR",
+                "BOOK_HUB",
+                "BOOK_STAR",
+                "SERIES_ROOT",
+                "FORK_LOG",
+                "EXPANSION",
+                "TRAUMACODEX",
+                "LIVE_EBOOK",
+            ],
         },
         {
             "id": "music_codex",
@@ -1840,7 +1943,7 @@ def main() -> int:
                 "pending": pending_n,
                 "accepted": accepted_n,
                 "agent_submissions_merged": len(agent_nodes),
-                "ingest_notes": sub_notes + music_notes,
+                "ingest_notes": sub_notes + music_notes + book_notes,
             },
             "music_live_map": {
                 "tool": "tools/map_music_to_star_chart.py",
@@ -1848,7 +1951,7 @@ def main() -> int:
                 "constellation": "music_codex",
                 "fork_of": "CHAMPION_LIGHTFATHER",
                 "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
-                "notes": music_notes,
+                "notes": music_notes + book_notes,
             },
             "errors": errors,
         },

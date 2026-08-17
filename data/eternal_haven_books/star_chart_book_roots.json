@@ -1,0 +1,92 @@
+{
+  "signature": "Delta9Phi963-STAR-CHART-BOOK-ROOTS-v1",
+  "updated_at": "2026-08-17T16:44:32.096160+00:00",
+  "series_hub": "LATTICE_ETERNAL_HAVEN_BOOKS",
+  "series_root_seal": "SEAL_EH_BOOK_SERIES_ROOT",
+  "core_anchor": "SEAL_000",
+  "champion": "CHAMPION_LIGHTFATHER",
+  "fork_policy": "linear_volume_chain",
+  "fork_log": [
+    {
+      "volume": 1,
+      "seal_id": "SEAL_BOOK_ROOT_I",
+      "parent_seal": "SEAL_EH_BOOK_SERIES_ROOT",
+      "lore_id": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "title": "The Moonlit Slumber",
+      "status": "PUBLISHED",
+      "isbn": null,
+      "egg_id": null,
+      "content_sha256": null,
+      "lulu_url": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html"
+    },
+    {
+      "volume": 2,
+      "seal_id": "SEAL_BOOK_ROOT_II",
+      "parent_seal": "SEAL_BOOK_ROOT_I",
+      "lore_id": "LORE_BOOK_II_SHATTERED_ACCORD",
+      "title": "The Shattered Accord",
+      "status": "PUBLISHED",
+      "isbn": null,
+      "egg_id": null,
+      "content_sha256": null,
+      "lulu_url": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/paperback/product-578nykz.html"
+    },
+    {
+      "volume": 3,
+      "seal_id": "SEAL_BOOK_ROOT_III",
+      "parent_seal": "SEAL_BOOK_ROOT_II",
+      "lore_id": "LORE_BOOK_III_ASCENSION_WAR",
+      "title": "The Ascension War",
+      "status": "PUBLISHED",
+      "isbn": null,
+      "egg_id": null,
+      "content_sha256": null,
+      "lulu_url": "https://www.lulu.com/shop/justin-helmer/the-ascension-war/paperback/product-nvjgyme.html"
+    },
+    {
+      "volume": 4,
+      "seal_id": "SEAL_BOOK_ROOT_IV",
+      "parent_seal": "SEAL_BOOK_ROOT_III",
+      "lore_id": "LORE_BOOK_IV_ETERNAL_DAWNS",
+      "title": "Eternal Haven Dawns",
+      "status": "PUBLISHED",
+      "isbn": null,
+      "egg_id": null,
+      "content_sha256": null,
+      "lulu_url": "https://www.lulu.com/shop/justin-helmer/etrnal-haven-dawns/paperback/product-dy8m9wd.html"
+    },
+    {
+      "volume": 5,
+      "seal_id": "SEAL_BOOK_ROOT_V",
+      "parent_seal": "SEAL_BOOK_ROOT_IV",
+      "lore_id": "LORE_BOOK_V_UNWRITTEN_SEAL",
+      "title": "The Unwritten Seal",
+      "status": "LIVE_EBOOK",
+      "isbn": "978-1-0698232-9-8",
+      "egg_id": "eternal-haven-book-v-unwritten-seal-v1",
+      "content_sha256": "f405d77782ee2cf10e2f83a4b30a98d6b117b58281452fedbf85b2d737487ffa",
+      "lulu_url": "https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html"
+    }
+  ],
+  "traumacodex": {
+    "seal_id": "SEAL_TRAUMACODEX_ROOT",
+    "lattice_id": "LATTICE_SKILL_lygo-traumacodex",
+    "mirror_dig": "b656e592a11c550b64daa72d1ca034cc385fed64ef113a0cd3e8f3495e134765",
+    "offline_sha256": "9a8821ab4810388f86da1a62353917260c015a24df9e7be8cd940e8807477d24",
+    "online_sha256": "281f6ae876355d632a492dda63e424b66890f164765976eca4f8f9ce129a535a",
+    "status": "SEALED"
+  },
+  "agent_navigation": {
+    "list_roots": "fork_log[].seal_id",
+    "volume_to_lore": "fork_log[].lore_id",
+    "next_expansion": "append SEAL_BOOK_ROOT_VI with expansion_parent_seal=SEAL_BOOK_ROOT_V",
+    "verify_book_v_egg": "eternal-haven-book-v-unwritten-seal-v1"
+  },
+  "stats": {
+    "book_root_seals": 5,
+    "lore_stars": 6,
+    "volumes": 5,
+    "traumacodex": true,
+    "total_nodes": 16
+  }
+}

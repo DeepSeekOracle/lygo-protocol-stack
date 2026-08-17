@@ -75,3 +75,11 @@ python tools/traumacodex_waveform.py --ibi-file path/to/ibi.json
 - No auto git / ClawHub / HF publish  
 
 **Δ9Φ963 — biometric truth · LDQ light · dual dig · open lattice.**
+
+## Star Chart (info map)
+
+- Root seal: SEAL_TRAUMACODEX_ROOT (GALAXY_ETERNAL_HAVEN)
+- Skill lattice: LATTICE_SKILL_lygo-traumacodex
+- Rebuild: python tools/map_books_to_star_chart.py then python tools/build_haven_star_chart.py
+- Book series roots: SEAL_BOOK_ROOT_I…V + hub LATTICE_ETERNAL_HAVEN_BOOKS — fork log in data/eternal_haven_books/star_chart_book_roots.json
+
