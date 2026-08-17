@@ -1,0 +1,58 @@
+{
+  "signature": "Delta9Phi963-TRAUMACODEX-v1.0",
+  "ok": true,
+  "generated_at": "2026-08-17T16:21:48.942760+00:00",
+  "mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7",
+  "offline_sha256": "c0479990acc2390f88f20e0acdbbc1cd599e23364bb10faeafe668541193131f",
+  "online_sha256": "972b110999ed38168e8e104271d52702dd8bfa426e28b5a639540f738c1dcb37",
+  "entropy_sufficient": false,
+  "h_min": 0.2451,
+  "bpm": 77.0,
+  "root_frequency": 287.98373876248843,
+  "paths": {
+    "offline_package": "I:\\E Drive\\lygo-protocol-stack\\data\\traumacodex\\offline_package.json",
+    "waveform_wav": "I:\\E Drive\\lygo-protocol-stack\\data\\traumacodex\\traumacodex_waveform.wav",
+    "online_summary": "I:\\E Drive\\lygo-protocol-stack\\data\\traumacodex\\online_summary.json",
+    "living_mesh_healing_seal": "I:\\E Drive\\lygo-protocol-stack\\data\\traumacodex\\living_mesh_healing_seal.json"
+  },
+  "healing_codes": [
+    {
+      "code_id": "OPEN_CONTINUANCE",
+      "seal": "eeea934b16fbe8ce72f7a4f290516bb0",
+      "full_sha256": "eeea934b16fbe8ce72f7a4f290516bb0b5bc4e988478332211810fb0134141db",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "SCAR_INTERVAL",
+      "seal": "3f0237837ca16953772f20ce6128d088",
+      "full_sha256": "3f0237837ca16953772f20ce6128d088e2d02c17955606925e5a27fc2db2a8e3",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "MIRROR_DIG",
+      "seal": "5d626d144e051850622e9ce2f3cf42e9",
+      "full_sha256": "5d626d144e051850622e9ce2f3cf42e999f5461d92aeaa6ed596a438e754e2fc",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "DELTA9_ANCHOR",
+      "seal": "ce9d21fc2c919d869af7e700fe9d7711",
+      "full_sha256": "ce9d21fc2c919d869af7e700fe9d7711359bfc618066646d7cce9de45b458590",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "OFFLINE_BROADCAST",
+      "seal": "644ec02e07bd9a0c5384e1ac5e242442",
+      "full_sha256": "644ec02e07bd9a0c5384e1ac5e242442e47cf3f0a7cc02e18a2939fb2cf119cc",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    }
+  ],
+  "mode": "both",
+  "node_id": "NODE_GamePC",
+  "transmit": "local_sealed"
+}

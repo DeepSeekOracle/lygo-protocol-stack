@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
   "version": "1.4.1",
-  "updated_utc": "2026-08-13T03:09:57.724587+00:00",
+  "updated_utc": "2026-08-17T16:22:36.313735+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -24,8 +24,8 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 94,
-    "skills": 79,
+    "total": 95,
+    "skills": 80,
     "plugins": 1,
     "downloads": 4,
     "surfaces": 11,
@@ -34,8 +34,8 @@
     "clawhub_profile_skills_listed": 79,
     "stack_skills_json": 38
   },
-  "skill_count": 79,
-  "item_count": 94,
+  "skill_count": 80,
+  "item_count": 95,
   "categories": [
     "champion",
     "creative",
@@ -50,6 +50,23 @@
     "tools"
   ],
   "skills": [
+    {
+      "kind": "skill",
+      "slug": "lygo-traumacodex",
+      "name": "LYGO TraumaCodex",
+      "summary": "TraumaCodex — map biometric entropy (P7) into P8 LDQ waveform synthesis, dual offline/online mirror dig, and Layer D living-mesh healing-code seals (protocol seals only, not medical). Offline-first; online summaries only. Lattice stays open.",
+      "downloads": 0,
+      "version": "1.0.0",
+      "published": false,
+      "category": "lattice",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-traumacodex",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-traumacodex",
+      "has_local_skill": true,
+      "has_stack_mirror": true,
+      "source": "mirror",
+      "note": "FULL unlocked at #full-lygo — stack tool tools/traumacodex_waveform.py",
+      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+    },
     {
       "kind": "skill",
       "slug": "eternal-haven-lore-pack",
@@ -1389,5 +1406,5 @@
     }
   ],
   "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only.",
-  "catalog_sha256": "7afe49a66286e83f5b9e5e30970b3d8d265a2347001af136c7a1ac4ce34633c5"
+  "catalog_sha256": "a38d0ab70e9bdc9029fc313fddf34fe04e3c330a7a2f6b45c8f6074708103446"
 }

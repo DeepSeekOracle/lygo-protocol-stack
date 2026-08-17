@@ -1,37 +1,39 @@
 {
   "signature": "Delta9Phi963-LIVING-MESH-BADGE-v1",
-  "timestamp": "2026-07-26T16:13:45.901993+00:00",
-  "repo": "D:\\lygo-protocol-stack",
+  "timestamp": "2026-08-17T16:21:49.636087+00:00",
+  "repo": "I:\\E Drive\\lygo-protocol-stack",
   "checks": {
     "p0_golden_sha": true,
-    "stack_demo": false,
+    "stack_demo": true,
     "kernel_eggs": true,
-    "scalable_registry": null,
+    "scalable_registry": true,
     "phase5_mesh_scale": true,
-    "phase1_elasticity": false,
-    "phase3_4_federation": false,
+    "phase1_elasticity": true,
+    "phase3_4_federation": true,
     "grok_audit_cli": null,
     "lattice": null
   },
-  "status": "NEEDS_FIX",
-  "stack_error": "No module named 'lygo_stack'",
-  "kernel_egg_registry_merkle_root": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+  "status": "ALIGNED",
+  "stack_version": "P0.4-P5.2.3-PHASE3-PROD",
+  "kernel_egg_registry_merkle_root": "75ec033a111f8222659306c27145e2eedd8792bb88174a7ce55589933ddd22f3",
+  "scalable_registry_merkle_root": "2ca209dad191010d540585722303c2b37dac010a3e082fa787bbce8392b812ce",
   "mesh_convergence_rounds": 8,
   "layer": "D",
-  "node_id": "LIGHTFATHER_HOME",
+  "node_id": "NODE_GamePC",
   "hostname": "GamePC",
   "living_mesh": {
     "version": "1.0.0",
     "local_status": "ALIGNED",
     "roots": {
-      "A_classic_merkle": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
-      "B_sovereign_merkle": "bf768c3a7d6678ff00845b4189ba7b11dd6fe50b7b3e6db28d7c6012608b8010",
+      "A_classic_merkle": "75ec033a111f8222659306c27145e2eedd8792bb88174a7ce55589933ddd22f3",
+      "B_sovereign_merkle": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
       "C_public_manifest_sha256": "70e6b7551207a741939e4048eb0cb8ec2026e17358a032813915dc4fe205025e",
-      "star_chart_registry_sha256": "33aea7b7e66929dcdaddc39aa746164748e8dfd796a01d4cbbe2847540cbdd0c"
+      "star_chart_registry_sha256": "43d0b2b6577f37ef2e4eb3dbd32c74ee95ec70d8935cbaa6fd780ce394dbd4fc",
+      "traumacodex_mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7"
     },
     "counts": {
-      "classic_eggs": 15,
-      "sovereign_eggs": 5
+      "classic_eggs": 20,
+      "sovereign_eggs": null
     },
     "public_endpoints_hint": [
       "https://deepseekoracle.github.io/lygo-protocol-stack/",
@@ -47,6 +49,14 @@
     "world_verdict": "WORLD_ALIGNED",
     "ab_verdict": "ALIGNED",
     "public_manifest_present": true,
-    "roots_digest": "af697d8389d9628edf252b2cb12506023419bf552c071ea86feaf13c6001cced"
+    "roots_digest": "925841e2e6344a53915a65bf2ac4a38d9c51f53c366f078c920372a93d99f731"
+  },
+  "traumacodex": {
+    "signature": "Delta9Phi963-TRAUMACODEX-v1.0",
+    "mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7",
+    "offline_sha256": "c0479990acc2390f88f20e0acdbbc1cd599e23364bb10faeafe668541193131f",
+    "online_sha256": "972b110999ed38168e8e104271d52702dd8bfa426e28b5a639540f738c1dcb37",
+    "updated_at": "2026-08-17T16:21:48.923826+00:00",
+    "status": "SEALED"
   }
 }

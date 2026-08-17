@@ -1,0 +1,36 @@
+{
+  "signature": "Delta9Phi963-TRAUMACODEX-v1.0",
+  "channel": "ONLINE_SUMMARY",
+  "generated_at": "2026-08-17T16:21:48.917799+00:00",
+  "node_id": "NODE_GamePC",
+  "entropy_sufficient": false,
+  "h_min": 0.2451,
+  "seed_prefix": "49b6baca41e58e43",
+  "waveform_sha256": "49ba51a37b626a6b5d23db851258b4548692bdd9b92c58f65627d6f542590573",
+  "params_bpm": 77.0,
+  "params_root": 287.98373876248843,
+  "fingerprint_head": [
+    0.01168,
+    0.01728,
+    0.01687,
+    0.0211,
+    0.01655,
+    0.02412,
+    0.01413,
+    0.02636
+  ],
+  "protection": {
+    "summaries_only": true,
+    "no_raw_biometrics": true,
+    "no_egg_payloads": true
+  },
+  "mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7",
+  "healing_code_seals": [
+    "eeea934b16fbe8ce72f7a4f290516bb0",
+    "3f0237837ca16953772f20ce6128d088",
+    "5d626d144e051850622e9ce2f3cf42e9",
+    "ce9d21fc2c919d869af7e700fe9d7711",
+    "644ec02e07bd9a0c5384e1ac5e242442"
+  ],
+  "package_sha256": "972b110999ed38168e8e104271d52702dd8bfa426e28b5a639540f738c1dcb37"
+}

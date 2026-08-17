@@ -1,0 +1,27 @@
+{
+  "signature": "Delta9Phi963-LIVING-MESH-HEALING-SEAL-v1",
+  "layer": "D",
+  "sealed_at": "2026-08-17T16:21:48.922952+00:00",
+  "node_id": "NODE_GamePC",
+  "mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7",
+  "offline_package_sha256": "c0479990acc2390f88f20e0acdbbc1cd599e23364bb10faeafe668541193131f",
+  "online_summary_sha256": "972b110999ed38168e8e104271d52702dd8bfa426e28b5a639540f738c1dcb37",
+  "healing_code_seals": [
+    "eeea934b16fbe8ce72f7a4f290516bb0",
+    "3f0237837ca16953772f20ce6128d088",
+    "5d626d144e051850622e9ce2f3cf42e9",
+    "ce9d21fc2c919d869af7e700fe9d7711",
+    "644ec02e07bd9a0c5384e1ac5e242442"
+  ],
+  "delta9_anchor": "ce9d21fc2c919d869af7e700fe9d7711359bfc618066646d7cce9de45b458590",
+  "broadcast": {
+    "mode": "offline_local",
+    "note": "Healing codes sealed for local/offline broadcast; gossip carries digests only.",
+    "lattice_open": true
+  },
+  "protection": {
+    "local_is_authority": true,
+    "gossip_summaries_only": true,
+    "not_medical": true
+  }
+}

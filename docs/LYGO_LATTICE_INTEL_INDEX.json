@@ -1,7 +1,7 @@
 {
   "signature": "Δ9Φ963-LATTICE-INTEL-INDEX-v1",
   "role": "Lattice architect fast lookup — outer brain for I:\\E Drive (no secrets)",
-  "updated_utc": "2026-08-16",
+  "updated_utc": "2026-08-17",
   "authority_root": "I:\\E Drive",
   "canonical_repo": "I:\\E Drive\\lygo-protocol-stack",
   "query_hints": [
@@ -572,6 +572,26 @@
       "isbn": "978-1-0698232-9-8",
       "status": "LIVE_EBOOK",
       "local_manuscript": "J:\\FULL ADUIO BOOKS\\Book 5"
+    },
+    {
+      "id": "traumacodex-p7-p8-layer-d",
+      "tier": 5,
+      "path": "I:\\E Drive\\lygo-protocol-stack\\tools\\traumacodex_waveform.py",
+      "repo_path": "tools/traumacodex_waveform.py",
+      "tags": [
+        "traumacodex",
+        "p7",
+        "p8",
+        "ldq",
+        "biometric",
+        "living-mesh",
+        "layer-d",
+        "waveform"
+      ],
+      "summary": "TraumaCodex: P7 biometric entropy → P8 LDQ waveform → dual offline/online mirror dig → Layer D healing-code seals. Not medical.",
+      "skill": "lygo-traumacodex",
+      "docs": "docs/TRAUMA_CODEX.md",
+      "full_zip": "docs/lygo-full-skills/dist/lygo-traumacodex-full.zip"
     }
   ],
   "integration_gaps": [

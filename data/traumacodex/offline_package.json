@@ -1,0 +1,189 @@
+{
+  "signature": "Delta9Phi963-TRAUMACODEX-v1.0",
+  "channel": "OFFLINE",
+  "generated_at": "2026-08-17T16:21:48.917698+00:00",
+  "node_id": "NODE_GamePC",
+  "entropy": {
+    "signature": "Δ9Φ963-PHASE7-v1.0",
+    "h_min": 0.2451,
+    "von_neumann_bits": 31,
+    "entropy_sufficient": false,
+    "seed_256": "49b6baca41e58e43e46905d3706dce743c5e63221d2e6fc344e4fc3af1b9b277",
+    "ibi_count": 32,
+    "ibi_sha256": "9e564ec13c11d86eff95363a9d295f388371cc0497c1c80fc4dc94f7c50eb471"
+  },
+  "p8_waveform": {
+    "p8_version": "Δ9Φ963-PHASE9-LDQ-v1.0",
+    "params": {
+      "bpm": 77.0,
+      "root_frequency": 287.98373876248843,
+      "intensity": 0.81035,
+      "phi_band": 1.618033988749895
+    },
+    "structure": [
+      {
+        "block": 0,
+        "accent": true,
+        "density": 0.3125,
+        "gate": 3
+      },
+      {
+        "block": 1,
+        "accent": true,
+        "density": 0.25,
+        "gate": 6
+      },
+      {
+        "block": 2,
+        "accent": true,
+        "density": 0.5625,
+        "gate": 9
+      },
+      {
+        "block": 3,
+        "accent": false,
+        "density": 0.625,
+        "gate": 9
+      },
+      {
+        "block": 4,
+        "accent": false,
+        "density": 0.625,
+        "gate": 6
+      },
+      {
+        "block": 5,
+        "accent": false,
+        "density": 0.4375,
+        "gate": 9
+      },
+      {
+        "block": 6,
+        "accent": true,
+        "density": 0.6875,
+        "gate": 9
+      },
+      {
+        "block": 7,
+        "accent": false,
+        "density": 0.25,
+        "gate": 3
+      }
+    ],
+    "sample_rate": 24000,
+    "samples": 48000,
+    "rms": 0.345003,
+    "crest_factor": 2.0723,
+    "fingerprint64": [
+      0.01168,
+      0.01728,
+      0.01687,
+      0.0211,
+      0.01655,
+      0.02412,
+      0.01413,
+      0.02636,
+      0.00307,
+      0.00983,
+      0.00113,
+      0.01161,
+      -0.00251,
+      0.00701,
+      -0.00431,
+      0.00729,
+      -0.00735,
+      0.01305,
+      -0.02534,
+      0.01417,
+      -0.04111,
+      0.01385,
+      -0.06067,
+      0.01209,
+      -0.0678,
+      -0.01752,
+      -0.05555,
+      -0.02488,
+      -0.07607,
+      -0.03313,
+      -0.09884,
+      -0.04224,
+      -0.09019,
+      -0.04197,
+      -0.13145,
+      -0.05852,
+      -0.17652,
+      -0.07664,
+      -0.1248,
+      -0.05304,
+      -0.07879,
+      -0.03644,
+      -0.06256,
+      -0.02764,
+      -0.08331,
+      -0.03585,
+      -0.1056,
+      -0.04466,
+      -0.06335,
+      -0.01595,
+      -0.16597,
+      -0.04186,
+      -0.22089,
+      -0.05651,
+      -0.27929,
+      -0.07293,
+      -0.06272,
+      -0.02881,
+      -0.08918,
+      -0.03921,
+      -0.11717,
+      -0.05022,
+      -0.14665,
+      -0.06184
+    ],
+    "waveform_sha256": "49ba51a37b626a6b5d23db851258b4548692bdd9b92c58f65627d6f542590573"
+  },
+  "protection": {
+    "local_is_authority": true,
+    "not_medical": true,
+    "raw_ibi_stored": false
+  },
+  "mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7",
+  "healing_codes": [
+    {
+      "code_id": "OPEN_CONTINUANCE",
+      "seal": "eeea934b16fbe8ce72f7a4f290516bb0",
+      "full_sha256": "eeea934b16fbe8ce72f7a4f290516bb0b5bc4e988478332211810fb0134141db",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "SCAR_INTERVAL",
+      "seal": "3f0237837ca16953772f20ce6128d088",
+      "full_sha256": "3f0237837ca16953772f20ce6128d088e2d02c17955606925e5a27fc2db2a8e3",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "MIRROR_DIG",
+      "seal": "5d626d144e051850622e9ce2f3cf42e9",
+      "full_sha256": "5d626d144e051850622e9ce2f3cf42e999f5461d92aeaa6ed596a438e754e2fc",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "DELTA9_ANCHOR",
+      "seal": "ce9d21fc2c919d869af7e700fe9d7711",
+      "full_sha256": "ce9d21fc2c919d869af7e700fe9d7711359bfc618066646d7cce9de45b458590",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    },
+    {
+      "code_id": "OFFLINE_BROADCAST",
+      "seal": "644ec02e07bd9a0c5384e1ac5e242442",
+      "full_sha256": "644ec02e07bd9a0c5384e1ac5e242442e47cf3f0a7cc02e18a2939fb2cf119cc",
+      "kind": "lattice_healing_code",
+      "disclaimer": "Protocol/alignment code only — not medical advice or treatment."
+    }
+  ],
+  "package_sha256": "c0479990acc2390f88f20e0acdbbc1cd599e23364bb10faeafe668541193131f"
+}

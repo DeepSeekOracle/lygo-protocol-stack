@@ -1,0 +1,30 @@
+{
+  "signature": "Delta9Phi963-TRAUMACODEX-VERIFY-v1",
+  "verdict": "ALIGNED",
+  "all_pass": true,
+  "checks": [
+    {
+      "id": "present-offline",
+      "pass": true
+    },
+    {
+      "id": "present-online",
+      "pass": true
+    },
+    {
+      "id": "present-mesh_seal",
+      "pass": true
+    },
+    {
+      "id": "mirror_dig_match",
+      "pass": true,
+      "mirror_dig": "7e6a5a12cb9499b252d69f41"
+    },
+    {
+      "id": "healing_codes",
+      "pass": true,
+      "count": 5
+    }
+  ],
+  "timestamp": 1786983756.5629807
+}

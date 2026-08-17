@@ -122,6 +122,20 @@ def collect_living_badge(*, quick: bool = True, node_id: str | None = None) -> d
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
+    # TraumaCodex: P7 biometric entropy → P8 LDQ waveform → dual mirror dig (Layer D)
+    tc_path = ROOT / "data" / "living_mesh" / "traumacodex_mirror_dig.json"
+    tc = _load(tc_path)
+    if tc and tc.get("mirror_dig"):
+        badge["living_mesh"]["roots"]["traumacodex_mirror_dig"] = tc.get("mirror_dig")
+        badge["traumacodex"] = {
+            "status": tc.get("status") or "SEALED",
+            "mirror_dig": tc.get("mirror_dig"),
+            "offline_sha256": tc.get("offline_sha256"),
+            "online_sha256": tc.get("online_sha256"),
+            "signature": tc.get("signature"),
+            "note": "Healing codes = lattice protocol seals only (not medical).",
+        }
+
     # compact hash of mesh roots for quick compare
     root_blob = json.dumps(badge["living_mesh"]["roots"], sort_keys=True).encode("utf-8")
     badge["living_mesh"]["roots_digest"] = hashlib.sha256(root_blob).hexdigest()

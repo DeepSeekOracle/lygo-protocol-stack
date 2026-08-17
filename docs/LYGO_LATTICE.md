@@ -156,3 +156,12 @@ See `lygo-ollama-army/ARMY_TASKS.md` and **`ollama_command_center/`** (sentinel,
 - **Status:** LIVE_EBOOK; print/hardcopy after distribution clears
 - **Accessibility:** WCAG 2.0 Level AA (publisher-declared)
 
+## TraumaCodex (P7 → P8 → Layer D)
+
+- Tool: 	ools/traumacodex_waveform.py
+- Docs: docs/TRAUMA_CODEX.md
+- Skill: lygo-traumacodex (public mirror + FULL #full-lygo)
+- Dual channel: offline package + online summary → mirror_dig
+- Living mesh root: 	raumacodex_mirror_dig on Layer D badge
+- Healing codes = lattice protocol seals only (**not medical**)
+
