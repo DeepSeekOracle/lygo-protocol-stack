@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-08-18T02:48:42.304336+00:00",
+  "generated_utc": "2026-08-18T02:52:53.229511+00:00",
   "count": 672,
   "candidates": 725,
   "skipped_duplicates": 52,
@@ -10832,5 +10832,6 @@
       "width": 933,
       "height": 1400
     }
-  ]
+  ],
+  "cache_bust": "672-no-062614"
 }

@@ -178,9 +178,14 @@
     document.getElementById('lb').onclick = e => { if (e.target.id === 'lb') e.currentTarget.classList.remove('open'); };
     document.getElementById('q').oninput = render;
     document.getElementById('tag').onchange = render;
-    fetch('data/gallery_manifest.json').then(r => r.json()).then(data => {
+    // Cache-bust so removals show up without a hard refresh
+    fetch('data/gallery_manifest.json?v=672-no-062614', { cache: 'no-store' }).then(r => r.json()).then(data => {
       meta = data;
-      items = data.items || [];
+      // Defense-in-depth: drop steward-removed shot if a stale CDN edge still serves it
+      items = (data.items || []).filter(it => {
+        const blob = [it.id, it.title, it.original_name, it.source_rel].join(' ');
+        return !blob.includes('062614') && it.id !== 'ef8a8ed87bdcccf4';
+      });
       render();
     }).catch(e => {
       document.getElementById('stats').textContent = 'Failed to load gallery: ' + e;
