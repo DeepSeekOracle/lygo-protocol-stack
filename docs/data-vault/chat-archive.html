@@ -80,10 +80,9 @@
       <p class="brand">Δ9Φ963 · Data Vault</p>
       <h1>Grok <span>Chat Archive</span></h1>
       <p class="lead">
-        Curated public excerpts of Grok confirmations and multi-AI co-design.
-        Includes CANON LOCK / mutual-anchor events from the Recursive Ethics creation log,
-        X protocol tests, and sealed 2026 multi-AI audit memory.
-        <strong>Secrets and private paths redacted.</strong>
+        Expanded public Grok archive: confirmation events, full dump source cards, structured JSON packs,
+        and searchable <code>@grok</code> reply chunks from LYRA LOCAL / FINAL RESTORE / OpenClaw dumps.
+        <strong>Secrets and private paths redacted.</strong> PNG screenshot galleries stay on disk (not inlined).
       </p>
       <nav class="nav">
         <a href="index.html">Vault Home</a>
@@ -106,6 +105,15 @@
     <section class="panel">
       <h2>Curated chat &amp; protocol entries</h2>
       <p class="muted" id="chat-stats">Loading chat_archive_curated.json…</p>
+      <div class="controls">
+        <input id="chatq" type="search" placeholder="Search chats, seals, titles…" style="flex:1;min-width:200px" />
+        <select id="chatkind">
+          <option value="">All kinds</option>
+          <option value="source_file">Source dumps</option>
+          <option value="json_conversation">JSON conversations</option>
+          <option value="reply_chunk">@grok reply chunks</option>
+        </select>
+      </div>
       <div class="list" id="chat-list"></div>
     </section>
 
@@ -144,28 +152,59 @@
           list.appendChild(row);
         });
     }
-    async function loadChats() {
-      const data = await (await fetch('data/chat_archive_curated.json')).json();
-      document.getElementById('chat-stats').textContent =
-        `${data.count} entries · ${data.signature||''}`;
-      const list = document.getElementById('chat-list');
-      list.innerHTML = '';
-      (data.entries||[]).forEach(en => {
+    let chatEntries = [];
+    let chatMeta = {};
+    function renderChats() {
+      const q = (document.getElementById('chatq').value || '').toLowerCase();
+      const kind = document.getElementById('chatkind').value;
+      let list = chatEntries;
+      if (kind) list = list.filter(e => e.kind === kind);
+      if (q) {
+        list = list.filter(e => {
+          const blob = [
+            e.title, e.file, e.note, e.intro_excerpt, e.lesson_excerpts,
+            (e.seals_mentioned||[]).join(' '), (e.tags||[]).join(' '), e.date_hint
+          ].join(' ').toLowerCase();
+          return blob.includes(q);
+        });
+      }
+      const el = document.getElementById('chat-list');
+      el.innerHTML = '';
+      // Cap DOM for huge sets — show first 120 matches
+      const shown = list.slice(0, 120);
+      shown.forEach(en => {
         const row = document.createElement('div');
         row.className = 'row';
+        const seals = (en.seals_mentioned||[]).slice(0,8).map(s => `<span class="pill">${esc(s)}</span>`).join('');
         row.innerHTML = `
           <header>
             <strong>${esc(en.title)}</strong>
+            <span class="pill">${esc(en.kind||'entry')}</span>
             <span class="pill">${esc(en.file)}</span>
+            ${en.date_hint ? `<span class="pill">${esc(en.date_hint)}</span>` : ''}
+            ${en.grok_mentions ? `<span class="pill">grok×${en.grok_mentions}</span>` : ''}
           </header>
           <p class="muted">${esc(en.note||'')}</p>
-          <div class="excerpt">${esc(en.intro_excerpt||'')}</div>
+          <div>${seals}</div>
+          <div class="excerpt">${esc((en.intro_excerpt||'').slice(0,1800))}${(en.intro_excerpt||'').length>1800?'…':''}</div>
           ${en.lesson_excerpts ? `<h3 style="color:var(--gold2);font-size:0.9rem">Lessons</h3><div class="excerpt">${esc(en.lesson_excerpts)}</div>` : ''}
         `;
-        list.appendChild(row);
+        el.appendChild(row);
       });
+      document.getElementById('chat-stats').textContent =
+        `Showing ${shown.length} / ${list.length} matches · ${chatMeta.count||chatEntries.length} total indexed` +
+        (chatMeta.reply_chunks!=null ? ` · ${chatMeta.reply_chunks} reply chunks · ${chatMeta.source_files||0} source dumps` : '') +
+        ` · ${chatMeta.signature||''}`;
+    }
+    async function loadChats() {
+      const data = await (await fetch('data/chat_archive_curated.json')).json();
+      chatEntries = data.entries || [];
+      chatMeta = data;
+      renderChats();
     }
     document.getElementById('cq').oninput = renderConf;
+    document.getElementById('chatq').oninput = renderChats;
+    document.getElementById('chatkind').onchange = renderChats;
     Promise.all([loadConf(), loadChats()]).catch(e => {
       document.getElementById('conf-stats').textContent = 'Load error: ' + e;
     });
