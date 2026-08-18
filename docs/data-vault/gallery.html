@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@Excavationpro" />
+  <meta name="twitter:title" content="LYGO Seal & Grok Screenshot Gallery" />
+  <meta name="twitter:description" content="Web-optimized gallery of LYGO seal art and Grok/X era screenshots from the steward archive." />
+  <meta name="twitter:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/assets/og-data-vault.jpg?v=20260817g" />
+  <meta property="og:title" content="LYGO Seal & Grok Screenshot Gallery" />
+  <meta property="og:description" content="Web-optimized gallery of LYGO seal art and Grok/X era screenshots from the steward archive." />
+  <meta property="og:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/assets/og-data-vault.jpg?v=20260817g" />
+  <title>LYGO Seal & Grok Screenshot Gallery</title>
+  <meta name="description" content="Browse web-optimized LYGO seal images and Grok conversation screenshots. Search by SEAL id or tag." />
+  <link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/gallery.html" />
+  <link rel="stylesheet" href="assets/vault.css" />
+  <style>
+    .ggrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.75rem;
+    }
+    .gcard {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .gcard:hover { transform: translateY(-2px); border-color: rgba(212,175,55,0.45); }
+    .gcard img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: #0b1220;
+    }
+    .gcard .cap {
+      padding: 0.45rem 0.55rem 0.65rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .gcard .cap strong {
+      display: block;
+      color: var(--gold2);
+      font-size: 0.78rem;
+      margin-bottom: 0.2rem;
+    }
+    .lightbox {
+      position: fixed; inset: 0; z-index: 80;
+      background: rgba(0,0,0,0.86);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-card {
+      max-width: min(960px, 96vw);
+      max-height: 92vh;
+      overflow: auto;
+      background: #0d1526;
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 14px;
+      padding: 0.75rem;
+    }
+    .lightbox-card img {
+      max-width: 100%;
+      max-height: 70vh;
+      display: block;
+      margin: 0 auto 0.75rem;
+      border-radius: 8px;
+    }
+    .lightbox .close {
+      float: right;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: var(--gold2);
+      padding: 0 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">Δ9Φ963 · Data Vault</p>
+      <h1>Seal &amp; Grok <span>Gallery</span></h1>
+      <p class="lead">
+        Web-optimized JPEG gallery built from the steward <code>grok_chats</code> seal archive and related screenshots.
+        Originals stay on disk; Pages hosts compressed thumbs + fulls only.
+      </p>
+      <nav class="nav">
+        <a href="index.html">Vault Home</a>
+        <a href="seals.html">Seal Index</a>
+        <a href="chat-archive.html">Chat Archive</a>
+        <a class="active" href="gallery.html">Gallery</a>
+        <a href="pure-data.html">Pure Data</a>
+        <a href="register.html">Register</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <p class="muted" id="stats">Loading gallery_manifest.json…</p>
+      <div class="controls">
+        <input id="q" type="search" placeholder="Search SEAL id, title, screenshot…" style="flex:1;min-width:200px" />
+        <select id="tag">
+          <option value="">All tags</option>
+          <option>SEAL</option>
+          <option>SEAL_ARCHIVE</option>
+          <option>SCREENSHOT</option>
+          <option>FAILSAFE</option>
+          <option>LYRA</option>
+          <option>GROK</option>
+          <option>QR</option>
+          <option>MUSIC_ART</option>
+        </select>
+      </div>
+      <div class="ggrid" id="grid"></div>
+    </section>
+  </div>
+
+  <div class="lightbox" id="lb">
+    <div class="lightbox-card">
+      <span class="close" id="lbClose">×</span>
+      <div id="lbBody"></div>
+    </div>
+  </div>
+
+  <script>
+    function esc(s) {
+      return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    let items = [];
+    let meta = {};
+    function render() {
+      const q = (document.getElementById('q').value || '').toLowerCase();
+      const tag = document.getElementById('tag').value;
+      let list = items;
+      if (tag) list = list.filter(it => (it.tags||[]).some(t => String(t).toUpperCase() === tag.toUpperCase() || String(t).toUpperCase().includes(tag.toUpperCase())));
+      if (q) {
+        list = list.filter(it => {
+          const blob = [it.title, it.original_name, it.source_rel, (it.tags||[]).join(' ')].join(' ').toLowerCase();
+          return blob.includes(q);
+        });
+      }
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      const shown = list.slice(0, 800);
+      shown.forEach(it => {
+        const el = document.createElement('article');
+        el.className = 'gcard';
+        el.innerHTML = `
+          <img loading="lazy" src="${esc(it.thumb)}" alt="${esc(it.title)}" />
+          <div class="cap"><strong>${esc(it.title)}</strong>${esc((it.tags||[]).slice(0,4).join(' · '))}</div>
+        `;
+        el.onclick = () => openLb(it);
+        grid.appendChild(el);
+      });
+      document.getElementById('stats').textContent =
+        `Showing ${shown.length} / ${list.length} · ${meta.count||items.length} optimized images` +
+        (meta.skipped_duplicates!=null ? ` · ${meta.skipped_duplicates} dupes skipped` : '') +
+        ` · ${meta.signature||''}`;
+    }
+    function openLb(it) {
+      document.getElementById('lbBody').innerHTML = `
+        <img src="${esc(it.full)}" alt="${esc(it.title)}" />
+        <h2 style="margin:0 0 .4rem;color:var(--gold2);font-size:1.05rem">${esc(it.title)}</h2>
+        <p class="muted">${esc((it.tags||[]).join(' · '))}</p>
+        <p class="muted">Source: ${esc(it.source_rel||it.original_name||'')}</p>
+        <p class="muted">${it.width||'?'}×${it.height||'?'} · web ${Math.round((it.full_bytes||0)/1024)} KB · original ${Math.round((it.original_bytes||0)/1024)} KB</p>
+      `;
+      document.getElementById('lb').classList.add('open');
+    }
+    document.getElementById('lbClose').onclick = () => document.getElementById('lb').classList.remove('open');
+    document.getElementById('lb').onclick = e => { if (e.target.id === 'lb') e.currentTarget.classList.remove('open'); };
+    document.getElementById('q').oninput = render;
+    document.getElementById('tag').onchange = render;
+    fetch('data/gallery_manifest.json').then(r => r.json()).then(data => {
+      meta = data;
+      items = data.items || [];
+      render();
+    }).catch(e => {
+      document.getElementById('stats').textContent = 'Failed to load gallery: ' + e;
+    });
+  </script>
+</body>
+</html>
