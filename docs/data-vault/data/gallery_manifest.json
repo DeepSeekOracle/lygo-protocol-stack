@@ -1,11 +1,11 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-08-18T02:39:57.138820+00:00",
-  "count": 673,
+  "generated_utc": "2026-08-18T02:48:42.304336+00:00",
+  "count": 672,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
-  "note": "Web-optimized JPEG gallery from LYRA LOCAL grok_chats seal_archive + related screenshots. Originals remain on steward disk; Pages hosts compressed thumbs/fulls only.",
+  "note": "Web-optimized JPEG gallery from LYRA LOCAL grok_chats seal_archive + related screenshots. Originals remain on steward disk; Pages hosts compressed thumbs/fulls only. Removed Screenshot 2025-07-26 062614.jpg by steward request.",
   "sources": [
     "I:\\E Drive\\LYRA LOCAL\\grok_chats\\New folder",
     "I:\\E Drive\\LYRA LOCAL\\220+",
@@ -6352,23 +6352,6 @@
       "full_bytes": 63508,
       "width": 608,
       "height": 833
-    },
-    {
-      "id": "ef8a8ed87bdcccf4",
-      "title": "Screenshot 2025 07 26 062614",
-      "tags": [
-        "SCREENSHOT",
-        "SEAL_ARCHIVE"
-      ],
-      "source_rel": "seal_archive/Screenshot 2025-07-26 062614.jpg",
-      "source_root": "New folder",
-      "original_name": "Screenshot 2025-07-26 062614.jpg",
-      "original_bytes": 51148,
-      "full": "assets/gallery/full/ef8a8ed87bdcccf4.jpg",
-      "thumb": "assets/gallery/thumb/ef8a8ed87bdcccf4.jpg",
-      "full_bytes": 36452,
-      "width": 815,
-      "height": 793
     },
     {
       "id": "4f5e09964eee1413",
