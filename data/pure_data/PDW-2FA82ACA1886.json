@@ -1,0 +1,18 @@
+{
+  "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1",
+  "witness_id": "PDW-2FA82ACA1886",
+  "captured_utc": "2026-08-18T00:48:33Z",
+  "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/",
+  "content_sha256": "c4189f1fe1e6a6a042a72f2d326bde23abf498c76ca8315ba72b73030abba99f",
+  "bytes": 10829,
+  "content_type": "text/html; charset=utf-8",
+  "method": "https_get",
+  "fetch_status": 200,
+  "truncated": false,
+  "max_fetch_bytes": 262144,
+  "snapshot_saved": true,
+  "snapshot_file": "PDW-2FA82ACA1886.bin",
+  "mirrors": [],
+  "notes": "Phase A URL witness — digest is authority; snapshot may be truncated.",
+  "snapshot_txt": "PDW-2FA82ACA1886.txt"
+}

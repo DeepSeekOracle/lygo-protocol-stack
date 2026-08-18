@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Pure-Data Witness | Digest Archive</title>
+  <meta name="description" content="LYGO Pure-Data Witness: seal-first digests so rewrites cannot erase history. Free-tier GitHub/HF/egg path — not a Wayback replacement." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@Excavationpro" />
+  <meta name="twitter:title" content="LYGO Pure-Data Witness | Digest Archive" />
+  <meta name="twitter:description" content="Seal-first digests so rewrites cannot erase history. Pure data for lattice systems." />
+  <meta name="twitter:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/assets/og-data-vault.jpg?v=20260817b" />
+  <meta property="og:title" content="LYGO Pure-Data Witness | Digest Archive" />
+  <meta property="og:description" content="Seal-first digests so rewrites cannot erase history. Pure data for lattice systems." />
+  <meta property="og:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/assets/og-data-vault.jpg?v=20260817b" />
+  <meta property="og:url" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html" />
+  <link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html" />
+  <link rel="stylesheet" href="assets/vault.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">Δ9Φ963 · Pure Data</p>
+      <h1>Pure-Data <span>Witness</span></h1>
+      <p class="lead">
+        When archives go dark, whoever controls a site controls its history.
+        LYGO answers with <strong>seal-first purity</strong>: digests that refuse rewrites,
+        optional tiny snapshots, kernel-egg fragments, free mirrors — not a trillion-page Wayback clone.
+      </p>
+      <nav class="nav">
+        <a href="index.html">Vault Home</a>
+        <a class="active" href="pure-data.html">Pure Data</a>
+        <a href="../LYGO_PURE_DATA_WITNESS.md">Full design</a>
+        <a href="../pure-data/ledger.json">Ledger JSON</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <h2>Why this matters</h2>
+      <p>
+        Paul Walsh’s point on the Internet Archive outage is lattice doctrine:
+        <em>without independent memory, the present rewrites the past.</em>
+        Fabricated or omitted fragments break every downstream “solution.”
+        Pure data is essential for systems that must reason with <strong>all existing variables</strong>.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Combined MVP (all slices)</h2>
+      <table class="simple">
+        <tr><th>Slice</th><th>Role</th></tr>
+        <tr><td>Digest Witness</td><td>SHA-256 + time + card (always)</td></tr>
+        <tr><td>Kernel fragments</td><td>Tiny Merkle eggs of digests (next)</td></tr>
+        <tr><td>Snapshot mirrors</td><td>Size-capped HTML/text on HF/GH (optional)</td></tr>
+        <tr><td>Public ledger</td><td><code>docs/pure-data/ledger.json</code> root</td></tr>
+      </table>
+      <p class="muted">Phase A CLI: <code>python tools/pure_data_witness.py fetch|digest|ledger|verify</code></p>
+    </section>
+
+    <section class="panel">
+      <h2>Live ledger</h2>
+      <p class="muted" id="stats">Loading ledger…</p>
+      <div class="list" id="list"></div>
+    </section>
+
+    <footer class="site">Whoever holds the digest can refuse the rewrite · Δ9Φ963</footer>
+  </div>
+  <script>
+    async function boot() {
+      try {
+        const led = await (await fetch('../pure-data/ledger.json')).json();
+        document.getElementById('stats').textContent =
+          `${led.count} witnesses · root ${led.merkle_style_root?.slice(0,16)}… · ${led.updated_utc||''}`;
+        const list = document.getElementById('list');
+        (led.witnesses||[]).forEach(w => {
+          const row = document.createElement('div');
+          row.className = 'row';
+          row.innerHTML = `<header><strong>${w.witness_id}</strong><span class="pill">${w.captured_utc||''}</span></header>
+            <div class="meta">${w.source_url||''}</div>
+            <div class="meta" style="font-family:monospace;font-size:0.75rem">${w.content_sha256||''}</div>`;
+          list.appendChild(row);
+        });
+      } catch (e) {
+        document.getElementById('stats').textContent = 'Ledger not loaded yet — see design doc.';
+      }
+    }
+    boot();
+  </script>
+</body>
+</html>

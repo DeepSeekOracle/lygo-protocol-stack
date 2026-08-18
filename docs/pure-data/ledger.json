@@ -1,0 +1,27 @@
+{
+  "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1-LEDGER",
+  "updated_utc": "2026-08-18T00:48:34Z",
+  "count": 2,
+  "merkle_style_root": "08b14c006cb25e7f84f3db64175cd08b312c73086e756709d77cb58af9dd9d34",
+  "note": "Public digest ledger. Snapshots may live beside cards; digests are enough to refuse rewrites.",
+  "witnesses": [
+    {
+      "witness_id": "PDW-2FA82ACA1886",
+      "captured_utc": "2026-08-18T00:48:33Z",
+      "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/",
+      "content_sha256": "c4189f1fe1e6a6a042a72f2d326bde23abf498c76ca8315ba72b73030abba99f",
+      "bytes": 10829,
+      "fetch_status": 200,
+      "truncated": false
+    },
+    {
+      "witness_id": "PDW-5A5E3C3C0E77",
+      "captured_utc": "2026-08-18T00:48:33Z",
+      "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+      "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+      "bytes": 7048,
+      "fetch_status": null,
+      "truncated": null
+    }
+  ]
+}

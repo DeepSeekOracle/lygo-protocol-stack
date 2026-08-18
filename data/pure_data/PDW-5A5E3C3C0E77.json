@@ -1,0 +1,17 @@
+{
+  "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1",
+  "witness_id": "PDW-5A5E3C3C0E77",
+  "captured_utc": "2026-08-18T00:48:33Z",
+  "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+  "source_path_hint": "LYGO_PURE_DATA_WITNESS.md",
+  "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+  "bytes": 7048,
+  "content_type": "text/plain; charset=utf-8",
+  "method": "local_file",
+  "fetch_status": null,
+  "snapshot_saved": true,
+  "mirrors": [],
+  "notes": "Phase A digest witness — pure bytes, no fabrication.",
+  "snapshot_file": "PDW-5A5E3C3C0E77.bin",
+  "snapshot_txt": "PDW-5A5E3C3C0E77.txt"
+}
