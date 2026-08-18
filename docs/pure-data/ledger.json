@@ -1,10 +1,10 @@
 {
   "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1.1-LEDGER",
-  "updated_utc": "2026-08-18T00:52:59Z",
-  "count": 3,
-  "merkle_style_root": "4d769775ec2c286053314c4b58c4528a9618c5a4651c3899192dd9ad81e8bdbd",
-  "egg_fragment_root": "78ce763033cb0cc9e0455c46483cd7c4d8aa19c62cdd46688af0b77bb2bc257d",
-  "egg_fragment_count": 3,
+  "updated_utc": "2026-08-18T01:16:23Z",
+  "count": 4,
+  "merkle_style_root": "373d2a4bdd8df390cecf8fcf108716043c5dab606934aff612e08da31f8cf5dc",
+  "egg_fragment_root": "7f2363d7e61d01ba46354e3eb11e1bce87d77d883271a9da238d1de1bcb68034",
+  "egg_fragment_count": 4,
   "note": "Public digest ledger. Digests refuse rewrites; snapshots/eggs optional.",
   "witnesses": [
     {
@@ -28,6 +28,17 @@
       "truncated": false,
       "egg_id": "pdw-frag-pdw-375388f057b0",
       "egg_merkle_root": "2bfed7c6c38396557d0e84236b98d58950e2ef57f0e543c35693c2ecfff5d07f"
+    },
+    {
+      "witness_id": "PDW-396B3A62D3DE",
+      "captured_utc": "2026-08-18T01:16:23Z",
+      "source_url": null,
+      "content_sha256": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96",
+      "bytes": 150,
+      "fetch_status": null,
+      "truncated": false,
+      "egg_id": "pdw-frag-pdw-396b3a62d3de",
+      "egg_merkle_root": "afa58fb24002553bb132207d479b9aec352c534ce8b18094455411539742fa0a"
     },
     {
       "witness_id": "PDW-5A5E3C3C0E77",

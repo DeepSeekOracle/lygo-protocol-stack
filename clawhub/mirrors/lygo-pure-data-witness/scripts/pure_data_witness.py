@@ -103,7 +103,7 @@ def fetch_url(url: str, out_dir: Path, *, skip_content_gate: bool = False) -> di
     try:
         from pure_data_safety import check_url, check_content  # type: ignore
     except ImportError:
-        from tools.pure_data_safety import check_url, check_content  # type: ignore
+        from pure_data_safety import check_url, check_content  # type: ignore
 
     ugate = check_url(url)
     if not ugate.get("ok"):
@@ -454,3 +454,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

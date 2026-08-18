@@ -1059,6 +1059,20 @@ COSMOS_GALAXIES_STATIC: list[dict] = [
         "angle_deg": 155,
         "fork_of": "CHAMPION_LIGHTFATHER",
     },
+    {
+        "id": "GALAXY_PURE_DATA_ARCHIVE",
+        "name": "Pure-Data Archive Galaxy",
+        "glyph": "📜",
+        "tier": "galaxy",
+        "description": (
+            "Seal-first purity witnesses — digests, kernel fragments, archive fork log. "
+            "Refuse history rewrites on free mirrors."
+        ),
+        "color": "#d4af37",
+        "constellation_id": "pure_data_archive",
+        "angle_deg": 95,
+        "fork_of": "CHAMPION_LIGHTFATHER",
+    },
 ]
 
 
@@ -1313,6 +1327,16 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
                 neb_id = f"NEBULA_PORTAL_{nid}"
                 clu_id = f"CLUSTER_PORTAL_{nid}"
                 role = "portal"
+        elif (
+            "PURE_DATA" in tags
+            or "PDW" in tags
+            or nid.startswith("NODE_PDW_")
+            or nid in ("LATTICE_PURE_DATA_WITNESS", "NODE_PDW_ROOT")
+        ):
+            gal_id = "GALAXY_PURE_DATA_ARCHIVE"
+            neb_id = "NEBULA_PDW_DIGESTS"
+            clu_id = f"CLUSTER_PDW_{nid}"
+            role = "pure_data_witness"
         elif kind in ("music_hub", "music_album", "music_track") or nid.startswith("MUSIC_"):
             gal_id = "GALAXY_EXCAVATIONPRO_MUSIC"
             if kind == "music_hub" or nid in (
@@ -1810,6 +1834,46 @@ def main() -> int:
     except Exception as exc:
         book_notes.append(f"book_map_error: {exc}")
 
+    # Pure-Data Witness archive galaxy (digest purity / fork log)
+    pdw_notes: list[str] = []
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from map_pure_data_to_star_chart import build_pdw_nodes  # noqa: E402
+
+        pdw_nodes, pdw_stats = build_pdw_nodes()
+        existing_pre = {n["id"] for n in nodes}
+        added_p = 0
+        for pn in pdw_nodes:
+            if pn["id"] not in existing_pre:
+                nodes.append(pn)
+                existing_pre.add(pn["id"])
+                added_p += 1
+            else:
+                for n in nodes:
+                    if n.get("id") != pn["id"]:
+                        continue
+                    n.update({k: pn[k] for k in pn if k != "id"})
+                    break
+        pdw_notes.append(
+            f"pdw_map: +{added_p} nodes witnesses={pdw_stats.get('witnesses')} "
+            f"ledger_root={(pdw_stats.get('ledger_root') or '')[:12]}"
+        )
+        for n in nodes:
+            if n.get("id") != "CHAMPION_LIGHTFATHER":
+                continue
+            conns = list(n.get("connections") or [])
+            for must in ("LATTICE_PURE_DATA_WITNESS", "NODE_PDW_ROOT"):
+                if must not in conns and any(x.get("id") == must for x in nodes):
+                    conns.append(must)
+            n["connections"] = conns
+            tags = set(str(t).upper() for t in (n.get("tags") or []))
+            tags.update({"PURE_DATA", "PDW", "ARCHIVE"})
+            n["tags"] = sorted(tags)
+            pdw_notes.append("lightfather_origin: linked → Pure-Data Witness hub")
+            break
+    except Exception as exc:
+        pdw_notes.append(f"pdw_map_error: {exc}")
+
     existing_ids = {n["id"] for n in nodes}
     agent_nodes, sub_notes = load_accepted_submissions(existing_ids)
     nodes.extend(agent_nodes)
@@ -1888,6 +1952,24 @@ def main() -> int:
                 "ISRC_REGISTRY",
                 "ISRC_BUCKET",
                 "ISRC_MAP",
+            ],
+        },
+        {
+            "id": "pure_data_archive",
+            "name": "Pure-Data Archive",
+            "glyph": "📜",
+            "description": (
+                "Seal-first purity witnesses — digests, kernel fragments, fork log. "
+                "Refuse rewrites; free-tier mirrors. Not a Wayback clone."
+            ),
+            "filter_tags": [
+                "PURE_DATA",
+                "PDW",
+                "ARCHIVE",
+                "DIGEST",
+                "WITNESS",
+                "ARCHIVE_ROOT",
+                "FORK_LOG",
             ],
         },
     ]

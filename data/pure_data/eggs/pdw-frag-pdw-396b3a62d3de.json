@@ -1,0 +1,24 @@
+{
+  "signature": "Delta9Phi963-PDW-KERNEL-FRAGMENT-v1",
+  "egg_id": "pdw-frag-pdw-396b3a62d3de",
+  "built_utc": "2026-08-18T01:16:23Z",
+  "publisher": "deepseekoracle",
+  "merkle_root": "afa58fb24002553bb132207d479b9aec352c534ce8b18094455411539742fa0a",
+  "parent_witness": "PDW-396B3A62D3DE",
+  "payload": {
+    "kind": "pure_data_witness_fragment",
+    "witness_id": "PDW-396B3A62D3DE",
+    "content_sha256": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96",
+    "bytes": 150,
+    "source_url": null,
+    "captured_utc": "2026-08-18T01:16:23Z",
+    "method": "local_file",
+    "fetch_status": null,
+    "truncated": false
+  },
+  "verify": {
+    "rule": "sha256(canonical_payload_json) == merkle_root",
+    "canonical": "json.dumps(payload, sort_keys=True, separators=(',', ':'))"
+  },
+  "notes": "Tiny free-tier fragment. Reassemble purity via digest; full snapshot optional beside card."
+}

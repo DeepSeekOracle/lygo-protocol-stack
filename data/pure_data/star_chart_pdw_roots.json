@@ -1,0 +1,239 @@
+{
+  "signature": "Delta9Phi963-PDW-STAR-CHART-ROOTS-v1",
+  "hub": "LATTICE_PURE_DATA_WITNESS",
+  "root": "NODE_PDW_ROOT",
+  "fork_log": [
+    {
+      "node_id": "NODE_PDW_2FA82ACA1886",
+      "witness_id": "PDW-2FA82ACA1886",
+      "parent": "NODE_PDW_ROOT",
+      "sha256": "c4189f1fe1e6a6a042a72f2d326bde23abf498c76ca8315ba72b73030abba99f"
+    },
+    {
+      "node_id": "NODE_PDW_375388F057B0",
+      "witness_id": "PDW-375388F057B0",
+      "parent": "NODE_PDW_2FA82ACA1886",
+      "sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59"
+    },
+    {
+      "node_id": "NODE_PDW_396B3A62D3DE",
+      "witness_id": "PDW-396B3A62D3DE",
+      "parent": "NODE_PDW_375388F057B0",
+      "sha256": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96"
+    },
+    {
+      "node_id": "NODE_PDW_5A5E3C3C0E77",
+      "witness_id": "PDW-5A5E3C3C0E77",
+      "parent": "NODE_PDW_396B3A62D3DE",
+      "sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59"
+    }
+  ],
+  "stats": {
+    "witnesses": 4,
+    "nodes": 6,
+    "ledger_root": "373d2a4bdd8df390cecf8fcf108716043c5dab606934aff612e08da31f8cf5dc",
+    "updated_utc": "2026-08-18T01:16:39.223048+00:00"
+  },
+  "nodes": [
+    {
+      "id": "LATTICE_PURE_DATA_WITNESS",
+      "kind": "lattice",
+      "name": "Pure-Data Witness Hub",
+      "equation": "Pure = SHA256(bytes_at_T) ∧ ¬rewrite",
+      "glyph": "📜",
+      "tone": "963Hz",
+      "tags": [
+        "LATTICE",
+        "PURE_DATA",
+        "PDW",
+        "ARCHIVE",
+        "DIGEST",
+        "GROWTH"
+      ],
+      "connections": [
+        "SEAL_000",
+        "NODE_PDW_ROOT",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "design": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+        "ui": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html",
+        "register": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json"
+      },
+      "layer": "C",
+      "meta": {
+        "role": "pure_data_hub",
+        "ledger_root": "373d2a4bdd8df390cecf8fcf108716043c5dab606934aff612e08da31f8cf5dc",
+        "witness_count": 4
+      }
+    },
+    {
+      "id": "NODE_PDW_ROOT",
+      "kind": "node",
+      "name": "PDW Archive Root",
+      "equation": "WitnessRoot = Merkle(content_sha256_i)",
+      "glyph": "🔗",
+      "tone": "528Hz",
+      "tags": [
+        "PURE_DATA",
+        "PDW",
+        "ARCHIVE_ROOT",
+        "FORK_LOG",
+        "DIGEST"
+      ],
+      "connections": [
+        "LATTICE_PURE_DATA_WITNESS",
+        "SEAL_000"
+      ],
+      "urls": {
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json"
+      },
+      "layer": "C",
+      "meta": {
+        "role": "pdw_root",
+        "ledger_root": "373d2a4bdd8df390cecf8fcf108716043c5dab606934aff612e08da31f8cf5dc"
+      }
+    },
+    {
+      "id": "NODE_PDW_2FA82ACA1886",
+      "kind": "node",
+      "name": "Witness PDW-2FA82ACA1886",
+      "equation": "H = c4189f1fe1e6a6a0…",
+      "glyph": "◆",
+      "tone": "741Hz",
+      "tags": [
+        "PURE_DATA",
+        "PDW",
+        "WITNESS",
+        "ARCHIVE",
+        "FORK_LOG",
+        "DIGEST"
+      ],
+      "connections": [
+        "LATTICE_PURE_DATA_WITNESS",
+        "NODE_PDW_ROOT",
+        "NODE_PDW_ROOT"
+      ],
+      "urls": {
+        "source": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json"
+      },
+      "layer": "C",
+      "meta": {
+        "role": "pdw_witness",
+        "witness_id": "PDW-2FA82ACA1886",
+        "content_sha256": "c4189f1fe1e6a6a042a72f2d326bde23abf498c76ca8315ba72b73030abba99f",
+        "captured_utc": "2026-08-18T00:48:33Z",
+        "egg_id": "pdw-frag-pdw-2fa82aca1886",
+        "bytes": 10829,
+        "parent_node": "NODE_PDW_ROOT"
+      }
+    },
+    {
+      "id": "NODE_PDW_375388F057B0",
+      "kind": "node",
+      "name": "Witness PDW-375388F057B0",
+      "equation": "H = 5a9fc6f67ce55d49…",
+      "glyph": "◆",
+      "tone": "741Hz",
+      "tags": [
+        "PURE_DATA",
+        "PDW",
+        "WITNESS",
+        "ARCHIVE",
+        "FORK_LOG",
+        "DIGEST"
+      ],
+      "connections": [
+        "LATTICE_PURE_DATA_WITNESS",
+        "NODE_PDW_ROOT",
+        "NODE_PDW_2FA82ACA1886"
+      ],
+      "urls": {
+        "source": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json"
+      },
+      "layer": "C",
+      "meta": {
+        "role": "pdw_witness",
+        "witness_id": "PDW-375388F057B0",
+        "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+        "captured_utc": "2026-08-18T00:52:56Z",
+        "egg_id": "pdw-frag-pdw-375388f057b0",
+        "bytes": 7048,
+        "parent_node": "NODE_PDW_2FA82ACA1886"
+      }
+    },
+    {
+      "id": "NODE_PDW_396B3A62D3DE",
+      "kind": "node",
+      "name": "Witness PDW-396B3A62D3DE",
+      "equation": "H = 57a88b5b5796645c…",
+      "glyph": "◆",
+      "tone": "741Hz",
+      "tags": [
+        "PURE_DATA",
+        "PDW",
+        "WITNESS",
+        "ARCHIVE",
+        "FORK_LOG",
+        "DIGEST"
+      ],
+      "connections": [
+        "LATTICE_PURE_DATA_WITNESS",
+        "NODE_PDW_ROOT",
+        "NODE_PDW_375388F057B0"
+      ],
+      "urls": {
+        "source": "",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json"
+      },
+      "layer": "C",
+      "meta": {
+        "role": "pdw_witness",
+        "witness_id": "PDW-396B3A62D3DE",
+        "content_sha256": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96",
+        "captured_utc": "2026-08-18T01:16:23Z",
+        "egg_id": "pdw-frag-pdw-396b3a62d3de",
+        "bytes": 150,
+        "parent_node": "NODE_PDW_375388F057B0"
+      }
+    },
+    {
+      "id": "NODE_PDW_5A5E3C3C0E77",
+      "kind": "node",
+      "name": "Witness PDW-5A5E3C3C0E77",
+      "equation": "H = 5a9fc6f67ce55d49…",
+      "glyph": "◆",
+      "tone": "741Hz",
+      "tags": [
+        "PURE_DATA",
+        "PDW",
+        "WITNESS",
+        "ARCHIVE",
+        "FORK_LOG",
+        "DIGEST"
+      ],
+      "connections": [
+        "LATTICE_PURE_DATA_WITNESS",
+        "NODE_PDW_ROOT",
+        "NODE_PDW_396B3A62D3DE"
+      ],
+      "urls": {
+        "source": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json"
+      },
+      "layer": "C",
+      "meta": {
+        "role": "pdw_witness",
+        "witness_id": "PDW-5A5E3C3C0E77",
+        "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+        "captured_utc": "2026-08-18T00:48:33Z",
+        "egg_id": "pdw-frag-pdw-5a5e3c3c0e77",
+        "bytes": 7048,
+        "parent_node": "NODE_PDW_396B3A62D3DE"
+      }
+    }
+  ]
+}

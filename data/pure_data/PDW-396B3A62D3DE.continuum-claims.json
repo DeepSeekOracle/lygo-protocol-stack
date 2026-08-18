@@ -1,0 +1,37 @@
+[
+  {
+    "id": "PDW-396B3A62D3DE-card",
+    "kind": "file_exists",
+    "path": "PDW-396B3A62D3DE.json"
+  },
+  {
+    "id": "PDW-396B3A62D3DE-sha",
+    "kind": "json_path_eq",
+    "path": "PDW-396B3A62D3DE.json",
+    "jpath": "content_sha256",
+    "expect": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96"
+  },
+  {
+    "id": "PDW-396B3A62D3DE-id",
+    "kind": "json_path_eq",
+    "path": "PDW-396B3A62D3DE.json",
+    "jpath": "witness_id",
+    "expect": "PDW-396B3A62D3DE"
+  },
+  {
+    "id": "PDW-396B3A62D3DE-snap",
+    "kind": "file_exists",
+    "path": "PDW-396B3A62D3DE.bin"
+  },
+  {
+    "id": "PDW-396B3A62D3DE-snap-sha",
+    "kind": "file_sha256",
+    "path": "PDW-396B3A62D3DE.bin",
+    "expect": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96"
+  },
+  {
+    "id": "PDW-396B3A62D3DE-egg",
+    "kind": "file_exists",
+    "path": "eggs/pdw-frag-pdw-396b3a62d3de.json"
+  }
+]

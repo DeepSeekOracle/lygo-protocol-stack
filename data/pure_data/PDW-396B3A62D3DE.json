@@ -1,0 +1,23 @@
+{
+  "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1.1",
+  "witness_id": "PDW-396B3A62D3DE",
+  "captured_utc": "2026-08-18T01:16:23Z",
+  "source_url": null,
+  "source_path_hint": "_smoke_register.html",
+  "content_sha256": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96",
+  "bytes": 150,
+  "content_type": "text/plain; charset=utf-8",
+  "method": "local_file",
+  "fetch_status": null,
+  "truncated": false,
+  "max_fetch_bytes": 262144,
+  "egg_id": "pdw-frag-pdw-396b3a62d3de",
+  "continuum_claims_file": "PDW-396B3A62D3DE.continuum-claims.json",
+  "mirrors": [],
+  "notes": "Pure-Data Witness — digest is authority.",
+  "snapshot_saved": true,
+  "snapshot_file": "PDW-396B3A62D3DE.bin",
+  "snapshot_txt": "PDW-396B3A62D3DE.txt",
+  "egg_merkle_root": "afa58fb24002553bb132207d479b9aec352c534ce8b18094455411539742fa0a",
+  "egg_file": "pdw-frag-pdw-396b3a62d3de.json"
+}

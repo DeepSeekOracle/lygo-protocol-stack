@@ -1,0 +1,1 @@
+<!DOCTYPE html><html><body><h1>PDW smoke 2026-08-17T19:16:22.9209205-06:00</h1><p>LYGO Pure-Data Witness local file archive smoke.</p></body></html>
