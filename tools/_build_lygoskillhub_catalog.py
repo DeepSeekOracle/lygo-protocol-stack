@@ -126,7 +126,7 @@ def main() -> int:
         )
         summary = re.sub(r"\s+", " ", str(summary)).strip()[:500]
         has_mirror = (MIRRORS / slug).is_dir() or (STACK / "docs" / "skills" / slug).is_dir()
-        by_slug[slug] = {
+        entry = {
             "kind": "skill",
             "slug": slug,
             "name": name,
@@ -143,6 +143,28 @@ def main() -> int:
             "source": "clawhub",
             "ledger": "clawhub/skills.json",
         }
+        if item.get("notes"):
+            entry["note"] = item["notes"]
+        if item.get("full_lygo"):
+            entry["full_lygo"] = item["full_lygo"]
+        # FULL engineer vault for skills that ship unlocked zips on SkillHub
+        if slug in (
+            "lygo-pure-data-witness",
+            "lygo-traumacodex",
+            "lygo-cyborg-kernel",
+            "lygo-continuum",
+            "lygo-skill-spector",
+            "lygo-ollama-army",
+        ):
+            entry.setdefault(
+                "full_lygo", "https://chatagent.ca/lygoskillhub.html#full-lygo"
+            )
+            entry.setdefault(
+                "note",
+                entry.get("note")
+                or "FULL unlocked engineer zip at SkillHub #full-lygo (not ClawHub).",
+            )
+        by_slug[slug] = entry
 
     # 2) Optional remote inventory for download counts / names
     for item in load_clawhub_inv():

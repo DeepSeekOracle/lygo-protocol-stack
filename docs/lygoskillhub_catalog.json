@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
   "version": "1.4.1",
-  "updated_utc": "2026-08-17T16:22:36.313735+00:00",
+  "updated_utc": "2026-08-18T01:34:18.980838+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -24,18 +24,18 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 95,
-    "skills": 80,
+    "total": 96,
+    "skills": 81,
     "plugins": 1,
     "downloads": 4,
     "surfaces": 11,
-    "clawhub_skills_indexed": 79,
+    "clawhub_skills_indexed": 81,
     "local_only_skills": 0,
-    "clawhub_profile_skills_listed": 79,
-    "stack_skills_json": 38
+    "clawhub_profile_skills_listed": 81,
+    "stack_skills_json": 40
   },
-  "skill_count": 80,
-  "item_count": 95,
+  "skill_count": 81,
+  "item_count": 96,
   "categories": [
     "champion",
     "creative",
@@ -50,23 +50,6 @@
     "tools"
   ],
   "skills": [
-    {
-      "kind": "skill",
-      "slug": "lygo-traumacodex",
-      "name": "LYGO TraumaCodex",
-      "summary": "TraumaCodex — map biometric entropy (P7) into P8 LDQ waveform synthesis, dual offline/online mirror dig, and Layer D living-mesh healing-code seals (protocol seals only, not medical). Offline-first; online summaries only. Lattice stays open.",
-      "downloads": 0,
-      "version": "1.0.0",
-      "published": false,
-      "category": "lattice",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-traumacodex",
-      "install": "npx clawhub@latest install deepseekoracle/lygo-traumacodex",
-      "has_local_skill": true,
-      "has_stack_mirror": true,
-      "source": "mirror",
-      "note": "FULL unlocked at #full-lygo — stack tool tools/traumacodex_waveform.py",
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
-    },
     {
       "kind": "skill",
       "slug": "eternal-haven-lore-pack",
@@ -497,7 +480,9 @@
       "has_local_skill": true,
       "has_stack_mirror": true,
       "source": "clawhub",
-      "ledger": "clawhub/skills.json"
+      "ledger": "clawhub/skills.json",
+      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "note": "FULL unlocked engineer zip at SkillHub #full-lygo (not ClawHub)."
     },
     {
       "kind": "skill",
@@ -783,7 +768,9 @@
       "has_local_skill": true,
       "has_stack_mirror": true,
       "source": "clawhub",
-      "ledger": "clawhub/skills.json"
+      "ledger": "clawhub/skills.json",
+      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "note": "FULL unlocked engineer zip at SkillHub #full-lygo (not ClawHub)."
     },
     {
       "kind": "skill",
@@ -1097,6 +1084,24 @@
     },
     {
       "kind": "skill",
+      "slug": "lygo-pure-data-witness",
+      "name": "LYGO Pure-Data Witness",
+      "summary": ">",
+      "downloads": 0,
+      "version": "1.1.0",
+      "published": true,
+      "category": "other",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-pure-data-witness",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-pure-data-witness",
+      "has_local_skill": true,
+      "has_stack_mirror": true,
+      "source": "clawhub",
+      "ledger": "clawhub/skills.json",
+      "note": "FULL unlocked: https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+    },
+    {
+      "kind": "skill",
       "slug": "lygo-sandcastle",
       "name": "Lygo Sandcastle",
       "summary": "LYGO Sovereign Workflow Orchestrator — YAML workflows with P0 gate, P1 mycelium memory, P3 consensus, P5 run identity, and consent-gated kernel egg. Sandcastle-aligned; local-first dry-run. Read references/SECURITY.md first. No auto git push.",
@@ -1151,7 +1156,9 @@
       "has_local_skill": true,
       "has_stack_mirror": true,
       "source": "clawhub",
-      "ledger": "clawhub/skills.json"
+      "ledger": "clawhub/skills.json",
+      "note": "Builder version: https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1208,6 +1215,24 @@
       "has_stack_mirror": true,
       "source": "mirror",
       "note": "Present in clawhub/mirrors; ensure skills.json + ClawHub stay in sync"
+    },
+    {
+      "kind": "skill",
+      "slug": "lygo-traumacodex",
+      "name": "lygo-traumacodex",
+      "summary": ">",
+      "downloads": 0,
+      "version": "1.0.0",
+      "published": false,
+      "category": "other",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-traumacodex",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-traumacodex",
+      "has_local_skill": true,
+      "has_stack_mirror": true,
+      "source": "clawhub",
+      "ledger": "clawhub/skills.json",
+      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "note": "FULL unlocked engineer zip at SkillHub #full-lygo (not ClawHub)."
     },
     {
       "kind": "skill",
@@ -1406,5 +1431,5 @@
     }
   ],
   "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only.",
-  "catalog_sha256": "a38d0ab70e9bdc9029fc313fddf34fe04e3c330a7a2f6b45c8f6074708103446"
+  "catalog_sha256": "023ccca52b37e74230f7b6e86743023261f08411ab8a471ab533ff5ba2799466"
 }

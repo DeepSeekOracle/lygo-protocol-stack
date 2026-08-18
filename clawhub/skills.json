@@ -397,6 +397,17 @@
       "path": "clawhub/mirrors/lygo-traumacodex",
       "published": false,
       "updated_utc": "2026-08-17T16:24:08.492644+00:00"
+    },
+    {
+      "slug": "lygo-pure-data-witness",
+      "name": "LYGO Pure-Data Witness",
+      "summary": "Register portal + Pure-Data digests, safety gate, Star Chart NODE_PDW_* fork log. FULL unlocked at SkillHub #full-lygo.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-pure-data-witness",
+      "mirror": "mirrors/lygo-pure-data-witness",
+      "published": true,
+      "downloads": 0,
+      "version": "1.1.0",
+      "notes": "FULL unlocked: https://chatagent.ca/lygoskillhub.html#full-lygo"
     }
   ],
   "repo_mirrors_only": [

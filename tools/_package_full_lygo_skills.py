@@ -4,19 +4,28 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-STACK = Path(r"D:\lygo-protocol-stack")
+STACK = Path(__file__).resolve().parents[1]
+if not (STACK / "clawhub").is_dir():
+    STACK = Path(os.environ.get("LYGO_STACK_ROOT", r"D:\lygo-protocol-stack"))
 ROOT = STACK / "docs" / "lygo-full-skills"
 DIST = ROOT / "dist"
 PACK = ROOT / "packages"
-GROK = Path(r"I:\E Drive\.grok\skills")
+GROK = Path(os.environ.get("LYGO_GROK_SKILLS", r"I:\E Drive\.grok\skills"))
 
 # Ordered for catalog UI
 SKILL_SOURCES: dict[str, list[Path]] = {
+    # Pure-Data Witness — portal + archive + Star Chart fork log (FULL unlocks stack register)
+    "lygo-pure-data-witness": [
+        STACK / "docs" / "skills" / "lygo-pure-data-witness",
+        STACK / "clawhub" / "mirrors" / "lygo-pure-data-witness",
+        GROK / "lygo-pure-data-witness",
+    ],
     # Core self-audit spine
     "lygo-protocol-stack-operator": [
         STACK / "clawhub" / "mirrors" / "lygo-protocol-stack-operator",
@@ -141,10 +150,20 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-cyborg-kernel",
         GROK / "lygo-cyborg-kernel",
     ],
+    "lygo-traumacodex": [
+        STACK / "docs" / "skills" / "lygo-traumacodex",
+        STACK / "clawhub" / "mirrors" / "lygo-traumacodex",
+        GROK / "lygo-traumacodex",
+    ],
 }
 
 ROLES = {
+    "lygo-pure-data-witness": (
+        "📜 Pure-Data Witness FULL — register portal playbook + safety gate + stack register "
+        "+ Star Chart NODE_PDW_* map (GALAXY_PURE_DATA_ARCHIVE). Digest-first archive; consent-gated."
+    ),
     "lygo-protocol-stack-operator": "P0–P9 audits + stack map — self-check spine",
+    "lygo-traumacodex": "TraumaCodex P7→P8 dual dig + waveform — FULL stack limb",
     "lygo-kernel-egg-planter": "Merkle plant/verify eggs — modular limbs",
     "lygo-ollama-army": "Local Ollama multi-role army (v0.9 ClawHub-safe SAFE_ROLES; FULL zip matches public tentacle)",
     "lygo-public-lattice-gate": "Public agent on-ramp: dual-ledger verify, align score, dry-run propose — zero harm default",
@@ -173,6 +192,8 @@ ROLES = {
 }
 
 TIERS = {
+    "lygo-pure-data-witness": "tools",
+    "lygo-traumacodex": "lattice",
     "lygo-protocol-stack-operator": "core",
     "lygo-kernel-egg-planter": "core",
     "lygo-ollama-army": "core",
@@ -261,6 +282,20 @@ def copy_tree(src: Path, dest: Path) -> int:
 
 
 def stamp_full(pkg: Path, slug: str, src: str, n: int, utc: str) -> None:
+    extra_lines: list[str] = []
+    if slug == "lygo-pure-data-witness":
+        extra_lines = [
+            "",
+            "## Unlocked limbs (FULL)",
+            "",
+            "- Portal playbook: `references/PORTAL_TRAINING.md`",
+            "- Register portal: https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html",
+            "- Stack register (consent): `scripts/pure_data_register.py` (needs `LYGO_STACK_ROOT`)",
+            "- Star Chart map: `scripts/map_pure_data_to_star_chart.py`",
+            "- Galaxy: `GALAXY_PURE_DATA_ARCHIVE` · nodes `NODE_PDW_*`",
+            "",
+            "ClawHub tentacle stays subprocess-free; this FULL zip restores stack register + chart map.",
+        ]
     (pkg / "FULL_LYGO.md").write_text(
         "\n".join(
             [
@@ -279,6 +314,7 @@ def stamp_full(pkg: Path, slug: str, src: str, n: int, utc: str) -> None:
                 "",
                 "Good faith · LYGO policy · engineer autonomy · not malicious by design.",
                 "You are responsible for extended systems you run.",
+                *extra_lines,
             ]
         )
         + "\n",
@@ -289,6 +325,60 @@ def stamp_full(pkg: Path, slug: str, src: str, n: int, utc: str) -> None:
         "https://chatagent.ca/lygoskillhub.html#full-lygo\n",
         encoding="utf-8",
     )
+
+
+def enrich_pure_data_witness_full(pkg: Path) -> int:
+    """Inject unlocked stack register + Star Chart map into FULL package."""
+    scripts = pkg / "scripts"
+    scripts.mkdir(parents=True, exist_ok=True)
+    added = 0
+    for name in ("pure_data_register.py", "map_pure_data_to_star_chart.py", "pure_data_safety.py", "pure_data_witness.py"):
+        src = STACK / "tools" / name
+        if not src.is_file():
+            continue
+        dest = scripts / name
+        # Keep in-package safety/witness from ClawHub mirror if already present;
+        # always overwrite register + map from stack (unlocked limbs).
+        if name in ("pure_data_register.py", "map_pure_data_to_star_chart.py") or not dest.exists():
+            shutil.copy2(src, dest)
+            added += 1
+    # Wrapper that prefers LYGO_STACK_ROOT tools when present
+    wrapper = scripts / "pdw_full_cli.py"
+    wrapper.write_text(
+        '''#!/usr/bin/env python3
+"""FULL LYGO Pure-Data Witness — unlocked register + map (engineer channel)."""
+from __future__ import annotations
+
+import os
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+
+def main() -> int:
+    stack = os.environ.get("LYGO_STACK_ROOT", "").strip()
+    if stack:
+        tools = Path(stack) / "tools"
+        if (tools / "pure_data_register.py").is_file():
+            sys.path.insert(0, str(tools))
+            # Delegate to stack register when available
+            import runpy
+            sys.argv[0] = str(tools / "pure_data_register.py")
+            # If user called pdw_full_cli with no subcommand hint, keep argv
+            runpy.run_path(str(tools / "pure_data_register.py"), run_name="__main__")
+            return 0
+    # In-package ClawHub-safe CLI
+    import pdw_cli
+    return pdw_cli.main()
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+''',
+        encoding="utf-8",
+    )
+    added += 1
+    return added
 
 
 def zip_pkg(pkg: Path, zpath: Path, arc_root: str) -> str:
@@ -560,7 +650,12 @@ def main() -> int:
         ],
         "public_agent_principle": "verify dual ledgers → align → dry-run propose → human consent → optional live chart",
         "cyborg_principle": "boot limbs → task with Continuum self-police → can_claim_done only when claims hold → human consent for plant/publish",
-        "featured": ["lygo-cyborg-kernel", "lygo-continuum", "lygo-protocol-stack-operator"],
+        "featured": [
+            "lygo-cyborg-kernel",
+            "lygo-continuum",
+            "lygo-protocol-stack-operator",
+            "lygo-pure-data-witness",
+        ],
         "skills": [],
     }
 
@@ -585,38 +680,49 @@ def main() -> int:
             continue
         pkg = PACK / f"{slug}-full"
         n = copy_tree(src, pkg)
+        if slug == "lygo-pure-data-witness":
+            n += enrich_pure_data_witness_full(pkg)
+        if slug == "lygo-traumacodex":
+            wav = STACK / "tools" / "traumacodex_waveform.py"
+            if wav.is_file():
+                shutil.copy2(wav, pkg / "scripts" / "traumacodex_waveform.py")
+                n += 1
         stamp_full(pkg, slug, str(src), n, utc)
         zpath = DIST / f"{slug}-full.zip"
         h = zip_pkg(pkg, zpath, f"{slug}-full")
-        catalog["skills"].append(
-            {
-                "slug": slug,
-                "name": (
-                    "🦾 LYGO Cyborg Kernel Stack (FULL UNLOCKED)"
-                    if slug == "lygo-cyborg-kernel"
-                    else slug.replace("-", " ").title() + " (FULL LYGO)"
-                ),
-                "package": f"{slug}-full",
-                "zip": f"{slug}-full.zip",
-                "zip_rel": f"dist/{slug}-full.zip",
-                "zip_sha256": h,
-                "bytes": zpath.stat().st_size,
-                "file_count": n + 2,
-                "role": ROLES.get(slug, ""),
-                "tier": TIERS.get(slug, "other"),
-                "featured": slug in ("lygo-cyborg-kernel", "lygo-continuum"),
-                "harm_default": (
-                    "self_policed_unlocked"
-                    if slug == "lygo-cyborg-kernel"
-                    else (
-                        "read_only"
-                        if slug in ("lygo-public-lattice-gate", "lygo-external-lattice-anchor")
-                        else "consent_gated"
-                    )
-                ),
-                "source_path": str(src),
-            }
-        )
+        pretty = {
+            "lygo-cyborg-kernel": "🦾 LYGO Cyborg Kernel Stack (FULL UNLOCKED)",
+            "lygo-pure-data-witness": "📜 LYGO Pure-Data Witness (FULL UNLOCKED)",
+        }.get(slug, slug.replace("-", " ").title() + " (FULL LYGO)")
+        entry = {
+            "slug": slug,
+            "name": pretty,
+            "package": f"{slug}-full",
+            "zip": f"{slug}-full.zip",
+            "zip_rel": f"dist/{slug}-full.zip",
+            "zip_sha256": h,
+            "bytes": zpath.stat().st_size,
+            "file_count": n + 2,
+            "role": ROLES.get(slug, ""),
+            "tier": TIERS.get(slug, "other"),
+            "featured": slug
+            in ("lygo-cyborg-kernel", "lygo-continuum", "lygo-pure-data-witness"),
+            "harm_default": (
+                "self_policed_unlocked"
+                if slug == "lygo-cyborg-kernel"
+                else (
+                    "read_only"
+                    if slug in ("lygo-public-lattice-gate", "lygo-external-lattice-anchor")
+                    else "consent_gated"
+                )
+            ),
+            "source_path": str(src),
+        }
+        if slug == "lygo-pure-data-witness":
+            entry["portal"] = (
+                "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html"
+            )
+        catalog["skills"].append(entry)
         print("packed", slug, "files", n, "zip_kb", zpath.stat().st_size // 1024)
 
     (ROOT / "catalog.json").write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")

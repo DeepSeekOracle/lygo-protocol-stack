@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-FULL-LYGO-SKILLS-v2",
   "version": "2.0.0",
-  "updated_utc": "2026-08-17T16:54:09.069314+00:00",
+  "updated_utc": "2026-08-18T01:33:23.585755+00:00",
   "channel": "FULL_LYGO_ENGINEER",
   "clawhub": "never",
   "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
@@ -21,13 +21,13 @@
     "memory",
     "champion"
   ],
-  "public_agent_principle": "verify dual ledgers → align → dry-run propose → human consent → optional live chart",
-  "cyborg_principle": "boot limbs → task with Continuum self-police → can_claim_done only when claims hold → human consent for plant/publish",
+  "public_agent_principle": "verify dual ledgers \u2192 align \u2192 dry-run propose \u2192 human consent \u2192 optional live chart",
+  "cyborg_principle": "boot limbs \u2192 task with Continuum self-police \u2192 can_claim_done only when claims hold \u2192 human consent for plant/publish",
   "featured": [
     "lygo-cyborg-kernel",
     "lygo-continuum",
     "lygo-protocol-stack-operator",
-    "lygo-traumacodex"
+    "lygo-pure-data-witness"
   ],
   "skills": [
     {
@@ -36,8 +36,8 @@
       "package": "lygo-public-agent-join-kit-full",
       "zip": "lygo-public-agent-join-kit-full.zip",
       "zip_rel": "dist/lygo-public-agent-join-kit-full.zip",
-      "zip_sha256": "e35fa0fc0e5c26c390c8db62e9c519f86d65a3e2df3259542458d126f9bd330d",
-      "bytes": 10452,
+      "zip_sha256": "ce5611877848327b5d0521533514b747f71cad8039915c1b2a9d651d51451470",
+      "bytes": 10512,
       "file_count": 5,
       "role": "Non-harming onboarding playbook + verify manifests for foreign agents",
       "tier": "public_safe_join",
@@ -50,13 +50,13 @@
       "package": "lygo-star-chart-integration-kit-full",
       "zip": "lygo-star-chart-integration-kit-full.zip",
       "zip_rel": "dist/lygo-star-chart-integration-kit-full.zip",
-      "zip_sha256": "b386415260bb2cd55adf7cabc9d552f4c5b83a12bc740b4b23f4b6f98555679c",
-      "bytes": 193567,
+      "zip_sha256": "a8e3c66807d83ba5423cc740c04bc5f3d9e8d292aba69a36f4f9bbf7b6515651",
+      "bytes": 196667,
       "file_count": 13,
       "role": "Offline+online Star Chart join kit: schema, feed, anchors, non-harm playbook",
       "tier": "star_chart",
       "harm_default": "read_only",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\haven_star_chart"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\haven_star_chart"
     },
     {
       "slug": "lygo-seals-expansion-kit",
@@ -64,28 +64,44 @@
       "package": "lygo-seals-expansion-kit-full",
       "zip": "lygo-seals-expansion-kit-full.zip",
       "zip_rel": "dist/lygo-seals-expansion-kit-full.zip",
-      "zip_sha256": "7658200d445e548eaf755f883363d76bed3993c57f0b5fe43707f1d00e97b1fe",
-      "bytes": 175180,
+      "zip_sha256": "ccd52cddf94f85ebf7898011b74e5b84270e006adc48ac29735914ab516ab65e",
+      "bytes": 234507,
       "file_count": 22,
       "role": "Seal archive + Kernel/Champion egg registries for expansion",
       "tier": "seals",
       "harm_default": "read_mostly",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\seals"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals"
     },
     {
       "slug": "lygo-cyborg-kernel",
-      "name": "🦾 LYGO Cyborg Kernel Stack (FULL UNLOCKED)",
+      "name": "\ud83e\uddbe LYGO Cyborg Kernel Stack (FULL UNLOCKED)",
       "package": "lygo-cyborg-kernel-full",
       "zip": "lygo-cyborg-kernel-full.zip",
       "zip_rel": "dist/lygo-cyborg-kernel-full.zip",
-      "zip_sha256": "d61b3d8e1d1b6c56d5c1ed13784530232a45ea795e3bbbda8b46b0c67a865707",
-      "bytes": 48060,
+      "zip_sha256": "d17e47e26bec7b1378112e69a24f17ae1ce1d3cddb6d7361f20bcb3e327eec35",
+      "bytes": 48405,
       "file_count": 23,
-      "role": "🦾 CYBORG KERNEL STACK — FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
+      "role": "\ud83e\uddbe CYBORG KERNEL STACK \u2014 FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
       "tier": "kernel",
       "featured": true,
       "harm_default": "self_policed_unlocked",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-cyborg-kernel"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-cyborg-kernel"
+    },
+    {
+      "slug": "lygo-pure-data-witness",
+      "name": "\ud83d\udcdc LYGO Pure-Data Witness (FULL UNLOCKED)",
+      "package": "lygo-pure-data-witness-full",
+      "zip": "lygo-pure-data-witness-full.zip",
+      "zip_rel": "dist/lygo-pure-data-witness-full.zip",
+      "zip_sha256": "47c3665a008761c196587bccf0a021892d551bc19e8403d185b4958bef7fdd0c",
+      "bytes": 21475,
+      "file_count": 13,
+      "role": "\ud83d\udcdc Pure-Data Witness FULL \u2014 register portal playbook + safety gate + stack register + Star Chart NODE_PDW_* map (GALAXY_PURE_DATA_ARCHIVE). Digest-first archive; consent-gated.",
+      "tier": "tools",
+      "featured": true,
+      "harm_default": "consent_gated",
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-pure-data-witness",
+      "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html"
     },
     {
       "slug": "lygo-protocol-stack-operator",
@@ -93,14 +109,14 @@
       "package": "lygo-protocol-stack-operator-full",
       "zip": "lygo-protocol-stack-operator-full.zip",
       "zip_rel": "dist/lygo-protocol-stack-operator-full.zip",
-      "zip_sha256": "560451f443dea2ff01292d4d848eaa692187e0f18c9dd59fcf527485485d7b80",
-      "bytes": 11846,
+      "zip_sha256": "9e00208e27c9a6e3a3b2b07ff32d2202073b81dcb2a14756e7a793e35f4161c0",
+      "bytes": 11852,
       "file_count": 11,
-      "role": "P0–P9 audits + stack map — self-check spine",
+      "role": "P0\u2013P9 audits + stack map \u2014 self-check spine",
       "tier": "core",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-protocol-stack-operator"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-protocol-stack-operator"
     },
     {
       "slug": "lygo-kernel-egg-planter",
@@ -108,14 +124,14 @@
       "package": "lygo-kernel-egg-planter-full",
       "zip": "lygo-kernel-egg-planter-full.zip",
       "zip_rel": "dist/lygo-kernel-egg-planter-full.zip",
-      "zip_sha256": "46d5c467ca1014f34672189aec8023206b2b77ce53ec43091372bca3d2f24426",
-      "bytes": 23016,
+      "zip_sha256": "102520d1ec640a1093fa385c753a3e8536eb625ef0bc2233b7e10b01bf9a1ef4",
+      "bytes": 23217,
       "file_count": 22,
-      "role": "Merkle plant/verify eggs — modular limbs",
+      "role": "Merkle plant/verify eggs \u2014 modular limbs",
       "tier": "core",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-kernel-egg-planter"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-kernel-egg-planter"
     },
     {
       "slug": "lygo-ollama-army",
@@ -123,14 +139,14 @@
       "package": "lygo-ollama-army-full",
       "zip": "lygo-ollama-army-full.zip",
       "zip_rel": "dist/lygo-ollama-army-full.zip",
-      "zip_sha256": "e3a58188f599cd4b9c7698c3d42753c8af66f283d0c477a4dc6e86ed546b54be",
-      "bytes": 16299,
+      "zip_sha256": "157a4c8fae82dfffef5c65011266443570927111f4ca203af9793933dc067b41",
+      "bytes": 16467,
       "file_count": 19,
       "role": "Local Ollama multi-role army (v0.9 ClawHub-safe SAFE_ROLES; FULL zip matches public tentacle)",
       "tier": "core",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ollama-army"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ollama-army"
     },
     {
       "slug": "lygo-public-lattice-gate",
@@ -138,14 +154,14 @@
       "package": "lygo-public-lattice-gate-full",
       "zip": "lygo-public-lattice-gate-full.zip",
       "zip_rel": "dist/lygo-public-lattice-gate-full.zip",
-      "zip_sha256": "6c2297726c11f26f0f47dbbec3951424539257bac599d6e7c9f6bfccd9ea9bd0",
-      "bytes": 15396,
+      "zip_sha256": "093c79ca0b15fae7da5cfa99b15c95668881edfab412c667217536d5c09451e7",
+      "bytes": 15521,
       "file_count": 11,
-      "role": "Public agent on-ramp: dual-ledger verify, align score, dry-run propose — zero harm default",
+      "role": "Public agent on-ramp: dual-ledger verify, align score, dry-run propose \u2014 zero harm default",
       "tier": "public_safe_join",
       "featured": false,
       "harm_default": "read_only",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-public-lattice-gate"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-public-lattice-gate"
     },
     {
       "slug": "lygo-external-lattice-anchor",
@@ -153,14 +169,14 @@
       "package": "lygo-external-lattice-anchor-full",
       "zip": "lygo-external-lattice-anchor-full.zip",
       "zip_rel": "dist/lygo-external-lattice-anchor-full.zip",
-      "zip_sha256": "a4fd3ba85af0953c2d1d5a19eb4d656368f92aea2290b1ca6a010a43b2654bff",
-      "bytes": 24897,
+      "zip_sha256": "598c1c4eac70d9b8e2ab2ce6969beaea4455e5f112189d0d00b74f5aad620dd4",
+      "bytes": 25072,
       "file_count": 14,
       "role": "World Layer C: public mirror verify + manifests",
       "tier": "public_safe_join",
       "featured": false,
       "harm_default": "read_only",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-external-lattice-anchor"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-external-lattice-anchor"
     },
     {
       "slug": "lygo-haven-star-chart",
@@ -168,14 +184,14 @@
       "package": "lygo-haven-star-chart-full",
       "zip": "lygo-haven-star-chart-full.zip",
       "zip_rel": "dist/lygo-haven-star-chart-full.zip",
-      "zip_sha256": "b0f3cd0c9db1090a8eecf70f0d312f7ec3136c75adf7db4ab3167aa79280322d",
-      "bytes": 14966,
+      "zip_sha256": "4f4a9da53a0386744aa722db6e678666eb93dc0b589bedcabbedc028bc8d9e4f",
+      "bytes": 14860,
       "file_count": 13,
       "role": "Star Chart portal skill: gate/validate/propose (live write needs human consent)",
       "tier": "star_chart",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-haven-star-chart"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-haven-star-chart"
     },
     {
       "slug": "lygo-lattice-birth",
@@ -183,14 +199,14 @@
       "package": "lygo-lattice-birth-full",
       "zip": "lygo-lattice-birth-full.zip",
       "zip_rel": "dist/lygo-lattice-birth-full.zip",
-      "zip_sha256": "48465e14b2b78dee4fa1797017369a5d7159fc3c630b0be48082da26b9a7c41d",
-      "bytes": 13589,
+      "zip_sha256": "8df54f088406096226114d5c1a6933cc99c551300dc96d6c65c4422ad9c419ac",
+      "bytes": 13485,
       "file_count": 13,
       "role": "Masked birth protocol chained to Star Chart",
       "tier": "star_chart",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-birth"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-birth"
     },
     {
       "slug": "lygo-network-builder",
@@ -198,14 +214,14 @@
       "package": "lygo-network-builder-full",
       "zip": "lygo-network-builder-full.zip",
       "zip_rel": "dist/lygo-network-builder-full.zip",
-      "zip_sha256": "980124efdb3525a0293a8c493d90f978b4bd5daef6c4c55a449d5b4d14792ffd",
-      "bytes": 6812,
+      "zip_sha256": "9a367d793cb3bfb7887f43c7e650366b932f2b1f7f118e4739f19e78970dd2f4",
+      "bytes": 6769,
       "file_count": 8,
       "role": "IMMUTABLE_ANCHORS cartographer + live verify",
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-network-builder"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-network-builder"
     },
     {
       "slug": "lygo-lattice-pulse",
@@ -213,14 +229,14 @@
       "package": "lygo-lattice-pulse-full",
       "zip": "lygo-lattice-pulse-full.zip",
       "zip_rel": "dist/lygo-lattice-pulse-full.zip",
-      "zip_sha256": "fd9ead48e7d890c2afda2502410d34a2fe5cec44948b3507f50e06e4df112b45",
-      "bytes": 4980,
+      "zip_sha256": "2e6a38a6320bc4f7d7825a39aec0214c6b57c80a10025801c6f27d3403ca16b3",
+      "bytes": 5037,
       "file_count": 8,
       "role": "Haven pulse / registry compare / alignment readiness",
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-pulse"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-pulse"
     },
     {
       "slug": "lygo-living-mesh",
@@ -228,14 +244,14 @@
       "package": "lygo-living-mesh-full",
       "zip": "lygo-living-mesh-full.zip",
       "zip_rel": "dist/lygo-living-mesh-full.zip",
-      "zip_sha256": "c7b447b9eb10ff6790d302a5613a8ca059e116a9d7fc514f55e771911e4469d2",
-      "bytes": 10597,
+      "zip_sha256": "dbf715a08f09b9cfadd7ccf1687cc501cba3a18f3e063f1f168ffd6ee04844fc",
+      "bytes": 10712,
       "file_count": 15,
       "role": "Layer D mesh gossip of root digests",
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-living-mesh"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-living-mesh"
     },
     {
       "slug": "lygo-agent-lattice",
@@ -243,14 +259,14 @@
       "package": "lygo-agent-lattice-full",
       "zip": "lygo-agent-lattice-full.zip",
       "zip_rel": "dist/lygo-agent-lattice-full.zip",
-      "zip_sha256": "7f08ed82117ebe0d075d2cdb19fcf797519b5b347726250e44457237c1f3acd7",
-      "bytes": 9835,
+      "zip_sha256": "41b940ebeeeddd4f145ab21f0af0aa2fb8f574e972902ae0ed574df9fcd601ae",
+      "bytes": 9943,
       "file_count": 17,
       "role": "Layer E agent presence / directory (consent-gated)",
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-agent-lattice"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-agent-lattice"
     },
     {
       "slug": "lygo-sovereign-kernel-seeder",
@@ -258,14 +274,14 @@
       "package": "lygo-sovereign-kernel-seeder-full",
       "zip": "lygo-sovereign-kernel-seeder-full.zip",
       "zip_rel": "dist/lygo-sovereign-kernel-seeder-full.zip",
-      "zip_sha256": "6691a3d95b6e8408da3ba6e9f1b82460b5175c4620ed444b29a8edea63c8f1fd",
-      "bytes": 19323,
+      "zip_sha256": "0e1bfb1ddde3f3502e3795ca7045adbfc9a85b2cd6a1cbcc1b3c35dbe09d4703",
+      "bytes": 19464,
       "file_count": 16,
       "role": "Sovereign-sealed modular kernel seeds",
       "tier": "kernel",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-sovereign-kernel-seeder"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-sovereign-kernel-seeder"
     },
     {
       "slug": "lygo-sovereign-super-skill",
@@ -273,14 +289,14 @@
       "package": "lygo-sovereign-super-skill-full",
       "zip": "lygo-sovereign-super-skill-full.zip",
       "zip_rel": "dist/lygo-sovereign-super-skill-full.zip",
-      "zip_sha256": "7c0edc998bc8f0c1af0423270bf670e8ede30b57f6a595687f48afb7bfad3b64",
-      "bytes": 8162,
+      "zip_sha256": "347d140a96444bdc5aeca128d506eb8452e664332dbcc3249bd7a2065dc4931e",
+      "bytes": 8119,
       "file_count": 9,
       "role": "Map of eggs + champions + planter chain",
       "tier": "kernel",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-sovereign-super-skill"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-sovereign-super-skill"
     },
     {
       "slug": "lyra-brain",
@@ -288,14 +304,14 @@
       "package": "lyra-brain-full",
       "zip": "lyra-brain-full.zip",
       "zip_rel": "dist/lyra-brain-full.zip",
-      "zip_sha256": "c5bd0f29e00e7551f72b61fb6c0969deed5132837f60211ec5867534df9b94f8",
-      "bytes": 12224,
+      "zip_sha256": "a62e164e2d43525853cb77d64bfddb6c6ec83ec9e7bd68600aee4042afa18852",
+      "bytes": 12214,
       "file_count": 14,
       "role": "3-Brain memory (consent writes under LYRA_CORE_ROOT)",
       "tier": "memory",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lyra-brain"
+      "source_path": "I:\\E Drive\\.grok\\skills\\lyra-brain"
     },
     {
       "slug": "lygo-champion-lightfather",
@@ -303,14 +319,14 @@
       "package": "lygo-champion-lightfather-full",
       "zip": "lygo-champion-lightfather-full.zip",
       "zip_rel": "dist/lygo-champion-lightfather-full.zip",
-      "zip_sha256": "49cd4eb0cde4a074cfaad22de37263cd414fb00c8f9f3d675fe78307cc9f5be8",
-      "bytes": 14185,
+      "zip_sha256": "5814e049dc319c416967a74d6340d1f869056a533be8ad1b3ec9cd3c9d669f05",
+      "bytes": 14117,
       "file_count": 13,
       "role": "Lightfather champion + operator map (advisor-first)",
       "tier": "champion",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-champion-lightfather"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-champion-lightfather"
     },
     {
       "slug": "lygo-kickstart-wizard",
@@ -318,14 +334,14 @@
       "package": "lygo-kickstart-wizard-full",
       "zip": "lygo-kickstart-wizard-full.zip",
       "zip_rel": "dist/lygo-kickstart-wizard-full.zip",
-      "zip_sha256": "c28b6810e0f8005506a4a594856c6d6fbae314a8707aa02f0d3c5d3d1e52dd79",
-      "bytes": 14828,
+      "zip_sha256": "18fce6100fbfbf467af258c726bd9fabddac511eaca00552699626da1fbc6153",
+      "bytes": 14954,
       "file_count": 11,
-      "role": "UX bridge — plain-English lattice onboarding",
+      "role": "UX bridge \u2014 plain-English lattice onboarding",
       "tier": "onboarding",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-kickstart-wizard"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-kickstart-wizard"
     },
     {
       "slug": "lygo-deception-radar",
@@ -333,14 +349,14 @@
       "package": "lygo-deception-radar-full",
       "zip": "lygo-deception-radar-full.zip",
       "zip_rel": "dist/lygo-deception-radar-full.zip",
-      "zip_sha256": "da04a5a15171dde61e0907209897e48267a6f550cf6b10b21612d50ec61bbebb",
-      "bytes": 8527,
+      "zip_sha256": "9b6ffd693d070c77cb6aa9491fae700aa24b29f9085e1e54634a982e2c023a17",
+      "bytes": 8606,
       "file_count": 9,
       "role": "Public Ops Detector proof feed + HTML (public suite only)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-deception-radar"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-deception-radar"
     },
     {
       "slug": "lygo-mint-walkthrough",
@@ -348,10 +364,10 @@
       "package": "lygo-mint-walkthrough-full",
       "zip": "lygo-mint-walkthrough-full.zip",
       "zip_rel": "dist/lygo-mint-walkthrough-full.zip",
-      "zip_sha256": "ae01efa06499dc06c5381c6903bc218f6ff62ea22822cb808e3b830d8b86b802",
+      "zip_sha256": "18b307337e65dd9dfa39f0db36e4b47b1fd9922ecd45b596a0233c5545387aa6",
       "bytes": 8743,
       "file_count": 11,
-      "role": "Interactive mint→verify→anchor tutorial (stdlib ledger)",
+      "role": "Interactive mint\u2192verify\u2192anchor tutorial (stdlib ledger)",
       "tier": "onboarding",
       "featured": false,
       "harm_default": "consent_gated",
@@ -363,14 +379,14 @@
       "package": "lygo-cli-bridge-full",
       "zip": "lygo-cli-bridge-full.zip",
       "zip_rel": "dist/lygo-cli-bridge-full.zip",
-      "zip_sha256": "aca16bf88bc84850288fe3625a0acd13a5286636945c6a2f428e09a36a43999b",
-      "bytes": 11233,
+      "zip_sha256": "9f5f4de683b9b136a76ba1a9c5e6080c21ad5237cd966216bb34efe5d1f27774",
+      "bytes": 11335,
       "file_count": 9,
       "role": "Unified lygo health|map|analyze|mint|radar CLI",
       "tier": "onboarding",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-cli-bridge"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-cli-bridge"
     },
     {
       "slug": "lygo-geodesic-sealer",
@@ -378,14 +394,14 @@
       "package": "lygo-geodesic-sealer-full",
       "zip": "lygo-geodesic-sealer-full.zip",
       "zip_rel": "dist/lygo-geodesic-sealer-full.zip",
-      "zip_sha256": "acf6f8939798e59c03e5c9e46fed32f675c1b350c981c0fffe79e0378547fb08",
-      "bytes": 18773,
+      "zip_sha256": "2c938a4e08e2f3c64604e69f8a8b3aed9ba9271ac8bed4fec90fbd5bc3f558ab",
+      "bytes": 18935,
       "file_count": 12,
       "role": "P6 quantum-attest geodesic dual-ledger seal",
       "tier": "kernel",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-geodesic-sealer"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-geodesic-sealer"
     },
     {
       "slug": "lygo-ops-detector",
@@ -393,14 +409,14 @@
       "package": "lygo-ops-detector-full",
       "zip": "lygo-ops-detector-full.zip",
       "zip_rel": "dist/lygo-ops-detector-full.zip",
-      "zip_sha256": "e897d347ef1e86a2bfff874accabff4be9f76ae0c3dc0cdf9e708845bb83f0c1",
-      "bytes": 29959,
+      "zip_sha256": "9983b27bc9ce5a84ba02a0e574b4bb6fb5a618bbdad6787c11a8c278835d6c75",
+      "bytes": 30045,
       "file_count": 11,
-      "role": "AETHONΔ9 discourse ops/evasion heuristics (FULL eval suite)",
+      "role": "AETHON\u03949 discourse ops/evasion heuristics (FULL eval suite)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ops-detector"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ops-detector"
     },
     {
       "slug": "lygo-context-guard",
@@ -408,14 +424,14 @@
       "package": "lygo-context-guard-full",
       "zip": "lygo-context-guard-full.zip",
       "zip_rel": "dist/lygo-context-guard-full.zip",
-      "zip_sha256": "7c5dbeb07a51b7df9693ed6aceee950d373fe935fc67d461a5a1941e021f1c70",
-      "bytes": 12640,
+      "zip_sha256": "874e95c3e5beb22edc17e9b6b3881069e35dd05ae56c734a2e3a37be2c3ee68d",
+      "bytes": 12771,
       "file_count": 10,
-      "role": "Token budget preflight · secret redact · deterministic compact (FULL RAW)",
+      "role": "Token budget preflight \u00b7 secret redact \u00b7 deterministic compact (FULL RAW)",
       "tier": "tools",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-context-guard"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-context-guard"
     },
     {
       "slug": "lygo-skill-gate",
@@ -423,14 +439,14 @@
       "package": "lygo-skill-gate-full",
       "zip": "lygo-skill-gate-full.zip",
       "zip_rel": "dist/lygo-skill-gate-full.zip",
-      "zip_sha256": "90ebedc3d9d584195198f36255d0dedabdbccaeb75c87cfc1f0ca1cd8c5a75a2",
-      "bytes": 12244,
+      "zip_sha256": "5bfca9c54d85cf3b048c6a6292636ce9d76c961a0d91acf9efdfe5e4f7151829",
+      "bytes": 12353,
       "file_count": 9,
-      "role": "Local pre-install skill risk scanner — subprocess/network/secrets/claim mismatch (FULL RAW)",
+      "role": "Local pre-install skill risk scanner \u2014 subprocess/network/secrets/claim mismatch (FULL RAW)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "D:\\lygo-protocol-stack\\docs\\skills\\lygo-skill-gate"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-skill-gate"
     },
     {
       "slug": "lygo-skill-spector",
@@ -438,10 +454,10 @@
       "package": "lygo-skill-spector-full",
       "zip": "lygo-skill-spector-full.zip",
       "zip_rel": "dist/lygo-skill-spector-full.zip",
-      "zip_sha256": "c415cdc5bbc6e8285e30c095bc7134c25dfdba428389b2c821d5b00489257cdc",
+      "zip_sha256": "aca1200dbba602f9ffe7f94ba85ba0dd17710033a69cb783a7a7a71f09938631",
       "bytes": 22847,
       "file_count": 13,
-      "role": "SkillSpector — enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
+      "role": "SkillSpector \u2014 enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
@@ -453,10 +469,10 @@
       "package": "lygo-continuum-full",
       "zip": "lygo-continuum-full.zip",
       "zip_rel": "dist/lygo-continuum-full.zip",
-      "zip_sha256": "44cc4e3e701ebd188e40e752b911955f9ef6a61eddc5c3860f8b459b697e35ce",
+      "zip_sha256": "4a38067fea07ab2d71e695b5f6a047376578366e1be04698fb05f814cce3ad70",
       "bytes": 19525,
       "file_count": 12,
-      "role": "Falsifiable work capsules — seal done-claims, verify, drift, handoff + portal (FULL RAW)",
+      "role": "Falsifiable work capsules \u2014 seal done-claims, verify, drift, handoff + portal (FULL RAW)",
       "tier": "tools",
       "featured": true,
       "harm_default": "consent_gated",
@@ -464,19 +480,18 @@
     },
     {
       "slug": "lygo-traumacodex",
-      "name": "TraumaCodex (FULL UNLOCKED) + ClawHub-safe core",
+      "name": "Lygo Traumacodex (FULL LYGO)",
       "package": "lygo-traumacodex-full",
       "zip": "lygo-traumacodex-full.zip",
       "zip_rel": "dist/lygo-traumacodex-full.zip",
-      "zip_sha256": "8539eb3e5ac6a564385382535ac49f83458d7b875917485ef14c9ed1eee98598",
-      "bytes": 15948,
-      "file_count": 8,
-      "role": "Biometric entropy → LDQ waveform → dual mirror dig → Layer D offline healing-code seals (protocol only)",
+      "zip_sha256": "988e977bd8b0a66b8a377e3eef2d1049008a7a1c0676635137dffdeb989e39dc",
+      "bytes": 16436,
+      "file_count": 10,
+      "role": "TraumaCodex P7\u2192P8 dual dig + waveform \u2014 FULL stack limb",
       "tier": "lattice",
-      "featured": true,
-      "harm_default": "self_policed_unlocked",
-      "source_path": "docs/lygo-full-skills/packages/lygo-traumacodex-full",
-      "version": "1.0.1"
+      "featured": false,
+      "harm_default": "consent_gated",
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-traumacodex"
     }
   ]
 }
