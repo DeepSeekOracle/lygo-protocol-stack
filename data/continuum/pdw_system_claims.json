@@ -1,0 +1,7 @@
+[
+  {"id": "pdw-ledger", "kind": "file_exists", "path": "docs/pure-data/ledger.json"},
+  {"id": "pdw-tool", "kind": "file_exists", "path": "tools/pure_data_witness.py"},
+  {"id": "pdw-design", "kind": "file_exists", "path": "docs/LYGO_PURE_DATA_WITNESS.md"},
+  {"id": "pdw-ui", "kind": "file_exists", "path": "docs/data-vault/pure-data.html"},
+  {"id": "pdw-ledger-sig", "kind": "file_contains", "path": "docs/pure-data/ledger.json", "needle": "Delta9Phi963-PURE-DATA-WITNESS"}
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "PDW-5A5E3C3C0E77-card",
+    "kind": "file_exists",
+    "path": "PDW-5A5E3C3C0E77.json"
+  },
+  {
+    "id": "PDW-5A5E3C3C0E77-sha",
+    "kind": "json_path_eq",
+    "path": "PDW-5A5E3C3C0E77.json",
+    "jpath": "content_sha256",
+    "expect": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59"
+  },
+  {
+    "id": "PDW-5A5E3C3C0E77-id",
+    "kind": "json_path_eq",
+    "path": "PDW-5A5E3C3C0E77.json",
+    "jpath": "witness_id",
+    "expect": "PDW-5A5E3C3C0E77"
+  },
+  {
+    "id": "PDW-5A5E3C3C0E77-snap",
+    "kind": "file_exists",
+    "path": "PDW-5A5E3C3C0E77.bin"
+  },
+  {
+    "id": "PDW-5A5E3C3C0E77-snap-sha",
+    "kind": "file_sha256",
+    "path": "PDW-5A5E3C3C0E77.bin",
+    "expect": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59"
+  },
+  {
+    "id": "PDW-5A5E3C3C0E77-egg",
+    "kind": "file_exists",
+    "path": "eggs/pdw-frag-pdw-5a5e3c3c0e77.json"
+  }
+]

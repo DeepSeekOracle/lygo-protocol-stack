@@ -1,0 +1,22 @@
+{
+  "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1.1",
+  "witness_id": "PDW-375388F057B0",
+  "captured_utc": "2026-08-18T00:52:56Z",
+  "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+  "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+  "bytes": 7048,
+  "content_type": "text/markdown; charset=utf-8",
+  "method": "https_get",
+  "fetch_status": 200,
+  "truncated": false,
+  "max_fetch_bytes": 262144,
+  "egg_id": "pdw-frag-pdw-375388f057b0",
+  "continuum_claims_file": "PDW-375388F057B0.continuum-claims.json",
+  "mirrors": [],
+  "notes": "URL witness — digest authority; snapshot may be truncated.",
+  "snapshot_saved": true,
+  "snapshot_file": "PDW-375388F057B0.bin",
+  "snapshot_txt": "PDW-375388F057B0.txt",
+  "egg_merkle_root": "2bfed7c6c38396557d0e84236b98d58950e2ef57f0e543c35693c2ecfff5d07f",
+  "egg_file": "pdw-frag-pdw-375388f057b0.json"
+}

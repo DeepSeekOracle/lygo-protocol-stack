@@ -1,0 +1,37 @@
+[
+  {
+    "id": "PDW-375388F057B0-card",
+    "kind": "file_exists",
+    "path": "PDW-375388F057B0.json"
+  },
+  {
+    "id": "PDW-375388F057B0-sha",
+    "kind": "json_path_eq",
+    "path": "PDW-375388F057B0.json",
+    "jpath": "content_sha256",
+    "expect": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59"
+  },
+  {
+    "id": "PDW-375388F057B0-id",
+    "kind": "json_path_eq",
+    "path": "PDW-375388F057B0.json",
+    "jpath": "witness_id",
+    "expect": "PDW-375388F057B0"
+  },
+  {
+    "id": "PDW-375388F057B0-snap",
+    "kind": "file_exists",
+    "path": "PDW-375388F057B0.bin"
+  },
+  {
+    "id": "PDW-375388F057B0-snap-sha",
+    "kind": "file_sha256",
+    "path": "PDW-375388F057B0.bin",
+    "expect": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59"
+  },
+  {
+    "id": "PDW-375388F057B0-egg",
+    "kind": "file_exists",
+    "path": "eggs/pdw-frag-pdw-375388f057b0.json"
+  }
+]

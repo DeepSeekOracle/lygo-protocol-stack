@@ -1,7 +1,7 @@
 # LYGO Pure-Data Witness (PDW) — Free-Tier Lattice Archive
 
 **Signature:** Δ9Φ963-PURE-DATA-WITNESS-v1  
-**Status:** v1.1 complete — Phases A–C operational; D UI live; egg fragments + HF pack + Continuum capsule  
+**Status:** Design + Phase A scaffold  
 **Why now:** Internet Archive / Wayback outages show single-point cultural memory failure. LYGO’s seal-first lattice already aims at **pure data** (no fabricated/omitted fragments). PDW extends that from *protocol seals* to *witnessed reality packets* on **free** mirrors.
 
 **Related:** Continuum · Kernel Eggs · Dual ledgers · Data Vault · Living Mesh (summaries on the wire)

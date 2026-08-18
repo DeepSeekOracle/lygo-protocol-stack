@@ -1,6 +1,6 @@
 {
   "signature": "Δ9Φ963-LINK-ARCHIVE-v1",
-  "updated_utc": "2026-08-17T20:08:43.764200+00:00",
+  "updated_utc": "2026-08-18T00:53:41.950383+00:00",
   "maintainer_note": "Append-only growth log for public surfaces. Register new links via tools/log_public_surface.py. Agents read this + AGENT_MEMORY_SNAPSHOT.json on bootstrap.",
   "canonical_sources": {
     "stack_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
@@ -1147,6 +1147,19 @@
       "since": "2026-08-17",
       "deploy_status": "github_pages",
       "note": "Multi-AI seal creation archive; secrets scrubbed; E: recovery mirror DATA_VAULT_RECOVERY"
+    },
+    {
+      "id": "lygo-pure-data-witness",
+      "title": "LYGO Pure-Data Witness — digest/egg/ledger purity layer",
+      "role": "archive-purity",
+      "urls": {
+        "design": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+        "ui": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json",
+        "readme": "https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/README.md"
+      },
+      "since": "2026-08-18",
+      "deploy_status": "github_pages"
     }
   ],
   "growth_log": [

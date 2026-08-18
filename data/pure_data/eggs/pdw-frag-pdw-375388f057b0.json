@@ -1,0 +1,24 @@
+{
+  "signature": "Delta9Phi963-PDW-KERNEL-FRAGMENT-v1",
+  "egg_id": "pdw-frag-pdw-375388f057b0",
+  "built_utc": "2026-08-18T00:52:58Z",
+  "publisher": "deepseekoracle",
+  "merkle_root": "2bfed7c6c38396557d0e84236b98d58950e2ef57f0e543c35693c2ecfff5d07f",
+  "parent_witness": "PDW-375388F057B0",
+  "payload": {
+    "kind": "pure_data_witness_fragment",
+    "witness_id": "PDW-375388F057B0",
+    "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+    "bytes": 7048,
+    "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+    "captured_utc": "2026-08-18T00:52:56Z",
+    "method": "https_get",
+    "fetch_status": 200,
+    "truncated": false
+  },
+  "verify": {
+    "rule": "sha256(canonical_payload_json) == merkle_root",
+    "canonical": "json.dumps(payload, sort_keys=True, separators=(',', ':'))"
+  },
+  "notes": "Tiny free-tier fragment. Reassemble purity via digest; full snapshot optional beside card."
+}
