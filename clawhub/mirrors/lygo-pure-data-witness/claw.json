@@ -1,1 +1,6 @@
-{"name":"lygo-pure-data-witness","version":"1.0.0","description":"Pure-Data Witness digests + safety + egg fragments"}
+{
+  "name": "lygo-pure-data-witness",
+  "version": "1.1.0",
+  "description": "Pure-Data Witness digests + register portal training + safety + Star Chart fork log",
+  "tags": ["lygo", "pure-data", "archive", "portal", "star-chart", "safety"]
+}

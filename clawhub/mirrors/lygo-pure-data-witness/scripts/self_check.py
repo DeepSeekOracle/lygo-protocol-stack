@@ -51,6 +51,7 @@ def main() -> int:
         ROOT / "SKILL.md",
         ROOT / "claw.json",
         ROOT / "references" / "SECURITY.md",
+        ROOT / "references" / "PORTAL_TRAINING.md",
         SCRIPTS / "pdw_cli.py",
         SCRIPTS / "pure_data_safety.py",
         SCRIPTS / "pure_data_witness.py",
