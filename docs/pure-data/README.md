@@ -37,10 +37,10 @@ python tools/pure_data_witness.py continuum-claims --card data/pure_data/PDW-…
 python tools/pure_data_witness.py all --url https://example.com/page
 python tools/pure_data_witness.py ledger
 python tools/pure_data_witness.py verify --card data/pure_data/PDW-….json
-python tools/pure_data_witness.py hf-pack
+python tools/pure_data_witness.py hf-pack --i-consent --i-authorize-hf-export
 ```
 
-HF pack output: `data/pure_data/hf_pack/` — upload as a public dataset when ready (digests + redacted text; no secrets).
+HF pack output: `data/pure_data/hf_pack/` — **local folder only** (does not upload). Requires `--i-consent` + `--i-authorize-hf-export`. Regex redaction is incomplete — review every file before any Hugging Face publish.
 
 ## Continuum
 

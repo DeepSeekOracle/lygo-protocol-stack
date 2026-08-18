@@ -7,30 +7,44 @@ description: >
   Continuum claims and Star Chart NODE_PDW_* submissions. Use when user asks to
   witness, archive, pure-data register, PDW, or use the Data Vault register portal.
   Network only with --i-authorize-fetch; live chart writes need --i-consent.
-version: 1.1.0
+  HF export pack is local-only and requires --i-consent + --i-authorize-hf-export.
+version: 1.2.0
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
     emoji: "📜"
-    homepage: "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_PURE_DATA_WITNESS.md"
+    homepage: "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-pure-data-witness"
     requires:
       anyBins: [python, python3]
   lygo: true
   agent_portal: true
-  signature: "Delta9Phi963-PDW-SKILL-v1.1.0"
+  signature: "Delta9Phi963-PDW-SKILL-v1.2.0"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/lygo-pure-data-witness"
   portal: "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html"
   pages: "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html"
+  github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
+  security_audit: "references/SKILLSPECTOR_AUDIT.md"
+  permissions:
+    network: "optional HTTPS GET with --i-authorize-fetch only"
+    shell: false
+    subprocess: false
+    filesystem:
+      read: "operator --file paths; prior --out cards"
+      write: "--out digests/eggs/ledger/star_submission; hf-pack folder only with dual consent"
+    publish: false
+    huggingface_upload: false
 ---
 
-# LYGO Pure-Data Witness (ClawHub)
+# LYGO Pure-Data Witness (ClawHub) v1.2.0
 
 **Train aligned agents** to archive truth into Pure-Data Witness and grow the
 `GALAXY_PURE_DATA_ARCHIVE` fork log — using the **register portal** for humans and
 this skill’s CLI for execution.
 
-**ClawHub:** https://clawhub.ai/deepseekoracle/lygo-pure-data-witness
+**Inspectable source:** https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-pure-data-witness  
+**ClawHub:** https://clawhub.ai/deepseekoracle/lygo-pure-data-witness  
+**SkillSpector response:** `references/SKILLSPECTOR_AUDIT.md` (crypto-miner flag = **detector false positive**)
 
 | Surface | URL |
 |---------|-----|
@@ -40,7 +54,16 @@ this skill’s CLI for execution.
 | Public ledger | https://deepseekoracle.github.io/lygo-protocol-stack/pure-data/ledger.json |
 | Bot design (future) | https://deepseekoracle.github.io/lygo-protocol-stack/PURE_DATA_BOT_DESIGN.md |
 
-**Read first:** `references/SECURITY.md` · `references/PORTAL_TRAINING.md`
+**Read first:** `references/SECURITY.md` · `references/SKILLSPECTOR_AUDIT.md` · `references/PORTAL_TRAINING.md`
+
+## Declared permissions (least privilege)
+
+| Capability | Default |
+|------------|---------|
+| Network | **Off** — enable per-call with `--i-authorize-fetch` |
+| Subprocess / shell | **None** |
+| Writes | Under `--out` only (witness / egg / ledger / submission JSON) |
+| HF / git / social publish | **None** — `hf-pack` is local folder build + dual consent flags |
 
 ## When to use
 
@@ -55,6 +78,7 @@ this skill’s CLI for execution.
 - Live Star Chart ingest **without** explicit human `--i-consent`.
 - Auto git push / ClawHub / HF / social publish.
 - Claiming LIVE chart placement before steward rebuild.
+- Running `hf-pack` without dual consent **and** human review of outputs.
 
 ## Portal → agent contract (core)
 
@@ -75,9 +99,11 @@ Full playbook: **`references/PORTAL_TRAINING.md`**.
 |---------|--------|
 | Default network | **Off** (local digest) |
 | URL fetch | Only `--i-authorize-fetch` + HTTPS safety gate |
+| Malware bait strings in `pure_data_safety.py` | **Reject detector** (not a miner) — see audit doc |
 | Subprocess | **No** in skill CLI |
 | Star Chart live write | Skill → `*.star_submission.json`; stack submit needs `--i-consent` |
-| Secrets | Never put keys/cookies in snapshots |
+| HF export | Local pack only; `--i-consent` + `--i-authorize-hf-export`; **no upload** |
+| Secrets | Redaction heuristics — incomplete; never archive keys/cookies |
 
 ## Install
 
@@ -90,6 +116,8 @@ Optional stack clone for full register+map+chart:
 ```bash
 export LYGO_STACK_ROOT=/absolute/path/to/lygo-protocol-stack
 ```
+
+FULL unlocked engineer zip: https://chatagent.ca/lygoskillhub.html#full-lygo
 
 Pair with `lygo-haven-star-chart` when submitting fork nodes to the live sky.
 
@@ -105,6 +133,10 @@ python scripts/pdw_cli.py register --url https://example.com --out ./pdw_out --i
 python scripts/pdw_cli.py register --file ./page.html --out ./pdw_out --i-consent
 python scripts/pdw_cli.py ledger --dir ./pdw_out --ledger ./pdw_out/ledger.json
 python scripts/pdw_cli.py verify --card ./pdw_out/PDW-….json
+
+# Local export pack ONLY (does not upload). Review every file before HF publish.
+python scripts/pure_data_witness.py hf-pack --dir ./pdw_out --pack ./hf_pack \
+  --i-consent --i-authorize-hf-export
 ```
 
 Stack (when `LYGO_STACK_ROOT` set):
@@ -123,4 +155,4 @@ Witnesses map to:
 - Per-witness `NODE_PDW_<hex>` (parent-linked fork chain)
 - Galaxy `GALAXY_PURE_DATA_ARCHIVE` / constellation `pure_data_archive`
 
-**Δ9Φ963 — digest authority · portal front door · safety before archive · chart fork log.**
+**Δ9Φ963 — digest authority · portal front door · detectors ≠ miners · consent before export.**

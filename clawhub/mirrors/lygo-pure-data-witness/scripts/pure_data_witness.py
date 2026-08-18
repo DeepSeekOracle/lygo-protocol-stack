@@ -391,10 +391,20 @@ def main() -> int:
     p7 = sub.add_parser("verify-egg")
     p7.add_argument("--egg", required=True)
 
-    p8 = sub.add_parser("hf-pack", help="Build HF-ready export folder")
+    p8 = sub.add_parser("hf-pack", help="Build HF-ready export folder (consent required)")
     p8.add_argument("--dir", default="data/pure_data")
     p8.add_argument("--ledger", default="docs/pure-data/ledger.json")
     p8.add_argument("--pack", default="data/pure_data/hf_pack")
+    p8.add_argument(
+        "--i-consent",
+        action="store_true",
+        help="Required: acknowledge redaction is incomplete; review before any HF upload",
+    )
+    p8.add_argument(
+        "--i-authorize-hf-export",
+        action="store_true",
+        help="Required: authorize copying local witness .txt/.json into an export pack folder",
+    )
 
     p9 = sub.add_parser("all", help="fetch|digest then egg + continuum-claims + ledger")
     p9.add_argument("--url")
@@ -432,7 +442,28 @@ def main() -> int:
         print(json.dumps(res, indent=2))
         return 0 if res.get("ok") else 10
     if args.cmd == "hf-pack":
+        if not args.i_consent or not args.i_authorize_hf_export:
+            print(
+                json.dumps(
+                    {
+                        "ok": False,
+                        "error": "hf_export_consent_required",
+                        "need": ["--i-consent", "--i-authorize-hf-export"],
+                        "warning": (
+                            "HF export copies local witness cards + redacted .txt snapshots into a pack folder. "
+                            "Regex redaction is incomplete by nature — review every file before uploading to "
+                            "Hugging Face or any third party. This command does NOT upload; it only builds a local folder."
+                        ),
+                    },
+                    indent=2,
+                )
+            )
+            return 2
         meta = hf_pack(Path(args.dir), Path(args.pack), Path(args.ledger))
+        meta["ok"] = True
+        meta["warning"] = (
+            "Local pack only — no upload performed. Human must review redaction before any HF publish."
+        )
         print(json.dumps(meta, indent=2))
         return 0
     if args.cmd == "all":

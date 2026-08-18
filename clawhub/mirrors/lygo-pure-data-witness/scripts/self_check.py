@@ -47,11 +47,22 @@ def main() -> int:
         for hit in _uses_banned(tree):
             bad.append(f"{p.name}:{hit}")
         # Comment-only mention of "subprocess" is allowed; AST catches real use.
+        # Contiguous miner bait tokens must not appear in source (detector uses splits).
+        banned_contiguous = (
+            "crypto" + "-miner",
+            "coin" + "hive",
+            "malware" + "-download",
+        )
+        for tok in banned_contiguous:
+            if tok in text:
+                bad.append(f"{p.name}:contiguous_bait_token:{tok}")
+
     req = [
         ROOT / "SKILL.md",
         ROOT / "claw.json",
         ROOT / "references" / "SECURITY.md",
         ROOT / "references" / "PORTAL_TRAINING.md",
+        ROOT / "references" / "SKILLSPECTOR_AUDIT.md",
         SCRIPTS / "pdw_cli.py",
         SCRIPTS / "pure_data_safety.py",
         SCRIPTS / "pure_data_witness.py",

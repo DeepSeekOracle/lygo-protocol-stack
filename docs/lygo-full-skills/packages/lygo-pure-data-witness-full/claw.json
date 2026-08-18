@@ -1,6 +1,12 @@
 {
   "name": "lygo-pure-data-witness",
-  "version": "1.1.0",
-  "description": "Pure-Data Witness digests + register portal training + safety + Star Chart fork log",
-  "tags": ["lygo", "pure-data", "archive", "portal", "star-chart", "safety"]
+  "version": "1.2.0",
+  "description": "Pure-Data Witness digests + register portal training + safety + Star Chart fork log (SkillSpector-hardened)",
+  "tags": ["lygo", "pure-data", "archive", "portal", "star-chart", "safety"],
+  "permissions": {
+    "network": "optional",
+    "subprocess": false,
+    "shell": false,
+    "publish": false
+  }
 }
