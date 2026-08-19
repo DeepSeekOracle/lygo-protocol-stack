@@ -1,0 +1,9 @@
+LYGO LATTICE FINDER — START HERE
+
+1) Open AGENT_TRAINER.md
+2) Open LATTICE_MAP.json
+3) Verify eggs/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json
+4) Live site: https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html
+5) This Google Drive folder is a VISUAL SEAL BACKUP (Δ9_LYGO_SEALS). Hash authority is GitHub + Kernel eggs + Hugging Face.
+
+Origin builder (irreplaceable): Justin Helmer / Excavationpro / Lightfather
