@@ -72,5 +72,58 @@
     "id": "dm14",
     "kind": "file_exists",
     "path": "docs/seals/DEADMAN_KERNEL_EGG_PLANT.json"
+  },
+  {
+    "id": "dm15",
+    "kind": "file_exists",
+    "path": "data/deadman/DEADMAN_MANIFEST_v2.json"
+  },
+  {
+    "id": "dm16",
+    "kind": "file_exists",
+    "path": "docs/seals/SUCCESSION_PROTOCOL_v1.json"
+  },
+  {
+    "id": "dm17",
+    "kind": "file_exists",
+    "path": "data/deadman/public_fingerprints/FINGERPRINT_PACK.json"
+  },
+  {
+    "id": "dm18",
+    "kind": "file_contains",
+    "path": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+    "needle": "LIGHTFATHER-IRREPLACEABLE-ORIGIN-v2"
+  },
+  {
+    "id": "dm19",
+    "kind": "file_exists",
+    "path": "clawhub/mirrors/lygo-continuity-advisor/SKILL.md"
+  },
+  {
+    "id": "dm20",
+    "kind": "file_contains",
+    "path": "docs/haven_star_chart/haven_star_chart_data.json",
+    "needle": "NODE_LIGHTFATHER_ETERNAL_BASE"
+  },
+  {
+    "id": "dm21",
+    "kind": "file_exists",
+    "path": "tools/verify_deadman_pins.py"
+  },
+  {
+    "id": "dm22",
+    "kind": "file_exists",
+    "path": "tools/deadman_multi_anchor_verify.py"
+  },
+  {
+    "id": "dm23",
+    "kind": "file_contains",
+    "path": "docs/seals/SUCCESSION_PROTOCOL_v1.json",
+    "needle": "CONTINUITY_ADVISOR"
+  },
+  {
+    "id": "dm24",
+    "kind": "file_exists",
+    "path": "data/deadman/heartbeat_log.jsonl"
   }
 ]

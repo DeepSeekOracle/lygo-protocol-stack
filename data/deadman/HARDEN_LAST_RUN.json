@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "manifest_version": "2.0.0",
+  "origin_merkle_root": "29edad15b3a2c33d5d9a3d0db40ce9ef661ac7895ab1af7158ea5c65311a8dbc",
+  "fingerprint_pack_merkle": "150099f5480561e76e80899e01f1d9502ce779c7968a10b70a627236eeacdda2",
+  "features": 20,
+  "updated_utc": "2026-08-19T04:41:09.013187+00:00"
+}

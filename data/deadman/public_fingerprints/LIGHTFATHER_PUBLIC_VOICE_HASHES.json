@@ -1,0 +1,48 @@
+{
+  "signature": "Delta9Phi963-LIGHTFATHER-PUBLIC-VOICE-HASHES-v1",
+  "schema": "lightfather_public_voice_hashes.v1",
+  "note": "Content hashes of already-public audio / music ledger entries only. Not voice-clone templates. Add more via harden script over time.",
+  "entries": [
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/actors_complete_report.json",
+      "sha256": "1cda022f3b2e212e5acbdfda9058aff8f3d8054eedaf1a240c5f660efe3464fc"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/actors_gap_report.json",
+      "sha256": "da56becaa6ee1b34ec52e4c931230961e6a06c75b0b9fcc634f9df9086cf2178"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/actors_missing_streams.json",
+      "sha256": "b61a21af3f96218ad0a8eb1042495f72532563708a977bbacd839ddbb315c48d"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/disk_reconcile_report.json",
+      "sha256": "fdf0880db7594372491dfc5ba1cf7694134d1369966fe0459ec77190e09bc6b2"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/disk_title_index.json",
+      "sha256": "17635f76a48b79b74f239eaa2bce29d4081adf85247abfad7aedc1917d2b6fe5"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/done_album_scan.json",
+      "sha256": "80b9116e7c921477629f8c766f2d922dbee3be87ccf987ddd6e57e52deb6315e"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/excavationpro_catalog.json",
+      "sha256": "43bfb959531d404dcd0b8ac7a1b89a4a253b3e0021fb695c164bc9918d5c498f"
+    },
+    {
+      "kind": "public_catalog_json",
+      "path": "data/music_catalog/excavationpro_music_ledger.json",
+      "sha256": "1c1fa6990168f131f67cb1d8e7bf2bd26aeec9bf8ac4b8cc0abe5d59de9ec951"
+    }
+  ],
+  "generated_utc": "2026-08-19T04:41:08.787578+00:00"
+}

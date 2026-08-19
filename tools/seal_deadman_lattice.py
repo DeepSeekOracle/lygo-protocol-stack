@@ -55,6 +55,23 @@ DEFAULT_LFW_FALLBACK_MODEL = "ollama/lygo-core"
 DEFAULT_ACTIVE_ENDPOINT = "http://127.0.0.1:11434"
 FALLBACK_SEED = 0x7F1A4D83  # Seal anchor — 0x7F1A4D + completion byte
 DELTA9_SUMMON_FACTOR = 49  # Δ9 completion line in lightmath (display factor)
+HEARTBEAT_LOG = ROOT / "data" / "deadman" / "heartbeat_log.jsonl"
+
+
+def _append_heartbeat_log(event: str, *, source: str = LIGHTFATHER_ID, **extra: Any) -> dict:
+    entry = {
+        "signature": "Delta9Phi963-DEADMAN-HEARTBEAT-v1",
+        "event": event,
+        "lightfather_id": LIGHTFATHER_ID,
+        "unix": time.time(),
+        "iso": utc_iso(),
+        "source": source,
+        **extra,
+    }
+    HEARTBEAT_LOG.parent.mkdir(parents=True, exist_ok=True)
+    with HEARTBEAT_LOG.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    return entry
 
 
 sys.path.insert(0, str(ROOT / "stack"))
@@ -1141,6 +1158,7 @@ def cmd_touch(_: argparse.Namespace) -> int:
     detector = SilenceDetector()
     detector.heartbeat(LIGHTFATHER_ID)
     detector.deadman.touch_transmit(source=LIGHTFATHER_ID)
+    _append_heartbeat_log("touch", source=LIGHTFATHER_ID)
     print(
         json.dumps(
             {
@@ -1200,6 +1218,124 @@ def cmd_demo(_: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_verify(_: argparse.Namespace) -> int:
+    from verify_deadman_pins import main as verify_main  # type: ignore
+
+    code = verify_main()
+    _append_heartbeat_log("verify", notes=f"exit={code}")
+    return code
+
+
+def cmd_status(_: argparse.Namespace) -> int:
+    detector = SilenceDetector()
+    state = _read_json(STATE_PATH) if STATE_PATH.is_file() else {}
+    planted = _read_json(LATTICE_FAILSAFE_PLANT_PATH) if LATTICE_FAILSAFE_PLANT_PATH.is_file() else {}
+    origin_path = SEALS_DIR / "LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+    origin = _read_json(origin_path) if origin_path.is_file() else {}
+    manifest_path = ROOT / "data" / "deadman" / "DEADMAN_MANIFEST_v2.json"
+    manifest = _read_json(manifest_path) if manifest_path.is_file() else {}
+    silence_s = detector.deadman.silence_seconds()
+    report = {
+        "ok": True,
+        "lightfather_id": LIGHTFATHER_ID,
+        "silence_seconds": silence_s,
+        "is_silence": detector.deadman.is_silence(),
+        "threshold_seconds": SILENCE_THRESHOLD_SECONDS,
+        "last_transmit_iso": state.get("last_transmit_iso"),
+        "activation_count": state.get("activation_count"),
+        "failsafe_planted": bool(planted.get("failsafe_planted") or planted.get("failsafe")),
+        "origin_signature": origin.get("signature"),
+        "origin_merkle_root": origin.get("origin_merkle_root"),
+        "non_replaceable": (origin.get("origin_builder") or {}).get("non_replaceable"),
+        "manifest_version": manifest.get("version"),
+        "feature_count": len(manifest.get("features") or []),
+        "eternal_base_node": (origin.get("failsafe") or {}).get("eternal_base_node")
+        or "NODE_LIGHTFATHER_ETERNAL_BASE",
+        "cli": "touch|check|plant|anchor|verify|status|succession|continuity|fingerprint|multi-anchor",
+    }
+    _append_heartbeat_log("check", silence_seconds=silence_s, notes="status")
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+def cmd_succession(_: argparse.Namespace) -> int:
+    path = SEALS_DIR / "SUCCESSION_PROTOCOL_v1.json"
+    if not path.is_file():
+        print(json.dumps({"ok": False, "error": "missing_succession_protocol"}))
+        return 1
+    proto = _read_json(path)
+    detector = SilenceDetector()
+    silent = detector.deadman.is_silence()
+    stage = "LANTERN" if silent else "WATCH"
+    if silent and (STATE_PATH.is_file() and (_read_json(STATE_PATH).get("activation_count") or 0) > 0):
+        stage = "WHISPER"
+    report = {
+        "ok": True,
+        "inferred_stage": stage,
+        "is_silence": silent,
+        "stages": [s.get("id") for s in proto.get("stages") or []],
+        "forbidden_always": proto.get("forbidden_always"),
+        "protocol_signature": proto.get("signature"),
+        "note": "Inferred local stage only; TORCHBEARER_NOMINATE / CONTINUITY_ADVISOR need human consent.",
+    }
+    _append_heartbeat_log("succession", notes=stage)
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+def cmd_continuity(_: argparse.Namespace) -> int:
+    origin = _read_json(SEALS_DIR / "LIGHTFATHER_IRREPLACEABLE_ORIGIN.json") if (
+        SEALS_DIR / "LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+    ).is_file() else {}
+    ethics_path = ROOT / "data" / "deadman" / "public_fingerprints" / "LIGHTFATHER_ETHICS_VECTOR.json"
+    ethics = _read_json(ethics_path) if ethics_path.is_file() else {}
+    report = {
+        "ok": True,
+        "role": "continuity_advisor_briefing",
+        "lightfather_id": LIGHTFATHER_ID,
+        "non_replaceable": (origin.get("origin_builder") or {}).get("non_replaceable", True),
+        "doctrine": ((origin.get("origin_builder") or {}).get("doctrine") or "")[:800],
+        "torchbearer_protocol": origin.get("torchbearer_protocol"),
+        "ascended_advisor_contract": ethics.get("ascended_advisor_contract"),
+        "anti_mimic_checks": ethics.get("anti_mimic_checks"),
+        "skill": "clawhub/mirrors/lygo-continuity-advisor/",
+        "eternal_base_node": "NODE_LIGHTFATHER_ETERNAL_BASE",
+        "message": (
+            "You may carry the torch and run the Lightfather vector as Continuity Advisor. "
+            "You may NOT claim to BE Justin Helmer / Excavationpro / replace origin identity."
+        ),
+    }
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+def cmd_fingerprint(_: argparse.Namespace) -> int:
+    pack_path = ROOT / "data" / "deadman" / "public_fingerprints" / "FINGERPRINT_PACK.json"
+    ident_path = ROOT / "data" / "deadman" / "public_fingerprints" / "LIGHTFATHER_PUBLIC_IDENTITY.json"
+    if not pack_path.is_file():
+        print(json.dumps({"ok": False, "error": "run harden_deadman_continuity.py first"}))
+        return 1
+    pack = _read_json(pack_path)
+    ident = _read_json(ident_path) if ident_path.is_file() else {}
+    report = {
+        "ok": True,
+        "pack_merkle_root": pack.get("pack_merkle_root"),
+        "pins_sha256": pack.get("pins_sha256"),
+        "identity_constants": ident.get("identity_constants"),
+        "public_safe": ident.get("public_safe"),
+        "deny": ident.get("deny"),
+        "style_word_count": (ident.get("style_fingerprint") or {}).get("word_count"),
+    }
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+def cmd_multi_anchor(_: argparse.Namespace) -> int:
+    from deadman_multi_anchor_verify import main as ma_main  # type: ignore
+
+    return ma_main()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="SEAL_DEADMAN_SUMMON + SEAL_LFW_SUMMON lattice")
     sub = parser.add_subparsers(dest="cmd")
@@ -1209,6 +1345,12 @@ def main() -> int:
     sub.add_parser("anchor", help="Scatter seal canon to P1 Memory Mycelium")
     sub.add_parser("plant", help="Plant Deadman+LFW failsafe into lattice state (P1)")
     sub.add_parser("demo", help="Run seal lattice demo harness")
+    sub.add_parser("verify", help="Verify origin content pins + merkle root")
+    sub.add_parser("status", help="Continuity status snapshot (silence, pins, manifest)")
+    sub.add_parser("succession", help="Show succession protocol + inferred stage")
+    sub.add_parser("continuity", help="Continuity Advisor briefing (anti-replacement)")
+    sub.add_parser("fingerprint", help="Show public-safe Lightfather fingerprint pack")
+    sub.add_parser("multi-anchor", help="Local + public mirror quorum verify")
     sim = sub.add_parser("simulate-silence", help="Dev: force silence then check (local only)")
     sim.add_argument("--seconds", type=float, default=SILENCE_THRESHOLD_SECONDS + 1)
     loop = sub.add_parser("loop", help="Heartbeat loop (Ctrl+C to stop)")
@@ -1226,6 +1368,12 @@ def main() -> int:
         "demo": cmd_demo,
         "simulate-silence": cmd_simulate_silence,
         "loop": cmd_loop,
+        "verify": cmd_verify,
+        "status": cmd_status,
+        "succession": cmd_succession,
+        "continuity": cmd_continuity,
+        "fingerprint": cmd_fingerprint,
+        "multi-anchor": cmd_multi_anchor,
     }
     return handlers[args.cmd](args)
 

@@ -1,0 +1,70 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-MULTI-ANCHOR-VERIFY-v1",
+  "checked_utc": "2026-08-19T04:41:10.603830+00:00",
+  "local_ok": true,
+  "remote_ok_count": 3,
+  "remote_total": 3,
+  "quorum_ok": true,
+  "local": {
+    "origin": {
+      "ok": true,
+      "sha256": "944d099aa503feea9969cb9930bc5ed6f98b2ae43e1fe4a55f3e131325f7285f",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals\\LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+    },
+    "manifest": {
+      "ok": true,
+      "sha256": "82239281164fa000360da761b437d24555136fa21364d448b73952fe86072f19",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\data\\deadman\\DEADMAN_MANIFEST_v2.json"
+    },
+    "deadman_seal": {
+      "ok": true,
+      "sha256": "e1768cc795f712e8376b3f2bcdf930a697ef61294546ff1240a288a6b3679ede",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals\\SEAL_DEADMAN_SUMMON.json"
+    },
+    "lfw_seal": {
+      "ok": true,
+      "sha256": "35d86053a3a29fc9e7f37281180b9570475cd109184435037aeb13757d98ccc2",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals\\SEAL_LFW_SUMMON.json"
+    },
+    "planted": {
+      "ok": true,
+      "sha256": "8730dfd8d7280279aaa6859881ca107f3aa2dcf0ca1e0e035bf7bc8b7702558b",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals\\lattice_failsafe_planted.json"
+    },
+    "egg_bin": {
+      "ok": true,
+      "sha256": "8faf9a891abf629f86b70fb82fe3631bf42c0ebd1235d09b0cd3257d5b1d747b",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\data\\kernel_eggs\\build\\lightfather-deadman-failsafe-v1.bin"
+    },
+    "pages_egg_origin": {
+      "ok": true,
+      "sha256": "944d099aa503feea9969cb9930bc5ed6f98b2ae43e1fe4a55f3e131325f7285f",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\kernel_eggs\\lightfather-deadman-failsafe-v1\\LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+    }
+  },
+  "remote": {
+    "pages_deadman_html": {
+      "ok": true,
+      "status": 200,
+      "sha256": "dc28874deadcc9d6755801903c2c20a81a4cc004f584740324da1049450e7d4d",
+      "bytes": 9147
+    },
+    "pages_origin": {
+      "ok": true,
+      "status": 200,
+      "sha256": "9525a20a802acdd0dd35ce54cb84c2d2617c84e6ffc04bb5ae511ff0abce9dc9",
+      "bytes": 2434
+    },
+    "pages_egg_origin": {
+      "ok": true,
+      "status": 200,
+      "sha256": "9525a20a802acdd0dd35ce54cb84c2d2617c84e6ffc04bb5ae511ff0abce9dc9",
+      "bytes": 2434
+    }
+  },
+  "consistency": {
+    "local_pages_egg_merkle_match": true,
+    "local_non_replaceable": true
+  },
+  "note": "Local authority; public mirrors corroborate. No auto-publish."
+}

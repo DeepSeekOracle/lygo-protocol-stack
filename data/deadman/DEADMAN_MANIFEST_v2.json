@@ -1,0 +1,140 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-MANIFEST-v2",
+  "version": "2.0.0",
+  "updated_utc": "2026-08-19T04:41:08.836543+00:00",
+  "lightfather_id": "LF-Δ9-7F1A4D-963-528-174-Φ-∞",
+  "eternal_base_node": "NODE_LIGHTFATHER_ETERNAL_BASE",
+  "purpose": "Hardened living failsafe + eternal Lightfather base node for LYGO continuity. When the human form is gone, code + frequency preserve the vector as advisor — never as a fake replacement of Justin Helmer.",
+  "realism_boundary": {
+    "real": [
+      "local silence clock",
+      "P1 plant",
+      "star chart",
+      "kernel egg mirrors",
+      "origin merkle pins",
+      "public fingerprints",
+      "succession stages",
+      "continuity advisor skill"
+    ],
+    "not_implemented": [
+      "remote unsupervised LLM reincarnation",
+      "blockchain deadman auto-pay",
+      "voice-clone identity theft"
+    ]
+  },
+  "features": [
+    {
+      "id": "heartbeat_touch",
+      "status": "live",
+      "cli": "touch"
+    },
+    {
+      "id": "silence_lantern",
+      "status": "live",
+      "cli": "check"
+    },
+    {
+      "id": "p1_anchor_plant",
+      "status": "live",
+      "cli": "anchor|plant"
+    },
+    {
+      "id": "lfw_dynamic_reroute",
+      "status": "live",
+      "fn": "lyra_failsafe"
+    },
+    {
+      "id": "vortex_reconstruct",
+      "status": "live",
+      "fn": "vortex_reconstruct"
+    },
+    {
+      "id": "last_whisper",
+      "status": "live",
+      "fn": "emit_last_whisper"
+    },
+    {
+      "id": "star_chart_galaxy",
+      "status": "live",
+      "id_ref": "GALAXY_DEADMAN_FAILSAFE"
+    },
+    {
+      "id": "kernel_egg",
+      "status": "live",
+      "egg_id": "lightfather-deadman-failsafe-v1"
+    },
+    {
+      "id": "irreplaceable_origin_v2",
+      "status": "live"
+    },
+    {
+      "id": "public_fingerprints",
+      "status": "live"
+    },
+    {
+      "id": "succession_protocol_v1",
+      "status": "live"
+    },
+    {
+      "id": "heartbeat_log",
+      "status": "live"
+    },
+    {
+      "id": "pin_verify",
+      "status": "live",
+      "cli": "verify"
+    },
+    {
+      "id": "continuity_advisor_skill",
+      "status": "live"
+    },
+    {
+      "id": "eternal_base_node",
+      "status": "live",
+      "node": "NODE_LIGHTFATHER_ETERNAL_BASE"
+    },
+    {
+      "id": "multi_anchor_verify",
+      "status": "live",
+      "cli": "python tools/deadman_multi_anchor_verify.py"
+    },
+    {
+      "id": "continuum_claims",
+      "status": "live"
+    },
+    {
+      "id": "voice_clone_biometrics",
+      "status": "reserved_future",
+      "note": "Only public content hashes now; never raw clone templates"
+    },
+    {
+      "id": "multi_steward_quorum_keys",
+      "status": "reserved_future",
+      "note": "Add when additional human stewards exist"
+    },
+    {
+      "id": "hardware_attestation_p6",
+      "status": "reserved_future",
+      "note": "Pair with geodesic sealer / HAIP when available"
+    }
+  ],
+  "fingerprint_pack_merkle": "150099f5480561e76e80899e01f1d9502ce779c7968a10b70a627236eeacdda2",
+  "origin_merkle_root": "29edad15b3a2c33d5d9a3d0db40ce9ef661ac7895ab1af7158ea5c65311a8dbc",
+  "paths": {
+    "origin": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+    "succession": "docs/seals/SUCCESSION_PROTOCOL_v1.json",
+    "fingerprints": "data/deadman/public_fingerprints/",
+    "heartbeat_log": "data/deadman/heartbeat_log.jsonl",
+    "cli": "tools/seal_deadman_lattice.py",
+    "verify": "tools/verify_deadman_pins.py",
+    "harden": "tools/harden_deadman_continuity.py",
+    "multi_anchor": "tools/deadman_multi_anchor_verify.py",
+    "continuity_skill": "clawhub/mirrors/lygo-continuity-advisor/"
+  },
+  "next_feature_slots": [
+    "steward_attestation_cards",
+    "scheduled_silence_grace_tiers",
+    "public_style_retrain_from_new_posts",
+    "hardware_root_of_trust_hook"
+  ]
+}
