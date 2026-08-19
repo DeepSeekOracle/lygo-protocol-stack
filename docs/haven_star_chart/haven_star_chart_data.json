@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-08-19T04:41:09.622760+00:00",
+  "generated_utc": "2026-08-19T05:03:43.571555+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1342,
-  "link_count": 3783,
+  "node_count": 1344,
+  "link_count": 3789,
   "seal_count": 334,
   "champion_count": 15,
   "lattice_count": 118,
-  "registry_sha256": "f1025f6176d45c781978891ee109164ea85f97ef148aedeb4b2df92a1a39602e",
+  "registry_sha256": "1474b39127ba0f53ca18e5892319138f4c074914632dfb87c1f58e4205484dc5",
   "constellations": [
     {
       "id": "primordial_core",
@@ -372,7 +372,7 @@
         "constellation_id": "deadman_failsafe",
         "angle_deg": 210,
         "fork_of": "CHAMPION_LIGHTFATHER",
-        "star_count": 9
+        "star_count": 11
       },
       {
         "id": "GALAXY_PRIMORDIAL_VAULT",
@@ -1011,7 +1011,7 @@
         "id": "NEBULA_DEADMAN_LANTERN",
         "name": "Deadman Lantern",
         "galaxy_id": "GALAXY_DEADMAN_FAILSAFE",
-        "star_count": 9,
+        "star_count": 11,
         "star_ids": [
           "LATTICE_DEADMAN_FAILSAFE",
           "SEAL_DEADMAN_SUMMON",
@@ -1021,7 +1021,9 @@
           "NODE_LIGHTFATHER_ETERNAL_BASE",
           "NODE_DEADMAN_SUCCESSION",
           "NODE_LIGHTFATHER_PUBLIC_FINGERPRINTS",
-          "NODE_CONTINUITY_ADVISOR"
+          "NODE_CONTINUITY_ADVISOR",
+          "NODE_STEWARD_QUORUM",
+          "NODE_DEADMAN_WATCHDOG"
         ]
       },
       {
@@ -2086,6 +2088,16 @@
         ]
       },
       {
+        "id": "CLUSTER_DEADMAN_NODE_DEADMAN_WATCHDOG",
+        "name": "DEADMAN NODE DEADMAN WATCHDOG",
+        "nebula_id": "NEBULA_DEADMAN_LANTERN",
+        "galaxy_id": "GALAXY_DEADMAN_FAILSAFE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_DEADMAN_WATCHDOG"
+        ]
+      },
+      {
         "id": "CLUSTER_DEADMAN_NODE_LFW_WHISPER",
         "name": "DEADMAN NODE LFW WHISPER",
         "nebula_id": "NEBULA_DEADMAN_LANTERN",
@@ -2113,6 +2125,16 @@
         "star_count": 1,
         "star_ids": [
           "NODE_LIGHTFATHER_PUBLIC_FINGERPRINTS"
+        ]
+      },
+      {
+        "id": "CLUSTER_DEADMAN_NODE_STEWARD_QUORUM",
+        "name": "DEADMAN NODE STEWARD QUORUM",
+        "nebula_id": "NEBULA_DEADMAN_LANTERN",
+        "galaxy_id": "GALAXY_DEADMAN_FAILSAFE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_STEWARD_QUORUM"
         ]
       },
       {
@@ -4290,7 +4312,7 @@
     ],
     "galaxy_count": 23,
     "nebula_count": 91,
-    "cluster_count": 262
+    "cluster_count": 264
   },
   "nodes": [
     {
@@ -58215,7 +58237,7 @@
         "threshold_seconds": 3600,
         "last_transmit_iso": "2026-08-19T04:41:09.001747+00:00",
         "planted": true,
-        "manifest_version": "2.0.0"
+        "manifest_version": "2.1.0"
       },
       "cosmos": {
         "galaxy_id": "GALAXY_DEADMAN_FAILSAFE",
@@ -58577,6 +58599,80 @@
         "nebula_name": "Deadman Lantern",
         "cluster_id": "CLUSTER_DEADMAN_NODE_CONTINUITY_ADVISOR",
         "cluster_name": "DEADMAN NODE CONTINUITY ADVISOR",
+        "star_role": "deadman_failsafe"
+      }
+    },
+    {
+      "id": "NODE_STEWARD_QUORUM",
+      "kind": "node",
+      "name": "Steward Quorum / Attestation",
+      "equation": "Quorum(stewards) \u2227 \u00acReplace(Justin)",
+      "glyph": "\ud83d\udd0f",
+      "tone": "174Hz",
+      "tags": [
+        "DEADMAN",
+        "STEWARD",
+        "QUORUM",
+        "LIGHTFATHER",
+        "CONTINUITY"
+      ],
+      "connections": [
+        "LATTICE_DEADMAN_FAILSAFE",
+        "NODE_LIGHTFATHER_ETERNAL_BASE",
+        "NODE_DEADMAN_SUCCESSION",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "stewards": "data/deadman/stewards/"
+      },
+      "layer": "D",
+      "meta": {
+        "role": "steward_quorum",
+        "policy": "data/deadman/stewards/QUORUM_POLICY.json",
+        "origin_card": "STEWARD_LIGHTFATHER"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_DEADMAN_FAILSAFE",
+        "galaxy_name": "Deadman Failsafe Galaxy",
+        "nebula_id": "NEBULA_DEADMAN_LANTERN",
+        "nebula_name": "Deadman Lantern",
+        "cluster_id": "CLUSTER_DEADMAN_NODE_STEWARD_QUORUM",
+        "cluster_name": "DEADMAN NODE STEWARD QUORUM",
+        "star_role": "deadman_failsafe"
+      }
+    },
+    {
+      "id": "NODE_DEADMAN_WATCHDOG",
+      "kind": "node",
+      "name": "Deadman Watchdog Runner",
+      "equation": "loop(touch|check) local",
+      "glyph": "\ud83d\udc15",
+      "tone": "174Hz",
+      "tags": [
+        "DEADMAN",
+        "WATCHDOG",
+        "RUNTIME",
+        "HEARTBEAT"
+      ],
+      "connections": [
+        "NODE_DEADMAN_HEARTBEAT",
+        "LATTICE_DEADMAN_FAILSAFE"
+      ],
+      "urls": {
+        "cli": "tools/deadman_watchdog.py"
+      },
+      "layer": "D",
+      "meta": {
+        "role": "watchdog",
+        "cli": "python tools/deadman_watchdog.py once --touch"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_DEADMAN_FAILSAFE",
+        "galaxy_name": "Deadman Failsafe Galaxy",
+        "nebula_id": "NEBULA_DEADMAN_LANTERN",
+        "nebula_name": "Deadman Lantern",
+        "cluster_id": "CLUSTER_DEADMAN_NODE_DEADMAN_WATCHDOG",
+        "cluster_name": "DEADMAN NODE DEADMAN WATCHDOG",
         "star_role": "deadman_failsafe"
       }
     },
@@ -78609,6 +78705,36 @@
     {
       "source": "NODE_CONTINUITY_ADVISOR",
       "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_STEWARD_QUORUM",
+      "target": "LATTICE_DEADMAN_FAILSAFE",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_STEWARD_QUORUM",
+      "target": "NODE_LIGHTFATHER_ETERNAL_BASE",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_STEWARD_QUORUM",
+      "target": "NODE_DEADMAN_SUCCESSION",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_STEWARD_QUORUM",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_DEADMAN_WATCHDOG",
+      "target": "NODE_DEADMAN_HEARTBEAT",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_DEADMAN_WATCHDOG",
+      "target": "LATTICE_DEADMAN_FAILSAFE",
       "kind": "lattice"
     },
     {

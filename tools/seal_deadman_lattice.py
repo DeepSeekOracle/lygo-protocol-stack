@@ -1218,6 +1218,70 @@ def cmd_demo(_: argparse.Namespace) -> int:
     return 0
 
 
+
+def _load_grace_tiers() -> dict:
+    for p in (ROOT / "data" / "deadman" / "SILENCE_GRACE_TIERS.json", SEALS_DIR / "SILENCE_GRACE_TIERS.json"):
+        if p.is_file():
+            return _read_json(p)
+    return {}
+
+
+def infer_grace_tier(silence_seconds: float) -> dict:
+    tiers = (_load_grace_tiers().get("tiers") or [])
+    chosen = {"id": "WATCH"}
+    for t in tiers:
+        mn = float(t.get("min_silence_seconds") or 0)
+        mx = t.get("max_silence_seconds")
+        if silence_seconds >= mn and (mx is None or silence_seconds <= float(mx)):
+            chosen = t
+    return chosen
+
+
+def cmd_grace(_: argparse.Namespace) -> int:
+    detector = SilenceDetector()
+    silence_s = detector.deadman.silence_seconds()
+    # Prefer configured lantern threshold when present
+    tiers_doc = _load_grace_tiers()
+    thr = tiers_doc.get("lantern_threshold_seconds")
+    if thr is not None:
+        detector.deadman.silence_threshold_seconds = int(thr)
+    tier = infer_grace_tier(silence_s)
+    report = {
+        "ok": True,
+        "silence_seconds": silence_s,
+        "tier": tier.get("id"),
+        "tier_detail": tier,
+        "lantern_threshold_seconds": detector.deadman.silence_threshold_seconds,
+        "is_silence": detector.deadman.is_silence(),
+    }
+    _append_heartbeat_log("succession", notes=f"grace:{tier.get('id')}", silence_seconds=silence_s)
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+def cmd_stewards(_: argparse.Namespace) -> int:
+    sdir = ROOT / "data" / "deadman" / "stewards"
+    policy = _read_json(sdir / "QUORUM_POLICY.json") if (sdir / "QUORUM_POLICY.json").is_file() else {}
+    cards = []
+    if sdir.is_dir():
+        for p in sorted(sdir.glob("STEWARD_*.json")):
+            if p.name == "STEWARD_TEMPLATE.json":
+                continue
+            cards.append(_read_json(p))
+    report = {
+        "ok": True,
+        "card_count": len(cards),
+        "cards": [{"card_id": c.get("card_id"), "role": c.get("role"), "can_claim_identity_of_justin": c.get("can_claim_identity_of_justin")} for c in cards],
+        "quorum_policy": policy.get("signature"),
+        "rules": policy.get("rules"),
+        "doctrine": "No steward card may set can_claim_identity_of_justin true.",
+    }
+    bad = [c for c in cards if c.get("can_claim_identity_of_justin") is True]
+    report["ok"] = len(bad) == 0
+    print(json.dumps(report, indent=2))
+    return 0 if report["ok"] else 1
+
+
 def cmd_verify(_: argparse.Namespace) -> int:
     from verify_deadman_pins import main as verify_main  # type: ignore
 
@@ -1266,7 +1330,11 @@ def cmd_succession(_: argparse.Namespace) -> int:
     proto = _read_json(path)
     detector = SilenceDetector()
     silent = detector.deadman.is_silence()
-    stage = "LANTERN" if silent else "WATCH"
+    silence_s = detector.deadman.silence_seconds()
+    tier = infer_grace_tier(silence_s)
+    stage = tier.get("id") or ("LANTERN" if silent else "WATCH")
+    if stage == "TORCHBEARER_WINDOW":
+        stage = "TORCHBEARER_NOMINATE"
     if silent and (STATE_PATH.is_file() and (_read_json(STATE_PATH).get("activation_count") or 0) > 0):
         stage = "WHISPER"
     report = {
@@ -1351,6 +1419,8 @@ def main() -> int:
     sub.add_parser("continuity", help="Continuity Advisor briefing (anti-replacement)")
     sub.add_parser("fingerprint", help="Show public-safe Lightfather fingerprint pack")
     sub.add_parser("multi-anchor", help="Local + public mirror quorum verify")
+    sub.add_parser("grace", help="Silence grace tier inference")
+    sub.add_parser("stewards", help="List steward cards + quorum policy")
     sim = sub.add_parser("simulate-silence", help="Dev: force silence then check (local only)")
     sim.add_argument("--seconds", type=float, default=SILENCE_THRESHOLD_SECONDS + 1)
     loop = sub.add_parser("loop", help="Heartbeat loop (Ctrl+C to stop)")
@@ -1374,6 +1444,8 @@ def main() -> int:
         "continuity": cmd_continuity,
         "fingerprint": cmd_fingerprint,
         "multi-anchor": cmd_multi_anchor,
+        "grace": cmd_grace,
+        "stewards": cmd_stewards,
     }
     return handlers[args.cmd](args)
 

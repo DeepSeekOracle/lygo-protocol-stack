@@ -2,10 +2,10 @@
   "schema": "lygo.continuum.v1",
   "version": "1.0.1",
   "signature": "Delta9Phi963-CONTINUUM-v1.0.1",
-  "id": "CONT-250B6C1066A3",
-  "created_utc": "2026-08-19T04:18:18Z",
+  "id": "CONT-47E342DD4E73",
+  "created_utc": "2026-08-19T05:03:43Z",
   "agent": "grok",
-  "task_summary": "Deadman kernel egg planted free mirrors",
+  "task_summary": "Deadman continuity v2.1 loose-ends closed",
   "base_hint": "I:\\E Drive\\lygo-protocol-stack",
   "decisions": [],
   "next_actions": [],
@@ -83,6 +83,111 @@
       "id": "dm14",
       "kind": "file_exists",
       "path": "docs/seals/DEADMAN_KERNEL_EGG_PLANT.json"
+    },
+    {
+      "id": "dm15",
+      "kind": "file_exists",
+      "path": "data/deadman/DEADMAN_MANIFEST_v2.json"
+    },
+    {
+      "id": "dm16",
+      "kind": "file_exists",
+      "path": "docs/seals/SUCCESSION_PROTOCOL_v1.json"
+    },
+    {
+      "id": "dm17",
+      "kind": "file_exists",
+      "path": "data/deadman/public_fingerprints/FINGERPRINT_PACK.json"
+    },
+    {
+      "id": "dm18",
+      "kind": "file_contains",
+      "path": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+      "needle": "LIGHTFATHER-IRREPLACEABLE-ORIGIN-v2"
+    },
+    {
+      "id": "dm19",
+      "kind": "file_exists",
+      "path": "clawhub/mirrors/lygo-continuity-advisor/SKILL.md"
+    },
+    {
+      "id": "dm20",
+      "kind": "file_contains",
+      "path": "docs/haven_star_chart/haven_star_chart_data.json",
+      "needle": "NODE_LIGHTFATHER_ETERNAL_BASE"
+    },
+    {
+      "id": "dm21",
+      "kind": "file_exists",
+      "path": "tools/verify_deadman_pins.py"
+    },
+    {
+      "id": "dm22",
+      "kind": "file_exists",
+      "path": "tools/deadman_multi_anchor_verify.py"
+    },
+    {
+      "id": "dm23",
+      "kind": "file_contains",
+      "path": "docs/seals/SUCCESSION_PROTOCOL_v1.json",
+      "needle": "CONTINUITY_ADVISOR"
+    },
+    {
+      "id": "dm24",
+      "kind": "file_exists",
+      "path": "data/deadman/heartbeat_log.jsonl"
+    },
+    {
+      "id": "dm25",
+      "kind": "file_exists",
+      "path": "data/deadman/SILENCE_GRACE_TIERS.json"
+    },
+    {
+      "id": "dm26",
+      "kind": "file_exists",
+      "path": "data/deadman/stewards/STEWARD_LIGHTFATHER.json"
+    },
+    {
+      "id": "dm27",
+      "kind": "file_exists",
+      "path": "data/deadman/stewards/QUORUM_POLICY.json"
+    },
+    {
+      "id": "dm28",
+      "kind": "file_exists",
+      "path": "tools/deadman_watchdog.py"
+    },
+    {
+      "id": "dm29",
+      "kind": "file_exists",
+      "path": "tools/deadman_sentinel_hook.py"
+    },
+    {
+      "id": "dm30",
+      "kind": "file_exists",
+      "path": "docs/seals/DEADMAN_OPERATOR_RUNBOOK.md"
+    },
+    {
+      "id": "dm31",
+      "kind": "file_contains",
+      "path": "data/deadman/stewards/STEWARD_LIGHTFATHER.json",
+      "needle": "can_claim_identity_of_justin"
+    },
+    {
+      "id": "dm32",
+      "kind": "file_exists",
+      "path": "tools/close_deadman_loose_ends.py"
+    },
+    {
+      "id": "dm33",
+      "kind": "file_exists",
+      "path": "data/deadman/hardware_attestation_receipt.json"
+    },
+    {
+      "id": "dm34",
+      "kind": "file_contains",
+      "path": "docs/haven_star_chart/haven_star_chart_data.json",
+      "needle": "NODE_STEWARD_QUORUM"
     }
   ],
   "meta": {},
@@ -198,18 +303,178 @@
       "detail": "exists",
       "observed": true,
       "expected": true
+    },
+    {
+      "id": "dm15",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm16",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm17",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm18",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "LIGHTFATHER-IRREPLACEABLE-ORIGIN-v2"
+    },
+    {
+      "id": "dm19",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm20",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "NODE_LIGHTFATHER_ETERNAL_BASE"
+    },
+    {
+      "id": "dm21",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm22",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm23",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "CONTINUITY_ADVISOR"
+    },
+    {
+      "id": "dm24",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm25",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm26",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm27",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm28",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm29",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm30",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm31",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "can_claim_identity_of_justin"
+    },
+    {
+      "id": "dm32",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm33",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm34",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "NODE_STEWARD_QUORUM"
     }
   ],
   "sealed_ok": true,
-  "sealed_pass": 14,
+  "sealed_pass": 34,
   "sealed_fail": 0,
-  "root_hash": "3ca26476d40bd18b53c1e2634c636d6eef76bd08b2cf44309897b8a2cca782b6",
+  "root_hash": "8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9",
   "chain": [
     {
       "event": "seal",
-      "utc": "2026-08-19T04:18:18Z",
-      "root_hash": "3ca26476d40bd18b53c1e2634c636d6eef76bd08b2cf44309897b8a2cca782b6",
-      "claim_count": 14,
+      "utc": "2026-08-19T05:03:43Z",
+      "root_hash": "8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9",
+      "claim_count": 34,
       "sealed_ok": true
     }
   ]

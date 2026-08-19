@@ -1,0 +1,13 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-HW-ATTEST-STUB-v1",
+  "created_utc": "2026-08-19T05:03:45.293566+00:00",
+  "target": "NODE_LIGHTFATHER_ETERNAL_BASE",
+  "status": "stub_local",
+  "geodesic_skill_present": true,
+  "note": "Basic runnable placeholder. Pair later with real HAIP / geodesic attest. Does not invent TPM quotes.",
+  "binds": {
+    "origin": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+    "manifest": "data/deadman/DEADMAN_MANIFEST_v2.json"
+  },
+  "origin_sha256": "79ccab58a9297cb4f8f54dced74857574bac60e2f2fc43e2b7da27018b7b13d6"
+}

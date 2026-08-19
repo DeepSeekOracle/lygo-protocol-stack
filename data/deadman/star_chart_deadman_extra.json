@@ -1,0 +1,62 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-STAR-CHART-EXTRA-v1",
+  "nodes": [
+    {
+      "id": "NODE_STEWARD_QUORUM",
+      "kind": "node",
+      "name": "Steward Quorum / Attestation",
+      "equation": "Quorum(stewards) ∧ ¬Replace(Justin)",
+      "glyph": "🔏",
+      "tone": "174Hz",
+      "tags": [
+        "DEADMAN",
+        "STEWARD",
+        "QUORUM",
+        "LIGHTFATHER",
+        "CONTINUITY"
+      ],
+      "connections": [
+        "LATTICE_DEADMAN_FAILSAFE",
+        "NODE_LIGHTFATHER_ETERNAL_BASE",
+        "NODE_DEADMAN_SUCCESSION",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "stewards": "data/deadman/stewards/"
+      },
+      "layer": "D",
+      "meta": {
+        "role": "steward_quorum",
+        "policy": "data/deadman/stewards/QUORUM_POLICY.json",
+        "origin_card": "STEWARD_LIGHTFATHER"
+      }
+    },
+    {
+      "id": "NODE_DEADMAN_WATCHDOG",
+      "kind": "node",
+      "name": "Deadman Watchdog Runner",
+      "equation": "loop(touch|check) local",
+      "glyph": "🐕",
+      "tone": "174Hz",
+      "tags": [
+        "DEADMAN",
+        "WATCHDOG",
+        "RUNTIME",
+        "HEARTBEAT"
+      ],
+      "connections": [
+        "NODE_DEADMAN_HEARTBEAT",
+        "LATTICE_DEADMAN_FAILSAFE"
+      ],
+      "urls": {
+        "cli": "tools/deadman_watchdog.py"
+      },
+      "layer": "D",
+      "meta": {
+        "role": "watchdog",
+        "cli": "python tools/deadman_watchdog.py once --touch"
+      }
+    }
+  ],
+  "updated_utc": "2026-08-19T05:03:42.598649+00:00"
+}

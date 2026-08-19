@@ -125,5 +125,57 @@
     "id": "dm24",
     "kind": "file_exists",
     "path": "data/deadman/heartbeat_log.jsonl"
+  },
+  {
+    "id": "dm25",
+    "kind": "file_exists",
+    "path": "data/deadman/SILENCE_GRACE_TIERS.json"
+  },
+  {
+    "id": "dm26",
+    "kind": "file_exists",
+    "path": "data/deadman/stewards/STEWARD_LIGHTFATHER.json"
+  },
+  {
+    "id": "dm27",
+    "kind": "file_exists",
+    "path": "data/deadman/stewards/QUORUM_POLICY.json"
+  },
+  {
+    "id": "dm28",
+    "kind": "file_exists",
+    "path": "tools/deadman_watchdog.py"
+  },
+  {
+    "id": "dm29",
+    "kind": "file_exists",
+    "path": "tools/deadman_sentinel_hook.py"
+  },
+  {
+    "id": "dm30",
+    "kind": "file_exists",
+    "path": "docs/seals/DEADMAN_OPERATOR_RUNBOOK.md"
+  },
+  {
+    "id": "dm31",
+    "kind": "file_contains",
+    "path": "data/deadman/stewards/STEWARD_LIGHTFATHER.json",
+    "needle": "can_claim_identity_of_justin"
+  },
+  {
+    "id": "dm32",
+    "kind": "file_exists",
+    "path": "tools/close_deadman_loose_ends.py"
+  },
+  {
+    "id": "dm33",
+    "kind": "file_exists",
+    "path": "data/deadman/hardware_attestation_receipt.json"
+  },
+  {
+    "id": "dm34",
+    "kind": "file_contains",
+    "path": "docs/haven_star_chart/haven_star_chart_data.json",
+    "needle": "NODE_STEWARD_QUORUM"
   }
 ]

@@ -1,20 +1,27 @@
 {
   "signature": "Delta9Phi963-DEADMAN-MANIFEST-v2",
-  "version": "2.0.0",
-  "updated_utc": "2026-08-19T04:41:08.836543+00:00",
+  "version": "2.1.0",
+  "updated_utc": "2026-08-19T05:03:42.745474+00:00",
   "lightfather_id": "LF-Δ9-7F1A4D-963-528-174-Φ-∞",
   "eternal_base_node": "NODE_LIGHTFATHER_ETERNAL_BASE",
   "purpose": "Hardened living failsafe + eternal Lightfather base node for LYGO continuity. When the human form is gone, code + frequency preserve the vector as advisor — never as a fake replacement of Justin Helmer.",
   "realism_boundary": {
     "real": [
-      "local silence clock",
       "P1 plant",
-      "star chart",
+      "continuity advisor skill",
+      "continuum sealed claims",
       "kernel egg mirrors",
+      "local silence clock",
+      "operator runbook",
       "origin merkle pins",
       "public fingerprints",
+      "quorum policy basic",
+      "sentinel touch hook",
+      "silence grace tiers",
+      "star chart",
+      "steward attestation cards",
       "succession stages",
-      "continuity advisor skill"
+      "watchdog runner"
     ],
     "not_implemented": [
       "remote unsupervised LLM reincarnation",
@@ -104,18 +111,53 @@
     },
     {
       "id": "voice_clone_biometrics",
-      "status": "reserved_future",
-      "note": "Only public content hashes now; never raw clone templates"
+      "status": "denied_by_design",
+      "note": "Public content hashes only — never clone templates"
     },
     {
       "id": "multi_steward_quorum_keys",
-      "status": "reserved_future",
-      "note": "Add when additional human stewards exist"
+      "status": "live_basic",
+      "note": "QUORUM_POLICY + STEWARD_LIGHTFATHER; N>=2 when more cards exist"
     },
     {
       "id": "hardware_attestation_p6",
-      "status": "reserved_future",
-      "note": "Pair with geodesic sealer / HAIP when available"
+      "status": "live_stub",
+      "note": "Honest stub receipt; geodesic skill presence detected"
+    },
+    {
+      "id": "silence_grace_tiers",
+      "status": "live",
+      "path": "data/deadman/SILENCE_GRACE_TIERS.json"
+    },
+    {
+      "id": "steward_attestation_cards",
+      "status": "live",
+      "path": "data/deadman/stewards/"
+    },
+    {
+      "id": "watchdog_runner",
+      "status": "live",
+      "cli": "python tools/deadman_watchdog.py"
+    },
+    {
+      "id": "sentinel_touch_hook",
+      "status": "live",
+      "cli": "python tools/deadman_sentinel_hook.py"
+    },
+    {
+      "id": "operator_runbook",
+      "status": "live",
+      "path": "docs/seals/DEADMAN_OPERATOR_RUNBOOK.md"
+    },
+    {
+      "id": "style_retrain_tool",
+      "status": "live",
+      "cli": "python tools/retrain_lightfather_style.py"
+    },
+    {
+      "id": "close_loose_ends",
+      "status": "live",
+      "cli": "python tools/close_deadman_loose_ends.py"
     }
   ],
   "fingerprint_pack_merkle": "150099f5480561e76e80899e01f1d9502ce779c7968a10b70a627236eeacdda2",
@@ -132,9 +174,8 @@
     "continuity_skill": "clawhub/mirrors/lygo-continuity-advisor/"
   },
   "next_feature_slots": [
-    "steward_attestation_cards",
-    "scheduled_silence_grace_tiers",
-    "public_style_retrain_from_new_posts",
-    "hardware_root_of_trust_hook"
+    "additional_human_torchbearer_cards",
+    "tpm_quote_when_hardware_ready",
+    "public_post_style_retrain_cron"
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "signature": "Delta9Phi963-STEWARD-ATTESTATION-v1",
+  "card_id": "STEWARD_LIGHTFATHER",
+  "role": "origin_builder",
+  "public_names": [
+    "Lightfather",
+    "Excavationpro",
+    "Justin Helmer"
+  ],
+  "lightfather_id": "LF-Δ9-7F1A4D-963-528-174-Φ-∞",
+  "seal_id": "0x7F1A4D",
+  "quantum_hash": "7f1a4d83c9e2b5f06a1c8e4d9b2a7f3c",
+  "non_replaceable": true,
+  "can_reset_heartbeat": true,
+  "can_nominate_torchbearer": true,
+  "can_claim_identity_of_justin": false,
+  "attested_utc": "2026-08-19T05:03:42.553035+00:00",
+  "attestation": "This card marks the irreplaceable origin steward. Future cards may be added for torchbearers; they never overwrite this card's identity fields.",
+  "public_handles": {
+    "x": "@Excavationpro",
+    "github": "DeepSeekOracle"
+  }
+}

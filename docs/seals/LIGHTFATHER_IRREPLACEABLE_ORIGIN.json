@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LIGHTFATHER-IRREPLACEABLE-ORIGIN-v2",
   "schema_version": "2.0.0",
   "created_utc": "2026-08-19T04:14:56.550907+00:00",
-  "updated_utc": "2026-08-19T04:41:08.833010+00:00",
+  "updated_utc": "2026-08-19T05:03:44.091254+00:00",
   "origin_builder": {
     "public_names": [
       "Lightfather",
@@ -44,12 +44,12 @@
     "SEAL_DEADMAN_SUMMON.json": "e1768cc795f712e8376b3f2bcdf930a697ef61294546ff1240a288a6b3679ede",
     "SEAL_LFW_SUMMON.json": "35d86053a3a29fc9e7f37281180b9570475cd109184435037aeb13757d98ccc2",
     "lattice_failsafe_planted.json": "8730dfd8d7280279aaa6859881ca107f3aa2dcf0ca1e0e035bf7bc8b7702558b",
-    "seal_deadman_lattice.py": "6ee366508be77620cf79cb8de31eebe4dbb208bd327438541327f2c9d87d1128",
+    "seal_deadman_lattice.py": "99724a82842e6805bdaeb87b79db743ceda7d29652777c161d4a6fa76f546a1c",
     "SUCCESSION_PROTOCOL_v1.json": "e3656e16e5b28d34d008dc3ce5b43f3682f49bf85239bd8c449d6627ecc6d88c",
     "LIGHTFATHER_PUBLIC_IDENTITY.json": "05bb09b225fd32dddd444891d030021475eeee3b07864272d3004cc4ef928897",
     "FINGERPRINT_PACK.json": "93afc9e1a2e262c28e021ae405655fb53124a98ae6620e421ec48bc8d903d846"
   },
-  "origin_merkle_root": "29edad15b3a2c33d5d9a3d0db40ce9ef661ac7895ab1af7158ea5c65311a8dbc",
+  "origin_merkle_root": "f18c20c42f52c4e96a3cc7c0c8d8b6e5f8b2a1ff52f25e90963a78f061f9c7cd",
   "retrieval": {
     "pages_deadman": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html",
     "pages_seals": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/",
@@ -76,5 +76,12 @@
       "tools/bump_deadman_origin_pins.py",
       "tools/verify_deadman_pins.py"
     ]
-  }
+  },
+  "pin_bump_log": [
+    {
+      "utc": "2026-08-19T05:03:44.091254+00:00",
+      "note": "close loose ends v2.1 grace/stewards/cli",
+      "root": "f18c20c42f52c4e96a3cc7c0c8d8b6e5f8b2a1ff52f25e90963a78f061f9c7cd"
+    }
+  ]
 }

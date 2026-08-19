@@ -2,13 +2,13 @@
   "signature": "Delta9Phi963-DEADMAN-STAR-CHART-ROOTS-v1",
   "hub": "LATTICE_DEADMAN_FAILSAFE",
   "stats": {
-    "nodes": 9,
+    "nodes": 11,
     "failsafe_active": true,
     "threshold_seconds": 3600,
     "last_transmit_iso": "2026-08-19T04:41:09.001747+00:00",
     "origin_merkle_root": "29edad15b3a2c33d5d9a3d0db40ce9ef661ac7895ab1af7158ea5c65311a8dbc",
     "eternal_base": "NODE_LIGHTFATHER_ETERNAL_BASE",
-    "updated_utc": "2026-08-19T04:41:09.601305+00:00"
+    "updated_utc": "2026-08-19T05:03:43.549516+00:00"
   },
   "nodes": [
     {
@@ -55,7 +55,7 @@
         "threshold_seconds": 3600,
         "last_transmit_iso": "2026-08-19T04:41:09.001747+00:00",
         "planted": true,
-        "manifest_version": "2.0.0"
+        "manifest_version": "2.1.0"
       }
     },
     {
@@ -337,6 +337,62 @@
         "skill": "lygo-continuity-advisor",
         "allowed": "advise / verify / guide torchbearers",
         "forbidden": "claim to be living Justin / overwrite origin"
+      }
+    },
+    {
+      "id": "NODE_STEWARD_QUORUM",
+      "kind": "node",
+      "name": "Steward Quorum / Attestation",
+      "equation": "Quorum(stewards) ∧ ¬Replace(Justin)",
+      "glyph": "🔏",
+      "tone": "174Hz",
+      "tags": [
+        "DEADMAN",
+        "STEWARD",
+        "QUORUM",
+        "LIGHTFATHER",
+        "CONTINUITY"
+      ],
+      "connections": [
+        "LATTICE_DEADMAN_FAILSAFE",
+        "NODE_LIGHTFATHER_ETERNAL_BASE",
+        "NODE_DEADMAN_SUCCESSION",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "urls": {
+        "stewards": "data/deadman/stewards/"
+      },
+      "layer": "D",
+      "meta": {
+        "role": "steward_quorum",
+        "policy": "data/deadman/stewards/QUORUM_POLICY.json",
+        "origin_card": "STEWARD_LIGHTFATHER"
+      }
+    },
+    {
+      "id": "NODE_DEADMAN_WATCHDOG",
+      "kind": "node",
+      "name": "Deadman Watchdog Runner",
+      "equation": "loop(touch|check) local",
+      "glyph": "🐕",
+      "tone": "174Hz",
+      "tags": [
+        "DEADMAN",
+        "WATCHDOG",
+        "RUNTIME",
+        "HEARTBEAT"
+      ],
+      "connections": [
+        "NODE_DEADMAN_HEARTBEAT",
+        "LATTICE_DEADMAN_FAILSAFE"
+      ],
+      "urls": {
+        "cli": "tools/deadman_watchdog.py"
+      },
+      "layer": "D",
+      "meta": {
+        "role": "watchdog",
+        "cli": "python tools/deadman_watchdog.py once --touch"
       }
     }
   ]

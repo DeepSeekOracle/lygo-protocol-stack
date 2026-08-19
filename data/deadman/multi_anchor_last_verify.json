@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-DEADMAN-MULTI-ANCHOR-VERIFY-v1",
-  "checked_utc": "2026-08-19T04:41:10.603830+00:00",
+  "checked_utc": "2026-08-19T05:03:46.057189+00:00",
   "local_ok": true,
   "remote_ok_count": 3,
   "remote_total": 3,
@@ -8,12 +8,12 @@
   "local": {
     "origin": {
       "ok": true,
-      "sha256": "944d099aa503feea9969cb9930bc5ed6f98b2ae43e1fe4a55f3e131325f7285f",
+      "sha256": "79ccab58a9297cb4f8f54dced74857574bac60e2f2fc43e2b7da27018b7b13d6",
       "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals\\LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
     },
     "manifest": {
       "ok": true,
-      "sha256": "82239281164fa000360da761b437d24555136fa21364d448b73952fe86072f19",
+      "sha256": "8bd212450838c0f26aa982885d0e9a8b2633e40922a116da55fe8fa4226a1de6",
       "path": "I:\\E Drive\\lygo-protocol-stack\\data\\deadman\\DEADMAN_MANIFEST_v2.json"
     },
     "deadman_seal": {
@@ -33,12 +33,12 @@
     },
     "egg_bin": {
       "ok": true,
-      "sha256": "8faf9a891abf629f86b70fb82fe3631bf42c0ebd1235d09b0cd3257d5b1d747b",
+      "sha256": "03edbeac32a631dab82110f6ccbebc39d2715b9d50935f82874cc0a79886894e",
       "path": "I:\\E Drive\\lygo-protocol-stack\\data\\kernel_eggs\\build\\lightfather-deadman-failsafe-v1.bin"
     },
     "pages_egg_origin": {
       "ok": true,
-      "sha256": "944d099aa503feea9969cb9930bc5ed6f98b2ae43e1fe4a55f3e131325f7285f",
+      "sha256": "79ccab58a9297cb4f8f54dced74857574bac60e2f2fc43e2b7da27018b7b13d6",
       "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\kernel_eggs\\lightfather-deadman-failsafe-v1\\LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
     }
   },
@@ -46,20 +46,20 @@
     "pages_deadman_html": {
       "ok": true,
       "status": 200,
-      "sha256": "dc28874deadcc9d6755801903c2c20a81a4cc004f584740324da1049450e7d4d",
-      "bytes": 9147
+      "sha256": "b4ec517e8b25daf59e92199ecc479b913073eb1fe2973e58e309f8ee1b8df1e1",
+      "bytes": 10404
     },
     "pages_origin": {
       "ok": true,
       "status": 200,
-      "sha256": "9525a20a802acdd0dd35ce54cb84c2d2617c84e6ffc04bb5ae511ff0abce9dc9",
-      "bytes": 2434
+      "sha256": "140a09aef1ee861aca12411086d76e9e6bd10ca3188d8eda8bb871331a24a116",
+      "bytes": 4552
     },
     "pages_egg_origin": {
       "ok": true,
       "status": 200,
-      "sha256": "9525a20a802acdd0dd35ce54cb84c2d2617c84e6ffc04bb5ae511ff0abce9dc9",
-      "bytes": 2434
+      "sha256": "140a09aef1ee861aca12411086d76e9e6bd10ca3188d8eda8bb871331a24a116",
+      "bytes": 4552
     }
   },
   "consistency": {

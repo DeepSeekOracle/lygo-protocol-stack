@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "passed": 14,
+  "total": 14,
+  "results": [
+    {
+      "cmd": "tools/seal_deadman_lattice.py touch",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py status",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py verify",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py grace",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py succession",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py continuity",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py fingerprint",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/seal_deadman_lattice.py stewards",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/deadman_watchdog.py check",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/deadman_sentinel_hook.py --check-only",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/deadman_hardware_attestation_stub.py",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/verify_deadman_pins.py",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "tools/deadman_multi_anchor_verify.py",
+      "code": 0,
+      "ok": true
+    },
+    {
+      "cmd": "-m unittest tests.test_deadman_continuity",
+      "code": 0,
+      "ok": true
+    }
+  ],
+  "utc": "2026-08-19T05:03:46.175486+00:00"
+}

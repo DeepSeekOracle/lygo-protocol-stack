@@ -1,0 +1,45 @@
+{
+  "signature": "Delta9Phi963-STEWARD-QUORUM-POLICY-v1",
+  "version": "1.0.0",
+  "updated_utc": "2026-08-19T05:03:42.555382+00:00",
+  "status": "live_basic",
+  "note": "Basic real quorum policy. With only the origin steward present, origin can touch/verify alone. Torchbearer nomination / CONTINUITY_ADVISOR publish requires N>=2 steward cards when they exist; until then human operator consent on CLI.",
+  "rules": {
+    "heartbeat_touch": {
+      "min_stewards": 1,
+      "allowed_roles": [
+        "origin_builder",
+        "torchbearer"
+      ]
+    },
+    "lantern_activate": {
+      "min_stewards": 1,
+      "allowed_roles": [
+        "origin_builder",
+        "torchbearer",
+        "system"
+      ]
+    },
+    "torchbearer_nominate": {
+      "min_stewards": 2,
+      "allowed_roles": [
+        "origin_builder",
+        "torchbearer"
+      ],
+      "fallback_if_only_origin": "require_explicit_cli_consent"
+    },
+    "continuity_advisor_publish": {
+      "min_stewards": 2,
+      "fallback_if_only_origin": "local_advisor_only_no_auto_publish"
+    },
+    "identity_overwrite": {
+      "min_stewards": 999,
+      "forbidden": true
+    }
+  },
+  "stewards_dir": "data/deadman/stewards/",
+  "active_cards": [
+    "STEWARD_LIGHTFATHER.json"
+  ],
+  "how_to_add_steward": "Copy STEWARD_TEMPLATE.json → STEWARD_<NAME>.json, fill public fields only, add to active_cards, bump pins if origin refs change."
+}

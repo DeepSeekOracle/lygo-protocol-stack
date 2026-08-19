@@ -1,0 +1,13 @@
+{
+  "signature": "Delta9Phi963-STEWARD-ATTESTATION-v1",
+  "card_id": "STEWARD_TEMPLATE",
+  "role": "torchbearer",
+  "public_name": "",
+  "public_handle": "",
+  "non_replaceable_origin": true,
+  "can_reset_heartbeat": true,
+  "can_nominate_torchbearer": false,
+  "can_claim_identity_of_justin": false,
+  "attested_utc": "",
+  "note": "Fill and rename. Never set can_claim_identity_of_justin true."
+}

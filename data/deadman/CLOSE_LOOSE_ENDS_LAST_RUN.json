@@ -1,0 +1,97 @@
+{
+  "ok": true,
+  "skill_install": {
+    "ok": true,
+    "installed": "I:\\E Drive\\.grok\\skills\\lygo-continuity-advisor"
+  },
+  "chart_code": 0,
+  "chart_tail": "{\n  \"ok\": true,\n  \"nodes\": 1344,\n  \"links\": 3789,\n  \"sha256\": \"1474b39127ba0f53\",\n  \"feed_entries\": 59\n}\n",
+  "egg_continuum": {
+    "egg_build_code": 0,
+    "egg_stdout_tail": "{\n  \"built\": 1,\n  \"skipped\": [],\n  \"registry\": \"I:\\\\E Drive\\\\lygo-protocol-stack\\\\data\\\\kernel_eggs\\\\registry.json\"\n}\n",
+    "continuum_seal_code": 0,
+    "continuum_seal_tail": "\n    {\n      \"id\": \"dm33\",\n      \"kind\": \"file_exists\",\n      \"ok\": true,\n      \"detail\": \"exists\",\n      \"observed\": true,\n      \"expected\": true\n    },\n    {\n      \"id\": \"dm34\",\n      \"kind\": \"file_contains\",\n      \"ok\": true,\n      \"detail\": \"contains\",\n      \"observed\": true,\n      \"expected\": \"NODE_STEWARD_QUORUM\"\n    }\n  ],\n  \"sealed_ok\": true,\n  \"sealed_pass\": 34,\n  \"sealed_fail\": 0,\n  \"root_hash\": \"8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9\",\n  \"chain\": [\n    {\n      \"event\": \"seal\",\n      \"utc\": \"2026-08-19T05:03:43Z\",\n      \"root_hash\": \"8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9\",\n      \"claim_count\": 34,\n      \"sealed_ok\": true\n    }\n  ],\n  \"_wrote\": \"I:\\\\E Drive\\\\lygo-protocol-stack\\\\data\\\\continuum\\\\deadman_failsafe_capsule.json\"\n}\n",
+    "continuum_verify_code": 0,
+    "continuum_verify_tail": " \"id\": \"dm32\",\n      \"kind\": \"file_exists\",\n      \"ok\": true,\n      \"detail\": \"exists\",\n      \"observed\": true,\n      \"expected\": true\n    },\n    {\n      \"id\": \"dm33\",\n      \"kind\": \"file_exists\",\n      \"ok\": true,\n      \"detail\": \"exists\",\n      \"observed\": true,\n      \"expected\": true\n    },\n    {\n      \"id\": \"dm34\",\n      \"kind\": \"file_contains\",\n      \"ok\": true,\n      \"detail\": \"contains\",\n      \"observed\": true,\n      \"expected\": \"NODE_STEWARD_QUORUM\"\n    }\n  ],\n  \"capsule_id\": \"CONT-47E342DD4E73\",\n  \"root_hash\": \"8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9\",\n  \"root_hash_recomputed\": \"8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9\",\n  \"verified_utc\": \"2026-08-19T05:03:44Z\",\n  \"signature\": \"Delta9Phi963-CONTINUUM-v1.0.1\",\n  \"version\": \"1.0.1\"\n}\n"
+  },
+  "bump_code": 0,
+  "selftest": {
+    "ok": true,
+    "passed": 14,
+    "total": 14,
+    "results": [
+      {
+        "cmd": "tools/seal_deadman_lattice.py touch",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py status",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py verify",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py grace",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py succession",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py continuity",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py fingerprint",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/seal_deadman_lattice.py stewards",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/deadman_watchdog.py check",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/deadman_sentinel_hook.py --check-only",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/deadman_hardware_attestation_stub.py",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/verify_deadman_pins.py",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "tools/deadman_multi_anchor_verify.py",
+        "code": 0,
+        "ok": true
+      },
+      {
+        "cmd": "-m unittest tests.test_deadman_continuity",
+        "code": 0,
+        "ok": true
+      }
+    ],
+    "utc": "2026-08-19T05:03:46.175486+00:00"
+  },
+  "utc": "2026-08-19T05:03:46.176914+00:00"
+}

@@ -305,6 +305,14 @@ def build_deadman_nodes() -> tuple[list[dict[str, Any]], dict[str, Any]]:
         }
     )
 
+    # EXTRA_DEADMAN_NODES
+    extra_path = STACK / "data" / "deadman" / "star_chart_deadman_extra.json"
+    if extra_path.is_file():
+        extra = _load(extra_path)
+        for n in extra.get("nodes") or []:
+            if n.get("id") and all(x.get("id") != n["id"] for x in nodes):
+                nodes.append(n)
+
     stats = {
         "nodes": len(nodes),
         "failsafe_active": active,

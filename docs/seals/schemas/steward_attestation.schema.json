@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lygo.deadman.steward_attestation.v1",
+  "type": "object",
+  "required": [
+    "signature",
+    "card_id",
+    "role",
+    "can_claim_identity_of_justin"
+  ],
+  "properties": {
+    "signature": {
+      "const": "Delta9Phi963-STEWARD-ATTESTATION-v1"
+    },
+    "card_id": {
+      "type": "string"
+    },
+    "role": {
+      "enum": [
+        "origin_builder",
+        "torchbearer",
+        "observer"
+      ]
+    },
+    "can_claim_identity_of_justin": {
+      "const": false
+    },
+    "non_replaceable": {
+      "type": "boolean"
+    }
+  }
+}
