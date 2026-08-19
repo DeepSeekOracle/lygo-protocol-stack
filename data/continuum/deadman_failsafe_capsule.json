@@ -2,10 +2,10 @@
   "schema": "lygo.continuum.v1",
   "version": "1.0.1",
   "signature": "Delta9Phi963-CONTINUUM-v1.0.1",
-  "id": "CONT-9FBF3913F2E4",
-  "created_utc": "2026-08-19T04:10:38Z",
+  "id": "CONT-250B6C1066A3",
+  "created_utc": "2026-08-19T04:18:18Z",
   "agent": "grok",
-  "task_summary": "Deadman failsafe lattice install",
+  "task_summary": "Deadman kernel egg planted free mirrors",
   "base_hint": "I:\\E Drive\\lygo-protocol-stack",
   "decisions": [],
   "next_actions": [],
@@ -57,6 +57,32 @@
       "id": "dm9",
       "kind": "file_exists",
       "path": "docs/data-vault/deadman.html"
+    },
+    {
+      "id": "dm10",
+      "kind": "file_exists",
+      "path": "data/kernel_eggs/build/lightfather-deadman-failsafe-v1.bin"
+    },
+    {
+      "id": "dm11",
+      "kind": "file_exists",
+      "path": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+    },
+    {
+      "id": "dm12",
+      "kind": "file_contains",
+      "path": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+      "needle": "non_replaceable"
+    },
+    {
+      "id": "dm13",
+      "kind": "file_exists",
+      "path": "docs/kernel_eggs/lightfather-deadman-failsafe-v1/lightfather-deadman-failsafe-v1.bin"
+    },
+    {
+      "id": "dm14",
+      "kind": "file_exists",
+      "path": "docs/seals/DEADMAN_KERNEL_EGG_PLANT.json"
     }
   ],
   "meta": {},
@@ -132,18 +158,58 @@
       "detail": "exists",
       "observed": true,
       "expected": true
+    },
+    {
+      "id": "dm10",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm11",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm12",
+      "kind": "file_contains",
+      "ok": true,
+      "detail": "contains",
+      "observed": true,
+      "expected": "non_replaceable"
+    },
+    {
+      "id": "dm13",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
+    },
+    {
+      "id": "dm14",
+      "kind": "file_exists",
+      "ok": true,
+      "detail": "exists",
+      "observed": true,
+      "expected": true
     }
   ],
   "sealed_ok": true,
-  "sealed_pass": 9,
+  "sealed_pass": 14,
   "sealed_fail": 0,
-  "root_hash": "2f3396cc8dde000ef81f73577c1af50c10c218d871de75ff650c1c8212b3e624",
+  "root_hash": "3ca26476d40bd18b53c1e2634c636d6eef76bd08b2cf44309897b8a2cca782b6",
   "chain": [
     {
       "event": "seal",
-      "utc": "2026-08-19T04:10:38Z",
-      "root_hash": "2f3396cc8dde000ef81f73577c1af50c10c218d871de75ff650c1c8212b3e624",
-      "claim_count": 9,
+      "utc": "2026-08-19T04:18:18Z",
+      "root_hash": "3ca26476d40bd18b53c1e2634c636d6eef76bd08b2cf44309897b8a2cca782b6",
+      "claim_count": 14,
       "sealed_ok": true
     }
   ]

@@ -70,12 +70,43 @@
     </section>
 
     <section class="panel">
+      <h2>Kernel egg (free mirrors)</h2>
+      <p>
+        Egg id: <code>lightfather-deadman-failsafe-v1</code> — includes Deadman + LFW canon,
+        planted failsafe snapshot, and the <strong>irreplaceable origin pin</strong>
+        (Justin Helmer / Excavationpro / Lightfather cannot be replaced by a later speaker).
+      </p>
+      <ul>
+        <li><a href="../kernel_eggs/lightfather-deadman-failsafe-v1/">GitHub Pages egg folder</a></li>
+        <li><a href="../kernel_eggs/lightfather-deadman-failsafe-v1/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json">Irreplaceable origin JSON</a></li>
+        <li><a href="../seals/DEADMAN_KERNEL_EGG_PLANT.json">Plant receipt</a></li>
+        <li><a href="https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack/tree/main/kernel_eggs/lightfather-deadman-failsafe-v1">Hugging Face dataset folder</a></li>
+        <li><a href="../KernelEggRegistry.json">KernelEggRegistry.json</a></li>
+      </ul>
+      <p class="muted">
+        Turbo/Arweave free upload returned 500 at plant time — Local-CA + Pages + HF hold the egg.
+        Retry: <code>python tools/anchor_kernel_eggs.py</code> when Turbo is healthy.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>If Lightfather is gone (torchbearer)</h2>
+      <ol>
+        <li>Verify <code>origin_merkle_root</code> in the irreplaceable origin JSON against listed file SHA-256 pins.</li>
+        <li>You may <strong>steward</strong> LYGO. You may <strong>not</strong> claim to be or replace Justin Helmer / Excavationpro / Lightfather.</li>
+        <li>Run <code>seal_deadman_lattice.py check</code> then <code>plant</code> on a trusted clone — local lantern, not remote takeover.</li>
+        <li>Read both seal quotes. Ethics first. Preserve the whisper.</li>
+      </ol>
+    </section>
+
+    <section class="panel">
       <h2>Steward ops (realistic)</h2>
       <pre class="excerpt">cd lygo-protocol-stack
 python tools/seal_deadman_lattice.py touch     # you are still here
 python tools/seal_deadman_lattice.py check     # silence?
 python tools/seal_deadman_lattice.py plant     # plant failsafe into lattice state + P1
 python tools/seal_deadman_lattice.py anchor    # re-scatter canon keys
+python tools/build_kernel_eggs.py --egg lightfather-deadman-failsafe-v1
 python tools/map_deadman_to_star_chart.py --json
 python tools/build_haven_star_chart.py        # GALAXY_DEADMAN_FAILSAFE</pre>
       <p>

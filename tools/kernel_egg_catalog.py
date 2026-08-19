@@ -140,6 +140,20 @@ EGG_SPECS: dict[str, list[tuple[str, Path]]] = {
         ("series_registry", REPO / "data/eternal_haven_books/series_registry.json"),
         ("content_sha_pin", REPO / "data/eternal_haven_books/book_v_content_sha256.txt"),
     ],
+    # Lightfather / Excavationpro / Justin Helmer — irreplaceable origin + deadman failsafe
+    "lightfather-deadman-failsafe-v1": [
+        ("deadman_egg_core", REPO / "data/deadman/egg_payload/deadman_egg_core.json"),
+        (
+            "irreplaceable_origin",
+            REPO / "data/deadman/egg_payload/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+        ),
+        ("deadman_egg_readme", REPO / "data/deadman/egg_payload/README.md"),
+        ("deadman_seal_canon", REPO / "docs/seals/SEAL_DEADMAN_SUMMON.json"),
+        ("lfw_seal_canon", REPO / "docs/seals/SEAL_LFW_SUMMON.json"),
+        ("failsafe_planted", REPO / "docs/seals/lattice_failsafe_planted.json"),
+        ("deadman_lattice_doc", REPO / "docs/seals/DEADMAN_LATTICE.md"),
+        ("vault_deadman_page", REPO / "docs/data-vault/deadman.html"),
+    ],
 }
 
 RETRIEVAL_SOA = {

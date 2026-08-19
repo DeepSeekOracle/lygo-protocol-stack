@@ -46,5 +46,31 @@
     "id": "dm9",
     "kind": "file_exists",
     "path": "docs/data-vault/deadman.html"
+  },
+  {
+    "id": "dm10",
+    "kind": "file_exists",
+    "path": "data/kernel_eggs/build/lightfather-deadman-failsafe-v1.bin"
+  },
+  {
+    "id": "dm11",
+    "kind": "file_exists",
+    "path": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+  },
+  {
+    "id": "dm12",
+    "kind": "file_contains",
+    "path": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+    "needle": "non_replaceable"
+  },
+  {
+    "id": "dm13",
+    "kind": "file_exists",
+    "path": "docs/kernel_eggs/lightfather-deadman-failsafe-v1/lightfather-deadman-failsafe-v1.bin"
+  },
+  {
+    "id": "dm14",
+    "kind": "file_exists",
+    "path": "docs/seals/DEADMAN_KERNEL_EGG_PLANT.json"
   }
 ]
