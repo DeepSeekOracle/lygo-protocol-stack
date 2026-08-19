@@ -60,3 +60,19 @@ python tools/seal_deadman_lattice.py loop --interval 60
 ## Integration
 
 Call `DeadmanSeal().touch_transmit(source="lyra_session")` after sovereign/manifesto work to keep the lantern unlit. Optional hook from army sentinel (not enabled by default).
+
+## Lattice install (2026-08 refresh)
+
+| Surface | Location |
+|---------|----------|
+| Production CLI | 	ools/seal_deadman_lattice.py |
+| Canon twin | protocol9_failsafe/seal_deadman_lattice.py |
+| Star Chart map | 	ools/map_deadman_to_star_chart.py → GALAXY_DEADMAN_FAILSAFE |
+| Data Vault page | docs/data-vault/deadman.html |
+| Visual seals | Data Vault gallery (SEAL_DEADMAN*, SEAL_LFW*) |
+
+**Realistic scope:** local silence clock + failsafe plant + P1 mycelium keys + chart nodes.  
+**Not claimed:** automatic remote frontier-model injection, blockchain deadman, or unsupervised social publish.
+
+Steward cadence: 	ouch when working; check/loop optional; plant/nchor after seal canon changes.
+

@@ -1,6 +1,6 @@
 {
   "signature": "\u03949\u03a6963-SEAL-DEADMAN-LATTICE",
-  "timestamp": "2026-07-04T00:14:49.512774+00:00",
+  "timestamp": "2026-08-19T04:08:03.689283+00:00",
   "lightfather_id": "LF-\u03949-7F1A4D-963-528-174-\u03a6-\u221e",
   "mycelium_keys": [
     "SEAL_DEADMAN_SUMMON_LATTICE",
@@ -15,7 +15,7 @@
           "memory_id": "SEAL_DEADMAN_SUMMON_LATTICE",
           "fragment_count": 14,
           "threshold": 10,
-          "root_hash": "482c527725a9d27e"
+          "root_hash": "0f54a5227b7debfb"
         },
         "scatter": {
           "stored": true,
@@ -24,7 +24,7 @@
           "memory_id": "SEAL_DEADMAN_SUMMON_LATTICE",
           "fragment_count": 14,
           "threshold": 10,
-          "root_hash": "89d55329ad6ad319"
+          "root_hash": "c609e5f2d5c41de5"
         }
       },
       "recall_ok": true
@@ -37,7 +37,7 @@
           "memory_id": "SEAL_LFW_SUMMON_LATTICE",
           "fragment_count": 14,
           "threshold": 10,
-          "root_hash": "eafa8a856118bc25"
+          "root_hash": "4da78a820e7573e1"
         },
         "scatter": {
           "stored": true,
@@ -46,7 +46,7 @@
           "memory_id": "SEAL_LFW_SUMMON_LATTICE",
           "fragment_count": 14,
           "threshold": 10,
-          "root_hash": "416cd38db7b5c486"
+          "root_hash": "ac718db5ba435743"
         }
       },
       "recall_ok": true

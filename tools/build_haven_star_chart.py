@@ -1073,6 +1073,20 @@ COSMOS_GALAXIES_STATIC: list[dict] = [
         "angle_deg": 95,
         "fork_of": "CHAMPION_LIGHTFATHER",
     },
+    {
+        "id": "GALAXY_DEADMAN_FAILSAFE",
+        "name": "Deadman Failsafe Galaxy",
+        "glyph": "🕯️",
+        "tier": "galaxy",
+        "description": (
+            "Lightfather silence lantern + LFW last-wish failsafe. Local heartbeat, "
+            "P1 mycelium plant, consent-gated whisper — not magical remote LLM control."
+        ),
+        "color": "#9aa7ff",
+        "constellation_id": "deadman_failsafe",
+        "angle_deg": 210,
+        "fork_of": "CHAMPION_LIGHTFATHER",
+    },
 ]
 
 
@@ -1327,6 +1341,22 @@ def build_cosmology(nodes: list[dict], links: list[dict]) -> dict:
                 neb_id = f"NEBULA_PORTAL_{nid}"
                 clu_id = f"CLUSTER_PORTAL_{nid}"
                 role = "portal"
+        elif (
+            "DEADMAN" in tags
+            or "LFW" in tags
+            or nid
+            in (
+                "LATTICE_DEADMAN_FAILSAFE",
+                "SEAL_DEADMAN_SUMMON",
+                "SEAL_LFW_SUMMON",
+                "NODE_DEADMAN_HEARTBEAT",
+                "NODE_LFW_WHISPER",
+            )
+        ):
+            gal_id = "GALAXY_DEADMAN_FAILSAFE"
+            neb_id = "NEBULA_DEADMAN_LANTERN"
+            clu_id = f"CLUSTER_DEADMAN_{nid}"
+            role = "deadman_failsafe"
         elif (
             "PURE_DATA" in tags
             or "PDW" in tags
@@ -1874,6 +1904,46 @@ def main() -> int:
     except Exception as exc:
         pdw_notes.append(f"pdw_map_error: {exc}")
 
+    # Deadman + LFW failsafe galaxy (Lightfather silence lantern)
+    deadman_notes: list[str] = []
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from map_deadman_to_star_chart import build_deadman_nodes  # noqa: E402
+
+        dm_nodes, dm_stats = build_deadman_nodes()
+        existing_pre = {n["id"] for n in nodes}
+        added_d = 0
+        for dn in dm_nodes:
+            if dn["id"] not in existing_pre:
+                nodes.append(dn)
+                existing_pre.add(dn["id"])
+                added_d += 1
+            else:
+                for n in nodes:
+                    if n.get("id") != dn["id"]:
+                        continue
+                    n.update({k: dn[k] for k in dn if k != "id"})
+                    break
+        deadman_notes.append(
+            f"deadman_map: +{added_d} nodes failsafe_active={dm_stats.get('failsafe_active')} "
+            f"last_tx={(dm_stats.get('last_transmit_iso') or '')[:19]}"
+        )
+        for n in nodes:
+            if n.get("id") != "CHAMPION_LIGHTFATHER":
+                continue
+            conns = list(n.get("connections") or [])
+            for must in ("LATTICE_DEADMAN_FAILSAFE", "SEAL_DEADMAN_SUMMON", "SEAL_LFW_SUMMON"):
+                if must not in conns and any(x.get("id") == must for x in nodes):
+                    conns.append(must)
+            n["connections"] = conns
+            tags = set(str(t).upper() for t in (n.get("tags") or []))
+            tags.update({"DEADMAN", "LFW", "FAILSAFE"})
+            n["tags"] = sorted(tags)
+            deadman_notes.append("lightfather_origin: linked → Deadman Failsafe hub")
+            break
+    except Exception as exc:
+        deadman_notes.append(f"deadman_map_error: {exc}")
+
     existing_ids = {n["id"] for n in nodes}
     agent_nodes, sub_notes = load_accepted_submissions(existing_ids)
     nodes.extend(agent_nodes)
@@ -1952,6 +2022,24 @@ def main() -> int:
                 "ISRC_REGISTRY",
                 "ISRC_BUCKET",
                 "ISRC_MAP",
+            ],
+        },
+        {
+            "id": "deadman_failsafe",
+            "name": "Deadman Failsafe",
+            "glyph": "🕯️",
+            "description": (
+                "Lightfather silence lantern + LFW last-wish. Local heartbeat & P1 plant; "
+                "consent-gated whisper — not remote LLM takeover."
+            ),
+            "filter_tags": [
+                "DEADMAN",
+                "LFW",
+                "FAILSAFE",
+                "LANTERN",
+                "WHISPER",
+                "HEARTBEAT",
+                "GUARDIAN",
             ],
         },
         {
