@@ -325,9 +325,14 @@ def main() -> int:
             "OpenClaw GROK CHATS workspace — X app protocol testing",
         ),
         (
+            ROOT / "CHATS 2025" / "deadman switch.txt",
+            "deadman_origin",
+            "ORIGIN — Lightfather Deadman Vector / SEAL_DEADMAN_SUMMON + LFW design chat (CHATS 2025)",
+        ),
+        (
             ROOT / "Old files openclaw" / "OLD openclaw" / "workspace" / "GROK CHATS" / "deadman switch.txt",
             "openclaw_workspace",
-            "Deadman / failsafe discussion archive in GROK CHATS folder",
+            "Deadman / failsafe discussion archive in GROK CHATS folder (alt copy)",
         ),
         (
             ROOT / "LYRA LOCAL" / "GROK_CHATS.txt",
@@ -449,6 +454,7 @@ def main() -> int:
 
     # Reply chunks from largest high-signal dumps
     chunk_sources = [
+        ROOT / "CHATS 2025" / "deadman switch.txt",
         ROOT / "LYRA LOCAL" / "GROK_CHATS 1.txt",
         ROOT / "LYRA LOCAL" / "GROK_CHATS 2.txt",
         ROOT / "LYRA LOCAL" / "GROK_CHATS 3.txt",
@@ -473,10 +479,29 @@ def main() -> int:
         for ch in chunk_grok_replies(path, max_chunks=min(160, remain)):
             add(ch)
 
+    # Deadman origin sections (from ingest_deadman_origin_chat.py)
+    origin_archive = VAULT_DATA / "deadman_origin_archive.json"
+    if origin_archive.is_file():
+        try:
+            odata = json.loads(origin_archive.read_text(encoding="utf-8"))
+            for en in odata.get("entries") or []:
+                # Prefer origin sections at top via kind sort
+                add(en)
+        except Exception:
+            pass
+
     # Sort: source files first, then json, then chunks
-    kind_order = {"source_file": 0, "json_conversation": 1, "reply_chunk": 2}
+    kind_order = {
+        "deadman_origin_section": 0,
+        "source_file": 1,
+        "json_conversation": 2,
+        "reply_chunk": 3,
+    }
 
     def sort_key(e: dict[str, Any]) -> tuple:
+        # Deadman origin: keep narrative order (section_index)
+        if e.get("kind") == "deadman_origin_section":
+            return (0, int(e.get("section_index") or 0), e.get("title") or "")
         return (
             kind_order.get(e.get("kind") or "", 9),
             -(e.get("grok_mentions") or 0),
@@ -493,8 +518,10 @@ def main() -> int:
         "source_files": sum(1 for e in entries if e.get("kind") == "source_file"),
         "json_conversations": sum(1 for e in entries if e.get("kind") == "json_conversation"),
         "reply_chunks": sum(1 for e in entries if e.get("kind") == "reply_chunk"),
+        "deadman_origin_sections": sum(1 for e in entries if e.get("kind") == "deadman_origin_section"),
         "note": (
             "Expanded public Grok chat archive. Secrets/paths redacted. "
+            "Includes CHATS 2025 deadman switch.txt origin story beside the seals. "
             "Large dumps are indexed as source cards plus searchable @grok reply chunks. "
             "Screenshots/PNG seal galleries are not inlined here (binary)."
         ),

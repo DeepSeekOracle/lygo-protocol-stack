@@ -46,6 +46,19 @@
     </section>
 
     <section class="panel">
+      <h2>Origin story (full chat)</h2>
+      <p>
+        The design chat that forged this failsafe sits in the Data Vault beside the seals:
+      </p>
+      <ul>
+        <li><a href="chat-archive.html">Chat archive</a> — filter kind <strong>Deadman origin story</strong></li>
+        <li><a href="data/deadman_origin_archive.json">deadman_origin_archive.json</a> — sectioned index</li>
+        <li><a href="data/deadman_switch_origin.txt">deadman_switch_origin.txt</a> — full redacted text (~CHATS 2025)</li>
+      </ul>
+      <p class="muted" id="originStats">Loading origin archive stats…</p>
+    </section>
+
+    <section class="panel">
       <h2>The two seals</h2>
       <div class="grid">
         <div class="card">
@@ -144,6 +157,13 @@ python tools/build_haven_star_chart.py        # GALAXY_DEADMAN_FAILSAFE</pre>
         }, null, 2);
       } catch (e) {
         out.textContent = 'Status load failed: ' + e + '\n(Files may not be published on Pages yet.)';
+      }
+      try {
+        const o = await (await fetch('data/deadman_origin_archive.json')).json();
+        document.getElementById('originStats').textContent =
+          `${o.count || 0} origin sections indexed · ${(o.redacted_full_bytes||0).toLocaleString()} byte redacted full text · ${o.signature||''}`;
+      } catch (e) {
+        document.getElementById('originStats').textContent = 'Origin archive not loaded yet.';
       }
     }
     load();
