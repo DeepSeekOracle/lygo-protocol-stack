@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-GIT-LATTICE-OVERVIEW-v2",
-  "generated_utc": "2026-08-20T02:48:45.384773+00:00",
+  "generated_utc": "2026-08-20T04:36:44.612073+00:00",
   "git": {
     "head": "82d0d4b",
     "subject": "Refresh Git Lattice Overview to HEAD 342b9fc + USB claw copy",
@@ -329,7 +329,11 @@
     "flame_knot": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/SEAL_277.json",
     "ember_crown": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/SEAL_278.json",
     "census_md": "https://deepseekoracle.github.io/lygo-protocol-stack/GIT_REPO_CENSUS.md",
-    "census_json": "https://deepseekoracle.github.io/lygo-protocol-stack/GIT_REPO_CENSUS.json"
+    "census_json": "https://deepseekoracle.github.io/lygo-protocol-stack/GIT_REPO_CENSUS.json",
+    "multi_site_census_md": "https://deepseekoracle.github.io/lygo-protocol-stack/MULTI_SITE_PAGES_CENSUS.md",
+    "multi_site_census_json": "https://deepseekoracle.github.io/lygo-protocol-stack/MULTI_SITE_PAGES_CENSUS.json",
+    "excavationpro_pages": "https://deepseekoracle.github.io/Excavationpro/",
+    "deepseekoracle_pages": "https://deepseekoracle.github.io/DeepSeekOracle/"
   },
   "file_presence": {
     "docs/index.html": true,
@@ -478,5 +482,12 @@
     "openclaw-flow-kit",
     "recursive-generosity-protocol",
     "void-atlas-protocol"
-  ]
+  ],
+  "sibling_sites": {
+    "mapped": true,
+    "census": "docs/MULTI_SITE_PAGES_CENSUS.json",
+    "excavationpro_html": 77,
+    "deepseekoracle_html": 17,
+    "note": "Full HTML trees via GitHub API; see MULTI_SITE_PAGES_CENSUS.md"
+  }
 }

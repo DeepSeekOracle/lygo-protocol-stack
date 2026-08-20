@@ -96,3 +96,14 @@ All checklist paths present.
 python tools/build_git_lattice_overview.py --usb-copy
 python tools/census_git_lattice.py --usb-copy
 ```
+
+
+## Sibling GitHub Pages (fully mapped)
+
+| Site | HTML pages | Census |
+|------|----------:|--------|
+| [Excavationpro](https://deepseekoracle.github.io/Excavationpro/) | 77 | [MULTI_SITE_PAGES_CENSUS.md](MULTI_SITE_PAGES_CENSUS.md) |
+| [DeepSeekOracle](https://deepseekoracle.github.io/DeepSeekOracle/) | 17 | same |
+
+JSON: [MULTI_SITE_PAGES_CENSUS.json](MULTI_SITE_PAGES_CENSUS.json) · USB: E:\LYGO_LATTICE_MEMORY\
+
