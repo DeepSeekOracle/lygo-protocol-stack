@@ -2,32 +2,68 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/seals.html</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/gallery.html</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/chat-archive.html</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/whitepapers.html</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/multi-ai-canon.html</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/qd-theory.html</loc>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/share.html</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>
