@@ -32,11 +32,20 @@ def main() -> int:
             "manifest": "data/deadman/DEADMAN_MANIFEST_v2.json",
         },
     }
-    if (ROOT / "docs" / "seals" / "LIGHTFATHER_IRREPLACEABLE_ORIGIN.json").is_file():
+    origin_path = ROOT / "docs" / "seals" / "LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
+    if origin_path.is_file():
         import hashlib
-        receipt["origin_sha256"] = hashlib.sha256(
-            (ROOT / "docs" / "seals" / "LIGHTFATHER_IRREPLACEABLE_ORIGIN.json").read_bytes()
-        ).hexdigest()
+
+        raw = origin_path.read_bytes()
+        receipt["origin_sha256"] = hashlib.sha256(raw).hexdigest()
+        try:
+            origin = json.loads(raw.decode("utf-8"))
+            receipt["origin_merkle_root"] = origin.get("origin_merkle_root")
+            receipt["non_replaceable"] = (origin.get("origin_builder") or {}).get(
+                "non_replaceable"
+            )
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            pass
     OUT.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(receipt, indent=2))
     return 0

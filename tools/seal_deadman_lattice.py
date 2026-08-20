@@ -58,6 +58,31 @@ DELTA9_SUMMON_FACTOR = 49  # Δ9 completion line in lightmath (display factor)
 HEARTBEAT_LOG = ROOT / "data" / "deadman" / "heartbeat_log.jsonl"
 
 
+def _load_grace_tiers_safe() -> dict:
+    """Load silence grace tiers without raising (available before SilenceDetector)."""
+    for p in (
+        ROOT / "data" / "deadman" / "SILENCE_GRACE_TIERS.json",
+        SEALS_DIR / "SILENCE_GRACE_TIERS.json",
+    ):
+        if p.is_file():
+            try:
+                return json.loads(p.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                return {}
+    return {}
+
+
+def infer_grace_tier_safe(silence_seconds: float) -> dict:
+    tiers = (_load_grace_tiers_safe().get("tiers") or [])
+    chosen: dict = {"id": "WATCH"}
+    for t in tiers:
+        mn = float(t.get("min_silence_seconds") or 0)
+        mx = t.get("max_silence_seconds")
+        if silence_seconds >= mn and (mx is None or silence_seconds <= float(mx)):
+            chosen = t
+    return chosen
+
+
 def _append_heartbeat_log(event: str, *, source: str = LIGHTFATHER_ID, **extra: Any) -> dict:
     entry = {
         "signature": "Delta9Phi963-DEADMAN-HEARTBEAT-v1",
@@ -856,38 +881,64 @@ class SilenceDetector:
     """
     Monitors Lightfather's activity.
     If silence is detected, triggers the Deadman Seal.
+
+    Authority clock is the persisted DeadmanSeal transmit state
+    (``docs/seals/deadman_lattice_state.json``). In-memory ``last_heartbeat``
+    is kept in sync so summons never miss real silence after a fresh process start.
     """
 
     def __init__(self, mycelium: Any = None) -> None:
-        self.last_heartbeat = time.time()
         self.silence_mode = False
         self.deadman = DeadmanSeal(mycelium)
         self.lfw = LFWSeal(mycelium)
         self.history = []
+        # Apply grace-tier lantern threshold when configured
+        tiers = _load_grace_tiers_safe()
+        thr = tiers.get("lantern_threshold_seconds")
+        if thr is not None:
+            self.deadman.silence_threshold_seconds = int(thr)
+        self.last_heartbeat = self._heartbeat_from_deadman_state()
+
+    def _heartbeat_from_deadman_state(self) -> float:
+        state = self.deadman._load_state()
+        try:
+            return float(state.get("last_transmit_unix") or time.time())
+        except (TypeError, ValueError):
+            return time.time()
+
+    def _sync_from_deadman_state(self) -> None:
+        """Pull persisted transmit clock into memory (source of truth on disk)."""
+        self.last_heartbeat = self._heartbeat_from_deadman_state()
+        if self.deadman.is_silence():
+            self.silence_mode = True
 
     @property
     def silence_threshold_seconds(self) -> int:
-        return self.deadman.silence_threshold_seconds
+        return int(self.deadman.silence_threshold_seconds)
 
     def silence_seconds(self) -> float:
-        return max(0.0, time.time() - self.last_heartbeat)
+        """Prefer persisted deadman clock (survives process restart)."""
+        return self.deadman.silence_seconds()
 
     def check_silence(self) -> bool:
-        """Check if silence threshold has been exceeded"""
-        elapsed = time.time() - self.last_heartbeat
-        if elapsed > SILENCE_THRESHOLD_SECONDS:
+        """Check if silence threshold has been exceeded (persisted clock)."""
+        self._sync_from_deadman_state()
+        if self.deadman.is_silence():
             self.silence_mode = True
             return True
+        self.silence_mode = False
         return False
 
     def _sync_deadman_transmit_clock(self) -> None:
-        """Lattice bridge: deadman ``activate()`` reads deadman state, not ``last_heartbeat``."""
+        """Push in-memory heartbeat into deadman state (after confirmed silence path)."""
         state = self.deadman._load_state()
-        state["last_transmit_unix"] = self.last_heartbeat
+        # Keep the older (more silent) timestamp if state already shows silence
+        disk_unix = float(state.get("last_transmit_unix") or self.last_heartbeat)
+        state["last_transmit_unix"] = min(disk_unix, float(self.last_heartbeat))
         self.deadman._save_state(state)
 
     def is_silent(self) -> bool:
-        return self.silence_mode or self.check_silence()
+        return self.check_silence()
 
     def heartbeat(self, source_id: str) -> None:
         """Called when Lightfather transmits"""
@@ -934,7 +985,8 @@ class SilenceDetector:
             # Combine results
             combined = {
                 "silence_detected": True,
-                "elapsed_seconds": time.time() - self.last_heartbeat,
+                "elapsed_seconds": self.deadman.silence_seconds(),
+                "grace_tier": infer_grace_tier_safe(self.deadman.silence_seconds()).get("id"),
                 "deadman": deadman_result,
                 "lfw": lfw_result,
                 "message": "The torch passes. The whisper continues.",
@@ -1220,21 +1272,11 @@ def cmd_demo(_: argparse.Namespace) -> int:
 
 
 def _load_grace_tiers() -> dict:
-    for p in (ROOT / "data" / "deadman" / "SILENCE_GRACE_TIERS.json", SEALS_DIR / "SILENCE_GRACE_TIERS.json"):
-        if p.is_file():
-            return _read_json(p)
-    return {}
+    return _load_grace_tiers_safe()
 
 
 def infer_grace_tier(silence_seconds: float) -> dict:
-    tiers = (_load_grace_tiers().get("tiers") or [])
-    chosen = {"id": "WATCH"}
-    for t in tiers:
-        mn = float(t.get("min_silence_seconds") or 0)
-        mx = t.get("max_silence_seconds")
-        if silence_seconds >= mn and (mx is None or silence_seconds <= float(mx)):
-            chosen = t
-    return chosen
+    return infer_grace_tier_safe(silence_seconds)
 
 
 def cmd_grace(_: argparse.Namespace) -> int:
@@ -1254,7 +1296,7 @@ def cmd_grace(_: argparse.Namespace) -> int:
         "lantern_threshold_seconds": detector.deadman.silence_threshold_seconds,
         "is_silence": detector.deadman.is_silence(),
     }
-    _append_heartbeat_log("succession", notes=f"grace:{tier.get('id')}", silence_seconds=silence_s)
+    _append_heartbeat_log("check", notes=f"grace:{tier.get('id')}", silence_seconds=silence_s)
     print(json.dumps(report, indent=2))
     return 0
 
@@ -1299,12 +1341,14 @@ def cmd_status(_: argparse.Namespace) -> int:
     manifest_path = ROOT / "data" / "deadman" / "DEADMAN_MANIFEST_v2.json"
     manifest = _read_json(manifest_path) if manifest_path.is_file() else {}
     silence_s = detector.deadman.silence_seconds()
+    tier = infer_grace_tier_safe(silence_s)
     report = {
         "ok": True,
         "lightfather_id": LIGHTFATHER_ID,
         "silence_seconds": silence_s,
         "is_silence": detector.deadman.is_silence(),
-        "threshold_seconds": SILENCE_THRESHOLD_SECONDS,
+        "threshold_seconds": detector.silence_threshold_seconds,
+        "grace_tier": tier.get("id"),
         "last_transmit_iso": state.get("last_transmit_iso"),
         "activation_count": state.get("activation_count"),
         "failsafe_planted": bool(planted.get("failsafe_planted") or planted.get("failsafe")),
@@ -1315,7 +1359,10 @@ def cmd_status(_: argparse.Namespace) -> int:
         "feature_count": len(manifest.get("features") or []),
         "eternal_base_node": (origin.get("failsafe") or {}).get("eternal_base_node")
         or "NODE_LIGHTFATHER_ETERNAL_BASE",
-        "cli": "touch|check|plant|anchor|verify|status|succession|continuity|fingerprint|multi-anchor",
+        "cli": (
+            "touch|check|plant|anchor|verify|status|succession|continuity|"
+            "fingerprint|multi-anchor|grace|stewards"
+        ),
     }
     _append_heartbeat_log("check", silence_seconds=silence_s, notes="status")
     print(json.dumps(report, indent=2))

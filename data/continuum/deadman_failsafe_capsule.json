@@ -2,10 +2,10 @@
   "schema": "lygo.continuum.v1",
   "version": "1.0.1",
   "signature": "Delta9Phi963-CONTINUUM-v1.0.1",
-  "id": "CONT-47E342DD4E73",
-  "created_utc": "2026-08-19T05:03:43Z",
+  "id": "CONT-47554A24D254",
+  "created_utc": "2026-08-20T01:31:17Z",
   "agent": "grok",
-  "task_summary": "Deadman continuity v2.1 loose-ends closed",
+  "task_summary": "Deadman continuity clock-drift harden",
   "base_hint": "I:\\E Drive\\lygo-protocol-stack",
   "decisions": [],
   "next_actions": [],
@@ -468,12 +468,12 @@
   "sealed_ok": true,
   "sealed_pass": 34,
   "sealed_fail": 0,
-  "root_hash": "8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9",
+  "root_hash": "4ece07671e1dcb6355705026931591019d5a579072ec1fc3950e42a16c9a06eb",
   "chain": [
     {
       "event": "seal",
-      "utc": "2026-08-19T05:03:43Z",
-      "root_hash": "8a67402af0cb91cae9fdd0edbff3ed9e20a905e725ffa43724cd0c8c5787bee9",
+      "utc": "2026-08-20T01:31:17Z",
+      "root_hash": "4ece07671e1dcb6355705026931591019d5a579072ec1fc3950e42a16c9a06eb",
       "claim_count": 34,
       "sealed_ok": true
     }

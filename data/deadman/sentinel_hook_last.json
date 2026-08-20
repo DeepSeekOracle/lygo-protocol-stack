@@ -1,5 +1,6 @@
 {
   "hook": "deadman_sentinel_hook",
   "source": "sentinel-hook",
-  "ok": true
+  "ok": true,
+  "check_only": true
 }

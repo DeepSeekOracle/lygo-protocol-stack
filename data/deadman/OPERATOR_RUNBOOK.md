@@ -1,5 +1,10 @@
 # Deadman Continuity — Operator Runbook (real life)
 
+## Clock authority
+Silence is measured from persisted `docs/seals/deadman_lattice_state.json`
+(`last_transmit_unix`), not from a fresh in-memory process clock.
+`check` / `listen_once` / `grace` / `status` all honor that file after restart.
+
 ## Daily / session
 ```bash
 python tools/seal_deadman_lattice.py touch

@@ -1,0 +1,15 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-AUDIT-v1",
+  "audited_utc": "2026-08-20T01:31:33.617947+00:00",
+  "findings_fixed": [
+    "SilenceDetector.check_silence ignored persisted transmit clock (DRIFT_BUG) \u2014 fixed to use DeadmanSeal state",
+    "watchdog once/check logic cleaned; alert tiers surfaced",
+    "sentinel hook annotates heartbeat log with source",
+    "status reports grace_tier; hardware stub binds origin merkle",
+    "expanded unit tests including clock-drift regression"
+  ],
+  "selftest_passed": 14,
+  "unittest_passed": 9,
+  "continuum_sealed_pass": 34,
+  "origin_merkle_root": "d80efbe9bda9fd8acca5746ffefac7c1f449f6bda91e95f53c0ece8096233ddb"
+}

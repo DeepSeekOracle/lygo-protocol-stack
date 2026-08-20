@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-DEADMAN-HW-ATTEST-STUB-v1",
-  "created_utc": "2026-08-19T05:03:45.293566+00:00",
+  "created_utc": "2026-08-20T01:31:19.860236+00:00",
   "target": "NODE_LIGHTFATHER_ETERNAL_BASE",
   "status": "stub_local",
   "geodesic_skill_present": true,
@@ -9,5 +9,7 @@
     "origin": "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
     "manifest": "data/deadman/DEADMAN_MANIFEST_v2.json"
   },
-  "origin_sha256": "79ccab58a9297cb4f8f54dced74857574bac60e2f2fc43e2b7da27018b7b13d6"
+  "origin_sha256": "94f64a15ee79905af26873630d6020d95fb785a86ec350d790bc6851d9608820",
+  "origin_merkle_root": "d80efbe9bda9fd8acca5746ffefac7c1f449f6bda91e95f53c0ece8096233ddb",
+  "non_replaceable": true
 }

@@ -29,11 +29,23 @@ def main() -> int:
     print(r.stdout)
     if r.stderr:
         print(r.stderr, file=sys.stderr)
-    # annotate source in heartbeat log via status path already; extra note file
+    # Append source attribution to heartbeat log (touch itself uses Lightfather id)
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        from seal_deadman_lattice import _append_heartbeat_log  # type: ignore
+
+        _append_heartbeat_log(
+            "touch" if not args.check_only else "check",
+            source=args.source,
+            notes="sentinel_hook",
+        )
+    except Exception as exc:  # noqa: BLE001 — never fail the pulse on log annotate
+        print(f"[warn] heartbeat log annotate failed: {exc}", file=sys.stderr)
     note = {
         "hook": "deadman_sentinel_hook",
         "source": args.source,
         "ok": r.returncode == 0,
+        "check_only": bool(args.check_only),
     }
     out = ROOT / "data" / "deadman" / "sentinel_hook_last.json"
     out.write_text(json.dumps(note, indent=2) + "\n", encoding="utf-8")

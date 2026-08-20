@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-DEADMAN-MULTI-ANCHOR-VERIFY-v1",
-  "checked_utc": "2026-08-19T05:03:46.057189+00:00",
+  "checked_utc": "2026-08-20T01:31:20.258449+00:00",
   "local_ok": true,
   "remote_ok_count": 3,
   "remote_total": 3,
@@ -8,7 +8,7 @@
   "local": {
     "origin": {
       "ok": true,
-      "sha256": "79ccab58a9297cb4f8f54dced74857574bac60e2f2fc43e2b7da27018b7b13d6",
+      "sha256": "94f64a15ee79905af26873630d6020d95fb785a86ec350d790bc6851d9608820",
       "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals\\LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
     },
     "manifest": {
@@ -33,12 +33,12 @@
     },
     "egg_bin": {
       "ok": true,
-      "sha256": "03edbeac32a631dab82110f6ccbebc39d2715b9d50935f82874cc0a79886894e",
+      "sha256": "0c5e9ad0921923cfe6446d51464941429e897da0213bbaa854fa6fa91e8db4f7",
       "path": "I:\\E Drive\\lygo-protocol-stack\\data\\kernel_eggs\\build\\lightfather-deadman-failsafe-v1.bin"
     },
     "pages_egg_origin": {
       "ok": true,
-      "sha256": "79ccab58a9297cb4f8f54dced74857574bac60e2f2fc43e2b7da27018b7b13d6",
+      "sha256": "94f64a15ee79905af26873630d6020d95fb785a86ec350d790bc6851d9608820",
       "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\kernel_eggs\\lightfather-deadman-failsafe-v1\\LIGHTFATHER_IRREPLACEABLE_ORIGIN.json"
     }
   },
@@ -46,20 +46,20 @@
     "pages_deadman_html": {
       "ok": true,
       "status": 200,
-      "sha256": "b4ec517e8b25daf59e92199ecc479b913073eb1fe2973e58e309f8ee1b8df1e1",
-      "bytes": 10404
+      "sha256": "ec2e5bf1a6cf9b20a647e51cda554aa84a09af0e4df032bdbe0d07c452a1b787",
+      "bytes": 11179
     },
     "pages_origin": {
       "ok": true,
       "status": 200,
-      "sha256": "140a09aef1ee861aca12411086d76e9e6bd10ca3188d8eda8bb871331a24a116",
-      "bytes": 4552
+      "sha256": "0fa4a6cdf8b48cfb5242ec0263ec3408be24415dcb101830b6c7694d75bfbd51",
+      "bytes": 4777
     },
     "pages_egg_origin": {
       "ok": true,
       "status": 200,
-      "sha256": "140a09aef1ee861aca12411086d76e9e6bd10ca3188d8eda8bb871331a24a116",
-      "bytes": 4552
+      "sha256": "0fa4a6cdf8b48cfb5242ec0263ec3408be24415dcb101830b6c7694d75bfbd51",
+      "bytes": 4777
     }
   },
   "consistency": {
