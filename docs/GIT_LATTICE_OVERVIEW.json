@@ -1,10 +1,10 @@
 {
   "signature": "Delta9Phi963-GIT-LATTICE-OVERVIEW-v1",
-  "generated_utc": "2026-08-20T02:45:13.558447+00:00",
+  "generated_utc": "2026-08-20T02:45:26.172027+00:00",
   "git": {
-    "head": "b19ebe1",
-    "subject": "Harden deadman: fix SilenceDetector persisted-clock drift (check now real).",
-    "committed": "2026-08-19T19:31:58-06:00",
+    "head": "342b9fc",
+    "subject": "Add Git Lattice Overview memory map and wire Pages hubs together.",
+    "committed": "2026-08-19T20:45:18-06:00",
     "branch": "main",
     "remote": "https://github.com/DeepSeekOracle/lygo-protocol-stack.git"
   },
