@@ -1,22 +1,78 @@
-# GIT Lattice Overview — LYGO Protocol Stack
+# GIT Lattice Overview v2 — full repo census
 
-**Signature:** `Delta9Phi963-GIT-LATTICE-OVERVIEW-v1`  
-**Generated:** 2026-08-20T02:45:26.172027+00:00  
-**Git:** `342b9fc` — Add Git Lattice Overview memory map and wire Pages hubs together. (2026-08-19T20:45:18-06:00)  
-**Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack  
-**Pages:** https://deepseekoracle.github.io/lygo-protocol-stack/
+**Signature:** `Delta9Phi963-GIT-LATTICE-OVERVIEW-v2`  
+**Generated:** 2026-08-20T02:48:45.384773+00:00  
+**Git:** `82d0d4b` — Refresh Git Lattice Overview to HEAD 342b9fc + USB claw copy  
+**Full scan:** YES — `4085` tracked files
 
-## What this is
-Machine + human map of what matters on the public GitHub / Pages lattice,
-how systems are tied, and which pages still need updates.
-Agents: prefer this file over older July `AGENT_MEMORY_SNAPSHOT.json`.
+## Scope honesty
+v1 mapped Pages hubs (~12 systems). **v2 adds a full `git ls-files` census** of the repository:
+protocols, tools, data/, clawhub mirrors, products, tests, CI, docs HTML orphans.
 
-## Origin (non-replaceable)
-- Lightfather / Excavationpro / Justin Helmer
-- `origin_merkle_root`: `d80efbe9bda9fd8acca5746ffefac7c1f449f6bda91e95f53c0ece8096233ddb`
-- Pin: https://deepseekoracle.github.io/lygo-protocol-stack/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json
+- Full census: [docs/GIT_REPO_CENSUS.md](docs/GIT_REPO_CENSUS.md) · [docs/GIT_REPO_CENSUS.json](docs/GIT_REPO_CENSUS.json)
+
+## Repo scale
+
+| Metric | Count |
+|--------|------:|
+| Tracked files | 4085 |
+| docs HTML pages | 57 |
+| tools/*.py | 299 |
+| ClawHub mirrors | 82 |
+| Protocol dirs | 11 |
+| Orphan HTML (href-scan) | 11 |
+
+### Buckets
+
+- `docs_pages`: 2468
+- `clawhub`: 721
+- `tools`: 329
+- `data_runtime`: 275
+- `products`: 102
+- `protocols`: 66
+- `tests`: 66
+- `other`: 24
+- `hf_deploy`: 12
+- `stack_core`: 12
+- `repo_root`: 6
+- `ci`: 4
+
+### Protocols
+
+`protocol0_byte_entropy_filter`, `protocol1_memory_mycelium`, `protocol2_cognitive_bridge`, `protocol3_vortex_consensus`, `protocol4_ascension_engine`, `protocol5_harmony_node`, `protocol6_quantum_attest`, `protocol7_human_ai_interface`, `protocol8_ldq_synthesis`, `protocol9_failsafe`, `protocol_bridge`
+
+### Products
+
+`lygo_highperf`, `lygo_lpis`, `lygo_openclaw`, `lygo_sandcastle`, `lygo_second_brain`, `lygo_smart_disk`, `pxpipe_lygo`
+
+## Must-haves
+
+All checklist paths present.
+
+## Medium-severity orphan HTML (sample)
+
+- `docs/EternalHavenCodex.html`
+- `docs/data-vault/share.html`
+- `docs/joy_loop/dashboard/architect.html`
+- `docs/lygo-claw-usb/dashboard/lygo-claw.html`
+
+## Public systems (from v1 map)
+
+- **GitHub Pages hub** (`pages_hub`) — https://deepseekoracle.github.io/lygo-protocol-stack/index.html
+- **Haven Star Chart** (`star_chart`) — https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
+- **Data Vault** (`data_vault`) — https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/
+- **Lightfather Deadman Continuity** (`deadman`) — https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html
+- **Kernel Eggs** (`kernel_eggs`) — docs/KernelEggRetrieval.html
+- **Seal canon JSON** (`seals`) — https://deepseekoracle.github.io/lygo-protocol-stack/seals/
+- **LYGO Continuum** (`continuum`) — https://deepseekoracle.github.io/lygo-protocol-stack/lygo-continuum.html
+- **Pure-Data Witness** (`pure_data`) — https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html
+- **SkillHub** (`skillhub`) — https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html
+- **Lattice Finder pack** (`lattice_finder`) — https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_LATTICE_FINDER/
+- **Excavationpro music mirrors** (`music`) — None
+- **ClawHub publisher** (`clawhub`) — https://clawhub.ai/deepseekoracle
 
 ## Quick URLs
+
 - **hub:** https://deepseekoracle.github.io/lygo-protocol-stack/index.html
 - **overview_md:** https://deepseekoracle.github.io/lygo-protocol-stack/GIT_LATTICE_OVERVIEW.md
 - **overview_json:** https://deepseekoracle.github.io/lygo-protocol-stack/GIT_LATTICE_OVERVIEW.json
@@ -29,112 +85,14 @@ Agents: prefer this file over older July `AGENT_MEMORY_SNAPSHOT.json`.
 - **origin:** https://deepseekoracle.github.io/lygo-protocol-stack/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json
 - **flame_knot:** https://deepseekoracle.github.io/lygo-protocol-stack/seals/SEAL_277.json
 - **ember_crown:** https://deepseekoracle.github.io/lygo-protocol-stack/seals/SEAL_278.json
+- **census_md:** https://deepseekoracle.github.io/lygo-protocol-stack/GIT_REPO_CENSUS.md
+- **census_json:** https://deepseekoracle.github.io/lygo-protocol-stack/GIT_REPO_CENSUS.json
 
-## Systems (live map)
-
-### GitHub Pages hub (`pages_hub`)
-- Status: **live**
-- Path: `docs/index.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/index.html
-- Role: Human + citation entry
-
-### Haven Star Chart (`star_chart`)
-- Status: **live**
-- Path: `docs/HavenStarChart.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
-- Role: Living constellation / agent map
-- Chart nodes: 1344
-
-### Data Vault (`data_vault`)
-- Status: **live**
-- Path: `docs/data-vault/index.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/
-- Role: Seal archive + chats + gallery + PDW + deadman
-
-### Lightfather Deadman Continuity (`deadman`)
-- Status: **live**
-- Path: `docs/data-vault/deadman.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html
-- Deadman manifest: 2.1.0
-
-### Kernel Eggs (`kernel_eggs`)
-- Status: **live**
-- Path: `docs/KernelEggRetrieval.html`
-
-### Seal canon JSON (`seals`)
-- Status: **live**
-- Path: `docs/seals/`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/seals/
-
-### LYGO Continuum (`continuum`)
-- Status: **live**
-- Path: `docs/lygo-continuum.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/lygo-continuum.html
-- Gap note: Weak hub links — promoted by this overview
-
-### Pure-Data Witness (`pure_data`)
-- Status: **live**
-- Path: `docs/data-vault/pure-data.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/pure-data.html
-
-### SkillHub (`skillhub`)
-- Status: **live**
-- Path: `docs/LYGOSKILLHUB.html`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html
-
-### Lattice Finder pack (`lattice_finder`)
-- Status: **live**
-- Path: `docs/LYGO_LATTICE_FINDER/`
-- URL: https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_LATTICE_FINDER/
-- Gap note: Was only linked from deadman — now hub-linked
-
-### Excavationpro music mirrors (`music`)
-- Status: **live**
-- Gap note: Not on root index key nav — listed in overview + traffic hub
-
-### ClawHub publisher (`clawhub`)
-- Status: **live**
-- URL: https://clawhub.ai/deepseekoracle
-
-## How it is tied together
-
-- 1. LIGHTFATHER_IRREPLACEABLE_ORIGIN.json (identity / non_replaceable)
-- 2. GitHub Pages + HF dataset mirrors (public verify)
-- 3. Haven Star Chart data JSON (constellation)
-- 4. Data Vault canon seals + gallery
-- 5. KernelEggRegistry + egg folders
-- 6. Continuum capsules (falsifiable done claims)
-- 7. ClawHub skills / SkillHub FULL
-
-### Operator CLI spine
-```bash
-python tools/seal_deadman_lattice.py touch|status|verify|check|grace
-python tools/build_haven_star_chart.py
-python tools/close_deadman_loose_ends.py --selftest-only
-python tools/build_git_lattice_overview.py --usb-copy
-python clawhub/mirrors/lygo-continuum/scripts/continuum.py verify --capsule data/continuum/deadman_failsafe_capsule.json --base .
-```
-
-## Pages needing updates
-
-| Priority | Path | Why |
-|----------|------|-----|
-| P0 | `docs/index.html` | Add deadman, continuum, lattice finder, overview memory file; PDW still says Phase A |
-| P0 | `docs/RESOURCES.md` | Declared central hub but missing vault/deadman/continuum/finder/PDW |
-| P1 | `docs/LYGO_KNOWLEDGE_HUB.html` | Stamp ~2026-07-12; missing vault/deadman/finder/continuum |
-| P0 | `docs/sitemap.xml` | July lastmod; missing data-vault/*, continuum, finder, skillhub |
-| P0 | `docs/data-vault/sitemap.xml` | Missing deadman, gallery, pure-data, register, share |
-| P1 | `docs/data-vault/index.html` | Should spotlight deadman continuity + flame knot seals + overview |
-| P1 | `docs/lygo-continuum.html` | Orphaned from stack hubs; no deadman capsule back-link |
-| P1 | `docs/LYGO_PUBLIC_LINK_ARCHIVE.json` | Missing deadman.html, continuum, finder, SEAL_277/278 |
-| P2 | `docs/KernelEggRetrieval.html` | Weak cross-links to vault/deadman |
-| P2 | `docs/HavenStarChart.html` | Data has eternal base + flame knot; UI copy may not call them out |
-| P2 | `docs/TRAFFIC_LINK_HUB.md` | Traffic only; vault/deadman/finder absent |
-
-## USB claw backup
-Copy also lives at `E:\LYGO_LATTICE_MEMORY\GIT_LATTICE_OVERVIEW.md` when built with `--usb-copy`.
+## USB claw
+`E:\LYGO_LATTICE_MEMORY\` — overview + census copies when built with `--usb-copy`.
 
 ## Regenerate
 ```bash
 python tools/build_git_lattice_overview.py --usb-copy
+python tools/census_git_lattice.py --usb-copy
 ```

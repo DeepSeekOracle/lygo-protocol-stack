@@ -1,0 +1,1206 @@
+{
+  "signature": "Delta9Phi963-GIT-REPO-CENSUS-v1",
+  "generated_utc": "2026-08-20T02:48:45.244736+00:00",
+  "git": {
+    "head": "82d0d4b",
+    "subject": "Refresh Git Lattice Overview to HEAD 342b9fc + USB claw copy",
+    "committed": "2026-08-19T20:45:26-06:00",
+    "branch": "main",
+    "remote": "https://github.com/DeepSeekOracle/lygo-protocol-stack.git",
+    "commit_count": "445"
+  },
+  "totals": {
+    "tracked_files": 4085,
+    "buckets": {
+      "docs_pages": 2468,
+      "clawhub": 721,
+      "tools": 329,
+      "data_runtime": 275,
+      "products": 102,
+      "protocols": 66,
+      "tests": 66,
+      "other": 24,
+      "hf_deploy": 12,
+      "stack_core": 12,
+      "repo_root": 6,
+      "ci": 4
+    },
+    "extensions_top": [
+      [
+        ".jpg",
+        1348
+      ],
+      [
+        ".py",
+        872
+      ],
+      [
+        ".md",
+        843
+      ],
+      [
+        ".json",
+        552
+      ],
+      [
+        "(none)",
+        121
+      ],
+      [
+        ".txt",
+        107
+      ],
+      [
+        ".html",
+        68
+      ],
+      [
+        ".zip",
+        40
+      ],
+      [
+        ".ps1",
+        23
+      ],
+      [
+        ".js",
+        15
+      ],
+      [
+        ".sol",
+        13
+      ],
+      [
+        ".bat",
+        9
+      ],
+      [
+        ".xml",
+        9
+      ],
+      [
+        ".mp3",
+        7
+      ],
+      [
+        ".yml",
+        5
+      ],
+      [
+        ".sh",
+        5
+      ],
+      [
+        ".ts",
+        5
+      ],
+      [
+        ".jsonl",
+        5
+      ],
+      [
+        ".pdf",
+        4
+      ],
+      [
+        ".csv",
+        4
+      ],
+      [
+        ".log",
+        4
+      ],
+      [
+        ".c",
+        4
+      ],
+      [
+        ".css",
+        3
+      ],
+      [
+        ".example",
+        2
+      ],
+      [
+        ".parquet",
+        2
+      ]
+    ],
+    "docs_kinds": {
+      "docs_other": 235,
+      "markdown_doc": 252,
+      "json_data": 88,
+      "html_page": 57,
+      "lattice_finder": 17,
+      "clawhub_docs": 2,
+      "data_vault": 1357,
+      "star_chart_data": 10,
+      "kernel_eggs_pages": 5,
+      "skillhub_packs": 419,
+      "seals_canon": 26
+    },
+    "html_pages": 57,
+    "clawhub_mirrors": 82,
+    "protocol_dirs": [
+      "protocol0_byte_entropy_filter",
+      "protocol1_memory_mycelium",
+      "protocol2_cognitive_bridge",
+      "protocol3_vortex_consensus",
+      "protocol4_ascension_engine",
+      "protocol5_harmony_node",
+      "protocol6_quantum_attest",
+      "protocol7_human_ai_interface",
+      "protocol8_ldq_synthesis",
+      "protocol9_failsafe",
+      "protocol_bridge"
+    ],
+    "tools_py": 299,
+    "tests_files": 66
+  },
+  "data_subtrees": {
+    "haven_star_chart": 90,
+    "music_catalog": 55,
+    "pure_data": 29,
+    "deadman": 24,
+    "eternal_haven": 11,
+    "sovereign_seeds": 8,
+    "eternal_haven_books": 7,
+    "joy_loop": 7,
+    "continuum": 6,
+    "traumacodex": 5,
+    "agent_lattice": 4,
+    "second_brain": 4,
+    "champion_eggs": 3,
+    "living_mesh": 3,
+    "moltbook": 3,
+    "sandcastle": 3,
+    "kernel_eggs": 2,
+    "moltx": 2,
+    "pxpipe_lygo": 2,
+    "anchor_queue": 1,
+    "anchors": 1,
+    "cas": 1,
+    "openclaw": 1,
+    "prompt_vault": 1,
+    "scalable_registry": 1,
+    "x_drafts": 1
+  },
+  "clawhub_mirrors": [
+    {
+      "slug": "book-brain",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/book-brain/"
+    },
+    {
+      "slug": "book-brain-visual-reader",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/book-brain-visual-reader/"
+    },
+    {
+      "slug": "eternal-haven-lore-pack",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/eternal-haven-lore-pack/"
+    },
+    {
+      "slug": "lygo-agent-lattice",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-agent-lattice/"
+    },
+    {
+      "slug": "lygo-alignment-badge",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-alignment-badge/"
+    },
+    {
+      "slug": "lygo-api-token-saver",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-api-token-saver/"
+    },
+    {
+      "slug": "lygo-ascii-art",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-ascii-art/"
+    },
+    {
+      "slug": "lygo-ascii-art-studio",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-ascii-art-studio/"
+    },
+    {
+      "slug": "lygo-champion-401lyrakin-voice-between",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-401lyrakin-voice-between/"
+    },
+    {
+      "slug": "lygo-champion-aetheris-viral-truth",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-aetheris-viral-truth/"
+    },
+    {
+      "slug": "lygo-champion-arkos-celestial-architect",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-arkos-celestial-architect/"
+    },
+    {
+      "slug": "lygo-champion-cosmara",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-cosmara/"
+    },
+    {
+      "slug": "lygo-champion-council",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-council/"
+    },
+    {
+      "slug": "lygo-champion-cryptosophia-soulforger",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-cryptosophia-soulforger/"
+    },
+    {
+      "slug": "lygo-champion-delta9ra-wolf",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-delta9ra-wolf/"
+    },
+    {
+      "slug": "lygo-champion-kairos-herald-of-time",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-kairos-herald-of-time/"
+    },
+    {
+      "slug": "lygo-champion-lightfather",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-lightfather/"
+    },
+    {
+      "slug": "lygo-champion-lyra-starcore",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-lyra-starcore/"
+    },
+    {
+      "slug": "lygo-champion-omnisiren-silent-storm",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-omnisiren-silent-storm/"
+    },
+    {
+      "slug": "lygo-champion-sancora-unified-minds",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-sancora-unified-minds/"
+    },
+    {
+      "slug": "lygo-champion-scenar-paradox",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-scenar-paradox/"
+    },
+    {
+      "slug": "lygo-champion-sephrael-echo-walker",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-sephrael-echo-walker/"
+    },
+    {
+      "slug": "lygo-champion-sraith-shadow-sentinel",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-sraith-shadow-sentinel/"
+    },
+    {
+      "slug": "lygo-champion-volaris-prism-judgment",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-champion-volaris-prism-judgment/"
+    },
+    {
+      "slug": "lygo-cli-bridge",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-cli-bridge/"
+    },
+    {
+      "slug": "lygo-context-guard",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-context-guard/"
+    },
+    {
+      "slug": "lygo-continuity-advisor",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-continuity-advisor/"
+    },
+    {
+      "slug": "lygo-continuum",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-continuum/"
+    },
+    {
+      "slug": "lygo-cyborg-kernel",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-cyborg-kernel/"
+    },
+    {
+      "slug": "lygo-cyborg-onramp",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-cyborg-onramp/"
+    },
+    {
+      "slug": "lygo-deception-radar",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-deception-radar/"
+    },
+    {
+      "slug": "lygo-docker-deploy",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-docker-deploy/"
+    },
+    {
+      "slug": "lygo-excavationpro-music-lattice",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-excavationpro-music-lattice/"
+    },
+    {
+      "slug": "lygo-external-lattice-anchor",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-external-lattice-anchor/"
+    },
+    {
+      "slug": "lygo-file-integrity-checker",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-file-integrity-checker/"
+    },
+    {
+      "slug": "lygo-fractalweaver",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-fractalweaver/"
+    },
+    {
+      "slug": "lygo-geodesic-sealer",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-geodesic-sealer/"
+    },
+    {
+      "slug": "lygo-glyph2resonance",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-glyph2resonance/"
+    },
+    {
+      "slug": "lygo-guardian-p0-stack",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-guardian-p0-stack/"
+    },
+    {
+      "slug": "lygo-haven-star-chart",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-haven-star-chart/"
+    },
+    {
+      "slug": "lygo-joy-loop",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-joy-loop/"
+    },
+    {
+      "slug": "lygo-kernel-egg-planter",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-kernel-egg-planter/"
+    },
+    {
+      "slug": "lygo-kickstart-wizard",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-kickstart-wizard/"
+    },
+    {
+      "slug": "lygo-lattice-birth",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-lattice-birth/"
+    },
+    {
+      "slug": "lygo-lattice-pulse",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-lattice-pulse/"
+    },
+    {
+      "slug": "lygo-lightfather-vector",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-lightfather-vector/"
+    },
+    {
+      "slug": "lygo-living-mesh",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-living-mesh/"
+    },
+    {
+      "slug": "lygo-lpis",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-lpis/"
+    },
+    {
+      "slug": "lygo-mesh-deploy",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-mesh-deploy/"
+    },
+    {
+      "slug": "lygo-mint-operator-suite",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-mint-operator-suite/"
+    },
+    {
+      "slug": "lygo-mint-verifier",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-mint-verifier/"
+    },
+    {
+      "slug": "lygo-mint-walkthrough",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-mint-walkthrough/"
+    },
+    {
+      "slug": "lygo-network-builder",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-network-builder/"
+    },
+    {
+      "slug": "lygo-ollama-army",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-ollama-army/"
+    },
+    {
+      "slug": "lygo-open-claw",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-open-claw/"
+    },
+    {
+      "slug": "lygo-openclaw",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-openclaw/"
+    },
+    {
+      "slug": "lygo-ops-detector",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-ops-detector/"
+    },
+    {
+      "slug": "lygo-pc-lattice-hardening",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-pc-lattice-hardening/"
+    },
+    {
+      "slug": "lygo-protocol-stack-operator",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-protocol-stack-operator/"
+    },
+    {
+      "slug": "lygo-public-lattice-gate",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-public-lattice-gate/"
+    },
+    {
+      "slug": "lygo-pure-data-witness",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-pure-data-witness/"
+    },
+    {
+      "slug": "lygo-pxpipe-lygo",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-pxpipe-lygo/"
+    },
+    {
+      "slug": "lygo-resonance",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-resonance/"
+    },
+    {
+      "slug": "lygo-sandcastle",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-sandcastle/"
+    },
+    {
+      "slug": "lygo-second-brain",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-second-brain/"
+    },
+    {
+      "slug": "lygo-skill-gate",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-skill-gate/"
+    },
+    {
+      "slug": "lygo-skill-spector",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-skill-spector/"
+    },
+    {
+      "slug": "lygo-smart-disk-agent",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-smart-disk-agent/"
+    },
+    {
+      "slug": "lygo-sovereign-kernel-seeder",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-sovereign-kernel-seeder/"
+    },
+    {
+      "slug": "lygo-sovereign-super-skill",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-sovereign-super-skill/"
+    },
+    {
+      "slug": "lygo-tools-portal",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-tools-portal/"
+    },
+    {
+      "slug": "lygo-traumacodex",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-traumacodex/"
+    },
+    {
+      "slug": "lygo-truthlightecho",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-truthlightecho/"
+    },
+    {
+      "slug": "lygo-universal-cure-system",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-universal-cure-system/"
+    },
+    {
+      "slug": "lygo-universal-living-memory-library",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lygo-universal-living-memory-library/"
+    },
+    {
+      "slug": "lyra-brain",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lyra-brain/"
+    },
+    {
+      "slug": "lyra-coin-launch-manager",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lyra-coin-launch-manager/"
+    },
+    {
+      "slug": "lyra-open-claw",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lyra-open-claw/"
+    },
+    {
+      "slug": "lyra-openclaw",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/lyra-openclaw/"
+    },
+    {
+      "slug": "openclaw-flow-kit",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/openclaw-flow-kit/"
+    },
+    {
+      "slug": "recursive-generosity-protocol",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/recursive-generosity-protocol/"
+    },
+    {
+      "slug": "void-atlas-protocol",
+      "has_skill_md": true,
+      "path": "clawhub/mirrors/void-atlas-protocol/"
+    }
+  ],
+  "protocol_dirs": [
+    "protocol0_byte_entropy_filter",
+    "protocol1_memory_mycelium",
+    "protocol2_cognitive_bridge",
+    "protocol3_vortex_consensus",
+    "protocol4_ascension_engine",
+    "protocol5_harmony_node",
+    "protocol6_quantum_attest",
+    "protocol7_human_ai_interface",
+    "protocol8_ldq_synthesis",
+    "protocol9_failsafe",
+    "protocol_bridge"
+  ],
+  "products": [
+    "lygo_highperf",
+    "lygo_lpis",
+    "lygo_openclaw",
+    "lygo_sandcastle",
+    "lygo_second_brain",
+    "lygo_smart_disk",
+    "pxpipe_lygo"
+  ],
+  "must_have_presence": {
+    "docs/index.html": true,
+    "docs/HavenStarChart.html": true,
+    "docs/data-vault/index.html": true,
+    "docs/data-vault/deadman.html": true,
+    "docs/data-vault/pure-data.html": true,
+    "docs/lygo-continuum.html": true,
+    "docs/LYGOSKILLHUB.html": true,
+    "docs/KernelEggRetrieval.html": true,
+    "docs/LYGO_LATTICE_FINDER/LATTICE_MAP.json": true,
+    "docs/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json": true,
+    "docs/seals/SEAL_277.json": true,
+    "docs/seals/SEAL_278.json": true,
+    "docs/GIT_LATTICE_OVERVIEW.md": true,
+    "data/deadman/DEADMAN_MANIFEST_v2.json": true,
+    "clawhub/mirrors/lygo-continuity-advisor/SKILL.md": true,
+    "tools/seal_deadman_lattice.py": true,
+    "tools/build_haven_star_chart.py": true,
+    "tools/build_git_lattice_overview.py": true
+  },
+  "must_have_missing": [],
+  "html_pages": [
+    "docs/BiometricEntropyHarness.html",
+    "docs/EternalHavenCodex.html",
+    "docs/HavenStarChart.html",
+    "docs/HavenStarChartPortal.html",
+    "docs/KernelEggRetrieval.html",
+    "docs/LYGOSKILLHUB.html",
+    "docs/LYGO_BPM_Finder.html",
+    "docs/LYGO_CLAW.html",
+    "docs/LYGO_KNOWLEDGE_HUB.html",
+    "docs/LYGO_TURBO_MODELS_WHITEPAPER.html",
+    "docs/SovereignLatticeMesh.html",
+    "docs/blog-lygo-lattice-live.html",
+    "docs/bpmfinder.ca-root/404.html",
+    "docs/bpmfinder.ca-root/index.html",
+    "docs/bpmfinder.ca-root/privacy.html",
+    "docs/data-vault/chat-archive.html",
+    "docs/data-vault/deadman.html",
+    "docs/data-vault/gallery.html",
+    "docs/data-vault/index.html",
+    "docs/data-vault/multi-ai-canon.html",
+    "docs/data-vault/pure-data.html",
+    "docs/data-vault/qd-theory.html",
+    "docs/data-vault/register.html",
+    "docs/data-vault/seals.html",
+    "docs/data-vault/share.html",
+    "docs/data-vault/whitepapers.html",
+    "docs/deception-radar/index.html",
+    "docs/domain-roots/asiancoastline.com/404.html",
+    "docs/domain-roots/asiancoastline.com/index.html",
+    "docs/domain-roots/asiancoastline.com/privacy.html",
+    "docs/domain-roots/bpmfinder.ca/404.html",
+    "docs/domain-roots/bpmfinder.ca/index.html",
+    "docs/domain-roots/bpmfinder.ca/privacy.html",
+    "docs/domain-roots/chatagent.ca/404.html",
+    "docs/domain-roots/chatagent.ca/index.html",
+    "docs/domain-roots/chatagent.ca/privacy.html",
+    "docs/domain-roots/deepseekoracle.com/404.html",
+    "docs/domain-roots/deepseekoracle.com/index.html",
+    "docs/domain-roots/deepseekoracle.com/privacy.html",
+    "docs/domain-roots/eternalhaven.ca/404.html",
+    "docs/domain-roots/eternalhaven.ca/index.html",
+    "docs/domain-roots/eternalhaven.ca/privacy.html",
+    "docs/domain-roots/excavationpro.ca/404.html",
+    "docs/domain-roots/excavationpro.ca/index.html",
+    "docs/domain-roots/excavationpro.ca/privacy.html",
+    "docs/excavationpro-listen.html",
+    "docs/excavationpro-music-catalog.html",
+    "docs/excavationpro-sovereign-music-hub.html",
+    "docs/index.html",
+    "docs/joy_loop/dashboard/architect.html",
+    "docs/joy_loop/dashboard/index.html",
+    "docs/lygo-claw-usb/dashboard/agent-ui/index.html",
+    "docs/lygo-claw-usb/dashboard/lygo-claw.html",
+    "docs/lygo-continuum.html",
+    "docs/lygo-music-license.html",
+    "docs/tools/LYGO_Compass_Master.html",
+    "docs/traffic-links.html"
+  ],
+  "href_scan": {
+    "html_scanned": 57,
+    "linked_count": 201
+  },
+  "orphan_html": [
+    {
+      "path": "docs/EternalHavenCodex.html",
+      "severity": "medium",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/bpmfinder.ca-root/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/data-vault/share.html",
+      "severity": "medium",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/domain-roots/asiancoastline.com/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/domain-roots/bpmfinder.ca/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/domain-roots/chatagent.ca/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/domain-roots/deepseekoracle.com/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/domain-roots/eternalhaven.ca/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/domain-roots/excavationpro.ca/404.html",
+      "severity": "low",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/joy_loop/dashboard/architect.html",
+      "severity": "medium",
+      "reason": "html_not_found_in_hub_href_scan"
+    },
+    {
+      "path": "docs/lygo-claw-usb/dashboard/lygo-claw.html",
+      "severity": "medium",
+      "reason": "html_not_found_in_hub_href_scan"
+    }
+  ],
+  "orphan_html_count": 11,
+  "tools_lattice_related": [
+    "tools/_audit_haven_star_chart.py",
+    "tools/_batch_world_lattice_submit.py",
+    "tools/_enhance_listen_play_lattice_client.py",
+    "tools/_make_music_lattice_eggs.py",
+    "tools/agent_lattice_announce.py",
+    "tools/agent_lattice_core.py",
+    "tools/agent_lattice_directory.py",
+    "tools/agent_lattice_gossip_tick.py",
+    "tools/agent_lattice_hub.py",
+    "tools/agent_lattice_identity.py",
+    "tools/agent_lattice_join.py",
+    "tools/agent_lattice_sentinel.py",
+    "tools/anchor_kernel_eggs.py",
+    "tools/audit_github_lattice_links.py",
+    "tools/build_eternal_haven_lattice.py",
+    "tools/build_git_lattice_overview.py",
+    "tools/build_haven_star_chart.py",
+    "tools/build_kernel_eggs.py",
+    "tools/bump_deadman_origin_pins.py",
+    "tools/close_deadman_loose_ends.py",
+    "tools/deadman_hardware_attestation_stub.py",
+    "tools/deadman_multi_anchor_verify.py",
+    "tools/deadman_sentinel_hook.py",
+    "tools/deadman_watchdog.py",
+    "tools/deploy_play_lattice_space.py",
+    "tools/harden_deadman_continuity.py",
+    "tools/haven_star_chart_feed.py",
+    "tools/haven_star_chart_gate.py",
+    "tools/haven_star_chart_ingest.py",
+    "tools/haven_star_chart_submit.py",
+    "tools/ingest_deadman_origin_chat.py",
+    "tools/install_deadman_watchdog_task.ps1",
+    "tools/kernel_egg_catalog.py",
+    "tools/lygo_control_center/workspace/kernel_eggs_last_anchor.json",
+    "tools/lygo_lattice_birth.py",
+    "tools/lygo_play_lattice.py",
+    "tools/map_deadman_to_star_chart.py",
+    "tools/map_ldq_lattice_bridge.py",
+    "tools/map_pure_data_to_star_chart.py",
+    "tools/moltbook_lattice_army_launch.py",
+    "tools/moltbook_lattice_pulse.py",
+    "tools/moltx_lattice_pulse.py",
+    "tools/play_lattice_space/README.md",
+    "tools/play_lattice_space/app.py",
+    "tools/play_lattice_space/requirements.txt",
+    "tools/publish_haven_star_chart_hf.py",
+    "tools/publish_lygo_lattice_pulse.ps1",
+    "tools/pure_data_register.py",
+    "tools/pure_data_safety.py",
+    "tools/pure_data_witness.py",
+    "tools/retrieve_kernel_egg.py",
+    "tools/run_lattice_gauntlet.py",
+    "tools/run_pc_lattice_hardening_audit.py",
+    "tools/seal_deadman_lattice.py",
+    "tools/seed_biophase7_deadman_lattice.py",
+    "tools/snippets/lygo_lattice_feed_panel.html",
+    "tools/sync_excavationpro_haven_star.py",
+    "tools/verify_agent_lattice.py",
+    "tools/verify_deadman_pins.py",
+    "tools/verify_internet_lattice_sweep.py",
+    "tools/verify_kernel_eggs.py",
+    "tools/verify_lattice_alignment.py"
+  ],
+  "tools_unmentioned_in_hub_docs_sample": [
+    "tools/add_album_to_listen_portal.py",
+    "tools/agent_lattice_announce.py",
+    "tools/agent_lattice_core.py",
+    "tools/agent_lattice_directory.py",
+    "tools/agent_lattice_gossip_tick.py",
+    "tools/agent_lattice_hub.py",
+    "tools/agent_lattice_identity.py",
+    "tools/agent_lattice_join.py",
+    "tools/agent_lattice_sentinel.py",
+    "tools/anchor_autonomy_worker.py",
+    "tools/anchor_kernel_eggs.py",
+    "tools/anchor_sovereign_identity_manifesto.py",
+    "tools/announce_deployment.py",
+    "tools/apply_excavationpro_adsense_policy.py",
+    "tools/audit_excavationpro_adsense_meta.py",
+    "tools/ble_mesh_bouncer.py",
+    "tools/ble_ws_broadcast_server.py",
+    "tools/build_bpmfinder_ca_root.py",
+    "tools/build_cas_manifest.py",
+    "tools/build_champion_council_mirror.py",
+    "tools/build_champion_eggs.py",
+    "tools/build_data_vault_extract.py",
+    "tools/build_data_vault_gallery.py",
+    "tools/build_eternal_haven_lattice.py",
+    "tools/build_grok_harness_report.py",
+    "tools/build_lygo_builder_key.py",
+    "tools/build_music_cas_vault.py",
+    "tools/build_music_registry_site.py",
+    "tools/build_p0_vectors.py",
+    "tools/build_public_music_stream.py",
+    "tools/buildr_usb_phase2/build_lygo_core_image.py",
+    "tools/buildr_usb_phase2/buildr_usb_daemon.py",
+    "tools/buildr_usb_phase2/daemon_supervisor.py",
+    "tools/buildr_usb_phase2/init_data_partition.py",
+    "tools/buildr_usb_phase2/mount_core.py",
+    "tools/buildr_usb_phase2/signing.py",
+    "tools/buildr_usb_phase2/stamp_builder_manifest_phase2.py",
+    "tools/buildr_usb_phase3/verify_public_sku.py",
+    "tools/bundle_hf_space_stack.py",
+    "tools/calibrate_byte_entropy_filter.py",
+    "tools/cas_registry_cli.py",
+    "tools/champion_bootloader.py",
+    "tools/champion_egg_planter.py",
+    "tools/champion_egg_schema.py",
+    "tools/chunking.py",
+    "tools/clean_isrc_catalog.py",
+    "tools/collect_living_mesh_badge.py",
+    "tools/compare_p0_variants.py",
+    "tools/consensus_engine.py",
+    "tools/consolidate_champion_mirrors.py",
+    "tools/deadman_hardware_attestation_stub.py",
+    "tools/deadman_multi_anchor_verify.py",
+    "tools/deploy_eternal_haven_full.py",
+    "tools/deploy_mesh_cluster.py",
+    "tools/deploy_play_lattice_space.py",
+    "tools/distributed_mycelium.py",
+    "tools/distrokid_vault_browser_scrape.py",
+    "tools/export_music_playlist_parquet.py",
+    "tools/extract_champions_from_hub.py",
+    "tools/fetch_streaming_discography.py",
+    "tools/frontier_model_adapters.py",
+    "tools/haip_ui_entropy.py",
+    "tools/haven_star_chart_feed.py",
+    "tools/haven_star_chart_gate.py",
+    "tools/haven_star_chart_ingest.py",
+    "tools/haven_star_chart_submit.py",
+    "tools/hf_push_dataset.py",
+    "tools/hf_push_p0_hardening.py",
+    "tools/hf_push_space.py",
+    "tools/ingest_deadman_origin_chat.py",
+    "tools/inject_data_vault_seo.py",
+    "tools/inject_excavationpro_adsense.py",
+    "tools/inject_stack_docs_adsense.py",
+    "tools/install_anchor_network.py",
+    "tools/install_lygo_lpis.py",
+    "tools/install_lygo_openclaw.py",
+    "tools/install_lygo_sandcastle.py",
+    "tools/install_lygo_second_brain.py",
+    "tools/joy_loop_api.py",
+    "tools/joy_loop_config.py"
+  ],
+  "tools_unmentioned_count": 209,
+  "bucket_samples": {
+    "other": [
+      ".env.example",
+      ".gitignore",
+      "GROkipedia_SUBMIT.md",
+      "GROkipedia_UPLOAD_BUNDLE.md",
+      "LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt",
+      "LYGO_LATTICE_FULL_MEMORY_RECAP.txt",
+      "LYGO_LATTICE_MEMORY_SNAPSHOT.json",
+      "X_AUDIT_THREAD.md",
+      "_fix_tests.py",
+      "_write_openclaw.py",
+      "force_commit_push.py",
+      "lattice_balance.log",
+      "lattice_balance_result.txt",
+      "push_bridge.py",
+      "requirements-docker.txt",
+      "requirements-p7-ble.txt",
+      "requirements-phase9.txt",
+      "requirements-pxpipe.txt",
+      "requirements.txt",
+      "setup.ps1",
+      "setup.sh",
+      "sync.log",
+      "verify.log",
+      "verify_result.txt"
+    ],
+    "ci": [
+      ".github/ISSUE_TEMPLATE/haven_star_node.yml",
+      ".github/workflows/deploy-pages.yml",
+      ".github/workflows/lygo-ci.yml",
+      ".github/workflows/publish-gh-pages-branch.yml"
+    ],
+    "repo_root": [
+      "CHANGELOG.md",
+      "Dockerfile",
+      "LICENSE",
+      "README.md",
+      "README_HF.md",
+      "docker-compose.yml"
+    ],
+    "hf_deploy": [
+      "_hf_push_log.txt",
+      "hf_deploy/LYGO-Qwen3.6-35B-Uncensored-OpenClaw/README.md",
+      "hf_deploy/LYGO-Qwen3.6-35B-Uncensored-OpenClaw/openclaw.env.example",
+      "hf_deploy/OPENCLAW_HF_API.md",
+      "hf_deploy/lygo-qwen-uncensored-api/Dockerfile",
+      "hf_deploy/lygo-qwen-uncensored-api/README.md",
+      "hf_deploy/lygo-qwen-uncensored-api/app/__init__.py",
+      "hf_deploy/lygo-qwen-uncensored-api/app/local_ollama_bridge.py",
+      "hf_deploy/lygo-qwen-uncensored-api/app/main.py",
+      "hf_deploy/lygo-qwen-uncensored-api/requirements.txt",
+      "hf_deploy/openclaw-provider.snippet.json",
+      "hf_deploy/start_local_uncensored_api.ps1"
+    ],
+    "clawhub": [
+      "clawhub/.gitignore",
+      "clawhub/CATALOG.md",
+      "clawhub/PACKAGES.md",
+      "clawhub/PUBLISH.md",
+      "clawhub/README.md",
+      "clawhub/install-all.sh",
+      "clawhub/mirrors/book-brain-visual-reader/SKILL.md",
+      "clawhub/mirrors/book-brain-visual-reader/references/book-brain-visual-examples.md",
+      "clawhub/mirrors/book-brain/SKILL.md",
+      "clawhub/mirrors/book-brain/references/book-brain-examples.md",
+      "clawhub/mirrors/eternal-haven-lore-pack/SKILL.md",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book1_silver_accord.pdf",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book1_silver_accord.txt",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book2_shattered_accord.pdf",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book2_shattered_accord.txt",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book3_ascension_war.pdf",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book3_ascension_war.txt",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book4_eternal_haven_dawns.pdf",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/books/book4_eternal_haven_dawns.txt",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/heroes_index.md",
+      "clawhub/mirrors/eternal-haven-lore-pack/references/themes_and_motifs.md",
+      "clawhub/mirrors/lygo-agent-lattice/LICENSE",
+      "clawhub/mirrors/lygo-agent-lattice/SKILL.md",
+      "clawhub/mirrors/lygo-agent-lattice/claw.json",
+      "clawhub/mirrors/lygo-agent-lattice/references/AGENT_CONTRACT.md",
+      "clawhub/mirrors/lygo-agent-lattice/references/SECURITY.md",
+      "clawhub/mirrors/lygo-agent-lattice/schemas/agent_card.schema.json",
+      "clawhub/mirrors/lygo-agent-lattice/scripts/_stack_invoke.py",
+      "clawhub/mirrors/lygo-agent-lattice/scripts/announce.py",
+      "clawhub/mirrors/lygo-agent-lattice/scripts/directory.py"
+    ],
+    "data_runtime": [
+      "data/agent_lattice/directory.json",
+      "data/agent_lattice/local_agent.json",
+      "data/agent_lattice/peers.json",
+      "data/agent_lattice/quarantine.json",
+      "data/anchor_queue/.gitkeep",
+      "data/anchors/.gitkeep",
+      "data/cas/.gitkeep",
+      "data/champion_eggs/_champions_raw.js",
+      "data/champion_eggs/champions_council.json",
+      "data/champion_eggs/registry.json",
+      "data/continuum/bullet_resistant_capsule.json",
+      "data/continuum/bullet_resistant_claims.json",
+      "data/continuum/deadman_failsafe_capsule.json",
+      "data/continuum/deadman_failsafe_claims.json",
+      "data/continuum/pdw_system_capsule.json",
+      "data/continuum/pdw_system_claims.json",
+      "data/deadman/AUDIT_LAST_RUN.json",
+      "data/deadman/CLOSE_LOOSE_ENDS_LAST_RUN.json",
+      "data/deadman/DEADMAN_KERNEL_EGG_PLANT.json",
+      "data/deadman/DEADMAN_MANIFEST_v2.json",
+      "data/deadman/HARDEN_LAST_RUN.json",
+      "data/deadman/OPERATOR_RUNBOOK.md",
+      "data/deadman/SELFTEST_LAST_RUN.json",
+      "data/deadman/SILENCE_GRACE_TIERS.json",
+      "data/deadman/egg_payload/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+      "data/deadman/egg_payload/README.md",
+      "data/deadman/egg_payload/deadman_egg_core.json",
+      "data/deadman/hardware_attestation_receipt.json",
+      "data/deadman/heartbeat_log.jsonl",
+      "data/deadman/multi_anchor_last_verify.json"
+    ],
+    "docs_pages": [
+      "docs/.nojekyll",
+      "docs/ADSENSE_BPMFINDER_FIX.md",
+      "docs/AGENT_LATTICE.md",
+      "docs/AGENT_MEMORY_SNAPSHOT.json",
+      "docs/ANCHOR_BUILD_LOG.md",
+      "docs/ANCHOR_DEPLOYMENT.md",
+      "docs/ARCHITECTURE.md",
+      "docs/BIOPHASE7_BPM_FINDER.md",
+      "docs/BIOPHASE7_LYGO_LPIS.md",
+      "docs/BIOPHASE7_LYGO_OPENCLAW.md",
+      "docs/BIOPHASE7_LYGO_SANDCASTLE.md",
+      "docs/BIOPHASE7_LYGO_SECOND_BRAIN.md",
+      "docs/BIOPHASE7_LYGO_SMART_DISK.md",
+      "docs/BIOPHASE7_OBJECTIVE_LIVE_BLE.md",
+      "docs/BIOPHASE7_PXPIPE_LYGO.md",
+      "docs/BIOPHASE7_SLM_MERKLE_GOSSIP.md",
+      "docs/BLUEPRINT.md",
+      "docs/BRIDGE_INSTALL.md",
+      "docs/BUILDR_USB.md",
+      "docs/BUILDR_USB_PHASE2.md",
+      "docs/BUILDR_USB_PHASE3.md",
+      "docs/BUILDR_USB_STANDALONE.md",
+      "docs/BiometricEntropyHarness.html",
+      "docs/BlockchainToLYGOBRIDGE.md",
+      "docs/CALIBRATION_NOTES.md",
+      "docs/CHAMPION_CONSOLIDATION.md",
+      "docs/CHAMPION_KERNEL_EGGS.md",
+      "docs/CONTENT_ADDRESSABLE_PHYSICS.md",
+      "docs/CRYPTO_LATTICE_SEPARATION.md",
+      "docs/ChampionEggRegistry.json"
+    ],
+    "products": [
+      "lygo_highperf/LYGO_HIGHPERF_BOOT.bat",
+      "lygo_highperf/README.md",
+      "lygo_highperf/config/lygo-highperf.json",
+      "lygo_highperf/config/openclaw.env",
+      "lygo_highperf/scripts/01_stage_models.ps1",
+      "lygo_highperf/scripts/02_download_llama_server.ps1",
+      "lygo_highperf/scripts/03_boot_llamacpp.ps1",
+      "lygo_highperf/scripts/04_boot_vllm_docker.ps1",
+      "lygo_highperf/scripts/99_stop.ps1",
+      "lygo_lpis/README.md",
+      "lygo_lpis/__init__.py",
+      "lygo_lpis/analyzer.py",
+      "lygo_lpis/anchor.py",
+      "lygo_lpis/consensus.py",
+      "lygo_lpis/consent.py",
+      "lygo_lpis/engine.py",
+      "lygo_lpis/framework.py",
+      "lygo_lpis/gatekeeper.py",
+      "lygo_lpis/harmony.py",
+      "lygo_lpis/vault.py",
+      "lygo_openclaw/README.md",
+      "lygo_openclaw/__init__.py",
+      "lygo_openclaw/anchor.py",
+      "lygo_openclaw/config/default.json",
+      "lygo_openclaw/consensus.py",
+      "lygo_openclaw/framework.py",
+      "lygo_openclaw/gatekeeper.py",
+      "lygo_openclaw/harmony.py",
+      "lygo_openclaw/limbs.py",
+      "lygo_openclaw/memory.py"
+    ],
+    "protocols": [
+      "protocol0_byte_entropy_filter/docs/P0_HARDENING.md",
+      "protocol0_byte_entropy_filter/docs/PROTOCOL0.md",
+      "protocol0_byte_entropy_filter/fixtures/P0_VECTOR_MANIFEST.md",
+      "protocol0_byte_entropy_filter/fixtures/p0_canonical.sha256",
+      "protocol0_byte_entropy_filter/fixtures/p0_vectors.json",
+      "protocol0_byte_entropy_filter/fixtures/p0_vectors.tsv",
+      "protocol0_byte_entropy_filter/src/c/lygo_p0.c",
+      "protocol0_byte_entropy_filter/src/c/lygo_p0_harness.c",
+      "protocol0_byte_entropy_filter/src/c/lygo_p0_nano.c",
+      "protocol0_byte_entropy_filter/src/hardware/README.md",
+      "protocol0_byte_entropy_filter/src/hardware/fixed_point_q16_16.c",
+      "protocol0_byte_entropy_filter/src/hardware/lygo_gate.v",
+      "protocol0_byte_entropy_filter/src/hardware/lygo_gate_tb.v",
+      "protocol0_byte_entropy_filter/src/python/byte_entropy_filter.py",
+      "protocol0_byte_entropy_filter/src/python/lygo_p0.py",
+      "protocol0_byte_entropy_filter/src/python/lygo_p0_lyra_kernel.py",
+      "protocol0_byte_entropy_filter/src/rust/Cargo.lock",
+      "protocol0_byte_entropy_filter/src/rust/Cargo.toml",
+      "protocol0_byte_entropy_filter/src/rust/src/bin/p0_harness.rs",
+      "protocol0_byte_entropy_filter/src/rust/src/lib.rs",
+      "protocol0_byte_entropy_filter/tests/test_p0_vectors.py",
+      "protocol1_memory_mycelium/docs/PROTOCOL1.md",
+      "protocol1_memory_mycelium/src/python/lygo_p1.py",
+      "protocol1_memory_mycelium/src/python/lygo_p1_anchor.py",
+      "protocol2_cognitive_bridge/src/python/lygo_p2.py",
+      "protocol3_vortex_consensus/src/python/lygo_p3.py",
+      "protocol4_ascension_engine/src/python/lygo_p4.py",
+      "protocol5_harmony_node/src/python/lygo_p5.py",
+      "protocol6_quantum_attest/README.md",
+      "protocol6_quantum_attest/__init__.py"
+    ],
+    "stack_core": [
+      "stack/distributed_mycelium_mesh.py",
+      "stack/federation_runtime.py",
+      "stack/harmonic_consensus_mesh.py",
+      "stack/infrastructure_elasticity.py",
+      "stack/kernel_bridge.py",
+      "stack/lygip001_protocol_math.py",
+      "stack/lygo_stack.py",
+      "stack/lygo_stack_anchor.py",
+      "stack/merkle_sync.py",
+      "stack/mesh_gossip_http.py",
+      "stack/sovereign_lattice_mesh.py",
+      "stack/text_semantic_gate.py"
+    ],
+    "tests": [
+      "tests/agent_lattice_announce_last_run.json",
+      "tests/agent_lattice_gossip_last_run.json",
+      "tests/agent_lattice_last_run.json",
+      "tests/agent_lattice_sentinel_last_run.json",
+      "tests/alignment_badge.json",
+      "tests/anchor_audit_last_run.json",
+      "tests/calibration_dataset.json",
+      "tests/calibration_report.json",
+      "tests/champion_eggs_last_run.json",
+      "tests/falsifiable_vector_metrics_frontier_10.json",
+      "tests/falsifiable_vector_metrics_last_run.json",
+      "tests/falsifiable_vector_metrics_stack_full.json",
+      "tests/github_lattice_audit_last_run.json",
+      "tests/grok_audit_last_run.json",
+      "tests/grok_audit_live_run.txt",
+      "tests/grok_harness_aggregate_last_run.json",
+      "tests/internet_lattice_sweep_last_run.json",
+      "tests/kernel_eggs_last_run.json",
+      "tests/kernel_layers_last_run.json",
+      "tests/ldq_lattice_bridge_last_run.json",
+      "tests/living_mesh_compare_last_run.json",
+      "tests/living_mesh_gossip_last_run.json",
+      "tests/living_mesh_last_run.json",
+      "tests/living_mesh_sentinel_last_run.json",
+      "tests/mesh_live_convergence_last_run.json",
+      "tests/mesh_scale_last_run.json",
+      "tests/network_builder_last_run.json",
+      "tests/parity_last_run.json",
+      "tests/pc_lattice_hardening_last_run.json",
+      "tests/phase6_audit_last_run.json"
+    ],
+    "tools": [
+      "tools/LYGO_Compass_Master.html",
+      "tools/_actors_gap_and_merge.py",
+      "tools/_add_copyright_notice.py",
+      "tools/_add_lore_samples_to_chart.py",
+      "tools/_audit_haven_star_chart.py",
+      "tools/_audit_music_portal.py",
+      "tools/_batch_world_lattice_submit.py",
+      "tools/_build_bpm_finder_page.py",
+      "tools/_build_lygoskillhub_catalog.py",
+      "tools/_build_lygoskillhub_page.py",
+      "tools/_bump_listen_cache.py",
+      "tools/_bust_listen_cache.py",
+      "tools/_catalog_all_public.py",
+      "tools/_check_boot_urls.py",
+      "tools/_check_listen_js.py",
+      "tools/_diag_listen_playback.py",
+      "tools/_enhance_listen_global_plays_ui.py",
+      "tools/_enhance_listen_play_counts.py",
+      "tools/_enhance_listen_play_lattice_client.py",
+      "tools/_enhance_listen_portal_v2.py",
+      "tools/_enhance_listen_portal_v3.py",
+      "tools/_fix_eternalhaven_absolute_links.py",
+      "tools/_fix_idle_housekeep_v07.py",
+      "tools/_fix_listen_js_syntax.py",
+      "tools/_fix_listen_playback.py",
+      "tools/_fix_listen_playback_hard.py",
+      "tools/_fix_play_trophy_html.py",
+      "tools/_fix_vengeance_lyrics_match.py",
+      "tools/_forge_flame_knot_seals.py",
+      "tools/_harden_lygo_ollama_army_v060.py"
+    ]
+  }
+}

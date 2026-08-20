@@ -13,7 +13,7 @@
 The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, multi-language ports, LYRA production kernel, stack orchestrator, and verification tools sourced from the Excavationpro / LYRA / 2026 firmware vault.
 
 **Public reference (GitHub Pages):** https://deepseekoracle.github.io/lygo-protocol-stack/ (`docs/index.html`).  
-**Git Lattice Overview (memory map):** [`GIT_LATTICE_OVERVIEW.md`](docs/GIT_LATTICE_OVERVIEW.md) · [`JSON`](docs/GIT_LATTICE_OVERVIEW.json) · **Pages update queue:** [`PAGES_UPDATE_QUEUE.md`](docs/PAGES_UPDATE_QUEUE.md) · USB claw copy: `E:\LYGO_LATTICE_MEMORY\`  
+**Git Lattice Overview v2 (memory map):** [`GIT_LATTICE_OVERVIEW.md`](docs/GIT_LATTICE_OVERVIEW.md) · [`JSON`](docs/GIT_LATTICE_OVERVIEW.json) · **Full repo census:** [`GIT_REPO_CENSUS.md`](docs/GIT_REPO_CENSUS.md) · [`JSON`](docs/GIT_REPO_CENSUS.json) · **Pages update queue:** [`PAGES_UPDATE_QUEUE.md`](docs/PAGES_UPDATE_QUEUE.md) · USB claw: `E:\LYGO_LATTICE_MEMORY\`  
 **Deadman / Eternal Base:** [`data-vault/deadman.html`](docs/data-vault/deadman.html) · **Lattice Finder:** [`LYGO_LATTICE_FINDER/`](docs/LYGO_LATTICE_FINDER/)  
 **Knowledge Hub:** [`LYGO_KNOWLEDGE_HUB.html`](docs/LYGO_KNOWLEDGE_HUB.html) · **Agent GitHub/HF restore:** [`GITHUB_AGENT_RESTORE.txt`](docs/GITHUB_AGENT_RESTORE.txt) · **Next build phase:** [`NEXT_BUILDING_PHASE.md`](docs/NEXT_BUILDING_PHASE.md)
 **Immutable Anchor (Biophase7):** [`docs/ANCHOR_DEPLOYMENT.md`](docs/ANCHOR_DEPLOYMENT.md) — local CA + Arweave Turbo + SLM/P7 hooks + autonomous worker.  
