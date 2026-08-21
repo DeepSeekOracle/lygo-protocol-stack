@@ -161,6 +161,10 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-continuity-advisor",
         GROK / "lygo-continuity-advisor",
     ],
+    "lygo-emotional-ram": [
+        STACK / "clawhub" / "mirrors" / "lygo-emotional-ram",
+        GROK / "lygo-emotional-ram",
+    ],
     "lygo-cyborg-kernel": [
         STACK / "docs" / "skills" / "lygo-cyborg-kernel",
         STACK / "clawhub" / "mirrors" / "lygo-cyborg-kernel",
@@ -208,6 +212,10 @@ ROLES = {
     "lygo-mint-verifier": "LYGO-MINT canonicalize + SHA-256 + ledgers + anchor snippet — in-process v1.1 (FULL RAW)",
     "lygo-automation-workflows": "Consent-aware automation playbook + local planner; Sandcastle-first (FULL RAW)",
     "lygo-continuity-advisor": "Deadman / eternal base / succession / anti-replacement advisor (FULL RAW)",
+    "lygo-emotional-ram": (
+        "💓 Emotional RAM FULL — affective/ethical light-math index + whitepaper + discovery inventory "
+        "+ Joy Loop companion notes. Humans/animals/swarms/cyborgs; consent-gated index."
+    ),
     "lygo-cyborg-kernel": "🦾 CYBORG KERNEL STACK — FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
 }
 
@@ -243,6 +251,7 @@ TIERS = {
     "lygo-mint-verifier": "tools",
     "lygo-automation-workflows": "tools",
     "lygo-continuity-advisor": "champion",
+    "lygo-emotional-ram": "tools",
     "lygo-cyborg-kernel": "kernel",
 }
 
@@ -305,8 +314,39 @@ def copy_tree(src: Path, dest: Path) -> int:
     return n
 
 
+def enrich_emotional_ram_full(pkg: Path) -> int:
+    """Bundle whitepaper + discovery inventory into FULL unlock zip."""
+    n = 0
+    docs = pkg / "docs"
+    docs.mkdir(parents=True, exist_ok=True)
+    for src, name in (
+        (STACK / "docs" / "whitepapers" / "LYGO_EMOTIONAL_RAM_v1.md", "LYGO_EMOTIONAL_RAM_v1.md"),
+        (STACK / "docs" / "whitepapers" / "LYGO_EMOTIONAL_RAM_v1.html", "LYGO_EMOTIONAL_RAM_v1.html"),
+        (STACK / "docs" / "data" / "emotional_ram" / "DISCOVERY_INVENTORY.json", "DISCOVERY_INVENTORY.json"),
+        (STACK / "docs" / "JOY_LOOP_PROTOCOL.md", "JOY_LOOP_PROTOCOL.md"),
+    ):
+        if src.is_file():
+            shutil.copy2(src, docs / name)
+            n += 1
+    return n
+
+
 def stamp_full(pkg: Path, slug: str, src: str, n: int, utc: str) -> None:
     extra_lines: list[str] = []
+    if slug == "lygo-emotional-ram":
+        extra_lines = [
+            "",
+            "## FULL unlocked limbs",
+            "",
+            "- Whitepaper: `docs/LYGO_EMOTIONAL_RAM_v1.md` (+ HTML)",
+            "- Discovery inventory: `docs/DISCOVERY_INVENTORY.json`",
+            "- Joy Loop companion notes: `docs/JOY_LOOP_PROTOCOL.md`",
+            "- CLI: `python scripts/emotional_ram_cli.py demo|encode|index|swarm`",
+            "- Index writes still require `--i-consent`",
+            "",
+            "SkillHub: https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html#full-lygo",
+            "Pages whitepaper: https://deepseekoracle.github.io/lygo-protocol-stack/whitepapers/LYGO_EMOTIONAL_RAM_v1.html",
+        ]
     if slug == "lygo-pure-data-witness":
         extra_lines = [
             "",
@@ -688,6 +728,7 @@ def main() -> int:
             "lygo-protocol-stack-operator",
             "lygo-pure-data-witness",
             "lygo-mint-verifier",
+            "lygo-emotional-ram",
         ],
         "skills": [],
     }
@@ -715,6 +756,8 @@ def main() -> int:
         n = copy_tree(src, pkg)
         if slug == "lygo-pure-data-witness":
             n += enrich_pure_data_witness_full(pkg)
+        if slug == "lygo-emotional-ram":
+            n += enrich_emotional_ram_full(pkg)
         if slug == "lygo-traumacodex":
             wav = STACK / "tools" / "traumacodex_waveform.py"
             if wav.is_file():
@@ -726,6 +769,7 @@ def main() -> int:
         pretty = {
             "lygo-cyborg-kernel": "🦾 LYGO Cyborg Kernel Stack (FULL UNLOCKED)",
             "lygo-pure-data-witness": "📜 LYGO Pure-Data Witness (FULL UNLOCKED)",
+            "lygo-emotional-ram": "💓 LYGO Emotional RAM (FULL UNLOCKED)",
         }.get(slug, slug.replace("-", " ").title() + " (FULL LYGO)")
         entry = {
             "slug": slug,
@@ -745,6 +789,7 @@ def main() -> int:
                 "lygo-continuum-integrator",
                 "lygo-pure-data-witness",
                 "lygo-mint-verifier",
+                "lygo-emotional-ram",
             ),
             "harm_default": (
                 "self_policed_unlocked"
