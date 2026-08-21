@@ -143,15 +143,20 @@ report = deploy_stack().demo_cycle()
 
 ### 6) Recommended ClawHub chain (install separately)
 
+Full upgrade path: `references/SKILL_CHAIN.md` · agent boot: `docs/AGENT_BOOT.md`
+
 | Order | Skill | Role |
 |-------|-------|------|
 | 1 | `lygo-protocol-stack-operator` | This integrator |
-| 2 | `book-brain` | Filesystem memory references |
-| 3 | `lygo-resonance` | Image → audio / profiles |
-| 4 | `lygo-ollama-army` | Local Ollama helpers (localhost) |
-| 5 | `lygo-glyph2resonance`, `lygo-fractalweaver`, `lygo-truthlightecho` | Creative stack |
-| 6 | `lygo-mint-verifier` | Hash anchors for packs |
-| 7 | `lyra-openclaw` / `openclaw-flow-kit` | Ops — **user must approve** each external action |
+| 2 | `lygo-sovereign-super-skill` | Egg/planter/chain map (**v1.1**) |
+| 3 | `lygo-mint-verifier` | Hash anchors (**v1.1** in-process) |
+| 4 | `lygo-continuum` + `lygo-continuum-integrator` | Capsules + ∫(Truth×Light)df |
+| 5 | `lygo-pure-data-witness` | Digest archives (**v1.3** consent) |
+| 6 | `lygo-automation-workflows` + `lygo-sandcastle` | Local-first automation |
+| 7 | `lygo-continuity-advisor` | Deadman / eternal base |
+| 8 | `book-brain` / `lyra-brain` | Memory |
+| 9 | `lygo-resonance` + creative chain | Image → audio / profiles |
+| 10 | `lyra-openclaw` / `openclaw-flow-kit` | Ops — **user must approve** each external action |
 
 ```bash
 npx clawhub@latest install deepseekoracle/lygo-resonance

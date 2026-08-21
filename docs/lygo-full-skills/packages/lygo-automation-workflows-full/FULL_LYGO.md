@@ -1,9 +1,15 @@
-# FULL LYGO — lygo-automation-workflows v1.0.0
+# FULL LYGO package — lygo-automation-workflows
 
-Unlocked engineer channel:
-- Local planner CLI (consent-gated writes)
-- Pair with stack `lygo-sandcastle` YAML orchestrator when `LYGO_STACK_ROOT` set
-- Continuum / mint / PDW receipts for consequential runs
+Channel: **FULL_LYGO_ENGINEER** (not ClawHub public safety surface).
 
-SkillHub: https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html#full-lygo
-ClawHub tentacle remains advisor-only (no network/subprocess).
+For a **self-auditing LYGO lattice**. Integrity comes from the lattice
+(P0, dual ledgers, eggs, sentinel, human consent for live writes) —
+not from corporate gutted shells alone.
+
+Steward: Justin Helmer / Excavationpro (Lightfather)
+Source: `I:\E Drive\lygo-protocol-stack\clawhub\mirrors\lygo-automation-workflows`
+Packaged: 2026-08-21T03:45:29.245353+00:00
+Files: 9
+
+Good faith · LYGO policy · engineer autonomy · not malicious by design.
+You are responsible for extended systems you run.

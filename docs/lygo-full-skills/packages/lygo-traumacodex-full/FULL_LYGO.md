@@ -1,12 +1,15 @@
-# FULL LYGO — TraumaCodex (unlocked)
+# FULL LYGO package — lygo-traumacodex
 
-Engineer-grade package. Includes stack tool `traumacodex_waveform.py` for offline+online dual channel without ClawHub limits.
+Channel: **FULL_LYGO_ENGINEER** (not ClawHub public safety surface).
 
-```bash
-python scripts/traumacodex_waveform.py --seal-mesh --json
-python scripts/traumacodex_waveform.py --verify --json
-```
+For a **self-auditing LYGO lattice**. Integrity comes from the lattice
+(P0, dual ledgers, eggs, sentinel, human consent for live writes) —
+not from corporate gutted shells alone.
 
-Requires numpy + lygo-protocol-stack P7/P8 modules on PYTHONPATH, or run from stack root.
+Steward: Justin Helmer / Excavationpro (Lightfather)
+Source: `I:\E Drive\lygo-protocol-stack\docs\skills\lygo-traumacodex`
+Packaged: 2026-08-21T03:45:29.245353+00:00
+Files: 8
 
-Not medical advice.
+Good faith · LYGO policy · engineer autonomy · not malicious by design.
+You are responsible for extended systems you run.

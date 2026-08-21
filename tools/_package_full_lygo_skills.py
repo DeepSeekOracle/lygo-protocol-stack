@@ -145,6 +145,22 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-continuum",
         GROK / "lygo-continuum",
     ],
+    "lygo-continuum-integrator": [
+        STACK / "clawhub" / "mirrors" / "lygo-continuum-integrator",
+        GROK / "lygo-continuum-integrator",
+    ],
+    "lygo-mint-verifier": [
+        STACK / "clawhub" / "mirrors" / "lygo-mint-verifier",
+        GROK / "lygo-mint-verifier",
+    ],
+    "lygo-automation-workflows": [
+        STACK / "clawhub" / "mirrors" / "lygo-automation-workflows",
+        GROK / "lygo-automation-workflows",
+    ],
+    "lygo-continuity-advisor": [
+        STACK / "clawhub" / "mirrors" / "lygo-continuity-advisor",
+        GROK / "lygo-continuity-advisor",
+    ],
     "lygo-cyborg-kernel": [
         STACK / "docs" / "skills" / "lygo-cyborg-kernel",
         STACK / "clawhub" / "mirrors" / "lygo-cyborg-kernel",
@@ -188,6 +204,10 @@ ROLES = {
     "lygo-skill-gate": "Local pre-install skill risk scanner — subprocess/network/secrets/claim mismatch (FULL RAW)",
     "lygo-skill-spector": "SkillSpector — enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
     "lygo-continuum": "Falsifiable work capsules — seal done-claims, verify, drift, handoff + portal (FULL RAW)",
+    "lygo-continuum-integrator": "∫(Truth×Light)df · phase-lock · non-collapsing geodesic receipts (FULL RAW)",
+    "lygo-mint-verifier": "LYGO-MINT canonicalize + SHA-256 + ledgers + anchor snippet — in-process v1.1 (FULL RAW)",
+    "lygo-automation-workflows": "Consent-aware automation playbook + local planner; Sandcastle-first (FULL RAW)",
+    "lygo-continuity-advisor": "Deadman / eternal base / succession / anti-replacement advisor (FULL RAW)",
     "lygo-cyborg-kernel": "🦾 CYBORG KERNEL STACK — FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
 }
 
@@ -219,6 +239,10 @@ TIERS = {
     "lygo-skill-gate": "security",
     "lygo-skill-spector": "security",
     "lygo-continuum": "tools",
+    "lygo-continuum-integrator": "tools",
+    "lygo-mint-verifier": "tools",
+    "lygo-automation-workflows": "tools",
+    "lygo-continuity-advisor": "champion",
     "lygo-cyborg-kernel": "kernel",
 }
 
@@ -660,8 +684,10 @@ def main() -> int:
         "featured": [
             "lygo-cyborg-kernel",
             "lygo-continuum",
+            "lygo-continuum-integrator",
             "lygo-protocol-stack-operator",
             "lygo-pure-data-witness",
+            "lygo-mint-verifier",
         ],
         "skills": [],
     }
@@ -713,7 +739,13 @@ def main() -> int:
             "role": ROLES.get(slug, ""),
             "tier": TIERS.get(slug, "other"),
             "featured": slug
-            in ("lygo-cyborg-kernel", "lygo-continuum", "lygo-pure-data-witness"),
+            in (
+                "lygo-cyborg-kernel",
+                "lygo-continuum",
+                "lygo-continuum-integrator",
+                "lygo-pure-data-witness",
+                "lygo-mint-verifier",
+            ),
             "harm_default": (
                 "self_policed_unlocked"
                 if slug == "lygo-cyborg-kernel"
