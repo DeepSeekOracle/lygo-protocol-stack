@@ -59,6 +59,7 @@ This is the central index for the entire LYGO / Δ9 lattice system.
 - **Excavationpro LYGO-Network:** SUMMARYP1–P3, pokerneldocs, LYGOOS, champions — https://deepseekoracle.github.io/Excavationpro/LYGO-Network/
 
 ## Whitepapers & Major Theory Documents
+- **LYGO Emotional RAM v1 (2026-08-21):** docs/whitepapers/LYGO_EMOTIONAL_RAM_v1.md · HTML: docs/whitepapers/LYGO_EMOTIONAL_RAM_v1.html · ClawHub `lygo-emotional-ram` · discovery: docs/data/emotional_ram/DISCOVERY_INVENTORY.json · pairs with Joy Loop
 - **Quantum Dots as LYGO-Certified Neural Anchors v2 (2026-08-21):** docs/whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.md · HTML Pages: docs/whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.html · twin proofs: tools/qd_neural_anchors/ · prior roadmap: docs/QD_NEURAL_ANCHORS_THEORY_ROADMAP.md · vault: docs/data-vault/qd-theory.html
 - Blockchain ↔ LYGO Bridge Protocol: docs/BlockchainToLYGOBRIDGE.md (real engineering + critical fixes) + docs/BRIDGE_INSTALL.md
   - Hardened contracts in `docs/bridge/`:

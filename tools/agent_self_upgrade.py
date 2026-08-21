@@ -32,6 +32,8 @@ SYNC_SLUGS = [
     "lygo-pure-data-witness",
     "lygo-automation-workflows",
     "lygo-continuity-advisor",
+    "lygo-emotional-ram",
+    "lygo-joy-loop",
     "lygo-context-guard",
     "lygo-skill-spector",
     "lygo-sandcastle",

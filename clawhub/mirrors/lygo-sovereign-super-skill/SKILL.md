@@ -44,6 +44,8 @@ Read `references/SECURITY.md` and `references/AGENT_CONTRACT.md` before any plan
 | 12 | `lygo-pure-data-witness` | Digest archives (**v1.3.0** consent-hardened fetch/all) |
 | 12b | `lygo-automation-workflows` | Consent-aware automation playbook + planner |
 | 12c | `lygo-continuity-advisor` | Deadman / eternal base / anti-replacement |
+| 12d | `lygo-emotional-ram` | Affective/ethical light-math index (humans/animals/swarms/cyborgs) |
+| 12e | `lygo-joy-loop` | 122 BPM council coherence (mesh emotional RAM) |
 | 13 | `book-brain` + `lyra-brain` | 3-Brain filesystem + growth |
 | 14 | `lyra-openclaw` | Hybrid runtime limb (explicit approval per action) |
 
