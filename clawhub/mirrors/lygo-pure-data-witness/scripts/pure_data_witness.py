@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""LYGO Pure-Data Witness v1.1 — digest / fetch / egg / continuum / ledger / hf-pack / verify.
+"""LYGO Pure-Data Witness v1.3 — digest / fetch / egg / continuum / ledger / hf-pack / verify.
+
+Network fetch requires --i-authorize-fetch. The `all` chain requires --i-confirm-chain
+(and --i-authorize-fetch when --url is set). Matches SKILL.md safety contract.
 
 Combined free-tier purity stack:
   A digest+snapshot  B kernel-egg fragment  C HF export pack  D public ledger
@@ -361,8 +364,23 @@ See https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.
     return meta
 
 
+def _consent_denied(need: list[str], *, warning: str, error: str = "consent_required") -> int:
+    print(
+        json.dumps(
+            {
+                "ok": False,
+                "error": error,
+                "need": need,
+                "warning": warning,
+            },
+            indent=2,
+        )
+    )
+    return 2
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="LYGO Pure-Data Witness v1.1")
+    ap = argparse.ArgumentParser(description="LYGO Pure-Data Witness v1.3 (consent-gated)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p1 = sub.add_parser("digest")
@@ -370,9 +388,17 @@ def main() -> int:
     p1.add_argument("--url")
     p1.add_argument("--out", default="data/pure_data")
 
-    p2 = sub.add_parser("fetch")
+    p2 = sub.add_parser(
+        "fetch",
+        help="HTTPS fetch + digest (REQUIRES --i-authorize-fetch)",
+    )
     p2.add_argument("--url", required=True)
     p2.add_argument("--out", default="data/pure_data")
+    p2.add_argument(
+        "--i-authorize-fetch",
+        action="store_true",
+        help="Required: explicit operator consent for outbound HTTPS GET",
+    )
 
     p3 = sub.add_parser("egg", help="Pack witness card into tiny kernel fragment")
     p3.add_argument("--card", required=True)
@@ -406,11 +432,27 @@ def main() -> int:
         help="Required: authorize copying local witness .txt/.json into an export pack folder",
     )
 
-    p9 = sub.add_parser("all", help="fetch|digest then egg + continuum-claims + ledger")
+    p9 = sub.add_parser(
+        "all",
+        help=(
+            "WARNING: chains digest/fetch + egg + continuum-claims + ledger writes. "
+            "URL mode REQUIRES --i-authorize-fetch. Prefer stepwise commands."
+        ),
+    )
     p9.add_argument("--url")
     p9.add_argument("--file")
     p9.add_argument("--out", default="data/pure_data")
     p9.add_argument("--ledger", default="docs/pure-data/ledger.json")
+    p9.add_argument(
+        "--i-authorize-fetch",
+        action="store_true",
+        help="Required when --url is set (outbound HTTPS GET)",
+    )
+    p9.add_argument(
+        "--i-confirm-chain",
+        action="store_true",
+        help="Required: confirm multi-step persistence (egg + claims + ledger)",
+    )
 
     args = ap.parse_args()
 
@@ -418,6 +460,15 @@ def main() -> int:
         print(json.dumps(digest_file(Path(args.file), Path(args.out), args.url), indent=2))
         return 0
     if args.cmd == "fetch":
+        if not args.i_authorize_fetch:
+            return _consent_denied(
+                ["--i-authorize-fetch"],
+                error="fetch_consent_required",
+                warning=(
+                    "Network is OFF by default. Pass --i-authorize-fetch to allow a single "
+                    "HTTPS GET of --url (SSRF/malware gates still apply). Prefer --file digests."
+                ),
+            )
         print(json.dumps(fetch_url(args.url, Path(args.out)), indent=2))
         return 0
     if args.cmd == "egg":
@@ -443,22 +494,15 @@ def main() -> int:
         return 0 if res.get("ok") else 10
     if args.cmd == "hf-pack":
         if not args.i_consent or not args.i_authorize_hf_export:
-            print(
-                json.dumps(
-                    {
-                        "ok": False,
-                        "error": "hf_export_consent_required",
-                        "need": ["--i-consent", "--i-authorize-hf-export"],
-                        "warning": (
-                            "HF export copies local witness cards + redacted .txt snapshots into a pack folder. "
-                            "Regex redaction is incomplete by nature — review every file before uploading to "
-                            "Hugging Face or any third party. This command does NOT upload; it only builds a local folder."
-                        ),
-                    },
-                    indent=2,
-                )
+            return _consent_denied(
+                ["--i-consent", "--i-authorize-hf-export"],
+                error="hf_export_consent_required",
+                warning=(
+                    "HF export copies local witness cards + redacted .txt snapshots into a pack folder. "
+                    "Regex redaction is incomplete by nature — review every file before uploading to "
+                    "Hugging Face or any third party. This command does NOT upload; it only builds a local folder."
+                ),
             )
-            return 2
         meta = hf_pack(Path(args.dir), Path(args.pack), Path(args.ledger))
         meta["ok"] = True
         meta["warning"] = (
@@ -467,8 +511,28 @@ def main() -> int:
         print(json.dumps(meta, indent=2))
         return 0
     if args.cmd == "all":
+        if not args.i_confirm_chain:
+            return _consent_denied(
+                ["--i-confirm-chain"]
+                + (["--i-authorize-fetch"] if args.url else []),
+                error="chain_consent_required",
+                warning=(
+                    "'all' is a multi-step state-changing chain: fetch|digest → egg → continuum-claims → ledger. "
+                    "Pass --i-confirm-chain to acknowledge. If using --url, also pass --i-authorize-fetch. "
+                    "Prefer running digest/fetch, egg, continuum-claims, ledger separately."
+                ),
+            )
         out = Path(args.out)
         if args.url:
+            if not args.i_authorize_fetch:
+                return _consent_denied(
+                    ["--i-authorize-fetch", "--i-confirm-chain"],
+                    error="fetch_consent_required",
+                    warning=(
+                        "URL mode performs outbound HTTPS GET. Pass --i-authorize-fetch together with "
+                        "--i-confirm-chain, or use --file for local-only digest."
+                    ),
+                )
             card = fetch_url(args.url, out)
         elif args.file:
             card = digest_file(Path(args.file), out, args.url)
@@ -478,7 +542,19 @@ def main() -> int:
         egg = make_egg(card_path, out / "eggs")
         continuum_claims(card_path)
         led = rebuild_ledger(out, Path(args.ledger))
-        print(json.dumps({"card": card["witness_id"], "egg": egg["egg_id"], "ledger_root": led["merkle_style_root"], "egg_root": led.get("egg_fragment_root")}, indent=2))
+        print(
+            json.dumps(
+                {
+                    "card": card["witness_id"],
+                    "egg": egg["egg_id"],
+                    "ledger_root": led["merkle_style_root"],
+                    "egg_root": led.get("egg_fragment_root"),
+                    "chain_confirmed": True,
+                    "network": bool(args.url),
+                },
+                indent=2,
+            )
+        )
         return 0
     return 2
 

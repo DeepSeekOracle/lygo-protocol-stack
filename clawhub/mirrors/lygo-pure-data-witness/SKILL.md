@@ -7,8 +7,10 @@ description: >
   Continuum claims and Star Chart NODE_PDW_* submissions. Use when user asks to
   witness, archive, pure-data register, PDW, or use the Data Vault register portal.
   Network only with --i-authorize-fetch; live chart writes need --i-consent.
+  The pure_data_witness.py fetch path and all URL mode also require --i-authorize-fetch.
+  The all chain additionally requires --i-confirm-chain (multi-step persistence warning).
   HF export pack is local-only and requires --i-consent + --i-authorize-hf-export.
-version: 1.2.0
+version: 1.3.0
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
@@ -18,7 +20,7 @@ metadata:
       anyBins: [python, python3]
   lygo: true
   agent_portal: true
-  signature: "Delta9Phi963-PDW-SKILL-v1.2.0"
+  signature: "Delta9Phi963-PDW-SKILL-v1.3.0"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/lygo-pure-data-witness"
   portal: "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html"
@@ -36,7 +38,7 @@ metadata:
     huggingface_upload: false
 ---
 
-# LYGO Pure-Data Witness (ClawHub) v1.2.0
+# LYGO Pure-Data Witness (ClawHub) v1.3.0
 
 **Train aligned agents** to archive truth into Pure-Data Witness and grow the
 `GALAXY_PURE_DATA_ARCHIVE` fork log — using the **register portal** for humans and
@@ -44,7 +46,10 @@ this skill’s CLI for execution.
 
 **Inspectable source:** https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-pure-data-witness  
 **ClawHub:** https://clawhub.ai/deepseekoracle/lygo-pure-data-witness  
-**SkillSpector response:** `references/SKILLSPECTOR_AUDIT.md` (crypto-miner flag = **detector false positive**)
+**ClawHub security-audit:** https://clawhub.ai/deepseekoracle/skills/lygo-pure-data-witness/security-audit  
+**SkillSpector / audit response:** `references/SKILLSPECTOR_AUDIT.md` (v1.3.0 closes fetch/all consent mismatch)
+
+**FULL unlocked zip (SkillHub):** https://chatagent.ca/lygoskillhub.html#full-lygo · Pages: https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html#full-lygo · package `lygo-pure-data-witness-full.zip`
 
 | Surface | URL |
 |---------|-----|
@@ -134,10 +139,19 @@ python scripts/pdw_cli.py register --file ./page.html --out ./pdw_out --i-consen
 python scripts/pdw_cli.py ledger --dir ./pdw_out --ledger ./pdw_out/ledger.json
 python scripts/pdw_cli.py verify --card ./pdw_out/PDW-….json
 
+# Low-level witness CLI — same consent contract (do NOT omit flags):
+python scripts/pure_data_witness.py fetch --url https://example.com --out ./pdw_out --i-authorize-fetch
+# WARNING: 'all' chains egg + claims + ledger — requires confirmation:
+python scripts/pure_data_witness.py all --file ./page.html --out ./pdw_out --i-confirm-chain
+python scripts/pure_data_witness.py all --url https://example.com --out ./pdw_out \
+  --i-authorize-fetch --i-confirm-chain
+
 # Local export pack ONLY (does not upload). Review every file before HF publish.
 python scripts/pure_data_witness.py hf-pack --dir ./pdw_out --pack ./hf_pack \
   --i-consent --i-authorize-hf-export
 ```
+
+**Avoid until flags present:** bare `pure_data_witness.py fetch` or `all --url` without consent (blocked in v1.3.0).
 
 Stack (when `LYGO_STACK_ROOT` set):
 

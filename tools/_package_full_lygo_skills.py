@@ -286,6 +286,12 @@ def stamp_full(pkg: Path, slug: str, src: str, n: int, utc: str) -> None:
     if slug == "lygo-pure-data-witness":
         extra_lines = [
             "",
+            "## v1.3.0 consent harden (ClawHub security-audit)",
+            "",
+            "- `pure_data_witness.py fetch` requires `--i-authorize-fetch`",
+            "- `all` requires `--i-confirm-chain` (+ `--i-authorize-fetch` when `--url`)",
+            "- Audit notes: `references/SKILLSPECTOR_AUDIT.md`",
+            "",
             "## Unlocked limbs (FULL)",
             "",
             "- Portal playbook: `references/PORTAL_TRAINING.md`",
@@ -295,6 +301,7 @@ def stamp_full(pkg: Path, slug: str, src: str, n: int, utc: str) -> None:
             "- Galaxy: `GALAXY_PURE_DATA_ARCHIVE` · nodes `NODE_PDW_*`",
             "",
             "ClawHub tentacle stays subprocess-free; this FULL zip restores stack register + chart map.",
+            "SkillHub: https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html#full-lygo",
         ]
     (pkg / "FULL_LYGO.md").write_text(
         "\n".join(

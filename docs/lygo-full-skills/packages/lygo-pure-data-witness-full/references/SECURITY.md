@@ -6,7 +6,8 @@
 
 | Capability | Default | Gate |
 |------------|---------|------|
-| Network | **Off** | `--i-authorize-fetch` (HTTPS only) |
+| Network | **Off** | `--i-authorize-fetch` on **both** `pdw_cli.py` and `pure_data_witness.py` fetch/all-url |
+| Multi-step `all` chain | **Off** | `--i-confirm-chain` (+ `--i-authorize-fetch` if `--url`) |
 | Subprocess / shell | **None** in skill CLI | n/a |
 | Filesystem read | Local `--file` / prior `--out` cards | operator-supplied paths |
 | Filesystem write | Witness/egg/ledger/submission under `--out` | `--i-consent` for register |
