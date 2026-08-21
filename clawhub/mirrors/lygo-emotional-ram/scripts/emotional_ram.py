@@ -21,8 +21,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SIG = "Delta9Phi963-EMOTIONAL-RAM-v1.0.0"
-VERSION = "1.0.0"
+SIG = "Delta9Phi963-EMOTIONAL-RAM-v1.0.1"
+VERSION = "1.0.1"
 
 # Universal Moral Principle basis (fixed ethical core — does not bloat with memories)
 UMP_BASIS: dict[str, dict[str, float]] = {
@@ -268,9 +268,22 @@ def index_memory(
     shared_context: float = 0.7,
     conflict: float = 0.2,
     tags: list[str] | None = None,
+    store_plaintext: bool = False,
 ) -> dict[str, Any]:
+    """Persist affective/ethical index entry.
+
+    Default stores label + SHA-256 of text (not full plaintext) to reduce
+    confidentiality risk. Pass store_plaintext=True only on machines you trust.
+    """
     if not i_consent:
-        return {"ok": False, "error": "need --i-consent to write Emotional RAM index"}
+        return {
+            "ok": False,
+            "error": "need --i-consent to write Emotional RAM index",
+            "privacy_warning": (
+                "Indexing writes a local JSON file under state/. "
+                "Do not index secrets/PHI. Default stores hash+label, not full plaintext."
+            ),
+        }
     state = emotion_ram_encode(text, shared_context=shared_context, conflict=conflict)
     idx = load_index(index_path)
     entry = {
@@ -286,13 +299,29 @@ def index_memory(
         "sensory": asdict(state.sensory),
         "digest": state.digest,
         "tags": tags or [],
+        "plaintext_stored": bool(store_plaintext),
         "meaning_note": (
             "Indexed by emotional/ethical significance — recall what it meant, not only that it happened."
         ),
     }
+    if store_plaintext:
+        entry["text"] = text
     idx["entries"].append(entry)
     save_index(index_path, idx)
-    return {"ok": True, "entry": entry, "count": len(idx["entries"]), "index": str(index_path)}
+    return {
+        "ok": True,
+        "entry": entry,
+        "count": len(idx["entries"]),
+        "index": str(index_path),
+        "privacy_warning": (
+            "Wrote local Emotional RAM index JSON. "
+            + (
+                "FULL PLAINTEXT stored — keep this host private."
+                if store_plaintext
+                else "Plaintext NOT stored (hash+label+vectors only)."
+            )
+        ),
+    }
 
 
 def recall(

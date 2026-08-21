@@ -39,12 +39,24 @@ def main() -> int:
     p_ump = sub.add_parser("ump", help="UMP gradient recommendation from encode")
     add_text(p_ump)
 
-    p_idx = sub.add_parser("index", help="Index memory by emotional/ethical significance")
+    p_idx = sub.add_parser(
+        "index",
+        help="Index memory by emotional/ethical significance (writes local JSON; needs --i-consent)",
+    )
     add_text(p_idx)
     p_idx.add_argument("--label", default="")
     p_idx.add_argument("--tag", action="append", default=[])
     p_idx.add_argument("--state-dir", type=Path, default=None)
-    p_idx.add_argument("--i-consent", action="store_true")
+    p_idx.add_argument(
+        "--i-consent",
+        action="store_true",
+        help="Required: acknowledge local disk write of Emotional RAM index",
+    )
+    p_idx.add_argument(
+        "--store-plaintext",
+        action="store_true",
+        help="Also store full text (default: hash+label+vectors only)",
+    )
 
     p_rec = sub.add_parser("recall", help="Recall from index")
     p_rec.add_argument("--principle", default=None, choices=list(er.UMP_BASIS.keys()))
@@ -122,6 +134,18 @@ def main() -> int:
         return 0
 
     if args.cmd == "index":
+        print(
+            json.dumps(
+                {
+                    "notice": (
+                        "Emotional RAM index writes a LOCAL JSON file. "
+                        "Default stores hash+label+vectors only (no full plaintext). "
+                        "Do not index secrets/PHI. Requires --i-consent."
+                    )
+                }
+            ),
+            file=sys.stderr,
+        )
         out = er.index_memory(
             text,
             index_path,
@@ -130,6 +154,7 @@ def main() -> int:
             shared_context=args.shared_context,
             conflict=args.conflict,
             tags=args.tag,
+            store_plaintext=bool(args.store_plaintext),
         )
         print(json.dumps(out, indent=2))
         return 0 if out.get("ok") else 1

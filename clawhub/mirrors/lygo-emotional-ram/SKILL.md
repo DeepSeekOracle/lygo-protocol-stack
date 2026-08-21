@@ -1,7 +1,7 @@
 ---
 name: lygo-emotional-ram
 description: "LYGO Emotional RAM — light math that indexes experiences by affective/ethical significance so agents understand humans, animals, swarms, and cyborg integrations better. Encode → Grace γ → UMP gradient → consent-gated memory index → swarm aggregate. Pure local stdlib. Not sentience or clinical emotion detection. Pairs with joy-loop, continuum, traumacodex, cyborg-kernel."
-version: 1.0.0
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
@@ -10,7 +10,7 @@ metadata:
     requires:
       anyBins: [python, python3]
   lygo: true
-  signature: "Delta9Phi963-EMOTIONAL-RAM-v1.0.0"
+  signature: "Delta9Phi963-EMOTIONAL-RAM-v1.0.1"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/lygo-emotional-ram"
   permissions:
@@ -23,12 +23,15 @@ metadata:
     publish: false
 ---
 
-# LYGO Emotional RAM v1.0.0
+# LYGO Emotional RAM v1.0.1
 
 **Emotional RAM** turns messy lived language into a **small, checkable affective–ethical index** so AIs can remember not only *that* something happened, but *what it meant* under LYGO moral principles.
 
-**Signature:** `Delta9Phi963-EMOTIONAL-RAM-v1.0.0`  
+**Signature:** `Delta9Phi963-EMOTIONAL-RAM-v1.0.1`  
 **Whitepaper:** `docs/whitepapers/LYGO_EMOTIONAL_RAM_v1.md` (stack) / Pages HTML sibling
+
+### v1.0.1 privacy harden
+`index` warns on stderr before write; default stores **hash+label+vectors only** (use `--store-plaintext` only on private hosts).
 
 ### Canon → code
 

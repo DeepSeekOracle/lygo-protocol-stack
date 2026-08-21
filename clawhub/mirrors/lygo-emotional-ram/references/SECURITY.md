@@ -1,4 +1,4 @@
-# Security — lygo-emotional-ram v1.0.0
+# Security — lygo-emotional-ram v1.0.1
 
 ## Permissions
 
@@ -8,6 +8,13 @@
 | Subprocess / shell | **None** |
 | Filesystem write | Index under skill `state/` only with `--i-consent` |
 | Publish | **None** |
+
+## Index privacy (SkillSpector LOW harden)
+
+- CLI prints a stderr notice that indexing writes a **local JSON** file
+- Default: store **SHA-256 + label + vectors** — **not** full plaintext
+- `--store-plaintext` is opt-in for trusted private hosts only
+- Never index secrets / PHI
 
 ## Epistemic limits (do not overclaim)
 
