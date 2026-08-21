@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Compat wrapper → mint_cli.py backfill (no subprocess)."""
+"""Compat wrapper → mint_cli.py backfill (no subprocess).
+
+Does NOT inject --i-consent. Callers must pass --i-consent explicitly
+for ledger writes (ClawHub security-audit Intent-Code Divergence fix).
+"""
 from __future__ import annotations
 
 import sys
@@ -8,11 +12,8 @@ from mint_cli import main as mint_main
 
 
 def main() -> None:
-    # Ensure consent flag present for writes; pass through args
-    argv = list(sys.argv[1:])
-    if "--i-consent" not in argv:
-        argv.append("--i-consent")
-    sys.argv = [sys.argv[0], "backfill", *argv]
+    # Pass-through only — never rewrite consent.
+    sys.argv = [sys.argv[0], "backfill", *sys.argv[1:]]
     raise SystemExit(mint_main())
 
 

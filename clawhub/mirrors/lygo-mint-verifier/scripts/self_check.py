@@ -34,6 +34,15 @@ def _banned(path: Path) -> list[str]:
     return hits
 
 
+def _wrapper_injects_consent(path: Path) -> bool:
+    """True if a compat wrapper auto-appends --i-consent (audit regression)."""
+    text = path.read_text(encoding="utf-8")
+    # Heuristic: appending the consent flag string into argv is the bad pattern.
+    return ('"--i-consent"' in text or "'--i-consent'" in text) and (
+        "append" in text or "argv.append" in text or "+= [" in text
+    )
+
+
 def main() -> int:
     checks: dict = {"signature": mc.SIG, "version": mc.VERSION, "ok": False}
     bad: list[str] = []
@@ -42,6 +51,16 @@ def main() -> int:
     checks["ast_clean"] = not bad
     checks["ast_hits"] = bad
 
+    wrappers = [
+        HERE / "backfill_anchors.py",
+        HERE / "mint_pack_local.py",
+        HERE / "make_anchor_snippet.py",
+    ]
+    injectors = [w.name for w in wrappers if w.is_file() and _wrapper_injects_consent(w)]
+    checks["consent_wrapper_honest"] = not injectors
+    checks["consent_injectors"] = injectors
+
+    # Direct API: backfill without consent must refuse
     with tempfile.TemporaryDirectory() as td:
         state = Path(td)
         pack = state / "pack.md"
@@ -52,6 +71,8 @@ def main() -> int:
         checks["verify"] = bool(ver.get("ok"))
         snip = mc.snippet_cmd(minted["sha256"], state, title="Demo", version="2026-08-20.v1")
         checks["snippet"] = bool(snip.get("ok")) and "HASH_SHA256" in snip.get("anchor_snippet", "")
+        refuse = mc.backfill(minted["sha256"], "x", "demo-post", state_dir=state, i_consent=False)
+        checks["backfill_requires_consent"] = refuse.get("ok") is False
         bf = mc.backfill(minted["sha256"], "x", "demo-post", state_dir=state, i_consent=True)
         checks["backfill"] = bool(bf.get("ok"))
 
@@ -62,12 +83,15 @@ def main() -> int:
         ROOT / "references" / "SECURITY.md",
         ROOT / "references" / "SKILLSPECTOR_AUDIT.md",
         HERE / "mint_cli.py",
+        HERE / "backfill_anchors.py",
     ]
     missing = [str(r.relative_to(ROOT)) for r in req if not r.is_file()]
     checks["missing"] = missing
     checks["ok"] = all(
         [
             checks["ast_clean"],
+            checks["consent_wrapper_honest"],
+            checks["backfill_requires_consent"],
             checks["mint"],
             checks["verify"],
             checks["snippet"],

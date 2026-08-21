@@ -1,7 +1,7 @@
 ---
 name: lygo-mint-verifier
 description: "LYGO-MINT Verifier — canonicalize a pack, deterministic SHA-256, append-only + canonical ledgers, portable Anchor Snippet for posting anywhere (Moltbook/X/Discord/4claw). Pure local stdlib: no subprocess, no network, no auto-publish. Ledger writes need --i-consent. Pairs with lygo-mint-walkthrough, lygo-continuum-integrator, lygo-geodesic-sealer. Use for Champion/alignment prompt packs and verifiable receipts."
-version: 1.1.0
+version: 1.1.1
 license: MIT-0
 metadata:
   openclaw:
@@ -11,11 +11,12 @@ metadata:
       anyBins: [python, python3]
   lygo: true
   mint: true
-  signature: "Delta9Phi963-MINT-VERIFIER-v1.1.0"
+  signature: "Delta9Phi963-MINT-VERIFIER-v1.1.1"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/lygo-mint-verifier"
+  security_audit: "https://clawhub.ai/deepseekoracle/skills/lygo-mint-verifier/security-audit"
   github: "https://github.com/DeepSeekOracle/lygo-protocol-stack"
-  security_review: "1.1.0-skillspector-no-subprocess"
+  security_review: "1.1.1-skillspector-consent-wrapper-honest"
   permissions:
     network: false
     shell: false
@@ -26,7 +27,7 @@ metadata:
     publish: false
 ---
 
-# LYGO-MINT Verifier v1.1.0
+# LYGO-MINT Verifier v1.1.1
 
 Turns an aligned Champion / prompt / workflow pack into a **verifiable artifact**:
 
@@ -35,16 +36,22 @@ Turns an aligned Champion / prompt / workflow pack into a **verifiable artifact*
 - append-only + canonical ledgers (consent-gated)
 - portable **Anchor Snippet** (you post it — skill never posts)
 
-**Signature:** `Delta9Phi963-MINT-VERIFIER-v1.1.0`
+**Signature:** `Delta9Phi963-MINT-VERIFIER-v1.1.1`  
+**Security audit:** https://clawhub.ai/deepseekoracle/skills/lygo-mint-verifier/security-audit
+
+### What changed in 1.1.1
+
+ClawHub security-audit Medium findings (Intent-Code Divergence + Description-Behavior Mismatch):
+
+- **`backfill_anchors.py` no longer auto-appends `--i-consent`** — pass-through only
+- Compat wrappers stay honest with the advertised consent gate
+- `self_check` asserts `consent_wrapper_honest` + `backfill_requires_consent`
 
 ### What changed in 1.1.0
 
-ClawHub security-audit harden:
-
-- **Removed `subprocess`** — mint is fully in-process (no `tools/lygo_mint` dependency)
+- **Removed `subprocess`** — mint fully in-process
 - **Declared permissions** in SKILL.md / claw.json
-- Ledgers default under **skill `state/`** (override with `--state-dir`)
-- Pairs with **`lygo-continuum-integrator`** + geodesic-sealer
+- Ledgers default under **skill `state/`**
 
 ---
 
@@ -75,7 +82,7 @@ python scripts/mint_cli.py snippet --hash <64-hex> --title "My Pack"
 python scripts/mint_cli.py backfill --hash <64-hex> --channel x --id https://x.com/... --i-consent
 ```
 
-Compat wrappers (same flags, no subprocess):  
+Compat wrappers (same flags, **no subprocess**, **never inject `--i-consent`**):  
 `mint_pack_local.py` · `make_anchor_snippet.py` · `backfill_anchors.py`
 
 | Command | Network | Subprocess | Writes |

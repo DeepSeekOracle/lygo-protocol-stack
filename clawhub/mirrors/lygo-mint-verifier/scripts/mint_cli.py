@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-LYGO-MINT Verifier v1.1.0 — in-process pack mint / verify / snippet / backfill.
+LYGO-MINT Verifier v1.1.1 — in-process pack mint / verify / snippet / backfill.
 
 Pure stdlib. No subprocess. No network. No auto-publish.
 Ledgers default under skill state/ (override with --state-dir).
+Compat wrappers never inject --i-consent.
 
-Signature: Delta9Phi963-MINT-VERIFIER-v1.1.0
+Signature: Delta9Phi963-MINT-VERIFIER-v1.1.1
 """
 from __future__ import annotations
 
@@ -18,8 +19,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SIG = "Delta9Phi963-MINT-VERIFIER-v1.1.0"
-VERSION = "1.1.0"
+SIG = "Delta9Phi963-MINT-VERIFIER-v1.1.1"
+VERSION = "1.1.1"
 HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
 DEFAULT_STATE = SKILL / "state"
