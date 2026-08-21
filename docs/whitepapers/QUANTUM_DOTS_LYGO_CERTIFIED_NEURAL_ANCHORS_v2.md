@@ -405,11 +405,9 @@ BASELINE     receipt_sha256=
 HARSH BLEACH receipt_sha256=
              fe3b022c1bba0a5bc085911d1aaae7a5428c7c08eb2ab9d13bedbfbad44b2129
              verdict=QUARANTINE
-WHITEPAPER    raw_sha256=
-             7a0638eb66febdb5739aba0db8727a9436b15806b8b76c9f0a8ed3fc6d56d292
-             mint_canonical_sha256=
-             0e4ff822a73d6940bc0ce4e13fe6e83f4cde22a92a8223ec3b1fe10e79ad03d8
-             (LYGO-MINT Verifier 1.1.1 · pack 2026-08-21.v2)
+WHITEPAPER    See docs/data/qd_neural_anchors/whitepaper_mint_receipt.json
+             for raw_file_sha256 + mint_canonical_sha256 (LYGO-MINT 1.1.1).
+             Digests update when this appendix changes — receipt JSON is authority.
 ```
 
 Re-verify anytime:

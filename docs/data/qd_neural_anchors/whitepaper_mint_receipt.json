@@ -2,11 +2,11 @@
   "signature": "Delta9Phi963-QD-WHITEPAPER-MINT-v2",
   "pack": "docs/whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.md",
   "pack_version": "2026-08-21.v2",
-  "mint_sha256_canonical": "bca9b4351d1d19a0bbfe2b1d594111ca5b2812141739622c9f1bdd9ba221a5f7",
-  "raw_file_sha256": "98fbb29614df4372d5dbeb7a1114b3930b94ce88f176d8cea2f6c80f4415c7f5",
+  "mint_sha256_canonical": "d63b635d5f5c79ebe5d73c39f43440d0d90dc44ef9c05c2e355edef96b0ea758",
+  "raw_file_sha256": "f43d9801b70a9f565bb8d783050581878c120148b92c95face375fcb34dd48d7",
   "twin_baseline_receipt": "4f27bf5fff8fa1b2fe55e72b06585d6b1767620d9f3b9d8f411817faaccd2a30",
   "twin_harsh_receipt": "fe3b022c1bba0a5bc085911d1aaae7a5428c7c08eb2ab9d13bedbfbad44b2129",
   "html": "docs/whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.html",
   "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.html",
-  "generated_utc": "2026-08-21T04:31:35Z"
+  "generated_utc": "2026-08-21T04:31:54Z"
 }

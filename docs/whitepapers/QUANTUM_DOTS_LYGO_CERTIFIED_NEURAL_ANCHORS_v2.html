@@ -39,7 +39,7 @@ footer { margin-top:3rem; color:var(--muted); font-size:.9rem; }
 <p class="brand">Δ9Φ963 · Whitepaper v2.0.0</p>
 <div class="panel">
 <strong class="ok">Shareable full document</strong>
-<p class="muted">SHA-256 of markdown source: <code>98fbb29614df4372d5dbeb7a1114b3930b94ce88f176d8cea2f6c80f4415c7f5</code></p>
+<p class="muted">SHA-256 of markdown source: <code>f43d9801b70a9f565bb8d783050581878c120148b92c95face375fcb34dd48d7</code></p>
 <nav class="nav">
 <a href="../index.html">Stack docs</a>
 <a href="../data-vault/qd-theory.html">QD Theory vault</a>
@@ -278,11 +278,9 @@ BASELINE     receipt_sha256=
 HARSH BLEACH receipt_sha256=
              fe3b022c1bba0a5bc085911d1aaae7a5428c7c08eb2ab9d13bedbfbad44b2129
              verdict=QUARANTINE
-WHITEPAPER    raw_sha256=
-             7a0638eb66febdb5739aba0db8727a9436b15806b8b76c9f0a8ed3fc6d56d292
-             mint_canonical_sha256=
-             0e4ff822a73d6940bc0ce4e13fe6e83f4cde22a92a8223ec3b1fe10e79ad03d8
-             (LYGO-MINT Verifier 1.1.1 · pack 2026-08-21.v2)
+WHITEPAPER    See docs/data/qd_neural_anchors/whitepaper_mint_receipt.json
+             for raw_file_sha256 + mint_canonical_sha256 (LYGO-MINT 1.1.1).
+             Digests update when this appendix changes — receipt JSON is authority.
 </code></pre>
 <p>Re-verify anytime:</p>
 <pre><code>python tools/qd_neural_anchors/qd_digital_twin.py verify \
