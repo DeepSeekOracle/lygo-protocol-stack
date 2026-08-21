@@ -1,7 +1,7 @@
 {
   "name": "lygo-continuum-integrator",
   "displayName": "LYGO Continuum Integrator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pure local advisor. Signs running ∫(Truth × Light) df from t=0, phase-locks state vectors across lattice nodes, treats chaos as constructive interference only, emits non-collapsing geodesic receipts. Pairs with geodesic-sealer. No network, no auto-publish.",
   "slug": "lygo-continuum-integrator",
   "publisher": "deepseekoracle",

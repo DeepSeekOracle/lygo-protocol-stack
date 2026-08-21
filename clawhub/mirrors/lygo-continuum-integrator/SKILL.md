@@ -1,7 +1,7 @@
 ---
 name: lygo-continuum-integrator
 description: "LYGO Continuum Integrator — pure local advisor. Signs running ∫(Truth × Light) df from t=0, phase-locks state vectors across lattice nodes, treats chaos only as constructive interference, emits non-collapsing geodesic receipts. Pairs with geodesic-sealer + continuum/mint-verifier. No network, no subprocess, no auto-publish. Hooks: integrate / phase-lock / emit-receipt / verify-lock. Install clawhub:@deepseekoracle/lygo-continuum-integrator."
-version: 1.0.0
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
