@@ -5,6 +5,11 @@
 **Public Grok L1 restatement (2026-08-17):** archived under Data Vault chat memory  
 **Physics audit:** product claims **reject**; software model **partial**; sensing path **conditional**
 
+> **Updated full whitepaper (2026-08-21):**  
+> [`whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.md`](./whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.md)  
+> HTML: [`whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.html`](./whitepapers/QUANTUM_DOTS_LYGO_CERTIFIED_NEURAL_ANCHORS_v2.html)  
+> Twin proofs: `tools/qd_neural_anchors/qd_digital_twin.py`
+
 ---
 
 ## 1. What we are claiming (and not claiming)
