@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-FULL-LYGO-SKILLS-v2",
   "version": "2.0.0",
-  "updated_utc": "2026-08-21T02:32:04.722436+00:00",
+  "updated_utc": "2026-08-21T03:23:27.793391+00:00",
   "channel": "FULL_LYGO_ENGINEER",
   "clawhub": "never",
   "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
@@ -494,6 +494,17 @@
       "featured": false,
       "harm_default": "consent_gated",
       "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-traumacodex"
+    },
+    {
+      "slug": "lygo-automation-workflows",
+      "name": "LYGO Automation Workflows (FULL)",
+      "package": "lygo-automation-workflows-full",
+      "zip": "lygo-automation-workflows-full.zip",
+      "zip_rel": "dist/lygo-automation-workflows-full.zip",
+      "zip_sha256": "931cd33bbb0ed7b193fb8851d1fd1a02159fe32d21a62cafaaa62b69f17959d7",
+      "version": "1.0.0",
+      "updated_utc": "2026-08-21T03:23:27.793391+00:00",
+      "note": "Consent-aware automation playbook + local planner; inspired by jk-0001/automation-workflows"
     }
   ]
 }
