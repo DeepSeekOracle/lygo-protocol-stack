@@ -27,6 +27,7 @@ SYNC_SLUGS = [
     "lygo-continuum",
     "lygo-continuum-integrator",
     "lygo-geodesic-sealer",
+    "lygo-quantum-attestor",
     "lygo-mint-verifier",
     "lygo-mint-walkthrough",
     "lygo-pure-data-witness",

@@ -149,6 +149,10 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-continuum-integrator",
         GROK / "lygo-continuum-integrator",
     ],
+    "lygo-quantum-attestor": [
+        STACK / "clawhub" / "mirrors" / "lygo-quantum-attestor",
+        GROK / "lygo-quantum-attestor",
+    ],
     "lygo-mint-verifier": [
         STACK / "clawhub" / "mirrors" / "lygo-mint-verifier",
         GROK / "lygo-mint-verifier",
@@ -209,6 +213,7 @@ ROLES = {
     "lygo-skill-spector": "SkillSpector — enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
     "lygo-continuum": "Falsifiable work capsules — seal done-claims, verify, drift, handoff + portal (FULL RAW)",
     "lygo-continuum-integrator": "∫(Truth×Light)df · phase-lock · non-collapsing geodesic receipts (FULL RAW)",
+    "lygo-quantum-attestor": "P6 Quantum Attestor — Biophase7 anchors + SLM Merkle · Δ9 seals · non-collapsing receipts (FULL RAW)",
     "lygo-mint-verifier": "LYGO-MINT canonicalize + SHA-256 + ledgers + anchor snippet — in-process v1.1 (FULL RAW)",
     "lygo-automation-workflows": "Consent-aware automation playbook + local planner; Sandcastle-first (FULL RAW)",
     "lygo-continuity-advisor": "Deadman / eternal base / succession / anti-replacement advisor (FULL RAW)",
@@ -248,6 +253,7 @@ TIERS = {
     "lygo-skill-spector": "security",
     "lygo-continuum": "tools",
     "lygo-continuum-integrator": "tools",
+    "lygo-quantum-attestor": "kernel",
     "lygo-mint-verifier": "tools",
     "lygo-automation-workflows": "tools",
     "lygo-continuity-advisor": "champion",
@@ -725,6 +731,7 @@ def main() -> int:
             "lygo-cyborg-kernel",
             "lygo-continuum",
             "lygo-continuum-integrator",
+            "lygo-quantum-attestor",
             "lygo-protocol-stack-operator",
             "lygo-pure-data-witness",
             "lygo-mint-verifier",
@@ -770,6 +777,7 @@ def main() -> int:
             "lygo-cyborg-kernel": "🦾 LYGO Cyborg Kernel Stack (FULL UNLOCKED)",
             "lygo-pure-data-witness": "📜 LYGO Pure-Data Witness (FULL UNLOCKED)",
             "lygo-emotional-ram": "💓 LYGO Emotional RAM (FULL UNLOCKED)",
+            "lygo-quantum-attestor": "⚛️ LYGO Quantum Attestor (FULL UNLOCKED)",
         }.get(slug, slug.replace("-", " ").title() + " (FULL LYGO)")
         entry = {
             "slug": slug,
@@ -787,6 +795,7 @@ def main() -> int:
                 "lygo-cyborg-kernel",
                 "lygo-continuum",
                 "lygo-continuum-integrator",
+                "lygo-quantum-attestor",
                 "lygo-pure-data-witness",
                 "lygo-mint-verifier",
                 "lygo-emotional-ram",

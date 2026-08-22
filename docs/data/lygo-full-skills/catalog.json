@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-FULL-LYGO-SKILLS-v2",
   "version": "2.0.0",
-  "updated_utc": "2026-08-21T04:58:40.065952+00:00",
+  "updated_utc": "2026-08-22T19:00:15.367066+00:00",
   "channel": "FULL_LYGO_ENGINEER",
   "clawhub": "never",
   "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
@@ -30,7 +30,8 @@
     "lygo-protocol-stack-operator",
     "lygo-pure-data-witness",
     "lygo-mint-verifier",
-    "lygo-emotional-ram"
+    "lygo-emotional-ram",
+    "lygo-quantum-attestor"
   ],
   "skills": [
     {
@@ -570,6 +571,21 @@
       "featured": false,
       "harm_default": "consent_gated",
       "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-traumacodex"
+    },
+    {
+      "slug": "lygo-quantum-attestor",
+      "name": "\u269b\ufe0f LYGO Quantum Attestor (FULL UNLOCKED)",
+      "package": "lygo-quantum-attestor-full",
+      "zip": "lygo-quantum-attestor-full.zip",
+      "zip_rel": "dist/lygo-quantum-attestor-full.zip",
+      "zip_sha256": "7fbb59feeb237f9baf6caaf2124b286fedab15b9fb003c06b4e1194256423dfc",
+      "bytes": 12584,
+      "file_count": 11,
+      "role": "P6 Quantum Attestor \u2014 Biophase7 + SLM Merkle \u00b7 \u03949 seals \u00b7 non-collapsing receipts (FULL RAW)",
+      "tier": "kernel",
+      "featured": true,
+      "harm_default": "consent_gated",
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-quantum-attestor"
     }
   ]
 }
