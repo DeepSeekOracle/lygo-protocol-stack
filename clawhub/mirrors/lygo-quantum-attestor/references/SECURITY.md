@@ -1,13 +1,21 @@
-# Security — lygo-quantum-attestor v1.0.0
+# Security — lygo-quantum-attestor v1.0.1
+
+**Audit page:** https://clawhub.ai/deepseekoracle/skills/lygo-quantum-attestor/security-audit
 
 ## Permissions
 
 | Capability | Default |
 |------------|---------|
-| Network | **None** (stricter than geodesic-sealer optional GET) |
+| Network | **None** |
 | Subprocess / shell | **None** |
 | Filesystem write | Only `--write` with `--i-consent` |
 | Publish | **None** |
+
+## ClawHub finding — FIXED (1.0.1)
+
+| Finding | Severity | Fix |
+|---------|----------|-----|
+| Intent-Code Divergence: `verify-node` only structural | Medium | Cryptographic recompute of `attest_sha256`, `node_leaf`, gossip leaf, Merkle root; seal binding checks; retain verification inputs on attest |
 
 ## Epistemic limits
 
@@ -25,4 +33,5 @@
 
 ```bash
 python scripts/self_check.py
+# ok · verify_node · detects_tamper · detects_merkle_tamper
 ```

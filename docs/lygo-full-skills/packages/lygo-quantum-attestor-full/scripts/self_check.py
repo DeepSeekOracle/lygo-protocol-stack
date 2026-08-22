@@ -91,10 +91,33 @@ def main() -> int:
             argparse.Namespace(from_file=str(p), write=str(Path(td) / "sealed.json"), i_consent=True)
         )
         checks["seal_delta9"] = bool(sealed.get("ok")) and bool((sealed.get("delta9_seal") or {}).get("delta9_seal_sha256"))
-        ver = ac.cmd_verify_node(argparse.Namespace(from_file=str(Path(td) / "sealed.json")))
-        checks["verify_node"] = bool(ver.get("ok"))
+        sealed_path = Path(td) / "sealed.json"
+        ver = ac.cmd_verify_node(argparse.Namespace(from_file=str(sealed_path)))
+        checks["verify_node"] = bool(ver.get("ok")) and bool(ver.get("attest_hash_ok")) and bool(ver.get("merkle_ok"))
+        # Tamper detection: flip a character in truth and expect verify failure
+        tampered = json.loads(sealed_path.read_text(encoding="utf-8"))
+        tampered["truth"] = str(tampered.get("truth") or "") + "X"
+        tamp_path = Path(td) / "tampered.json"
+        tamp_path.write_text(json.dumps(tampered, indent=2) + "\n", encoding="utf-8")
+        bad = ac.cmd_verify_node(argparse.Namespace(from_file=str(tamp_path)))
+        checks["detects_tamper"] = bad.get("ok") is False and "attest_sha256_mismatch" in (bad.get("reasons") or [])
+        # Tamper merkle by changing stored root
+        tamp2 = json.loads(p.read_text(encoding="utf-8"))
+        tamp2["slm"] = dict(tamp2.get("slm") or {})
+        tamp2["slm"]["local_merkle_root"] = "0" * 64
+        # keep attest hash as-is so mismatch surfaces on merkle OR attest depending on hash domain
+        # Re-hash would be needed for attest; force merkle_ok false via stored root
+        tamp2_path = Path(td) / "tampered_merkle.json"
+        # Recompute valid attest hash would hide merkle check if we only check attest —
+        # leave attest hash stale after merkle change so both may fail; require merkle fail
+        tamp2_path.write_text(json.dumps(tamp2, indent=2) + "\n", encoding="utf-8")
+        bad_m = ac.cmd_verify_node(argparse.Namespace(from_file=str(tamp2_path)))
+        checks["detects_merkle_tamper"] = bad_m.get("ok") is False and (
+            "merkle_root_mismatch" in (bad_m.get("reasons") or [])
+            or "attest_sha256_mismatch" in (bad_m.get("reasons") or [])
+        )
         rec = ac.cmd_emit_receipt(
-            argparse.Namespace(from_file=str(Path(td) / "sealed.json"), write=str(Path(td) / "receipt.json"), i_consent=True)
+            argparse.Namespace(from_file=str(sealed_path), write=str(Path(td) / "receipt.json"), i_consent=True)
         )
         checks["emit_receipt"] = bool(rec.get("ok")) and len(rec.get("receipt_sha256") or "") == 64
 
@@ -118,6 +141,8 @@ def main() -> int:
             checks["write_ok"],
             checks["seal_delta9"],
             checks["verify_node"],
+            checks["detects_tamper"],
+            checks["detects_merkle_tamper"],
             checks["emit_receipt"],
             checks["demo"],
             not missing,

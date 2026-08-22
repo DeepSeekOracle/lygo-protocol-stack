@@ -1,1 +1,1 @@
-FULL engineer channel. No network. Writes need --i-consent. Software attest ≠ TPM.
+FULL engineer channel. No network. Writes need --i-consent.

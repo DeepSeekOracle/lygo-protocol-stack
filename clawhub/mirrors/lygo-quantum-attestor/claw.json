@@ -1,8 +1,8 @@
 {
   "name": "lygo-quantum-attestor",
   "displayName": "LYGO Quantum Attestor",
-  "version": "1.0.0",
-  "description": "Protocol 6 attestation hooks for Biophase7 anchors + SLM Merkle gossip. Δ9 seals, non-collapsing receipts. Local-first, consent-gated. Pairs with continuum-integrator. No network, no auto-publish.",
+  "version": "1.0.1",
+  "description": "Protocol 6 attestation hooks for Biophase7 anchors + SLM Merkle gossip. Cryptographic verify-node (recomputes attest_sha256 + Merkle). Δ9 seals, non-collapsing receipts. Local-first, consent-gated. No network, no auto-publish.",
   "slug": "lygo-quantum-attestor",
   "publisher": "deepseekoracle",
   "license": "MIT-0",

@@ -21,7 +21,17 @@ from pathlib import Path
 from typing import Any
 
 SIG = "Delta9Phi963-QUANTUM-ATTESTOR"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
+# Fields excluded when hashing the attestation core (tamper-evident).
+ATTEST_HASH_EXCLUDE = {
+    "attest_sha256",
+    "ok",
+    "written",
+    "delta9_seal",
+    "sealed_utc",
+    "error",
+    "hint",
+}
 INV_SQRT2 = 1.0 / math.sqrt(2.0)
 PHI = (1.0 + math.sqrt(5.0)) / 2.0
 
@@ -146,6 +156,26 @@ def biophase7_leaves(extra: dict[str, str] | None = None) -> list[dict[str, str]
     return leaves
 
 
+def attest_core_for_hash(obj: dict[str, Any]) -> dict[str, Any]:
+    """Canonical attestation body used for attest_sha256 (tamper-evident)."""
+    core = {k: v for k, v in obj.items() if k not in ATTEST_HASH_EXCLUDE}
+    # Normalize kind so sealing does not break hash verification
+    core["kind"] = "attest"
+    # delta9_seal must never participate in attest hash
+    core.pop("delta9_seal", None)
+    return core
+
+
+def recompute_node_leaf(node_id: str, truth: str, chaos: str, psi: dict[str, Any]) -> str:
+    return sha256_hex(
+        json.dumps(
+            {"node_id": node_id, "truth": truth, "chaos": chaos, "psi": psi},
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+    )
+
+
 def cmd_attest(args: argparse.Namespace) -> dict[str, Any]:
     node_id = args.node_id or "NODE_LOCAL"
     truth = args.truth or f"LYGO-Truth::{node_id}"
@@ -167,24 +197,12 @@ def cmd_attest(args: argparse.Namespace) -> dict[str, Any]:
         extra["slm_merkle_root_declared"] = args.slm_root.strip()
 
     leaves = biophase7_leaves(extra or None)
-    # Node integrity leaf
-    node_leaf = sha256_hex(
-        json.dumps(
-            {
-                "node_id": node_id,
-                "truth": truth,
-                "chaos": chaos,
-                "psi": psi,
-            },
-            sort_keys=True,
-            separators=(",", ":"),
-        )
-    )
-    leaf_hexes = [L["material_sha256"] for L in leaves] + [node_leaf]
-    # SLM gossip simulation leaf (local): hash of sorted leaf set as gossip payload
-    gossip_leaf = sha256_hex("SLM_GOSSIP::" + "".join(sorted(leaf_hexes)))
-    leaf_hexes.append(gossip_leaf)
-    root = merkle_root(leaf_hexes)
+    node_leaf = recompute_node_leaf(node_id, truth, chaos, psi)
+    # Merkle inputs: Biophase7 (+operator) leaves, then node leaf, then gossip leaf
+    base_leaves = [L["material_sha256"] for L in leaves] + [node_leaf]
+    gossip_leaf = sha256_hex("SLM_GOSSIP::" + "".join(sorted(base_leaves)))
+    merkle_leaves = list(base_leaves) + [gossip_leaf]
+    root = merkle_root(merkle_leaves)
 
     body = {
         "kind": "attest",
@@ -193,23 +211,27 @@ def cmd_attest(args: argparse.Namespace) -> dict[str, Any]:
         "protocol": "P6-quantum-attest",
         "generated_utc": utc_now(),
         "node_id": node_id,
+        # Retained so verify-node can cryptographically recompute digests
+        "truth": truth,
+        "chaos": chaos,
         "psi": psi,
+        "node_leaf": node_leaf,
         "biophase7_anchors": leaves,
         "slm": {
             "gossip_leaf": gossip_leaf,
             "declared_root": args.slm_root or None,
             "local_merkle_root": root,
+            "merkle_leaves": merkle_leaves,
             "note": "Local Merkle gossip limb — not a live mesh publish",
         },
-        "delta9_seal": None,
         "non_collapsing": True,
         "epistemic": {
             "claim": "software_attestation_receipt",
             "not_claiming": ["tpm_hardware_proof", "network_mesh_consensus", "physical_qubit"],
+            "verify": "recomputes attest_sha256 + node_leaf + merkle_root",
         },
     }
-    # Seal digest excludes self hash fields
-    digest = sha256_bytes(canonical_json(body))
+    digest = sha256_bytes(canonical_json(attest_core_for_hash(body)))
     body["attest_sha256"] = digest
     body["ok"] = True
     return maybe_write(Path(args.write) if args.write else None, body, i_consent=args.i_consent)
@@ -217,9 +239,14 @@ def cmd_attest(args: argparse.Namespace) -> dict[str, Any]:
 
 def cmd_seal_delta9(args: argparse.Namespace) -> dict[str, Any]:
     src = load_json(Path(args.from_file))
-    if not src.get("ok") and src.get("kind") != "attest":
-        # still allow sealing any attest-shaped object
-        pass
+    # Require intact attestation hash before sealing
+    pre = cmd_verify_node(argparse.Namespace(from_file=args.from_file, _obj=src))
+    if not pre.get("ok"):
+        return {
+            "ok": False,
+            "error": "refuse_seal_on_invalid_attest",
+            "verify": pre,
+        }
     seal_body = {
         "kind": "seal-delta9",
         "signature": SIG,
@@ -229,12 +256,12 @@ def cmd_seal_delta9(args: argparse.Namespace) -> dict[str, Any]:
         "node_id": src.get("node_id"),
         "attest_sha256": src.get("attest_sha256"),
         "merkle_root": (src.get("slm") or {}).get("local_merkle_root"),
+        "node_leaf": src.get("node_leaf"),
         "psi_norm": (src.get("psi") or {}).get("norm"),
         "non_collapsing": bool(src.get("non_collapsing", True)),
     }
     seal_hash = sha256_bytes(canonical_json(seal_body))
     seal_body["delta9_seal_sha256"] = seal_hash
-    # attach onto copy of attest
     out = dict(src)
     out["delta9_seal"] = seal_body
     out["kind"] = "attest+seal-delta9"
@@ -244,54 +271,128 @@ def cmd_seal_delta9(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def cmd_verify_node(args: argparse.Namespace) -> dict[str, Any]:
-    src = load_json(Path(args.from_file))
+    src = getattr(args, "_obj", None) or load_json(Path(args.from_file))
     checks: dict[str, Any] = {
         "kind": "verify-node",
         "signature": SIG,
         "version": VERSION,
         "generated_utc": utc_now(),
-        "source": str(args.from_file),
+        "source": str(getattr(args, "from_file", "")),
+        "mode": "cryptographic",
     }
-    # Recompute merkle from stored leaves + node material if possible
+
+    node_id = src.get("node_id")
+    truth = src.get("truth")
+    chaos = src.get("chaos")
+    psi = src.get("psi") or {}
+    stored_node_leaf = src.get("node_leaf")
     leaves = src.get("biophase7_anchors") or []
     leaf_hexes = [L.get("material_sha256") for L in leaves if L.get("material_sha256")]
     gossip = (src.get("slm") or {}).get("gossip_leaf")
-    # Rebuild node leaf from psi fields if present
-    node_id = src.get("node_id")
-    psi = src.get("psi") or {}
-    # We cannot perfectly rebuild original truth/chaos strings if not stored — verify digest chain instead
-    attest_hash = src.get("attest_sha256")
-    clone = {k: v for k, v in src.items() if k not in ("attest_sha256", "ok", "written", "delta9_seal", "kind", "sealed_utc")}
-    # For sealed objects, verify against pre-seal body is ambiguous; check fields present
-    has_psi = bool(psi.get("ket")) and psi.get("non_collapsing") is not False
-    has_slm = bool((src.get("slm") or {}).get("local_merkle_root"))
-    has_b7 = len(leaf_hexes) >= 3
-    # Recompute local root from leaves + gossip if gossip present
-    recompute_ok = False
-    recomputed = None
-    if leaf_hexes and gossip:
-        recomputed = merkle_root(list(leaf_hexes) + [gossip])
-        # Note: original also included node_leaf; without truth/chaos we check gossip binding only
-        recompute_ok = True  # structural
+    stored_root = (src.get("slm") or {}).get("local_merkle_root")
+    stored_merkle_leaves = (src.get("slm") or {}).get("merkle_leaves")
+    stored_attest = src.get("attest_sha256")
+
+    reasons: list[str] = []
+    # 1) Required verification inputs retained
+    inputs_ok = bool(node_id and truth is not None and chaos is not None and psi and stored_node_leaf and leaf_hexes and gossip and stored_root and stored_attest)
+    if not inputs_ok:
+        reasons.append("missing_verification_inputs")
+
+    # 2) Recompute ψ from truth/chaos and compare critical fields
+    psi_ok = False
+    if truth is not None and chaos is not None:
+        psi2 = build_psi(str(truth), str(chaos))
+        psi_ok = (
+            psi2.get("truth_sha256") == psi.get("truth_sha256")
+            and psi2.get("chaos_sha256") == psi.get("chaos_sha256")
+            and bool(psi2.get("non_collapsing"))
+            and abs(float(psi2.get("norm") or 0) - float(psi.get("norm") or -1)) < 1e-12
+        )
+        if not psi_ok:
+            reasons.append("psi_mismatch")
+    else:
+        reasons.append("psi_inputs_missing")
+
+    # 3) Recompute node leaf
+    node_leaf_ok = False
+    recomputed_node_leaf = None
+    if inputs_ok and psi_ok:
+        recomputed_node_leaf = recompute_node_leaf(
+            str(node_id), str(truth), str(chaos), build_psi(str(truth), str(chaos))
+        )
+        node_leaf_ok = recomputed_node_leaf == stored_node_leaf
+        if not node_leaf_ok:
+            reasons.append("node_leaf_mismatch")
+
+    # 4) Recompute Merkle root
+    merkle_ok = False
+    recomputed_root = None
+    if leaf_hexes and stored_node_leaf and gossip:
+        base = list(leaf_hexes) + [stored_node_leaf]
+        gossip2 = sha256_hex("SLM_GOSSIP::" + "".join(sorted(base)))
+        gossip_ok = gossip2 == gossip
+        if not gossip_ok:
+            reasons.append("gossip_leaf_mismatch")
+        merkle_leaves2 = list(base) + [gossip2]
+        recomputed_root = merkle_root(merkle_leaves2)
+        merkle_ok = gossip_ok and recomputed_root == stored_root
+        if stored_merkle_leaves and list(stored_merkle_leaves) != merkle_leaves2:
+            # still ok if root matches; note drift in stored list
+            if merkle_ok:
+                reasons.append("merkle_leaves_list_drift_but_root_ok")
+        if not merkle_ok and "gossip_leaf_mismatch" not in reasons:
+            reasons.append("merkle_root_mismatch")
+
+    # 5) Recompute attest_sha256 over canonical core
+    attest_ok = False
+    recomputed_attest = None
+    if stored_attest:
+        recomputed_attest = sha256_bytes(canonical_json(attest_core_for_hash(src)))
+        attest_ok = recomputed_attest == stored_attest
+        if not attest_ok:
+            reasons.append("attest_sha256_mismatch")
+
+    # 6) Seal hash (optional)
     seal = src.get("delta9_seal")
     seal_ok = True
     if seal:
         seal_clone = {k: v for k, v in seal.items() if k != "delta9_seal_sha256"}
         expect = sha256_bytes(canonical_json(seal_clone))
         seal_ok = expect == seal.get("delta9_seal_sha256")
+        if not seal_ok:
+            reasons.append("delta9_seal_mismatch")
+        # Seal must bind the same attest hash + merkle root
+        if seal.get("attest_sha256") != stored_attest:
+            seal_ok = False
+            reasons.append("seal_attest_binding_mismatch")
+        if seal.get("merkle_root") != stored_root:
+            seal_ok = False
+            reasons.append("seal_merkle_binding_mismatch")
 
+    non_collapsing = bool(src.get("non_collapsing", True)) and bool(psi.get("non_collapsing", True))
+    if not non_collapsing:
+        reasons.append("collapse_flag")
+
+    crypto_ok = inputs_ok and psi_ok and node_leaf_ok and merkle_ok and attest_ok and seal_ok and non_collapsing
     checks.update(
         {
-            "has_psi": has_psi,
-            "has_biophase7": has_b7,
-            "has_slm_root": has_slm,
-            "non_collapsing": bool(src.get("non_collapsing", True)),
-            "delta9_seal_valid": seal_ok if seal else None,
             "node_id": node_id,
-            "attest_sha256": attest_hash,
-            "merkle_root": (src.get("slm") or {}).get("local_merkle_root"),
-            "structural_ok": has_psi and has_b7 and has_slm and bool(src.get("non_collapsing", True)),
-            "ok": has_psi and has_b7 and has_slm and bool(src.get("non_collapsing", True)) and seal_ok,
+            "inputs_ok": inputs_ok,
+            "psi_ok": psi_ok,
+            "node_leaf_ok": node_leaf_ok,
+            "merkle_ok": merkle_ok,
+            "attest_hash_ok": attest_ok,
+            "delta9_seal_valid": seal_ok if seal else None,
+            "non_collapsing": non_collapsing,
+            "attest_sha256": stored_attest,
+            "attest_sha256_recomputed": recomputed_attest,
+            "node_leaf": stored_node_leaf,
+            "node_leaf_recomputed": recomputed_node_leaf,
+            "merkle_root": stored_root,
+            "merkle_root_recomputed": recomputed_root,
+            "reasons": reasons,
+            "ok": crypto_ok,
         }
     )
     return checks
