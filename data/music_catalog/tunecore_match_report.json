@@ -1,0 +1,397 @@
+{
+  "signature": "Delta9Phi963-TUNECORE-MATCH-REPORT-v1",
+  "generated_utc": "2026-08-22T13:01:18Z",
+  "min_score": 0.85,
+  "releases": [
+    {
+      "title": "Moon Man",
+      "upc": null,
+      "release_id": "1234125001",
+      "status": "Submitted for Review",
+      "match_count": 4,
+      "matches": [
+        {
+          "score": 1.0,
+          "title": "Moon Man",
+          "album": "Moon Man",
+          "sha256": "c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": null,
+          "release_id": "1234125001"
+        },
+        {
+          "score": 1.0,
+          "title": "Moon Man",
+          "album": "Moon Man",
+          "sha256": "99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": null,
+          "release_id": "1234125001"
+        },
+        {
+          "score": 1.0,
+          "title": "Moon Man",
+          "album": "Moon Man",
+          "sha256": "7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": null,
+          "release_id": "1234125001"
+        },
+        {
+          "score": 1.0,
+          "title": "Moon Man",
+          "album": "Moon Man",
+          "sha256": "47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": null,
+          "release_id": "1234125001"
+        }
+      ]
+    },
+    {
+      "title": "Human Flaw Anthem",
+      "upc": "859744222151",
+      "release_id": "1234101738",
+      "status": "Live",
+      "match_count": 2,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "Human Flaw Anthem feat Kenzie Jade Radio",
+          "album": "BLACK OUT",
+          "sha256": "847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859744222151",
+          "release_id": "1234101738"
+        },
+        {
+          "score": 0.93,
+          "title": "Human Flaw Anthem feat Kenzie Jade",
+          "album": "BLACK OUT",
+          "sha256": "117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859744222151",
+          "release_id": "1234101738"
+        }
+      ]
+    },
+    {
+      "title": "Celestial Codex",
+      "upc": "859744111622",
+      "release_id": "1234095457",
+      "status": "Live",
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "title": "King of the Dead",
+      "upc": "859744112391",
+      "release_id": "1234095564",
+      "status": "Live",
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "title": "Celestial Codex (Ancient Memory)",
+      "upc": "859744036901",
+      "release_id": "1234091994",
+      "status": "Live",
+      "match_count": 2,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "Memory",
+          "album": null,
+          "sha256": "e25fb13f1064c9e708af30f06258bfe4a9ba31ca0511b0f28ede570afd1d9806",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859744036901",
+          "release_id": "1234091994"
+        },
+        {
+          "score": 0.93,
+          "title": "Memory",
+          "album": null,
+          "sha256": "8d6369d6fe57d1e9065cdb88fca45ff9aed0311e9c4d6141ff2d53cd0718f42e",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859744036901",
+          "release_id": "1234091994"
+        }
+      ]
+    },
+    {
+      "title": "Eternal Haven Lofi",
+      "upc": "859743909947",
+      "release_id": "1234085177",
+      "status": "Live",
+      "match_count": 2,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "Eternal",
+          "album": null,
+          "sha256": "98be0fe27a75662de5c20addd158c8efd7989cd984c11ada8986e307167f24cc",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743909947",
+          "release_id": "1234085177"
+        },
+        {
+          "score": 0.93,
+          "title": "Eternal",
+          "album": null,
+          "sha256": "904935557d9ea20d0a8013c1141082abd8b9218ffd8454df04d341c15bdc6583",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743909947",
+          "release_id": "1234085177"
+        }
+      ]
+    },
+    {
+      "title": "No Slowing Down",
+      "upc": "859743850812",
+      "release_id": "1234082065",
+      "status": "Live",
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "title": "Moonlight Overdrive",
+      "upc": "859743850935",
+      "release_id": "1234082081",
+      "status": "Live",
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "title": "Busy Being Born",
+      "upc": "859743850973",
+      "release_id": "1234082116",
+      "status": "Live",
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "title": "Dies Irae",
+      "upc": "859743851048",
+      "release_id": "1234082159",
+      "status": "Live",
+      "match_count": 0,
+      "matches": []
+    },
+    {
+      "title": "Still Breathing",
+      "upc": "859743668264",
+      "release_id": "1234071903",
+      "status": "Live",
+      "match_count": 2,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "6Still Breathing",
+          "album": null,
+          "sha256": "f2cd4cc54071501ab574f7eb2414700b97cacece6ecd77dd320fdf8a24ef5072",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743668264",
+          "release_id": "1234071903"
+        },
+        {
+          "score": 0.93,
+          "title": "STILL BREATHING - Ashes in the Flood",
+          "album": "July 30 2026",
+          "sha256": "5a435c1b6d2c79b7768b0444e5d171c8c7951629ce9220c29252ca9087c31f2f",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743668264",
+          "release_id": "1234071903"
+        }
+      ]
+    },
+    {
+      "title": "Break the Cycle",
+      "upc": "859743514110",
+      "release_id": "1234061689",
+      "status": "Live",
+      "match_count": 2,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "BREAK THE CYCLE - Bare Hands and Heart",
+          "album": "July 30 2026",
+          "sha256": "78daee7d378f5e36c42030d9dabe2f8f8b045fc7900157bd18b265cdf90d56fa",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743514110",
+          "release_id": "1234061689"
+        },
+        {
+          "score": 0.93,
+          "title": "BREAK THE CYCLE - Bare Hand and Heart",
+          "album": "July 30 2026",
+          "sha256": "82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743514110",
+          "release_id": "1234061689"
+        }
+      ]
+    },
+    {
+      "title": "Burn the Ashes (The Soil Underneath)",
+      "upc": "859743514554",
+      "release_id": "1234060693",
+      "status": "Live",
+      "match_count": 1,
+      "matches": [
+        {
+          "score": 1.0,
+          "title": "BURN THE ASHES -The Soil Underneath",
+          "album": "July 30 2026",
+          "sha256": "d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743514554",
+          "release_id": "1234060693"
+        }
+      ]
+    },
+    {
+      "title": "Fast Fade",
+      "upc": "859743419323",
+      "release_id": "1234058050",
+      "status": "Live",
+      "match_count": 3,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "FAST FADE. - The Clock s Last Kiss",
+          "album": "July 30 2026",
+          "sha256": "b94dd9b5d6ab3dbf2f33917a2685a0874fa2a1599dfb942673fd5510699c4a86",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743419323",
+          "release_id": "1234058050"
+        },
+        {
+          "score": 0.93,
+          "title": "1 FAST FADE. - The Clock s Last Kiss",
+          "album": "July 30 2026",
+          "sha256": "fd7b18f67f4bde77c20fbd64babbdaa4dea2dcc0b578c127fe7475551fe92edd",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743419323",
+          "release_id": "1234058050"
+        },
+        {
+          "score": 0.93,
+          "title": "FAST FADE - Clocks Last Kiss Excavationpro Original",
+          "album": "July 30 2026",
+          "sha256": "ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913",
+          "before": {
+            "upc": null,
+            "release_id": null,
+            "release_date": null
+          },
+          "upc": "859743419323",
+          "release_id": "1234058050"
+        }
+      ]
+    },
+    {
+      "title": "Ghost Town Memory",
+      "upc": "859743514318",
+      "release_id": "1234058500",
+      "status": "Live",
+      "match_count": 2,
+      "matches": [
+        {
+          "score": 0.93,
+          "title": "Memory",
+          "album": null,
+          "sha256": "e25fb13f1064c9e708af30f06258bfe4a9ba31ca0511b0f28ede570afd1d9806",
+          "before": {
+            "upc": "859744036901",
+            "release_id": "1234091994",
+            "release_date": "2026-08-16"
+          },
+          "upc": "859743514318",
+          "release_id": "1234058500"
+        },
+        {
+          "score": 0.93,
+          "title": "Memory",
+          "album": null,
+          "sha256": "8d6369d6fe57d1e9065cdb88fca45ff9aed0311e9c4d6141ff2d53cd0718f42e",
+          "before": {
+            "upc": "859744036901",
+            "release_id": "1234091994",
+            "release_date": "2026-08-16"
+          },
+          "upc": "859743514318",
+          "release_id": "1234058500"
+        }
+      ]
+    }
+  ],
+  "playlist_updates": 20
+}

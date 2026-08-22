@@ -1,7 +1,7 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-08-06T03:36:34.853417+00:00",
+  "generated_at": "2026-08-22T13:02:52.553934+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
@@ -13,7 +13,7 @@
     "total_stream_gb": 41.613,
     "remote_streams": 10762,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 10822,
+    "playlist_tracks": 10858,
     "last_ingest": {
       "utc": "2026-07-28T15:37:40.802878+00:00",
       "added_or_updated": 12,
@@ -34525,7 +34525,15 @@
       "stream_file": "f2cd4cc54071501ab574f7eb2414700b97cacece6ecd77dd320fdf8a24ef5072.mp3",
       "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f2cd4cc54071501ab574f7eb2414700b97cacece6ecd77dd320fdf8a24ef5072.mp3",
       "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f2cd4cc54071501ab574f7eb2414700b97cacece6ecd77dd320fdf8a24ef5072.mp3",
-      "hf_path": "stream/f2cd4cc54071501ab574f7eb2414700b97cacece6ecd77dd320fdf8a24ef5072.mp3"
+      "hf_path": "stream/f2cd4cc54071501ab574f7eb2414700b97cacece6ecd77dd320fdf8a24ef5072.mp3",
+      "upc": "859743668264",
+      "distrokid_upc": "859743668264",
+      "tunecore_upc": "859743668264",
+      "release_id": "1234071903",
+      "release_date": "2026-08-09",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "72a0e46f3b7ef00dc3988d464da1eb96052fc3eff6678e6dc682724111461125",
@@ -102896,7 +102904,13 @@
       "stream_file": "c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f.mp3",
       "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f.mp3",
       "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f.mp3",
-      "hf_path": "stream/c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f.mp3"
+      "hf_path": "stream/c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f.mp3",
+      "release_id": "1234125001",
+      "release_date": "2026-08-27",
+      "release_type": "Album",
+      "release_status": "Submitted for Review",
+      "distributor": "TuneCore",
+      "album": "Moon Man"
     },
     {
       "sha256": "99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d",
@@ -102911,7 +102925,13 @@
       "stream_file": "99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d.mp3",
       "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d.mp3",
       "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d.mp3",
-      "hf_path": "stream/99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d.mp3"
+      "hf_path": "stream/99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d.mp3",
+      "release_id": "1234125001",
+      "release_date": "2026-08-27",
+      "release_type": "Album",
+      "release_status": "Submitted for Review",
+      "distributor": "TuneCore",
+      "album": "Moon Man"
     },
     {
       "sha256": "7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67",
@@ -102924,7 +102944,13 @@
       "stream_file": "7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67.mp3",
       "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67.mp3",
       "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67.mp3",
-      "hf_path": "stream/7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67.mp3"
+      "hf_path": "stream/7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67.mp3",
+      "release_id": "1234125001",
+      "release_date": "2026-08-27",
+      "release_type": "Album",
+      "release_status": "Submitted for Review",
+      "distributor": "TuneCore",
+      "album": "Moon Man"
     },
     {
       "sha256": "47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655",
@@ -102937,7 +102963,13 @@
       "stream_file": "47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655.mp3",
       "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655.mp3",
       "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655.mp3",
-      "hf_path": "stream/47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655.mp3"
+      "hf_path": "stream/47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655.mp3",
+      "release_id": "1234125001",
+      "release_date": "2026-08-27",
+      "release_type": "Album",
+      "release_status": "Submitted for Review",
+      "distributor": "TuneCore",
+      "album": "Moon Man"
     },
     {
       "sha256": "f6db4208a078daa1d0903b4f684af7a3a6cb60bff5ae05bd2483d26da0fc6019",
@@ -144464,7 +144496,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:10.776714+00:00"
+      "added_utc": "2026-08-06T03:35:10.776714+00:00",
+      "upc": "859743514110",
+      "distrokid_upc": "859743514110",
+      "tunecore_upc": "859743514110",
+      "release_id": "1234061689",
+      "release_date": "2026-08-09",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "d9d248045ff34e6652e0d3912520d5dc4d448e77493412e962bd42d9c8624604",
@@ -144482,7 +144522,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:10.924967+00:00"
+      "added_utc": "2026-08-06T03:35:10.924967+00:00",
+      "upc": "859743514554",
+      "distrokid_upc": "859743514554",
+      "tunecore_upc": "859743514554",
+      "release_id": "1234060693",
+      "release_date": "2026-08-08",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "18c5b205ca50c4a9e56f7f668cbdd3da45b56c3f99030ecb5b2708b617037e38",
@@ -144572,7 +144620,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:11.508475+00:00"
+      "added_utc": "2026-08-06T03:35:11.508475+00:00",
+      "upc": "859743419323",
+      "distrokid_upc": "859743419323",
+      "tunecore_upc": "859743419323",
+      "release_id": "1234058050",
+      "release_date": "2026-08-04",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "d3c432fc3bce0ed1c7ff1fe3cf35a9ed89d419b312b535dd480cca9d30c065db",
@@ -144734,7 +144790,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:12.866915+00:00"
+      "added_utc": "2026-08-06T03:35:12.866915+00:00",
+      "upc": "859743668264",
+      "distrokid_upc": "859743668264",
+      "tunecore_upc": "859743668264",
+      "release_id": "1234071903",
+      "release_date": "2026-08-09",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "d789d136336f3bbc948fcd47dc6603e3b44c0a483d542357e006d2bcbb6a7f9a",
@@ -144864,7 +144928,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:16.409059+00:00"
+      "added_utc": "2026-08-06T03:35:16.409059+00:00",
+      "upc": "859743419323",
+      "distrokid_upc": "859743419323",
+      "tunecore_upc": "859743419323",
+      "release_id": "1234058050",
+      "release_date": "2026-08-04",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "82fd4b794b9a81b6577daed9540d5663a1d03574a35b0a83041edc3a2dd6dc8f",
@@ -144881,7 +144953,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:17.732215+00:00"
+      "added_utc": "2026-08-06T03:35:17.732215+00:00",
+      "upc": "859743514110",
+      "distrokid_upc": "859743514110",
+      "tunecore_upc": "859743514110",
+      "release_id": "1234061689",
+      "release_date": "2026-08-09",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "ec3c0a859add23c7ef7e2ef21b53976dd1f421d8cabd8a7e09bb1335daf80913",
@@ -144898,7 +144978,15 @@
       "album": "July 30 2026",
       "artist": "Excavationpro",
       "moniker": "",
-      "added_utc": "2026-08-06T03:35:18.840363+00:00"
+      "added_utc": "2026-08-06T03:35:18.840363+00:00",
+      "upc": "859743419323",
+      "distrokid_upc": "859743419323",
+      "tunecore_upc": "859743419323",
+      "release_id": "1234058050",
+      "release_date": "2026-08-04",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
     },
     {
       "sha256": "bba7bc8a29a3dea16a49d8495415a1982379b765abae611eff962f42437a26ea",
@@ -144916,6 +145004,666 @@
       "artist": "Excavationpro",
       "moniker": "",
       "added_utc": "2026-08-06T03:35:20.290223+00:00"
+    },
+    {
+      "sha256": "8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2",
+      "title": "BLOOD MOON Standing In The Wreckage",
+      "aliases": [
+        "BLOOD MOON Standing In The Wreckage",
+        "BLOOD MOON Standing_In_The_Wreckage"
+      ],
+      "isrcs": [],
+      "size": 3538876,
+      "stream_file": "8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\8d\\8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8d/8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2.mp3",
+      "hf_path": "stream/8d/8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.176857+00:00"
+    },
+    {
+      "sha256": "0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a",
+      "title": "BURNING EMBERS After The Burn",
+      "aliases": [
+        "BURNING EMBERS After The Burn",
+        "BURNING EMBERS After_The_Burn"
+      ],
+      "isrcs": [],
+      "size": 3551414,
+      "stream_file": "0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\02\\0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/02/0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a.mp3",
+      "hf_path": "stream/02/0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.270925+00:00"
+    },
+    {
+      "sha256": "e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79",
+      "title": "CATHEDRAL CRASH The Altar s End",
+      "aliases": [
+        "CATHEDRAL CRASH The Altar s End",
+        "CATHEDRAL CRASH The_Altar_s_End"
+      ],
+      "isrcs": [],
+      "size": 3527590,
+      "stream_file": "e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e3\\e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e3/e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79.mp3",
+      "hf_path": "stream/e3/e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.396462+00:00"
+    },
+    {
+      "sha256": "724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee",
+      "title": "CATHEDRAL OF STATIC Kingdom Undone",
+      "aliases": [
+        "CATHEDRAL OF STATIC Kingdom Undone",
+        "CATHEDRAL OF STATIC Kingdom_Undone"
+      ],
+      "isrcs": [],
+      "size": 4319414,
+      "stream_file": "724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\72\\724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/72/724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee.mp3",
+      "hf_path": "stream/72/724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.545505+00:00"
+    },
+    {
+      "sha256": "c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059",
+      "title": "CHASING SHADOWS Carved Into My Bones",
+      "aliases": [
+        "CHASING SHADOWS Carved Into My Bones",
+        "CHASING SHADOWS Carved_Into_My_Bones"
+      ],
+      "isrcs": [],
+      "size": 3511917,
+      "stream_file": "c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c3\\c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c3/c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059.mp3",
+      "hf_path": "stream/c3/c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.669947+00:00"
+    },
+    {
+      "sha256": "02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a",
+      "title": "CONCRETE KING Cold Ground",
+      "aliases": [
+        "CONCRETE KING Cold Ground",
+        "CONCRETE KING Cold_Ground"
+      ],
+      "isrcs": [],
+      "size": 3494363,
+      "stream_file": "02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\02\\02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/02/02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a.mp3",
+      "hf_path": "stream/02/02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.796595+00:00"
+    },
+    {
+      "sha256": "400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a",
+      "title": "CONCRETE KING The Concrete Crown",
+      "aliases": [
+        "CONCRETE KING The Concrete Crown",
+        "CONCRETE KING The_Concrete_Crown"
+      ],
+      "isrcs": [],
+      "size": 4194027,
+      "stream_file": "400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\40\\400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/40/400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a.mp3",
+      "hf_path": "stream/40/400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:01.944717+00:00"
+    },
+    {
+      "sha256": "9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200",
+      "title": "Crown of Scars",
+      "aliases": [
+        "Crown of Scars",
+        "Crown_of_Scars"
+      ],
+      "isrcs": [],
+      "size": 3639813,
+      "stream_file": "9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\9e\\9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9e/9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200.mp3",
+      "hf_path": "stream/9e/9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:02.076763+00:00"
+    },
+    {
+      "sha256": "ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d",
+      "title": "Crown of the Lie",
+      "aliases": [
+        "Crown of the Lie",
+        "Crown_of_the_Lie"
+      ],
+      "isrcs": [],
+      "size": 4236657,
+      "stream_file": "ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\ac\\ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ac/ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d.mp3",
+      "hf_path": "stream/ac/ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:02.225715+00:00"
+    },
+    {
+      "sha256": "f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4",
+      "title": "DARK THOUGHTS Slim Pickings",
+      "aliases": [
+        "DARK THOUGHTS Slim Pickings",
+        "DARK THOUGHTS Slim_Pickings"
+      ],
+      "isrcs": [],
+      "size": 3826014,
+      "stream_file": "f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f0\\f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f0/f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4.mp3",
+      "hf_path": "stream/f0/f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:02.368400+00:00"
+    },
+    {
+      "sha256": "164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6",
+      "title": "HUMAN FLAW - I Won t Wear The Crown",
+      "aliases": [
+        "HUMAN FLAW - I Won t Wear The Crown",
+        "HUMAN FLAW - I_Won_t_Wear_The_Crown"
+      ],
+      "isrcs": [],
+      "size": 4306875,
+      "stream_file": "164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\16\\164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/16/164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6.mp3",
+      "hf_path": "stream/16/164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:02.516012+00:00"
+    },
+    {
+      "sha256": "99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606",
+      "title": "HUMAN FLAW Wearing The Crown",
+      "aliases": [
+        "HUMAN FLAW Wearing The Crown",
+        "HUMAN FLAW Wearing_The_Crown"
+      ],
+      "isrcs": [],
+      "size": 4269257,
+      "stream_file": "99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\99\\99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/99/99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606.mp3",
+      "hf_path": "stream/99/99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:02.658894+00:00"
+    },
+    {
+      "sha256": "e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286",
+      "title": "Riot in the Catacombs",
+      "aliases": [
+        "Riot in the Catacombs",
+        "Riot_in_the_Catacombs"
+      ],
+      "isrcs": [],
+      "size": 4319414,
+      "stream_file": "e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e4\\e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e4/e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286.mp3",
+      "hf_path": "stream/e4/e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:02.801733+00:00"
+    },
+    {
+      "sha256": "561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3",
+      "title": "EMPTY ROOMS The Past Is A Room",
+      "aliases": [
+        "EMPTY ROOMS The Past Is A Room",
+        "EMPTY ROOMS The_Past_Is_A_Room"
+      ],
+      "isrcs": [],
+      "size": 2853632,
+      "stream_file": "561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\56\\561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/56/561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3.mp3",
+      "hf_path": "stream/56/561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:03.015289+00:00"
+    },
+    {
+      "sha256": "41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904",
+      "title": "HOLLOW CROWN - Crown at My Feet",
+      "aliases": [
+        "HOLLOW CROWN - Crown at My Feet",
+        "HOLLOW CROWN - Crown_at_My_Feet"
+      ],
+      "isrcs": [],
+      "size": 4243555,
+      "stream_file": "41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\41\\41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/41/41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904.mp3",
+      "hf_path": "stream/41/41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:03.148705+00:00"
+    },
+    {
+      "sha256": "c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b",
+      "title": "HOLLOW VESSEL Sleeping Through Thunder",
+      "aliases": [
+        "HOLLOW VESSEL Sleeping Through Thunder",
+        "HOLLOW VESSEL Sleeping_Through_Thunder"
+      ],
+      "isrcs": [],
+      "size": 3391545,
+      "stream_file": "c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c6\\c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c6/c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b.mp3",
+      "hf_path": "stream/c6/c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:03.291660+00:00"
+    },
+    {
+      "sha256": "c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856",
+      "title": "HORIZON Before the Credits Roll",
+      "aliases": [
+        "HORIZON Before the Credits Roll",
+        "HORIZON Before_the_Credits_Roll"
+      ],
+      "isrcs": [],
+      "size": 4212208,
+      "stream_file": "c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c6\\c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c6/c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856.mp3",
+      "hf_path": "stream/c6/c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:03.418509+00:00"
+    },
+    {
+      "sha256": "4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4",
+      "title": "STREET CODE King of the Concrete",
+      "aliases": [
+        "STREET CODE King of the Concrete",
+        "STREET CODE King_of_the_Concrete"
+      ],
+      "isrcs": [],
+      "size": 3842314,
+      "stream_file": "4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\45\\4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/45/4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4.mp3",
+      "hf_path": "stream/45/4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:06.179571+00:00"
+    },
+    {
+      "sha256": "b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c",
+      "title": "LAST HORIZON Line In The Ashes",
+      "aliases": [
+        "LAST HORIZON Line In The Ashes",
+        "LAST HORIZON Line_In_The_Ashes"
+      ],
+      "isrcs": [],
+      "size": 4323176,
+      "stream_file": "b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b9\\b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b9/b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c.mp3",
+      "hf_path": "stream/b9/b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:03.791547+00:00"
+    },
+    {
+      "sha256": "4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395",
+      "title": "LEVIATHAN Temples to Ash",
+      "aliases": [
+        "LEVIATHAN Temples to Ash",
+        "LEVIATHAN Temples_to_Ash"
+      ],
+      "isrcs": [],
+      "size": 3515052,
+      "stream_file": "4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\4a\\4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4a/4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395.mp3",
+      "hf_path": "stream/4a/4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:03.876214+00:00"
+    },
+    {
+      "sha256": "673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5",
+      "title": "Mirror's Lie - Stolen Work of Grief",
+      "aliases": [
+        "Mirror's Lie - Stolen Work of Grief",
+        "Mirror's Lie - Stolen_Work_of_Grief"
+      ],
+      "isrcs": [],
+      "size": 4400916,
+      "stream_file": "673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\67\\673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/67/673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5.mp3",
+      "hf_path": "stream/67/673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:04.013171+00:00"
+    },
+    {
+      "sha256": "8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4",
+      "title": "NEON GRAVE Architect of Chaos",
+      "aliases": [
+        "NEON GRAVE Architect of Chaos",
+        "NEON GRAVE Architect_of_Chaos"
+      ],
+      "isrcs": [],
+      "size": 3681191,
+      "stream_file": "8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\8e\\8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8e/8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4.mp3",
+      "hf_path": "stream/8e/8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:04.097338+00:00"
+    },
+    {
+      "sha256": "43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474",
+      "title": "NO SHADE The Lane I Built",
+      "aliases": [
+        "NO SHADE The Lane I Built",
+        "NO SHADE The_Lane_I_Built"
+      ],
+      "isrcs": [],
+      "size": 3950147,
+      "stream_file": "43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\43\\43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43/43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474.mp3",
+      "hf_path": "stream/43/43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:04.332016+00:00"
+    },
+    {
+      "sha256": "c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082",
+      "title": "PRESSURE Ten Steps Ahead",
+      "aliases": [
+        "PRESSURE Ten Steps Ahead",
+        "PRESSURE Ten_Steps_Ahead"
+      ],
+      "isrcs": [],
+      "size": 4284306,
+      "stream_file": "c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c9\\c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c9/c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082.mp3",
+      "hf_path": "stream/c9/c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:04.471044+00:00"
+    },
+    {
+      "sha256": "31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100",
+      "title": "RUSTED CROWN The Final Price",
+      "aliases": [
+        "RUSTED CROWN The Final Price",
+        "RUSTED CROWN The_Final_Price"
+      ],
+      "isrcs": [],
+      "size": 4328192,
+      "stream_file": "31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\31\\31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/31/31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100.mp3",
+      "hf_path": "stream/31/31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:04.607584+00:00"
+    },
+    {
+      "sha256": "d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49",
+      "title": "SAME OLD GAME -The Burning Ladder",
+      "aliases": [
+        "SAME OLD GAME -The Burning Ladder",
+        "SAME OLD GAME -The_Burning_Ladder"
+      ],
+      "isrcs": [],
+      "size": 3565832,
+      "stream_file": "d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\d6\\d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d6/d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49.mp3",
+      "hf_path": "stream/d6/d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:05.378997+00:00"
+    },
+    {
+      "sha256": "2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1",
+      "title": "SAME OLD GAME -The Final Parade",
+      "aliases": [
+        "SAME OLD GAME -The Final Parade",
+        "SAME OLD GAME -The_Final_Parade"
+      ],
+      "isrcs": [],
+      "size": 4297472,
+      "stream_file": "2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\2b\\2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2b/2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1.mp3",
+      "hf_path": "stream/2b/2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:05.515286+00:00"
+    },
+    {
+      "sha256": "20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439",
+      "title": "SHADOW LOVER Holy Ground",
+      "aliases": [
+        "SHADOW LOVER Holy Ground",
+        "SHADOW LOVER Holy_Ground"
+      ],
+      "isrcs": [],
+      "size": 3798426,
+      "stream_file": "20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\20\\20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/20/20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439.mp3",
+      "hf_path": "stream/20/20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:05.658013+00:00"
+    },
+    {
+      "sha256": "5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21",
+      "title": "SHADOW LOVER Sanctuary in the Dark",
+      "aliases": [
+        "SHADOW LOVER Sanctuary in the Dark",
+        "SHADOW LOVER Sanctuary_in_the_Dark"
+      ],
+      "isrcs": [],
+      "size": 4429756,
+      "stream_file": "5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\53\\5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/53/5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21.mp3",
+      "hf_path": "stream/53/5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:05.902135+00:00"
+    },
+    {
+      "sha256": "ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652",
+      "title": "SHADOW LOVER Two Shadows on Holy Ground",
+      "aliases": [
+        "SHADOW LOVER Two Shadows on Holy Ground",
+        "SHADOW LOVER Two_Shadows_on_Holy_Ground"
+      ],
+      "isrcs": [],
+      "size": 4410947,
+      "stream_file": "ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\eb\\ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/eb/ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652.mp3",
+      "hf_path": "stream/eb/ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:06.040686+00:00"
+    },
+    {
+      "sha256": "1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6",
+      "title": "SHADOW SYNC Shadow King",
+      "aliases": [
+        "SHADOW SYNC Shadow King",
+        "SHADOW SYNC Shadow_King"
+      ],
+      "isrcs": [],
+      "size": 4103747,
+      "stream_file": "1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\13\\1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/13/1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6.mp3",
+      "hf_path": "stream/13/1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:06.175556+00:00"
+    },
+    {
+      "sha256": "81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9",
+      "title": "UNDER THE WEIGHT Siren in My Skull",
+      "aliases": [
+        "UNDER THE WEIGHT Siren in My Skull",
+        "UNDER THE WEIGHT Siren_in_My_Skull"
+      ],
+      "isrcs": [],
+      "size": 4325057,
+      "stream_file": "81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\81\\81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/81/81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9.mp3",
+      "hf_path": "stream/81/81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:06.343504+00:00"
+    },
+    {
+      "sha256": "4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97",
+      "title": "XPRO OUTRO",
+      "aliases": [
+        "XPRO OUTRO"
+      ],
+      "isrcs": [],
+      "size": 61694,
+      "stream_file": "4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\4a\\4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4a/4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97.mp3",
+      "hf_path": "stream/4a/4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:06.517309+00:00"
+    },
+    {
+      "sha256": "847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579",
+      "title": "Human Flaw Anthem feat Kenzie Jade Radio",
+      "aliases": [
+        "Human Flaw Anthem feat Kenzie Jade Radio"
+      ],
+      "isrcs": [],
+      "size": 3553782,
+      "stream_file": "847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\84\\847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/84/847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579.mp3",
+      "hf_path": "stream/84/847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:08.229217+00:00",
+      "upc": "859744222151",
+      "distrokid_upc": "859744222151",
+      "tunecore_upc": "859744222151",
+      "release_id": "1234101738",
+      "release_date": "2026-08-19",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
+    },
+    {
+      "sha256": "117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09",
+      "title": "Human Flaw Anthem feat Kenzie Jade",
+      "aliases": [
+        "Human Flaw Anthem feat Kenzie Jade"
+      ],
+      "isrcs": [],
+      "size": 3546428,
+      "stream_file": "117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\11\\117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/11/117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09.mp3",
+      "hf_path": "stream/11/117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:10.089757+00:00",
+      "upc": "859744222151",
+      "distrokid_upc": "859744222151",
+      "tunecore_upc": "859744222151",
+      "release_id": "1234101738",
+      "release_date": "2026-08-19",
+      "release_type": "Single",
+      "release_status": "Live",
+      "distributor": "TuneCore"
+    },
+    {
+      "sha256": "deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301",
+      "title": "Human Flaw feat Justin Helmer",
+      "aliases": [
+        "Human Flaw feat Justin Helmer"
+      ],
+      "isrcs": [],
+      "size": 3569938,
+      "stream_file": "deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\de\\deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/de/deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301.mp3",
+      "hf_path": "stream/de/deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301.mp3",
+      "album": "BLACK OUT",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-08-22T12:44:11.809246+00:00"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
