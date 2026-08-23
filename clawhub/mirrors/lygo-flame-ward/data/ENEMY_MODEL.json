@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-ENEMY-MODEL-v1",
-  "version": "1.0.0",
-  "updated_utc": "2026-08-23T00:00:00Z",
+  "version": "1.1.0",
+  "updated_utc": "2026-08-23T16:00:00Z",
   "steward": "Justin Helmer / Lightfather / Excavationpro / DeepSeekOracle",
   "purpose": "Operational adversary taxonomy for LYGO Flame Ward. Classes describe attack patterns against truth integrity — never people-as-class.",
   "epistemic_default": "FABRICATED_UNTIL_CONCORDANCE",
@@ -43,6 +43,21 @@
       "name": "Consent asymmetry endpoint leak",
       "description": "One party enables a reader/plugin on a shared private channel without the other party's knowledge (e.g. Messages plugins reading decrypted local DBs).",
       "mitigations": ["flame expose", "endpoint-leak != protocol-backdoor honesty", "operator education"]
+    },
+    {
+      "id": "webaudio_fingerprint",
+      "name": "Silent WebAudio / device fingerprint",
+      "description": "Sites hold AudioContext open at zero gain (oscillator→analyser→destination) to fingerprint hardware audio path, often bundled with canvas/WebGL/WebRTC scrapes. Side effect: freezes Bluetooth multipoint. Known pattern family includes Alibaba collina.js / fireyejs.js on AliExpress (2026 public reports / Brave).",
+      "mitigations": [
+        "lygo-flame-ward endpoint-scan",
+        "prefer Brave/Firefox anti-fingerprint defaults",
+        "blocklisted script names when operator pastes filters",
+        "agent browse: never auto-open commerce trackers without consent"
+      ],
+      "example_refs": [
+        "https://x.com/Unveiled_ChinaX/status/2091256781989421127",
+        "Brave public statements Aug 2026 on AliExpress WebAudio fingerprinting"
+      ]
     }
   ],
   "non_targets": [

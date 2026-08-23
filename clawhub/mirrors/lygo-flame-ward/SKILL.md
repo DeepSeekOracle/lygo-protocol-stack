@@ -1,7 +1,7 @@
 ---
 name: lygo-flame-ward
-description: "LYGO Flame Ward — harden the lattice against disinfo, injected half-truths, and corrupted authority. Default: all sources fabricated until concordance. Seals-first. Ingest gate · flame-scan · quarantine · burn-receipt. Local-first, consent-gated. No network, no subprocess, no auto-publish. Pairs with ops-detector + skill-spector + continuum + sanctuary."
-version: 1.0.0
+description: "LYGO Flame Ward — harden the lattice against disinfo, injected half-truths, corrupted authority, and silent WebAudio device fingerprinting. Default: all sources fabricated until concordance. Seals-first. Ingest gate · flame-scan · endpoint-scan · quarantine · burn-receipt. Local-first, consent-gated. No network, no subprocess, no auto-publish."
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
@@ -27,7 +27,7 @@ metadata:
     doxing: false
 ---
 
-# LYGO Flame Ward v1.0.0
+# LYGO Flame Ward v1.0.1
 
 **THE FLAME** locks corrupted authority out of the lattice.  
 Lies are not stored as data. Prestige is not proof. Seals first.
@@ -67,6 +67,7 @@ python scripts/flame_cli.py demo
 python scripts/flame_cli.py enemy-model
 python scripts/flame_cli.py flame-scan --text "..."
 python scripts/flame_cli.py ingest-gate --text "..."
+python scripts/flame_cli.py endpoint-scan --text "AudioContext createOscillator..."
 python scripts/flame_cli.py concordance --digest <sha> --digest <sha>
 python scripts/flame_cli.py quarantine --text "..." --write ./q.json --i-consent
 python scripts/flame_cli.py burn-receipt --from-file ./q.json --write ./burn.json --i-consent

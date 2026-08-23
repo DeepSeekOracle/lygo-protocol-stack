@@ -8,7 +8,7 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `I:\E Drive\lygo-protocol-stack\clawhub\mirrors\lygo-flame-ward`
-Packaged: 2026-08-23T15:29:39.456724+00:00
+Packaged: 2026-08-23T15:56:36.310490+00:00
 Files: 10
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.

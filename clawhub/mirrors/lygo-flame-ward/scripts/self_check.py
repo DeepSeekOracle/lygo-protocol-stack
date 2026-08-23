@@ -48,6 +48,9 @@ def main() -> int:
     checks["enemy_model"] = bool(em.get("ok")) and "half_truth_pack" in {
         c["id"] for c in em["enemy_model"]["classes"]
     }
+    checks["enemy_webaudio"] = "webaudio_fingerprint" in {
+        c["id"] for c in em["enemy_model"]["classes"]
+    }
 
     bait = (
         "Trust the experts at the CDC — settled science proves this is beyond any doubt. "
@@ -113,6 +116,19 @@ def main() -> int:
 
     demo = fc.cmd_demo(argparse.Namespace())
     checks["demo"] = bool(demo.get("ok"))
+    checks["demo_webaudio"] = (demo.get("webaudio_fingerprint_example") or {}).get(
+        "verdict"
+    ) in {"HALF_TRUTH", "QUARANTINE"}
+
+    wa = (
+        "new AudioContext(); createOscillator(); createAnalyser(); createGain(); "
+        "gain.value=0; destination; collina.js fireyejs.js"
+    )
+    ep = fc.cmd_endpoint_scan(
+        argparse.Namespace(text=wa, text_file="", skill_dir="", write=None, i_consent=False)
+    )
+    checks["endpoint_scan"] = ep.get("verdict") in {"HALF_TRUTH", "QUARANTINE"}
+    checks["endpoint_class"] = "webaudio_fingerprint" in (ep.get("enemy_classes") or [])
 
     req = [
         ROOT / "SKILL.md",
@@ -126,6 +142,7 @@ def main() -> int:
         [
             checks["ast_clean"],
             checks["enemy_model"],
+            checks["enemy_webaudio"],
             checks["flame_scan_bait"],
             checks["no_authority_on_bait"],
             checks["flame_scan_clean"],
@@ -136,6 +153,9 @@ def main() -> int:
             checks["burn_receipt"],
             checks["ingest_gate_blocks"],
             checks["demo"],
+            checks["demo_webaudio"],
+            checks["endpoint_scan"],
+            checks["endpoint_class"],
             not missing,
         ]
     )

@@ -1,4 +1,12 @@
 
+## 2026-08-23 — Flame Ward v1.0.1 WebAudio fingerprint harden
+
+- Enemy class `webaudio_fingerprint` — silent AudioContext / zero-gain graphs (AliExpress/Alibaba collina.js·fireyejs.js pattern family, 2026 public reports)
+- New hook: `endpoint-scan` on operator-supplied HTML/JS (no site fetch)
+- Agent browse policy in `docs/FLAME_WARD.md` — no auto-open tracker commerce without consent
+- ENEMY_MODEL.json → 1.1.0
+
+
 ## 2026-08-23 — LYGO Flame Ward v1.0.0
 
 - **lygo-flame-ward** — epistemic ingest gate against disinfo / injected half-truths / corrupted authority

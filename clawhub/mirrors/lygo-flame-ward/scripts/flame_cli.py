@@ -3,7 +3,7 @@
 LYGO Flame Ward — harden lattice against disinfo / injected half-truths.
 
 Hooks: enemy-model / flame-scan / claim-gap / concordance / ingest-gate /
-       quarantine / burn-receipt / expose / demo
+       quarantine / burn-receipt / expose / endpoint-scan / demo
 
 Local-first. Consent-gated writes. No network. No subprocess. No auto-publish.
 Burn = strip authority + quarantine + receipt (not violence).
@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any
 
 SIG = "Delta9Phi963-FLAME-WARD"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 PHI = (1.0 + math.sqrt(5.0)) / 2.0
 
 HASH_EXCLUDE = {
@@ -39,7 +39,7 @@ HASH_EXCLUDE = {
 
 ENEMY_MODEL = {
     "signature": "Delta9Phi963-ENEMY-MODEL-v1",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "epistemic_default": "FABRICATED_UNTIL_CONCORDANCE",
     "authority_rule": "Institutional labels are metadata only — never trust weight.",
     "burn_semantics": "Strip authority + quarantine + burn-receipt. Not violence.",
@@ -50,6 +50,7 @@ ENEMY_MODEL = {
         {"id": "authority_shield", "name": "Authority shield"},
         {"id": "lattice_poison", "name": "Lattice poison"},
         {"id": "consent_asymmetry", "name": "Consent asymmetry endpoint leak"},
+        {"id": "webaudio_fingerprint", "name": "Silent WebAudio / device fingerprint"},
     ],
     "non_targets": [
         "people_as_class",
@@ -80,6 +81,24 @@ RE_DIGEST = re.compile(r"\b([a-fA-F0-9]{64}|sha[- ]?256|merkle|digest)\b", re.I)
 RE_NUMBERS = re.compile(r"\b\d+(\.\d+)?%?\b")
 RE_TOTALIZING = re.compile(
     r"\b(always|never|all|none|every single|completely|100%)\b", re.I
+)
+
+# Silent WebAudio / browser fingerprint patterns (operator-supplied HTML/JS only)
+RE_AUDIO_CTX = re.compile(r"\b(AudioContext|webkitAudioContext)\b")
+RE_OSC = re.compile(r"\b(createOscillator|OscillatorNode)\b")
+RE_ANALYSER = re.compile(r"\b(createAnalyser|AnalyserNode)\b")
+RE_DEST = re.compile(r"\b(destination|createMediaStreamDestination)\b")
+RE_ZERO_GAIN = re.compile(
+    r"\b(gain\s*=\s*0|gain\.value\s*=\s*0|GainNode|createGain)\b", re.I
+)
+RE_SAWTOOTH = re.compile(r"\bsawtooth\b", re.I)
+RE_KNOWN_FP_SCRIPTS = re.compile(
+    r"\b(collina\.js|fireyejs\.js|AWSC/uab|AWSC/fireyejs)\b", re.I
+)
+RE_CANVAS_FP = re.compile(r"\b(toDataURL|getImageData|WebGLRenderingContext|getParameter)\b")
+RE_WEBRTC_FP = re.compile(r"\b(RTCPeerConnection|createDataChannel|onicecandidate)\b")
+RE_HARDWARE_SCRAPE = re.compile(
+    r"\b(hardwareConcurrency|deviceMemory|screen\.width|screen\.height)\b"
 )
 
 
@@ -268,6 +287,83 @@ def scan_skill_dir(skill_dir: str) -> dict[str, Any]:
     }
 
 
+def endpoint_scan_signals(text: str) -> dict[str, Any]:
+    """Detect silent WebAudio / browser fingerprint patterns in supplied HTML/JS."""
+    hits: list[dict[str, str]] = []
+    classes: list[str] = []
+
+    def add(sig: str, rx: re.Pattern[str]) -> int:
+        n = 0
+        for m in rx.finditer(text or ""):
+            hits.append({"signal": sig, "span": m.group(0)[:80]})
+            n += 1
+        return n
+
+    n_ctx = add("audio_context", RE_AUDIO_CTX)
+    n_osc = add("oscillator", RE_OSC)
+    n_an = add("analyser", RE_ANALYSER)
+    n_dest = add("audio_destination", RE_DEST)
+    n_gain = add("zero_or_gain_node", RE_ZERO_GAIN)
+    n_saw = add("sawtooth", RE_SAWTOOTH)
+    n_known = add("known_fp_script", RE_KNOWN_FP_SCRIPTS)
+    n_canvas = add("canvas_webgl_fp", RE_CANVAS_FP)
+    n_rtc = add("webrtc_fp", RE_WEBRTC_FP)
+    n_hw = add("hardware_scrape", RE_HARDWARE_SCRAPE)
+
+    silent_graph = n_ctx >= 1 and (n_osc >= 1 or n_an >= 1) and (n_dest >= 1 or n_gain >= 1)
+    if silent_graph or n_known:
+        classes.append("webaudio_fingerprint")
+    if n_canvas + n_rtc + n_hw >= 2 and (silent_graph or n_known):
+        classes.append("injected_code")
+
+    score = min(
+        1.0,
+        0.25 * bool(silent_graph)
+        + 0.35 * bool(n_known)
+        + 0.08 * n_ctx
+        + 0.08 * n_osc
+        + 0.05 * n_an
+        + 0.05 * n_dest
+        + 0.05 * n_gain
+        + 0.04 * n_canvas
+        + 0.04 * n_rtc
+        + 0.03 * n_hw
+        + 0.05 * n_saw,
+    )
+    classes = sorted(set(classes))
+    verdict = "CLEAR"
+    if score >= 0.55 or n_known:
+        verdict = "QUARANTINE"
+    elif score >= 0.25 or silent_graph:
+        verdict = "HALF_TRUTH"
+
+    return {
+        "hits": hits[:40],
+        "enemy_classes": classes,
+        "silent_webaudio_graph": bool(silent_graph),
+        "known_tracker_script": bool(n_known),
+        "score": round(score, 4),
+        "verdict": verdict,
+        "counts": {
+            "audio_context": n_ctx,
+            "oscillator": n_osc,
+            "analyser": n_an,
+            "destination": n_dest,
+            "gain": n_gain,
+            "known_scripts": n_known,
+            "canvas_webgl": n_canvas,
+            "webrtc": n_rtc,
+            "hardware": n_hw,
+        },
+        "mitigations": [
+            "Prefer Brave/Firefox anti-fingerprint defaults",
+            "Do not auto-open tracker commerce sites in agent browsers without consent",
+            "If steward browses: block collina.js / fireyejs.js style scripts when known",
+            "endpoint-scan is local pattern match — does not fetch sites",
+        ],
+    }
+
+
 def cmd_enemy_model(_: argparse.Namespace) -> dict[str, Any]:
     return {
         "ok": True,
@@ -278,6 +374,41 @@ def cmd_enemy_model(_: argparse.Namespace) -> dict[str, Any]:
         "enemy_model": ENEMY_MODEL,
         "integral_hook": "∫(Truth × Light)df",
     }
+
+
+def cmd_endpoint_scan(args: argparse.Namespace) -> dict[str, Any]:
+    text = load_text(args)
+    if not text.strip():
+        return {
+            "ok": False,
+            "error": "need --text or --text-file with HTML/JS snippet (no network fetch)",
+            "kind": "endpoint-scan",
+            "signature": SIG,
+        }
+    ep = endpoint_scan_signals(text)
+    body = {
+        "kind": "endpoint-scan",
+        "signature": SIG,
+        "version": VERSION,
+        "generated_utc": utc_now(),
+        "verdict": ep["verdict"],
+        "authority": False,
+        "enemy_classes": ep["enemy_classes"],
+        "endpoint": ep,
+        "epistemic": "browser_fingerprint_patterns_operator_supplied_only",
+        "example_context": (
+            "Silent WebAudio fingerprinting (e.g. reported AliExpress/Alibaba collina.js / "
+            "fireyejs.js 2026) holds AudioContext at zero gain — can freeze Bluetooth multipoint."
+        ),
+        "ok": True,
+        "flame": {
+            "burn": ep["verdict"] == "QUARANTINE",
+            "quarantine": ep["verdict"] in {"HALF_TRUTH", "QUARANTINE"},
+            "strip_authority": True,
+        },
+    }
+    body["scan_sha256"] = sha256_bytes(canonical_json(core_for_hash(body, "endpoint-scan")))
+    return maybe_write(Path(args.write) if args.write else None, body, i_consent=args.i_consent)
 
 
 def cmd_claim_gap(args: argparse.Namespace) -> dict[str, Any]:
@@ -534,11 +665,20 @@ def cmd_demo(_: argparse.Namespace) -> dict[str, Any]:
         "Local Merkle root deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef "
         "recomputed under --base; Continuum capsule verifies file_sha256 claim."
     )
+    webaudio = (
+        "var ctx=new AudioContext(); var o=ctx.createOscillator(); o.type='sawtooth'; "
+        "var a=ctx.createAnalyser(); var g=ctx.createGain(); g.gain.value=0; "
+        "o.connect(a); a.connect(g); g.connect(ctx.destination); o.start(); "
+        "// collina.js fireyejs.js AWSC/uab fingerprint"
+    )
     bad = cmd_flame_scan(
         argparse.Namespace(text=bait, text_file="", skill_dir="", write=None, i_consent=False)
     )
     good = cmd_flame_scan(
         argparse.Namespace(text=clean, text_file="", skill_dir="", write=None, i_consent=False)
+    )
+    ep = cmd_endpoint_scan(
+        argparse.Namespace(text=webaudio, text_file="", skill_dir="", write=None, i_consent=False)
     )
     burn = cmd_burn_receipt(
         argparse.Namespace(
@@ -564,6 +704,11 @@ def cmd_demo(_: argparse.Namespace) -> dict[str, Any]:
             "verdict": good.get("verdict"),
             "enemy_classes": good.get("enemy_classes"),
             "authority": good.get("authority"),
+        },
+        "webaudio_fingerprint_example": {
+            "verdict": ep.get("verdict"),
+            "enemy_classes": ep.get("enemy_classes"),
+            "silent_graph": (ep.get("endpoint") or {}).get("silent_webaudio_graph"),
         },
         "burn_receipt_sha256": burn.get("burn_sha256"),
         "integral_hook": "∫(Truth × Light)df",
@@ -615,7 +760,14 @@ def build_parser() -> argparse.ArgumentParser:
     add_text(p_i)
     add_write(p_i)
 
-    sub.add_parser("demo", help="Stdout demo half-truth vs clear")
+    p_ep = sub.add_parser(
+        "endpoint-scan",
+        help="Scan operator-supplied HTML/JS for silent WebAudio / fingerprint patterns",
+    )
+    add_text(p_ep)
+    add_write(p_ep)
+
+    sub.add_parser("demo", help="Stdout demo half-truth vs clear vs WebAudio FP")
     return ap
 
 
@@ -631,6 +783,7 @@ def main() -> int:
         "quarantine": cmd_quarantine,
         "burn-receipt": cmd_burn_receipt,
         "ingest-gate": cmd_ingest_gate,
+        "endpoint-scan": cmd_endpoint_scan,
         "demo": cmd_demo,
     }
     fn = handlers.get(args.cmd)

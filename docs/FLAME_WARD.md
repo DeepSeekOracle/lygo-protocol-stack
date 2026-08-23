@@ -48,6 +48,18 @@ python scripts/flame_cli.py ingest-gate --text "..."
 python tools/lygo_flame_ingest_gate.py --text "..."   # from stack root
 ```
 
+## Browser / endpoint (v1.0.1+)
+
+Silent **WebAudio fingerprinting** (zero-gain AudioContext holding the OS audio path) is enemy class `webaudio_fingerprint`.
+
+```bash
+python scripts/flame_cli.py endpoint-scan --text-file ./page_snippet.js --i-consent
+# or paste HTML/JS:
+python scripts/flame_cli.py endpoint-scan --text "AudioContext..."
+```
+
+**Agent browse policy:** do not auto-open high-tracker commerce sites in agent browsers without steward consent. Prefer fingerprint-resistant browsers (Brave/Firefox defaults). Flame does **not** fetch AliExpress — operator supplies snippets.
+
 ## Bound to the flame
 
 Seals first. Prestige never. ∫(Truth × Light)df
