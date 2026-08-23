@@ -5,8 +5,8 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 38,
-  "count_mirrored": 38,
+  "count_published": 39,
+  "count_mirrored": 39,
   "skills": [
     {
       "slug": "lygo-skill-spector",
@@ -408,6 +408,17 @@
       "downloads": 0,
       "version": "1.2.0",
       "notes": "FULL unlocked at SkillHub #full-lygo. v1.2.0 SkillSpector harden: permissions declared, HF dual-consent, miner false-positive fixed."
+    },
+    {
+      "slug": "lygo-sanctuary-guardian",
+      "name": "LYGO Sanctuary Guardian",
+      "summary": "Δ9 Mandala shields · light-nurture vectors · cross-node truth-lock · non-collapsing geodesic barriers. Local-first, consent-gated. Pairs with quantum-attestor + continuum-integrator.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-sanctuary-guardian",
+      "mirror": "mirrors/lygo-sanctuary-guardian",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0",
+      "notes": "Blueprint @grok. Signature Delta9Phi963-SANCTUARY-GUARDIAN. FULL unlocked at SkillHub #full-lygo."
     }
   ],
   "repo_mirrors_only": [

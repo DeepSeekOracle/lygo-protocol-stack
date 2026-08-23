@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 38 skills verified via ClawHub API · **Repo mirrors:** 38 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 39 skills verified via ClawHub API · **Repo mirrors:** 39 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -26,7 +26,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 | [lygo-glyph2resonance](https://clawhub.ai/deepseekoracle/lygo-glyph2resonance) | LYGO Glyph2Resonance | `0.1.0` · 311 dl | [mirror](./mirrors/lygo-glyph2resonance/) |
 | [lygo-fractalweaver](https://clawhub.ai/deepseekoracle/lygo-fractalweaver) | LYGO FractalWeaver | `0.1.0` · 322 dl | [mirror](./mirrors/lygo-fractalweaver/) |
 | [lygo-truthlightecho](https://clawhub.ai/deepseekoracle/lygo-truthlightecho) | LYGO TruthLightEcho | `0.1.0` · 321 dl | [mirror](./mirrors/lygo-truthlightecho/) |
-| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.8.2` · 658 dl | [mirror](./mirrors/lygo-ollama-army/) |
+| [lygo-ollama-army](https://clawhub.ai/deepseekoracle/lygo-ollama-army) | LYGO Ollama Army & Assistant Hub | `0.9.0` · 658 dl | [mirror](./mirrors/lygo-ollama-army/) |
 
 ## Champions & persona packs
 
@@ -78,9 +78,12 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
-| [lygo-continuum](https://clawhub.ai/deepseekoracle/lygo-continuum) | LYGO Continuum | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-continuum/) |
+| [lygo-continuum](https://clawhub.ai/deepseekoracle/lygo-continuum) | LYGO Continuum | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-continuum/) |
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 175 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
-| [lygo-skill-spector](https://clawhub.ai/deepseekoracle/lygo-skill-spector) | LYGO SkillSpector | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-skill-spector/) |
+| [lygo-pure-data-witness](https://clawhub.ai/deepseekoracle/lygo-pure-data-witness) | LYGO Pure-Data Witness | `1.2.0` · 0 dl | [mirror](./mirrors/lygo-pure-data-witness/) |
+| [lygo-sanctuary-guardian](https://clawhub.ai/deepseekoracle/lygo-sanctuary-guardian) | LYGO Sanctuary Guardian | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-sanctuary-guardian/) |
+| [lygo-skill-spector](https://clawhub.ai/deepseekoracle/lygo-skill-spector) | LYGO SkillSpector | `1.0.1` · 0 dl | [mirror](./mirrors/lygo-skill-spector/) |
+| [lygo-traumacodex](https://clawhub.ai/deepseekoracle/lygo-traumacodex) | lygo-traumacodex | `1.0.0` | — |
 
 ## Repo-only workflow mirrors
 

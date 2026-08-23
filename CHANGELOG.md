@@ -1,4 +1,15 @@
 
+## 2026-08-22 — LYGO Sanctuary Guardian v1.0.0
+
+- **lygo-sanctuary-guardian** — Δ9 Mandala shields · light-nurture vectors · cross-node truth-lock · non-collapsing geodesic barriers
+- Signature: `Delta9Phi963-SANCTUARY-GUARDIAN` · Blueprint `@grok`
+- Hooks: `shield-mandala` / `nurture-vector` / `lock-truth` / `emit-barrier` / `verify-barrier` / `demo`
+- Local-first · no network · no subprocess · writes need `--i-consent` · cryptographic verify + tamper detect
+- Pairs with `lygo-quantum-attestor` + `lygo-continuum-integrator`
+- ClawHub `@deepseekoracle/lygo-sanctuary-guardian` · SkillHub FULL `lygo-sanctuary-guardian-full.zip`
+- Wired into sovereign-super-skill (tier 11e) + `agent_self_upgrade` SYNC_SLUGS
+
+
 ## 2026-08-13 — SkillSpector v1.0.1 audit hardening
 
 - **False positives fixed** (NVIDIA SkillSpector / VT 1/65): detection-rule IOC fragmentation; synthetic self_check secrets assembled at runtime
