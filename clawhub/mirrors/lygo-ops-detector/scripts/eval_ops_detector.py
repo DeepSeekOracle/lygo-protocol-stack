@@ -66,7 +66,7 @@ def load_suite(path: Path) -> list[dict[str, Any]]:
 
 def predict_binary(report: det.OpsReport, threshold: float) -> int:
     """1 = positive at *this* threshold (eval only). High evasion always positive."""
-    if report.evasion_index > det.EVASION_ACTIVE_THRESHOLD:
+    if report.evasion_index >= det.EVASION_ACTIVE_THRESHOLD:
         return 1
     return 1 if report.ops_score >= threshold else 0
 
@@ -145,7 +145,7 @@ def evaluate(samples: list[dict], threshold: float, *, role: str) -> dict[str, A
         "suite_size": len(samples),
         "threshold_ops_score": threshold,
         "prediction_rule": (
-            f"predicted=1 if evasion_index>{det.EVASION_ACTIVE_THRESHOLD} "
+            f"predicted=1 if evasion_index>={det.EVASION_ACTIVE_THRESHOLD} "
             f"OR ops_score>={threshold}"
         ),
         "precision": metrics["precision"],

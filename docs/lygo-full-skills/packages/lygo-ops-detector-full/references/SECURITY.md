@@ -1,4 +1,4 @@
-# LYGO Ops Detector — SECURITY & ETHICS v1.2.2
+# LYGO Ops Detector — SECURITY & ETHICS v1.3.0
 
 ## Declared permissions
 
@@ -10,6 +10,11 @@
 | Write files | `eval_ops_detector.py` writes **only under skill `tests/`** |
 | Env harvesting | **No** |
 | Publish / social | **No** |
+
+## v1.3.0 note
+
+Added `half_truth_certainty` and `saturation_rage_bait` discourse channels.  
+JSON may emit `flame_enemy_hints` for pairing with `lygo-flame-ward` — still **not** identity verdicts.
 
 ## Core mandate
 

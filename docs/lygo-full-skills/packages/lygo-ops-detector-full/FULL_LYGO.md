@@ -8,8 +8,8 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `I:\E Drive\lygo-protocol-stack\clawhub\mirrors\lygo-ops-detector`
-Packaged: 2026-08-21T03:45:29.245353+00:00
-Files: 9
+Packaged: 2026-08-23T16:22:46.884956+00:00
+Files: 13
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.
 You are responsible for extended systems you run.

@@ -18,10 +18,12 @@ import json
 import math
 import re
 import sys
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+
+SKILL_VERSION = "1.3.1"
 
 # =============================================================================
 # LIGHTFATHER CORE PHILOSOPHY (locked)
@@ -81,21 +83,33 @@ SIGNAL_BOUNDARIES: Dict[str, Dict[str, str]] = {
         "in": "Policy-as-shield / refusal-to-comment templates",
         "out": "Neutral historical mention of an organization without refusal language",
     },
+    "half_truth_certainty": {
+        "in": 'Certainty without primary digest: "settled science", "trust the experts", "beyond any doubt"',
+        "out": "Named study + digest/link with provisional language",
+    },
+    "saturation_rage_bait": {
+        "in": "Attention-weapon templates: wake up sheeple / click here now / you won't believe",
+        "out": "Urgent but specific actionable warning with cite path",
+    },
 }
 
 # =============================================================================
 # EVASION INDEX — Mathematical Framework (AETHONΔ9)
 # =============================================================================
 # Evasion Score = Σ (weight_i * indicator_score_i)
-# Threshold: > 0.70 = strong evasion *discourse* signals (not a person verdict)
+# Threshold: >= 0.65 = strong evasion *discourse* signals (aligned with ops operational bar)
 
 EVASION_WEIGHTS: Dict[str, float] = {
-    "burden_shifting": 0.15,      # "It's on you/me", burden transfer, "do your own research"
-    "ad_hominem_density": 0.20,   # Personal attacks instead of substance
-    "vague_references": 0.15,     # "Tons of evidence out there", "widely known", no specifics
-    "authority_inflation": 0.15,  # Credential waving, "as a former X", "trust my expertise"
-    "gaslighting": 0.20,          # Making you doubt your own perception ("you're overreacting")
-    "deflection": 0.15,           # "What about...", redirect to unrelated, "but they did worse"
+    # Classic AETHON channels kept dominant so multi-signal clusters still clear 0.65 ops bar
+    "burden_shifting": 0.14,
+    "ad_hominem_density": 0.18,
+    "vague_references": 0.14,
+    "authority_inflation": 0.14,
+    "gaslighting": 0.18,
+    "deflection": 0.12,
+    # Flame-pair add-ons (lighter — hints + additive, not suite wreckers)
+    "half_truth_certainty": 0.05,
+    "saturation_rage_bait": 0.05,
 }
 
 # =============================================================================
@@ -242,6 +256,18 @@ EVASION_PATTERNS: Dict[str, List[str]] = {
         r"\b(you should be looking at|the real issue is|why are you focusing on)\b",
         r"\b(what about the other side)\b",
     ],
+    "half_truth_certainty": [
+        r"\b(settled science|beyond (any )?doubt|undeniable (fact|truth)|there is no debate)\b",
+        r"\b(trust the experts?|the experts? (agree|have spoken|say so))\b",
+        r"\b(proven fact|everyone knows (it'?s|this is) (true|settled))\b",
+        r"\b(you must (believe|accept)|questioning this is (dangerous|denial))\b",
+    ],
+    "saturation_rage_bait": [
+        r"\b(wake up sheeple|you won'?t believe|click (here|now)|share before (they|it) (delete|ban))\b",
+        r"\b(literally (destroying|killing) (us|humanity|everything))\b",
+        r"\b(this (one (weird|simple) )?trick|gone (viral|wrong)|must (see|watch) (now|this))\b",
+        r"\b(they'?re (hiding|suppressing) (the truth|this)|red.?pill (this|now))\b",
+    ],
 }
 
 # Institutional *coordination/refusal* language (discourse-level).
@@ -271,6 +297,14 @@ ALL_KEYWORDS = {
     ],
     "gaslighting": ["overreacting", "imagining", "crazy", "paranoid", "making this up", "never happened", "your memory", "too sensitive"],
     "deflection": ["what about", "the other side", "but they", "real issue is", "why are you focusing"],
+    "half_truth_certainty": [
+        "settled science", "trust the experts", "beyond any doubt", "beyond doubt",
+        "undeniable fact", "there is no debate", "proven fact", "you must believe",
+    ],
+    "saturation_rage_bait": [
+        "wake up sheeple", "you won't believe", "click here", "click now",
+        "literally destroying", "share before they", "must see now", "red pill",
+    ],
     "institutional_signaling": [
         "per our policy", "per company policy", "per the guidelines", "as an organization",
         "as the institution", "our legal team", "compliance requires", "we cannot comment",
@@ -323,10 +357,36 @@ ASSOCIATION_PATTERNS: Dict[str, List[str]] = {
     ],
 }
 
-# Thresholds (locked)
-EVASION_ACTIVE_THRESHOLD = 0.70
+# Thresholds (1.3.0: align high-evasion bar with operational ops bar 0.65)
+EVASION_ACTIVE_THRESHOLD = 0.65
 EVASION_MONITOR_THRESHOLD = 0.40
 ASSOCIATION_HIGH_THRESHOLD = 0.65
+
+def map_flame_enemy_hints(
+    evasion_breakdown: Dict[str, float],
+    institutional: float = 0.0,
+    assoc_breakdown: Optional[Dict[str, float]] = None,
+) -> List[str]:
+    """Map ops discourse channels → Flame Ward enemy classes (hints only)."""
+    hints: List[str] = []
+    eb = evasion_breakdown or {}
+    ab = assoc_breakdown or {}
+    if float(eb.get("half_truth_certainty", 0) or 0) >= 0.30:
+        hints.append("half_truth_pack")
+    if float(eb.get("authority_inflation", 0) or 0) >= 0.30 or institutional >= 0.25:
+        hints.append("authority_shield")
+    if float(eb.get("saturation_rage_bait", 0) or 0) >= 0.30:
+        hints.append("saturation_flood")
+    if float(eb.get("vague_references", 0) or 0) >= 0.82 and float(
+        eb.get("half_truth_certainty", 0) or 0
+    ) >= 0.30:
+        if "half_truth_pack" not in hints:
+            hints.append("half_truth_pack")
+    if float(ab.get("bot_network_connections", 0) or 0) >= 0.50:
+        if "saturation_flood" not in hints:
+            hints.append("saturation_flood")
+    return sorted(set(hints))
+
 
 @dataclass
 class OpsReport:
@@ -342,7 +402,21 @@ class OpsReport:
     combined_risk: float
     overall_verdict: str
     notes: str
-    lightfather_note: str = "Heuristic discourse scores only — not a person verdict. Receipts + human review. Resonance forward."
+    lightfather_note: str = (
+        "Heuristic discourse scores only — not a person verdict. "
+        "Receipts + human review. Pair with lygo-flame-ward for authority gating."
+    )
+    version: str = SKILL_VERSION
+    pairs_with: List[str] = field(
+        default_factory=lambda: [
+            "lygo-flame-ward",
+            "lygo-deception-radar",
+            "lygo-continuum",
+            "lygo-skill-spector",
+        ]
+    )
+    flame_enemy_hints: List[str] = field(default_factory=list)
+    epistemic_hint: str = "discourse_heuristics_not_lattice_authority"
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -358,7 +432,7 @@ class OpsReport:
             "=" * 72,
             "",
             "EVASION INDEX",
-            f"  Score: {self.evasion_index:.3f}  (threshold for Active Ops: > {EVASION_ACTIVE_THRESHOLD})",
+            f"  Score: {self.evasion_index:.3f}  (threshold for Active Ops: >= {EVASION_ACTIVE_THRESHOLD})",
             f"  Verdict: {self.evasion_verdict}",
             "  Breakdown:",
         ]
@@ -458,8 +532,20 @@ def _score_text_patterns(text: str, patterns: Dict[str, List[str]]) -> Dict[str,
     return scores
 
 
+def multi_channel_boost(indicator_scores: Dict[str, float]) -> float:
+    """Distinct deception channels co-occurring = stronger discourse signal (honest cluster)."""
+    active = sum(1 for v in indicator_scores.values() if float(v or 0) >= 0.30)
+    if active >= 4:
+        return 0.28
+    if active >= 3:
+        return 0.20
+    if active >= 2:
+        return 0.10
+    return 0.0
+
+
 def compute_evasion_index(indicator_scores: Dict[str, float]) -> float:
-    """Weighted sum. Returns 0.0-1.0."""
+    """Weighted sum + multi-channel cluster boost. Returns 0.0-1.0."""
     total = 0.0
     wsum = 0.0
     for key, weight in EVASION_WEIGHTS.items():
@@ -467,7 +553,9 @@ def compute_evasion_index(indicator_scores: Dict[str, float]) -> float:
         s = max(0.0, min(1.0, s))
         total += weight * s
         wsum += weight
-    return round(total / wsum if wsum > 0 else 0.0, 4)
+    base = total / wsum if wsum > 0 else 0.0
+    boosted = min(1.0, base + multi_channel_boost(indicator_scores))
+    return round(boosted, 4)
 
 
 def compute_association_index(assoc_scores: Dict[str, float]) -> float:
@@ -525,8 +613,11 @@ def compute_association_graph(associations: List[str]) -> Dict[str, float]:
 
 def evasion_verdict(score: float) -> str:
     """Discourse-label only — never a person or investigation-target verdict."""
-    if score > EVASION_ACTIVE_THRESHOLD:
-        return "HIGH EVASION DISCOURSE SIGNALS (>0.70) — review claims; not a person verdict"
+    if score >= EVASION_ACTIVE_THRESHOLD:
+        return (
+            f"HIGH EVASION DISCOURSE SIGNALS (>={EVASION_ACTIVE_THRESHOLD}) — "
+            "review claims; not a person verdict"
+        )
     elif score > EVASION_MONITOR_THRESHOLD:
         return "ELEVATED EVASION DISCOURSE SIGNALS — weak/moderate; not a person verdict"
     else:
@@ -550,15 +641,15 @@ def combined_risk(evasion: float, assoc: float) -> float:
 
 def overall_verdict(risk: float, evasion: float, ops_score: float = 0.0) -> str:
     """Discourse-pattern label only — never a person verdict.
-    Uses operational bar (ops_score>=0.65 or high evasion) for strong language.
+    Uses operational bar (ops_score>=0.65 or high evasion>=0.65) for strong language.
     """
-    if evasion > EVASION_ACTIVE_THRESHOLD and risk > 0.55:
+    if evasion >= EVASION_ACTIVE_THRESHOLD and risk > 0.55:
         return "STRONG DISCOURSE PATTERN: high evasion + association signals (not a person verdict)"
-    if evasion > EVASION_ACTIVE_THRESHOLD:
+    if evasion >= EVASION_ACTIVE_THRESHOLD:
         return "STRONG EVASION SIGNALS in text — review claims/actions (not a person verdict)"
     if ops_score >= 0.65 or risk > 0.60:
         return "ELEVATED discourse-signal cluster (ops>=0.65 or combined risk) — not a person verdict"
-    if ops_score >= 0.05:
+    if ops_score >= 0.05 or evasion > EVASION_MONITOR_THRESHOLD:
         return "WEAK/calibration-level signal only (below operational 0.65 bar) — not actionable alone"
     return "NO CLEAR OPS PATTERN at operational thresholds — continue observation"
 
@@ -610,6 +701,7 @@ def analyze(
     risk = combined_risk(evasion, assoc)
     over = overall_verdict(risk, evasion, ops_score)
 
+    flame_hints = map_flame_enemy_hints(ev_scores, institutional, as_scores)
     report = OpsReport(
         timestamp=ts,
         evasion_index=evasion,
@@ -626,8 +718,10 @@ def analyze(
         or (
             "Local discourse heuristics only. Not identity profiling. "
             "Operational bar ops_score>=0.65 (or high evasion). "
-            "Private logs/email require human consent. Not sole evidence."
+            "Private logs/email require human consent. Not sole evidence. "
+            "For authority gating use lygo-flame-ward ingest-gate."
         ),
+        flame_enemy_hints=flame_hints,
     )
     return report
 
@@ -673,7 +767,7 @@ def run_self_tests() -> List[Dict[str, Any]]:
         {
             "name": "classic_evasion_cluster",
             "text": "It's on you to prove it. Tons of evidence out there. As a former intelligence officer I can tell you you're overreacting and imagining things. What about the other side?",
-            "min_evasion": 0.65,
+            "min_evasion": 0.65,  # aligned operational bar
         },
         {
             "name": "policy_refusal_with_evasion",
@@ -696,6 +790,16 @@ def run_self_tests() -> List[Dict[str, Any]]:
             "name": "low_signal",
             "text": "I disagree with the data presented.",
             "max_evasion": 0.30,
+        },
+        {
+            "name": "half_truth_certainty_cluster",
+            "text": "Trust the experts — this is settled science beyond any doubt. You must believe.",
+            "min_evasion": 0.20,
+        },
+        {
+            "name": "saturation_rage_bait_cluster",
+            "text": "Wake up sheeple — you won't believe this. Click now before they delete it.",
+            "min_evasion": 0.20,
         },
     ]
     results = []
@@ -842,7 +946,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(report.pretty())
 
     # Non-zero exit on strong evasion discourse signals (scripting hook)
-    if report.evasion_index > EVASION_ACTIVE_THRESHOLD:
+    if report.evasion_index >= EVASION_ACTIVE_THRESHOLD:
         return 10
     return 0
 

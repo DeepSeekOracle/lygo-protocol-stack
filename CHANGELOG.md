@@ -1,4 +1,14 @@
 
+## 2026-08-23 — Ops Detector v1.3.1 (better ClawHub pack)
+
+- **lygo-ops-detector@1.3.1** — half-truth certainty + saturation rage-bait channels
+- JSON `flame_enemy_hints` pairs with Flame Ward ingest-gate
+- Multi-channel cluster boost; high-evasion bar aligned to **0.65**
+- Enriched public labeled suite (multi-signal clusters)
+- Package polish: `claw.json`, skill-card, LICENSE, examples
+- Operational suite metrics: precision 1.0 · recall ~0.73 · f1 ~0.85 (fp=0)
+
+
 ## 2026-08-23 — Flame Ward v1.0.1 WebAudio fingerprint harden
 
 - Enemy class `webaudio_fingerprint` — silent AudioContext / zero-gain graphs (AliExpress/Alibaba collina.js·fireyejs.js pattern family, 2026 public reports)
