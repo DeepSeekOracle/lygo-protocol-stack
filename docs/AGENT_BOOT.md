@@ -1,6 +1,6 @@
 # AGENT BOOT — LYGO / Grok continuity
 
-**Generated:** 2026-08-21T03:46:29.931655+00:00
+**Generated:** 2026-08-23T05:51:21.673774+00:00
 
 ## Read first
 
@@ -16,11 +16,15 @@
 - `lygo-continuum` v1.0.1
 - `lygo-continuum-integrator` v1.0.1
 - `lygo-geodesic-sealer` v1.0.0
-- `lygo-mint-verifier` v1.1.0
+- `lygo-quantum-attestor` v1.0.1
+- `lygo-sanctuary-guardian` v1.0.0
+- `lygo-mint-verifier` v1.1.1
 - `lygo-mint-walkthrough` v1.0.0
 - `lygo-pure-data-witness` v1.3.0
 - `lygo-automation-workflows` v1.0.0
 - `lygo-continuity-advisor` v1.0.0
+- `lygo-emotional-ram` v1.0.1
+- `lygo-joy-loop` vNone
 - `lygo-context-guard` v1.0.0
 - `lygo-skill-spector` v1.0.1
 - `lygo-sandcastle` vNone
