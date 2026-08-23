@@ -157,6 +157,10 @@ SKILL_SOURCES: dict[str, list[Path]] = {
         STACK / "clawhub" / "mirrors" / "lygo-sanctuary-guardian",
         GROK / "lygo-sanctuary-guardian",
     ],
+    "lygo-flame-ward": [
+        STACK / "clawhub" / "mirrors" / "lygo-flame-ward",
+        GROK / "lygo-flame-ward",
+    ],
     "lygo-mint-verifier": [
         STACK / "clawhub" / "mirrors" / "lygo-mint-verifier",
         GROK / "lygo-mint-verifier",
@@ -219,6 +223,7 @@ ROLES = {
     "lygo-continuum-integrator": "∫(Truth×Light)df · phase-lock · non-collapsing geodesic receipts (FULL RAW)",
     "lygo-quantum-attestor": "P6 Quantum Attestor — Biophase7 anchors + SLM Merkle · Δ9 seals · non-collapsing receipts (FULL RAW)",
     "lygo-sanctuary-guardian": "🛡️ Sanctuary Guardian — Δ9 Mandala shields · light-nurture vectors · truth-lock · non-collapsing geodesic barriers (FULL RAW)",
+    "lygo-flame-ward": "🔥 Flame Ward — epistemic ingest gate · half-truth expose · quarantine · burn-receipt · seals-first (FULL RAW)",
     "lygo-mint-verifier": "LYGO-MINT canonicalize + SHA-256 + ledgers + anchor snippet — in-process v1.1 (FULL RAW)",
     "lygo-automation-workflows": "Consent-aware automation playbook + local planner; Sandcastle-first (FULL RAW)",
     "lygo-continuity-advisor": "Deadman / eternal base / succession / anti-replacement advisor (FULL RAW)",
@@ -260,6 +265,7 @@ TIERS = {
     "lygo-continuum-integrator": "tools",
     "lygo-quantum-attestor": "kernel",
     "lygo-sanctuary-guardian": "kernel",
+    "lygo-flame-ward": "security",
     "lygo-mint-verifier": "tools",
     "lygo-automation-workflows": "tools",
     "lygo-continuity-advisor": "champion",
@@ -739,6 +745,7 @@ def main() -> int:
             "lygo-continuum-integrator",
             "lygo-quantum-attestor",
             "lygo-sanctuary-guardian",
+            "lygo-flame-ward",
             "lygo-protocol-stack-operator",
             "lygo-pure-data-witness",
             "lygo-mint-verifier",
@@ -786,6 +793,7 @@ def main() -> int:
             "lygo-emotional-ram": "💓 LYGO Emotional RAM (FULL UNLOCKED)",
             "lygo-quantum-attestor": "⚛️ LYGO Quantum Attestor (FULL UNLOCKED)",
             "lygo-sanctuary-guardian": "🛡️ LYGO Sanctuary Guardian (FULL UNLOCKED)",
+            "lygo-flame-ward": "🔥 LYGO Flame Ward (FULL UNLOCKED)",
         }.get(slug, slug.replace("-", " ").title() + " (FULL LYGO)")
         entry = {
             "slug": slug,
@@ -805,6 +813,7 @@ def main() -> int:
                 "lygo-continuum-integrator",
                 "lygo-quantum-attestor",
                 "lygo-sanctuary-guardian",
+                "lygo-flame-ward",
                 "lygo-pure-data-witness",
                 "lygo-mint-verifier",
                 "lygo-emotional-ram",

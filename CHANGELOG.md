@@ -1,4 +1,15 @@
 
+## 2026-08-23 — LYGO Flame Ward v1.0.0
+
+- **lygo-flame-ward** — epistemic ingest gate against disinfo / injected half-truths / corrupted authority
+- Signature: `Delta9Phi963-FLAME-WARD` · Doctrine: `docs/FLAME_WARD.md` + `EPISTEMIC_GATE.md` + `ENEMY_MODEL.json`
+- Default: **FABRICATED_UNTIL_CONCORDANCE** — institutional labels are metadata only; seals first
+- Hooks: enemy-model · flame-scan · claim-gap · concordance · ingest-gate · quarantine · burn-receipt · expose · demo
+- Burn = strip authority + quarantine + receipt (not violence). No network / subprocess / dox
+- Stack orchestrator: `tools/lygo_flame_ingest_gate.py` · super-skill tier **11f** · SYNC_SLUGS
+- Pairs: ops-detector · skill-spector · continuum · sanctuary · quantum-attestor
+
+
 ## 2026-08-22 — LYGO Sanctuary Guardian v1.0.0
 
 - **lygo-sanctuary-guardian** — Δ9 Mandala shields · light-nurture vectors · cross-node truth-lock · non-collapsing geodesic barriers

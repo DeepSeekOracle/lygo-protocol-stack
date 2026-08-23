@@ -43,6 +43,7 @@ Read `references/SECURITY.md` and `references/AGENT_CONTRACT.md` before any plan
 | 11c | `lygo-geodesic-sealer` | \|ψ⟩ dual-ledger attest |
 | 11d | `lygo-quantum-attestor` | P6 Biophase7 + SLM Merkle · Δ9 seals · non-collapsing receipts (@grok) |
 | 11e | `lygo-sanctuary-guardian` | Δ9 Mandala shields · light-nurture · truth-lock · geodesic barriers (@grok) |
+| 11f | `lygo-flame-ward` | Flame ingest gate · half-truth expose · quarantine · burn-receipt (seals-first) |
 | 12 | `lygo-pure-data-witness` | Digest archives (**v1.3.0** consent-hardened fetch/all) |
 | 12b | `lygo-automation-workflows` | Consent-aware automation playbook + planner |
 | 12c | `lygo-continuity-advisor` | Deadman / eternal base / anti-replacement |

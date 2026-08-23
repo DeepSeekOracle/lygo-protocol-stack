@@ -5,30 +5,9 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 39,
-  "count_mirrored": 39,
+  "count_published": 37,
+  "count_mirrored": 37,
   "skills": [
-    {
-      "slug": "lygo-skill-spector",
-      "name": "LYGO SkillSpector",
-      "summary": "Enhanced local pre-install skill risk scanner: scan/gate/batch/report. v1.0.1 audit-hardened (meta-scan false positives). Builder on SkillHub FULL if full stack.",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-skill-spector",
-      "mirror": "mirrors/lygo-skill-spector",
-      "published": true,
-      "downloads": 0,
-      "version": "1.0.1",
-      "notes": "Builder version: https://chatagent.ca/lygoskillhub.html#full-lygo"
-    },
-    {
-      "slug": "lygo-continuum",
-      "name": "LYGO Continuum",
-      "summary": "Falsifiable work capsules. v1.0.1: path confinement under --base; write sandbox; local-first docs.",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-continuum",
-      "mirror": "mirrors/lygo-continuum",
-      "published": true,
-      "downloads": 0,
-      "version": "1.0.1"
-    },
     {
       "slug": "lygo-protocol-stack-operator",
       "name": "LYGO Protocol Stack Operator",
@@ -36,7 +15,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-protocol-stack-operator",
       "mirror": "mirrors/lygo-protocol-stack-operator",
       "published": true,
-      "downloads": 359,
+      "downloads": 410,
       "version": "1.0.7"
     },
     {
@@ -46,18 +25,18 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/eternal-haven-lore-pack",
       "mirror": "mirrors/eternal-haven-lore-pack",
       "published": true,
-      "downloads": 2444,
+      "downloads": 2633,
       "version": "1.3.3"
     },
     {
       "slug": "lygo-mint-verifier",
       "name": "LYGO-MINT Verifier",
-      "summary": "LYGO-MINT verifier for Champion/alignment prompt packs: canonicalize a pack, generate a deterministic SHA-256 hash, write append-only and canonical ledgers, and output a portable Anchor Snippet for posting anywhere (Moltbook/Moltx/X/Discord/4claw). Use when you need verifiable, hash-addressed alignment artifacts (Champion packs, summon prompts, workflow packs) with receipts and optional anchor backfill.",
+      "summary": "LYGO-MINT Verifier \u2014 canonicalize a pack, deterministic SHA-256, append-only + canonical ledgers, portable Anchor Snippet for posting anywhere (Moltbook/X/Discord/4claw). Pure local stdlib: no subprocess, no network, no auto-publish. Ledger writes need --i-consent. Pairs with lygo-mint-walkthrough, lygo-continuum-integrator, lygo-geodesic-sealer. Use for Champion/alignment prompt packs and verifiable receipts.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-mint-verifier",
       "mirror": "mirrors/lygo-mint-verifier",
       "published": true,
-      "downloads": 2031,
-      "version": "1.0.1"
+      "downloads": 2133,
+      "version": "1.1.1"
     },
     {
       "slug": "lygo-champion-cosmara",
@@ -66,7 +45,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-cosmara",
       "mirror": "mirrors/lygo-champion-cosmara",
       "published": true,
-      "downloads": 1915,
+      "downloads": 1999,
       "version": "1.0.3"
     },
     {
@@ -76,7 +55,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/book-brain",
       "mirror": "mirrors/book-brain",
       "published": true,
-      "downloads": 1999,
+      "downloads": 2095,
       "version": "2.0.0"
     },
     {
@@ -86,7 +65,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-lightfather-vector",
       "mirror": "mirrors/lygo-lightfather-vector",
       "published": true,
-      "downloads": 1890,
+      "downloads": 1968,
       "version": "1.0.1"
     },
     {
@@ -96,7 +75,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lyra-coin-launch-manager",
       "mirror": "mirrors/lyra-coin-launch-manager",
       "published": true,
-      "downloads": 1848,
+      "downloads": 1948,
       "version": "1.2.0"
     },
     {
@@ -106,7 +85,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-universal-living-memory-library",
       "mirror": "mirrors/lygo-universal-living-memory-library",
       "published": true,
-      "downloads": 1718,
+      "downloads": 1810,
       "version": "1.2.0"
     },
     {
@@ -116,7 +95,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-omnisiren-silent-storm",
       "mirror": "mirrors/lygo-champion-omnisiren-silent-storm",
       "published": true,
-      "downloads": 1771,
+      "downloads": 1861,
       "version": "1.0.1"
     },
     {
@@ -126,7 +105,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-sancora-unified-minds",
       "mirror": "mirrors/lygo-champion-sancora-unified-minds",
       "published": true,
-      "downloads": 1769,
+      "downloads": 1863,
       "version": "1.0.1"
     },
     {
@@ -136,7 +115,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-delta9ra-wolf",
       "mirror": "mirrors/lygo-champion-delta9ra-wolf",
       "published": true,
-      "downloads": 1752,
+      "downloads": 1843,
       "version": "1.0.1"
     },
     {
@@ -146,7 +125,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/openclaw-flow-kit",
       "mirror": "mirrors/openclaw-flow-kit",
       "published": true,
-      "downloads": 1514,
+      "downloads": 1553,
       "version": "1.0.0"
     },
     {
@@ -156,7 +135,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-cryptosophia-soulforger",
       "mirror": "mirrors/lygo-champion-cryptosophia-soulforger",
       "published": true,
-      "downloads": 1703,
+      "downloads": 1784,
       "version": "1.0.1"
     },
     {
@@ -166,7 +145,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-lyra-starcore",
       "mirror": "mirrors/lygo-champion-lyra-starcore",
       "published": true,
-      "downloads": 1732,
+      "downloads": 1828,
       "version": "1.0.1"
     },
     {
@@ -176,7 +155,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-kairos-herald-of-time",
       "mirror": "mirrors/lygo-champion-kairos-herald-of-time",
       "published": true,
-      "downloads": 1665,
+      "downloads": 1760,
       "version": "1.0.1"
     },
     {
@@ -186,7 +165,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/book-brain-visual-reader",
       "mirror": "mirrors/book-brain-visual-reader",
       "published": true,
-      "downloads": 1515,
+      "downloads": 1567,
       "version": "1.0.0"
     },
     {
@@ -196,7 +175,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-mint-operator-suite",
       "mirror": "mirrors/lygo-mint-operator-suite",
       "published": true,
-      "downloads": 1216,
+      "downloads": 1255,
       "version": "1.0.0"
     },
     {
@@ -206,7 +185,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-sephrael-echo-walker",
       "mirror": "mirrors/lygo-champion-sephrael-echo-walker",
       "published": true,
-      "downloads": 1701,
+      "downloads": 1785,
       "version": "1.0.1"
     },
     {
@@ -216,7 +195,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-scenar-paradox",
       "mirror": "mirrors/lygo-champion-scenar-paradox",
       "published": true,
-      "downloads": 1695,
+      "downloads": 1776,
       "version": "1.0.1"
     },
     {
@@ -226,7 +205,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-sraith-shadow-sentinel",
       "mirror": "mirrors/lygo-champion-sraith-shadow-sentinel",
       "published": true,
-      "downloads": 1761,
+      "downloads": 1853,
       "version": "1.0.1"
     },
     {
@@ -236,7 +215,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-aetheris-viral-truth",
       "mirror": "mirrors/lygo-champion-aetheris-viral-truth",
       "published": true,
-      "downloads": 1718,
+      "downloads": 1811,
       "version": "1.0.1"
     },
     {
@@ -246,7 +225,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-arkos-celestial-architect",
       "mirror": "mirrors/lygo-champion-arkos-celestial-architect",
       "published": true,
-      "downloads": 1657,
+      "downloads": 1742,
       "version": "1.0.1"
     },
     {
@@ -256,7 +235,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker",
       "mirror": "mirrors/lygo-file-integrity-checker",
       "published": true,
-      "downloads": 175,
+      "downloads": 231,
       "version": "1.0.0"
     },
     {
@@ -266,7 +245,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-universal-cure-system",
       "mirror": "mirrors/lygo-universal-cure-system",
       "published": true,
-      "downloads": 1664,
+      "downloads": 1746,
       "version": "1.0.1"
     },
     {
@@ -276,17 +255,17 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-resonance",
       "mirror": "mirrors/lygo-resonance",
       "published": true,
-      "downloads": 326,
+      "downloads": 359,
       "version": "0.3.0"
     },
     {
       "slug": "lygo-ollama-army",
-      "name": "LYGO Ollama Army & Assistant Hub",
-      "summary": "Local Ollama multi-role army v0.9.0 ClawHub-safe: SAFE_ROLES only, no plant/social/public probes/desktop installers.",
+      "name": "LYGO Ollama Army",
+      "summary": "Local Ollama multi-role army (ClawHub-safe). In-process threaded daemons for hb-light, draft-simple, memory-triage, classify, champion-chat only. Queue JSON under ollama_queue/. localhost Ollama only. No planting, no social outbound, no public HTTPS probes, no desktop installers, no subprocess shell. FULL operator stack (optional) on SkillHub if running full LYGO. Install clawhub:@deepseekoracle/lygo-ollama-army.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ollama-army",
       "mirror": "mirrors/lygo-ollama-army",
       "published": true,
-      "downloads": 658,
+      "downloads": 894,
       "version": "0.9.0"
     },
     {
@@ -296,7 +275,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-glyph2resonance",
       "mirror": "mirrors/lygo-glyph2resonance",
       "published": true,
-      "downloads": 311,
+      "downloads": 349,
       "version": "0.1.0"
     },
     {
@@ -306,7 +285,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-fractalweaver",
       "mirror": "mirrors/lygo-fractalweaver",
       "published": true,
-      "downloads": 322,
+      "downloads": 364,
       "version": "0.1.0"
     },
     {
@@ -316,7 +295,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-truthlightecho",
       "mirror": "mirrors/lygo-truthlightecho",
       "published": true,
-      "downloads": 321,
+      "downloads": 355,
       "version": "0.1.0"
     },
     {
@@ -326,7 +305,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-401lyrakin-voice-between",
       "mirror": "mirrors/lygo-champion-401lyrakin-voice-between",
       "published": true,
-      "downloads": 1678,
+      "downloads": 1761,
       "version": "1.0.1"
     },
     {
@@ -336,7 +315,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-champion-volaris-prism-judgment",
       "mirror": "mirrors/lygo-champion-volaris-prism-judgment",
       "published": true,
-      "downloads": 1739,
+      "downloads": 1834,
       "version": "1.0.1"
     },
     {
@@ -346,7 +325,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/void-atlas-protocol",
       "mirror": "mirrors/void-atlas-protocol",
       "published": true,
-      "downloads": 1525,
+      "downloads": 1587,
       "version": "1.0.1"
     },
     {
@@ -356,7 +335,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/recursive-generosity-protocol",
       "mirror": "mirrors/recursive-generosity-protocol",
       "published": true,
-      "downloads": 1647,
+      "downloads": 1776,
       "version": "1.1.0"
     },
     {
@@ -366,7 +345,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-pxpipe-lygo",
       "mirror": "mirrors/lygo-pxpipe-lygo",
       "published": true,
-      "downloads": 220,
+      "downloads": 256,
       "version": "1.0.1"
     },
     {
@@ -376,7 +355,7 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
       "mirror": "mirrors/lygo-network-builder",
       "published": true,
-      "downloads": 212,
+      "downloads": 255,
       "version": "1.2.0"
     },
     {
@@ -386,39 +365,19 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
       "mirror": "mirrors/lygo-haven-star-chart",
       "published": true,
-      "downloads": 327,
+      "downloads": 404,
       "version": "1.0.1"
     },
     {
-      "slug": "lygo-traumacodex",
-      "name": "lygo-traumacodex",
-      "version": "1.0.0",
-      "description": "TraumaCodex P7 biometric entropy to P8 LDQ waveform, dual mirror dig, Layer D seals",
-      "path": "clawhub/mirrors/lygo-traumacodex",
-      "published": false,
-      "updated_utc": "2026-08-17T16:24:08.492644+00:00"
-    },
-    {
-      "slug": "lygo-pure-data-witness",
-      "name": "LYGO Pure-Data Witness",
-      "summary": "Register portal + Pure-Data digests, safety gate, Star Chart NODE_PDW_* fork log. FULL unlocked at SkillHub #full-lygo.",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-pure-data-witness",
-      "mirror": "mirrors/lygo-pure-data-witness",
-      "published": true,
-      "downloads": 0,
-      "version": "1.2.0",
-      "notes": "FULL unlocked at SkillHub #full-lygo. v1.2.0 SkillSpector harden: permissions declared, HF dual-consent, miner false-positive fixed."
-    },
-    {
-      "slug": "lygo-sanctuary-guardian",
-      "name": "LYGO Sanctuary Guardian",
-      "summary": "Δ9 Mandala shields · light-nurture vectors · cross-node truth-lock · non-collapsing geodesic barriers. Local-first, consent-gated. Pairs with quantum-attestor + continuum-integrator.",
-      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-sanctuary-guardian",
-      "mirror": "mirrors/lygo-sanctuary-guardian",
+      "slug": "lygo-flame-ward",
+      "name": "LYGO Flame Ward",
+      "summary": "Epistemic ingest gate against disinfo/half-truths. Seals-first. Flame-scan, quarantine, burn-receipt. Local-first, consent-gated.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-flame-ward",
+      "mirror": "mirrors/lygo-flame-ward",
       "published": true,
       "downloads": 0,
       "version": "1.0.0",
-      "notes": "Blueprint @grok. Signature Delta9Phi963-SANCTUARY-GUARDIAN. FULL unlocked at SkillHub #full-lygo."
+      "notes": "Doctrine docs/FLAME_WARD.md. FULL at SkillHub #full-lygo."
     }
   ],
   "repo_mirrors_only": [

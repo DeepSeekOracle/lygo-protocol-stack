@@ -29,6 +29,7 @@ SYNC_SLUGS = [
     "lygo-geodesic-sealer",
     "lygo-quantum-attestor",
     "lygo-sanctuary-guardian",
+    "lygo-flame-ward",
     "lygo-mint-verifier",
     "lygo-mint-walkthrough",
     "lygo-pure-data-witness",
