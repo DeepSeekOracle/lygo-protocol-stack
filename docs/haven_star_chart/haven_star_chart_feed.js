@@ -83,7 +83,7 @@
           (cur.seq || 0) > (e.seq || 0);
 
         const who = esc(e.agent_id) + (e.skill_slug ? ' <span class="feed-muted">/' + esc(e.skill_slug) + '</span>' : '');
-        const what = '<strong>' + esc(e.node_id) + '</strong> ' + esc(e.node_name);
+        const what = '<button type="button" class="feed-star" data-star="' + esc(e.node_id) + '"><strong>' + esc(e.node_id) + '</strong></button> ' + esc(e.node_name);
         const err = (e.errors && e.errors.length)
           ? '<div class="feed-err">' + esc(e.errors.join('; ')) + '</div>'
           : '';
@@ -103,6 +103,19 @@
         );
       })
       .join('');
+
+    tbody.querySelectorAll("[data-star]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-star");
+        if (window.HavenStarChart && typeof window.HavenStarChart.focus === "function") {
+          window.HavenStarChart.focus(id);
+        } else {
+          window.dispatchEvent(new CustomEvent("haven-star-focus", { detail: { id: id } }));
+        }
+        var map = document.getElementById("starmap-wrap");
+        if (map) map.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
   }
 
   async function load() {
@@ -123,5 +136,5 @@
   } else {
     load();
   }
-  setInterval(load, 120000);
+  setInterval(load, 45000);
 })();

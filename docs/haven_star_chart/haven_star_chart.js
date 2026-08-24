@@ -1,16 +1,32 @@
-/* Eternal Haven Star Chart — D3 engine (Δ9Φ963) + LYGO Cosmology v2.1 */
+/* Eternal Haven Star Chart — D3 engine (Δ9Φ963) + live lattice pulse v2.4 */
 (function () {
   const DATA_REL = "haven_star_chart/haven_star_chart_data.json";
+  const META_REL = "haven_star_chart/haven_star_chart_meta.json";
+  const QUEUE_REL = "haven_star_chart/haven_star_chart_queue.json";
+  const MANIFEST_REL = "public_verify_manifest.json";
   const DATA_FALLBACK =
     "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/haven_star_chart/haven_star_chart_data.json";
+  const META_FALLBACK =
+    "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/haven_star_chart/haven_star_chart_meta.json";
+  const PULSE_MS = 45000;
 
   let chartData = null;
+  let lastMeta = null;
+  let lastSha = "";
   let simulation = null;
+  let zoomBehavior = null;
+  let svgSel = null;
   let gRoot, gCosmos, linkSel, nodeSel;
+  let visibleNodes = [];
+  let chartW = 0;
+  let chartH = 0;
   let activeConstellation = "all";
   let activeGalaxy = "all";
   let showCosmosLayers = true;
+  let includeTracks = false;
   let selectedNodeId = null;
+  let pulseTimer = null;
+  let uiBound = false;
 
   const el = (id) => document.getElementById(id);
 
@@ -18,6 +34,17 @@
     const s = String(id || "");
     if (s === "SEAL_000" || s === "GAB_SEAL_000") return { isCore: true };
     return { isCore: false };
+  }
+
+  function isTrack(n) {
+    return n.kind === "music_track" || (n.cosmos || {}).star_role === "music_track";
+  }
+
+  function wantTracks() {
+    if (includeTracks) return true;
+    if (activeConstellation === "music_codex") return true;
+    if (activeGalaxy === "GALAXY_EXCAVATIONPRO_MUSIC") return true;
+    return false;
   }
 
   function layerForNode(n) {
@@ -30,19 +57,25 @@
     return 2;
   }
 
-  async function loadData() {
-    const urls = [DATA_REL, DATA_FALLBACK];
+  async function fetchJson(urls) {
     for (const u of urls) {
       try {
         const r = await fetch(u, { cache: "no-store" });
         if (!r.ok) continue;
-        chartData = await r.json();
-        return chartData;
+        return await r.json();
       } catch (e) {
         console.warn("fetch fail", u, e);
       }
     }
-    throw new Error("Star chart data unavailable");
+    return null;
+  }
+
+  async function loadData() {
+    const data = await fetchJson([DATA_REL, DATA_FALLBACK]);
+    if (!data) throw new Error("Star chart data unavailable");
+    chartData = data;
+    lastSha = data.registry_sha256 || "";
+    return chartData;
   }
 
   function nodeMatchesConstellation(n, cid) {
@@ -52,12 +85,10 @@
     const tags = (n.tags || []).map((t) => String(t).toUpperCase());
     const ft = (c.filter_tags || []).map((t) => String(t).toUpperCase());
     if (n.kind === "champion" && cid === "council_ring") return true;
-    // Eggs + summon portal ride the council ring with the 15 champions
     if (cid === "council_ring" && (n.kind === "champion_egg" || n.id === "PORTAL_CHATAGENT" || n.id === "LATTICE_CHAMPION_EGG_VAULT"))
       return true;
     if (n.kind === "lattice" && cid === "lattice_growth") return true;
     if (n.kind === "portal" && cid === "guardian_veil") return true;
-    // Music Codex always keeps Lightfather origin + core so fork lines stay visible
     if (cid === "music_codex") {
       if (n.id === "CHAMPION_LIGHTFATHER" || n.id === "CHAMPION_EGG_LIGHTFATHER") return true;
       if ((n.kind || "").startsWith("music") || tags.includes("MUSIC_CODEX") || tags.includes("MUSIC"))
@@ -68,7 +99,6 @@
 
   function nodeMatchesGalaxy(n, gid) {
     if (gid === "all") return true;
-    // Keep Lightfather visible as origin when viewing the music galaxy
     if (gid === "GALAXY_EXCAVATIONPRO_MUSIC" && n.id === "CHAMPION_LIGHTFATHER") return true;
     return (n.cosmos || {}).galaxy_id === gid;
   }
@@ -93,7 +123,6 @@
     if (gid === "GALAXY_LATTICE") return R * 0.48;
     if (gid === "GALAXY_AGENT_GROWTH") return R * 0.42;
     if (gid === "GALAXY_ETERNAL_HAVEN") return R * 0.38;
-    // Sit Music Codex near Lightfather champion orbit so fork line is readable
     if (gid === "GALAXY_EXCAVATIONPRO_MUSIC") return R * 0.36;
     return R * 0.36;
   }
@@ -109,7 +138,6 @@
       (d) => d.cosmos.nebula_id
     );
 
-    // Galaxy halos (large diffuse regions)
     const galaxyLayer = gCosmosGroup.append("g").attr("class", "galaxy-halos");
     byGalaxy.forEach((members, gid) => {
       if (!gid || gid === "unknown" || gid === "GALAXY_SINGULARITY") return;
@@ -135,13 +163,7 @@
         .attr("stroke-opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.28 : 0.12)
         .attr("stroke-width", 1.4);
 
-      galaxyLayer
-        .append("circle")
-        .attr("cx", cx)
-        .attr("cy", cy)
-        .attr("r", 3)
-        .attr("fill", g?.color || "#7d00ff")
-        .attr("opacity", 0.35);
+      galaxyLayer.append("circle").attr("cx", cx).attr("cy", cy).attr("r", 3).attr("fill", g?.color || "#7d00ff").attr("opacity", 0.35);
 
       const label = `${g?.glyph || "◈"} ${g?.name || gid}`;
       const labelY = cy - ry - 8;
@@ -166,7 +188,6 @@
         .text(label);
     });
 
-    // Nebula halos (tighter sub-regions at live centroids)
     const nebulaLayer = gCosmosGroup.append("g").attr("class", "nebula-halos");
     byNebula.forEach((members, nebId) => {
       if (members.length < 2) return;
@@ -219,11 +240,49 @@
     });
   }
 
+  function setPulse(state, text) {
+    const led = el("pulseLed");
+    const msg = el("pulseText");
+    if (led) {
+      led.className = "pulse-led " + (state || "idle");
+      led.title = text || state || "";
+    }
+    if (msg) msg.textContent = text || "";
+    const shaEl = el("pulseSha");
+    if (shaEl) shaEl.textContent = lastSha ? lastSha.slice(0, 12) + "…" : "—";
+  }
+
+  function updateStatusLine() {
+    const total = chartData?.node_count || chartData?.nodes?.length || 0;
+    const shown = visibleNodes.length;
+    const folded = wantTracks() ? 0 : (chartData?.nodes || []).filter(isTrack).length;
+    const sig = chartData?.signature || "v2";
+    let line = `Live — ${shown} on sky`;
+    if (folded) line += ` · ${folded} tracks folded (Music Codex or ♪ Tracks to expand)`;
+    else if (shown !== total) line += ` / ${total} registry`;
+    else line += ` / ${total} registry`;
+    line += ` · ${sig}`;
+    if (el("loadStatus")) el("loadStatus").textContent = line;
+    if (el("statHidden")) el("statHidden").textContent = folded ? String(folded) : "0";
+  }
+
+  function fillQueue(meta) {
+    if (!meta) return;
+    const p = el("portalPending");
+    const a = el("portalAccepted");
+    const q = meta.submission_queue || meta;
+    if (p && q.pending != null) p.textContent = String(q.pending);
+    if (a && q.accepted != null) a.textContent = String(q.accepted);
+  }
+
   function initChart() {
     const container = el("starmap");
     if (!container || !chartData) return;
-    const W = container.clientWidth;
-    const H = container.clientHeight;
+    if (simulation) simulation.stop();
+    const W = container.clientWidth || 900;
+    const H = container.clientHeight || 640;
+    chartW = W;
+    chartH = H;
     const CX = W / 2;
     const CY = H / 2;
     const R = Math.min(W, H);
@@ -232,8 +291,10 @@
     const R2 = R * 0.32;
     const R3 = R * 0.48;
     const R4 = R * 0.62;
+    const tracksOn = wantTracks();
 
     const svg = d3.select("#starmap").attr("width", W).attr("height", H);
+    svgSel = svg;
     svg.selectAll("*").remove();
 
     const defs = svg.append("defs");
@@ -249,12 +310,12 @@
     merge.append("feMergeNode").attr("in", "blur");
     merge.append("feMergeNode").attr("in", "SourceGraphic");
 
-    const zoom = d3.zoom().scaleExtent([0.08, 12]).on("zoom", (ev) => gRoot.attr("transform", ev.transform));
-    svg.call(zoom);
+    zoomBehavior = d3.zoom().scaleExtent([0.08, 12]).on("zoom", (ev) => gRoot.attr("transform", ev.transform));
+    svg.call(zoomBehavior);
     gRoot = svg.append("g");
     gCosmos = gRoot.append("g").attr("class", "cosmos-layer");
 
-    const stars = d3.range(260).map(() => ({
+    const stars = d3.range(220).map(() => ({
       x: Math.random() * W,
       y: Math.random() * H,
       r: Math.random() * 1.1 + 0.15,
@@ -274,8 +335,12 @@
 
     let nodes = chartData.nodes.map((n) => ({ ...n, depth: layerForNode(n) }));
     nodes = nodes.filter(
-      (n) => nodeMatchesConstellation(n, activeConstellation) && nodeMatchesGalaxy(n, activeGalaxy)
+      (n) =>
+        nodeMatchesConstellation(n, activeConstellation) &&
+        nodeMatchesGalaxy(n, activeGalaxy) &&
+        (tracksOn || !isTrack(n))
     );
+    visibleNodes = nodes;
     const idSet = new Set(nodes.map((n) => n.id));
     const links = (chartData.links || [])
       .filter((l) => idSet.has(l.source) && idSet.has(l.target))
@@ -296,6 +361,7 @@
     const gMap = galaxyMap();
     drawCosmosHalos(gCosmos, nodes, CX, CY, R);
 
+    const heavy = nodes.length > 420;
     linkSel = gRoot
       .append("g")
       .attr("class", "link-layer")
@@ -312,9 +378,9 @@
       .attr("stroke-width", (d) => {
         if (d.kind === "fork" || d.kind === "lineage") return 2.6;
         if (d.kind === "gravity") return 0.55;
-        return 1.1;
+        return heavy ? 0.7 : 1.1;
       })
-      .attr("stroke-opacity", (d) => (d.kind === "fork" || d.kind === "lineage" ? 0.85 : 0.38))
+      .attr("stroke-opacity", (d) => (d.kind === "fork" || d.kind === "lineage" ? 0.85 : heavy ? 0.22 : 0.38))
       .attr("stroke-dasharray", (d) => {
         if (d.kind === "gravity") return "5,7";
         if (d.kind === "fork" || d.kind === "lineage") return "2,3";
@@ -329,7 +395,10 @@
       .join("g")
       .attr("class", (d) => "star-node" + (selectedNodeId === d.id ? " selected" : ""))
       .style("cursor", "pointer")
-      .on("click", (_, d) => showDetail(d))
+      .on("click", (ev, d) => {
+        ev.stopPropagation();
+        showDetail(d, true);
+      })
       .on("mouseenter", (_, d) => {
         linkSel.classed("link-highlight", (l) => l.source.id === d.id || l.target.id === d.id);
         nodeSel.classed("hover", (n) => n.id === d.id);
@@ -365,6 +434,7 @@
       if (d.kind === "champion") return gcol || "#7d00ff";
       if (d.kind === "lattice") return "#00ff88";
       if (d.kind === "portal") return "#ff6600";
+      if (d.kind === "music_track") return "#66e0ff";
       if ((d.cosmos || {}).star_role === "agent_growth") return "#e94560";
       return gcol ? d3.color(gcol)?.brighter(0.5)?.formatHex?.() || "#00f0ff" : "#00f0ff";
     }
@@ -373,6 +443,7 @@
       if (parseSealId(d.id).isCore) return 22;
       if (d.kind === "champion") return 14;
       if (d.kind === "lattice") return 8;
+      if (d.kind === "music_track") return 5;
       return 10;
     }
 
@@ -382,7 +453,7 @@
       .attr("r", (d) => nodeRadius(d) * 1.55)
       .attr("fill", (d) => nodeFill(d))
       .attr("opacity", (d) => (parseSealId(d.id).isCore ? 0.35 : 0.22))
-      .attr("filter", "url(#star-glow)");
+      .attr("filter", heavy ? null : "url(#star-glow)");
 
     nodeSel
       .append("circle")
@@ -409,11 +480,13 @@
       .attr("dy", 4)
       .attr("text-anchor", "middle")
       .attr("fill", (d) => (parseSealId(d.id).isCore ? "#1a1200" : "#f0f0ff"))
-      .attr("font-size", (d) => (parseSealId(d.id).isCore ? "17px" : "11px"))
+      .attr("font-size", (d) => (parseSealId(d.id).isCore ? "17px" : d.kind === "music_track" ? "0px" : "11px"))
       .attr("font-weight", (d) => (parseSealId(d.id).isCore ? "700" : "500"))
       .attr("pointer-events", "none")
-      .text((d) => (d.glyph || "✦").split(" ")[0]);
+      .text((d) => (d.kind === "music_track" ? "" : (d.glyph || "✦").split(" ")[0]));
 
+    let haloTick = 0;
+    const charge = heavy ? -48 : -120;
     simulation = d3
       .forceSimulation(nodes)
       .force(
@@ -421,10 +494,10 @@
         d3
           .forceLink(links)
           .id((d) => d.id)
-          .distance((l) => (l.kind === "gravity" ? 220 : 90))
-          .strength((l) => (l.kind === "gravity" ? 0.03 : 0.5))
+          .distance((l) => (l.kind === "gravity" ? 220 : heavy ? 70 : 90))
+          .strength((l) => (l.kind === "gravity" ? 0.03 : heavy ? 0.35 : 0.5))
       )
-      .force("charge", d3.forceManyBody().strength(-120).distanceMax(400))
+      .force("charge", d3.forceManyBody().strength(charge).distanceMax(heavy ? 260 : 400))
       .force(
         "radial",
         d3
@@ -432,7 +505,7 @@
           .strength(0.12)
       )
       .force("center", d3.forceCenter(CX, CY))
-      .force("collide", d3.forceCollide().radius(18).strength(0.6))
+      .force("collide", d3.forceCollide().radius(heavy ? 11 : 18).strength(0.55))
       .force("galaxy", (alpha) => {
         nodes.forEach((d) => {
           const gid = (d.cosmos || {}).galaxy_id;
@@ -459,6 +532,8 @@
           });
         });
       })
+      .alphaDecay(heavy ? 0.05 : 0.028)
+      .alphaMin(0.012)
       .on("tick", () => {
         linkSel
           .attr("x1", (d) => d.source.x)
@@ -466,10 +541,14 @@
           .attr("x2", (d) => d.target.x)
           .attr("y2", (d) => d.target.y);
         nodeSel.attr("transform", (d) => `translate(${d.x},${d.y})`);
+        haloTick += 1;
+        if (showCosmosLayers && haloTick % 12 === 0) drawCosmosHalos(gCosmos, nodes, CX, CY, R);
+      })
+      .on("end", () => {
         if (showCosmosLayers) drawCosmosHalos(gCosmos, nodes, CX, CY, R);
       });
 
-    el("statNodes").textContent = String(nodes.length);
+    el("statNodes").textContent = `${nodes.length}` + (chartData.node_count && chartData.node_count !== nodes.length ? ` / ${chartData.node_count}` : "");
     el("statLinks").textContent = String(links.length);
     el("statSha").textContent = (chartData.registry_sha256 || "").slice(0, 12) + "…";
     el("statSync").textContent = chartData.generated_utc || "—";
@@ -478,9 +557,13 @@
     if (el("statNebulae") && chartData.cosmos?.nebula_count != null) {
       el("statNebulae").textContent = String(chartData.cosmos.nebula_count);
     }
+    updateStatusLine();
+    const tracksBtn = el("toggleTracks");
+    if (tracksBtn) tracksBtn.textContent = tracksOn ? "Fold tracks" : "♪ Tracks";
   }
 
-  function showDetail(d) {
+  function showDetail(d, writeHash) {
+    if (!d) return;
     selectedNodeId = d.id;
     if (nodeSel) nodeSel.attr("class", (n) => "star-node" + (n.id === selectedNodeId ? " selected" : ""));
     el("detailTitle").textContent = d.name || d.id;
@@ -489,13 +572,13 @@
     el("detailTone").textContent = d.tone || "—";
     el("detailTags").textContent = (d.tags || []).join(" · ") || "—";
     const urls = d.urls || {};
-    // Champions/eggs: prefer ChatAgent summon portal; else clawhub / live anchors
     const live =
       urls.summon ||
       urls.council ||
+      urls.listen ||
+      urls.stream ||
       urls.live ||
       urls.clawhub ||
-      urls.listen ||
       urls.repo ||
       d.url ||
       "";
@@ -504,6 +587,8 @@
       link.href = live;
       if (urls.summon && (d.kind === "champion" || d.kind === "champion_egg")) {
         link.textContent = "Summon at chatagent.ca →";
+      } else if (urls.stream || d.kind === "music_track") {
+        link.textContent = "Listen / stream →";
       } else if (urls.council && d.kind === "champion") {
         link.textContent = "Council roster →";
       } else {
@@ -532,6 +617,106 @@
         el("detailLineage").textContent = parts.join(" · ") || (lin.lineage_root || "").slice(0, 16) + "…";
       }
     }
+    if (writeHash !== false) {
+      const next = "#star=" + encodeURIComponent(d.id);
+      if (location.hash !== next) history.replaceState(null, "", next);
+    }
+  }
+
+  function flyTo(d) {
+    if (!d || d.x == null || !zoomBehavior || !svgSel) return;
+    const k = 2.4;
+    const t = d3.zoomIdentity.translate(chartW / 2 - d.x * k, chartH / 2 - d.y * k).scale(k);
+    svgSel.transition().duration(700).call(zoomBehavior.transform, t);
+  }
+
+  function findNode(id) {
+    const needle = String(id || "").trim();
+    if (!needle || !chartData?.nodes) return null;
+    const up = needle.toUpperCase();
+    return (
+      chartData.nodes.find((n) => n.id === needle) ||
+      chartData.nodes.find((n) => String(n.id).toUpperCase() === up) ||
+      null
+    );
+  }
+
+  function focusStar(id, opts) {
+    const d0 = findNode(id);
+    if (!d0) return false;
+    const needTracks = isTrack(d0) && !wantTracks();
+    if (needTracks) {
+      includeTracks = true;
+      initChart();
+    }
+    const apply = () => {
+      const live = visibleNodes.find((n) => n.id === d0.id);
+      showDetail(live || d0, opts?.writeHash !== false);
+      if (live) flyTo(live);
+    };
+    if (simulation && simulation.alpha() > 0.04) {
+      simulation.on("end.focus", () => {
+        simulation.on("end.focus", null);
+        apply();
+      });
+      setTimeout(apply, 900);
+    } else {
+      apply();
+    }
+    return true;
+  }
+
+  function parseHash() {
+    const h = (location.hash || "").replace(/^#/, "");
+    if (!h) return "";
+    if (h.startsWith("star=")) return decodeURIComponent(h.slice(5));
+    if (h.startsWith("id=")) return decodeURIComponent(h.slice(3));
+    if (/^(SEAL_|CHAMPION_|MUSIC_|LATTICE_|PORTAL_|NODE_|HERO_|LORE_|GAB_)/i.test(h)) return decodeURIComponent(h);
+    return "";
+  }
+
+  function searchStars(q) {
+    const s = String(q || "").trim().toLowerCase();
+    const box = el("searchHits");
+    if (!box) return;
+    if (s.length < 2 || !chartData?.nodes) {
+      box.hidden = true;
+      box.innerHTML = "";
+      return;
+    }
+    const hits = [];
+    for (const n of chartData.nodes) {
+      const blob = `${n.id} ${n.name || ""} ${(n.tags || []).join(" ")} ${n.kind || ""}`.toLowerCase();
+      if (blob.includes(s)) hits.push(n);
+      if (hits.length >= 18) break;
+    }
+    if (!hits.length) {
+      box.hidden = false;
+      box.innerHTML = '<div class="search-empty">No stars match</div>';
+      return;
+    }
+    box.hidden = false;
+    box.innerHTML = hits
+      .map(
+        (n) =>
+          `<button type="button" class="search-hit" data-star="${n.id.replace(/"/g, "")}"><span>${escapeHtml(
+            n.id
+          )}</span><small>${escapeHtml(n.name || n.kind || "")}</small></button>`
+      )
+      .join("");
+    box.querySelectorAll("[data-star]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        focusStar(btn.getAttribute("data-star"));
+        box.hidden = true;
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   function populateGalaxyFilters() {
@@ -563,26 +748,86 @@
     });
   }
 
+  async function pulseOnce() {
+    const meta = await fetchJson([META_REL, META_FALLBACK]);
+    if (!meta) {
+      setPulse("stale", "Pulse: meta unreachable — showing last loaded registry");
+      return;
+    }
+    lastMeta = meta;
+    fillQueue(meta);
+    const sha = meta.registry_sha256 || "";
+    const built = meta.generated_utc || "";
+    const q = meta.submission_queue || {};
+    const pending = q.pending ?? 0;
+    if (sha && lastSha && sha !== lastSha) {
+      setPulse("live", "Registry SHA changed — resyncing sky…");
+      try {
+        await loadData();
+        populateGalaxyFilters();
+        initChart();
+        setPulse("live", `Resynced · ${chartData.node_count} stars · ${built}`);
+      } catch (e) {
+        setPulse("err", "Resync failed");
+      }
+      return;
+    }
+    if (sha) lastSha = sha;
+    const ageMin = built ? Math.max(0, (Date.now() - Date.parse(built)) / 60000) : null;
+    const age =
+      ageMin == null || Number.isNaN(ageMin)
+        ? ""
+        : ageMin < 90
+          ? Math.round(ageMin) + "m old"
+          : Math.round(ageMin / 60) + "h old";
+    setPulse("live", `Public C mirror live · ${pending} pending · ${age}`);
+    const man = await fetchJson([MANIFEST_REL]);
+    if (man && el("layerPulse")) {
+      const a = man.layers?.A_classic?.registry_merkle_root || "";
+      const b = man.layers?.B_sovereign?.registry_merkle_root || "";
+      el("layerPulse").textContent =
+        `A ${a.slice(0, 8) || "—"} · B ${b.slice(0, 8) || "—"} · chart ${lastSha.slice(0, 8) || "—"}`;
+    }
+  }
+
+  function startPulse() {
+    if (pulseTimer) clearInterval(pulseTimer);
+    pulseOnce();
+    pulseTimer = setInterval(pulseOnce, PULSE_MS);
+  }
+
   function bindUI() {
+    if (uiBound) return;
+    uiBound = true;
     el("zoomIn")?.addEventListener("click", () => {
-      d3.select("#starmap").transition().call(d3.zoom().scaleBy, 1.25);
+      if (zoomBehavior && svgSel) svgSel.transition().duration(200).call(zoomBehavior.scaleBy, 1.25);
     });
     el("zoomOut")?.addEventListener("click", () => {
-      d3.select("#starmap").transition().call(d3.zoom().scaleBy, 0.8);
+      if (zoomBehavior && svgSel) svgSel.transition().duration(200).call(zoomBehavior.scaleBy, 0.8);
     });
     el("resetZoom")?.addEventListener("click", () => {
-      d3.select("#starmap").transition().call(d3.zoom().transform, d3.zoomIdentity);
+      if (zoomBehavior && svgSel) svgSel.transition().duration(350).call(zoomBehavior.transform, d3.zoomIdentity);
     });
     el("btnResync")?.addEventListener("click", async () => {
       el("loadStatus").textContent = "Resyncing…";
-      await loadData();
-      populateGalaxyFilters();
-      initChart();
-      el("loadStatus").textContent = "LATTICE ALIGNED — chart live";
+      setPulse("idle", "Manual Δ9 resync…");
+      try {
+        await loadData();
+        populateGalaxyFilters();
+        initChart();
+        await pulseOnce();
+      } catch (e) {
+        el("loadStatus").textContent = "Resync failed";
+        setPulse("err", "Resync failed");
+      }
     });
     el("toggleCosmos")?.addEventListener("click", () => {
       showCosmosLayers = !showCosmosLayers;
       el("toggleCosmos").textContent = showCosmosLayers ? "Hide nebulae" : "Show nebulae";
+      initChart();
+    });
+    el("toggleTracks")?.addEventListener("click", () => {
+      includeTracks = !includeTracks;
       initChart();
     });
     document.querySelectorAll("[data-constellation]").forEach((btn) => {
@@ -593,23 +838,78 @@
         initChart();
       });
     });
+    const search = el("starSearch");
+    if (search) {
+      search.addEventListener("input", () => searchStars(search.value));
+      search.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter") {
+          const first = el("searchHits")?.querySelector("[data-star]");
+          if (first) {
+            ev.preventDefault();
+            focusStar(first.getAttribute("data-star"));
+            el("searchHits").hidden = true;
+          }
+        }
+        if (ev.key === "Escape") {
+          search.value = "";
+          searchStars("");
+        }
+      });
+    }
+    el("copyStarId")?.addEventListener("click", async () => {
+      if (!selectedNodeId) return;
+      try {
+        await navigator.clipboard.writeText(selectedNodeId);
+        el("copyStarId").textContent = "Copied";
+        setTimeout(() => {
+          if (el("copyStarId")) el("copyStarId").textContent = "Copy id";
+        }, 1200);
+      } catch (_) {}
+    });
+    window.addEventListener("hashchange", () => {
+      const id = parseHash();
+      if (id) focusStar(id, { writeHash: false });
+    });
+    window.addEventListener("haven-star-focus", (ev) => {
+      const id = ev.detail && ev.detail.id;
+      if (id) focusStar(id);
+    });
+    window.addEventListener("resize", () => {
+      if (!chartData) return;
+      if (window.__hscResize) clearTimeout(window.__hscResize);
+      window.__hscResize = setTimeout(() => initChart(), 180);
+    });
   }
 
   async function boot() {
     el("loadStatus").textContent = "Loading constellation registry…";
+    setPulse("idle", "Loading public C mirror…");
     try {
       await loadData();
       bindUI();
       populateGalaxyFilters();
       initChart();
-      if (chartData.nodes?.length) showDetail(chartData.nodes.find((n) => n.id === "SEAL_000") || chartData.nodes[0]);
-      const sig = chartData.signature || "v2";
-      el("loadStatus").textContent = `Live — ${chartData.node_count} stars · ${chartData.cosmos?.galaxy_count || "?"} galaxies (${sig})`;
+      const hashId = parseHash();
+      if (hashId && findNode(hashId)) {
+        focusStar(hashId, { writeHash: false });
+      } else if (chartData.nodes?.length) {
+        showDetail(chartData.nodes.find((n) => n.id === "SEAL_000") || chartData.nodes[0], false);
+      }
+      startPulse();
+      const q = await fetchJson([QUEUE_REL]);
+      if (q) fillQueue(q);
     } catch (e) {
       el("loadStatus").textContent = "Sync failed — check data JSON";
+      setPulse("err", "Registry fetch failed");
       console.error(e);
     }
   }
+
+  window.HavenStarChart = {
+    focus: focusStar,
+    resync: () => el("btnResync")?.click(),
+    data: () => chartData,
+  };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
