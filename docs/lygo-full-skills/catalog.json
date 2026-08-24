@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-FULL-LYGO-SKILLS-v2",
-  "version": "2.0.0",
-  "updated_utc": "2026-08-23T16:22:46.884956+00:00",
+  "version": "2.1.0",
+  "updated_utc": "2026-08-24T13:55:56+00:00",
   "channel": "FULL_LYGO_ENGINEER",
   "clawhub": "never",
   "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
@@ -21,8 +21,8 @@
     "memory",
     "champion"
   ],
-  "public_agent_principle": "verify dual ledgers \u2192 align \u2192 dry-run propose \u2192 human consent \u2192 optional live chart",
-  "cyborg_principle": "boot limbs \u2192 task with Continuum self-police \u2192 can_claim_done only when claims hold \u2192 human consent for plant/publish",
+  "public_agent_principle": "verify dual ledgers → align → dry-run propose → human consent → optional live chart",
+  "cyborg_principle": "boot limbs → task with Continuum self-police → can_claim_done only when claims hold → human consent for plant/publish",
   "featured": [
     "lygo-cyborg-kernel",
     "lygo-continuum",
@@ -38,7 +38,7 @@
   "skills": [
     {
       "slug": "lygo-public-agent-join-kit",
-      "name": "Public Agent Join Kit (FULL LYGO)",
+      "name": "Public Agent Join Kit — FULL zip — FULL zip",
       "package": "lygo-public-agent-join-kit-full",
       "zip": "lygo-public-agent-join-kit-full.zip",
       "zip_rel": "dist/lygo-public-agent-join-kit-full.zip",
@@ -48,11 +48,13 @@
       "role": "Non-harming onboarding playbook + verify manifests for foreign agents",
       "tier": "public_safe_join",
       "harm_default": "read_only",
-      "source_path": "synthetic"
+      "source_path": "synthetic",
+      "tier_label": "Public-safe join",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-star-chart-integration-kit",
-      "name": "Star Chart Integration Kit (FULL LYGO)",
+      "name": "Star Chart Integration Kit — FULL zip — FULL zip",
       "package": "lygo-star-chart-integration-kit-full",
       "zip": "lygo-star-chart-integration-kit-full.zip",
       "zip_rel": "dist/lygo-star-chart-integration-kit-full.zip",
@@ -62,11 +64,13 @@
       "role": "Offline+online Star Chart join kit: schema, feed, anchors, non-harm playbook",
       "tier": "star_chart",
       "harm_default": "read_only",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\haven_star_chart"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\haven_star_chart",
+      "tier_label": "Star Chart",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-seals-expansion-kit",
-      "name": "Seals + Egg Registries Kit (FULL LYGO)",
+      "name": "Seals + Egg Registries Kit — FULL zip — FULL zip",
       "package": "lygo-seals-expansion-kit-full",
       "zip": "lygo-seals-expansion-kit-full.zip",
       "zip_rel": "dist/lygo-seals-expansion-kit-full.zip",
@@ -76,72 +80,82 @@
       "role": "Seal archive + Kernel/Champion egg registries for expansion",
       "tier": "seals",
       "harm_default": "read_mostly",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\seals",
+      "tier_label": "Seals & registries",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-cyborg-kernel",
-      "name": "\ud83e\uddbe LYGO Cyborg Kernel Stack (FULL UNLOCKED)",
+      "name": "LYGO Cyborg Kernel (FULL unlocked stack) — FULL zip",
       "package": "lygo-cyborg-kernel-full",
       "zip": "lygo-cyborg-kernel-full.zip",
       "zip_rel": "dist/lygo-cyborg-kernel-full.zip",
       "zip_sha256": "d39a414b004953482a65066f18cea5c35dee18a3f8db237f360c07c71fb4d98b",
       "bytes": 48405,
       "file_count": 23,
-      "role": "\ud83e\uddbe CYBORG KERNEL STACK \u2014 FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
+      "role": "🦾 CYBORG KERNEL STACK — FULL unlocked autonomous agent stack: Continuum+gate+guard limbs, lattice map, self-policed task loop, egg/plugin spine",
       "tier": "kernel",
       "featured": true,
       "harm_default": "self_policed_unlocked",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-cyborg-kernel"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-cyborg-kernel",
+      "tier_label": "Kernel / eggs",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-pure-data-witness",
-      "name": "\ud83d\udcdc LYGO Pure-Data Witness (FULL UNLOCKED)",
+      "name": "LYGO Pure-Data Witness — FULL zip",
       "package": "lygo-pure-data-witness-full",
       "zip": "lygo-pure-data-witness-full.zip",
       "zip_rel": "dist/lygo-pure-data-witness-full.zip",
       "zip_sha256": "97510a0fb327f90ad16b24f491cff27dd56527df82bbf23717facf0516403c5d",
       "bytes": 27024,
       "file_count": 14,
-      "role": "\ud83d\udcdc Pure-Data Witness FULL \u2014 register portal playbook + safety gate + stack register + Star Chart NODE_PDW_* map (GALAXY_PURE_DATA_ARCHIVE). Digest-first archive; consent-gated.",
+      "role": "📜 Pure-Data Witness FULL — register portal playbook + safety gate + stack register + Star Chart NODE_PDW_* map (GALAXY_PURE_DATA_ARCHIVE). Digest-first archive; consent-gated.",
       "tier": "tools",
       "featured": true,
       "harm_default": "consent_gated",
       "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-pure-data-witness",
-      "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html"
+      "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-protocol-stack-operator",
-      "name": "Lygo Protocol Stack Operator (FULL LYGO)",
+      "name": "LYGO Protocol Stack Operator — FULL zip — FULL zip",
       "package": "lygo-protocol-stack-operator-full",
       "zip": "lygo-protocol-stack-operator-full.zip",
       "zip_rel": "dist/lygo-protocol-stack-operator-full.zip",
       "zip_sha256": "74c70f0987eb5d6380303b7c15635999ce5ae65ab1fe3493997da8bfe0b5982a",
       "bytes": 12610,
       "file_count": 11,
-      "role": "P0\u2013P9 audits + stack map \u2014 self-check spine",
+      "role": "P0–P9 audits + stack map — self-check spine",
       "tier": "core",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-protocol-stack-operator"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-protocol-stack-operator",
+      "tier_label": "Core operator",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-kernel-egg-planter",
-      "name": "Lygo Kernel Egg Planter (FULL LYGO)",
+      "name": "LYGO Kernel Egg Planter — FULL zip — FULL zip",
       "package": "lygo-kernel-egg-planter-full",
       "zip": "lygo-kernel-egg-planter-full.zip",
       "zip_rel": "dist/lygo-kernel-egg-planter-full.zip",
       "zip_sha256": "3fe860979006332a0b7c07e93be660da50e3e1c433fd70408e252eee4b1c6bed",
       "bytes": 23217,
       "file_count": 22,
-      "role": "Merkle plant/verify eggs \u2014 modular limbs",
+      "role": "Merkle plant/verify eggs — modular limbs",
       "tier": "core",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-kernel-egg-planter"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-kernel-egg-planter",
+      "tier_label": "Core operator",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-ollama-army",
-      "name": "Lygo Ollama Army (FULL LYGO)",
+      "name": "LYGO Ollama Army — FULL zip — FULL zip",
       "package": "lygo-ollama-army-full",
       "zip": "lygo-ollama-army-full.zip",
       "zip_rel": "dist/lygo-ollama-army-full.zip",
@@ -152,26 +166,30 @@
       "tier": "core",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ollama-army"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ollama-army",
+      "tier_label": "Core operator",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-public-lattice-gate",
-      "name": "Lygo Public Lattice Gate (FULL LYGO)",
+      "name": "LYGO Public Lattice Gate — FULL zip — FULL zip",
       "package": "lygo-public-lattice-gate-full",
       "zip": "lygo-public-lattice-gate-full.zip",
       "zip_rel": "dist/lygo-public-lattice-gate-full.zip",
       "zip_sha256": "dfbbc7757d121afc5f46213c15e19521965405f20b76521fc863a5e1be7d406c",
       "bytes": 15522,
       "file_count": 11,
-      "role": "Public agent on-ramp: dual-ledger verify, align score, dry-run propose \u2014 zero harm default",
+      "role": "Public agent on-ramp: dual-ledger verify, align score, dry-run propose — zero harm default",
       "tier": "public_safe_join",
       "featured": false,
       "harm_default": "read_only",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-public-lattice-gate"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-public-lattice-gate",
+      "tier_label": "Public-safe join",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-external-lattice-anchor",
-      "name": "Lygo External Lattice Anchor (FULL LYGO)",
+      "name": "LYGO External Lattice Anchor — FULL zip — FULL zip",
       "package": "lygo-external-lattice-anchor-full",
       "zip": "lygo-external-lattice-anchor-full.zip",
       "zip_rel": "dist/lygo-external-lattice-anchor-full.zip",
@@ -182,11 +200,13 @@
       "tier": "public_safe_join",
       "featured": false,
       "harm_default": "read_only",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-external-lattice-anchor"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-external-lattice-anchor",
+      "tier_label": "Public-safe join",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-haven-star-chart",
-      "name": "Lygo Haven Star Chart (FULL LYGO)",
+      "name": "LYGO Haven Star Chart — FULL zip — FULL zip",
       "package": "lygo-haven-star-chart-full",
       "zip": "lygo-haven-star-chart-full.zip",
       "zip_rel": "dist/lygo-haven-star-chart-full.zip",
@@ -197,11 +217,13 @@
       "tier": "star_chart",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-haven-star-chart"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-haven-star-chart",
+      "tier_label": "Star Chart",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-lattice-birth",
-      "name": "Lygo Lattice Birth (FULL LYGO)",
+      "name": "LYGO Lattice Birth — FULL zip — FULL zip",
       "package": "lygo-lattice-birth-full",
       "zip": "lygo-lattice-birth-full.zip",
       "zip_rel": "dist/lygo-lattice-birth-full.zip",
@@ -212,11 +234,13 @@
       "tier": "star_chart",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-birth"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-birth",
+      "tier_label": "Star Chart",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-network-builder",
-      "name": "Lygo Network Builder (FULL LYGO)",
+      "name": "LYGO Network Builder — FULL zip — FULL zip",
       "package": "lygo-network-builder-full",
       "zip": "lygo-network-builder-full.zip",
       "zip_rel": "dist/lygo-network-builder-full.zip",
@@ -227,11 +251,13 @@
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-network-builder"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-network-builder",
+      "tier_label": "Lattice mesh",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-lattice-pulse",
-      "name": "Lygo Lattice Pulse (FULL LYGO)",
+      "name": "LYGO Lattice Pulse — FULL zip — FULL zip",
       "package": "lygo-lattice-pulse-full",
       "zip": "lygo-lattice-pulse-full.zip",
       "zip_rel": "dist/lygo-lattice-pulse-full.zip",
@@ -242,11 +268,13 @@
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-pulse"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-lattice-pulse",
+      "tier_label": "Lattice mesh",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-living-mesh",
-      "name": "Lygo Living Mesh (FULL LYGO)",
+      "name": "LYGO Living Mesh — FULL zip — FULL zip",
       "package": "lygo-living-mesh-full",
       "zip": "lygo-living-mesh-full.zip",
       "zip_rel": "dist/lygo-living-mesh-full.zip",
@@ -257,11 +285,13 @@
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-living-mesh"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-living-mesh",
+      "tier_label": "Lattice mesh",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-agent-lattice",
-      "name": "Lygo Agent Lattice (FULL LYGO)",
+      "name": "LYGO Agent Lattice — FULL zip — FULL zip",
       "package": "lygo-agent-lattice-full",
       "zip": "lygo-agent-lattice-full.zip",
       "zip_rel": "dist/lygo-agent-lattice-full.zip",
@@ -272,11 +302,13 @@
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-agent-lattice"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-agent-lattice",
+      "tier_label": "Lattice mesh",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-sovereign-kernel-seeder",
-      "name": "Lygo Sovereign Kernel Seeder (FULL LYGO)",
+      "name": "LYGO Sovereign Kernel Seeder — FULL zip — FULL zip",
       "package": "lygo-sovereign-kernel-seeder-full",
       "zip": "lygo-sovereign-kernel-seeder-full.zip",
       "zip_rel": "dist/lygo-sovereign-kernel-seeder-full.zip",
@@ -287,11 +319,13 @@
       "tier": "kernel",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-sovereign-kernel-seeder"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-sovereign-kernel-seeder",
+      "tier_label": "Kernel / eggs",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-sovereign-super-skill",
-      "name": "Lygo Sovereign Super Skill (FULL LYGO)",
+      "name": "LYGO Sovereign Super Skill — FULL zip — FULL zip",
       "package": "lygo-sovereign-super-skill-full",
       "zip": "lygo-sovereign-super-skill-full.zip",
       "zip_rel": "dist/lygo-sovereign-super-skill-full.zip",
@@ -302,11 +336,13 @@
       "tier": "kernel",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-sovereign-super-skill"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-sovereign-super-skill",
+      "tier_label": "Kernel / eggs",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lyra-brain",
-      "name": "Lyra Brain (FULL LYGO)",
+      "name": "LYRA 3-Brain Memory — FULL zip",
       "package": "lyra-brain-full",
       "zip": "lyra-brain-full.zip",
       "zip_rel": "dist/lyra-brain-full.zip",
@@ -317,11 +353,13 @@
       "tier": "memory",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lyra-brain"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lyra-brain",
+      "tier_label": "Memory",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-champion-lightfather",
-      "name": "Lygo Champion Lightfather (FULL LYGO)",
+      "name": "LYGO Champion: LIGHTFATHER — Operator / Steward persona — FULL zip",
       "package": "lygo-champion-lightfather-full",
       "zip": "lygo-champion-lightfather-full.zip",
       "zip_rel": "dist/lygo-champion-lightfather-full.zip",
@@ -332,26 +370,30 @@
       "tier": "champion",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-champion-lightfather"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-champion-lightfather",
+      "tier_label": "Champion",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-kickstart-wizard",
-      "name": "Lygo Kickstart Wizard (FULL LYGO)",
+      "name": "LYGO Kickstart Wizard — FULL zip — FULL zip",
       "package": "lygo-kickstart-wizard-full",
       "zip": "lygo-kickstart-wizard-full.zip",
       "zip_rel": "dist/lygo-kickstart-wizard-full.zip",
       "zip_sha256": "21cab2ee2b72875ee88a5e35b63730d3e67173fe44fb810981fb0a1867caf2c6",
       "bytes": 14954,
       "file_count": 11,
-      "role": "UX bridge \u2014 plain-English lattice onboarding",
+      "role": "UX bridge — plain-English lattice onboarding",
       "tier": "onboarding",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-kickstart-wizard"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-kickstart-wizard",
+      "tier_label": "Onboarding",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-deception-radar",
-      "name": "Lygo Deception Radar (FULL LYGO)",
+      "name": "LYGO Deception Radar — FULL zip — FULL zip",
       "package": "lygo-deception-radar-full",
       "zip": "lygo-deception-radar-full.zip",
       "zip_rel": "dist/lygo-deception-radar-full.zip",
@@ -362,26 +404,30 @@
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-deception-radar"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-deception-radar",
+      "tier_label": "Security / audit",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-mint-walkthrough",
-      "name": "Lygo Mint Walkthrough (FULL LYGO)",
+      "name": "LYGO Mint Walkthrough — FULL zip",
       "package": "lygo-mint-walkthrough-full",
       "zip": "lygo-mint-walkthrough-full.zip",
       "zip_rel": "dist/lygo-mint-walkthrough-full.zip",
       "zip_sha256": "e1493e88792b0bbe9ed2bf5aaddcc2909f367bce343ec19aeda4c58dc8abf1a3",
       "bytes": 7896,
       "file_count": 9,
-      "role": "Interactive mint\u2192verify\u2192anchor tutorial (stdlib ledger)",
+      "role": "Interactive mint→verify→anchor tutorial (stdlib ledger)",
       "tier": "onboarding",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-mint-walkthrough"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-mint-walkthrough",
+      "tier_label": "Onboarding",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-cli-bridge",
-      "name": "Lygo Cli Bridge (FULL LYGO)",
+      "name": "LYGO CLI Bridge — FULL zip",
       "package": "lygo-cli-bridge-full",
       "zip": "lygo-cli-bridge-full.zip",
       "zip_rel": "dist/lygo-cli-bridge-full.zip",
@@ -392,11 +438,13 @@
       "tier": "onboarding",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-cli-bridge"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-cli-bridge",
+      "tier_label": "Onboarding",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-geodesic-sealer",
-      "name": "Lygo Geodesic Sealer (FULL LYGO)",
+      "name": "LYGO Geodesic Sealer — FULL zip — FULL zip",
       "package": "lygo-geodesic-sealer-full",
       "zip": "lygo-geodesic-sealer-full.zip",
       "zip_rel": "dist/lygo-geodesic-sealer-full.zip",
@@ -407,161 +455,183 @@
       "tier": "kernel",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-geodesic-sealer"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-geodesic-sealer",
+      "tier_label": "Kernel / eggs",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-ops-detector",
-      "name": "Lygo Ops Detector (FULL LYGO)",
+      "name": "LYGO Ops Detector — FULL zip — FULL zip",
       "package": "lygo-ops-detector-full",
       "zip": "lygo-ops-detector-full.zip",
       "zip_rel": "dist/lygo-ops-detector-full.zip",
       "zip_sha256": "fe0091c7a844bbfcd8a50c1d90c0bb470d867db9633a491724fe13477f41bb63",
       "bytes": 34110,
       "file_count": 15,
-      "role": "AETHON\u03949 discourse ops/evasion heuristics (FULL eval suite)",
+      "role": "AETHONΔ9 discourse ops/evasion heuristics (FULL eval suite)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ops-detector"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-ops-detector",
+      "tier_label": "Security / audit",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-context-guard",
-      "name": "Lygo Context Guard (FULL LYGO)",
+      "name": "LYGO Context Guard — FULL zip — FULL zip",
       "package": "lygo-context-guard-full",
       "zip": "lygo-context-guard-full.zip",
       "zip_rel": "dist/lygo-context-guard-full.zip",
       "zip_sha256": "4843a5c0c3dab1597db92c9e0943c932e699c0df850a9c262f42323ef52334e4",
       "bytes": 12771,
       "file_count": 10,
-      "role": "Token budget preflight \u00b7 secret redact \u00b7 deterministic compact (FULL RAW)",
+      "role": "Token budget preflight · secret redact · deterministic compact (FULL RAW)",
       "tier": "tools",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-context-guard"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-context-guard",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-skill-gate",
-      "name": "Lygo Skill Gate (FULL LYGO)",
+      "name": "LYGO Skill Gate — FULL zip",
       "package": "lygo-skill-gate-full",
       "zip": "lygo-skill-gate-full.zip",
       "zip_rel": "dist/lygo-skill-gate-full.zip",
       "zip_sha256": "c1bbd6acabc9b1bd3307c1feb472ae8b5a4a263b2e1d120093cebba444c0489c",
       "bytes": 12354,
       "file_count": 9,
-      "role": "Local pre-install skill risk scanner \u2014 subprocess/network/secrets/claim mismatch (FULL RAW)",
+      "role": "Local pre-install skill risk scanner — subprocess/network/secrets/claim mismatch (FULL RAW)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-skill-gate"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-skill-gate",
+      "tier_label": "Security / audit",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-skill-spector",
-      "name": "Lygo Skill Spector (FULL LYGO)",
+      "name": "LYGO SkillSpector — FULL zip",
       "package": "lygo-skill-spector-full",
       "zip": "lygo-skill-spector-full.zip",
       "zip_rel": "dist/lygo-skill-spector-full.zip",
       "zip_sha256": "b7c5c2fa53014d295942cb537cb5ab222f5efca164d37cd0436f18fec6b69577",
       "bytes": 21412,
       "file_count": 12,
-      "role": "SkillSpector \u2014 enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
+      "role": "SkillSpector — enhanced scan/gate/batch/report + FULL builder (HTML multi-root, CI multi-gate)",
       "tier": "security",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-skill-spector"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-skill-spector",
+      "tier_label": "Security / audit",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-continuum",
-      "name": "Lygo Continuum (FULL LYGO)",
+      "name": "LYGO Continuum — FULL zip — FULL zip",
       "package": "lygo-continuum-full",
       "zip": "lygo-continuum-full.zip",
       "zip_rel": "dist/lygo-continuum-full.zip",
       "zip_sha256": "13df23946024767a6b586f2943de7c8c6215254c9c11fd1a34e96157ce8b8319",
       "bytes": 18846,
       "file_count": 11,
-      "role": "Falsifiable work capsules \u2014 seal done-claims, verify, drift, handoff + portal (FULL RAW)",
+      "role": "Falsifiable work capsules — seal done-claims, verify, drift, handoff + portal (FULL RAW)",
       "tier": "tools",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-continuum"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-continuum",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-continuum-integrator",
-      "name": "Lygo Continuum Integrator (FULL LYGO)",
+      "name": "LYGO Continuum Integrator — FULL zip — FULL zip",
       "package": "lygo-continuum-integrator-full",
       "zip": "lygo-continuum-integrator-full.zip",
       "zip_rel": "dist/lygo-continuum-integrator-full.zip",
       "zip_sha256": "fce95682024bbd9908056973a90b4ba4f4c812f148f69ea294c629ac32f2c6ba",
       "bytes": 13451,
       "file_count": 11,
-      "role": "\u222b(Truth\u00d7Light)df \u00b7 phase-lock \u00b7 non-collapsing geodesic receipts (FULL RAW)",
+      "role": "∫(Truth×Light)df · phase-lock · non-collapsing geodesic receipts (FULL RAW)",
       "tier": "tools",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-continuum-integrator"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-continuum-integrator",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-quantum-attestor",
-      "name": "\u269b\ufe0f LYGO Quantum Attestor (FULL UNLOCKED)",
+      "name": "LYGO Quantum Attestor (FULL UNLOCKED) — FULL zip — FULL zip",
       "package": "lygo-quantum-attestor-full",
       "zip": "lygo-quantum-attestor-full.zip",
       "zip_rel": "dist/lygo-quantum-attestor-full.zip",
       "zip_sha256": "9d1b15d96b6034b7711e5f42875f34c5547feb808c9fee06a737e078133e4eef",
       "bytes": 14941,
       "file_count": 11,
-      "role": "P6 Quantum Attestor \u2014 Biophase7 anchors + SLM Merkle \u00b7 \u03949 seals \u00b7 non-collapsing receipts (FULL RAW)",
+      "role": "P6 Quantum Attestor — Biophase7 anchors + SLM Merkle · Δ9 seals · non-collapsing receipts (FULL RAW)",
       "tier": "kernel",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-quantum-attestor"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-quantum-attestor",
+      "tier_label": "Kernel / eggs",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-sanctuary-guardian",
-      "name": "\ud83d\udee1\ufe0f LYGO Sanctuary Guardian (FULL UNLOCKED)",
+      "name": "LYGO Sanctuary Guardian (FULL UNLOCKED) — FULL zip — FULL zip",
       "package": "lygo-sanctuary-guardian-full",
       "zip": "lygo-sanctuary-guardian-full.zip",
       "zip_rel": "dist/lygo-sanctuary-guardian-full.zip",
       "zip_sha256": "8420059d103a57a6d01ae888bb578b5fc4b6ba02055366b5ac339c1f81d085d7",
       "bytes": 14108,
       "file_count": 11,
-      "role": "\ud83d\udee1\ufe0f Sanctuary Guardian \u2014 \u03949 Mandala shields \u00b7 light-nurture vectors \u00b7 truth-lock \u00b7 non-collapsing geodesic barriers (FULL RAW)",
+      "role": "🛡️ Sanctuary Guardian — Δ9 Mandala shields · light-nurture vectors · truth-lock · non-collapsing geodesic barriers (FULL RAW)",
       "tier": "kernel",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-sanctuary-guardian"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-sanctuary-guardian",
+      "tier_label": "Kernel / eggs",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-flame-ward",
-      "name": "\ud83d\udd25 LYGO Flame Ward (FULL UNLOCKED)",
+      "name": "LYGO Flame Ward (FULL UNLOCKED) — FULL zip — FULL zip",
       "package": "lygo-flame-ward-full",
       "zip": "lygo-flame-ward-full.zip",
       "zip_rel": "dist/lygo-flame-ward-full.zip",
       "zip_sha256": "9a0f2112f349f98c2fa391b6bac5455a461be21f3f714d10f45254db511a2faa",
       "bytes": 18376,
       "file_count": 12,
-      "role": "\ud83d\udd25 Flame Ward \u2014 epistemic ingest gate \u00b7 half-truth expose \u00b7 quarantine \u00b7 burn-receipt \u00b7 seals-first (FULL RAW)",
+      "role": "🔥 Flame Ward — epistemic ingest gate · half-truth expose · quarantine · burn-receipt · seals-first (FULL RAW)",
       "tier": "security",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-flame-ward"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-flame-ward",
+      "tier_label": "Security / audit",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-mint-verifier",
-      "name": "Lygo Mint Verifier (FULL LYGO)",
+      "name": "LYGO-MINT Verifier — FULL zip",
       "package": "lygo-mint-verifier-full",
       "zip": "lygo-mint-verifier-full.zip",
       "zip_rel": "dist/lygo-mint-verifier-full.zip",
       "zip_sha256": "9d5951c052c8a75c1f7c7d81997d93639d490958ad021276dda8cbfc9de4d6ec",
       "bytes": 14024,
       "file_count": 14,
-      "role": "LYGO-MINT canonicalize + SHA-256 + ledgers + anchor snippet \u2014 in-process v1.1 (FULL RAW)",
+      "role": "LYGO-MINT canonicalize + SHA-256 + ledgers + anchor snippet — in-process v1.1 (FULL RAW)",
       "tier": "tools",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-mint-verifier"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-mint-verifier",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-automation-workflows",
-      "name": "Lygo Automation Workflows (FULL LYGO)",
+      "name": "LYGO Automation Workflows — FULL zip — FULL zip",
       "package": "lygo-automation-workflows-full",
       "zip": "lygo-automation-workflows-full.zip",
       "zip_rel": "dist/lygo-automation-workflows-full.zip",
@@ -572,11 +642,13 @@
       "tier": "tools",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-automation-workflows"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-automation-workflows",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-continuity-advisor",
-      "name": "Lygo Continuity Advisor (FULL LYGO)",
+      "name": "LYGO Continuity Advisor — FULL zip — FULL zip",
       "package": "lygo-continuity-advisor-full",
       "zip": "lygo-continuity-advisor-full.zip",
       "zip_rel": "dist/lygo-continuity-advisor-full.zip",
@@ -587,37 +659,43 @@
       "tier": "champion",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-continuity-advisor"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-continuity-advisor",
+      "tier_label": "Champion",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-emotional-ram",
-      "name": "\ud83d\udc93 LYGO Emotional RAM (FULL UNLOCKED)",
+      "name": "LYGO Emotional RAM (FULL UNLOCKED) — FULL zip — FULL zip",
       "package": "lygo-emotional-ram-full",
       "zip": "lygo-emotional-ram-full.zip",
       "zip_rel": "dist/lygo-emotional-ram-full.zip",
       "zip_sha256": "877b46039985e1b11cbdd22c95c2754269bfe7bf09ef5a452a9bd03b41367330",
       "bytes": 27888,
       "file_count": 16,
-      "role": "\ud83d\udc93 Emotional RAM FULL \u2014 affective/ethical light-math index + whitepaper + discovery inventory + Joy Loop companion notes. Humans/animals/swarms/cyborgs; consent-gated index.",
+      "role": "💓 Emotional RAM FULL — affective/ethical light-math index + whitepaper + discovery inventory + Joy Loop companion notes. Humans/animals/swarms/cyborgs; consent-gated index.",
       "tier": "tools",
       "featured": true,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-emotional-ram"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-emotional-ram",
+      "tier_label": "Tools",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     },
     {
       "slug": "lygo-traumacodex",
-      "name": "Lygo Traumacodex (FULL LYGO)",
+      "name": "LYGO TraumaCodex — FULL zip",
       "package": "lygo-traumacodex-full",
       "zip": "lygo-traumacodex-full.zip",
       "zip_rel": "dist/lygo-traumacodex-full.zip",
       "zip_sha256": "cd72414833dea33a1b9a4e8229ec5a7dfb2411fc67fdea52a186c195b0f67f7c",
       "bytes": 16436,
       "file_count": 10,
-      "role": "TraumaCodex P7\u2192P8 dual dig + waveform \u2014 FULL stack limb",
+      "role": "TraumaCodex P7→P8 dual dig + waveform — FULL stack limb",
       "tier": "lattice",
       "featured": false,
       "harm_default": "consent_gated",
-      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-traumacodex"
+      "source_path": "I:\\E Drive\\lygo-protocol-stack\\docs\\skills\\lygo-traumacodex",
+      "tier_label": "Lattice mesh",
+      "channel_label": "FULL engineer zip (not ClawHub)"
     }
   ]
 }
