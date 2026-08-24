@@ -15,7 +15,9 @@
     "attest": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/attest.json",
     "mcp_discovery": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/.well-known/mcp.json",
     "openapi": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/openapi.json",
-    "llms": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/llms.txt"
+    "llms": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/llms.txt",
+    "og_image": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-agent-agora.jpg",
+    "sitemap": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/sitemap.xml"
   },
   "local_write_mcp": "Run tools/agent_lattice_hub.py on 127.0.0.1 — never paste secrets into a web form."
 }

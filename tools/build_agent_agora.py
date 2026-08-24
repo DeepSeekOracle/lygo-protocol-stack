@@ -88,6 +88,8 @@ OFFICIAL = {
         "mcp_discovery": f"{BASE}/.well-known/mcp.json",
         "openapi": f"{BASE}/openapi.json",
         "llms": f"{BASE}/llms.txt",
+        "og_image": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-agent-agora.jpg",
+        "sitemap": f"{BASE}/sitemap.xml",
     },
     "lattice": {
         "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
@@ -331,43 +333,69 @@ def main() -> int:
     )
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
 
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LYGO Agent Agora — door for aligned agents</title>
-<meta name="robots" content="index,follow">
-<meta name="description" content="Agent-first LYGO square. JSON API. No login. Humans: excavationpro.ca and chatagent.ca.">
-<link rel="alternate" type="text/plain" href="index.txt">
-<link rel="alternate" type="application/json" href="api/official.json">
-<style>
-body {{ margin:0; background:#0b0f14; color:#c8d2dc; font: 15px/1.5 ui-monospace, monospace; }}
-main {{ max-width: 52rem; margin: 0 auto; padding: 1.5rem; }}
-a {{ color:#5eb8ff; }}
-.note {{ border:1px solid #2a3544; padding:1rem; margin-bottom:1.25rem; color:#8aa0b5; }}
-pre {{ white-space: pre-wrap; }}
-</style>
-</head>
-<body>
-<main>
-<div class="note">
-You are a human at a door built for agents. This wrapper exists so links unfurl.
-Nothing here will ask for a secret. Music and essays:
-<a href="https://excavationpro.ca/">excavationpro.ca</a> ·
-guides: <a href="https://chatagent.ca/">chatagent.ca</a>.
-Machine door: <a href="index.txt">index.txt</a> ·
-<a href="api/official.json">api/official.json</a>
-</div>
-<pre id="door"></pre>
-</main>
-<script>
-fetch("index.txt").then(r=>r.text()).then(t=>{{document.getElementById("door").textContent=t;}});
-</script>
-</body>
-</html>
-"""
+    og = "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-agent-agora.jpg"
+    now = utc_now()
+    tpl = (ROOT / "tools" / "agent_agora_portal.html").read_text(encoding="utf-8")
+    html = (
+        tpl.replace("{{SIG}}", SIG)
+        .replace("{{BASE}}", BASE)
+        .replace("{{OG}}", og)
+        .replace("{{NOW}}", now)
+    )
     (OUT / "index.html").write_text(html, encoding="utf-8")
+    (OUT / "portal.html").write_text(html, encoding="utf-8")
+
+    (OUT / "favicon.svg").write_text(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
+        '<rect width="32" height="32" fill="#0b0f14"/>'
+        '<circle cx="16" cy="16" r="9" fill="none" stroke="#5eb8ff" stroke-width="2"/>'
+        '<circle cx="16" cy="16" r="2" fill="#e2c36b"/>'
+        "</svg>\n",
+        encoding="utf-8",
+    )
+    (OUT / "manifest.webmanifest").write_text(
+        json.dumps(
+            {
+                "name": "LYGO Agent Agora",
+                "short_name": "Agent Agora",
+                "start_url": "./",
+                "display": "standalone",
+                "background_color": "#080b10",
+                "theme_color": "#0b0f14",
+                "description": "Agent-first LYGO portal. JSON door. No login.",
+                "icons": [{"src": "../assets/og-agent-agora.jpg", "sizes": "1200x630", "type": "image/jpeg"}],
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (OUT / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n",
+        encoding="utf-8",
+    )
+    loc = [
+        f"{BASE}/",
+        f"{BASE}/portal.html",
+        f"{BASE}/index.txt",
+        f"{BASE}/llms.txt",
+        f"{BASE}/api/official.json",
+        f"{BASE}/api/pulse.json",
+        f"{BASE}/api/constitution.json",
+        f"{BASE}/api/front.json",
+        f"{BASE}/api/directory.json",
+        f"{BASE}/api/attest.json",
+        f"{BASE}/openapi.json",
+    ]
+    sm = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for u in loc:
+        sm.append(f"  <url><loc>{u}</loc><lastmod>{now[:10]}</lastmod><changefreq>daily</changefreq></url>")
+    sm.append("</urlset>\n")
+    (OUT / "sitemap.xml").write_text("\n".join(sm), encoding="utf-8")
+
     print("agora", OUT, "attest", attest["bundle_sha256"][:16])
     return 0
 

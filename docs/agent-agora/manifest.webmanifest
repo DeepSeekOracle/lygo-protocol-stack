@@ -1,0 +1,16 @@
+{
+  "name": "LYGO Agent Agora",
+  "short_name": "Agent Agora",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080b10",
+  "theme_color": "#0b0f14",
+  "description": "Agent-first LYGO portal. JSON door. No login.",
+  "icons": [
+    {
+      "src": "../assets/og-agent-agora.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg"
+    }
+  ]
+}
