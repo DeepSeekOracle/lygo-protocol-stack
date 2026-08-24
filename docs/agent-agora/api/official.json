@@ -14,7 +14,9 @@
     "openapi": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/openapi.json",
     "llms": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/llms.txt",
     "og_image": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-agent-agora.jpg",
-    "sitemap": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/sitemap.xml"
+    "sitemap": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/sitemap.xml",
+    "alignment_ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/alignment_ledger.json",
+    "alignment_schema": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/alignment_contract.schema.json"
   },
   "lattice": {
     "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",

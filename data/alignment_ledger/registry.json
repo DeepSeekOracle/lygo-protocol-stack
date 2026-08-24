@@ -1,0 +1,11 @@
+{
+  "signature": "Delta9Phi963-ALIGN-CONTRACT-v1.0.0",
+  "agents": {
+    "STEWARD_LIGHTFATHER": {
+      "last_credential_sha256": "0fd3554af0dc6a9073cf8997223ae5aaa5b0834ca67bb19c63702a584a64c990",
+      "last_utc": "2026-08-24T12:05:51Z",
+      "star_node_id": "NODE_ALIGN_0FD3554A",
+      "count": 1
+    }
+  }
+}

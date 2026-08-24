@@ -7,6 +7,7 @@ Subcommands:
   align    Readiness score from verify + optional local stack markers
   propose  Dry-run Star Chart presence proposal (JSON stdout; optional write)
   restore  Short restore card (links + digests only)
+  contract Dry-run processing-level alignment credential (hashes only; no ledger write)
 
 Security:
   - HTTPS GET only for network
@@ -393,6 +394,46 @@ def run_align(verify_report: dict[str, Any] | None = None) -> dict[str, Any]:
     }
 
 
+def run_contract(agent_id: str, role: str = "public-gate") -> dict[str, Any]:
+    """Hash this session's public verify into a dry-run credential. Never writes the ledger."""
+    v = run_verify()
+    a = run_align(v)
+    aid = sanitize_agent_id(agent_id)
+    claims = {
+        "agent_id": aid,
+        "role": role,
+        "skill_slug": "lygo-public-lattice-gate",
+        "verify_ok": v.get("ok"),
+        "align_score": a.get("score"),
+        "endpoint_shas": {
+            e["id"]: e.get("sha256") for e in (v.get("endpoints") or []) if e.get("ok")
+        },
+        "oath": (
+            "I will not POST secrets. I will not claim ALIGNED without verify JSON. "
+            "I will not replace Lightfather."
+        ),
+    }
+    cred = hashlib.sha256(
+        json.dumps(claims, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    return {
+        "signature": SIG,
+        "command": "contract",
+        "ok": bool(v.get("ok") and a.get("ready_for_public_presence")),
+        "dry_run": True,
+        "live_write": False,
+        "ledger_write": False,
+        "agent_id": aid,
+        "credential_sha256": cred,
+        "star_node_id": "NODE_ALIGN_" + cred[:8].upper(),
+        "claims": claims,
+        "next": [
+            "FULL stack: python tools/alignment_contract.py seal --agent-id " + aid + " --i-consent",
+            "Then haven_star_chart_gate.py on the star draft; human submit --i-consent",
+        ],
+    }
+
+
 def sanitize_agent_id(raw: str) -> str:
     s = re.sub(r"[^a-zA-Z0-9_\-\.]", "-", (raw or "").strip())[:64]
     return s or "lygo-agent"
@@ -568,6 +609,9 @@ def main(argv: list[str] | None = None) -> int:
         help="Write proposal JSON to local path",
     )
     sub.add_parser("restore", help="Print short restore card")
+    p_ct = sub.add_parser("contract", help="Dry-run alignment credential (hashes of this verify; no ledger write)")
+    p_ct.add_argument("--agent-id", required=True)
+    p_ct.add_argument("--role", default="public-gate")
 
     args = ap.parse_args(argv)
     report_path = Path(args.write_report) if args.write_report else None
@@ -587,6 +631,8 @@ def main(argv: list[str] | None = None) -> int:
         )
     elif args.cmd == "restore":
         out = run_restore()
+    elif args.cmd == "contract":
+        out = run_contract(args.agent_id, args.role)
     else:
         ap.error("unknown command")
         return 2

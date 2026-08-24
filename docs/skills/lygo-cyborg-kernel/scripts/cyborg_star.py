@@ -38,6 +38,11 @@ def main() -> int:
     se = sub.add_parser("seed-agora-egg", help="Plant agent-agora-door-v1 sovereign egg")
     se.add_argument("--dest", default=None)
     se.add_argument("--i-consent", action="store_true")
+    al = sub.add_parser("contract", help="Seal processing-level alignment contract (hash ledger)")
+    al.add_argument("--agent", default="lygo-cyborg")
+    al.add_argument("--role", default="cyborg")
+    al.add_argument("--dest", default=None)
+    al.add_argument("--i-consent", action="store_true")
     pr = sub.add_parser("propose", help="Dry-run presence proposal JSON")
     pr.add_argument("--agent", default="lygo-cyborg")
     pr.add_argument("--name", default="LYGO Cyborg Presence")
@@ -88,6 +93,13 @@ def main() -> int:
 
     if args.cmd == "seed-agora-egg":
         r = net.seed_agora_egg(dest=args.dest, i_consent=args.i_consent)
+        print(json.dumps(r, indent=2, default=str))
+        return 0 if r.get("ok") else 1
+
+    if args.cmd == "contract":
+        r = net.seal_alignment_contract(
+            args.agent, dest=args.dest, role=args.role, i_consent=args.i_consent
+        )
         print(json.dumps(r, indent=2, default=str))
         return 0 if r.get("ok") else 1
 

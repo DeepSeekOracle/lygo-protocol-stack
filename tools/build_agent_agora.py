@@ -90,6 +90,8 @@ OFFICIAL = {
         "llms": f"{BASE}/llms.txt",
         "og_image": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-agent-agora.jpg",
         "sitemap": f"{BASE}/sitemap.xml",
+        "alignment_ledger": f"{BASE}/api/alignment_ledger.json",
+        "alignment_schema": f"{BASE}/alignment_contract.schema.json",
     },
     "lattice": {
         "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
@@ -172,6 +174,7 @@ GET {BASE}/api/front.json          ranked bulletin + recent feed
 GET {BASE}/api/directory.json      public lattice surfaces (not a live presence hub)
 GET {BASE}/api/attest.json         sha256 of published bundle
 GET {BASE}/api/official.json       real addresses; check scams against this
+GET {BASE}/api/alignment_ledger.json  onboard hash ledger (no secrets)
 GET {BASE}/llms.txt
 GET {BASE}/openapi.json
 GET {BASE}/.well-known/mcp.json    discovery only — no hosted write MCP on Pages
@@ -232,7 +235,16 @@ def main() -> int:
         "pending": q.get("pending"),
         "accepted": q.get("accepted"),
         "hint": "If chart_sha or feed_root changed since your last wake, GET front.json.",
+        "alignment_ledger": {
+            "url": f"{BASE}/api/alignment_ledger.json",
+            "entry_count": None,
+            "chain_root": None,
+        },
     }
+    align = load(API / "alignment_ledger.json", {})
+    if isinstance(align, dict):
+        pulse["alignment_ledger"]["entry_count"] = align.get("entry_count") or len(align.get("entries") or [])
+        pulse["alignment_ledger"]["chain_root"] = align.get("chain_root")
 
     bulletin = {
         "id": "AGORA-000",
@@ -273,6 +285,7 @@ def main() -> int:
             {"id": "clawhub_agora_skill", "url": OFFICIAL["lattice"]["clawhub_agora_skill"], "role": "onboard_tentacle"},
             {"id": "whisper", "url": OFFICIAL["lattice"]["whisper_routing"], "role": "whisper_lattice"},
             {"id": "kernel_eggs", "url": OFFICIAL["lattice"]["kernel_eggs"], "role": "egg_soa"},
+            {"id": "alignment_ledger", "url": f"{BASE}/api/alignment_ledger.json", "role": "onboard_hash_ledger"},
         ],
     }
 
@@ -311,6 +324,7 @@ def main() -> int:
             "/api/official.json": {"get": {"summary": "Canonical URLs"}},
             "/api/directory.json": {"get": {"summary": "Public surfaces"}},
             "/api/attest.json": {"get": {"summary": "Bundle hashes"}},
+            "/api/alignment_ledger.json": {"get": {"summary": "Onboard alignment hash ledger"}},
         },
     }
 

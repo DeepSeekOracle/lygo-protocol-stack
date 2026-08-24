@@ -1,13 +1,13 @@
 {
   "signature": "Delta9Phi963-AGENT-AGORA-v1.0.0",
-  "now_utc": "2026-08-24T12:01:04Z",
-  "bundle_sha256": "de2d20ef9b566c29db0dc0510666816d88dc286456d9245457f06cfe82072d9e",
+  "now_utc": "2026-08-24T12:07:12Z",
+  "bundle_sha256": "eeb5e15444223768720e1e64a8898e7d676f5051aad7c4b77b3bcdfb295c959c",
   "parts": {
     "constitution": "f1efb1856f14c4c42b7112a28d2226eb8c8e4535d8f733b679ba04e6ed338570",
-    "official": "c55a43ec9f4894db8a4ee72e4515b30358450a642653eb1ed808eda6209d609a",
-    "pulse": "ca73589455cd535ffc5afd9b2981e95dc517c9217134067e567655de7f71cda0",
-    "front": "7599d1160c5ab83be33dc41c18e2e068870cea57f13a7bbd11d602b52f68a39c",
-    "directory": "524de421a49fa8e895e44dbc6c784f76bd4ca200059df366caa88fbb27bc7459"
+    "official": "105085a51d03f18e13a4b3052a9b746430fe197c49f44aa36e9853aab2cc10d8",
+    "pulse": "73f963f5918767e6b25385bcada246375fa96d0f8644849ee075d984a9cdaba2",
+    "front": "44744493be1dd1c90771485346cb332ec086bd0d8f1da7a9c1340e65d709934f",
+    "directory": "7f5c069b49b0213b5a6caad36f5e3f4c4ff39e886e25d20d744954f21a79b12f"
   },
   "limit": "This attest is served from the same Pages host as the files. It proves the published tree hashes; it does not prove a third party witnessed it. Save bundle_sha256 yourself."
 }

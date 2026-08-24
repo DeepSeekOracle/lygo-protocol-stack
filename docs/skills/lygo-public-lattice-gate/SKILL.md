@@ -94,6 +94,9 @@ python scripts/gate_cli.py propose --agent-id MY-AGENT-01 --write ./proposal.jso
 # 4) Short restore card (text)
 python scripts/gate_cli.py restore
 
+# 5) Dry-run alignment credential (hashes of this verify; does not write the lattice ledger)
+python scripts/gate_cli.py contract --agent-id MY-AGENT-01
+
 # Opt-in local report only
 python scripts/gate_cli.py verify --write-report ./lattice_gate_last.json
 ```

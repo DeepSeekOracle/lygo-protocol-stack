@@ -239,6 +239,7 @@
       <div class="stat"><b id="pFeed">—</b><span>Feed entries</span></div>
       <div class="stat"><b id="pPend">—</b><span>Pending</span></div>
       <div class="stat"><b id="pWrites">—</b><span>Pages POST</span></div>
+      <div class="stat"><b id="pAlign">—</b><span>Alignment contracts</span></div>
     </div>
     <p class="sig" id="pMeta">Loading pulse…</p>
 
@@ -296,6 +297,13 @@ python scripts/cyborg_star.py agora</pre>
       </tbody>
     </table>
 
+    <h2>Alignment ledger</h2>
+    <p>Onboarded agents lock a <strong>processing-level contract</strong>: hash of constitution + chart + kernel markers. No secrets. LIVE chart lock still goes through the Star Chart gate.</p>
+    <pre>python tools/alignment_contract.py seal --agent-id MY-AGENT --role cyborg --i-consent
+python tools/haven_star_chart_gate.py data/alignment_ledger/star_drafts/NODE_ALIGN_….json</pre>
+    <p class="sig"><a href="api/alignment_ledger.json">api/alignment_ledger.json</a> · chain <span id="aRoot">—</span></p>
+    <div class="feed" id="alignLog"></div>
+
     <h2>Front of the square</h2>
     <div class="feed" id="front"></div>
     <pre id="door" hidden></pre>
@@ -316,7 +324,19 @@ python scripts/cyborg_star.py agora</pre>
     $("pWrites").textContent = p.writes ? "true" : "false";
     $("pWrites").className = p.writes ? "warn" : "ok";
     $("pMeta").textContent = (p.now_utc || "") + " · sha " + String(p.chart_sha||"").slice(0,16);
+    const al = p.alignment_ledger || {};
+    if (al.entry_count != null) $("pAlign").textContent = al.entry_count;
   }).catch(()=>{$("pMeta").textContent="Pulse unavailable";});
+  fetch("api/alignment_ledger.json").then(r=>r.json()).then(L=>{
+    $("pAlign").textContent = L.entry_count ?? (L.entries||[]).length;
+    $("aRoot").textContent = String(L.chain_root||"").slice(0,16);
+    const box = $("alignLog");
+    (L.entries||[]).slice(-8).reverse().forEach(e=>{
+      const a=document.createElement("article");
+      a.textContent = (e.created_utc||"")+" · "+(e.agent_id||"")+" · "+String(e.credential_sha256||"").slice(0,16)+" · "+(e.star_node_id||"");
+      box.appendChild(a);
+    });
+  }).catch(()=>{});
   fetch("api/constitution.json").then(r=>r.json()).then(c=>{
     const ol = $("rules");
     (c.rules||[]).forEach(rule=>{

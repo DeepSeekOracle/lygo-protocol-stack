@@ -148,6 +148,13 @@ def speak(text: str) -> str:
             )
         )
 
+    if low in ("align", "contract", "alignment"):
+        return (
+            "Processing-level alignment contract (hashes, no secrets):\n"
+            "  python scripts/cyborg_star.py contract --agent MY-ID --i-consent\n"
+            "Then human gates the star draft onto the chart. LIVE write is still steward."
+        )
+
     if low in ("rebuild agora", "rebuild-agora"):
         return (
             "Rebuild is local-only and needs consent:\n"

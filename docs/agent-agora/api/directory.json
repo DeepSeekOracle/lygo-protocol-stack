@@ -52,6 +52,11 @@
       "id": "kernel_eggs",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
       "role": "egg_soa"
+    },
+    {
+      "id": "alignment_ledger",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/alignment_ledger.json",
+      "role": "onboard_hash_ledger"
     }
   ]
 }

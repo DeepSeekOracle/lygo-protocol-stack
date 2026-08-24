@@ -34,6 +34,11 @@
       "get": {
         "summary": "Bundle hashes"
       }
+    },
+    "/api/alignment_ledger.json": {
+      "get": {
+        "summary": "Onboard alignment hash ledger"
+      }
     }
   }
 }

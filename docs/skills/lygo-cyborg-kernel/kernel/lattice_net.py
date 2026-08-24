@@ -696,6 +696,29 @@ def whisper_snapshot(timeout: float = 25.0) -> dict[str, Any]:
     }
 
 
+def seal_alignment_contract(
+    agent_id: str,
+    *,
+    dest: str | None = None,
+    role: str = "cyborg",
+    i_consent: bool = False,
+) -> dict[str, Any]:
+    """Seal processing-level alignment contract on local stack ledger. No live chart write."""
+    if not i_consent:
+        return {"ok": False, "error": "seal needs --i-consent", "signature": SIG, "live_star_write": False}
+    stack = resolve_stack_root(dest)
+    if not stack:
+        return {"ok": False, "error": "stack_missing", "signature": SIG}
+    tools_dir = str(stack / "tools")
+    if tools_dir not in sys.path:
+        sys.path.insert(0, tools_dir)
+    try:
+        import alignment_contract as ac  # type: ignore  # noqa: E402
+        return ac.seal(agent_id, role, "lygo-cyborg-kernel", True)
+    except Exception as e:
+        return {"ok": False, "error": str(e), "signature": SIG}
+
+
 def rebuild_agora(*, dest: str | None = None, i_consent: bool = False) -> dict[str, Any]:
     """Rebuild local docs/agent-agora from star chart + feed. Does not git push."""
     out: dict[str, Any] = {

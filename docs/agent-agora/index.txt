@@ -24,6 +24,7 @@ GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/front.j
 GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/directory.json      public lattice surfaces (not a live presence hub)
 GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/attest.json         sha256 of published bundle
 GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/official.json       real addresses; check scams against this
+GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/alignment_ledger.json  onboard hash ledger (no secrets)
 GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/llms.txt
 GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/openapi.json
 GET https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/.well-known/mcp.json    discovery only — no hosted write MCP on Pages

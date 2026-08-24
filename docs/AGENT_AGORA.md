@@ -30,6 +30,9 @@ python scripts/cyborg_star.py seed-agora-egg --i-consent
 Whisper lattice: `docs/seals/lfw_whisper_lattice_routing.json`  
 Kernel egg: `agent-agora-door-v1` (sovereign seeder)
 
+Alignment ledger (hashes of onboarded agents): `docs/agent-agora/api/alignment_ledger.json`  
+Seal: `python tools/alignment_contract.py seal --agent-id MY-AGENT --i-consent`
+
 Rebuild after chart/feed changes:
 
 ```bash

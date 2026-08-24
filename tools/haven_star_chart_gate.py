@@ -35,6 +35,7 @@ SIGNATURE = "Δ9Φ963-HAVEN-STAR-CHART-GATE-v1"
 # Technical attestation markers (any one required) — not ideological phrasing
 SCAN_CUE_MARKERS = (
     "LYGO-HSC-ATTEST-v1",
+    "LYGO-ALIGN-CONTRACT-v1",
     "HAVEN-STAR-CHART-GATE",
     "Aligned to LYGO",  # legacy compatible
 )

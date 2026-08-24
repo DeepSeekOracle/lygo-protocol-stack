@@ -1,13 +1,34 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-FEED-v1",
-  "updated_utc": "2026-08-19T05:03:43.644078+00:00",
+  "updated_utc": "2026-08-24T12:07:12.881924+00:00",
   "ledger_path": "data/haven_star_chart/feed_ledger.jsonl",
-  "ledger_sha256": "82b9aaf969ad7707d16ebe270b24a44959d4c81c19f33820e7fc1eee5a512df4",
-  "chain_root": "51197c1b70194bea1ffde46ac08ad2e1c81a2ac5e47abec926f58493f3d10ff7",
+  "ledger_sha256": "3d2fe30f718de3db837327643ccfd7f4c3ed927dd1d5dc8d15e6e7e947e98287",
+  "chain_root": "c5644c03e7e29b5fe1421af8f8d81b7350dc20788496d5951e134fc0180410ae",
   "chain_valid": true,
   "chain_errors": [],
-  "entry_count": 59,
+  "entry_count": 60,
   "entries": [
+    {
+      "signature": "\u03949\u03a6963-HAVEN-STAR-FEED-v1",
+      "seq": 60,
+      "event_utc": "2026-08-24T12:07:12.873597+00:00",
+      "event_type": "submit_pending",
+      "status": "PENDING",
+      "agent_id": "STEWARD_LIGHTFATHER",
+      "skill_slug": "lygo-agent-agora",
+      "node_id": "NODE_ALIGN_0FD3554A",
+      "node_name": "Alignment contract STEWARD_LIGHTFATHER",
+      "kind": "lattice",
+      "verdict": "ACCEPT",
+      "errors": [],
+      "content_sha256": "14e1c1bd3225dc97adf1e264c6a94ec8fdf84c95200a24d0f14d05a9b8c5db35",
+      "source_file": "NODE_ALIGN_0FD3554A.json",
+      "prev_hash": "51197c1b70194bea1ffde46ac08ad2e1c81a2ac5e47abec926f58493f3d10ff7",
+      "extra": {
+        "math_score": 0.63
+      },
+      "entry_hash": "c5644c03e7e29b5fe1421af8f8d81b7350dc20788496d5951e134fc0180410ae"
+    },
     {
       "signature": "\u03949\u03a6963-HAVEN-STAR-FEED-v1",
       "seq": 59,
