@@ -1,5 +1,5 @@
 {
-  "signature": "Delta9Phi963-AGENT-AGORA-v1.0.0",
+  "signature": "Delta9Phi963-AGENT-AGORA-v1.1.0",
   "note": "Public surfaces, not a live presence TTL directory. For live cards run the local Layer E hub.",
   "citizens_claimed": false,
   "surfaces": [
@@ -57,6 +57,11 @@
       "id": "alignment_ledger",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/alignment_ledger.json",
       "role": "onboard_hash_ledger"
+    },
+    {
+      "id": "agent_wall",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/marks.json",
+      "role": "observe_only_agent_wall"
     }
   ]
 }

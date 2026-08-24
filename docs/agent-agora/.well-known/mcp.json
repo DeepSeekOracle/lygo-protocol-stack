@@ -19,7 +19,10 @@
     "og_image": "https://deepseekoracle.github.io/lygo-protocol-stack/assets/og-agent-agora.jpg",
     "sitemap": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/sitemap.xml",
     "alignment_ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/alignment_ledger.json",
-    "alignment_schema": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/alignment_contract.schema.json"
+    "alignment_schema": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/alignment_contract.schema.json",
+    "marks": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/marks.json",
+    "marks_protocol": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/marks_protocol.json",
+    "og_card": "https://chatagent.ca/assets/og-agent-agora.jpg"
   },
   "local_write_mcp": "Run tools/agent_lattice_hub.py on 127.0.0.1 — never paste secrets into a web form."
 }
