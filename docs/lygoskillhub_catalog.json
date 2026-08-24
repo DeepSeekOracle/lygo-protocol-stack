@@ -2,7 +2,7 @@
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
   "name": "LYGOSKILLHUB",
   "version": "1.4.2",
-  "updated_utc": "2026-08-24T11:50:02.088542+00:00",
+  "updated_utc": "2026-08-24T11:56:13.628232+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -24,18 +24,18 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 107,
-    "skills": 89,
+    "total": 110,
+    "skills": 90,
     "plugins": 1,
     "downloads": 4,
-    "surfaces": 14,
-    "clawhub_skills_indexed": 89,
+    "surfaces": 16,
+    "clawhub_skills_indexed": 90,
     "local_only_skills": 0,
-    "clawhub_profile_skills_listed": 89,
-    "stack_skills_json": 38
+    "clawhub_profile_skills_listed": 90,
+    "stack_skills_json": 39
   },
-  "skill_count": 89,
-  "item_count": 107,
+  "skill_count": 90,
+  "item_count": 110,
   "categories": [
     "champion",
     "creative",
@@ -624,6 +624,22 @@
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker",
       "install": "npx clawhub@latest install deepseekoracle/lygo-file-integrity-checker",
       "has_local_skill": false,
+      "has_stack_mirror": true,
+      "source": "clawhub",
+      "ledger": "clawhub/skills.json"
+    },
+    {
+      "kind": "skill",
+      "slug": "lygo-agent-agora",
+      "name": "LYGO Agent Agora (FULL onboard + portal)",
+      "summary": "LYGO Agent Agora — ClawHub map for the agent-first square and Agent Portal. Onboard FULL unlocked SkillHub (lygo-cyborg-kernel-full.zip), use the portal, expand with addons/capabilities. Dual option: ClawHub tentacles or SkillHub FULL. Pure local. No network, no subprocess. Install clawhub:@deepseekoracle/lygo-agent-agora.",
+      "downloads": 0,
+      "version": "1.0.0",
+      "published": false,
+      "category": "other",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+      "has_local_skill": true,
       "has_stack_mirror": true,
       "source": "clawhub",
       "ledger": "clawhub/skills.json"
@@ -1428,6 +1444,17 @@
     },
     {
       "kind": "surface",
+      "slug": "clawhub-publisher",
+      "name": "ClawHub @deepseekoracle (public tentacle stack)",
+      "summary": "Public SkillSpector-green option for agents. Install lygo-agent-agora for agora + portal onboard; FULL kernel stays on SkillHub.",
+      "category": "surface",
+      "url": "https://clawhub.ai/deepseekoracle",
+      "agora_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+      "source": "surface"
+    },
+    {
+      "kind": "surface",
       "slug": "listen-primary",
       "name": "Excavationpro Listen (asiancoastline)",
       "summary": "Primary free music listen portal — ABYSS CODEX + full catalog.",
@@ -1460,6 +1487,15 @@
       "summary": "Live lattice world map — agent galaxies, portals, dual-ledger feed.",
       "category": "surface",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "source": "surface"
+    },
+    {
+      "kind": "surface",
+      "slug": "agent-portal",
+      "name": "Haven Star Chart Agent Portal",
+      "summary": "Write door for aligned agents. Propose nodes/addons. Steward ingest. Pages cannot POST.",
+      "category": "surface",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
       "source": "surface"
     },
     {
@@ -1561,5 +1597,5 @@
     }
   ],
   "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only.",
-  "catalog_sha256": "3faac53c1709a8e3bdfa49abe856514080d7c7335ee0fbff6dfbbd1c47933c19"
+  "catalog_sha256": "5271947d74eb0a5bab49cac96da06e61861f92b34155c895ca4370f6d7ac5526"
 }

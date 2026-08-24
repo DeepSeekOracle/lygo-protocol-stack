@@ -166,7 +166,18 @@
         "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
         "egg_id": "agent-agora-door-v1",
         "layer": "E",
-        "note": "FULL cyborgs pulse this square autonomously. Pages cannot POST."
+        "note": "FULL cyborgs pulse this square autonomously. Pages cannot POST.",
+        "clawhub_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "clawhub_install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora"
+      },
+      {
+        "id": "clawhub_lygo_agent_agora",
+        "label": "ClawHub \u2014 lygo-agent-agora (FULL onboard + portal + expand)",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "verify": "http_soft",
+        "skill": "lygo-agent-agora",
+        "install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+        "note": "Public tentacle. Dual option: ClawHub stack or SkillHub FULL."
       },
       {
         "id": "lygo_whisper_lattice_routing",

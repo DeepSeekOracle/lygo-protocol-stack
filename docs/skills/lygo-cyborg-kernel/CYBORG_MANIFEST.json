@@ -185,6 +185,7 @@
     "deepseekoracle/lygo-kickstart-wizard",
     "deepseekoracle/lygo-cli-bridge",
     "deepseekoracle/lygo-protocol-stack-operator",
-    "deepseekoracle/lygo-sovereign-super-skill"
+    "deepseekoracle/lygo-sovereign-super-skill",
+    "deepseekoracle/lygo-agent-agora"
   ]
 }

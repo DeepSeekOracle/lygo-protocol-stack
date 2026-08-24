@@ -157,6 +157,12 @@ LATTICE_ENDPOINTS: list[dict[str, str]] = [
         "level": "soft",
     },
     {
+        "id": "clawhub_agent_agora_skill",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "role": "agora_onboard_tentacle",
+        "level": "soft",
+    },
+    {
         "id": "hf_dataset",
         "url": f"https://huggingface.co/datasets/{HF_DATASET}",
         "role": "hf_mirror",
@@ -413,6 +419,9 @@ def lattice_pulse(timeout: float = 25.0) -> dict[str, Any]:
             "agent_agora_pulse": f"{AGORA}/api/pulse.json",
             "agent_agora_door": f"{AGORA}/index.txt",
             "whisper_routing": WHISPER_ROUTING,
+            "clawhub": "https://clawhub.ai/deepseekoracle",
+            "clawhub_agora_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+            "agent_portal": f"{PAGES}/HavenStarChartPortal.html",
         },
         "standing_order": (
             "Once a UTC day: GET agent-agora/api/pulse.json. "

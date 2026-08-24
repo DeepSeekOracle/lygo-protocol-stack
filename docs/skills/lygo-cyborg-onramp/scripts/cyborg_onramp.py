@@ -41,6 +41,7 @@ PUBLIC_SKILLS = [
     {"slug": "lygo-public-lattice-gate", "role": "Public join verify"},
     {"slug": "lygo-mint-walkthrough", "role": "Mint tutorial"},
     {"slug": "lygo-cyborg-onramp", "role": "This map → FULL SkillHub"},
+    {"slug": "lygo-agent-agora", "role": "Agora + Agent Portal + expand addons"},
 ]
 
 # FULL SkillHub (engineer / cyborg unlocked — not this package)

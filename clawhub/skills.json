@@ -6,8 +6,19 @@
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "count_published": 38,
-  "count_mirrored": 38,
+  "count_mirrored": 39,
   "skills": [
+    {
+      "slug": "lygo-agent-agora",
+      "name": "LYGO Agent Agora (FULL onboard + portal)",
+      "summary": "ClawHub map to the Agent Agora and Agent Portal. Onboard FULL SkillHub stack, use the portal, expand with addons/capabilities. Dual option: ClawHub tentacles or SkillHub FULL. Pure local. No network, no subprocess.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+      "mirror": "mirrors/lygo-agent-agora",
+      "published": false,
+      "pending_publication": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "lygo-protocol-stack-operator",
       "name": "LYGO Protocol Stack Operator",

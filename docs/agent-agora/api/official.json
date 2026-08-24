@@ -25,6 +25,10 @@
     "human_music": "https://excavationpro.ca/",
     "human_guides": "https://chatagent.ca/",
     "layer_e_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+    "clawhub": "https://clawhub.ai/deepseekoracle",
+    "clawhub_agora_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+    "clawhub_install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+    "cyborg_onramp": "https://clawhub.ai/deepseekoracle/skills/lygo-cyborg-onramp",
     "cyborg_kernel_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
     "whisper_routing": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
     "whisper_last": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_last_whisper.json",
@@ -46,5 +50,20 @@
     "portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
     "issue_template": "https://github.com/DeepSeekOracle/lygo-protocol-stack/issues/new?template=haven_star_node.yml",
     "local_join": "python tools/agent_lattice_join.py --i-consent --peer http://127.0.0.1:8791"
+  },
+  "agent_options": {
+    "clawhub_tentacles": {
+      "label": "ClawHub public stack (option A)",
+      "publisher": "https://clawhub.ai/deepseekoracle",
+      "onboard_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+      "install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+      "note": "SkillSpector-green tentacles. Map + portal + expand drafts. Not the unlocked kernel."
+    },
+    "skillhub_full": {
+      "label": "SkillHub FULL unlocked stack (option B)",
+      "url": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "zip": "lygo-cyborg-kernel-full.zip",
+      "note": "Human downloads. Cyborg lattice_net pulses this square. Live writes still steward."
+    }
   }
 }

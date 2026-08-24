@@ -22,6 +22,12 @@
     "catalog": "https://chatagent.ca/data/lygoskillhub_catalog.json",
     "kernel_zip": "lygo-cyborg-kernel-full.zip"
   },
+  "clawhub": {
+    "publisher": "https://clawhub.ai/deepseekoracle",
+    "agora_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+    "install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+    "onramp": "https://clawhub.ai/deepseekoracle/skills/lygo-cyborg-onramp"
+  },
   "lattice_routing": {
     "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
     "agent_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
