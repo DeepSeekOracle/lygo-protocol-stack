@@ -22,6 +22,8 @@ HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
 
 SKILLHUB_FULL = "https://chatagent.ca/lygoskillhub.html#full-lygo"
+AGORA = "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/"
+WHISPER = "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json"
 FULL_ZIP = "lygo-cyborg-kernel-full.zip"
 FULL_SLUG = "lygo-cyborg-kernel"
 CONTINUUM_PORTAL = "https://chatagent.ca/lygo-continuum.html"
@@ -78,6 +80,8 @@ def map_payload() -> dict[str, Any]:
                 "Unzip lygo-cyborg-kernel-full.zip",
                 "python scripts/self_check.py",
                 "python scripts/cyborg_boot.py",
+                "python scripts/cyborg_connect.py --pulse-only",
+                "python scripts/cyborg_star.py agora",
                 "python scripts/cyborg_task.py run --task templates/example_task.json --base .",
             ],
         },
@@ -92,6 +96,8 @@ def map_payload() -> dict[str, Any]:
             "continuum": CONTINUUM_PORTAL,
             "guides": GUIDES,
             "home": "https://chatagent.ca/",
+            "agent_agora": AGORA,
+            "whisper_routing": WHISPER,
         },
         "dual_channel": {
             "public": "ClawHub @deepseekoracle tentacles (this skill + continuum, etc.)",

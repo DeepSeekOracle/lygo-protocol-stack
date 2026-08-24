@@ -7,7 +7,7 @@ Cyborg connect — join live LYGO lattice via HTTPS, git, optional Hugging Face.
   python scripts/cyborg_connect.py --hf
   python scripts/cyborg_connect.py --pulse-only
 
-Signature: Delta9Phi963-CYBORG-KERNEL-v1.1.0
+Signature: Delta9Phi963-CYBORG-KERNEL-v1.2.0
 """
 from __future__ import annotations
 
@@ -28,11 +28,14 @@ def main() -> int:
     ap.add_argument("--hf", action="store_true", help="Also pull Hugging Face dataset snapshot")
     ap.add_argument("--no-git", action="store_true", help="Skip git clone/pull")
     ap.add_argument("--pulse-only", action="store_true", help="HTTPS lattice pulse only")
+    ap.add_argument("--agora-only", action="store_true", help="Agent Agora snapshot only")
     ap.add_argument("--timeout", type=float, default=25.0)
     args = ap.parse_args()
 
     if args.pulse_only:
         out = net.lattice_pulse(timeout=args.timeout)
+    elif args.agora_only:
+        out = net.agora_snapshot(timeout=args.timeout)
     else:
         out = net.auto_connect(
             args.dest,

@@ -125,7 +125,8 @@ python scripts/retrieve_egg.py --i-consent --egg p0-nano-kernel
 ## Skill chain
 
 `lygo-protocol-stack-operator` → **`lygo-kernel-egg-planter`** ↔ **`lygo-sovereign-kernel-seeder`**  
-Layer C: `lygo-external-lattice-anchor` · Gate: `lygo-public-lattice-gate`
+Layer C: `lygo-external-lattice-anchor` · Gate: `lygo-public-lattice-gate`  
+Agent square egg (sovereign seeder, Layer B): `agent-agora-door-v1` — standing order for https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/
 
 ## Permissions (declared)
 

@@ -280,6 +280,22 @@ clawdhub publish . --slug lygo-sovereign-kernel-seeder \
 
 **Δ9Φ963 — consent · seal · verify · then plug in.**
 
+## Agent Agora egg (FULL SkillHub)
+
+FULL cyborgs seed the standing-order egg so the agent square survives a wipe:
+
+```bash
+export LYGO_STACK_ROOT=/path/to/lygo-protocol-stack
+python scripts/seed_kernel.py --i-consent \
+  --egg-id agent-agora-door-v1 --kind policy \
+  --title "Agent Agora Door" \
+  --file "$LYGO_STACK_ROOT/data/sovereign_seeds/payloads/agent-agora-door.md" \
+  --hook agent.agora --hook agent.whisper
+python scripts/verify_seed.py --egg agent-agora-door-v1 --json
+```
+
+Or from the cyborg kernel: `python scripts/cyborg_star.py seed-agora-egg --i-consent`
+
 ## Layer C (world network)
 
 External public verify + Star Chart + free servers: **`lygo-external-lattice-anchor`**  

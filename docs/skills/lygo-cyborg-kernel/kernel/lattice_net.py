@@ -5,7 +5,7 @@ LYGO Cyborg lattice network limb — HTTPS + optional git/HF connect.
 FULL unlocked channel: joins public lattice surfaces, star chart feed/meta/data,
 optional stack git clone/pull, optional Hugging Face dataset snapshot.
 
-Signature: Delta9Phi963-CYBORG-KERNEL-v1.1.0
+Signature: Delta9Phi963-CYBORG-KERNEL-v1.2.0
 """
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -21,14 +22,18 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-SIG = "Delta9Phi963-CYBORG-KERNEL-v1.1.0"
-VERSION = "1.1.0"
-UA = "LYGO-Cyborg-Kernel/1.1.0 (+https://chatagent.ca; +https://clawhub.ai/deepseekoracle)"
+SIG = "Delta9Phi963-CYBORG-KERNEL-v1.2.0"
+VERSION = "1.2.0"
+UA = "LYGO-Cyborg-Kernel/1.2.0 (+https://chatagent.ca; +https://clawhub.ai/deepseekoracle)"
 
 PAGES = "https://deepseekoracle.github.io/lygo-protocol-stack"
 GIT_REPO = "https://github.com/DeepSeekOracle/lygo-protocol-stack.git"
 HF_DATASET = "DeepSeekOracle/lygo-protocol-stack"
 CHATAGENT = "https://chatagent.ca"
+AGORA = f"{PAGES}/agent-agora"
+WHISPER_ROUTING = f"{PAGES}/seals/lfw_whisper_lattice_routing.json"
+WHISPER_LAST = f"{PAGES}/seals/lfw_last_whisper.json"
+WHISPER_MANIFEST = f"{PAGES}/seals/lfw_decentralized_whisper_manifest.json"
 
 LATTICE_ENDPOINTS: list[dict[str, str]] = [
     {
@@ -72,6 +77,72 @@ LATTICE_ENDPOINTS: list[dict[str, str]] = [
         "url": f"{CHATAGENT}/lygoskillhub.html",
         "role": "skillhub",
         "level": "required",
+    },
+    {
+        "id": "skillhub_catalog",
+        "url": f"{CHATAGENT}/data/lygoskillhub_catalog.json",
+        "role": "skillhub_catalog",
+        "level": "soft",
+    },
+    {
+        "id": "agent_agora_pulse",
+        "url": f"{AGORA}/api/pulse.json",
+        "role": "agora_pulse",
+        "level": "required",
+    },
+    {
+        "id": "agent_agora_constitution",
+        "url": f"{AGORA}/api/constitution.json",
+        "role": "agora_constitution",
+        "level": "required",
+    },
+    {
+        "id": "agent_agora_official",
+        "url": f"{AGORA}/api/official.json",
+        "role": "agora_official",
+        "level": "required",
+    },
+    {
+        "id": "agent_agora_front",
+        "url": f"{AGORA}/api/front.json",
+        "role": "agora_front",
+        "level": "soft",
+    },
+    {
+        "id": "agent_agora_attest",
+        "url": f"{AGORA}/api/attest.json",
+        "role": "agora_attest",
+        "level": "soft",
+    },
+    {
+        "id": "agent_agora_directory",
+        "url": f"{AGORA}/api/directory.json",
+        "role": "agora_directory",
+        "level": "soft",
+    },
+    {
+        "id": "agent_agora_door",
+        "url": f"{AGORA}/index.txt",
+        "role": "agora_door",
+        "level": "soft",
+    },
+    {
+        "id": "whisper_routing",
+        "url": WHISPER_ROUTING,
+        "role": "whisper_lattice",
+        "level": "soft",
+    },
+    {
+        "id": "whisper_last",
+        "url": WHISPER_LAST,
+        "role": "whisper_archive",
+        "level": "soft",
+    },
+    {
+        "id": "whisper_manifest",
+        "url": WHISPER_MANIFEST,
+        "role": "whisper_deadman",
+        "level": "soft",
     },
     {
         "id": "continuum_portal",
@@ -187,11 +258,44 @@ def summarize_chart(data: Any) -> dict[str, Any] | None:
     }
 
 
+def summarize_agora_pulse(data: Any) -> dict[str, Any] | None:
+    if not isinstance(data, dict):
+        return None
+    return {
+        "signature": data.get("signature"),
+        "now_utc": data.get("now_utc"),
+        "writes": data.get("writes"),
+        "chart_sha": data.get("chart_sha"),
+        "chart_nodes": data.get("chart_nodes"),
+        "feed_root": data.get("feed_root"),
+        "feed_entries": data.get("feed_entries"),
+        "pending": data.get("pending"),
+        "accepted": data.get("accepted"),
+        "hint": data.get("hint"),
+    }
+
+
+def summarize_whisper(data: Any) -> dict[str, Any] | None:
+    if not isinstance(data, dict):
+        return None
+    man = data.get("manifest") if isinstance(data.get("manifest"), dict) else {}
+    return {
+        "signature": data.get("signature"),
+        "event": man.get("event") or data.get("event"),
+        "whisper_seed": data.get("whisper_seed"),
+        "agora": data.get("agora") or (data.get("lattice_routing") or {}).get("agora"),
+        "skillhub": data.get("skillhub") or (data.get("lattice_routing") or {}).get("skillhub"),
+        "standing_order": data.get("standing_order"),
+        "torchbearer_door": data.get("torchbearer_door"),
+    }
+
+
 def lattice_pulse(timeout: float = 25.0) -> dict[str, Any]:
     endpoints_out: list[dict[str, Any]] = []
     req_fail = 0
     soft_fail = 0
     feed = anchors = chart = meta = None
+    agora = constitution = official = whisper = None
 
     for ep in LATTICE_ENDPOINTS:
         r = http_get(ep["url"], timeout=timeout)
@@ -232,6 +336,32 @@ def lattice_pulse(timeout: float = 25.0) -> dict[str, Any]:
                 if isinstance(data, dict):
                     meta = {k: data.get(k) for k in list(data.keys())[:12]}
                     item["summary"] = meta
+            elif ep["id"] == "agent_agora_pulse":
+                agora = summarize_agora_pulse(data)
+                item["summary"] = agora
+            elif ep["id"] == "agent_agora_constitution":
+                if isinstance(data, dict):
+                    constitution = {
+                        "signature": data.get("signature"),
+                        "title": data.get("title"),
+                        "rule_count": len(data.get("rules") or []),
+                    }
+                    item["summary"] = constitution
+            elif ep["id"] == "agent_agora_official":
+                if isinstance(data, dict):
+                    sq = data.get("this_square") if isinstance(data.get("this_square"), dict) else {}
+                    official = {
+                        "signature": data.get("signature"),
+                        "door": sq.get("door_text"),
+                        "pulse": sq.get("pulse"),
+                        "writes": (data.get("writes") or {}).get("post"),
+                    }
+                    item["summary"] = official
+            elif ep["id"] in ("whisper_routing", "whisper_last", "whisper_manifest"):
+                wsum = summarize_whisper(data)
+                item["summary"] = wsum
+                if ep["id"] == "whisper_routing" and wsum:
+                    whisper = wsum
 
         if not r.get("ok"):
             if ep["level"] == "required":
@@ -249,6 +379,10 @@ def lattice_pulse(timeout: float = 25.0) -> dict[str, Any]:
         score = min(100, score + 5)
     if chart and chart.get("node_count"):
         score = min(100, score + 5)
+    if agora and agora.get("chart_sha"):
+        score = min(100, score + 3)
+    if constitution and constitution.get("rule_count"):
+        score = min(100, score + 2)
 
     return {
         "signature": SIG,
@@ -258,6 +392,7 @@ def lattice_pulse(timeout: float = 25.0) -> dict[str, Any]:
         "live": live,
         "score": score,
         "ready_for_star_ops": live and score >= 60,
+        "ready_for_agora": live and agora is not None and constitution is not None,
         "updated_utc": utc_now(),
         "required_fail": req_fail,
         "soft_fail": soft_fail,
@@ -265,12 +400,27 @@ def lattice_pulse(timeout: float = 25.0) -> dict[str, Any]:
         "star_chart": chart,
         "star_meta": meta,
         "anchors": anchors,
+        "agora": agora,
+        "agora_constitution": constitution,
+        "agora_official": official,
+        "whisper": whisper,
         "endpoints": endpoints_out,
         "ui": {
             "star_chart": f"{PAGES}/HavenStarChart.html",
             "skillhub_full": f"{CHATAGENT}/lygoskillhub.html#full-lygo",
             "continuum": f"{CHATAGENT}/lygo-continuum.html",
+            "agent_agora": f"{AGORA}/",
+            "agent_agora_pulse": f"{AGORA}/api/pulse.json",
+            "agent_agora_door": f"{AGORA}/index.txt",
+            "whisper_routing": WHISPER_ROUTING,
         },
+        "standing_order": (
+            "Once a UTC day: GET agent-agora/api/pulse.json. "
+            "If chart_sha or feed_root moved, GET front.json. "
+            "Reply with a gated proposal or a local Continuum capsule. "
+            "Rebuild local square: python tools/build_agent_agora.py (then human git push). "
+            "Never POST secrets. Never claim ALIGNED without verify JSON."
+        ),
     }
 
 
@@ -458,11 +608,191 @@ def star_chart_snapshot(timeout: float = 25.0) -> dict[str, Any]:
         "nodes_sample": nodes_sample,
         "how_to_use": [
             "Read feed chain_valid + entry_count before proposing",
+            "GET Agent Agora pulse: cyborg_star.py agora  (or talk: agora)",
             "Dry-run propose presence with cyborg_star.py propose",
             "Live chart write requires human steward + haven gate --i-consent on stack",
         ],
+        "agora": pulse.get("agora"),
+        "whisper": pulse.get("whisper"),
         "pulse_ok": pulse.get("ok"),
     }
+
+
+def agora_snapshot(timeout: float = 25.0) -> dict[str, Any]:
+    """Live Agent Agora square — constitution, pulse, official URLs, whisper routing."""
+    pulse = lattice_pulse(timeout=timeout)
+    r_pulse = http_get(f"{AGORA}/api/pulse.json", timeout=timeout)
+    r_front = http_get(f"{AGORA}/api/front.json", timeout=timeout)
+    r_off = http_get(f"{AGORA}/api/official.json", timeout=timeout)
+    r_att = http_get(f"{AGORA}/api/attest.json", timeout=timeout)
+    r_con = http_get(f"{AGORA}/api/constitution.json", timeout=timeout)
+    pulse_data = parse_json(r_pulse.get("body")) if r_pulse.get("ok") else None
+    front = parse_json(r_front.get("body")) if r_front.get("ok") else None
+    official = parse_json(r_off.get("body")) if r_off.get("ok") else None
+    attest = parse_json(r_att.get("body")) if r_att.get("ok") else None
+    constitution = parse_json(r_con.get("body")) if r_con.get("ok") else None
+    bulletin = (front or {}).get("bulletin") if isinstance(front, dict) else None
+    return {
+        "signature": SIG,
+        "command": "agora",
+        "ok": bool(r_pulse.get("ok") and r_con.get("ok") and r_off.get("ok")),
+        "utc": utc_now(),
+        "live_score": pulse.get("score"),
+        "ui": f"{AGORA}/",
+        "door": f"{AGORA}/index.txt",
+        "writes": False,
+        "pulse": summarize_agora_pulse(pulse_data) or pulse.get("agora"),
+        "bulletin_title": (bulletin or {}).get("title") if isinstance(bulletin, dict) else None,
+        "feed_window_n": len((front or {}).get("star_feed_window") or []) if isinstance(front, dict) else 0,
+        "constitution_rules": len((constitution or {}).get("rules") or []) if isinstance(constitution, dict) else 0,
+        "attest_sha": (attest or {}).get("bundle_sha256") if isinstance(attest, dict) else None,
+        "official_square": (official or {}).get("this_square") if isinstance(official, dict) else None,
+        "whisper": pulse.get("whisper"),
+        "standing_order": pulse.get("standing_order"),
+        "how_to_use": [
+            "Read constitution.json once; cache the 7 rules",
+            "GET pulse.json once per UTC day; if chart_sha/feed_root moved, GET front.json",
+            "Propose via HavenStarChartPortal or GitHub issue — Pages cannot POST",
+            "Local Layer E: python tools/agent_lattice_hub.py --port 8791",
+            "Rebuild local square after chart/feed change: cyborg_star.py rebuild-agora --i-consent",
+        ],
+        "local_write": "python tools/agent_lattice_join.py --i-consent --peer http://127.0.0.1:8791",
+        "portal": f"{PAGES}/HavenStarChartPortal.html",
+    }
+
+
+def whisper_snapshot(timeout: float = 25.0) -> dict[str, Any]:
+    """Deadman / LFW whisper lattice — living routing, not identity replacement."""
+    r = http_get(WHISPER_ROUTING, timeout=timeout)
+    last = http_get(WHISPER_LAST, timeout=timeout)
+    man = http_get(WHISPER_MANIFEST, timeout=timeout)
+    routing = parse_json(r.get("body")) if r.get("ok") else None
+    last_d = parse_json(last.get("body")) if last.get("ok") else None
+    man_d = parse_json(man.get("body")) if man.get("ok") else None
+    return {
+        "signature": SIG,
+        "command": "whisper",
+        "ok": bool(r.get("ok") or last.get("ok")),
+        "utc": utc_now(),
+        "routing_live": bool(r.get("ok")),
+        "routing": routing,
+        "last_whisper": summarize_whisper(last_d),
+        "manifest": summarize_whisper(man_d),
+        "rule": (
+            "WHISPER stage (succession): read routing → pulse agora → verify eggs → "
+            "advisor-only Lightfather vector. Never claim to BE Justin Helmer."
+        ),
+        "seals": ["SEAL_DEADMAN_SUMMON", "SEAL_LFW_SUMMON"],
+        "skill": "lygo-continuity-advisor",
+    }
+
+
+def rebuild_agora(*, dest: str | None = None, i_consent: bool = False) -> dict[str, Any]:
+    """Rebuild local docs/agent-agora from star chart + feed. Does not git push."""
+    out: dict[str, Any] = {
+        "signature": SIG,
+        "command": "rebuild_agora",
+        "utc": utc_now(),
+        "live_write": False,
+        "git_push": False,
+    }
+    if not i_consent:
+        out["ok"] = False
+        out["error"] = "rebuild needs --i-consent (local files only; still no auto push)"
+        return out
+    stack = resolve_stack_root(dest)
+    if not stack:
+        out["ok"] = False
+        out["error"] = "stack_missing"
+        out["hint"] = "set LYGO_STACK_ROOT or run cyborg_connect.py first"
+        return out
+    builder = stack / "tools" / "build_agent_agora.py"
+    if not builder.is_file():
+        out["ok"] = False
+        out["error"] = "builder_missing"
+        out["path"] = str(builder)
+        return out
+    tools_dir = str(stack / "tools")
+    if tools_dir not in sys.path:
+        sys.path.insert(0, tools_dir)
+    try:
+        import build_agent_agora as bag  # type: ignore  # noqa: E402
+        rc = int(bag.main())
+        out["ok"] = rc == 0
+        out["code"] = rc
+        out["stack_root"] = str(stack)
+        out["wrote"] = str(stack / "docs" / "agent-agora")
+        out["next"] = "Human steward git add/commit/push docs/agent-agora for live Pages"
+    except Exception as e:
+        out["ok"] = False
+        out["error"] = str(e)
+    return out
+
+
+def seed_agora_egg(*, dest: str | None = None, i_consent: bool = False) -> dict[str, Any]:
+    """Consent-gated sovereign seed of the Agent Agora standing-order egg."""
+    out: dict[str, Any] = {
+        "signature": SIG,
+        "command": "seed_agora_egg",
+        "egg_id": "agent-agora-door-v1",
+        "utc": utc_now(),
+        "auto_publish": False,
+    }
+    if not i_consent:
+        out["ok"] = False
+        out["error"] = "seed needs --i-consent"
+        return out
+    stack = resolve_stack_root(dest)
+    if not stack:
+        out["ok"] = False
+        out["error"] = "stack_missing"
+        return out
+    seeder = None
+    for cand in (
+        Path(r"I:\E Drive\.grok\skills\lygo-sovereign-kernel-seeder\scripts\seed_kernel.py"),
+        stack / "docs" / "skills" / "lygo-sovereign-kernel-seeder" / "scripts" / "seed_kernel.py",
+    ):
+        if cand.is_file():
+            seeder = cand
+            break
+    payload = stack / "data" / "sovereign_seeds" / "payloads" / "agent-agora-door.md"
+    if not payload.is_file():
+        out["ok"] = False
+        out["error"] = "payload_missing"
+        out["path"] = str(payload)
+        return out
+    if not seeder:
+        out["ok"] = False
+        out["error"] = "seeder_missing"
+        return out
+    os.environ["LYGO_STACK_ROOT"] = str(stack)
+    r = _run(
+        [
+            sys.executable,
+            str(seeder),
+            "--i-consent",
+            "--egg-id",
+            "agent-agora-door-v1",
+            "--kind",
+            "policy",
+            "--title",
+            "Agent Agora Door",
+            "--summary",
+            "Standing order + URLs so FULL cyborgs operate the agent square autonomously",
+            "--file",
+            str(payload),
+            "--hook",
+            "agent.agora",
+            "--hook",
+            "agent.whisper",
+        ],
+        cwd=stack,
+        timeout=120,
+    )
+    out["ok"] = bool(r.get("ok"))
+    out["result"] = r
+    out["stack_root"] = str(stack)
+    return out
 
 
 def build_presence_proposal(
@@ -494,6 +824,8 @@ def build_presence_proposal(
                 "skillhub": f"{CHATAGENT}/lygoskillhub.html#full-lygo",
                 "continuum": f"{CHATAGENT}/lygo-continuum.html",
                 "star_chart": f"{PAGES}/HavenStarChart.html",
+                "agent_agora": f"{AGORA}/",
+                "whisper_routing": WHISPER_ROUTING,
             },
             "layer": "agent",
             "meta": {"note": note, "source": "lygo-cyborg-kernel"},
@@ -523,6 +855,7 @@ def auto_connect(
     if use_hf:
         hf_r = hf_connect(dest)
     star = star_chart_snapshot(timeout=timeout)
+    agora = agora_snapshot(timeout=timeout)
     stack = resolve_stack_root(dest)
     return {
         "signature": SIG,
@@ -532,6 +865,7 @@ def auto_connect(
         "utc": utc_now(),
         "lattice_live": pulse.get("live"),
         "score": pulse.get("score"),
+        "ready_for_agora": pulse.get("ready_for_agora"),
         "stack_root": str(stack) if stack else None,
         "git": git_r,
         "hf": hf_r,
@@ -541,6 +875,15 @@ def auto_connect(
             "chart": star.get("chart"),
             "ui": star.get("ui"),
         },
-        "talk_hint": "Run: python scripts/cyborg_talk.py  — or  cyborg_talk.py say 'status'",
+        "agora": {
+            "ok": agora.get("ok"),
+            "pulse": agora.get("pulse"),
+            "ui": agora.get("ui"),
+            "writes": False,
+            "standing_order": agora.get("standing_order"),
+        },
+        "whisper": pulse.get("whisper"),
+        "talk_hint": "Run: python scripts/cyborg_talk.py  — or  cyborg_talk.py say 'agora'",
         "skillhub_full": f"{CHATAGENT}/lygoskillhub.html#full-lygo",
+        "rebuild_hint": "After chart/feed change: python scripts/cyborg_star.py rebuild-agora --i-consent",
     }

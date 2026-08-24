@@ -8,8 +8,9 @@ not from corporate gutted shells alone.
 
 Steward: Justin Helmer / Excavationpro (Lightfather)
 Source: `I:\E Drive\lygo-protocol-stack\docs\skills\lygo-cyborg-kernel`
-Packaged: 2026-08-21T03:45:29.245353+00:00
+Packaged: 2026-08-24T11:50:00Z
 Files: 21
+Wired: Agent Agora pulse + whisper lattice + egg `agent-agora-door-v1` (cyborg kernel v1.2)
 
 Good faith · LYGO policy · engineer autonomy · not malicious by design.
 You are responsible for extended systems you run.

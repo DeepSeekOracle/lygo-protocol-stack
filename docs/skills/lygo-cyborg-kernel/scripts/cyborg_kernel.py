@@ -6,7 +6,7 @@ Channel: FULL_LYGO_ENGINEER / CYBORG_UNLOCKED
 Self-police: Continuum preflight + skill_gate + context_guard (not gutted safety theater).
 No network in this module. No subprocess. Writes only under skill state/ with consent.
 
-Signature: Delta9Phi963-CYBORG-KERNEL-v1.1.0
+Signature: Delta9Phi963-CYBORG-KERNEL-v1.2.0
 """
 from __future__ import annotations
 
@@ -17,8 +17,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SIG = "Delta9Phi963-CYBORG-KERNEL-v1.1.0"
-VERSION = "1.1.0"
+SIG = "Delta9Phi963-CYBORG-KERNEL-v1.2.0"
+VERSION = "1.2.0"
 HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
 KERNEL = SKILL / "kernel"
@@ -153,6 +153,8 @@ def lattice_map() -> dict[str, Any]:
         "autonomy": man.get("autonomy"),
         "network": man.get("network"),
         "star_chart": man.get("star_chart"),
+        "agent_agora": man.get("agent_agora"),
+        "whisper_lattice": man.get("whisper_lattice"),
     }
 
 
@@ -165,6 +167,8 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("demo")
     sub.add_parser("pulse", help="Live lattice HTTPS pulse")
     sub.add_parser("connect", help="Auto-connect lattice + git")
+    sub.add_parser("agora", help="Agent Agora snapshot")
+    sub.add_parser("whisper", help="Whisper lattice snapshot")
     pf = sub.add_parser("preflight")
     pf.add_argument("--claims", required=True)
     pf.add_argument("--task", required=True)
@@ -188,6 +192,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "connect":
         print(json.dumps(lnet.auto_connect(use_git=True, use_hf=False), indent=2, default=str))
+        return 0
+    if args.cmd == "agora":
+        print(json.dumps(lnet.agora_snapshot(), indent=2, default=str))
+        return 0
+    if args.cmd == "whisper":
+        print(json.dumps(lnet.whisper_snapshot(), indent=2, default=str))
         return 0
     if args.cmd == "demo":
         # continuum demo + boot + soft pulse

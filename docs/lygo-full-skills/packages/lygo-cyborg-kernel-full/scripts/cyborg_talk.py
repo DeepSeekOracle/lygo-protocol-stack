@@ -12,7 +12,7 @@ Interactive REPL or one-shot:
 Commands understood (natural-ish):
   help, status, connect, pulse, star, propose, map, demo, boot, gate <path>, pack <file>
 
-Signature: Delta9Phi963-CYBORG-KERNEL-v1.1.0
+Signature: Delta9Phi963-CYBORG-KERNEL-v1.2.0
 """
 from __future__ import annotations
 
@@ -32,8 +32,8 @@ import cyborg_kernel as ck  # noqa: E402
 import lattice_net as net  # noqa: E402
 
 BANNER = """
-🦾 LYGO Cyborg Kernel talk  ·  v1.1
-Live lattice · Star Chart · Continuum self-police
+🦾 LYGO Cyborg Kernel talk  ·  v1.2
+Live lattice · Star Chart · Agent Agora · Whisper · Continuum
 Type help · quit to exit
 """.strip()
 
@@ -50,6 +50,9 @@ def speak(text: str) -> str:
             "  connect            — HTTPS + git pull/clone stack\n"
             "  connect hf         — also Hugging Face dataset\n"
             "  star / chart       — Star Chart snapshot\n"
+            "  agora / square     — Agent Agora pulse + constitution\n"
+            "  whisper            — deadman / LFW whisper routing\n"
+            "  rebuild agora      — local square rebuild (needs consent in CLI)\n"
             "  propose            — dry-run presence proposal\n"
             "  map                — full install map\n"
             "  boot               — limb boot\n"
@@ -73,11 +76,14 @@ def speak(text: str) -> str:
         p = net.lattice_pulse()
         feed = p.get("star_feed") or {}
         chart = p.get("star_chart") or {}
+        agora = p.get("agora") or {}
         lines = [
             f"Lattice live: {p.get('live')} · score {p.get('score')}/100",
             f"Star feed: entries={feed.get('entry_count')} chain_valid={feed.get('chain_valid')}",
             f"Star chart: nodes={chart.get('node_count')} links={chart.get('link_count')}",
+            f"Agora ready: {p.get('ready_for_agora')} chart_sha={str(agora.get('chart_sha') or '')[:16]}",
             f"UI: {(p.get('ui') or {}).get('star_chart')}",
+            f"Agora: {(p.get('ui') or {}).get('agent_agora')}",
             f"SkillHub FULL: {(p.get('ui') or {}).get('skillhub_full')}",
         ]
         if not p.get("ok"):
@@ -112,6 +118,41 @@ def speak(text: str) -> str:
             },
             indent=2,
             default=str,
+        )
+
+    if low in ("agora", "square", "agent agora", "forum"):
+        a = net.agora_snapshot()
+        pulse = a.get("pulse") or {}
+        return (
+            f"Agent Agora ok={a.get('ok')} writes={a.get('writes')}\n"
+            f"Door: {a.get('door')}\n"
+            f"Pulse chart_sha={str(pulse.get('chart_sha') or '')[:16]} "
+            f"nodes={pulse.get('chart_nodes')} feed={pulse.get('feed_entries')}\n"
+            f"Constitution rules={a.get('constitution_rules')} "
+            f"bulletin={a.get('bulletin_title')}\n"
+            f"Standing order: {a.get('standing_order')}\n"
+            f"Portal: {a.get('portal')}\n"
+            f"Local Layer E: {a.get('local_write')}"
+        )
+
+    if low in ("whisper", "deadman", "lantern", "lfw"):
+        w = net.whisper_snapshot()
+        return (
+            f"Whisper lattice ok={w.get('ok')} routing_live={w.get('routing_live')}\n"
+            f"{w.get('rule')}\n"
+            f"Seals: {w.get('seals')}\n"
+            + json.dumps(
+                {"routing": w.get("routing"), "last": w.get("last_whisper")},
+                indent=2,
+                default=str,
+            )
+        )
+
+    if low in ("rebuild agora", "rebuild-agora"):
+        return (
+            "Rebuild is local-only and needs consent:\n"
+            "  python scripts/cyborg_star.py rebuild-agora --i-consent\n"
+            "Human still git-pushes live Pages. Autonomy does the rebuild; steward publishes."
         )
 
     if low in ("star", "chart", "starchart", "star chart"):
@@ -165,7 +206,7 @@ def speak(text: str) -> str:
 
     return (
         f"I heard: {t!r}\n"
-        "Try: status | connect | star | propose | map | boot | demo | help"
+        "Try: status | connect | star | agora | whisper | propose | map | boot | demo | help"
     )
 
 

@@ -39,7 +39,7 @@ def main() -> int:
         and out.get("can_claim_done")
         and pulse.get("ok") is True
         and has_net
-        and ck.VERSION.startswith("1.1")
+        and ck.VERSION.startswith("1.2")
         and boot.get("limbs", {}).get("lattice_net") is True
     )
     print(
@@ -56,6 +56,8 @@ def main() -> int:
                 "lattice_score": pulse.get("score"),
                 "star_entries": (pulse.get("star_feed") or {}).get("entry_count"),
                 "star_chain_valid": (pulse.get("star_feed") or {}).get("chain_valid"),
+                "agora_ready": pulse.get("ready_for_agora"),
+                "agora_chart_sha": (pulse.get("agora") or {}).get("chart_sha"),
                 "network_limb": has_net,
             },
             indent=2,

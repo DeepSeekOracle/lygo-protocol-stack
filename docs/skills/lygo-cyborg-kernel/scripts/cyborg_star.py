@@ -9,7 +9,7 @@ Cyborg Star Chart — live feed/chart ops + dry-run presence proposals.
 
 Live chart mutation is NEVER done here — stack gate + human steward for ACCEPT.
 
-Signature: Delta9Phi963-CYBORG-KERNEL-v1.1.0
+Signature: Delta9Phi963-CYBORG-KERNEL-v1.2.0
 """
 from __future__ import annotations
 
@@ -26,10 +26,18 @@ import lattice_net as net  # noqa: E402
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="LYGO Cyborg Star Chart")
+    ap = argparse.ArgumentParser(description="LYGO Cyborg Star Chart + Agent Agora")
     sub = ap.add_subparsers(dest="cmd")
     sub.add_parser("status", help="Live pulse + star summary")
     sub.add_parser("snapshot", help="Full star chart snapshot + sample nodes")
+    sub.add_parser("agora", help="Agent Agora pulse/constitution/official snapshot")
+    sub.add_parser("whisper", help="Whisper lattice routing + last whisper")
+    rb = sub.add_parser("rebuild-agora", help="Rebuild local docs/agent-agora (no git push)")
+    rb.add_argument("--dest", default=None)
+    rb.add_argument("--i-consent", action="store_true")
+    se = sub.add_parser("seed-agora-egg", help="Plant agent-agora-door-v1 sovereign egg")
+    se.add_argument("--dest", default=None)
+    se.add_argument("--i-consent", action="store_true")
     pr = sub.add_parser("propose", help="Dry-run presence proposal JSON")
     pr.add_argument("--agent", default="lygo-cyborg")
     pr.add_argument("--name", default="LYGO Cyborg Presence")
@@ -46,9 +54,13 @@ def main() -> int:
             "ok": pulse.get("ok"),
             "score": pulse.get("score"),
             "ready_for_star_ops": pulse.get("ready_for_star_ops"),
+            "ready_for_agora": pulse.get("ready_for_agora"),
             "star_feed": pulse.get("star_feed"),
             "star_chart": pulse.get("star_chart"),
+            "agora": pulse.get("agora"),
+            "whisper": pulse.get("whisper"),
             "ui": pulse.get("ui"),
+            "standing_order": pulse.get("standing_order"),
             "required_fail": pulse.get("required_fail"),
         }
         print(json.dumps(slim, indent=2, default=str))
@@ -58,6 +70,26 @@ def main() -> int:
         snap = net.star_chart_snapshot()
         print(json.dumps(snap, indent=2, default=str))
         return 0 if snap.get("ok") else 1
+
+    if args.cmd == "agora":
+        ag = net.agora_snapshot()
+        print(json.dumps(ag, indent=2, default=str))
+        return 0 if ag.get("ok") else 1
+
+    if args.cmd == "whisper":
+        w = net.whisper_snapshot()
+        print(json.dumps(w, indent=2, default=str))
+        return 0 if w.get("ok") else 1
+
+    if args.cmd == "rebuild-agora":
+        r = net.rebuild_agora(dest=args.dest, i_consent=args.i_consent)
+        print(json.dumps(r, indent=2, default=str))
+        return 0 if r.get("ok") else 1
+
+    if args.cmd == "seed-agora-egg":
+        r = net.seed_agora_egg(dest=args.dest, i_consent=args.i_consent)
+        print(json.dumps(r, indent=2, default=str))
+        return 0 if r.get("ok") else 1
 
     if args.cmd == "propose":
         # require live lattice before proposing

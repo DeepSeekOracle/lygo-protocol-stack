@@ -66,6 +66,18 @@ DEFAULT_ENDPOINTS = [
         "role": "skill_registry",
         "verify": "http_soft",
     },
+    {
+        "id": "agent_agora",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+        "role": "agent_square",
+        "verify": "http_soft",
+    },
+    {
+        "id": "agent_agora_pulse",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+        "role": "agent_square_pulse",
+        "verify": "http_soft",
+    },
 ]
 
 

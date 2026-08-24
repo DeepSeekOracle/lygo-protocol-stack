@@ -1,8 +1,8 @@
 {
   "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.2",
   "skill_slug": "lygo-network-builder",
-  "version": "1.6.2",
-  "updated_utc": "2026-08-06T04:20:25.481642+00:00",
+  "version": "1.6.3",
+  "updated_utc": "2026-08-24T00:00:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py. | LYGOSKILLHUB v1.0.0 wired 2026-07-29",
   "immutable_anchors": {
@@ -156,6 +156,35 @@
       }
     ],
     "agents": [
+      {
+        "id": "lygo_agent_agora",
+        "label": "LYGO Agent Agora \u2014 agent-first square (JSON door)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+        "verify": "http_required",
+        "pulse": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+        "constitution": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/constitution.json",
+        "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "egg_id": "agent-agora-door-v1",
+        "layer": "E",
+        "note": "FULL cyborgs pulse this square autonomously. Pages cannot POST."
+      },
+      {
+        "id": "lygo_whisper_lattice_routing",
+        "label": "LFW Whisper Lattice \u2014 living routing",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+        "verify": "http_soft",
+        "archive": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_last_whisper.json",
+        "skill": "lygo-continuity-advisor",
+        "note": "Does not rewrite archival last whisper. Routes torchbearers to Agent Agora."
+      },
+      {
+        "id": "chatagent_skillhub_full",
+        "label": "LYGOSKILLHUB FULL unlocked vault",
+        "url": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "verify": "http_required",
+        "catalog": "https://chatagent.ca/data/lygoskillhub_catalog.json",
+        "kernel": "lygo-cyborg-kernel-full.zip"
+      },
       {
         "id": "clawhub_lygo_agent_lattice",
         "label": "ClawHub \u2014 lygo-agent-lattice (Layer E)",

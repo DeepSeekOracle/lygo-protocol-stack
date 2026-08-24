@@ -127,7 +127,7 @@ python scripts/gate_cli.py verify --write-report ./lattice_gate_last.json
 | **Link** | `IMMUTABLE_ANCHORS.json` |
 | **Star Chart** | `haven_star_chart_feed.json` (chain_valid, entry_count) |
 
-Plus soft hubs: stack Pages, chatagent, music (asian + excav backup), eternalhaven, bpmfinder, ClawHub publisher.
+Plus Agent Agora (pulse JSON), SkillHub, whisper routing. Soft hubs: stack Pages, chatagent, music (asian + excav backup), eternalhaven, bpmfinder, ClawHub publisher.
 
 ---
 

@@ -24,9 +24,24 @@
       "role": "skill_catalog"
     },
     {
+      "id": "skillhub_full",
+      "url": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "role": "unlocked_cyborg_vault"
+    },
+    {
       "id": "layer_e",
       "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
       "role": "presence_skill"
+    },
+    {
+      "id": "whisper",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+      "role": "whisper_lattice"
+    },
+    {
+      "id": "kernel_eggs",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+      "role": "egg_soa"
     }
   ]
 }

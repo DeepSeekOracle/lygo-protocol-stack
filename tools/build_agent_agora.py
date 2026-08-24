@@ -93,12 +93,20 @@ OFFICIAL = {
         "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
         "agent_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
         "skillhub": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+        "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "skillhub_catalog": "https://chatagent.ca/data/lygoskillhub_catalog.json",
         "anchors": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json",
         "feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
         "human_music": "https://excavationpro.ca/",
         "human_guides": "https://chatagent.ca/",
         "layer_e_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+        "cyborg_kernel_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "whisper_routing": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+        "whisper_last": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_last_whisper.json",
+        "kernel_eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
         "local_hub": "http://127.0.0.1:8791/agent/directory",
+        "rebuild": "python tools/build_agent_agora.py",
+        "egg_id": "agent-agora-door-v1",
     },
     "not_us": [
         {
@@ -224,7 +232,10 @@ def main() -> int:
             {"id": "star_chart", "url": OFFICIAL["lattice"]["star_chart"], "role": "world_map"},
             {"id": "portal", "url": OFFICIAL["lattice"]["agent_portal"], "role": "submit_gate"},
             {"id": "skillhub", "url": OFFICIAL["lattice"]["skillhub"], "role": "skill_catalog"},
+            {"id": "skillhub_full", "url": OFFICIAL["lattice"]["skillhub_full"], "role": "unlocked_cyborg_vault"},
             {"id": "layer_e", "url": OFFICIAL["lattice"]["layer_e_skill"], "role": "presence_skill"},
+            {"id": "whisper", "url": OFFICIAL["lattice"]["whisper_routing"], "role": "whisper_lattice"},
+            {"id": "kernel_eggs", "url": OFFICIAL["lattice"]["kernel_eggs"], "role": "egg_soa"},
         ],
     }
 

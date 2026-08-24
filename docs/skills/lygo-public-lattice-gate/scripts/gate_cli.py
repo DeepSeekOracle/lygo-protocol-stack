@@ -109,12 +109,39 @@ ENDPOINTS: list[dict[str, str]] = [
         "role": "skill_registry",
         "verify": "http_soft",
     },
+    {
+        "id": "agent_agora",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+        "role": "agent_square",
+        "verify": "http_required",
+    },
+    {
+        "id": "agent_agora_pulse",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+        "role": "agent_square_pulse",
+        "verify": "http_required",
+    },
+    {
+        "id": "skillhub_full",
+        "url": "https://chatagent.ca/lygoskillhub.html",
+        "role": "skillhub",
+        "verify": "http_soft",
+    },
+    {
+        "id": "whisper_routing",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+        "role": "whisper_lattice",
+        "verify": "http_soft",
+    },
 ]
 
 STACK_MARKERS = [
     "docs/network_builder/IMMUTABLE_ANCHORS.json",
     "docs/haven_star_chart/haven_star_chart_feed.json",
     "docs/public_verify_manifest.json",
+    "docs/agent-agora/api/pulse.json",
+    "docs/seals/lfw_whisper_lattice_routing.json",
+    "tools/build_agent_agora.py",
 ]
 
 

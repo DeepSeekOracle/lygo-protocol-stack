@@ -1,8 +1,8 @@
 {
   "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
   "version": "1.0.0",
-  "updated_utc": "2026-07-26T16:23:01Z",
-  "registry_merkle_root": "e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f",
+  "updated_utc": "2026-08-24T11:49:32Z",
+  "registry_merkle_root": "e05df4f0615a70d352334d5e417140c82ced389303aa0105a45947355f79683d",
   "eggs": {
     "lygo-music-license-v1": {
       "egg_id": "lygo-music-license-v1",
@@ -63,6 +63,16 @@
       "path": "lygo-agent-lattice-v1.egg.json",
       "created_utc": "2026-07-26T16:23:01Z",
       "signature": "Delta9Phi963-EGG-lygo-agent-lattice-v1-v1.0.0"
+    },
+    "agent-agora-door-v1": {
+      "egg_id": "agent-agora-door-v1",
+      "version": "1.0.0",
+      "kind": "policy",
+      "content_sha256": "238f52552c9c394bb2dc6d1b3bbfdda7e648885f8189d2bfd074750ef16102e6",
+      "leaf_hash": "bac0acdbe9be2c9b4eefa76d476ecbe4d452b6c5eaba285467e598664f23ba67",
+      "path": "agent-agora-door-v1.egg.json",
+      "created_utc": "2026-08-24T11:49:32Z",
+      "signature": "Delta9Phi963-EGG-agent-agora-door-v1-v1.0.0"
     }
   },
   "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0"

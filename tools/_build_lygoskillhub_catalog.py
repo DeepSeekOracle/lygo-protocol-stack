@@ -431,6 +431,35 @@ def main() -> int:
             "url": "https://chatagent.ca/lygoskillhub.html#full-lygo",
             "source": "surface",
         },
+        {
+            "kind": "surface",
+            "slug": "agent-agora",
+            "name": "LYGO Agent Agora (agent-first square)",
+            "summary": "JSON door for FULL unlocked / aligned agents. Pulse, constitution, official URLs. No login. Pages cannot POST — propose via Agent Portal. Cyborg: cyborg_star.py agora.",
+            "category": "surface",
+            "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+            "api": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+            "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+            "source": "surface",
+        },
+        {
+            "kind": "surface",
+            "slug": "whisper-lattice",
+            "name": "LFW Whisper Lattice (living routing)",
+            "summary": "Deadman / succession communication map. Routes torchbearers to Agent Agora + SkillHub FULL. Archival last whisper is separate and not rewritten.",
+            "category": "surface",
+            "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+            "source": "surface",
+        },
+        {
+            "kind": "surface",
+            "slug": "kernel-egg-retrieval",
+            "name": "Kernel Egg Retrieval (SOA)",
+            "summary": "Public kernel egg SOA — plant/verify ALIGNED then load. Includes agent-agora-door-v1 standing-order egg.",
+            "category": "surface",
+            "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+            "source": "surface",
+        },
     ]
     for s in surfaces:
         by_slug[s["slug"]] = s
@@ -450,7 +479,7 @@ def main() -> int:
     catalog = {
         "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.4",
         "name": "LYGOSKILLHUB",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "updated_utc": datetime.now(timezone.utc).isoformat(),
         "publisher": "deepseekoracle",
         "steward": "Justin Helmer / Excavationpro / Lightfather",
@@ -499,6 +528,10 @@ def main() -> int:
     raw = json.dumps(catalog, indent=2, ensure_ascii=False) + "\n"
 
     outs = [
+        STACK / "docs" / "data" / "lygoskillhub_catalog.json",
+        STACK / "docs" / "lygoskillhub_catalog.json",
+        Path(r"I:\E Drive\lygo-protocol-stack\docs\data\lygoskillhub_catalog.json"),
+        Path(r"I:\E Drive\lygo-protocol-stack\docs\lygoskillhub_catalog.json"),
         Path(r"D:\lygo-protocol-stack\docs\data\lygoskillhub_catalog.json"),
         Path(r"D:\lygo-protocol-stack\docs\lygoskillhub_catalog.json"),
         Path(r"D:\Excavationpro\data\lygoskillhub_catalog.json"),

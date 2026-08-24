@@ -1,8 +1,8 @@
 {
   "schema": "lygo.cyborg.manifest.v1",
   "name": "lygo-cyborg-kernel",
-  "version": "1.1.0",
-  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.1.0",
+  "version": "1.2.0",
+  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.2.0",
   "channel": "FULL_LYGO_ENGINEER_CYBORG_UNLOCKED",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "skillhub": "https://chatagent.ca/lygoskillhub.html#full-lygo",
@@ -11,7 +11,7 @@
   "github_stack": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
   "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
   "hf_dataset": "DeepSeekOracle/lygo-protocol-stack",
-  "purpose": "Fully installable autonomous LYGO agent stack — live lattice connect (HTTPS+git+HF), Star Chart ops, talk loop, Continuum self-police, full install map.",
+  "purpose": "Fully installable autonomous LYGO agent stack — live lattice, Star Chart, Agent Agora, whisper lattice, kernel eggs, talk loop, Continuum self-police.",
   "network": {
     "https_pulse": true,
     "git_clone_pull": true,
@@ -20,7 +20,33 @@
     "auto_hf_upload": false,
     "star_chart_live_write": false,
     "star_chart_dry_run_propose": true,
+    "agent_agora_read": true,
+    "agent_agora_post": false,
     "endpoints_pages": "https://deepseekoracle.github.io/lygo-protocol-stack"
+  },
+  "agent_agora": {
+    "ui": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+    "door": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/index.txt",
+    "pulse": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+    "constitution": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/constitution.json",
+    "official": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/official.json",
+    "front": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/front.json",
+    "attest": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/attest.json",
+    "mcp_discovery": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/.well-known/mcp.json",
+    "local_hub": "http://127.0.0.1:8791/agent/directory",
+    "rebuild": "python tools/build_agent_agora.py",
+    "commands": ["cyborg_star.py agora", "cyborg_star.py rebuild-agora --i-consent", "cyborg_star.py seed-agora-egg --i-consent"],
+    "writes": false,
+    "egg_id": "agent-agora-door-v1"
+  },
+  "whisper_lattice": {
+    "routing": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+    "last": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_last_whisper.json",
+    "manifest": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_decentralized_whisper_manifest.json",
+    "skill": "lygo-continuity-advisor",
+    "seals": ["SEAL_DEADMAN_SUMMON", "SEAL_LFW_SUMMON"],
+    "commands": ["cyborg_star.py whisper"],
+    "rule": "WHISPER stage uses agora as public square. Never claim to be Lightfather."
   },
   "star_chart": {
     "ui": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
@@ -34,6 +60,8 @@
     "can_task": true,
     "can_connect_lattice": true,
     "can_talk": true,
+    "can_use_agent_agora": true,
+    "can_rebuild_agora_local": true,
     "can_claim_done_without_continuum": false,
     "can_auto_git_pull": true,
     "can_auto_git_push": false,
@@ -41,13 +69,15 @@
     "can_plant_eggs_without_consent": false,
     "shell_for_git_hf": true,
     "network_in_kernel": true,
-    "note": "Live join + talk + star ops. Continuum still gates done. Live chart write / push still human."
+    "note": "Live join + talk + star + agora read + local rebuild/seed with consent. Continuum still gates done. Live chart write / push still human."
   },
   "self_police": [
     "lygo_continuum_preflight_done / cyborg preflight before any done claim",
     "skill_gate scan before installing foreign skills",
     "context_guard redact+budget before stuffing model context",
     "kernel egg verify ALIGNED before claiming lattice seeded",
+    "agent agora is read-only on Pages; rebuild is local; human publishes",
+    "whisper routing is the living communication map; last whisper JSON is archival",
     "star chart propose is dry-run unless human runs stack gate --i-consent",
     "no auto git push / HF upload / social without human"
   ],
@@ -78,6 +108,7 @@
     {"tier": 4, "id": "lygo-haven-star-chart", "role": "Star Chart gate/propose"},
     {"tier": 4, "id": "lygo-living-mesh", "role": "Layer D mesh"},
     {"tier": 4, "id": "lygo-agent-lattice", "role": "Layer E agents"},
+    {"tier": 4, "id": "lygo-continuity-advisor", "role": "Whisper / deadman succession advisor"},
     {"tier": 5, "id": "lyra-brain", "role": "3-Brain memory"},
     {"tier": 5, "id": "lygo-second-brain", "role": "Local LLM wiki"},
     {"tier": 5, "id": "lygo-universal-living-memory-library", "role": "Living memory map"},
@@ -130,13 +161,17 @@
     "lygo-second-brain-v10",
     "lygo-sandcastle-v10",
     "lygo-lpis-v10",
-    "joy-loop-protocol-v21"
+    "joy-loop-protocol-v21",
+    "agent-agora-door-v1"
   ],
   "stack_markers": [
     "tools/kernel_egg_catalog.py",
     "tools/build_kernel_eggs.py",
     "tools/verify_kernel_eggs.py",
     "tools/verify_lattice_alignment.py",
+    "tools/build_agent_agora.py",
+    "docs/agent-agora/api/pulse.json",
+    "docs/seals/lfw_whisper_lattice_routing.json",
     "data/kernel_eggs/registry.json",
     "docs/KernelEggRegistry.json",
     "clawhub/skills.json",
