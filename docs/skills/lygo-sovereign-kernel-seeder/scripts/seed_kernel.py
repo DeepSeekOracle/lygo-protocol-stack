@@ -172,21 +172,63 @@ def verify_egg_object(egg: dict[str, Any]) -> list[str]:
     return errors
 
 
+def normalize_eggs(eggs: Any) -> dict[str, dict[str, Any]]:
+    """Accept dict map or mixed list (ids / meta objects). Always return egg_id → meta."""
+    if isinstance(eggs, dict):
+        out: dict[str, dict[str, Any]] = {}
+        for key, val in eggs.items():
+            eid = str(key)
+            if isinstance(val, dict):
+                meta = dict(val)
+                meta.setdefault("egg_id", eid)
+                p = str(meta.get("path") or f"{eid}.egg.json").replace("\\", "/")
+                meta["path"] = p.split("/")[-1]
+                out[eid] = meta
+            elif isinstance(val, str):
+                out[val] = {"egg_id": val, "path": f"{val}.egg.json"}
+            else:
+                out[eid] = {"egg_id": eid, "path": f"{eid}.egg.json"}
+        return out
+    if isinstance(eggs, list):
+        out = {}
+        for item in eggs:
+            if isinstance(item, str) and item.strip():
+                eid = item.strip()
+                out[eid] = {"egg_id": eid, "path": f"{eid}.egg.json"}
+            elif isinstance(item, dict):
+                eid = str(item.get("egg_id") or item.get("id") or "").strip()
+                if not eid:
+                    continue
+                meta = dict(item)
+                meta["egg_id"] = eid
+                p = str(meta.get("path") or f"{eid}.egg.json").replace("\\", "/")
+                meta["path"] = p.split("/")[-1]
+                out[eid] = meta
+        return out
+    return {}
+
+
 def load_registry(reg_path: Path) -> dict[str, Any]:
     if reg_path.is_file():
-        return json.loads(reg_path.read_text(encoding="utf-8"))
-    return {
-        "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
-        "version": "1.0.0",
-        "updated_utc": None,
-        "registry_merkle_root": sha256_bytes(b""),
-        "eggs": {},
-    }
+        data = json.loads(reg_path.read_text(encoding="utf-8"))
+    else:
+        data = {
+            "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
+            "version": "1.0.0",
+            "updated_utc": None,
+            "registry_merkle_root": sha256_bytes(b""),
+            "eggs": {},
+        }
+    if not isinstance(data, dict):
+        data = {"eggs": {}}
+    data["eggs"] = normalize_eggs(data.get("eggs"))
+    return data
 
 
 def recompute_root(registry: dict[str, Any]) -> str:
     leaves = []
-    for eid, meta in sorted(registry.get("eggs", {}).items()):
+    eggs = normalize_eggs(registry.get("eggs"))
+    for eid, meta in sorted(eggs.items()):
         leaves.append(meta.get("leaf_hash") or meta.get("content_sha256") or "")
     leaves = [x for x in leaves if x]
     return merkle_root(leaves)

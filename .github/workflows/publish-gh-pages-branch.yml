@@ -29,6 +29,13 @@ jobs:
           if [ -f tools/LYGO_Compass_Master.html ]; then
             cp -f tools/LYGO_Compass_Master.html docs/tools/LYGO_Compass_Master.html
           fi
+          # GitHub Pages is case-sensitive; Windows cannot store both names in one tree.
+          if [ -f docs/LYGOSKILLHUB.html ]; then
+            cp -f docs/LYGOSKILLHUB.html docs/lygoskillhub.html
+          fi
+          if [ -f docs/lygoskillhub_catalog.json ]; then
+            cp -f docs/lygoskillhub_catalog.json docs/LYGOSKILLHUB_catalog.json 2>/dev/null || true
+          fi
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:

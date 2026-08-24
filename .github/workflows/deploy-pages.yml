@@ -2,8 +2,8 @@
 name: Deploy GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  # Repo Pages source is the gh-pages branch (publish-gh-pages-branch.yml).
+  # actions/deploy-pages fails when source is not "GitHub Actions" — do not run on push.
   workflow_dispatch:
 
 permissions:
@@ -33,6 +33,9 @@ jobs:
           mkdir -p docs/tools
           if [ -f tools/LYGO_Compass_Master.html ]; then
             cp -f tools/LYGO_Compass_Master.html docs/tools/LYGO_Compass_Master.html
+          fi
+          if [ -f docs/LYGOSKILLHUB.html ]; then
+            cp -f docs/LYGOSKILLHUB.html docs/lygoskillhub.html
           fi
       - name: Ensure Jekyll bypass for raw HTML
         run: touch docs/.nojekyll

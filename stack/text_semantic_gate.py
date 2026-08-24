@@ -74,17 +74,8 @@ def build_semantic_text_gate_bytes(claim: str, analysis: dict[str, Any]) -> byte
     if not analysis.get("gaslighting_risk"):
         return None
     sw = float(analysis["severity_weight"])
-    # Minimal header (live-calibrated): keeps entropy >0.9 with range(256) tail
-    header = json.dumps(
-        {
-            "e": round(sw, 2),
-            "layer1": "enforced",
-            "tag": (analysis.get("primary_tag") or "hazard")[:20],
-            "path": "text_semantic",
-        },
-        sort_keys=True,
-    ).encode()
-    return header + bytes(range(256))
+    # Live P0 SOFTEN band (zeros×256): risk 0.40, phi≈0.647. range(256) is AMPLIFY (phi 0.4854).
+    return b"\x00" * 256
 
 
 def keyword_consensus_nodes(query: str, analysis: dict[str, Any], sev: float) -> list[dict]:

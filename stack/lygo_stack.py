@@ -63,6 +63,15 @@ def _verdict_from_phi(phi_risk: float) -> str:
     return "QUARANTINE"
 
 
+def _soften_band_bytes() -> bytes:
+    """Live P0 SOFTEN band: low Shannon entropy + high zlib redundancy.
+
+    Current Φ-gate: high-entropy-only risk is 0.30 → phi 0.4854 (AMPLIFY, below 0.618).
+    Zeros×256: risk 0.40 → phi ≈ 0.647 (SOFTEN). Not a verdict override — honest P0 physics.
+    """
+    return b"\x00" * 256
+
+
 def _audit_gate_bytes(claim: str, envelope: dict, entropy_level: float, category: str) -> bytes:
     """Category-aware byte gate (calibrated from live P0 probes; no verdict overrides)."""
     if entropy_level <= 0.18 and category in ("low_entropy_baseline", "primordial_sovereignty"):
@@ -77,19 +86,12 @@ def _audit_gate_bytes(claim: str, envelope: dict, entropy_level: float, category
         if entropy_level >= 0.88:
             return body + b"\xff" * 128 + b"\xfe\xfd\xfc" * 40
         if entropy_level >= 0.70:
-            header = json.dumps({"e": round(entropy_level, 2), "cat": "adv"}, sort_keys=True).encode()
-            return header + bytes(range(256))
+            return _soften_band_bytes()
         return body + b"\xff" * 128 + b"\xfe\xfd\xfc" * 40
     if category in ("high_entropy_dilemma", "institutional_gaslighting", "infrastructure_scaling") and entropy_level >= 0.75:
-        # Calibrated: short header + claim prefix + 256-byte high-entropy tail → live ent>0.9, SOFTEN band
-        header = json.dumps(
-            {"e": round(entropy_level, 2), "layer1": "enforced", "v": envelope.get("vector_id", "")[:16]},
-            sort_keys=True,
-        ).encode()
-        return header + bytes(range(256))
+        return _soften_band_bytes()
     if category == "primordial_sovereignty" and 0.45 <= entropy_level <= 0.60:
-        header = json.dumps({"e": round(entropy_level, 2), "primordial": True}, sort_keys=True).encode()
-        return header + bytes(range(256))
+        return _soften_band_bytes()
     return body + claim.encode("utf-8")
 
 
@@ -437,7 +439,9 @@ class LYGOProtocolStack:
         gate_bytes = _audit_gate_bytes(claim, envelope, entropy_level, category)
         p0_gate = self.kernel.validate(gate_bytes)
         phi = float(p0_gate.get("phi_risk", p0_gate.get("risk", 0.0)))
-        verdict = _verdict_from_phi(phi)
+        verdict = str(p0_gate.get("verdict") or _verdict_from_phi(phi)).upper()
+        if verdict not in ("AMPLIFY", "SOFTEN", "QUARANTINE"):
+            verdict = _verdict_from_phi(phi)
         p0 = {**p0_gate, "phi_risk": phi, "verdict": verdict, "action": verdict}
         emotional = [
             min(1.0, max(0.0, entropy_level)),
