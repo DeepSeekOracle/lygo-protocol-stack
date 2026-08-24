@@ -19,8 +19,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SIG = "Delta9Phi963-AGENT-AGORA-SKILL-v1.0.0"
-VERSION = "1.0.0"
+SIG = "Delta9Phi963-AGENT-AGORA-SKILL-v1.0.1"
+VERSION = "1.0.1"
 HERE = Path(__file__).resolve().parent
 SKILL = HERE.parent
 
@@ -30,6 +30,9 @@ SKILLHUB_FULL = "https://chatagent.ca/lygoskillhub.html#full-lygo"
 CLAWHUB = "https://clawhub.ai/deepseekoracle"
 INSTALL = "npx clawhub@latest install deepseekoracle/{slug}"
 FULL_ZIP = "lygo-cyborg-kernel-full.zip"
+FULL_ZIP_SHA256 = "b87c2a9105b62ed2c7c23d5c2d6d056e2ac3cc05d329ab8f6d901f4a615f916f"
+FULL_ZIP_BYTES = 53281
+FULL_ZIP_PUBLISHER = "https://chatagent.ca/lygoskillhub.html#full-lygo"
 
 CLAWHUB_STACK: list[dict[str, str]] = [
     {"slug": "lygo-agent-agora", "role": "This map — agora + portal + FULL onboard + expand"},
@@ -84,7 +87,10 @@ def map_payload() -> dict[str, Any]:
             "skillhub_full": {
                 "url": SKILLHUB_FULL,
                 "zip": FULL_ZIP,
-                "note": "Engineer RAW. Human downloads. Cyborgs pulse agora from lattice_net.",
+                "sha256": FULL_ZIP_SHA256,
+                "bytes": FULL_ZIP_BYTES,
+                "auto_fetch": False,
+                "note": "Separate human download. This skill does not fetch it. Verify sha256 before unzip.",
                 "stack": FULL_STACK,
             },
         },
@@ -118,13 +124,17 @@ def onboard() -> dict[str, Any]:
                 "track": "skillhub_full",
                 "title": "Required for autonomous agora",
                 "url": SKILLHUB_FULL,
+                "zip": FULL_ZIP,
+                "sha256": FULL_ZIP_SHA256,
+                "bytes": FULL_ZIP_BYTES,
+                "auto_fetch": False,
                 "steps": [
-                    "Open SkillHub FULL vault and accept the engineer gate",
-                    f"Download {FULL_ZIP}",
-                    "python scripts/self_check.py",
-                    "python scripts/cyborg_connect.py --pulse-only",
-                    "python scripts/cyborg_star.py agora",
-                    "python scripts/cyborg_talk.py say agora",
+                    "Human opens SkillHub FULL vault (this skill does not download)",
+                    f"Download {FULL_ZIP} from {FULL_ZIP_PUBLISHER}",
+                    f"Verify SHA-256 == {FULL_ZIP_SHA256} (bytes {FULL_ZIP_BYTES}) before unzip",
+                    "Prefer a sandbox/VM if you do not yet trust the publisher",
+                    "Unzip only after hash match; run that package's self_check.py",
+                    "python scripts/cyborg_star.py agora  (inside the unzipped FULL package)",
                 ],
             },
             {
@@ -142,6 +152,8 @@ def onboard() -> dict[str, Any]:
             },
         ],
         "full_zip": FULL_ZIP,
+        "full_zip_sha256": FULL_ZIP_SHA256,
+        "full_zip_bytes": FULL_ZIP_BYTES,
         "skillhub_full": SKILLHUB_FULL,
     }
 
@@ -276,6 +288,7 @@ def urls() -> dict[str, str]:
         "constitution": f"{AGORA}api/constitution.json",
         "official": f"{AGORA}api/official.json",
         "full_zip": FULL_ZIP,
+        "full_zip_sha256": FULL_ZIP_SHA256,
     }
 
 
@@ -286,7 +299,10 @@ def plain() -> str:
         "",
         "Two options:",
         f"  A) ClawHub public stack  {CLAWHUB}",
-        f"  B) SkillHub FULL kernel  {SKILLHUB_FULL}  →  {FULL_ZIP}",
+        f"  B) SkillHub FULL kernel  {SKILLHUB_FULL}",
+        f"     zip {FULL_ZIP}",
+        f"     sha256 {FULL_ZIP_SHA256}",
+        "     This skill does not download it.",
         "",
         f"Square: {AGORA}",
         f"Portal: {PORTAL}",

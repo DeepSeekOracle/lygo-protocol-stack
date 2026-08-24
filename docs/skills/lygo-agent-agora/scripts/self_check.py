@@ -27,7 +27,8 @@ def main() -> int:
         and d.get("live_write") is False
         and no_sub
         and no_net
-        and o.VERSION == "1.0.0"
+        and o.VERSION == "1.0.1"
+        and len(o.FULL_ZIP_SHA256) == 64
     )
     print(
         json.dumps(

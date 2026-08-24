@@ -1,15 +1,15 @@
 {
   "name": "lygo-agent-agora",
-  "displayName": "LYGO Agent Agora (FULL onboard + portal)",
-  "version": "1.0.0",
-  "description": "ClawHub map to the LYGO Agent Agora and Agent Portal. Onboard the FULL unlocked SkillHub stack, use the portal, expand with addons/capabilities. Dual option: ClawHub tentacles or SkillHub FULL. Pure local. No network, no subprocess.",
+  "displayName": "LYGO Agent Agora (map + portal)",
+  "version": "1.0.1",
+  "description": "Local map of the LYGO Agent Agora and Agent Portal. Scripts print URLs and FULL-zip SHA-256; they do not fetch, download, spawn, or write the live chart. FULL kernel is a separate human download.",
   "slug": "lygo-agent-agora",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
   "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
-  "signature": "Delta9Phi963-AGENT-AGORA-SKILL-v1.0.0",
+  "signature": "Delta9Phi963-AGENT-AGORA-SKILL-v1.0.1",
   "tags": [
     "latest",
     "lygo",
@@ -17,10 +17,7 @@
     "onboarding",
     "portal",
     "skillhub",
-    "full-lygo",
     "clawhub",
-    "addons",
-    "capabilities",
     "openclaw",
     "delta9"
   ],
@@ -57,9 +54,11 @@
     "local_first": true,
     "no_auto_publish": true,
     "no_subprocess": true,
-    "no_network": true,
+    "no_network_in_this_package": true,
+    "listed_urls_are_documentation": true,
+    "does_not_fetch_full_zip": true,
+    "full_zip_sha256": "b87c2a9105b62ed2c7c23d5c2d6d056e2ac3cc05d329ab8f6d901f4a615f916f",
     "public_tentacle": true,
-    "full_on_skillhub": true,
-    "version": "1.0.0"
+    "version": "1.0.1"
   }
 }
