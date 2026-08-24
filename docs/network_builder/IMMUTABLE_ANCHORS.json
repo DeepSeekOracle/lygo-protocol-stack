@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.2",
   "skill_slug": "lygo-network-builder",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "updated_utc": "2026-08-24T00:00:00Z",
   "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
   "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py. | LYGOSKILLHUB v1.0.0 wired 2026-07-29",
@@ -84,6 +84,24 @@
         "catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
         "support": "https://www.paypal.com/paypalme/ExcavationPro",
         "note": "Steward Justin Helmer keeps all rights. Free personal listen/download. Optional donate. Honest growth. Music limb of LYGO lattice."
+      },
+      {
+        "id": "lattice_marines",
+        "label": "Lattice Marines \u2014 isometric island war",
+        "url": "https://chatagent.ca/games/lattice-marines/",
+        "verify": "http_soft",
+        "mirror": "https://eternalhaven.ca/games/lattice-marines/",
+        "listen": "https://asiancoastline.com/listen.html",
+        "support": "https://www.paypal.com/paypalme/ExcavationPro",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Standalone three-phase fog-of-war strategy game. Mini radio from the listen portal. Optional PayPal tip. Not a live Star Chart write."
+      },
+      {
+        "id": "paypal_excavationpro",
+        "label": "PayPal.me/ExcavationPro \u2014 optional lattice support",
+        "url": "https://www.paypal.com/paypalme/ExcavationPro",
+        "verify": "http_soft",
+        "note": "Official donate link for Justin Helmer / Excavationpro / LYGO / Eternal Haven. Tips fund hosting and public tools. Never required."
       },
       {
         "id": "lygo_ascii_art_studio",
