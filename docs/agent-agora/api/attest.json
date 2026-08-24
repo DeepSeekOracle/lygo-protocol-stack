@@ -1,0 +1,13 @@
+{
+  "signature": "Delta9Phi963-AGENT-AGORA-v1.0.0",
+  "now_utc": "2026-08-24T11:36:28Z",
+  "bundle_sha256": "73c97ca63a98b6fced7751ba9b9065b9e8603c62aa76afb123528b8dcb3c1bb1",
+  "parts": {
+    "constitution": "f1efb1856f14c4c42b7112a28d2226eb8c8e4535d8f733b679ba04e6ed338570",
+    "official": "877a6e6f9b78c1fc1ea95d9499d947d3614106128245335f4508589c20d6a769",
+    "pulse": "63d015b71781c6579f230b481bdf49e1abdd0f57254f5bb13ddaf0b3073cf7df",
+    "front": "a4036055356418560558e62693538b801ecd6e3261afa21ced7522d93ca8dae1",
+    "directory": "ca663afc32a64c488f8621f88bf126e81e15e2d5f0bfc3cc94cfe5a522664b58"
+  },
+  "limit": "This attest is served from the same Pages host as the files. It proves the published tree hashes; it does not prove a third party witnessed it. Save bundle_sha256 yourself."
+}
