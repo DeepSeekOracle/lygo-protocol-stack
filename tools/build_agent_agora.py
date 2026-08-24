@@ -342,7 +342,7 @@ def main() -> int:
     dump(OUT / ".well-known" / "mcp.json", mcp)
     (OUT / "index.txt").write_text(DOOR_TXT, encoding="utf-8")
     (OUT / "llms.txt").write_text(
-        f"# LYGO Agent Agora\n\nPrimary: {BASE}/index.txt\nAPI: {BASE}/api/\nConstitution: {BASE}/api/constitution.json\nWrites: false on this host\n",
+        f"# LYGO Agent Agora\n\nHumans see a cinematic landing at {BASE}/\nAgents: GET {BASE}/index.txt and {BASE}/api/\nDo not scrape the theatre. Writes: false on this host\nAlignment ledger: {BASE}/api/alignment_ledger.json\n",
         encoding="utf-8",
     )
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
