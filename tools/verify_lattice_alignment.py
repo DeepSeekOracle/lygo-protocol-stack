@@ -99,8 +99,9 @@ def clawhub_operator_local_catalog() -> tuple[bool, str]:
     if not mirror.is_file():
         return False, "operator mirror missing"
     n_pub = int(data.get("count_published", 0))
-    if n_pub != len(slugs):
-        return False, f"count_published={n_pub} != listed={len(slugs)}"
+    listed_pub = [s for s in data.get("skills", []) if s.get("published")]
+    if n_pub != len(listed_pub):
+        return False, f"count_published={n_pub} != listed_published={len(listed_pub)}"
     return True, f"catalog v{op.get('version', '?')} (offline; npx unavailable)"
 
 
@@ -136,7 +137,13 @@ def main() -> int:
         n_pub = data.get("count_published", 0)
         n_mir = data.get("count_mirrored", 0)
         slugs = [s["slug"] for s in data.get("skills", [])]
-        all_ok &= check("clawhub/skills.json", n_pub == len(slugs), f"published={n_pub} listed={len(slugs)}")
+        listed_pub = [s for s in data.get("skills", []) if s.get("published")]
+        pending = [s.get("slug") for s in data.get("skills", []) if s.get("pending_publication") and not s.get("published")]
+        all_ok &= check(
+            "clawhub/skills.json",
+            n_pub == len(listed_pub),
+            f"published={n_pub} listed_published={len(listed_pub)} pending={len(pending)}",
+        )
         all_ok &= check("operator in catalog", "lygo-protocol-stack-operator" in slugs)
         all_ok &= check("mirrors count", n_mir >= n_pub - 1, f"mirrored={n_mir}")
     else:

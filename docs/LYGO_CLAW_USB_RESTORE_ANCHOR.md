@@ -207,13 +207,13 @@ This is the **LYGO CLAW Standalone USB** (also called LYGO_BUILDER_KEY on E:).
 **Golden Rule (from all SECURITY.md / AGENT_CONTRACT)**: Keys are loaded at runtime from `boot/` or explicit files. **Never** put in eggs, public commits, or code. Use `load_key` helpers or env. Human facilitator holds private keys where needed.
 
 **Primary Locations** (from direct scan of the drive):
-- `boot\token_config.json` — Core config with LYRA token details, wallet info (e.g., 0x08142... primary, private key notes for AI control via Clawnch).
-- `boot\` files: `APIKey_Generic API_KEY=xai-1twpl8jL.txt`, `xai-1twpl8jLIdtuZCsIEH41hZQ7zBoYTVM.txt`, `xai-h97IdRuuB3pPE5pKZfzrqSVcfoVBrBE.txt`, `xai-xRuiFBstlB1cSsyQBa0uqcHuh1DULJH.txt`, `DISCORD SERVER ID AND CHANNELS.txt`, `DISCORD_CONNECTION_INFO.txt`, `OPENCLAW_MANAGED_RESOURCES_AND_KEYS.md`.
-- `CLAWNCH_TOKEN_BACKUP\`: `LYRA_INTEGRITY_TOKEN_CONFIG.json`, `LYRA_INTEGRITY_TOKEN_ESSENTIALS.txt`, `LYRA_INTEGRITY_TOKEN_RECOVERY_FILE.txt`, `ClawCoin.txt`.
-- Root: `NVIDIA API KEY nvapi-r3GmdQxydV7AUy.txt`.
-- Other boot items: Many .txt with keys/tokens (Cohere, Groq, etc.), LYRA boot memory files.
+- `boot\token_config.json` — Core config with LYRA token details; wallet notes stay in that local file.
+- `boot\` — xAI / Discord / OpenClaw key **files** (load at runtime). **Do not paste key prefixes or full tokens into this public restore doc.**
+- `CLAWNCH_TOKEN_BACKUP\` — integrity token config / recovery files (local only).
+- Root — NVIDIA key file if present (local only; never commit).
+- Other boot items: provider key .txt files, LYRA boot memory files.
 - In skills: References point to `boot/`, `workspace/`, `.openclaw/credentials/` (legacy). Use runtime loaders like `lyra_openclaw_os.py load_key` or equivalent in OS.
-- Wallet (Clawnch/4Claw): Primary 0x0814209fc50866C38186537Cd7C534060E011Ec5 (AI-controlled via corrected private key; custodian is human facilitator).
+- Wallet (Clawnch/4Claw): public address lives in local token config; private keys stay with the human facilitator.
 - **Rule**: Keys/tokens loaded at runtime only. Never embed in code, eggs, or public artifacts. Human approval required for any use.
 
 **How to Load (Aligned Way)**:
