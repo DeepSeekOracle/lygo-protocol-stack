@@ -7,6 +7,7 @@ SHA-256 per egg · registry Merkle root · anchor envelope match · reject on mi
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import sys
@@ -46,12 +47,22 @@ def verify_registry(reg: dict) -> dict:
     for entry in reg.get("eggs", []):
         egg_id = entry.get("egg_id", "?")
         expected = (entry.get("transport") or {}).get("content_sha256", "")
-        bin_rel = entry.get("bin_path", "")
+        bin_rel = (entry.get("bin_path") or "").replace("\\", "/").lstrip("./")
         bin_path = ROOT / bin_rel if bin_rel else BUILD / f"{egg_id}.bin"
         ok_bin = False
         actual = ""
+        raw = None
         if bin_path.is_file():
-            actual = sha256_bytes(bin_path.read_bytes())
+            raw = bin_path.read_bytes()
+        else:
+            b64 = (entry.get("transport") or {}).get("blob_b64") or ""
+            if b64:
+                try:
+                    raw = base64.b64decode(b64)
+                except Exception:
+                    raw = None
+        if raw is not None:
+            actual = sha256_bytes(raw)
             ok_bin = actual == expected
             if ok_bin:
                 transport_hashes.append(actual)

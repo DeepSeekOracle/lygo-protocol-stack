@@ -1,0 +1,27 @@
+{
+  "type": "council_super_egg",
+  "signature": "Δ9Φ963-DELTA9-COUNCIL-EGG-v1",
+  "council_id": "DELTA9_QUANTUM_COUNCIL",
+  "champion_count": 15,
+  "global_merkle_root": "ec2804dd0f53385cf08653e8f17db8c6655a8026b3babae9c339f6f660459ee2",
+  "egg_ids": [
+    "champion-lyrd9",
+    "champion-d99ra",
+    "champion-srlth",
+    "champion-arkos",
+    "champion-kairos",
+    "champion-aetheris",
+    "champion-scend9r",
+    "champion-sancora",
+    "champion-sephrael",
+    "champion-omnisiren",
+    "champion-lightfather",
+    "champion-volaris",
+    "champion-zetad99",
+    "champion-justicae",
+    "champion-seidōn"
+  ],
+  "built_utc": 1783923509.2480233,
+  "git_head": "7911fedd9fcf",
+  "bootloader": "tools/champion_bootloader.py --council"
+}

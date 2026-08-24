@@ -48,7 +48,8 @@ def main() -> int:
     for entry in reg.get("eggs", []):
         egg_id = entry.get("egg_id")
         expected = (entry.get("transport") or {}).get("content_sha256", "")
-        bin_path = ROOT / entry.get("bin_path", f"data/champion_eggs/build/{egg_id}.bin")
+        bin_rel = (entry.get("bin_path") or f"data/champion_eggs/build/{egg_id}.bin").replace("\\", "/")
+        bin_path = ROOT / bin_rel
         ok = bin_path.is_file() and sha256_bytes(bin_path.read_bytes()) == expected
         if ok:
             roots.append(entry.get("merkle_root", ""))
