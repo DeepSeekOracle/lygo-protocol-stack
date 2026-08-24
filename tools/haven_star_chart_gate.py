@@ -376,7 +376,7 @@ def main() -> int:
                 "lygo-network-builder", "lygo-network-builder", {}
             ),
             "node": {
-                "id": "SEAL_401",
+                "id": "SEAL_402",
                 "kind": "seal",
                 "name": "Lattice Witness Seal",
                 "equation": "Truth = ∇·(Light × Time) ⊗ Δ9",
