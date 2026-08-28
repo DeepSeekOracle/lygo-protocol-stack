@@ -29,8 +29,8 @@
     dragging: false,
     lastX: 0,
     lastY: 0,
-    layers: { quakes: true, events: true, iss: true, alerts: true, floods: true, launches: true, aurora: true, flights: true, weather: true, canon: true, shadow: true },
-    ref: { quakes: [], events: [], iss: null, alerts: [], floods: [], launches: [], aurora: [], flights: [], weather: [], markets: null, tle: 0, errors: {}, live: {} },
+    layers: { quakes: true, events: true, iss: true, alerts: true, floods: true, launches: true, aurora: true, flights: true, weather: true, radar: true, air: true, marine: true, canon: true, shadow: true },
+    ref: { quakes: [], events: [], iss: null, alerts: [], floods: [], launches: [], aurora: [], flights: [], weather: [], radar: [], air: [], marine: [], world_alerts: [], markets: null, tle: 0, errors: {}, live: {} },
     canon: { anchors: [], star: [], eggs: [], agora: null, errors: {} },
     shadows: [],
     selected: null
@@ -178,6 +178,10 @@
       if (state.layers.aurora) dots(state.ref.aurora, "rgba(52,211,153,0.55)", 2.2);
       if (state.layers.flights) dots(state.ref.flights, "rgba(125,211,252,0.7)", 1.8);
       if (state.layers.weather) dots(state.ref.weather, "rgba(250,250,250,0.85)", 3.4);
+      if (state.layers.radar) dots(state.ref.radar, "rgba(96,165,250,0.85)", 4.0);
+      if (state.layers.air) dots(state.ref.air, "rgba(192,132,252,0.9)", 3.6);
+      if (state.layers.marine) dots(state.ref.marine, "rgba(45,212,191,0.9)", 3.4);
+      if (state.layers.alerts) dots(state.ref.world_alerts, "rgba(251,146,60,0.9)", 3.3);
       if (state.layers.shadow) {
         state.shadows.filter(function (n) { return n.sphere !== "lattice"; }).forEach(function (n) {
           const ll = nodeLL(n);
@@ -307,7 +311,19 @@
       items.push({ cls: "ref", title: e.title, sub: "RESOURCE · UK flood monitoring", body: e });
     });
     (state.ref.weather || []).forEach(function (e) {
-      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · Open-Meteo", body: e });
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · Open-Meteo (CC BY 4.0)", body: e });
+    });
+    (state.ref.world_alerts || []).slice(0, 8).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · public CAP/WMO-style alert", body: e });
+    });
+    (state.ref.radar || []).slice(0, 5).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · RainViewer public mosaic (educational)", body: e });
+    });
+    (state.ref.air || []).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · Open-Meteo air quality", body: e });
+    });
+    (state.ref.marine || []).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · Open-Meteo marine", body: e });
     });
     state.ref.quakes.slice(0, 8).forEach(function (q) {
       items.push({ cls: "ref", title: "M" + q.mag.toFixed(1) + " " + q.place, sub: "RESOURCE · USGS", body: q });
@@ -353,7 +369,9 @@
       state.ref.quakes.length + state.ref.events.length + (state.ref.iss ? 1 : 0) +
       (state.ref.alerts || []).length + (state.ref.floods || []).length +
       (state.ref.launches || []).length + (state.ref.flights || []).length +
-      (state.ref.aurora || []).length + (state.ref.weather || []).length
+      (state.ref.aurora || []).length + (state.ref.weather || []).length +
+      (state.ref.radar || []).length + (state.ref.air || []).length +
+      (state.ref.marine || []).length + (state.ref.world_alerts || []).length
     );
     document.getElementById("n-canon").textContent = String(
       state.canon.anchors.length + state.canon.star.length + state.canon.eggs.length
@@ -392,6 +410,10 @@
     if (by.aurora) state.ref.aurora = by.aurora;
     if (by.flights) state.ref.flights = by.flights;
     if (by.weather) state.ref.weather = by.weather;
+    if (by.radar) state.ref.radar = by.radar;
+    if (by.air) state.ref.air = by.air;
+    if (by.marine) state.ref.marine = by.marine;
+    if (by.world_alerts) state.ref.world_alerts = by.world_alerts;
     if (by.water) state.ref.weather = (state.ref.weather || []).concat(by.water);
     if (by.disasters) state.ref.events = (state.ref.events || []).concat(by.disasters);
     (feed.sources || []).forEach(function (s) {
@@ -401,6 +423,10 @@
       if (s.id === "gdacs") setStatus("st-gdacs", s.ok ? true : "shadow", s.ok ? "live" : "named");
       if (s.id === "opensky_ne") setStatus("st-flights", s.ok ? true : "shadow", s.ok ? "live" : "named");
       if (s.id === "openmeteo_hubs") setStatus("st-wx", s.ok ? true : "shadow", s.ok ? "live" : "named");
+      if (s.id === "rainviewer") setStatus("st-radar", s.ok ? true : "shadow", s.ok ? "live" : "named");
+      if (s.role === "world_alerts" && s.ok) setStatus("st-walert", true);
+      if (s.id === "openmeteo_aq") setStatus("st-aq", s.ok ? true : "shadow", s.ok ? "live" : "named");
+      if (s.id === "dwd_warnings") setStatus("st-dwd", s.ok ? true : "shadow", s.ok ? "live" : "named");
     });
     setStatus("st-hf", feed.ok ? true : "shadow", feed.ok ? "live" : "named");
     const el = document.getElementById("n-hf");

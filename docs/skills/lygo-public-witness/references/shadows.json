@@ -51,6 +51,45 @@
       ]
     },
     {
+      "id": "resource_rainviewer",
+      "label": "RainViewer public radar mosaic",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 20,
+      "lon": 0,
+      "why": "1200+ public radars, 5-minute mosaic. Educational/personal use. Not a classified NEXRAD interior.",
+      "public_checks": [
+        { "label": "RainViewer weather-maps.json", "url": "https://api.rainviewer.com/public/weather-maps.json" }
+      ]
+    },
+    {
+      "id": "resource_world_alerts",
+      "label": "Global public weather alerts",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 48,
+      "lon": 10,
+      "why": "LibreWXR aggregates public WMO/CAP-style alerts. Polygons are public. Internal forecast desks stay shadow.",
+      "public_checks": [
+        { "label": "LibreWXR alerts", "url": "https://api.librewxr.net/v2/alerts" },
+        { "label": "NWS active", "url": "https://api.weather.gov/alerts/active?status=actual" },
+        { "label": "DWD warnings", "url": "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json" }
+      ]
+    },
+    {
+      "id": "shadow_meteoalarm_auth",
+      "label": "Meteoalarm MQTT / token API",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 50.8,
+      "lon": 4.35,
+      "why": "European warning broker exists; the token MQTT is not a public GET. Use LibreWXR/NWS/DWD public faces instead.",
+      "public_checks": [
+        { "label": "Meteoalarm site", "url": "https://www.meteoalarm.org/" },
+        { "label": "LibreWXR EU bbox", "url": "https://api.librewxr.net/v2/alerts?bbox=-12,36,40,62" }
+      ]
+    },
+    {
       "id": "resource_hf_overlay",
       "label": "HF Public Witness overlay",
       "kind": "resource",

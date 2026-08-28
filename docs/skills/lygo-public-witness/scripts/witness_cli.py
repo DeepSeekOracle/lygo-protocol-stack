@@ -61,7 +61,11 @@ REFERENCE: list[dict[str, str]] = [
     {"id": "gdacs", "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;VO;FL;TS", "role": "disasters"},
     {"id": "swpc_xrays", "url": "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json", "role": "space_weather"},
     {"id": "launches", "url": "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=8&mode=list", "role": "launches"},
-    {"id": "openmeteo_nyc", "url": "https://api.open-meteo.com/v1/forecast?latitude=40.7&longitude=-74&current=temperature_2m,wind_speed_10m", "role": "weather"},
+    {"id": "openmeteo_nyc", "url": "https://api.open-meteo.com/v1/forecast?latitude=40.7&longitude=-74&current=temperature_2m,wind_speed_10m,precipitation", "role": "weather"},
+    {"id": "openmeteo_aq", "url": "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=28.61,51.5,39.9&longitude=77.21,-0.1,116.4&current=pm2_5,us_aqi", "role": "air"},
+    {"id": "rainviewer", "url": "https://api.rainviewer.com/public/weather-maps.json", "role": "radar"},
+    {"id": "wxalert_na", "url": "https://api.librewxr.net/v2/alerts?bbox=-125,24,-66,50", "role": "world_alerts"},
+    {"id": "dwd_warnings", "url": "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json", "role": "dwd"},
     {"id": "coingecko", "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd", "role": "markets"},
     {"id": "hf_witness_feed", "url": "https://deepseekoracle-lattice-marines-ledger.hf.space/witness/feed.json", "role": "hf_overlay"},
 ]
