@@ -1,0 +1,34 @@
+{
+  "signature": "Delta9Phi963-PUBLIC-WITNESS-v1.0.0",
+  "name": "LYGO Public Witness",
+  "version": "1.0.0",
+  "doctrine": {
+    "public_is": "REFERENCE",
+    "lattice_is": "CANON",
+    "rule": "If the data never reaches a public source, this dashboard will not invent it. Public pings are overlays for orientation. Dual ledgers, kernel eggs, and the Haven Star Chart are canon on-lattice.",
+    "not": [
+      "Palantir",
+      "private intelligence",
+      "classified satellite video",
+      "World Monitor clone",
+      "God's Eye View clone",
+      "live Star Chart ingest"
+    ]
+  },
+  "surfaces": {
+    "site": "https://chatagent.ca/witness/",
+    "mirror": "https://eternalhaven.ca/witness/",
+    "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+    "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
+    "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "anchors": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
+    "star_feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+    "eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+    "agora": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/"
+  },
+  "classes": {
+    "CANON": "On-lattice receipts: dual ledgers, eggs, Star Chart feed, Agent Agora pulse.",
+    "REFERENCE": "Public GET only: USGS, NASA EONET, ISS. Missing source = empty layer, never fabricated.",
+    "SCHEMATIC": "Lattice-sphere placement is a graph projection, not a geographic claim."
+  }
+}

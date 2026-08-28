@@ -113,6 +113,18 @@
         "note": "Client-side photo to ASCII/text/type art. creative+tools balanced. SEO/AdSense ready.",
         "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
         "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio"
+      },
+      {
+        "id": "lygo_public_witness",
+        "label": "LYGO Public Witness — public REFERENCE / lattice CANON",
+        "url": "https://chatagent.ca/witness/",
+        "verify": "http_required",
+        "mirror": "https://eternalhaven.ca/witness/",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
+        "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-public-witness",
+        "note": "Public USGS/EONET/ISS overlays are REFERENCE only. Dual ledgers, kernel eggs, and Haven Star Chart are CANON. Missing sources stay empty. Not private intel. Not a live Star Chart write."
       }
     ],
     "sovereign_seed": [
