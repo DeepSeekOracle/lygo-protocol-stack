@@ -670,11 +670,85 @@
     });
   }
 
+  function epicPng(row) {
+    const d = String(row.date || "").slice(0, 10).replace(/-/g, "/");
+    const img = row.image;
+    if (!d || !img) return "";
+    return "https://epic.gsfc.nasa.gov/archive/natural/" + d + "/png/" + img + ".png";
+  }
+
+  async function loadCameras() {
+    const grid = document.getElementById("cam-grid");
+    if (!grid) return;
+    let pack;
+    try { pack = await getJson("cameras.json"); } catch (e) { grid.textContent = "Camera catalog unreachable — named shadow."; return; }
+    const cams = pack.cameras || [];
+    let epicSrc = "";
+    const epic = cams.find(function (c) { return c.kind === "epic"; });
+    if (epic && epic.api) {
+      try {
+        const rows = await getJson(epic.api);
+        if (Array.isArray(rows) && rows[0]) epicSrc = epicPng(rows[0]);
+      } catch (e) {}
+    }
+    const t = Date.now();
+    grid.innerHTML = cams.map(function (c) {
+      const href = c.href || "#";
+      const legal = escapeHtml(c.owner + " · " + c.legal);
+      if (c.kind === "still") {
+        const src = c.src + (c.src.indexOf("?") >= 0 ? "&" : "?") + "t=" + t;
+        return "<a class=\"cam\" href=\"" + href + "\" target=\"_blank\" rel=\"noopener\"><img src=\"" + src + "\" alt=\"" + escapeHtml(c.title) + "\" loading=\"lazy\"><div class=\"cap\"><b>" + escapeHtml(c.title) + "</b>" + legal + "</div></a>";
+      }
+      if (c.kind === "epic") {
+        const src = epicSrc || "";
+        if (!src) return "<a class=\"cam linkcard\" href=\"" + href + "\" target=\"_blank\" rel=\"noopener\"><div class=\"cap\"><span class=\"tag shadow\">SHADOW</span><b>" + escapeHtml(c.title) + "</b>NASA EPIC named — open official page.</div></a>";
+        return "<a class=\"cam\" href=\"" + href + "\" target=\"_blank\" rel=\"noopener\"><img src=\"" + src + "\" alt=\"" + escapeHtml(c.title) + "\" loading=\"lazy\"><div class=\"cap\"><b>" + escapeHtml(c.title) + "</b>" + legal + "</div></a>";
+      }
+      if (c.kind === "youtube") {
+        return "<div class=\"cam\"><iframe src=\"" + c.embed + "\" title=\"" + escapeHtml(c.title) + "\" allow=\"encrypted-media; picture-in-picture\" allowfullscreen loading=\"lazy\"></iframe><div class=\"cap\"><b><a href=\"" + href + "\" target=\"_blank\" rel=\"noopener\">" + escapeHtml(c.title) + "</a></b>" + legal + "</div></div>";
+      }
+      return "<a class=\"cam linkcard\" href=\"" + href + "\" target=\"_blank\" rel=\"noopener\"><div class=\"cap\"><span class=\"tag ref\">RESOURCE</span><b>" + escapeHtml(c.title) + "</b>" + legal + "<br>" + escapeHtml(c.note || "Official public cameras — open the agency page.") + "</div></a>";
+    }).join("");
+  }
+
+  function renderNews(pack) {
+    function fill(id, rows, st) {
+      const ul = document.getElementById(id);
+      const tag = document.getElementById(st);
+      if (!ul) return;
+      ul.innerHTML = (rows || []).slice(0, 18).map(function (r) {
+        return "<li><a href=\"" + escapeHtml(r.url) + "\" target=\"_blank\" rel=\"noopener\">" + escapeHtml(r.title) + "</a><div class=\"src\">" + escapeHtml(r.source) + (r.date ? " · " + escapeHtml(r.date).slice(0, 22) : "") + "</div></li>";
+      }).join("") || "<li>No public items in this lane.</li>";
+      if (tag) { tag.textContent = String((rows || []).length); tag.className = "tag ok"; }
+    }
+    fill("news-severe", pack.severe, "st-news-sev");
+    fill("news-world", pack.world, "st-news-world");
+  }
+
+  async function loadNews() {
+    try {
+      const pack = await getJson("news-monitor.json");
+      const extra = [];
+      (state.ref.quakes || []).filter(function (q) { return (q.mag || 0) >= 5.5; }).forEach(function (q) {
+        extra.push({ title: "M" + q.mag + " " + (q.title || q.place || "quake"), url: "https://earthquake.usgs.gov/", source: "usgs_live", lane: "severe", date: "", class: "RESOURCE" });
+      });
+      (state.ref.world_alerts || []).slice(0, 8).forEach(function (a) {
+        extra.push({ title: a.title, url: "https://api.weather.gov/alerts/active?status=actual", source: "wxalert_live", lane: "severe", date: "", class: "RESOURCE" });
+      });
+      pack.severe = extra.concat(pack.severe || []);
+      renderNews(pack);
+    } catch (e) {
+      const tag = document.getElementById("st-news-sev");
+      if (tag) { tag.textContent = "named"; tag.className = "tag shadow"; }
+    }
+  }
+
   async function boot() {
     document.getElementById("sig").textContent = SIG;
     await loadShadows();
-    await Promise.all([loadCanon(), loadRef(), loadHfFeed()]);
+    await Promise.all([loadCanon(), loadRef(), loadHfFeed(), loadCameras()]);
     renderFeeds();
+    await loadNews();
   }
 
   window.addEventListener("resize", resize);
@@ -683,4 +757,5 @@
   boot();
   frame();
   setInterval(refreshIss, 12000);
+  setInterval(loadCameras, 300000);
 })();
