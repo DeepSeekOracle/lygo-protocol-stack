@@ -27,6 +27,40 @@
       ]
     },
     {
+      "id": "resource_nws",
+      "label": "NWS active alerts",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 39.0,
+      "lon": -98.0,
+      "why": "US public weather alerts. If the GET fails, the NWS node still exists.",
+      "public_checks": [
+        { "label": "NWS active alerts", "url": "https://api.weather.gov/alerts/active?status=actual" }
+      ]
+    },
+    {
+      "id": "resource_gdacs",
+      "label": "GDACS disaster events",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 50.8,
+      "lon": 4.3,
+      "why": "EU/UN public disaster awareness. Named even when quiet.",
+      "public_checks": [
+        { "label": "GDACS events", "url": "https://www.gdacs.org/" }
+      ]
+    },
+    {
+      "id": "resource_hf_overlay",
+      "label": "HF Public Witness overlay",
+      "kind": "resource",
+      "sphere": "lattice",
+      "why": "Hugging Face Space aggregates public GETs so CORS-blocked browsers still get a labeled RESOURCE feed. Failures stay named shadows.",
+      "public_checks": [
+        { "label": "HF feed.json", "url": "https://deepseekoracle-lattice-marines-ledger.hf.space/witness/feed.json" }
+      ]
+    },
+    {
       "id": "resource_iss",
       "label": "ISS public telemetry",
       "kind": "resource",

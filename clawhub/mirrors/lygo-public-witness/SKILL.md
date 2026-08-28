@@ -1,7 +1,7 @@
 ---
 name: lygo-public-witness
 description: "LYGO Public Witness — public feeds are REFERENCE, dual ledgers/eggs/Star Chart are CANON. HTTPS GET allowlist (USGS, NASA EONET, ISS, lattice JSON). Never invent missing sources. Never live Star Chart write. Optional localhost Ollama summary. Use when OSINT vs private intel, public witness globe, situational overlay, World Monitor / God's Eye ideas, or /lygo-public-witness."
-version: 1.0.1
+version: 1.1.0
 license: MIT-0
 metadata:
   openclaw:

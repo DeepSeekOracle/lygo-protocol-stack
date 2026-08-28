@@ -18,9 +18,9 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.0.1"
-VERSION = "1.0.1"
-UA = "LYGO-PublicWitness/1.0.0 (+https://chatagent.ca/witness/; +https://clawhub.ai/deepseekoracle)"
+SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.1.0"
+VERSION = "1.1.0"
+UA = "LYGO-PublicWitness/1.1.0 (+https://chatagent.ca/witness/; +https://clawhub.ai/deepseekoracle)"
 
 CANON: list[dict[str, str]] = [
     {
@@ -51,30 +51,26 @@ CANON: list[dict[str, str]] = [
 ]
 
 REFERENCE: list[dict[str, str]] = [
-    {
-        "id": "usgs_quakes_2_5_day",
-        "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
-        "role": "quakes",
-    },
-    {
-        "id": "nasa_eonet_open",
-        "url": "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=40",
-        "role": "natural_events",
-    },
-    {
-        "id": "iss_wheretheiss",
-        "url": "https://api.wheretheiss.at/v1/satellites/25544",
-        "role": "iss",
-    },
+    {"id": "usgs_quakes_2_5_day", "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson", "role": "quakes"},
+    {"id": "usgs_m45_week", "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson", "role": "quakes"},
+    {"id": "usgs_sig_month", "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson", "role": "quakes"},
+    {"id": "nasa_eonet_open", "url": "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=40", "role": "natural_events"},
+    {"id": "iss_wheretheiss", "url": "https://api.wheretheiss.at/v1/satellites/25544", "role": "iss"},
+    {"id": "nws_alerts", "url": "https://api.weather.gov/alerts/active?status=actual", "role": "alerts"},
+    {"id": "uk_floods", "url": "https://environment.data.gov.uk/flood-monitoring/id/floods", "role": "floods"},
+    {"id": "gdacs", "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;VO;FL;TS", "role": "disasters"},
+    {"id": "swpc_xrays", "url": "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json", "role": "space_weather"},
+    {"id": "launches", "url": "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=8&mode=list", "role": "launches"},
+    {"id": "openmeteo_nyc", "url": "https://api.open-meteo.com/v1/forecast?latitude=40.7&longitude=-74&current=temperature_2m,wind_speed_10m", "role": "weather"},
+    {"id": "coingecko", "url": "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd", "role": "markets"},
+    {"id": "hf_witness_feed", "url": "https://deepseekoracle-lattice-marines-ledger.hf.space/witness/feed.json", "role": "hf_overlay"},
 ]
 
 # FULL zip may add these; tentacle refuses unless --i-full-feeds and URL still allowlisted.
 FULL_REFERENCE: list[dict[str, str]] = [
-    {
-        "id": "celestrak_stations",
-        "url": "https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=json",
-        "role": "tle_stations",
-    }
+    {"id": "celestrak_stations", "url": "https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=json", "role": "tle_stations"},
+    {"id": "opensky_ne", "url": "https://opensky-network.org/api/states/all?lamin=38&lomin=-78&lamax=43&lomax=-70", "role": "flights"},
+    {"id": "swpc_aurora", "url": "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json", "role": "aurora"},
 ]
 
 def load_shadows() -> list[dict[str, Any]]:

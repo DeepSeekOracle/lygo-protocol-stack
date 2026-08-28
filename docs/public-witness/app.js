@@ -1,7 +1,12 @@
 /* LYGO Public Witness v1.0.1 — resources, canon, named shadows. Never invent payloads. */
 (function () {
   "use strict";
-  const SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.0.1";
+  const SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.1.0";
+  const HF_FEEDS = [
+    "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/feed.json",
+    "https://deepseekoracle-lattice-marines-ledger.hf.space/witness/feed.json",
+    "feed-snapshot.json"
+  ];
   const CANON_URLS = {
     anchors: "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
     star: "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
@@ -24,8 +29,8 @@
     dragging: false,
     lastX: 0,
     lastY: 0,
-    layers: { quakes: true, events: true, iss: true, canon: true, shadow: true },
-    ref: { quakes: [], events: [], iss: null, errors: {}, live: {} },
+    layers: { quakes: true, events: true, iss: true, alerts: true, floods: true, launches: true, aurora: true, flights: true, weather: true, canon: true, shadow: true },
+    ref: { quakes: [], events: [], iss: null, alerts: [], floods: [], launches: [], aurora: [], flights: [], weather: [], markets: null, tle: 0, errors: {}, live: {} },
     canon: { anchors: [], star: [], eggs: [], agora: null, errors: {} },
     shadows: [],
     selected: null
@@ -157,6 +162,22 @@
           ctx.fill();
         }
       }
+      function dots(list, color, r) {
+        (list || []).forEach(function (e) {
+          const p = project(e.lat, e.lon, cx, cy, R, rot);
+          if (!p.vis) return;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+      if (state.layers.alerts) dots(state.ref.alerts, "rgba(251,191,36,0.9)", 3.2);
+      if (state.layers.floods) dots(state.ref.floods, "rgba(56,189,248,0.9)", 3.2);
+      if (state.layers.launches) dots(state.ref.launches, "rgba(244,114,182,0.95)", 4.2);
+      if (state.layers.aurora) dots(state.ref.aurora, "rgba(52,211,153,0.55)", 2.2);
+      if (state.layers.flights) dots(state.ref.flights, "rgba(125,211,252,0.7)", 1.8);
+      if (state.layers.weather) dots(state.ref.weather, "rgba(250,250,250,0.85)", 3.4);
       if (state.layers.shadow) {
         state.shadows.filter(function (n) { return n.sphere !== "lattice"; }).forEach(function (n) {
           const ll = nodeLL(n);
@@ -273,6 +294,21 @@
         body: state.ref.iss
       });
     }
+    if (state.ref.markets) {
+      items.push({ cls: "ref", title: "Public markets " + JSON.stringify(state.ref.markets).slice(0, 80), sub: "RESOURCE · CoinGecko public prices", body: state.ref.markets });
+    }
+    (state.ref.launches || []).slice(0, 6).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · upcoming launch pad", body: e });
+    });
+    (state.ref.alerts || []).slice(0, 5).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · NWS public alert", body: e });
+    });
+    (state.ref.floods || []).slice(0, 4).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · UK flood monitoring", body: e });
+    });
+    (state.ref.weather || []).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · Open-Meteo", body: e });
+    });
     state.ref.quakes.slice(0, 8).forEach(function (q) {
       items.push({ cls: "ref", title: "M" + q.mag.toFixed(1) + " " + q.place, sub: "RESOURCE · USGS", body: q });
     });
@@ -314,12 +350,83 @@
       });
     });
     document.getElementById("n-ref").textContent = String(
-      state.ref.quakes.length + state.ref.events.length + (state.ref.iss ? 1 : 0)
+      state.ref.quakes.length + state.ref.events.length + (state.ref.iss ? 1 : 0) +
+      (state.ref.alerts || []).length + (state.ref.floods || []).length +
+      (state.ref.launches || []).length + (state.ref.flights || []).length +
+      (state.ref.aurora || []).length + (state.ref.weather || []).length
     );
     document.getElementById("n-canon").textContent = String(
       state.canon.anchors.length + state.canon.star.length + state.canon.eggs.length
     );
     document.getElementById("n-shadow").textContent = String(state.shadows.filter(function (n) { return n.kind === "shadow" || !resourceLive(n.id); }).length);
+  }
+
+  function remember(feed) {
+    try { localStorage.setItem("lygo-witness-last", JSON.stringify({ t: Date.now(), feed: feed })); } catch (e) {}
+  }
+
+  function recall() {
+    try {
+      const raw = localStorage.getItem("lygo-witness-last");
+      if (!raw) return null;
+      const pack = JSON.parse(raw);
+      if (!pack || !pack.feed) return null;
+      if (Date.now() - (pack.t || 0) > 6 * 3600 * 1000) return null;
+      return pack.feed;
+    } catch (e) { return null; }
+  }
+
+  function ingestHf(feed) {
+    if (!feed) return;
+    const by = {};
+    (feed.points || []).forEach(function (p) {
+      const k = p.layer || "other";
+      (by[k] = by[k] || []).push(p);
+    });
+    if (by.quakes && by.quakes.length) state.ref.quakes = by.quakes;
+    if (by.events && by.events.length) state.ref.events = by.events;
+    if (by.iss && by.iss[0]) state.ref.iss = by.iss[0];
+    if (by.alerts) state.ref.alerts = by.alerts;
+    if (by.floods) state.ref.floods = by.floods;
+    if (by.launches) state.ref.launches = by.launches;
+    if (by.aurora) state.ref.aurora = by.aurora;
+    if (by.flights) state.ref.flights = by.flights;
+    if (by.weather) state.ref.weather = by.weather;
+    if (by.water) state.ref.weather = (state.ref.weather || []).concat(by.water);
+    if (by.disasters) state.ref.events = (state.ref.events || []).concat(by.disasters);
+    (feed.sources || []).forEach(function (s) {
+      if (s.role === "markets" && s.markets) state.ref.markets = s.markets;
+      if (s.role === "tle") state.ref.tle = s.count || 0;
+      if (s.id === "nws_alerts") setStatus("st-nws", s.ok ? true : "shadow", s.ok ? "live" : "named");
+      if (s.id === "gdacs") setStatus("st-gdacs", s.ok ? true : "shadow", s.ok ? "live" : "named");
+      if (s.id === "opensky_ne") setStatus("st-flights", s.ok ? true : "shadow", s.ok ? "live" : "named");
+      if (s.id === "openmeteo_hubs") setStatus("st-wx", s.ok ? true : "shadow", s.ok ? "live" : "named");
+    });
+    setStatus("st-hf", feed.ok ? true : "shadow", feed.ok ? "live" : "named");
+    const el = document.getElementById("n-hf");
+    if (el) el.textContent = String(feed.point_count || (feed.points || []).length);
+  }
+
+  async function loadHfFeed() {
+    let lastErr = null;
+    for (let i = 0; i < HF_FEEDS.length; i++) {
+      try {
+        const feed = await getJson(HF_FEEDS[i]);
+        if (feed && (feed.points || feed.sources)) {
+          ingestHf(feed);
+          remember(feed);
+          return;
+        }
+      } catch (e) { lastErr = e; }
+    }
+    state.ref.errors.hf = String(lastErr || "no overlay");
+    const stale = recall();
+    if (stale) {
+      ingestHf(stale);
+      setStatus("st-hf", "shadow", "cached");
+    } else {
+      setStatus("st-hf", "shadow", "named");
+    }
   }
 
   async function loadShadows() {
@@ -426,6 +533,31 @@
       state.ref.live.iss = false;
       setStatus("st-iss", "shadow", "named");
     }
+    try {
+      const wx = await getJson("https://api.open-meteo.com/v1/forecast?latitude=40.7,51.5,35.7&longitude=-74,-0.1,139.7&current=temperature_2m,wind_speed_10m");
+      const hubs = ["New York", "London", "Tokyo"];
+      const rows = Array.isArray(wx) ? wx : (wx && wx.latitude ? [wx] : []);
+      if (rows.length) {
+        state.ref.weather = rows.map(function (row, i) {
+          const cur = row.current || {};
+          return { lat: row.latitude, lon: row.longitude, title: hubs[i] + " " + cur.temperature_2m + "°", layer: "weather" };
+        });
+        setStatus("st-wx", true);
+      }
+    } catch (e) { state.ref.errors.wx = String(e); }
+    try {
+      state.ref.markets = await getJson("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd");
+    } catch (e) { state.ref.errors.markets = String(e); }
+    try {
+      const L = await getJson("https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=8&mode=list");
+      const pads = [];
+      (L.results || []).forEach(function (row) {
+        const pad = row.pad || {};
+        const lat = parseFloat(pad.latitude), lon = parseFloat(pad.longitude);
+        if (!isNaN(lat) && !isNaN(lon)) pads.push({ lat: lat, lon: lon, title: row.name || "launch", layer: "launches" });
+      });
+      if (pads.length) state.ref.launches = pads;
+    } catch (e) { state.ref.errors.launches = String(e); }
   }
 
   async function refreshIss() {
@@ -515,7 +647,7 @@
   async function boot() {
     document.getElementById("sig").textContent = SIG;
     await loadShadows();
-    await Promise.all([loadCanon(), loadRef()]);
+    await Promise.all([loadCanon(), loadRef(), loadHfFeed()]);
     renderFeeds();
   }
 

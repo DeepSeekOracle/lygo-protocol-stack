@@ -51,8 +51,14 @@
       <button class="mode" data-mode="lattice" type="button">Lattice · canon</button>
       <button class="mode" data-mode="split" type="button">Split</button>
       <button class="chip ref on" data-layer="quakes" type="button">USGS</button>
-      <button class="chip ref on" data-layer="events" type="button">EONET</button>
+      <button class="chip ref on" data-layer="events" type="button">EONET/GDACS</button>
       <button class="chip ref on" data-layer="iss" type="button">ISS</button>
+      <button class="chip ref on" data-layer="alerts" type="button">NWS</button>
+      <button class="chip ref on" data-layer="floods" type="button">Floods</button>
+      <button class="chip ref on" data-layer="launches" type="button">Launches</button>
+      <button class="chip ref on" data-layer="aurora" type="button">Aurora</button>
+      <button class="chip ref on" data-layer="flights" type="button">ADS-B box</button>
+      <button class="chip ref on" data-layer="weather" type="button">Weather</button>
       <button class="chip canon on" data-layer="canon" type="button">Ledgers / eggs</button>
       <button class="chip shadow on" data-layer="shadow" type="button">Named shadows</button>
     </div>
@@ -68,15 +74,20 @@
       <div class="stat"><b id="n-ref">0</b><span>public resource pings</span></div>
       <div class="stat"><b id="n-canon">0</b><span>canon nodes</span></div>
       <div class="stat"><b id="n-shadow">0</b><span>named shadows</span></div>
-      <div class="stat"><b id="n-chain">—</b><span>star-chart chain</span></div>
+      <div class="stat"><b id="n-hf">—</b><span>HF overlay points</span></div>
     </div>
     <p class="legend">Sources:
+      HF feed <span id="st-hf" class="tag miss">…</span>
       USGS <span id="st-usgs" class="tag miss">…</span>
       EONET <span id="st-eonet" class="tag miss">…</span>
       ISS <span id="st-iss" class="tag miss">…</span>
+      NWS <span id="st-nws" class="tag miss">…</span>
+      GDACS <span id="st-gdacs" class="tag miss">…</span>
+      ADS-B <span id="st-flights" class="tag miss">…</span>
+      Weather <span id="st-wx" class="tag miss">…</span>
       Anchors <span id="st-anchors" class="tag miss">…</span>
       Star Chart <span id="st-star" class="tag miss">…</span>
-      Eggs/lattice <span id="st-eggs" class="tag miss">…</span>
+      Eggs <span id="st-eggs" class="tag miss">…</span>
       Agora <span id="st-agora" class="tag miss">…</span>
     </p>
     <div class="actions">
@@ -118,7 +129,7 @@
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
   <h2>Integrate</h2>
-  <p>Humans use this page. Agents install the ClawHub tentacle, then optionally the unlocked FULL zip from SkillHub (verify SHA-256). Pair <code>lygo-public-lattice-gate</code> for verify/align, <code>lygo-haven-star-chart</code> only with human consent, and <code>lygo-ollama-army</code> for local summaries.</p>
+  <p>Humans use this page. The globe crunches live public resources (USGS, EONET, ISS, NWS, GDACS, NOAA SWPC, Open-Meteo, a public ADS-B box, launch pads, CoinGecko). Hugging Face hosts a labeled overlay snapshot: <a href="https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed">DeepSeekOracle/lygo-public-witness-feed</a>. Failed GETs stay <strong>named shadows</strong>. Agents: ClawHub tentacle + SkillHub FULL zip.</p>
 </section>
 <footer class="site">
   <p>© <span class="y"></span> Justin Helmer / Excavationpro. MIT-0 skill · site content by the publisher. Mirror: <a href="https://eternalhaven.ca/witness/">eternalhaven.ca/witness/</a> · Support: <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal</a></p>
