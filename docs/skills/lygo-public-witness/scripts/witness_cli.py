@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """LYGO Public Witness — public=REFERENCE, lattice=CANON.
 
-Subcommands: doctrine, canon, reference, overlay, propose, ollama
+Subcommands: doctrine, canon, reference, shadow, overlay, propose, ollama
 HTTPS GET allowlist only. Optional localhost Ollama. No live Star Chart write.
 Signature: Delta9Phi963-PUBLIC-WITNESS-v1.0.0
 """
@@ -18,8 +18,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.0.0"
-VERSION = "1.0.0"
+SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.0.1"
+VERSION = "1.0.1"
 UA = "LYGO-PublicWitness/1.0.0 (+https://chatagent.ca/witness/; +https://clawhub.ai/deepseekoracle)"
 
 CANON: list[dict[str, str]] = [
@@ -77,11 +77,25 @@ FULL_REFERENCE: list[dict[str, str]] = [
     }
 ]
 
+def load_shadows() -> list[dict[str, Any]]:
+    p = Path(__file__).resolve().parent.parent / "references" / "shadows.json"
+    if not p.is_file():
+        p = Path(r"D:\chatagent\witness\shadows.json")
+    if not p.is_file():
+        return []
+    try:
+        pack = json.loads(p.read_text(encoding="utf-8"))
+        return list(pack.get("nodes") or [])
+    except Exception:
+        return []
+
+
 DOCTRINE = {
     "signature": SIG,
-    "public_is": "REFERENCE",
+    "public_is": "RESOURCE",
     "lattice_is": "CANON",
-    "rule": "If the data never reaches a public source, do not invent it. Empty layer beats a pretty lie.",
+    "private_is": "NAMED_SHADOW",
+    "rule": "Name the shadow. Never steal its payload. Public nodes are resources. Private nodes remind you to legally check every public link around them.",
     "not": [
         "private intelligence",
         "Palantir clone",
@@ -195,7 +209,11 @@ def summarize_ref(row: dict[str, str], got: dict[str, Any]) -> dict[str, Any]:
     }
     js = got.get("json")
     if not got.get("ok"):
-        out["note"] = "source unreachable — layer empty, not invented"
+        out["class"] = "SHADOW"
+        out["payload"] = None
+        out["node_named"] = True
+        out["note"] = "feed unreachable — node still named; follow public URL; do not invent points"
+        out["public_checks"] = [{"label": row["id"], "url": row["url"]}]
         return out
     if row["id"].startswith("usgs") and isinstance(js, dict):
         for f in (js.get("features") or [])[:40]:
@@ -292,10 +310,28 @@ def cmd_reference(args: argparse.Namespace) -> dict[str, Any]:
         "signature": SIG,
         "utc": utc_now(),
         "sources": rows,
-        "note": "REFERENCE does not upgrade to CANON in this skill",
+        "note": "RESOURCE pings do not upgrade to CANON. Unreachable feeds remain named SHADOW nodes.",
     }
     maybe_write(getattr(args, "write_report", None), payload)
     return payload
+
+
+def cmd_shadow(_: argparse.Namespace) -> dict[str, Any]:
+    nodes = []
+    for n in load_shadows():
+        row = dict(n)
+        row["payload"] = None
+        row["class"] = "SHADOW" if n.get("kind") != "resource" else "RESOURCE"
+        nodes.append(row)
+    return {
+        "ok": True,
+        "class": "SHADOW_CATALOG",
+        "signature": SIG,
+        "utc": utc_now(),
+        "count": len(nodes),
+        "nodes": nodes,
+        "note": "Existence + why + public_checks. Never the private interior.",
+    }
 
 
 def cmd_overlay(args: argparse.Namespace) -> dict[str, Any]:
@@ -306,10 +342,11 @@ def cmd_overlay(args: argparse.Namespace) -> dict[str, Any]:
         "doctrine": DOCTRINE,
         "canon": cmd_canon(args),
         "reference": cmd_reference(args),
+        "shadow": cmd_shadow(args),
         "live_star_chart_write": False,
         "site": DOCTRINE["site"],
     }
-    payload["ok"] = bool(payload["canon"].get("ok") or payload["reference"].get("ok"))
+    payload["ok"] = bool(payload["canon"].get("ok") or payload["reference"].get("ok") or payload["shadow"].get("ok"))
     maybe_write(getattr(args, "write_report", None), payload)
     return payload
 
@@ -387,6 +424,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("doctrine")
     sub.add_parser("canon")
+    sub.add_parser("shadow")
     r = sub.add_parser("reference")
     r.add_argument("--i-full-feeds", action="store_true", help="FULL zip extra allowlist (Celestrak)")
     o = sub.add_parser("overlay")
@@ -402,6 +440,7 @@ def main(argv: list[str] | None = None) -> int:
     fn = {
         "doctrine": cmd_doctrine,
         "canon": cmd_canon,
+        "shadow": cmd_shadow,
         "reference": cmd_reference,
         "overlay": cmd_overlay,
         "propose": cmd_propose,

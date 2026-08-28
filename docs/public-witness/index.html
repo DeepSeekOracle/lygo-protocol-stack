@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Public Witness — public is reference, lattice is canon | chatagent.ca</title>
-<meta name="description" content="LYGO Public Witness: a two-globe situational overlay. Public feeds (USGS, NASA EONET, ISS) are REFERENCE only. Dual ledgers, kernel eggs, and the Haven Star Chart are CANON. Missing sources stay empty — never invented.">
+<meta name="description" content="LYGO Public Witness: public nodes are resources; private nodes are named shadows with legal public check-links. Dual ledgers and Star Chart are canon. Never invent private payloads.">
 <meta name="author" content="Justin Helmer / Excavationpro">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://chatagent.ca/witness/">
@@ -54,20 +54,21 @@
       <button class="chip ref on" data-layer="events" type="button">EONET</button>
       <button class="chip ref on" data-layer="iss" type="button">ISS</button>
       <button class="chip canon on" data-layer="canon" type="button">Ledgers / eggs</button>
+      <button class="chip shadow on" data-layer="shadow" type="button">Named shadows</button>
     </div>
     <div class="doctrine-bar">
-      <b>Doctrine.</b> If a fact never reached a public source, this page will not paint it. Public pings are <b>REFERENCE</b>. Dual ledgers, kernel eggs, and the Haven Star Chart are <b>CANON</b>. Lattice-sphere dots are schematic — not a geographic claim.
+      <b>Doctrine.</b> Public nodes are <b>resources</b>. Private nodes are <b>named shadows</b> — we keep the silhouette so you remember to check every public, legal link around them. Hollow rings mean the payload is not here. LYGO crunches public data into usable infrastructure from every honest angle.
     </div>
   </div>
   <aside class="side">
     <p class="kicker">Δ9Φ963 · Public Witness</p>
-    <h1>See the world. Keep the lattice honest.</h1>
-    <p class="lead">Pretty globes are not a moat. Non-public data is. This tool refuses to confuse OSINT with private intelligence. Unreachable feeds stay empty.</p>
+    <h1>See the world. Name the shadow. Crunch what is public.</h1>
+    <p class="lead">Pretty globes are not a moat. The moat is data that never became public. We still mark that those rooms exist — as reminders, not as stolen interiors. Public nodes are resources. Shadows point at legally checkable links around them.</p>
     <div class="stat-row">
-      <div class="stat"><b id="n-ref">0</b><span>reference pings</span></div>
+      <div class="stat"><b id="n-ref">0</b><span>public resource pings</span></div>
       <div class="stat"><b id="n-canon">0</b><span>canon nodes</span></div>
+      <div class="stat"><b id="n-shadow">0</b><span>named shadows</span></div>
       <div class="stat"><b id="n-chain">—</b><span>star-chart chain</span></div>
-      <div class="stat"><b id="n-entries">—</b><span>ledger entries</span></div>
     </div>
     <p class="legend">Sources:
       USGS <span id="st-usgs" class="tag miss">…</span>
@@ -83,8 +84,14 @@
       <button class="btn ghost" id="btn-overlay" type="button">JSON overlay</button>
       <button class="btn ghost" id="btn-ollama" type="button">Local Ollama summary</button>
     </div>
+    <div class="filter-row">
+      <button class="chip on" data-filter="all" type="button">All</button>
+      <button class="chip ref" data-filter="resource" type="button">Resources</button>
+      <button class="chip canon" data-filter="canon" type="button">Canon</button>
+      <button class="chip shadow" data-filter="shadow" type="button">Shadows</button>
+    </div>
     <ul class="feed" id="feed"></ul>
-    <p class="legend">Click a row. REFERENCE never upgrades to CANON here.</p>
+    <p class="legend">Click a shadow: existence + why + public checks. Payload stays empty on purpose.</p>
     <pre class="out" id="detail">Signature: waiting…</pre>
     <pre class="out" id="ollama-out">Ollama is optional (localhost:11434). Pair with lygo-ollama-army.</pre>
     <p class="legend">Agents: <code>npx clawhub@latest install deepseekoracle/lygo-public-witness</code><br>
@@ -99,12 +106,12 @@
 
 <section class="prose">
   <h2>What this is</h2>
-  <p>LYGO Public Witness is an original overlay: one Earth of public signals, one lattice sphere of on-chain-of-custody receipts. It is not a Palantir room, not classified video, and not a clone of World Monitor or God’s Eye View. Those projects proved that visual intelligence is easy to imitate. The hard line is epistemic: <strong>public data may orient you; it does not become lattice canon.</strong></p>
-  <h2>What it is not</h2>
+  <p>LYGO Public Witness is an original overlay: one Earth of public <strong>resources</strong>, one lattice of <strong>canon</strong> receipts, and a ring of <strong>named shadows</strong>. Shadows are not empty ignorance. They are the reminder that a private node exists, and that the honest move is to examine every public, legal surface linked to it. LYGO is public-data infrastructure — every available angle, without malice.</p>
+  <h2>Three classes</h2>
   <ul>
-    <li>Private intelligence, intercepts, or anything that never hit a public source.</li>
-    <li>A live write to the Haven Star Chart (proposals stay dry-run in the skill).</li>
-    <li>A 500-outlet newsroom pretending to exist in this browser tab.</li>
+    <li><strong>Resource</strong> — a public feed we may crunch (USGS, EONET, ISS). If the GET fails, the node stays named; we follow its public URL.</li>
+    <li><strong>Canon</strong> — dual ledgers, eggs, Star Chart feed, Agora. On-lattice receipts.</li>
+    <li><strong>Shadow</strong> — private rooms we will not open (ops desks, vaults, vendor intel, live chart write). Silhouette + why + public checks. Payload is always null.</li>
   </ul>
   <div class="ad-slot" aria-label="Advertisement"><div class="ad-label">Advertisement</div>
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>

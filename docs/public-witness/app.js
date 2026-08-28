@@ -1,7 +1,7 @@
-/* LYGO Public Witness v1.0.0 — public = REFERENCE, lattice = CANON. Never invent missing sources. */
+/* LYGO Public Witness v1.0.1 — resources, canon, named shadows. Never invent payloads. */
 (function () {
   "use strict";
-  const SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.0.0";
+  const SIG = "Delta9Phi963-PUBLIC-WITNESS-v1.0.1";
   const CANON_URLS = {
     anchors: "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
     star: "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
@@ -17,17 +17,25 @@
   const canvas = document.getElementById("globe");
   const ctx = canvas.getContext("2d");
   const state = {
-    mode: "earth", // earth | lattice | split
+    mode: "earth",
+    filter: "all",
     rot: 0.4,
     tilt: 0.18,
     dragging: false,
     lastX: 0,
     lastY: 0,
-    layers: { quakes: true, events: true, iss: true, canon: true },
-    ref: { quakes: [], events: [], iss: null, errors: {} },
+    layers: { quakes: true, events: true, iss: true, canon: true, shadow: true },
+    ref: { quakes: [], events: [], iss: null, errors: {}, live: {} },
     canon: { anchors: [], star: [], eggs: [], agora: null, errors: {} },
+    shadows: [],
     selected: null
   };
+
+  const LAND = [
+    [40, -100, 28, 18], [55, 10, 22, 12], [20, 20, 18, 20], [0, 25, 16, 18],
+    [-20, 25, 14, 16], [35, 90, 30, 16], [-25, 135, 18, 14], [-15, -60, 16, 22],
+    [60, -40, 8, 6], [-80, 0, 20, 8]
+  ];
 
   function resize() {
     const r = canvas.getBoundingClientRect();
@@ -46,16 +54,9 @@
     return { x: cx + x * R, y: cy - y * R, z, vis: z > -0.02 };
   }
 
-  /* Schematic land masses — orientation only, not a basemap product. */
-  const LAND = [
-    [40, -100, 28, 18], [55, 10, 22, 12], [20, 20, 18, 20], [0, 25, 16, 18],
-    [-20, 25, 14, 16], [35, 90, 30, 16], [-25, 135, 18, 14], [-15, -60, 16, 22],
-    [60, -40, 8, 6], [-80, 0, 20, 8]
-  ];
-
   function hashAngle(s) {
     let h = 2166136261;
-    for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    for (let i = 0; i < String(s).length; i++) { h ^= String(s).charCodeAt(i); h = Math.imul(h, 16777619); }
     return (h >>> 0) / 4294967295;
   }
 
@@ -65,15 +66,30 @@
     return { lat: (a * 140) - 70, lon: (b * 360) - 180 };
   }
 
+  function nodeLL(n) {
+    if (typeof n.lat === "number" && typeof n.lon === "number") return { lat: n.lat, lon: n.lon };
+    return schematicLL(n.id || n.label);
+  }
+
+  function drawHollow(x, y, r, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.4;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
   function drawGlobe(cx, cy, R, rot, kind) {
     const g = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.3, R * 0.2, cx, cy, R * 1.05);
     if (kind === "earth") {
       g.addColorStop(0, "#16324f");
-      g.addColorStop(0.7, "#0b1a2e");
+      g.addColorStop(0.72, "#0b1a2e");
       g.addColorStop(1, "#05080f");
     } else {
       g.addColorStop(0, "#2a2208");
-      g.addColorStop(0.7, "#161008");
+      g.addColorStop(0.72, "#161008");
       g.addColorStop(1, "#07050a");
     }
     ctx.beginPath();
@@ -89,22 +105,14 @@
     ctx.arc(cx, cy, R, 0, Math.PI * 2);
     ctx.clip();
 
-    ctx.globalAlpha = 0.22;
+    ctx.globalAlpha = 0.2;
     ctx.strokeStyle = kind === "earth" ? "#7dd3fc" : "#fbbf24";
-    ctx.lineWidth = 0.6;
+    ctx.lineWidth = 0.55;
     for (let lat = -60; lat <= 60; lat += 30) {
       ctx.beginPath();
       for (let lon = -180; lon <= 180; lon += 6) {
         const p = project(lat, lon, cx, cy, R, rot);
         if (lon === -180) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
-      }
-      ctx.stroke();
-    }
-    for (let lon = -180; lon < 180; lon += 30) {
-      ctx.beginPath();
-      for (let lat = -80; lat <= 80; lat += 6) {
-        const p = project(lat, lon, cx, cy, R, rot);
-        if (lat === -80) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
       }
       ctx.stroke();
     }
@@ -123,10 +131,9 @@
         state.ref.quakes.forEach(function (q) {
           const p = project(q.lat, q.lon, cx, cy, R, rot);
           if (!p.vis) return;
-          const mag = Math.max(2, q.mag || 2);
           ctx.fillStyle = "rgba(245,158,11,0.85)";
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 1.6 + mag * 0.7, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, 1.6 + Math.max(2, q.mag || 2) * 0.7, 0, Math.PI * 2);
           ctx.fill();
         });
       }
@@ -148,11 +155,23 @@
           ctx.beginPath();
           ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
           ctx.fill();
-          ctx.strokeStyle = "#7dd3fc88";
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 9, 0, Math.PI * 2);
-          ctx.stroke();
         }
+      }
+      if (state.layers.shadow) {
+        state.shadows.filter(function (n) { return n.sphere !== "lattice"; }).forEach(function (n) {
+          const ll = nodeLL(n);
+          const p = project(ll.lat, ll.lon, cx, cy, R, rot);
+          if (!p.vis) return;
+          const live = n.kind === "resource" && resourceLive(n.id);
+          if (live) {
+            ctx.fillStyle = "#34d399";
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+            ctx.fill();
+          } else {
+            drawHollow(p.x, p.y, n.kind === "resource" ? 7 : 9, "#a78bfa");
+          }
+        });
       }
     } else {
       const nodes = state.canon.anchors.concat(state.canon.star).concat(state.canon.eggs);
@@ -163,26 +182,30 @@
           if (!p.vis) return;
           ctx.fillStyle = n.kind === "egg" ? "#34d399" : n.kind === "star" ? "#fbbf24" : "#d4a017";
           ctx.beginPath();
-          ctx.arc(p.x, p.y, n.kind === "star" ? 3.4 : 2.4, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, n.kind === "star" ? 3.2 : 2.3, 0, Math.PI * 2);
           ctx.fill();
         });
-        ctx.globalAlpha = 0.18;
-        ctx.strokeStyle = "#fbbf24";
-        ctx.beginPath();
-        nodes.slice(0, 18).forEach(function (n, i) {
-          const ll = schematicLL(n.id || n.node_id || String(i));
+      }
+      if (state.layers.shadow) {
+        state.shadows.filter(function (n) { return n.sphere === "lattice"; }).forEach(function (n) {
+          const ll = nodeLL(n);
           const p = project(ll.lat, ll.lon, cx, cy, R, rot);
-          if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          if (!p.vis) return;
+          drawHollow(p.x, p.y, 10, "#c4b5fd");
         });
-        ctx.stroke();
-        ctx.globalAlpha = 1;
       }
     }
     ctx.restore();
-
-    ctx.fillStyle = "#e8eef7";
+    ctx.fillStyle = "#cbd5e1";
     ctx.font = "11px IBM Plex Mono, monospace";
-    ctx.fillText(kind === "earth" ? "EARTH · REFERENCE" : "LATTICE · CANON (schematic)", cx - 78, cy + R + 18);
+    ctx.fillText(kind === "earth" ? "EARTH · resources + named shadows" : "LATTICE · canon + named shadows", cx - 108, cy + R + 18);
+  }
+
+  function resourceLive(id) {
+    if (id === "resource_usgs") return !!state.ref.live.usgs;
+    if (id === "resource_eonet") return !!state.ref.live.eonet;
+    if (id === "resource_iss") return !!state.ref.live.iss;
+    return false;
   }
 
   function frame() {
@@ -213,58 +236,99 @@
     }
   }
 
-  function setStatus(id, ok, detail) {
+  function setStatus(id, mode, detail) {
     const el = document.getElementById(id);
     if (!el) return;
-    el.textContent = ok ? "live" : (detail || "unreachable");
-    el.className = "tag " + (ok ? "ok" : "miss");
-  }
-
-  function renderFeeds() {
-    const ul = document.getElementById("feed");
-    const items = [];
-    state.ref.quakes.slice(0, 12).forEach(function (q) {
-      items.push({ cls: "ref", title: "M" + q.mag.toFixed(1) + " " + q.place, sub: "USGS REFERENCE", body: q });
-    });
-    state.ref.events.slice(0, 8).forEach(function (e) {
-      items.push({ cls: "ref", title: e.title, sub: "EONET REFERENCE", body: e });
-    });
-    if (state.ref.iss) {
-      items.unshift({
-        cls: "ref",
-        title: "ISS " + state.ref.iss.lat.toFixed(2) + ", " + state.ref.iss.lon.toFixed(2),
-        sub: "PUBLIC TLE/ADS overlay · REFERENCE",
-        body: state.ref.iss
-      });
+    if (mode === true || mode === "live") {
+      el.textContent = "live";
+      el.className = "tag ok";
+    } else {
+      el.textContent = detail || "shadow";
+      el.className = "tag shadow";
     }
-    state.canon.star.slice(0, 8).forEach(function (n) {
-      items.push({ cls: "canon", title: n.node_name || n.node_id, sub: "STAR CHART CANON · " + (n.status || ""), body: n });
-    });
-    state.canon.eggs.slice(0, 6).forEach(function (n) {
-      items.push({ cls: "canon", title: n.id, sub: "EGG / LATTICE CANON", body: n });
-    });
-    ul.innerHTML = items.slice(0, 28).map(function (it, i) {
-      return "<li data-i=\"" + i + "\"><span class=\"tag " + it.cls + "\">" + it.cls.toUpperCase() + "</span>" +
-        escapeHtml(it.title) + "<div class=\"legend\">" + escapeHtml(it.sub) + "</div></li>";
-    }).join("") || "<li>No public sources reached. Empty is honest.</li>";
-    ul.querySelectorAll("li").forEach(function (li, i) {
-      li.addEventListener("click", function () {
-        state.selected = items[i];
-        document.getElementById("detail").textContent = JSON.stringify({
-          class: items[i].cls,
-          note: items[i].cls === "ref" ? "REFERENCE — not lattice canon" : "CANON — on-lattice receipt",
-          payload: items[i].body
-        }, null, 2);
-      });
-    });
-    document.getElementById("n-ref").textContent = String(state.ref.quakes.length + state.ref.events.length + (state.ref.iss ? 1 : 0));
-    document.getElementById("n-canon").textContent = String(state.canon.anchors.length + state.canon.star.length + state.canon.eggs.length);
   }
 
   function escapeHtml(s) {
     return String(s || "").replace(/[&<>"]/g, function (c) {
       return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c];
     });
+  }
+
+  function feedItems() {
+    const items = [];
+    state.shadows.forEach(function (n) {
+      const live = n.kind === "resource" && resourceLive(n.id);
+      items.push({
+        cls: live ? "ref" : "shadow",
+        title: n.label,
+        sub: (live ? "RESOURCE live · " : "SHADOW · ") + n.why,
+        body: { class: live ? "RESOURCE" : "SHADOW", payload: null, why: n.why, public_checks: n.public_checks, id: n.id }
+      });
+    });
+    if (state.ref.iss) {
+      items.push({
+        cls: "ref",
+        title: "ISS " + state.ref.iss.lat.toFixed(2) + ", " + state.ref.iss.lon.toFixed(2),
+        sub: "RESOURCE ping · public telemetry",
+        body: state.ref.iss
+      });
+    }
+    state.ref.quakes.slice(0, 8).forEach(function (q) {
+      items.push({ cls: "ref", title: "M" + q.mag.toFixed(1) + " " + q.place, sub: "RESOURCE · USGS", body: q });
+    });
+    state.ref.events.slice(0, 6).forEach(function (e) {
+      items.push({ cls: "ref", title: e.title, sub: "RESOURCE · EONET", body: e });
+    });
+    state.canon.star.slice(0, 6).forEach(function (n) {
+      items.push({ cls: "canon", title: n.node_name || n.node_id, sub: "CANON · Star Chart " + (n.status || ""), body: n });
+    });
+    state.canon.eggs.slice(0, 5).forEach(function (n) {
+      items.push({ cls: "canon", title: n.id, sub: "CANON · lattice system", body: n });
+    });
+    const f = state.filter;
+    return items.filter(function (it) {
+      if (f === "all") return true;
+      if (f === "resource") return it.cls === "ref";
+      if (f === "canon") return it.cls === "canon";
+      if (f === "shadow") return it.cls === "shadow";
+      return true;
+    });
+  }
+
+  function renderFeeds() {
+    const ul = document.getElementById("feed");
+    const items = feedItems();
+    ul.innerHTML = items.slice(0, 32).map(function (it, i) {
+      const tag = it.cls === "ref" ? "RESOURCE" : it.cls === "canon" ? "CANON" : "SHADOW";
+      return "<li data-i=\"" + i + "\"><span class=\"tag " + it.cls + "\">" + tag + "</span>" +
+        escapeHtml(it.title) + "<div class=\"legend\">" + escapeHtml(it.sub) + "</div></li>";
+    }).join("");
+    ul.querySelectorAll("li").forEach(function (li, i) {
+      li.addEventListener("click", function () {
+        state.selected = items[i];
+        const it = items[i];
+        const note = it.cls === "shadow"
+          ? "Named shadow — existence only. Follow public_checks. Never invent the private payload."
+          : (it.cls === "ref" ? "Public resource — usable infrastructure." : "On-lattice canon receipt.");
+        document.getElementById("detail").textContent = JSON.stringify({ class: it.cls, note: note, body: it.body }, null, 2);
+      });
+    });
+    document.getElementById("n-ref").textContent = String(
+      state.ref.quakes.length + state.ref.events.length + (state.ref.iss ? 1 : 0)
+    );
+    document.getElementById("n-canon").textContent = String(
+      state.canon.anchors.length + state.canon.star.length + state.canon.eggs.length
+    );
+    document.getElementById("n-shadow").textContent = String(state.shadows.filter(function (n) { return n.kind === "shadow" || !resourceLive(n.id); }).length);
+  }
+
+  async function loadShadows() {
+    try {
+      const pack = await getJson("shadows.json");
+      state.shadows = pack.nodes || [];
+    } catch (e) {
+      state.shadows = [];
+    }
   }
 
   async function loadCanon() {
@@ -280,7 +344,7 @@
       setStatus("st-anchors", true);
     } catch (e) {
       state.canon.errors.anchors = String(e);
-      setStatus("st-anchors", false, "unreachable");
+      setStatus("st-anchors", "shadow", "named");
     }
     try {
       const f = await getJson(CANON_URLS.star);
@@ -291,11 +355,10 @@
         };
       });
       document.getElementById("n-chain").textContent = f.chain_valid ? "valid" : "invalid";
-      document.getElementById("n-entries").textContent = String(f.entry_count || state.canon.star.length);
       setStatus("st-star", !!f.chain_valid);
     } catch (e) {
       state.canon.errors.star = String(e);
-      setStatus("st-star", false);
+      setStatus("st-star", "shadow", "named");
     }
     try {
       const g = await getJson(CANON_URLS.lattice);
@@ -304,30 +367,23 @@
         systems.forEach(function (h) {
           if (h && typeof h === "object") {
             state.canon.eggs.push({ id: h.id || h.name, kind: "egg", label: h.label || h.name || h.id });
-          } else if (h) {
-            state.canon.eggs.push({ id: String(h), kind: "egg", label: String(h) });
           }
         });
-      } else if (systems && typeof systems === "object") {
-        Object.keys(systems).forEach(function (k) {
-          state.canon.eggs.push({ id: k, kind: "egg", label: k });
-        });
       }
-      (g.clawhub_mirror_slugs || []).slice(0, 48).forEach(function (k) {
+      (g.clawhub_mirror_slugs || []).slice(0, 40).forEach(function (k) {
         state.canon.eggs.push({ id: String(k), kind: "egg", label: String(k) });
       });
-      if (g.kernel_eggs) state.canon.eggs.push({ id: "kernel_eggs", kind: "egg" });
       setStatus("st-eggs", true);
     } catch (e) {
       state.canon.errors.eggs = String(e);
-      setStatus("st-eggs", false);
+      setStatus("st-eggs", "shadow", "named");
     }
     try {
       state.canon.agora = await getJson(CANON_URLS.agora);
       setStatus("st-agora", true);
     } catch (e) {
       state.canon.errors.agora = String(e);
-      setStatus("st-agora", false);
+      setStatus("st-agora", "shadow", "named");
     }
   }
 
@@ -336,16 +392,14 @@
       const g = await getJson(REF_URLS.usgs);
       state.ref.quakes = (g.features || []).map(function (f) {
         const c = (f.geometry && f.geometry.coordinates) || [0, 0];
-        return {
-          lon: c[0], lat: c[1], mag: (f.properties && f.properties.mag) || 0,
-          place: (f.properties && f.properties.place) || "quake",
-          time: f.properties && f.properties.time
-        };
+        return { lon: c[0], lat: c[1], mag: (f.properties && f.properties.mag) || 0, place: (f.properties && f.properties.place) || "quake" };
       });
+      state.ref.live.usgs = true;
       setStatus("st-usgs", true);
     } catch (e) {
       state.ref.errors.usgs = String(e);
-      setStatus("st-usgs", false);
+      state.ref.live.usgs = false;
+      setStatus("st-usgs", "shadow", "named");
     }
     try {
       const ev = await getJson(REF_URLS.eonet);
@@ -353,23 +407,24 @@
       (ev.events || []).forEach(function (e) {
         const geo = e.geometry && e.geometry[e.geometry.length - 1];
         if (!geo || !geo.coordinates) return;
-        state.ref.events.push({
-          title: e.title, category: (e.categories && e.categories[0] && e.categories[0].title) || "event",
-          lon: geo.coordinates[0], lat: geo.coordinates[1], id: e.id
-        });
+        state.ref.events.push({ title: e.title, lon: geo.coordinates[0], lat: geo.coordinates[1], id: e.id });
       });
+      state.ref.live.eonet = true;
       setStatus("st-eonet", true);
     } catch (e) {
       state.ref.errors.eonet = String(e);
-      setStatus("st-eonet", false);
+      state.ref.live.eonet = false;
+      setStatus("st-eonet", "shadow", "named");
     }
     try {
       const iss = await getJson(REF_URLS.iss);
       state.ref.iss = { lat: Number(iss.latitude), lon: Number(iss.longitude), alt: iss.altitude, name: "ISS" };
+      state.ref.live.iss = true;
       setStatus("st-iss", true);
     } catch (e) {
       state.ref.errors.iss = String(e);
-      setStatus("st-iss", false);
+      state.ref.live.iss = false;
+      setStatus("st-iss", "shadow", "named");
     }
   }
 
@@ -377,9 +432,11 @@
     try {
       const iss = await getJson(REF_URLS.iss);
       state.ref.iss = { lat: Number(iss.latitude), lon: Number(iss.longitude), alt: iss.altitude, name: "ISS" };
+      state.ref.live.iss = true;
       setStatus("st-iss", true);
     } catch (e) {
-      setStatus("st-iss", false);
+      state.ref.live.iss = false;
+      setStatus("st-iss", "shadow", "named");
     }
   }
 
@@ -387,11 +444,10 @@
     const out = document.getElementById("ollama-out");
     out.textContent = "Asking local Ollama at 127.0.0.1:11434 …";
     const payload = {
-      class_note: "Summarize only. Treat public rows as REFERENCE. Treat ledger rows as CANON. Do not invent sources.",
-      ref_count: state.ref.quakes.length + state.ref.events.length,
-      iss: state.ref.iss,
-      star_sample: state.canon.star.slice(0, 5),
-      missing: Object.keys(state.ref.errors).concat(Object.keys(state.canon.errors))
+      class_note: "Public rows=RESOURCE. Ledger=CANON. Shadow nodes=existence + public_checks only. Never invent private payloads.",
+      resources: { quakes: state.ref.quakes.length, events: state.ref.events.length, iss: !!state.ref.iss },
+      shadows: state.shadows.map(function (n) { return n.id; }),
+      star_sample: state.canon.star.slice(0, 4)
     };
     try {
       const res = await fetch("http://127.0.0.1:11434/api/generate", {
@@ -400,14 +456,14 @@
         body: JSON.stringify({
           model: "llama3.2:1b",
           stream: false,
-          prompt: "LYGO Public Witness overlay. Public=REFERENCE, lattice=CANON. JSON:\n" + JSON.stringify(payload) + "\nWrite 6 short bullets. Never claim classified data."
+          prompt: "LYGO Public Witness. Name shadows, crunch public resources, never steal private node data.\n" + JSON.stringify(payload) + "\nSix short bullets."
         })
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const j = await res.json();
       out.textContent = j.response || JSON.stringify(j);
     } catch (e) {
-      out.textContent = "Local Ollama not reachable. Optional. Public Witness still works. (" + e + ")";
+      out.textContent = "Local Ollama is a named optional node — not required. (" + e + ")";
     }
   }
 
@@ -425,6 +481,13 @@
         b.classList.toggle("on", state.layers[k]);
       });
     });
+    document.querySelectorAll("[data-filter]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.filter = b.getAttribute("data-filter");
+        document.querySelectorAll("[data-filter]").forEach(function (x) { x.classList.toggle("on", x === b); });
+        renderFeeds();
+      });
+    });
     canvas.addEventListener("pointerdown", function (e) {
       state.dragging = true; state.lastX = e.clientX; state.lastY = e.clientY; canvas.setPointerCapture(e.pointerId);
     });
@@ -440,12 +503,10 @@
     document.getElementById("btn-overlay").addEventListener("click", function () {
       document.getElementById("detail").textContent = JSON.stringify({
         signature: SIG,
-        doctrine: "public=REFERENCE lattice=CANON schematic≠geo",
-        reference: { quakes: state.ref.quakes.length, events: state.ref.events.length, iss: state.ref.iss, errors: state.ref.errors },
-        canon: {
-          anchors: state.canon.anchors.length, star: state.canon.star.length, eggs: state.canon.eggs.length,
-          agora: state.canon.agora && (state.canon.agora.signature || true), errors: state.canon.errors
-        },
+        doctrine: "Name the shadow. Crunch public resources. Never invent private payloads.",
+        resources: { quakes: state.ref.quakes.length, events: state.ref.events.length, iss: state.ref.iss, live: state.ref.live },
+        shadows: state.shadows.map(function (n) { return { id: n.id, kind: n.kind, why: n.why, public_checks: n.public_checks, payload: null }; }),
+        canon: { anchors: state.canon.anchors.length, star: state.canon.star.length, eggs: state.canon.eggs.length },
         live_star_chart_write: false
       }, null, 2);
     });
@@ -453,6 +514,7 @@
 
   async function boot() {
     document.getElementById("sig").textContent = SIG;
+    await loadShadows();
     await Promise.all([loadCanon(), loadRef()]);
     renderFeeds();
   }

@@ -1,7 +1,7 @@
 ---
 name: lygo-public-witness
 description: "LYGO Public Witness — public feeds are REFERENCE, dual ledgers/eggs/Star Chart are CANON. HTTPS GET allowlist (USGS, NASA EONET, ISS, lattice JSON). Never invent missing sources. Never live Star Chart write. Optional localhost Ollama summary. Use when OSINT vs private intel, public witness globe, situational overlay, World Monitor / God's Eye ideas, or /lygo-public-witness."
-version: 1.0.0
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
@@ -31,8 +31,8 @@ metadata:
 
 # LYGO Public Witness v1.0.0 🌐
 
-**Public is REFERENCE. Lattice is CANON.**  
-If the data never reached a public source, this skill will not invent it.
+**Public nodes are RESOURCES. Private nodes are NAMED SHADOWS. Lattice is CANON.**  
+Name the shadow. Never steal its payload. Unreachable feeds stay as named nodes with public check-links.
 
 Site: https://chatagent.ca/witness/  
 Mirror: https://eternalhaven.ca/witness/  
@@ -81,6 +81,7 @@ python scripts/witness_cli.py overlay
 | `doctrine` | none | none | no |
 | `canon` | HTTPS GET lattice JSON | none unless `--write-report` | no |
 | `reference` | HTTPS GET USGS/EONET/ISS | none unless `--write-report` | no |
+| `shadow` | none | none | no |
 | `overlay` | both, labeled | none unless `--write-report` | no |
 | `propose` | none | optional `--write` | **never** |
 | `ollama` | localhost:11434 only | none | no |

@@ -24,7 +24,12 @@ def main() -> int:
         "ok": False,
     }
     d = w.cmd_doctrine(type("A", (), {})())
-    checks["doctrine"] = d.get("public_is") == "REFERENCE" and d.get("lattice_is") == "CANON"
+    checks["doctrine"] = d.get("public_is") == "RESOURCE" and d.get("lattice_is") == "CANON" and d.get("private_is") == "NAMED_SHADOW"
+    sh = w.cmd_shadow(type("A", (), {})())
+    checks["shadow_named"] = sh.get("ok") is True and (sh.get("count") or 0) >= 1
+    for n in sh.get("nodes") or []:
+        if n.get("payload") is not None:
+            checks["shadow_named"] = False
     ns = type("A", (), {"agent_id": "t", "display_name": "t", "i_consent": True, "write": None})()
     prop = w.cmd_propose(ns)
     checks["propose_dry"] = prop.get("ok") is True and prop["live_write"]["performed"] is False
@@ -35,6 +40,7 @@ def main() -> int:
         and checks["https_only_fn"]
         and checks["propose_dry"]
         and checks["doctrine"]
+        and checks.get("shadow_named") is True
         and "subprocess" not in sys.modules
     )
     print(json.dumps(checks, indent=2))

@@ -1,11 +1,12 @@
 {
-  "signature": "Delta9Phi963-PUBLIC-WITNESS-v1.0.0",
+  "signature": "Delta9Phi963-PUBLIC-WITNESS-v1.0.1",
   "name": "LYGO Public Witness",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "doctrine": {
-    "public_is": "REFERENCE",
+    "public_is": "RESOURCE",
     "lattice_is": "CANON",
-    "rule": "If the data never reaches a public source, this dashboard will not invent it. Public pings are overlays for orientation. Dual ledgers, kernel eggs, and the Haven Star Chart are canon on-lattice.",
+    "private_is": "NAMED_SHADOW",
+    "rule": "Name the shadow. Never steal its payload. Public nodes are resources to crunch. Private nodes are reminders to legally check every public link around them. Unreachable feeds stay as named nodes, not blank space.",
     "not": [
       "Palantir",
       "private intelligence",
@@ -28,7 +29,8 @@
   },
   "classes": {
     "CANON": "On-lattice receipts: dual ledgers, eggs, Star Chart feed, Agent Agora pulse.",
-    "REFERENCE": "Public GET only: USGS, NASA EONET, ISS. Missing source = empty layer, never fabricated.",
+    "RESOURCE": "Public GET we may crunch: USGS, NASA EONET, ISS. If the GET fails, the node stays named with its public URL.",
+    "SHADOW": "Private or unreachable rooms. Existence + why + public_checks. payload always null.",
     "SCHEMATIC": "Lattice-sphere placement is a graph projection, not a geographic claim."
   }
 }

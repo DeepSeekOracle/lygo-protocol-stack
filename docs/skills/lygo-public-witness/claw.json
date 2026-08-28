@@ -1,7 +1,7 @@
 {
   "name": "lygo-public-witness",
   "displayName": "LYGO Public Witness",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Public feeds are REFERENCE. Dual ledgers, kernel eggs, and Haven Star Chart are CANON. HTTPS GET allowlist. Never invent missing sources. Never live chart write. Optional localhost Ollama.",
   "slug": "lygo-public-witness",
   "publisher": "deepseekoracle",
@@ -28,6 +28,7 @@
     "canon": "scripts/witness_cli.py canon",
     "reference": "scripts/witness_cli.py reference",
     "overlay": "scripts/witness_cli.py overlay",
+    "shadow": "scripts/witness_cli.py shadow",
     "propose": "scripts/witness_cli.py propose",
     "self_check": "scripts/self_check.py"
   },

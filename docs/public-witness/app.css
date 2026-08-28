@@ -10,6 +10,7 @@
   --canon: #fbbf24;
   --line: #1e293b;
   --danger: #fb7185;
+  --shadow: #a78bfa;
   --ok: #34d399;
   --font: "IBM Plex Sans", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -45,6 +46,8 @@ a { color: var(--cyan); }
 .mode.on, .chip.on { border-color: var(--gold); color: var(--gold); }
 .chip.ref.on { border-color: var(--ref); color: var(--ref); }
 .chip.canon.on { border-color: var(--canon); color: var(--canon); }
+.chip.shadow.on { border-color: var(--shadow); color: var(--shadow); }
+.filter-row { display: flex; flex-wrap: wrap; gap: .35rem; margin: .55rem 0 .2rem; }
 .doctrine-bar {
   position: absolute; left: 1rem; right: 1rem; bottom: 1rem;
   background: #0b1220e6; border: 1px solid var(--gold); border-radius: 12px; padding: .7rem .9rem;
@@ -68,7 +71,9 @@ h1 { font-family: var(--display); font-weight: 500; font-size: 1.7rem; margin: 0
 .tag.canon { background: #3a2a08; color: var(--canon); }
 .tag.ref { background: #3a2208; color: var(--ref); }
 .tag.miss { background: #2a1218; color: var(--danger); }
+.tag.shadow { background: #1e1533; color: var(--shadow); }
 .tag.ok { background: #0d2a22; color: var(--ok); }
+.tag.ref { background: #3a2208; color: var(--ref); }
 .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin: .7rem 0 1rem; }
 .btn {
   background: var(--gold); color: #111; border: 0; font-weight: 700; padding: .5rem .75rem;
