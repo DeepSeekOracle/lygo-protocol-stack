@@ -299,16 +299,23 @@
     }
     try {
       const g = await getJson(CANON_URLS.lattice);
-      const hubs = (g.hubs || g.surfaces || g.groups || []);
-      if (Array.isArray(hubs)) {
-        hubs.forEach(function (h) {
-          state.canon.eggs.push({ id: h.id || h.name, kind: "egg", label: h.label || h.name });
+      const systems = g.systems;
+      if (Array.isArray(systems)) {
+        systems.forEach(function (h) {
+          if (h && typeof h === "object") {
+            state.canon.eggs.push({ id: h.id || h.name, kind: "egg", label: h.label || h.name || h.id });
+          } else if (h) {
+            state.canon.eggs.push({ id: String(h), kind: "egg", label: String(h) });
+          }
         });
-      } else if (hubs && typeof hubs === "object") {
-        Object.keys(hubs).forEach(function (k) {
+      } else if (systems && typeof systems === "object") {
+        Object.keys(systems).forEach(function (k) {
           state.canon.eggs.push({ id: k, kind: "egg", label: k });
         });
       }
+      (g.clawhub_mirror_slugs || []).slice(0, 48).forEach(function (k) {
+        state.canon.eggs.push({ id: String(k), kind: "egg", label: String(k) });
+      });
       if (g.kernel_eggs) state.canon.eggs.push({ id: "kernel_eggs", kind: "egg" });
       setStatus("st-eggs", true);
     } catch (e) {
