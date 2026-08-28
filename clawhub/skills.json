@@ -14,8 +14,7 @@
       "summary": "Public feeds are REFERENCE. Dual ledgers, eggs, and Haven Star Chart are CANON. HTTPS GET allowlist. Never invent missing sources.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
       "mirror": "mirrors/lygo-public-witness",
-      "published": false,
-      "pending_publication": true,
+      "published": true,
       "downloads": 0,
       "version": "1.0.0"
     },
