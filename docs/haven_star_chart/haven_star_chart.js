@@ -30,7 +30,6 @@
   let pulseTimer = null;
   let tourTimer = null;
   let uiBound = false;
-  let skipFly = false;
 
   const KIND_CHIPS = [
     { id: "all", label: "All kinds" },
@@ -324,8 +323,12 @@
     const container = el("starmap");
     if (!container || !chartData) return;
     if (simulation) simulation.stop();
-    const W = container.clientWidth || 900;
-    const H = container.clientHeight || 640;
+    const wrap = el("starmap-wrap");
+    const W = container.clientWidth || wrap?.clientWidth || 900;
+    const H =
+      container.clientHeight ||
+      wrap?.clientHeight ||
+      Math.max(520, Math.floor((window.innerHeight || 800) * 0.72));
     chartW = W;
     chartH = H;
     const CX = W / 2;
@@ -609,7 +612,7 @@
     if (tracksBtn) tracksBtn.textContent = tracksOn ? "Fold tracks" : "♪ Tracks";
     populateRoster();
     syncNavChrome();
-    if (!skipFly && (activeGalaxy !== "all" || activeNebula !== "all")) {
+    if (activeGalaxy !== "all" || activeNebula !== "all") {
       simulation?.on("end.navfly", () => {
         simulation.on("end.navfly", null);
         flyToVisibleCentroid(activeNebula !== "all" ? 2.6 : 1.55);

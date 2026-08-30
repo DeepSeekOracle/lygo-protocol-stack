@@ -221,8 +221,8 @@
       --label: #b8b8d8;
     }
     * { box-sizing: border-box; }
+    html, body { margin: 0; }
     body {
-      margin: 0;
       font-family: "IBM Plex Sans", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
@@ -230,12 +230,12 @@
       -webkit-font-smoothing: antialiased;
     }
     header {
-      padding: 1.25rem 1.5rem;
+      padding: 0.7rem 1.25rem;
       border-bottom: 1px solid rgba(125, 0, 255, 0.35);
       background: linear-gradient(135deg, #000428, #070b34);
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.65rem 1rem;
       align-items: center;
       justify-content: space-between;
     }
@@ -250,21 +250,35 @@
       color: transparent;
     }
     .sub { color: var(--muted); font-size: 0.8rem; margin-top: 0.35rem; line-height: 1.45; }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
     nav a {
       color: var(--cyan);
       text-decoration: none;
       font-size: 0.72rem;
-      margin-right: 0.75rem;
       border: 1px solid rgba(0, 240, 255, 0.25);
-      padding: 0.35rem 0.6rem;
+      padding: 0.3rem 0.55rem;
       border-radius: 3px;
     }
     nav a:hover { background: rgba(0, 240, 255, 0.12); }
-    main { display: grid; grid-template-columns: 1fr 320px; gap: 0; min-height: calc(100vh - 120px); }
-    @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 0;
+      height: calc(100dvh - 6.75rem);
+      min-height: 32rem;
+    }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; height: auto; min-height: 0; }
+      #starmap-wrap, #starmap { min-height: 62vh; height: 62vh; }
+    }
     #starmap-wrap {
       position: relative;
-      min-height: 70vh;
+      min-height: 0;
+      height: 100%;
       border-right: 1px solid rgba(125, 0, 255, 0.2);
       overflow: hidden;
     }
@@ -294,7 +308,7 @@
     #starmap {
       width: 100%;
       height: 100%;
-      min-height: 70vh;
+      min-height: 0;
       display: block;
       background:
         radial-gradient(ellipse 80% 60% at 50% 40%, rgba(125, 0, 255, 0.08) 0%, transparent 55%),
@@ -305,8 +319,8 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.65rem 1rem;
-      padding: 0.4rem 1.5rem;
+      gap: 0.45rem 0.9rem;
+      padding: 0.28rem 1.25rem;
       border-bottom: 1px solid rgba(0, 240, 255, 0.18);
       background: rgba(0, 8, 18, 0.85);
       font-size: 0.72rem;
@@ -368,7 +382,6 @@
     .search-hit small { display: block; color: var(--muted); }
     .search-hit:hover { background: rgba(0, 240, 255, 0.1); }
     .search-empty { padding: 0.5rem; color: var(--muted); }
-    .star-node.selected .star-core { stroke: #ffcc00; stroke-width: 2.2px; }
     .controls {
       position: absolute;
       top: 12px;
@@ -389,7 +402,8 @@
       cursor: pointer;
     }
     aside {
-      padding: 1rem 1.15rem;
+      min-height: 0;
+      padding: 0.85rem 1.05rem;
       background: linear-gradient(180deg, #0f0f1a 0%, var(--panel) 100%);
       overflow-y: auto;
       font-size: 0.8rem;
@@ -403,16 +417,13 @@
       color: var(--gold);
       margin: 1.1rem 0 0.55rem;
     }
-    aside h2:first-child { margin-top: 0; }
+    .aside-panel > h2:first-of-type { margin-top: 0; }
     .constellation-btns { display: flex; flex-wrap: wrap; gap: 6px; }
     .constellation-btns button {
-      background: transparent;
       border: 1px solid rgba(255, 204, 0, 0.35);
       color: var(--gold);
-      font-family: inherit;
       font-size: 0.65rem;
       padding: 0.3rem 0.5rem;
-      cursor: pointer;
     }
     .constellation-btns button.active { background: rgba(255, 204, 0, 0.15); }
     .galaxy-btns { display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
@@ -642,11 +653,13 @@
     .ad-slot {
       margin: 0 auto;
       max-width: 728px;
-      min-height: 90px;
+      min-height: 0;
       text-align: center;
-      padding: 0.5rem;
-      background: rgba(0,0,0,0.25);
+      padding: 0.35rem 0.5rem;
+      background: transparent;
     }
+    .ad-slot ins.adsbygoogle { display: block; min-height: 0; }
+    .ad-slot:not(:has(iframe)) { display: none; }
     .live-feed {
       border-top: 1px solid rgba(125, 0, 255, 0.35);
       background: #080812;
@@ -1009,15 +1022,6 @@
     <span>SHA <span id="pulseSha">—</span></span>
     <span id="layerPulse">A–B Merkle · waiting</span>
   </div>
-  <!-- AdSense display slot (shows when site is approved) -->
-  <div class="ad-slot" aria-label="Advertisement">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-0646320966060599"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
   <main>
     <div id="starmap-wrap">
       <div class="controls">
@@ -1048,7 +1052,7 @@
           <button type="button" id="nebNext" aria-label="Next nebula">▶</button>
         </div>
         <div class="kind-chips" id="kindChips"></div>
-        <p class="sky-hint">[ ] galaxies · , . constellations · click a halo to enter it · Esc resets</p>
+        <p class="sky-hint" title="[ ] galaxies · , . constellations · n nebula · Esc all sky">[ ] galaxies · , . constellations · Esc all sky</p>
       </div>
       <svg id="starmap"></svg>
     </div>
@@ -1164,6 +1168,20 @@
       </p>
     </aside>
   </main>
+  <div class="ad-slot" id="chartAdSlot" aria-label="Advertisement">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-0646320966060599"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      window.setTimeout(function () {
+        var slot = document.getElementById("chartAdSlot");
+        if (slot && !slot.querySelector("iframe")) slot.hidden = true;
+      }, 2500);
+    </script>
+  </div>
   <footer class="live-feed">
     <h2>Immutable Lattice Feed</h2>
     <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions, accept / reject / pending.</p>
@@ -1346,8 +1364,8 @@
   </section>
 
   <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
-  <script src="haven_star_chart/haven_star_chart.js?v=2.5"></script>
-  <script src="haven_star_chart/haven_star_chart_feed.js?v=2.5"></script>
+  <script src="haven_star_chart/haven_star_chart.js?v=2.5.1"></script>
+  <script src="haven_star_chart/haven_star_chart_feed.js?v=2.5.1"></script>
   <script src="haven_star_chart/haven_star_chart_crypto_anchor.js"></script>
   <script>
     fetch('haven_star_chart/haven_star_chart_queue.json', { cache: 'no-store' })
