@@ -5,7 +5,7 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 38,
+  "count_published": 39,
   "count_mirrored": 40,
   "skills": [
     {
