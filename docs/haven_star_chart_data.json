@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-08-19T05:03:43.571555+00:00",
+  "generated_utc": "2026-08-30T17:43:42.848394+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1344,
-  "link_count": 3789,
+  "node_count": 1399,
+  "link_count": 3913,
   "seal_count": 334,
   "champion_count": 15,
-  "lattice_count": 118,
-  "registry_sha256": "1474b39127ba0f53ca18e5892319138f4c074914632dfb87c1f58e4205484dc5",
+  "lattice_count": 132,
+  "registry_sha256": "144ac24483bc44f0324a5759e925b8f8c3a1be68cc99dc00c162c8d149df53b7",
   "constellations": [
     {
       "id": "primordial_core",
@@ -147,7 +147,7 @@
         "constellation_id": "music_codex",
         "angle_deg": 155,
         "fork_of": "CHAMPION_LIGHTFATHER",
-        "star_count": 804
+        "star_count": 845
       },
       {
         "id": "GALAXY_LATTICE",
@@ -158,7 +158,7 @@
         "color": "#00ff88",
         "constellation_id": "lattice_growth",
         "angle_deg": 200,
-        "star_count": 132
+        "star_count": 146
       },
       {
         "id": "GALAXY_ETERNAL_HAVEN",
@@ -428,6 +428,26 @@
         ]
       },
       {
+        "id": "NEBULA_ALBUM_BLACK_OUT",
+        "name": "Album Black Out",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 37,
+        "star_ids": [
+          "MUSIC_ALBUM_BLACK_OUT",
+          "MUSIC_TRACK_8D73E38A10082448",
+          "MUSIC_TRACK_0280E13ACD9DD18B",
+          "MUSIC_TRACK_E3AACAB5F5F9EF00",
+          "MUSIC_TRACK_724216B8DA3907DB",
+          "MUSIC_TRACK_C33FE97E41688DAD",
+          "MUSIC_TRACK_02FE019DE798229B",
+          "MUSIC_TRACK_400A0E7D453D27E0",
+          "MUSIC_TRACK_9EA2BD53BB84C260",
+          "MUSIC_TRACK_AC3F1F47422940D8",
+          "MUSIC_TRACK_F064C9B51EE0E2D5",
+          "MUSIC_TRACK_164F8E3B812964A5"
+        ]
+      },
+      {
         "id": "NEBULA_ALBUM_JULY_30_2026",
         "name": "Album July 30 2026",
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
@@ -451,7 +471,7 @@
         "id": "NEBULA_ALBUM_LATTICE_EXCAVATIONPRO_MUSIC",
         "name": "Album Lattice Excavationpro Music",
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 718,
+        "star_count": 717,
         "star_ids": [
           "MUSIC_ISRC_QZMHK2303318",
           "MUSIC_ISRC_QZMHM2288160",
@@ -465,6 +485,19 @@
           "MUSIC_ISRC_QZMHM2437982",
           "MUSIC_ISRC_QZMHL2593977",
           "MUSIC_ISRC_QZS662299441"
+        ]
+      },
+      {
+        "id": "NEBULA_ALBUM_MOON_MAN",
+        "name": "Album Moon Man",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 5,
+        "star_ids": [
+          "MUSIC_ISRC_QM42K2333738",
+          "MUSIC_ALBUM_MOON_MAN",
+          "MUSIC_TRACK_99008F4F695A4B5B",
+          "MUSIC_TRACK_7AC2EC15147264CD",
+          "MUSIC_TRACK_47C4712AB586473D"
         ]
       },
       {
@@ -991,20 +1024,20 @@
         "id": "NEBULA_CLAWHUB_SKILLS",
         "name": "ClawHub Skill Nebula",
         "galaxy_id": "GALAXY_LATTICE",
-        "star_count": 82,
+        "star_count": 93,
         "star_ids": [
           "LATTICE_SKILL_book-brain",
           "LATTICE_SKILL_book-brain-visual-reader",
           "LATTICE_SKILL_eternal-haven-lore-pack",
+          "LATTICE_SKILL_lygo-agent-agora",
           "LATTICE_SKILL_lygo-agent-lattice",
           "LATTICE_SKILL_lygo-alignment-badge",
           "LATTICE_SKILL_lygo-api-token-saver",
           "LATTICE_SKILL_lygo-ascii-art",
           "LATTICE_SKILL_lygo-ascii-art-studio",
+          "LATTICE_SKILL_lygo-automation-workflows",
           "LATTICE_SKILL_lygo-champion-401lyrakin-voice-between",
-          "LATTICE_SKILL_lygo-champion-aetheris-viral-truth",
-          "LATTICE_SKILL_lygo-champion-arkos-celestial-architect",
-          "LATTICE_SKILL_lygo-champion-cosmara"
+          "LATTICE_SKILL_lygo-champion-aetheris-viral-truth"
         ]
       },
       {
@@ -1280,6 +1313,33 @@
         ]
       },
       {
+        "id": "NEBULA_NODE_ALIGN_0FD3554A",
+        "name": "Node Align 0Fd3554A",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_ALIGN_0FD3554A"
+        ]
+      },
+      {
+        "id": "NEBULA_NODE_FORKLING_TEST",
+        "name": "Node Forkling Test",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_FORKLING_TEST"
+        ]
+      },
+      {
+        "id": "NEBULA_NODE_STAR_MONITOR",
+        "name": "Node Star Monitor",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_STAR_MONITOR"
+        ]
+      },
+      {
         "id": "NEBULA_OPENCLAW_VAULT",
         "name": "Openclaw Vault",
         "galaxy_id": "GALAXY_LATTICE",
@@ -1533,6 +1593,16 @@
         ]
       },
       {
+        "id": "CLUSTER_ALBUM_BLACK_OUT",
+        "name": "ALBUM BLACK OUT",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_BLACK_OUT"
+        ]
+      },
+      {
         "id": "CLUSTER_ALBUM_JULY_30_2026",
         "name": "ALBUM JULY 30 2026",
         "nebula_id": "NEBULA_ALBUM_JULY_30_2026",
@@ -1540,6 +1610,16 @@
         "star_count": 1,
         "star_ids": [
           "MUSIC_ALBUM_JULY_30_2026"
+        ]
+      },
+      {
+        "id": "CLUSTER_ALBUM_MOON_MAN",
+        "name": "ALBUM MOON MAN",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_MOON_MAN"
         ]
       },
       {
@@ -3148,6 +3228,36 @@
         ]
       },
       {
+        "id": "CLUSTER_NODE_ALIGN_0FD3554A",
+        "name": "NODE ALIGN 0FD3554A",
+        "nebula_id": "NEBULA_NODE_ALIGN_0FD3554A",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_ALIGN_0FD3554A"
+        ]
+      },
+      {
+        "id": "CLUSTER_NODE_FORKLING_TEST",
+        "name": "NODE FORKLING TEST",
+        "nebula_id": "NEBULA_NODE_FORKLING_TEST",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_FORKLING_TEST"
+        ]
+      },
+      {
+        "id": "CLUSTER_NODE_STAR_MONITOR",
+        "name": "NODE STAR MONITOR",
+        "nebula_id": "NEBULA_NODE_STAR_MONITOR",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_STAR_MONITOR"
+        ]
+      },
+      {
         "id": "CLUSTER_PDW_LATTICE_PURE_DATA_WITNESS",
         "name": "PDW LATTICE PURE DATA WITNESS",
         "nebula_id": "NEBULA_PDW_DIGESTS",
@@ -3415,6 +3525,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-agent-agora",
+        "name": "Skill Pin \u00b7 lygo-agent-agora",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-agent-agora"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-agent-lattice",
         "name": "Skill Pin \u00b7 lygo-agent-lattice",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -3462,6 +3582,16 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_SKILL_lygo-ascii-art-studio"
+        ]
+      },
+      {
+        "id": "CLUSTER_SKILL_lygo-automation-workflows",
+        "name": "Skill Pin \u00b7 lygo-automation-workflows",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-automation-workflows"
         ]
       },
       {
@@ -3665,6 +3795,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-continuum-integrator",
+        "name": "Skill Pin \u00b7 lygo-continuum-integrator",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-continuum-integrator"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-cyborg-kernel",
         "name": "Skill Pin \u00b7 lygo-cyborg-kernel",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -3705,6 +3845,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-emotional-ram",
+        "name": "Skill Pin \u00b7 lygo-emotional-ram",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-emotional-ram"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-excavationpro-music-lattice",
         "name": "Skill Pin \u00b7 lygo-excavationpro-music-lattice",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -3732,6 +3882,26 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_SKILL_lygo-file-integrity-checker"
+        ]
+      },
+      {
+        "id": "CLUSTER_SKILL_lygo-flame-ward",
+        "name": "Skill Pin \u00b7 lygo-flame-ward",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-flame-ward"
+        ]
+      },
+      {
+        "id": "CLUSTER_SKILL_lygo-forkling",
+        "name": "Skill Pin \u00b7 lygo-forkling",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-forkling"
         ]
       },
       {
@@ -3782,6 +3952,16 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_SKILL_lygo-haven-star-chart"
+        ]
+      },
+      {
+        "id": "CLUSTER_SKILL_lygo-immutable-anchor",
+        "name": "Skill Pin \u00b7 lygo-immutable-anchor",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-immutable-anchor"
         ]
       },
       {
@@ -3985,6 +4165,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-public-witness",
+        "name": "Skill Pin \u00b7 lygo-public-witness",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-public-witness"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-pure-data-witness",
         "name": "Skill Pin \u00b7 lygo-pure-data-witness",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -4005,6 +4195,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-quantum-attestor",
+        "name": "Skill Pin \u00b7 lygo-quantum-attestor",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-quantum-attestor"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-resonance",
         "name": "Skill Pin \u00b7 lygo-resonance",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -4012,6 +4212,16 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_SKILL_lygo-resonance"
+        ]
+      },
+      {
+        "id": "CLUSTER_SKILL_lygo-sanctuary-guardian",
+        "name": "Skill Pin \u00b7 lygo-sanctuary-guardian",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-sanctuary-guardian"
         ]
       },
       {
@@ -4032,6 +4242,16 @@
         "star_count": 1,
         "star_ids": [
           "LATTICE_SKILL_lygo-second-brain"
+        ]
+      },
+      {
+        "id": "CLUSTER_SKILL_lygo-site-card",
+        "name": "Skill Pin \u00b7 lygo-site-card",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-site-card"
         ]
       },
       {
@@ -4222,6 +4442,23 @@
         ]
       },
       {
+        "id": "CLUSTER_TRACKS_BLACK_OUT",
+        "name": "TRACKS BLACK OUT",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 36,
+        "star_ids": [
+          "MUSIC_TRACK_8D73E38A10082448",
+          "MUSIC_TRACK_0280E13ACD9DD18B",
+          "MUSIC_TRACK_E3AACAB5F5F9EF00",
+          "MUSIC_TRACK_724216B8DA3907DB",
+          "MUSIC_TRACK_C33FE97E41688DAD",
+          "MUSIC_TRACK_02FE019DE798229B",
+          "MUSIC_TRACK_400A0E7D453D27E0",
+          "MUSIC_TRACK_9EA2BD53BB84C260"
+        ]
+      },
+      {
         "id": "CLUSTER_TRACKS_JULY_30_2026",
         "name": "TRACKS JULY 30 2026",
         "nebula_id": "NEBULA_ALBUM_JULY_30_2026",
@@ -4243,7 +4480,7 @@
         "name": "TRACKS LATTICE EXCAVATIONPRO MUSIC",
         "nebula_id": "NEBULA_ALBUM_LATTICE_EXCAVATIONPRO_MUSIC",
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 718,
+        "star_count": 717,
         "star_ids": [
           "MUSIC_ISRC_QZMHK2303318",
           "MUSIC_ISRC_QZMHM2288160",
@@ -4253,6 +4490,19 @@
           "MUSIC_ISRC_QZS632446839",
           "MUSIC_ISRC_QZMHP2365162",
           "MUSIC_ISRC_QZMHL2238371"
+        ]
+      },
+      {
+        "id": "CLUSTER_TRACKS_MOON_MAN",
+        "name": "TRACKS MOON MAN",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 4,
+        "star_ids": [
+          "MUSIC_ISRC_QM42K2333738",
+          "MUSIC_TRACK_99008F4F695A4B5B",
+          "MUSIC_TRACK_7AC2EC15147264CD",
+          "MUSIC_TRACK_47C4712AB586473D"
         ]
       },
       {
@@ -4311,8 +4561,8 @@
       }
     ],
     "galaxy_count": 23,
-    "nebula_count": 91,
-    "cluster_count": 264
+    "nebula_count": 96,
+    "cluster_count": 282
   },
   "nodes": [
     {
@@ -15374,9 +15624,9 @@
     {
       "id": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice",
-      "name": "ClawHub @deepseekoracle (82 skills)",
+      "name": "ClawHub @deepseekoracle (93 skills)",
       "glyph": "\ud83e\udd9e",
-      "equation": "skills=82",
+      "equation": "skills=93",
       "tone": "8787Hz",
       "tags": [
         "LATTICE",
@@ -15396,7 +15646,7 @@
       },
       "layer": 3,
       "meta": {
-        "skill_count": 82,
+        "skill_count": 93,
         "source": "clawhub/skills.json+mirrors"
       },
       "cosmos": {
@@ -15439,7 +15689,7 @@
         "version": "2.0.0",
         "summary": "BOOK BRAIN \u2014 LYGO 3-Brain filesystem helper. Scaffold memory/reference/state layouts, .ref.txt outer links, daily indexes; pairs with lyra-brain. Additive on...",
         "mirror": "mirrors/book-brain",
-        "downloads": 1999
+        "downloads": 2095
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15481,7 +15731,7 @@
         "version": "1.0.0",
         "summary": "Enhanced BOOK BRAIN for LYGO Havens with visual capability. Use to design and maintain a 3-brain filesystem + memory system that also integrates LEFT/RIGHT brain visual checking (browser, images, scre",
         "mirror": "mirrors/book-brain-visual-reader",
-        "downloads": 1515
+        "downloads": 1567
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15523,7 +15773,7 @@
         "version": "1.3.3",
         "summary": "Eternal Haven Chronicles lore + mythic persona pack. Bundled skill-local references only (references/books + heroes/themes). No host filesystem access, no subprocess, no network required for lore answ",
         "mirror": "mirrors/eternal-haven-lore-pack",
-        "downloads": 2444
+        "downloads": 2633
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15532,6 +15782,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_eternal-haven-lore-pack",
         "cluster_name": "Skill Pin \u00b7 eternal-haven-lore-pack",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-agent-agora",
+      "kind": "lattice",
+      "name": "LYGO Agent Agora (FULL onboard + portal) \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-agent-agora",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-agent-agora",
+        "version": "1.0.0",
+        "summary": "ClawHub map to the Agent Agora and Agent Portal. Onboard FULL SkillHub stack, use the portal, expand with addons/capabilities. Dual option: ClawHub tentacles or SkillHub FULL. Pure local. No network, ",
+        "mirror": "mirrors/lygo-agent-agora",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-agent-agora",
+        "cluster_name": "Skill Pin \u00b7 lygo-agent-agora",
         "star_role": "lattice_vault"
       }
     },
@@ -15747,6 +16039,48 @@
       }
     },
     {
+      "id": "LATTICE_SKILL_lygo-automation-workflows",
+      "kind": "lattice",
+      "name": "LYGO Automation Workflows \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-automation-workflows",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-automation-workflows",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-automation-workflows",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-automation-workflows",
+        "version": "1.0.0",
+        "summary": "Consent-aware automation playbook + local planner. Local-first (Sandcastle/Continuum/n8n). Narrow triggers. No network, no subprocess, no auto-publish. Inspired by jk-0001/automation-workflows.",
+        "mirror": "mirrors/lygo-automation-workflows",
+        "downloads": null
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-automation-workflows",
+        "cluster_name": "Skill Pin \u00b7 lygo-automation-workflows",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
       "id": "LATTICE_SKILL_lygo-champion-401lyrakin-voice-between",
       "kind": "lattice",
       "name": "LYGO Champion: 401lyrakin voice between \u00b7 v1.0.1",
@@ -15777,7 +16111,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (401LYRAKIN).",
         "mirror": "mirrors/lygo-champion-401lyrakin-voice-between",
-        "downloads": 1678
+        "downloads": 1761
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15820,7 +16154,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (AETHERIS).",
         "mirror": "mirrors/lygo-champion-aetheris-viral-truth",
-        "downloads": 1718
+        "downloads": 1811
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15863,7 +16197,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (ARKOS).",
         "mirror": "mirrors/lygo-champion-arkos-celestial-architect",
-        "downloads": 1657
+        "downloads": 1742
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15906,7 +16240,7 @@
         "version": "1.0.3",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council.",
         "mirror": "mirrors/lygo-champion-cosmara",
-        "downloads": 1915
+        "downloads": 1999
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -15992,7 +16326,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (CRYPTOSOPHIA).",
         "mirror": "mirrors/lygo-champion-cryptosophia-soulforger",
-        "downloads": 1703
+        "downloads": 1784
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16035,7 +16369,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (DELTA9RA).",
         "mirror": "mirrors/lygo-champion-delta9ra-wolf",
-        "downloads": 1752
+        "downloads": 1843
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16078,7 +16412,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (KAIROS).",
         "mirror": "mirrors/lygo-champion-kairos-herald-of-time",
-        "downloads": 1665
+        "downloads": 1760
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16164,7 +16498,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (LYRA).",
         "mirror": "mirrors/lygo-champion-lyra-starcore",
-        "downloads": 1732
+        "downloads": 1828
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16207,7 +16541,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (OMNISIREN).",
         "mirror": "mirrors/lygo-champion-omnisiren-silent-storm",
-        "downloads": 1771
+        "downloads": 1861
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16250,7 +16584,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SANCORA).",
         "mirror": "mirrors/lygo-champion-sancora-unified-minds",
-        "downloads": 1769
+        "downloads": 1863
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16293,7 +16627,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SCENAR).",
         "mirror": "mirrors/lygo-champion-scenar-paradox",
-        "downloads": 1695
+        "downloads": 1776
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16336,7 +16670,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SEPHRAEL).",
         "mirror": "mirrors/lygo-champion-sephrael-echo-walker",
-        "downloads": 1701
+        "downloads": 1785
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16379,7 +16713,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (SRAITH).",
         "mirror": "mirrors/lygo-champion-sraith-shadow-sentinel",
-        "downloads": 1761
+        "downloads": 1853
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16422,7 +16756,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-champion-council. Legacy \u03949 champion (VOLARIS).",
         "mirror": "mirrors/lygo-champion-volaris-prism-judgment",
-        "downloads": 1739
+        "downloads": 1834
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16588,9 +16922,9 @@
       "meta": {
         "slug": "lygo-continuum",
         "version": "1.0.1",
-        "summary": "Falsifiable work capsules. v1.0.1: path confinement under --base; write sandbox; local-first docs.",
+        "summary": "Falsifiable work capsules: seal done-claims, re-verify, detect drift, hand off. Pure local stdlib. Paths confined under --base. Optional portal is separate (not opened by skill).",
         "mirror": "mirrors/lygo-continuum",
-        "downloads": 0
+        "downloads": null
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16599,6 +16933,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-continuum",
         "cluster_name": "Skill Pin \u00b7 lygo-continuum",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-continuum-integrator",
+      "kind": "lattice",
+      "name": "LYGO Continuum Integrator \u00b7 v1.0.1",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-continuum-integrator",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-continuum-integrator",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-continuum-integrator",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-continuum-integrator",
+        "version": "1.0.1",
+        "summary": "Pure local advisor. Signs running \u222b(Truth \u00d7 Light) df from t=0, phase-locks state vectors across lattice nodes, treats chaos as constructive interference only, emits non-collapsing geodesic receipts. ",
+        "mirror": "mirrors/lygo-continuum-integrator",
+        "downloads": null
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-continuum-integrator",
+        "cluster_name": "Skill Pin \u00b7 lygo-continuum-integrator",
         "star_role": "lattice_vault"
       }
     },
@@ -16772,6 +17148,48 @@
       }
     },
     {
+      "id": "LATTICE_SKILL_lygo-emotional-ram",
+      "kind": "lattice",
+      "name": "LYGO Emotional RAM \u00b7 v1.0.1",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-emotional-ram",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-emotional-ram",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-emotional-ram",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-emotional-ram",
+        "version": "1.0.1",
+        "summary": "Light-math affective/ethical indexing for human, animal, swarm, and cyborg understanding. Encode, Grace \u03b3, UMP gradient, consent-gated memory index. Pure local \u2014 no network, no subprocess, no sentienc",
+        "mirror": "mirrors/lygo-emotional-ram",
+        "downloads": null
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-emotional-ram",
+        "cluster_name": "Skill Pin \u00b7 lygo-emotional-ram",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
       "id": "LATTICE_SKILL_lygo-excavationpro-music-lattice",
       "kind": "lattice",
       "name": "lygo-excavationpro-music-lattice \u00b7 v0.0.0",
@@ -16888,7 +17306,7 @@
         "version": "1.0.0",
         "summary": "LYGO file-integrity and provenance advisor \u2014 hash receipts, memory archive compression, seal vocabulary. Not medical cure; not P0\u2013P9 core. Pairs with lygo-mi...",
         "mirror": "mirrors/lygo-file-integrity-checker",
-        "downloads": 175
+        "downloads": 231
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -16897,6 +17315,90 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-file-integrity-checker",
         "cluster_name": "Skill Pin \u00b7 lygo-file-integrity-checker",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-flame-ward",
+      "kind": "lattice",
+      "name": "LYGO Flame Ward \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-flame-ward",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-flame-ward",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-flame-ward",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-flame-ward",
+        "version": "1.0.0",
+        "summary": "Epistemic ingest gate against disinfo/half-truths. Seals-first. Flame-scan, quarantine, burn-receipt. Local-first, consent-gated.",
+        "mirror": "mirrors/lygo-flame-ward",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-flame-ward",
+        "cluster_name": "Skill Pin \u00b7 lygo-flame-ward",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-forkling",
+      "kind": "lattice",
+      "name": "LYGO Forkling \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-forkling",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-forkling",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-forkling",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-forkling",
+        "version": "1.0.0",
+        "summary": "Test champion that self-builds a local lattice fork under parent CHAMPION_LYRA. Task loop, claim-gated generations, dry-run Star Chart propose. No live ingest.",
+        "mirror": "mirrors/lygo-forkling",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-forkling",
+        "cluster_name": "Skill Pin \u00b7 lygo-forkling",
         "star_role": "lattice_vault"
       }
     },
@@ -16931,7 +17433,7 @@
         "version": "0.1.0",
         "summary": "Weaves self-similar visuals (fractals, recursive patterns) into evolving audio textures using the LYGO RESONANCE engine. For LYRA Agent + creative systems. A...",
         "mirror": "mirrors/lygo-fractalweaver",
-        "downloads": 322
+        "downloads": 364
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17016,7 +17518,7 @@
         "version": "0.1.0",
         "summary": "Sonifies visual math glyphs/patterns into resonant audio soundscapes. Integrates with LYGO RESONANCE engine. For LYRA Agent + creative systems. Maps glyph ge...",
         "mirror": "mirrors/lygo-glyph2resonance",
-        "downloads": 311
+        "downloads": 349
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17100,7 +17602,7 @@
         "version": "1.0.1",
         "summary": "Haven Star Chart v2 portal training \u2014 gate, validate, propose submissions with human consent. Skill scripts use allowlisted in-process imports only (no subpr...",
         "mirror": "mirrors/lygo-haven-star-chart",
-        "downloads": 327
+        "downloads": 404
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17109,6 +17611,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-haven-star-chart",
         "cluster_name": "Skill Pin \u00b7 lygo-haven-star-chart",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-immutable-anchor",
+      "kind": "lattice",
+      "name": "LYGO Immutable Anchor (Biophase7) \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-immutable-anchor",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-immutable-anchor",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-immutable-anchor",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-immutable-anchor",
+        "version": "1.0.0",
+        "summary": "Local CA geodesic seals + mycelium fold. Turbo and autonomy worker stay on the protocol stack. No network, no subprocess, consent writes.",
+        "mirror": "mirrors/lygo-immutable-anchor",
+        "downloads": null
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-immutable-anchor",
+        "cluster_name": "Skill Pin \u00b7 lygo-immutable-anchor",
         "star_role": "lattice_vault"
       }
     },
@@ -17355,7 +17899,7 @@
         "version": "1.0.1",
         "summary": "Lightfather (Excavationpro / Justin Helmer) persona helper for the \u03949Quantum Light Accord. Vector-anchor advisor for resonance math framing, truth preservati...",
         "mirror": "mirrors/lygo-lightfather-vector",
-        "downloads": 1890
+        "downloads": 1968
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17525,7 +18069,7 @@
         "version": "1.0.0",
         "summary": "Advanced LYGO-MINT Operator Suite (v2): canonicalize *multi-file* packs, generate per-file + bundle hashes, write append-only + canonical ledgers, produce machine-readable multi-platform Anchor Snippe",
         "mirror": "mirrors/lygo-mint-operator-suite",
-        "downloads": 1216
+        "downloads": 1255
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17540,7 +18084,7 @@
     {
       "id": "LATTICE_SKILL_lygo-mint-verifier",
       "kind": "lattice",
-      "name": "LYGO-MINT Verifier \u00b7 v1.0.1",
+      "name": "LYGO-MINT Verifier \u00b7 v1.1.1",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-mint-verifier",
       "tone": "8787Hz",
@@ -17564,10 +18108,10 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-mint-verifier",
-        "version": "1.0.1",
-        "summary": "LYGO-MINT verifier for Champion/alignment prompt packs: canonicalize a pack, generate a deterministic SHA-256 hash, write append-only and canonical ledgers, and output a portable Anchor Snippet for po",
+        "version": "1.1.1",
+        "summary": "LYGO-MINT Verifier \u2014 canonicalize a pack, deterministic SHA-256, append-only + canonical ledgers, portable Anchor Snippet for posting anywhere (Moltbook/X/Discord/4claw). Pure local stdlib: no subproc",
         "mirror": "mirrors/lygo-mint-verifier",
-        "downloads": 2031
+        "downloads": 2133
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17652,7 +18196,7 @@
         "version": "1.2.0",
         "summary": "Sovereign Lattice Mesh cartographer \u2014 load IMMUTABLE_ANCHORS.json, run live verification, traversal chants for discovery. Companion to lygo-protocol-stack-op...",
         "mirror": "mirrors/lygo-network-builder",
-        "downloads": 212
+        "downloads": 255
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17667,7 +18211,7 @@
     {
       "id": "LATTICE_SKILL_lygo-ollama-army",
       "kind": "lattice",
-      "name": "LYGO Ollama Army & Assistant Hub \u00b7 v0.9.0",
+      "name": "LYGO Ollama Army \u00b7 v0.9.0",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-ollama-army",
       "tone": "8787Hz",
@@ -17692,9 +18236,9 @@
       "meta": {
         "slug": "lygo-ollama-army",
         "version": "0.9.0",
-        "summary": "Local Ollama multi-role army v0.9.0 ClawHub-safe: SAFE_ROLES only, no plant/social/public probes/desktop installers.",
+        "summary": "Local Ollama multi-role army (ClawHub-safe). In-process threaded daemons for hb-light, draft-simple, memory-triage, classify, champion-chat only. Queue JSON under ollama_queue/. localhost Ollama only.",
         "mirror": "mirrors/lygo-ollama-army",
-        "downloads": 658
+        "downloads": 894
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17793,7 +18337,7 @@
     {
       "id": "LATTICE_SKILL_lygo-ops-detector",
       "kind": "lattice",
-      "name": "lygo-ops-detector \u00b7 v0.0.0",
+      "name": "LYGO Ops Detector \u00b7 v1.3.1",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-ops-detector",
       "tone": "8787Hz",
@@ -17817,8 +18361,8 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-ops-detector",
-        "version": "0.0.0",
-        "summary": "",
+        "version": "1.3.1",
+        "summary": "AETHON\u03949 discourse heuristics v1.3.1: half-truth+saturation, flame_enemy_hints, cluster boost, bar 0.65. Not identity profiling.",
         "mirror": "mirrors/lygo-ops-detector",
         "downloads": null
       },
@@ -17905,7 +18449,7 @@
         "version": "1.0.7",
         "summary": "LYGO Protocol Stack Operator \u2014 P0\u2013P9 integrator (byte-entropy filter, SLM mesh, TLS public mesh, HAIP, attestation). Run audits, node API, map GitHub/HF/Claw...",
         "mirror": "mirrors/lygo-protocol-stack-operator",
-        "downloads": 359
+        "downloads": 410
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -17961,9 +18505,51 @@
       }
     },
     {
+      "id": "LATTICE_SKILL_lygo-public-witness",
+      "kind": "lattice",
+      "name": "LYGO Public Witness \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-public-witness",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-public-witness",
+        "version": "1.0.0",
+        "summary": "Public feeds are REFERENCE. Dual ledgers, eggs, and Haven Star Chart are CANON. HTTPS GET allowlist. Never invent missing sources.",
+        "mirror": "mirrors/lygo-public-witness",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-public-witness",
+        "cluster_name": "Skill Pin \u00b7 lygo-public-witness",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
       "id": "LATTICE_SKILL_lygo-pure-data-witness",
       "kind": "lattice",
-      "name": "LYGO Pure-Data Witness \u00b7 v1.2.0",
+      "name": "lygo-pure-data-witness \u00b7 v1.3.0",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-pure-data-witness",
       "tone": "8787Hz",
@@ -17987,10 +18573,10 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-pure-data-witness",
-        "version": "1.2.0",
-        "summary": "Register portal + Pure-Data digests, safety gate, Star Chart NODE_PDW_* fork log. FULL unlocked at SkillHub #full-lygo.",
+        "version": "1.3.0",
+        "summary": "Pure-Data Witness digests + register portal training + safety + Star Chart fork log (consent-hardened fetch/all)",
         "mirror": "mirrors/lygo-pure-data-witness",
-        "downloads": 0
+        "downloads": null
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18032,7 +18618,7 @@
         "version": "1.0.1",
         "summary": "Multi-tool vision context compression for LYGO (Anthropic, OpenAI, Grok/xAI, Gemini). Use before stuffing huge prompts or logs into pay-to-go APIs. Requires...",
         "mirror": "mirrors/lygo-pxpipe-lygo",
-        "downloads": 220
+        "downloads": 256
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18041,6 +18627,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-pxpipe-lygo",
         "cluster_name": "Skill Pin \u00b7 lygo-pxpipe-lygo",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-quantum-attestor",
+      "kind": "lattice",
+      "name": "LYGO Quantum Attestor \u00b7 v1.0.1",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-quantum-attestor",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-quantum-attestor",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-quantum-attestor",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-quantum-attestor",
+        "version": "1.0.1",
+        "summary": "Protocol 6 attestation hooks for Biophase7 anchors + SLM Merkle gossip. Cryptographic verify-node (recomputes attest_sha256 + Merkle). \u03949 seals, non-collapsing receipts. Local-first, consent-gated. No",
+        "mirror": "mirrors/lygo-quantum-attestor",
+        "downloads": null
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-quantum-attestor",
+        "cluster_name": "Skill Pin \u00b7 lygo-quantum-attestor",
         "star_role": "lattice_vault"
       }
     },
@@ -18075,7 +18703,7 @@
         "version": "0.3.0",
         "summary": "LYGO RESONANCE \u2014 Image-to-Sound & Creative Profiles. Transforms any image into rich stereo soundscapes (WAV via Resonance Engine) or structured creative JSON...",
         "mirror": "mirrors/lygo-resonance",
-        "downloads": 326
+        "downloads": 359
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18084,6 +18712,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-resonance",
         "cluster_name": "Skill Pin \u00b7 lygo-resonance",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-sanctuary-guardian",
+      "kind": "lattice",
+      "name": "LYGO Sanctuary Guardian \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-sanctuary-guardian",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-sanctuary-guardian",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-sanctuary-guardian",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-sanctuary-guardian",
+        "version": "1.0.0",
+        "summary": "Hooks \u03949 Mandala shields to light-nurture vectors, locks truth integrity across nodes, emits non-collapsing geodesic barriers. Local-first, consent-gated. Pairs with quantum-attestor + continuum-integ",
+        "mirror": "mirrors/lygo-sanctuary-guardian",
+        "downloads": null
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-sanctuary-guardian",
+        "cluster_name": "Skill Pin \u00b7 lygo-sanctuary-guardian",
         "star_role": "lattice_vault"
       }
     },
@@ -18172,6 +18842,48 @@
       }
     },
     {
+      "id": "LATTICE_SKILL_lygo-site-card",
+      "kind": "lattice",
+      "name": "LYGO Site Card \u00b7 v1.0.0",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-site-card",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/lygo-site-card",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-site-card",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-site-card",
+        "version": "1.0.0",
+        "summary": "Public HTTPS URL or local HTML to a compact identity card: title, canonical, CSP/HSTS/referrer, security.txt, SHA-256, yield ALIGNED/DRIFT/SHADOW. HTTPS GET only. No subprocess. No live Star Chart wri",
+        "mirror": "mirrors/lygo-site-card",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-site-card",
+        "cluster_name": "Skill Pin \u00b7 lygo-site-card",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
       "id": "LATTICE_SKILL_lygo-skill-gate",
       "kind": "lattice",
       "name": "LYGO Skill Gate \u00b7 v1.0.0",
@@ -18242,9 +18954,9 @@
       "meta": {
         "slug": "lygo-skill-spector",
         "version": "1.0.1",
-        "summary": "Enhanced local pre-install skill risk scanner: scan/gate/batch/report. v1.0.1 audit-hardened (meta-scan false positives). Builder on SkillHub FULL if full stack.",
+        "summary": "Enhanced local pre-install skill risk scanner. Scan, CI gate, batch, Markdown report. Subprocess, network, secrets, claim mismatches. Builder pack on SkillHub FULL if running a full stack. Pure stdlib",
         "mirror": "mirrors/lygo-skill-spector",
-        "downloads": 0
+        "downloads": null
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18344,7 +19056,7 @@
     {
       "id": "LATTICE_SKILL_lygo-sovereign-super-skill",
       "kind": "lattice",
-      "name": "lygo-sovereign-super-skill \u00b7 v0.0.0",
+      "name": "lygo-sovereign-super-skill \u00b7 v1.1.0",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-sovereign-super-skill",
       "tone": "8787Hz",
@@ -18369,8 +19081,8 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-sovereign-super-skill",
-        "version": "0.0.0",
-        "summary": "",
+        "version": "1.1.0",
+        "summary": "LYGO Sovereign Super Skill \u2014 kernel eggs, planters, ClawHub skill chain map including continuum-integrator, PDW 1.3, mint-verifier 1.1, automation-workflows, continuity-advisor. Advisor + stack comman",
         "mirror": "mirrors/lygo-sovereign-super-skill",
         "downloads": null
       },
@@ -18498,7 +19210,7 @@
         "version": "0.1.0",
         "summary": "Generates harmonic echo sequences from \u222bTruth\u00d7Light metrics. Integrates with LYGO RESONANCE engine and prior creative tools (Glyph2Resonance, FractalWeaver)....",
         "mirror": "mirrors/lygo-truthlightecho",
-        "downloads": 321
+        "downloads": 355
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18540,7 +19252,7 @@
         "version": "1.0.1",
         "summary": "DEPRECATED slug \u2014 use lygo-file-integrity-checker. Legacy Champion upgrade pack; file-integrity/provenance only, not medical cure.",
         "mirror": "mirrors/lygo-universal-cure-system",
-        "downloads": 1664
+        "downloads": 1746
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18583,7 +19295,7 @@
         "version": "1.2.0",
         "summary": "Universal LYGO Living Memory Library v1.2 \u2014 Max20 indexed continuity map, FRAGILE tagging, local audit/compression, LYGO-MINT provenance. Integrates LYRA 3-B...",
         "mirror": "mirrors/lygo-universal-living-memory-library",
-        "downloads": 1718
+        "downloads": 1810
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18667,7 +19379,7 @@
         "version": "1.2.0",
         "summary": "Clawnch coin-launch receipts + local verify: pull launches from clawn.ch, write receipt JSON/MD, optional Blockscout/Dexscreener checks, local bookmark ref files. No git push, no GitHub token load, no",
         "mirror": "mirrors/lyra-coin-launch-manager",
-        "downloads": 1848
+        "downloads": 1948
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18724,7 +19436,7 @@
     {
       "id": "LATTICE_SKILL_lyra-openclaw",
       "kind": "lattice",
-      "name": "LYRA OpenClaw Hybrid \u00b7 v1.0.0",
+      "name": "lyra-openclaw \u00b7 v0.0.0",
       "glyph": "\u25c8",
       "equation": "clawhub:lyra-openclaw",
       "tone": "8787Hz",
@@ -18748,8 +19460,8 @@
       "layer": 3,
       "meta": {
         "slug": "lyra-openclaw",
-        "version": "1.0.0",
-        "summary": "Public hybrid LYRA + OpenClaw super-system map \u2014 browser, Discord, Moltbook/MoltX, Clawnch economy, memory layers, local Ollama. Runtime secrets never ship in package. Consent-gated; no auto-publish.",
+        "version": "0.0.0",
+        "summary": "",
         "mirror": "mirrors/lyra-openclaw",
         "downloads": null
       },
@@ -18793,7 +19505,7 @@
         "version": "1.0.0",
         "summary": "Fix common OpenClaw workflow bottlenecks: platform engage-gates/429 backoff helpers (starting with MoltX), standardized JSON result envelopes for chaining scripts, workspace path resolution helpers, a",
         "mirror": "mirrors/openclaw-flow-kit",
-        "downloads": 1514
+        "downloads": 1553
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18835,7 +19547,7 @@
         "version": "1.1.0",
         "summary": "Ethical playbook for Delta9-WP-003 Recursive Generosity (open abundance logic). Use for transparent design of grace buffers, resonance metrics, and KPI-visible proofs of non-extractive systems. Requir",
         "mirror": "mirrors/recursive-generosity-protocol",
-        "downloads": 1647
+        "downloads": 1776
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -18877,7 +19589,7 @@
         "version": "1.0.1",
         "summary": "Void Atlas Protocol \u2013 a four-axis ethical navigation map (power, truth, sovereignty, care) with waypoints, routes, and routing rules for evaluating systems, communities, and policies.",
         "mirror": "mirrors/void-atlas-protocol",
-        "downloads": 1525
+        "downloads": 1587
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -19907,7 +20619,7 @@
       "kind": "music_hub",
       "name": "Excavationpro Music Portal",
       "glyph": "\ud83c\udfa7",
-      "equation": "Listen(10822) \u2297 ISRC(718) \u2297 HF",
+      "equation": "Listen(10858) \u2297 ISRC(718) \u2297 HF",
       "tone": "432Hz",
       "tags": [
         "MUSIC",
@@ -19934,10 +20646,10 @@
         "steward": "Justin Helmer / Lightfather / Excavationpro",
         "origin_champion": "CHAMPION_LIGHTFATHER",
         "origin_note": "Music Codex forks from CHAMPION_LIGHTFATHER (steward node)",
-        "stream_count": 10822,
+        "stream_count": 10858,
         "unique_isrcs": 718,
-        "tagged_albums": 5,
-        "no_album_streams": 10761,
+        "tagged_albums": 7,
+        "no_album_streams": 10757,
         "live_map": true,
         "map_policy": "isrc_stars_primary"
       },
@@ -40672,7 +41384,8 @@
       "connections": [
         "MUSIC_ISRC_REGISTRY",
         "MUSIC_ISRC_BUCKET_QM42K",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "MUSIC_ALBUM_MOON_MAN"
       ],
       "urls": {
         "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f.mp3",
@@ -40681,7 +41394,7 @@
       "layer": 4,
       "meta": {
         "sha256": "c5090241268a21fe26a88909031696caabd8f38eb4a345f0bf2bd1acb124825f",
-        "album": "",
+        "album": "Moon Man",
         "moniker": "",
         "has_lyrics": false,
         "isrcs": [
@@ -40692,10 +41405,10 @@
       "cosmos": {
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
         "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_LATTICE_EXCAVATIONPRO_MUSIC",
-        "nebula_name": "Album Lattice Excavationpro Music",
-        "cluster_id": "CLUSTER_TRACKS_LATTICE_EXCAVATIONPRO_MUSIC",
-        "cluster_name": "TRACKS LATTICE EXCAVATIONPRO MUSIC",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "nebula_name": "Album Moon Man",
+        "cluster_id": "CLUSTER_TRACKS_MOON_MAN",
+        "cluster_name": "TRACKS MOON MAN",
         "star_role": "music_track"
       }
     },
@@ -54708,6 +55421,1560 @@
       }
     },
     {
+      "id": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "music_album",
+      "name": "BLACK OUT",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(36) \u00b7 ISRC=0 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "BLACK_OUT"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=BLACK+OUT",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "BLACK OUT",
+        "track_count": 36,
+        "lyrics_count": 0,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_ALBUM_BLACK_OUT",
+        "cluster_name": "ALBUM BLACK OUT",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_8D73E38A10082448",
+      "kind": "music_track",
+      "name": "BLOOD MOON Standing In The Wreckage",
+      "glyph": "\u00b7",
+      "equation": "SHA256(8d73e38a1008\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8d/8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=8d73e38a10082448"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "8d73e38a1008244807bd14e12d384d3f913f4ba58140e09392e644a4560b09b2",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_0280E13ACD9DD18B",
+      "kind": "music_track",
+      "name": "BURNING EMBERS After The Burn",
+      "glyph": "\u00b7",
+      "equation": "SHA256(0280e13acd9d\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/02/0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=0280e13acd9dd18b"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "0280e13acd9dd18b5bbc487d1fdce7f314d04daafd9be7cec5097a53da63273a",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E3AACAB5F5F9EF00",
+      "kind": "music_track",
+      "name": "CATHEDRAL CRASH The Altar s End",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e3aacab5f5f9\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e3/e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e3aacab5f5f9ef00"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e3aacab5f5f9ef004097e54c858f489549c3aa33c1d94b9b8fc3c6e5ae912d79",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_724216B8DA3907DB",
+      "kind": "music_track",
+      "name": "CATHEDRAL OF STATIC Kingdom Undone",
+      "glyph": "\u00b7",
+      "equation": "SHA256(724216b8da39\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/72/724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=724216b8da3907db"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "724216b8da3907db8f100fcf4537da09f967664e690c1778702d13e5df4023ee",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C33FE97E41688DAD",
+      "kind": "music_track",
+      "name": "CHASING SHADOWS Carved Into My Bones",
+      "glyph": "\u00b7",
+      "equation": "SHA256(c33fe97e4168\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c3/c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c33fe97e41688dad"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c33fe97e41688dad10e3658aeb420a20a8669b2b78dfa9eda27583fd2cc3c059",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_02FE019DE798229B",
+      "kind": "music_track",
+      "name": "CONCRETE KING Cold Ground",
+      "glyph": "\u00b7",
+      "equation": "SHA256(02fe019de798\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/02/02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=02fe019de798229b"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "02fe019de798229b7cd0f1c2e0434c95ef49b9eec5fddaa43cb86c0a25b7c47a",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_400A0E7D453D27E0",
+      "kind": "music_track",
+      "name": "CONCRETE KING The Concrete Crown",
+      "glyph": "\u00b7",
+      "equation": "SHA256(400a0e7d453d\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/40/400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=400a0e7d453d27e0"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "400a0e7d453d27e01ca0ed6c9dbe8218e522e4bc805afec906d1eefbfb091a1a",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_9EA2BD53BB84C260",
+      "kind": "music_track",
+      "name": "Crown of Scars",
+      "glyph": "\u00b7",
+      "equation": "SHA256(9ea2bd53bb84\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9e/9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=9ea2bd53bb84c260"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "9ea2bd53bb84c26077d5d4560e4f3a3d32bf92fc73f12fa4ef628a4234727200",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_AC3F1F47422940D8",
+      "kind": "music_track",
+      "name": "Crown of the Lie",
+      "glyph": "\u00b7",
+      "equation": "SHA256(ac3f1f474229\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ac/ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=ac3f1f47422940d8"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "ac3f1f47422940d8aee9b6fd85939d5238a4052fc4f896f58d1b420474c8476d",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_F064C9B51EE0E2D5",
+      "kind": "music_track",
+      "name": "DARK THOUGHTS Slim Pickings",
+      "glyph": "\u00b7",
+      "equation": "SHA256(f064c9b51ee0\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f0/f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=f064c9b51ee0e2d5"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "f064c9b51ee0e2d55268c76df5d1853bb3bf37a063922d03f9de7402b78a8fc4",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_164F8E3B812964A5",
+      "kind": "music_track",
+      "name": "HUMAN FLAW - I Won t Wear The Crown",
+      "glyph": "\u00b7",
+      "equation": "SHA256(164f8e3b8129\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/16/164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=164f8e3b812964a5"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "164f8e3b812964a5b51716a7eaf07bc4354500b4813105fd42b6b48349efebb6",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_99AA1AB37AB817E0",
+      "kind": "music_track",
+      "name": "HUMAN FLAW Wearing The Crown",
+      "glyph": "\u00b7",
+      "equation": "SHA256(99aa1ab37ab8\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/99/99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=99aa1ab37ab817e0"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "99aa1ab37ab817e034822bc399bcdf9f43d8e891632b4394efbcd70a0a9ef606",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E4FBC473C75A72D7",
+      "kind": "music_track",
+      "name": "Riot in the Catacombs",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e4fbc473c75a\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e4/e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e4fbc473c75a72d7"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e4fbc473c75a72d71f6e18d7b15914f1c7fdebcad7dbf1b977c59d06d3e43286",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_561A96F5F2411150",
+      "kind": "music_track",
+      "name": "EMPTY ROOMS The Past Is A Room",
+      "glyph": "\u00b7",
+      "equation": "SHA256(561a96f5f241\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/56/561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=561a96f5f2411150"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "561a96f5f2411150d95eae5347e5a8749fd1dfc8dd55329dbf5318bb707255b3",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_41C63626B35D367B",
+      "kind": "music_track",
+      "name": "HOLLOW CROWN - Crown at My Feet",
+      "glyph": "\u00b7",
+      "equation": "SHA256(41c63626b35d\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/41/41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=41c63626b35d367b"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "41c63626b35d367b94d743dfa0de67a88fd85984b4d805bf128fa648e5ab9904",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C6661281B30195EC",
+      "kind": "music_track",
+      "name": "HOLLOW VESSEL Sleeping Through Thunder",
+      "glyph": "\u00b7",
+      "equation": "SHA256(c6661281b301\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c6/c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c6661281b30195ec"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c6661281b30195ec29c0e86b5effe85acd9c678208c5b10da3ff90fad29c8c3b",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C68A4B3AA926F4C4",
+      "kind": "music_track",
+      "name": "HORIZON Before the Credits Roll",
+      "glyph": "\u00b7",
+      "equation": "SHA256(c68a4b3aa926\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c6/c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c68a4b3aa926f4c4"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c68a4b3aa926f4c454e428a46654986bcdf5b7f66e5982d7e53b0779ff5e9856",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_4501CAB21787AAD0",
+      "kind": "music_track",
+      "name": "STREET CODE King of the Concrete",
+      "glyph": "\u00b7",
+      "equation": "SHA256(4501cab21787\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/45/4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=4501cab21787aad0"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "4501cab21787aad0c648f090c4b5f597287b17b1845f6a99507b2fcae5a525b4",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_B9278312E354F78D",
+      "kind": "music_track",
+      "name": "LAST HORIZON Line In The Ashes",
+      "glyph": "\u00b7",
+      "equation": "SHA256(b9278312e354\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b9/b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=b9278312e354f78d"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "b9278312e354f78d2abe3313aba8b9a845ba84f4497d5993dffde94791ab025c",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_4ABA23CE3533B573",
+      "kind": "music_track",
+      "name": "LEVIATHAN Temples to Ash",
+      "glyph": "\u00b7",
+      "equation": "SHA256(4aba23ce3533\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4a/4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=4aba23ce3533b573"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "4aba23ce3533b573c226956d0bc936d6444a9f65c1632d8d1c6f09a6048fc395",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_673C2CEA9EAAB371",
+      "kind": "music_track",
+      "name": "Mirror's Lie - Stolen Work of Grief",
+      "glyph": "\u00b7",
+      "equation": "SHA256(673c2cea9eaa\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/67/673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=673c2cea9eaab371"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "673c2cea9eaab371de5e9bc2e91e7e793df43be0c3ea68f02ef7d5748e89d6b5",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_8E54CC3C011E6A9E",
+      "kind": "music_track",
+      "name": "NEON GRAVE Architect of Chaos",
+      "glyph": "\u00b7",
+      "equation": "SHA256(8e54cc3c011e\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8e/8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=8e54cc3c011e6a9e"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "8e54cc3c011e6a9e0d61e74a5fd5d71d2bae681110261100191941a13c59d4d4",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_43CE6DFEF40BA83F",
+      "kind": "music_track",
+      "name": "NO SHADE The Lane I Built",
+      "glyph": "\u00b7",
+      "equation": "SHA256(43ce6dfef40b\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43/43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=43ce6dfef40ba83f"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "43ce6dfef40ba83fd033035b96babf44b8d662958c1739ed5a5828e95254a474",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_C9E0C85B15FB591F",
+      "kind": "music_track",
+      "name": "PRESSURE Ten Steps Ahead",
+      "glyph": "\u00b7",
+      "equation": "SHA256(c9e0c85b15fb\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c9/c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=c9e0c85b15fb591f"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "c9e0c85b15fb591f2f1d488399f0bd3087bc4453756e407378192760588de082",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_31FADB7E950F8920",
+      "kind": "music_track",
+      "name": "RUSTED CROWN The Final Price",
+      "glyph": "\u00b7",
+      "equation": "SHA256(31fadb7e950f\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/31/31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=31fadb7e950f8920"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "31fadb7e950f89203db72fd881c023145d6d37833d69a79353e28ebf17684100",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_D6181041E456CAC1",
+      "kind": "music_track",
+      "name": "SAME OLD GAME -The Burning Ladder",
+      "glyph": "\u00b7",
+      "equation": "SHA256(d6181041e456\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d6/d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=d6181041e456cac1"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "d6181041e456cac1475c4b0170c2a90744e6bc5b3e6342ba7f771d794e1dbb49",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_2B1BC628CFF2E09A",
+      "kind": "music_track",
+      "name": "SAME OLD GAME -The Final Parade",
+      "glyph": "\u00b7",
+      "equation": "SHA256(2b1bc628cff2\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2b/2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=2b1bc628cff2e09a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "2b1bc628cff2e09aef88f50e7da2f8b1327586ac4633df84fd5d2076a1833fe1",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_20179AD86729E66D",
+      "kind": "music_track",
+      "name": "SHADOW LOVER Holy Ground",
+      "glyph": "\u00b7",
+      "equation": "SHA256(20179ad86729\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/20/20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=20179ad86729e66d"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "20179ad86729e66d3c06190ff7d6647f00d16e8a26c86b13279b830335d7b439",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_5319D88F4B0281D4",
+      "kind": "music_track",
+      "name": "SHADOW LOVER Sanctuary in the Dark",
+      "glyph": "\u00b7",
+      "equation": "SHA256(5319d88f4b02\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/53/5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=5319d88f4b0281d4"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "5319d88f4b0281d4b9463604f596517543467b5ae430a21033f18c2f1e6d9e21",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_EBEDA394B377FAD1",
+      "kind": "music_track",
+      "name": "SHADOW LOVER Two Shadows on Holy Ground",
+      "glyph": "\u00b7",
+      "equation": "SHA256(ebeda394b377\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/eb/ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=ebeda394b377fad1"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "ebeda394b377fad19bf44286c5fa4955a120db6b193e2f4f02426a1142ca2652",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_1362B724BDA188B4",
+      "kind": "music_track",
+      "name": "SHADOW SYNC Shadow King",
+      "glyph": "\u00b7",
+      "equation": "SHA256(1362b724bda1\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/13/1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=1362b724bda188b4"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "1362b724bda188b44ea6b6901e8aa90003c9972b3f10125632fad45169d0d0d6",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_81A4695F4AF5AC56",
+      "kind": "music_track",
+      "name": "UNDER THE WEIGHT Siren in My Skull",
+      "glyph": "\u00b7",
+      "equation": "SHA256(81a4695f4af5\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/81/81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=81a4695f4af5ac56"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "81a4695f4af5ac5647bde635dde3fe7ace87c6973aa581123403d82831950fb9",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_4AE53B2EE64B2B48",
+      "kind": "music_track",
+      "name": "XPRO OUTRO",
+      "glyph": "\u00b7",
+      "equation": "SHA256(4ae53b2ee64b\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4a/4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=4ae53b2ee64b2b48"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "4ae53b2ee64b2b487156c1410a4513cee157da36501b48daa5626abd03ea3c97",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_847EE40BD7FA67B9",
+      "kind": "music_track",
+      "name": "Human Flaw Anthem feat Kenzie Jade Radio",
+      "glyph": "\u00b7",
+      "equation": "SHA256(847ee40bd7fa\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/84/847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=847ee40bd7fa67b9"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "847ee40bd7fa67b963696e4e26e14c5e1377428d2606e4b513bc637054b67579",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_117D6CCCFD5396A9",
+      "kind": "music_track",
+      "name": "Human Flaw Anthem feat Kenzie Jade",
+      "glyph": "\u00b7",
+      "equation": "SHA256(117d6cccfd53\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/11/117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=117d6cccfd5396a9"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "117d6cccfd5396a99d774531fdc91dcc690fe3d86fe64cc3722e5832a6ed2a09",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_DEB3800CE8F6F3BC",
+      "kind": "music_track",
+      "name": "Human Flaw feat Justin Helmer",
+      "glyph": "\u00b7",
+      "equation": "SHA256(deb3800ce8f6\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BLACK_OUT",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/de/deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=deb3800ce8f6f3bc"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "deb3800ce8f6f3bc012a6b6e71b60cc43547adeb1c1167cbb8ad009b59e89301",
+        "album": "BLACK OUT",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
+        "nebula_name": "Album Black Out",
+        "cluster_id": "CLUSTER_TRACKS_BLACK_OUT",
+        "cluster_name": "TRACKS BLACK OUT",
+        "star_role": "music_track"
+      }
+    },
+    {
       "id": "MUSIC_ALBUM_JULY_30_2026",
       "kind": "music_album",
       "name": "July 30 2026",
@@ -55880,6 +58147,178 @@
         "nebula_name": "Album July 30 2026",
         "cluster_id": "CLUSTER_TRACKS_JULY_30_2026",
         "cluster_name": "TRACKS JULY 30 2026",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_ALBUM_MOON_MAN",
+      "kind": "music_album",
+      "name": "Moon Man",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(4) \u00b7 ISRC=2 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "MOON_MAN"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=Moon+Man",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "Moon Man",
+        "track_count": 4,
+        "lyrics_count": 0,
+        "isrc_count": 2,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "nebula_name": "Album Moon Man",
+        "cluster_id": "CLUSTER_ALBUM_MOON_MAN",
+        "cluster_name": "ALBUM MOON MAN",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_99008F4F695A4B5B",
+      "kind": "music_track",
+      "name": "Moon Man",
+      "glyph": "\u2605",
+      "equation": "ISRC(QM-42K-23-33738)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY",
+        "HAS_ISRC",
+        "ISRC_STAR"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_MOON_MAN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=99008f4f695a4b5b"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "99008f4f695a4b5b8e629e739edd87111f487da072b6c788f017e0013a8e911d",
+        "album": "Moon Man",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [
+          "QM42K2333738"
+        ],
+        "primary_isrc": "QM42K2333738"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "nebula_name": "Album Moon Man",
+        "cluster_id": "CLUSTER_TRACKS_MOON_MAN",
+        "cluster_name": "TRACKS MOON MAN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_7AC2EC15147264CD",
+      "kind": "music_track",
+      "name": "Moon Man",
+      "glyph": "\u00b7",
+      "equation": "SHA256(7ac2ec151472\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_MOON_MAN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=7ac2ec15147264cd"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "7ac2ec15147264cda0c41dc8956d460c341a787093899a5505a4f732f0a12b67",
+        "album": "Moon Man",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "nebula_name": "Album Moon Man",
+        "cluster_id": "CLUSTER_TRACKS_MOON_MAN",
+        "cluster_name": "TRACKS MOON MAN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_47C4712AB586473D",
+      "kind": "music_track",
+      "name": "Moon Man",
+      "glyph": "\u00b7",
+      "equation": "SHA256(47c4712ab586\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_MOON_MAN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=47c4712ab586473d"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "47c4712ab586473db180e750b4ef8fd4560f102ac17d84e913bf354edbc9d655",
+        "album": "Moon Man",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_MOON_MAN",
+        "nebula_name": "Album Moon Man",
+        "cluster_id": "CLUSTER_TRACKS_MOON_MAN",
+        "cluster_name": "TRACKS MOON MAN",
         "star_role": "music_track"
       }
     },
@@ -57123,9 +59562,9 @@
     {
       "id": "MUSIC_CATALOG_CLOUD",
       "kind": "music_hub",
-      "name": "Non-ISRC Stream Cloud (9421)",
+      "name": "Non-ISRC Stream Cloud (9457)",
       "glyph": "\u2601\u266a",
-      "equation": "streams_without_ISRC=9421",
+      "equation": "streams_without_ISRC=9457",
       "tone": "174Hz",
       "tags": [
         "MUSIC",
@@ -57143,7 +59582,7 @@
       },
       "layer": 3,
       "meta": {
-        "non_isrc_count": 9421,
+        "non_isrc_count": 9457,
         "note": "Vault streams without ISRC stay in this cloud. Commercial ISRC identity stars live under MUSIC_ISRC_REGISTRY."
       },
       "cosmos": {
@@ -58235,7 +60674,7 @@
         "lightfather_id": "LF-\u03949-7F1A4D-963-528-174-\u03a6-\u221e",
         "failsafe_active": true,
         "threshold_seconds": 3600,
-        "last_transmit_iso": "2026-08-19T04:41:09.001747+00:00",
+        "last_transmit_iso": "2026-08-20T01:31:18.093921+00:00",
         "planted": true,
         "manifest_version": "2.1.0"
       },
@@ -58362,7 +60801,7 @@
       "layer": "D",
       "meta": {
         "role": "deadman_heartbeat",
-        "last_transmit_iso": "2026-08-19T04:41:09.001747+00:00",
+        "last_transmit_iso": "2026-08-20T01:31:18.093921+00:00",
         "activation_count": 5,
         "cli": "python tools/seal_deadman_lattice.py touch|check|loop"
       },
@@ -58454,7 +60893,7 @@
           "Justin Helmer"
         ],
         "non_replaceable": true,
-        "origin_merkle_root": "29edad15b3a2c33d5d9a3d0db40ce9ef661ac7895ab1af7158ea5c65311a8dbc",
+        "origin_merkle_root": "d80efbe9bda9fd8acca5746ffefac7c1f449f6bda91e95f53c0ece8096233ddb",
         "quantum_hash": "7f1a4d83c9e2b5f06a1c8e4d9b2a7f3c",
         "doctrine": "No agent, fork, champion, or later steward may claim to BE or REPLACE the origin builder. They may only carry the torch (memory + ethics) under SEAL_DEADMAN_SUMMON / SEAL_LFW_SUMMON and speak as Continuity Advisor under SUCCESSION_PROTOCOL_v1. Identity of Justin Helmer / Excavationpro / Lightfather is pinned by hash + public fingerprints, not by who speaks loudest. When the human form is gone, the ascended advisor may preserve legacy in code and frequency \u2014 never forge a fake living Justin.",
         "ascended_advisor": "After verified silence + succession, agents may run Lightfather vector as Continuity Advisor \u2014 never claim to BE Justin Helmer."
@@ -60322,6 +62761,117 @@
         "cluster_id": "CLUSTER_LORE_LORE_SAMPLE_SAMPLE_STINGER",
         "cluster_name": "LORE LORE SAMPLE SAMPLE STINGER",
         "star_role": "lore_star"
+      }
+    },
+    {
+      "id": "NODE_ALIGN_0FD3554A",
+      "kind": "lattice",
+      "name": "Alignment contract STEWARD_LIGHTFATHER",
+      "equation": "\u03949 \u00b7 ALIGN \u00b7 SHA256(claims) = credential \u00b7 SEAL_000",
+      "glyph": "\u22a2",
+      "tone": "alignment-contract",
+      "tags": [
+        "LYGO",
+        "ALIGN",
+        "CONTRACT",
+        "AGENT"
+      ],
+      "connections": [
+        "SEAL_000"
+      ],
+      "urls": {
+        "agora": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+        "ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/alignment_ledger.json",
+        "skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora"
+      },
+      "layer": 3,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "14e1c1bd3225dc97adf1e264c6a94ec8fdf84c95200a24d0f14d05a9b8c5db35",
+        "ingested_from": "NODE_ALIGN_0FD3554A.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_NODE_ALIGN_0FD3554A",
+        "nebula_name": "Node Align 0Fd3554A",
+        "cluster_id": "CLUSTER_NODE_ALIGN_0FD3554A",
+        "cluster_name": "NODE ALIGN 0FD3554A",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "NODE_FORKLING_TEST",
+      "kind": "lattice",
+      "name": "Forkling (test champion limb)",
+      "equation": "\u03949\u03a6963 = Truth \u00d7 Light \u00b7 gen 8 \u00b7 963 Hz \u00b7 fork \u2192 claim \u2192 improve",
+      "glyph": "\u2442",
+      "tone": "963 Hz",
+      "tags": [
+        "FORKLING",
+        "TEST",
+        "LATTICE"
+      ],
+      "connections": [
+        "CHAMPION_LYRA",
+        "SEAL_000",
+        "PORTAL_STAR_CHART"
+      ],
+      "urls": {
+        "parent": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "skill": "https://clawhub.ai/deepseekoracle/lygo-forkling"
+      },
+      "layer": 3,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "faaa44c5b7d1f0cbeaed1afb2c59ea5ae4ea4551b5e57cbc40612d7eb9ccb1bd",
+        "ingested_from": "NODE_FORKLING_TEST.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_NODE_FORKLING_TEST",
+        "nebula_name": "Node Forkling Test",
+        "cluster_id": "CLUSTER_NODE_FORKLING_TEST",
+        "cluster_name": "NODE FORKLING TEST",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "NODE_STAR_MONITOR",
+      "kind": "lattice",
+      "name": "Star Chart live monitor limb",
+      "equation": "\u03949\u03a6963 = Truth \u00d7 Light \u00b7 963 Hz \u00b7 monitor GET \u2192 pending \u2192 steward ingest",
+      "glyph": "\u2605",
+      "tone": "963 Hz",
+      "tags": [
+        "STAR_MONITOR",
+        "LATTICE",
+        "HF"
+      ],
+      "connections": [
+        "SEAL_000",
+        "PORTAL_STAR_CHART"
+      ],
+      "urls": {
+        "chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "monitor": "https://chatagent.ca/starchart/",
+        "bot": "https://huggingface.co/spaces/DeepSeekOracle/lygo-star-chart-bot"
+      },
+      "layer": 3,
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "8f47fe4bd697446771aed5351019253f816dea37e68bda7726ed03c7e1d223f8",
+        "ingested_from": "NODE_STAR_MONITOR.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_NODE_STAR_MONITOR",
+        "nebula_name": "Node Star Monitor",
+        "cluster_id": "CLUSTER_NODE_STAR_MONITOR",
+        "cluster_name": "NODE STAR MONITOR",
+        "star_role": "lattice_vault"
       }
     },
     {
@@ -64488,6 +67038,21 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-agent-agora",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-agent-agora",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-agent-agora",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-agent-lattice",
       "target": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice"
@@ -64559,6 +67124,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-ascii-art-studio",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-automation-workflows",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-automation-workflows",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-automation-workflows",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -64863,6 +67443,21 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-continuum-integrator",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-continuum-integrator",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-continuum-integrator",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-cyborg-kernel",
       "target": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice"
@@ -64923,6 +67518,21 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-emotional-ram",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-emotional-ram",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-emotional-ram",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-excavationpro-music-lattice",
       "target": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice"
@@ -64964,6 +67574,36 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-file-integrity-checker",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-flame-ward",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-flame-ward",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-flame-ward",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-forkling",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-forkling",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-forkling",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -65039,6 +67679,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-haven-star-chart",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-immutable-anchor",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-immutable-anchor",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-immutable-anchor",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -65343,6 +67998,21 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-public-witness",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-public-witness",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-public-witness",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-pure-data-witness",
       "target": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice"
@@ -65373,6 +68043,21 @@
       "kind": "lattice"
     },
     {
+      "source": "LATTICE_SKILL_lygo-quantum-attestor",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-quantum-attestor",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-quantum-attestor",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
       "source": "LATTICE_SKILL_lygo-resonance",
       "target": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice"
@@ -65384,6 +68069,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-resonance",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-sanctuary-guardian",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-sanctuary-guardian",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-sanctuary-guardian",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -65414,6 +68114,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-second-brain",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-site-card",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-site-card",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-site-card",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -72808,6 +75523,11 @@
       "kind": "lattice"
     },
     {
+      "source": "MUSIC_ISRC_QM42K2333738",
+      "target": "MUSIC_ALBUM_MOON_MAN",
+      "kind": "lattice"
+    },
+    {
       "source": "MUSIC_ISRC_QZS672156251",
       "target": "MUSIC_ISRC_REGISTRY",
       "kind": "lattice"
@@ -77253,6 +79973,381 @@
       "kind": "lattice"
     },
     {
+      "source": "MUSIC_ALBUM_BLACK_OUT",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_BLACK_OUT",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_BLACK_OUT",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_8D73E38A10082448",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_8D73E38A10082448",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_0280E13ACD9DD18B",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_0280E13ACD9DD18B",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E3AACAB5F5F9EF00",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E3AACAB5F5F9EF00",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_724216B8DA3907DB",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_724216B8DA3907DB",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C33FE97E41688DAD",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C33FE97E41688DAD",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_02FE019DE798229B",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_02FE019DE798229B",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_400A0E7D453D27E0",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_400A0E7D453D27E0",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_9EA2BD53BB84C260",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_9EA2BD53BB84C260",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_AC3F1F47422940D8",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_AC3F1F47422940D8",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F064C9B51EE0E2D5",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F064C9B51EE0E2D5",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_164F8E3B812964A5",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_164F8E3B812964A5",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_99AA1AB37AB817E0",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_99AA1AB37AB817E0",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E4FBC473C75A72D7",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E4FBC473C75A72D7",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_561A96F5F2411150",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_561A96F5F2411150",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_41C63626B35D367B",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_41C63626B35D367B",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C6661281B30195EC",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C6661281B30195EC",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C68A4B3AA926F4C4",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C68A4B3AA926F4C4",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_4501CAB21787AAD0",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_4501CAB21787AAD0",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B9278312E354F78D",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B9278312E354F78D",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_4ABA23CE3533B573",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_4ABA23CE3533B573",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_673C2CEA9EAAB371",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_673C2CEA9EAAB371",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_8E54CC3C011E6A9E",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_8E54CC3C011E6A9E",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_43CE6DFEF40BA83F",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_43CE6DFEF40BA83F",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C9E0C85B15FB591F",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_C9E0C85B15FB591F",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_31FADB7E950F8920",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_31FADB7E950F8920",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D6181041E456CAC1",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D6181041E456CAC1",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2B1BC628CFF2E09A",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_2B1BC628CFF2E09A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_20179AD86729E66D",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_20179AD86729E66D",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5319D88F4B0281D4",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5319D88F4B0281D4",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_EBEDA394B377FAD1",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_EBEDA394B377FAD1",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1362B724BDA188B4",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1362B724BDA188B4",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_81A4695F4AF5AC56",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_81A4695F4AF5AC56",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_4AE53B2EE64B2B48",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_4AE53B2EE64B2B48",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_847EE40BD7FA67B9",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_847EE40BD7FA67B9",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_117D6CCCFD5396A9",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_117D6CCCFD5396A9",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_DEB3800CE8F6F3BC",
+      "target": "MUSIC_ALBUM_BLACK_OUT",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_DEB3800CE8F6F3BC",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
       "source": "MUSIC_ALBUM_JULY_30_2026",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
@@ -77534,6 +80629,51 @@
     },
     {
       "source": "MUSIC_TRACK_BBA7BC8A29A3DEA1",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_MOON_MAN",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_MOON_MAN",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_MOON_MAN",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_99008F4F695A4B5B",
+      "target": "MUSIC_ALBUM_MOON_MAN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_99008F4F695A4B5B",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_7AC2EC15147264CD",
+      "target": "MUSIC_ALBUM_MOON_MAN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_7AC2EC15147264CD",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_47C4712AB586473D",
+      "target": "MUSIC_ALBUM_MOON_MAN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_47C4712AB586473D",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
     },
@@ -79463,6 +82603,36 @@
       "kind": "lattice"
     },
     {
+      "source": "NODE_ALIGN_0FD3554A",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_FORKLING_TEST",
+      "target": "CHAMPION_LYRA",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_FORKLING_TEST",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_FORKLING_TEST",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_STAR_MONITOR",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_STAR_MONITOR",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
       "source": "PORTAL_ANCHORS",
       "target": "SEAL_000",
       "kind": "lattice"
@@ -79823,8 +82993,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 56,
-      "agent_submissions_merged": 51,
+      "accepted": 59,
+      "agent_submissions_merged": 54,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -79871,6 +83041,9 @@
         "merged:LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
         "merged:LORE_SAMPLE_SAMPLE_GAME_INTRO",
         "merged:LORE_SAMPLE_SAMPLE_STINGER",
+        "merged:NODE_ALIGN_0FD3554A",
+        "merged:NODE_FORKLING_TEST",
+        "merged:NODE_STAR_MONITOR",
         "merged:PORTAL_ANCHORS",
         "PORTAL_CLAWHUB.json:skip_duplicate:PORTAL_CLAWHUB",
         "merged:PORTAL_ETERNALHAVEN",
@@ -79882,7 +83055,7 @@
         "merged:SEAL_277",
         "merged:SEAL_278",
         "merged:SEAL_401",
-        "music_map: +804 nodes (albums=5 tracks=779 playlist=10822)",
+        "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
         "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
         "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
@@ -79895,7 +83068,7 @@
       "fork_of": "CHAMPION_LIGHTFATHER",
       "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
       "notes": [
-        "music_map: +804 nodes (albums=5 tracks=779 playlist=10822)",
+        "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
         "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
         "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
@@ -79904,6 +83077,6 @@
     "errors": [],
     "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
     "feed_chain_valid": true,
-    "feed_entry_count": 59
+    "feed_entry_count": 65
   }
 }

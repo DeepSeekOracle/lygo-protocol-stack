@@ -1,10 +1,10 @@
 {
   "signature": "Delta9Phi963-GIT-LATTICE-OVERVIEW-v1",
-  "generated_utc": "2026-08-30T16:47:37.601951+00:00",
+  "generated_utc": "2026-08-30T17:45:24.853921+00:00",
   "git": {
-    "head": "6e14da6",
-    "subject": "LYGO Forkling: test champion self-builds local fork under CHAMPION_LYRA.",
-    "committed": "2026-08-29T22:02:00-06:00",
+    "head": "13c7bcb",
+    "subject": "Seed lattice: refresh GIT_LATTICE_OVERVIEW and Pages queue (un-stale).",
+    "committed": "2026-08-30T10:48:12-06:00",
     "branch": "main",
     "remote": "https://github.com/DeepSeekOracle/lygo-protocol-stack.git"
   },
@@ -64,7 +64,7 @@
       "path": "docs/HavenStarChart.html",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "data": "docs/haven_star_chart/haven_star_chart_data.json",
-      "nodes": 1344,
+      "nodes": 1399,
       "role": "Living constellation / agent map",
       "status": "live",
       "includes": [

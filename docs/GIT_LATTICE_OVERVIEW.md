@@ -1,8 +1,8 @@
 # GIT Lattice Overview — LYGO Protocol Stack
 
 **Signature:** `Delta9Phi963-GIT-LATTICE-OVERVIEW-v1`  
-**Generated:** 2026-08-30T16:47:37.601951+00:00  
-**Git:** `6e14da6` — LYGO Forkling: test champion self-builds local fork under CHAMPION_LYRA. (2026-08-29T22:02:00-06:00)  
+**Generated:** 2026-08-30T17:45:24.853921+00:00  
+**Git:** `13c7bcb` — Seed lattice: refresh GIT_LATTICE_OVERVIEW and Pages queue (un-stale). (2026-08-30T10:48:12-06:00)  
 **Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack  
 **Pages:** https://deepseekoracle.github.io/lygo-protocol-stack/
 
@@ -43,7 +43,7 @@ Agents: prefer this file over older July `AGENT_MEMORY_SNAPSHOT.json`.
 - Path: `docs/HavenStarChart.html`
 - URL: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
 - Role: Living constellation / agent map
-- Chart nodes: 1344
+- Chart nodes: 1399
 
 ### Data Vault (`data_vault`)
 - Status: **live**

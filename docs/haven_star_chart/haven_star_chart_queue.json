@@ -1,10 +1,10 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-QUEUE-v1",
-  "updated_utc": "2026-08-19T05:03:43.571555+00:00",
-  "registry_sha256": "1474b39127ba0f53ca18e5892319138f4c074914632dfb87c1f58e4205484dc5",
+  "updated_utc": "2026-08-30T17:43:42.848394+00:00",
+  "registry_sha256": "144ac24483bc44f0324a5759e925b8f8c3a1be68cc99dc00c162c8d149df53b7",
   "pending": 0,
-  "accepted": 56,
-  "agent_submissions_merged": 51,
+  "accepted": 59,
+  "agent_submissions_merged": 54,
   "ingest_notes": [
     "merged:HERO_ACCORD",
     "merged:HERO_CORVATH",
@@ -51,6 +51,9 @@
     "merged:LORE_SAMPLE_SAMPLE_BOOK4_DAWN",
     "merged:LORE_SAMPLE_SAMPLE_GAME_INTRO",
     "merged:LORE_SAMPLE_SAMPLE_STINGER",
+    "merged:NODE_ALIGN_0FD3554A",
+    "merged:NODE_FORKLING_TEST",
+    "merged:NODE_STAR_MONITOR",
     "merged:PORTAL_ANCHORS",
     "PORTAL_CLAWHUB.json:skip_duplicate:PORTAL_CLAWHUB",
     "merged:PORTAL_ETERNALHAVEN",
@@ -62,7 +65,7 @@
     "merged:SEAL_277",
     "merged:SEAL_278",
     "merged:SEAL_401",
-    "music_map: +804 nodes (albums=5 tracks=779 playlist=10822)",
+    "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
     "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
     "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
     "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
