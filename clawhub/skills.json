@@ -5,9 +5,20 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 40,
-  "count_mirrored": 41,
+  "count_published": 41,
+  "count_mirrored": 42,
   "skills": [
+    {
+      "slug": "lygo-forkling",
+      "name": "LYGO Forkling",
+      "summary": "Test champion that self-builds a local lattice fork under parent CHAMPION_LYRA. Task loop, claim-gated generations, dry-run Star Chart propose. No live ingest.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-forkling",
+      "mirror": "mirrors/lygo-forkling",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0",
+      "notes": "Test agent 2026-08-30. Does not replace Lightfather."
+    },
     {
       "slug": "lygo-site-card",
       "name": "LYGO Site Card",
