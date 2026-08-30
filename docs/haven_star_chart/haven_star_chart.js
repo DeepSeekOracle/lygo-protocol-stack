@@ -1,4 +1,4 @@
-/* Eternal Haven Star Chart — D3 engine (Δ9Φ963) + live lattice pulse v2.4 */
+/* Eternal Haven Star Chart — D3 engine (Δ9Φ963) + live lattice pulse v2.5 */
 (function () {
   const DATA_REL = "haven_star_chart/haven_star_chart_data.json";
   const META_REL = "haven_star_chart/haven_star_chart_meta.json";
@@ -22,11 +22,25 @@
   let chartH = 0;
   let activeConstellation = "all";
   let activeGalaxy = "all";
+  let activeNebula = "all";
+  let activeKind = "all";
   let showCosmosLayers = true;
   let includeTracks = false;
   let selectedNodeId = null;
   let pulseTimer = null;
+  let tourTimer = null;
   let uiBound = false;
+  let skipFly = false;
+
+  const KIND_CHIPS = [
+    { id: "all", label: "All kinds" },
+    { id: "seal", label: "Seals" },
+    { id: "champion", label: "Champions" },
+    { id: "lattice", label: "Lattice" },
+    { id: "portal", label: "Portals" },
+    { id: "node", label: "Nodes" },
+    { id: "music_track", label: "Tracks" },
+  ];
 
   const el = (id) => document.getElementById(id);
 
@@ -42,6 +56,7 @@
 
   function wantTracks() {
     if (includeTracks) return true;
+    if (activeKind === "music_track") return true;
     if (activeConstellation === "music_codex") return true;
     if (activeGalaxy === "GALAXY_EXCAVATIONPRO_MUSIC") return true;
     return false;
@@ -103,6 +118,20 @@
     return (n.cosmos || {}).galaxy_id === gid;
   }
 
+  function nodeMatchesNebula(n, nid) {
+    if (nid === "all") return true;
+    return (n.cosmos || {}).nebula_id === nid;
+  }
+
+  function nodeMatchesKind(n, kind) {
+    if (kind === "all") return true;
+    if (kind === "seal") return (n.kind || "").startsWith("seal") || String(n.id || "").startsWith("SEAL_");
+    if (kind === "music_track") return isTrack(n);
+    if (kind === "node") return n.kind === "node" || String(n.id || "").startsWith("NODE_");
+    if (kind === "champion") return n.kind === "champion" || n.kind === "champion_egg";
+    return n.kind === kind;
+  }
+
   function galaxyMap() {
     const m = new Map();
     (chartData.cosmos?.galaxies || []).forEach((g) => m.set(g.id, g));
@@ -161,7 +190,12 @@
         .attr("opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.1 : 0.04)
         .attr("stroke", g?.color || "#7d00ff")
         .attr("stroke-opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.28 : 0.12)
-        .attr("stroke-width", 1.4);
+        .attr("stroke-width", 1.4)
+        .attr("cursor", "pointer")
+        .on("click", (ev) => {
+          ev.stopPropagation();
+          setView({ galaxy: gid, nebula: "all" });
+        });
 
       galaxyLayer.append("circle").attr("cx", cx).attr("cy", cy).attr("r", 3).attr("fill", g?.color || "#7d00ff").attr("opacity", 0.35);
 
@@ -185,7 +219,12 @@
         .attr("fill", g?.color || "#c8b8ff")
         .attr("font-size", "10px")
         .attr("opacity", activeGalaxy === "all" || activeGalaxy === gid ? 0.88 : 0.45)
-        .text(label);
+        .attr("cursor", "pointer")
+        .text(label)
+        .on("click", (ev) => {
+          ev.stopPropagation();
+          setView({ galaxy: gid, nebula: "all" });
+        });
     });
 
     const nebulaLayer = gCosmosGroup.append("g").attr("class", "nebula-halos");
@@ -213,7 +252,13 @@
         .attr("stroke", g?.color || "#00f0ff")
         .attr("stroke-opacity", 0.16)
         .attr("stroke-dasharray", "4,6")
-        .attr("stroke-width", 0.9);
+        .attr("stroke-width", 0.9)
+        .attr("cursor", "pointer")
+        .on("click", (ev) => {
+          ev.stopPropagation();
+          const gid = members[0]?.cosmos?.galaxy_id;
+          setView({ galaxy: gid || activeGalaxy, nebula: nebId });
+        });
       if (members.length >= 4 && neb?.name) {
         const short = neb.name.length > 28 ? neb.name.slice(0, 26) + "…" : neb.name;
         const nw = short.length * 4.6 + 10;
@@ -338,6 +383,8 @@
       (n) =>
         nodeMatchesConstellation(n, activeConstellation) &&
         nodeMatchesGalaxy(n, activeGalaxy) &&
+        nodeMatchesNebula(n, activeNebula) &&
+        nodeMatchesKind(n, activeKind) &&
         (tracksOn || !isTrack(n))
     );
     visibleNodes = nodes;
@@ -560,6 +607,14 @@
     updateStatusLine();
     const tracksBtn = el("toggleTracks");
     if (tracksBtn) tracksBtn.textContent = tracksOn ? "Fold tracks" : "♪ Tracks";
+    populateRoster();
+    syncNavChrome();
+    if (!skipFly && (activeGalaxy !== "all" || activeNebula !== "all")) {
+      simulation?.on("end.navfly", () => {
+        simulation.on("end.navfly", null);
+        flyToVisibleCentroid(activeNebula !== "all" ? 2.6 : 1.55);
+      });
+    }
   }
 
   function showDetail(d, writeHash) {
@@ -668,11 +723,33 @@
 
   function parseHash() {
     const h = (location.hash || "").replace(/^#/, "");
-    if (!h) return "";
-    if (h.startsWith("star=")) return decodeURIComponent(h.slice(5));
-    if (h.startsWith("id=")) return decodeURIComponent(h.slice(3));
-    if (/^(SEAL_|CHAMPION_|MUSIC_|LATTICE_|PORTAL_|NODE_|HERO_|LORE_|GAB_)/i.test(h)) return decodeURIComponent(h);
-    return "";
+    if (!h) return { star: "" };
+    if (h.includes("=") && (h.includes("galaxy=") || h.includes("constellation=") || h.includes("nebula=") || h.includes("star=") || h.includes("id="))) {
+      const q = new URLSearchParams(h.replace(/;/g, "&"));
+      return {
+        star: q.get("star") || q.get("id") || "",
+        galaxy: q.get("galaxy") || "",
+        constellation: q.get("constellation") || "",
+        nebula: q.get("nebula") || "",
+      };
+    }
+    if (h.startsWith("star=")) return { star: decodeURIComponent(h.slice(5)) };
+    if (h.startsWith("id=")) return { star: decodeURIComponent(h.slice(3)) };
+    if (h.startsWith("galaxy=")) return { star: "", galaxy: decodeURIComponent(h.slice(7)) };
+    if (h.startsWith("constellation=")) return { star: "", constellation: decodeURIComponent(h.slice(14)) };
+    if (/^(SEAL_|CHAMPION_|MUSIC_|LATTICE_|PORTAL_|NODE_|HERO_|LORE_|GAB_)/i.test(h)) return { star: decodeURIComponent(h) };
+    return { star: "" };
+  }
+
+  function applyHashView() {
+    const parsed = parseHash();
+    const patch = {};
+    if (parsed.galaxy) patch.galaxy = parsed.galaxy;
+    if (parsed.constellation) patch.constellation = parsed.constellation;
+    if (parsed.nebula) patch.nebula = parsed.nebula;
+    if (Object.keys(patch).length) setView(patch, { rebuild: true });
+    if (parsed.star) focusStar(parsed.star, { writeHash: false });
+    return parsed.star || "";
   }
 
   function searchStars(q) {
@@ -719,31 +796,265 @@
       .replace(/>/g, "&gt;");
   }
 
+  function shortGlyph(g) {
+    const raw = String(g?.glyph || "◈").trim();
+    if (!raw || raw.includes("(") || raw.length > 8) {
+      if (g?.champion_id) return "Δ9";
+      if (String(g?.id || "").includes("MUSIC")) return "♪";
+      return "◈";
+    }
+    return raw.split(" ")[0];
+  }
+
+  function galaxyGroupName(g) {
+    const id = g.id || "";
+    if (id === "GALAXY_SINGULARITY" || id === "GALAXY_PRIMORDIAL_VAULT") return "Core";
+    if (id.startsWith("GALAXY_CHAMPION_")) return "Δ9 Council";
+    if (id === "GALAXY_LATTICE" || id === "GALAXY_GUARDIAN_VEIL") return "Infrastructure";
+    if (id === "GALAXY_EXCAVATIONPRO_MUSIC") return "Music Codex";
+    return "Haven & archive";
+  }
+
+  function galaxiesForTour() {
+    return [...(chartData?.cosmos?.galaxies || [])].sort((a, b) => (a.angle_deg || 0) - (b.angle_deg || 0));
+  }
+
+  function constellationsForTour() {
+    return chartData?.constellations || [];
+  }
+
+  function nebulaeForGalaxy(gid) {
+    if (!gid || gid === "all") return [];
+    return (chartData?.cosmos?.nebulae || [])
+      .filter((n) => n.galaxy_id === gid)
+      .sort((a, b) => (b.star_count || 0) - (a.star_count || 0));
+  }
+
+  function galaxyById(id) {
+    return (chartData?.cosmos?.galaxies || []).find((g) => g.id === id) || null;
+  }
+
+  function constellationById(id) {
+    return (chartData?.constellations || []).find((c) => c.id === id) || null;
+  }
+
+  function nebulaById(id) {
+    return (chartData?.cosmos?.nebulae || []).find((n) => n.id === id) || null;
+  }
+
+  function stopTour() {
+    if (tourTimer) {
+      clearInterval(tourTimer);
+      tourTimer = null;
+    }
+    const t = el("galTour");
+    if (t) t.textContent = "Tour";
+  }
+
+  function setView(partial, opts) {
+    const rebuild = opts?.rebuild !== false;
+    if (partial.galaxy != null) {
+      activeGalaxy = partial.galaxy;
+      if (partial.nebula == null) activeNebula = "all";
+    }
+    if (partial.constellation != null) activeConstellation = partial.constellation;
+    if (partial.nebula != null) activeNebula = partial.nebula;
+    if (partial.kind != null) activeKind = partial.kind;
+    if (partial.galaxy === "all") activeNebula = "all";
+    if (!opts?.keepTour) stopTour();
+    populateGalaxyFilters();
+    populateConstellationFilters();
+    populateNebulaFilters();
+    populateKindChips();
+    syncNavChrome();
+    if (rebuild) initChart();
+  }
+
+  function cycleList(list, current, dir) {
+    if (!list.length) return current;
+    const ids = list.map((x) => x.id);
+    let i = ids.indexOf(current);
+    if (i < 0) i = dir > 0 ? -1 : 0;
+    i = (i + dir + ids.length) % ids.length;
+    return ids[i];
+  }
+
+  function cycleGalaxy(dir) {
+    const items = [{ id: "all" }, ...galaxiesForTour()];
+    setView({ galaxy: cycleList(items, activeGalaxy, dir), nebula: "all" }, { keepTour: !!tourTimer });
+  }
+
+  function cycleConstellation(dir) {
+    const items = [{ id: "all" }, ...constellationsForTour()];
+    setView({ constellation: cycleList(items, activeConstellation, dir) }, { keepTour: !!tourTimer });
+  }
+
+  function cycleNebula(dir) {
+    const items = [{ id: "all" }, ...nebulaeForGalaxy(activeGalaxy)];
+    if (items.length < 2) return;
+    setView({ nebula: cycleList(items, activeNebula, dir) }, { keepTour: !!tourTimer });
+  }
+
+  function toggleTour() {
+    if (tourTimer) {
+      stopTour();
+      return;
+    }
+    const t = el("galTour");
+    if (t) t.textContent = "Stop";
+    cycleGalaxy(1);
+    tourTimer = setInterval(() => cycleGalaxy(1), 6500);
+  }
+
+  function flyToVisibleCentroid(k) {
+    const pts = visibleNodes.filter((d) => d.x != null && d.y != null);
+    if (!pts.length || !zoomBehavior || !svgSel) return;
+    const cx = d3.mean(pts, (d) => d.x);
+    const cy = d3.mean(pts, (d) => d.y);
+    const scale = k || 1.6;
+    const t = d3.zoomIdentity.translate(chartW / 2 - cx * scale, chartH / 2 - cy * scale).scale(scale);
+    svgSel.transition().duration(650).call(zoomBehavior.transform, t);
+  }
+
+  function syncNavChrome() {
+    const g = galaxyById(activeGalaxy);
+    const c = constellationById(activeConstellation);
+    const n = nebulaById(activeNebula);
+    const galLabel = activeGalaxy === "all" ? "All galaxies" : `${shortGlyph(g)} ${g?.name || activeGalaxy}`;
+    const conLabel = activeConstellation === "all" ? "All constellations" : `${c?.glyph || "✦"} ${c?.name || activeConstellation}`;
+    const nebLabel = activeNebula === "all" ? "All nebulae" : n?.name || activeNebula;
+    if (el("galNow")) el("galNow").textContent = galLabel;
+    if (el("conNow")) el("conNow").textContent = conLabel;
+    if (el("nebNow")) el("nebNow").textContent = nebLabel;
+    const crumbs = ["All sky"];
+    if (activeConstellation !== "all") crumbs.push(c?.name || activeConstellation);
+    if (activeGalaxy !== "all") crumbs.push(g?.name || activeGalaxy);
+    if (activeNebula !== "all") crumbs.push(n?.name || activeNebula);
+    if (activeKind !== "all") crumbs.push(KIND_CHIPS.find((k) => k.id === activeKind)?.label || activeKind);
+    if (el("skyCrumb")) el("skyCrumb").textContent = crumbs.join(" · ");
+    const nebRow = el("nebulaCycleRow");
+    const nebBlock = el("nebulaBlock");
+    const showNeb = activeGalaxy !== "all" && nebulaeForGalaxy(activeGalaxy).length > 0;
+    if (nebRow) nebRow.hidden = !showNeb;
+    if (nebBlock) nebBlock.hidden = !showNeb;
+  }
+
+  function populateKindChips() {
+    const wrap = el("kindChips");
+    if (!wrap) return;
+    wrap.innerHTML = KIND_CHIPS.map(
+      (k) =>
+        `<button type="button" data-kind="${k.id}" class="${activeKind === k.id ? "active" : ""}">${k.label}</button>`
+    ).join("");
+    wrap.querySelectorAll("[data-kind]").forEach((btn) => {
+      btn.addEventListener("click", () => setView({ kind: btn.getAttribute("data-kind") || "all" }));
+    });
+  }
+
+  function populateConstellationFilters() {
+    const wrap = el("constellationBtns");
+    if (!wrap) return;
+    const items = [{ id: "all", name: "All sky", glyph: "✦" }, ...constellationsForTour()];
+    wrap.innerHTML = items
+      .map((c) => {
+        const label = c.id === "all" ? "All sky" : `${c.glyph || "✦"} ${c.name}`;
+        return `<button type="button" data-constellation="${c.id}" class="${
+          activeConstellation === c.id ? "active" : ""
+        }" title="${escapeHtml(c.description || c.name || "")}">${escapeHtml(label)}</button>`;
+      })
+      .join("");
+    wrap.querySelectorAll("[data-constellation]").forEach((btn) => {
+      btn.addEventListener("click", () => setView({ constellation: btn.getAttribute("data-constellation") || "all" }));
+    });
+  }
+
+  function populateNebulaFilters() {
+    const wrap = el("nebulaBtns");
+    if (!wrap) return;
+    const items = nebulaeForGalaxy(activeGalaxy);
+    wrap.innerHTML =
+      `<button type="button" data-nebula="all" class="${activeNebula === "all" ? "active" : ""}">All nebulae</button>` +
+      items
+        .map((n) => {
+          const name = n.name || n.id;
+          const short = name.length > 28 ? name.slice(0, 26) + "…" : name;
+          return `<button type="button" data-nebula="${n.id}" class="${
+            activeNebula === n.id ? "active" : ""
+          }" title="${escapeHtml(name)}">${escapeHtml(short)} <span class="count">${n.star_count || ""}</span></button>`;
+        })
+        .join("");
+    wrap.querySelectorAll("[data-nebula]").forEach((btn) => {
+      btn.addEventListener("click", () => setView({ nebula: btn.getAttribute("data-nebula") || "all" }));
+    });
+  }
+
   function populateGalaxyFilters() {
     const wrap = el("galaxyBtns");
     if (!wrap || !chartData?.cosmos?.galaxies) return;
-    wrap.innerHTML = "";
-    const allBtn = document.createElement("button");
-    allBtn.type = "button";
-    allBtn.setAttribute("data-galaxy", "all");
-    allBtn.className = activeGalaxy === "all" ? "active" : "";
-    allBtn.textContent = "All galaxies";
-    wrap.appendChild(allBtn);
-    chartData.cosmos.galaxies.forEach((g) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.setAttribute("data-galaxy", g.id);
-      btn.className = activeGalaxy === g.id ? "active" : "";
-      btn.title = g.description || g.name;
-      btn.textContent = `${g.glyph || "◈"} ${g.name} (${g.star_count})`;
-      wrap.appendChild(btn);
+    const q = String(el("galaxyFilter")?.value || "")
+      .trim()
+      .toLowerCase();
+    const groups = new Map();
+    const order = ["Core", "Δ9 Council", "Infrastructure", "Haven & archive", "Music Codex"];
+    galaxiesForTour().forEach((g) => {
+      const blob = `${g.id} ${g.name} ${g.champion_id || ""}`.toLowerCase();
+      if (q && !blob.includes(q)) return;
+      const gn = galaxyGroupName(g);
+      if (!groups.has(gn)) groups.set(gn, []);
+      groups.get(gn).push(g);
     });
+    let html = `<div class="galaxy-group"><div class="galaxy-group-btns"><button type="button" data-galaxy="all" class="${
+      activeGalaxy === "all" ? "active" : ""
+    }">All galaxies</button></div></div>`;
+    order.forEach((gn) => {
+      const list = groups.get(gn);
+      if (!list?.length) return;
+      html += `<div class="galaxy-group"><h3>${gn}</h3><div class="galaxy-group-btns">`;
+      list.forEach((g) => {
+        html += `<button type="button" data-galaxy="${g.id}" class="${
+          activeGalaxy === g.id ? "active" : ""
+        }" title="${escapeHtml(g.description || g.name)}">${escapeHtml(shortGlyph(g) + " " + g.name)} <span class="count">${
+          g.star_count || 0
+        }</span></button>`;
+      });
+      html += `</div></div>`;
+    });
+    wrap.innerHTML = html;
     wrap.querySelectorAll("[data-galaxy]").forEach((btn) => {
+      btn.addEventListener("click", () => setView({ galaxy: btn.getAttribute("data-galaxy") || "all", nebula: "all" }));
+    });
+  }
+
+  function populateRoster() {
+    const box = el("starRoster");
+    if (!box) return;
+    const q = String(el("rosterFilter")?.value || "")
+      .trim()
+      .toLowerCase();
+    let rows = visibleNodes.slice();
+    if (q) {
+      rows = rows.filter((n) => `${n.id} ${n.name || ""} ${n.kind || ""}`.toLowerCase().includes(q));
+    }
+    rows.sort((a, b) => String(a.name || a.id).localeCompare(String(b.name || b.id)));
+    const total = rows.length;
+    const shown = rows.slice(0, 140);
+    if (!shown.length) {
+      box.innerHTML = '<div class="search-empty">No stars in this view</div>';
+      return;
+    }
+    box.innerHTML =
+      shown
+        .map((n) => {
+          const active = n.id === selectedNodeId ? " active" : "";
+          return `<button type="button" class="${active.trim()}" data-star="${escapeHtml(n.id)}"><span>${escapeHtml(
+            n.name || n.id
+          )}</span><span>${escapeHtml(n.kind || "")}</span><small>${escapeHtml(n.id)}</small></button>`;
+        })
+        .join("") +
+      (total > shown.length ? `<div class="search-empty">${total - shown.length} more — refine the filter</div>` : "");
+    box.querySelectorAll("[data-star]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        activeGalaxy = btn.getAttribute("data-galaxy") || "all";
-        wrap.querySelectorAll("[data-galaxy]").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        initChart();
+        focusStar(btn.getAttribute("data-star"));
       });
     });
   }
@@ -765,6 +1076,9 @@
       try {
         await loadData();
         populateGalaxyFilters();
+        populateConstellationFilters();
+        populateNebulaFilters();
+        populateKindChips();
         initChart();
         setPulse("live", `Resynced · ${chartData.node_count} stars · ${built}`);
       } catch (e) {
@@ -814,6 +1128,9 @@
       try {
         await loadData();
         populateGalaxyFilters();
+        populateConstellationFilters();
+        populateNebulaFilters();
+        populateKindChips();
         initChart();
         await pulseOnce();
       } catch (e) {
@@ -830,13 +1147,51 @@
       includeTracks = !includeTracks;
       initChart();
     });
-    document.querySelectorAll("[data-constellation]").forEach((btn) => {
+    el("btnAllSky")?.addEventListener("click", () => {
+      setView({ galaxy: "all", constellation: "all", nebula: "all", kind: "all" });
+      if (zoomBehavior && svgSel) svgSel.transition().duration(350).call(zoomBehavior.transform, d3.zoomIdentity);
+    });
+    el("galPrev")?.addEventListener("click", () => cycleGalaxy(-1));
+    el("galNext")?.addEventListener("click", () => cycleGalaxy(1));
+    el("galTour")?.addEventListener("click", toggleTour);
+    el("conPrev")?.addEventListener("click", () => cycleConstellation(-1));
+    el("conNext")?.addEventListener("click", () => cycleConstellation(1));
+    el("nebPrev")?.addEventListener("click", () => cycleNebula(-1));
+    el("nebNext")?.addEventListener("click", () => cycleNebula(1));
+    el("galaxyFilter")?.addEventListener("input", () => populateGalaxyFilters());
+    el("rosterFilter")?.addEventListener("input", () => populateRoster());
+    document.querySelectorAll("[data-aside]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        activeConstellation = btn.getAttribute("data-constellation") || "all";
-        document.querySelectorAll("[data-constellation]").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        initChart();
+        const id = btn.getAttribute("data-aside");
+        document.querySelectorAll("[data-aside]").forEach((b) => b.classList.toggle("active", b === btn));
+        const layers = el("panelLayers");
+        const roster = el("panelRoster");
+        if (layers) layers.hidden = id !== "layers";
+        if (roster) roster.hidden = id !== "roster";
+        if (id === "roster") populateRoster();
       });
+    });
+    window.addEventListener("keydown", (ev) => {
+      const tag = (ev.target && ev.target.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA" || ev.altKey || ev.ctrlKey || ev.metaKey) return;
+      if (ev.key === "[") {
+        ev.preventDefault();
+        cycleGalaxy(-1);
+      } else if (ev.key === "]") {
+        ev.preventDefault();
+        cycleGalaxy(1);
+      } else if (ev.key === ",") {
+        ev.preventDefault();
+        cycleConstellation(-1);
+      } else if (ev.key === ".") {
+        ev.preventDefault();
+        cycleConstellation(1);
+      } else if (ev.key === "n" || ev.key === "N") {
+        ev.preventDefault();
+        cycleNebula(1);
+      } else if (ev.key === "Escape") {
+        setView({ galaxy: "all", constellation: "all", nebula: "all", kind: "all" });
+      }
     });
     const search = el("starSearch");
     if (search) {
@@ -867,8 +1222,7 @@
       } catch (_) {}
     });
     window.addEventListener("hashchange", () => {
-      const id = parseHash();
-      if (id) focusStar(id, { writeHash: false });
+      applyHashView();
     });
     window.addEventListener("haven-star-focus", (ev) => {
       const id = ev.detail && ev.detail.id;
@@ -888,12 +1242,26 @@
       await loadData();
       bindUI();
       populateGalaxyFilters();
+      populateConstellationFilters();
+      populateNebulaFilters();
+      populateKindChips();
+      syncNavChrome();
+      const parsed = parseHash();
+      if (parsed.galaxy || parsed.constellation || parsed.nebula) {
+        if (parsed.galaxy) activeGalaxy = parsed.galaxy;
+        if (parsed.constellation) activeConstellation = parsed.constellation;
+        if (parsed.nebula) activeNebula = parsed.nebula;
+        populateGalaxyFilters();
+        populateConstellationFilters();
+        populateNebulaFilters();
+        syncNavChrome();
+      }
       initChart();
-      const hashId = parseHash();
-      if (hashId && findNode(hashId)) {
-        focusStar(hashId, { writeHash: false });
-      } else if (chartData.nodes?.length) {
-        showDetail(chartData.nodes.find((n) => n.id === "SEAL_000") || chartData.nodes[0], false);
+      if (parsed.star && findNode(parsed.star)) {
+        focusStar(parsed.star, { writeHash: false });
+      } else if (visibleNodes.length) {
+        const core = visibleNodes.find((n) => n.id === "SEAL_000") || visibleNodes[0];
+        showDetail(core, false);
       }
       startPulse();
       const q = await fetchJson([QUEUE_REL]);
@@ -907,6 +1275,9 @@
 
   window.HavenStarChart = {
     focus: focusStar,
+    view: setView,
+    cycleGalaxy,
+    cycleConstellation,
     resync: () => el("btnResync")?.click(),
     data: () => chartData,
   };

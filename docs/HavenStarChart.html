@@ -415,18 +415,150 @@
       cursor: pointer;
     }
     .constellation-btns button.active { background: rgba(255, 204, 0, 0.15); }
-    .galaxy-btns { display: flex; flex-wrap: wrap; gap: 5px; max-height: 140px; overflow-y: auto; }
-    .galaxy-btns button {
+    .galaxy-btns { display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
+    .galaxy-group h3 {
+      margin: 0 0 4px;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .galaxy-group-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+    .galaxy-btns button, .constellation-btns button, .nebula-btns button {
       background: transparent;
-      border: 1px solid rgba(125, 0, 255, 0.35);
-      color: #c8b0ff;
       font-family: inherit;
-      font-size: 0.6rem;
-      padding: 0.28rem 0.45rem;
       cursor: pointer;
       text-align: left;
     }
+    .galaxy-btns button {
+      border: 1px solid rgba(125, 0, 255, 0.35);
+      color: #c8b0ff;
+      font-size: 0.6rem;
+      padding: 0.28rem 0.45rem;
+    }
     .galaxy-btns button.active { background: rgba(125, 0, 255, 0.18); border-color: var(--violet); }
+    .galaxy-btns button .count { color: var(--muted); margin-left: 0.2rem; }
+    .nebula-btns { display: flex; flex-wrap: wrap; gap: 5px; max-height: 120px; overflow-y: auto; }
+    .nebula-btns button {
+      border: 1px solid rgba(0, 240, 255, 0.28);
+      color: #9eefff;
+      font-size: 0.58rem;
+      padding: 0.24rem 0.4rem;
+    }
+    .nebula-btns button.active { background: rgba(0, 240, 255, 0.14); }
+    #galaxyFilter, #rosterFilter {
+      width: 100%;
+      margin: 0 0 0.45rem;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(125, 0, 255, 0.3);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.68rem;
+      padding: 0.28rem 0.45rem;
+    }
+    .aside-tabs { display: flex; gap: 4px; margin-bottom: 0.65rem; }
+    .aside-tabs button {
+      flex: 1;
+      background: transparent;
+      border: 1px solid rgba(255, 204, 0, 0.28);
+      color: var(--gold);
+      font: inherit;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.2rem;
+      cursor: pointer;
+    }
+    .aside-tabs button.active { background: rgba(255, 204, 0, 0.14); }
+    .aside-panel[hidden] { display: none !important; }
+    .star-roster { max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+    .star-roster button {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.15rem 0.4rem;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.62rem;
+      padding: 0.28rem 0.4rem;
+      cursor: pointer;
+    }
+    .star-roster button small { color: var(--muted); grid-column: 1 / -1; }
+    .star-roster button.active, .star-roster button:hover { border-color: var(--cyan); background: rgba(0, 240, 255, 0.08); }
+    .sky-hud {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      width: min(34rem, calc(100% - 9.5rem));
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sky-hud > * { pointer-events: auto; }
+    .sky-crumb {
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--gold);
+      text-shadow: 0 1px 8px #05050c;
+      letter-spacing: 0.03em;
+    }
+    .sky-cycle-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(5, 5, 14, 0.78);
+      border: 1px solid rgba(125, 0, 255, 0.35);
+      border-radius: 999px;
+      padding: 0.2rem 0.35rem;
+      backdrop-filter: blur(8px);
+    }
+    .sky-cycle-row button {
+      background: transparent;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: var(--cyan);
+      font: inherit;
+      font-size: 0.68rem;
+      min-width: 1.7rem;
+      padding: 0.2rem 0.45rem;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+    .sky-cycle-row button:hover { background: rgba(0, 240, 255, 0.12); }
+    .sky-now {
+      flex: 1;
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .kind-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; }
+    .kind-chips button {
+      background: rgba(5, 5, 14, 0.75);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.58rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.42rem;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+    .kind-chips button.active { color: #fff; border-color: var(--cyan); background: rgba(0, 240, 255, 0.16); }
+    .sky-hint { margin: 0; text-align: center; font-size: 0.58rem; color: var(--muted); text-shadow: 0 1px 6px #05050c; }
+    .galaxy-halo, .nebula-halo { cursor: pointer; }
+    @media (max-width: 900px) {
+      .sky-hud { left: 12px; transform: none; width: calc(100% - 24px); top: auto; bottom: 12px; }
+      .controls { bottom: auto; }
+    }
     .detail-box {
       border: 1px solid rgba(0, 240, 255, 0.22);
       padding: 0.85rem 0.9rem;
@@ -895,21 +1027,51 @@
         <button type="button" id="btnResync">Δ9 Resync</button>
         <button type="button" id="toggleCosmos">Hide nebulae</button>
         <button type="button" id="toggleTracks" title="779 music ISRC stars stay folded until Music Codex or this toggle">♪ Tracks</button>
+        <button type="button" id="btnAllSky" title="Reset layers (Esc)">All sky</button>
+      </div>
+      <div class="sky-hud" id="skyHud">
+        <div class="sky-crumb" id="skyCrumb">All sky</div>
+        <div class="sky-cycle-row" title="Cycle every galaxy">
+          <button type="button" id="galPrev" aria-label="Previous galaxy">◀</button>
+          <span class="sky-now" id="galNow">Galaxy · all</span>
+          <button type="button" id="galNext" aria-label="Next galaxy">▶</button>
+          <button type="button" id="galTour" title="Auto-cycle galaxies">Tour</button>
+        </div>
+        <div class="sky-cycle-row" title="Cycle constellations">
+          <button type="button" id="conPrev" aria-label="Previous constellation">◀</button>
+          <span class="sky-now" id="conNow">Constellation · all</span>
+          <button type="button" id="conNext" aria-label="Next constellation">▶</button>
+        </div>
+        <div class="sky-cycle-row" id="nebulaCycleRow" hidden>
+          <button type="button" id="nebPrev" aria-label="Previous nebula">◀</button>
+          <span class="sky-now" id="nebNow">Nebula · all</span>
+          <button type="button" id="nebNext" aria-label="Next nebula">▶</button>
+        </div>
+        <div class="kind-chips" id="kindChips"></div>
+        <p class="sky-hint">[ ] galaxies · , . constellations · click a halo to enter it · Esc resets</p>
       </div>
       <svg id="starmap"></svg>
     </div>
     <aside>
+      <div class="aside-tabs" role="tablist">
+        <button type="button" data-aside="layers" class="active" role="tab">Layers</button>
+        <button type="button" data-aside="roster" role="tab">Roster</button>
+      </div>
+      <div class="aside-panel" id="panelLayers">
       <h2>Galaxies</h2>
+      <input id="galaxyFilter" type="search" placeholder="Filter galaxies…" autocomplete="off" />
       <div class="galaxy-btns" id="galaxyBtns"></div>
       <h2>Constellations</h2>
-      <div class="constellation-btns">
-        <button type="button" data-constellation="all" class="active">All sky</button>
-        <button type="button" data-constellation="primordial_core">Primordial Core</button>
-        <button type="button" data-constellation="council_ring">Δ9 Council</button>
-        <button type="button" data-constellation="guardian_veil">Guardian Veil</button>
-        <button type="button" data-constellation="lattice_growth">Lattice Growth</button>
-        <button type="button" data-constellation="music_codex">Music Codex ♪</button>
-        <button type="button" data-constellation="eternal_haven">Eternal Haven</button>
+      <div class="constellation-btns" id="constellationBtns"></div>
+      <div id="nebulaBlock" hidden>
+        <h2>Nebulae in this galaxy</h2>
+        <div class="nebula-btns" id="nebulaBtns"></div>
+      </div>
+      </div>
+      <div class="aside-panel" id="panelRoster" hidden>
+        <h2>Visible stars</h2>
+        <input id="rosterFilter" type="search" placeholder="Filter this view…" autocomplete="off" />
+        <div class="star-roster" id="starRoster"></div>
       </div>
       <p id="loadStatus">Initializing…</p>
       <h2>Active star</h2>
@@ -1184,8 +1346,8 @@
   </section>
 
   <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
-  <script src="haven_star_chart/haven_star_chart.js?v=2.4"></script>
-  <script src="haven_star_chart/haven_star_chart_feed.js?v=2.4"></script>
+  <script src="haven_star_chart/haven_star_chart.js?v=2.5"></script>
+  <script src="haven_star_chart/haven_star_chart_feed.js?v=2.5"></script>
   <script src="haven_star_chart/haven_star_chart_crypto_anchor.js"></script>
   <script>
     fetch('haven_star_chart/haven_star_chart_queue.json', { cache: 'no-store' })
