@@ -59,6 +59,7 @@ metadata:
 | Source | https://github.com/DeepSeekOracle/chatagent/tree/main/sources |
 | Stack mirror | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/free-sources |
 | Witness (nav sibling) | https://chatagent.ca/witness/ |
+| Listen (music player) | https://asiancoastline.com/listen.html |
 
 ---
 

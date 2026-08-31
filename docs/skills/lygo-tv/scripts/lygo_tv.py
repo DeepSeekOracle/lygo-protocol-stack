@@ -16,6 +16,7 @@ CATALOG = "https://chatagent.ca/sources/catalog.json"
 SOURCE = "https://github.com/DeepSeekOracle/chatagent/tree/main/sources"
 STACK = "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/free-sources"
 WITNESS = "https://chatagent.ca/witness/"
+LISTEN = "https://asiancoastline.com/listen.html"
 CLAWHUB = "https://clawhub.ai/deepseekoracle/skills/lygo-tv"
 INSTALL = "npx clawhub@latest install deepseekoracle/lygo-tv"
 PAYPAL = "https://www.paypal.com/paypalme/ExcavationPro"
@@ -34,6 +35,7 @@ def urls() -> dict[str, str]:
         "source": SOURCE,
         "stack_mirror": STACK,
         "witness": WITNESS,
+        "listen": LISTEN,
         "clawhub": CLAWHUB,
         "install": INSTALL,
         "paypal": PAYPAL,
