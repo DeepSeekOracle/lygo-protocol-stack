@@ -1,14 +1,12 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.0.0",
-  "name": "LYGO Free Sources",
-  "version": "1.0.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.1.0",
+  "name": "LYGO TV",
+  "version": "1.1.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
   "doctrine": {
-    "is": "A public HTTPS URL plug for the lattice. Steward catalog is RESOURCE. User-pasted URLs stay in this browser.",
-    "rule": "Empty is honest. Pages cannot POST. No silent Star Chart ingest. Not a pirate decoder. VLC still wins when CORS or region blocks the browser.",
-    "plays": ["https HLS/m3u8 when the host allows", "mp3/mp4/webm", "M3U playlist parse when CORS allows"],
-    "not": ["Palantir", "pay-TV crack", "CORS proxy", "private-IP fetch", "identity profiler"]
+    "is": "Standalone browser TV. Click a channel. Public GitHub M3U catalogs plus steward live URLs.",
+    "rule": "HTTPS only. No POST. No silent Star Chart ingest. Human remains publisher of catalog.json."
   },
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",

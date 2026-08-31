@@ -1,199 +1,120 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.0.0",
-  "name": "LYGO Free Sources catalog",
-  "version": "1.0.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.1.0",
+  "name": "LYGO TV",
+  "version": "1.1.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-08-31T04:00:00Z",
-  "how_to_add": "Edit this JSON in the chatagent repo (or protocol-stack docs/free-sources). Steward commit. Never silent ingest.",
+  "updated_utc": "2026-08-31T05:00:00Z",
+  "how_to_add": "Edit this JSON in DeepSeekOracle/chatagent sources/catalog.json (mirrored in lygo-protocol-stack/docs/free-sources). Steward commit.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
   },
-  "groups": [
+  "default_bouquet": "news",
+  "bouquets": [
     {
-      "id": "lattice",
-      "title": "LYGO lattice limbs",
-      "note": "CANON / RESOURCE public GET. JSON or HTML — not TV.",
-      "items": [
-        {
-          "id": "star_feed",
-          "title": "Haven Star Chart feed",
-          "class": "CANON",
-          "kind": "json",
-          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json"
-        },
-        {
-          "id": "agora",
-          "title": "Agent Agora pulse",
-          "class": "CANON",
-          "kind": "json",
-          "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json"
-        },
-        {
-          "id": "witness",
-          "title": "Public Witness",
-          "class": "CANON",
-          "kind": "page",
-          "url": "https://chatagent.ca/witness/"
-        },
-        {
-          "id": "lattice_kernel",
-          "title": "Lattice kernel",
-          "class": "CANON",
-          "kind": "page",
-          "url": "https://chatagent.ca/lattice/"
-        },
-        {
-          "id": "skillhub",
-          "title": "SkillHub",
-          "class": "CANON",
-          "kind": "page",
-          "url": "https://chatagent.ca/lygoskillhub.html"
-        },
-        {
-          "id": "hf_bot",
-          "title": "HF Star Chart bot",
-          "class": "RESOURCE",
-          "kind": "page",
-          "url": "https://huggingface.co/spaces/DeepSeekOracle/lygo-star-chart-bot"
-        }
-      ]
+      "id": "news",
+      "title": "News",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/news.m3u"
     },
     {
-      "id": "browser_play",
-      "title": "Plays in this browser (proven CORS / our files / YouTube)",
-      "note": "These are the ones the page can actually decode in Chrome. IPTV indexes below often list channels whose CDNs refuse browser fetches.",
-      "items": [
-        {
-          "id": "mux_hls_demo",
-          "title": "Mux public HLS test (Big Buck Bunny)",
-          "class": "RESOURCE",
-          "kind": "hls",
-          "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-        },
-        {
-          "id": "hf_music_chill_demo",
-          "title": "HF music — Chill Zone",
-          "class": "RESOURCE",
-          "kind": "audio",
-          "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
-        },
-        {
-          "id": "youtube_nasa_live",
-          "title": "NASA live (official YouTube)",
-          "class": "RESOURCE",
-          "kind": "youtube",
-          "url": "https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ"
-        }
-      ]
+      "id": "sports",
+      "title": "Sports",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/sports.m3u"
     },
     {
-      "id": "lygo_media",
-      "title": "LYGO / Excavationpro media",
-      "note": "Our own public streams. Browser can play these.",
-      "items": [
-        {
-          "id": "listen_hub",
-          "title": "Listen portal (Asian Coastline)",
-          "class": "RESOURCE",
-          "kind": "page",
-          "url": "https://asiancoastline.com/listen.html"
-        },
-        {
-          "id": "listen_playlist",
-          "title": "Public stream playlist JSON",
-          "class": "RESOURCE",
-          "kind": "json",
-          "url": "https://asiancoastline.com/data/public_stream_playlist.json"
-        },
-        {
-          "id": "hf_music_chill",
-          "title": "HF music — Chill Zone",
-          "class": "RESOURCE",
-          "kind": "audio",
-          "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
-        }
-      ]
+      "id": "entertainment",
+      "title": "Entertainment",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/entertainment.m3u"
     },
     {
-      "id": "public_data",
-      "title": "Public data (REFERENCE)",
-      "note": "HTTPS GET allowlist. Not video.",
-      "items": [
-        {
-          "id": "usgs",
-          "title": "USGS quakes 2.5+ day",
-          "class": "RESOURCE",
-          "kind": "json",
-          "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson"
-        },
-        {
-          "id": "eonet",
-          "title": "NASA EONET events",
-          "class": "RESOURCE",
-          "kind": "json",
-          "url": "https://eonet.gsfc.nasa.gov/api/v3/events"
-        },
-        {
-          "id": "iss",
-          "title": "ISS position",
-          "class": "RESOURCE",
-          "kind": "json",
-          "url": "https://api.wheretheiss.at/v1/satellites/25544"
-        },
-        {
-          "id": "nasa_live",
-          "title": "NASA Live (official page)",
-          "class": "RESOURCE",
-          "kind": "page",
-          "url": "https://www.nasa.gov/live/"
-        }
-      ]
+      "id": "movies",
+      "title": "Movies",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/movies.m3u"
     },
     {
-      "id": "public_playlists",
-      "title": "Named public playlist indexes",
-      "note": "Proven 2026-08-31 from X @romanftp 2094068353358860752. GitHub Pages / raw catalogs. RESOURCE only — mixed geo, not pay-TV unlock, not LYGO canon. Browser CORS often blocks playback; VLC still works.",
-      "items": [
-        {
-          "id": "iptv_org_index",
-          "title": "iptv-org index.m3u",
-          "class": "RESOURCE",
-          "kind": "playlist",
-          "url": "https://iptv-org.github.io/iptv/index.m3u",
-          "source": "https://github.com/iptv-org/iptv"
-        },
-        {
-          "id": "iptv_org_sports",
-          "title": "iptv-org sports.m3u",
-          "class": "RESOURCE",
-          "kind": "playlist",
-          "url": "https://iptv-org.github.io/iptv/categories/sports.m3u"
-        },
-        {
-          "id": "iptv_org_es",
-          "title": "iptv-org countries/es.m3u",
-          "class": "RESOURCE",
-          "kind": "playlist",
-          "url": "https://iptv-org.github.io/iptv/countries/es.m3u"
-        },
-        {
-          "id": "iptv_org_spa",
-          "title": "iptv-org languages/spa.m3u",
-          "class": "RESOURCE",
-          "kind": "playlist",
-          "url": "https://iptv-org.github.io/iptv/languages/spa.m3u"
-        },
-        {
-          "id": "free_tv_iptv",
-          "title": "Free-TV/IPTV playlist.m3u8",
-          "class": "RESOURCE",
-          "kind": "playlist",
-          "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
-          "source": "https://github.com/Free-TV/IPTV"
-        }
-      ]
+      "id": "music",
+      "title": "Music TV",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/music.m3u"
+    },
+    {
+      "id": "documentary",
+      "title": "Documentary",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/documentary.m3u"
+    },
+    {
+      "id": "science",
+      "title": "Science",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/science.m3u"
+    },
+    {
+      "id": "weather",
+      "title": "Weather",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/weather.m3u"
+    },
+    {
+      "id": "es",
+      "title": "Spain",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/countries/es.m3u"
+    },
+    {
+      "id": "spa",
+      "title": "Spanish",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/spa.m3u"
+    },
+    {
+      "id": "us",
+      "title": "United States",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/countries/us.m3u"
+    },
+    {
+      "id": "uk",
+      "title": "United Kingdom",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/countries/uk.m3u"
+    },
+    {
+      "id": "all",
+      "title": "All (iptv-org)",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/index.m3u"
+    },
+    {
+      "id": "freetv",
+      "title": "Free-TV",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
+    }
+  ],
+  "live": [
+    {
+      "id": "nasa_yt",
+      "title": "NASA Live",
+      "kind": "youtube",
+      "url": "https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ"
+    },
+    {
+      "id": "mux_demo",
+      "title": "HLS demo (Big Buck Bunny)",
+      "kind": "hls",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    },
+    {
+      "id": "lygo_chill",
+      "title": "LYGO Chill Zone",
+      "kind": "audio",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
     }
   ]
 }
