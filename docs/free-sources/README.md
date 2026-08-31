@@ -2,7 +2,7 @@
 
 Live: https://chatagent.ca/sources/
 
-Opens on **Culture** from iptv-org GitHub. Bouquets are public GitHub M3Us (culture, documentary, public, legislative, languages, countries, Free-TV). Click a channel.
+Opens on **Culture** from iptv-org. **Excavationpro** chip plays monetized Rumble LIVE (`/data/rumble-live.json`). Bouquets stay GitHub M3Us. Player is 16:9. Disclaimer in the footer.
 
 Add a steward bouquet in `catalog.json`, commit on `DeepSeekOracle/chatagent`. Mirror: `lygo-protocol-stack/docs/free-sources/`.
 
