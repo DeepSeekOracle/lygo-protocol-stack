@@ -2,7 +2,7 @@
 
 Live: https://chatagent.ca/sources/
 
-Standalone browser TV. Click a bouquet, click a channel. Public GitHub M3U catalogs (iptv-org, Free-TV) plus steward live URLs.
+Opens on **Live now** (HLS demo, NASA / France 24 / Al Jazeera / DW YouTube, weather HLS). Other bouquets load GitHub M3U lists — click a channel.
 
 Add a steward bouquet in `catalog.json`, commit on `DeepSeekOracle/chatagent`. Mirror: `lygo-protocol-stack/docs/free-sources/`.
 

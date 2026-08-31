@@ -1,16 +1,78 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.1.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.2.0",
   "name": "LYGO TV",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-08-31T05:00:00Z",
-  "how_to_add": "Edit this JSON in DeepSeekOracle/chatagent sources/catalog.json (mirrored in lygo-protocol-stack/docs/free-sources). Steward commit.",
+  "updated_utc": "2026-08-31T05:30:00Z",
+  "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
   },
-  "default_bouquet": "news",
+  "default_bouquet": "live",
+  "live": [
+    {
+      "id": "mux_demo",
+      "title": "HLS demo",
+      "kind": "hls",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    },
+    {
+      "id": "nasa_yt",
+      "title": "NASA Live",
+      "kind": "youtube",
+      "url": "https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ&autoplay=1"
+    },
+    {
+      "id": "f24_yt",
+      "title": "France 24 English",
+      "kind": "youtube",
+      "url": "https://www.youtube.com/embed/live_stream?channel=UCCCPCZNChQdGa9EkATeye4g&autoplay=1"
+    },
+    {
+      "id": "aje_yt",
+      "title": "Al Jazeera English",
+      "kind": "youtube",
+      "url": "https://www.youtube.com/embed/live_stream?channel=UCfiwzLy-8yKzIbsmZTzxDgw&autoplay=1"
+    },
+    {
+      "id": "dw_yt",
+      "title": "DW News",
+      "kind": "youtube",
+      "url": "https://www.youtube.com/embed/live_stream?channel=UCbbS1GE942k3UVqpLklyhIA&autoplay=1"
+    },
+    {
+      "id": "accu",
+      "title": "AccuWeather Now",
+      "kind": "hls",
+      "url": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00684-accuweather-accuweather-plex/playlist.m3u8"
+    },
+    {
+      "id": "skywx",
+      "title": "Sky News Weather",
+      "kind": "hls",
+      "url": "https://distro001-gb-hls1-prd.delivery.skycdp.com/easel_cdn/ngrp:weather_loop.stream_all/playlist.m3u8"
+    },
+    {
+      "id": "alwx",
+      "title": "Alabama Weather Network",
+      "kind": "hls",
+      "url": "https://alwxnet-ott-proxy.cloud9streaming.com/alwxnet/live/playlist.m3u8"
+    },
+    {
+      "id": "norcast",
+      "title": "NorCast Weather",
+      "kind": "hls",
+      "url": "https://norcast-weather.streamology.live/api/v1/streams/c1b5b114698e1ad4687153c4402d5ef0/live.m3u8"
+    },
+    {
+      "id": "lygo_chill",
+      "title": "LYGO Chill Zone",
+      "kind": "audio",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
+    }
+  ],
   "bouquets": [
     {
       "id": "news",
@@ -23,6 +85,12 @@
       "title": "Sports",
       "kind": "playlist",
       "url": "https://iptv-org.github.io/iptv/categories/sports.m3u"
+    },
+    {
+      "id": "weather",
+      "title": "Weather",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/categories/weather.m3u"
     },
     {
       "id": "entertainment",
@@ -53,12 +121,6 @@
       "title": "Science",
       "kind": "playlist",
       "url": "https://iptv-org.github.io/iptv/categories/science.m3u"
-    },
-    {
-      "id": "weather",
-      "title": "Weather",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/weather.m3u"
     },
     {
       "id": "es",
@@ -95,26 +157,6 @@
       "title": "Free-TV",
       "kind": "playlist",
       "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
-    }
-  ],
-  "live": [
-    {
-      "id": "nasa_yt",
-      "title": "NASA Live",
-      "kind": "youtube",
-      "url": "https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ"
-    },
-    {
-      "id": "mux_demo",
-      "title": "HLS demo (Big Buck Bunny)",
-      "kind": "hls",
-      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    },
-    {
-      "id": "lygo_chill",
-      "title": "LYGO Chill Zone",
-      "kind": "audio",
-      "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
     }
   ]
 }
