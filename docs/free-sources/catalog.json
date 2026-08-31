@@ -61,6 +61,34 @@
       ]
     },
     {
+      "id": "browser_play",
+      "title": "Plays in this browser (proven CORS / our files / YouTube)",
+      "note": "These are the ones the page can actually decode in Chrome. IPTV indexes below often list channels whose CDNs refuse browser fetches.",
+      "items": [
+        {
+          "id": "mux_hls_demo",
+          "title": "Mux public HLS test (Big Buck Bunny)",
+          "class": "RESOURCE",
+          "kind": "hls",
+          "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        },
+        {
+          "id": "hf_music_chill_demo",
+          "title": "HF music — Chill Zone",
+          "class": "RESOURCE",
+          "kind": "audio",
+          "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
+        },
+        {
+          "id": "youtube_nasa_live",
+          "title": "NASA live (official YouTube)",
+          "class": "RESOURCE",
+          "kind": "youtube",
+          "url": "https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ"
+        }
+      ]
+    },
+    {
       "id": "lygo_media",
       "title": "LYGO / Excavationpro media",
       "note": "Our own public streams. Browser can play these.",
