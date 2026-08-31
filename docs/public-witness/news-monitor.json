@@ -1,8 +1,10 @@
 {
   "ok": true,
-  "signature": "Delta9Phi963-PUBLIC-WITNESS-MONITOR-v1.1.1",
-  "utc": "2026-08-28T04:08:36+00:00",
-  "doctrine": "Public headlines only. Severe lane = disaster agencies + keyword filter on public RSS. Not private intel.",
+  "signature": "Delta9Phi963-PUBLIC-WITNESS-MONITOR-v1.2.0",
+  "utc": "2026-08-31T05:11:03+00:00",
+  "class": "RESOURCE",
+  "live_star_chart_ingest": false,
+  "doctrine": "Public headlines only. Severe lane = disaster agencies + keyword filter. RESOURCE snapshot — not Star Chart CANON.",
   "sources": [
     {
       "id": "gdacs",
@@ -16,14 +18,56 @@
       "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.atom",
       "ok": true,
       "error": null,
-      "n": 3
+      "n": 2
+    },
+    {
+      "id": "usgs_m45",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.atom",
+      "ok": true,
+      "error": null,
+      "n": 14
+    },
+    {
+      "id": "reliefweb",
+      "url": "https://reliefweb.int/updates/rss.xml",
+      "ok": true,
+      "error": null,
+      "n": 20
+    },
+    {
+      "id": "nhc_at",
+      "url": "https://www.nhc.noaa.gov/index-at.xml",
+      "ok": true,
+      "error": null,
+      "n": 2
+    },
+    {
+      "id": "nhc_ep",
+      "url": "https://www.nhc.noaa.gov/index-ep.xml",
+      "ok": true,
+      "error": null,
+      "n": 7
+    },
+    {
+      "id": "un_news",
+      "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
+      "ok": true,
+      "error": null,
+      "n": 30
+    },
+    {
+      "id": "who_news",
+      "url": "https://www.who.int/rss-feeds/news-english.xml",
+      "ok": true,
+      "error": null,
+      "n": 25
     },
     {
       "id": "bbc_world",
       "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
       "ok": true,
       "error": null,
-      "n": 20
+      "n": 29
     },
     {
       "id": "guardian_world",
@@ -38,9 +82,77 @@
       "ok": true,
       "error": null,
       "n": 40
+    },
+    {
+      "id": "nasa_eonet",
+      "url": "https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=30",
+      "ok": true,
+      "error": null,
+      "n": 30
+    },
+    {
+      "id": "nws_alerts",
+      "url": "https://api.weather.gov/alerts/active?status=actual",
+      "ok": true,
+      "error": null,
+      "n": 40
     }
   ],
   "severe": [
+    {
+      "title": "Green earthquake (Magnitude 5.8M, Depth:35km) in Kermadec Islands, New Zealand 30/08/2026 09:02 UTC, [unknown].",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1562607",
+      "date": "Sun, 30 Aug 2026 09:23:14 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031345",
+      "date": "Sun, 30 Aug 2026 15:00:49 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Orange earthquake (Magnitude 5M, Depth:10km) in China 28/08/2026 05:13 UTC, 15.8 million in 100km.",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1562260",
+      "date": "Fri, 28 Aug 2026 05:32:14 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031346",
+      "date": "Sun, 30 Aug 2026 15:01:15 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031311",
+      "date": "Sat, 29 Aug 2026 11:01:06 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Angola",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031322",
+      "date": "Sun, 30 Aug 2026 03:01:02 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
     {
       "title": "Green earthquake (Magnitude 6M, Depth:10km) in Yemen 27/08/2026 21:07 UTC, 40 thousand in MMI IV.",
       "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1562205",
@@ -78,9 +190,27 @@
       "payload": null
     },
     {
-      "title": "Green notification for tropical cyclone ETAU-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm).",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001312",
-      "date": "Thu, 27 Aug 2026 03:02:18 GMT",
+      "title": "Green flood alert in New Zealand",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104126",
+      "date": "Sat, 29 Aug 2026 05:59:01 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green flood alert in Ireland",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104127",
+      "date": "Sat, 29 Aug 2026 06:39:05 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Tanzania",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031323",
+      "date": "Sat, 29 Aug 2026 19:02:12 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
@@ -96,18 +226,153 @@
       "payload": null
     },
     {
-      "title": "Green earthquake (Magnitude 5.6M, Depth:16.05km) in Japan 26/08/2026 19:21 UTC, 100 thousand in MMI III.",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1561972",
-      "date": "Wed, 26 Aug 2026 19:39:59 GMT",
+      "title": "Green forest fire notification in Algeria",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031263",
+      "date": "Fri, 28 Aug 2026 11:01:55 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green notification for tropical cyclone TWENTY-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm).",
+      "title": "Green forest fire notification in Angola",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031277",
+      "date": "Mon, 31 Aug 2026 03:04:12 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Namibia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031276",
+      "date": "Fri, 28 Aug 2026 19:01:16 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green notification for tropical cyclone ETAU-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm).",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001312",
+      "date": "Thu, 27 Aug 2026 03:02:18 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Namibia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031324",
+      "date": "Sun, 30 Aug 2026 15:04:12 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Angola",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031325",
+      "date": "Sun, 30 Aug 2026 03:03:00 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031270",
+      "date": "Fri, 28 Aug 2026 15:01:18 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031312",
+      "date": "Sat, 29 Aug 2026 15:01:40 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031319",
+      "date": "Sat, 29 Aug 2026 15:01:09 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Brazil",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031352",
+      "date": "Sun, 30 Aug 2026 23:01:21 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Brazil",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031353",
+      "date": "Sun, 30 Aug 2026 23:04:01 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031354",
+      "date": "Mon, 31 Aug 2026 03:04:43 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Australia",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031355",
+      "date": "Mon, 31 Aug 2026 03:03:27 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Angola",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031356",
+      "date": "Mon, 31 Aug 2026 03:03:14 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green notification for tropical cyclone BANG-LANG-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm).",
       "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001311",
       "date": "Wed, 26 Aug 2026 08:33:16 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Orange flood alert in Nepal",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104124",
+      "date": "Fri, 28 Aug 2026 06:29:07 GMT",
+      "source": "gdacs",
+      "lane": "severe",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Green forest fire notification in Botswana",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031279",
+      "date": "Mon, 31 Aug 2026 03:07:17 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
@@ -123,18 +388,18 @@
       "payload": null
     },
     {
-      "title": "Green forest fire notification in United States",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031256",
-      "date": "Fri, 28 Aug 2026 03:02:33 GMT",
+      "title": "Green forest fire notification in Algeria",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031278",
+      "date": "Fri, 28 Aug 2026 23:05:55 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in United States",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031257",
-      "date": "Fri, 28 Aug 2026 03:03:10 GMT",
+      "title": "Green forest fire notification in The Democratic Republic of Congo",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031280",
+      "date": "Fri, 28 Aug 2026 23:04:14 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
@@ -159,27 +424,18 @@
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Algeria",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031182",
-      "date": "Wed, 26 Aug 2026 23:00:55 GMT",
+      "title": "Green forest fire notification in Angola",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031327",
+      "date": "Mon, 31 Aug 2026 03:07:33 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Algeria",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031194",
-      "date": "Thu, 27 Aug 2026 03:01:24 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Algeria",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031196",
-      "date": "Thu, 27 Aug 2026 07:01:19 GMT",
+      "title": "Green forest fire notification in United States",
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031257",
+      "date": "Sat, 29 Aug 2026 15:04:04 GMT",
       "source": "gdacs",
       "lane": "severe",
       "class": "RESOURCE",
@@ -204,199 +460,91 @@
       "payload": null
     },
     {
-      "title": "Green forest fire notification in United States",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031193",
-      "date": "Fri, 28 Aug 2026 03:01:57 GMT",
-      "source": "gdacs",
+      "title": "M 5.2 Landslide - 55 km NW of Kodāri̇̄, Nepal",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tbwb",
+      "date": "2026-08-28T06:58:30.526Z",
+      "source": "usgs_sig",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green earthquake (Magnitude 5.5M, Depth:528.283km) in South Of Fiji Islands 25/08/2026 12:12 UTC, No people affected in 100km.",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1561717",
-      "date": "Tue, 25 Aug 2026 12:29:03 GMT",
-      "source": "gdacs",
+      "title": "M 4.9 - 4 km NNE of Jalālābād, Afghanistan",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tna9",
+      "date": "2026-08-25T15:23:38.813Z",
+      "source": "usgs_sig",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green earthquake (Magnitude 5.5M, Depth:14.608km) in Taiwan 25/08/2026 07:00 UTC, 2 thousand in MMI>=V.",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1561682",
-      "date": "Tue, 25 Aug 2026 07:19:13 GMT",
-      "source": "gdacs",
+      "title": "M 4.5 - south of the Fiji Islands",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000td2f",
+      "date": "2026-08-31T04:52:25.040Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Australia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031155",
-      "date": "Wed, 26 Aug 2026 11:01:05 GMT",
-      "source": "gdacs",
+      "title": "M 4.9 - 13 km SSE of Union, Philippines",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000td2c",
+      "date": "2026-08-31T05:07:12.479Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Brazil",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031199",
-      "date": "Thu, 27 Aug 2026 19:03:06 GMT",
-      "source": "gdacs",
+      "title": "M 4.5 - 71 km WSW of Puerto Casma, Peru",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000td1g",
+      "date": "2026-08-31T02:21:50.040Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Namibia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031183",
-      "date": "Thu, 27 Aug 2026 03:01:44 GMT",
-      "source": "gdacs",
+      "title": "M 4.5 - 109 km NW of Hicks Bay, New Zealand",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000td0v",
+      "date": "2026-08-31T04:16:59.040Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Tanzania",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031220",
-      "date": "Thu, 27 Aug 2026 19:03:22 GMT",
-      "source": "gdacs",
+      "title": "M 4.5 - 137 km S of Vanimo, Papua New Guinea",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000td0w",
+      "date": "2026-08-31T01:34:09.040Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Botswana",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031221",
-      "date": "Thu, 27 Aug 2026 19:03:29 GMT",
-      "source": "gdacs",
+      "title": "M 4.5 - 101 km SW of Aitape, Papua New Guinea",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tczy",
+      "date": "2026-08-30T19:30:12.040Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Angola",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031248",
-      "date": "Fri, 28 Aug 2026 03:04:16 GMT",
-      "source": "gdacs",
+      "title": "M 4.7 - 62 km SSE of Palca, Peru",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tczt",
+      "date": "2026-08-30T20:33:00.831Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Green forest fire notification in Namibia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031249",
-      "date": "Fri, 28 Aug 2026 03:03:50 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green notification for tropical cyclone JULIO-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0 (0 in Tropical Storm).",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001310",
-      "date": "Mon, 24 Aug 2026 20:56:49 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green earthquake (Magnitude 6M, Depth:10km) in Indonesia 24/08/2026 14:10 UTC, 20 thousand in MMI IV.",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1561542",
-      "date": "Mon, 24 Aug 2026 14:27:40 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green earthquake (Magnitude 5.5M, Depth:10km) in Indonesia 24/08/2026 10:02 UTC, 20 thousand in MMI IV.",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1561504",
-      "date": "Mon, 24 Aug 2026 10:23:39 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green flood alert in Australia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104119",
-      "date": "Wed, 26 Aug 2026 15:00:06 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green flood alert in Bulgaria",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104120",
-      "date": "Thu, 27 Aug 2026 06:12:05 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Tanzania",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031054",
-      "date": "Tue, 25 Aug 2026 23:01:10 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Australia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031250",
-      "date": "Fri, 28 Aug 2026 03:06:24 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in The Democratic Republic of Congo",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031222",
-      "date": "Fri, 28 Aug 2026 03:05:10 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Tanzania",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031223",
-      "date": "Fri, 28 Aug 2026 03:06:37 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Zambia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031224",
-      "date": "Thu, 27 Aug 2026 19:05:07 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Brazil",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031152",
-      "date": "Wed, 26 Aug 2026 07:00:47 GMT",
-      "source": "gdacs",
-      "lane": "severe",
-      "class": "RESOURCE",
-      "payload": null
-    },
-    {
-      "title": "Green forest fire notification in Australia",
-      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1031200",
-      "date": "Fri, 28 Aug 2026 03:06:49 GMT",
-      "source": "gdacs",
+      "title": "M 4.6 - 128 km N of Aksu, China",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tczi",
+      "date": "2026-08-30T18:29:03.040Z",
+      "source": "usgs_m45",
       "lane": "severe",
       "class": "RESOURCE",
       "payload": null
@@ -404,278 +552,369 @@
   ],
   "world": [
     {
-      "title": "Collapsed glacier likely caused devastating Nepal-Tibet floods, scientists say",
-      "url": "https://www.bbc.co.uk/news/articles/cly464k252yo?at_medium=RSS&at_campaign=rss",
-      "date": "Fri, 28 Aug 2026 03:23:56 GMT",
-      "source": "bbc_world",
+      "title": "‘The lake is our life’: Protecting a shared lifeline in Uganda",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168228",
+      "date": "Sun, 30 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Jury deliberating in trial of Lindsay Clancy, US woman accused of killing her children",
-      "url": "https://www.bbc.co.uk/news/articles/c33keeyyv70o?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 20:39:16 GMT",
-      "source": "bbc_world",
+      "title": "Rising seas, rising stakes: What increasing sea-levels mean to humanity",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168206",
+      "date": "Sat, 29 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Norwegians lay flowers at palace as King Harald's condition worsens",
-      "url": "https://www.bbc.co.uk/news/articles/cqxvrnvrr5do?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 17:42:04 GMT",
-      "source": "bbc_world",
+      "title": "WHO reports more than 3,200 attacks on Ukraine’s healthcare system since full-scale invasion",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168226",
+      "date": "Fri, 28 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Board of Peace's Gaza envoy criticises Israeli strikes and Hamas actions",
-      "url": "https://www.bbc.co.uk/news/articles/cew92l07kwzo?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 14:17:24 GMT",
-      "source": "bbc_world",
+      "title": "Aid reaches hundreds of thousands in Gaza amid severe food insecurity",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168220",
+      "date": "Thu, 27 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Man who attacked nun on CCTV in Jerusalem acquitted on grounds of mental health",
-      "url": "https://www.bbc.co.uk/news/articles/cpwl54kddeko?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 11:23:28 GMT",
-      "source": "bbc_world",
+      "title": "After Israeli seizure of Kalandia training centre, UNRWA warns of impact on youth",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168219",
+      "date": "Thu, 27 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Thieves steal Bronze Age artefacts from Spanish museum in four-minute heist",
-      "url": "https://www.bbc.co.uk/news/articles/ckgw9gw34yqo?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 12:41:16 GMT",
-      "source": "bbc_world",
+      "title": "UN chief condemns ‘indifference’ as Ebola cases mount in DR Congo",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168217",
+      "date": "Thu, 27 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Trump signs order to rename Lake Ontario as Lake America",
-      "url": "https://www.bbc.co.uk/news/articles/ckgwdn1g58yo?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 23:14:43 GMT",
-      "source": "bbc_world",
+      "title": "Lebanon: Civilian risks grow as military activity continues, UN says",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168215",
+      "date": "Thu, 27 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Optimus Prime and Eeyore voice actor Peter Cullen dies",
-      "url": "https://www.bbc.co.uk/news/articles/c15844gwe0wo?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 16:00:12 GMT",
-      "source": "bbc_world",
+      "title": "Security Council LIVE: Tracking Syria’s transition",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168214",
+      "date": "Thu, 27 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Jellyfish force partial shutdown of French nuclear plant",
-      "url": "https://www.bbc.co.uk/news/articles/cy8znx3g4e2o?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 14:49:23 GMT",
-      "source": "bbc_world",
+      "title": "Land models sprout as degradation threatens billions of livelihoods",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168212",
+      "date": "Wed, 26 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "What we should make of CIA boss's secret trip to Moscow",
-      "url": "https://www.bbc.co.uk/news/articles/cx2z8l8xdg2o?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 17:02:33 GMT",
-      "source": "bbc_world",
+      "title": "Red Sea nations step up maritime cooperation as regional threats grow",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168211",
+      "date": "Wed, 26 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Key moments in trial of Lindsay Clancy, the mother accused of murdering her three children",
-      "url": "https://www.bbc.co.uk/news/articles/cg7mlmg475go?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 18:13:52 GMT",
-      "source": "bbc_world",
+      "title": "Explainer: UN peace operations work to create, preserve peace",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168210",
+      "date": "Wed, 26 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "What caused the Nepal-Tibet flash floods?",
-      "url": "https://www.bbc.co.uk/news/videos/ckgxnrg8j19o?at_medium=RSS&at_campaign=rss",
-      "date": "Thu, 27 Aug 2026 10:17:45 GMT",
-      "source": "bbc_world",
+      "title": "More health workers, stronger systems: Africa’s new ambitious goal",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168207",
+      "date": "Wed, 26 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "UK urged to help free British-Egyptian ‘arrested in Cairo over sister’s activism’",
-      "url": "https://www.theguardian.com/world/2026/aug/27/uk-urged-to-help-free-british-egyptian-arrested-in-cairo-over-sisters-activism",
-      "date": "Thu, 27 Aug 2026 08:00:09 GMT",
-      "source": "guardian_world",
+      "title": "Security Council LIVE: Rising tensions in Gaza, West Bank",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168204",
+      "date": "Wed, 26 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "South African police arrest two Thai men for allegedly smuggling parrot eggs",
-      "url": "https://www.theguardian.com/world/2026/aug/26/south-african-police-arrest-two-thai-men-smuggling-parrot-eggs",
-      "date": "Wed, 26 Aug 2026 15:09:58 GMT",
-      "source": "guardian_world",
+      "title": "Haiti ramps up the fight against gangs in the capital, but violence spreads elsewhere",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168203",
+      "date": "Tue, 25 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Moringa lattes and tigernut kebabs: the Ghanaians ‘taking back the power’ of their food",
-      "url": "https://www.theguardian.com/global-development/2026/aug/26/moringa-lattes-and-tigernut-kebabs-the-young-ghanaians-taking-back-the-power-of-their-food",
-      "date": "Wed, 26 Aug 2026 09:00:39 GMT",
-      "source": "guardian_world",
+      "title": "As wars spread, the global food system unravels",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168201",
+      "date": "Tue, 25 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Prince Harry quits board of wildlife charity after rangers’ human rights abuses",
-      "url": "https://www.theguardian.com/uk-news/2026/aug/24/prince-harry-quits-board-wildlife-charity-african-parks-human-rights-abuses",
-      "date": "Mon, 24 Aug 2026 17:34:50 GMT",
-      "source": "guardian_world",
+      "title": "Rohingyas in Myanmar suffering ‘heartbreaking’ misery and cruelty",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168200",
+      "date": "Tue, 25 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Trump signs executive order to rename Lake Ontario as Lake America",
-      "url": "https://www.theguardian.com/us-news/2026/aug/27/trump-renames-lake-ontario-america",
-      "date": "Thu, 27 Aug 2026 22:55:04 GMT",
-      "source": "guardian_world",
+      "title": "Land degradation is costing far more than restoring: UN deputy chief",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168198",
+      "date": "Tue, 25 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Wife of US soldier deported after Trump rollback on military family protections",
-      "url": "https://www.theguardian.com/us-news/2026/aug/25/soldier-wife-deported-honduras",
-      "date": "Tue, 25 Aug 2026 20:23:55 GMT",
-      "source": "guardian_world",
+      "title": "Japan’s ‘2050 Weather Forecast’ highlights extreme heat in the future",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168197",
+      "date": "Tue, 25 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "South Korea to re-examine 310,000 missing person cases after fake record scandal",
-      "url": "https://www.theguardian.com/world/2026/aug/28/south-korea-missing-persons-police-scandal-bodies-jeju",
-      "date": "Fri, 28 Aug 2026 03:06:40 GMT",
-      "source": "guardian_world",
+      "title": "UN chief, Red Cross renew call for rules on lethal autonomous weapons",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168196",
+      "date": "Tue, 25 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "USS Abraham Lincoln to visit port in Thailand after more than 250 days at sea",
-      "url": "https://www.theguardian.com/us-news/2026/aug/27/uss-abraham-lincoln-thailand-visit",
-      "date": "Thu, 27 Aug 2026 15:05:55 GMT",
-      "source": "guardian_world",
+      "title": "Can restoring land create jobs? These young entrepreneurs are proving it",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168194",
+      "date": "Mon, 24 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Yayoi Kusama, Japanese artist who became a global superstar, dies aged 97",
-      "url": "https://www.theguardian.com/artanddesign/2026/aug/27/yayoi-kusama-dies-aged-97-artist-dead",
-      "date": "Thu, 27 Aug 2026 02:17:59 GMT",
-      "source": "guardian_world",
+      "title": "100 days of Ebola and the race to stop the spread",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168195",
+      "date": "Mon, 24 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "‘We just want them to return’: relatives of Australians missing in Nepal floods wait anxiously for news of loved ones",
-      "url": "https://www.theguardian.com/world/2026/aug/28/family-missing-australians-nepal-tibet-flash-floods",
-      "date": "Fri, 28 Aug 2026 03:56:10 GMT",
-      "source": "guardian_world",
+      "title": "Gaza: Children still at risk despite drop in acute hunger",
+      "url": "https://news.un.org/feed/view/en/story/2026/08/1168193",
+      "date": "Mon, 24 Aug 2026 12:00:00 +0000",
+      "source": "un_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "One Nation’s new NSW leader Mike Newman is an investment banker who wants to ‘get rid of wokery’",
-      "url": "https://www.theguardian.com/australia-news/2026/aug/28/mike-newman-one-nation-nsw-leader-election-cessnock-candidate-ntnwfb",
-      "date": "Thu, 27 Aug 2026 23:55:22 GMT",
-      "source": "guardian_world",
+      "title": "WHO statement on notification of withdrawal of the United States",
+      "url": "https://www.who.int/news/item/24-01-2026-who-statement-on-notification-of-withdrawal-of-the-united-states",
+      "date": "Sat, 24 Jan 2026 20:09:49 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Australian officials ‘working around the clock’ to check welfare of tourists missing in Nepal",
-      "url": "https://www.theguardian.com/australia-news/2026/aug/27/australian-tourists-reported-missing-nepal-tibet-floods",
-      "date": "Thu, 27 Aug 2026 18:18:50 GMT",
-      "source": "guardian_world",
+      "title": "Paying tribute to David Nabarro",
+      "url": "https://www.who.int/news/item/30-07-2025-paying-tribute-to-david-nabarro",
+      "date": "Wed, 30 Jul 2025 08:56:15 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "One Nation’s immigration policy is clear as mud – but that ambiguity could be a secret weapon for Pauline Hanson",
-      "url": "https://www.theguardian.com/australia-news/2026/aug/28/one-nation-confusing-immigration-policy-secret-weapon-for-pauline-hanson-ntwnfb",
-      "date": "Thu, 27 Aug 2026 15:00:33 GMT",
-      "source": "guardian_world",
+      "title": "Timor-Leste certified malaria-free by WHO",
+      "url": "https://www.who.int/news/item/24-07-2025-timor-leste-certified-malaria-free-by-who",
+      "date": "Wed, 23 Jul 2025 10:07:41 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Russia says UK ‘playing with fire’ amid reports CIA chief has warned Kremlin not to attack Nato",
-      "url": "https://www.theguardian.com/world/2026/aug/27/britain-ukraine-war-russia",
-      "date": "Thu, 27 Aug 2026 19:26:01 GMT",
-      "source": "guardian_world",
+      "title": "African Union and World Health Organization renew strategic partnership to drive impact and strengthen health systems in Africa",
+      "url": "https://www.who.int/news/item/24-05-2025-world-health-organization-and-african-union-renew-strategic-partnership-to-drive-impact-and-strengthen-health-systems-in-africa",
+      "date": "Sat, 24 May 2025 17:47:21 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Greek Orthodox priest and cult musician clarifies views on homosexuality",
-      "url": "https://www.theguardian.com/music/2026/aug/27/greek-orthodox-priest-and-cult-musician-clarifies-views-on-homosexuality",
-      "date": "Thu, 27 Aug 2026 17:11:53 GMT",
-      "source": "guardian_world",
+      "title": "WHO’s strategic engagement with philanthropies: advancing global health and resilient health systems",
+      "url": "https://www.who.int/news/item/19-05-2025-who-s-strategic-engagement-with-philanthropies-advancing-global-health-and-resilient-health-systems",
+      "date": "Mon, 19 May 2025 11:53:23 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Ratko Mladić, the ‘Butcher of Bosnia’, dies in The Hague",
-      "url": "https://www.theguardian.com/world/2026/aug/27/ratko-mladic-the-butcher-of-bosnia-dies-aged-84",
-      "date": "Thu, 27 Aug 2026 16:12:15 GMT",
-      "source": "guardian_world",
+      "title": "Worldwide rally for maternal and newborn health marks World Health Day 2025",
+      "url": "https://www.who.int/news/item/10-04-2025-worldwide-rally-for-maternal-and-newborn-health-marks-world-health-day-2025",
+      "date": "Thu, 10 Apr 2025 15:02:54 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "Bronze age treasure stolen in four-minute Spanish museum heist",
-      "url": "https://www.theguardian.com/culture/2026/aug/27/thieves-steal-bronze-age-treasure-of-villena-in-four-minute-heist",
-      "date": "Thu, 27 Aug 2026 15:47:31 GMT",
-      "source": "guardian_world",
+      "title": "Strengthening public health across Lebanon with EIB Global",
+      "url": "https://www.who.int/news/item/06-03-2025-strengthening-public-health-across-lebanon-with-eib-global",
+      "date": "Tue, 01 Apr 2025 11:55:48 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     },
     {
-      "title": "On scraps of land and under constant threat, Gaza farmers struggle to survive",
-      "url": "https://www.theguardian.com/world/2026/aug/26/gaza-farmers-struggle-scraps-of-land-constant-threat",
-      "date": "Wed, 26 Aug 2026 11:00:11 GMT",
-      "source": "guardian_world",
+      "title": "Frank, in-depth discussion as Belgium and WHO map ahead priorities for collaboration",
+      "url": "https://www.who.int/news/item/11-03-2025-frank--in-depth-discussion-as-belgium-and-who-map-ahead-priorities-for-collaboration",
+      "date": "Tue, 11 Mar 2025 08:49:23 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "WHO and Switzerland cement cooperation until 2028",
+      "url": "https://www.who.int/news/item/07-03-2025-who-and-switzerland-cement-cooperation-until-2028",
+      "date": "Fri, 07 Mar 2025 12:38:51 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "WHO and the Kingdom of Saudi Arabia sign agreements in support of health priorities",
+      "url": "https://www.who.int/news/item/24-02-2025-who-and-the-kingdom-of-saudi-arabia-sign-agreements-in-support-of-health-priorities",
+      "date": "Thu, 06 Mar 2025 12:48:53 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "WHO comments on United States’ announcement of intent to withdraw",
+      "url": "https://www.who.int/news/item/21-01-2025-who-comments-on-united-states--announcement-of-intent-to-withdraw",
+      "date": "Tue, 21 Jan 2025 10:04:49 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Luxembourg and WHO sign two strategic agreements",
+      "url": "https://www.who.int/news/item/23-12-2024-luxembourg-and-who-sign-two-strategic-agreements",
+      "date": "Mon, 23 Dec 2024 16:44:44 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "G20 health ministers rally support for WHO’s Investment Round",
+      "url": "https://www.who.int/news/item/01-11-2024-g20-health-ministers-rally-support-for-who-s-investment-round",
+      "date": "Thu, 31 Oct 2024 18:48:12 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Signing ceremony for contribution agreements between WHO and France",
+      "url": "https://www.who.int/news/item/17-10-2024-signing-ceremony-for-contribution-agreements-between-who-and-france",
+      "date": "Thu, 17 Oct 2024 12:01:38 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "WHO and the Netherlands renew their partnership on climate change and health",
+      "url": "https://www.who.int/news/item/10-10-2024-who-and-the-netherlands-renew-their-partnership-on-climate-change-and-health",
+      "date": "Thu, 10 Oct 2024 07:47:50 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "The Republic of Korea and WHO discuss joint priorities, challenges and trends around global health",
+      "url": "https://www.who.int/news/item/29-08-2024-the-republic-of-korea-and-who-discuss-joint-priorities--challenges-and-trends-around-global-health",
+      "date": "Wed, 04 Sep 2024 09:19:05 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "Fourteen African countries, key partners unite to provide critical resources for health in WHO’s first-ever Investment Round",
+      "url": "https://www.who.int/news/item/27-08-2024-fourteen-african-countries--key-partners-unite-to-provide-critical-resources-for-health-in-who-s-first-ever-investment-round",
+      "date": "Tue, 27 Aug 2024 19:45:08 Z",
+      "source": "who_news",
+      "lane": "world",
+      "class": "RESOURCE",
+      "payload": null
+    },
+    {
+      "title": "India commits US$ 85 million to WHO Global Traditional Medicine Centre",
+      "url": "https://www.who.int/news/item/31-07-2024-india-commits-usd-85-million-to-who-global-traditional-medicine-centre",
+      "date": "Wed, 31 Jul 2024 05:00:27 Z",
+      "source": "who_news",
       "lane": "world",
       "class": "RESOURCE",
       "payload": null
     }
   ],
   "counts": {
-    "severe": 72,
-    "world": 71
-  }
+    "severe": 188,
+    "world": 130
+  },
+  "event_ledger": "event-ledger.json"
 }

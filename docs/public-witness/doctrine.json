@@ -1,7 +1,7 @@
 {
-  "signature": "Delta9Phi963-PUBLIC-WITNESS-v1.0.1",
+  "signature": "Delta9Phi963-PUBLIC-WITNESS-v1.0.2",
   "name": "LYGO Public Witness",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "doctrine": {
     "public_is": "RESOURCE",
     "lattice_is": "CANON",
@@ -29,7 +29,7 @@
   },
   "classes": {
     "CANON": "On-lattice receipts: dual ledgers, eggs, Star Chart feed, Agent Agora pulse.",
-    "RESOURCE": "Public GET we may crunch: USGS, NASA EONET, ISS. If the GET fails, the node stays named with its public URL.",
+    "RESOURCE": "Public GET we may crunch: USGS, NASA EONET, ISS, GDACS, ReliefWeb, NHC, NWS, UN/WHO wires. news-monitor.json + event-ledger.json are RESOURCE snapshots. If the GET fails, the node stays named with its public URL. Event ledger is not dual-ledger CANON and never silent Star Chart ingest.",
     "SHADOW": "Private or unreachable rooms. Existence + why + public_checks. payload always null.",
     "SCHEMATIC": "Lattice-sphere placement is a graph projection, not a geographic claim."
   }
