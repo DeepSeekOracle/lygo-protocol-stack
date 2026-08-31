@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.1.0",
   "name": "LYGO TV",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
   "doctrine": {
