@@ -6,8 +6,20 @@
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
   "count_published": 41,
-  "count_mirrored": 42,
+  "count_mirrored": 43,
   "skills": [
+    {
+      "slug": "lygo-tv",
+      "name": "LYGO TV",
+      "summary": "Pointer to the free online TV player at https://chatagent.ca/sources/. Pick a list, click a channel, watch. No login. Local map only — scripts print URLs, no network.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-tv",
+      "mirror": "mirrors/lygo-tv",
+      "published": false,
+      "pending_publication": true,
+      "downloads": 0,
+      "version": "1.0.0",
+      "notes": "Pointer tentacle 2026-08-31. Does not fetch streams."
+    },
     {
       "slug": "lygo-forkling",
       "name": "LYGO Forkling",
