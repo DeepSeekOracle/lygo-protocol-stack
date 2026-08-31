@@ -1,162 +1,62 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.2.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.3.0",
   "name": "LYGO TV",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-08-31T05:30:00Z",
+  "updated_utc": "2026-08-31T06:00:00Z",
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
   },
-  "default_bouquet": "live",
-  "live": [
-    {
-      "id": "mux_demo",
-      "title": "HLS demo",
-      "kind": "hls",
-      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    },
-    {
-      "id": "nasa_yt",
-      "title": "NASA Live",
-      "kind": "youtube",
-      "url": "https://www.youtube.com/embed/live_stream?channel=UCLA_DiR1FfKNvjuUpBHmylQ&autoplay=1"
-    },
-    {
-      "id": "f24_yt",
-      "title": "France 24 English",
-      "kind": "youtube",
-      "url": "https://www.youtube.com/embed/live_stream?channel=UCCCPCZNChQdGa9EkATeye4g&autoplay=1"
-    },
-    {
-      "id": "aje_yt",
-      "title": "Al Jazeera English",
-      "kind": "youtube",
-      "url": "https://www.youtube.com/embed/live_stream?channel=UCfiwzLy-8yKzIbsmZTzxDgw&autoplay=1"
-    },
-    {
-      "id": "dw_yt",
-      "title": "DW News",
-      "kind": "youtube",
-      "url": "https://www.youtube.com/embed/live_stream?channel=UCbbS1GE942k3UVqpLklyhIA&autoplay=1"
-    },
-    {
-      "id": "accu",
-      "title": "AccuWeather Now",
-      "kind": "hls",
-      "url": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00684-accuweather-accuweather-plex/playlist.m3u8"
-    },
-    {
-      "id": "skywx",
-      "title": "Sky News Weather",
-      "kind": "hls",
-      "url": "https://distro001-gb-hls1-prd.delivery.skycdp.com/easel_cdn/ngrp:weather_loop.stream_all/playlist.m3u8"
-    },
-    {
-      "id": "alwx",
-      "title": "Alabama Weather Network",
-      "kind": "hls",
-      "url": "https://alwxnet-ott-proxy.cloud9streaming.com/alwxnet/live/playlist.m3u8"
-    },
-    {
-      "id": "norcast",
-      "title": "NorCast Weather",
-      "kind": "hls",
-      "url": "https://norcast-weather.streamology.live/api/v1/streams/c1b5b114698e1ad4687153c4402d5ef0/live.m3u8"
-    },
-    {
-      "id": "lygo_chill",
-      "title": "LYGO Chill Zone",
-      "kind": "audio",
-      "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3e448cb8e0e5b8c29987c20499a80cc39508d7f33acd7d0b3bb7605cda782d58.mp3"
-    }
-  ],
+  "default_bouquet": "culture",
+  "live": [],
   "bouquets": [
-    {
-      "id": "news",
-      "title": "News",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/news.m3u"
-    },
-    {
-      "id": "sports",
-      "title": "Sports",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/sports.m3u"
-    },
-    {
-      "id": "weather",
-      "title": "Weather",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/weather.m3u"
-    },
-    {
-      "id": "entertainment",
-      "title": "Entertainment",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/entertainment.m3u"
-    },
-    {
-      "id": "movies",
-      "title": "Movies",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/movies.m3u"
-    },
-    {
-      "id": "music",
-      "title": "Music TV",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/music.m3u"
-    },
-    {
-      "id": "documentary",
-      "title": "Documentary",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/documentary.m3u"
-    },
-    {
-      "id": "science",
-      "title": "Science",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/science.m3u"
-    },
-    {
-      "id": "es",
-      "title": "Spain",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/es.m3u"
-    },
-    {
-      "id": "spa",
-      "title": "Spanish",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/languages/spa.m3u"
-    },
-    {
-      "id": "us",
-      "title": "United States",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/us.m3u"
-    },
-    {
-      "id": "uk",
-      "title": "United Kingdom",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/uk.m3u"
-    },
-    {
-      "id": "all",
-      "title": "All (iptv-org)",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/index.m3u"
-    },
-    {
-      "id": "freetv",
-      "title": "Free-TV",
-      "kind": "playlist",
-      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
-    }
+    {"id": "culture", "title": "Culture", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/culture.m3u"},
+    {"id": "documentary", "title": "Documentary", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/documentary.m3u"},
+    {"id": "public", "title": "Public", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/public.m3u"},
+    {"id": "legislative", "title": "Legislative", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/legislative.m3u"},
+    {"id": "education", "title": "Education", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/education.m3u"},
+    {"id": "outdoor", "title": "Outdoor", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/outdoor.m3u"},
+    {"id": "religious", "title": "Religious", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/religious.m3u"},
+    {"id": "classic", "title": "Classic", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/classic.m3u"},
+    {"id": "relax", "title": "Relax", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/relax.m3u"},
+    {"id": "general", "title": "General", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/general.m3u"},
+    {"id": "science", "title": "Science", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/science.m3u"},
+    {"id": "music", "title": "Music TV", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/music.m3u"},
+    {"id": "sports", "title": "Sports", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/sports.m3u"},
+    {"id": "weather", "title": "Weather", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/categories/weather.m3u"},
+    {"id": "freetv", "title": "Free-TV (GitHub)", "kind": "playlist", "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"},
+    {"id": "ara", "title": "Arabic", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/ara.m3u"},
+    {"id": "fas", "title": "Persian", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/fas.m3u"},
+    {"id": "rus", "title": "Russian", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/rus.m3u"},
+    {"id": "zho", "title": "Chinese", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/zho.m3u"},
+    {"id": "spa", "title": "Spanish", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/spa.m3u"},
+    {"id": "por", "title": "Portuguese", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/por.m3u"},
+    {"id": "tur", "title": "Turkish", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/tur.m3u"},
+    {"id": "hin", "title": "Hindi", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/hin.m3u"},
+    {"id": "swa", "title": "Swahili", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/languages/swa.m3u"},
+    {"id": "cu", "title": "Cuba", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/cu.m3u"},
+    {"id": "ve", "title": "Venezuela", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ve.m3u"},
+    {"id": "ir", "title": "Iran", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ir.m3u"},
+    {"id": "ps", "title": "Palestine", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ps.m3u"},
+    {"id": "sy", "title": "Syria", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/sy.m3u"},
+    {"id": "lb", "title": "Lebanon", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/lb.m3u"},
+    {"id": "iq", "title": "Iraq", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/iq.m3u"},
+    {"id": "ru", "title": "Russia", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ru.m3u"},
+    {"id": "ua", "title": "Ukraine", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ua.m3u"},
+    {"id": "ng", "title": "Nigeria", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ng.m3u"},
+    {"id": "ke", "title": "Kenya", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/ke.m3u"},
+    {"id": "et", "title": "Ethiopia", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/et.m3u"},
+    {"id": "za", "title": "South Africa", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/za.m3u"},
+    {"id": "in", "title": "India", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/in.m3u"},
+    {"id": "pk", "title": "Pakistan", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/pk.m3u"},
+    {"id": "id", "title": "Indonesia", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/id.m3u"},
+    {"id": "mx", "title": "Mexico", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/mx.m3u"},
+    {"id": "br", "title": "Brazil", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/br.m3u"},
+    {"id": "cn", "title": "China", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/cn.m3u"},
+    {"id": "tw", "title": "Taiwan", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/countries/tw.m3u"},
+    {"id": "all", "title": "All iptv-org", "kind": "playlist", "url": "https://iptv-org.github.io/iptv/index.m3u"}
   ]
 }

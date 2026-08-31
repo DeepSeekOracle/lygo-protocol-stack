@@ -2,7 +2,7 @@
 
 Live: https://chatagent.ca/sources/
 
-Opens on **Live now** (HLS demo, NASA / France 24 / Al Jazeera / DW YouTube, weather HLS). Other bouquets load GitHub M3U lists — click a channel.
+Opens on **Culture** from iptv-org GitHub. Bouquets are public GitHub M3Us (culture, documentary, public, legislative, languages, countries, Free-TV). Click a channel.
 
 Add a steward bouquet in `catalog.json`, commit on `DeepSeekOracle/chatagent`. Mirror: `lygo-protocol-stack/docs/free-sources/`.
 
