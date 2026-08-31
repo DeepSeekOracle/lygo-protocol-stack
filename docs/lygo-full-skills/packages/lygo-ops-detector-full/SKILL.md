@@ -1,7 +1,7 @@
 ---
 name: lygo-ops-detector
-description: "LYGO Ops Detector — local AETHONΔ9 discourse heuristics for evasion, half-truth certainty, saturation bait, coordination language, and policy-refusal signals in operator-supplied text. Opt-in only. Stdlib CLI; --text-file/--assoc-file require --i-consent; eval writes under tests/. Not for doxing or identity profiling. Dual-threshold (operational 0.65 vs calibration). Pairs with lygo-flame-ward. Triggers: lygo ops detector, aethon d9, evasion index (explicit)."
-version: 1.3.1
+description: "LYGO Ops Detector — local AETHONΔ9 discourse heuristics for evasion, half-truth certainty, saturation bait, coordination language, and policy-refusal signals in operator-supplied text, plus weighted public metadata (account_based_in mismatch, VPN-hint, HTTPS-cited incidents, same-geo+scripted batch). Opt-in only. Stdlib CLI; file reads require --i-consent; eval writes under tests/. Not for doxing or nationality guilt. Dual-threshold (operational 0.65 vs calibration). Pairs with lygo-flame-ward. Triggers: lygo ops detector, aethon d9, evasion index (explicit)."
+version: 1.4.0
 license: LYGO-Sovereign-v2.0
 metadata:
   openclaw:
@@ -13,46 +13,47 @@ metadata:
   lightfather: true
   aethon: "Δ9"
   protocol: "AETHONΔ9"
-  version: "1.3.1"
+  version: "1.4.0"
   companion: "lygo-champion-lightfather"
   security: "references/SECURITY.md"
   blueprint: "references/AETHON_D9_BLUEPRINT.md"
   eval: "tests/labeled_discourse_suite.json + scripts/eval_ops_detector.py"
-  security_review: "1.3.0-flame-pair-half-truth-saturation"
+  security_review: "1.4.0-public-context-no-nationality-guilt"
   clawhub: "https://clawhub.ai/deepseekoracle/lygo-ops-detector"
   permissions:
     network: false
     shell: false
     subprocess: false
     filesystem:
-      read: "user-supplied --text-file / --assoc-file only with --i-consent"
+      read: "user-supplied --text-file / --assoc-file / --public-meta-file only with --i-consent"
       write: "tests/ only when eval_ops_detector.py is run"
     publish: false
     doxing: false
     identity_profiling: false
 ---
 
-# LYGO Ops Detector — AETHONΔ9 v1.3.1
+# LYGO Ops Detector — AETHONΔ9 v1.4.0
 
-Local, deterministic **discourse-signal** heuristics.  
-**Not** a person profiler. **Not** sole evidence. **Not** for doxing.
+Local, deterministic **discourse-signal** heuristics plus **weighted public context**.  
+**Not** a person profiler. **Not** sole evidence. **Not** for doxing.  
+**Country labels are not guilt.** A geo field alone cannot clear the 0.65 bar.
 
-**Signature:** `Delta9Phi963-OPS-DETECTOR-v1.3.1`  
+**Signature:** `Delta9Phi963-OPS-DETECTOR-v1.4.0`  
 **Pairs with:** `lygo-flame-ward` (authority gate) · `lygo-deception-radar` (public proof)
 
 ---
 
-## What's new in 1.3.x
+## What's new in 1.4.x
 
 | Add | Why |
 |-----|-----|
-| `half_truth_certainty` channel | “Settled science / trust the experts” without digests |
-| `saturation_rage_bait` channel | Information-saturation / click-rage templates |
-| `flame_enemy_hints` in JSON | Maps to Flame Ward enemy classes |
-| Multi-channel cluster boost | Co-occurring templates raise evasion honestly |
-| High-evasion bar **0.65** | Aligned with operational ops bar |
-| Enriched labeled suite | Multi-signal clusters for meaningful operational metrics |
-| `claw.json` + skill-card + examples | Cleaner ClawHub package surface |
+| `--public-meta` / `--public-meta-file` | Operator-supplied public fields are **always scored when present** |
+| Weighted public context | Geo **mismatch**, `location_accurate=false`, HTTPS-cited incident, same-geo+scripted batch |
+| Hard gate | Country-only / nationality **cannot** clear ops_score 0.65 |
+| No country denylist | Nigeria, India, USA, etc. score the same as a lone label |
+| Flame hints | `public_meta_mismatch` · `named_public_incident` |
+
+1.3.x still applies: half-truth, saturation, flame hints, cluster boost, 0.65 bar.
 
 ---
 
@@ -62,7 +63,7 @@ Local, deterministic **discourse-signal** heuristics.
 |------------|---------|
 | Network | **None** |
 | Shell / subprocess | **None** |
-| Read local files | `--text-file` / `--assoc-file` **+ `--i-consent`** |
+| Read local files | `--text-file` / `--assoc-file` / `--public-meta-file` **+ `--i-consent`** |
 | Write | Eval report under **`tests/` only** |
 | Auto-publish / social | **Never** |
 
@@ -81,6 +82,7 @@ Only when the user explicitly wants ops-detector / AETHONΔ9 / evasion index on 
 | **Saturation bait** | Rage/click attention-weapon templates | Ordinary urgency with cites |
 | Association | Coordination/secrecy language **you** provide | Social-graph doxing |
 | Institutional | Policy-as-shield / no-comment | Affiliation / faith / job titles |
+| **Public context** | Operator-supplied public fields: `account_based_in` vs claimed location, VPN/inaccurate flag, HTTPS-cited public incident, same-geo+scripted batch | Nationality guilt, live X scrape, country denylist |
 
 ## Thresholds (honest)
 
@@ -96,6 +98,7 @@ cd path/to/lygo-ops-detector
 python scripts/self_check.py
 python scripts/lygo_ops_detector.py --text "paste discourse here" --json
 python scripts/lygo_ops_detector.py --text-file ./snippet.txt --i-consent
+python scripts/lygo_ops_detector.py --text "I'm based in the United States. ..." --public-meta "{\"account_based_in\":\"Nigeria\",\"claimed_location\":\"United States\",\"location_accurate\":false}" --json
 python scripts/lygo_ops_detector.py --show-boundaries
 ```
 
@@ -103,7 +106,7 @@ Exit: `0` clear/low · `3` need consent · `10` high evasion discourse (review c
 
 ## Flame bridge
 
-JSON field `flame_enemy_hints` may include `half_truth_pack` · `authority_shield` · `saturation_flood`.  
+JSON field `flame_enemy_hints` may include `half_truth_pack` · `authority_shield` · `saturation_flood` · `public_meta_mismatch` · `named_public_incident`.  
 Then run Flame ingest-gate before crowning lattice authority:
 
 ```bash
@@ -115,9 +118,10 @@ python path/to/lygo-flame-ward/scripts/flame_cli.py ingest-gate --text "..."
 1. Call the **script** for reproducible scores.  
 2. Separate **observed regex hits** vs inference.  
 3. Never name people as investigation targets from this tool alone.  
-4. Discourse pattern ≠ guilt.  
-5. No external publish without user consent.  
-6. File inputs need `--i-consent`.  
+4. Discourse pattern ≠ guilt. Country label ≠ guilt.  
+5. Public metadata must be operator-supplied (no live scrape). HTTPS URL required for named-incident weight.  
+6. No external publish without user consent.  
+7. File inputs need `--i-consent`.  
 
 ## Security
 
@@ -128,5 +132,6 @@ Read `references/SECURITY.md` + `references/SKILLSPECTOR_AUDIT.md`.
 | 1.2.2 | SkillSpector discourse-not-identity harden |
 | 1.3.0 | Half-truth + saturation · Flame hints · package polish |
 | **1.3.1** | Cluster boost · evasion bar 0.65 · suite multi-signal · operational metrics fixed |
+| **1.4.0** | Weighted public metadata (mismatch / VPN-hint / HTTPS incident / geo+template). No country denylist. Country-only cannot clear 0.65. |
 
 **Δ9Φ963 — receipts over hype · discourse not identity · seals first with Flame.**

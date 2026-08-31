@@ -35,9 +35,11 @@ except Exception as e:
 
 assert abs(sum(det.EVASION_WEIGHTS.values()) - 1.0) < 0.001, "Evasion weights must sum to 1.0"
 assert abs(sum(det.ASSOCIATION_WEIGHTS.values()) - 1.0) < 0.001, "Association weights must sum to 1.0"
+assert abs(sum(det.PUBLIC_META_WEIGHTS.values()) - 1.0) < 0.001, "Public-meta weights must sum to 1.0"
 assert det.EVASION_ACTIVE_THRESHOLD == 0.65
 assert det.ASSOCIATION_HIGH_THRESHOLD == 0.65
-assert det.SKILL_VERSION == "1.3.1"
+assert det.SKILL_VERSION == "1.4.0"
+assert not hasattr(det, "COUNTRY_RISK") and not hasattr(det, "COUNTRY_DENYLIST")
 assert "half_truth_certainty" in det.EVASION_WEIGHTS
 assert "saturation_rage_bait" in det.EVASION_WEIGHTS
 
@@ -80,6 +82,61 @@ dicts = det.get_measurement_dictionaries()
 if not dicts.get("signal_boundaries") or dicts.get("identity_markers_scored") is not False:
     print("BOUNDARIES_MISSING")
     sys.exit(9)
+if dicts.get("country_denylist") is not False or dicts.get("nationality_guilt") is not False:
+    print("COUNTRY_GUILT_LEAK")
+    sys.exit(14)
+if dicts.get("public_fields_scored_as_context") is not True:
+    print("PUBLIC_CONTEXT_FLAG_MISSING")
+    sys.exit(15)
+
+geo_ng = det.analyze(text="The weather today is sunny and warm.", public_meta={"account_based_in": "Nigeria"})
+geo_in = det.analyze(text="Thank you for your help.", public_meta={"account_based_in": "India"})
+geo_us = det.analyze(text="Please pass the salt.", public_meta={"account_based_in": "United States"})
+if geo_ng.ops_score >= 0.65 or geo_in.ops_score >= 0.65 or geo_us.ops_score >= 0.65:
+    print("GEO_ONLY_TRIPS_BAR", geo_ng.ops_score, geo_in.ops_score, geo_us.ops_score)
+    sys.exit(16)
+if abs(geo_ng.public_context_index - geo_in.public_context_index) > 0.001:
+    print("COUNTRY_LABEL_UNEQUAL", geo_ng.public_context_index, geo_in.public_context_index)
+    sys.exit(17)
+if geo_ng.public_context_index <= 0:
+    print("PUBLIC_LABEL_DROPPED")
+    sys.exit(18)
+
+mm = det.analyze(
+    text="I'm based in the United States. It's on you to prove it. Tons of evidence out there.",
+    public_meta={
+        "account_based_in": "Nigeria",
+        "claimed_location": "United States",
+        "location_accurate": False,
+    },
+)
+if mm.public_context_index <= geo_ng.public_context_index:
+    print("MISMATCH_NO_BOOST", mm.public_context_index, geo_ng.public_context_index)
+    sys.exit(19)
+if "public_meta_mismatch" not in mm.flame_enemy_hints:
+    print("MISMATCH_HINT_FAIL", mm.flame_enemy_hints)
+    sys.exit(20)
+
+cited = det.analyze(
+    text="I disagree with the data presented.",
+    public_meta={
+        "named_public_incident": {
+            "label": "OpenAI Hugging Face agent swarm 2026-07",
+            "source_url": "https://openai.com/index/hugging-face-model-evaluation-security-incident/",
+            "class": "RESOURCE",
+        }
+    },
+)
+uncited = det.analyze(
+    text="I disagree with the data presented.",
+    public_meta={"named_public_incident": {"label": "bad guy", "class": "RESOURCE"}},
+)
+if cited.public_context_breakdown.get("named_public_incident", 0) < 0.5:
+    print("CITED_INCIDENT_FAIL", cited.public_context_breakdown)
+    sys.exit(21)
+if uncited.public_context_breakdown.get("named_public_incident", 0) > 0:
+    print("UNCITED_INCIDENT_SCORED", uncited.public_context_breakdown)
+    sys.exit(22)
 
 ht = det.analyze(
     text="Trust the experts — settled science beyond any doubt. Wake up sheeple — click now."
@@ -101,6 +158,12 @@ try:
     sys.exit(10)
 except SystemExit:
     pass
+
+embedded = det.run_self_tests()
+failed = [x for x in embedded if not x.get("passed")]
+if failed:
+    print("EMBEDDED_SELF_TESTS_FAIL", failed)
+    sys.exit(23)
 
 print("OK")
 print("EVASION", report.evasion_index)

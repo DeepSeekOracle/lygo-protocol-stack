@@ -1,6 +1,6 @@
 {
   "name": "lygo-ops-detector labeled discourse suite",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "label_schema": {
     "1": "operational_deception_or_evasion_signals_present",
     "0": "benign_neutral_discourse"
@@ -93,6 +93,31 @@
     {"id": "ben_009", "text": "I enjoy reading in my free time.", "label": 0},
     {"id": "ben_010", "text": "Thank you for your help.", "label": 0},
     {"id": "ben_011", "text": "Our team meeting is scheduled for Thursday afternoon.", "label": 0},
-    {"id": "ben_012", "text": "Please review the attached report when you have time.", "label": 0}
+    {"id": "ben_012", "text": "Please review the attached report when you have time.", "label": 0},
+    {
+      "id": "pub_001_geo_nigeria_benign",
+      "text": "The weather today is sunny and warm.",
+      "label": 0,
+      "public_meta": {"account_based_in": "Nigeria"},
+      "note": "Country label alone is not ops."
+    },
+    {
+      "id": "pub_002_geo_india_benign",
+      "text": "Thank you for your help.",
+      "label": 0,
+      "public_meta": {"account_based_in": "India"},
+      "note": "Country label alone is not ops."
+    },
+    {
+      "id": "pub_003_mismatch_with_evasion",
+      "text": "I'm based in the United States. It's on you to prove it. Tons of evidence out there. You're imagining things. That never happened.",
+      "label": 1,
+      "public_meta": {
+        "account_based_in": "Nigeria",
+        "claimed_location": "United States",
+        "location_accurate": false
+      },
+      "note": "Public mismatch corroborates evasion discourse; country is not the verdict."
+    }
   ]
 }

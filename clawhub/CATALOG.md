@@ -80,7 +80,7 @@ npx clawhub@latest install deepseekoracle/<slug>
 |------|------|----------|--------|
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 231 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
 | [lygo-flame-ward](https://clawhub.ai/deepseekoracle/lygo-flame-ward) | LYGO Flame Ward | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-flame-ward/) |
-| [lygo-ops-detector](https://clawhub.ai/deepseekoracle/lygo-ops-detector) | LYGO Ops Detector | `1.3.1` | [mirror](./mirrors/lygo-ops-detector/) |
+| [lygo-ops-detector](https://clawhub.ai/deepseekoracle/lygo-ops-detector) | LYGO Ops Detector | `1.4.0` | [mirror](./mirrors/lygo-ops-detector/) |
 
 ## Repo-only workflow mirrors
 

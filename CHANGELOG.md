@@ -1,4 +1,13 @@
 
+## 2026-08-31 — Ops Detector v1.4.0 (weighted public context)
+
+- **lygo-ops-detector@1.4.0** — operator-supplied public metadata always scored when present
+- Channels: geo claim mismatch, location_accurate/VPN hint, HTTPS-cited named incident, same-geo+scripted batch
+- No country denylist. Nationality is not an ops class. Country-only cannot clear 0.65
+- CLI: `--public-meta` / `--public-meta-file` (file reads still `--i-consent`)
+- Flame hints: `public_meta_mismatch` · `named_public_incident`
+
+
 ## 2026-08-23 — Ops Detector v1.3.1 (better ClawHub pack)
 
 - **lygo-ops-detector@1.3.1** — half-truth certainty + saturation rage-bait channels

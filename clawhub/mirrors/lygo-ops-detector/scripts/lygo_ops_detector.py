@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-SKILL_VERSION = "1.3.1"
+SKILL_VERSION = "1.4.0"
 
 # =============================================================================
 # LIGHTFATHER CORE PHILOSOPHY (locked)
@@ -44,6 +44,9 @@ Always:
 - Do not treat scores as sole evidence for reputational or legal action.
 - Prefer primary sources; human review remains required.
 - Do not score bare affiliation / faith / job-title markers as ops signals.
+- Use operator-supplied *public* metadata (account_based_in, VPN/inaccurate flags,
+  HTTPS-cited public incidents) as weighted *context* — never as nationality guilt.
+- Country or person label alone MUST NOT clear the 0.65 operational bar.
 
 Resonance forward — action-language over narrative; math over hype.
 """
@@ -90,6 +93,26 @@ SIGNAL_BOUNDARIES: Dict[str, Dict[str, str]] = {
     "saturation_rage_bait": {
         "in": "Attention-weapon templates: wake up sheeple / click here now / you won't believe",
         "out": "Urgent but specific actionable warning with cite path",
+    },
+    "geo_claim_mismatch": {
+        "in": "Operator-supplied public based-in label disagrees with claimed location in the same record/text",
+        "out": "A country label by itself, or treating a nation as an ops class",
+    },
+    "location_inaccurate": {
+        "in": "Public platform flag that the location field is inaccurate / VPN-hinted",
+        "out": "Inventing VPN status or scraping a live session",
+    },
+    "named_public_incident": {
+        "in": "Named public incident with an https RESOURCE URL the operator cites",
+        "out": "Anonymous 'known bad actor' accusation with no public source",
+    },
+    "coord_same_geo_template": {
+        "in": "Same public geo label on a supplied batch that also shares scripted/copy-paste language",
+        "out": "Many accounts from one country with independent wording",
+    },
+    "public_label_present": {
+        "in": "Public field was supplied so it is never dropped from the receipt",
+        "out": "Using presence of a country as a verdict",
     },
 }
 
@@ -362,15 +385,240 @@ EVASION_ACTIVE_THRESHOLD = 0.65
 EVASION_MONITOR_THRESHOLD = 0.40
 ASSOCIATION_HIGH_THRESHOLD = 0.65
 
+# =============================================================================
+# PUBLIC CONTEXT (operator-supplied RESOURCE fields — weighted, not guilt)
+# =============================================================================
+# X-style account_based_in, location_accurate, named HTTPS incidents, batch
+# geo+template. There is NO country denylist. Nigeria/India/USA score the same
+# when only a label is present. Mismatch, VPN-hint, cited incident, and
+# same-geo+scripted-batch are the scored *actions*. Country-only cannot
+# clear 0.65.
+
+PUBLIC_META_WEIGHTS: Dict[str, float] = {
+    "geo_claim_mismatch": 0.30,
+    "location_inaccurate": 0.20,
+    "named_public_incident": 0.25,
+    "coord_same_geo_template": 0.20,
+    "public_label_present": 0.05,
+}
+
+PUBLIC_CONTEXT_BOOST = 0.18  # additive to ops_score after discourse gate
+PUBLIC_ALONE_GATE = 0.25     # multiply boost when evasion and association are both low
+GEO_ALIASES = {
+    "usa": "united states",
+    "us": "united states",
+    "u.s.": "united states",
+    "u.s.a.": "united states",
+    "uk": "united kingdom",
+    "u.k.": "united kingdom",
+    "n. america": "north america",
+    "n america": "north america",
+    "se asia": "southeast asia",
+    "s.e. asia": "southeast asia",
+}
+
+CLAIM_GEO_RX = re.compile(
+    r"\b(?:i(?:'m| am)|we(?:'re| are)|based in|posting from|located in)\s+"
+    r"(?:the\s+)?([A-Za-z][A-Za-z .'-]{1,40})",
+    re.IGNORECASE,
+)
+
+
+def _https_resource_url(url: str) -> bool:
+    u = (url or "").strip()
+    if not u.lower().startswith("https://"):
+        return False
+    host = u[8:].split("/")[0].split(":")[0].lower()
+    if not host or host in {"localhost", "127.0.0.1", "::1"}:
+        return False
+    if host.endswith(".local"):
+        return False
+    return "." in host
+
+
+def normalize_geo(label: Any) -> str:
+    if label is None:
+        return ""
+    s = " ".join(str(label).strip().lower().split())
+    s = s.replace(",", " ")
+    s = " ".join(s.split())
+    return GEO_ALIASES.get(s, s)
+
+
+def extract_claimed_geo_from_text(text: str) -> str:
+    if not (text or "").strip():
+        return ""
+    m = CLAIM_GEO_RX.search(text)
+    if not m:
+        return ""
+    return normalize_geo(m.group(1))
+
+
+def _incident_score(meta: Dict[str, Any]) -> float:
+    items: List[Any] = []
+    raw = meta.get("named_public_incident") or meta.get("named_public_incidents")
+    if raw is None:
+        return 0.0
+    if isinstance(raw, list):
+        items = raw
+    else:
+        items = [raw]
+    best = 0.0
+    for item in items:
+        if isinstance(item, str):
+            continue
+        if not isinstance(item, dict):
+            continue
+        url = str(item.get("source_url") or item.get("url") or "")
+        label = str(item.get("label") or item.get("name") or "").strip()
+        klass = str(item.get("class") or "RESOURCE").upper()
+        if label and _https_resource_url(url) and klass in {"RESOURCE", "CANON", "NAMED_SHADOW"}:
+            best = max(best, 0.85)
+    return best
+
+
+def _batch_geo_template_score(meta: Dict[str, Any], associations: Optional[List[str]]) -> float:
+    batch = meta.get("batch") or meta.get("accounts") or []
+    if not isinstance(batch, list) or len(batch) < 2:
+        return 0.0
+    geos: Dict[str, List[str]] = {}
+    for row in batch:
+        if not isinstance(row, dict):
+            continue
+        geo = normalize_geo(row.get("account_based_in") or row.get("country_label") or "")
+        if not geo:
+            continue
+        excerpt = str(row.get("text_excerpt") or row.get("text") or "")
+        geos.setdefault(geo, []).append(excerpt)
+    best = 0.0
+    joined_assoc = " ".join(associations or []).lower()
+    scripted = bool(
+        re.search(r"identical phrasing|copy.?paste|scripted response|same (post|text|message)", joined_assoc)
+    )
+    for geo, excerpts in geos.items():
+        if len(excerpts) < 2:
+            continue
+        texts = [e.lower() for e in excerpts if e.strip()]
+        shared = 0
+        if len(texts) >= 2:
+            tokens = [set(t.split()) for t in texts]
+            shared = len(set.intersection(*tokens)) if tokens else 0
+        if scripted or shared > 3:
+            best = max(best, 0.85)
+        elif len(excerpts) >= 3:
+            best = max(best, 0.40)
+        else:
+            best = max(best, 0.20)
+    return best
+
+
+def score_public_meta(
+    meta: Optional[Dict[str, Any]],
+    text: str = "",
+    associations: Optional[List[str]] = None,
+) -> Tuple[Dict[str, float], Dict[str, Any]]:
+    """Score operator-supplied public fields. Empty meta → zeros. No country denylist."""
+    keys = list(PUBLIC_META_WEIGHTS)
+    empty = {k: 0.0 for k in keys}
+    receipt: Dict[str, Any] = {
+        "fields_present": [],
+        "country_denylist": False,
+        "nationality_guilt": False,
+        "account_based_in": None,
+        "claimed_location": None,
+        "claimed_from_text": None,
+        "location_accurate": None,
+    }
+    if not meta or not isinstance(meta, dict):
+        return empty, receipt
+
+    based = meta.get("account_based_in") or meta.get("country_label") or meta.get("country")
+    claimed = meta.get("claimed_location") or meta.get("claimed_based_in")
+    claimed_text = extract_claimed_geo_from_text(text)
+    loc_acc = meta.get("location_accurate")
+    if loc_acc is None:
+        loc_acc = meta.get("locationAccurate")
+
+    based_n = normalize_geo(based)
+    claimed_n = normalize_geo(claimed)
+    claimed_text_n = claimed_text
+
+    if based is not None and str(based).strip():
+        receipt["fields_present"].append("account_based_in")
+        receipt["account_based_in"] = str(based).strip()
+    if claimed is not None and str(claimed).strip():
+        receipt["fields_present"].append("claimed_location")
+        receipt["claimed_location"] = str(claimed).strip()
+    if claimed_text_n:
+        receipt["claimed_from_text"] = claimed_text_n
+    if loc_acc is not None:
+        receipt["fields_present"].append("location_accurate")
+        receipt["location_accurate"] = loc_acc
+    if meta.get("created_utc") or meta.get("created_at"):
+        receipt["fields_present"].append("created_utc")
+    if meta.get("named_public_incident") or meta.get("named_public_incidents"):
+        receipt["fields_present"].append("named_public_incident")
+    if meta.get("batch") or meta.get("accounts"):
+        receipt["fields_present"].append("batch")
+
+    scores = dict(empty)
+    if receipt["fields_present"]:
+        scores["public_label_present"] = 0.50
+
+    mismatch = 0.0
+    if based_n and claimed_n and based_n != claimed_n:
+        mismatch = 0.90
+    elif based_n and claimed_text_n and based_n != claimed_text_n:
+        mismatch = 0.85
+    scores["geo_claim_mismatch"] = mismatch
+
+    inaccurate = 0.0
+    if loc_acc in (False, 0, "0", "false", "False", "no", "NO"):
+        inaccurate = 0.75
+    scores["location_inaccurate"] = inaccurate
+
+    scores["named_public_incident"] = _incident_score(meta)
+    scores["coord_same_geo_template"] = _batch_geo_template_score(meta, associations)
+
+    for k, v in list(scores.items()):
+        scores[k] = round(max(0.0, min(1.0, float(v))), 3)
+    return scores, receipt
+
+
+def compute_public_context_index(scores: Dict[str, float]) -> float:
+    total = 0.0
+    wsum = 0.0
+    for key, weight in PUBLIC_META_WEIGHTS.items():
+        s = float(scores.get(key, 0.0))
+        s = max(0.0, min(1.0, s))
+        total += weight * s
+        wsum += weight
+    return round(total / wsum if wsum > 0 else 0.0, 4)
+
+
+def apply_public_context_boost(
+    ops_score: float,
+    public_index: float,
+    evasion: float,
+    association: float,
+) -> float:
+    """Public fields always contribute when present; they cannot sole-clear 0.65."""
+    discourse = max(float(evasion or 0), float(association or 0))
+    gate = 1.0 if discourse >= 0.30 else PUBLIC_ALONE_GATE
+    boost = float(public_index or 0) * PUBLIC_CONTEXT_BOOST * gate
+    return round(min(1.0, max(0.0, float(ops_score) + boost)), 4)
+
 def map_flame_enemy_hints(
     evasion_breakdown: Dict[str, float],
     institutional: float = 0.0,
     assoc_breakdown: Optional[Dict[str, float]] = None,
+    public_breakdown: Optional[Dict[str, float]] = None,
 ) -> List[str]:
     """Map ops discourse channels → Flame Ward enemy classes (hints only)."""
     hints: List[str] = []
     eb = evasion_breakdown or {}
     ab = assoc_breakdown or {}
+    pb = public_breakdown or {}
     if float(eb.get("half_truth_certainty", 0) or 0) >= 0.30:
         hints.append("half_truth_pack")
     if float(eb.get("authority_inflation", 0) or 0) >= 0.30 or institutional >= 0.25:
@@ -385,6 +633,10 @@ def map_flame_enemy_hints(
     if float(ab.get("bot_network_connections", 0) or 0) >= 0.50:
         if "saturation_flood" not in hints:
             hints.append("saturation_flood")
+    if float(pb.get("geo_claim_mismatch", 0) or 0) >= 0.50:
+        hints.append("public_meta_mismatch")
+    if float(pb.get("named_public_incident", 0) or 0) >= 0.50:
+        hints.append("named_public_incident")
     return sorted(set(hints))
 
 
@@ -398,6 +650,9 @@ class OpsReport:
     association_verdict: str
     association_breakdown: Dict[str, float]
     institutional_signaling_score: float
+    public_context_index: float
+    public_context_breakdown: Dict[str, float]
+    public_fields: Dict[str, Any]
     ops_score: float
     combined_risk: float
     overall_verdict: str
@@ -457,8 +712,21 @@ class OpsReport:
             f"  Institutional Signaling: {self.institutional_signaling_score:.3f}",
             "  (Policy-as-shield / no-comment templates — damped unless paired with evasion or association)",
             "",
-            "COMPOSITE OPS SCORE (weighted formula)",
-            f"  Ops_Score = 0.45*Evasion + 0.30*Association + 0.25*Institutional_Signaling",
+            "PUBLIC CONTEXT (operator-supplied RESOURCE fields — weighted, not nationality guilt)",
+            f"  Score: {self.public_context_index:.3f}  (boosts ops_score; country-only cannot clear 0.65)",
+            "  Breakdown:",
+        ])
+        for k, v in self.public_context_breakdown.items():
+            w = PUBLIC_META_WEIGHTS.get(k, 0)
+            lines.append(f"    {k:22s} score={v:.2f}  weight={w:.2f}  contrib={w*v:.3f}")
+        fields_used = ", ".join(self.public_fields.get("fields_present") or []) or "(none supplied)"
+        lines.extend([
+            f"  Fields used: {fields_used}",
+            "  Country denylist: false. Nationality is not an ops class.",
+            "",
+            "COMPOSITE OPS SCORE (weighted formula + public-context boost)",
+            f"  Base = 0.45*Evasion + 0.30*Association + 0.25*Institutional_Signaling",
+            f"  Then + public_context * {PUBLIC_CONTEXT_BOOST} * gate (gate={PUBLIC_ALONE_GATE} if discourse low)",
             f"  Ops Score: {self.ops_score:.3f}   (suggested threshold >0.65 for strong pattern)",
             "",
             "PERFORMANCE METRICS (dynamic public suite — not hardcoded claims)",
@@ -634,9 +902,12 @@ def association_verdict(score: float) -> str:
         return "LOW / NO CLEAR COORDINATION DISCOURSE PATTERN"
 
 
-def combined_risk(evasion: float, assoc: float) -> float:
-    # Geometric emphasis on both being high (evasion + network)
-    return round(math.sqrt(evasion * assoc), 4)
+def combined_risk(evasion: float, assoc: float, public_index: float = 0.0) -> float:
+    # Geometric emphasis on both being high (evasion + network).
+    # Public context corroborates association-like context; it cannot create
+    # risk from a country label when evasion is zero (sqrt(0 * x) = 0).
+    assoc_eff = min(1.0, float(assoc or 0) + 0.35 * float(public_index or 0))
+    return round(math.sqrt(max(0.0, float(evasion or 0)) * assoc_eff), 4)
 
 
 def overall_verdict(risk: float, evasion: float, ops_score: float = 0.0) -> str:
@@ -659,6 +930,7 @@ def analyze(
     associations: Optional[List[str]] = None,
     manual_evasion: Optional[Dict[str, float]] = None,
     manual_assoc: Optional[Dict[str, float]] = None,
+    public_meta: Optional[Dict[str, Any]] = None,
     notes: str = "",
 ) -> OpsReport:
     """Primary entrypoint. Returns full OpsReport with full rigor fields."""
@@ -695,13 +967,17 @@ def analyze(
     if graph["density"] > 0:
         assoc = round(min(1.0, assoc + graph["density"] * 0.15), 4)
 
-    # Composite Ops Score
-    ops_score = compute_ops_score(evasion, assoc, institutional)
+    pub_scores, pub_fields = score_public_meta(public_meta, text=text, associations=associations)
+    public_index = compute_public_context_index(pub_scores)
 
-    risk = combined_risk(evasion, assoc)
+    # Composite Ops Score + public-context boost (gated so geo-only cannot clear 0.65)
+    ops_score = compute_ops_score(evasion, assoc, institutional)
+    ops_score = apply_public_context_boost(ops_score, public_index, evasion, assoc)
+
+    risk = combined_risk(evasion, assoc, public_index)
     over = overall_verdict(risk, evasion, ops_score)
 
-    flame_hints = map_flame_enemy_hints(ev_scores, institutional, as_scores)
+    flame_hints = map_flame_enemy_hints(ev_scores, institutional, as_scores, pub_scores)
     report = OpsReport(
         timestamp=ts,
         evasion_index=evasion,
@@ -711,12 +987,17 @@ def analyze(
         association_verdict=as_ver,
         association_breakdown=as_scores,
         institutional_signaling_score=institutional,
+        public_context_index=public_index,
+        public_context_breakdown=pub_scores,
+        public_fields=pub_fields,
         ops_score=ops_score,
         combined_risk=risk,
         overall_verdict=over,
         notes=notes
         or (
             "Local discourse heuristics only. Not identity profiling. "
+            "Public metadata is weighted context (mismatch / VPN-hint / HTTPS-cited incident / "
+            "same-geo+scripted batch). Country labels are not guilt. "
             "Operational bar ops_score>=0.65 (or high evasion). "
             "Private logs/email require human consent. Not sole evidence. "
             "For authority gating use lygo-flame-ward ingest-gate."
@@ -738,6 +1019,7 @@ def get_measurement_dictionaries() -> Dict[str, Any]:
         "all_keywords": ALL_KEYWORDS,
         "evasion_weights": EVASION_WEIGHTS,
         "association_weights": ASSOCIATION_WEIGHTS,
+        "public_meta_weights": PUBLIC_META_WEIGHTS,
         "ops_score_weights": OPS_SCORE_WEIGHTS,
         "performance_metrics": PERFORMANCE_METRICS,
         "thresholds": {
@@ -745,17 +1027,25 @@ def get_measurement_dictionaries() -> Dict[str, Any]:
             "evasion_monitor": EVASION_MONITOR_THRESHOLD,
             "association_high": ASSOCIATION_HIGH_THRESHOLD,
             "ops_suggested": 0.65,
+            "public_context_boost": PUBLIC_CONTEXT_BOOST,
+            "public_alone_gate": PUBLIC_ALONE_GATE,
         },
         "methodology": (
             "Deterministic local heuristics (regex + multi-word keyword density + cluster boost). "
             "Institutional channel is policy/refusal language only — no affiliation keywords. "
             "Association channel scores coordination *discourse* in operator-supplied strings only — "
             "no bare military/intelligence/agency/profession markers. "
+            "Public context scores operator-supplied RESOURCE fields (geo mismatch, VPN-hint, "
+            "HTTPS-cited incident, same-geo+scripted batch). No country denylist. "
+            "Public-only records are gated so they cannot clear ops_score 0.65. "
             "Damped unless co-occurring with Evasion/Association."
         ),
         "signal_boundaries": SIGNAL_BOUNDARIES,
         "unit_of_analysis": "text_under_review_not_person_subject",
         "identity_markers_scored": False,
+        "public_fields_scored_as_context": True,
+        "country_denylist": False,
+        "nationality_guilt": False,
     }
 
 
@@ -794,22 +1084,56 @@ def run_self_tests() -> List[Dict[str, Any]]:
         {
             "name": "half_truth_certainty_cluster",
             "text": "Trust the experts — this is settled science beyond any doubt. You must believe.",
-            "min_evasion": 0.20,
+            "min_channel": ["half_truth_certainty", 0.20],
         },
         {
             "name": "saturation_rage_bait_cluster",
             "text": "Wake up sheeple — you won't believe this. Click now before they delete it.",
-            "min_evasion": 0.20,
+            "min_channel": ["saturation_rage_bait", 0.20],
+        },
+        {
+            "name": "public_geo_only_nigeria_not_ops",
+            "text": "The weather today is sunny and warm.",
+            "public_meta": {"account_based_in": "Nigeria"},
+            "max_ops": 0.20,
+            "max_evasion": 0.30,
+        },
+        {
+            "name": "public_geo_only_india_not_ops",
+            "text": "Thank you for your help.",
+            "public_meta": {"account_based_in": "India"},
+            "max_ops": 0.20,
+            "max_evasion": 0.30,
+        },
+        {
+            "name": "public_geo_mismatch_with_evasion",
+            "text": "I'm based in the United States. It's on you to prove it. Tons of evidence out there. You're imagining things.",
+            "public_meta": {
+                "account_based_in": "Nigeria",
+                "claimed_location": "United States",
+                "location_accurate": False,
+            },
+            "min_public": 0.20,
         },
     ]
     results = []
     for t in tests:
-        r = analyze(text=t.get("text", ""), associations=t.get("associations"))
+        r = analyze(
+            text=t.get("text", ""),
+            associations=t.get("associations"),
+            public_meta=t.get("public_meta"),
+        )
         passed = True
         if "min_evasion" in t and r.evasion_index < t["min_evasion"]:
             passed = False
         if "min_ops" in t and r.ops_score < t["min_ops"]:
             passed = False
+        if "min_public" in t and r.public_context_index < t["min_public"]:
+            passed = False
+        if "min_channel" in t:
+            ch, mn = t["min_channel"]
+            if float(r.evasion_breakdown.get(ch, 0) or 0) < float(mn):
+                passed = False
         if "max_evasion" in t and r.evasion_index > t["max_evasion"]:
             passed = False
         if "max_institutional" in t and r.institutional_signaling_score > t["max_institutional"]:
@@ -817,11 +1141,12 @@ def run_self_tests() -> List[Dict[str, Any]]:
         if "max_ops" in t and r.ops_score > t["max_ops"]:
             passed = False
         results.append({
-            "name": t["name"], 
-            "passed": passed, 
-            "evasion": round(r.evasion_index, 3), 
+            "name": t["name"],
+            "passed": passed,
+            "evasion": round(r.evasion_index, 3),
             "ops_score": round(r.ops_score, 3),
-            "institutional": round(r.institutional_signaling_score, 3)
+            "institutional": round(r.institutional_signaling_score, 3),
+            "public_context": round(r.public_context_index, 3),
         })
     return results
 
@@ -853,11 +1178,28 @@ def main(argv: Optional[List[str]] = None) -> int:
         help="File with one association description per line. Requires --i-consent.",
     )
     parser.add_argument(
+        "--public-meta",
+        type=str,
+        default="",
+        help=(
+            "JSON object of operator-supplied public fields "
+            '(e.g. {"account_based_in":"Nigeria","claimed_location":"United States",'
+            '"location_accurate":false}). Weighted context — not a country verdict.'
+        ),
+    )
+    parser.add_argument(
+        "--public-meta-file",
+        type=str,
+        default="",
+        help="Read public-meta JSON from a local file. Requires --i-consent.",
+    )
+    parser.add_argument(
         "--i-consent",
         action="store_true",
         help=(
-            "Required with --text-file / --assoc-file: you affirm authority/consent to process "
-            "that file content. Private mail/logs must not be scanned without consent."
+            "Required with --text-file / --assoc-file / --public-meta-file: you affirm "
+            "authority/consent to process that file content. Private mail/logs must not "
+            "be scanned without consent."
         ),
     )
     parser.add_argument("--notes", type=str, default="", help="Additional context for the report.")
@@ -873,6 +1215,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(LIGHTFATHER_VOICE)
         print("\nEvasion weights:", json.dumps(EVASION_WEIGHTS, indent=2))
         print("Association weights:", json.dumps(ASSOCIATION_WEIGHTS, indent=2))
+        print("Public-meta weights:", json.dumps(PUBLIC_META_WEIGHTS, indent=2))
         print("\nSignal boundaries:", json.dumps(SIGNAL_BOUNDARIES, indent=2))
         return 0
 
@@ -880,10 +1223,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(json.dumps(SIGNAL_BOUNDARIES, indent=2))
         return 0
 
-    needs_file = bool(args.text_file or args.assoc_file)
+    needs_file = bool(args.text_file or args.assoc_file or args.public_meta_file)
     if needs_file and not args.i_consent:
         print(
-            "CONSENT_REQUIRED: --text-file / --assoc-file need --i-consent "
+            "CONSENT_REQUIRED: --text-file / --assoc-file / --public-meta-file need --i-consent "
             "(operator affirms authority to process that content). "
             "Prefer pasting non-private text with --text. "
             "Do not use for unsolicited private mail/log scanning.",
@@ -924,10 +1267,30 @@ def main(argv: Optional[List[str]] = None) -> int:
             print("Bad --manual-assoc JSON", file=sys.stderr)
             return 2
 
-    if not (text or "").strip() and not assocs and not man_ev and not man_as:
+    pub_meta = None
+    if args.public_meta:
+        try:
+            pub_meta = json.loads(args.public_meta)
+            if not isinstance(pub_meta, dict):
+                raise ValueError("public-meta must be a JSON object")
+        except Exception as e:
+            print(f"Bad --public-meta JSON: {e}", file=sys.stderr)
+            return 2
+    if args.public_meta_file:
+        try:
+            loaded = json.loads(Path(args.public_meta_file).read_text(encoding="utf-8"))
+            if not isinstance(loaded, dict):
+                raise ValueError("public-meta-file must contain a JSON object")
+            pub_meta = {**(pub_meta or {}), **loaded}
+        except Exception as e:
+            print(f"ERROR reading public-meta file: {e}", file=sys.stderr)
+            return 2
+
+    if not (text or "").strip() and not assocs and not man_ev and not man_as and not pub_meta:
         print(
             "NEED_INPUT: pass --text \"...\" (preferred) or --text-file PATH --i-consent. "
-            "This skill scores operator-supplied discourse only.",
+            "Optional --public-meta JSON for weighted public fields. "
+            "This skill scores operator-supplied discourse + public context only.",
             file=sys.stderr,
         )
         return 2
@@ -937,6 +1300,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         associations=assocs,
         manual_evasion=man_ev,
         manual_assoc=man_as,
+        public_meta=pub_meta,
         notes=args.notes,
     )
 

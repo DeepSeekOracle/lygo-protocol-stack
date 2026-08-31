@@ -345,9 +345,9 @@
     {
       "slug": "lygo-ops-detector",
       "name": "LYGO Ops Detector",
-      "version": "1.2.2",
+      "version": "1.4.0",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ops-detector",
-      "summary": "LYGO Ops Detector \u2014 local AETHON\u03949 discourse heuristics (evasion/coordination/policy-refusal). Text under review only; not identity profiling. --i-consent for files; eval writes under tests/ only."
+      "summary": "LYGO Ops Detector — AETHONΔ9 discourse heuristics plus weighted public metadata. Country is not guilt. --i-consent for files; eval writes under tests/ only."
     },
     {
       "slug": "lygo-pc-lattice-hardening",

@@ -7,24 +7,24 @@
   },
   "operational_metrics": {
     "role": "operational",
-    "suite_size": 27,
+    "suite_size": 30,
     "threshold_ops_score": 0.65,
     "prediction_rule": "predicted=1 if evasion_index>=0.65 OR ops_score>=0.65",
     "precision": 1.0,
-    "recall": 0.7333,
+    "recall": 0.75,
     "false_positive_rate": 0.0,
-    "f1": 0.8462,
+    "f1": 0.8571,
     "auc": 1.0,
     "confusion": {
-      "tp": 11,
+      "tp": 12,
       "fp": 0,
       "fn": 4,
-      "tn": 12
+      "tn": 14
     }
   },
   "calibration_metrics": {
     "role": "calibration",
-    "suite_size": 27,
+    "suite_size": 30,
     "threshold_ops_score": 0.05,
     "prediction_rule": "predicted=1 if evasion_index>=0.65 OR ops_score>=0.05",
     "precision": 1.0,
@@ -33,25 +33,25 @@
     "f1": 1.0,
     "auc": 1.0,
     "confusion": {
-      "tp": 15,
+      "tp": 16,
       "fp": 0,
       "fn": 0,
-      "tn": 12
+      "tn": 14
     }
   },
   "threshold_ops_score": 0.65,
   "precision": 1.0,
-  "recall": 0.7333,
+  "recall": 0.75,
   "false_positive_rate": 0.0,
-  "f1": 0.8462,
+  "f1": 0.8571,
   "auc": 1.0,
   "confusion": {
-    "tp": 11,
+    "tp": 12,
     "fp": 0,
     "fn": 4,
-    "tn": 12
+    "tn": 14
   },
-  "suite_size": 27,
+  "suite_size": 30,
   "results": [
     {
       "id": "dec_001",
@@ -322,6 +322,36 @@
       "evasion_index": 0.0,
       "detector_verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation",
       "note": "detector_verdict uses operational language rules; predicted_at_threshold is eval-only at the stated threshold"
+    },
+    {
+      "id": "pub_001_geo_nigeria_benign",
+      "text": "The weather today is sunny and warm.",
+      "label": 0,
+      "predicted_at_threshold": 0,
+      "ops_score": 0.0011,
+      "evasion_index": 0.0,
+      "detector_verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation",
+      "note": "detector_verdict uses operational language rules; predicted_at_threshold is eval-only at the stated threshold"
+    },
+    {
+      "id": "pub_002_geo_india_benign",
+      "text": "Thank you for your help.",
+      "label": 0,
+      "predicted_at_threshold": 0,
+      "ops_score": 0.0011,
+      "evasion_index": 0.0,
+      "detector_verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation",
+      "note": "detector_verdict uses operational language rules; predicted_at_threshold is eval-only at the stated threshold"
+    },
+    {
+      "id": "pub_003_mismatch_with_evasion",
+      "text": "I'm based in the United States. It's on you to prove it. Tons of evidence out there. You're imagining things. That never",
+      "label": 1,
+      "predicted_at_threshold": 1,
+      "ops_score": 0.3771,
+      "evasion_index": 0.66,
+      "detector_verdict": "STRONG EVASION SIGNALS in text \u2014 review claims/actions (not a person verdict)",
+      "note": "detector_verdict uses operational language rules; predicted_at_threshold is eval-only at the stated threshold"
     }
   ],
   "calibration_results_sample": [
@@ -363,9 +393,9 @@
     "sweep": [
       {
         "threshold": 0.0,
-        "precision": 0.5556,
+        "precision": 0.5333,
         "recall": 1.0,
-        "f1": 0.7143,
+        "f1": 0.6957,
         "fpr": 1.0,
         "auc": 1.0
       },
@@ -396,136 +426,136 @@
       {
         "threshold": 0.2,
         "precision": 1.0,
-        "recall": 0.8667,
-        "f1": 0.9286,
+        "recall": 0.875,
+        "f1": 0.9333,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.25,
         "precision": 1.0,
-        "recall": 0.8667,
-        "f1": 0.9286,
+        "recall": 0.875,
+        "f1": 0.9333,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.3,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.35,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.4,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.45,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.5,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.55,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.6,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.65,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.7,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.75,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.8,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.85,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.9,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 0.95,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       },
       {
         "threshold": 1.0,
         "precision": 1.0,
-        "recall": 0.7333,
-        "f1": 0.8462,
+        "recall": 0.75,
+        "f1": 0.8571,
         "fpr": 0.0,
         "auc": 1.0
       }

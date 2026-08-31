@@ -425,11 +425,11 @@
     {
       "slug": "lygo-ops-detector",
       "name": "LYGO Ops Detector",
-      "version": "1.3.1",
+      "version": "1.4.0",
       "published": true,
       "clawhub_url": "https://clawhub.ai/deepseekoracle/lygo-ops-detector",
       "mirror": "mirrors/lygo-ops-detector",
-      "summary": "AETHON\u03949 discourse heuristics v1.3.1: half-truth+saturation, flame_enemy_hints, cluster boost, bar 0.65. Not identity profiling."
+      "summary": "AETHON\u03949 discourse heuristics v1.4.0: weighted public metadata (geo mismatch, VPN-hint, HTTPS-cited incidents). Country is not guilt. Bar 0.65."
     }
   ],
   "repo_mirrors_only": [

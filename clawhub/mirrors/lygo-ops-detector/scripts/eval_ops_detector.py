@@ -116,7 +116,11 @@ def evaluate(samples: list[dict], threshold: float, *, role: str) -> dict[str, A
     for sample in samples:
         text = sample.get("text") or ""
         label = int(sample.get("label", 0))
-        report = det.analyze(text=text, notes=f"eval:{sample.get('id', '')}")
+        report = det.analyze(
+            text=text,
+            public_meta=sample.get("public_meta"),
+            notes=f"eval:{sample.get('id', '')}",
+        )
         pred = predict_binary(report, threshold)
         score = float(report.ops_score)
         y_true.append(label)
