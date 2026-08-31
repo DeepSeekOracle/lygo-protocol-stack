@@ -1,17 +1,17 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.5.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.6.0",
   "name": "LYGO TV",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-08-31T07:00:00Z",
+  "updated_utc": "2026-08-31T12:00:00Z",
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit.",
   "note": "Bouquets probed 2026-08-31: HTTP 200 + at least 3 HTTPS entries. Cuba dropped (thin). Nordic/South-Asia region files 404.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
   },
-  "default_bouquet": "culture",
+  "default_bouquet": "live",
   "live": [
     {
       "id": "rumble_live",

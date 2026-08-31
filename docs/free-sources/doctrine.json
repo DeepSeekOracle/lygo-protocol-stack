@@ -1,11 +1,11 @@
 {
   "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.1.0",
   "name": "LYGO TV",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
   "doctrine": {
-    "is": "Standalone browser TV. Click a channel. Public GitHub M3U catalogs plus steward live URLs.",
+    "is": "Easiest free browser TV. Pick a list, click a channel, watch. Public GitHub M3U catalogs plus steward Rumble live.",
     "rule": "HTTPS only. No POST. No silent Star Chart ingest. Human remains publisher of catalog.json."
   },
   "donate": {
