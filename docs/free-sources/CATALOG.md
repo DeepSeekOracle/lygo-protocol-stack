@@ -32,3 +32,9 @@ Unlabeled is treated as all ages on purpose so the main shelf stays usable. Meta
 Use it only under these guidelines: HTTPS, public/free claim, probe, then commit `catalog.json`. Kids and 18+ stay **labeled and separated**. Watch gates + the full disclaimer stay on. Prefer a smaller working list over a huge dirty one.
 
 Human remains publisher. Catalog class is RESOURCE. No silent Star Chart ingest.
+
+## v1.11 probe (2026-09-06)
+
+Added after HTTPS 200 + ≥3 HTTPS entries: PBS/BBC iptv-org sources, Free-TV CA/AU/IE/NL/JP/IN/MX/PL/SE/AT/PT/BE/BR, Plex-all + Tubi + DistroTV + Vizio + Rakuten UK + LG US FAST, iptv-org Americas/APAC/Benelux/International, more languages and countries.
+
+**Skipped:** jmp2.uk-majority (BuddyChewChew Roku/Pluto/Samsung), Free-TV NZ/ZA 404, Switzerland too thin, Xtream dumps, XXX.
