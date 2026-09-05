@@ -6,7 +6,7 @@ metadata: {"lygo": true, "stack": true, "phase": 5, "slm": true, "phase9": true,
 
 # lygo-mesh-deploy
 
-**Phase 5** wide-area mesh tooling (local HTTP proof before TLS wide-area).
+**Phase 5** wide-area mesh tooling (local HTTP proof before TLS wide-area). Off-grid RF: [lygo-lora-mesh](https://clawhub.ai/deepseekoracle/skills/lygo-lora-mesh).
 
 ## When to use
 

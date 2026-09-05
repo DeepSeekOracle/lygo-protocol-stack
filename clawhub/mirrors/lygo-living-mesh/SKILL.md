@@ -183,8 +183,9 @@ lygo-protocol-stack-operator
   → lygo-sovereign-kernel-seeder  (B)
   → lygo-external-lattice-anchor  (C)
   → lygo-living-mesh              (D)  ← this skill
+  → lygo-lora-mesh                (D-RF compact pulse on stock Meshtastic)
   → lygo-agent-lattice            (E aligned agent network)
-  → lygo-mesh-deploy              (Phase 5/9 transport)
+  → lygo-mesh-deploy              (Phase 5/9 IP transport)
   → lygo-haven-star-chart         (world map)
 ```
 

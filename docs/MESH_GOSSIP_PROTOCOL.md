@@ -3,7 +3,7 @@
 **Signature:** `Δ9Φ963-PHASE5-MESH-GOSSIP-v1`  
 **Layer D skill:** [lygo-living-mesh](https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh) · [LIVING_MESH_LAYER.md](./LIVING_MESH_LAYER.md)
 
-Phase 5 is the **transport**. Layer D adds **living mesh badges** (A/B/C roots + `roots_digest`) on top of alignment badges. Gossip remains **summaries only**.
+Phase 5 is the **IP transport**. Layer D adds **living mesh badges** (A/B/C roots + `roots_digest`) on top of alignment badges. Gossip remains **summaries only**. Optional **RF transport** is [lygo-lora-mesh](https://clawhub.ai/deepseekoracle/skills/lygo-lora-mesh) (compact `LY1` pulse on stock Meshtastic; [LORA_MESH_TRANSPORT.md](./LORA_MESH_TRANSPORT.md)).
 
 ## Endpoints (community node)
 

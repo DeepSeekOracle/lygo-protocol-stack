@@ -44,6 +44,8 @@ Compact fingerprint: `roots_digest = SHA-256(canonical JSON of roots)`.
 
 **On the wire:** badge summaries only. No egg payloads, no secrets, no private paths.
 
+**RF (optional):** when IP is down, [lygo-lora-mesh](https://clawhub.ai/deepseekoracle/skills/lygo-lora-mesh) compresses `node_id + roots_digest + status` into a Meshtastic text pulse (`LY1/...`, ≤200 bytes). Stock firmware only. No board → `NAMED_SHADOW`. Stack helper: `python tools/lygo_lora_pulse.py encode`. See [LORA_MESH_TRANSPORT.md](./LORA_MESH_TRANSPORT.md).
+
 ## Tools (stack)
 
 | Tool | Role |
