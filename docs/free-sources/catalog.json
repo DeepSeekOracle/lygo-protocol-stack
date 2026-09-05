@@ -1,12 +1,14 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.8.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.9.0",
   "name": "LYGO TV",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-05T20:30:00Z",
+  "updated_utc": "2026-09-05T22:00:00Z",
+  "disclaimer": "https://chatagent.ca/sources/disclaimer.html",
+  "portal_only": true,
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit.",
-  "note": "Bouquets probed 2026-09-05: HTTP 200 + at least 3 HTTPS entries. Added FAST (i.mjh.nz raw TV/radio, Plex US, RW1986 HTTPS subset), Free-TV country/news/docs, iptv-org US/UK/EU/langs/kids/movies. Skipped jmp2.uk proxy packs and Xtream/VOD. Nordic + South Asia region files now 200 (were 404 on 2026-08-31). HTTP stream URLs are skipped in the player.",
+  "note": "Portal only. Disclaimer https://chatagent.ca/sources/disclaimer.html . Bouquets probed 2026-09-05. Player hides 18+ until confirmed; Kids badges from metadata. No XXX catalog file. HTTP stream URLs skipped.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"

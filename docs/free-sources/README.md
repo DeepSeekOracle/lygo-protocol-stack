@@ -2,7 +2,7 @@
 
 Live: https://chatagent.ca/sources/
 
-Open the page → **Channel** tab lists Excavationpro rooms: Kick, Rumble LIVE, Twitch, YouTube @justinhelmer, YouTube @excavationpro (HTTPS embeds). Other tabs: FAST / Lists / Topics / Places / Languages / Saved. GitHub lists do not autoplay (CORS often blocks the first stream). Keyboard: ← → next, space pause, F fullscreen, M mute, R retry, S stop, P picture-in-picture, / search.
+Open the page → **Channel** tab lists Excavationpro rooms: Kick, Rumble LIVE, Twitch, YouTube @justinhelmer, YouTube @excavationpro (HTTPS embeds). Other tabs: FAST / Lists / Topics / Places / Languages / Saved. Portal only — full disclaimer: https://chatagent.ca/sources/disclaimer.html . Kids / 18+ badges from list metadata; 18+ hidden until confirmed. GitHub lists do not autoplay (CORS often blocks the first stream). Keyboard: ← → next, space pause, F fullscreen, M mute, R retry, S stop, P picture-in-picture, / search.
 
 Catalog v1.8.0. Channel tab is steward rooms (not a public M3U). Other bouquets probed 2026-09-05 (HTTP 200, ≥3 HTTPS entries):
 

@@ -1,12 +1,12 @@
 {
   "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.1.0",
   "name": "LYGO TV",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
   "doctrine": {
-    "is": "Easiest free browser TV. Pick a list, click a channel, watch. Public GitHub M3U catalogs plus steward Rumble live.",
-    "rule": "HTTPS only. No POST. No silent Star Chart ingest. Human remains publisher of catalog.json."
+    "is": "Portal-only free TV pointer. Public lists plus Excavationpro rooms. Does not host or decrypt streams.",
+    "rule": "HTTPS only. No POST. No silent Star Chart ingest. Human remains publisher of catalog.json. 18+ hidden until confirmed. Kids labels are metadata hints."
   },
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
