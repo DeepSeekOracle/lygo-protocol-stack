@@ -1,10 +1,10 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.7.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.8.0",
   "name": "LYGO TV",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-05T18:00:00Z",
+  "updated_utc": "2026-09-05T20:30:00Z",
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit.",
   "note": "Bouquets probed 2026-09-05: HTTP 200 + at least 3 HTTPS entries. Added FAST (i.mjh.nz raw TV/radio, Plex US, RW1986 HTTPS subset), Free-TV country/news/docs, iptv-org US/UK/EU/langs/kids/movies. Skipped jmp2.uk proxy packs and Xtream/VOD. Nordic + South Asia region files now 200 (were 404 on 2026-08-31). HTTP stream URLs are skipped in the player.",
   "donate": {
@@ -14,17 +14,69 @@
   "default_bouquet": "live",
   "live": [
     {
+      "id": "kick_live",
+      "title": "Excavationpro on Kick",
+      "kind": "kick",
+      "group": "Kick",
+      "url": "https://player.kick.com/excavationpro?autoplay=true",
+      "watch": "https://kick.com/excavationpro"
+    },
+    {
       "id": "rumble_live",
       "title": "Excavationpro Rumble LIVE",
       "kind": "rumble",
+      "group": "Rumble",
       "url": "https://rumble.com/embed/v7b5p30/?pub=1th29y",
-      "watch": "https://rumble.com/Excavationpro/live?mref=1th29y&mc=2p3fp"
+      "watch": "https://rumble.com/user/excavationpro/live?mref=1th29y&mc=2p3fp"
+    },
+    {
+      "id": "twitch_live",
+      "title": "Excavationpro on Twitch",
+      "kind": "twitch",
+      "group": "Twitch",
+      "channel": "excavationpro",
+      "url": "https://player.twitch.tv/?channel=excavationpro&parent=chatagent.ca",
+      "watch": "https://www.twitch.tv/excavationpro"
+    },
+    {
+      "id": "yt_justin_live",
+      "title": "Justin Helmer YouTube LIVE",
+      "kind": "youtube",
+      "group": "YouTube",
+      "url": "https://www.youtube-nocookie.com/embed/live_stream?channel=UCIbGSxMpDaj5ivh6mP_-k-A",
+      "watch": "https://www.youtube.com/@justinhelmer/live"
+    },
+    {
+      "id": "yt_excav_live",
+      "title": "Excavationpro YouTube LIVE",
+      "kind": "youtube",
+      "group": "YouTube",
+      "url": "https://www.youtube-nocookie.com/embed/live_stream?channel=UCr2GPEJcl2lXu0lS9-0FjvA",
+      "watch": "https://www.youtube.com/@excavationpro/live"
     },
     {
       "id": "rumble_radio",
       "title": "Excavationpro Rumble radio room",
       "kind": "rumble",
-      "url": "https://rumble.com/embed/v7anxls/?pub=1th29y"
+      "group": "Rumble",
+      "url": "https://rumble.com/embed/v7anxls/?pub=1th29y",
+      "watch": "https://rumble.com/user/excavationpro"
+    },
+    {
+      "id": "yt_justin_videos",
+      "title": "Justin Helmer YouTube videos",
+      "kind": "youtube",
+      "group": "YouTube",
+      "url": "https://www.youtube-nocookie.com/embed/videoseries?list=UUIbGSxMpDaj5ivh6mP_-k-A",
+      "watch": "https://www.youtube.com/@justinhelmer"
+    },
+    {
+      "id": "yt_excav_videos",
+      "title": "Excavationpro YouTube videos",
+      "kind": "youtube",
+      "group": "YouTube",
+      "url": "https://www.youtube-nocookie.com/embed/videoseries?list=UUr2GPEJcl2lXu0lS9-0FjvA",
+      "watch": "https://www.youtube.com/@excavationpro"
     }
   ],
   "bouquets": [
