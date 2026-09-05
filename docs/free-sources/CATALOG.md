@@ -15,7 +15,7 @@ A growing catalog of **free-to-access public channels** found on the internet (p
 2. **HTTPS** playlist URL. HTTP stream rows are skipped in the player.
 3. Probe: HTTP 200 and at least 3 HTTPS entries.
 4. No Xtream logins, no VOD movie packs, no decrypt, no pirate proxy (including jmp2.uk-style wrappers we chose not to ship).
-5. **Not branded XXX.** `xxx_catalog` stays false. Do not add iptv-org `categories/xxx.m3u`. **Adult** lists may sit behind the age gate and must be labeled **Adult**. **18+ entertainment** (Adult Swim) is also on that shelf.
+5. **Not branded XXX.** `xxx_catalog` stays false. Do not add iptv-org `categories/xxx.m3u`. The Adult shelf is gated and labeled **Adult**. Better adult lists can be added later. **18+ entertainment** (Adult Swim) is on that shelf.
 
 ## How rows are sorted in the player
 
@@ -23,7 +23,7 @@ A growing catalog of **free-to-access public channels** found on the internet (p
 |-------|---------|
 | **All ages** (default) | Unlabeled ordinary channels |
 | **Kids** | Metadata says kids/children, or the Kids topic list |
-| **Adult** | Gated 18+. Includes 18+ entertainment and some public adult lists. Labeled Adult, not XXX |
+| **Adult** | Gated 18+. 18+ entertainment plus leftover adult metadata. Labeled Adult, not XXX |
 
 Unlabeled is treated as all ages on purpose so the main shelf stays usable. Metadata can be wrong — the disclaimer says so.
 
@@ -61,6 +61,6 @@ Public IPTV “adult” lists are almost all porn, jmp2.uk wrappers, or HTTP pir
 
 Opens on the **Adult** shelf. Not branded XXX.
 
-## v1.14 — Adult list behind the gate
+## v1.15 — AdultIPTV.net list removed
 
-Public adult M3U from AdultIPTV.net is HTTP in the wild. We rewrite CDN URLs to **HTTPS**, set `group-title=Adult`, and host https://chatagent.ca/sources/adult.m3u8 (24 streams, probed 200). Topics chip: **Adult**. Age gate required. Logos hidden until confirmed.
+Removed `adult_pub` / `adult.m3u8` (AdultIPTV.net dump). Adult shelf and Adult Swim list stay. Better adult lists can be added later behind the gate.

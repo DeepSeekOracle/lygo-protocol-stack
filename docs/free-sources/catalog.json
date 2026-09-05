@@ -1,10 +1,10 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.14.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.15.0",
   "name": "LYGO TV",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-05T22:30:00Z",
+  "updated_utc": "2026-09-05T23:00:00Z",
   "disclaimer": "https://chatagent.ca/sources/disclaimer.html",
   "portal_only": true,
   "xxx_catalog": false,
@@ -15,11 +15,10 @@
     "adult_requires_gate": true,
     "no_xxx_bouquet": true,
     "https_only": true,
-    "free_public_lists_only": true,
-    "adult_labeled_adult": true
+    "free_public_lists_only": true
   },
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit. Follow sources/CATALOG.md.",
-  "note": "Portal only. Not branded XXX. v1.14: Adult shelf (gated) includes a public AdultIPTV.net HTTPS rewrite labeled Adult, plus 18+ entertainment.",
+  "note": "Portal only. Not branded XXX. v1.15: removed AdultIPTV.net dump. Adult shelf + Adult Swim remain.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
@@ -1400,12 +1399,6 @@
       "title": "18+ entertainment (not XXX)",
       "kind": "playlist",
       "url": "https://chatagent.ca/sources/mature.m3u8"
-    },
-    {
-      "id": "adult_pub",
-      "title": "Adult",
-      "kind": "playlist",
-      "url": "https://chatagent.ca/sources/adult.m3u8"
     }
   ]
 }
