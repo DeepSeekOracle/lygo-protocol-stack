@@ -8,12 +8,16 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-SIG = "Delta9Phi963-LYGO-TV-v1.1.0"
-VERSION = "1.1.0"
+SIG = "Delta9Phi963-LYGO-TV-v1.2.0"
+VERSION = "1.2.0"
 
 TV = "https://chatagent.ca/sources/"
 CATALOG = "https://chatagent.ca/sources/catalog.json"
+TERMS = "https://chatagent.ca/terms.html"
+DISCLAIMER = "https://chatagent.ca/sources/disclaimer.html"
+EMBLEM = "https://chatagent.ca/sources/emblem.svg"
 SOURCE = "https://github.com/DeepSeekOracle/chatagent/tree/main/sources"
+SKILL_SRC = "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-tv"
 STACK = "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/free-sources"
 WITNESS = "https://chatagent.ca/witness/"
 LISTEN = "https://asiancoastline.com/listen.html"
@@ -33,7 +37,11 @@ def urls() -> dict[str, str]:
         "player": TV,
         "bookmark": TV,
         "catalog": CATALOG,
+        "terms": TERMS,
+        "disclaimer": DISCLAIMER,
+        "emblem": EMBLEM,
         "source": SOURCE,
+        "skill_source": SKILL_SRC,
         "stack_mirror": STACK,
         "witness": WITNESS,
         "listen": LISTEN,

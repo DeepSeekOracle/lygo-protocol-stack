@@ -1,4 +1,4 @@
-# Security — lygo-tv v1.0.0
+# Security — lygo-tv v1.2.0
 
 **This folder is a ClawHub pointer.** Isolation claims apply only to Python here.
 
@@ -12,7 +12,7 @@
 | Live Star Chart write | **No** |
 | git / HF / ClawHub / social | **No** |
 
-Printed URLs (chatagent.ca/sources, catalog.json, donate) are for **you** to open. If another skill fetches them, that skill must declare network.
+Printed URLs (player, catalog.json, terms, disclaimer, donate) are for **you** to open. If another skill fetches them, that skill must declare network.
 
 The live player is a static GitHub Pages page. Catalog class is **RESOURCE**. Dual ledgers remain **CANON**.
 

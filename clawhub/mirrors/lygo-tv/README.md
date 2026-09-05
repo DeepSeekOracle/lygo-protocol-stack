@@ -13,4 +13,6 @@ python scripts/lygo_tv.py bookmark
 
 Channel tab = Excavationpro rooms. Public lists after Terms. This package does not fetch streams.
 
+Official emblem: overlapping gold rings + cyan meridian (`emblem.svg`).
+
 Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro)

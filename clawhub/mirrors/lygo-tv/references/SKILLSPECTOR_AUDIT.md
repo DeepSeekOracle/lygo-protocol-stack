@@ -1,4 +1,4 @@
-# SkillSpector — lygo-tv v1.0.0
+# SkillSpector — lygo-tv v1.2.0
 
 | Risk | Mitigation |
 |------|------------|
@@ -8,5 +8,6 @@
 | Subprocess | None |
 | Pirate / CORS proxy | Explicitly forbidden in SKILL.md |
 | Description mismatch | SKILL.md lists pointer-only contract |
+| Binary / media | `emblem.svg` is UTF-8 vector only |
 
 **Δ9Φ963**

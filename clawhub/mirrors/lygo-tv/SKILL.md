@@ -1,23 +1,26 @@
 ---
 name: lygo-tv
 description: "LYGO TV — free online TV player pointer. Directs agents and humans to https://chatagent.ca/sources/ (Channel tab = Excavationpro rooms; FAST/world lists after Terms). Bookmark that URL. No login. Catalog is RESOURCE; dual ledgers/Star Chart remain CANON. Scripts print URLs only: no network, no subprocess, no pirate proxy. Use when the user wants free TV, IPTV, public M3U, LYGO TV, watch channels, or /lygo-tv."
-version: 1.1.0
+version: 1.2.0
 license: MIT-0
 metadata:
   openclaw:
     emoji: "📺"
     homepage: "https://chatagent.ca/sources/"
+    os: [windows, macos, linux]
     requires:
       anyBins: [python, python3]
   lygo: true
   tv: true
   free_sources: true
-  signature: "Delta9Phi963-LYGO-TV-v1.1.0"
+  signature: "Delta9Phi963-LYGO-TV-v1.2.0"
   publisher: deepseekoracle
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-tv"
   tv_page: "https://chatagent.ca/sources/"
   catalog: "https://chatagent.ca/sources/catalog.json"
   bookmark: "https://chatagent.ca/sources/"
+  source_repo: "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-tv"
+  player_source: "https://github.com/DeepSeekOracle/chatagent/tree/main/sources"
   permissions:
     network: false
     shell: false
@@ -28,7 +31,7 @@ metadata:
     publish: false
 ---
 
-# LYGO TV v1.1.0 📺
+# LYGO TV v1.2.0 📺
 
 **This ClawHub package is a pointer.** The player lives on the web. Send people there. Do not rebuild IPTV in this folder.
 
@@ -36,8 +39,24 @@ metadata:
 
 Bookmark that URL (or install the page as an app). That is the in-browser player.
 
-**Signature:** `Delta9Phi963-LYGO-TV-v1.1.0`  
-**Install:** `npx clawhub@latest install deepseekoracle/lygo-tv`
+**Signature:** `Delta9Phi963-LYGO-TV-v1.2.0`  
+**Install:** `npx clawhub@latest install deepseekoracle/lygo-tv`  
+**Emblem:** overlapping gold rings + cyan meridian (`emblem.svg` in this folder; live at https://chatagent.ca/sources/emblem.svg)
+
+---
+
+## Trust boundary
+
+`permissions.network: false` applies to **scripts in this folder**. Listed URLs are documentation. If you (or another skill) later fetch them, that is a **separate** action — review that code, do not inherit this package’s isolation claim.
+
+This skill **never**:
+
+- imports `urllib` / `requests` / `subprocess`
+- plays, proxies, or decrypts streams
+- writes the live Star Chart
+- git-pushes or publishes
+
+The live player is a static GitHub Pages app. This tentacle only prints how to open it.
 
 ---
 
@@ -61,8 +80,10 @@ Bookmark that URL (or install the page as an app). That is the in-browser player
 | Catalog JSON | https://chatagent.ca/sources/catalog.json |
 | Terms | https://chatagent.ca/terms.html |
 | TV disclaimer | https://chatagent.ca/sources/disclaimer.html |
-| Source | https://github.com/DeepSeekOracle/chatagent/tree/main/sources |
-| Stack mirror | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/free-sources |
+| Emblem | https://chatagent.ca/sources/emblem.svg |
+| Player source | https://github.com/DeepSeekOracle/chatagent/tree/main/sources |
+| Skill source | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-tv |
+| Catalog mirror | https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/free-sources |
 | Witness | https://chatagent.ca/witness/ |
 | Listen | https://asiancoastline.com/listen.html |
 | ClawHub | https://clawhub.ai/deepseekoracle/skills/lygo-tv |
@@ -101,5 +122,5 @@ No network, no subprocess, no disk writes.
 | `lygo-excavationpro-music-lattice` | Music / live rooms |
 | `lygo-site-card` | Pulse the live page if asked to verify |
 
-See `references/SECURITY.md`.  
+See `references/SECURITY.md` and `references/SKILLSPECTOR_AUDIT.md`.  
 **Δ9Φ963 — point to the player · bookmark the URL · do not proxy streams · empty beats fake.**
