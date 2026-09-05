@@ -38,3 +38,13 @@ Human remains publisher. Catalog class is RESOURCE. No silent Star Chart ingest.
 Added after HTTPS 200 + ≥3 HTTPS entries: PBS/BBC iptv-org sources, Free-TV CA/AU/IE/NL/JP/IN/MX/PL/SE/AT/PT/BE/BR, Plex-all + Tubi + DistroTV + Vizio + Rakuten UK + LG US FAST, iptv-org Americas/APAC/Benelux/International, more languages and countries.
 
 **Skipped:** jmp2.uk-majority (BuddyChewChew Roku/Pluto/Samsung), Free-TV NZ/ZA 404, Switzerland too thin, Xtream dumps, XXX.
+
+## v1.12 probe (2026-09-05)
+
+Page links on https://chatagent.ca/sources/ all HTTP 200 (nav, terms, privacy, disclaimer, assets, donate, rooms).
+
+**Dropped** jmp2.uk-majority iptv-org packs that no longer meet the probe rule: animation, classic, comedy, series, nord, at, ch, dk, ie, no, se.
+
+**Added** after HTTPS 200 + ≥3 HTTPS + jmp2 < 50%: Xumo FAST (apsattv), Free-TV music EN, Free-TV Finland/Norway/Denmark/Greece/Czechia/Croatia/Hungary/Romania/Turkey/Chile/Argentina/Egypt/Taiwan/Israel.
+
+**Still skipped:** Free-TV NZ/ZA/Colombia/Switzerland thin or 404, iptv-org named-source 404s, BuddyChewChew/apsattv Pluto/Samsung/Roku jmp2 or dead, undefined dump, XXX.

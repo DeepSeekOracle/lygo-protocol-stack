@@ -1,10 +1,10 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.11.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.12.0",
   "name": "LYGO TV",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-06T00:30:00Z",
+  "updated_utc": "2026-09-05T21:30:00Z",
   "disclaimer": "https://chatagent.ca/sources/disclaimer.html",
   "portal_only": true,
   "xxx_catalog": false,
@@ -18,7 +18,7 @@
     "free_public_lists_only": true
   },
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit. Follow sources/CATALOG.md.",
-  "note": "Portal only. No XXX catalog. Unlabeled = all ages. Kids/18+ separated. v1.11 probed 2026-09-06: PBS/BBC sources, Free-TV countries, Plex-all/Tubi/Distro/Vizio/Rakuten/LG FAST (no jmp2-majority), iptv-org Americas/APAC/Benelux/International + more langs/countries. Skipped jmp2.uk Roku/Pluto/Samsung packs and thin 404s.",
+  "note": "Portal only. No XXX catalog. v1.12 probed 2026-09-05: dropped jmp2.uk-majority iptv-org packs (animation/classic/comedy/series + nord/at/ch/dk/ie/no/se). Added Xumo FAST + Free-TV FI/NO/DK/GR/CZ/HR/HU/RO/TR/CL/AR/EG/TW/IL + Free-TV music EN. Page links 200.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
@@ -345,12 +345,6 @@
       "url": "https://iptv-org.github.io/iptv/categories/religious.m3u"
     },
     {
-      "id": "classic",
-      "title": "Classic",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/classic.m3u"
-    },
-    {
       "id": "relax",
       "title": "Relax",
       "kind": "playlist",
@@ -385,24 +379,6 @@
       "title": "Weather",
       "kind": "playlist",
       "url": "https://iptv-org.github.io/iptv/categories/weather.m3u"
-    },
-    {
-      "id": "animation",
-      "title": "Animation",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/animation.m3u"
-    },
-    {
-      "id": "comedy",
-      "title": "Comedy",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/comedy.m3u"
-    },
-    {
-      "id": "series",
-      "title": "Series",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/categories/series.m3u"
     },
     {
       "id": "cooking",
@@ -487,12 +463,6 @@
       "title": "Caribbean",
       "kind": "playlist",
       "url": "https://iptv-org.github.io/iptv/regions/carib.m3u"
-    },
-    {
-      "id": "nord",
-      "title": "Nordic",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/regions/nord.m3u"
     },
     {
       "id": "oce",
@@ -609,12 +579,6 @@
       "url": "https://iptv-org.github.io/iptv/countries/nz.m3u"
     },
     {
-      "id": "ie",
-      "title": "Ireland",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/ie.m3u"
-    },
-    {
       "id": "fr",
       "title": "France",
       "kind": "playlist",
@@ -649,36 +613,6 @@
       "title": "Belgium",
       "kind": "playlist",
       "url": "https://iptv-org.github.io/iptv/countries/be.m3u"
-    },
-    {
-      "id": "at",
-      "title": "Austria",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/at.m3u"
-    },
-    {
-      "id": "ch",
-      "title": "Switzerland",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/ch.m3u"
-    },
-    {
-      "id": "se",
-      "title": "Sweden",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/se.m3u"
-    },
-    {
-      "id": "no",
-      "title": "Norway",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/no.m3u"
-    },
-    {
-      "id": "dk",
-      "title": "Denmark",
-      "kind": "playlist",
-      "url": "https://iptv-org.github.io/iptv/countries/dk.m3u"
     },
     {
       "id": "fi",
@@ -1363,6 +1297,102 @@
       "title": "All iptv-org",
       "kind": "playlist",
       "url": "https://iptv-org.github.io/iptv/index.m3u"
+    },
+    {
+      "id": "xumo_fast",
+      "title": "Xumo FAST",
+      "kind": "playlist",
+      "url": "https://www.apsattv.com/xumo.m3u"
+    },
+    {
+      "id": "ftv_music",
+      "title": "Free-TV music (EN)",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_zz_music_en.m3u8"
+    },
+    {
+      "id": "ftv_finland",
+      "title": "Free-TV Finland",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_finland.m3u8"
+    },
+    {
+      "id": "ftv_norway",
+      "title": "Free-TV Norway",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_norway.m3u8"
+    },
+    {
+      "id": "ftv_denmark",
+      "title": "Free-TV Denmark",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_denmark.m3u8"
+    },
+    {
+      "id": "ftv_greece",
+      "title": "Free-TV Greece",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_greece.m3u8"
+    },
+    {
+      "id": "ftv_czech",
+      "title": "Free-TV Czechia",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_czech_republic.m3u8"
+    },
+    {
+      "id": "ftv_croatia",
+      "title": "Free-TV Croatia",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_croatia.m3u8"
+    },
+    {
+      "id": "ftv_hungary",
+      "title": "Free-TV Hungary",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_hungary.m3u8"
+    },
+    {
+      "id": "ftv_romania",
+      "title": "Free-TV Romania",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_romania.m3u8"
+    },
+    {
+      "id": "ftv_turkey",
+      "title": "Free-TV Turkey",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_turkey.m3u8"
+    },
+    {
+      "id": "ftv_chile",
+      "title": "Free-TV Chile",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_chile.m3u8"
+    },
+    {
+      "id": "ftv_argentina",
+      "title": "Free-TV Argentina",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_argentina.m3u8"
+    },
+    {
+      "id": "ftv_egypt",
+      "title": "Free-TV Egypt",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_egypt.m3u8"
+    },
+    {
+      "id": "ftv_taiwan",
+      "title": "Free-TV Taiwan",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_taiwan.m3u8"
+    },
+    {
+      "id": "ftv_israel",
+      "title": "Free-TV Israel",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_israel.m3u8"
     }
   ]
 }
