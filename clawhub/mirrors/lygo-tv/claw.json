@@ -1,14 +1,14 @@
 {
   "name": "lygo-tv",
   "displayName": "LYGO TV",
-  "version": "1.0.0",
-  "description": "Pointer to the free online TV player at https://chatagent.ca/sources/. Pick a list, click a channel, watch. No login. Scripts print URLs only.",
+  "version": "1.1.0",
+  "description": "Pointer to the free online TV player at https://chatagent.ca/sources/. Bookmark that URL. Channel tab = Excavationpro rooms; public lists after Terms. Scripts print URLs only.",
   "slug": "lygo-tv",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://chatagent.ca/sources/",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-tv",
-  "signature": "Delta9Phi963-LYGO-TV-v1.0.0",
+  "signature": "Delta9Phi963-LYGO-TV-v1.1.0",
   "tags": [
     "latest",
     "lygo",
@@ -17,6 +17,9 @@
     "free-tv",
     "m3u",
     "rumble",
+    "kick",
+    "twitch",
+    "bookmark",
     "chatagent",
     "openclaw",
     "delta9"
@@ -27,6 +30,7 @@
     "urls": "scripts/lygo_tv.py urls",
     "map": "scripts/lygo_tv.py map",
     "demo": "scripts/lygo_tv.py demo",
+    "bookmark": "scripts/lygo_tv.py bookmark",
     "donate": "scripts/lygo_tv.py donate",
     "self_check": "scripts/self_check.py"
   },
@@ -55,6 +59,6 @@
     "no_network": true,
     "listed_urls_are_documentation": true,
     "public_tentacle": true,
-    "version": "1.0.0"
+    "version": "1.1.0"
   }
 }

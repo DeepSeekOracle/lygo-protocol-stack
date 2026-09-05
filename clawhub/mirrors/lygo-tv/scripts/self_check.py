@@ -20,8 +20,8 @@ def main() -> int:
     ok = (
         no_sub
         and no_net
-        and t.VERSION == "1.0.0"
-        and t.SIG == "Delta9Phi963-LYGO-TV-v1.0.0"
+        and t.VERSION == "1.1.0"
+        and t.SIG == "Delta9Phi963-LYGO-TV-v1.1.0"
         and u["player"] == "https://chatagent.ca/sources/"
         and u["catalog"].endswith("/sources/catalog.json")
         and m["class"] == "RESOURCE"

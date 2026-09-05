@@ -8,8 +8,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-SIG = "Delta9Phi963-LYGO-TV-v1.0.0"
-VERSION = "1.0.0"
+SIG = "Delta9Phi963-LYGO-TV-v1.1.0"
+VERSION = "1.1.0"
 
 TV = "https://chatagent.ca/sources/"
 CATALOG = "https://chatagent.ca/sources/catalog.json"
@@ -31,6 +31,7 @@ def utc_now() -> str:
 def urls() -> dict[str, str]:
     return {
         "player": TV,
+        "bookmark": TV,
         "catalog": CATALOG,
         "source": SOURCE,
         "stack_mirror": STACK,
@@ -53,8 +54,8 @@ def map_payload() -> dict[str, Any]:
         "live_star_chart_ingest": False,
         "generated_utc": utc_now(),
         "player": TV,
-        "how": "Pick a list → click a channel → watch. Free. No login.",
-        "default": "Watch tab opens Excavationpro Rumble LIVE",
+        "how": "Bookmark https://chatagent.ca/sources/ . Channel tab = Excavationpro rooms. Public lists after Terms tick.",
+        "default": "Channel tab opens Excavationpro Kick / Rumble / Twitch / YouTube",
         "urls": urls(),
         "forbidden": [
             "CORS or pirate proxy",
@@ -72,11 +73,12 @@ def plain() -> str:
         [
             "LYGO TV — free online TV player",
             "",
-            "Open: " + TV,
-            "1. Page starts on Watch → Excavationpro Rumble LIVE.",
-            "2. Tabs: Watch / Lists / Topics / Places / Languages.",
+            "Bookmark / open: " + TV,
+            "1. Channel tab = Excavationpro Kick, Rumble, Twitch, YouTube (always open).",
+            "2. FAST / Lists / Topics / Places / Languages after Terms tick for this session.",
             "3. Click a channel. GitHub lists wait for a click.",
             "4. Keys: left/right next, F fullscreen, / search.",
+            "5. Agents: " + INSTALL,
             "",
             "Catalog is RESOURCE. Dual ledgers stay CANON.",
             "No login. Optional tip: " + PAYPAL,
@@ -95,7 +97,7 @@ def main(argv: list[str] | None = None) -> int:
         "cmd",
         nargs="?",
         default="plain",
-        choices=("plain", "urls", "map", "demo", "donate"),
+        choices=("plain", "urls", "map", "demo", "donate", "bookmark"),
     )
     args = p.parse_args(argv)
     if args.cmd == "plain":
@@ -106,6 +108,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "donate":
         print(json.dumps(donate(), indent=2))
+        return 0
+    if args.cmd == "bookmark":
+        print(json.dumps({"player": TV, "bookmark": TV, "clawhub": CLAWHUB, "install": INSTALL}, indent=2))
         return 0
     print(json.dumps(map_payload(), indent=2))
     return 0
