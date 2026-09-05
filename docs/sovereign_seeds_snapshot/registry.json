@@ -1,8 +1,8 @@
 {
   "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
   "version": "1.0.0",
-  "updated_utc": "2026-08-24T11:49:32Z",
-  "registry_merkle_root": "e05df4f0615a70d352334d5e417140c82ced389303aa0105a45947355f79683d",
+  "updated_utc": "2026-08-31T17:55:41Z",
+  "registry_merkle_root": "e5c98d383b24a10cb30e1e49019970222b3458722a95124a6557408607fd0b7a",
   "eggs": {
     "lygo-music-license-v1": {
       "egg_id": "lygo-music-license-v1",
@@ -73,6 +73,16 @@
       "path": "agent-agora-door-v1.egg.json",
       "created_utc": "2026-08-24T11:49:32Z",
       "signature": "Delta9Phi963-EGG-agent-agora-door-v1-v1.0.0"
+    },
+    "mycelium-shard-seed-v1": {
+      "egg_id": "mycelium-shard-seed-v1",
+      "version": "1.0.0",
+      "kind": "seed",
+      "content_sha256": "73495bf966540ca947e7cc39791dddb8e9b9cefe4ce746c220e15f12c476a09a",
+      "leaf_hash": "9680019cdcd7ded134c3b91e621b7f89fd80f862953b23322e41e28392192919",
+      "path": "mycelium-shard-seed-v1.egg.json",
+      "created_utc": "2026-08-31T17:55:41Z",
+      "signature": "Delta9Phi963-EGG-mycelium-shard-seed-v1-v1.0.0"
     }
   },
   "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0"
