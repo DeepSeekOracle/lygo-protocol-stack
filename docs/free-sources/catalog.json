@@ -1,10 +1,10 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.12.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.13.0",
   "name": "LYGO TV",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-05T21:30:00Z",
+  "updated_utc": "2026-09-05T22:00:00Z",
   "disclaimer": "https://chatagent.ca/sources/disclaimer.html",
   "portal_only": true,
   "xxx_catalog": false,
@@ -18,7 +18,7 @@
     "free_public_lists_only": true
   },
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit. Follow sources/CATALOG.md.",
-  "note": "Portal only. No XXX catalog. v1.12 probed 2026-09-05: dropped jmp2.uk-majority iptv-org packs (animation/classic/comedy/series + nord/at/ch/dk/ie/no/se). Added Xumo FAST + Free-TV FI/NO/DK/GR/CZ/HR/HU/RO/TR/CL/AR/EG/TW/IL + Free-TV music EN. Page links 200.",
+  "note": "Portal only. No XXX catalog. v1.13: 18+ entertainment list (Adult Swim official + YouTube, Comedy Central YouTube) — not porn. Gated 18+ shelf.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
@@ -1393,6 +1393,12 @@
       "title": "Free-TV Israel",
       "kind": "playlist",
       "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_israel.m3u8"
+    },
+    {
+      "id": "mature_18",
+      "title": "18+ entertainment (not XXX)",
+      "kind": "playlist",
+      "url": "https://chatagent.ca/sources/mature.m3u8"
     }
   ]
 }

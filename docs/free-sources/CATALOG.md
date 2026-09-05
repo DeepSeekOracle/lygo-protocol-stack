@@ -15,7 +15,7 @@ A growing catalog of **free-to-access public channels** found on the internet (p
 2. **HTTPS** playlist URL. HTTP stream rows are skipped in the player.
 3. Probe: HTTP 200 and at least 3 HTTPS entries.
 4. No Xtream logins, no VOD movie packs, no decrypt, no pirate proxy (including jmp2.uk-style wrappers we chose not to ship).
-5. **No XXX / adult bouquet.** `xxx_catalog` stays false. Do not add `categories/xxx.m3u`.
+5. **No XXX bouquet.** `xxx_catalog` stays false. Do not add `categories/xxx.m3u` or porn packs. **18+ entertainment** (Adult Swim, late-night comedy) is allowed on a gated shelf.
 
 ## How rows are sorted in the player
 
@@ -23,7 +23,7 @@ A growing catalog of **free-to-access public channels** found on the internet (p
 |-------|---------|
 | **All ages** (default) | Unlabeled ordinary channels |
 | **Kids** | Metadata says kids/children, or the Kids topic list |
-| **18+ gated** | Metadata looks adult (title/group). Isolated. Age gate. Not a destination catalog |
+| **18+ gated** | 18+ entertainment (not XXX) plus leftover “adult/18+” metadata. Age gate. Isolated from Kids |
 
 Unlabeled is treated as all ages on purpose so the main shelf stays usable. Metadata can be wrong — the disclaimer says so.
 
@@ -48,3 +48,15 @@ Page links on https://chatagent.ca/sources/ all HTTP 200 (nav, terms, privacy, d
 **Added** after HTTPS 200 + ≥3 HTTPS + jmp2 < 50%: Xumo FAST (apsattv), Free-TV music EN, Free-TV Finland/Norway/Denmark/Greece/Czechia/Croatia/Hungary/Romania/Turkey/Chile/Argentina/Egypt/Taiwan/Israel.
 
 **Still skipped:** Free-TV NZ/ZA/Colombia/Switzerland thin or 404, iptv-org named-source 404s, BuddyChewChew/apsattv Pluto/Samsung/Roku jmp2 or dead, undefined dump, XXX.
+
+## v1.13 — 18+ entertainment, not XXX
+
+Public IPTV “adult” lists are almost all porn, jmp2.uk wrappers, or HTTP pirate IPs. We did **not** add those.
+
+**Added** `mature_18` → https://chatagent.ca/sources/mature.m3u8 (HTTPS, ≥3 entries):
+
+- Adult Swim official HLS (`media.cdn.adultswim.com`)
+- Adult Swim YouTube live + uploads (`UCgPClNr5VSYC3syrDUIlzLw`)
+- Comedy Central YouTube uploads (`UCUsN5ZwHx2kILm84-jPDeXw`)
+
+Opens on the **18+ gated** shelf. Not an XXX catalog.
