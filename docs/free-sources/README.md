@@ -4,7 +4,7 @@ Live: https://chatagent.ca/sources/
 
 Open the page → **Channel** tab lists Excavationpro rooms: Kick, Rumble LIVE, Twitch, YouTube @justinhelmer, YouTube @excavationpro (HTTPS embeds). Other tabs: FAST / Lists / Topics / Places / Languages / Saved. Portal only — full disclaimer: https://chatagent.ca/sources/disclaimer.html . Kids / 18+ badges from list metadata; 18+ hidden until confirmed. GitHub lists do not autoplay (CORS often blocks the first stream). Keyboard: ← → next, space pause, F fullscreen, M mute, R retry, S stop, P picture-in-picture, / search.
 
-Catalog v1.8.0. Channel tab is steward rooms (not a public M3U). Other bouquets probed 2026-09-05 (HTTP 200, ≥3 HTTPS entries):
+Catalog v1.10.0. Portal only. No XXX catalog. All ages / Kids / 18+ gated shelves. Channel tab is steward rooms. Other bouquets probed 2026-09-05 (HTTP 200, ≥3 HTTPS entries). Steward rules: `CATALOG.md`.
 
 - FAST: i.mjh.nz raw TV + radio, Plex FAST US, RW1986 (HTTP URLs skipped in player), Free-TV USA/UK/news/docs
 - Lists: world_ip_tv, Free-TV master + FR/DE/IT/ES, fanmingming, Brazil FTA, all iptv-org

@@ -1,14 +1,24 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.9.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.10.0",
   "name": "LYGO TV",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-05T22:00:00Z",
+  "updated_utc": "2026-09-05T23:00:00Z",
   "disclaimer": "https://chatagent.ca/sources/disclaimer.html",
   "portal_only": true,
-  "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit.",
-  "note": "Portal only. Disclaimer https://chatagent.ca/sources/disclaimer.html . Bouquets probed 2026-09-05. Player hides 18+ until confirmed; Kids badges from metadata. No XXX catalog file. HTTP stream URLs skipped.",
+  "xxx_catalog": false,
+  "catalog_policy": {
+    "unlabeled": "all_ages",
+    "kids_separated": true,
+    "adult_separated": true,
+    "adult_requires_gate": true,
+    "no_xxx_bouquet": true,
+    "https_only": true,
+    "free_public_lists_only": true
+  },
+  "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit. Follow sources/CATALOG.md.",
+  "note": "Portal only. No XXX catalog. Unlabeled = all ages. Kids and 18+ are separate shelves from metadata, 18+ gated. HTTPS public lists only.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"

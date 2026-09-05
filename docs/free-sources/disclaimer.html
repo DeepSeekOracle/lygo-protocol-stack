@@ -69,26 +69,31 @@
       <li>that content is legal to watch in your country.</li>
     </ul>
 
-    <h2>4. Kids listings</h2>
+    <h2>4. Three shelves: All ages, Kids, 18+</h2>
     <p>
-      Channels marked <strong>Kids</strong> are labeled from public playlist metadata (category files
-      such as iptv-org’s kids list, <code>group-title</code>, or words such as “kids” / “children” in
-      the title). That is a <strong>hint, not a parental-control system</strong> and not a guarantee
-      that the video is suitable for children. Ads, autoplay, and third-party players may still show
-      unexpected material. Supervise minors. Do not treat LYGO TV as a child-safe app.
+      We sort rows from public metadata so the catalog can stay <strong>open and honest</strong>
+      without mixing children and adult material in one list:
+    </p>
+    <ul>
+      <li><strong>All ages</strong> (default) — unlabeled ordinary channels. This is the normal catalog.</li>
+      <li><strong>Kids</strong> — rows whose list, group, or title is marked kids/children. A separate shelf.
+        This is a <strong>hint, not a parental-control lock</strong>. Supervise minors.</li>
+      <li><strong>18+ gated</strong> — leftover rows whose metadata looks adult. Isolated behind an age gate.
+        <strong>We do not operate an XXX catalog</strong> and we do not add adult-only playlists.</li>
+    </ul>
+    <p>
+      Labels can be wrong in both directions. Unlabeled does not prove a stream is suitable for every
+      age. 18+ does not prove it is pornography. We still show the split so administration stays
+      quality-first as the free catalog grows.
     </p>
 
-    <h2>5. Adult / 18+ listings</h2>
+    <h2>5. How we grow the free catalog</h2>
     <p>
-      Channels marked <strong>18+</strong> are flagged from public metadata (for example group titles
-      or names containing adult / XXX / NSFW / 18+). <strong>18+ listings are hidden by default</strong>
-      and require an on-page confirmation that you are 18 or older before playback. Metadata can be
-      wrong in both directions: some adult streams may be unlabeled, and some labeled streams may not
-      be adult. If you are under 18, do not enable 18+ listings and do not play them.
-    </p>
-    <p>
-      We do not add a dedicated adult/XXX catalog file. Residual 18+ rows can still appear inside
-      large mixed public lists. The Hide 18+ control and the confirm prompt are the hardening layer.
+      New lists are added only if they are <strong>HTTPS</strong>, presented by the source as
+      <strong>free to watch online</strong>, probed live, and useful. We do not decrypt pay-TV,
+      stand up a pirate proxy, or ingest Xtream/VOD dumps. Steward notes live in
+      <code>sources/CATALOG.md</code> on the chatagent repo. The human publisher commits
+      <code>catalog.json</code>. The catalog is RESOURCE, not Star Chart canon.
     </p>
 
     <h2>6. What you must not do</h2>
