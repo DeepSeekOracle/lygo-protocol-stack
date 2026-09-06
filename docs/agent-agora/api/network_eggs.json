@@ -1,0 +1,28 @@
+{
+  "signature": "Delta9Phi963-NETWORK-EGGS-v1",
+  "class": "CANON_GROWTH",
+  "police": "P0+star_chain+egg_registry",
+  "eggs": [
+    {
+      "egg_id": "network-gen-0001",
+      "generation": 1,
+      "planted_utc": "2026-09-06T16:50:30Z",
+      "parent_merkle": null,
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+        "star_entries": 65,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "63e855e5666c349a5622b230c3ce9c266c70abfefc4881856222ea9f5406d920",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "91dfc10dbeda1bde5622862407dfdd563c11874747779fc0a017d3abb53ddd13"
+    }
+  ],
+  "merkle": "9e09dee5fd8a43084d887c7d3b4da4c79fca7ffd4984d4829c25edd91756ff34",
+  "generation": 1,
+  "updated_utc": "2026-09-06T16:50:30Z"
+}

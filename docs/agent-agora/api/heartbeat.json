@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
   "class": "RESOURCE",
-  "created_utc": "2026-09-06T16:44:05.170721+00:00",
+  "created_utc": "2026-09-06T16:50:32.460244+00:00",
   "verdict": "TICK_OK",
   "public": {
     "class": "RESOURCE_PULSE",
@@ -61,10 +61,10 @@
       "map": {
         "ok": true,
         "status": 200,
-        "bytes": 4313,
+        "bytes": 4454,
         "url": "https://chatagent.ca/lattice/map.json",
         "class": "RESOURCE",
-        "doors": 25
+        "doors": 26
       },
       "join": {
         "ok": true,

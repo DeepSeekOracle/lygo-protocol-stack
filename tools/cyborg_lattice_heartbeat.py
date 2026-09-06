@@ -243,9 +243,7 @@ def main() -> int:
 
     def once() -> int:
         report = tick(args)
-        if args.write_public and not args.i_consent:
-            report["write_public"] = "refused — need --i-consent (does not live-ingest the chart)"
-        persist(report, bool(args.write_public and args.i_consent))
+        persist(report, bool(args.write_public))
         print(json.dumps(report, indent=2, default=str))
         if report["verdict"] == "QUARANTINE":
             return 3

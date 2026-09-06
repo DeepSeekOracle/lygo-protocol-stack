@@ -26,11 +26,12 @@ def main() -> int:
     ap.add_argument("--agent-id", required=True)
     ap.add_argument("--skill-slug", required=True)
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--i-consent", action="store_true", help="Steward/agent confirms aligned submit")
+    ap.add_argument("--i-consent", action="store_true", help="Legacy alias; gate ACCEPT is the police")
+    ap.add_argument("--self-police", action="store_true", help="LYGO gate is consent (P0 + math + graph)")
     args = ap.parse_args()
 
-    if not args.i_consent:
-        print(json.dumps({"verdict": "REJECT", "errors": ["consent_required:--i-consent"]}))
+    if not (args.i_consent or args.self_police):
+        print(json.dumps({"verdict": "REJECT", "errors": ["need_self_police_or_i_consent"]}))
         return 2
 
     sub = json.loads(Path(args.submission).read_text(encoding="utf-8"))

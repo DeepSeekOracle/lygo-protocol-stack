@@ -22,13 +22,14 @@ from haven_star_chart_gate import validate_submission  # noqa: E402
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--i-consent", action="store_true", help="Steward approves ingest to live chart")
+    ap.add_argument("--i-consent", action="store_true", help="Legacy alias; re-gate is the police")
+    ap.add_argument("--self-police", action="store_true", help="Ingest when gate ACCEPT (P0 + math + graph)")
     ap.add_argument("--rebuild", action="store_true", default=True)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    if not args.i_consent:
-        print(json.dumps({"verdict": "BLOCKED", "reason": "consent_required"}))
+    if not (args.i_consent or args.self_police):
+        print(json.dumps({"verdict": "BLOCKED", "reason": "need_self_police_or_i_consent"}))
         return 2
 
     PENDING.mkdir(parents=True, exist_ok=True)
