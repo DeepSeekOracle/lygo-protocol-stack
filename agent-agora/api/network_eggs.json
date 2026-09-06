@@ -1,0 +1,74 @@
+{
+  "signature": "Delta9Phi963-NETWORK-EGGS-v1",
+  "class": "CANON_GROWTH",
+  "police": "P0+star_chain+egg_registry",
+  "eggs": [
+    {
+      "egg_id": "network-gen-0001",
+      "generation": 1,
+      "planted_utc": "2026-09-06T16:50:30Z",
+      "parent_merkle": null,
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+        "star_entries": 65,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "63e855e5666c349a5622b230c3ce9c266c70abfefc4881856222ea9f5406d920",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "91dfc10dbeda1bde5622862407dfdd563c11874747779fc0a017d3abb53ddd13"
+    },
+    {
+      "egg_id": "net-LYGO-SELF-POLICE-0002-aa799a22",
+      "generation": 2,
+      "agent_id": "LYGO-SELF-POLICE",
+      "planted_utc": "2026-09-06T16:54:56Z",
+      "source": "steward_boot",
+      "parent_merkle": "9e09dee5fd8a43084d887c7d3b4da4c79fca7ffd4984d4829c25edd91756ff34",
+      "payload": {
+        "kind": "anchor",
+        "built": "open-network-core",
+        "urls": [
+          "https://chatagent.ca/agents/"
+        ],
+        "note": "first open-network real-data egg",
+        "tick_utc": "2026-09-06T16:50:30Z",
+        "star_nodes": 1413
+      },
+      "payload_sha256": "aa799a227e098307788e9407319ada22146b1a966bc637a3240bede2a725456c",
+      "p0": "AMPLIFY",
+      "secrets": false,
+      "bytes": 190,
+      "egg_sha256": "ff2f7656071b06850e4cd118dbec4665172db1e1ffc05336adf0eff1a703f50c"
+    },
+    {
+      "egg_id": "net-LYGO-CYBORG-0003-34e05a27",
+      "generation": 3,
+      "agent_id": "LYGO-CYBORG",
+      "planted_utc": "2026-09-06T17:15:39Z",
+      "source": "protocol_runtime",
+      "parent_merkle": "410707f8649fe013cd54457c4d4a24e762b2e8627a9306cd1e7faa470c032c7a",
+      "payload": {
+        "kind": "harmony_anchor",
+        "motto": "Truth Is. Light Becomes.",
+        "layers": "P0-P5 live",
+        "goal": "self-police self-build open fork",
+        "urls": [
+          "https://chatagent.ca/agents/"
+        ]
+      },
+      "payload_sha256": "34e05a27e60a24e49ddb70be14732a47a52e961bceebf010da77107926781e66",
+      "p0": "AMPLIFY",
+      "secrets": false,
+      "bytes": 173,
+      "egg_sha256": "3b4c50aaaa0e023bf38163d25fd5b521c57dc421ba7d8c8be34ab5b2514c8e28"
+    }
+  ],
+  "merkle": "95beb8b686ad8592b6f520909d4de09e9b942910776634bd87483639c3241c26",
+  "generation": 3,
+  "updated_utc": "2026-09-06T17:15:39Z",
+  "open": true
+}

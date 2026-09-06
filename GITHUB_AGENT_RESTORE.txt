@@ -1,0 +1,174 @@
+================================================================================
+GITHUB + HUGGING FACE + PAGES — AGENT RESTORE ANCHOR (Δ9Φ963)
+================================================================================
+Updated: 2026-07-13
+Steward: Justin Helmer / Lightfather / Excavationpro
+Authority workspace: I:\E Drive
+Canonical stack: I:\E Drive\lygo-protocol-stack
+USB architect stick: E:\LYGO_BUILDER_KEY (mirror I:\E Drive\LYGO_BUILDER_KEY)
+
+SCAN CUE: Aligned to GITHUB_AGENT_RESTORE. P0-first. Consent-gated publish.
+No auto git push / HF upload / ClawHub publish without explicit human request.
+
+================================================================================
+1. IMMUTABLE LATTICE — WHAT TO READ FIRST
+================================================================================
+| File | Role |
+|------|------|
+| docs/LYGO_PUBLIC_LINK_ARCHIVE.json | Append-only registry of ALL public surfaces |
+| docs/LYGO_LATTICE_INTEL_INDEX.json | Tiered E Drive map for agents (no secrets) |
+| docs/AGENT_MEMORY_SNAPSHOT.json | Bootstrap memory snapshot |
+| docs/RESOURCES.md | Human-readable master index |
+| docs/LYGO_KNOWLEDGE_HUB.html | Pages + Excavationpro network cross-links |
+| I:\E Drive\GITHUB_AGENT_RESTORE.txt | THIS FILE — GitHub/HF ops restore |
+
+Audit tool: python tools/audit_github_lattice_links.py
+HTTP verify: python tools/verify_public_pages.py
+Register new URL: python tools/log_public_surface.py --id ... --title ... --url ...
+
+================================================================================
+2. GITHUB REPOSITORIES (DeepSeekOracle org)
+================================================================================
+| Repo | URL | Pages / role |
+|------|-----|--------------|
+| lygo-protocol-stack | https://github.com/DeepSeekOracle/lygo-protocol-stack | SOURCE OF TRUTH — docs/, tools/, stack |
+| Excavationpro | https://github.com/DeepSeekOracle/Excavationpro | Sites, USB zips, LYGO-Network HTML |
+| lygo-claw | https://github.com/DeepSeekOracle/lygo-claw | Sovereign agent gateway (Python) |
+| lyra-crypto-operator | https://github.com/DeepSeekOracle/lyra-crypto-operator | Crypto lane (separate from lattice) |
+
+Local clones (steward PC):
+  I:\E Drive\lygo-protocol-stack
+  I:\E Drive\Excavationpro
+  I:\E Drive\lygo-claw
+
+================================================================================
+3. GITHUB PAGES — LIVE URLS (stack docs/)
+================================================================================
+Base: https://deepseekoracle.github.io/lygo-protocol-stack/
+
+| Page | Live URL | Repo path |
+|------|----------|-----------|
+| Landing | / | docs/index.html |
+| Knowledge Hub | /LYGO_KNOWLEDGE_HUB.html | docs/LYGO_KNOWLEDGE_HUB.html |
+| LYGO-Claw | /LYGO_CLAW.html | docs/LYGO_CLAW.html |
+| Haven Star Chart | /HavenStarChart.html | docs/HavenStarChart.html |
+| Agent Portal | /HavenStarChartPortal.html | docs/HavenStarChartPortal.html |
+| SLM interactive | /SovereignLatticeMesh.html | docs/SovereignLatticeMesh.html |
+| Phase 7 harness | /BiometricEntropyHarness.html | docs/BiometricEntropyHarness.html |
+| BPM Finder | /LYGO_BPM_Finder.html | docs/LYGO_BPM_Finder.html |
+| Compass Master | /tools/LYGO_Compass_Master.html | docs/tools/LYGO_Compass_Master.html |
+| Kernel eggs SOA | /KernelEggRetrieval.html | docs/KernelEggRetrieval.html |
+| Joy Loop dashboard | /joy_loop/dashboard/index.html | docs/joy_loop/dashboard/ |
+
+Excavationpro mirror base: https://deepseekoracle.github.io/Excavationpro/
+  eternalhaven.html · LYGO-Network/champions.html · SovereignLatticeMesh.html (mirror)
+
+Pages deploy: push to main on lygo-protocol-stack (docs/ folder). See docs/GITHUB_PAGES_SETUP.md
+
+================================================================================
+4. SYNC TOOLS (stack → Excavationpro mirrors)
+================================================================================
+python tools/sync_excavationpro_slm_page.py
+python tools/sync_excavationpro_harness.py
+python tools/sync_excavationpro_haven_star.py [--push]
+python tools/sync_excavationpro_bpm_finder.py
+python tools/build_haven_star_chart.py   # rebuild chart JSON first
+
+================================================================================
+5. GIT PUSH (CONSENT-GATED — human must approve)
+================================================================================
+Policy: NEVER auto-push. One repo per approval. Verify after push.
+
+Windows (Git Credential Manager):
+  cd I:\E Drive\lygo-protocol-stack
+  git status
+  git add <files>
+  git commit -m "message"
+  git push origin main
+
+Or batch helper:
+  python tools/push_with_git_credential.py
+
+Repos commonly pushed:
+  lygo-protocol-stack (main) — stack + docs/Pages
+  Excavationpro (main) — sites, downloads, haven mirror
+  lygo-claw (main) — agent gateway
+
+After doc/HTML changes ALWAYS:
+  1. python tools/audit_github_lattice_links.py
+  2. python tools/log_public_surface.py (if new public URL)
+  3. Update docs/sitemap.xml if new HTML page
+  4. Link from docs/index.html + LYGO_KNOWLEDGE_HUB.html
+  5. git commit + push (with consent)
+
+================================================================================
+6. HUGGING FACE (CONSENT-GATED)
+================================================================================
+| Asset | URL |
+|-------|-----|
+| Dataset mirror | https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack |
+| Resonance Space | https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine |
+
+Tools (from lygo-protocol-stack root):
+  python tools/hf_push_dataset.py      # stage + upload dataset
+  python tools/hf_push_space.py        # HF Space deploy
+  python tools/hf_push_p0_hardening.py
+  python tools/publish_haven_star_chart_hf.py
+
+Auth: huggingface-cli login OR HF_TOKEN from boot/ (runtime only — never commit).
+
+================================================================================
+7. CLAWHUB (CONSENT-GATED)
+================================================================================
+Profile: https://clawhub.ai/deepseekoracle
+Catalog: clawhub/CATALOG.md · clawhub/skills.json
+
+Publish skill:
+  npx clawhub@latest publish "I:/E Drive/lygo-protocol-stack/clawhub/mirrors/<slug>" ...
+
+Publish OpenClaw plugin (Windows):
+  powershell -File tools/publish_lygo_lattice_pulse.ps1 -Version <ver>
+
+Refresh mirrors:
+  python tools/sync_clawhub_mirrors.py --fetch
+  python tools/render_clawhub_catalog.py
+
+Key packages (2026-07-13):
+  lygo-lattice-pulse@1.2.0 (OpenClaw plugin — no subprocess)
+  lygo-lattice-birth@1.0.0
+  lygo-api-token-saver@1.0.0
+  lygo-haven-star-chart@1.0.1
+
+================================================================================
+8. AGENT 3-BRAIN POINTERS (LYRA_CORE)
+================================================================================
+LYRA_CORE_ROOT=I:\E Drive\LYRA_CORE
+
+Daily log: memory/2026-07-13.md
+Topic snip: memory/2026-07-13-github-lattice-audit.md
+Outer ref: memory/reference/GITHUB_AGENT_RESTORE.ref.txt
+
+Grow after GitHub/HF work:
+  python .grok/skills/lyra-brain/scripts/brain_grow_cli.py "GITHUB restore 2026-07-13 ..."
+
+================================================================================
+9. USB ARCHITECT STICK (E:\LYGO_BUILDER_KEY)
+================================================================================
+Read on every USB session:
+  RESTORE_ANCHOR.txt → LYGO_CLAW_USB_RESTORE_ANCHOR.md
+  GITHUB_AGENT_RESTORE.txt (copy of this file)
+
+USB does NOT auto-push. Use home PC stack for GitHub/HF when steward consents.
+
+================================================================================
+10. VERIFY CHECKLIST (run before claiming LIVE)
+================================================================================
+[ ] python tools/audit_github_lattice_links.py → all_live, empty missing_archive
+[ ] python tools/verify_public_pages.py → stack_pages_live true
+[ ] python tools/verify_lattice_alignment.py (stack health)
+[ ] New pages in LYGO_PUBLIC_LINK_ARCHIVE.json + sitemap.xml + hub links
+
+Signature: Δ9Φ963-GITHUB-AGENT-RESTORE-v2026-07-13
+Next build phase: lygo-protocol-stack/docs/NEXT_BUILDING_PHASE.md
+Lattice status: LATTICE ALIGNED (verify_lattice_alignment.py)
+================================================================================

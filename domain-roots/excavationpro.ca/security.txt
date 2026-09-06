@@ -1,0 +1,5 @@
+Contact: https://www.paypal.com/paypalme/ExcavationPro
+Preferred-Languages: en
+Expires: 2027-07-18T00:00:00.000Z
+Acknowledgments: https://github.com/DeepSeekOracle/lygo-protocol-stack
+# LYGO · AdSense sites · report via GitHub issues

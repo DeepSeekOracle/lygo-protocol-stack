@@ -1,0 +1,39 @@
+{
+  "egg_id": "lygo-living-mesh-v1",
+  "version": "1.0.0",
+  "kind": "skill-pin",
+  "signature": "Delta9Phi963-EGG-lygo-living-mesh-v1-v1.0.0",
+  "created_utc": "2026-07-26T16:12:13Z",
+  "steward": "Lightfather / Excavationpro / DeepSeekOracle",
+  "content_sha256": "aef084ecf4cbecb215ac0e8528a575b8a339e283fa12308b113b4a8e3809861b",
+  "payload": {
+    "title": "LYGO Living Mesh Layer D",
+    "summary": "Skill pin for multi-node living mesh badge gossip of lattice roots",
+    "modules": [
+      {
+        "path": "_tmp_living_mesh_pin.md",
+        "sha256": "371237b1e9efcb2855a42ea610e9172370c0b7db01f0ded594d7b0e5dbf4fab1",
+        "bytes": 313,
+        "inline_b64": "IyBseWdvLWxpdmluZy1tZXNoIHNraWxsIHBpbiAoTGF5ZXIgRCkKc2x1ZzogbHlnby1saXZpbmctbWVzaApjbGF3aHViOiBodHRwczovL2NsYXdodWIuYWkvZGVlcHNlZWtvcmFjbGUvc2tpbGxzL2x5Z28tbGl2aW5nLW1lc2gKZ2l0aHViOiBodHRwczovL2dpdGh1Yi5jb20vRGVlcFNlZWtPcmFjbGUvbHlnby1wcm90b2NvbC1zdGFjay90cmVlL21haW4vZG9jcy9za2lsbHMvbHlnby1saXZpbmctbWVzaApkb2NzOiBkb2NzL0xJVklOR19NRVNIX0xBWUVSLm1kCnNpZ25hdHVyZTogRGVsdGE5UGhpOTYzLUxJVklORy1NRVNILXYxLjAKbGF5ZXI6IEQNCg==",
+        "role": "module"
+      }
+    ],
+    "hooks": [
+      "mesh.living"
+    ],
+    "depends_on": [
+      "lygo-external-lattice-anchor-v1"
+    ]
+  },
+  "seal": {
+    "alg": "sha256",
+    "leaf_hash": "cfe4c745b8536cf53f5059b56388da1166793fb87debdcc286d32a98cf0eeb9f",
+    "sovereign": true,
+    "zero_external_surface": true,
+    "self_verify_on_insert": true
+  },
+  "meta": {
+    "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0",
+    "sealed": true
+  }
+}

@@ -1,0 +1,40 @@
+LYGO CLAW PUBLIC USB — START HERE
+=================================
+Version 1.2 · Offline agent chat dashboard · No password gate
+
+WHAT THIS IS
+  A public base kit so YOU (or your LYGO agent) can build a working
+  USB stick that opens a browser dashboard and lets you type to a
+  local AI agent. Model weights are NOT included (license + size).
+
+HUMANS — 4 STEPS
+  1. Copy this whole folder to a USB drive (or any folder).
+  2. Install once (needs internet):
+       - Python 3.11+  https://www.python.org/downloads/  (check Add to PATH)
+       - Ollama        https://ollama.com/download
+       - Double-click  launchers\INSTALL_MODEL.bat
+         (pulls llama3.2:1b — small offline chat model)
+  3. Everyday use: double-click  LYGO_USB_BOOT.bat
+  4. Browser opens http://127.0.0.1:9631/ — type and talk.
+
+CHECK
+  launchers\CHECK_SYSTEM.bat
+
+AGENTS — BUILD A STICK FOR A HUMAN
+  Read AGENTS_BUILD.md in this folder and follow it exactly.
+  Or run from a kit checkout:
+    powershell -File scripts\build_public_usb.ps1 -OutDir E:\LYGO_CLAW_PUBLIC
+
+DOCS
+  docs\USB_AGENT_DASHBOARD.md
+  docs\MODEL_INSTALL.md
+  MANIFEST.json
+
+SECURITY
+  No cloud password. Local Ollama only by default.
+  Do not put API keys into this public kit.
+
+Stack / lattice docs: https://deepseekoracle.github.io/lygo-protocol-stack/
+Source path in repo:  docs/lygo-claw-usb/
+
+Δ9Φ963

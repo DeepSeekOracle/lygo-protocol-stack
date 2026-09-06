@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LYGO CLAW — USB Agent Dashboard</title>
+<style>
+:root {
+  --bg: #0b0f14; --panel: #141a22; --fg: #e8eef4; --muted: #8b98a8;
+  --accent: #5eb8ff; --ok: #3dd68c; --bad: #ff6b6b; --gold: #d4af37; --line: #222b36;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: Inter, system-ui, sans-serif;
+  background: radial-gradient(900px 500px at 10% -10%, #1a2a40 0%, var(--bg) 50%);
+  color: var(--fg); min-height: 100vh;
+}
+header {
+  display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid var(--line); background: rgba(10,14,20,.9);
+  position: sticky; top: 0; z-index: 10;
+}
+header h1 { margin: 0; font-size: 1.15rem; }
+header .sub { color: var(--muted); font-size: .82rem; }
+.nav a, .nav button {
+  color: var(--accent); background: transparent; border: 1px solid #334; border-radius: 8px;
+  padding: 6px 10px; font: inherit; cursor: pointer; text-decoration: none; font-size: .82rem;
+}
+.nav a:hover, .nav button:hover { border-color: var(--accent); }
+.layout {
+  display: grid; grid-template-columns: 280px 1fr 300px;
+  gap: 12px; padding: 12px; max-width: 1400px; margin: 0 auto;
+}
+@media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+.card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+}
+.card h2 { margin: 0 0 10px; font-size: .95rem; color: var(--gold); letter-spacing: .04em; text-transform: uppercase; }
+.status { font-weight: 700; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .muted { color: var(--muted); }
+.chat {
+  display: flex; flex-direction: column; min-height: 70vh;
+}
+#messages {
+  flex: 1; overflow: auto; padding: 8px; background: #0a0e14; border-radius: 10px;
+  border: 1px solid var(--line); min-height: 360px; max-height: calc(100vh - 240px);
+}
+.msg { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; line-height: 1.45; font-size: .92rem; white-space: pre-wrap; word-break: break-word; }
+.msg.user { background: rgba(94,184,255,.12); border: 1px solid rgba(94,184,255,.25); }
+.msg.assistant { background: rgba(61,214,140,.08); border: 1px solid rgba(61,214,140,.2); }
+.msg.system { background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.2); color: var(--muted); font-size: .85rem; }
+.composer { display: flex; gap: 8px; margin-top: 10px; }
+.composer textarea {
+  flex: 1; min-height: 64px; resize: vertical; border-radius: 10px; border: 1px solid #334;
+  background: #0a0e14; color: var(--fg); padding: 10px; font: inherit;
+}
+.composer button, .primary {
+  background: var(--accent); color: #001018; border: none; border-radius: 10px;
+  padding: 10px 14px; font-weight: 700; cursor: pointer; font: inherit;
+}
+.composer button:disabled { opacity: .5; cursor: wait; }
+select, input[type=text] {
+  width: 100%; border-radius: 8px; border: 1px solid #334; background: #0a0e14; color: var(--fg);
+  padding: 8px; font: inherit; margin: 4px 0 10px;
+}
+ul.clean { list-style: none; margin: 0; padding: 0; }
+ul.clean li {
+  padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.06); font-size: .85rem;
+}
+ul.clean li button {
+  float: right; font-size: .75rem; padding: 2px 8px; border-radius: 6px;
+  border: 1px solid #334; background: transparent; color: var(--ok); cursor: pointer;
+}
+pre.log {
+  background: #0a0e14; border-radius: 8px; padding: 8px; font-size: 11px;
+  max-height: 160px; overflow: auto; color: var(--muted); white-space: pre-wrap;
+}
+.pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: .72rem; border: 1px solid #334; margin-left: 6px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>🛡️ LYGO CLAW — USB Agent Dashboard</h1>
+    <div class="sub">Mobile restore + offline AI · no password gate · OpenClaw-style control</div>
+  </div>
+  <nav class="nav">
+    <a href="/control-ui/?token=lygo-usb-standalone-token" target="_blank" rel="noopener">OpenClaw Control UI</a>
+    <a href="/api/status" target="_blank" rel="noopener">API status</a>
+    <button type="button" onclick="refreshStatus()">Refresh status</button>
+    <button type="button" onclick="newChat()">New chat</button>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="card">
+    <h2>System</h2>
+    <div>Ollama: <span id="stOllama" class="status muted">…</span></div>
+    <div>Gateway: <span id="stGateway" class="status muted">…</span></div>
+    <div>Uptime: <span id="stUp" class="muted">—</span></div>
+    <label class="muted" style="display:block;margin-top:12px">Model</label>
+    <select id="model"></select>
+    <h2 style="margin-top:14px">Quick actions</h2>
+    <button class="primary" style="width:100%;margin-bottom:8px" onclick="sendPreset('Introduce yourself as LYGO CLAW on this USB. Summarize offline capabilities and how you help restore the lattice.')">Introduce agent</button>
+    <button class="primary" style="width:100%;margin-bottom:8px;background:#3dd68c" onclick="sendPreset('List steps to set up a host PC for a larger Ollama model while keeping USB as portable brain.')">PC setup help</button>
+    <button class="primary" style="width:100%;margin-bottom:8px;background:#d4af37;color:#111" onclick="sendPreset('Explain LYGO lattice restore from USB without exposing secrets. What can be verified read-only?')">Lattice restore help</button>
+    <h2 style="margin-top:14px">Log</h2>
+    <pre class="log" id="log"></pre>
+  </aside>
+
+  <section class="card chat">
+    <h2>Agent chat <span class="pill" id="chatMode">Ollama local</span></h2>
+    <div id="messages"></div>
+    <div class="composer">
+      <textarea id="input" placeholder="Talk to LYGO CLAW on this stick… (Enter to send, Shift+Enter newline)"></textarea>
+      <button id="sendBtn" onclick="sendChat()">Send</button>
+    </div>
+  </section>
+
+  <aside class="card">
+    <h2>Daemon tasks</h2>
+    <input type="text" id="taskTitle" placeholder="New task title…" />
+    <button class="primary" style="width:100%;margin-bottom:10px" onclick="addTask()">Queue task</button>
+    <ul class="clean" id="taskList"><li class="muted">No tasks yet</li></ul>
+    <h2 style="margin-top:16px">D: Lattice live</h2>
+    <div id="latticeSummary" class="muted" style="font-size:.82rem;line-height:1.45;margin-bottom:8px">…</div>
+    <pre class="log" id="lattice" style="max-height:220px"></pre>
+    <p class="muted" style="font-size:.78rem;margin:8px 0 0">
+      Public snapshot from D:\lygo-protocol-stack → verify\lattice_live. Restore vaults never modified.
+      <a href="/api/lattice" target="_blank" rel="noopener" style="color:var(--accent)">/api/lattice</a>
+    </p>
+  </aside>
+</div>
+
+<script>
+const API = location.origin;
+let messages = [
+  { role: 'system', content: 'You are LYGO CLAW on a sovereign USB stick. Local-first offline agent. Help the user chat, restore lattice context (no secrets), and prepare the host PC for larger models when online. Be clear and practical.' }
+];
+
+function log(msg) {
+  const el = document.getElementById('log');
+  el.textContent = (new Date().toLocaleTimeString() + '  ' + msg + '\n' + el.textContent).slice(0, 3000);
+}
+
+function renderMessages() {
+  const box = document.getElementById('messages');
+  box.innerHTML = messages.filter(m => m.role !== 'system').map(m => {
+    return '<div class="msg ' + m.role + '"><strong>' + m.role + '</strong>\n' + escapeHtml(m.content) + '</div>';
+  }).join('') || '<div class="msg system">Connected to local agent API. Ollama chat works offline once models are on the stick.</div>';
+  box.scrollTop = box.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function refreshStatus() {
+  try {
+    const r = await fetch(API + '/api/status', { cache: 'no-store' });
+    const j = await r.json();
+    const o = j.ollama || {};
+    const g = j.gateway || {};
+    const oEl = document.getElementById('stOllama');
+    const gEl = document.getElementById('stGateway');
+    oEl.textContent = o.reachable ? ('OK · ' + (o.models || []).length + ' models') : ('DOWN · ' + (o.host || ''));
+    oEl.className = 'status ' + (o.reachable ? 'ok' : 'bad');
+    gEl.textContent = g.reachable ? 'OK · ' + (g.ws || '') : 'DOWN (chat still works via Ollama)';
+    gEl.className = 'status ' + (g.reachable ? 'ok' : 'bad');
+    document.getElementById('stUp').textContent = (j.uptime_sec || 0) + 's';
+    document.getElementById('chatMode').textContent = o.reachable ? 'Ollama local' : 'Waiting for Ollama';
+
+    const sel = document.getElementById('model');
+    const models = o.models || [];
+    const primary = o.primary || 'qwen2.5:3b';
+    const cur = sel.value;
+    sel.innerHTML = models.length
+      ? models.map(m => '<option value="' + m + '"' + (m === (cur || primary) ? ' selected' : '') + '>' + m + '</option>').join('')
+      : '<option value="' + primary + '">' + primary + ' (expected)</option>';
+
+    const lat = j.lattice_restore || {};
+    const live = lat.live_snapshot || {};
+    const stack = lat.stack || {};
+    const feed = live.star_feed || {};
+    const anchors = live.anchors || {};
+    const sync = live.sync || {};
+    const git = stack.git || (live.pointers && live.pointers.stack_git) || {};
+    const sum = document.getElementById('latticeSummary');
+    if (sum) {
+      const syncOk = live.sync_ok || (sync && sync.ok);
+      const lines = [
+        '<strong class="' + (syncOk ? 'ok' : 'bad') + '">sync ' + (syncOk ? 'OK' : 'NEED RUN') + '</strong>',
+        'stack: ' + escapeHtml(stack.authority || '—'),
+        git.commit ? ('git: ' + escapeHtml((git.branch || '') + '@' + git.commit)) : '',
+        feed.entry_count != null ? ('star feed: ' + feed.entry_count + ' entries · chain ' + (feed.chain_valid ? 'valid' : '—')) : 'star feed: not synced',
+        anchors.categories ? ('anchors: ' + anchors.categories.length + ' categories') : '',
+        (live.files && live.files.length) ? ('files: ' + live.files.length) : ''
+      ].filter(Boolean);
+      sum.innerHTML = lines.join('<br/>');
+    }
+    // Compact dump (not full restore paths every poll)
+    document.getElementById('lattice').textContent = JSON.stringify({
+      signature: j.signature,
+      stack: stack.authority,
+      git: git,
+      sync: sync && { ok: sync.ok, updated_utc: sync.updated_utc, stack_root: sync.stack_root, core: sync.core },
+      star_feed: feed,
+      anchors: anchors,
+      dual: live.dual_ledgers && live.dual_ledgers.ledgers,
+      restore_note: lat.note
+    }, null, 2);
+    log('status refreshed');
+    await refreshTasks();
+  } catch (e) {
+    document.getElementById('stOllama').textContent = 'API offline';
+    document.getElementById('stOllama').className = 'status bad';
+    log('status error: ' + e.message);
+  }
+}
+
+async function refreshTasks() {
+  try {
+    const r = await fetch(API + '/api/tasks', { cache: 'no-store' });
+    const j = await r.json();
+    const list = document.getElementById('taskList');
+    const tasks = (j.tasks || []).slice().reverse();
+    if (!tasks.length) {
+      list.innerHTML = '<li class="muted">No tasks yet — queue daemon work above</li>';
+      return;
+    }
+    list.innerHTML = tasks.map(t => {
+      const done = t.status === 'done';
+      return '<li><span class="' + (done ? 'ok' : 'muted') + '">[' + t.status + ']</span> ' +
+        escapeHtml(t.title) +
+        (done ? '' : ' <button type="button" onclick="completeTask(\'' + t.id + '\')">done</button>') +
+        '</li>';
+    }).join('');
+  } catch (e) {
+    log('tasks error: ' + e.message);
+  }
+}
+
+async function addTask() {
+  const title = document.getElementById('taskTitle').value.trim();
+  if (!title) return;
+  await fetch(API + '/api/tasks', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title: title })
+  });
+  document.getElementById('taskTitle').value = '';
+  await refreshTasks();
+  log('task queued: ' + title);
+}
+
+async function completeTask(id) {
+  await fetch(API + '/api/tasks/complete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id })
+  });
+  await refreshTasks();
+}
+
+function newChat() {
+  messages = [messages[0]];
+  renderMessages();
+  log('new chat');
+}
+
+function sendPreset(text) {
+  document.getElementById('input').value = text;
+  sendChat();
+}
+
+async function sendChat() {
+  const input = document.getElementById('input');
+  const text = input.value.trim();
+  if (!text) return;
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  messages.push({ role: 'user', content: text });
+  input.value = '';
+  renderMessages();
+  log('chat send');
+  try {
+    const model = document.getElementById('model').value;
+    const r = await fetch(API + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: model, messages: messages })
+    });
+    const j = await r.json();
+    if (!j.ok) {
+      messages.push({ role: 'assistant', content: 'Error: ' + (j.error || r.status) });
+    } else {
+      const content = (j.message && j.message.content) || '(empty reply)';
+      messages.push({ role: 'assistant', content: content });
+    }
+  } catch (e) {
+    messages.push({ role: 'assistant', content: 'Network error: ' + e.message + '\nStart LYGO_USB_BOOT.bat if the agent server is not running.' });
+  }
+  renderMessages();
+  btn.disabled = false;
+  input.focus();
+}
+
+document.getElementById('input').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChat();
+  }
+});
+
+renderMessages();
+refreshStatus();
+setInterval(refreshStatus, 10000);
+</script>
+</body>
+</html>

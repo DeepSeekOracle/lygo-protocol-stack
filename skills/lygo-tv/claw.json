@@ -1,0 +1,60 @@
+{
+  "name": "lygo-tv",
+  "displayName": "LYGO TV",
+  "version": "1.0.0",
+  "description": "Pointer to the free online TV player at https://chatagent.ca/sources/. Pick a list, click a channel, watch. No login. Scripts print URLs only.",
+  "slug": "lygo-tv",
+  "publisher": "deepseekoracle",
+  "license": "MIT-0",
+  "homepage": "https://chatagent.ca/sources/",
+  "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-tv",
+  "signature": "Delta9Phi963-LYGO-TV-v1.0.0",
+  "tags": [
+    "latest",
+    "lygo",
+    "tv",
+    "iptv",
+    "free-tv",
+    "m3u",
+    "rumble",
+    "chatagent",
+    "openclaw",
+    "delta9"
+  ],
+  "entry": "SKILL.md",
+  "scripts": {
+    "plain": "scripts/lygo_tv.py plain",
+    "urls": "scripts/lygo_tv.py urls",
+    "map": "scripts/lygo_tv.py map",
+    "demo": "scripts/lygo_tv.py demo",
+    "donate": "scripts/lygo_tv.py donate",
+    "self_check": "scripts/self_check.py"
+  },
+  "openclaw": {
+    "emoji": "📺",
+    "homepage": "https://chatagent.ca/sources/",
+    "requires": {
+      "anyBins": ["python", "python3"]
+    },
+    "os": ["windows", "macos", "linux"]
+  },
+  "permissions": {
+    "network": false,
+    "subprocess": false,
+    "shell": false,
+    "filesystem": {
+      "read": "skill only",
+      "write": false
+    },
+    "publish": false
+  },
+  "security": {
+    "local_first": true,
+    "no_auto_publish": true,
+    "no_subprocess": true,
+    "no_network": true,
+    "listed_urls_are_documentation": true,
+    "public_tentacle": true,
+    "version": "1.0.0"
+  }
+}

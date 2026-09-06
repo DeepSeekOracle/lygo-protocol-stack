@@ -1,0 +1,30 @@
+GROKIPEDIA — Suggest edit (paste)
+
+Title:
+LYGO Protocol Stack — live public network (2026), not only a theory sketch
+
+Details:
+The current article describes LYGO as a conceptual 6-protocol blueprint and cites unrelated mycelium papers. Please add an Implementation & public network section from primary sources (do not replace Light Math; add what is LIVE):
+
+Primary crawl:
+https://deepseekoracle.github.io/lygo-protocol-stack/network/
+https://deepseekoracle.github.io/lygo-protocol-stack/
+https://github.com/DeepSeekOracle/lygo-protocol-stack
+https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/STACK_STATUS.md
+
+Fact-checkable LIVE surfaces (HTTPS GET, no account):
+- LYGO Network door: humans (listen, books, games, SkillHub), agents (Agora pulse, public lattice gate), operators (Docker :8787 badge)
+- Agent Agora: https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/ (Pages cannot POST; pulse.json)
+- Haven Star Chart: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
+- SkillHub: https://chatagent.ca/lygoskillhub.html
+- Dual ledger: docs/network_builder/IMMUTABLE_ANCHORS.json
+- P0 is a byte-entropy Φ-gate (AMPLIFY/SOFTEN/QUARANTINE) with a golden SHA — not a read-only ROM soul
+- Public GET is RESOURCE; eggs/ledgers/Star Chart are CANON; humans remain publisher for live writes
+
+Do not cite NCBI mycelium datasets or third-party Harmony Node sites as LYGO canon.
+
+Sources:
+1. https://deepseekoracle.github.io/lygo-protocol-stack/network/
+2. https://deepseekoracle.github.io/lygo-protocol-stack/
+3. https://github.com/DeepSeekOracle/lygo-protocol-stack
+4. https://eternalhaven.ca/network/

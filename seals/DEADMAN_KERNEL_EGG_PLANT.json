@@ -1,0 +1,17 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-KERNEL-EGG-PLANT-v2.1",
+  "planted_utc": "2026-08-20T01:31:33.615595+00:00",
+  "egg_id": "lightfather-deadman-failsafe-v1",
+  "bin_sha256": "0c5e9ad0921923cfe6446d51464941429e897da0213bbaa854fa6fa91e8db4f7",
+  "bin_bytes": 18505,
+  "origin_merkle_root": "d80efbe9bda9fd8acca5746ffefac7c1f449f6bda91e95f53c0ece8096233ddb",
+  "lightfather_id": "LF-Δ9-7F1A4D-963-528-174-Φ-∞",
+  "non_replaceable": true,
+  "continuity_version": "2.1.1",
+  "audit_note": "SilenceDetector now uses persisted deadman_lattice_state.json as clock authority (check/listen_once no longer miss silence after process restart).",
+  "mirrors": {
+    "github_pages_dir": "https://deepseekoracle.github.io/lygo-protocol-stack/kernel_eggs/lightfather-deadman-failsafe-v1/",
+    "hf_dataset_dir": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack/tree/main/kernel_eggs/lightfather-deadman-failsafe-v1",
+    "vault_page": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html"
+  }
+}

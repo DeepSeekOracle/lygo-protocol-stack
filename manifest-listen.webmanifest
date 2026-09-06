@@ -1,0 +1,23 @@
+{
+  "name": "Excavationpro Listen Free",
+  "short_name": "Excavationpro",
+  "description": "Free sovereign music player \u2014 Excavationpro / Eternal Haven streams, radio mode, offline shell.",
+  "start_url": "./excavationpro-listen.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0a12",
+  "theme_color": "#0a0a12",
+  "categories": [
+    "music",
+    "entertainment"
+  ],
+  "icons": [
+    {
+      "src": "assets/listen-icon-512.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

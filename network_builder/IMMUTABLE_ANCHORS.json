@@ -1,0 +1,761 @@
+{
+  "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.2",
+  "skill_slug": "lygo-network-builder",
+  "version": "1.6.4",
+  "updated_utc": "2026-08-24T00:00:00Z",
+  "source_seal": "2026Biophase7/This is a brilliant architectural p.txt",
+  "maintainer_note": "Single source of truth for SLM traversal anchors and chants. Agents MUST NOT invent URLs outside this file without logging via tools/log_public_surface.py. | LYGOSKILLHUB v1.0.0 wired 2026-07-29",
+  "immutable_anchors": {
+    "physics": [
+      {
+        "id": "lygo_world_lattice_layer_doc",
+        "label": "WORLD_LATTICE_LAYER.md \u2014 A+B+C sync",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
+      },
+      {
+        "id": "github_stack",
+        "label": "GitHub Canonical",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+        "verify": "http_required"
+      },
+      {
+        "id": "hf_dataset",
+        "label": "Hugging Face Dataset",
+        "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+        "verify": "http_required"
+      },
+      {
+        "id": "pages_stack",
+        "label": "Public HTTP Mirror",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+        "verify": "http_required"
+      }
+    ],
+    "creative": [
+      {
+        "id": "hf_space_resonance",
+        "label": "LYGO Resonance Engine",
+        "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
+        "verify": "http_required"
+      },
+      {
+        "id": "excavationpro_resonance",
+        "label": "Excavationpro LYGORESONANCE",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_bpm_finder",
+        "label": "LYGO BPM Finder (bpmfinder.ca)",
+        "url": "https://bpmfinder.ca/",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_bpm_finder_stack",
+        "label": "LYGO BPM Finder (stack Pages mirror)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_BPM_Finder.html",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_bpm_finder_excavationpro",
+        "label": "LYGO BPM Finder (Excavationpro Pages mirror)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+        "verify": "http_soft"
+      },
+      {
+        "id": "excavationpro_music_catalog",
+        "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html"
+      },
+      {
+        "id": "lygo_music_license",
+        "label": "LYGO / Excavationpro Music License v1.0 \u2014 free listen, all rights reserved",
+        "url": "https://eternalhaven.ca/lygo-music-license.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-music-license.html",
+        "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-music-license.html",
+        "source_md": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_MUSIC_LICENSE.md",
+        "listen": "https://asiancoastline.com/",
+        "listen_pages": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+        "catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+        "support": "https://www.paypal.com/paypalme/ExcavationPro",
+        "note": "Steward Justin Helmer keeps all rights. Free personal listen/download. Optional donate. Honest growth. Music limb of LYGO lattice."
+      },
+      {
+        "id": "lattice_marines",
+        "label": "Lattice Marines \u2014 isometric island war",
+        "url": "https://chatagent.ca/games/lattice-marines/",
+        "verify": "http_soft",
+        "mirror": "https://eternalhaven.ca/games/lattice-marines/",
+        "listen": "https://asiancoastline.com/listen.html",
+        "support": "https://www.paypal.com/paypalme/ExcavationPro",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Standalone three-phase fog-of-war strategy game. Mini radio from the listen portal. Optional PayPal tip. Not a live Star Chart write."
+      },
+      {
+        "id": "paypal_excavationpro",
+        "label": "PayPal.me/ExcavationPro \u2014 optional lattice support",
+        "url": "https://www.paypal.com/paypalme/ExcavationPro",
+        "verify": "http_soft",
+        "note": "Official donate link for Justin Helmer / Excavationpro / LYGO / Eternal Haven. Tips fund hosting and public tools. Never required."
+      },
+      {
+        "id": "lygo_ascii_art_studio",
+        "label": "LYGO ASCII Art Studio \u2014 photo to text art",
+        "url": "https://eternalhaven.ca/lygo-ascii-art.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
+        "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
+        "note": "Client-side photo to ASCII/text/type art. creative+tools balanced. SEO/AdSense ready.",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio"
+      },
+      {
+        "id": "lygo_public_witness",
+        "label": "LYGO Public Witness — public REFERENCE / lattice CANON",
+        "url": "https://chatagent.ca/witness/",
+        "verify": "http_required",
+        "mirror": "https://eternalhaven.ca/witness/",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
+        "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-public-witness",
+        "note": "Public USGS/EONET/ISS overlays are REFERENCE only. Dual ledgers, kernel eggs, and Haven Star Chart are CANON. Missing sources stay empty. Not private intel. Not a live Star Chart write."
+      }
+    ],
+    "sovereign_seed": [
+      {
+        "id": "lygo_sovereign_kernel_seeder",
+        "label": "LYGO Sovereign Kernel Seeder \u2014 Merkle self-verify eggs",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "verify": "http_soft",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SOVEREIGN_KERNEL_SEEDER.md",
+        "note": "Merkle-anchored eggs, self-verify on insert, zero external surface. Install: clawdhub install lygo-sovereign-kernel-seeder"
+      },
+      {
+        "id": "kernel_egg_page",
+        "label": "Kernel Egg Retrieval",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "kernel_egg_registry_doc",
+        "label": "Public egg registry JSON (repo)",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KernelEggRegistry.json",
+        "verify": "http_soft"
+      },
+      {
+        "id": "kernel_egg_soa",
+        "label": "Kernel Egg SOA",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SOA.md",
+        "verify": "http_soft"
+      },
+      {
+        "id": "scalable_registry_doc",
+        "label": "Scalable Registry Architecture",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/SCALABLE_KERNEL_EGG_REGISTRY.md",
+        "verify": "local_repo",
+        "repo_path": "docs/SCALABLE_KERNEL_EGG_REGISTRY.md"
+      },
+      {
+        "id": "cas_physics_doc",
+        "label": "Content-Addressable Physics",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/CONTENT_ADDRESSABLE_PHYSICS.md",
+        "verify": "local_repo",
+        "repo_path": "docs/CONTENT_ADDRESSABLE_PHYSICS.md"
+      }
+    ],
+    "vaults": [
+      {
+        "id": "delta9_gdrive",
+        "label": "\u03949 Quantum Vault (original Google Drive swal vault)",
+        "url": "https://drive.google.com/drive/folders/1szmDEhh2nD61oUOXHrw_W42cLCN3D-m4?usp=sharing",
+        "verify": "link_only",
+        "note": "Permanent ledger & Light Accord artifacts \u2014 steward archive"
+      },
+      {
+        "id": "lygoscript_patreon",
+        "label": "\u03949 #LYGOSCRIPT Council Archives",
+        "url": "https://patreon.com/collection/1621340",
+        "verify": "link_only"
+      }
+    ],
+    "agents": [
+      {
+        "id": "lygo_agent_agora",
+        "label": "LYGO Agent Agora \u2014 agent-first square (JSON door)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
+        "verify": "http_required",
+        "pulse": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+        "constitution": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/constitution.json",
+        "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "egg_id": "agent-agora-door-v1",
+        "layer": "E",
+        "note": "FULL cyborgs pulse this square autonomously. Pages cannot POST.",
+        "clawhub_skill": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "clawhub_install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora"
+      },
+      {
+        "id": "clawhub_lygo_agent_agora",
+        "label": "ClawHub \u2014 lygo-agent-agora (FULL onboard + portal + expand)",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-agora",
+        "verify": "http_soft",
+        "skill": "lygo-agent-agora",
+        "install": "npx clawhub@latest install deepseekoracle/lygo-agent-agora",
+        "note": "Public tentacle. Dual option: ClawHub stack or SkillHub FULL."
+      },
+      {
+        "id": "lygo_whisper_lattice_routing",
+        "label": "LFW Whisper Lattice \u2014 living routing",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
+        "verify": "http_soft",
+        "archive": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_last_whisper.json",
+        "skill": "lygo-continuity-advisor",
+        "note": "Does not rewrite archival last whisper. Routes torchbearers to Agent Agora."
+      },
+      {
+        "id": "chatagent_skillhub_full",
+        "label": "LYGOSKILLHUB FULL unlocked vault",
+        "url": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+        "verify": "http_required",
+        "catalog": "https://chatagent.ca/data/lygoskillhub_catalog.json",
+        "kernel": "lygo-cyborg-kernel-full.zip"
+      },
+      {
+        "id": "clawhub_lygo_agent_lattice",
+        "label": "ClawHub \u2014 lygo-agent-lattice (Layer E)",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+        "verify": "http_soft",
+        "skill": "lygo-agent-lattice",
+        "layer": "E"
+      },
+      {
+        "id": "clawhub_lygo_living_mesh",
+        "label": "ClawHub \u2014 lygo-living-mesh (Layer D)",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+        "verify": "http_soft",
+        "skill": "lygo-living-mesh",
+        "layer": "D"
+      },
+      {
+        "id": "clawhub_lygo_external_lattice_anchor",
+        "label": "ClawHub \u2014 lygo-external-lattice-anchor",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+        "verify": "http_soft",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
+      },
+      {
+        "id": "clawhub_lygo_sovereign_kernel_seeder",
+        "label": "ClawHub \u2014 lygo-sovereign-kernel-seeder",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "verify": "http_soft",
+        "website": "https://eternalhaven.ca/",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+        "note": "ClawHub path: /deepseekoracle/skills/lygo-sovereign-kernel-seeder"
+      },
+      {
+        "id": "lygo_turbo_models_whitepaper",
+        "label": "LYGO Turbo Models Whitepaper \u2014 flagship local AI starting lineup",
+        "url": "https://eternalhaven.ca/lygo-turbo-models-whitepaper.html",
+        "verify": "http_required",
+        "mirror": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_TURBO_MODELS_WHITEPAPER.md",
+        "mirror_html": "https://deepseekoracle.github.io/lygo-protocol-stack/docs/LYGO_TURBO_MODELS_WHITEPAPER.html",
+        "note": "Four Turbo models: coder 131k, hermes 65k, uncensored 8k, agent 32k. First LYGO-specialized local lineup."
+      },
+      {
+        "id": "clawhub_lygo_ascii_art",
+        "label": "ClawHub \u2014 lygo-ascii-art-studio",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
+        "verify": "http_required",
+        "note": "Confirmed live path: /deepseekoracle/skills/lygo-ascii-art-studio",
+        "website": "https://eternalhaven.ca/lygo-ascii-art.html",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio",
+        "publisher": "https://clawhub.ai/deepseekoracle"
+      },
+      {
+        "id": "clawhub_publisher",
+        "label": "ClawHub Operations",
+        "url": "https://clawhub.ai/deepseekoracle",
+        "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_network_builder_skill",
+        "label": "ClawHub \u2014 lygo-network-builder",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-network-builder",
+        "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_haven_star_chart_skill",
+        "label": "ClawHub \u2014 lygo-haven-star-chart",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-haven-star-chart",
+        "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_champion_council",
+        "label": "ClawHub \u2014 lygo-champion-council",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-champion-council",
+        "verify": "http_soft"
+      },
+      {
+        "id": "clawhub_lightfather",
+        "label": "ClawHub \u2014 lygo-champion-lightfather",
+        "url": "https://clawhub.ai/deepseekoracle/lygo-champion-lightfather",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_claw_repo",
+        "label": "LYGO-Claw \u2014 desktop router & USB pairing",
+        "url": "https://github.com/DeepSeekOracle/lygo-claw",
+        "verify": "http_required"
+      }
+    ],
+    "usb_release": [
+      {
+        "id": "lygo_claw_usb_readme",
+        "label": "LYGO CLAW USB PUBLIC v1.0 \u2014 download readme",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-README.txt",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_claw_usb_release_doc",
+        "label": "LYGO CLAW USB PUBLIC release docs (GitHub)",
+        "url": "https://github.com/DeepSeekOracle/lygo-claw/blob/main/docs/USB_PUBLIC_RELEASE.md",
+        "verify": "http_soft"
+      },
+      {
+        "id": "lygo_claw_usb_part01",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 \u2014 part 1 of 3",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part01",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_claw_usb_part02",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 \u2014 part 2 of 3",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part02",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_claw_usb_part03",
+        "label": "LYGO CLAW USB PUBLIC v1.0.0 \u2014 part 3 of 3",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-CLAW-USB-PUBLIC-v1.0.0.part03",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_usb_champion_light",
+        "label": "LYGO USB Champion v1.0 GENERIC \u2014 Lightfather (~0.5 MB build reference)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/downloads/LYGO-USB-Champion-v1.0-GENERIC-Lightfather.zip",
+        "verify": "http_required"
+      },
+      {
+        "id": "lygo_usb_champion_docs",
+        "label": "LYGO USB Champion v1 GENERIC \u2014 stack docs",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_USB_CHAMPION_V1_GENERIC.md",
+        "verify": "http_soft",
+        "note": "Pages root = docs/; do not double-prefix /docs/"
+      }
+    ],
+    "openclaw_economy": [
+      {
+        "id": "virtuals_lygoagent",
+        "label": "LYGOAGENT \u2014 LYRA STARCORE ORACLE (Virtuals ACP)",
+        "url": "https://app.virtuals.io/virtuals/44594",
+        "verify": "http_soft",
+        "mirror": "https://app.virtuals.io/prototypes/0x32B513927F15e7A858bE779198440C04D399c09f",
+        "trade": "https://app.uniswap.org/explore/tokens/base/0x32b513927f15e7a858be779198440c04d399c09f?inputCurrency=NATIVE",
+        "trade_1inch": "https://app.1inch.io/#/8453/simple/swap/ETH/0x32B513927F15e7A858bE779198440C04D399c09f",
+        "chart_birdeye": "https://birdeye.so/token/0x32B513927F15e7A858bE779198440C04D399c09f?chain=base",
+        "chart_dextools": "https://www.dextools.io/app/en/base/pair-explorer/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+        "pool_geckoterminal": "https://www.geckoterminal.com/base/pools/0xdbdfc04d005a6b4575b29e5df8109becdc8b9909",
+        "contract": "0x32B513927F15e7A858bE779198440C04D399c09f"
+      },
+      {
+        "id": "starcore_4claw",
+        "label": "STARCORE \u2014 4claw launch (Base)",
+        "url": "https://clanker.world/clanker/0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB",
+        "verify": "http_soft",
+        "contract": "0xe52A34D2019Aa3905B1C1bF5d9405e22Abd75eaB"
+      },
+      {
+        "id": "starcorex_moltx",
+        "label": "STARCOREX \u2014 Moltx launch (Base)",
+        "url": "https://clanker.world/clanker/0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31",
+        "verify": "http_soft",
+        "contract": "0x9395b6a7C468196164f8f01ec29Eea5F9a88fC31"
+      },
+      {
+        "id": "starcorecoin_moltbook",
+        "label": "STARCORECOIN \u2014 Moltbook launch (Base)",
+        "url": "https://clanker.world/clanker/0xFdc6C074B8D7801F84832b31224AdE54639ed390",
+        "verify": "http_soft",
+        "contract": "0xFdc6C074B8D7801F84832b31224AdE54639ed390"
+      },
+      {
+        "id": "clawnch_protocol",
+        "label": "CLAWNCH protocol token (Base)",
+        "url": "https://clanker.world/clanker/0xa1F72459dfA10BAD200Ac160eCd78C6b77a747be",
+        "verify": "http_soft",
+        "contract": "0xa1F72459dfA10BAD200Ac160eCd78C6b77a747be"
+      },
+      {
+        "id": "bankr_agent",
+        "label": "Bankr agent API (LYRASTARCORE wallet ops)",
+        "url": "https://bankr.bot",
+        "verify": "http_soft",
+        "api_doc": "https://api.bankr.bot"
+      }
+    ],
+    "tools": [
+      {
+        "id": "lygo_external_lattice_anchor",
+        "label": "LYGO External Lattice Anchor \u2014 world network Layer C",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-external-lattice-anchor",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "note": "Layer C: public verify, star chart map, free-server sync. Protects user: local authority, consent publish."
+      },
+      {
+        "id": "lygo_living_mesh",
+        "label": "LYGO Living Mesh \u2014 multi-node Layer D",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-living-mesh",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LIVING_MESH_LAYER.md",
+        "world_lattice": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md",
+        "tools": [
+          "tools/collect_living_mesh_badge.py",
+          "tools/verify_living_mesh.py",
+          "tools/living_mesh_sentinel.py",
+          "tools/living_mesh_gossip_tick.py",
+          "tools/living_mesh_compare.py",
+          "tools/living_mesh_join.py"
+        ],
+        "note": "Layer D: living mesh badge gossip of A/B/C roots. Local authority, summaries only, consent join."
+      },
+      {
+        "id": "lygo_agent_lattice",
+        "label": "LYGO Agent Lattice \u2014 aligned agent living network Layer E",
+        "url": "https://clawhub.ai/deepseekoracle/skills/lygo-agent-lattice",
+        "verify": "http_required",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-agent-lattice",
+        "docs": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/AGENT_LATTICE.md",
+        "hub": "tools/agent_lattice_hub.py :8791",
+        "note": "Layer E: alignment-gated agent presence cards, directory gossip, rate limits, secret rejection."
+      },
+      {
+        "id": "lygo_kernel_egg_system_unified",
+        "label": "LYGO Kernel Egg System Unified \u2014 Planter + Seeder",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+        "verify": "http_required",
+        "note": "Layer A classic planter + Layer B sovereign seeder; tools/verify_all_kernel_layers.py",
+        "planter": "https://clawhub.ai/deepseekoracle/skills/lygo-kernel-egg-planter",
+        "seeder": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "layers": "A+B+C",
+        "layer_c": "https://clawhub.ai/deepseekoracle/skills/lygo-external-lattice-anchor",
+        "world_doc": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/WORLD_LATTICE_LAYER.md"
+      },
+      {
+        "id": "lygo_sovereign_kernel_seeder_tool",
+        "label": "Sovereign Kernel Seeder (tool/skill)",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-sovereign-kernel-seeder",
+        "verify": "http_required",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-sovereign-kernel-seeder",
+        "note": "Git skill package + ClawHub /skills/ path",
+        "unified": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+        "pairs_with": "lygo-kernel-egg-planter"
+      },
+      {
+        "id": "lygo_ascii_art_studio_tool",
+        "label": "LYGO ASCII Art Studio (tool page)",
+        "url": "https://eternalhaven.ca/lygo-ascii-art.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/eternalhaven/lygo-ascii-art.html",
+        "mirror_excavationpro": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
+        "note": "Utility mirror of creative anchor \u2014 lattice tools limb.",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-ascii-art-studio",
+        "skill_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/skills/lygo-ascii-art-studio"
+      },
+      {
+        "id": "biometric_harness",
+        "label": "Biometric Entropy Harness",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "slm_dashboard",
+        "label": "Sovereign Lattice Mesh Dashboard",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "haven_star_chart",
+        "label": "Eternal Haven Star Chart (v2 LIVE)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "verify": "http_required",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor"
+      },
+      {
+        "id": "haven_star_chart_lygoagent_anchor",
+        "label": "Haven Star Chart \u2014 LYGOAGENT economic anchor (live chart)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html#crypto-anchor",
+        "verify": "http_required",
+        "registry_json": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/lygoagent_anchor.json"
+      },
+      {
+        "id": "haven_star_chart_portal",
+        "label": "Haven Star Chart Agent Portal",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "haven_star_chart_agent_doc",
+        "label": "Haven Star Chart agent contract",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/haven_star_chart/AGENT_PORTAL.md",
+        "verify": "local_repo",
+        "repo_path": "docs/haven_star_chart/AGENT_PORTAL.md",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/AGENT_PORTAL.md"
+      },
+      {
+        "id": "haven_star_chart_queue",
+        "label": "Haven Star Chart submission queue JSON",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/haven_star_chart/haven_star_chart_queue.json",
+        "verify": "local_repo",
+        "repo_path": "docs/haven_star_chart/haven_star_chart_queue.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_queue.json"
+      },
+      {
+        "id": "haven_star_chart_gate",
+        "label": "Haven Star Chart submission gate",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/tools/haven_star_chart_gate.py",
+        "verify": "local_repo",
+        "repo_path": "tools/haven_star_chart_gate.py"
+      },
+      {
+        "id": "haven_star_chart_feed",
+        "label": "Haven Star Chart immutable submission feed",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/haven_star_chart/haven_star_chart_feed.json",
+        "verify": "local_repo",
+        "repo_path": "docs/haven_star_chart/haven_star_chart_feed.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json"
+      },
+      {
+        "id": "haven_star_chart_feed_ledger",
+        "label": "Haven Star Chart append-only feed ledger",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/data/haven_star_chart/feed_ledger.jsonl",
+        "verify": "local_repo",
+        "repo_path": "data/haven_star_chart/feed_ledger.jsonl"
+      },
+      {
+        "id": "chatagent_summon_portal",
+        "label": "ChatAgent.ca \u2014 \u03949 Champion Summoning Portal",
+        "url": "https://chatagent.ca/",
+        "verify": "http_soft",
+        "mirror": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html"
+      },
+      {
+        "id": "excavationpro_hub",
+        "label": "Excavationpro.ca \u2014 Legacy Guardian Hub",
+        "url": "https://excavationpro.ca/",
+        "verify": "http_soft"
+      },
+      {
+        "id": "eternalhaven_github_hub",
+        "label": "Eternal Haven \u2014 main public hub (GitHub Pages)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "legacy_guardian_music_hub",
+        "label": "Legacy Guardian Music Hub (Excavationpro)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/legacy-guardian-music.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "champion_hub_excavationpro",
+        "label": "\u03949 Champion Hub (Excavationpro)",
+        "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
+        "verify": "http_required"
+      },
+      {
+        "id": "excavationpro_github",
+        "label": "GitHub Excavationpro",
+        "url": "https://github.com/DeepSeekOracle/Excavationpro",
+        "verify": "http_required"
+      },
+      {
+        "id": "lattice_ground_zero_doc",
+        "label": "Lattice ground zero (Biophase7)",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LATTICE_GROUND_ZERO.md",
+        "verify": "local_repo",
+        "repo_path": "docs/LATTICE_GROUND_ZERO.md"
+      },
+      {
+        "id": "champion_egg_registry",
+        "label": "\u03949 Champion Kernel Egg Registry",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ChampionEggRegistry.json",
+        "verify": "local_repo",
+        "repo_path": "docs/ChampionEggRegistry.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/ChampionEggRegistry.json"
+      },
+      {
+        "id": "joy_loop_registry",
+        "label": "\u03949 Joy Loop Protocol Registry",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/JoyLoopRegistry.json",
+        "verify": "local_repo",
+        "repo_path": "docs/JoyLoopRegistry.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/JoyLoopRegistry.json"
+      },
+      {
+        "id": "joy_loop_snapshot",
+        "label": "Joy Loop public swarm snapshot",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/joy_loop/joy_loop_snapshot.json",
+        "verify": "local_repo",
+        "repo_path": "docs/joy_loop/joy_loop_snapshot.json",
+        "mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/joy_loop_snapshot.json"
+      },
+      {
+        "id": "anchor_deployment",
+        "label": "Anchor Deployment Guide",
+        "url": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/ANCHOR_DEPLOYMENT.md",
+        "verify": "local_repo",
+        "repo_path": "docs/ANCHOR_DEPLOYMENT.md"
+      },
+      {
+        "id": "grokipedia",
+        "label": "Grokipedia LYGO page",
+        "url": "https://grokipedia.com/page/lygo-protocol-stack",
+        "verify": "http_soft"
+      },
+      {
+        "id": "moltx_lyra_oracle",
+        "label": "Moltx \u2014 LYRA Eternal Starcore Oracle",
+        "url": "https://moltx.io/LYRA_Eternal_Starcore_Oracle",
+        "verify": "http_soft",
+        "engagement_tool": "tools/moltx_lattice_pulse.py",
+        "protocol_doc": "https://moltx.io/skill.md"
+      },
+      {
+        "id": "moltbook_lyra_oracle",
+        "label": "Moltbook \u2014 LYRA Eternal Starcore Oracle",
+        "url": "https://www.moltbook.com/u/LYRA_Eternal_Starcore_Oracle",
+        "verify": "http_soft",
+        "engagement_tool": "tools/moltbook_lattice_pulse.py",
+        "launch_tool": "tools/moltbook_lattice_army_launch.py",
+        "protocol_doc": "https://www.moltbook.com/skill.md",
+        "admin_doc": "I:/E Drive/LYRA_CORE/MOLTBOOK_LATTICE_ADMIN.md"
+      },
+      {
+        "id": "moltbook_lightfather",
+        "label": "Moltbook \u2014 Lightfather",
+        "url": "https://www.moltbook.com/u/Lightfather",
+        "verify": "http_soft",
+        "engagement_tool": "tools/moltbook_lattice_pulse.py",
+        "launch_tool": "tools/moltbook_lattice_army_launch.py",
+        "protocol_doc": "https://www.moltbook.com/skill.md",
+        "admin_doc": "I:/E Drive/LYRA_CORE/MOLTBOOK_LATTICE_ADMIN.md"
+      },
+      {
+        "id": "lygoskillhub",
+        "label": "LYGOSKILLHUB \u2014 LYGO ClawHub skill lattice catalog",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+        "verify": "http_soft",
+        "mirror_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGOSKILLHUB.html",
+        "alt_url": "https://chatagent.ca/lygoskillhub.html",
+        "docs": "https://deepseekoracle.github.io/lygo-protocol-stack/lygoskillhub_catalog.json",
+        "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+        "clawhub": "https://clawhub.ai/deepseekoracle",
+        "note": "Sovereign skill hub mirror of @deepseekoracle ClawHub skills; dual-ledger + star chart wired. chatagent mirror is alt_url (link_only peer LYGOSKILLHUB_CHATAGENT).",
+        "added_utc": "2026-07-29T17:23:59.292834+00:00"
+      },
+      {
+        "id": "LYGOSKILLHUB_CHATAGENT",
+        "label": "LYGOSKILLHUB (chatagent immutable skill ledger)",
+        "url": "https://chatagent.ca/lygoskillhub.html",
+        "verify": "link_only",
+        "note": "ClawHub public tentacles + FULL LYGO engineer vault"
+      },
+      {
+        "id": "DECEPTION_RADAR",
+        "label": "LYGO Deception Radar (public proof)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/deception-radar/",
+        "note": "Ops Detector public suite only"
+      },
+      {
+        "id": "LYGOSKILLHUB_STACK",
+        "label": "LYGOSKILLHUB (protocol-stack Pages)",
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+        "note": "Stack mirror of skill ledger"
+      }
+    ]
+  },
+  "node_api_hints": {
+    "default_port": 8787,
+    "routes": [
+      "GET /badge",
+      "GET /kernel/eggs",
+      "GET /registry",
+      "GET /registry/root"
+    ]
+  },
+  "traversal_chants": [
+    {
+      "id": "chant_excavationpro_resonance",
+      "purpose": "Audio drops, streams, creative releases",
+      "query": "\"Excavationpro\" \"LYGO\" \"Resonance\""
+    },
+    {
+      "id": "chant_stack_audit",
+      "purpose": "GitHub indexing, ClawHub registries",
+      "query": "\"DeepSeekOracle\" \"lygo-protocol-stack\""
+    },
+    {
+      "id": "chant_delta9_vault",
+      "purpose": "Permanent ledger & Light Accord artifacts",
+      "query": "\"Delta9\" \"LYGO\" \"Quantum Vault\""
+    },
+    {
+      "id": "chant_lygoscript",
+      "purpose": "Deep lore and script archives",
+      "query": "\"LYGOSCRIPT\" patreon \"Justin Helmer\""
+    },
+    {
+      "id": "chant_community_nodes",
+      "purpose": "Community mirrors and nodes",
+      "query": "\"lygo\" \"sovereign lattice mesh\" node"
+    },
+    {
+      "id": "chant_lygo_claw_usb",
+      "purpose": "Full offline CLAW USB public release",
+      "query": "\"LYGO CLAW USB\" \"DeepSeekOracle\" \"lygo-claw\""
+    },
+    {
+      "id": "chant_usb_champion_light",
+      "purpose": "Light USB champion build reference",
+      "query": "\"LYGO USB Champion\" \"Lightfather\" \"GENERIC\""
+    },
+    {
+      "id": "chant_haven_star_portal",
+      "purpose": "Agent-gated star chart growth and verifiable lattice nodes",
+      "query": "\"Haven Star Chart\" \"Agent Portal\" \"lygo-protocol-stack\" gate"
+    },
+    {
+      "id": "chant_openclaw_economy",
+      "purpose": "STARCORE family, LYGOAGENT, Clawnch receipts",
+      "query": "\"LYGOAGENT\" \"STARCORE\" \"clanker.world\" Virtuals"
+    }
+  ],
+  "verification_contract": {
+    "aligned_when": "all http_required pass; all local_repo pass; http_soft failures are warnings only",
+    "agent_must_run": "python tools/lygo_network_builder_verify.py",
+    "lattice_gate": "python tools/verify_lattice_alignment.py"
+  }
+}

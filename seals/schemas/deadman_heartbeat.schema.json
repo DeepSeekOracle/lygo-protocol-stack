@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lygo.deadman.heartbeat.v1",
+  "title": "Deadman Heartbeat Event",
+  "type": "object",
+  "required": [
+    "signature",
+    "event",
+    "lightfather_id",
+    "unix",
+    "iso",
+    "source"
+  ],
+  "properties": {
+    "signature": {
+      "const": "Delta9Phi963-DEADMAN-HEARTBEAT-v1"
+    },
+    "event": {
+      "enum": [
+        "touch",
+        "check",
+        "lantern",
+        "whisper",
+        "verify",
+        "succession"
+      ]
+    },
+    "lightfather_id": {
+      "type": "string"
+    },
+    "unix": {
+      "type": "number"
+    },
+    "iso": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "silence_seconds": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "failsafe_active": {
+      "type": "boolean"
+    },
+    "content_sha256": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

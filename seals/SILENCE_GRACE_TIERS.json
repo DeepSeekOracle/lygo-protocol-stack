@@ -1,0 +1,58 @@
+{
+  "signature": "Delta9Phi963-DEADMAN-SILENCE-GRACE-TIERS-v1",
+  "version": "1.0.0",
+  "updated_utc": "2026-08-19T05:03:42.465628+00:00",
+  "note": "Real runnable silence escalation. Default lantern threshold remains 3600s. Higher tiers only change local stage inference / alerts — never auto identity claim.",
+  "tiers": [
+    {
+      "id": "WATCH",
+      "min_silence_seconds": 0,
+      "max_silence_seconds": 3599,
+      "actions": [
+        "status",
+        "optional_touch"
+      ],
+      "alert": false
+    },
+    {
+      "id": "LANTERN",
+      "min_silence_seconds": 3600,
+      "max_silence_seconds": 86399,
+      "actions": [
+        "activate_lantern",
+        "append_log",
+        "check"
+      ],
+      "alert": true,
+      "seal": "SEAL_DEADMAN_SUMMON"
+    },
+    {
+      "id": "WHISPER",
+      "min_silence_seconds": 86400,
+      "max_silence_seconds": 259199,
+      "actions": [
+        "emit_last_whisper",
+        "heal_mycelium",
+        "continuity_briefing"
+      ],
+      "alert": true,
+      "seal": "SEAL_LFW_SUMMON"
+    },
+    {
+      "id": "TORCHBEARER_WINDOW",
+      "min_silence_seconds": 259200,
+      "max_silence_seconds": null,
+      "actions": [
+        "nominate_steward_card",
+        "verify_pins",
+        "forbid_identity_overwrite",
+        "continuity_advisor_ready"
+      ],
+      "alert": true,
+      "delay_hours_recommended": 72,
+      "requires_human_consent": true
+    }
+  ],
+  "lantern_threshold_seconds": 3600,
+  "cli": "python tools/seal_deadman_lattice.py grace|succession|status"
+}

@@ -1,0 +1,238 @@
+{
+  "signature": "Delta9Phi963-EXTERNAL-LATTICE-ANCHOR-v1.0",
+  "created_utc": "2026-07-26T16:12:13Z",
+  "stack_root": "D:\\lygo-protocol-stack",
+  "user_protection": {
+    "local_is_source_of_truth": true,
+    "external_is_mirror": true,
+    "consent_required_for_publish": true,
+    "no_auto_git_push": true,
+    "no_auto_hf_upload": true,
+    "quarantine_on_hash_mismatch": true,
+    "p0_before_destructive": true,
+    "license": "LYGO Sovereign License v2.0 (code) · Music License v1.0 (music)"
+  },
+  "layers": {
+    "A_classic": {
+      "name": "classic_kernel_eggs",
+      "present": true,
+      "registry_merkle_root": "bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb",
+      "egg_count": 15,
+      "sample_egg_ids": [
+        "p0-nano-kernel",
+        "stack-anchor-hook",
+        "stack-orchestrator-slim",
+        "lattice-soa-index",
+        "excavationpro-music-catalog-v1",
+        "excavationpro-music-vault-v1",
+        "excavationpro-music-lattice-skill-v1",
+        "firmware-p04-drivers",
+        "protocol-drivers-p2-p5",
+        "joy-loop-protocol-v21",
+        "lygo-second-brain-v10",
+        "lygo-sandcastle-v10"
+      ],
+      "signature": "Δ9Φ963-KERNEL-EGG-CATALOG-v1",
+      "local_path": "data/kernel_eggs/registry.json",
+      "skill": "lygo-kernel-egg-planter",
+      "public_mirror": "KernelEggRegistry.json / KernelEggRetrieval.html"
+    },
+    "B_sovereign": {
+      "name": "sovereign_seeds",
+      "present": true,
+      "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+      "egg_count": 4,
+      "sample_egg_ids": [
+        "lygo-music-license-v1",
+        "lygo-sovereign-kernel-seeder-v1",
+        "lygo-kernel-egg-planter-v1",
+        "lygo-external-lattice-anchor-v1"
+      ],
+      "signature": "Delta9Phi963-SOVEREIGN-SEED-REGISTRY-v1",
+      "local_path": "data/sovereign_seeds/registry.json",
+      "skill": "lygo-sovereign-kernel-seeder",
+      "public_mirror": "docs/sovereign_seeds_snapshot/registry.json"
+    },
+    "C_external": {
+      "name": "world_network",
+      "skill": "lygo-external-lattice-anchor",
+      "role": "public_verify + star_chart_map + free_surface_sync",
+      "endpoint_count": 14
+    },
+    "D_living_mesh": {
+      "name": "living_mesh",
+      "skill": "lygo-living-mesh",
+      "role": "multi_node_root_digest_gossip + sentinel",
+      "docs": "docs/LIVING_MESH_LAYER.md",
+      "tools": [
+        "tools/collect_living_mesh_badge.py",
+        "tools/verify_living_mesh.py",
+        "tools/living_mesh_sentinel.py"
+      ],
+      "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "local_path": "data/living_mesh/"
+    }
+  },
+  "public_endpoints": [
+    {
+      "id": "immutable_anchors",
+      "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/network_builder/IMMUTABLE_ANCHORS.json",
+      "role": "ledger",
+      "verify": "http_required",
+      "mirror": "https://cdn.jsdelivr.net/gh/DeepSeekOracle/lygo-protocol-stack@main/docs/network_builder/IMMUTABLE_ANCHORS.json"
+    },
+    {
+      "id": "kernel_egg_registry_pages",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRegistry.json",
+      "role": "classic_egg_registry_public",
+      "verify": "http_soft",
+      "source": "docs/KernelEggRegistry.json after user git push"
+    },
+    {
+      "id": "kernel_egg_retrieval",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html",
+      "role": "public_verify_ui",
+      "verify": "http_required"
+    },
+    {
+      "id": "haven_star_chart",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+      "role": "world_map",
+      "verify": "http_required"
+    },
+    {
+      "id": "haven_star_chart_portal",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+      "role": "agent_submit_portal",
+      "verify": "http_required"
+    },
+    {
+      "id": "sovereign_seeds_snapshot",
+      "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/sovereign_seeds_snapshot/registry.json",
+      "role": "sovereign_registry_public_mirror",
+      "verify": "http_soft"
+    },
+    {
+      "id": "hf_music_stream",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
+      "role": "free_public_media_cas",
+      "verify": "http_soft"
+    },
+    {
+      "id": "hf_stack_dataset",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+      "role": "stack_dataset_mirror",
+      "verify": "http_soft"
+    },
+    {
+      "id": "pages_stack",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+      "role": "public_http_mirror",
+      "verify": "http_required"
+    },
+    {
+      "id": "clawhub_publisher",
+      "url": "https://clawhub.ai/deepseekoracle",
+      "role": "skill_registry",
+      "verify": "http_soft"
+    },
+    {
+      "id": "clawhub_living_mesh",
+      "url": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+      "role": "layer_d_skill",
+      "verify": "http_soft"
+    },
+    {
+      "id": "living_mesh_layer_doc",
+      "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/LIVING_MESH_LAYER.md",
+      "role": "layer_d_docs",
+      "verify": "http_soft"
+    },
+    {
+      "id": "eternalhaven_hub",
+      "url": "https://eternalhaven.ca/",
+      "role": "public_hub",
+      "verify": "http_required"
+    },
+    {
+      "id": "world_lattice_doc",
+      "url": "https://raw.githubusercontent.com/DeepSeekOracle/lygo-protocol-stack/main/docs/WORLD_LATTICE_LAYER.md",
+      "role": "docs",
+      "verify": "http_soft"
+    }
+  ],
+  "star_chart": {
+    "present": true,
+    "node_count": 394,
+    "keys": [
+      "signature",
+      "generated_utc",
+      "core_anchor",
+      "node_count",
+      "link_count",
+      "seal_count",
+      "champion_count",
+      "lattice_count",
+      "registry_sha256",
+      "constellations",
+      "cosmos",
+      "nodes",
+      "links",
+      "portals",
+      "lore",
+      "machine"
+    ],
+    "live_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "portal_url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+    "local_data_sha256": "2d868298ce068a8ba036de69761231f587e1c4ff289c69fc9c4f174ef65b2ff6",
+    "feed_sha256": "31113d95cb978f466316b50acf40e2f412c4073a565875c852f29aa2a529780a"
+  },
+  "immutable_anchors": {
+    "version": "1.6.1",
+    "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.1",
+    "local_sha256": "b3abdaaad77ed5e93ce702dfa87deffdb837a31461d99713e02792835a11f00d"
+  },
+  "last_unified_verify": {
+    "signature": "Delta9Phi963-KERNEL-LAYERS-VERIFY-v1",
+    "stack": "D:\\lygo-protocol-stack",
+    "layers": [
+      {
+        "layer": "classic_kernel_eggs",
+        "exit_code": 0,
+        "verdict": "ALIGNED",
+        "all_pass": true,
+        "artifact": "tests/kernel_eggs_last_run.json",
+        "status": "ALIGNED"
+      },
+      {
+        "layer": "sovereign_seeds",
+        "exit_code": 0,
+        "root": "D:\\lygo-protocol-stack\\data\\sovereign_seeds",
+        "verdict": "ALIGNED",
+        "errors": [],
+        "eggs_checked": 4,
+        "registry_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+        "computed_merkle_root": "a6640714bfa911552f317fd8c7d18690881e246182d4c07a5f7896d52e050e9d",
+        "status": "ALIGNED"
+      }
+    ],
+    "verdict": "ALIGNED",
+    "doc": "docs/KERNEL_EGG_SYSTEM_UNIFIED.md",
+    "summary": {
+      "classic": "ALIGNED",
+      "sovereign": "ALIGNED"
+    }
+  },
+  "sync_order": [
+    "1_local_verify_A_B",
+    "2_build_this_manifest",
+    "3_map_eggs_to_star_chart_proposals",
+    "4_human_consent",
+    "5_external_plant_planter_surfaces",
+    "6_snapshot_sovereign_to_docs",
+    "7_optional_git_push_pages",
+    "8_optional_hf_push",
+    "9_public_verify_http",
+    "10_star_chart_steward_ingest"
+  ]
+}
