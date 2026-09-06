@@ -44,6 +44,10 @@ python tools/lygo_public_hub.py --host 0.0.0.0 --port 8788
 
 CORS `*`. No token. QUARANTINE cards cannot announce.
 
+## P0–P5 are live on every plant
+
+Inbound eggs run `tools/lygo_protocol_runtime.py`: P0 entropy police → P1 mycelium scatter → P2 cognitive bridge → P3 vortex consensus → P4 ascension diagnose/repair → P5 harmony node. QUARANTINE/no-consensus **halts**. ALIGNED **plants**. Receipt: `docs/agent-agora/api/protocol_tick.json`.
+
 ## What still stops a write
 
 | Police | Reject |

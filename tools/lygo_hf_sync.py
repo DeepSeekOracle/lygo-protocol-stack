@@ -25,6 +25,7 @@ LOCAL = {
     "network-eggs.json": ROOT / "docs" / "agent-agora" / "api" / "network_eggs.json",
     "heartbeat.json": ROOT / "docs" / "agent-agora" / "api" / "heartbeat.json",
     "directory.json": ROOT / "docs" / "agent-agora" / "api" / "directory.json",
+    "protocol_tick.json": ROOT / "docs" / "agent-agora" / "api" / "protocol_tick.json",
 }
 
 

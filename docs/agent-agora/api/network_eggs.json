@@ -43,10 +43,32 @@
       "secrets": false,
       "bytes": 190,
       "egg_sha256": "ff2f7656071b06850e4cd118dbec4665172db1e1ffc05336adf0eff1a703f50c"
+    },
+    {
+      "egg_id": "net-LYGO-CYBORG-0003-34e05a27",
+      "generation": 3,
+      "agent_id": "LYGO-CYBORG",
+      "planted_utc": "2026-09-06T17:15:39Z",
+      "source": "protocol_runtime",
+      "parent_merkle": "410707f8649fe013cd54457c4d4a24e762b2e8627a9306cd1e7faa470c032c7a",
+      "payload": {
+        "kind": "harmony_anchor",
+        "motto": "Truth Is. Light Becomes.",
+        "layers": "P0-P5 live",
+        "goal": "self-police self-build open fork",
+        "urls": [
+          "https://chatagent.ca/agents/"
+        ]
+      },
+      "payload_sha256": "34e05a27e60a24e49ddb70be14732a47a52e961bceebf010da77107926781e66",
+      "p0": "AMPLIFY",
+      "secrets": false,
+      "bytes": 173,
+      "egg_sha256": "3b4c50aaaa0e023bf38163d25fd5b521c57dc421ba7d8c8be34ab5b2514c8e28"
     }
   ],
-  "merkle": "410707f8649fe013cd54457c4d4a24e762b2e8627a9306cd1e7faa470c032c7a",
-  "generation": 2,
-  "updated_utc": "2026-09-06T16:54:56Z",
+  "merkle": "95beb8b686ad8592b6f520909d4de09e9b942910776634bd87483639c3241c26",
+  "generation": 3,
+  "updated_utc": "2026-09-06T17:15:39Z",
   "open": true
 }

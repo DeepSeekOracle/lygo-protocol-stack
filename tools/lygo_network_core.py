@@ -94,6 +94,15 @@ def plant_egg(agent_id: str, payload: Any, source: str = "open_network") -> dict
     gate = police(raw)
     if not gate["ok"]:
         return {"ok": False, "planted": False, **gate}
+    try:
+        from lygo_protocol_runtime import persist_tick, run_inbound
+
+        layers = run_inbound(payload, str(agent_id or "agent"), purpose="network_egg")
+        persist_tick(layers)
+        if layers.get("halt"):
+            return {"ok": False, "planted": False, "error": "protocol_halt", "protocol": layers}
+    except Exception as e:
+        layers = {"error": str(e)[:200], "halt": False, "note": "runtime_optional"}
     agent_id = re.sub(r"[^A-Za-z0-9._:-]", "-", str(agent_id or "agent"))[:64]
     ledger = _load_eggs()
     gen = int(ledger.get("generation") or 0) + 1
@@ -119,7 +128,14 @@ def plant_egg(agent_id: str, payload: Any, source: str = "open_network") -> dict
     ledger["updated_utc"] = utc_now()
     ledger["open"] = True
     _save_eggs(ledger)
-    return {"ok": True, "planted": True, "egg_id": egg["egg_id"], "generation": gen, "merkle": merkle}
+    return {
+        "ok": True,
+        "planted": True,
+        "egg_id": egg["egg_id"],
+        "generation": gen,
+        "merkle": merkle,
+        "protocol": layers.get("layers") if isinstance(layers, dict) else None,
+    }
 
 
 def submit_star(sub: dict, source: str = "open_network") -> dict:

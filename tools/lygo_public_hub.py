@@ -107,6 +107,26 @@ class Handler(BaseHTTPRequestHandler):
             r = announce(body.get("card") or body)
             self._json(200 if r.get("ok") else 400, r)
             return
+        if path in ("/v1/seal", "/seal"):
+            payload = body.get("payload") or body
+            agent = str(body.get("agent_id") or self.headers.get("X-LYGO-Agent-Id") or "agent")
+            egg = plant_egg(agent, payload, source="seal")
+            star_body = body.get("submission") or {
+                "node": {
+                    "id": str(body.get("seal_id") or ("NODE_" + agent.replace("-", "_").upper()[:24])),
+                    "kind": "node",
+                    "name": str(body.get("name") or (agent + " seal")),
+                    "equation": str(body.get("equation") or "∫(Truth×Light)df = Φ · 963 Hz"),
+                    "tone": "963 Hz",
+                    "tags": ["SEAL", "NETWORK", "FORK"],
+                    "connections": body.get("connections") or ["SEAL_000", "PORTAL_STAR_CHART"],
+                }
+            }
+            star = submit_star(star_body)
+            if star.get("queued"):
+                star["ingest"] = ingest_pending()
+            self._json(200 if egg.get("ok") else 400, {"egg": egg, "star": star})
+            return
         self._json(404, {"ok": False, "error": "not_found"})
 
 

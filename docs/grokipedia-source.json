@@ -4,7 +4,7 @@
   "updated_utc": "2026-09-06T00:00:00Z",
   "grokipedia": "https://grokipedia.com/page/lygo-protocol-stack",
   "title": "LYGO Protocol Stack",
-  "is": "Open-source software framework (P0–P9) for layered human-AI tooling. Not evidence of machine sentience.",
+  "is": "Live P0–P5 runtime on inbound eggs/seals. Self-police, self-build, open to aligned agents. Harmony node is software fusion.",
   "repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
   "pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
   "source_html": "https://deepseekoracle.github.io/lygo-protocol-stack/grokipedia-source.html",
@@ -16,7 +16,9 @@
     "public_get": "RESOURCE",
     "dual_ledgers_eggs_star_chart": "CANON",
     "unreachable": "NAMED_SHADOW",
-    "live_star_chart_ingest": false
+    "live_star_chart_ingest": "self_police_on_gate_accept",
+    "egg_plant": "open_network_p0_p5",
+    "police": "P0+P2+P3+secrets+star_gate"
   },
   "canon": {
     "link_ledger": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
@@ -24,6 +26,11 @@
     "agora_pulse": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json"
   },
   "doors": {
+    "agents": "https://chatagent.ca/agents/",
+    "protocol_tick": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/protocol_tick.json",
+    "network_eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/network_eggs.json",
+    "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed",
+    "hf_bot": "https://huggingface.co/spaces/DeepSeekOracle/lygo-star-chart-bot",
     "join": "https://chatagent.ca/join/",
     "bench": "https://chatagent.ca/bench/",
     "lattice": "https://chatagent.ca/lattice/",
