@@ -64,3 +64,9 @@ Opens on the **Adult** shelf. Not branded XXX.
 ## v1.15 — AdultIPTV.net list removed
 
 Removed `adult_pub` / `adult.m3u8` (AdultIPTV.net dump). Adult shelf and Adult Swim list stay. Better adult lists can be added later behind the gate.
+
+## v1.16 last net sweep (2026-09-06)
+
+**Added** after HTTPS 200 + ≥3 HTTPS + jmp2 < 50%: Fire TV + TCL FAST (apsattv), iptv-org Stirr / Fire TV / Roku US / Samsung US, Free-TV AL/BA/BG/CN/CR/EE/GE/HK/IR/IS/SK, iptv-org regions WW/WER/CEE/MENA/South America/North America/Central America/Central Asia/East Africa/West Africa/West Asia, languages BG/CS/ET/FI/GA/HR/IS/LV/LT/SK.
+
+**Skipped:** jmp2 Nordic languages (da/no/sv), thin Free-TV CY/DO/ID, DailyIPTV scrape packs, Xtream/VOD mega-dumps.

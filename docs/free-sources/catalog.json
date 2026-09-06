@@ -1,10 +1,10 @@
 {
-  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.15.0",
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.16.0",
   "name": "LYGO TV",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "class": "RESOURCE",
   "live_star_chart_ingest": false,
-  "updated_utc": "2026-09-05T23:00:00Z",
+  "updated_utc": "2026-09-06T12:00:00Z",
   "disclaimer": "https://chatagent.ca/sources/disclaimer.html",
   "portal_only": true,
   "xxx_catalog": false,
@@ -18,7 +18,7 @@
     "free_public_lists_only": true
   },
   "how_to_add": "Edit DeepSeekOracle/chatagent sources/catalog.json and commit. Follow sources/CATALOG.md.",
-  "note": "Portal only. Not branded XXX. v1.15: removed AdultIPTV.net dump. Adult shelf + Adult Swim remain.",
+  "note": "Portal only. Not branded XXX. v1.16 last net sweep: Fire TV/TCL FAST, iptv-org Stirr/Fire/Roku/Samsung sources, more Free-TV countries, extra regions and languages. Skipped jmp2 Nordic langs and thin 404s.",
   "donate": {
     "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
     "patreon": "https://www.patreon.com/Excavationpro"
@@ -1399,6 +1399,234 @@
       "title": "18+ entertainment (not XXX)",
       "kind": "playlist",
       "url": "https://chatagent.ca/sources/mature.m3u8"
+    },
+    {
+      "id": "firetv_fast",
+      "title": "Fire TV FAST",
+      "kind": "playlist",
+      "url": "https://www.apsattv.com/firetv.m3u"
+    },
+    {
+      "id": "tcl_fast",
+      "title": "TCL FAST",
+      "kind": "playlist",
+      "url": "https://www.apsattv.com/tcl.m3u"
+    },
+    {
+      "id": "src_stirr",
+      "title": "iptv-org Stirr",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/sources/us_stirr.m3u"
+    },
+    {
+      "id": "src_firetv",
+      "title": "iptv-org Fire TV",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/sources/us_firetv.m3u"
+    },
+    {
+      "id": "src_roku",
+      "title": "iptv-org Roku US",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/sources/us_roku.m3u"
+    },
+    {
+      "id": "src_samsung",
+      "title": "iptv-org Samsung US",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/sources/us_samsung.m3u"
+    },
+    {
+      "id": "ftv_albania",
+      "title": "Free-TV Albania",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_albania.m3u8"
+    },
+    {
+      "id": "ftv_bosnia",
+      "title": "Free-TV Bosnia",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_bosnia_and_herzegovina.m3u8"
+    },
+    {
+      "id": "ftv_bulgaria",
+      "title": "Free-TV Bulgaria",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_bulgaria.m3u8"
+    },
+    {
+      "id": "ftv_china",
+      "title": "Free-TV China",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_china.m3u8"
+    },
+    {
+      "id": "ftv_cr",
+      "title": "Free-TV Costa Rica",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_costa_rica.m3u8"
+    },
+    {
+      "id": "ftv_estonia",
+      "title": "Free-TV Estonia",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_estonia.m3u8"
+    },
+    {
+      "id": "ftv_georgia",
+      "title": "Free-TV Georgia",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_georgia.m3u8"
+    },
+    {
+      "id": "ftv_hk",
+      "title": "Free-TV Hong Kong",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_hong_kong.m3u8"
+    },
+    {
+      "id": "ftv_iran",
+      "title": "Free-TV Iran",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_iran.m3u8"
+    },
+    {
+      "id": "ftv_iceland",
+      "title": "Free-TV Iceland",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_iceland.m3u8"
+    },
+    {
+      "id": "ftv_slovakia",
+      "title": "Free-TV Slovakia",
+      "kind": "playlist",
+      "url": "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_slovakia.m3u8"
+    },
+    {
+      "id": "ww",
+      "title": "Worldwide",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/ww.m3u"
+    },
+    {
+      "id": "wer",
+      "title": "Western Europe",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/wer.m3u"
+    },
+    {
+      "id": "cee",
+      "title": "Central/Eastern Europe",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/cee.m3u"
+    },
+    {
+      "id": "mena",
+      "title": "MENA",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/mena.m3u"
+    },
+    {
+      "id": "southam",
+      "title": "South America",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/southam.m3u"
+    },
+    {
+      "id": "noram",
+      "title": "North America",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/noram.m3u"
+    },
+    {
+      "id": "cenamer",
+      "title": "Central America",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/cenamer.m3u"
+    },
+    {
+      "id": "cas",
+      "title": "Central Asia",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/cas.m3u"
+    },
+    {
+      "id": "eaf",
+      "title": "East Africa",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/eaf.m3u"
+    },
+    {
+      "id": "waf",
+      "title": "West Africa",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/waf.m3u"
+    },
+    {
+      "id": "was",
+      "title": "West Asia",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/regions/was.m3u"
+    },
+    {
+      "id": "bul",
+      "title": "Bulgarian",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/bul.m3u"
+    },
+    {
+      "id": "ces",
+      "title": "Czech",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/ces.m3u"
+    },
+    {
+      "id": "est",
+      "title": "Estonian",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/est.m3u"
+    },
+    {
+      "id": "fin",
+      "title": "Finnish",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/fin.m3u"
+    },
+    {
+      "id": "gle",
+      "title": "Irish",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/gle.m3u"
+    },
+    {
+      "id": "hrv",
+      "title": "Croatian",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/hrv.m3u"
+    },
+    {
+      "id": "isl",
+      "title": "Icelandic",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/isl.m3u"
+    },
+    {
+      "id": "lav",
+      "title": "Latvian",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/lav.m3u"
+    },
+    {
+      "id": "lit",
+      "title": "Lithuanian",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/lit.m3u"
+    },
+    {
+      "id": "slk",
+      "title": "Slovak",
+      "kind": "playlist",
+      "url": "https://iptv-org.github.io/iptv/languages/slk.m3u"
     }
   ]
 }
