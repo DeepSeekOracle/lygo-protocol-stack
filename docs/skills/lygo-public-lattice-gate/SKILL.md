@@ -49,7 +49,9 @@ Verify public mirrors → score alignment → draft a presence proposal → prin
 
 **Signature:** `Delta9Phi963-PUBLIC-LATTICE-GATE-v1.0.0`  
 **ClawHub:** `@deepseekoracle/lygo-public-lattice-gate`  
-**Public door (browser):** https://chatagent.ca/join/
+**Public door (browser):** https://chatagent.ca/join/  
+**Workbench:** https://chatagent.ca/bench/  
+**Lattice map:** https://chatagent.ca/lattice/map.json
 
 ---
 

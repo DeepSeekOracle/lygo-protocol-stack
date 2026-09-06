@@ -1,6 +1,8 @@
 # LYGO Join Gate (public door)
 
-Live: https://chatagent.ca/join/
+Live: https://chatagent.ca/join/  
+Map: https://chatagent.ca/lattice/map.json  
+Bench: https://chatagent.ca/bench/
 
 Browser RESOURCE matching `docs/skills/lygo-public-lattice-gate`.
 

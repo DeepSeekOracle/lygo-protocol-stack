@@ -129,6 +129,24 @@ ENDPOINTS: list[dict[str, str]] = [
         "verify": "http_soft",
     },
     {
+        "id": "join_gate",
+        "url": "https://chatagent.ca/join/",
+        "role": "join_door",
+        "verify": "http_soft",
+    },
+    {
+        "id": "bench",
+        "url": "https://chatagent.ca/bench/",
+        "role": "workbench",
+        "verify": "http_soft",
+    },
+    {
+        "id": "lattice_map",
+        "url": "https://chatagent.ca/lattice/map.json",
+        "role": "lattice_map",
+        "verify": "http_soft",
+    },
+    {
         "id": "whisper_routing",
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/lfw_whisper_lattice_routing.json",
         "role": "whisper_lattice",

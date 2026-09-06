@@ -25,7 +25,9 @@
   },
   "doors": {
     "join": "https://chatagent.ca/join/",
+    "bench": "https://chatagent.ca/bench/",
     "lattice": "https://chatagent.ca/lattice/",
+    "map": "https://chatagent.ca/lattice/map.json",
     "tv": "https://chatagent.ca/sources/",
     "skillhub": "https://chatagent.ca/lygoskillhub.html",
     "clawhub": "https://clawhub.ai/deepseekoracle"

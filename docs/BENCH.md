@@ -1,6 +1,8 @@
 # LYGO Bench
 
-Live: https://chatagent.ca/bench/
+Live: https://chatagent.ca/bench/  
+Map: https://chatagent.ca/lattice/map.json  
+Join: https://chatagent.ca/join/
 
 Browser workbench matching `lygo-site-card` + `lygo-context-guard`.
 
