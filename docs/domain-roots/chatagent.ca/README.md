@@ -10,6 +10,7 @@ AdSense publisher: `ca-pub-0646320966060599`
 - `privacy.html` — privacy policy
 - `CNAME` — GitHub Pages custom domain
 - `robots.txt` / `sitemap.xml`
+- `join/` — public lattice Join / Verify door (GET-only)
 
 ## GoDaddy DNS (replace parking)
 

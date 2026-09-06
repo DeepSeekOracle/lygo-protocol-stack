@@ -48,7 +48,8 @@ Verify public mirrors → score alignment → draft a presence proposal → prin
 **Never** auto-publishes. **Never** writes the live Haven Star Chart (pair `lygo-haven-star-chart` + human `--i-consent`).
 
 **Signature:** `Delta9Phi963-PUBLIC-LATTICE-GATE-v1.0.0`  
-**ClawHub:** `@deepseekoracle/lygo-public-lattice-gate`
+**ClawHub:** `@deepseekoracle/lygo-public-lattice-gate`  
+**Public door (browser):** https://chatagent.ca/join/
 
 ---
 
