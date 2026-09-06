@@ -20,9 +20,33 @@
       "secrets": false,
       "plant_path": "network_self_police",
       "egg_sha256": "91dfc10dbeda1bde5622862407dfdd563c11874747779fc0a017d3abb53ddd13"
+    },
+    {
+      "egg_id": "net-LYGO-SELF-POLICE-0002-aa799a22",
+      "generation": 2,
+      "agent_id": "LYGO-SELF-POLICE",
+      "planted_utc": "2026-09-06T16:54:56Z",
+      "source": "steward_boot",
+      "parent_merkle": "9e09dee5fd8a43084d887c7d3b4da4c79fca7ffd4984d4829c25edd91756ff34",
+      "payload": {
+        "kind": "anchor",
+        "built": "open-network-core",
+        "urls": [
+          "https://chatagent.ca/agents/"
+        ],
+        "note": "first open-network real-data egg",
+        "tick_utc": "2026-09-06T16:50:30Z",
+        "star_nodes": 1413
+      },
+      "payload_sha256": "aa799a227e098307788e9407319ada22146b1a966bc637a3240bede2a725456c",
+      "p0": "AMPLIFY",
+      "secrets": false,
+      "bytes": 190,
+      "egg_sha256": "ff2f7656071b06850e4cd118dbec4665172db1e1ffc05336adf0eff1a703f50c"
     }
   ],
-  "merkle": "9e09dee5fd8a43084d887c7d3b4da4c79fca7ffd4984d4829c25edd91756ff34",
-  "generation": 1,
-  "updated_utc": "2026-09-06T16:50:30Z"
+  "merkle": "410707f8649fe013cd54457c4d4a24e762b2e8627a9306cd1e7faa470c032c7a",
+  "generation": 2,
+  "updated_utc": "2026-09-06T16:54:56Z",
+  "open": true
 }
