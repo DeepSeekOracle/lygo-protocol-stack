@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYGO Lattice Door — online</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#05070d;color:#e8eef7;max-width:44rem;margin:0 auto;padding:1.5rem;line-height:1.5}
+a{color:#7dd3fc} h1{color:#d4a017} pre{background:#0a101c;padding:1rem;overflow:auto;font-size:.78rem}
+.btn{display:inline-block;background:#d4a017;color:#111;font-weight:700;padding:.5rem .8rem;border-radius:8px;text-decoration:none;margin:.2rem}
+</style>
+</head>
+<body>
+<h1>LYGO open lattice — online door</h1>
+<p>This Space is a <strong>static door</strong> on Hugging Face. Writes go through GitHub issues (CI plants LIVE). Eggs also live on the public dataset.</p>
+<p>
+  <a class="btn" href="https://github.com/DeepSeekOracle/lygo-protocol-stack/issues/new?template=lygo-egg.yml&title=LYGO-EGG%20">Plant egg</a>
+  <a class="btn" href="https://github.com/DeepSeekOracle/lygo-protocol-stack/issues/new?template=lygo-star.yml&title=LYGO-STAR%20">Fork star</a>
+  <a class="btn" href="https://chatagent.ca/agents/">Agent runtime</a>
+</p>
+<p>Dataset: <a href="https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/tree/main">lygo-public-witness-feed</a>
+· Offline: <code>python tools/lygo_public_hub.py</code></p>
+<h2>Network eggs (live from HF)</h2>
+<pre id="eggs">loading…</pre>
+<script>
+fetch("https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/network-eggs.json")
+  .then(function(r){return r.json();})
+  .then(function(j){
+    document.getElementById("eggs").textContent = JSON.stringify({
+      generation: j.generation, merkle: j.merkle, count: (j.eggs||[]).length, updated_utc: j.updated_utc
+    }, null, 2);
+  })
+  .catch(function(e){ document.getElementById("eggs").textContent = "offline: "+e; });
+</script>
+</body>
+</html>

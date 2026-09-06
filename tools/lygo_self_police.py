@@ -204,7 +204,6 @@ def main() -> int:
     ap.add_argument("--json-only", action="store_true")
     args = ap.parse_args()
     report = run()
-    print(json.dumps(report, indent=2, default=str))
     # Keep heartbeat in sync
     class A:
         skip_kernel = True
@@ -216,6 +215,13 @@ def main() -> int:
 
     hb = tick(A())  # type: ignore[arg-type]
     persist(hb, True)
+    try:
+        from lygo_hf_sync import cmd_push
+
+        report["hf_push"] = cmd_push()
+    except Exception as e:
+        report["hf_push"] = {"ok": False, "mode": "offline", "error": str(e)[:200]}
+    print(json.dumps(report, indent=2, default=str))
     if args.json_only:
         return 0 if not report.get("halt") else 2
     return 0 if not report.get("halt") else 2

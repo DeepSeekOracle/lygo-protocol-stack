@@ -24,9 +24,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Pull HF inbox (online piggyback)
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -n "$HF_TOKEN" ]; then python tools/lygo_hf_sync.py pull; else echo "offline: no HF_TOKEN secret"; fi
+        continue-on-error: true
       - name: Self-police tick (plant + fork if ALIGNED)
         run: python tools/lygo_self_police.py
         timeout-minutes: 15
+      - name: Push receipts to HF
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -n "$HF_TOKEN" ]; then python tools/lygo_hf_sync.py push; else echo "offline: skip HF push"; fi
+        continue-on-error: true
       - name: Commit growth
         run: |
           git config user.name "lygo-self-police"
