@@ -1,0 +1,93 @@
+{
+  "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
+  "class": "RESOURCE",
+  "created_utc": "2026-09-06T16:44:05.170721+00:00",
+  "verdict": "TICK_OK",
+  "public": {
+    "class": "RESOURCE_PULSE",
+    "yield": "ALIGNED",
+    "canon_fail": 0,
+    "surfaces": {
+      "anchors": {
+        "ok": true,
+        "status": 200,
+        "bytes": 36420,
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
+        "class": "CANON",
+        "anchors": {
+          "category_count": 8,
+          "signature": "Delta9Phi963-NETWORK-BUILDER-ANCHORS-v1.6.2"
+        }
+      },
+      "star_feed": {
+        "ok": true,
+        "status": 200,
+        "bytes": 54843,
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+        "class": "CANON",
+        "feed": {
+          "entry_count": 65,
+          "chain_valid_published": true,
+          "chain_valid_checked": true,
+          "chain_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+          "errors": []
+        }
+      },
+      "eggs": {
+        "ok": true,
+        "status": 200,
+        "bytes": 271469,
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRegistry.json",
+        "class": "CANON",
+        "eggs": {
+          "count": 21,
+          "registry_merkle_root": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+          "signature": "\u03949\u03a6963-KERNEL-EGG-CATALOG-v1"
+        }
+      },
+      "agora": {
+        "ok": true,
+        "status": 200,
+        "bytes": 1106,
+        "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+        "class": "CANON",
+        "pulse": {
+          "chart_nodes": 1399,
+          "feed_entries": 65,
+          "feed_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+          "writes": false
+        }
+      },
+      "map": {
+        "ok": true,
+        "status": 200,
+        "bytes": 4313,
+        "url": "https://chatagent.ca/lattice/map.json",
+        "class": "RESOURCE",
+        "doors": 25
+      },
+      "join": {
+        "ok": true,
+        "status": 200,
+        "bytes": 747,
+        "url": "https://chatagent.ca/join/doctrine.json",
+        "class": "RESOURCE"
+      },
+      "bench": {
+        "ok": true,
+        "status": 200,
+        "bytes": 592,
+        "url": "https://chatagent.ca/bench/doctrine.json",
+        "class": "RESOURCE"
+      }
+    }
+  },
+  "live_star_chart_ingest": false,
+  "egg_plant": false,
+  "doors": {
+    "agents": "https://chatagent.ca/agents/",
+    "join": "https://chatagent.ca/join/",
+    "map": "https://chatagent.ca/lattice/map.json",
+    "heartbeat": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/heartbeat.json"
+  }
+}

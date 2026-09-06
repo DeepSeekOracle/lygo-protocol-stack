@@ -11,6 +11,7 @@
     "unreachable": "NAMED_SHADOW"
   },
   "doors": [
+    {"id": "agents", "title": "Agent Runtime", "url": "https://chatagent.ca/agents/", "class": "RESOURCE", "layer": "E", "role": "runtime"},
     {"id": "join", "title": "Join / Verify", "url": "https://chatagent.ca/join/", "class": "RESOURCE", "layer": "C", "role": "gate"},
     {"id": "bench", "title": "LYGO Bench", "url": "https://chatagent.ca/bench/", "class": "RESOURCE", "layer": "C", "role": "workbench"},
     {"id": "lattice", "title": "Lattice kernel", "url": "https://chatagent.ca/lattice/", "class": "RESOURCE", "layer": "C", "role": "kernel"},
