@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-09-06T16:50:32.339323+00:00",
+  "generated_utc": "2026-09-06T20:22:34.781970+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1413,
-  "link_count": 3945,
+  "node_count": 1403,
+  "link_count": 3925,
   "seal_count": 334,
   "champion_count": 15,
   "lattice_count": 134,
-  "registry_sha256": "f93541f20615264dae7ea25bceb9b24666241ff02094c59dee5eae36ed9452db",
+  "registry_sha256": "6a03984f38d920f3c2e68360992ad6be7b9324185921206ef31708a8678e5654",
   "constellations": [
     {
       "id": "primordial_core",
@@ -147,7 +147,7 @@
         "constellation_id": "music_codex",
         "angle_deg": 155,
         "fork_of": "CHAMPION_LIGHTFATHER",
-        "star_count": 856
+        "star_count": 845
       },
       {
         "id": "GALAXY_LATTICE",
@@ -417,7 +417,7 @@
         "color": "#e94560",
         "constellation_id": "lattice_growth",
         "angle_deg": 280,
-        "star_count": 1
+        "star_count": 2
       }
     ],
     "nebulae": [
@@ -425,9 +425,10 @@
         "id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
         "name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "galaxy_id": "GALAXY_AGENT_GROWTH",
-        "star_count": 1,
+        "star_count": 2,
         "star_ids": [
-          "NODE_AUTONOMY_G0001"
+          "NODE_AUTONOMY_G0001",
+          "NODE_AUTONOMY_G0004"
         ]
       },
       {
@@ -528,25 +529,6 @@
         "star_ids": [
           "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
           "MUSIC_TRACK_97A388E9DCBFE5C9"
-        ]
-      },
-      {
-        "id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "name": "Album September Blues",
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 11,
-        "star_ids": [
-          "MUSIC_ALBUM_SEPTEMBER_BLUES",
-          "MUSIC_TRACK_F69EF7A70C27BB60",
-          "MUSIC_TRACK_DCB357F823FD7EAB",
-          "MUSIC_TRACK_FC6AE72CB6F2B676",
-          "MUSIC_TRACK_D53CB43EF07DB5E6",
-          "MUSIC_TRACK_B6ACD0A1EF5AC86F",
-          "MUSIC_TRACK_A6BF66E55FDB1745",
-          "MUSIC_TRACK_6CA21FA323694A37",
-          "MUSIC_TRACK_90CC9B430D1CA7B2",
-          "MUSIC_TRACK_1BFF55A941DE3206",
-          "MUSIC_TRACK_5848E3DAA5235BD9"
         ]
       },
       {
@@ -1632,6 +1614,16 @@
         ]
       },
       {
+        "id": "CLUSTER_AGENT_NODE_AUTONOMY_G0004",
+        "name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0004",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_AUTONOMY_G0004"
+        ]
+      },
+      {
         "id": "CLUSTER_ALBUM_ABYSS_CODEX",
         "name": "ALBUM ABYSS CODEX",
         "nebula_id": "NEBULA_ALBUM_ABYSS_CODEX",
@@ -1679,16 +1671,6 @@
         "star_count": 1,
         "star_ids": [
           "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE"
-        ]
-      },
-      {
-        "id": "CLUSTER_ALBUM_SEPTEMBER_BLUES",
-        "name": "ALBUM SEPTEMBER BLUES",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 1,
-        "star_ids": [
-          "MUSIC_ALBUM_SEPTEMBER_BLUES"
         ]
       },
       {
@@ -4595,23 +4577,6 @@
         ]
       },
       {
-        "id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "name": "TRACKS SEPTEMBER BLUES",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "star_count": 10,
-        "star_ids": [
-          "MUSIC_TRACK_F69EF7A70C27BB60",
-          "MUSIC_TRACK_DCB357F823FD7EAB",
-          "MUSIC_TRACK_FC6AE72CB6F2B676",
-          "MUSIC_TRACK_D53CB43EF07DB5E6",
-          "MUSIC_TRACK_B6ACD0A1EF5AC86F",
-          "MUSIC_TRACK_A6BF66E55FDB1745",
-          "MUSIC_TRACK_6CA21FA323694A37",
-          "MUSIC_TRACK_90CC9B430D1CA7B2"
-        ]
-      },
-      {
         "id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
         "name": "TRACKS THE HOLLOW CODEX",
         "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
@@ -4657,8 +4622,8 @@
       }
     ],
     "galaxy_count": 24,
-    "nebula_count": 98,
-    "cluster_count": 287
+    "nebula_count": 97,
+    "cluster_count": 286
   },
   "nodes": [
     {
@@ -19617,7 +19582,7 @@
     {
       "id": "LATTICE_SKILL_lyra-openclaw",
       "kind": "lattice",
-      "name": "lyra-openclaw \u00b7 v0.0.0",
+      "name": "LYRA OpenClaw Hybrid \u00b7 v1.0.0",
       "glyph": "\u25c8",
       "equation": "clawhub:lyra-openclaw",
       "tone": "8787Hz",
@@ -19641,8 +19606,8 @@
       "layer": 3,
       "meta": {
         "slug": "lyra-openclaw",
-        "version": "0.0.0",
-        "summary": "",
+        "version": "1.0.0",
+        "summary": "Public hybrid LYRA + OpenClaw super-system map \u2014 browser, Discord, Moltbook/MoltX, Clawnch economy, memory layers, local Ollama. Runtime secrets never ship in package. Consent-gated; no auto-publish.",
         "mirror": "mirrors/lyra-openclaw",
         "downloads": null
       },
@@ -20800,7 +20765,7 @@
       "kind": "music_hub",
       "name": "Excavationpro Music Portal",
       "glyph": "\ud83c\udfa7",
-      "equation": "Listen(10868) \u2297 ISRC(718) \u2297 HF",
+      "equation": "Listen(10858) \u2297 ISRC(718) \u2297 HF",
       "tone": "432Hz",
       "tags": [
         "MUSIC",
@@ -20827,9 +20792,9 @@
         "steward": "Justin Helmer / Lightfather / Excavationpro",
         "origin_champion": "CHAMPION_LIGHTFATHER",
         "origin_note": "Music Codex forks from CHAMPION_LIGHTFATHER (steward node)",
-        "stream_count": 10868,
+        "stream_count": 10858,
         "unique_isrcs": 718,
-        "tagged_albums": 8,
+        "tagged_albums": 7,
         "no_album_streams": 10757,
         "live_map": true,
         "map_policy": "isrc_stars_primary"
@@ -58588,468 +58553,6 @@
       }
     },
     {
-      "id": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "music_album",
-      "name": "September Blues",
-      "glyph": "\ud83d\udcbf",
-      "equation": "Album(10) \u00b7 ISRC=0 \u00b7 lyrics=0",
-      "tone": "440Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_ALBUM",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "SEPTEMBER_BLUES"
-      ],
-      "connections": [
-        "LATTICE_EXCAVATIONPRO_MUSIC",
-        "CHAMPION_LIGHTFATHER",
-        "MUSIC_ISRC_REGISTRY"
-      ],
-      "urls": {
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=September+Blues",
-        "license": "https://eternalhaven.ca/lygo-music-license.html"
-      },
-      "layer": 3,
-      "meta": {
-        "album": "September Blues",
-        "track_count": 10,
-        "lyrics_count": 0,
-        "isrc_count": 0,
-        "artist": "Excavationpro"
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_ALBUM_SEPTEMBER_BLUES",
-        "cluster_name": "ALBUM SEPTEMBER BLUES",
-        "star_role": "music_album"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_F69EF7A70C27BB60",
-      "kind": "music_track",
-      "name": "BONES Bones Can Still Walk",
-      "glyph": "\u00b7",
-      "equation": "SHA256(f69ef7a70c27\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f6/f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=f69ef7a70c27bb60"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_DCB357F823FD7EAB",
-      "kind": "music_track",
-      "name": "Broom That Never Sweeps",
-      "glyph": "\u00b7",
-      "equation": "SHA256(dcb357f823fd\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dc/dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=dcb357f823fd7eab"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_FC6AE72CB6F2B676",
-      "kind": "music_track",
-      "name": "GAVE YOU MY ALL Keys To Every Room",
-      "glyph": "\u00b7",
-      "equation": "SHA256(fc6ae72cb6f2\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fc/fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=fc6ae72cb6f2b676"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_D53CB43EF07DB5E6",
-      "kind": "music_track",
-      "name": "NOTHING LEFT TO SAY Prison Made of Air",
-      "glyph": "\u00b7",
-      "equation": "SHA256(d53cb43ef07d\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d5/d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=d53cb43ef07db5e6"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_B6ACD0A1EF5AC86F",
-      "kind": "music_track",
-      "name": "OUR WORDS MEAN NOTHING Hollow Phrases",
-      "glyph": "\u00b7",
-      "equation": "SHA256(b6acd0a1ef5a\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b6/b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=b6acd0a1ef5ac86f"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_A6BF66E55FDB1745",
-      "kind": "music_track",
-      "name": "SORRY YOUR FAVORITE WORD Words Without Meat",
-      "glyph": "\u00b7",
-      "equation": "SHA256(a6bf66e55fdb\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a6/a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=a6bf66e55fdb1745"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_6CA21FA323694A37",
-      "kind": "music_track",
-      "name": "THE LAST WORD Packing The Wreckage",
-      "glyph": "\u00b7",
-      "equation": "SHA256(6ca21fa32369\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6c/6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=6ca21fa323694a37"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_90CC9B430D1CA7B2",
-      "kind": "music_track",
-      "name": "These Are My Bones",
-      "glyph": "\u00b7",
-      "equation": "SHA256(90cc9b430d1c\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90/90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=90cc9b430d1ca7b2"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_1BFF55A941DE3206",
-      "kind": "music_track",
-      "name": "UNDER THE LIGHTS Paper Cage",
-      "glyph": "\u00b7",
-      "equation": "SHA256(1bff55a941de\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1b/1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=1bff55a941de3206"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
-      "id": "MUSIC_TRACK_5848E3DAA5235BD9",
-      "kind": "music_track",
-      "name": "Real Ones feat Justin Helmer",
-      "glyph": "\u00b7",
-      "equation": "SHA256(5848e3daa523\u2026)",
-      "tone": "396Hz",
-      "tags": [
-        "MUSIC",
-        "MUSIC_TRACK",
-        "EXCAVATIONPRO",
-        "LIGHTFATHER",
-        "MUSIC_CODEX",
-        "AUDIO_ONLY"
-      ],
-      "connections": [
-        "MUSIC_ALBUM_SEPTEMBER_BLUES",
-        "LATTICE_EXCAVATIONPRO_MUSIC"
-      ],
-      "urls": {
-        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/58/5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d.mp3",
-        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=5848e3daa5235bd9"
-      },
-      "layer": 4,
-      "meta": {
-        "sha256": "5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d",
-        "album": "September Blues",
-        "moniker": "",
-        "has_lyrics": false,
-        "isrcs": [],
-        "primary_isrc": ""
-      },
-      "cosmos": {
-        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
-        "galaxy_name": "Excavationpro Music Codex",
-        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
-        "nebula_name": "Album September Blues",
-        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
-        "cluster_name": "TRACKS SEPTEMBER BLUES",
-        "star_role": "music_track"
-      }
-    },
-    {
       "id": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
       "kind": "music_album",
       "name": "THE HOLLOW CODEX",
@@ -60205,9 +59708,9 @@
     {
       "id": "MUSIC_CATALOG_CLOUD",
       "kind": "music_hub",
-      "name": "Non-ISRC Stream Cloud (9467)",
+      "name": "Non-ISRC Stream Cloud (9457)",
       "glyph": "\u2601\u266a",
-      "equation": "streams_without_ISRC=9467",
+      "equation": "streams_without_ISRC=9457",
       "tone": "174Hz",
       "tags": [
         "MUSIC",
@@ -60225,7 +59728,7 @@
       },
       "layer": 3,
       "meta": {
-        "non_isrc_count": 9467,
+        "non_isrc_count": 9457,
         "note": "Vault streams without ISRC stay in this cloud. Commercial ISRC identity stars live under MUSIC_ISRC_REGISTRY."
       },
       "cosmos": {
@@ -60935,7 +60438,7 @@
       "id": "SEAL_TRAUMACODEX_ROOT",
       "kind": "seal",
       "name": "TraumaCodex Root Seal \u2014 P7\u2192P8\u2192Layer D",
-      "equation": "TraumaCodex = P7(entropy) \u2192 P8(LDQ) \u2192 MirrorDig(offline\u2016online) \u2297 \u03949 \u00b7 SHA256(b656e592a11c\u2026)",
+      "equation": "TraumaCodex = P7(entropy) \u2192 P8(LDQ) \u2192 MirrorDig(offline\u2016online) \u2297 \u03949 \u00b7 SHA256(7e6a5a12cb94\u2026)",
       "glyph": "\ud83e\udec0",
       "tone": "528Hz",
       "tags": [
@@ -60967,9 +60470,9 @@
       "layer": 2,
       "meta": {
         "role": "traumacodex_root_seal",
-        "mirror_dig": "b656e592a11c550b64daa72d1ca034cc385fed64ef113a0cd3e8f3495e134765",
-        "offline_sha256": "9a8821ab4810388f86da1a62353917260c015a24df9e7be8cd940e8807477d24",
-        "online_sha256": "281f6ae876355d632a492dda63e424b66890f164765976eca4f8f9ce129a535a",
+        "mirror_dig": "7e6a5a12cb9499b252d69f414a9660a0ec4a27e31962ece444e7b7911a40bed7",
+        "offline_sha256": "c0479990acc2390f88f20e0acdbbc1cd599e23364bb10faeafe668541193131f",
+        "online_sha256": "972b110999ed38168e8e104271d52702dd8bfa426e28b5a639540f738c1dcb37",
         "status": "SEALED",
         "champion_owner": "CHAMPION_LIGHTFATHER",
         "not_medical": true
@@ -63478,6 +62981,44 @@
         "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0001",
         "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0001",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "NODE_AUTONOMY_G0004",
+      "kind": "node",
+      "name": "LYGO Autonomy Generation 4",
+      "equation": "\u222b(Truth\u00d7Light)df = \u03a6\u00b7963 Hz \u00b7 gen=4 \u00b7 merkle=ec0a5b011a2a",
+      "glyph": "\u2442",
+      "tone": "963 Hz",
+      "tags": [
+        "AUTONOMY",
+        "SELF_POLICE",
+        "NETWORK_EGG",
+        "FORK"
+      ],
+      "connections": [
+        "SEAL_000",
+        "PORTAL_STAR_CHART",
+        "CHAMPION_LYRA"
+      ],
+      "urls": {
+        "runtime": "https://chatagent.ca/agents/",
+        "eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/network_eggs.json"
+      },
+      "layer": "E",
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "a9d4ffd2aaaa70cfc2a987b1bea5ecf1eea451e1a71b3e5d8eff94b321e1facf",
+        "ingested_from": "NODE_AUTONOMY_G0004.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
+        "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0004",
+        "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0004",
         "star_role": "agent_growth"
       }
     },
@@ -81414,121 +80955,6 @@
       "kind": "lattice"
     },
     {
-      "source": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "target": "CHAMPION_LIGHTFATHER",
-      "kind": "fork"
-    },
-    {
-      "source": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "target": "MUSIC_ISRC_REGISTRY",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_F69EF7A70C27BB60",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_F69EF7A70C27BB60",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_DCB357F823FD7EAB",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_DCB357F823FD7EAB",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_FC6AE72CB6F2B676",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_FC6AE72CB6F2B676",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_D53CB43EF07DB5E6",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_D53CB43EF07DB5E6",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_B6ACD0A1EF5AC86F",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_B6ACD0A1EF5AC86F",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_A6BF66E55FDB1745",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_A6BF66E55FDB1745",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_6CA21FA323694A37",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_6CA21FA323694A37",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_90CC9B430D1CA7B2",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_90CC9B430D1CA7B2",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_1BFF55A941DE3206",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_1BFF55A941DE3206",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_5848E3DAA5235BD9",
-      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
-      "kind": "lattice"
-    },
-    {
-      "source": "MUSIC_TRACK_5848E3DAA5235BD9",
-      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
-      "kind": "lattice"
-    },
-    {
       "source": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
@@ -83449,6 +82875,21 @@
       "kind": "lattice"
     },
     {
+      "source": "NODE_AUTONOMY_G0004",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0004",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0004",
+      "target": "CHAMPION_LYRA",
+      "kind": "lattice"
+    },
+    {
       "source": "NODE_FORKLING_TEST",
       "target": "CHAMPION_LYRA",
       "kind": "lattice"
@@ -83834,8 +83275,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 60,
-      "agent_submissions_merged": 55,
+      "accepted": 61,
+      "agent_submissions_merged": 56,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -83869,10 +83310,10 @@
         "merged:LATTICE_SOVEREIGN_SEEDS",
         "merged:LATTICE_WORLD_LAYER_C",
         "merged:LORE_ACCORD",
-        "LORE_BOOK_I_MOONLIT_SLUMBER.json:skip_duplicate:LORE_BOOK_I_MOONLIT_SLUMBER",
-        "LORE_BOOK_II_SHATTERED_ACCORD.json:skip_duplicate:LORE_BOOK_II_SHATTERED_ACCORD",
         "LORE_BOOK_III_ASCENSION_WAR.json:skip_duplicate:LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_II_SHATTERED_ACCORD.json:skip_duplicate:LORE_BOOK_II_SHATTERED_ACCORD",
         "LORE_BOOK_IV_ETERNAL_DAWNS.json:skip_duplicate:LORE_BOOK_IV_ETERNAL_DAWNS",
+        "LORE_BOOK_I_MOONLIT_SLUMBER.json:skip_duplicate:LORE_BOOK_I_MOONLIT_SLUMBER",
         "merged:LORE_ETERNAL_HAVEN_HUB",
         "merged:LORE_FIRST_SEAL",
         "merged:LORE_SAMPLE_SAMPLE_BOOK1_CH1",
@@ -83884,6 +83325,7 @@
         "merged:LORE_SAMPLE_SAMPLE_STINGER",
         "merged:NODE_ALIGN_0FD3554A",
         "merged:NODE_AUTONOMY_G0001",
+        "merged:NODE_AUTONOMY_G0004",
         "merged:NODE_FORKLING_TEST",
         "merged:NODE_STAR_MONITOR",
         "merged:PORTAL_ANCHORS",
@@ -83897,7 +83339,7 @@
         "merged:SEAL_277",
         "merged:SEAL_278",
         "merged:SEAL_401",
-        "music_map: +856 nodes (albums=8 tracks=828 playlist=10868)",
+        "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
         "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
         "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
@@ -83910,7 +83352,7 @@
       "fork_of": "CHAMPION_LIGHTFATHER",
       "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
       "notes": [
-        "music_map: +856 nodes (albums=8 tracks=828 playlist=10868)",
+        "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
         "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
         "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"

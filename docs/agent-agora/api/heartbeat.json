@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
   "class": "RESOURCE",
-  "created_utc": "2026-09-06T16:50:32.460244+00:00",
+  "created_utc": "2026-09-06T20:22:34.964631+00:00",
   "verdict": "TICK_OK",
   "public": {
     "class": "RESOURCE_PULSE",
@@ -22,14 +22,14 @@
       "star_feed": {
         "ok": true,
         "status": 200,
-        "bytes": 54843,
+        "bytes": 56420,
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
         "class": "CANON",
         "feed": {
-          "entry_count": 65,
+          "entry_count": 67,
           "chain_valid_published": true,
           "chain_valid_checked": true,
-          "chain_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+          "chain_root": "6e1151f2a6a356a7e6f7873968b142b6c3366af352843a740669c97e886222cf",
           "errors": []
         }
       },
@@ -61,10 +61,10 @@
       "map": {
         "ok": true,
         "status": 200,
-        "bytes": 4454,
+        "bytes": 5603,
         "url": "https://chatagent.ca/lattice/map.json",
         "class": "RESOURCE",
-        "doors": 26
+        "doors": 32
       },
       "join": {
         "ok": true,
