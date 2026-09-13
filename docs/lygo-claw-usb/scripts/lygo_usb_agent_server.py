@@ -6,9 +6,10 @@ LYGO USB Agent Server — OpenClaw-style control plane for the stick.
 - Proxies chat to USB Ollama (offline)
 - Status: models, gateway, daemon tasks, D: lattice live snapshot
 - Lattice live under verify/lattice_live (read-only copy from D:/I: stack)
-- NEVER mutates restore/, lattice_master/steward_vault, or E:\\LYGO_LATTICE_MEMORY
+- Public kit: tools inside this folder only (no steward vaults shipped)
+- Still refuses OS-wipe commands (format/diskpart)
 
-Signature: Delta9Phi963-LYGO-USB-AGENT-SERVER-v1.2
+Signature: Delta9Phi963-LYGO-USB-AGENT-SERVER-v1.3-public
 """
 from __future__ import annotations
 
@@ -25,6 +26,15 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lygo_usb_agent_tools import (  # noqa: E402
+    OLLAMA_TOOLS,
+    SYSTEM_TOOLS,
+    WORKSPACE,
+    dispatch,
+    parse_fence_tool,
+)
+
 USB_ROOT = Path(__file__).resolve().parents[1]
 DASH_DIR = USB_ROOT / "dashboard" / "agent-ui"
 CONTROL_UI = USB_ROOT / "dashboard" / "control-ui"
@@ -33,7 +43,7 @@ OLLAMA = os.environ.get("OLLAMA_HOST", "127.0.0.1:11434").replace("http://", "")
 GATEWAY = os.environ.get("LYGO_GATEWAY", "127.0.0.1:18789").replace("http://", "").replace("https://", "")
 PORT = int(os.environ.get("LYGO_AGENT_PORT", "9631"))
 HOST = os.environ.get("LYGO_AGENT_HOST", "127.0.0.1")
-SERVER_SIG = "Delta9Phi963-LYGO-USB-AGENT-SERVER-v1.2"
+SERVER_SIG = "Delta9Phi963-LYGO-USB-AGENT-SERVER-v1.3-public"
 
 TASKS: list[dict[str, Any]] = []
 TASK_LOCK = threading.Lock()
@@ -79,12 +89,69 @@ def ollama_tags() -> dict[str, Any]:
         return {"ok": False, "error": str(e), "models": []}
 
 
-def ollama_chat(model: str, messages: list[dict[str, str]]) -> dict[str, Any]:
+def ollama_chat(model: str, messages: list[dict[str, Any]], tools: list | None = None) -> dict[str, Any]:
+    payload: dict[str, Any] = {"model": model, "messages": messages, "stream": False}
+    if tools:
+        payload["tools"] = tools
     return _http_json(
         f"http://{OLLAMA}/api/chat",
-        payload={"model": model, "messages": messages, "stream": False},
+        payload=payload,
         timeout=300.0,
     )
+
+
+def _tool_calls_from(msg: dict[str, Any]) -> list[dict[str, Any]]:
+    calls = msg.get("tool_calls") or []
+    out = []
+    for c in calls:
+        fn = (c.get("function") or c) if isinstance(c, dict) else {}
+        name = fn.get("name") or c.get("name")
+        raw = fn.get("arguments") or c.get("arguments") or {}
+        if isinstance(raw, str):
+            try:
+                raw = json.loads(raw)
+            except json.JSONDecodeError:
+                raw = {"path": raw, "command": raw, "note": raw}
+        if name:
+            out.append({"name": name, "arguments": raw if isinstance(raw, dict) else {}})
+    return out
+
+
+def agent_turn(model: str, messages: list[dict[str, Any]]) -> dict[str, Any]:
+    """OpenClaw-style loop: model may call tools, then answer."""
+    WORKSPACE.mkdir(parents=True, exist_ok=True)
+    hist = list(messages)
+    if not hist or hist[0].get("role") != "system":
+        hist.insert(0, {"role": "system", "content": SYSTEM_TOOLS})
+    elif SYSTEM_TOOLS[:40] not in str(hist[0].get("content") or ""):
+        hist[0] = {
+            "role": "system",
+            "content": str(hist[0].get("content") or "") + "\n\n" + SYSTEM_TOOLS,
+        }
+    traces: list[dict[str, Any]] = []
+    final = ""
+    for _ in range(8):
+        result = ollama_chat(model, hist, tools=OLLAMA_TOOLS)
+        msg = (result.get("message") or {}) if isinstance(result, dict) else {}
+        content = str(msg.get("content") or result.get("response") or "")
+        calls = _tool_calls_from(msg)
+        if not calls:
+            fence = parse_fence_tool(content)
+            if fence:
+                calls = [{"name": fence.get("name"), "arguments": {k: v for k, v in fence.items() if k != "name"}}]
+        if not calls:
+            final = content
+            break
+        hist.append({"role": "assistant", "content": content, "tool_calls": msg.get("tool_calls") or calls})
+        for call in calls:
+            name = str(call.get("name") or "")
+            args = call.get("arguments") or {}
+            obs = dispatch(name, args)
+            traces.append({"name": name, "arguments": args, "result": obs[:4000]})
+            hist.append({"role": "tool", "content": obs[:12000], "name": name})
+    else:
+        final = final or "Stopped after 8 tool steps. Ask me to continue."
+    return {"content": final, "traces": traces, "model": model}
 
 
 def gateway_up() -> bool:
@@ -498,18 +565,14 @@ class Handler(SimpleHTTPRequestHandler):
                 else:
                     model = installed[0]
             try:
-                result = ollama_chat(model, messages)
-                content = ""
-                if isinstance(result, dict):
-                    msg = result.get("message") or {}
-                    content = msg.get("content") or result.get("response") or ""
+                turned = agent_turn(model, messages)
                 return self._json(
                     200,
                     {
                         "ok": True,
-                        "model": model,
-                        "message": {"role": "assistant", "content": content},
-                        "raw": {k: result.get(k) for k in ("model", "created_at", "done") if isinstance(result, dict)},
+                        "model": turned.get("model") or model,
+                        "message": {"role": "assistant", "content": turned.get("content") or ""},
+                        "traces": turned.get("traces") or [],
                     },
                 )
             except Exception as e:

@@ -49,6 +49,7 @@ header .sub { color: var(--muted); font-size: .82rem; }
 .msg.user { background: rgba(94,184,255,.12); border: 1px solid rgba(94,184,255,.25); }
 .msg.assistant { background: rgba(61,214,140,.08); border: 1px solid rgba(61,214,140,.2); }
 .msg.system { background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.2); color: var(--muted); font-size: .85rem; }
+.msg.tool { background: rgba(94,184,255,.06); border: 1px dashed rgba(94,184,255,.35); font-size: .82rem; color: var(--muted); }
 .composer { display: flex; gap: 8px; margin-top: 10px; }
 .composer textarea {
   flex: 1; min-height: 64px; resize: vertical; border-radius: 10px; border: 1px solid #334;
@@ -82,10 +83,9 @@ pre.log {
 <header>
   <div>
     <h1>🛡️ LYGO CLAW — USB Agent Dashboard</h1>
-    <div class="sub">Mobile restore + offline AI · no password gate · OpenClaw-style control</div>
+    <div class="sub">Public USB kit · local Ollama · tools in this folder · no password</div>
   </div>
   <nav class="nav">
-    <a href="/control-ui/?token=lygo-usb-standalone-token" target="_blank" rel="noopener">OpenClaw Control UI</a>
     <a href="/api/status" target="_blank" rel="noopener">API status</a>
     <button type="button" onclick="refreshStatus()">Refresh status</button>
     <button type="button" onclick="newChat()">New chat</button>
@@ -135,7 +135,7 @@ pre.log {
 <script>
 const API = location.origin;
 let messages = [
-  { role: 'system', content: 'You are LYGO CLAW on a sovereign USB stick. Local-first offline agent. Help the user chat, restore lattice context (no secrets), and prepare the host PC for larger models when online. Be clear and practical.' }
+  { role: 'system', content: 'You are LYGO CLAW PUBLIC. Use tools inside this kit. No password. Refuse OS-wipe.' }
 ];
 
 function log(msg) {
@@ -294,6 +294,12 @@ async function sendChat() {
     if (!j.ok) {
       messages.push({ role: 'assistant', content: 'Error: ' + (j.error || r.status) });
     } else {
+      (j.traces || []).forEach(function (t) {
+        messages.push({
+          role: 'tool',
+          content: t.name + ' ' + JSON.stringify(t.arguments || {}) + '\n' + String(t.result || '').slice(0, 1200)
+        });
+      });
       const content = (j.message && j.message.content) || '(empty reply)';
       messages.push({ role: 'assistant', content: content });
     }

@@ -1,4 +1,4 @@
-# LYGO CLAW PUBLIC USB (v1.2)
+# LYGO CLAW PUBLIC USB (v1.3)
 
 **Working offline agent chat dashboard** — public base kit in this repository.
 
@@ -12,7 +12,7 @@
 
 ## What you get
 
-- Python agent server (`lygo_usb_agent_server.py` v1.2)
+- Python agent server (`lygo_usb_agent_server.py` v1.3-public) with local tools (list/read/write/run **inside the kit folder only**)
 - Browser dashboard with **type-to-chat** (not empty file:// Control UI)
 - USB-friendly boot + Ollama ensure scripts (CORS-safe origins)
 - Scripts for humans + LYGO agents to assemble a stick **without** shipping weights
@@ -28,7 +28,7 @@
 1. Clone or download this repo (or copy `docs/lygo-claw-usb/`)  
 2. Install [Python 3.11+](https://www.python.org/downloads/) and [Ollama](https://ollama.com/download)  
 3. `launchers\INSTALL_MODEL.bat` → pulls `llama3.2:1b`  
-4. `LYGO_USB_BOOT.bat` → talk at http://127.0.0.1:9631/
+4. `LYGO_CLAW.bat` (or `LYGO_USB_BOOT.bat`) → talk at http://127.0.0.1:9631/
 
 Full text: [`START_HERE.txt`](./lygo-claw-usb/START_HERE.txt)
 
@@ -60,4 +60,4 @@ Produces a small zip under `dist/` (no models).
 - [lygo-claw](https://github.com/DeepSeekOracle/lygo-claw) — optional Python CLI package  
 - Champion GENERIC zip (legacy light pack) — [LYGO_USB_CHAMPION_V1_GENERIC.md](./LYGO_USB_CHAMPION_V1_GENERIC.md)
 
-Δ9Φ963-LYGO-CLAW-PUBLIC-USB-v1.2
+Δ9Φ963-LYGO-CLAW-PUBLIC-USB-v1.3

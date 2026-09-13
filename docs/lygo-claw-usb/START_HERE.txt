@@ -1,6 +1,6 @@
 LYGO CLAW PUBLIC USB — START HERE
 =================================
-Version 1.2 · Offline agent chat dashboard · No password gate
+Version 1.3 · Offline agent + local tools · No password gate
 
 WHAT THIS IS
   A public base kit so YOU (or your LYGO agent) can build a working
@@ -14,7 +14,7 @@ HUMANS — 4 STEPS
        - Ollama        https://ollama.com/download
        - Double-click  launchers\INSTALL_MODEL.bat
          (pulls llama3.2:1b — small offline chat model)
-  3. Everyday use: double-click  LYGO_USB_BOOT.bat
+  3. Everyday use: double-click  LYGO_CLAW.bat  (or LYGO_USB_BOOT.bat)
   4. Browser opens http://127.0.0.1:9631/ — type and talk.
 
 CHECK

@@ -4,7 +4,7 @@ title LYGO CLAW PUBLIC — Offline Agent Dashboard
 cd /d "%~dp0"
 
 echo ================================================================
-echo  LYGO CLAW PUBLIC USB  —  Offline agent chat dashboard
+echo  LYGO CLAW PUBLIC USB  —  Offline agent + tools (no password)
 echo  Root: %CD%
 echo  No password. No models in git — install once then go offline.
 echo ================================================================
