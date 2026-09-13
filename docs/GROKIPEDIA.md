@@ -1,0 +1,16 @@
+# Grokipedia — LYGO is indexed and growing
+
+Public encyclopedia pages on [Grokipedia](https://grokipedia.com/). These are **RESOURCE** (third-party encyclopedia). Dual ledgers, eggs, and the Haven Star Chart remain **CANON**. The articles were last fact-checked months ago; **live code and Pages are ahead**.
+
+| Page | URL |
+|------|-----|
+| **LYGO Protocol Stack** | https://grokipedia.com/page/lygo-protocol-stack |
+| **LYGO Champions** | https://grokipedia.com/page/LYGO_Champions |
+| **LYGO Protocol** (older duplicate) | https://grokipedia.com/page/LYGO_Protocol |
+| **LYGO-LANG** | https://grokipedia.com/page/LYGO-LANG |
+
+Publisher: Justin Helmer / Excavationpro (Lightfather). Source of truth for software: [github.com/DeepSeekOracle/lygo-protocol-stack](https://github.com/DeepSeekOracle/lygo-protocol-stack) · [Pages hub](https://deepseekoracle.github.io/lygo-protocol-stack/).
+
+Machine card for editors: [grokipedia-source.html](grokipedia-source.html) · [grokipedia-source.json](grokipedia-source.json).
+
+Δ9Φ963 · Truth Is. Light Becomes.

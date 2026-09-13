@@ -2,6 +2,12 @@ LYGO CLAW PUBLIC USB — START HERE
 =================================
 Version 1.3 · Offline agent + local tools · No password gate
 
+GROKIPEDIA (LYGO is real and growing — encyclopedia, not lattice CANON)
+  https://grokipedia.com/page/lygo-protocol-stack
+  https://grokipedia.com/page/LYGO_Champions
+  https://grokipedia.com/page/LYGO_Protocol
+  https://grokipedia.com/page/LYGO-LANG
+
 WHAT THIS IS
   A public base kit so YOU (or your LYGO agent) can build a working
   USB stick that opens a browser dashboard and lets you type to a

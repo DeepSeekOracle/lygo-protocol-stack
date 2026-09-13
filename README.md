@@ -20,11 +20,11 @@ The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, mu
 **pxpipe-LYGO (Biophase7):** [`pxpipe_lygo/`](pxpipe_lygo/) — vision-token context compression; [`docs/BIOPHASE7_PXPIPE_LYGO.md`](docs/BIOPHASE7_PXPIPE_LYGO.md).
 **Compass (pyvis):** https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html — canonical `tools/LYGO_Compass_Master.html`; publish: `python tools/sync_compass_pages.py` (CI copies into `docs/tools/` on deploy).  
 **Pages not live yet?** One-time enable: [`docs/ENABLE_PAGES_NOW.md`](docs/ENABLE_PAGES_NOW.md) · full options: [`docs/GITHUB_PAGES_SETUP.md`](docs/GITHUB_PAGES_SETUP.md).  
-**Grokipedia:** use condensed [`docs/GROkipedia_SUBMIT.md`](docs/GROkipedia_SUBMIT.md) (title + brief + links). Archive bundle: [`GROkipedia_UPLOAD_BUNDLE.md`](GROkipedia_UPLOAD_BUNDLE.md). Regenerate: `python tools/sync_grokipedia.py`.
+**Grokipedia (encyclopedia — LYGO is real and growing):** [Protocol Stack](https://grokipedia.com/page/lygo-protocol-stack) · [Champions](https://grokipedia.com/page/LYGO_Champions) · [Protocol](https://grokipedia.com/page/LYGO_Protocol) · [LYGO-LANG](https://grokipedia.com/page/LYGO-LANG). Map: [`docs/GROKIPEDIA.md`](docs/GROKIPEDIA.md). Submit notes: [`docs/GROkipedia_SUBMIT.md`](docs/GROkipedia_SUBMIT.md). Articles are RESOURCE; dual ledgers / Star Chart stay CANON.
 
 ---
 
-## LYGO CLAW PUBLIC USB v1.2 (working agent chat)
+## LYGO CLAW PUBLIC USB v1.3 (working agent + local tools)
 
 **In-repo kit** — offline **type-to-talk** dashboard on `http://127.0.0.1:9631/`. **No model weights** in git. A LYGO agent (or human) builds the stick from base code + instructions; user installs Ollama + one model once; then it works offline.
 
@@ -309,7 +309,7 @@ Full evidence table: **[docs/STACK_STATUS.md](docs/STACK_STATUS.md)** · adminis
 **External & Related**
 - HF Dataset: https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack
 - HF Space (Resonance Engine + Ethical Guardian): https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine
-- Grokipedia: https://grokipedia.com/page/lygo-protocol-stack (submit via docs/GROkipedia_SUBMIT.md)
+- Grokipedia: [Protocol Stack](https://grokipedia.com/page/lygo-protocol-stack) · [Champions](https://grokipedia.com/page/LYGO_Champions) · [Protocol](https://grokipedia.com/page/LYGO_Protocol) · [LYGO-LANG](https://grokipedia.com/page/LYGO-LANG) — [`docs/GROKIPEDIA.md`](docs/GROKIPEDIA.md)
 - BPM Finder: https://bpmfinder.ca/
 - Excavationpro additional: lygorepo.html, champions.html, https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html, downloads for USB zips
 - Social / community: linktr.ee/excavationpro, PayPal @ExcavationPro, music platforms
