@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
   "class": "RESOURCE",
-  "created_utc": "2026-09-13T11:48:01.593561+00:00",
+  "created_utc": "2026-09-13T16:14:04.778362+00:00",
   "verdict": "TICK_OK",
   "public": {
     "class": "RESOURCE_PULSE",
