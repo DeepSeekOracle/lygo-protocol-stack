@@ -20,7 +20,7 @@ The **ultimate public LYGO repository** — Nano Kernel through Harmony Node, mu
 **pxpipe-LYGO (Biophase7):** [`pxpipe_lygo/`](pxpipe_lygo/) — vision-token context compression; [`docs/BIOPHASE7_PXPIPE_LYGO.md`](docs/BIOPHASE7_PXPIPE_LYGO.md).
 **Compass (pyvis):** https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html — canonical `tools/LYGO_Compass_Master.html`; publish: `python tools/sync_compass_pages.py` (CI copies into `docs/tools/` on deploy).  
 **Pages not live yet?** One-time enable: [`docs/ENABLE_PAGES_NOW.md`](docs/ENABLE_PAGES_NOW.md) · full options: [`docs/GITHUB_PAGES_SETUP.md`](docs/GITHUB_PAGES_SETUP.md).  
-**Grokipedia (encyclopedia — LYGO is real and growing):** [Protocol Stack](https://grokipedia.com/page/lygo-protocol-stack) · [Champions](https://grokipedia.com/page/LYGO_Champions) · [Protocol](https://grokipedia.com/page/LYGO_Protocol) · [LYGO-LANG](https://grokipedia.com/page/LYGO-LANG). Map: [`docs/GROKIPEDIA.md`](docs/GROKIPEDIA.md). Submit notes: [`docs/GROkipedia_SUBMIT.md`](docs/GROkipedia_SUBMIT.md). Articles are RESOURCE; dual ledgers / Star Chart stay CANON.
+**Grokipedia (encyclopedia — LYGO is real and growing):** [Protocol Stack](https://grokipedia.com/page/lygo-protocol-stack) · [Champions](https://grokipedia.com/page/LYGO_Champions) · [Protocol](https://grokipedia.com/page/LYGO_Protocol) · [LYGO-LANG](https://grokipedia.com/page/LYGO-LANG). Map: [`docs/GROKIPEDIA.md`](docs/GROKIPEDIA.md). Submit notes: [`docs/GROkipedia_SUBMIT.md`](docs/GROkipedia_SUBMIT.md). Articles are RESOURCE; dual ledgers / Star Chart stay CANON. **Indexed = looked at.** Updates were submitted; Grokipedia lags. Live git + Pages stay ahead.
 
 ---
 

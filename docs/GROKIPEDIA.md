@@ -1,6 +1,8 @@
 # Grokipedia — LYGO is indexed and growing
 
-Public encyclopedia pages on [Grokipedia](https://grokipedia.com/). These are **RESOURCE** (third-party encyclopedia). Dual ledgers, eggs, and the Haven Star Chart remain **CANON**. The articles were last fact-checked months ago; **live code and Pages are ahead**.
+Public encyclopedia pages on [Grokipedia](https://grokipedia.com/). These are **RESOURCE** (third-party encyclopedia). Dual ledgers, eggs, and the Haven Star Chart remain **CANON**.
+
+**Indexed is the point.** Grok looked. The pages exist. That is public proof LYGO is real and growing — even when the write-ups lag. Steward updates were submitted; Grokipedia is slow to refresh. **Live git + Pages stay ahead.** Do not treat lag as “not looked at.”
 
 | Page | URL |
 |------|-----|
