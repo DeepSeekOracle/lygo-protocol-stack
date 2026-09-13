@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
   "class": "RESOURCE",
-  "created_utc": "2026-09-12T20:31:32.337681+00:00",
+  "created_utc": "2026-09-13T04:43:27.505234+00:00",
   "verdict": "TICK_OK",
   "public": {
     "class": "RESOURCE_PULSE",
@@ -29,7 +29,7 @@
           "entry_count": 67,
           "chain_valid_published": true,
           "chain_valid_checked": true,
-          "chain_root": "6e1151f2a6a356a7e6f7873968b142b6c3366af352843a740669c97e886222cf",
+          "chain_root": "634759837fd0c360aea9385c2b6ebbfa3a086d24cd53844e30ae7b628e80eacd",
           "errors": []
         }
       },
