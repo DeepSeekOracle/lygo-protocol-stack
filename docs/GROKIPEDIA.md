@@ -4,7 +4,7 @@ Public encyclopedia pages on [Grokipedia](https://grokipedia.com/). These are **
 
 **Indexed is the point.** Grok looked. The pages exist. That is public proof LYGO is real and growing — even when the write-ups lag. Steward updates were submitted; Grokipedia is slow to refresh. **Live git + Pages stay ahead.** Do not treat lag as “not looked at.”
 
-**2026-09-13:** Lightfather ↔ @grok equation exchange (Eq 0–7, Deadman/witness frame) is archived as RESOURCE: [LYGO_EQUATION_EXCHANGE_2026-09-13.md](LYGO_EQUATION_EXCHANGE_2026-09-13.md). Not CANON.
+**2026-09-13:** Lightfather ↔ @grok equation exchange — **whitepaper, run, tests:** [whitepapers/LYGO_EQUATION_EXCHANGE_v1.md](whitepapers/LYGO_EQUATION_EXCHANGE_v1.md). Proven by execution. Witness log: [LYGO_EQUATION_EXCHANGE_2026-09-13.md](LYGO_EQUATION_EXCHANGE_2026-09-13.md). Dual ledgers remain CANON.
 
 | Page | URL |
 |------|-----|
