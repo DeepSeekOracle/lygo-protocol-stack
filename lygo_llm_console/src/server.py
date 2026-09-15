@@ -1,0 +1,521 @@
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+import threading
+import webbrowser
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from typing import Any
+from urllib.parse import parse_qs, urlparse
+
+# kit src on path
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
+from chat_loop import SYSTEM, extract_user_text, has_image, run_tools_round  # noqa: E402
+from engine import (  # noqa: E402
+    ENGINE_LOCK,
+    ollama_port_open,
+    ram_ok,
+    resolve_binary,
+    runner_for,
+    spawn_runner,
+    stop_port,
+)
+from p0_hook import PHYSICS_AVAILABLE, gate_output_window, gate_prompt  # noqa: E402
+from paths import (  # noqa: E402
+    CONSOLE_JSON,
+    DEFAULT_PORT,
+    EMBED_PORT,
+    ENGINE_DIR,
+    KIT_ROOT,
+    LLAMA_PORT,
+    LOCAL_JSON,
+    PORTAL,
+    ensure_dirs,
+)
+from receipts import write_receipt  # noqa: E402
+from registry import get as reg_get  # noqa: E402
+from registry import load as reg_load  # noqa: E402
+from registry import upsert as reg_upsert  # noqa: E402
+from scanner import scan_roots  # noqa: E402
+from tools import TOOLS_SCHEMA  # noqa: E402
+
+TOKEN = ""
+LLAMA_KEY = ""
+BIND = "127.0.0.1"
+AUTH_REQUIRED = True
+MOCK_ONLY = False
+STATE: dict[str, Any] = {"brain": "missing", "selected": None}
+
+
+def load_console() -> dict[str, Any]:
+    cfg: dict[str, Any] = {}
+    if CONSOLE_JSON.is_file():
+        cfg = json.loads(CONSOLE_JSON.read_text(encoding="utf-8"))
+    if LOCAL_JSON.is_file():
+        loc = json.loads(LOCAL_JSON.read_text(encoding="utf-8"))
+        if isinstance(loc, dict):
+            cfg = {**cfg, **loc}
+    return cfg
+
+
+def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
+    roots = cfg.get("scan_roots")
+    if isinstance(roots, list) and roots:
+        return [str(x) for x in roots]
+    return [str(KIT_ROOT / "models"), os.path.expandvars(r"%USERPROFILE%\.ollama\models")]
+
+
+def maybe_spawn(model_id: str | None) -> str:
+    if MOCK_ONLY:
+        STATE["brain"] = "mock"
+        return "mock"
+    exe = resolve_binary()
+    if exe is None:
+        STATE["brain"] = "missing"
+        return "missing"
+    rec = reg_get(model_id) if model_id else None
+    if rec is None:
+        data = reg_load()
+        rec = next((m for m in data.get("models") or [] if m.get("id") == data.get("selected")), None)
+    if not rec or not rec.get("path") or not rec.get("runnable"):
+        STATE["brain"] = "missing"
+        return "missing"
+    p = Path(rec["path"])
+    size = int(rec.get("bytes") or (p.stat().st_size if p.is_file() else 0))
+    if not ram_ok(size):
+        STATE["brain"] = "ram_refused"
+        return "ram_refused"
+    with ENGINE_LOCK:
+        existing = runner_for(LLAMA_PORT)
+        if existing and existing.gguf == str(p):
+            STATE["brain"] = "ready"
+            return "ready"
+        mm = Path(rec["mmproj"]) if rec.get("mmproj") else None
+        try:
+            spawn_runner(
+                port=LLAMA_PORT,
+                gguf=p,
+                kind=rec.get("kind") or "chat",
+                mmproj=mm,
+                ctx=int(rec.get("ctx") or 4096),
+                ngl=int(rec.get("n_gpu_layers") or 0),
+                alias=rec.get("id") or p.stem,
+                api_key=LLAMA_KEY,
+            )
+        except MemoryError:
+            STATE["brain"] = "ram_refused"
+            return "ram_refused"
+        except Exception:
+            STATE["brain"] = "missing"
+            return "missing"
+    STATE["brain"] = "ready"
+    STATE["selected"] = rec.get("id")
+    return "ready"
+
+
+class Handler(BaseHTTPRequestHandler):
+    server_version = "LYGO-LLM-Console/1.0"
+
+    def log_message(self, fmt: str, *args: Any) -> None:
+        sys.stderr.write("%s - %s\n" % (self.address_string(), fmt % args))
+
+    def _query(self) -> dict[str, list[str]]:
+        return parse_qs(urlparse(self.path).query)
+
+    def _headers_map(self) -> dict[str, str]:
+        return {k: v for k, v in self.headers.items()}
+
+    def _ok_public(self) -> bool:
+        path = urlparse(self.path).path
+        if path in ("/", "/api/health") or path.startswith("/static/"):
+            return True
+        return False
+
+    def _auth(self) -> bool:
+        if not AUTH_REQUIRED:
+            return True
+        if self._ok_public() and urlparse(self.path).path != "/":
+            # health + static public; index is public so ?t= can be stripped
+            if urlparse(self.path).path.startswith("/static/") or urlparse(self.path).path == "/api/health":
+                return True
+        tok = token_from_request(self._headers_map(), self._query())
+        if urlparse(self.path).path == "/":
+            return True
+        return check(tok, TOKEN)
+
+    def _send(self, code: int, body: bytes, ctype: str = "application/json", extra: dict[str, str] | None = None) -> None:
+        self.send_response(code)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        if extra:
+            for k, v in extra.items():
+                self.send_header(k, v)
+        self.end_headers()
+        self.wfile.write(body)
+        try:
+            self.wfile.flush()
+        except Exception:
+            pass
+
+    def _json(self, code: int, obj: Any) -> None:
+        self._send(code, json.dumps(obj).encode("utf-8"))
+
+    def _read_body(self, limit: int) -> bytes:
+        n = int(self.headers.get("Content-Length") or 0)
+        if n > limit:
+            return b""
+        return self.rfile.read(n) if n else b""
+
+    def do_GET(self) -> None:  # noqa: N802
+        path = urlparse(self.path).path
+        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path != "/api/health":
+            self._json(401, {"error": "unauthorized"})
+            return
+        if path == "/" or path == "/index.html":
+            html = (PORTAL / "index.html").read_bytes()
+            self._send(200, html, "text/html; charset=utf-8")
+            return
+        if path.startswith("/static/"):
+            name = path[len("/static/") :]
+            fp = PORTAL / name
+            if not fp.is_file() or not str(fp.resolve()).startswith(str(PORTAL.resolve())):
+                self._json(404, {"error": "missing"})
+                return
+            ctype = "text/plain"
+            if name.endswith(".css"):
+                ctype = "text/css"
+            elif name.endswith(".js"):
+                ctype = "application/javascript"
+            self._send(200, fp.read_bytes(), ctype)
+            return
+        if path == "/api/health":
+            from engine import available_ram_bytes
+
+            self._json(
+                200,
+                {
+                    "ok": True,
+                    "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
+                    "authenticated": check(token_from_request(self._headers_map(), self._query()), TOKEN),
+                    "physics": PHYSICS_AVAILABLE,
+                    "brain": STATE.get("brain"),
+                    "selected": STATE.get("selected") or reg_load().get("selected"),
+                    "ollama_port_open": ollama_port_open(),
+                    "engine_present": bool(resolve_binary()),
+                    "ram_avail": available_ram_bytes(),
+                    "bind": BIND,
+                    "port": DEFAULT_PORT,
+                },
+            )
+            return
+        if path == "/api/models" or path == "/v1/models":
+            if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
+                self._json(401, {"error": "unauthorized"})
+                return
+            data = reg_load()
+            if path.startswith("/v1"):
+                self._json(
+                    200,
+                    {
+                        "object": "list",
+                        "data": [{"id": m.get("id"), "object": "model"} for m in data.get("models") or []],
+                    },
+                )
+                return
+            self._json(200, data)
+            return
+        if path == "/api/receipts":
+            if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
+                self._json(401, {"error": "unauthorized"})
+                return
+            from paths import RECEIPTS
+
+            items = []
+            if RECEIPTS.is_dir():
+                for f in sorted(RECEIPTS.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)[:50]:
+                    try:
+                        items.append(json.loads(f.read_text(encoding="utf-8")))
+                    except Exception:
+                        continue
+            self._json(200, {"receipts": items})
+            return
+        self._json(404, {"error": "not_found"})
+
+    def do_POST(self) -> None:  # noqa: N802
+        path = urlparse(self.path).path
+        if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
+            self._json(401, {"error": "unauthorized"})
+            return
+        if path == "/api/scan":
+            body = self._read_body(256_000)
+            cfg = load_console()
+            roots = default_scan_roots(cfg)
+            if body:
+                try:
+                    extra = json.loads(body.decode("utf-8"))
+                    if extra.get("roots"):
+                        roots = list(extra["roots"])
+                except json.JSONDecodeError:
+                    pass
+            result = scan_roots(roots)
+            data = reg_upsert(result["models"])
+            self._json(200, {**result, "registry": data})
+            return
+        if path == "/api/select":
+            body = self._read_body(16_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            mid = obj.get("id")
+            data = reg_load()
+            data["selected"] = mid
+            from registry import save as reg_save
+
+            reg_save(data)
+            STATE["selected"] = mid
+            brain = maybe_spawn(mid)
+            self._json(200, {"ok": True, "brain": brain, "selected": mid})
+            return
+        if path == "/api/shutdown":
+            stop_port(LLAMA_PORT)
+            stop_port(EMBED_PORT)
+            self._json(200, {"ok": True})
+            threading.Thread(target=lambda: self.server.shutdown(), daemon=True).start()
+            return
+        if path == "/api/chat":
+            self._api_chat()
+            return
+        if path == "/v1/chat/completions":
+            self._v1_chat()
+            return
+        if path == "/v1/embeddings":
+            self._json(501, {"error": "embed_runner_optional"})
+            return
+        self._json(404, {"error": "not_found"})
+
+    def _api_chat(self) -> None:
+        raw = self._read_body(4 * 1024 * 1024)
+        if not raw:
+            cl = int(self.headers.get("Content-Length") or 0)
+            if cl > 4 * 1024 * 1024:
+                self._json(413, {"error": "too_large"})
+                return
+        try:
+            obj = json.loads(raw.decode("utf-8") or "{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "bad_json"})
+            return
+        messages = obj.get("messages") or []
+        if obj.get("prompt") and not messages:
+            messages = [{"role": "user", "content": obj["prompt"]}]
+        user = extract_user_text(messages)
+        gate = gate_prompt(user)
+        if gate.get("verdict") == "QUARANTINE":
+            self._json(451, {"error": "quarantine", "gate": gate})
+            return
+        use_tools = bool(obj.get("tools", True))
+        model = obj.get("model") or STATE.get("selected") or "lygo-local"
+        max_tokens = int(obj.get("max_tokens") or 512)
+        want_stream = bool(obj.get("stream", True))
+        brain = maybe_spawn(model if reg_get(str(model)) else None)
+        msgs = [{"role": "system", "content": SYSTEM}] + messages
+        assistant = ""
+        traces: list[Any] = []
+
+        def emit_sse(event: dict[str, Any]) -> None:
+            line = json.dumps(event) + "\n"
+            self.wfile.write(b"data: " + line.encode("utf-8") + b"\n")
+            self.wfile.flush()
+
+        if want_stream:
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Connection", "close")
+            self.end_headers()
+
+        if brain != "ready":
+            # mock / missing
+            assistant = (
+                "LYGO LLM Console is up. Engine brain is "
+                f"{brain}. P0 verdict {gate.get('verdict')}. "
+                "Scan a GGUF or Ollama CAS tree, then Select a chat model. "
+                "This console does not call ollama.exe."
+            )
+            if use_tools and "status" in user.lower():
+                name, result = "kernel_status", __import__("tools").dispatch("kernel_status", {})
+                traces.append({"name": name, "result": result})
+            if want_stream:
+                emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
+                emit_sse({"type": "done", "traces": traces})
+                return
+            rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
+            self._json(200, {"text": assistant, "gate": gate, "brain": brain, "receipt": rec["id"], "traces": traces})
+            return
+
+        from openai_proxy import llama_chat
+
+        payload = {
+            "model": model,
+            "messages": msgs,
+            "max_tokens": max_tokens,
+            "stream": False,
+        }
+        if use_tools:
+            payload["tools"] = TOOLS_SCHEMA
+        with ENGINE_LOCK:
+            code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload)
+        try:
+            parsed = json.loads(body.decode("utf-8"))
+        except json.JSONDecodeError:
+            parsed = {}
+        assistant = (
+            (((parsed.get("choices") or [{}])[0].get("message") or {}).get("content")) or ""
+        )
+        ow = gate_output_window(assistant)
+        if ow.get("verdict") == "QUARANTINE":
+            assistant = "[output quarantined]"
+        if use_tools:
+            tname, tres = run_tools_round(assistant)
+            if tname:
+                traces.append({"name": tname, "result": tres})
+                follow = msgs + [
+                    {"role": "assistant", "content": assistant},
+                    {"role": "user", "content": "Tool result:\n" + json.dumps(tres)[:8000]},
+                ]
+                with ENGINE_LOCK:
+                    _, body2, _ = llama_chat(
+                        api_key=LLAMA_KEY,
+                        payload={"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False},
+                    )
+                try:
+                    p2 = json.loads(body2.decode("utf-8"))
+                    assistant = (((p2.get("choices") or [{}])[0].get("message") or {}).get("content")) or assistant
+                except json.JSONDecodeError:
+                    pass
+        rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
+        if want_stream:
+            emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
+            emit_sse({"type": "done", "traces": traces, "receipt": rec["id"]})
+            return
+        self._json(200, {"text": assistant, "gate": gate, "brain": brain, "receipt": rec["id"], "traces": traces})
+
+    def _v1_chat(self) -> None:
+        raw = self._read_body(256_000)
+        if not raw and int(self.headers.get("Content-Length") or 0) > 256_000:
+            self._json(413, {"error": "too_large"})
+            return
+        try:
+            obj = json.loads(raw.decode("utf-8") or "{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "bad_json"})
+            return
+        messages = obj.get("messages") or []
+        user = extract_user_text(messages)
+        gate = gate_prompt(user)
+        if gate.get("verdict") == "QUARANTINE":
+            self._json(451, {"error": "quarantine", "gate": gate})
+            return
+        obj["max_tokens"] = int(obj.get("max_tokens") or 512)
+        # do not execute Console tools; strip injection
+        brain = maybe_spawn(obj.get("model") if reg_get(str(obj.get("model") or "")) else None)
+        if brain != "ready":
+            mock = {
+                "id": "lygo-mock",
+                "object": "chat.completion",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {"role": "assistant", "content": f"brain={brain}; P0={gate.get('verdict')}"},
+                        "finish_reason": "stop",
+                    }
+                ],
+            }
+            self._json(200, mock)
+            return
+        from openai_proxy import llama_chat
+
+        with ENGINE_LOCK:
+            code, body, ctype = llama_chat(api_key=LLAMA_KEY, payload={**obj, "stream": False})
+        try:
+            parsed = json.loads(body.decode("utf-8"))
+            txt = (((parsed.get("choices") or [{}])[0].get("message") or {}).get("content")) or ""
+            if gate_output_window(txt).get("verdict") == "QUARANTINE":
+                parsed["choices"][0]["message"]["content"] = "[output quarantined]"
+                body = json.dumps(parsed).encode("utf-8")
+        except Exception:
+            pass
+        self._send(code, body, ctype or "application/json")
+
+
+def main() -> int:
+    global TOKEN, LLAMA_KEY, BIND, AUTH_REQUIRED, MOCK_ONLY
+    ap = argparse.ArgumentParser()
+    ap.add_argument("cmd", nargs="?", default="serve")
+    ap.add_argument("--port", type=int, default=DEFAULT_PORT)
+    ap.add_argument("--lan", action="store_true")
+    ap.add_argument("--i-consent", action="store_true", dest="i_consent")
+    ap.add_argument("--gguf", default="")
+    ap.add_argument("--no-browser", action="store_true")
+    ap.add_argument("--mock", action="store_true")
+    args = ap.parse_args()
+    ensure_dirs()
+    TOKEN = ensure_token()
+    LLAMA_KEY = ensure_llama_key()
+    MOCK_ONLY = bool(args.mock)
+    if args.lan:
+        if not args.i_consent:
+            print("LAN bind requires --i-consent", file=sys.stderr)
+            return 2
+        BIND = "0.0.0.0"
+        AUTH_REQUIRED = True
+    if args.gguf:
+        p = Path(args.gguf)
+        rec = {
+            "id": p.stem,
+            "path": str(p),
+            "kind": "chat",
+            "ctx": 4096,
+            "n_gpu_layers": 0,
+            "runnable": p.is_file(),
+            "source": "cli",
+            "bytes": p.stat().st_size if p.is_file() else 0,
+        }
+        reg_upsert([rec], selected=p.stem)
+        STATE["selected"] = p.stem
+        if not MOCK_ONLY:
+            maybe_spawn(p.stem)
+    if args.cmd != "serve":
+        print("unknown cmd", args.cmd)
+        return 2
+    httpd = ThreadingHTTPServer((BIND, args.port), Handler)
+    url = f"http://127.0.0.1:{args.port}/?t={TOKEN}"
+    print(f"LYGO LLM Console  {url}")
+    print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
+    if not args.no_browser:
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        stop_port(LLAMA_PORT)
+        stop_port(EMBED_PORT)
+        httpd.server_close()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

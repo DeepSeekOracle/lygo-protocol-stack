@@ -1,0 +1,7 @@
+{
+  "scan_roots": [
+    "U:/LYGO/models",
+    "U:/LYGO/projects/lygo-llm/models"
+  ],
+  "comment": "Copy to local.json (gitignored). Do not add steward vaults. Extra roots need --i-consent."
+}

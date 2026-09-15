@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYGO LLM Console</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">Δ9Φ963 · LYGO LLM Console</div>
+  <div class="sub">Sovereign local models · protocol stack on every turn · no Ollama required</div>
+  <div id="health" class="health">probing…</div>
+</header>
+<main>
+  <section class="chat-panel">
+    <div id="log" class="log" aria-live="polite"></div>
+    <form id="form" class="composer">
+      <input id="msg" type="text" placeholder="Message the local brain…" autocomplete="off" autofocus>
+      <label class="attach">img<input id="img" type="file" accept="image/*" hidden></label>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+  <aside>
+    <h2>Models</h2>
+    <div class="row">
+      <button type="button" id="scan">Scan drives</button>
+      <select id="models"></select>
+      <button type="button" id="select">Load</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="tools" checked> Console tools</label>
+    <pre id="limb-out" class="limb-out">—</pre>
+    <p class="hint">
+      Local operator token (not a cloud password). Offline. Kit writes stay in workspace/save.
+      Donate <a href="https://paypal.me/ExcavationPro">PayPal.me/ExcavationPro</a> ·
+      <a href="https://chatagent.ca/games/">arcade</a>
+    </p>
+  </aside>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>
