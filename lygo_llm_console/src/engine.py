@@ -7,9 +7,8 @@ import signal
 import subprocess
 import threading
 import time
-import urllib.error
 import urllib.request
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -254,7 +253,7 @@ def spawn_runner(
 def _health(port: int, api_key: str) -> bool:
     url = f"http://127.0.0.1:{port}/health"
     try:
-        req = urllib.request.Request(url)
+        req = urllib.request.Request(url, headers={"Authorization": f"Bearer {api_key}"})
         with urllib.request.urlopen(req, timeout=2) as resp:
             return 200 <= resp.status < 300
     except Exception:

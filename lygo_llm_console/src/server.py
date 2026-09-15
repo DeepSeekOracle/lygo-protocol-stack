@@ -478,6 +478,7 @@ def main() -> int:
             return 2
         BIND = "0.0.0.0"
         AUTH_REQUIRED = True
+    cfg = load_console()
     if args.gguf:
         p = Path(args.gguf)
         rec = {
@@ -494,6 +495,11 @@ def main() -> int:
         STATE["selected"] = p.stem
         if not MOCK_ONLY:
             maybe_spawn(p.stem)
+    else:
+        scanned = scan_roots(default_scan_roots(cfg))
+        data = reg_upsert(scanned.get("models") or [])
+        STATE["selected"] = data.get("selected")
+        print(f"scan models={len(data.get('models') or [])} truncated={scanned.get('scan_truncated')}")
     if args.cmd != "serve":
         print("unknown cmd", args.cmd)
         return 2
