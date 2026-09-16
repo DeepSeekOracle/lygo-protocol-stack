@@ -18,18 +18,30 @@
   };
   const P0 = /format\s+c:|\bdiskpart\b|\bbcdedit\b|rm\s+-rf\s+\/|invoke-expression/i;
   const PROVIDERS = {
-    groq: { label: "Groq (free tier)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.1-8b-instant", key: true, help: "console.groq.com/keys — fastest free start" },
-    openrouter: { label: "OpenRouter", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openai/gpt-4o-mini", key: true, help: "openrouter.ai/keys", extra: { "HTTP-Referer": "https://chatagent.ca/portal/", "X-Title": "LYGO API Portal" } },
-    openai: { label: "OpenAI", kind: "openai", url: "https://api.openai.com/v1/chat/completions", model: "gpt-4o-mini", key: true, help: "platform.openai.com/api-keys" },
-    xai: { label: "xAI Grok", kind: "openai", url: "https://api.x.ai/v1/chat/completions", model: "grok-4-fast-non-reasoning", key: true, help: "console.x.ai" },
-    deepseek: { label: "DeepSeek", kind: "openai", url: "https://api.deepseek.com/v1/chat/completions", model: "deepseek-chat", key: true, help: "platform.deepseek.com" },
-    mistral: { label: "Mistral", kind: "openai", url: "https://api.mistral.ai/v1/chat/completions", model: "mistral-small-latest", key: true, help: "console.mistral.ai" },
+    groq: { label: "Groq (free, no card)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.1-8b-instant", key: true, help: "console.groq.com/keys" },
+    gemini: { label: "Google Gemini (free, no card)", kind: "openai", url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model: "gemini-2.0-flash", key: true, help: "aistudio.google.com/apikey" },
+    openrouter: { label: "OpenRouter (many :free models)", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openrouter/auto", key: true, help: "openrouter.ai/keys — use model ids ending :free", extra: { "HTTP-Referer": "https://chatagent.ca/portal/", "X-Title": "LYGO API Portal" } },
+    cerebras: { label: "Cerebras (fast, free/trial)", kind: "openai", url: "https://api.cerebras.ai/v1/chat/completions", model: "llama3.1-8b", key: true, help: "cloud.cerebras.ai" },
+    huggingface: { label: "Hugging Face router", kind: "openai", url: "https://router.huggingface.co/v1/chat/completions", model: "Qwen/Qwen2.5-1.5B-Instruct", key: true, help: "huggingface.co/settings/tokens" },
+    mistral: { label: "Mistral (free / cheap)", kind: "openai", url: "https://api.mistral.ai/v1/chat/completions", model: "mistral-small-latest", key: true, help: "console.mistral.ai" },
+    nvidia: { label: "NVIDIA NIM (free catalog)", kind: "openai", url: "https://integrate.api.nvidia.com/v1/chat/completions", model: "meta/llama-3.1-8b-instruct", key: true, help: "build.nvidia.com" },
+    cohere: { label: "Cohere (trial)", kind: "openai", url: "https://api.cohere.ai/compatibility/v1/chat/completions", model: "command-r-plus", key: true, help: "dashboard.cohere.com/api-keys" },
+    sambanova: { label: "SambaNova Cloud", kind: "openai", url: "https://api.sambanova.ai/v1/chat/completions", model: "Meta-Llama-3.1-8B-Instruct", key: true, help: "cloud.sambanova.ai" },
+    llm7: { label: "LLM7.io (free)", kind: "openai", url: "https://api.llm7.io/v1/chat/completions", model: "gpt-4o-mini-2024-07-18", key: true, help: "llm7.io — key optional on some models" },
+    zai: { label: "Z.ai / Zhipu GLM", kind: "openai", url: "https://api.z.ai/api/paas/v4/chat/completions", model: "glm-4.5-flash", key: true, help: "z.ai / open.bigmodel.cn" },
+    deepinfra: { label: "DeepInfra", kind: "openai", url: "https://api.deepinfra.com/v1/openai/chat/completions", model: "meta-llama/Meta-Llama-3.1-8B-Instruct", key: true, help: "deepinfra.com" },
+    hyperbolic: { label: "Hyperbolic", kind: "openai", url: "https://api.hyperbolic.xyz/v1/chat/completions", model: "meta-llama/Meta-Llama-3.1-8B-Instruct", key: true, help: "app.hyperbolic.xyz" },
+    novita: { label: "Novita", kind: "openai", url: "https://api.novita.ai/v3/openai/chat/completions", model: "meta-llama/llama-3.1-8b-instruct", key: true, help: "novita.ai" },
+    siliconflow: { label: "SiliconFlow", kind: "openai", url: "https://api.siliconflow.cn/v1/chat/completions", model: "Qwen/Qwen2.5-7B-Instruct", key: true, help: "siliconflow.cn / siliconflow.com" },
+    openai: { label: "OpenAI (paid)", kind: "openai", url: "https://api.openai.com/v1/chat/completions", model: "gpt-4o-mini", key: true, help: "platform.openai.com/api-keys" },
+    xai: { label: "xAI Grok (credits)", kind: "openai", url: "https://api.x.ai/v1/chat/completions", model: "grok-4-fast-non-reasoning", key: true, help: "console.x.ai" },
+    deepseek: { label: "DeepSeek (cheap / credits)", kind: "openai", url: "https://api.deepseek.com/v1/chat/completions", model: "deepseek-chat", key: true, help: "platform.deepseek.com" },
     together: { label: "Together AI", kind: "openai", url: "https://api.together.xyz/v1/chat/completions", model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", key: true, help: "api.together.xyz" },
     fireworks: { label: "Fireworks", kind: "openai", url: "https://api.fireworks.ai/inference/v1/chat/completions", model: "accounts/fireworks/models/llama-v3p1-8b-instruct", key: true, help: "fireworks.ai" },
-    gemini: { label: "Google Gemini", kind: "openai", url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model: "gemini-2.0-flash", key: true, help: "aistudio.google.com/apikey" },
-    anthropic: { label: "Anthropic Claude", kind: "anthropic", url: "https://api.anthropic.com/v1/messages", model: "claude-3-5-haiku-latest", key: true, help: "console.anthropic.com" },
-    huggingface: { label: "Hugging Face", kind: "openai", url: "https://router.huggingface.co/v1/chat/completions", model: "Qwen/Qwen2.5-1.5B-Instruct", key: true, help: "huggingface.co/settings/tokens" },
-    custom: { label: "Custom OpenAI-compatible URL", kind: "openai", url: "", model: "", key: true, help: "Paste …/v1/chat/completions" },
+    anthropic: { label: "Anthropic Claude (paid)", kind: "anthropic", url: "https://api.anthropic.com/v1/messages", model: "claude-3-5-haiku-latest", key: true, help: "console.anthropic.com" },
+    perplexity: { label: "Perplexity", kind: "openai", url: "https://api.perplexity.ai/chat/completions", model: "sonar", key: true, help: "perplexity.ai/settings/api" },
+    github: { label: "GitHub Models (PAT)", kind: "openai", url: "https://models.inference.ai.azure.com/chat/completions", model: "gpt-4o-mini", key: true, help: "github.com/settings/tokens — GitHub Models may be limited" },
+    custom: { label: "Any OpenAI-compatible URL", kind: "openai", url: "", model: "", key: true, help: "Paste base (we append /v1/chat/completions) or full chat URL" },
   };
   const AGENT_TOOLS = [
     { type: "function", function: { name: "wiki_search", description: "Search Wikipedia. RESOURCE.", parameters: { type: "object", properties: { q: { type: "string" } }, required: ["q"] } } },
@@ -146,9 +158,11 @@
 
   function openaiUrl() {
     const p = provider();
-    let e = (endpointEl.value || p.url || "").replace(/\/$/, "");
+    let e = (endpointEl.value || p.url || "").trim().replace(/\/$/, "");
     if (!e) return "";
-    if (e.indexOf("/chat") >= 0 || e.indexOf("/v1/") >= 0 || e.indexOf("/messages") >= 0) return e;
+    if (/\/chat\/completions$/i.test(e) || /\/messages$/i.test(e) || /\/paas\/v4\/chat\/completions$/i.test(e)) return e;
+    if (/\/openai\/v1$/i.test(e) || /\/v1$/i.test(e) || /\/v1beta\/openai$/i.test(e) || /\/compatibility\/v1$/i.test(e)) return e + "/chat/completions";
+    if (/\/v1\//i.test(e) && /chat/i.test(e)) return e;
     return e + "/v1/chat/completions";
   }
 
@@ -162,7 +176,10 @@
       if (p.kind === "anthropic") {
         headers["x-api-key"] = key;
         headers["anthropic-version"] = "2023-06-01";
-      } else headers.Authorization = "Bearer " + key;
+      } else {
+        headers.Authorization = "Bearer " + key;
+        if (modeEl.value === "github") headers["api-key"] = key;
+      }
     }
     if (p.extra) Object.keys(p.extra).forEach(function (k) { headers[k] = p.extra[k]; });
     let payload;
@@ -171,11 +188,16 @@
     } else {
       payload = { model: model, messages: messages, max_tokens: 1024, stream: false, tools: AGENT_TOOLS };
     }
-    const r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(payload) });
-    const j = await r.json().catch(function () { return {}; });
+    let r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(payload) });
+    let j = await r.json().catch(function () { return {}; });
+    if (!r.ok && payload.tools && (r.status === 400 || r.status === 404 || r.status === 422)) {
+      delete payload.tools;
+      r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(payload) });
+      j = await r.json().catch(function () { return {}; });
+    }
     if (!r.ok) {
-      const err = (j.error && (j.error.message || JSON.stringify(j.error))) || ("http " + r.status);
-      throw new Error(err);
+      const err = (j.error && (j.error.message || JSON.stringify(j.error))) || j.detail || ("http " + r.status);
+      throw new Error(typeof err === "string" ? err : JSON.stringify(err));
     }
     return j;
   }
@@ -189,7 +211,7 @@
   document.getElementById("connect").onclick = function () {
     fillProvider();
     const p = provider();
-    if (p.key && !(tokenEl && tokenEl.value)) {
+    if (p.key && !(tokenEl && tokenEl.value) && modeEl.value !== "llm7" && modeEl.value !== "custom") {
       setHealth("paste your API key (this tab only) — " + p.help);
       bubble("assistant", "This is the LYGO API portal. Paste a Groq/OpenAI/Grok/… key, then Connect. Keys never hit chatagent.ca (static GitHub Pages).\n\nWant a local GPU with files and skills? Download the FULL console: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel");
       return;
@@ -221,6 +243,16 @@
     modeEl.onchange = fillProvider;
     fillProvider();
   }
+  document.querySelectorAll("[data-fill]").forEach(function (a) {
+    a.addEventListener("click", function (ev) {
+      const id = a.getAttribute("data-fill");
+      if (!id || !PROVIDERS[id] || !modeEl) return;
+      ev.preventDefault();
+      modeEl.value = id;
+      fillProvider();
+      if (tokenEl && PROVIDERS[id].key) tokenEl.focus();
+    });
+  });
 
   const box = document.getElementById("champs");
   if (box) {

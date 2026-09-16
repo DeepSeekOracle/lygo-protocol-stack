@@ -279,6 +279,11 @@ footer.legal, section.how { padding: 0.85rem 1.1rem 1.1rem; color: var(--muted);
 footer.legal a, section.how a { color: var(--gold); }
 section.how h2 { margin-top: 0.8rem; }
 section.how ol, section.how ul { margin: 0.4rem 0 0.8rem 1.2rem; }
+.keys-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin: 0.6rem 0 1rem; }
+.keys-table th, .keys-table td { border-bottom: 1px solid var(--line); padding: 0.4rem 0.45rem; text-align: left; vertical-align: top; }
+.keys-table th { color: var(--gold); font-weight: 600; }
+.keys-table a { color: var(--gold); }
+.keys-table button { font-size: 0.68rem; padding: 0.18rem 0.4rem; }
 .mode-pill { font-size:.72rem; color:var(--muted); }
 .champions { display:flex; flex-wrap:wrap; gap:.28rem; }
 .champions button { font-size:.68rem; padding:.22rem .4rem; font-weight:500; }

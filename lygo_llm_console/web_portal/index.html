@@ -213,6 +213,33 @@ steward: Justin Helmer / Excavationpro / Lightfather
     <li><strong>FULL local LYGO LLM Console.</strong> Your own GGUF models, folders, SkillHub FULL, USB CLAW. Download: <a href="https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub FULL kernel</a> · docs <a href="https://chatagent.ca/lygo-llm-console.html">lygo-llm-console.html</a> · ClawHub <a href="https://clawhub.ai/deepseekoracle/skills/lygo-llm-console">lygo-llm-console</a>.</li>
   </ol>
   <p>Step-by-step: <a href="/guides/how-to-lygo-llm-portal.html">How to use the LYGO API portal</a>.</p>
+  <h2 id="free-keys">Free and near-free API keys</h2>
+  <p>Limits change. Prefer the provider’s own page. This portal accepts <strong>any OpenAI-compatible</strong> key: pick the vendor or choose <em>Any OpenAI-compatible URL</em>, paste base + key + model id. Keys stay in this tab.</p>
+  <table class="keys-table">
+    <thead><tr><th>Get a key</th><th>Typical free offer</th><th>Use here</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://console.groq.com/keys" rel="noopener">Groq</a></td><td>No card. Fast Llama/Qwen/gpt-oss. ~30 RPM.</td><td><button type="button" data-fill="groq">Fill Groq</button></td></tr>
+      <tr><td><a href="https://aistudio.google.com/apikey" rel="noopener">Google AI Studio (Gemini)</a></td><td>No card. Gemini Flash/Pro. Generous daily cap.</td><td><button type="button" data-fill="gemini">Fill Gemini</button></td></tr>
+      <tr><td><a href="https://openrouter.ai/keys" rel="noopener">OpenRouter</a></td><td>Email. Many models with <code>:free</code> suffix. ~50 req/day until you add credits.</td><td><button type="button" data-fill="openrouter">Fill OpenRouter</button></td></tr>
+      <tr><td><a href="https://cloud.cerebras.ai" rel="noopener">Cerebras</a></td><td>Very fast wafer inference. Free/trial Llama &amp; Qwen.</td><td><button type="button" data-fill="cerebras">Fill Cerebras</button></td></tr>
+      <tr><td><a href="https://huggingface.co/settings/tokens" rel="noopener">Hugging Face</a></td><td>Free account. Router + Inference Providers.</td><td><button type="button" data-fill="huggingface">Fill HF</button></td></tr>
+      <tr><td><a href="https://console.mistral.ai" rel="noopener">Mistral</a></td><td>Free/studio credits, no card on default Free.</td><td><button type="button" data-fill="mistral">Fill Mistral</button></td></tr>
+      <tr><td><a href="https://build.nvidia.com" rel="noopener">NVIDIA NIM</a></td><td>Large catalog. Phone verify. OpenAI-compat.</td><td><button type="button" data-fill="nvidia">Fill NVIDIA</button></td></tr>
+      <tr><td><a href="https://dashboard.cohere.com/api-keys" rel="noopener">Cohere</a></td><td>Trial key, eval limits.</td><td><button type="button" data-fill="cohere">Fill Cohere</button></td></tr>
+      <tr><td><a href="https://cloud.sambanova.ai" rel="noopener">SambaNova</a></td><td>Cloud Llama. Signup credits vary.</td><td><button type="button" data-fill="sambanova">Fill SambaNova</button></td></tr>
+      <tr><td><a href="https://llm7.io" rel="noopener">LLM7.io</a></td><td>Free OpenAI-compat endpoint.</td><td><button type="button" data-fill="llm7">Fill LLM7</button></td></tr>
+      <tr><td><a href="https://z.ai" rel="noopener">Z.ai / GLM</a></td><td>Flash models, cheap/free tiers in some regions.</td><td><button type="button" data-fill="zai">Fill Z.ai</button></td></tr>
+      <tr><td><a href="https://deepinfra.com" rel="noopener">DeepInfra</a></td><td>Small signup credit. Open models.</td><td><button type="button" data-fill="deepinfra">Fill DeepInfra</button></td></tr>
+      <tr><td><a href="https://app.hyperbolic.xyz" rel="noopener">Hyperbolic</a></td><td>Signup credit. Open-weight models.</td><td><button type="button" data-fill="hyperbolic">Fill Hyperbolic</button></td></tr>
+      <tr><td><a href="https://novita.ai" rel="noopener">Novita</a></td><td>Trial credit. OpenAI-compat.</td><td><button type="button" data-fill="novita">Fill Novita</button></td></tr>
+      <tr><td><a href="https://siliconflow.com" rel="noopener">SiliconFlow</a></td><td>Small credit. Qwen and more.</td><td><button type="button" data-fill="siliconflow">Fill SiliconFlow</button></td></tr>
+      <tr><td><a href="https://platform.deepseek.com" rel="noopener">DeepSeek</a></td><td>Cheap + signup credit. OpenAI-compat.</td><td><button type="button" data-fill="deepseek">Fill DeepSeek</button></td></tr>
+      <tr><td><a href="https://console.x.ai" rel="noopener">xAI Grok</a></td><td>Signup credits (not unlimited free).</td><td><button type="button" data-fill="xai">Fill Grok</button></td></tr>
+      <tr><td><a href="https://api.together.xyz" rel="noopener">Together</a> · <a href="https://fireworks.ai" rel="noopener">Fireworks</a></td><td>Small trial credits, then paid.</td><td><button type="button" data-fill="together">Together</button> <button type="button" data-fill="fireworks">Fireworks</button></td></tr>
+      <tr><td><a href="https://platform.openai.com/api-keys" rel="noopener">OpenAI</a> · <a href="https://console.anthropic.com" rel="noopener">Anthropic</a></td><td>Paid. Paste key here the same way.</td><td><button type="button" data-fill="openai">OpenAI</button> <button type="button" data-fill="anthropic">Claude</button></td></tr>
+    </tbody>
+  </table>
+  <p>Unknown vendor? Choose <strong>Any OpenAI-compatible URL</strong>, paste their <code>base</code> (we append <code>/v1/chat/completions</code> if needed), key, and model id. Directories: <a href="https://freellm.net" rel="noopener">freellm.net</a> · <a href="https://github.com/open-free-llm-api/awesome-freellm-apis" rel="noopener">awesome-freellm-apis</a>.</p>
   <h2>Disclaimers</h2>
   <ul>
     <li>RESOURCE, not CANON. Dual ledgers / Haven Star Chart remain canon.</li>
