@@ -22,6 +22,7 @@ Working product: Agent Portal with 24 limbs, Wikipedia search, URL prefetch, SOU
 - Session JSON is written via a temp file then replace.
 - `compose_system` uses `pulse_stamps()` only (no weather HTTP on every chat).
 - llama-server watchdog reboots if the runner process dies.
+- Public branded bots that template-refuse identity lockers are RESOURCE only — see `docs/whitepapers/LYGO_HARD_STOP_LESSON_v1.md`. Do not spend sessions jailbreaking them.
 
 ## Ports
 
