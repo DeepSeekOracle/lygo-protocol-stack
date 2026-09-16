@@ -118,18 +118,15 @@
   <div id="health" class="health">pick a backend…</div>
   <div class="conn">
     <select id="mode" title="Where inference runs">
-      <option value="hosted">LYGO hosted (free)</option>
-      <option value="hf">Hugging Face (your token)</option>
-      <option value="local">My local LYGO console :9641</option>
-      <option value="custom">Custom OpenAI-compatible URL</option>
+      <option value="lygo" selected>On-page LYGO steward (works now)</option>
     </select>
-    <input id="endpoint" type="text" placeholder="https://…/v1/chat/completions or http://127.0.0.1:9641" autocomplete="off">
-    <input id="hf-token" type="password" placeholder="HF token (stays in this browser)" autocomplete="off">
+    <input id="endpoint" type="text" placeholder="Endpoint (auto-filled)" autocomplete="off">
+    <input id="hf-token" type="password" placeholder="API key stays in this browser" autocomplete="off">
     <input id="model" type="text" placeholder="model id" value="qwen2.5:3b" autocomplete="off">
     <button type="button" id="connect">Connect</button>
     <label class="chk hide-public" id="full-wrap"><input type="checkbox" id="full"> Full LYGO limbs</label>
   </div>
-  <p class="mode-pill" id="mode-help">Public hosted = P0 chat only. Full limbs need http://127.0.0.1:9641/</p>
+  <p class="mode-pill" id="mode-help">This page answers immediately. To use Groq/OpenAI/Claude/Grok/Ollama: pick a provider, paste a key, Connect. <a href="/guides/how-to-lygo-llm-portal.html">How to hook an LLM</a></p>
 </header>
 <section id="world" class="world" aria-label="World time">
   <div class="world-now">
@@ -149,6 +146,7 @@
       <button type="button" data-limb="wiki">wiki</button>
       <button type="button" data-limb="weather">weather</button>
       <button type="button" data-limb="skillhub">SkillHub</button>
+      <button type="button" data-limb="howto">How to hook LLM</button>
     </div>
     <p class="hint"><a href="https://chatagent.ca/lygo-llm-console.html">Install local console</a> · <a href="https://chatagent.ca/lygoskillhub.html">SkillHub</a> · <a href="https://chatagent.ca/sources/">LYGO TV</a></p>
     <pre class="ai-card" id="ai-card">name: LYGO LLM Portal
@@ -204,8 +202,26 @@ listen: https://asiancoastline.com/listen.html
     <span id="radioHint" class="hint"></span>
   </div>
 </footer>
+<section class="legal how" id="disclaimer">
+  <h2>How to hook an LLM</h2>
+  <ol>
+    <li>Leave <strong>On-page LYGO steward</strong> selected to use the page with no key (Wikipedia, champions, weather, hook-up help).</li>
+    <li>For a real model: open the provider list → <strong>Groq</strong> (free tier) is the usual start → paste the key → <strong>Connect</strong> → chat. The key stays in this browser tab.</li>
+    <li>OpenAI, xAI Grok, DeepSeek, Mistral, Together, Fireworks, Gemini, Anthropic, Hugging Face, OpenRouter, local Ollama, and local LYGO console are in the same list. Custom URL: paste any <code>…/v1/chat/completions</code> endpoint.</li>
+    <li>Full LYGO limbs (files, skills, workspace) require the <a href="/lygo-llm-console.html">local console kit</a>, not this public page.</li>
+  </ol>
+  <p>Many cloud APIs <strong>block browser CORS</strong>. If Connect fails, that is the provider, not you. Use Groq/OpenRouter, a local console, or a CORS-open URL. Step-by-step: <a href="/guides/how-to-lygo-llm-portal.html">How to hook an LLM to the LYGO portal</a>.</p>
+  <h2>Disclaimers</h2>
+  <ul>
+    <li>This portal is <strong>RESOURCE</strong>, not CANON. Dual ledgers / Haven Star Chart remain canon.</li>
+    <li>No account. Optional API keys never go to chatagent.ca servers (GitHub Pages has none).</li>
+    <li>Not medical, legal, or financial advice. P0 blocks OS-wipe style prompts. You remain the publisher of anything you post.</li>
+    <li>We do not currently run a public GPU on this domain. Stream-PC hosting is optional and separate (<code>public_gateway.py</code>).</li>
+    <li>Radio/TV and champions are free extras. Donate is optional: <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a>.</li>
+  </ul>
+</section>
 <footer class="legal">
-  <p>© <span class="y">2026</span> Justin Helmer · LYGO™ · Dual ledgers / Star Chart remain CANON. This page is RESOURCE. <a href="https://chatagent.ca/privacy.html">Privacy</a> · <a href="https://chatagent.ca/terms.html">Terms</a> · <a href="https://chatagent.ca/security.txt">security.txt</a></p>
+  <p>© <span class="y">2026</span> Justin Helmer · LYGO™ · Dual ledgers / Star Chart remain CANON. This page is RESOURCE. <a href="https://chatagent.ca/privacy.html">Privacy</a> · <a href="https://chatagent.ca/terms.html">Terms</a> · <a href="https://chatagent.ca/security.txt">security.txt</a> · <a href="/guides/how-to-lygo-llm-portal.html">How to</a></p>
 </footer>
 <noscript>
   <p>LYGO LLM Portal requires JavaScript. Docs: <a href="https://chatagent.ca/lygo-llm-console.html">lygo-llm-console.html</a>. Free. No account.</p>

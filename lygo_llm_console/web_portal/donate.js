@@ -19,6 +19,7 @@
       close.textContent = "Open a donate page to continue";
     }
     layer.hidden = false;
+    layer.classList.add("is-open");
     layer.setAttribute("aria-hidden", "false");
   }
 
@@ -26,6 +27,7 @@
     const layer = el("donateLayer");
     if (!layer) return;
     layer.hidden = true;
+    layer.classList.remove("is-open");
     layer.setAttribute("aria-hidden", "true");
     opened = false;
     schedule();

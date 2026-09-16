@@ -275,8 +275,10 @@ header h1 {
   white-space: pre-wrap; background: #100d0a; border: 1px solid var(--line);
   border-radius: 8px; padding: 0.55rem; color: #d7cbb8; overflow: auto; max-height: 9rem;
 }
-footer.legal { padding: 0.45rem 0.9rem 0.7rem; color: var(--muted); font-size: 0.72rem; border-top: 1px solid var(--line); }
-footer.legal a { color: var(--gold); }
+footer.legal, section.how { padding: 0.85rem 1.1rem 1.1rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--line); line-height: 1.5; }
+footer.legal a, section.how a { color: var(--gold); }
+section.how h2 { margin-top: 0.8rem; }
+section.how ol, section.how ul { margin: 0.4rem 0 0.8rem 1.2rem; }
 .mode-pill { font-size:.72rem; color:var(--muted); }
 .champions { display:flex; flex-wrap:wrap; gap:.28rem; }
 .champions button { font-size:.68rem; padding:.22rem .4rem; font-weight:500; }
@@ -294,9 +296,10 @@ body.public-mode .hide-public { display:none !important; }
 .media-dock a { color: var(--gold); font-size: 0.78rem; }
 .donate-layer {
   position: fixed; inset: 0; z-index: 80; background: rgba(6, 5, 4, 0.88);
-  display: flex; align-items: center; justify-content: center; padding: 1.2rem;
+  display: none; align-items: center; justify-content: center; padding: 1.2rem;
 }
 .donate-layer[hidden] { display: none !important; }
+.donate-layer.is-open { display: flex !important; }
 .donate-card {
   max-width: 28rem; width: 100%; background: #1a1510; border: 1px solid var(--line);
   border-radius: 14px; padding: 1.25rem 1.35rem; box-shadow: var(--shadow);
