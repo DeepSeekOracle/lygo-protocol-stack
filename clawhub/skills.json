@@ -9,6 +9,18 @@
   "count_mirrored": 43,
   "skills": [
     {
+      "slug": "lygo-llm-console",
+      "name": "LYGO LLM Console",
+      "summary": "Public map to the LYGO sovereign local LLM runtime (not Ollama). Page + zip. Admin tree is a separate channel. No network, no subprocess.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
+      "mirror": "mirrors/lygo-llm-console",
+      "published": true,
+      "pending_publication": true,
+      "downloads": 0,
+      "version": "1.0.0",
+      "notes": "ClawHub update submitted 2026-09-15; pending registry security scan. Runtime zip is public kit only."
+    },
+    {
       "slug": "lygo-tv",
       "name": "LYGO TV",
       "summary": "Pointer to the free online TV player at https://chatagent.ca/sources/. Pick a list, click a channel, watch. No login. Local map only — scripts print URLs, no network.",

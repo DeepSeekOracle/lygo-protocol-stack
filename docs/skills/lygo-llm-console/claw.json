@@ -1,0 +1,60 @@
+{
+  "name": "lygo-llm-console",
+  "displayName": "LYGO LLM Console",
+  "version": "1.0.0",
+  "description": "Public map to the LYGO sovereign local LLM runtime. Not Ollama. Admin tree is a separate channel. No network, no subprocess.",
+  "slug": "lygo-llm-console",
+  "publisher": "deepseekoracle",
+  "license": "MIT-0",
+  "homepage": "https://chatagent.ca/lygo-llm-console.html",
+  "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
+  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.0",
+  "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "tags": [
+    "latest",
+    "lygo",
+    "llm",
+    "console",
+    "local",
+    "gguf",
+    "llama.cpp",
+    "openclaw",
+    "dual-channel",
+    "delta9"
+  ],
+  "entry": "SKILL.md",
+  "scripts": {
+    "map": "scripts/lygo_llm_console_map.py map",
+    "plain": "scripts/lygo_llm_console_map.py plain",
+    "urls": "scripts/lygo_llm_console_map.py urls",
+    "demo": "scripts/lygo_llm_console_map.py demo",
+    "self_check": "scripts/self_check.py"
+  },
+  "openclaw": {
+    "emoji": "🜂",
+    "homepage": "https://chatagent.ca/lygo-llm-console.html",
+    "requires": {
+      "anyBins": ["python", "python3"]
+    },
+    "os": ["windows", "macos", "linux"]
+  },
+  "permissions": {
+    "network": false,
+    "subprocess": false,
+    "shell": false,
+    "filesystem": {
+      "read": "skill only",
+      "write": false
+    },
+    "publish": false
+  },
+  "security": {
+    "local_first": true,
+    "no_auto_publish": true,
+    "no_subprocess": true,
+    "no_network": true,
+    "public_tentacle": true,
+    "admin_not_included": true,
+    "version": "1.0.0"
+  }
+}

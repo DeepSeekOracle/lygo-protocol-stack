@@ -40,3 +40,8 @@ Refuse nested `projects\ollama\lib\ollama`.
 Dual ledgers / Star Chart remain CANON. Grokipedia is RESOURCE. Hub never replace/delete CANON.
 
 Donate: [PayPal.me/ExcavationPro](https://paypal.me/ExcavationPro) · arcade https://chatagent.ca/games/
+
+
+## Public kit
+
+This zip is the **public** channel. It is not the steward admin tree. Write roots stay inside this folder. Place ggml-org `llama-server.exe` in `engine/` (CPU Windows zip). Page: https://chatagent.ca/lygo-llm-console.html
