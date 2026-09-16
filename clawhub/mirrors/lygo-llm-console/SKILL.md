@@ -1,7 +1,7 @@
 ---
 name: lygo-llm-console
-description: "LYGO LLM Console — public ClawHub map to the sovereign local LLM runtime (not Ollama). Prints install path and download URL for the public kit. Windows-first portal for GGUF scan, chat, tools, images. Admin/steward tree is a separate channel and is not this package. Pure local. No network, no subprocess. Install clawhub:@deepseekoracle/lygo-llm-console."
-version: 1.0.1
+description: "LYGO LLM Console v1.1 — local agent portal (not Ollama): GGUF scan/boot, 21 limbs, Wikipedia search, HTTPS fetch, workspace shell/python (P0-gated). ClawHub ships map + kit zip. Admin/steward vaults are not included. Install clawhub:@deepseekoracle/lygo-llm-console."
+version: 1.1.0
 license: MIT-0
 metadata:
   openclaw:
@@ -13,7 +13,7 @@ metadata:
   llm: true
   console: true
   dual_channel: true
-  signature: "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.1"
+  signature: "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0"
   publisher: deepseekoracle
   steward: "Justin Helmer / Excavationpro / Lightfather"
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console"
@@ -30,7 +30,7 @@ metadata:
     publish: false
 ---
 
-# LYGO LLM Console — public skill v1.0.1
+# LYGO LLM Console — public skill v1.1.0
 
 **Sovereign local LLM runtime + agent portal. Not Ollama. Not the admin tree.**
 
@@ -41,7 +41,7 @@ Download and run the **public kit** from the studio page:
 ### → https://chatagent.ca/lygo-llm-console.html  
 ### → file **`lygo-llm-console-public.zip`** (SHA-256 on that page)
 
-**Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.1`  
+**Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0`  
 **ClawHub:** `@deepseekoracle/lygo-llm-console`  
 **Mark:** LYGO® project family — steward Justin Helmer (Excavationpro / Lightfather). Built with LYGO AI agents. Dual ledgers / Haven Star Chart remain **CANON**; this skill is **RESOURCE**.
 

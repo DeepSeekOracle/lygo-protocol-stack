@@ -8,8 +8,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-SIG = "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.1"
-VERSION = "1.0.1"
+SIG = "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0"
+VERSION = "1.1.0"
 PAGE = "https://chatagent.ca/lygo-llm-console.html"
 ZIP_NAME = "lygo-llm-console-public.zip"
 ZIP_URL = "https://chatagent.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip"

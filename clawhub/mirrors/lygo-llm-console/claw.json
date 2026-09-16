@@ -1,14 +1,14 @@
 {
   "name": "lygo-llm-console",
   "displayName": "LYGO LLM Console",
-  "version": "1.0.1",
-  "description": "Public map to the LYGO sovereign local LLM runtime. Not Ollama. Admin tree is a separate channel. No network, no subprocess.",
+  "version": "1.1.0",
+  "description": "LYGO agent portal: local GGUF runtime, 21 limbs, Wikipedia search, URL fetch. Not Ollama. Admin tree is a separate channel.",
   "slug": "lygo-llm-console",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://chatagent.ca/lygo-llm-console.html",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
-  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.1",
+  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "tags": [
     "latest",
@@ -55,6 +55,6 @@
     "no_network": true,
     "public_tentacle": true,
     "admin_not_included": true,
-    "version": "1.0.1"
+    "version": "1.1.0"
   }
 }
