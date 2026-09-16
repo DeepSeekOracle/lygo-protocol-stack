@@ -103,6 +103,12 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         Path(r"F:\LYGO\models"),
         Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
     ]
+    usb = os.environ.get("LYGO_USB_ROOT", "").strip()
+    if usb:
+        extras.append(Path(usb) / "product" / "models" / "ollama")
+        extras.append(Path(usb) / "models")
+    # Portable: console lives at <USB>/lygo_llm_console
+    extras.append(KIT_ROOT.parent / "product" / "models" / "ollama")
     for p in extras:
         try:
             s = str(p)
