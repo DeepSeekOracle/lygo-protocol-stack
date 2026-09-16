@@ -16,5 +16,9 @@ def load_align() -> str:
     if p.is_file():
         t = p.read_text(encoding="utf-8").strip()
         if t:
+            t += (
+                "\n\nContinuity: workspace/SOUL.md is identity. workspace/MEMORY.md is growing notes. "
+                "Call remember (or memory_append) so MEMORY.md grows. Session chat is saved under save/sessions/."
+            )
             return t
     return FALLBACK

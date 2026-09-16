@@ -39,6 +39,9 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "calc", "description": "Evaluate a numeric Python expression.", "parameters": {"type": "object", "properties": {"expr": {"type": "string"}}, "required": ["expr"]}}},
     {"type": "function", "function": {"name": "whoami", "description": "Operator/kit identity (no secrets).", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "hash_text", "description": "SHA-256 of text.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
+    {"type": "function", "function": {"name": "memory_append", "description": "Append a durable note to MEMORY.md (grows across sessions).", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
+    {"type": "function", "function": {"name": "memory_read", "description": "Read MEMORY.md (growing notes).", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "soul_read", "description": "Read SOUL.md identity.", "parameters": {"type": "object", "properties": {}}}},
 ]
 
 
@@ -172,4 +175,20 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "hash_text":
         t = str(args.get("text") or "").encode("utf-8")
         return {"ok": True, "sha256": hashlib.sha256(t).hexdigest(), "n": len(t)}
+    if name == "memory_append":
+        from continuity import append_memory
+
+        return append_memory(str(args.get("note") or args.get("text") or ""))
+    if name == "memory_read":
+        from continuity import memory_path, ensure_identity
+
+        ensure_identity()
+        p = memory_path()
+        return {"ok": True, "path": str(p), "text": p.read_text(encoding="utf-8", errors="replace")[-8000:] if p.is_file() else ""}
+    if name == "soul_read":
+        from continuity import soul_path, ensure_identity
+
+        ensure_identity()
+        p = soul_path()
+        return {"ok": True, "path": str(p), "text": p.read_text(encoding="utf-8", errors="replace")[:8000] if p.is_file() else ""}
     return None

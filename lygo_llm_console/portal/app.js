@@ -30,6 +30,7 @@
   let pendingImage = null;
   let bootedOnce = false;
   let history = [];
+  const HIST_KEY = "lygo_llm_history";
 
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
@@ -178,6 +179,7 @@
       if (j.text) history.push({ role: "assistant", content: j.text });
     }
     await refreshHealth();
+    await persistHistory();
   };
 
   async function refreshWorkspace() {
@@ -224,6 +226,43 @@
       box.appendChild(b);
     });
   }
+  async function persistHistory() {
+    try {
+      sessionStorage.setItem(HIST_KEY, JSON.stringify(history.slice(-40)));
+    } catch (_) {}
+    try {
+      await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ messages: history }) });
+    } catch (_) {}
+  }
+  async function loadContinuity() {
+    try {
+      const s = await fetch("/api/session", { headers: headers() });
+      const j = await s.json();
+      if (j.messages && j.messages.length) {
+        history = j.messages;
+        log.innerHTML = "";
+        history.forEach((m) => bubble(m.role === "user" ? "user" : "assistant", typeof m.content === "string" ? m.content : JSON.stringify(m.content)));
+      } else {
+        const raw = sessionStorage.getItem(HIST_KEY);
+        if (raw) history = JSON.parse(raw);
+      }
+    } catch (_) {}
+    try {
+      const soul = await (await fetch("/api/soul", { headers: headers() })).json();
+      const mem = await (await fetch("/api/memory", { headers: headers() })).json();
+      const pre = document.getElementById("soul-preview");
+      if (pre) pre.textContent = ((soul.text || "").slice(0, 400) + "\n---\n" + (mem.memory_md || "").slice(-400)).trim();
+    } catch (_) {}
+  }
+  const ns = document.getElementById("new-session");
+  if (ns) {
+    ns.onclick = async () => {
+      history = [];
+      log.innerHTML = "";
+      sessionStorage.removeItem(HIST_KEY);
+      await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ new: true }) });
+    };
+  }
   const wsr = document.getElementById("ws-refresh");
   if (wsr) wsr.onclick = refreshWorkspace;
 
@@ -232,6 +271,7 @@
     await refreshModels();
     await refreshWorkspace();
     await refreshLimbs();
+    await loadContinuity();
     const h = await refreshHealth();
     if (h && h.brain !== "ready" && h.selected && !bootedOnce) {
       bootedOnce = true;

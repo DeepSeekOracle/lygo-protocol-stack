@@ -18,12 +18,20 @@ if str(HERE) not in sys.path:
 
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
 from chat_loop import (  # noqa: E402
-    SYSTEM,
     extract_user_text,
     has_image,
     host_prefetch,
     prefetch_message,
     run_tools_round,
+)
+from continuity import (  # noqa: E402
+    compose_system,
+    ensure_identity,
+    load_session,
+    memory_path,
+    new_session,
+    save_session,
+    soul_path,
 )
 from engine import (  # noqa: E402
     ENGINE_LOCK,
@@ -295,7 +303,19 @@ class Handler(BaseHTTPRequestHandler):
             lines = []
             if mem.is_file():
                 lines = mem.read_text(encoding="utf-8", errors="ignore").splitlines()[-40:]
-            self._json(200, {"notes": lines})
+            md = ""
+            mp = memory_path()
+            if mp.is_file():
+                md = mp.read_text(encoding="utf-8", errors="replace")[-6000:]
+            self._json(200, {"notes": lines, "memory_md": md, "path": str(mp)})
+            return
+        if path == "/api/soul":
+            p = soul_path()
+            t = p.read_text(encoding="utf-8", errors="replace") if p.is_file() else ""
+            self._json(200, {"path": str(p), "text": t})
+            return
+        if path == "/api/session":
+            self._json(200, {"messages": load_session()})
             return
         if path == "/api/receipts":
             if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
@@ -352,6 +372,21 @@ class Handler(BaseHTTPRequestHandler):
             STATE["selected"] = mid
             boot_async(mid)
             self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid, "error": STATE.get("error")})
+            return
+        if path == "/api/session":
+            body = self._read_body(512_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            if obj.get("new"):
+                new_session()
+                self._json(200, {"ok": True, "messages": []})
+                return
+            msgs = obj.get("messages")
+            if isinstance(msgs, list):
+                save_session(msgs)
+            self._json(200, {"ok": True, "messages": load_session()})
             return
         if path == "/api/limb":
             body = self._read_body(64_000)
@@ -415,7 +450,7 @@ class Handler(BaseHTTPRequestHandler):
         max_tokens = int(obj.get("max_tokens") or 768)
         want_stream = bool(obj.get("stream", True))
         brain = maybe_spawn(model if reg_get(str(model)) else None)
-        msgs = [{"role": "system", "content": SYSTEM}] + messages
+        msgs = [{"role": "system", "content": compose_system()}] + messages
         assistant = ""
         traces: list[Any] = []
         if use_tools and last_user:
@@ -506,6 +541,10 @@ class Handler(BaseHTTPRequestHandler):
                     assistant = "[output quarantined]"
                     break
         rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
+        try:
+            save_session(list(messages) + [{"role": "assistant", "content": assistant}])
+        except Exception:
+            pass
         if want_stream:
             emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
             emit_sse({"type": "done", "traces": traces, "receipt": rec["id"]})
@@ -572,6 +611,7 @@ def main() -> int:
     ap.add_argument("--mock", action="store_true")
     args = ap.parse_args()
     ensure_dirs()
+    ensure_identity()
     TOKEN = ensure_token()
     LLAMA_KEY = ensure_llama_key()
     MOCK_ONLY = bool(args.mock)

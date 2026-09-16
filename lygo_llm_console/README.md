@@ -42,6 +42,16 @@ Factual questions (`how many`, `do X have`) trigger Wikipedia full-text search.
 
 Writes stay under `workspace/` and `save/`. `shell` / `python_exec` are workspace-cwd and **P0-blocked** (`format c:`, diskpart, wipe). Dual ledgers / Star Chart remain CANON; web hits are RESOURCE.
 
+## Continuity (SOUL / MEMORY / sessions)
+
+| File | Role |
+|------|------|
+| `workspace/SOUL.md` | Identity. Loaded every turn. Edit to shape the agent. |
+| `workspace/MEMORY.md` | Growing notes. `remember` / `memory_append` add dated lines. |
+| `save/sessions/current.json` | Chat session (survives refresh). **New session** archives the old file. |
+
+Templates live in `prompts/SOUL.md` and `prompts/MEMORY.md` and are copied on first boot.
+
 ## Tests
 
 ```bat
