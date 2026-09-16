@@ -140,6 +140,7 @@
     <h2>Align</h2>
     <p class="hint">15 Δ9 champions (public lenses). Click to invoke. <a href="https://chatagent.ca/champions.html">directory</a></p>
     <div id="champs" class="champions"></div>
+    <p class="hint" id="skill-pack">Loading LYGO default skills…</p>
     <h2>Agent limbs</h2>
     <p class="hint">Run in this browser after Connect. No server disk.</p>
     <div class="limbs">
@@ -173,18 +174,24 @@ steward: Justin Helmer / Excavationpro / Lightfather
     <div id="log" class="log" aria-live="polite"></div>
     <form id="form" class="composer">
       <input id="msg" type="text" placeholder="Connect an API, then ask…" autocomplete="off" autofocus>
+      <button type="button" id="attach-file">Attach file</button>
       <button type="submit">Send</button>
     </form>
+    <div class="np-foot" style="margin:0.4rem 0.2rem">
+      <button type="button" id="sess-save">Save session as…</button>
+      <button type="button" id="sess-load">Load session</button>
+    </div>
   </section>
   <aside>
     <h2>Trace</h2>
     <pre id="limb-out" class="limb-out">public · no server shell</pre>
     <section class="notepad" id="notepad">
       <h2>Notepad</h2>
-      <p class="hint">Saved in this browser only (not our servers).</p>
+      <p class="hint">Browser memory, or Save as… to a file you choose.</p>
       <textarea id="np-body" placeholder="Scratch pad…"></textarea>
       <div class="np-foot">
-        <button type="button" id="np-save">Save locally</button>
+        <button type="button" id="np-save">Save in browser</button>
+        <button type="button" id="np-disk">Save notepad as…</button>
         <span id="np-status" class="hint">localStorage</span>
       </div>
     </section>
@@ -233,7 +240,7 @@ steward: Justin Helmer / Excavationpro / Lightfather
       <tr><td><a href="https://app.hyperbolic.xyz" rel="noopener">Hyperbolic</a></td><td>Signup credit. Open-weight models.</td><td><button type="button" data-fill="hyperbolic">Fill Hyperbolic</button></td></tr>
       <tr><td><a href="https://novita.ai" rel="noopener">Novita</a></td><td>Trial credit. OpenAI-compat.</td><td><button type="button" data-fill="novita">Fill Novita</button></td></tr>
       <tr><td><a href="https://siliconflow.com" rel="noopener">SiliconFlow</a></td><td>Small credit. Qwen and more.</td><td><button type="button" data-fill="siliconflow">Fill SiliconFlow</button></td></tr>
-      <tr><td><a href="https://platform.deepseek.com" rel="noopener">DeepSeek</a></td><td>Cheap + signup credit. OpenAI-compat.</td><td><button type="button" data-fill="deepseek">Fill DeepSeek</button></td></tr>
+      <tr><td><a href="https://platform.deepseek.com" rel="noopener">DeepSeek V4.1 Flash</a></td><td><strong>Deal (official, Sep 2026):</strong> model <code>deepseek-flash</code> · 1M context · tools · vision. Off-peak <strong>$0.15 in / $0.60 out</strong> per 1M (cache-hit input <strong>$0.003</strong>). Peak is 2× (Mon–Fri 01:00–04:00 &amp; 06:00–10:00 UTC). V4 Pro still billed separately. Docs: <a href="https://api-docs.deepseek.com/quick_start/pricing" rel="noopener">api-docs.deepseek.com</a></td><td><button type="button" data-fill="deepseek">Fill deepseek-flash</button></td></tr>
       <tr><td><a href="https://console.x.ai" rel="noopener">xAI Grok</a></td><td>Signup credits (not unlimited free).</td><td><button type="button" data-fill="xai">Fill Grok</button></td></tr>
       <tr><td><a href="https://api.together.xyz" rel="noopener">Together</a> · <a href="https://fireworks.ai" rel="noopener">Fireworks</a></td><td>Small trial credits, then paid.</td><td><button type="button" data-fill="together">Together</button> <button type="button" data-fill="fireworks">Fireworks</button></td></tr>
       <tr><td><a href="https://platform.openai.com/api-keys" rel="noopener">OpenAI</a> · <a href="https://console.anthropic.com" rel="noopener">Anthropic</a></td><td>Paid. Paste key here the same way.</td><td><button type="button" data-fill="openai">OpenAI</button> <button type="button" data-fill="anthropic">Claude</button></td></tr>
