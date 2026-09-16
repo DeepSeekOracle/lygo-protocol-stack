@@ -17,8 +17,8 @@
       "published": true,
       "pending_publication": true,
       "downloads": 0,
-      "version": "1.0.0",
-      "notes": "ClawHub update submitted 2026-09-15; pending registry security scan. Runtime zip is public kit only."
+      "version": "1.0.1",
+      "notes": "v1.0.1 complete file set (README, skill-card, kit runtime zip) submitted to ClawHub; listing may stay pending.publication until registry scan posts."
     },
     {
       "slug": "lygo-tv",

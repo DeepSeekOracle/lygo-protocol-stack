@@ -1,7 +1,7 @@
 ---
 name: lygo-llm-console
 description: "LYGO LLM Console — public ClawHub map to the sovereign local LLM runtime (not Ollama). Prints install path and download URL for the public kit. Windows-first portal for GGUF scan, chat, tools, images. Admin/steward tree is a separate channel and is not this package. Pure local. No network, no subprocess. Install clawhub:@deepseekoracle/lygo-llm-console."
-version: 1.0.0
+version: 1.0.1
 license: MIT-0
 metadata:
   openclaw:
@@ -13,7 +13,7 @@ metadata:
   llm: true
   console: true
   dual_channel: true
-  signature: "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.0"
+  signature: "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.1"
   publisher: deepseekoracle
   steward: "Justin Helmer / Excavationpro / Lightfather"
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console"
@@ -30,18 +30,18 @@ metadata:
     publish: false
 ---
 
-# LYGO LLM Console — public tentacle v1.0.0
+# LYGO LLM Console — public skill v1.0.1
 
 **Sovereign local LLM runtime + agent portal. Not Ollama. Not the admin tree.**
 
-This ClawHub package is a **map**. It does **not** ship llama.cpp binaries, GGUF weights, steward vaults, or the admin console that lives on the steward disk.
+This ClawHub package is the **complete public skill**: map scripts **and** the `kit/` runtime (portal + Python). It does **not** ship llama.cpp binaries, GGUF weights, steward vaults, or the admin console.
 
 Download and run the **public kit** from the studio page:
 
 ### → https://chatagent.ca/lygo-llm-console.html  
 ### → file **`lygo-llm-console-public.zip`** (SHA-256 on that page)
 
-**Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.0`  
+**Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.0.1`  
 **ClawHub:** `@deepseekoracle/lygo-llm-console`  
 **Mark:** LYGO® project family — steward Justin Helmer (Excavationpro / Lightfather). Built with LYGO AI agents. Dual ledgers / Haven Star Chart remain **CANON**; this skill is **RESOURCE**.
 
@@ -51,8 +51,8 @@ Download and run the **public kit** from the studio page:
 
 | Channel | What you get |
 |---------|----------------|
-| **This skill (ClawHub)** | Map, credits, public vs admin, print URLs. No spawn. No network. |
-| **Public kit zip** | Windows portal on `127.0.0.1:9641`, GGUF scan, P0 gate, kit-only tools, OpenAI-shaped `/v1` proxy. Vendored ggml-org `llama-server` is **fetched by the operator**, not bundled. |
+| **This skill (ClawHub)** | `SKILL.md`, scripts, `kit/` public runtime, credits. |
+| **Public kit zip** | Same runtime as `kit/`, also at https://chatagent.ca/lygo-llm-console.html . ggml-org `llama-server` is **fetched by the operator**, not bundled. |
 | **Admin / steward** | `lygo-protocol-stack/lygo_llm_console/` plus any stream-node copy. **Not published on ClawHub.** Vaults, write-roots, and operator keys stay off the public kit. |
 
 ---
@@ -99,7 +99,7 @@ No network, no subprocess, no disk writes.
 
 ## What this skill does *not* do
 
-- Does **not** ship the runtime zip or `llama-server.exe`  
+- Does **not** ship `llama-server.exe` or GGUF weights (`kit/` is the Python/portal runtime only)  
 - Does **not** ship model weights  
 - Does **not** include the admin console, vaults, or steward write-roots  
 - Does **not** auto-download anything  

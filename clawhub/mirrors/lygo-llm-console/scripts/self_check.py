@@ -23,7 +23,10 @@ def main() -> int:
         and "ollama.exe" in str(payload["product"]["not"])
         and no_sub
         and no_net
-        and m.VERSION == "1.0.0"
+        and m.VERSION == "1.0.1"
+        and (HERE.parent / "kit" / "src" / "server.py").is_file()
+        and (HERE.parent / "README.md").is_file()
+        and (HERE.parent / "skill-card.md").is_file()
         and "LYGO_SERVER_KEYS" not in src
         and "run_cmd" not in src
         and skill.is_file()
