@@ -258,6 +258,8 @@ class Handler(BaseHTTPRequestHandler):
                     "ram_avail": available_ram_bytes(),
                     "bind": BIND,
                     "port": DEFAULT_PORT,
+                    "tools": [t["function"]["name"] for t in TOOLS_SCHEMA],
+                    "workspace": str(__import__("paths", fromlist=["WORKSPACE"]).WORKSPACE),
                 },
             )
             return
@@ -276,6 +278,27 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 return
             self._json(200, data)
+            return
+        if path == "/api/tools":
+            self._json(200, {"tools": TOOLS_SCHEMA, "names": [t["function"]["name"] for t in TOOLS_SCHEMA]})
+            return
+        if path == "/api/workspace":
+            from paths import WORKSPACE
+
+            ents = []
+            if WORKSPACE.is_dir():
+                for child in list(WORKSPACE.iterdir())[:80]:
+                    ents.append({"name": child.name, "dir": child.is_dir()})
+            self._json(200, {"path": str(WORKSPACE), "entries": ents})
+            return
+        if path == "/api/memory":
+            from paths import WORKSPACE
+
+            mem = WORKSPACE / "memory.jsonl"
+            lines = []
+            if mem.is_file():
+                lines = mem.read_text(encoding="utf-8", errors="ignore").splitlines()[-40:]
+            self._json(200, {"notes": lines})
             return
         if path == "/api/receipts":
             if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
@@ -332,6 +355,20 @@ class Handler(BaseHTTPRequestHandler):
             STATE["selected"] = mid
             boot_async(mid)
             self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid, "error": STATE.get("error")})
+            return
+        if path == "/api/limb":
+            body = self._read_body(64_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            from tools import dispatch as tool_dispatch
+
+            name = str(obj.get("name") or "")
+            args = obj.get("arguments") or obj.get("args") or {}
+            if not isinstance(args, dict):
+                args = {}
+            self._json(200, tool_dispatch(name, args))
             return
         if path == "/api/shutdown":
             stop_port(LLAMA_PORT)
@@ -440,7 +477,7 @@ class Handler(BaseHTTPRequestHandler):
             follow = list(msgs)
             cur_msg = msg_obj
             cur_text = assistant
-            for _step in range(4):
+            for _step in range(8):
                 batch = run_tools_round(cur_text, cur_msg)
                 if not batch:
                     break

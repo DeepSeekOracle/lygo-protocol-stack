@@ -3,21 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LYGO LLM Console</title>
+<title>LYGO Agent Portal</title>
 <link rel="stylesheet" href="/static/style.css">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
 <header>
-  <div class="brand">Δ9Φ963 · LYGO LLM Console</div>
-  <div class="sub">Sovereign local models · protocol stack on every turn · no Ollama required</div>
+  <div>
+    <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
+    <div class="sub">Local OpenClaw-class console · Justin Helmer / Lightfather · LYGO AI agents</div>
+  </div>
   <div id="health" class="health">probing…</div>
 </header>
 <main>
+  <nav class="rail">
+    <h2>Workspace</h2>
+    <button type="button" id="ws-refresh">Refresh files</button>
+    <ul id="ws" class="filelist"></ul>
+    <h2>Limbs</h2>
+    <div id="limbs" class="limbs"></div>
+    <p class="hint">Click a limb to run it, or ask in chat. HTTPS search/fetch is live. Shell stays in workspace. P0 blocks OS wipe.</p>
+  </nav>
   <section class="chat-panel">
     <div id="log" class="log" aria-live="polite"></div>
     <form id="form" class="composer">
-      <input id="msg" type="text" placeholder="Message the local brain…" autocomplete="off" autofocus>
+      <input id="msg" type="text" placeholder="Task the agent… paste an https:// URL to auto-read" autocomplete="off" autofocus>
       <label class="attach">img<input id="img" type="file" accept="image/*" hidden></label>
       <button type="submit">Send</button>
     </form>
@@ -29,11 +39,12 @@
       <select id="models"></select>
       <button type="button" id="select">Boot LLM</button>
     </div>
-    <label class="chk"><input type="checkbox" id="tools" checked> Console tools</label>
+    <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
+    <h2>Trace</h2>
     <pre id="limb-out" class="limb-out">—</pre>
     <p class="hint">
-      Local operator token. LYGO-aligned. Can <strong>web_search</strong> / <strong>web_fetch</strong> HTTPS (hits are RESOURCE, not CANON). Kit writes stay in workspace/save.
       Donate <a href="https://paypal.me/ExcavationPro">PayPal.me/ExcavationPro</a> ·
+      <a href="https://chatagent.ca/lygo-llm-console.html">docs</a> ·
       <a href="https://chatagent.ca/games/">arcade</a>
     </p>
   </aside>
