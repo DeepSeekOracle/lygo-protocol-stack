@@ -67,6 +67,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = True
 MOCK_ONLY = False
+BUILD = "v1.1-20260916b"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -269,6 +270,7 @@ class Handler(BaseHTTPRequestHandler):
                 200,
                 {
                     "ok": True,
+                    "build": BUILD,
                     "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
                     "authenticated": check(token_from_request(self._headers_map(), self._query()), TOKEN),
                     "physics": PHYSICS_AVAILABLE,
@@ -661,8 +663,9 @@ def main() -> int:
         print("unknown cmd", args.cmd)
         return 2
     httpd = ThreadingHTTPServer((BIND, args.port), Handler)
-    url = f"http://127.0.0.1:{args.port}/?t={TOKEN}"
-    print(f"LYGO LLM Console  {url}")
+    url = f"http://127.0.0.1:{args.port}/?t={TOKEN}&v={BUILD}"
+    print(f"LYGO LLM Console {BUILD}  {url}")
+    print(f"kit {KIT_ROOT}")
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
     if not MOCK_ONLY and STATE.get("selected"):
         print(f"booting {STATE.get('selected')} …")

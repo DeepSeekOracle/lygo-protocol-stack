@@ -35,7 +35,7 @@
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
     healthEl.textContent =
-      `brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${err}`;
+      `build=${j.build || "?"} brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} limbs=${(j.tools||[]).length} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${err}`;
   }
 
   async function refreshHealth() {
