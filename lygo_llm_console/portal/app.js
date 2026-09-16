@@ -143,7 +143,7 @@
       model: models.value || undefined,
       tools: document.getElementById("tools").checked,
       stream: true,
-      max_tokens: 512,
+      max_tokens: 768,
     };
     const r = await fetch("/api/chat", { method: "POST", headers: headers(), body: JSON.stringify(body) });
     const b = bubble("assistant", "");

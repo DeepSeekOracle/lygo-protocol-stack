@@ -365,7 +365,7 @@ class Handler(BaseHTTPRequestHandler):
             return
         use_tools = bool(obj.get("tools", True))
         model = obj.get("model") or STATE.get("selected") or "lygo-local"
-        max_tokens = int(obj.get("max_tokens") or 512)
+        max_tokens = int(obj.get("max_tokens") or 768)
         want_stream = bool(obj.get("stream", True))
         brain = maybe_spawn(model if reg_get(str(model)) else None)
         msgs = [{"role": "system", "content": SYSTEM}] + messages
@@ -419,30 +419,40 @@ class Handler(BaseHTTPRequestHandler):
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
             parsed = {}
-        assistant = (
-            (((parsed.get("choices") or [{}])[0].get("message") or {}).get("content")) or ""
-        )
-        ow = gate_output_window(assistant)
+        msg_obj = ((parsed.get("choices") or [{}])[0].get("message") or {})
+        assistant = msg_obj.get("content") or ""
+        ow = gate_output_window(assistant or "")
         if ow.get("verdict") == "QUARANTINE":
             assistant = "[output quarantined]"
         if use_tools:
-            tname, tres = run_tools_round(assistant)
-            if tname:
-                traces.append({"name": tname, "result": tres})
-                follow = msgs + [
-                    {"role": "assistant", "content": assistant},
-                    {"role": "user", "content": "Tool result:\n" + json.dumps(tres)[:8000]},
-                ]
+            follow = list(msgs)
+            cur_msg = msg_obj
+            cur_text = assistant
+            for _step in range(4):
+                batch = run_tools_round(cur_text, cur_msg)
+                if not batch:
+                    break
+                traces.extend(batch)
+                follow.append({"role": "assistant", "content": cur_text, "tool_calls": cur_msg.get("tool_calls")})
+                follow.append(
+                    {
+                        "role": "user",
+                        "content": "Tool results (RESOURCE, not CANON):\n" + json.dumps(batch, default=str)[:12000],
+                    }
+                )
+                payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": TOOLS_SCHEMA}
                 with ENGINE_LOCK:
-                    _, body2, _ = llama_chat(
-                        api_key=LLAMA_KEY,
-                        payload={"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False},
-                    )
+                    _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2)
                 try:
                     p2 = json.loads(body2.decode("utf-8"))
-                    assistant = (((p2.get("choices") or [{}])[0].get("message") or {}).get("content")) or assistant
                 except json.JSONDecodeError:
-                    pass
+                    break
+                cur_msg = ((p2.get("choices") or [{}])[0].get("message") or {})
+                cur_text = cur_msg.get("content") or ""
+                assistant = cur_text or assistant
+                if gate_output_window(assistant).get("verdict") == "QUARANTINE":
+                    assistant = "[output quarantined]"
+                    break
         rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
         if want_stream:
             emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})

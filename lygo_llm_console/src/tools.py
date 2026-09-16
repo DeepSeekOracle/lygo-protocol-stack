@@ -36,6 +36,8 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "search_corpus", "description": "Lexical search under workspace", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "p0_gate", "description": "Run P0 gate on supplied text", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "stack_health", "description": "Optional protocol-stack demo_cycle", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "web_search", "description": "Search the public web (Wikipedia + DuckDuckGo). Hits are RESOURCE not CANON. Use before answering live-world facts.", "parameters": {"type": "object", "properties": {"q": {"type": "string", "description": "search query"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "web_fetch", "description": "HTTPS GET a public URL and return visible text. RESOURCE not CANON.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
 ]
 
 ALIASES = {"read": "read_file", "write": "write_file"}
@@ -141,6 +143,14 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from stack_health import run_stack_health
 
         return run_stack_health()
+    if name == "web_search":
+        from web_tools import web_search
+
+        return web_search(str(args.get("q") or args.get("query") or ""))
+    if name == "web_fetch":
+        from web_tools import web_fetch
+
+        return web_fetch(str(args.get("url") or ""))
     return {"ok": False, "error": f"unknown_tool:{name}"}
 
 
