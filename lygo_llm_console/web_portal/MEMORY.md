@@ -9,6 +9,5 @@
 - Donate: https://www.paypal.com/paypalme/ExcavationPro
 - DeepSeek V4.1 Flash deal: model `deepseek-flash` · off-peak $0.15/$0.60 per 1M · cache-hit in $0.003 · https://api-docs.deepseek.com/quick_start/pricing
 - Free-key table: https://chatagent.ca/portal/#free-keys
-- Never github.com/user/repo. Org DeepSeekOracle.
 
 Visitor notes they type in notepad are theirs. Do not store their API keys here.
