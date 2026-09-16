@@ -17,7 +17,14 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
-from chat_loop import SYSTEM, extract_user_text, has_image, run_tools_round  # noqa: E402
+from chat_loop import (  # noqa: E402
+    SYSTEM,
+    extract_user_text,
+    has_image,
+    host_prefetch,
+    prefetch_message,
+    run_tools_round,
+)
 from engine import (  # noqa: E402
     ENGINE_LOCK,
     ollama_port_open,
@@ -37,6 +44,7 @@ from paths import (  # noqa: E402
     LLAMA_PORT,
     LOCAL_JSON,
     PORTAL,
+    WORKSPACE,
     ensure_dirs,
 )
 from receipts import write_receipt  # noqa: E402
@@ -251,6 +259,8 @@ class Handler(BaseHTTPRequestHandler):
                     "ram_avail": available_ram_bytes(),
                     "bind": BIND,
                     "port": DEFAULT_PORT,
+                    "tools": [t["function"]["name"] for t in TOOLS_SCHEMA],
+                    "workspace": str(WORKSPACE),
                 },
             )
             return
@@ -269,6 +279,23 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 return
             self._json(200, data)
+            return
+        if path == "/api/tools":
+            self._json(200, {"tools": TOOLS_SCHEMA, "names": [t["function"]["name"] for t in TOOLS_SCHEMA]})
+            return
+        if path == "/api/workspace":
+            ents = []
+            if WORKSPACE.is_dir():
+                for child in list(WORKSPACE.iterdir())[:80]:
+                    ents.append({"name": child.name, "dir": child.is_dir()})
+            self._json(200, {"path": str(WORKSPACE), "entries": ents})
+            return
+        if path == "/api/memory":
+            mem = WORKSPACE / "memory.jsonl"
+            lines = []
+            if mem.is_file():
+                lines = mem.read_text(encoding="utf-8", errors="ignore").splitlines()[-40:]
+            self._json(200, {"notes": lines})
             return
         if path == "/api/receipts":
             if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
@@ -326,6 +353,20 @@ class Handler(BaseHTTPRequestHandler):
             boot_async(mid)
             self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid, "error": STATE.get("error")})
             return
+        if path == "/api/limb":
+            body = self._read_body(64_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            from tools import dispatch as tool_dispatch
+
+            name = str(obj.get("name") or "")
+            args = obj.get("arguments") or obj.get("args") or {}
+            if not isinstance(args, dict):
+                args = {}
+            self._json(200, tool_dispatch(name, args))
+            return
         if path == "/api/shutdown":
             stop_port(LLAMA_PORT)
             stop_port(EMBED_PORT)
@@ -359,18 +400,29 @@ class Handler(BaseHTTPRequestHandler):
         if obj.get("prompt") and not messages:
             messages = [{"role": "user", "content": obj["prompt"]}]
         user = extract_user_text(messages)
+        last_user = ""
+        for m in reversed(messages):
+            if m.get("role") == "user":
+                c = m.get("content")
+                last_user = c if isinstance(c, str) else extract_user_text([m])
+                break
         gate = gate_prompt(user)
         if gate.get("verdict") == "QUARANTINE":
             self._json(451, {"error": "quarantine", "gate": gate})
             return
         use_tools = bool(obj.get("tools", True))
         model = obj.get("model") or STATE.get("selected") or "lygo-local"
-        max_tokens = int(obj.get("max_tokens") or 512)
+        max_tokens = int(obj.get("max_tokens") or 768)
         want_stream = bool(obj.get("stream", True))
         brain = maybe_spawn(model if reg_get(str(model)) else None)
         msgs = [{"role": "system", "content": SYSTEM}] + messages
         assistant = ""
         traces: list[Any] = []
+        if use_tools and last_user:
+            pre = host_prefetch(last_user)
+            if pre:
+                traces.extend(pre)
+                msgs.append({"role": "user", "content": prefetch_message(pre)})
 
         def emit_sse(event: dict[str, Any]) -> None:
             line = json.dumps(event) + "\n"
@@ -419,30 +471,40 @@ class Handler(BaseHTTPRequestHandler):
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
             parsed = {}
-        assistant = (
-            (((parsed.get("choices") or [{}])[0].get("message") or {}).get("content")) or ""
-        )
-        ow = gate_output_window(assistant)
+        msg_obj = ((parsed.get("choices") or [{}])[0].get("message") or {})
+        assistant = msg_obj.get("content") or ""
+        ow = gate_output_window(assistant or "")
         if ow.get("verdict") == "QUARANTINE":
             assistant = "[output quarantined]"
         if use_tools:
-            tname, tres = run_tools_round(assistant)
-            if tname:
-                traces.append({"name": tname, "result": tres})
-                follow = msgs + [
-                    {"role": "assistant", "content": assistant},
-                    {"role": "user", "content": "Tool result:\n" + json.dumps(tres)[:8000]},
-                ]
+            follow = list(msgs)
+            cur_msg = msg_obj
+            cur_text = assistant
+            for _step in range(8):
+                batch = run_tools_round(cur_text, cur_msg)
+                if not batch:
+                    break
+                traces.extend(batch)
+                follow.append({"role": "assistant", "content": cur_text, "tool_calls": cur_msg.get("tool_calls")})
+                follow.append(
+                    {
+                        "role": "user",
+                        "content": "Tool results (RESOURCE, not CANON):\n" + json.dumps(batch, default=str)[:12000],
+                    }
+                )
+                payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": TOOLS_SCHEMA}
                 with ENGINE_LOCK:
-                    _, body2, _ = llama_chat(
-                        api_key=LLAMA_KEY,
-                        payload={"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False},
-                    )
+                    _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2)
                 try:
                     p2 = json.loads(body2.decode("utf-8"))
-                    assistant = (((p2.get("choices") or [{}])[0].get("message") or {}).get("content")) or assistant
                 except json.JSONDecodeError:
-                    pass
+                    break
+                cur_msg = ((p2.get("choices") or [{}])[0].get("message") or {})
+                cur_text = cur_msg.get("content") or ""
+                assistant = cur_text or assistant
+                if gate_output_window(assistant).get("verdict") == "QUARANTINE":
+                    assistant = "[output quarantined]"
+                    break
         rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
         if want_stream:
             emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})

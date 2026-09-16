@@ -29,6 +29,7 @@
   const img = document.getElementById("img");
   let pendingImage = null;
   let bootedOnce = false;
+  let history = [];
 
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
@@ -138,12 +139,14 @@
     if (h && h.brain !== "ready" && h.brain !== "booting") {
       await boot(models.value);
     }
+    history.push({ role: "user", content });
+    if (history.length > 24) history = history.slice(-24);
     const body = {
-      messages: [{ role: "user", content }],
+      messages: history,
       model: models.value || undefined,
       tools: document.getElementById("tools").checked,
       stream: true,
-      max_tokens: 512,
+      max_tokens: 768,
     };
     const r = await fetch("/api/chat", { method: "POST", headers: headers(), body: JSON.stringify(body) });
     const b = bubble("assistant", "");
@@ -164,6 +167,7 @@
             const evn = JSON.parse(line);
             if (evn.delta) b.textContent += evn.delta;
             if (evn.traces) limb.textContent = JSON.stringify(evn.traces, null, 2);
+            if (evn.type === "done" && b.textContent) history.push({ role: "assistant", content: b.textContent });
           } catch (_) {}
         }
       }
@@ -171,13 +175,63 @@
       const j = await r.json();
       b.textContent = j.text || j.error || JSON.stringify(j);
       if (j.traces) limb.textContent = JSON.stringify(j.traces, null, 2);
+      if (j.text) history.push({ role: "assistant", content: j.text });
     }
     await refreshHealth();
   };
 
+  async function refreshWorkspace() {
+    const ul = document.getElementById("ws");
+    if (!ul) return;
+    const r = await fetch("/api/workspace", { headers: headers() });
+    const j = await r.json();
+    ul.innerHTML = "";
+    (j.entries || []).forEach((e) => {
+      const li = document.createElement("li");
+      li.textContent = (e.dir ? "📁 " : "📄 ") + e.name;
+      li.onclick = () => {
+        msg.value = e.dir ? "list_dir " + e.name : "Read workspace file " + e.name + " and summarize.";
+        msg.focus();
+      };
+      ul.appendChild(li);
+    });
+  }
+  async function refreshLimbs() {
+    const box = document.getElementById("limbs");
+    if (!box) return;
+    const r = await fetch("/api/tools", { headers: headers() });
+    const j = await r.json();
+    box.innerHTML = "";
+    (j.names || []).forEach((n) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = n;
+      b.onclick = async () => {
+        let args = {};
+        if (n === "web_search") args = { q: prompt("search q") || "LYGO" };
+        else if (n === "web_fetch") args = { url: prompt("https url") || "https://chatagent.ca/" };
+        else if (n === "list_dir") args = { path: "." };
+        else if (n === "shell") args = { cmd: prompt("workspace command") || "dir" };
+        else if (n === "now" || n === "whoami" || n === "kernel_status" || n === "todo_list") args = {};
+        else {
+          msg.value = "Use tool " + n + " as needed: ";
+          msg.focus();
+          return;
+        }
+        const res = await fetch("/api/limb", { method: "POST", headers: headers(), body: JSON.stringify({ name: n, arguments: args }) });
+        limb.textContent = JSON.stringify(await res.json(), null, 2);
+      };
+      box.appendChild(b);
+    });
+  }
+  const wsr = document.getElementById("ws-refresh");
+  if (wsr) wsr.onclick = refreshWorkspace;
+
   (async function start() {
     await refreshHealth();
     await refreshModels();
+    await refreshWorkspace();
+    await refreshLimbs();
     const h = await refreshHealth();
     if (h && h.brain !== "ready" && h.selected && !bootedOnce) {
       bootedOnce = true;

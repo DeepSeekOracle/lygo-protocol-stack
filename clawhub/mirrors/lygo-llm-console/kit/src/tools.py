@@ -7,6 +7,7 @@ from typing import Any
 
 from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS
 from p0_hook import gate_prompt
+from limbs import EXTRA_SCHEMA, extra as extra_dispatch
 
 # Public kit roots. Do not import USB CLAW modules.
 READ_ROOTS = (WORKSPACE,)
@@ -38,7 +39,8 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "stack_health", "description": "Optional protocol-stack demo_cycle", "parameters": {"type": "object", "properties": {}}}},
 ]
 
-ALIASES = {"read": "read_file", "write": "write_file"}
+TOOLS_SCHEMA = TOOLS_SCHEMA + EXTRA_SCHEMA
+ALIASES = {"read": "read_file", "write": "write_file", "bash": "shell", "exec": "shell", "terminal": "shell"}
 
 
 def _denied(path: Path) -> bool:
@@ -141,6 +143,9 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from stack_health import run_stack_health
 
         return run_stack_health()
+    got = extra_dispatch(name, args)
+    if got is not None:
+        return got
     return {"ok": False, "error": f"unknown_tool:{name}"}
 
 
