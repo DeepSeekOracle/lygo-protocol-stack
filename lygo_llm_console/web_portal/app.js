@@ -19,6 +19,7 @@
   const P0 = /format\s+c:|\bdiskpart\b|\bbcdedit\b|rm\s+-rf\s+\/|invoke-expression/i;
   const PROVIDERS = {
     lygo: { label: "On-page LYGO steward (works now)", kind: "local", url: "", model: "lygo-steward", key: false, help: "No key. Built into this page." },
+    hosted: { label: "LYGO stream PC (qwen2.5:3b)", kind: "openai", url: "", model: "qwen2.5:3b", key: false, help: "Our always-on node. On the home LAN open http://10.0.0.209:8080/portal/" },
     groq: { label: "Groq (free tier)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.1-8b-instant", key: true, help: "console.groq.com → API keys" },
     openrouter: { label: "OpenRouter (many models)", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openai/gpt-4o-mini", key: true, help: "openrouter.ai/keys", extra: { "HTTP-Referer": "https://chatagent.ca/portal/", "X-Title": "LYGO LLM Portal" } },
     openai: { label: "OpenAI", kind: "openai", url: "https://api.openai.com/v1/chat/completions", model: "gpt-4o-mini", key: true, help: "platform.openai.com/api-keys" },
@@ -35,7 +36,7 @@
     custom: { label: "Custom OpenAI-compatible URL", kind: "openai", url: "", model: "", key: true, help: "Paste base or …/v1/chat/completions" },
   };
 
-  const cfg = {};
+  const cfg = { hosted_base: "" };
   const log = document.getElementById("log");
   const healthEl = document.getElementById("health");
   const limb = document.getElementById("limb-out");
@@ -184,6 +185,24 @@
     return "This provider likely blocks browser CORS. Fixes: (1) Groq/OpenRouter sometimes work from a page — try another key. (2) Run local LYGO console or Ollama and pick that provider. (3) Paste a CORS-open custom URL. Guide: /guides/how-to-lygo-llm-portal.html";
   }
 
+  async function findHosted() {
+    const tries = [];
+    if (cfg.hosted_base) tries.push(String(cfg.hosted_base).replace(/\/$/, ""));
+    if (location.protocol === "http:" && location.hostname && location.hostname !== "chatagent.ca") {
+      tries.push(location.origin.replace(/\/$/, "") + "/llm");
+    }
+    tries.push("http://10.0.0.209:8080/llm");
+    for (let i = 0; i < tries.length; i++) {
+      const b = tries[i];
+      if (!b) continue;
+      try {
+        const r = await fetch(b + "/health", { mode: "cors", cache: "no-store" });
+        if (r.ok) return b;
+      } catch (_) {}
+    }
+    return "";
+  }
+
   document.getElementById("connect").onclick = function () {
     fillProvider();
     const p = provider();
@@ -223,6 +242,26 @@
     modeEl.onchange = fillProvider;
     fillProvider();
   }
+
+  fetch("portal.json", { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (j) { Object.assign(cfg, j); })
+    .catch(function () {})
+    .then(function () { return findHosted(); })
+    .then(function (base) {
+      if (base) {
+        cfg.hosted_base = base;
+        PROVIDERS.hosted.url = base.replace(/\/$/, "") + "/v1/chat/completions";
+        if (modeEl && (modeEl.value === "lygo" || !modeEl.value)) {
+          modeEl.value = "hosted";
+          fillProvider();
+        }
+        setHealth("stream PC model online · qwen2.5:3b · " + base);
+        bubble("assistant", "Live backend: stream PC qwen2.5:3b at " + base + "\nChat should work now. Stronger models: pick Groq/OpenAI/etc and paste a key.\nHow-to: https://chatagent.ca/guides/how-to-lygo-llm-portal.html");
+      } else {
+        setHealth("no public GPU from here · on-page steward ready · hook Groq for a real LLM");
+      }
+    });
 
   const box = document.getElementById("champs");
   if (box) {
