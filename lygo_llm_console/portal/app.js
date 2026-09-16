@@ -18,8 +18,9 @@
     return sessionStorage.getItem(TOKEN_KEY) || window.LYGO_TOKEN || "";
   }
   function headers() {
-    return { "Content-Type": "application/json", "X-LYGO-LLM-Token": token() };
+    return { "Content-Type": "application/json", "X-LYGO-LLM-Token": token(), "Cache-Control": "no-store" };
   }
+  let lastScan = -1;
   const healthEl = document.getElementById("health");
   const log = document.getElementById("log");
   const form = document.getElementById("form");
@@ -43,6 +44,10 @@
       const r = await fetch("/api/health", { headers: headers() });
       const j = await r.json();
       setHealth(j);
+      if (typeof j.scan_n === "number" && j.scan_n !== lastScan) {
+        lastScan = j.scan_n;
+        try { await refreshModels(); } catch (_) {}
+      }
       return j;
     } catch (e) {
       healthEl.textContent = "health failed";
@@ -50,7 +55,7 @@
     }
   }
   async function refreshModels() {
-    const r = await fetch("/api/models", { headers: headers() });
+    const r = await fetch("/api/models", { headers: headers(), cache: "no-store" });
     if (!r.ok) {
       limb.textContent = "models " + r.status + " — retry Scan drives (header bar)";
       const o = document.createElement("option");
@@ -190,8 +195,8 @@
   async function refreshWorkspace() {
     const ul = document.getElementById("ws");
     if (!ul) return;
-    const r = await fetch("/api/workspace", { headers: headers() });
-    const j = await r.json();
+    const r = await fetch("/api/workspace", { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(() => ({}));
     ul.innerHTML = "";
     (j.entries || []).forEach((e) => {
       const li = document.createElement("li");
@@ -206,8 +211,8 @@
   async function refreshLimbs() {
     const box = document.getElementById("limbs");
     if (!box) return;
-    const r = await fetch("/api/tools", { headers: headers() });
-    const j = await r.json();
+    const r = await fetch("/api/tools", { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(() => ({}));
     box.innerHTML = "";
     (j.names || []).forEach((n) => {
       const b = document.createElement("button");

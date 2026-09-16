@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import threading
+import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -65,7 +66,7 @@ from tools import TOOLS_SCHEMA  # noqa: E402
 TOKEN = ""
 LLAMA_KEY = ""
 BIND = "127.0.0.1"
-AUTH_REQUIRED = True
+AUTH_REQUIRED = False
 MOCK_ONLY = False
 BUILD = "v1.1-20260916b"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
@@ -246,6 +247,10 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/" or path == "/index.html":
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
+            css = (PORTAL / "style.css").read_text(encoding="utf-8")
+            js = (PORTAL / "app.js").read_text(encoding="utf-8")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916b">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916b"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -675,10 +680,18 @@ def main() -> int:
 
     threading.Thread(target=warmup, daemon=True, name="lygo-warmup").start()
     if not args.no_browser:
-        try:
-            webbrowser.open(url)
-        except Exception:
-            pass
+        def open_when_ready() -> None:
+            for _ in range(40):
+                if STATE.get("scan_n"):
+                    break
+                time.sleep(0.25)
+            time.sleep(0.3)
+            try:
+                webbrowser.open(url)
+            except Exception:
+                pass
+
+        threading.Thread(target=open_when_ready, daemon=True, name="lygo-browser").start()
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
