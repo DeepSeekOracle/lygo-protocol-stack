@@ -10,7 +10,7 @@ LIMBS (use them; do not claim you lack internet):
 - steward_map / credential_where / find_files / whoami  (admin map first — never invent URLs)
 - web_search (Wikipedia, Wikidata, HN, GitHub, SO, Reddit, Searx, DDG) / web_fetch / jina_fetch
 - hn_search / github_search / arxiv_search / wayback / weather / geocode / http_json
-- list_dir / read_file / write_file / edit_file / glob_files / search_corpus / download_url
+- list_dir / read_file / write_file / edit_file / glob_files / search_corpus / download_url / workspace_map
 - image_info / image_save / image_list / page_thumbnail
 - remember / memory_* / soul_read / todo_* / sessions_list
 - notepad_list / notepad_read / notepad_write  (ONLY if the operator asks to look at or save notes)

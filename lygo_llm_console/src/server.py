@@ -68,7 +68,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916e"
+BUILD = "v1.1-20260916f"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -268,8 +268,8 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916e">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916e"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916f">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916f"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -336,11 +336,27 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"tools": TOOLS_SCHEMA, "names": [t["function"]["name"] for t in TOOLS_SCHEMA]})
             return
         if path == "/api/workspace":
+            from admin_map import read_roots
+            from workspace_map import list_mounts
+
+            qs = parse_qs(urlparse(self.path).query)
+            target = (qs.get("path") or [""])[0].strip()
+            root = Path(target) if target else WORKSPACE
+            if target:
+                try:
+                    rp = root.resolve()
+                    ok = any(str(rp).lower().startswith(str(r.resolve()).lower()) for r in read_roots())
+                except OSError:
+                    ok = False
+                if not ok:
+                    self._json(403, {"ok": False, "error": "denied"})
+                    return
             ents = []
-            if WORKSPACE.is_dir():
-                for child in list(WORKSPACE.iterdir())[:80]:
-                    ents.append({"name": child.name, "dir": child.is_dir()})
-            self._json(200, {"path": str(WORKSPACE), "entries": ents})
+            if root.is_dir():
+                for child in list(root.iterdir())[:120]:
+                    ents.append({"name": child.name, "dir": child.is_dir(), "path": str(child)})
+            mounts = list_mounts()
+            self._json(200, {"ok": True, "path": str(root), "entries": ents, "mounts": mounts.get("mounts"), "n_live": mounts.get("n_live")})
             return
         if path == "/api/memory":
             mem = WORKSPACE / "memory.jsonl"
@@ -494,6 +510,32 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(200, add_root(str(obj.get("path") or "")))
                 return
             self._json(400, {"ok": False, "error": "bad_action"})
+            return
+        if path == "/api/workspace":
+            from workspace_map import add_mount, list_mounts, remove_mount
+
+            body = self._read_body(16_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "").lower()
+            if action == "add":
+                self._json(
+                    200,
+                    add_mount(
+                        str(obj.get("path") or ""),
+                        read=bool(obj.get("read", True)),
+                        write=bool(obj.get("write")),
+                        search=bool(obj.get("search", True)),
+                        label=str(obj.get("label") or ""),
+                    ),
+                )
+                return
+            if action == "remove":
+                self._json(200, remove_mount(str(obj.get("path") or "")))
+                return
+            self._json(200, list_mounts())
             return
         if path == "/api/notepad":
             from notepad import delete_note, new_note, write_note

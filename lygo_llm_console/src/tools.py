@@ -31,6 +31,7 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "steward_map", "description": "Canonical admin map: drives, GitHub/HF/lattice URLs, roots. Call this BEFORE fetching GitHub/HF/sites. Never invent URLs.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "find_files", "description": "Find files on mapped disks (admin search/read roots). pattern e.g. *.md or SOUL.md", "parameters": {"type": "object", "properties": {"pattern": {"type": "string"}, "root": {"type": "string"}}, "required": ["pattern"]}}},
     {"type": "function", "function": {"name": "credential_where", "description": "Locate steward credential files by name. Returns path + exists. NEVER returns secret contents.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}}}},
+    {"type": "function", "function": {"name": "workspace_map", "description": "Show mapped folders/drives the LLM may read/write. Operator adds/removes these in the Workspace panel.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "list_dir", "description": "List a directory (admin: real disks on the map; else workspace). Empty path lists mapped roots.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}}}},
     {"type": "function", "function": {"name": "read_file", "description": "Read a text file. Never echo *.pass / token files — report exists only.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
     {"type": "function", "function": {"name": "write_file", "description": "Write a text file under allowed roots", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"]}}},
@@ -129,6 +130,10 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
     extra = extra or {}
     if name == "steward_map":
         return brief()
+    if name == "workspace_map":
+        from workspace_map import list_mounts
+
+        return list_mounts()
     if name == "find_files":
         return _find_files(str(args.get("pattern") or args.get("q") or "*"), args.get("root"))
     if name == "credential_where":

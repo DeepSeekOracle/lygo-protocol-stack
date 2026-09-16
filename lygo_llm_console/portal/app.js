@@ -193,21 +193,106 @@
     await persistHistory();
   };
 
+  let wsBrowse = "";
   async function refreshWorkspace() {
     const ul = document.getElementById("ws");
-    if (!ul) return;
-    const r = await fetch("/api/workspace", { headers: headers(), cache: "no-store" });
+    const box = document.getElementById("ws-mounts");
+    const st = document.getElementById("ws-status");
+    const q = wsBrowse ? ("?path=" + encodeURIComponent(wsBrowse)) : "";
+    const r = await fetch("/api/workspace" + q, { headers: headers(), cache: "no-store" });
     const j = await r.json().catch(() => ({}));
+    if (box) {
+      box.innerHTML = "";
+      (j.mounts || []).forEach((m) => {
+        const row = document.createElement("div");
+        row.className = "ws-mount";
+        const p = document.createElement("span");
+        p.className = "p";
+        p.textContent = m.path;
+        p.title = (m.label || "") + " · " + (m.source || "");
+        p.onclick = () => {
+          wsBrowse = m.path;
+          refreshWorkspace();
+          msg.value = "list_dir " + m.path;
+        };
+        row.appendChild(p);
+        ["read", "write", "search"].forEach((k) => {
+          const t = document.createElement("span");
+          t.className = "tag " + (m[k] ? "on" : "off");
+          t.textContent = k[0];
+          row.appendChild(t);
+        });
+        if (m.pinned) {
+          const pin = document.createElement("span");
+          pin.className = "tag on";
+          pin.textContent = "pin";
+          row.appendChild(pin);
+        } else if (m.status !== "revoked") {
+          const rm = document.createElement("button");
+          rm.type = "button";
+          rm.textContent = "Remove";
+          rm.onclick = async () => {
+            await fetch("/api/workspace", {
+              method: "POST",
+              headers: headers(),
+              body: JSON.stringify({ action: "remove", path: m.path }),
+            });
+            wsBrowse = "";
+            refreshWorkspace();
+          };
+          row.appendChild(rm);
+        }
+        if (m.status === "revoked") {
+          const t = document.createElement("span");
+          t.className = "tag off";
+          t.textContent = "off";
+          row.appendChild(t);
+        }
+        box.appendChild(row);
+      });
+    }
+    if (st) st.textContent = (j.n_live || 0) + " live maps · browsing " + (j.path || "");
+    if (!ul) return;
     ul.innerHTML = "";
     (j.entries || []).forEach((e) => {
       const li = document.createElement("li");
       li.textContent = (e.dir ? "📁 " : "📄 ") + e.name;
       li.onclick = () => {
-        msg.value = e.dir ? "list_dir " + e.name : "Read workspace file " + e.name + " and summarize.";
+        if (e.dir) {
+          wsBrowse = e.path || ((j.path || "") + "\\" + e.name);
+          refreshWorkspace();
+          msg.value = "list_dir " + wsBrowse;
+        } else {
+          msg.value = "Read file " + (e.path || e.name) + " and summarize.";
+        }
         msg.focus();
       };
       ul.appendChild(li);
     });
+  }
+  const wsAdd = document.getElementById("ws-add");
+  if (wsAdd) {
+    wsAdd.onclick = async () => {
+      const path = (document.getElementById("ws-path") || {}).value || "";
+      const r = await fetch("/api/workspace", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({
+          action: "add",
+          path,
+          read: !!(document.getElementById("ws-read") || {}).checked,
+          write: !!(document.getElementById("ws-write") || {}).checked,
+          search: !!(document.getElementById("ws-search") || {}).checked,
+        }),
+      });
+      const j = await r.json().catch(() => ({}));
+      const st = document.getElementById("ws-status");
+      if (st) st.textContent = j.ok ? ("added " + (j.path || path)) : ("failed: " + (j.error || r.status) + (j.hint ? " · " + j.hint : ""));
+      if (j.ok) {
+        wsBrowse = j.path || path;
+        refreshWorkspace();
+      }
+    };
   }
   async function refreshLimbs() {
     const box = document.getElementById("limbs");

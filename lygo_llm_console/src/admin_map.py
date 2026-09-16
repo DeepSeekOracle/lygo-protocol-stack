@@ -11,6 +11,11 @@ from paths import KIT_ROOT, SAVE, WORKSPACE
 _cache: dict[str, Any] | None = None
 
 
+def invalidate() -> None:
+    global _cache
+    _cache = None
+
+
 def load() -> dict[str, Any]:
     global _cache
     if _cache is not None:
@@ -52,11 +57,18 @@ def _expand_path(raw: str) -> Path:
 
 def paths_of(key: str, fallback: tuple[Path, ...]) -> tuple[Path, ...]:
     raw = load().get(key)
-    if not isinstance(raw, list) or not raw:
-        return fallback
     out: list[Path] = []
     seen: set[str] = set()
-    for x in raw:
+    try:
+        from workspace_map import extra_paths, revoked_set
+
+        revoked = revoked_set()
+        extra = extra_paths("read" if key == "read_roots" else "write" if key == "write_roots" else "search")
+    except Exception:
+        revoked = set()
+        extra = []
+    seq = list(raw) if isinstance(raw, list) else []
+    for x in seq:
         p = _expand_path(str(x))
         try:
             if not p.exists():
@@ -64,11 +76,22 @@ def paths_of(key: str, fallback: tuple[Path, ...]) -> tuple[Path, ...]:
             keyp = str(p.resolve())
         except OSError:
             continue
-        if keyp in seen:
+        if keyp in revoked or keyp in seen:
             continue
         seen.add(keyp)
         out.append(p)
-    return tuple(out) if out else fallback
+    for p in extra:
+        try:
+            keyp = str(p.resolve())
+        except OSError:
+            continue
+        if keyp in seen or keyp in revoked:
+            continue
+        seen.add(keyp)
+        out.append(p)
+    if out:
+        return tuple(out)
+    return fallback
 
 
 def read_roots() -> tuple[Path, ...]:

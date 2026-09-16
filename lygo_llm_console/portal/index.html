@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916e">
+<link rel="stylesheet" href="/static/style.css?v=20260916f">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -35,7 +35,19 @@
     <p class="hint"><code>SOUL.md</code> identity · <code>MEMORY.md</code> grows</p>
     <pre id="soul-preview" class="limb-out"></pre>
     <h2>Workspace</h2>
-    <button type="button" id="ws-refresh">Refresh files</button>
+    <p class="hint">Mapped folders the LLM may use as brain/stack. Add a drive or folder; Remove takes it away.</p>
+    <div id="ws-mounts" class="ws-mounts"></div>
+    <div class="np-bar">
+      <input id="ws-path" type="text" placeholder="C:\  or  D:\chatagent  or any folder" autocomplete="off">
+    </div>
+    <div class="np-bar">
+      <label class="chk"><input type="checkbox" id="ws-read" checked> read</label>
+      <label class="chk"><input type="checkbox" id="ws-write"> write</label>
+      <label class="chk"><input type="checkbox" id="ws-search" checked> search</label>
+      <button type="button" id="ws-add">Add access</button>
+      <button type="button" id="ws-refresh">Files</button>
+    </div>
+    <p class="hint" id="ws-status">live map</p>
     <ul id="ws" class="filelist"></ul>
     <h2>Skills</h2>
     <p class="hint">Δ9 champions on/off. Browse <a href="https://chatagent.ca/lygoskillhub.html" target="_blank" rel="noopener">SkillHub</a> (public tentacle or FULL zip + hash). OpenClaw SKILL.md compatible.</p>
@@ -87,6 +99,6 @@
     </p>
   </aside>
 </main>
-<script src="/static/app.js?v=20260916e"></script>
+<script src="/static/app.js?v=20260916f"></script>
 </body>
 </html>
