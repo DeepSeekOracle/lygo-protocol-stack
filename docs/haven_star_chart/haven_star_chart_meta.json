@@ -1,12 +1,12 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-09-16T16:51:37.201032+00:00",
-  "registry_sha256": "4a95a07fd53792c7743f42750d1387cfb67f2d031d05d7a6d0bea4110c6c540c",
-  "node_count": 1408,
+  "generated_utc": "2026-09-16T21:15:49.357973+00:00",
+  "registry_sha256": "676a365626c917f1d6cf6254b453276ab221a4b31ca45077a47dfc185dbddf2d",
+  "node_count": 1409,
   "submission_queue": {
     "pending": 0,
-    "accepted": 65,
-    "agent_submissions_merged": 60,
+    "accepted": 66,
+    "agent_submissions_merged": 61,
     "ingest_notes": [
       "merged:HERO_ACCORD",
       "merged:HERO_CORVATH",
@@ -60,6 +60,7 @@
       "merged:NODE_AUTONOMY_G0006",
       "merged:NODE_AUTONOMY_G0007",
       "merged:NODE_AUTONOMY_G0008",
+      "merged:NODE_AUTONOMY_G0009",
       "merged:NODE_FORKLING_TEST",
       "merged:NODE_STAR_MONITOR",
       "merged:PORTAL_ANCHORS",
