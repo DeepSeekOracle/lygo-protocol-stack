@@ -9,6 +9,11 @@ from p0_hook import gate_output_window
 from tools import dispatch, parse_fence_tool
 
 SYSTEM = load_align()
+URL_RE = re.compile(r"https://[^\s<>\]\)\"'`]+", re.I)
+SEARCH_HINT = re.compile(
+    r"\b(search|look\s*up|google|web_search|web_fetch|find info|hooked up|use your (search )?tools|read the page|summarize)\b",
+    re.I,
+)
 
 
 def extract_user_text(messages: list[dict[str, Any]]) -> str:
@@ -78,6 +83,41 @@ def extract_tool_calls(message: dict[str, Any], content: str) -> list[dict[str, 
         seen.add(key)
         uniq.append(c)
     return uniq
+
+
+def extract_urls(text: str) -> list[str]:
+    out: list[str] = []
+    for m in URL_RE.finditer(text or ""):
+        u = m.group(0).rstrip(".,;:)!?")
+        if u not in out:
+            out.append(u)
+    return out[:3]
+
+
+def host_prefetch(user_text: str) -> list[dict[str, Any]]:
+    """3B models talk about tools instead of calling them. Host runs URL/search first."""
+    traces: list[dict[str, Any]] = []
+    urls = extract_urls(user_text)
+    for url in urls:
+        result = dispatch("web_fetch", {"url": url})
+        traces.append({"name": "web_fetch", "arguments": {"url": url}, "result": result, "host": True})
+    if not urls and SEARCH_HINT.search(user_text or ""):
+        q = SEARCH_HINT.sub(" ", user_text or "")
+        q = re.sub(r"\s+", " ", q).strip()[:220]
+        if len(q) >= 3:
+            result = dispatch("web_search", {"q": q})
+            traces.append({"name": "web_search", "arguments": {"q": q}, "result": result, "host": True})
+    return traces
+
+
+def prefetch_message(traces: list[dict[str, Any]]) -> str:
+    if not traces:
+        return ""
+    return (
+        "HOST ALREADY FETCHED THESE PAGES/SEARCHES (RESOURCE, not CANON). "
+        "Summarize them now. Do NOT ask for the URL. Do NOT claim tools failed.\n"
+        + json.dumps(traces, default=str)[:14000]
+    )
 
 
 def run_tools_round(assistant_text: str, message: dict[str, Any] | None = None) -> list[dict[str, Any]]:

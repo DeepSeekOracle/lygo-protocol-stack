@@ -17,7 +17,14 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
-from chat_loop import SYSTEM, extract_user_text, has_image, run_tools_round  # noqa: E402
+from chat_loop import (  # noqa: E402
+    SYSTEM,
+    extract_user_text,
+    has_image,
+    host_prefetch,
+    prefetch_message,
+    run_tools_round,
+)
 from engine import (  # noqa: E402
     ENGINE_LOCK,
     ollama_port_open,
@@ -371,6 +378,11 @@ class Handler(BaseHTTPRequestHandler):
         msgs = [{"role": "system", "content": SYSTEM}] + messages
         assistant = ""
         traces: list[Any] = []
+        if use_tools and user:
+            pre = host_prefetch(user)
+            if pre:
+                traces.extend(pre)
+                msgs.append({"role": "user", "content": prefetch_message(pre)})
 
         def emit_sse(event: dict[str, Any]) -> None:
             line = json.dumps(event) + "\n"
