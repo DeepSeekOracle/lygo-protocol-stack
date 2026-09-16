@@ -226,19 +226,162 @@ def duckduckgo_search(q: str) -> list[dict[str, str]]:
     return out
 
 
+def _json_get(url: str) -> Any:
+    code, raw, _ = _get(url)
+    if code != 200:
+        return None
+    try:
+        return json.loads(raw.decode("utf-8", errors="replace"))
+    except json.JSONDecodeError:
+        return None
+
+
+def hn_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    qs = urllib.parse.urlencode({"query": q, "hitsPerPage": str(n)})
+    data = _json_get("https://hn.algolia.com/api/v1/search?" + qs)
+    out = []
+    if not isinstance(data, dict):
+        return out
+    for hit in data.get("hits") or []:
+        url = hit.get("url") or ("https://news.ycombinator.com/item?id=" + str(hit.get("objectID") or ""))
+        title = hit.get("title") or hit.get("story_title") or ""
+        if title:
+            out.append({"title": str(title)[:200], "url": str(url), "snippet": str(hit.get("comment_text") or "")[:240], "source": "hn"})
+    return out
+
+
+def github_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    qs = urllib.parse.urlencode({"q": q, "per_page": str(n)})
+    data = _json_get("https://api.github.com/search/repositories?" + qs)
+    out = []
+    if not isinstance(data, dict):
+        return out
+    for repo in data.get("items") or []:
+        out.append(
+            {
+                "title": str(repo.get("full_name") or ""),
+                "url": str(repo.get("html_url") or ""),
+                "snippet": str(repo.get("description") or "")[:240],
+                "source": "github",
+            }
+        )
+    return out
+
+
+def stackexchange_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    qs = urllib.parse.urlencode({"order": "desc", "sort": "relevance", "q": q, "site": "stackoverflow", "pagesize": str(n)})
+    data = _json_get("https://api.stackexchange.com/2.3/search/advanced?" + qs)
+    out = []
+    if not isinstance(data, dict):
+        return out
+    for it in data.get("items") or []:
+        out.append(
+            {
+                "title": str(it.get("title") or ""),
+                "url": str(it.get("link") or ""),
+                "snippet": "score " + str(it.get("score")),
+                "source": "stackoverflow",
+            }
+        )
+    return out
+
+
+def reddit_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    qs = urllib.parse.urlencode({"q": q, "limit": str(n), "sort": "relevance"})
+    data = _json_get("https://www.reddit.com/search.json?" + qs)
+    out = []
+    if not isinstance(data, dict):
+        return out
+    for ch in (data.get("data") or {}).get("children") or []:
+        d = ch.get("data") or {}
+        permalink = d.get("permalink") or ""
+        url = ("https://www.reddit.com" + permalink) if permalink else str(d.get("url") or "")
+        out.append({"title": str(d.get("title") or "")[:200], "url": url, "snippet": str(d.get("selftext") or "")[:200], "source": "reddit"})
+    return out
+
+
+def wikidata_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    qs = urllib.parse.urlencode({"action": "wbsearchentities", "search": q, "language": "en", "format": "json", "limit": str(n)})
+    data = _json_get("https://www.wikidata.org/w/api.php?" + qs)
+    out = []
+    if not isinstance(data, dict):
+        return out
+    for it in data.get("search") or []:
+        out.append(
+            {
+                "title": str(it.get("label") or it.get("id")),
+                "url": str(it.get("concepturi") or ("https://www.wikidata.org/wiki/" + str(it.get("id") or ""))),
+                "snippet": str(it.get("description") or ""),
+                "source": "wikidata",
+            }
+        )
+    return out
+
+
+def searx_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    # Public instances; skip if down.
+    for base in ("https://searx.be", "https://search.sapti.me"):
+        qs = urllib.parse.urlencode({"q": q, "format": "json", "language": "en"})
+        data = _json_get(base.rstrip("/") + "/search?" + qs)
+        if not isinstance(data, dict):
+            continue
+        out = []
+        for it in (data.get("results") or [])[:n]:
+            out.append({"title": str(it.get("title") or ""), "url": str(it.get("url") or ""), "snippet": str(it.get("content") or "")[:240], "source": "searx"})
+        if out:
+            return out
+    return []
+
+
+def jina_fetch(url: str) -> dict[str, Any]:
+    why = _blocked(url)
+    if why:
+        return {"ok": False, "error": why}
+    ju = "https://r.jina.ai/" + url
+    code, raw, _ = _get(ju)
+    if code != 200:
+        return {"ok": False, "error": f"jina_{code}"}
+    text = raw.decode("utf-8", errors="replace")[:24000]
+    return {"ok": True, "url": url, "via": "jina", "class": "RESOURCE", "text": text}
+
+
 def web_search(q: str) -> dict[str, Any]:
     q = (q or "").strip()[:300]
     if not q:
         return {"ok": False, "error": "empty_query"}
-    wiki = wikipedia_search(q)
-    ddg = duckduckgo_search(q)
-    hits = wiki + [h for h in ddg if h.get("url") not in {x.get("url") for x in wiki}]
+    buckets = [
+        ("wikipedia", wikipedia_search(q)),
+        ("wikidata", wikidata_search(q)),
+        ("hn", hn_search(q)),
+        ("github", github_search(q)),
+        ("stackoverflow", stackexchange_search(q)),
+        ("reddit", reddit_search(q)),
+        ("searx", searx_search(q)),
+        ("duckduckgo", duckduckgo_search(q)),
+    ]
+    hits: list[dict[str, str]] = []
+    seen: set[str] = set()
+    engines_ok = []
+    for name, rows in buckets:
+        if rows:
+            engines_ok.append(name)
+        for h in rows:
+            u = h.get("url") or ""
+            if not u or u in seen:
+                continue
+            seen.add(u)
+            hits.append(h)
+            if len(hits) >= 16:
+                break
+        if len(hits) >= 16:
+            break
     return {
         "ok": True,
         "q": q,
         "class": "RESOURCE",
         "note": "Search hits are REFERENCE, not CANON. Cite URLs. Do not invent.",
-        "hits": hits[:10],
+        "engines": engines_ok,
+        "hits": hits[:16],
     }
 
 
@@ -258,10 +401,17 @@ def web_fetch(url: str) -> dict[str, Any]:
         return {"ok": False, "error": why, "url": url}
     code, raw, ctype = _get(url)
     if code != 200:
+        alt = jina_fetch(url)
+        if alt.get("ok"):
+            return alt
         return {"ok": False, "error": f"http_{code}", "url": url, "detail": raw[:400].decode("utf-8", errors="replace")}
     text = raw.decode("utf-8", errors="replace")
     if "html" in (ctype or "").lower() or text.lstrip()[:15].lower().startswith("<!doctype") or text.lstrip()[:6].lower().startswith("<html"):
         text = _strip_html(text)
+    if len(text) < 400:
+        alt = jina_fetch(url)
+        if alt.get("ok") and len(str(alt.get("text") or "")) > len(text):
+            return alt
     if len(text) > 24_000:
         text = text[:24_000] + "\n…[truncated]"
     from p0_hook import gate_output_window

@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 from typing import Any
 
@@ -42,6 +43,20 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "memory_append", "description": "Append a durable note to MEMORY.md (grows across sessions).", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
     {"type": "function", "function": {"name": "memory_read", "description": "Read MEMORY.md (growing notes).", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "soul_read", "description": "Read SOUL.md identity.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "edit_file", "description": "Replace a string in a workspace file.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "old": {"type": "string"}, "new": {"type": "string"}}, "required": ["path", "old", "new"]}}},
+    {"type": "function", "function": {"name": "weather", "description": "Current weather via wttr.in (RESOURCE).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
+    {"type": "function", "function": {"name": "geocode", "description": "Place name to lat/lon (Nominatim).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
+    {"type": "function", "function": {"name": "http_json", "description": "HTTPS GET JSON from a public URL.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "wayback", "description": "Internet Archive availability for a URL.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "arxiv_search", "description": "Search arXiv papers.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "hn_search", "description": "Hacker News Algolia search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "github_search", "description": "GitHub repository search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "image_info", "description": "PNG/JPEG/GIF size of a workspace image.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
+    {"type": "function", "function": {"name": "image_save", "description": "Save a base64 or data-URL image into workspace/images.", "parameters": {"type": "object", "properties": {"b64": {"type": "string"}, "path": {"type": "string"}}, "required": ["b64"]}}},
+    {"type": "function", "function": {"name": "image_list", "description": "List workspace/images files.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "page_thumbnail", "description": "Capture a public HTTPS page thumbnail into workspace/images.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "jina_fetch", "description": "Readable extract of a page via r.jina.ai.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "sessions_list", "description": "List saved chat session files.", "parameters": {"type": "object", "properties": {}}}},
 ]
 
 
@@ -191,4 +206,112 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         ensure_identity()
         p = soul_path()
         return {"ok": True, "path": str(p), "text": p.read_text(encoding="utf-8", errors="replace")[:8000] if p.is_file() else ""}
+    if name == "edit_file":
+        p = _ws(str(args.get("path") or ""))
+        try:
+            p.resolve().relative_to(WORKSPACE.resolve())
+        except ValueError:
+            return {"ok": False, "error": "denied"}
+        if not p.is_file():
+            return {"ok": False, "error": "missing"}
+        old, new = str(args.get("old") or ""), str(args.get("new") or "")
+        t = p.read_text(encoding="utf-8", errors="replace")
+        if old not in t:
+            return {"ok": False, "error": "old_not_found"}
+        p.write_text(t.replace(old, new, 1), encoding="utf-8")
+        return {"ok": True, "path": str(p)}
+    if name == "weather":
+        from web_tools import _get
+
+        place = urllib.parse.quote(str(args.get("place") or "Earth"))
+        code, raw, _ = _get("https://wttr.in/" + place + "?format=3")
+        if code != 200:
+            return {"ok": False, "error": f"http_{code}"}
+        return {"ok": True, "text": raw.decode("utf-8", errors="replace").strip(), "class": "RESOURCE"}
+    if name == "geocode":
+        from web_tools import _json_get
+
+        qs = urllib.parse.urlencode({"q": str(args.get("place") or ""), "format": "json", "limit": "3"})
+        data = _json_get("https://nominatim.openstreetmap.org/search?" + qs)
+        if not data:
+            return {"ok": False, "error": "none"}
+        rows = [{"name": x.get("display_name"), "lat": x.get("lat"), "lon": x.get("lon")} for x in data[:3]]
+        return {"ok": True, "results": rows, "class": "RESOURCE"}
+    if name == "http_json":
+        from web_tools import _blocked, _json_get
+
+        url = str(args.get("url") or "")
+        why = _blocked(url)
+        if why:
+            return {"ok": False, "error": why}
+        data = _json_get(url)
+        if data is None:
+            return {"ok": False, "error": "not_json"}
+        blob = json.dumps(data, default=str)
+        return {"ok": True, "data": blob[:12000]}
+    if name == "wayback":
+        from web_tools import _blocked, _json_get
+
+        url = str(args.get("url") or "")
+        why = _blocked(url)
+        if why:
+            return {"ok": False, "error": why}
+        data = _json_get("https://archive.org/wayback/available?url=" + urllib.parse.quote(url, safe=""))
+        return {"ok": True, "data": data, "class": "RESOURCE"}
+    if name == "arxiv_search":
+        from web_tools import _get
+        import xml.etree.ElementTree as ET
+
+        qs = urllib.parse.quote(str(args.get("q") or ""))
+        code, raw, _ = _get("https://export.arxiv.org/api/query?search_query=all:" + qs + "&start=0&max_results=5")
+        if code != 200:
+            return {"ok": False, "error": f"http_{code}"}
+        papers = []
+        try:
+            root = ET.fromstring(raw)
+            ns = {"a": "http://www.w3.org/2005/Atom"}
+            for ent in root.findall("a:entry", ns)[:5]:
+                title = (ent.findtext("a:title", default="", namespaces=ns) or "").strip()
+                link = ""
+                for l in ent.findall("a:link", ns):
+                    if l.get("type") == "text/html":
+                        link = l.get("href") or ""
+                papers.append({"title": title, "url": link})
+        except ET.ParseError:
+            return {"ok": False, "error": "xml"}
+        return {"ok": True, "papers": papers, "class": "RESOURCE"}
+    if name == "hn_search":
+        from web_tools import hn_search
+
+        return {"ok": True, "hits": hn_search(str(args.get("q") or "")), "class": "RESOURCE"}
+    if name == "github_search":
+        from web_tools import github_search
+
+        return {"ok": True, "hits": github_search(str(args.get("q") or "")), "class": "RESOURCE"}
+    if name == "image_info":
+        from image_tools import image_info
+
+        return image_info(str(args.get("path") or ""))
+    if name == "image_save":
+        from image_tools import image_save
+
+        return image_save(str(args.get("b64") or args.get("data") or ""), args.get("path"))
+    if name == "image_list":
+        from image_tools import image_list
+
+        return image_list()
+    if name == "page_thumbnail":
+        from image_tools import page_thumbnail
+
+        return page_thumbnail(str(args.get("url") or ""))
+    if name == "jina_fetch":
+        from web_tools import jina_fetch
+
+        return jina_fetch(str(args.get("url") or ""))
+    if name == "sessions_list":
+        from paths import SAVE
+
+        d = SAVE / "sessions"
+        names = [p.name for p in d.glob("*.json")] if d.is_dir() else []
+        return {"ok": True, "files": names}
     return None

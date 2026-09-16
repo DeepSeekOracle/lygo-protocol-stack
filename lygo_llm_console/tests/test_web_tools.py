@@ -23,6 +23,13 @@ class WebToolsTests(unittest.TestCase):
         self.assertTrue(hits)
         self.assertTrue(any("wikipedia.org" in (h.get("url") or "") for h in hits))
 
+    def test_multi_engine_search(self):
+        from web_tools import web_search
+
+        s = web_search("International Space Station")
+        self.assertTrue(s.get("hits"), s)
+        self.assertTrue(s.get("engines"), s)
+
     def test_leech_query_has_hits(self):
         from web_tools import web_search
 
