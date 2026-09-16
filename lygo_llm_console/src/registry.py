@@ -7,6 +7,18 @@ from typing import Any
 from paths import REGISTRY_PATH, SAVE, ensure_dirs
 
 SIGNATURE = "Δ9Φ963-LYGO-LLM-CONSOLE-REG-v1"
+PREFER_IDS = ("qwen2.5:3b", "llama3.2:1b", "llama3.1:8b")
+
+
+def _pick_default(models: list[dict[str, Any]]) -> str | None:
+    chats = [m for m in models if m.get("kind") == "chat" and m.get("runnable") and m.get("id")]
+    ids = {m["id"]: m for m in chats}
+    for pid in PREFER_IDS:
+        if pid in ids:
+            return pid
+    if not chats:
+        return None
+    return min(chats, key=lambda m: int(m.get("bytes") or 10**18)).get("id")
 
 
 def load() -> dict[str, Any]:
@@ -37,8 +49,7 @@ def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[st
     if selected:
         data["selected"] = selected
     elif not data.get("selected"):
-        chat = next((m["id"] for m in data["models"] if m.get("kind") == "chat" and m.get("runnable")), None)
-        data["selected"] = chat
+        data["selected"] = _pick_default(data["models"])
     save(data)
     return data
 
