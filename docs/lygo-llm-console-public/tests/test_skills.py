@@ -50,7 +50,15 @@ class SkillsTests(unittest.TestCase):
     def test_portal_has_skills_panel(self):
         html = (ROOT / "portal" / "index.html").read_text(encoding="utf-8")
         self.assertIn('id="skills-list"', html)
-        self.assertIn("Skills", html)
+        self.assertIn("lygoskillhub.html", html)
+        self.assertIn("skills-hub-btn", html)
+
+    def test_skillhub_urls(self):
+        from skills_mod import SKILLHUB, SKILLHUB_CAT, SKILLHUB_FULL_CAT
+
+        self.assertTrue(SKILLHUB.startswith("https://chatagent.ca/lygoskillhub"))
+        self.assertIn("lygoskillhub_catalog.json", SKILLHUB_CAT)
+        self.assertIn("lygo-full-skills/catalog.json", SKILLHUB_FULL_CAT)
 
 
 if __name__ == "__main__":

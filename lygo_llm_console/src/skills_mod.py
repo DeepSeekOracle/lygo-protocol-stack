@@ -23,6 +23,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlencode
 
+import hashlib
+
 from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs
 from p0_hook import gate_prompt
 
@@ -30,9 +32,15 @@ BUNDLED = KIT_ROOT / "skills"
 INSTALLED = SAVE / "skills" / "installed"
 STATE_PATH = SAVE / "skills" / "enabled.json"
 CLAW_HUB = "https://clawhub.ai"
+SKILLHUB = "https://chatagent.ca/lygoskillhub.html"
+SKILLHUB_CAT = "https://chatagent.ca/data/lygoskillhub_catalog.json"
+SKILLHUB_FULL_CAT = "https://chatagent.ca/data/lygo-full-skills/catalog.json"
+SKILLHUB_FULL_DIST = "https://chatagent.ca/data/lygo-full-skills/dist/"
 MAX_SKILL_BODY = 12_000
 MAX_ZIP = 6_000_000
+MAX_CATALOG = 900_000
 ID_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,79}$")
+_CAT_CACHE: dict[str, Any] = {"ts": 0.0, "hub": None, "full": None}
 
 CHAMPIONS: list[dict[str, str]] = [
     {
@@ -368,7 +376,8 @@ def list_skills() -> dict[str, Any]:
         "enabled": [r["slug"] for r in slim if r.get("enabled")],
         "skills": slim,
         "clawhub": CLAW_HUB,
-        "note": "Full SKILL.md is not in the system prompt. Call skill_read when invoking a skill.",
+        "skillhub": SKILLHUB,
+        "note": "Full SKILL.md is not in the system prompt. Call skill_read when invoking a skill. Browse SkillHub with skillhub_list.",
     }
 
 
@@ -544,46 +553,32 @@ def clawhub_inspect(slug: str) -> dict[str, Any]:
     return {"ok": True, "slug": slug, "data": json.dumps(data, default=str)[:8000], "moderation": mod, "class": "RESOURCE"}
 
 
-def clawhub_install(slug: str) -> dict[str, Any]:
-    slug = (slug or "").strip().lstrip("@")
-    if not slug:
-        return {"ok": False, "error": "empty"}
-    insp = clawhub_inspect(slug)
-    if not insp.get("ok"):
-        return insp
-    from web_tools import _blocked, CTX, UA, TIMEOUT
+def _download(url: str, max_bytes: int) -> tuple[int, bytes, str]:
+    from web_tools import CTX, TIMEOUT, UA, _blocked
     import urllib.error
     import urllib.request
 
-    url = f"{CLAW_HUB}/api/v1/download?" + urlencode({"slug": slug})
     why = _blocked(url)
     if why:
-        return {"ok": False, "error": why}
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/zip,application/json,*/*"})
+        return 0, why.encode("utf-8"), why
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json,application/zip,*/*"})
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT, context=CTX) as resp:
-            ctype = resp.headers.get("Content-Type") or ""
-            raw = resp.read(MAX_ZIP + 1)
-            code = resp.status
+        with urllib.request.urlopen(req, timeout=max(TIMEOUT, 30), context=CTX) as resp:
+            return resp.status, resp.read(max_bytes + 1), resp.headers.get("Content-Type") or ""
     except urllib.error.HTTPError as e:
-        code, raw, ctype = e.code, (e.read() or b"")[:4000], ""
+        return e.code, (e.read() or b"")[:4000], ""
     except Exception as e:
-        return {"ok": False, "error": str(e)[:200]}
-    if code != 200:
-        return {"ok": False, "error": f"http_{code}", "detail": raw[:200].decode("utf-8", errors="replace")}
-    if "json" in (ctype or "").lower() or raw[:1] in (b"{", b"["):
-        return {"ok": False, "error": "github_handoff", "hint": "this skill is GitHub-backed; clone SKILL.md yourself into workspace/skills", "detail": raw[:400].decode("utf-8", errors="replace")}
-    if len(raw) > MAX_ZIP:
-        return {"ok": False, "error": "too_large"}
-    dest = INSTALLED / slug.replace("/", "--")
+        return 0, str(e).encode("utf-8")[:200], "error"
+
+
+def _extract_skill_zip(raw: bytes, dest: Path, origin: dict[str, Any]) -> dict[str, Any]:
     dest.mkdir(parents=True, exist_ok=True)
     try:
         zf = zipfile.ZipFile(io.BytesIO(raw))
     except zipfile.BadZipFile:
-        # maybe a single SKILL.md
         if b"---" in raw[:80]:
             (dest / "SKILL.md").write_bytes(raw)
-            return {"ok": True, "slug": slug, "path": str(dest), "files": 1}
+            return {"ok": True, "path": str(dest), "files": 1}
         return {"ok": False, "error": "not_zip"}
     n = 0
     for info in zf.infolist():
@@ -593,20 +588,178 @@ def clawhub_install(slug: str) -> dict[str, Any]:
         low = name.lower()
         if low.endswith((".exe", ".dll", ".bat", ".cmd", ".ps1", ".msi", ".scr")):
             continue
-        if info.file_size > 400_000:
+        if info.file_size > 500_000:
             continue
-        target = dest / Path(name).name if "/" not in name.strip("/") else dest.joinpath(*Path(name).parts[-3:])
+        parts = Path(name).parts
+        rel = Path(*parts[-4:]) if len(parts) > 4 else Path(name)
+        target = dest / rel
         try:
             target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(zf.read(info)[:400_000])
+            target.write_bytes(zf.read(info)[:500_000])
             n += 1
         except OSError:
             continue
-        if n >= 40:
+        if n >= 80:
             break
     if not list(dest.rglob("SKILL.md")) and not list(dest.rglob("skill.md")):
-        return {"ok": False, "error": "no_skill_md"}
-    origin = dest / ".clawhub-origin.json"
-    origin.write_text(json.dumps({"slug": slug, "source": "clawhub", "ts": time.time()}, indent=2), encoding="utf-8")
+        return {"ok": False, "error": "no_skill_md", "files": n, "path": str(dest)}
+    (dest / ".clawhub-origin.json").write_text(json.dumps(origin, indent=2), encoding="utf-8")
+    return {"ok": True, "path": str(dest), "files": n}
+
+
+def _load_catalogs(force: bool = False) -> dict[str, Any]:
+    now = time.time()
+    if not force and _CAT_CACHE.get("hub") and now - float(_CAT_CACHE.get("ts") or 0) < 600:
+        return _CAT_CACHE
+    hub_code, hub_raw, _ = _download(SKILLHUB_CAT, MAX_CATALOG)
+    full_code, full_raw, _ = _download(SKILLHUB_FULL_CAT, MAX_CATALOG)
+    def _parse(code: int, raw: bytes) -> dict[str, Any]:
+        if code != 200:
+            return {}
+        try:
+            data = json.loads(raw.decode("utf-8", errors="replace"))
+        except json.JSONDecodeError:
+            return {}
+        return data if isinstance(data, dict) else {}
+
+    _CAT_CACHE.update({"ts": now, "hub": _parse(hub_code, hub_raw), "full": _parse(full_code, full_raw)})
+    return _CAT_CACHE
+
+
+def skillhub_list(q: str = "", channel: str = "all") -> dict[str, Any]:
+    qn = (q or "").strip().lower()
+    ch = (channel or "all").lower()
+    cats = _load_catalogs()
+    hits: list[dict[str, Any]] = []
+    if ch in {"all", "public", "hub", "tentacle"}:
+        for it in (cats.get("hub") or {}).get("skills") or []:
+            if not isinstance(it, dict):
+                continue
+            if it.get("kind") not in {None, "skill"}:
+                continue
+            blob = " ".join(str(it.get(k) or "") for k in ("slug", "name", "summary", "category"))
+            if qn and qn not in blob.lower():
+                continue
+            hits.append(
+                {
+                    "slug": it.get("slug"),
+                    "display": it.get("name") or it.get("slug"),
+                    "summary": (it.get("summary") or "")[:240],
+                    "channel": "public_tentacle",
+                    "category": it.get("category"),
+                    "clawhub_url": it.get("clawhub_url"),
+                    "has_full_zip": bool(it.get("has_full_zip")),
+                    "url": SKILLHUB,
+                }
+            )
+    if ch in {"all", "full", "engineer"}:
+        for it in (cats.get("full") or {}).get("skills") or []:
+            if not isinstance(it, dict):
+                continue
+            blob = " ".join(str(it.get(k) or "") for k in ("slug", "name", "role", "tier"))
+            if qn and qn not in blob.lower():
+                continue
+            hits.append(
+                {
+                    "slug": it.get("slug"),
+                    "display": it.get("name") or it.get("slug"),
+                    "summary": (it.get("role") or "")[:240],
+                    "channel": "full_zip",
+                    "tier": it.get("tier"),
+                    "zip": it.get("zip"),
+                    "sha256": it.get("zip_sha256"),
+                    "bytes": it.get("bytes"),
+                    "url": SKILLHUB + "#full-lygo",
+                }
+            )
+    # featured first
+    feat = set((cats.get("full") or {}).get("featured") or [])
+    hits.sort(key=lambda x: (0 if x.get("slug") in feat else 1, x.get("channel") != "public_tentacle", x.get("slug") or ""))
+    return {
+        "ok": True,
+        "q": q,
+        "channel": ch,
+        "n": len(hits),
+        "hits": hits[:40],
+        "hub": SKILLHUB,
+        "class": "RESOURCE",
+    }
+
+
+def skillhub_install(slug: str, full: bool = False) -> dict[str, Any]:
+    slug = (slug or "").strip().lstrip("@")
+    if slug.startswith("deepseekoracle/"):
+        slug = slug.split("/", 1)[1]
+    if not slug:
+        return {"ok": False, "error": "empty"}
+    if not full:
+        return clawhub_install("deepseekoracle/" + slug if "/" not in slug else slug)
+    cats = _load_catalogs()
+    rec = None
+    for it in (cats.get("full") or {}).get("skills") or []:
+        if isinstance(it, dict) and it.get("slug") == slug:
+            rec = it
+            break
+    if not rec:
+        return {"ok": False, "error": "not_in_full_catalog", "slug": slug, "hub": SKILLHUB + "#full-lygo"}
+    zname = str(rec.get("zip") or "")
+    want = str(rec.get("zip_sha256") or "").lower()
+    url = SKILLHUB_FULL_DIST + zname
+    code, raw, _ = _download(url, MAX_ZIP)
+    if code != 200:
+        return {"ok": False, "error": f"http_{code}", "url": url}
+    if len(raw) > MAX_ZIP:
+        return {"ok": False, "error": "too_large"}
+    got = hashlib.sha256(raw).hexdigest()
+    if want and got != want:
+        return {"ok": False, "error": "hash_mismatch", "expected": want, "got": got, "url": url}
+    dest = INSTALLED / (slug + "--full")
+    unpacked = _extract_skill_zip(
+        raw,
+        dest,
+        {"slug": slug, "source": "skillhub_full", "sha256": got, "url": url, "ts": time.time()},
+    )
+    if not unpacked.get("ok"):
+        return unpacked
+    set_enabled(slug + "--full", True)
+    return {
+        "ok": True,
+        "slug": slug,
+        "channel": "full_zip",
+        "sha256": got,
+        "bytes": len(raw),
+        "path": unpacked.get("path"),
+        "files": unpacked.get("files"),
+        "enabled": True,
+        "note": "FULL zip hash-checked. Live Star Chart / git push still need human consent.",
+    }
+
+
+def clawhub_install(slug: str) -> dict[str, Any]:
+    slug = (slug or "").strip().lstrip("@")
+    if not slug:
+        return {"ok": False, "error": "empty"}
+    insp = clawhub_inspect(slug)
+    if not insp.get("ok"):
+        return insp
+    url = f"{CLAW_HUB}/api/v1/download?" + urlencode({"slug": slug})
+    code, raw, ctype = _download(url, MAX_ZIP)
+    if code == 0 and ctype not in {"", "error"}:
+        return {"ok": False, "error": ctype}
+    if code != 200:
+        return {"ok": False, "error": f"http_{code}", "detail": raw[:200].decode("utf-8", errors="replace")}
+    if "json" in (ctype or "").lower() or raw[:1] in (b"{", b"["):
+        return {
+            "ok": False,
+            "error": "github_handoff",
+            "hint": "GitHub-backed skill — drop SKILL.md into workspace/skills or install FULL zip from SkillHub",
+            "detail": raw[:400].decode("utf-8", errors="replace"),
+        }
+    if len(raw) > MAX_ZIP:
+        return {"ok": False, "error": "too_large"}
+    dest = INSTALLED / slug.replace("/", "--")
+    unpacked = _extract_skill_zip(raw, dest, {"slug": slug, "source": "clawhub", "ts": time.time()})
+    if not unpacked.get("ok"):
+        return unpacked
     set_enabled(slug.replace("/", "--"), True)
-    return {"ok": True, "slug": slug, "path": str(dest), "files": n, "enabled": True}
+    return {"ok": True, "slug": slug, "path": unpacked.get("path"), "files": unpacked.get("files"), "enabled": True}

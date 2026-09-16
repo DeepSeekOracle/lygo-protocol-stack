@@ -68,7 +68,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916d"
+BUILD = "v1.1-20260916e"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -268,8 +268,8 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916d">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916d"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916e">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916e"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -362,11 +362,15 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"messages": load_session()})
             return
         if path == "/api/skills":
-            from skills_mod import clawhub_search, list_skills
+            from skills_mod import clawhub_search, list_skills, skillhub_list
 
             qs = parse_qs(urlparse(self.path).query)
+            src = (qs.get("src") or ["local"])[0].strip().lower()
             q = (qs.get("q") or [""])[0].strip()
-            if q:
+            if src in {"hub", "skillhub", "full"}:
+                ch = "full" if src == "full" else "all"
+                self._json(200, skillhub_list(q, ch))
+            elif q:
                 self._json(200, clawhub_search(q))
             else:
                 self._json(200, list_skills())
@@ -453,7 +457,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"ok": True, "messages": load_session()})
             return
         if path == "/api/skills":
-            from skills_mod import add_root, clawhub_install, clawhub_inspect, clawhub_search, read_skill, set_enabled
+            from skills_mod import add_root, clawhub_install, clawhub_inspect, clawhub_search, read_skill, set_enabled, skillhub_install, skillhub_list
 
             body = self._read_body(32_000)
             try:
@@ -474,11 +478,17 @@ class Handler(BaseHTTPRequestHandler):
             if action == "search":
                 self._json(200, clawhub_search(str(obj.get("q") or "")))
                 return
+            if action in {"hub", "skillhub"}:
+                self._json(200, skillhub_list(str(obj.get("q") or ""), str(obj.get("channel") or "all")))
+                return
             if action == "inspect":
                 self._json(200, clawhub_inspect(slug))
                 return
             if action == "install":
                 self._json(200, clawhub_install(slug))
+                return
+            if action in {"install_full", "skillhub_install"}:
+                self._json(200, skillhub_install(slug, full=bool(obj.get("full") or action == "install_full")))
                 return
             if action == "add_root":
                 self._json(200, add_root(str(obj.get("path") or "")))

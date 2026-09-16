@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916d">
+<link rel="stylesheet" href="/static/style.css?v=20260916e">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -38,11 +38,15 @@
     <button type="button" id="ws-refresh">Refresh files</button>
     <ul id="ws" class="filelist"></ul>
     <h2>Skills</h2>
-    <p class="hint">Δ9 champions on/off. ClawHub search installs to this console. OpenClaw SKILL.md compatible.</p>
+    <p class="hint">Δ9 champions on/off. Browse <a href="https://chatagent.ca/lygoskillhub.html" target="_blank" rel="noopener">SkillHub</a> (public tentacle or FULL zip + hash). OpenClaw SKILL.md compatible.</p>
     <div id="skills-list" class="skills-list"></div>
     <div class="np-bar" style="margin-top:0.35rem">
-      <input id="skills-q" type="text" placeholder="ClawHub search" maxlength="80" autocomplete="off">
+      <input id="skills-q" type="text" placeholder="SkillHub / ClawHub search" maxlength="80" autocomplete="off">
       <button type="button" id="skills-search">Search</button>
+    </div>
+    <div class="np-bar">
+      <button type="button" id="skills-hub-btn">SkillHub</button>
+      <button type="button" id="skills-full-btn">FULL vault</button>
     </div>
     <div id="skills-hub" class="skills-hub"></div>
     <h2>Limbs</h2>
@@ -83,6 +87,6 @@
     </p>
   </aside>
 </main>
-<script src="/static/app.js?v=20260916d"></script>
+<script src="/static/app.js?v=20260916e"></script>
 </body>
 </html>

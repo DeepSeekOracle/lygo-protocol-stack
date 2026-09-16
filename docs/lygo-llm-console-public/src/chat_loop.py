@@ -37,8 +37,8 @@ NOTE_HINT = re.compile(
     re.I,
 )
 SKILL_HINT = re.compile(
-    r"\b(/skill|skill_read|clawhub|invoke|summon|align with|enable (the )?(skill|champion)|"
-    r"skills panel|champion)\b",
+    r"\b(/skill|skill_read|clawhub|skillhub|skill hub|lygoskillhub|invoke|summon|align with|"
+    r"enable (the )?(skill|champion)|skills panel|champion)\b",
     re.I,
 )
 
@@ -139,6 +139,16 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "name": "skill_read",
                 "arguments": {"slug": slug},
                 "result": dispatch("skill_read", {"slug": slug}),
+                "host": True,
+            }
+        )
+    if re.search(r"\b(skillhub|skill hub|lygoskillhub)\b", text, re.I):
+        q = re.sub(r"\s+", " ", text).strip()[:120]
+        traces.append(
+            {
+                "name": "skillhub_list",
+                "arguments": {"q": q, "channel": "all"},
+                "result": dispatch("skillhub_list", {"q": q, "channel": "all"}),
                 "host": True,
             }
         )

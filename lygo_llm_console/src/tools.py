@@ -44,6 +44,8 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "skill_disable", "description": "Disable a skill.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
     {"type": "function", "function": {"name": "clawhub_search", "description": "Search ClawHub public catalog (RESOURCE). HTTPS GET only.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "clawhub_install", "description": "Download a ClawHub skill zip into save/skills/installed. Only when the operator asks to install. Does not run scripts.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
+    {"type": "function", "function": {"name": "skillhub_list", "description": "Browse https://chatagent.ca/lygoskillhub.html catalogs (public tentacles + FULL hashed zips). RESOURCE.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "channel": {"type": "string"}}}}},
+    {"type": "function", "function": {"name": "skillhub_install", "description": "Install from SkillHub. Public tentacle via ClawHub, or FULL zip with SHA-256 check when full=true. Only when the operator asks.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}, "full": {"type": "boolean"}}, "required": ["slug"]}}},
     {"type": "function", "function": {"name": "kernel_status", "description": "Console + engine status (no secrets)", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "search_corpus", "description": "Lexical search under mapped search roots", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "p0_gate", "description": "Run P0 gate on supplied text", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
@@ -217,6 +219,14 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from skills_mod import clawhub_install
 
         return clawhub_install(str(args.get("slug") or args.get("name") or ""))
+    if name == "skillhub_list":
+        from skills_mod import skillhub_list
+
+        return skillhub_list(str(args.get("q") or ""), str(args.get("channel") or "all"))
+    if name == "skillhub_install":
+        from skills_mod import skillhub_install
+
+        return skillhub_install(str(args.get("slug") or args.get("name") or ""), bool(args.get("full")))
     if name == "kernel_status":
         from engine import ollama_port_open, resolve_binary, runner_for
         from paths import LLAMA_PORT

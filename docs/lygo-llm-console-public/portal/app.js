@@ -314,42 +314,55 @@
       box.appendChild(row);
     });
   }
+  async function paintHub(src, q) {
+    const hub = document.getElementById("skills-hub");
+    if (hub) hub.textContent = "SkillHub…";
+    const r = await fetch("/api/skills?src=" + encodeURIComponent(src) + "&q=" + encodeURIComponent(q || ""), { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(() => ({}));
+    if (!hub) return;
+    hub.innerHTML = "";
+    const cap = document.createElement("div");
+    cap.className = "src";
+    cap.textContent = (j.n || 0) + " on SkillHub · " + (j.hub || "");
+    hub.appendChild(cap);
+    (j.hits || []).slice(0, 24).forEach((h) => {
+      const d = document.createElement("div");
+      const t = document.createElement("span");
+      const ch = h.channel === "full_zip" ? "FULL" : "tentacle";
+      t.textContent = ch + " · " + (h.display || h.slug) + " — " + (h.summary || "").slice(0, 72);
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = h.channel === "full_zip" ? "Install FULL" : "Install";
+      b.onclick = async () => {
+        b.textContent = "…";
+        const action = h.channel === "full_zip" ? "install_full" : "skillhub_install";
+        const res = await fetch("/api/skills", {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({ action: action, slug: h.slug, full: h.channel === "full_zip" }),
+        });
+        const out = await res.json().catch(() => ({}));
+        b.textContent = out.ok ? "on" : (out.error || "fail");
+        limb.textContent = JSON.stringify(out, null, 2);
+        await refreshSkills();
+      };
+      d.appendChild(t);
+      d.appendChild(b);
+      hub.appendChild(d);
+    });
+    if (!(j.hits || []).length) hub.textContent = j.error || "no SkillHub hits";
+  }
   const skSearch = document.getElementById("skills-search");
   if (skSearch) {
     skSearch.onclick = async () => {
       const q = (document.getElementById("skills-q") || {}).value || "";
-      const hub = document.getElementById("skills-hub");
-      if (hub) hub.textContent = "searching ClawHub…";
-      const r = await fetch("/api/skills?q=" + encodeURIComponent(q || "lygo"), { headers: headers(), cache: "no-store" });
-      const j = await r.json().catch(() => ({}));
-      if (!hub) return;
-      hub.innerHTML = "";
-      (j.hits || []).forEach((h) => {
-        const d = document.createElement("div");
-        const t = document.createElement("span");
-        t.textContent = (h.display || h.slug) + " — " + (h.summary || "").slice(0, 80);
-        const b = document.createElement("button");
-        b.type = "button";
-        b.textContent = "Install";
-        b.onclick = async () => {
-          b.textContent = "…";
-          const res = await fetch("/api/skills", {
-            method: "POST",
-            headers: headers(),
-            body: JSON.stringify({ action: "install", slug: h.slug }),
-          });
-          const out = await res.json().catch(() => ({}));
-          b.textContent = out.ok ? "on" : "fail";
-          limb.textContent = JSON.stringify(out, null, 2);
-          await refreshSkills();
-        };
-        d.appendChild(t);
-        d.appendChild(b);
-        hub.appendChild(d);
-      });
-      if (!(j.hits || []).length) hub.textContent = j.error || "no hits";
+      await paintHub("hub", q);
     };
   }
+  const skHub = document.getElementById("skills-hub-btn");
+  if (skHub) skHub.onclick = () => paintHub("hub", (document.getElementById("skills-q") || {}).value || "");
+  const skFull = document.getElementById("skills-full-btn");
+  if (skFull) skFull.onclick = () => paintHub("full", (document.getElementById("skills-q") || {}).value || "");
 
   const npList = document.getElementById("np-list");
   const npTitle = document.getElementById("np-title");
