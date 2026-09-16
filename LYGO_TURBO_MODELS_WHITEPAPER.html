@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Turbo Models — Flagship Local AI Starting Lineup | Whitepaper</title>
+  <meta name="description" content="Whitepaper: LYGO Turbo local model lineup — coder, hermes, uncensored, agent. First-generation LYGO-specialized Ollama models for agents, tasking, and infrastructure." />
+  <meta name="author" content="Justin Helmer / Lightfather · Excavationpro · DeepSeekOracle" />
+  <meta name="lygo:signature" content="Δ9Φ963-LYGO-TURBO-MODELS-WHITEPAPER-v1.0" />
+  <link rel="canonical" href="https://eternalhaven.ca/lygo-turbo-models-whitepaper.html" />
+  <meta property="og:title" content="LYGO Turbo Models Whitepaper — Flagship Local AI" />
+  <meta property="og:description" content="Starting lineup of four LYGO Turbo Ollama models: coder (131k), hermes (65k), uncensored (8k), agent (32k)." />
+  <meta property="og:url" content="https://eternalhaven.ca/lygo-turbo-models-whitepaper.html" />
+  <meta property="og:type" content="article" />
+  <meta name="theme-color" content="#03040a" />
+  <style>
+    :root {
+      --bg: #03040a;
+      --panel: rgba(12, 16, 32, 0.92);
+      --ink: rgba(236, 240, 255, 0.94);
+      --muted: rgba(200, 210, 240, 0.72);
+      --gold: #d7b46a;
+      --blue: #48a7ff;
+      --line: rgba(100, 130, 255, 0.22);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 500px at 20% 0%, rgba(72,167,255,0.12), transparent 55%),
+        radial-gradient(700px 400px at 90% 10%, rgba(215,180,106,0.1), transparent 50%),
+        linear-gradient(180deg, #0a0b18, var(--bg));
+      line-height: 1.65;
+    }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 32px 20px 80px; }
+    header {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px 24px;
+      background: var(--panel);
+      margin-bottom: 28px;
+    }
+    .sig { font-family: ui-monospace, Consolas, monospace; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.04em; }
+    h1 { margin: 10px 0 8px; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; }
+    .sub { color: var(--muted); margin: 0 0 12px; }
+    .meta { font-size: 0.9rem; color: var(--muted); }
+    .meta a { color: var(--blue); }
+    nav.toc {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      background: rgba(8,10,20,0.7);
+      margin-bottom: 28px;
+    }
+    nav.toc h2 { margin: 0 0 10px; font-size: 1rem; color: var(--gold); }
+    nav.toc ol { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+    nav.toc a { color: var(--blue); text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    section {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 20px;
+      background: var(--panel);
+      margin-bottom: 18px;
+    }
+    h2 { margin: 0 0 12px; font-size: 1.25rem; color: var(--gold); }
+    h3 { margin: 18px 0 8px; font-size: 1.05rem; color: var(--blue); }
+    p, li { color: var(--ink); }
+    .muted { color: var(--muted); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 12px 0;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: rgba(72,167,255,0.08); color: var(--gold); }
+    code, .mono {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.86em;
+      color: #9fd0ff;
+    }
+    pre {
+      background: #05070f;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+    .badge {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-right: 6px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(0,0,0,0.25);
+    }
+    .card strong { display: block; color: var(--gold); margin-bottom: 6px; }
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-align: center;
+    }
+    footer a { color: var(--blue); }
+    .warn {
+      border-left: 3px solid var(--gold);
+      padding: 10px 12px;
+      background: rgba(215,180,106,0.08);
+      border-radius: 0 10px 10px 0;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="sig">Δ9Φ963-LYGO-TURBO-MODELS-WHITEPAPER-v1.0</div>
+      <h1>LYGO Turbo Models<br />Flagship Local AI Starting Lineup</h1>
+      <p class="sub">
+        First-generation LYGO-specialized local models for agents, coding, and tasking —
+        tuned for stability on real steward hardware and for the LYGO infrastructure
+        (Instructions Vault, Hermes, OpenClaw, USB CLAW, music lattice).
+      </p>
+      <p class="meta">
+        <strong>Date:</strong> 2026-07-21 ·
+        <strong>Steward:</strong> Justin Helmer (Lightfather) · Excavationpro · DeepSeekOracle<br />
+        <strong>Status:</strong> Starting lineup — refine in place as the lattice teaches us what works<br />
+        <strong>Hub:</strong> <a href="https://eternalhaven.ca/">eternalhaven.ca</a> ·
+        <a href="https://chatagent.ca/">chatagent.ca</a> ·
+        <a href="https://asiancoastline.com/">asiancoastline.com</a>
+      </p>
+      <p style="margin:14px 0 0;">
+        <span class="badge">Local-first</span>
+        <span class="badge">Ollama</span>
+        <span class="badge">Agent-ready</span>
+        <span class="badge">No auto-publish</span>
+      </p>
+    </header>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#why">Why a LYGO model lineup</a></li>
+        <li><a href="#hardware">Hardware envelope</a></li>
+        <li><a href="#lineup">The four Turbo models</a></li>
+        <li><a href="#design">Design principles</a></li>
+        <li><a href="#ops">Operations &amp; model picker</a></li>
+        <li><a href="#vault">Instructions Vault coupling</a></li>
+        <li><a href="#lessons">Lessons from first field use</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#cite">Citation &amp; restore paths</a></li>
+      </ol>
+    </nav>
+
+    <section id="abstract">
+      <h2>1. Abstract</h2>
+      <p>
+        This whitepaper documents the <strong>LYGO Turbo</strong> local model starting lineup:
+        four Ollama model tags built on steward-owned weights under
+        <code>D:\Ollama\.ollama\models</code>, each specialized by
+        <em>context budget</em>, <em>system contract</em>, and <em>role</em> rather than
+        by marketing labels alone.
+      </p>
+      <p>
+        They are not a final “perfect AI.” They are the first deliberate attempt to shape
+        open weights around the LYGO lattice — consent-gated publish, dual C/D homes,
+        Instructions Vault procedures, Hermes tools, OpenClaw gateway, and the
+        Excavationpro music pipeline — with an emphasis on <strong>stability</strong>
+        and <strong>agent performance</strong> over raw leaderboard score.
+      </p>
+    </section>
+
+    <section id="why">
+      <h2>2. Why a LYGO model lineup</h2>
+      <p>
+        Generic local models fail lattice work in predictable ways: inventing CLI flags,
+        loading the wrong context size for Hermes tools, dual-loading GPU-heavy servers,
+        and writing into production vaults without staging. LYGO Turbo models encode
+        those hard lessons into system prompts and fixed roles.
+      </p>
+      <ul>
+        <li><strong>Role separation</strong> — chat ≠ tools ≠ coding freestyle</li>
+        <li><strong>Context contracts</strong> — Hermes needs ≥64k; portal chat thrives at 8k</li>
+        <li><strong>Procedure-first</strong> — scripts and recipes beat freestyle shell</li>
+        <li><strong>Consent culture</strong> — no auto HF / git / ClawHub / social</li>
+      </ul>
+    </section>
+
+    <section id="hardware">
+      <h2>3. Hardware envelope (reference build)</h2>
+      <table>
+        <thead>
+          <tr><th>Resource</th><th>Steward reference</th><th>Implication</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GPU</td><td>RTX 4060 Ti 8 GB</td><td>One large model load at a time; heavy offload to system RAM</td></tr>
+          <tr><td>System RAM</td><td>~32 GB</td><td>MoE Q4 weights viable; Nemotron Super (~86 GB) not a daily driver</td></tr>
+          <tr><td>Model store</td><td><code>D:\Ollama\.ollama\models</code></td><td>Canonical OLLAMA_MODELS home</td></tr>
+          <tr><td>USB key</td><td><code>E:\LYGO_BUILDER_KEY</code></td><td>Portable procedures, archives, staging</td></tr>
+        </tbody>
+      </table>
+      <div class="warn">
+        <strong>VRAM rule:</strong> Do not dual-run <code>llama-server :8000</code> with Hermes 65k or full 131k coder loads.
+      </div>
+    </section>
+
+    <section id="lineup">
+      <h2>4. The four Turbo models (starting lineup)</h2>
+
+      <div class="card-grid">
+        <div class="card">
+          <strong>lygo-turbo-coder</strong>
+          Flagship coding · 131072 ctx · FROM qwen3-coder:30b
+        </div>
+        <div class="card">
+          <strong>lygo-turbo-hermes</strong>
+          Hermes tools · 65536 ctx · uncensored base
+        </div>
+        <div class="card">
+          <strong>lygo-turbo-uncensored</strong>
+          Portal / fast chat · 8192 ctx
+        </div>
+        <div class="card">
+          <strong>lygo-turbo-agent</strong>
+          Mid agent · 32768 ctx · optional
+        </div>
+      </div>
+
+      <h3>4.1 lygo-turbo-coder — Flagship</h3>
+      <table>
+        <tr><th>Field</th><th>Value</th></tr>
+        <tr><td>Ollama tag</td><td><code>lygo-turbo-coder</code></td></tr>
+        <tr><td>Base weights</td><td><code>qwen3-coder:30b</code> (Qwen3 MoE, Q4_K_M, ~18 GB)</td></tr>
+        <tr><td>Context</td><td><code>num_ctx 131072</code> (~133k-class; weights support up to 262144)</td></tr>
+        <tr><td>Generation</td><td><code>num_predict 8192</code>, temperature <code>0.2</code></td></tr>
+        <tr><td>Tools</td><td>Yes (completion + tools)</td></tr>
+        <tr><td>Role</td><td>Coding, scripts, encode pipelines, patches, CLAW tasking</td></tr>
+        <tr><td>Why not Nemotron Super</td><td>~86 GB on disk / 123B — thrash risk on 32 GB RAM; not code-specialized</td></tr>
+        <tr><td>Smoke (2026-07-21)</td><td><code>CODER_OK</code></td></tr>
+        <tr><td>Modelfile</td><td><code>D:\Ollama\modelfiles\LYGO_TURBO_CODER.Modelfile</code></td></tr>
+      </table>
+
+      <h3>4.2 lygo-turbo-hermes — Tool agent lane</h3>
+      <table>
+        <tr><th>Field</th><th>Value</th></tr>
+        <tr><td>Ollama tag</td><td><code>lygo-turbo-hermes</code></td></tr>
+        <tr><td>Base</td><td>AI-TAVS / Qwen3.6 35B-A3B Uncensored lineage</td></tr>
+        <tr><td>Context</td><td><code>65536</code> (Hermes hard requirement ≥ 64000 for tools)</td></tr>
+        <tr><td>Role</td><td><code>ollama launch hermes</code> multi-skill operator</td></tr>
+        <tr><td>Config</td><td><code>model.ollama_num_ctx: 65536</code>, <code>context_length: 65536</code></td></tr>
+        <tr><td>Field note</td><td>Excellent for lattice align / planning; freestyle ffmpeg CLI is unreliable — use vault scripts</td></tr>
+      </table>
+
+      <h3>4.3 lygo-turbo-uncensored — Portal / speed lane</h3>
+      <table>
+        <tr><th>Field</th><th>Value</th></tr>
+        <tr><td>Ollama tag</td><td><code>lygo-turbo-uncensored</code></td></tr>
+        <tr><td>Context</td><td><code>8192</code></td></tr>
+        <tr><td>Role</td><td>Fast Ollama portal chat; optional OpenAI API alias via llama.cpp :8000</td></tr>
+        <tr><td>Rule</td><td><strong>Do not break</strong> — proven snappy for steward chat</td></tr>
+        <tr><td>Not for</td><td>Hermes tools (will trip 8k context guard)</td></tr>
+      </table>
+
+      <h3>4.4 lygo-turbo-agent — Mid optional lane</h3>
+      <table>
+        <tr><th>Field</th><th>Value</th></tr>
+        <tr><td>Ollama tag</td><td><code>lygo-turbo-agent</code></td></tr>
+        <tr><td>Context</td><td><code>32768</code></td></tr>
+        <tr><td>Role</td><td>Middle ground agent when 65k is too heavy and 8k is too small</td></tr>
+      </table>
+    </section>
+
+    <section id="design">
+      <h2>5. Design principles</h2>
+      <ol>
+        <li><strong>Specialize with Modelfiles, don’t thrash weights.</strong> Same physical blobs, different contracts.</li>
+        <li><strong>Context is a feature and a cost.</strong> Bigger windows enable tools; they also punish freestyle loops.</li>
+        <li><strong>Procedure vault over improvisation.</strong> Instructions Vault stubs → procedures → scripts.</li>
+        <li><strong>Staging before production.</strong> Music encode lands in staging first; HF/git require consent.</li>
+        <li><strong>Dual homes are real.</strong> OpenClaw lives on <code>D:\OpenClaw</code>; Ollama models on <code>D:\</code>; USB holds portable law.</li>
+      </ol>
+    </section>
+
+    <section id="ops">
+      <h2>6. Operations &amp; model picker</h2>
+<pre>JOB                          MODEL                      CTX
+---------------------------  -------------------------  ------
+Coding / scripts / encode    lygo-turbo-coder           131072
+Hermes multi-skill tools     lygo-turbo-hermes           65536
+Portal / fast chat           lygo-turbo-uncensored        8192
+Optional mid agent           lygo-turbo-agent            32768
+OpenAI API :8000 (optional)  lygo-turbo-uncensored     8–16k</pre>
+      <p class="muted">Create coder (idempotent):</p>
+<pre>set OLLAMA_MODELS=D:\Ollama\.ollama\models
+ollama create lygo-turbo-coder -f D:\Ollama\modelfiles\LYGO_TURBO_CODER.Modelfile
+ollama run lygo-turbo-coder</pre>
+    </section>
+
+    <section id="vault">
+      <h2>7. Instructions Vault coupling</h2>
+      <p>
+        Models alone are not the product. The lattice procedure brain lives in dual vaults:
+      </p>
+      <ul>
+        <li><code>E:\LYGO_BUILDER_KEY\LYGO_INSTRUCTIONS_VAULT</code> (USB portable)</li>
+        <li><code>D:\LYGO_INSTRUCTIONS_VAULT</code> (PC local mirror)</li>
+      </ul>
+      <p>
+        Agent entry: <code>00_START\00_START_HERE.txt</code> → one stub → one procedure → one script/recipe.
+        Encode recipe: <code>06_RECIPES\RECIPE-FFMPEG-160K.txt</code> (never invent flags).
+      </p>
+    </section>
+
+    <section id="lessons">
+      <h2>8. Lessons from first field use (2026-07-21)</h2>
+      <ul>
+        <li>Hermes 65k <strong>can</strong> align to the lattice and plan multi-step work.</li>
+        <li>Freestyle <code>ffmpeg</code> on Windows burned hours; a fixed recipe encoded a track in seconds.</li>
+        <li>OpenClaw needs sufficient context + capped bootstrap — wrong floors look like “models broken.”</li>
+        <li>Custom domains (e.g. chatagent.ca) break relative <code>../</code> links; absolute lattice URLs are mandatory.</li>
+        <li>Starting lineup is enough for CLAW testing; refine roles before chasing new giant bases.</li>
+      </ul>
+    </section>
+
+    <section id="roadmap">
+      <h2>9. Roadmap (deliberate, non-destructive)</h2>
+      <ol>
+        <li>Keep the four tags stable; improve scripts and stubs first.</li>
+        <li>Optional: Hermes coding sessions may point at <code>lygo-turbo-coder</code> while keeping hermes for multi-skill loops.</li>
+        <li>Optional: LoRA / preference data later on larger hardware — not required for CLAW v1 testing.</li>
+        <li>Never overwrite portal uncensored or hermes tags without a new versioned name.</li>
+      </ol>
+    </section>
+
+    <section id="cite">
+      <h2>10. Citation &amp; restore paths</h2>
+      <p><strong>Signature:</strong> <code class="mono">Δ9Φ963-LYGO-TURBO-MODELS-WHITEPAPER-v1.0</code></p>
+      <p><strong>This page:</strong> <a href="https://eternalhaven.ca/lygo-turbo-models-whitepaper.html">https://eternalhaven.ca/lygo-turbo-models-whitepaper.html</a></p>
+      <p><strong>Mirror (stack docs):</strong>
+        <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/LYGO_TURBO_MODELS_WHITEPAPER.md">GitHub Markdown</a>
+      </p>
+      <p><strong>Session log:</strong> <code>E:\LYGO_BUILDER_KEY\docs\LATTICE_SESSION_LOG_2026-07-21.txt</code></p>
+      <p class="muted">
+        Immutable lattice: this document is registered in
+        <code>docs/network_builder/IMMUTABLE_ANCHORS.json</code> (agents group) so
+        eternalhaven.ca bottom lattice panel can surface it.
+      </p>
+    </section>
+
+    <footer>
+      <p>
+        Δ9Φ963 — local models for a sovereign lattice · starting lineup, not the last word<br />
+        <a href="https://eternalhaven.ca/">Eternal Haven</a> ·
+        <a href="https://chatagent.ca/">ChatAgent</a> ·
+        <a href="https://asiancoastline.com/">Asian Coastline</a> ·
+        <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack">Protocol Stack</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

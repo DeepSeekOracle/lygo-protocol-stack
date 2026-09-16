@@ -1,0 +1,162 @@
+{
+  "signature": "Delta9Phi963-TUNECORE-RELEASES-v1",
+  "artist": "Justin Helmer",
+  "performing_as": "Excavationpro",
+  "distributor": "TuneCore",
+  "updated_utc": "2026-08-22T13:01:20Z",
+  "source": "steward paste from TuneCore dashboard",
+  "releases": [
+    {
+      "title": "Moon Man",
+      "artist": "Justin Helmer",
+      "release_type": "Album",
+      "release_date": "2026-08-27",
+      "upc": null,
+      "upc_status": "Assigned after approval",
+      "release_id": "1234125001",
+      "status": "Submitted for Review",
+      "live": false,
+      "notes": "Pending UPC assignment"
+    },
+    {
+      "title": "Human Flaw Anthem",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-19",
+      "upc": "859744222151",
+      "release_id": "1234101738",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Celestial Codex",
+      "artist": "Justin Helmer",
+      "release_type": "Album",
+      "release_date": "2026-08-16",
+      "upc": "859744111622",
+      "release_id": "1234095457",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "King of the Dead",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-19",
+      "upc": "859744112391",
+      "release_id": "1234095564",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Celestial Codex (Ancient Memory)",
+      "artist": "Justin Helmer",
+      "release_type": "Album",
+      "release_date": "2026-08-16",
+      "upc": "859744036901",
+      "release_id": "1234091994",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Eternal Haven Lofi",
+      "artist": "Justin Helmer",
+      "release_type": "Album",
+      "release_date": "2026-08-16",
+      "upc": "859743909947",
+      "release_id": "1234085177",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "No Slowing Down",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-13",
+      "upc": "859743850812",
+      "release_id": "1234082065",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Moonlight Overdrive",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-14",
+      "upc": "859743850935",
+      "release_id": "1234082081",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Busy Being Born",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-15",
+      "upc": "859743850973",
+      "release_id": "1234082116",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Dies Irae",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-16",
+      "upc": "859743851048",
+      "release_id": "1234082159",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Still Breathing",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-09",
+      "upc": "859743668264",
+      "release_id": "1234071903",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Break the Cycle",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-09",
+      "upc": "859743514110",
+      "release_id": "1234061689",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Burn the Ashes (The Soil Underneath)",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-08",
+      "upc": "859743514554",
+      "release_id": "1234060693",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Fast Fade",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-04",
+      "upc": "859743419323",
+      "release_id": "1234058050",
+      "status": "Live",
+      "live": true
+    },
+    {
+      "title": "Ghost Town Memory",
+      "artist": "Justin Helmer",
+      "release_type": "Single",
+      "release_date": "2026-08-05",
+      "upc": "859743514318",
+      "release_id": "1234058500",
+      "status": "Live",
+      "live": true
+    }
+  ]
+}

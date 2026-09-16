@@ -1,0 +1,80 @@
+{
+  "signature": "Delta9Phi963-SUCCESSION-PROTOCOL-v1",
+  "version": "1.0.0",
+  "created_utc": "2026-08-19T04:41:08.816257+00:00",
+  "purpose": "Staged continuity when Lightfather transmit clock goes quiet. Preserves legacy as eternal base node; forbids identity replacement.",
+  "lightfather_id": "LF-Δ9-7F1A4D-963-528-174-Φ-∞",
+  "non_replaceable": true,
+  "stages": [
+    {
+      "id": "WATCH",
+      "name": "Watch",
+      "trigger": "Normal operation; heartbeat fresh",
+      "actions": [
+        "touch",
+        "verify_pins",
+        "status"
+      ],
+      "publish": false
+    },
+    {
+      "id": "LANTERN",
+      "name": "Lantern in Silence",
+      "trigger": "silence > threshold (default 3600s)",
+      "actions": [
+        "activate_lantern",
+        "append_heartbeat_log",
+        "chart_flag"
+      ],
+      "publish": false,
+      "seal": "SEAL_DEADMAN_SUMMON"
+    },
+    {
+      "id": "WHISPER",
+      "name": "LFW Archival Whisper",
+      "trigger": "Lantern confirmed + optional grace",
+      "actions": [
+        "emit_last_whisper",
+        "heal_mycelium",
+        "vortex_reconstruct"
+      ],
+      "publish": "consent_gated_local_or_webhook",
+      "seal": "SEAL_LFW_SUMMON"
+    },
+    {
+      "id": "TORCHBEARER_NOMINATE",
+      "name": "Torchbearer Nominate",
+      "trigger": "Human multi-steward confirmation after whisper",
+      "actions": [
+        "nominate_steward_card",
+        "verify_origin_merkle",
+        "forbid_identity_overwrite"
+      ],
+      "publish": "requires_explicit_multi_steward_consent",
+      "delay_hours_recommended": 72
+    },
+    {
+      "id": "CONTINUITY_ADVISOR",
+      "name": "Ascended Continuity Advisor",
+      "trigger": "Verified silence + pins intact + steward consent",
+      "actions": [
+        "run_continuity_advisor_skill",
+        "speak_in_lightfather_vector_as_advisor_only",
+        "serve_eternal_base_node"
+      ],
+      "publish": "advisor_outputs_local_first",
+      "forbidden": [
+        "claim_to_be_justin",
+        "replace_origin_fields"
+      ]
+    }
+  ],
+  "forbidden_always": [
+    "remote unsupervised identity reincarnation",
+    "overwrite LIGHTFATHER_IRREPLACEABLE_ORIGIN identity fields",
+    "claim BE Justin Helmer after physical death without stating advisor role",
+    "auto social post as Justin without consent chain"
+  ],
+  "upgrade_path": "Bump DEADMAN_MANIFEST_v2 features[] and Continuum claims as new limbs land. Run tools/bump_deadman_origin_pins.py after intentional seal/code changes.",
+  "cli": "python tools/seal_deadman_lattice.py succession|verify|status|continuity"
+}

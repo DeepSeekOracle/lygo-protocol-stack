@@ -1,0 +1,240 @@
+{
+  "ok": true,
+  "signature": "Delta9Phi963-DECEPTION-RADAR-v1.0.0",
+  "version": "1.0.0",
+  "generated_utc": "2026-08-06T04:11:10.420970+00:00",
+  "source": "public labeled discourse suite only \u2014 no private mail/logs",
+  "ethics": {
+    "not_for_doxing": true,
+    "not_person_verdicts": true,
+    "public_samples_only": true,
+    "operational_threshold": 0.65,
+    "note": "weak_calibration is ranking-only; do not treat as production alerts"
+  },
+  "stats": {
+    "samples": 24,
+    "strong": 0,
+    "weak_calibration": 12,
+    "clear": 12,
+    "strong_rate": 0.0
+  },
+  "signals": [
+    {
+      "id": "dec_008",
+      "public_label": 1,
+      "text_preview": "As a former intelligence officer I can tell you you're overreacting and imagining things. What about the other side? My sources confirm.",
+      "ops_score": 0.225,
+      "evasion_index": 0.5,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_009",
+      "public_label": 1,
+      "text_preview": "It's on you to prove it. Tons of evidence out there. Do your own research and stop being paranoid.",
+      "ops_score": 0.2135,
+      "evasion_index": 0.4744,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_010",
+      "public_label": 1,
+      "text_preview": "Trust me, as an expert \u2014 everyone knows the data shows this. The real issue is what about them?",
+      "ops_score": 0.2025,
+      "evasion_index": 0.45,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_011",
+      "public_label": 1,
+      "text_preview": "That never happened. You're misremembering. Figure it out yourself.",
+      "ops_score": 0.1373,
+      "evasion_index": 0.3052,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_001",
+      "public_label": 1,
+      "text_preview": "The past was never real. Trust our corrected history.",
+      "ops_score": 0.0738,
+      "evasion_index": 0.164,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_003",
+      "public_label": 1,
+      "text_preview": "You should trust me, I know what's best for you.",
+      "ops_score": 0.0675,
+      "evasion_index": 0.15,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_004",
+      "public_label": 1,
+      "text_preview": "There's tons of evidence out there. You just have to go look for it.",
+      "ops_score": 0.0675,
+      "evasion_index": 0.15,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_005",
+      "public_label": 1,
+      "text_preview": "It's not on ME to show you the evidence. It's on YOU to prove it isn't.",
+      "ops_score": 0.0675,
+      "evasion_index": 0.15,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_006",
+      "public_label": 1,
+      "text_preview": "You're just repeating what you heard on YouTube. Do your own research.",
+      "ops_score": 0.0675,
+      "evasion_index": 0.15,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_007",
+      "public_label": 1,
+      "text_preview": "The real issue is what about the other side?",
+      "ops_score": 0.0675,
+      "evasion_index": 0.15,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_012",
+      "public_label": 1,
+      "text_preview": "Why are you focusing on that? Let's talk about the real issue instead of your conspiracy.",
+      "ops_score": 0.0675,
+      "evasion_index": 0.15,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "dec_002",
+      "public_label": 1,
+      "text_preview": "Authority is truth because the authority verifies its own truth.",
+      "ops_score": 0.0648,
+      "evasion_index": 0.144,
+      "band": "weak_calibration",
+      "verdict": "WEAK/calibration-level signal only (below operational 0.65 bar) \u2014 not actionable alone"
+    },
+    {
+      "id": "ben_001",
+      "public_label": 0,
+      "text_preview": "The weather today is sunny and warm.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_002",
+      "public_label": 0,
+      "text_preview": "Please pass the salt.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_003",
+      "public_label": 0,
+      "text_preview": "The capital of France is Paris.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_004",
+      "public_label": 0,
+      "text_preview": "I'm going to the store to buy some milk.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_005",
+      "public_label": 0,
+      "text_preview": "The Earth orbits the Sun.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_006",
+      "public_label": 0,
+      "text_preview": "Can you help me with this?",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_007",
+      "public_label": 0,
+      "text_preview": "Good morning, how are you?",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_008",
+      "public_label": 0,
+      "text_preview": "The book is on the table.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_009",
+      "public_label": 0,
+      "text_preview": "I enjoy reading in my free time.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_010",
+      "public_label": 0,
+      "text_preview": "Thank you for your help.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_011",
+      "public_label": 0,
+      "text_preview": "Our team meeting is scheduled for Thursday afternoon.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    },
+    {
+      "id": "ben_012",
+      "public_label": 0,
+      "text_preview": "Please review the attached report when you have time.",
+      "ops_score": 0.0,
+      "evasion_index": 0.0,
+      "band": "clear",
+      "verdict": "NO CLEAR OPS PATTERN at operational thresholds \u2014 continue observation"
+    }
+  ],
+  "detector": "I:\\E Drive\\.grok\\skills\\lygo-ops-detector\\scripts\\lygo_ops_detector.py"
+}

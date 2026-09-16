@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lygo.lightfather.public_fingerprints.v1",
+  "title": "Lightfather Public Fingerprints",
+  "type": "object",
+  "required": [
+    "signature",
+    "public_safe",
+    "identity_constants"
+  ],
+  "properties": {
+    "signature": {
+      "type": "string"
+    },
+    "public_safe": {
+      "const": true
+    },
+    "identity_constants": {
+      "type": "object"
+    },
+    "style_fingerprint": {
+      "type": "object"
+    },
+    "deny": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

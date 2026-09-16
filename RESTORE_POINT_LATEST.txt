@@ -1,0 +1,10 @@
+LYGO CLAW — LATEST RESTORE POINT
+================================
+Tag: 2026-08-22_post-sanctuary
+Created: 2026-08-23T05:53:04Z
+Primary: E:\LYGO_LATTICE_MEMORY\RESTORE_POINTS\2026-08-22_post-sanctuary\
+Also:    D:\LYGO_INSTRUCTIONS_VAULT\RESTORE_POINTS\2026-08-22_post-sanctuary\
+Also:    D:\LYGO_LATTICE_MEMORY\RESTORE_POINTS\2026-08-22_post-sanctuary\
+
+After agent reset: open RETRAIN_CUE.txt and paste SCAN CUE to the new agent.
+Stack pin: 4dace254ea7f6d129d334cb7c72a0404948a6175

@@ -1,0 +1,44 @@
+{
+  "agents": {
+    "defaults": {
+      "workspace": "workspace",
+      "model": {
+        "primary": "ollama/llama3.2:1b",
+        "fallbacks": ["ollama/qwen2.5:3b"]
+      },
+      "models": {
+        "ollama/llama3.2:1b": {},
+        "ollama/qwen2.5:3b": {}
+      }
+    }
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "lygo-usb-standalone-token"
+    },
+    "port": 18789,
+    "bind": "loopback",
+    "controlUi": {
+      "allowedOrigins": [
+        "http://localhost:18789",
+        "http://127.0.0.1:18789",
+        "http://127.0.0.1:9631",
+        "http://localhost:9631",
+        "*"
+      ],
+      "allowInsecureAuth": true
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "api": "ollama"
+      }
+    }
+  },
+  "note": "PUBLIC kit — agent chat uses scripts/lygo_usb_agent_server.py on :9631; gateway optional."
+}

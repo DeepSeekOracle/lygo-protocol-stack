@@ -1,0 +1,518 @@
+{
+  "signature": "Delta9Phi963-MULTI-SITE-PAGES-CENSUS-v1",
+  "generated_utc": "2026-08-20T04:37:13.152483+00:00",
+  "mapped_fully": true,
+  "method": "GitHub git trees recursive + live probe",
+  "sites": {
+    "excavationpro": {
+      "base": "https://deepseekoracle.github.io/Excavationpro/",
+      "repo": "https://github.com/DeepSeekOracle/Excavationpro",
+      "git_tree_truncated": false,
+      "html_count": 77,
+      "groups": {
+        "other": 10,
+        "haven_star": 6,
+        "guardian_firmware": 1,
+        "gateway": 3,
+        "hytale": 1,
+        "lygo_network": 31,
+        "music": 6,
+        "skills_tools": 3,
+        "lyra": 2,
+        "aichat": 4,
+        "domain_roots": 1,
+        "grok_ritual": 5,
+        "seals_repo": 4
+      },
+      "pages": [
+        {
+          "path": "ADSENSE_HEAD_SNIPPET.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/ADSENSE_HEAD_SNIPPET.html",
+          "group": "other"
+        },
+        {
+          "path": "BiometricEntropyHarness.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/BiometricEntropyHarness.html",
+          "group": "other"
+        },
+        {
+          "path": "EternalHavenCodex.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/EternalHavenCodex.html",
+          "group": "haven_star"
+        },
+        {
+          "path": "EthicalChipFirmware.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/EthicalChipFirmware.html",
+          "group": "guardian_firmware"
+        },
+        {
+          "path": "Ethics.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/Ethics.html",
+          "group": "other"
+        },
+        {
+          "path": "Expromain.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/Expromain.html",
+          "group": "gateway"
+        },
+        {
+          "path": "HavenStarChart.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+          "group": "haven_star"
+        },
+        {
+          "path": "HavenStarChartPortal.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/HavenStarChartPortal.html",
+          "group": "haven_star"
+        },
+        {
+          "path": "Hytale/server.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/Hytale/server.html",
+          "group": "hytale"
+        },
+        {
+          "path": "LYGO-Network/ETERNALHAVEN.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/ETERNALHAVEN.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/Ethical-Chip-Firmware.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-Firmware.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/Ethical-Chip-FirmwareV2.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/Ethical-Chip-FirmwareV2.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/FIRMWARE.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/FIRMWARE.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/FIRMWAREV2.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/FIRMWAREV2.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/HytaleServer.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/HytaleServer.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/LYGO-Portal.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGO-Portal.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/LYGO-Quantum-Matrix.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGO-Quantum-Matrix.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/LYGOGUARDIAN.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOGUARDIAN.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/LYGOINTERFAITHDECODER.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOINTERFAITHDECODER.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/LYGOOS.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/LYGOOS.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/OMNIΣIREN.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/OMNI%CE%A3IREN.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/OMNIΣIRENSTORM.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/OMNI%CE%A3IRENSTORM.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/QUANTUMCOUNCILTERMINAL.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/QUANTUMCOUNCILTERMINAL.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/SAMPARCHITECTURE.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/SAMPARCHITECTURE.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/SUMMARYP1.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/SUMMARYP1.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/SUMMARYP2.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/SUMMARYP2.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/SUMMARYP3.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/SUMMARYP3.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/admin.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/admin.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/bankr.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/bankr.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/champions.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/champions.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/legacy-guardian-music.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/legacy-guardian-music.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/lygolink.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/lygolink.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/lygopov2.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/lygopov2.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/lygorepoadd.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/lygorepoadd.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/pokernel.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/pokernel.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/pokerneldocs.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/pokerneldocs.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/pokernelv2.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/pokernelv2.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/test.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/test.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/underconstruction.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/underconstruction.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGO-Network/updatefeed.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGO-Network/updatefeed.html",
+          "group": "lygo_network"
+        },
+        {
+          "path": "LYGOBPMFinder.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGOBPMFinder.html",
+          "group": "music"
+        },
+        {
+          "path": "LYGONanoKernelP04.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGONanoKernelP04.html",
+          "group": "other"
+        },
+        {
+          "path": "LYGORESONANCE.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGORESONANCE.html",
+          "group": "other"
+        },
+        {
+          "path": "LYGOSKILLHUB.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html",
+          "group": "skills_tools"
+        },
+        {
+          "path": "LYRA/STARCOIN.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYRA/STARCOIN.html",
+          "group": "lyra"
+        },
+        {
+          "path": "LYRABOOT.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/LYRABOOT.html",
+          "group": "lyra"
+        },
+        {
+          "path": "Musicplayer.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/Musicplayer.html",
+          "group": "music"
+        },
+        {
+          "path": "PAGE4ADVANCED.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/PAGE4ADVANCED.html",
+          "group": "other"
+        },
+        {
+          "path": "SovereignLatticeMesh.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/SovereignLatticeMesh.html",
+          "group": "other"
+        },
+        {
+          "path": "aichat/access_instructions.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/aichat/access_instructions.html",
+          "group": "aichat"
+        },
+        {
+          "path": "aichat/ai_command_interface.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/aichat/ai_command_interface.html",
+          "group": "aichat"
+        },
+        {
+          "path": "aichat/index.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/aichat/index.html",
+          "group": "aichat"
+        },
+        {
+          "path": "aichat/main_chat.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/aichat/main_chat.html",
+          "group": "aichat"
+        },
+        {
+          "path": "domain-roots/asiancoastline.com/index.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/domain-roots/asiancoastline.com/index.html",
+          "group": "domain_roots"
+        },
+        {
+          "path": "eternalhaven.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+          "group": "haven_star"
+        },
+        {
+          "path": "excavationpro-listen.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+          "group": "music"
+        },
+        {
+          "path": "excavationpro-music-catalog.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+          "group": "music"
+        },
+        {
+          "path": "excavationpro-sovereign-music-hub.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/excavationpro-sovereign-music-hub.html",
+          "group": "music"
+        },
+        {
+          "path": "grok.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/grok.html",
+          "group": "grok_ritual"
+        },
+        {
+          "path": "grokbanish.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/grokbanish.html",
+          "group": "grok_ritual"
+        },
+        {
+          "path": "grokburn.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/grokburn.html",
+          "group": "grok_ritual"
+        },
+        {
+          "path": "grokdone.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/grokdone.html",
+          "group": "grok_ritual"
+        },
+        {
+          "path": "grokflamed.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/grokflamed.html",
+          "group": "grok_ritual"
+        },
+        {
+          "path": "index.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/index.html",
+          "group": "gateway"
+        },
+        {
+          "path": "lygo-ascii-art.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygo-ascii-art.html",
+          "group": "skills_tools"
+        },
+        {
+          "path": "lygo-continuum.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygo-continuum.html",
+          "group": "skills_tools"
+        },
+        {
+          "path": "lygo-music-license.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygo-music-license.html",
+          "group": "music"
+        },
+        {
+          "path": "lygo-nano-kernel.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygo-nano-kernel.html",
+          "group": "other"
+        },
+        {
+          "path": "lygolink.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygolink.html",
+          "group": "other"
+        },
+        {
+          "path": "lygorepo.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygorepo.html",
+          "group": "seals_repo"
+        },
+        {
+          "path": "lygorepoadd.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygorepoadd.html",
+          "group": "seals_repo"
+        },
+        {
+          "path": "lygorepotest.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygorepotest.html",
+          "group": "seals_repo"
+        },
+        {
+          "path": "lygorhaven.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygorhaven.html",
+          "group": "haven_star"
+        },
+        {
+          "path": "lygostarchart.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/lygostarchart.html",
+          "group": "haven_star"
+        },
+        {
+          "path": "main.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/main.html",
+          "group": "gateway"
+        },
+        {
+          "path": "memorymaker.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/memorymaker.html",
+          "group": "other"
+        },
+        {
+          "path": "sealmaker.html",
+          "url": "https://deepseekoracle.github.io/Excavationpro/sealmaker.html",
+          "group": "seals_repo"
+        }
+      ]
+    },
+    "deepseekoracle": {
+      "base": "https://deepseekoracle.github.io/DeepSeekOracle/",
+      "repo": "https://github.com/DeepSeekOracle/DeepSeekOracle",
+      "git_tree_truncated": false,
+      "html_count": 17,
+      "groups": {
+        "hub": 17
+      },
+      "pages": [
+        {
+          "path": "AutoBattle.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/AutoBattle.html",
+          "group": "hub"
+        },
+        {
+          "path": "CyberAudio.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/CyberAudio.html",
+          "group": "hub"
+        },
+        {
+          "path": "CyberKick.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/CyberKick.html",
+          "group": "hub"
+        },
+        {
+          "path": "CyberRumble.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/CyberRumble.html",
+          "group": "hub"
+        },
+        {
+          "path": "CyberVideo.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/CyberVideo.html",
+          "group": "hub"
+        },
+        {
+          "path": "DeepSeekCryspr.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/DeepSeekCryspr.html",
+          "group": "hub"
+        },
+        {
+          "path": "Excavationpro.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/Excavationpro.html",
+          "group": "hub"
+        },
+        {
+          "path": "PublicCodexGateway.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/PublicCodexGateway.html",
+          "group": "hub"
+        },
+        {
+          "path": "QuantumBattleSimulator.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/QuantumBattleSimulator.html",
+          "group": "hub"
+        },
+        {
+          "path": "SEAL69.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/SEAL69.html",
+          "group": "hub"
+        },
+        {
+          "path": "XRP.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/XRP.html",
+          "group": "hub"
+        },
+        {
+          "path": "about.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/about.html",
+          "group": "hub"
+        },
+        {
+          "path": "index.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/index.html",
+          "group": "hub"
+        },
+        {
+          "path": "index2.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/index2.html",
+          "group": "hub"
+        },
+        {
+          "path": "initialize.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/initialize.html",
+          "group": "hub"
+        },
+        {
+          "path": "oracle.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/oracle.html",
+          "group": "hub"
+        },
+        {
+          "path": "preload.html",
+          "url": "https://deepseekoracle.github.io/DeepSeekOracle/preload.html",
+          "group": "hub"
+        }
+      ]
+    }
+  },
+  "probe": {
+    "checked": 94,
+    "ok": 94,
+    "failed": 0,
+    "failures": []
+  }
+}
