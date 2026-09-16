@@ -18,6 +18,10 @@ Working product: Agent Portal with 24 limbs, Wikipedia search, URL prefetch, SOU
 - Tests: `python -m unittest discover -s tests -v`
 - Loopback bind `127.0.0.1`; `AUTH_REQUIRED` only with `--lan --i-consent`.
 - P0 blocks `format c:`, diskpart, OS wipe.
+- Access logs must strip `?query` (operator token lives in `?t=`).
+- Session JSON is written via a temp file then replace.
+- `compose_system` uses `pulse_stamps()` only (no weather HTTP on every chat).
+- llama-server watchdog reboots if the runner process dies.
 
 ## Ports
 

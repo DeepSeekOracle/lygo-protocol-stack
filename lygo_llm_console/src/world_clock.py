@@ -106,10 +106,25 @@ def _fetch_weather() -> dict[str, Any]:
     return _cache.get("wx") or {}
 
 
+def pulse_stamps() -> dict[str, Any]:
+    utc = datetime.now(timezone.utc)
+    local = datetime.now().astimezone()
+    return {
+        "unix": int(time.time()),
+        "utc_iso": utc.isoformat(timespec="seconds"),
+        "local_iso": local.isoformat(timespec="seconds"),
+        "local_tz": str(local.tzinfo),
+        "weekday": utc.strftime("%A"),
+    }
+
+
 def pulse() -> dict[str, Any]:
     utc = datetime.now(timezone.utc)
     local = datetime.now().astimezone()
-    wx = _fetch_weather()
+    try:
+        wx = _fetch_weather()
+    except Exception:
+        wx = {}
     cities = []
     for c in CITIES:
         try:

@@ -182,7 +182,12 @@ class Handler(BaseHTTPRequestHandler):
     server_version = "LYGO-LLM-Console/1.0"
 
     def log_message(self, fmt: str, *args: Any) -> None:
-        sys.stderr.write("%s - %s\n" % (self.address_string(), fmt % args))
+        msg = fmt % args
+        bits = msg.split(" ")
+        if len(bits) >= 2 and "?" in bits[1]:
+            bits[1] = bits[1].split("?", 1)[0]
+            msg = " ".join(bits)
+        sys.stderr.write("%s - %s\n" % (self.address_string(), msg))
 
     def _query(self) -> dict[str, list[str]]:
         return parse_qs(urlparse(self.path).query)
@@ -221,6 +226,14 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'",
+        )
         if extra:
             for k, v in extra.items():
                 self.send_header(k, v)
@@ -657,6 +670,7 @@ def main() -> int:
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
 
     def warmup() -> None:
+      try:
         if args.gguf:
             p = Path(args.gguf)
             rec = {
@@ -682,8 +696,29 @@ def main() -> int:
         if not MOCK_ONLY and STATE.get("selected"):
             print(f"booting {STATE.get('selected')} …")
             boot_async(str(STATE.get("selected")))
+      except Exception as e:
+        STATE["brain"] = "error"
+        STATE["error"] = f"warmup:{e}"
+        print("warmup failed", e)
+
+    def watchdog() -> None:
+        from engine import runner_for
+
+        while True:
+            time.sleep(20)
+            try:
+                r = runner_for(LLAMA_PORT)
+                if STATE.get("brain") == "ready" and r and r.proc.poll() is not None:
+                    STATE["brain"] = "missing"
+                    STATE["error"] = "llama_exited"
+                    sel = STATE.get("selected")
+                    if sel:
+                        boot_async(str(sel))
+            except Exception:
+                pass
 
     threading.Thread(target=warmup, daemon=True, name="lygo-warmup").start()
+    threading.Thread(target=watchdog, daemon=True, name="lygo-watchdog").start()
     if not args.no_browser:
         def open_when_ready() -> None:
             for _ in range(40):

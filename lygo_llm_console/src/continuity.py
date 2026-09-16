@@ -53,9 +53,9 @@ def compose_system() -> str:
     ensure_identity()
     parts = [load_align(), ""]
     try:
-        from world_clock import pulse as world_pulse
+        from world_clock import pulse_stamps
 
-        w = world_pulse()
+        w = pulse_stamps()
         parts.append(
             f"NOW UTC {w.get('utc_iso')} · local {w.get('local_iso')} ({w.get('local_tz')}) · unix {w.get('unix')} · {w.get('weekday')}."
         )
@@ -117,10 +117,10 @@ def save_session(messages: list[dict[str, Any]]) -> None:
         if not isinstance(m, dict):
             continue
         slim.append({"role": m.get("role"), "content": m.get("content")})
-    CURRENT.write_text(
-        json.dumps({"updated": time.time(), "messages": slim}, indent=2),
-        encoding="utf-8",
-    )
+    payload = json.dumps({"updated": time.time(), "messages": slim}, indent=2)
+    tmp = CURRENT.with_suffix(".json.tmp")
+    tmp.write_text(payload, encoding="utf-8")
+    tmp.replace(CURRENT)
 
 
 def new_session() -> None:
