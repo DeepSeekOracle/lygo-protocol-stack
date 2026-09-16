@@ -133,6 +133,39 @@ h2 {
 .filelist { list-style: none; padding: 0; margin: 0; font-size: 0.8rem; }
 .filelist li { padding: 0.22rem 0; cursor: pointer; color: var(--muted); }
 .filelist li:hover { color: var(--gold); }
+.world {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+  padding: 0.55rem 1rem 0.65rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(18, 14, 10, 0.72);
+  overflow: hidden;
+}
+.world-now {
+  flex: 0 0 11.5rem;
+  border-right: 1px solid var(--line);
+  padding-right: 0.75rem;
+}
+.world-local { font-family: Georgia, serif; color: var(--gold); font-size: 1.05rem; }
+.world-utc { color: var(--muted); font-size: 0.75rem; margin-top: 0.15rem; }
+.world-cities {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  flex: 1;
+  padding-bottom: 0.15rem;
+}
+.wcity {
+  min-width: 6.6rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.28);
+}
+.wcity .n { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.wcity .t { font-size: 0.95rem; color: var(--ink); }
+.wcity .w { font-size: 0.68rem; color: var(--gold); margin-top: 0.12rem; }
 @media (max-width: 960px) {
   main { grid-template-columns: 1fr; }
   .rail, aside { border: none; border-top: 1px solid var(--line); max-height: 16rem; }

@@ -199,7 +199,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def _ok_public(self) -> bool:
         path = urlparse(self.path).path
-        if path in ("/", "/api/health") or path.startswith("/static/"):
+        if path in ("/", "/api/health", "/api/world") or path.startswith("/static/"):
             return True
         return False
 
@@ -242,7 +242,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path != "/api/health":
+        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path not in ("/api/health", "/api/world"):
             self._json(401, {"error": "unauthorized"})
             return
         if path == "/" or path == "/index.html":
@@ -266,6 +266,11 @@ class Handler(BaseHTTPRequestHandler):
             elif name.endswith(".js"):
                 ctype = "application/javascript"
             self._send(200, fp.read_bytes(), ctype)
+            return
+        if path == "/api/world":
+            from world_clock import pulse
+
+            self._json(200, pulse())
             return
         if path == "/api/health":
             from engine import available_ram_bytes

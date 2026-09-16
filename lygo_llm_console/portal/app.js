@@ -290,4 +290,47 @@
     }
   })();
   setInterval(refreshHealth, 3000);
+
+  const worldLocal = document.getElementById("world-local");
+  const worldUtc = document.getElementById("world-utc");
+  const worldCities = document.getElementById("world-cities");
+  let worldSnap = null;
+  async function refreshWorld() {
+    try {
+      const r = await fetch("/api/world", { cache: "no-store" });
+      worldSnap = await r.json();
+    } catch (_) {
+      return;
+    }
+    paintWorld();
+  }
+  function paintWorld() {
+    const now = new Date();
+    if (worldLocal) {
+      worldLocal.textContent = now.toLocaleString(undefined, { weekday: "short", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+    if (worldUtc) {
+      worldUtc.textContent = "UTC " + now.toISOString().slice(0, 19).replace("T", " ");
+    }
+    if (!worldCities || !worldSnap || !worldSnap.cities) return;
+    worldCities.innerHTML = "";
+    worldSnap.cities.forEach((c) => {
+      const d = document.createElement("div");
+      d.className = "wcity";
+      let clock = c.clock || "";
+      try {
+        clock = now.toLocaleTimeString(undefined, { timeZone: c.tz, hour: "2-digit", minute: "2-digit" });
+      } catch (_) {}
+      const wx = c.weather || {};
+      const line = (wx.c != null ? Math.round(wx.c) + "° " : "") + (wx.label || "");
+      d.innerHTML = '<div class="n"></div><div class="t"></div><div class="w"></div>';
+      d.querySelector(".n").textContent = c.name;
+      d.querySelector(".t").textContent = clock;
+      d.querySelector(".w").textContent = line;
+      worldCities.appendChild(d);
+    });
+  }
+  refreshWorld();
+  setInterval(paintWorld, 1000);
+  setInterval(refreshWorld, 120000);
 })();

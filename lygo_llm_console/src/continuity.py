@@ -52,6 +52,17 @@ def _read_cap(path: Path, cap: int) -> str:
 def compose_system() -> str:
     ensure_identity()
     parts = [load_align(), ""]
+    try:
+        from world_clock import pulse as world_pulse
+
+        w = world_pulse()
+        parts.append(
+            f"NOW UTC {w.get('utc_iso')} · local {w.get('local_iso')} ({w.get('local_tz')}) · unix {w.get('unix')} · {w.get('weekday')}."
+        )
+        parts.append("Call world_pulse for city clocks + weather. RESOURCE, not CANON.")
+        parts.append("")
+    except Exception:
+        pass
     soul = _read_cap(soul_path(), SOUL_MAX)
     mem = _read_cap(memory_path(), MEMORY_MAX)
     if soul:

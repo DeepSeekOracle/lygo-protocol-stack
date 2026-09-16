@@ -32,6 +32,7 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "shell", "description": "Run a short command in workspace (not OS wipe). stdout/stderr captured.", "parameters": {"type": "object", "properties": {"cmd": {"type": "string"}}, "required": ["cmd"]}}},
     {"type": "function", "function": {"name": "python_exec", "description": "Run a Python snippet in workspace. Print to capture result.", "parameters": {"type": "object", "properties": {"code": {"type": "string"}}, "required": ["code"]}}},
     {"type": "function", "function": {"name": "now", "description": "Local date/time and timezone.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "world_pulse", "description": "UTC/local stamps plus world city clocks and Open-Meteo weather. Use for time/place/past-present. RESOURCE.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "memory_recall", "description": "Search remembered notes.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "download_url", "description": "HTTPS GET a file into workspace.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}, "path": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "glob_files", "description": "Glob files under workspace.", "parameters": {"type": "object", "properties": {"pattern": {"type": "string"}}, "required": ["pattern"]}}},
@@ -116,7 +117,12 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         return {"ok": p.returncode == 0, "stdout": (p.stdout or "")[-8000:], "stderr": (p.stderr or "")[-4000:]}
     if name == "now":
         n = dt.datetime.now().astimezone()
-        return {"ok": True, "iso": n.isoformat(), "tz": str(n.tzinfo)}
+        u = dt.datetime.now(dt.timezone.utc)
+        return {"ok": True, "iso": n.isoformat(), "utc": u.isoformat(), "unix": int(n.timestamp()), "tz": str(n.tzinfo), "weekday": n.strftime("%A")}
+    if name == "world_pulse":
+        from world_clock import pulse
+
+        return pulse()
     if name == "memory_recall":
         q = str(args.get("q") or "").lower()
         hits = []
