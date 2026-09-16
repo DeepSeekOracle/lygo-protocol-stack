@@ -11,7 +11,7 @@ python scripts/verify_kit.py
 Kit SHA-256 (must match):
 
 ```
-0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce
+b60ed6deae6f1dba7182fa386bd00b1e724001638e8f2f30936af0a240b4444e
 ```
 
 If verify_kit fails, do not unzip or run the BAT.

@@ -42,6 +42,18 @@ Factual questions (`how many`, `do X have`) trigger Wikipedia full-text search.
 
 Writes stay under `workspace/` and `save/`. `shell` / `python_exec` are workspace-cwd and **P0-blocked** (`format c:`, diskpart, wipe). Dual ledgers / Star Chart remain CANON; web hits are RESOURCE.
 
+## Continuity (SOUL / MEMORY / sessions)
+
+| File | Role |
+|------|------|
+| `workspace/SOUL.md` | Identity. Public template offers Δ9 champions, not a private biography. |
+| `workspace/MEMORY.md` | Growing notes. `remember` / `memory_append` add dated lines. |
+| `save/sessions/current.json` | Chat session (survives refresh). **New session** archives the old file. |
+| `skills/` | Bundled OpenClaw-compatible SKILL.md (15 Δ9 champions). Toggle in the Skills panel. |
+| `save/skills/` | Enabled list + ClawHub installs. Extra dirs: `workspace/skills`, `~/.agents/skills`, `~/.openclaw/skills`. |
+
+Templates live in `prompts/SOUL.md` and `prompts/MEMORY.md` and are copied on first boot.
+
 ## Tests
 
 ```bat
@@ -57,8 +69,3 @@ python -m unittest discover -s tests -v
 
 Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro) · [Patreon](https://www.patreon.com/Excavationpro)  
 Arcade: https://chatagent.ca/games/ · Crypt: https://chatagent.ca/games/lattice-crypt/
-
-
-## Public kit
-
-This zip is the **public** channel. It is not the steward admin tree. Write roots stay inside this folder. Place ggml-org `llama-server.exe` in `engine/` (CPU Windows zip). Page: https://chatagent.ca/lygo-llm-console.html

@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import threading
+import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -18,12 +19,20 @@ if str(HERE) not in sys.path:
 
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
 from chat_loop import (  # noqa: E402
-    SYSTEM,
     extract_user_text,
     has_image,
     host_prefetch,
     prefetch_message,
     run_tools_round,
+)
+from continuity import (  # noqa: E402
+    compose_system,
+    ensure_identity,
+    load_session,
+    memory_path,
+    new_session,
+    save_session,
+    soul_path,
 )
 from engine import (  # noqa: E402
     ENGINE_LOCK,
@@ -57,8 +66,9 @@ from tools import TOOLS_SCHEMA  # noqa: E402
 TOKEN = ""
 LLAMA_KEY = ""
 BIND = "127.0.0.1"
-AUTH_REQUIRED = True
+AUTH_REQUIRED = False
 MOCK_ONLY = False
+BUILD = "v1.1-20260916d"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -87,9 +97,25 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
     home_cas = Path(os.path.expandvars(r"%USERPROFILE%\.ollama\models"))
     if home_cas.is_dir() and str(home_cas) not in out:
         out.append(str(home_cas))
-    kit_models = KIT_ROOT / "models"
-    if str(kit_models) not in out:
-        out.append(str(kit_models))
+    extras = [
+        KIT_ROOT / "models",
+        Path(r"U:\LYGO\models"),
+        Path(r"F:\LYGO\models"),
+        Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
+    ]
+    usb = os.environ.get("LYGO_USB_ROOT", "").strip()
+    if usb:
+        extras.append(Path(usb) / "product" / "models" / "ollama")
+        extras.append(Path(usb) / "models")
+    # Portable: console lives at <USB>/lygo_llm_console
+    extras.append(KIT_ROOT.parent / "product" / "models" / "ollama")
+    for p in extras:
+        try:
+            s = str(p)
+        except Exception:
+            continue
+        if p.exists() and s not in out:
+            out.append(s)
     return out
 
 
@@ -162,7 +188,12 @@ class Handler(BaseHTTPRequestHandler):
     server_version = "LYGO-LLM-Console/1.0"
 
     def log_message(self, fmt: str, *args: Any) -> None:
-        sys.stderr.write("%s - %s\n" % (self.address_string(), fmt % args))
+        msg = fmt % args
+        bits = msg.split(" ")
+        if len(bits) >= 2 and "?" in bits[1]:
+            bits[1] = bits[1].split("?", 1)[0]
+            msg = " ".join(bits)
+        sys.stderr.write("%s - %s\n" % (self.address_string(), msg))
 
     def _query(self) -> dict[str, list[str]]:
         return parse_qs(urlparse(self.path).query)
@@ -171,12 +202,15 @@ class Handler(BaseHTTPRequestHandler):
         return {k: v for k, v in self.headers.items()}
 
     def _loopback(self) -> bool:
-        ip = (self.client_address or ("", 0))[0]
-        return ip in ("127.0.0.1", "::1", "localhost")
+        ip = ((self.client_address or ("", 0))[0] or "").lower().replace("::ffff:", "")
+        if ip in ("127.0.0.1", "::1", "localhost"):
+            return True
+        host = (self.headers.get("Host") or "").split(":")[0].lower().strip("[]")
+        return host in ("127.0.0.1", "localhost", "::1")
 
     def _ok_public(self) -> bool:
         path = urlparse(self.path).path
-        if path in ("/", "/api/health") or path.startswith("/static/"):
+        if path in ("/", "/api/health", "/api/world") or path.startswith("/static/"):
             return True
         return False
 
@@ -198,6 +232,14 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'",
+        )
         if extra:
             for k, v in extra.items():
                 self.send_header(k, v)
@@ -219,11 +261,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path != "/api/health":
+        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path not in ("/api/health", "/api/world"):
             self._json(401, {"error": "unauthorized"})
             return
         if path == "/" or path == "/index.html":
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
+            css = (PORTAL / "style.css").read_text(encoding="utf-8")
+            js = (PORTAL / "app.js").read_text(encoding="utf-8")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916d">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916d"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -240,6 +286,11 @@ class Handler(BaseHTTPRequestHandler):
                 ctype = "application/javascript"
             self._send(200, fp.read_bytes(), ctype)
             return
+        if path == "/api/world":
+            from world_clock import pulse
+
+            self._json(200, pulse())
+            return
         if path == "/api/health":
             from engine import available_ram_bytes
 
@@ -247,6 +298,7 @@ class Handler(BaseHTTPRequestHandler):
                 200,
                 {
                     "ok": True,
+                    "build": BUILD,
                     "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
                     "authenticated": check(token_from_request(self._headers_map(), self._query()), TOKEN),
                     "physics": PHYSICS_AVAILABLE,
@@ -295,7 +347,39 @@ class Handler(BaseHTTPRequestHandler):
             lines = []
             if mem.is_file():
                 lines = mem.read_text(encoding="utf-8", errors="ignore").splitlines()[-40:]
-            self._json(200, {"notes": lines})
+            md = ""
+            mp = memory_path()
+            if mp.is_file():
+                md = mp.read_text(encoding="utf-8", errors="replace")[-6000:]
+            self._json(200, {"notes": lines, "memory_md": md, "path": str(mp)})
+            return
+        if path == "/api/soul":
+            p = soul_path()
+            t = p.read_text(encoding="utf-8", errors="replace") if p.is_file() else ""
+            self._json(200, {"path": str(p), "text": t})
+            return
+        if path == "/api/session":
+            self._json(200, {"messages": load_session()})
+            return
+        if path == "/api/skills":
+            from skills_mod import clawhub_search, list_skills
+
+            qs = parse_qs(urlparse(self.path).query)
+            q = (qs.get("q") or [""])[0].strip()
+            if q:
+                self._json(200, clawhub_search(q))
+            else:
+                self._json(200, list_skills())
+            return
+        if path == "/api/notepad":
+            from notepad import list_notes, read_note
+
+            qs = parse_qs(urlparse(self.path).query)
+            nid = (qs.get("id") or [""])[0].strip()
+            if nid:
+                self._json(200, read_note(nid))
+            else:
+                self._json(200, list_notes())
             return
         if path == "/api/receipts":
             if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
@@ -352,6 +436,74 @@ class Handler(BaseHTTPRequestHandler):
             STATE["selected"] = mid
             boot_async(mid)
             self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid, "error": STATE.get("error")})
+            return
+        if path == "/api/session":
+            body = self._read_body(512_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            if obj.get("new"):
+                new_session()
+                self._json(200, {"ok": True, "messages": []})
+                return
+            msgs = obj.get("messages")
+            if isinstance(msgs, list):
+                save_session(msgs)
+            self._json(200, {"ok": True, "messages": load_session()})
+            return
+        if path == "/api/skills":
+            from skills_mod import add_root, clawhub_install, clawhub_inspect, clawhub_search, read_skill, set_enabled
+
+            body = self._read_body(32_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "").lower()
+            slug = str(obj.get("slug") or obj.get("name") or "")
+            if action == "enable":
+                self._json(200, set_enabled(slug, True))
+                return
+            if action == "disable":
+                self._json(200, set_enabled(slug, False))
+                return
+            if action == "read":
+                self._json(200, read_skill(slug))
+                return
+            if action == "search":
+                self._json(200, clawhub_search(str(obj.get("q") or "")))
+                return
+            if action == "inspect":
+                self._json(200, clawhub_inspect(slug))
+                return
+            if action == "install":
+                self._json(200, clawhub_install(slug))
+                return
+            if action == "add_root":
+                self._json(200, add_root(str(obj.get("path") or "")))
+                return
+            self._json(400, {"ok": False, "error": "bad_action"})
+            return
+        if path == "/api/notepad":
+            from notepad import delete_note, new_note, write_note
+
+            body = self._read_body(300_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "save").lower()
+            if action == "delete":
+                self._json(200, delete_note(str(obj.get("id") or "")))
+                return
+            if action == "new":
+                self._json(200, new_note(str(obj.get("title") or "")))
+                return
+            self._json(
+                200,
+                write_note(obj.get("id"), str(obj.get("title") or ""), str(obj.get("text") or obj.get("content") or "")),
+            )
             return
         if path == "/api/limb":
             body = self._read_body(64_000)
@@ -415,7 +567,7 @@ class Handler(BaseHTTPRequestHandler):
         max_tokens = int(obj.get("max_tokens") or 768)
         want_stream = bool(obj.get("stream", True))
         brain = maybe_spawn(model if reg_get(str(model)) else None)
-        msgs = [{"role": "system", "content": SYSTEM}] + messages
+        msgs = [{"role": "system", "content": compose_system()}] + messages
         assistant = ""
         traces: list[Any] = []
         if use_tools and last_user:
@@ -506,6 +658,10 @@ class Handler(BaseHTTPRequestHandler):
                     assistant = "[output quarantined]"
                     break
         rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
+        try:
+            save_session(list(messages) + [{"role": "assistant", "content": assistant}])
+        except Exception:
+            pass
         if want_stream:
             emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
             emit_sse({"type": "done", "traces": traces, "receipt": rec["id"]})
@@ -572,6 +728,7 @@ def main() -> int:
     ap.add_argument("--mock", action="store_true")
     args = ap.parse_args()
     ensure_dirs()
+    ensure_identity()
     TOKEN = ensure_token()
     LLAMA_KEY = ensure_llama_key()
     MOCK_ONLY = bool(args.mock)
@@ -582,42 +739,78 @@ def main() -> int:
         BIND = "0.0.0.0"
         AUTH_REQUIRED = True
     cfg = load_console()
-    if args.gguf:
-        p = Path(args.gguf)
-        rec = {
-            "id": p.stem,
-            "path": str(p),
-            "kind": "chat",
-            "ctx": 4096,
-            "n_gpu_layers": 0,
-            "runnable": p.is_file(),
-            "source": "cli",
-            "bytes": p.stat().st_size if p.is_file() else 0,
-        }
-        reg_upsert([rec], selected=p.stem)
-        STATE["selected"] = p.stem
-        STATE["scan_n"] = 1
-    else:
-        scanned = scan_roots(default_scan_roots(cfg))
-        data = reg_upsert(scanned.get("models") or [])
-        STATE["selected"] = data.get("selected")
-        STATE["scan_n"] = len(data.get("models") or [])
-        print(f"scan models={STATE['scan_n']} truncated={scanned.get('scan_truncated')} selected={STATE.get('selected')}")
     if args.cmd != "serve":
         print("unknown cmd", args.cmd)
         return 2
     httpd = ThreadingHTTPServer((BIND, args.port), Handler)
-    url = f"http://127.0.0.1:{args.port}/?t={TOKEN}"
-    print(f"LYGO LLM Console  {url}")
+    url = f"http://127.0.0.1:{args.port}/?t={TOKEN}&v={BUILD}"
+    print(f"LYGO LLM Console {BUILD}  {url}")
+    print(f"kit {KIT_ROOT}")
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
-    if not MOCK_ONLY and STATE.get("selected"):
-        print(f"booting {STATE.get('selected')} …")
-        boot_async(str(STATE.get("selected")))
+
+    def warmup() -> None:
+      try:
+        if args.gguf:
+            p = Path(args.gguf)
+            rec = {
+                "id": p.stem,
+                "path": str(p),
+                "kind": "chat",
+                "ctx": 4096,
+                "n_gpu_layers": 0,
+                "runnable": p.is_file(),
+                "source": "cli",
+                "bytes": p.stat().st_size if p.is_file() else 0,
+            }
+            reg_upsert([rec], selected=p.stem)
+            STATE["selected"] = p.stem
+            STATE["scan_n"] = 1
+        else:
+            print("scanning models…")
+            scanned = scan_roots(default_scan_roots(cfg))
+            data = reg_upsert(scanned.get("models") or [])
+            STATE["selected"] = data.get("selected")
+            STATE["scan_n"] = len(data.get("models") or [])
+            print(f"scan models={STATE['scan_n']} truncated={scanned.get('scan_truncated')} selected={STATE.get('selected')}")
+        if not MOCK_ONLY and STATE.get("selected"):
+            print(f"booting {STATE.get('selected')} …")
+            boot_async(str(STATE.get("selected")))
+      except Exception as e:
+        STATE["brain"] = "error"
+        STATE["error"] = f"warmup:{e}"
+        print("warmup failed", e)
+
+    def watchdog() -> None:
+        from engine import runner_for
+
+        while True:
+            time.sleep(20)
+            try:
+                r = runner_for(LLAMA_PORT)
+                if STATE.get("brain") == "ready" and r and r.proc.poll() is not None:
+                    STATE["brain"] = "missing"
+                    STATE["error"] = "llama_exited"
+                    sel = STATE.get("selected")
+                    if sel:
+                        boot_async(str(sel))
+            except Exception:
+                pass
+
+    threading.Thread(target=warmup, daemon=True, name="lygo-warmup").start()
+    threading.Thread(target=watchdog, daemon=True, name="lygo-watchdog").start()
     if not args.no_browser:
-        try:
-            webbrowser.open(url)
-        except Exception:
-            pass
+        def open_when_ready() -> None:
+            for _ in range(40):
+                if STATE.get("scan_n"):
+                    break
+                time.sleep(0.25)
+            time.sleep(0.3)
+            try:
+                webbrowser.open(url)
+            except Exception:
+                pass
+
+        threading.Thread(target=open_when_ready, daemon=True, name="lygo-browser").start()
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

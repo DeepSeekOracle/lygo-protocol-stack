@@ -18,6 +18,29 @@ META_TOOLS = re.compile(
     r"(access the internet|search tools|hooked up|are your tools|can you search|tools working)",
     re.I,
 )
+STEWARD_HINT = re.compile(
+    r"\b(github|hugging\s*face|\bhf\b|huggingface|lattice|webpage|webpages|clawhub|"
+    r"chatagent|eternalhaven|password|passwords|drives?|whoami|this pc|"
+    r"on (the|this) (pc|disk|usb)|find files|manage our|huggingface)\b",
+    re.I,
+)
+PASS_HINT = re.compile(r"\b(password|passwords|credential|\.pass|gitea|winrm)\b", re.I)
+FIND_HINT = re.compile(
+    r"\b(find files|look for files|on this pc|list (the )?drives|search (the )?(pc|disk|usb))\b",
+    re.I,
+)
+GH_HINT = re.compile(r"\bgithub\b", re.I)
+HF_HINT = re.compile(r"\b(hugging\s*face|huggingface|\bhf\b)\b", re.I)
+NOTE_HINT = re.compile(
+    r"\b(notepad|look at (my |the )?notes|read (my |the )?notes|from (the |my )?notes|"
+    r"saved notes|note pad)\b",
+    re.I,
+)
+SKILL_HINT = re.compile(
+    r"\b(/skill|skill_read|clawhub|invoke|summon|align with|enable (the )?(skill|champion)|"
+    r"skills panel|champion)\b",
+    re.I,
+)
 
 
 def extract_user_text(messages: list[dict[str, Any]]) -> str:
@@ -99,18 +122,108 @@ def extract_urls(text: str) -> list[str]:
 
 
 def host_prefetch(user_text: str) -> list[dict[str, Any]]:
-    """3B models talk about tools instead of calling them. Host runs URL/search first."""
+    """3B models talk about tools instead of calling them. Host runs URL/search/map first."""
     traces: list[dict[str, Any]] = []
-    urls = extract_urls(user_text)
+    text = user_text or ""
+    try:
+        from skills_mod import match_invoked
+
+        invoked = match_invoked(text)
+    except Exception:
+        invoked = []
+    if SKILL_HINT.search(text):
+        traces.append({"name": "skill_list", "arguments": {}, "result": dispatch("skill_list", {}), "host": True})
+    for slug in invoked:
+        traces.append(
+            {
+                "name": "skill_read",
+                "arguments": {"slug": slug},
+                "result": dispatch("skill_read", {"slug": slug}),
+                "host": True,
+            }
+        )
+    if re.search(r"\bclawhub\b", text, re.I) and not invoked:
+        q = re.sub(r"\s+", " ", text).strip()[:120]
+        traces.append(
+            {
+                "name": "clawhub_search",
+                "arguments": {"q": q},
+                "result": dispatch("clawhub_search", {"q": q}),
+                "host": True,
+            }
+        )
+    if NOTE_HINT.search(text):
+        traces.append(
+            {
+                "name": "notepad_list",
+                "arguments": {},
+                "result": dispatch("notepad_list", {}),
+                "host": True,
+            }
+        )
+    if STEWARD_HINT.search(text):
+        traces.append(
+            {
+                "name": "steward_map",
+                "arguments": {},
+                "result": dispatch("steward_map", {}),
+                "host": True,
+            }
+        )
+    if PASS_HINT.search(text):
+        traces.append(
+            {
+                "name": "credential_where",
+                "arguments": {"q": ""},
+                "result": dispatch("credential_where", {"q": ""}),
+                "host": True,
+            }
+        )
+    if FIND_HINT.search(text):
+        traces.append(
+            {
+                "name": "list_dir",
+                "arguments": {"path": ""},
+                "result": dispatch("list_dir", {"path": ""}),
+                "host": True,
+            }
+        )
+    urls = extract_urls(text)
     for url in urls:
         result = dispatch("web_fetch", {"url": url})
         traces.append({"name": "web_fetch", "arguments": {"url": url}, "result": result, "host": True})
     if urls:
         return traces
-    if META_TOOLS.search(user_text or "") and not SEARCH_HINT.search(user_text or ""):
+    if GH_HINT.search(text):
+        traces.append(
+            {
+                "name": "github_search",
+                "arguments": {"q": "lygo"},
+                "result": dispatch("github_search", {"q": "lygo"}),
+                "host": True,
+            }
+        )
+        traces.append(
+            {
+                "name": "web_fetch",
+                "arguments": {"url": "https://github.com/DeepSeekOracle"},
+                "result": dispatch("web_fetch", {"url": "https://github.com/DeepSeekOracle"}),
+                "host": True,
+            }
+        )
+    if HF_HINT.search(text):
+        traces.append(
+            {
+                "name": "web_fetch",
+                "arguments": {"url": "https://huggingface.co/DeepSeekOracle"},
+                "result": dispatch("web_fetch", {"url": "https://huggingface.co/DeepSeekOracle"}),
+                "host": True,
+            }
+        )
+    if META_TOOLS.search(text) and not SEARCH_HINT.search(text) and not STEWARD_HINT.search(text):
         return traces
-    if SEARCH_HINT.search(user_text or ""):
-        q = re.sub(r"\s+", " ", user_text or "").strip()[:220]
+    if SEARCH_HINT.search(text) and not GH_HINT.search(text) and not HF_HINT.search(text):
+        q = re.sub(r"\s+", " ", text).strip()[:220]
         result = dispatch("web_search", {"q": q})
         hits = (result or {}).get("hits") or []
         if hits:

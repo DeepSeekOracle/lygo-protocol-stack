@@ -68,7 +68,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916b"
+BUILD = "v1.1-20260916d"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -103,6 +103,12 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         Path(r"F:\LYGO\models"),
         Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
     ]
+    usb = os.environ.get("LYGO_USB_ROOT", "").strip()
+    if usb:
+        extras.append(Path(usb) / "product" / "models" / "ollama")
+        extras.append(Path(usb) / "models")
+    # Portable: console lives at <USB>/lygo_llm_console
+    extras.append(KIT_ROOT.parent / "product" / "models" / "ollama")
     for p in extras:
         try:
             s = str(p)
@@ -182,7 +188,12 @@ class Handler(BaseHTTPRequestHandler):
     server_version = "LYGO-LLM-Console/1.0"
 
     def log_message(self, fmt: str, *args: Any) -> None:
-        sys.stderr.write("%s - %s\n" % (self.address_string(), fmt % args))
+        msg = fmt % args
+        bits = msg.split(" ")
+        if len(bits) >= 2 and "?" in bits[1]:
+            bits[1] = bits[1].split("?", 1)[0]
+            msg = " ".join(bits)
+        sys.stderr.write("%s - %s\n" % (self.address_string(), msg))
 
     def _query(self) -> dict[str, list[str]]:
         return parse_qs(urlparse(self.path).query)
@@ -199,7 +210,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def _ok_public(self) -> bool:
         path = urlparse(self.path).path
-        if path in ("/", "/api/health") or path.startswith("/static/"):
+        if path in ("/", "/api/health", "/api/world") or path.startswith("/static/"):
             return True
         return False
 
@@ -221,6 +232,14 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "SAMEORIGIN")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'",
+        )
         if extra:
             for k, v in extra.items():
                 self.send_header(k, v)
@@ -242,15 +261,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path != "/api/health":
+        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path not in ("/api/health", "/api/world"):
             self._json(401, {"error": "unauthorized"})
             return
         if path == "/" or path == "/index.html":
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916b">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916b"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916d">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916d"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -266,6 +285,11 @@ class Handler(BaseHTTPRequestHandler):
             elif name.endswith(".js"):
                 ctype = "application/javascript"
             self._send(200, fp.read_bytes(), ctype)
+            return
+        if path == "/api/world":
+            from world_clock import pulse
+
+            self._json(200, pulse())
             return
         if path == "/api/health":
             from engine import available_ram_bytes
@@ -337,6 +361,26 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/session":
             self._json(200, {"messages": load_session()})
             return
+        if path == "/api/skills":
+            from skills_mod import clawhub_search, list_skills
+
+            qs = parse_qs(urlparse(self.path).query)
+            q = (qs.get("q") or [""])[0].strip()
+            if q:
+                self._json(200, clawhub_search(q))
+            else:
+                self._json(200, list_skills())
+            return
+        if path == "/api/notepad":
+            from notepad import list_notes, read_note
+
+            qs = parse_qs(urlparse(self.path).query)
+            nid = (qs.get("id") or [""])[0].strip()
+            if nid:
+                self._json(200, read_note(nid))
+            else:
+                self._json(200, list_notes())
+            return
         if path == "/api/receipts":
             if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
                 self._json(401, {"error": "unauthorized"})
@@ -407,6 +451,59 @@ class Handler(BaseHTTPRequestHandler):
             if isinstance(msgs, list):
                 save_session(msgs)
             self._json(200, {"ok": True, "messages": load_session()})
+            return
+        if path == "/api/skills":
+            from skills_mod import add_root, clawhub_install, clawhub_inspect, clawhub_search, read_skill, set_enabled
+
+            body = self._read_body(32_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "").lower()
+            slug = str(obj.get("slug") or obj.get("name") or "")
+            if action == "enable":
+                self._json(200, set_enabled(slug, True))
+                return
+            if action == "disable":
+                self._json(200, set_enabled(slug, False))
+                return
+            if action == "read":
+                self._json(200, read_skill(slug))
+                return
+            if action == "search":
+                self._json(200, clawhub_search(str(obj.get("q") or "")))
+                return
+            if action == "inspect":
+                self._json(200, clawhub_inspect(slug))
+                return
+            if action == "install":
+                self._json(200, clawhub_install(slug))
+                return
+            if action == "add_root":
+                self._json(200, add_root(str(obj.get("path") or "")))
+                return
+            self._json(400, {"ok": False, "error": "bad_action"})
+            return
+        if path == "/api/notepad":
+            from notepad import delete_note, new_note, write_note
+
+            body = self._read_body(300_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "save").lower()
+            if action == "delete":
+                self._json(200, delete_note(str(obj.get("id") or "")))
+                return
+            if action == "new":
+                self._json(200, new_note(str(obj.get("title") or "")))
+                return
+            self._json(
+                200,
+                write_note(obj.get("id"), str(obj.get("title") or ""), str(obj.get("text") or obj.get("content") or "")),
+            )
             return
         if path == "/api/limb":
             body = self._read_body(64_000)
@@ -652,6 +749,7 @@ def main() -> int:
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
 
     def warmup() -> None:
+      try:
         if args.gguf:
             p = Path(args.gguf)
             rec = {
@@ -677,8 +775,29 @@ def main() -> int:
         if not MOCK_ONLY and STATE.get("selected"):
             print(f"booting {STATE.get('selected')} …")
             boot_async(str(STATE.get("selected")))
+      except Exception as e:
+        STATE["brain"] = "error"
+        STATE["error"] = f"warmup:{e}"
+        print("warmup failed", e)
+
+    def watchdog() -> None:
+        from engine import runner_for
+
+        while True:
+            time.sleep(20)
+            try:
+                r = runner_for(LLAMA_PORT)
+                if STATE.get("brain") == "ready" and r and r.proc.poll() is not None:
+                    STATE["brain"] = "missing"
+                    STATE["error"] = "llama_exited"
+                    sel = STATE.get("selected")
+                    if sel:
+                        boot_async(str(sel))
+            except Exception:
+                pass
 
     threading.Thread(target=warmup, daemon=True, name="lygo-warmup").start()
+    threading.Thread(target=watchdog, daemon=True, name="lygo-watchdog").start()
     if not args.no_browser:
         def open_when_ready() -> None:
             for _ in range(40):

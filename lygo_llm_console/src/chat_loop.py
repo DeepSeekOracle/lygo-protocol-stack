@@ -36,6 +36,11 @@ NOTE_HINT = re.compile(
     r"saved notes|note pad)\b",
     re.I,
 )
+SKILL_HINT = re.compile(
+    r"\b(/skill|skill_read|clawhub|invoke|summon|align with|enable (the )?(skill|champion)|"
+    r"skills panel|champion)\b",
+    re.I,
+)
 
 
 def extract_user_text(messages: list[dict[str, Any]]) -> str:
@@ -120,6 +125,33 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     """3B models talk about tools instead of calling them. Host runs URL/search/map first."""
     traces: list[dict[str, Any]] = []
     text = user_text or ""
+    try:
+        from skills_mod import match_invoked
+
+        invoked = match_invoked(text)
+    except Exception:
+        invoked = []
+    if SKILL_HINT.search(text):
+        traces.append({"name": "skill_list", "arguments": {}, "result": dispatch("skill_list", {}), "host": True})
+    for slug in invoked:
+        traces.append(
+            {
+                "name": "skill_read",
+                "arguments": {"slug": slug},
+                "result": dispatch("skill_read", {"slug": slug}),
+                "host": True,
+            }
+        )
+    if re.search(r"\bclawhub\b", text, re.I) and not invoked:
+        q = re.sub(r"\s+", " ", text).strip()[:120]
+        traces.append(
+            {
+                "name": "clawhub_search",
+                "arguments": {"q": q},
+                "result": dispatch("clawhub_search", {"q": q}),
+                "host": True,
+            }
+        )
     if NOTE_HINT.search(text):
         traces.append(
             {

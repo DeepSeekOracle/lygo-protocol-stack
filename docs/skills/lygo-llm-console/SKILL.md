@@ -16,7 +16,7 @@ metadata:
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console"
   page: "https://chatagent.ca/lygo-llm-console.html"
   kit_zip: "kit/lygo-llm-console-public.zip"
-  kit_sha256: "0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce"
+  kit_sha256: "b60ed6deae6f1dba7182fa386bd00b1e724001638e8f2f30936af0a240b4444e"
   llama_cpu_tag: "b10988"
   permissions:
     map_scripts: "no network, no subprocess, no writes"
@@ -44,7 +44,7 @@ python scripts/verify_kit.py
 `kit/lygo-llm-console-public.zip` is the public console. **Required SHA-256:**
 
 ```
-0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce
+b60ed6deae6f1dba7182fa386bd00b1e724001638e8f2f30936af0a240b4444e
 ```
 
 Verify **before** unzip/run:

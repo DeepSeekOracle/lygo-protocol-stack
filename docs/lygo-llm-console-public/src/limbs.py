@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.parse
 from pathlib import Path
 from typing import Any
 
@@ -31,18 +32,70 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "shell", "description": "Run a short command in workspace (not OS wipe). stdout/stderr captured.", "parameters": {"type": "object", "properties": {"cmd": {"type": "string"}}, "required": ["cmd"]}}},
     {"type": "function", "function": {"name": "python_exec", "description": "Run a Python snippet in workspace. Print to capture result.", "parameters": {"type": "object", "properties": {"code": {"type": "string"}}, "required": ["code"]}}},
     {"type": "function", "function": {"name": "now", "description": "Local date/time and timezone.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "world_pulse", "description": "UTC/local stamps plus world city clocks and Open-Meteo weather. Use for time/place/past-present. RESOURCE.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "memory_recall", "description": "Search remembered notes.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "download_url", "description": "HTTPS GET a file into workspace.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}, "path": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "glob_files", "description": "Glob files under workspace.", "parameters": {"type": "object", "properties": {"pattern": {"type": "string"}}, "required": ["pattern"]}}},
     {"type": "function", "function": {"name": "todo_add", "description": "Append a todo line.", "parameters": {"type": "object", "properties": {"item": {"type": "string"}}, "required": ["item"]}}},
     {"type": "function", "function": {"name": "todo_list", "description": "List todos.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "calc", "description": "Evaluate a numeric Python expression.", "parameters": {"type": "object", "properties": {"expr": {"type": "string"}}, "required": ["expr"]}}},
-    {"type": "function", "function": {"name": "whoami", "description": "Operator/kit identity (no secrets).", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "whoami", "description": "Operator/kit identity (no secrets). Admin includes GitHub/HF/lattice links.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "hash_text", "description": "SHA-256 of text.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "memory_append", "description": "Append a durable note to MEMORY.md (grows across sessions).", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
     {"type": "function", "function": {"name": "memory_read", "description": "Read MEMORY.md (growing notes).", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "soul_read", "description": "Read SOUL.md identity.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "edit_file", "description": "Replace a string in a workspace file.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "old": {"type": "string"}, "new": {"type": "string"}}, "required": ["path", "old", "new"]}}},
+    {"type": "function", "function": {"name": "weather", "description": "Current weather via wttr.in (RESOURCE).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
+    {"type": "function", "function": {"name": "geocode", "description": "Place name to lat/lon (Nominatim).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
+    {"type": "function", "function": {"name": "http_json", "description": "HTTPS GET JSON from a public URL.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "wayback", "description": "Internet Archive availability for a URL.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "arxiv_search", "description": "Search arXiv papers.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "hn_search", "description": "Hacker News Algolia search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "github_search", "description": "GitHub repository search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "image_info", "description": "PNG/JPEG/GIF size of a workspace image.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
+    {"type": "function", "function": {"name": "image_save", "description": "Save a base64 or data-URL image into workspace/images.", "parameters": {"type": "object", "properties": {"b64": {"type": "string"}, "path": {"type": "string"}}, "required": ["b64"]}}},
+    {"type": "function", "function": {"name": "image_list", "description": "List workspace/images files.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "page_thumbnail", "description": "Capture a public HTTPS page thumbnail into workspace/images.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "jina_fetch", "description": "Readable extract of a page via r.jina.ai.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "sessions_list", "description": "List saved chat session files.", "parameters": {"type": "object", "properties": {}}}},
 ]
+
+
+def _safe_arith(expr: str) -> float | int:
+    import operator as op
+
+    ops = {
+        ast.Add: op.add,
+        ast.Sub: op.sub,
+        ast.Mult: op.mul,
+        ast.Div: op.truediv,
+        ast.FloorDiv: op.floordiv,
+        ast.Mod: op.mod,
+        ast.Pow: op.pow,
+        ast.USub: op.neg,
+        ast.UAdd: op.pos,
+    }
+
+    def walk(node: ast.AST) -> float | int:
+        if isinstance(node, ast.Expression):
+            return walk(node.body)
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+            return node.value
+        if isinstance(node, ast.UnaryOp) and type(node.op) in ops:
+            return ops[type(node.op)](walk(node.operand))
+        if isinstance(node, ast.BinOp) and type(node.op) in ops:
+            return ops[type(node.op)](walk(node.left), walk(node.right))
+        raise ValueError("unsafe")
+
+    tree = ast.parse(expr, mode="eval")
+    return walk(tree)
+
+
+def _win_env() -> dict[str, str]:
+    keys = ("PATH", "SystemRoot", "COMSPEC", "PATHEXT", "TEMP", "TMP", "USERNAME", "USERPROFILE", "WINDIR")
+    env = {k: os.environ[k] for k in keys if k in os.environ}
+    env["PYTHONIOENCODING"] = "utf-8"
+    return env
 
 
 def _ws(p: str | None) -> Path:
@@ -67,15 +120,17 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             return {"ok": False, "error": "empty"}
         if _SHELL_DENY.search(cmd) or gate_prompt(cmd).get("verdict") == "QUARANTINE":
             return {"ok": False, "error": "p0_blocked"}
+        if re.search(r"[|&><`$]", cmd):
+            return {"ok": False, "error": "metachar"}
         try:
             p = subprocess.run(
-                cmd,
-                shell=True,
+                ["cmd.exe", "/c", cmd],
+                shell=False,
                 cwd=str(WORKSPACE),
                 capture_output=True,
                 text=True,
                 timeout=25,
-                env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+                env=_win_env(),
             )
         except subprocess.TimeoutExpired:
             return {"ok": False, "error": "timeout"}
@@ -95,13 +150,19 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
                 capture_output=True,
                 text=True,
                 timeout=20,
+                env=_win_env(),
             )
         except subprocess.TimeoutExpired:
             return {"ok": False, "error": "timeout"}
         return {"ok": p.returncode == 0, "stdout": (p.stdout or "")[-8000:], "stderr": (p.stderr or "")[-4000:]}
     if name == "now":
         n = dt.datetime.now().astimezone()
-        return {"ok": True, "iso": n.isoformat(), "tz": str(n.tzinfo)}
+        u = dt.datetime.now(dt.timezone.utc)
+        return {"ok": True, "iso": n.isoformat(), "utc": u.isoformat(), "unix": int(n.timestamp()), "tz": str(n.tzinfo), "weekday": n.strftime("%A")}
+    if name == "world_pulse":
+        from world_clock import pulse
+
+        return pulse()
     if name == "memory_recall":
         q = str(args.get("q") or "").lower()
         hits = []
@@ -131,7 +192,14 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         dest.write_bytes(raw)
         return {"ok": True, "path": str(dest), "bytes": len(raw)}
     if name == "glob_files":
+        from admin_map import is_admin
+        from tools import dispatch as _dispatch
+
         pat = str(args.get("pattern") or "*")
+        if is_admin() and (":" in pat or any(ch in pat for ch in "\\/")):
+            return _dispatch("find_files", {"pattern": Path(pat).name, "root": str(Path(pat).parent)})
+        if is_admin():
+            return _dispatch("find_files", {"pattern": pat})
         hits = [str(p.relative_to(WORKSPACE)) for p in WORKSPACE.glob(pat) if p.is_file()][:80]
         return {"ok": True, "hits": hits}
     if name == "todo_add":
@@ -151,26 +219,33 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "calc":
         expr = str(args.get("expr") or "")
         try:
-            tree = ast.parse(expr, mode="eval")
-            for node in ast.walk(tree):
-                if isinstance(node, (ast.Call, ast.Attribute, ast.Name)):
-                    if isinstance(node, ast.Name) and node.id in {"True", "False", "None"}:
-                        continue
-                    if not isinstance(node, ast.Name) or node.id not in {"True", "False", "None"}:
-                        if isinstance(node, (ast.Call, ast.Attribute)):
-                            return {"ok": False, "error": "unsafe"}
-            val = eval(compile(tree, "<calc>", "eval"), {"__builtins__": {}}, {})
+            val = _safe_arith(expr)
         except Exception as e:
             return {"ok": False, "error": str(e)}
         return {"ok": True, "value": val}
     if name == "whoami":
+        from admin_map import brief, is_admin
+
+        b = brief()
         return {
             "ok": True,
             "mark": "LYGO",
-            "steward": "Justin Helmer / Excavationpro / Lightfather",
+            "role": b.get("role"),
+            "steward": b.get("steward"),
             "kit": str(KIT_ROOT),
             "workspace": str(WORKSPACE),
             "portal": "https://chatagent.ca/lygo-llm-console.html",
+            "github": b.get("github_org"),
+            "huggingface": b.get("hf_org"),
+            "links": {
+                "github_org": b.get("github_org"),
+                "hf_org": b.get("hf_org"),
+                "github_repos": b.get("github_repos"),
+                "sites": b.get("sites"),
+                "lattice": b.get("lattice"),
+            }
+            if is_admin()
+            else {},
         }
     if name == "hash_text":
         t = str(args.get("text") or "").encode("utf-8")
@@ -191,4 +266,116 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         ensure_identity()
         p = soul_path()
         return {"ok": True, "path": str(p), "text": p.read_text(encoding="utf-8", errors="replace")[:8000] if p.is_file() else ""}
+    if name == "edit_file":
+        p = _ws(str(args.get("path") or ""))
+        try:
+            p.resolve().relative_to(WORKSPACE.resolve())
+        except ValueError:
+            return {"ok": False, "error": "denied"}
+        if not p.is_file():
+            return {"ok": False, "error": "missing"}
+        old, new = str(args.get("old") or ""), str(args.get("new") or "")
+        t = p.read_text(encoding="utf-8", errors="replace")
+        if old not in t:
+            return {"ok": False, "error": "old_not_found"}
+        p.write_text(t.replace(old, new, 1), encoding="utf-8")
+        return {"ok": True, "path": str(p)}
+    if name == "weather":
+        from web_tools import _get
+
+        place = urllib.parse.quote(str(args.get("place") or "Earth"))
+        code, raw, _ = _get("https://wttr.in/" + place + "?format=3", headers={"Accept": "text/plain"})
+        if code != 200:
+            return {"ok": False, "error": f"http_{code}"}
+        return {"ok": True, "text": raw.decode("utf-8", errors="replace").strip(), "class": "RESOURCE"}
+    if name == "geocode":
+        from web_tools import _json_get
+
+        qs = urllib.parse.urlencode({"q": str(args.get("place") or ""), "format": "json", "limit": "3"})
+        data = _json_get("https://nominatim.openstreetmap.org/search?" + qs)
+        if not data:
+            return {"ok": False, "error": "none"}
+        rows = [{"name": x.get("display_name"), "lat": x.get("lat"), "lon": x.get("lon")} for x in data[:3]]
+        return {"ok": True, "results": rows, "class": "RESOURCE"}
+    if name == "http_json":
+        from web_tools import _blocked, _json_get
+
+        url = str(args.get("url") or "")
+        why = _blocked(url)
+        if why:
+            return {"ok": False, "error": why}
+        data = _json_get(url)
+        if data is None:
+            return {"ok": False, "error": "not_json"}
+        blob = json.dumps(data, default=str)
+        return {"ok": True, "data": blob[:12000]}
+    if name == "wayback":
+        from web_tools import _blocked, _json_get
+
+        url = str(args.get("url") or "")
+        why = _blocked(url)
+        if why:
+            return {"ok": False, "error": why}
+        data = _json_get("https://archive.org/wayback/available?url=" + urllib.parse.quote(url, safe=""))
+        return {"ok": True, "data": data, "class": "RESOURCE"}
+    if name == "arxiv_search":
+        from web_tools import _get
+        import xml.etree.ElementTree as ET
+
+        qs = urllib.parse.quote(str(args.get("q") or ""))
+        code, raw, _ = _get("https://export.arxiv.org/api/query?search_query=all:" + qs + "&start=0&max_results=5")
+        if code != 200:
+            return {"ok": False, "error": f"http_{code}"}
+        papers = []
+        try:
+            root = ET.fromstring(raw)
+            ns = {"a": "http://www.w3.org/2005/Atom"}
+            for ent in root.findall("a:entry", ns)[:5]:
+                title = (ent.findtext("a:title", default="", namespaces=ns) or "").strip()
+                link = ""
+                for l in ent.findall("a:link", ns):
+                    if l.get("type") == "text/html":
+                        link = l.get("href") or ""
+                papers.append({"title": title, "url": link})
+        except ET.ParseError:
+            return {"ok": False, "error": "xml"}
+        return {"ok": True, "papers": papers, "class": "RESOURCE"}
+    if name == "hn_search":
+        from web_tools import hn_search
+
+        return {"ok": True, "hits": hn_search(str(args.get("q") or "")), "class": "RESOURCE"}
+    if name == "github_search":
+        from admin_map import is_admin
+        from web_tools import github_search
+
+        q = str(args.get("q") or "")
+        if is_admin() and "user:" not in q.lower() and "org:" not in q.lower():
+            q = ("user:DeepSeekOracle " + q).strip()
+        return {"ok": True, "hits": github_search(q), "query": q, "class": "RESOURCE"}
+    if name == "image_info":
+        from image_tools import image_info
+
+        return image_info(str(args.get("path") or ""))
+    if name == "image_save":
+        from image_tools import image_save
+
+        return image_save(str(args.get("b64") or args.get("data") or ""), args.get("path"))
+    if name == "image_list":
+        from image_tools import image_list
+
+        return image_list()
+    if name == "page_thumbnail":
+        from image_tools import page_thumbnail
+
+        return page_thumbnail(str(args.get("url") or ""))
+    if name == "jina_fetch":
+        from web_tools import jina_fetch
+
+        return jina_fetch(str(args.get("url") or ""))
+    if name == "sessions_list":
+        from paths import SAVE
+
+        d = SAVE / "sessions"
+        names = [p.name for p in d.glob("*.json")] if d.is_dir() else []
+        return {"ok": True, "files": names}
     return None

@@ -38,6 +38,12 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "notepad_list", "description": "List console notepad notes. Use ONLY if the steward asks to look at notes/notepad.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "notepad_read", "description": "Read one notepad note by id. Use ONLY if the steward asks to look at notes.", "parameters": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}}},
     {"type": "function", "function": {"name": "notepad_write", "description": "Save text into the console notepad. Use ONLY if the steward asks to save a note.", "parameters": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}, "text": {"type": "string"}}, "required": ["text"]}}},
+    {"type": "function", "function": {"name": "skill_list", "description": "List OpenClaw-compatible skills (bundled champions, workspace, extra dirs, ClawHub installs) and which are enabled.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "skill_read", "description": "Read full SKILL.md for one enabled/installed skill. Call this when invoking a champion or skill.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
+    {"type": "function", "function": {"name": "skill_enable", "description": "Enable a skill so the agent may use it. Operator can also toggle in the Skills panel.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
+    {"type": "function", "function": {"name": "skill_disable", "description": "Disable a skill.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
+    {"type": "function", "function": {"name": "clawhub_search", "description": "Search ClawHub public catalog (RESOURCE). HTTPS GET only.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "clawhub_install", "description": "Download a ClawHub skill zip into save/skills/installed. Only when the operator asks to install. Does not run scripts.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
     {"type": "function", "function": {"name": "kernel_status", "description": "Console + engine status (no secrets)", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "search_corpus", "description": "Lexical search under mapped search roots", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "p0_gate", "description": "Run P0 gate on supplied text", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
@@ -187,6 +193,30 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from notepad import write_note
 
         return write_note(args.get("id"), str(args.get("title") or ""), str(args.get("text") or args.get("content") or ""))
+    if name == "skill_list":
+        from skills_mod import list_skills
+
+        return list_skills()
+    if name == "skill_read":
+        from skills_mod import read_skill
+
+        return read_skill(str(args.get("slug") or args.get("name") or args.get("id") or ""))
+    if name == "skill_enable":
+        from skills_mod import set_enabled
+
+        return set_enabled(str(args.get("slug") or ""), True)
+    if name == "skill_disable":
+        from skills_mod import set_enabled
+
+        return set_enabled(str(args.get("slug") or ""), False)
+    if name == "clawhub_search":
+        from skills_mod import clawhub_search
+
+        return clawhub_search(str(args.get("q") or args.get("query") or ""))
+    if name == "clawhub_install":
+        from skills_mod import clawhub_install
+
+        return clawhub_install(str(args.get("slug") or args.get("name") or ""))
     if name == "kernel_status":
         from engine import ollama_port_open, resolve_binary, runner_for
         from paths import LLAMA_PORT

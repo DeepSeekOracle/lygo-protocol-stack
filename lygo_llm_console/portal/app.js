@@ -225,7 +225,7 @@
         else if (n === "web_fetch") args = { url: prompt("https url") || "https://chatagent.ca/" };
         else if (n === "list_dir") args = { path: "." };
         else if (n === "shell") args = { cmd: prompt("workspace command") || "dir" };
-        else if (n === "now" || n === "whoami" || n === "kernel_status" || n === "todo_list" || n === "notepad_list") args = {};
+        else if (n === "now" || n === "whoami" || n === "kernel_status" || n === "todo_list" || n === "notepad_list" || n === "skill_list") args = {};
         else {
           msg.value = "Use tool " + n + " as needed: ";
           msg.focus();
@@ -276,6 +276,80 @@
   }
   const wsr = document.getElementById("ws-refresh");
   if (wsr) wsr.onclick = refreshWorkspace;
+
+  async function refreshSkills() {
+    const box = document.getElementById("skills-list");
+    if (!box) return;
+    const r = await fetch("/api/skills", { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(() => ({}));
+    box.innerHTML = "";
+    (j.skills || []).forEach((s) => {
+      const row = document.createElement("label");
+      row.className = "skill-row";
+      const ck = document.createElement("input");
+      ck.type = "checkbox";
+      ck.checked = !!s.enabled;
+      ck.onchange = async () => {
+        await fetch("/api/skills", {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({ action: ck.checked ? "enable" : "disable", slug: s.slug }),
+        });
+      };
+      const name = document.createElement("span");
+      name.className = "sn";
+      name.textContent = s.slug;
+      name.title = s.description || "";
+      name.onclick = (ev) => {
+        ev.preventDefault();
+        msg.value = "Invoke skill " + s.slug + " — read the SKILL.md and follow it.";
+        msg.focus();
+      };
+      const src = document.createElement("span");
+      src.className = "src";
+      src.textContent = s.source || "";
+      row.appendChild(ck);
+      row.appendChild(name);
+      row.appendChild(src);
+      box.appendChild(row);
+    });
+  }
+  const skSearch = document.getElementById("skills-search");
+  if (skSearch) {
+    skSearch.onclick = async () => {
+      const q = (document.getElementById("skills-q") || {}).value || "";
+      const hub = document.getElementById("skills-hub");
+      if (hub) hub.textContent = "searching ClawHub…";
+      const r = await fetch("/api/skills?q=" + encodeURIComponent(q || "lygo"), { headers: headers(), cache: "no-store" });
+      const j = await r.json().catch(() => ({}));
+      if (!hub) return;
+      hub.innerHTML = "";
+      (j.hits || []).forEach((h) => {
+        const d = document.createElement("div");
+        const t = document.createElement("span");
+        t.textContent = (h.display || h.slug) + " — " + (h.summary || "").slice(0, 80);
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = "Install";
+        b.onclick = async () => {
+          b.textContent = "…";
+          const res = await fetch("/api/skills", {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify({ action: "install", slug: h.slug }),
+          });
+          const out = await res.json().catch(() => ({}));
+          b.textContent = out.ok ? "on" : "fail";
+          limb.textContent = JSON.stringify(out, null, 2);
+          await refreshSkills();
+        };
+        d.appendChild(t);
+        d.appendChild(b);
+        hub.appendChild(d);
+      });
+      if (!(j.hits || []).length) hub.textContent = j.error || "no hits";
+    };
+  }
 
   const npList = document.getElementById("np-list");
   const npTitle = document.getElementById("np-title");
@@ -426,6 +500,7 @@
     await refreshModels();
     await refreshWorkspace();
     await refreshLimbs();
+    try { await refreshSkills(); } catch (_) {}
     await loadContinuity();
     try {
       await npRefreshList();

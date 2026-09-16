@@ -51,9 +51,36 @@ def _read_cap(path: Path, cap: int) -> str:
 
 def compose_system() -> str:
     ensure_identity()
-    parts = [load_align(), ""]
+    parts: list[str] = []
+    try:
+        from admin_map import brief_text, is_admin
+
+        parts.append(brief_text())
+        parts.append("")
+        if is_admin():
+            parts.append(
+                "ADMIN RULE: For GitHub, Hugging Face, lattice, websites, drives, or passwords, "
+                "the host may already inject steward_map. Use those URLs. "
+                "Never invent github.com/user/repo, huggingface.co/models/transformers, or lattice.example.com."
+            )
+            parts.append("")
+    except Exception:
+        pass
+    parts.append(load_align())
+    parts.append("")
+    try:
+        from world_clock import pulse_stamps
+
+        w = pulse_stamps()
+        parts.append(
+            f"NOW UTC {w.get('utc_iso')} · local {w.get('local_iso')} ({w.get('local_tz')}) · unix {w.get('unix')} · {w.get('weekday')}."
+        )
+        parts.append("Call world_pulse for city clocks + weather. RESOURCE, not CANON.")
+        parts.append("")
+    except Exception:
+        pass
     soul = _read_cap(soul_path(), SOUL_MAX)
-    mem = _read_cap(memory_path(), MEMORY_MAX)
+    mem = _read_cap(memory_path(), 2500)
     if soul:
         parts.append("=== SOUL.md (identity; edit workspace/SOUL.md) ===")
         parts.append(soul)
@@ -62,7 +89,27 @@ def compose_system() -> str:
         parts.append("=== MEMORY.md (durable notes; grow with remember) ===")
         parts.append(mem)
         parts.append("")
+    for extra_name, cap in (("BRAIN.md", 5000), ("MAP.md", 4000), ("LINKS.md", 3500)):
+        ep = WORKSPACE / extra_name
+        if ep.is_file():
+            parts.append(f"=== {extra_name} ===")
+            parts.append(_read_cap(ep, cap))
+            parts.append("")
     parts.append("When the steward states a durable fact, call remember so MEMORY.md grows.")
+    parts.append("Never invent github.com/user/repo or lattice.example.com. Use steward_map / LINKS.md.")
+    parts.append("Never print *.pass file contents. Call credential_where. Point at the path only.")
+    parts.append(
+        "Console notepad lives in save/notepad. Do NOT read it unless the steward asks to look at notes. "
+        "Then call notepad_list / notepad_read. notepad_write only if they ask to save a note."
+    )
+    try:
+        from skills_mod import prompt_catalog
+
+        parts.append("")
+        parts.append(prompt_catalog())
+        parts.append("When the operator invokes a champion or /skill, call skill_read then follow that SKILL.md.")
+    except Exception:
+        pass
     return "\n".join(parts)
 
 
@@ -106,10 +153,10 @@ def save_session(messages: list[dict[str, Any]]) -> None:
         if not isinstance(m, dict):
             continue
         slim.append({"role": m.get("role"), "content": m.get("content")})
-    CURRENT.write_text(
-        json.dumps({"updated": time.time(), "messages": slim}, indent=2),
-        encoding="utf-8",
-    )
+    payload = json.dumps({"updated": time.time(), "messages": slim}, indent=2)
+    tmp = CURRENT.with_suffix(".json.tmp")
+    tmp.write_text(payload, encoding="utf-8")
+    tmp.replace(CURRENT)
 
 
 def new_session() -> None:

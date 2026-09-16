@@ -181,6 +181,31 @@ h2 {
 }
 .limbs { display: flex; flex-wrap: wrap; gap: 0.32rem; }
 .limbs button { font-size: 0.7rem; padding: 0.28rem 0.45rem; font-weight: 500; }
+.skills-list { display: flex; flex-direction: column; gap: 0.18rem; max-height: 14rem; overflow: auto; }
+.skill-row {
+  display: flex;
+  gap: 0.35rem;
+  align-items: flex-start;
+  font-size: 0.74rem;
+  color: var(--muted);
+  padding: 0.12rem 0;
+}
+.skill-row input { margin-top: 0.15rem; }
+.skill-row .sn { color: var(--ink); cursor: pointer; }
+.skill-row .sn:hover { color: var(--gold); }
+.skill-row .src { font-size: 0.64rem; opacity: 0.75; }
+.skills-hub { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; }
+.skills-hub button { font-size: 0.68rem; padding: 0.2rem 0.4rem; margin-left: 0.25rem; }
+#skills-q {
+  flex: 1;
+  min-width: 0;
+  background: #120e0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+}
 .filelist { list-style: none; padding: 0; margin: 0; font-size: 0.8rem; }
 .filelist li { padding: 0.22rem 0; cursor: pointer; color: var(--muted); }
 .filelist li:hover { color: var(--gold); }

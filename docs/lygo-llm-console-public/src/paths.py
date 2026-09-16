@@ -15,6 +15,9 @@ WORKSPACE = KIT_ROOT / "workspace"
 RECEIPTS = SAVE / "receipts"
 MYCELIUM = SAVE / "mycelium"
 LOGS = SAVE / "logs"
+NOTEPAD = SAVE / "notepad"
+SKILLS = KIT_ROOT / "skills"
+SKILLS_SAVE = SAVE / "skills"
 REGISTRY_PATH = SAVE / "registry.json"
 CONSOLE_JSON = CONFIG / "console.json"
 LOCAL_JSON = CONFIG / "local.json"
@@ -28,7 +31,20 @@ EMBED_PORT = 11442
 
 
 def ensure_dirs() -> None:
-    for p in (DATA, SAVE, WORKSPACE, RECEIPTS, MYCELIUM, LOGS, ENGINE_DIR):
+    for p in (
+        DATA,
+        SAVE,
+        WORKSPACE,
+        RECEIPTS,
+        MYCELIUM,
+        LOGS,
+        NOTEPAD,
+        NOTEPAD / "notes",
+        SKILLS_SAVE,
+        SKILLS_SAVE / "installed",
+        WORKSPACE / "skills",
+        ENGINE_DIR,
+    ):
         p.mkdir(parents=True, exist_ok=True)
 
 
@@ -39,4 +55,7 @@ def stack_root() -> Path | None:
         if p.is_dir():
             return p
     # GamePC default
+    cand = Path(r"I:\E Drive\lygo-protocol-stack")
+    if cand.is_dir():
+        return cand
     return None

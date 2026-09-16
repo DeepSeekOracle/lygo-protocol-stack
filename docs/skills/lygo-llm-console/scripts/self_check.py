@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import lygo_llm_console_map as m  # noqa: E402
 
-PIN = "0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce"
+PIN = "b60ed6deae6f1dba7182fa386bd00b1e724001638e8f2f30936af0a240b4444e"
 
 
 def main() -> int:

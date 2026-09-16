@@ -9,7 +9,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
-PIN = "0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce"
+PIN = "b60ed6deae6f1dba7182fa386bd00b1e724001638e8f2f30936af0a240b4444e"
 ZIP_NAME = "lygo-llm-console-public.zip"
 
 

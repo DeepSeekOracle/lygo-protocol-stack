@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916c">
+<link rel="stylesheet" href="/static/style.css?v=20260916d">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -37,6 +37,14 @@
     <h2>Workspace</h2>
     <button type="button" id="ws-refresh">Refresh files</button>
     <ul id="ws" class="filelist"></ul>
+    <h2>Skills</h2>
+    <p class="hint">Δ9 champions on/off. ClawHub search installs to this console. OpenClaw SKILL.md compatible.</p>
+    <div id="skills-list" class="skills-list"></div>
+    <div class="np-bar" style="margin-top:0.35rem">
+      <input id="skills-q" type="text" placeholder="ClawHub search" maxlength="80" autocomplete="off">
+      <button type="button" id="skills-search">Search</button>
+    </div>
+    <div id="skills-hub" class="skills-hub"></div>
     <h2>Limbs</h2>
     <div id="limbs" class="limbs"></div>
     <p class="hint">Click a limb to run it, or ask in chat. HTTPS search/fetch is live. Shell stays in workspace. P0 blocks OS wipe.</p>
@@ -75,6 +83,6 @@
     </p>
   </aside>
 </main>
-<script src="/static/app.js?v=20260916c"></script>
+<script src="/static/app.js?v=20260916d"></script>
 </body>
 </html>

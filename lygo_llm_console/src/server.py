@@ -68,7 +68,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916c"
+BUILD = "v1.1-20260916d"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -268,8 +268,8 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916c">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916c"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916d">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916d"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -361,6 +361,16 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/session":
             self._json(200, {"messages": load_session()})
             return
+        if path == "/api/skills":
+            from skills_mod import clawhub_search, list_skills
+
+            qs = parse_qs(urlparse(self.path).query)
+            q = (qs.get("q") or [""])[0].strip()
+            if q:
+                self._json(200, clawhub_search(q))
+            else:
+                self._json(200, list_skills())
+            return
         if path == "/api/notepad":
             from notepad import list_notes, read_note
 
@@ -441,6 +451,39 @@ class Handler(BaseHTTPRequestHandler):
             if isinstance(msgs, list):
                 save_session(msgs)
             self._json(200, {"ok": True, "messages": load_session()})
+            return
+        if path == "/api/skills":
+            from skills_mod import add_root, clawhub_install, clawhub_inspect, clawhub_search, read_skill, set_enabled
+
+            body = self._read_body(32_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "").lower()
+            slug = str(obj.get("slug") or obj.get("name") or "")
+            if action == "enable":
+                self._json(200, set_enabled(slug, True))
+                return
+            if action == "disable":
+                self._json(200, set_enabled(slug, False))
+                return
+            if action == "read":
+                self._json(200, read_skill(slug))
+                return
+            if action == "search":
+                self._json(200, clawhub_search(str(obj.get("q") or "")))
+                return
+            if action == "inspect":
+                self._json(200, clawhub_inspect(slug))
+                return
+            if action == "install":
+                self._json(200, clawhub_install(slug))
+                return
+            if action == "add_root":
+                self._json(200, add_root(str(obj.get("path") or "")))
+                return
+            self._json(400, {"ok": False, "error": "bad_action"})
             return
         if path == "/api/notepad":
             from notepad import delete_note, new_note, write_note
