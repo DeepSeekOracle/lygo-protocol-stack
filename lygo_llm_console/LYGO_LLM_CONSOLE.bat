@@ -1,22 +1,28 @@
 @echo off
-setlocal
+setlocal EnableExtensions
 title LYGO LLM Console v1.1
-REM Always the NEW console (not kit/ or public/ copies)
 set CANON=I:\E Drive\lygo-protocol-stack\lygo_llm_console
 cd /d "%CANON%"
 echo.
-echo  LYGO Agent Portal v1.1  —  24 limbs, Scan/Boot in HEADER
+echo  LYGO Agent Portal v1.1
 echo  Folder: %CANON%
 echo  Page:   http://127.0.0.1:9641/
 echo.
-echo  Stopping any old console on 9641 / 11441 ...
-powershell -NoProfile -Command "foreach ($p in 9641,11441,11442) { Get-NetTCPConnection -LocalPort $p -State Listen -EA SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -EA SilentlyContinue } }"
-timeout /t 2 /nobreak >nul
+REM netstat (not Get-NetTCPConnection — that hangs on this PC)
+for %%P in (9641 11441 11442) do (
+  for /f "tokens=5" %%A in ('netstat -ano ^| findstr /R /C:":%%P .*LISTENING"') do (
+    echo  Stopping PID %%A on port %%P
+    taskkill /F /PID %%A >nul 2>&1
+  )
+)
+if exist "C:\Python313\python.exe" (set "LYGO_PYTHON=C:\Python313\python.exe") else (set "LYGO_PYTHON=py")
 if defined LYGO_PYTHON if exist "%LYGO_PYTHON%" goto :run
-if exist "C:\Python313\python.exe" set LYGO_PYTHON=C:\Python313\python.exe
-if not defined LYGO_PYTHON set LYGO_PYTHON=py
+set "LYGO_PYTHON=py"
 :run
 echo  Python: %LYGO_PYTHON%
+echo  Starting server...
 echo.
 "%LYGO_PYTHON%" -u "%CANON%\src\server.py" serve %*
-if errorlevel 1 pause
+echo.
+echo  Console exited. Code %ERRORLEVEL%
+pause

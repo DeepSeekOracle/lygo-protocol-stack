@@ -101,7 +101,6 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         Path(r"U:\LYGO\models"),
         Path(r"F:\LYGO\models"),
         Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
-        Path(os.path.expandvars(r"%USERPROFILE%\Documents")),
     ]
     for p in extras:
         try:
@@ -638,27 +637,6 @@ def main() -> int:
         BIND = "0.0.0.0"
         AUTH_REQUIRED = True
     cfg = load_console()
-    if args.gguf:
-        p = Path(args.gguf)
-        rec = {
-            "id": p.stem,
-            "path": str(p),
-            "kind": "chat",
-            "ctx": 4096,
-            "n_gpu_layers": 0,
-            "runnable": p.is_file(),
-            "source": "cli",
-            "bytes": p.stat().st_size if p.is_file() else 0,
-        }
-        reg_upsert([rec], selected=p.stem)
-        STATE["selected"] = p.stem
-        STATE["scan_n"] = 1
-    else:
-        scanned = scan_roots(default_scan_roots(cfg))
-        data = reg_upsert(scanned.get("models") or [])
-        STATE["selected"] = data.get("selected")
-        STATE["scan_n"] = len(data.get("models") or [])
-        print(f"scan models={STATE['scan_n']} truncated={scanned.get('scan_truncated')} selected={STATE.get('selected')}")
     if args.cmd != "serve":
         print("unknown cmd", args.cmd)
         return 2
@@ -667,9 +645,35 @@ def main() -> int:
     print(f"LYGO LLM Console {BUILD}  {url}")
     print(f"kit {KIT_ROOT}")
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
-    if not MOCK_ONLY and STATE.get("selected"):
-        print(f"booting {STATE.get('selected')} …")
-        boot_async(str(STATE.get("selected")))
+
+    def warmup() -> None:
+        if args.gguf:
+            p = Path(args.gguf)
+            rec = {
+                "id": p.stem,
+                "path": str(p),
+                "kind": "chat",
+                "ctx": 4096,
+                "n_gpu_layers": 0,
+                "runnable": p.is_file(),
+                "source": "cli",
+                "bytes": p.stat().st_size if p.is_file() else 0,
+            }
+            reg_upsert([rec], selected=p.stem)
+            STATE["selected"] = p.stem
+            STATE["scan_n"] = 1
+        else:
+            print("scanning models…")
+            scanned = scan_roots(default_scan_roots(cfg))
+            data = reg_upsert(scanned.get("models") or [])
+            STATE["selected"] = data.get("selected")
+            STATE["scan_n"] = len(data.get("models") or [])
+            print(f"scan models={STATE['scan_n']} truncated={scanned.get('scan_truncated')} selected={STATE.get('selected')}")
+        if not MOCK_ONLY and STATE.get("selected"):
+            print(f"booting {STATE.get('selected')} …")
+            boot_async(str(STATE.get("selected")))
+
+    threading.Thread(target=warmup, daemon=True, name="lygo-warmup").start()
     if not args.no_browser:
         try:
             webbrowser.open(url)
