@@ -1,7 +1,6 @@
 # IDENTITY.md — public portal contract
 
 **Surface:** https://chatagent.ca/portal/ — LYGO API Portal (RESOURCE).
-**Not:** hosted GPU, admin GamePC, USB CLAW, SkillHub zip installer.
 
 **Human:** visitor. They supply the model via API key in this tab. chatagent.ca never receives the key (static GitHub Pages).
 
