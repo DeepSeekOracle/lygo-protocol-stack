@@ -12,6 +12,12 @@
   <div>
     <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
     <div class="sub">Local OpenClaw-class console · Justin Helmer / Lightfather · LYGO AI agents</div>
+    <div class="modelbar">
+      <button type="button" id="scan">Scan drives</button>
+      <select id="models" title="Available GGUF / Ollama CAS models"></select>
+      <button type="button" id="select">Boot LLM</button>
+      <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
+    </div>
   </div>
   <div id="health" class="health">probing…</div>
 </header>
@@ -37,13 +43,6 @@
     </form>
   </section>
   <aside>
-    <h2>Models</h2>
-    <div class="row">
-      <button type="button" id="scan">Scan drives</button>
-      <select id="models"></select>
-      <button type="button" id="select">Boot LLM</button>
-    </div>
-    <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
     <h2>Trace</h2>
     <pre id="limb-out" class="limb-out">—</pre>
     <p class="hint">

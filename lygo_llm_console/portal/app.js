@@ -52,7 +52,12 @@
   async function refreshModels() {
     const r = await fetch("/api/models", { headers: headers() });
     if (!r.ok) {
-      limb.textContent = "models " + r.status + " — retry Scan";
+      limb.textContent = "models " + r.status + " — retry Scan drives (header bar)";
+      const o = document.createElement("option");
+      o.textContent = "(scan failed " + r.status + ")";
+      o.value = "";
+      models.innerHTML = "";
+      models.appendChild(o);
       return;
     }
     const j = await r.json();

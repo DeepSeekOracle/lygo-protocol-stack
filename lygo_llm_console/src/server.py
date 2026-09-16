@@ -95,9 +95,20 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
     home_cas = Path(os.path.expandvars(r"%USERPROFILE%\.ollama\models"))
     if home_cas.is_dir() and str(home_cas) not in out:
         out.append(str(home_cas))
-    kit_models = KIT_ROOT / "models"
-    if str(kit_models) not in out:
-        out.append(str(kit_models))
+    extras = [
+        KIT_ROOT / "models",
+        Path(r"U:\LYGO\models"),
+        Path(r"F:\LYGO\models"),
+        Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
+        Path(os.path.expandvars(r"%USERPROFILE%\Documents")),
+    ]
+    for p in extras:
+        try:
+            s = str(p)
+        except Exception:
+            continue
+        if p.exists() and s not in out:
+            out.append(s)
     return out
 
 
@@ -179,8 +190,11 @@ class Handler(BaseHTTPRequestHandler):
         return {k: v for k, v in self.headers.items()}
 
     def _loopback(self) -> bool:
-        ip = (self.client_address or ("", 0))[0]
-        return ip in ("127.0.0.1", "::1", "localhost")
+        ip = ((self.client_address or ("", 0))[0] or "").lower().replace("::ffff:", "")
+        if ip in ("127.0.0.1", "::1", "localhost"):
+            return True
+        host = (self.headers.get("Host") or "").split(":")[0].lower().strip("[]")
+        return host in ("127.0.0.1", "localhost", "::1")
 
     def _ok_public(self) -> bool:
         path = urlparse(self.path).path
