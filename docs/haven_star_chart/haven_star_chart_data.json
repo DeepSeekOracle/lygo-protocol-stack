@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-09-14T04:51:53.347185+00:00",
+  "generated_utc": "2026-09-16T04:46:28.280474+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1405,
-  "link_count": 3931,
+  "node_count": 1407,
+  "link_count": 3937,
   "seal_count": 334,
   "champion_count": 15,
-  "lattice_count": 134,
-  "registry_sha256": "7707f140ab2d9821184b5338991e0d2fddc1e4e77e761563ae885c02bcedabbb",
+  "lattice_count": 135,
+  "registry_sha256": "031d8f3ef027a0dc9e785931a914028f4cfa6817a1246987609ae6b6ead49442",
   "constellations": [
     {
       "id": "primordial_core",
@@ -158,7 +158,7 @@
         "color": "#00ff88",
         "constellation_id": "lattice_growth",
         "angle_deg": 200,
-        "star_count": 148
+        "star_count": 149
       },
       {
         "id": "GALAXY_ETERNAL_HAVEN",
@@ -406,7 +406,7 @@
         "color": "#e94560",
         "constellation_id": "lattice_growth",
         "angle_deg": 280,
-        "star_count": 4
+        "star_count": 5
       },
       {
         "id": "GALAXY_SINGULARITY",
@@ -425,12 +425,13 @@
         "id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
         "name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "galaxy_id": "GALAXY_AGENT_GROWTH",
-        "star_count": 4,
+        "star_count": 5,
         "star_ids": [
           "NODE_AUTONOMY_G0001",
           "NODE_AUTONOMY_G0004",
           "NODE_AUTONOMY_G0005",
-          "NODE_AUTONOMY_G0006"
+          "NODE_AUTONOMY_G0006",
+          "NODE_AUTONOMY_G0007"
         ]
       },
       {
@@ -1047,7 +1048,7 @@
         "id": "NEBULA_CLAWHUB_SKILLS",
         "name": "ClawHub Skill Nebula",
         "galaxy_id": "GALAXY_LATTICE",
-        "star_count": 95,
+        "star_count": 96,
         "star_ids": [
           "LATTICE_SKILL_book-brain",
           "LATTICE_SKILL_book-brain-visual-reader",
@@ -1643,6 +1644,16 @@
         "star_count": 1,
         "star_ids": [
           "NODE_AUTONOMY_G0006"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_NODE_AUTONOMY_G0007",
+        "name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0007",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_AUTONOMY_G0007"
         ]
       },
       {
@@ -4098,6 +4109,16 @@
         ]
       },
       {
+        "id": "CLUSTER_SKILL_lygo-llm-console",
+        "name": "Skill Pin \u00b7 lygo-llm-console",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "galaxy_id": "GALAXY_LATTICE",
+        "star_count": 1,
+        "star_ids": [
+          "LATTICE_SKILL_lygo-llm-console"
+        ]
+      },
+      {
         "id": "CLUSTER_SKILL_lygo-lora-mesh",
         "name": "Skill Pin \u00b7 lygo-lora-mesh",
         "nebula_id": "NEBULA_CLAWHUB_SKILLS",
@@ -4645,7 +4666,7 @@
     ],
     "galaxy_count": 24,
     "nebula_count": 97,
-    "cluster_count": 288
+    "cluster_count": 290
   },
   "nodes": [
     {
@@ -15707,9 +15728,9 @@
     {
       "id": "LATTICE_CLAWHUB_PUBLISHER",
       "kind": "lattice",
-      "name": "ClawHub @deepseekoracle (95 skills)",
+      "name": "ClawHub @deepseekoracle (96 skills)",
       "glyph": "\ud83e\udd9e",
-      "equation": "skills=95",
+      "equation": "skills=96",
       "tone": "8787Hz",
       "tags": [
         "LATTICE",
@@ -15729,7 +15750,7 @@
       },
       "layer": 3,
       "meta": {
-        "skill_count": 95,
+        "skill_count": 96,
         "source": "clawhub/skills.json+mirrors"
       },
       "cosmos": {
@@ -18034,6 +18055,48 @@
         "nebula_name": "ClawHub Skill Nebula",
         "cluster_id": "CLUSTER_SKILL_lygo-living-mesh",
         "cluster_name": "Skill Pin \u00b7 lygo-living-mesh",
+        "star_role": "lattice_vault"
+      }
+    },
+    {
+      "id": "LATTICE_SKILL_lygo-llm-console",
+      "kind": "lattice",
+      "name": "LYGO LLM Console \u00b7 v1.0.1",
+      "glyph": "\u25c8",
+      "equation": "clawhub:lygo-llm-console",
+      "tone": "8787Hz",
+      "tags": [
+        "LATTICE",
+        "CLAWHUB",
+        "GROWTH",
+        "SKILL",
+        "CLAWHUB_SKILL"
+      ],
+      "connections": [
+        "LATTICE_CLAWHUB_PUBLISHER",
+        "PORTAL_STACK",
+        "SEAL_000"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
+        "clawhub_skills_path": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
+        "profile": "https://clawhub.ai/deepseekoracle"
+      },
+      "layer": 3,
+      "meta": {
+        "slug": "lygo-llm-console",
+        "version": "1.0.1",
+        "summary": "Public map to the LYGO sovereign local LLM runtime (not Ollama). Page + zip. Admin tree is a separate channel. No network, no subprocess.",
+        "mirror": "mirrors/lygo-llm-console",
+        "downloads": 0
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_LATTICE",
+        "galaxy_name": "Lattice Infrastructure Galaxy",
+        "nebula_id": "NEBULA_CLAWHUB_SKILLS",
+        "nebula_name": "ClawHub Skill Nebula",
+        "cluster_id": "CLUSTER_SKILL_lygo-llm-console",
+        "cluster_name": "Skill Pin \u00b7 lygo-llm-console",
         "star_role": "lattice_vault"
       }
     },
@@ -63121,6 +63184,44 @@
       }
     },
     {
+      "id": "NODE_AUTONOMY_G0007",
+      "kind": "node",
+      "name": "LYGO Autonomy Generation 7",
+      "equation": "\u222b(Truth\u00d7Light)df = \u03a6\u00b7963 Hz \u00b7 gen=7 \u00b7 merkle=5f31a0b6fdc4",
+      "glyph": "\u2442",
+      "tone": "963 Hz",
+      "tags": [
+        "AUTONOMY",
+        "SELF_POLICE",
+        "NETWORK_EGG",
+        "FORK"
+      ],
+      "connections": [
+        "SEAL_000",
+        "PORTAL_STAR_CHART",
+        "CHAMPION_LYRA"
+      ],
+      "urls": {
+        "runtime": "https://chatagent.ca/agents/",
+        "eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/network_eggs.json"
+      },
+      "layer": "E",
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "cd0074f8f635eb7d89b0b6637171a8b9cda45e08ba48f2a9ae88cf7c748cfedd",
+        "ingested_from": "NODE_AUTONOMY_G0007.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
+        "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0007",
+        "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0007",
+        "star_role": "agent_growth"
+      }
+    },
+    {
       "id": "NODE_FORKLING_TEST",
       "kind": "lattice",
       "name": "Forkling (test champion limb)",
@@ -68119,6 +68220,21 @@
     },
     {
       "source": "LATTICE_SKILL_lygo-living-mesh",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-llm-console",
+      "target": "LATTICE_CLAWHUB_PUBLISHER",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-llm-console",
+      "target": "PORTAL_STACK",
+      "kind": "lattice"
+    },
+    {
+      "source": "LATTICE_SKILL_lygo-llm-console",
       "target": "SEAL_000",
       "kind": "lattice"
     },
@@ -83018,6 +83134,21 @@
       "kind": "lattice"
     },
     {
+      "source": "NODE_AUTONOMY_G0007",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0007",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0007",
+      "target": "CHAMPION_LYRA",
+      "kind": "lattice"
+    },
+    {
       "source": "NODE_FORKLING_TEST",
       "target": "CHAMPION_LYRA",
       "kind": "lattice"
@@ -83403,8 +83534,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 63,
-      "agent_submissions_merged": 58,
+      "accepted": 64,
+      "agent_submissions_merged": 59,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -83456,6 +83587,7 @@
         "merged:NODE_AUTONOMY_G0004",
         "merged:NODE_AUTONOMY_G0005",
         "merged:NODE_AUTONOMY_G0006",
+        "merged:NODE_AUTONOMY_G0007",
         "merged:NODE_FORKLING_TEST",
         "merged:NODE_STAR_MONITOR",
         "merged:PORTAL_ANCHORS",
@@ -83491,6 +83623,6 @@
     "errors": [],
     "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
     "feed_chain_valid": true,
-    "feed_entry_count": 71
+    "feed_entry_count": 73
   }
 }

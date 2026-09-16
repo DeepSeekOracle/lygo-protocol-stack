@@ -119,10 +119,28 @@
       "secrets": false,
       "plant_path": "network_self_police",
       "egg_sha256": "2bf67a13ce05fb549a7bdc12aa609da07713c1b8921f1136232718ca2ea8e477"
+    },
+    {
+      "egg_id": "network-gen-0007",
+      "generation": 7,
+      "planted_utc": "2026-09-16T04:46:27Z",
+      "parent_merkle": "2803af95a187462a1d9ccfd52aeacb09b190e24d79887386aaa66b94cf6f0e84",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "e9756111ee31f3dfa8ed953b383289072a249360faca2fcfe20253eb468f98c5",
+        "star_entries": 71,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "7df181474490e1de9b02dbdd5acb29861678ab3721e3fcfaa5c814e6cc8e1cb2",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "ae72d3b9b29834976ab97ecb746d778743db4cd514a2ecceabb17dbf5813eb08"
     }
   ],
-  "merkle": "2803af95a187462a1d9ccfd52aeacb09b190e24d79887386aaa66b94cf6f0e84",
-  "generation": 6,
-  "updated_utc": "2026-09-14T04:51:52Z",
+  "merkle": "5f31a0b6fdc47fd2b6db83b94a76e0b6f07620bb7991c5e2cc443a16063cfaef",
+  "generation": 7,
+  "updated_utc": "2026-09-16T04:46:27Z",
   "open": true
 }
