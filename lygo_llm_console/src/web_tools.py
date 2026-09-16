@@ -12,7 +12,7 @@ from html.parser import HTMLParser
 from typing import Any
 from urllib.parse import urlparse
 
-UA = "LYGO-LLM-Console/1.0 (+https://chatagent.ca/lygo-llm-console.html; steward Justin Helmer)"
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 LYGO-LLM-Console/1.1"
 TIMEOUT = 12
 MAX_BYTES = 200_000
 CTX = ssl.create_default_context()
@@ -93,50 +93,135 @@ class _DDG(HTMLParser):
             self._buf.append(data)
 
 
-def wikipedia_search(q: str, n: int = 5) -> list[dict[str, str]]:
-    qs = urllib.parse.urlencode({"action": "opensearch", "search": q, "limit": str(n), "namespace": "0", "format": "json"})
+_STOP = {
+    "how", "many", "much", "do", "does", "did", "the", "a", "an", "if", "so", "is", "are",
+    "what", "who", "where", "when", "why", "to", "for", "of", "and", "or", "in", "on",
+    "have", "has", "with", "your", "you", "please", "find", "anser", "answer", "info",
+}
+
+
+def _keywords(q: str) -> str:
+    words = re.findall(r"[A-Za-z][A-Za-z\-']+", q or "")
+    keep = [w for w in words if w.lower() not in _STOP]
+    return " ".join(keep[:8]) or (q or "")
+
+
+def wikipedia_extract(title: str) -> str:
+    qs = urllib.parse.urlencode(
+        {
+            "action": "query",
+            "prop": "extracts",
+            "explaintext": "1",
+            "exchars": "3500",
+            "titles": title,
+            "format": "json",
+            "redirects": "1",
+        }
+    )
     code, raw, _ = _get("https://en.wikipedia.org/w/api.php?" + qs)
-    out: list[dict[str, str]] = []
     if code != 200:
-        return out
+        return ""
     try:
-        data = json.loads(raw.decode("utf-8", errors="replace"))
+        pages = json.loads(raw.decode("utf-8", errors="replace")).get("query", {}).get("pages", {})
     except json.JSONDecodeError:
-        return out
-    titles = data[1] if len(data) > 1 else []
-    descs = data[2] if len(data) > 2 else []
-    urls = data[3] if len(data) > 3 else []
-    for i, title in enumerate(titles):
+        return ""
+    for page in pages.values():
+        return str(page.get("extract") or "")[:3500]
+    return ""
+
+
+def wikipedia_search(q: str, n: int = 5) -> list[dict[str, str]]:
+    out: list[dict[str, str]] = []
+    seen: set[str] = set()
+
+    def add(title: str, snippet: str) -> None:
+        title = (title or "").strip()
+        if not title or title in seen:
+            return
+        seen.add(title)
+        extract = wikipedia_extract(title)
         out.append(
             {
-                "title": str(title),
-                "url": str(urls[i]) if i < len(urls) else "",
-                "snippet": str(descs[i]) if i < len(descs) else "",
+                "title": title,
+                "url": "https://en.wikipedia.org/wiki/" + urllib.parse.quote(title.replace(" ", "_")),
+                "snippet": re.sub(r"<[^>]+>", "", snippet or "")[:400],
+                "extract": extract,
                 "source": "wikipedia",
             }
         )
-    return out
+
+    queries = [q]
+    kw = _keywords(q)
+    if kw.lower() != (q or "").lower():
+        queries.append(kw)
+    if " " in kw:
+        queries.append(kw.split()[0])
+    head = (kw.split()[0] if kw else "").strip()
+    if head and head[:1].isalpha():
+        add(head[:1].upper() + head[1:].lower(), "")
+
+    for qq in queries:
+        if len(out) >= n:
+            break
+        qs = urllib.parse.urlencode(
+            {"action": "query", "list": "search", "srsearch": qq, "srlimit": str(n), "utf8": "1", "format": "json"}
+        )
+        code, raw, _ = _get("https://en.wikipedia.org/w/api.php?" + qs)
+        if code != 200:
+            continue
+        try:
+            rows = json.loads(raw.decode("utf-8", errors="replace")).get("query", {}).get("search") or []
+        except json.JSONDecodeError:
+            rows = []
+        for row in rows:
+            add(str(row.get("title") or ""), str(row.get("snippet") or ""))
+            if len(out) >= n:
+                break
+        if out:
+            break
+    if not out:
+        qs = urllib.parse.urlencode({"action": "opensearch", "search": kw or q, "limit": str(n), "namespace": "0", "format": "json"})
+        code, raw, _ = _get("https://en.wikipedia.org/w/api.php?" + qs)
+        if code == 200:
+            try:
+                data = json.loads(raw.decode("utf-8", errors="replace"))
+            except json.JSONDecodeError:
+                data = []
+            titles = data[1] if len(data) > 1 else []
+            descs = data[2] if len(data) > 2 else []
+            for i, title in enumerate(titles):
+                add(str(title), str(descs[i]) if i < len(descs) else "")
+    kws = [w.lower() for w in kw.split() if w]
+    out.sort(key=lambda h: 0 if any(k in (h.get("title") or "").lower() for k in kws) else 1)
+    return out[:n]
 
 
 def duckduckgo_search(q: str) -> list[dict[str, str]]:
     qs = urllib.parse.urlencode({"q": q, "kl": "us-en"})
-    code, raw, _ = _get("https://html.duckduckgo.com/html/?" + qs)
-    if code != 200 or not raw:
-        return []
-    p = _DDG()
-    try:
-        p.feed(raw.decode("utf-8", errors="replace"))
-    except Exception:
-        return []
-    seen = set()
-    out = []
-    for r in p.results:
-        if r["url"] in seen:
+    urls = [f"https://html.duckduckgo.com/html/?{qs}", f"https://lite.duckduckgo.com/lite/?{qs}"]
+    out: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for url in urls:
+        code, raw, _ = _get(url)
+        if code not in (200, 202) or not raw:
             continue
-        seen.add(r["url"])
-        r["source"] = "duckduckgo"
-        out.append(r)
-        if len(out) >= 8:
+        text = raw.decode("utf-8", errors="replace")
+        if "anomaly" in text.lower() and "challenge" in text.lower():
+            continue
+        p = _DDG()
+        try:
+            p.feed(text)
+        except Exception:
+            continue
+        for r in p.results:
+            if r["url"] in seen:
+                continue
+            seen.add(r["url"])
+            r["source"] = "duckduckgo"
+            out.append(r)
+            if len(out) >= 8:
+                return out
+        if out:
             break
     return out
 

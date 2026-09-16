@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -21,6 +22,14 @@ class WebToolsTests(unittest.TestCase):
         hits = wikipedia_search("International Space Station", n=3)
         self.assertTrue(hits)
         self.assertTrue(any("wikipedia.org" in (h.get("url") or "") for h in hits))
+
+    def test_leech_query_has_hits(self):
+        from web_tools import web_search
+
+        s = web_search("do leeches have teeth how many")
+        self.assertTrue(s.get("hits"), s)
+        blob = json.dumps(s).lower()
+        self.assertTrue("leech" in blob or "hirud" in blob, blob[:400])
 
     def test_extract_urls(self):
         t = "Check https://chatagent.ca/ and <https://chatagent.ca/lygo-llm-console.html>"

@@ -11,7 +11,11 @@ from tools import dispatch, parse_fence_tool
 SYSTEM = load_align()
 URL_RE = re.compile(r"https://[^\s<>\]\)\"'`]+", re.I)
 SEARCH_HINT = re.compile(
-    r"\b(search|look\s*up|google|web_search|web_fetch|find info|hooked up|use your (search )?tools|read the page|summarize)\b",
+    r"\b(look\s*up|google|web_search|search for|find out|how many|how much|what is|what are|who is|where is|do \w+ have|does \w+ have)\b",
+    re.I,
+)
+META_TOOLS = re.compile(
+    r"(access the internet|search tools|hooked up|are your tools|can you search|tools working)",
     re.I,
 )
 
@@ -101,12 +105,26 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     for url in urls:
         result = dispatch("web_fetch", {"url": url})
         traces.append({"name": "web_fetch", "arguments": {"url": url}, "result": result, "host": True})
-    if not urls and SEARCH_HINT.search(user_text or ""):
-        q = SEARCH_HINT.sub(" ", user_text or "")
-        q = re.sub(r"\s+", " ", q).strip()[:220]
-        if len(q) >= 3:
-            result = dispatch("web_search", {"q": q})
+    if urls:
+        return traces
+    if META_TOOLS.search(user_text or "") and not SEARCH_HINT.search(user_text or ""):
+        return traces
+    if SEARCH_HINT.search(user_text or ""):
+        q = re.sub(r"\s+", " ", user_text or "").strip()[:220]
+        result = dispatch("web_search", {"q": q})
+        hits = (result or {}).get("hits") or []
+        if hits:
             traces.append({"name": "web_search", "arguments": {"q": q}, "result": result, "host": True})
+            top = hits[0].get("url") or ""
+            if top.startswith("https://"):
+                traces.append(
+                    {
+                        "name": "web_fetch",
+                        "arguments": {"url": top},
+                        "result": dispatch("web_fetch", {"url": top}),
+                        "host": True,
+                    }
+                )
     return traces
 
 
