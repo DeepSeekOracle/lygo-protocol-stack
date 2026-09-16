@@ -137,10 +137,20 @@
 </section>
 <main>
   <nav class="rail">
-    <h2>Align</h2>
-    <p class="hint">15 Δ9 champions (public lenses). Click to invoke. <a href="https://chatagent.ca/champions.html">directory</a></p>
-    <div id="champs" class="champions"></div>
-    <p class="hint" id="skill-pack">Loading LYGO default skills…</p>
+    <h2>Continuity</h2>
+    <div class="cont-tabs" role="tablist">
+      <button type="button" class="on" data-cont="soul">Soul</button>
+      <button type="button" data-cont="id">Identity</button>
+      <button type="button" data-cont="mem">Memory</button>
+    </div>
+    <div id="pane-soul" class="cont-pane"><textarea id="soul-edit" spellcheck="false" aria-label="SOUL.md"></textarea></div>
+    <div id="pane-id" class="cont-pane" hidden><textarea id="id-edit" spellcheck="false" aria-label="IDENTITY.md"></textarea></div>
+    <div id="pane-mem" class="cont-pane" hidden><textarea id="mem-edit" spellcheck="false" aria-label="MEMORY.md"></textarea></div>
+    <p class="hint">Shipped with this portal. Edits stay in your browser. <button type="button" id="id-reset">Reset defaults</button></p>
+    <h2>Skills</h2>
+    <p class="hint">Already on this page. Toggle on/off — no download. 15 champions + LYGO modules.</p>
+    <div id="skills-list" class="skills-list"></div>
+    <p class="hint" id="skill-pack">Loading pack…</p>
     <h2>Agent limbs</h2>
     <p class="hint">Run in this browser after Connect. No server disk.</p>
     <div class="limbs">

@@ -21,6 +21,13 @@
     {"slug": "lygo-public-witness", "name": "Public witness", "when": "OSINT vs private intel", "text": "Public feeds are RESOURCE. Dual ledgers/Star Chart are CANON. Never invent missing sources. HTTPS GET only."},
     {"slug": "lygo-continuum", "name": "Continuum", "when": "seal done as checkable claims", "text": "Done means file SHA, contains, JSON path, or glob — not vibes. This browser can hash_text and fetch_page. Local disk seals need the FULL console."},
     {"slug": "lygo-context-guard", "name": "Context guard", "when": "long dumps, secrets, token budget", "text": "Redact keys before re-injection. Compact tool dumps. Estimate size. Never echo API keys from the page."},
-    {"slug": "lygo-skill-gate", "name": "Skill gate", "when": "reviewing a skill or prompt pack", "text": "Scan for subprocess/shell, network, secrets, eval. This page cannot execute skill scripts. Advisor only."}
+    {"slug": "lygo-skill-gate", "name": "Skill gate", "when": "reviewing a skill or prompt pack", "text": "Scan for subprocess/shell, network, secrets, eval. This page cannot execute skill scripts. Advisor only."},
+    {"slug": "lygo-mint-verifier", "name": "LYGO-MINT", "when": "provenance, hashes, ledgers", "text": "Canonicalize text, SHA-256 via hash_text, describe ledger append. No auto-publish. Live Star Chart writes need the local kit + consent."},
+    {"slug": "lygo-kickstart-wizard", "name": "Kickstart", "when": "new visitor, what to do first", "text": "Ask what they want: connect API, pick a champion, or download local FULL console. Explain CANON vs RESOURCE. Link SkillHub FULL for disks."},
+    {"slug": "lygo-tv", "name": "LYGO TV", "when": "watch channels", "text": "Send humans to https://chatagent.ca/sources/ Channel tab. No login. Catalog is RESOURCE."},
+    {"slug": "lygo-ascii-art", "name": "ASCII art", "when": "photo to letters", "text": "Point to https://eternalhaven.ca ASCII tool. No upload from this agent."},
+    {"slug": "lygo-agent-agora", "name": "Agent Agora", "when": "onboarding to the square", "text": "Print SkillHub FULL path and portal URL. Do not fetch zips. Human downloads FULL."},
+    {"slug": "lygo-deception-radar", "name": "Deception radar", "when": "discourse, evasion, half-truth", "text": "Heuristic only on text they paste. Not for doxing. Public labeled suite. Advisor."},
+    {"slug": "lygo-llm-console", "name": "Local console map", "when": "they want GGUF on disk", "text": "This webpage is API-only. Download https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel Docs https://chatagent.ca/lygo-llm-console.html"}
   ]
 }

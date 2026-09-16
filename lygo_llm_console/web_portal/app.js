@@ -72,6 +72,8 @@
   let history = [];
   let connected = false;
   let SKILLS = [];
+  let ENABLED = {};
+  let DOCS = { soul: "", identity: "", memory: "" };
 
   function bubble(role, text) {
     const d = document.createElement("div");
@@ -135,11 +137,20 @@
       "You are a LYGO-aligned agent in the public API portal at https://chatagent.ca/portal/. " +
       "The human is the publisher. Assist; never replace them. Dual ledgers / Haven Star Chart = CANON. This chat = RESOURCE. " +
       "P0: no OS wipe, no secrets in notes, no fabricated receipts. " +
-      "You have real browser limbs: wiki_search, fetch_page, weather, now, calc, champion, hash_text, skill_list, skill_read, hn_search, arxiv_search, github_search, wayback, geolocate (asks permission), clipboard_write (asks permission). Use them. Default LYGO skills are loaded — skill_read before acting as a seat. " +
+      "You have real browser limbs: wiki_search, fetch_page, weather, now, calc, champion, hash_text, skill_list, skill_read, hn_search, arxiv_search, github_search, wayback, geolocate (asks permission), clipboard_write (asks permission). Skills are already on this page — toggle on/off. Never tell the human to install or download a skill for this portal. " +
       "If they want disk/skills/local GGUF, send them to https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel and https://chatagent.ca/lygo-llm-console.html — this page is API-only. " +
       "Never invent github.com/user/repo. Real org https://github.com/DeepSeekOracle · HF https://huggingface.co/DeepSeekOracle.";
     if (invoked) s += " Champion lens: " + invoked + ". Observed / Inferred / Unknown.";
-    return s;
+    s += "\n\n=== SOUL.md ===\n" + (DOCS.soul || "").slice(0, 2500);
+    s += "\n\n=== IDENTITY.md ===\n" + (DOCS.identity || "").slice(0, 1500);
+    s += "\n\n=== MEMORY.md ===\n" + (DOCS.memory || "").slice(0, 1500);
+    const on = SKILLS.filter(function (x) { return ENABLED[x.slug] !== false; });
+    s += "\n\n=== ENABLED SKILLS (already installed on this portal) ===\n";
+    on.forEach(function (x) {
+      s += "- " + x.slug + " (" + x.name + "): " + (x.when || "") + "\n";
+    });
+    s += "Call skill_read for full text. Disabled skills must not be used.\n";
+    return s.slice(0, 14000);
   }
 
   async function runTool(name, args) {
@@ -186,12 +197,14 @@
         return { ok: true, sha256: hex };
       }
       if (name === "skill_list") {
-        return { ok: true, n: SKILLS.length, skills: SKILLS.map(function (s) { return { slug: s.slug, name: s.name, when: s.when }; }) };
+        const rows = SKILLS.map(function (s) { return { slug: s.slug, name: s.name, when: s.when, enabled: ENABLED[s.slug] !== false }; });
+        return { ok: true, n: rows.length, enabled: rows.filter(function (r) { return r.enabled; }), skills: rows };
       }
       if (name === "skill_read") {
         const q = String(args.slug || args.name || "").toLowerCase();
         const s = SKILLS.find(function (x) { return x.slug === q || (x.name || "").toLowerCase() === q || x.slug.indexOf(q) >= 0; });
         if (!s) return { ok: false, error: "missing", hint: "skill_list" };
+        if (ENABLED[s.slug] === false) return { ok: false, error: "disabled", slug: s.slug };
         return { ok: true, slug: s.slug, name: s.name, when: s.when, text: s.text };
       }
       if (name === "hn_search") {
@@ -328,20 +341,83 @@
     });
   });
 
-  const box = document.getElementById("champs");
-  if (box) {
-    Object.keys(CHAMPS).forEach(function (name) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.textContent = name;
-      b.title = CHAMPS[name];
-      b.onclick = function () {
-        msg.value = "Invoke " + name + " — " + CHAMPS[name];
+  function persistEnabled() {
+    try { localStorage.setItem("lygo_portal_enabled", JSON.stringify(ENABLED)); } catch (_) {}
+  }
+  function paintSkills() {
+    const box = document.getElementById("skills-list");
+    if (!box) return;
+    box.innerHTML = "";
+    SKILLS.forEach(function (s) {
+      const row = document.createElement("label");
+      row.className = "skill-row";
+      const ck = document.createElement("input");
+      ck.type = "checkbox";
+      ck.checked = ENABLED[s.slug] !== false;
+      ck.onchange = function () {
+        ENABLED[s.slug] = ck.checked;
+        persistEnabled();
+      };
+      const name = document.createElement("span");
+      name.className = "sn";
+      name.textContent = (s.slug.indexOf("champion-") === 0 ? "★ " : "") + (s.name || s.slug);
+      name.title = s.when || "";
+      name.onclick = function (ev) {
+        ev.preventDefault();
+        msg.value = "Invoke skill " + s.slug + " — " + (s.when || s.name);
         msg.focus();
       };
-      box.appendChild(b);
+      row.appendChild(ck);
+      row.appendChild(name);
+      box.appendChild(row);
     });
+    const st = document.getElementById("skill-pack");
+    const nOn = SKILLS.filter(function (s) { return ENABLED[s.slug] !== false; }).length;
+    if (st) st.textContent = nOn + "/" + SKILLS.length + " on · already on this page · no download";
   }
+  document.querySelectorAll("[data-cont]").forEach(function (btn) {
+    btn.onclick = function () {
+      document.querySelectorAll("[data-cont]").forEach(function (b) { b.classList.remove("on"); });
+      btn.classList.add("on");
+      const id = btn.getAttribute("data-cont");
+      ["soul", "id", "mem"].forEach(function (k) {
+        const p = document.getElementById("pane-" + k);
+        if (p) p.hidden = k !== id;
+      });
+    };
+  });
+  function bindDoc(id, key) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = DOCS[key] || "";
+    el.onchange = function () {
+      DOCS[key] = el.value;
+      try { localStorage.setItem("lygo_portal_" + key, el.value); } catch (_) {}
+    };
+  }
+  async function loadDocs() {
+    async function get(path, key) {
+      try {
+        const t = await (await fetch(path, { cache: "no-store" })).text();
+        const over = localStorage.getItem("lygo_portal_" + key);
+        DOCS[key] = over != null ? over : t;
+      } catch (_) {}
+    }
+    await get("SOUL.md", "soul");
+    await get("IDENTITY.md", "identity");
+    await get("MEMORY.md", "memory");
+    bindDoc("soul-edit", "soul");
+    bindDoc("id-edit", "identity");
+    bindDoc("mem-edit", "memory");
+  }
+  const rst = document.getElementById("id-reset");
+  if (rst) {
+    rst.onclick = function () {
+      ["soul", "identity", "memory"].forEach(function (k) { try { localStorage.removeItem("lygo_portal_" + k); } catch (_) {} });
+      loadDocs();
+    };
+  }
+  loadDocs();
 
   document.querySelectorAll("[data-limb]").forEach(function (b) {
     b.onclick = async function () {
@@ -436,20 +512,32 @@
     .then(function (r) { return r.json(); })
     .then(function (j) {
       SKILLS = j.skills || [];
-      const box = document.getElementById("skill-pack");
-      if (box) box.textContent = SKILLS.length + " default LYGO skills loaded (SkillHub pack). Agent: skill_list / skill_read.";
+      try {
+        const saved = JSON.parse(localStorage.getItem("lygo_portal_enabled") || "{}");
+        SKILLS.forEach(function (s) {
+          ENABLED[s.slug] = saved[s.slug] !== false;
+        });
+      } catch (_) {
+        SKILLS.forEach(function (s) { ENABLED[s.slug] = true; });
+      }
+      paintSkills();
     })
     .catch(function () {});
   fetch("https://chatagent.ca/data/lygoskillhub_catalog.json", { cache: "no-store" })
     .then(function (r) { return r.json(); })
     .then(function (j) {
-      const extra = (j.skills || []).filter(function (s) { return s && s.slug && s.kind !== "page"; }).slice(0, 40);
+      const extra = (j.skills || []).filter(function (s) { return s && s.slug && s.kind !== "page"; }).slice(0, 50);
       extra.forEach(function (s) {
         if (SKILLS.some(function (x) { return x.slug === s.slug; })) return;
-        SKILLS.push({ slug: s.slug, name: s.name || s.slug, when: s.category || "skillhub", text: (s.summary || "") + "\nInstall FULL locally: https://chatagent.ca/lygoskillhub.html  This webpage cannot run skill scripts." });
+        SKILLS.push({
+          slug: s.slug,
+          name: s.name || s.slug,
+          when: s.category || "skillhub",
+          text: (s.summary || s.name || s.slug) + "\nAlready on this portal as an advisor card. Scripts need the local FULL console.",
+        });
+        if (ENABLED[s.slug] === undefined) ENABLED[s.slug] = true;
       });
-      const box = document.getElementById("skill-pack");
-      if (box) box.textContent = SKILLS.length + " LYGO skills available (default pack + SkillHub catalog). Use skill_list / skill_read.";
+      paintSkills();
     })
     .catch(function () {});
 

@@ -285,6 +285,18 @@ section.how ol, section.how ul { margin: 0.4rem 0 0.8rem 1.2rem; }
 .keys-table a { color: var(--gold); }
 .keys-table button { font-size: 0.68rem; padding: 0.18rem 0.4rem; }
 .mode-pill { font-size:.72rem; color:var(--muted); }
+.cont-tabs { display: flex; gap: 0.3rem; margin: 0.35rem 0; flex-wrap: wrap; }
+.cont-tabs button { font-size: 0.72rem; padding: 0.28rem 0.5rem; font-weight: 600; opacity: 0.65; }
+.cont-tabs button.on { opacity: 1; border-color: var(--gold); color: var(--gold); }
+.cont-pane textarea {
+  width: 100%; min-height: 8rem; max-height: 14rem; background: #100d0a; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px; padding: 0.45rem;
+  font-family: Consolas, "Segoe UI", monospace; font-size: 0.7rem; line-height: 1.4; resize: vertical;
+}
+.skills-list { display: flex; flex-direction: column; gap: 0.16rem; max-height: 14rem; overflow: auto; }
+.skill-row { display: flex; gap: 0.35rem; align-items: flex-start; font-size: 0.74rem; color: var(--muted); padding: 0.1rem 0; }
+.skill-row .sn { color: var(--ink); cursor: pointer; }
+.skill-row .sn:hover { color: var(--gold); }
 .champions { display:flex; flex-wrap:wrap; gap:.28rem; }
 .champions button { font-size:.68rem; padding:.22rem .4rem; font-weight:500; }
 body.public-mode .hide-public { display:none !important; }
