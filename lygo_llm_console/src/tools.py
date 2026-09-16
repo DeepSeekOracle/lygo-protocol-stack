@@ -35,6 +35,9 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "read_file", "description": "Read a text file. Never echo *.pass / token files — report exists only.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
     {"type": "function", "function": {"name": "write_file", "description": "Write a text file under allowed roots", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"]}}},
     {"type": "function", "function": {"name": "remember", "description": "Append a short note to workspace memory", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
+    {"type": "function", "function": {"name": "notepad_list", "description": "List console notepad notes. Use ONLY if the steward asks to look at notes/notepad.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "notepad_read", "description": "Read one notepad note by id. Use ONLY if the steward asks to look at notes.", "parameters": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}}},
+    {"type": "function", "function": {"name": "notepad_write", "description": "Save text into the console notepad. Use ONLY if the steward asks to save a note.", "parameters": {"type": "object", "properties": {"id": {"type": "string"}, "title": {"type": "string"}, "text": {"type": "string"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "kernel_status", "description": "Console + engine status (no secrets)", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "search_corpus", "description": "Lexical search under mapped search roots", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "p0_gate", "description": "Run P0 gate on supplied text", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
@@ -172,6 +175,18 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from continuity import append_memory
 
         return append_memory(str(args.get("note") or args.get("text") or ""))
+    if name == "notepad_list":
+        from notepad import list_notes
+
+        return list_notes()
+    if name == "notepad_read":
+        from notepad import read_note
+
+        return read_note(str(args.get("id") or args.get("name") or "scratch"))
+    if name == "notepad_write":
+        from notepad import write_note
+
+        return write_note(args.get("id"), str(args.get("title") or ""), str(args.get("text") or args.get("content") or ""))
     if name == "kernel_status":
         from engine import ollama_port_open, resolve_binary, runner_for
         from paths import LLAMA_PORT

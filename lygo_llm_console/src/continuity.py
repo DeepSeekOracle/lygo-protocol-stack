@@ -98,6 +98,10 @@ def compose_system() -> str:
     parts.append("When the steward states a durable fact, call remember so MEMORY.md grows.")
     parts.append("Never invent github.com/user/repo or lattice.example.com. Use steward_map / LINKS.md.")
     parts.append("Never print *.pass file contents. Call credential_where. Point at the path only.")
+    parts.append(
+        "Console notepad lives in save/notepad. Do NOT read it unless the steward asks to look at notes. "
+        "Then call notepad_list / notepad_read. notepad_write only if they ask to save a note."
+    )
     return "\n".join(parts)
 
 

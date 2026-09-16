@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916b">
+<link rel="stylesheet" href="/static/style.css?v=20260916c">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -52,6 +52,22 @@
   <aside>
     <h2>Trace</h2>
     <pre id="limb-out" class="limb-out">—</pre>
+    <section class="notepad" id="notepad" aria-label="Console notepad">
+      <h2>Notepad</h2>
+      <div class="np-bar">
+        <select id="np-list" title="Saved notes"></select>
+        <button type="button" id="np-new">New</button>
+        <button type="button" id="np-save">Save</button>
+        <button type="button" id="np-del">Delete</button>
+      </div>
+      <input id="np-title" type="text" placeholder="Note title" maxlength="120" autocomplete="off">
+      <textarea id="np-body" placeholder="Paste a reply, a URL, a draft… notes stay in this console (save/notepad)." spellcheck="true"></textarea>
+      <div class="np-foot">
+        <button type="button" id="np-capture">Capture selection</button>
+        <button type="button" id="np-ask">Ask agent</button>
+        <span id="np-status" class="hint">local · save/notepad</span>
+      </div>
+    </section>
     <p class="hint">
       Donate <a href="https://paypal.me/ExcavationPro">PayPal.me/ExcavationPro</a> ·
       <a href="https://chatagent.ca/lygo-llm-console.html">docs</a> ·
@@ -59,6 +75,6 @@
     </p>
   </aside>
 </main>
-<script src="/static/app.js?v=20260916b"></script>
+<script src="/static/app.js?v=20260916c"></script>
 </body>
 </html>

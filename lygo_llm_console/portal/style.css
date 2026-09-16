@@ -60,7 +60,12 @@ main {
 }
 .rail, aside { padding: 1rem 0.95rem; overflow: auto; background: rgba(20, 16, 12, 0.55); }
 .rail { border-right: 1px solid var(--line); }
-aside { border-left: 1px solid var(--line); }
+aside {
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 .chat-panel { display: flex; flex-direction: column; min-width: 0; background: rgba(12, 10, 8, 0.35); }
 .log { flex: 1; overflow: auto; padding: 1.15rem; display: flex; flex-direction: column; gap: 0.8rem; }
 .bubble {
@@ -112,11 +117,57 @@ h2 {
   padding: 0.65rem;
   font-size: 0.72rem;
   overflow: auto;
-  max-height: 16rem;
+  max-height: 12rem;
+  flex: 0 0 auto;
   border-radius: 8px;
   border: 1px solid var(--line);
   color: #d7cbb8;
 }
+.notepad {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 14rem;
+  margin-top: 0.15rem;
+}
+.np-bar { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
+.np-bar select { flex: 1; min-width: 0; }
+#np-title {
+  width: 100%;
+  margin: 0.35rem 0;
+  background: #120e0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.82rem;
+}
+#np-title:focus, #np-body:focus { border-color: var(--gold); }
+#np-body {
+  flex: 1;
+  min-height: 8rem;
+  width: 100%;
+  background: #100d0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem;
+  font-family: "Segoe UI", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  resize: vertical;
+  outline: none;
+}
+.np-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+.np-foot button { font-size: 0.72rem; padding: 0.32rem 0.5rem; font-weight: 500; }
+#np-status { margin-left: auto; }
 .hint { color: var(--muted); font-size: 0.74rem; line-height: 1.45; }
 .hint a { color: var(--gold); }
 .chk { display: flex; gap: 0.4rem; align-items: center; font-size: 0.82rem; margin: 0; color: var(--muted); }
@@ -168,5 +219,7 @@ h2 {
 .wcity .w { font-size: 0.68rem; color: var(--gold); margin-top: 0.12rem; }
 @media (max-width: 960px) {
   main { grid-template-columns: 1fr; }
-  .rail, aside { border: none; border-top: 1px solid var(--line); max-height: 16rem; }
+  .rail, aside { border: none; border-top: 1px solid var(--line); }
+  .rail { max-height: 16rem; }
+  aside { max-height: 32rem; }
 }

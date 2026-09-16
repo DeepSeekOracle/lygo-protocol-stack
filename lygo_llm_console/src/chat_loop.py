@@ -31,6 +31,11 @@ FIND_HINT = re.compile(
 )
 GH_HINT = re.compile(r"\bgithub\b", re.I)
 HF_HINT = re.compile(r"\b(hugging\s*face|huggingface|\bhf\b)\b", re.I)
+NOTE_HINT = re.compile(
+    r"\b(notepad|look at (my |the )?notes|read (my |the )?notes|from (the |my )?notes|"
+    r"saved notes|note pad)\b",
+    re.I,
+)
 
 
 def extract_user_text(messages: list[dict[str, Any]]) -> str:
@@ -115,6 +120,15 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     """3B models talk about tools instead of calling them. Host runs URL/search/map first."""
     traces: list[dict[str, Any]] = []
     text = user_text or ""
+    if NOTE_HINT.search(text):
+        traces.append(
+            {
+                "name": "notepad_list",
+                "arguments": {},
+                "result": dispatch("notepad_list", {}),
+                "host": True,
+            }
+        )
     if STEWARD_HINT.search(text):
         traces.append(
             {

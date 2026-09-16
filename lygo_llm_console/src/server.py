@@ -68,7 +68,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916b"
+BUILD = "v1.1-20260916c"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -268,8 +268,8 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916b">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916b"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916c">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916c"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -361,6 +361,16 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/session":
             self._json(200, {"messages": load_session()})
             return
+        if path == "/api/notepad":
+            from notepad import list_notes, read_note
+
+            qs = parse_qs(urlparse(self.path).query)
+            nid = (qs.get("id") or [""])[0].strip()
+            if nid:
+                self._json(200, read_note(nid))
+            else:
+                self._json(200, list_notes())
+            return
         if path == "/api/receipts":
             if not check(token_from_request(self._headers_map(), self._query()), TOKEN):
                 self._json(401, {"error": "unauthorized"})
@@ -431,6 +441,26 @@ class Handler(BaseHTTPRequestHandler):
             if isinstance(msgs, list):
                 save_session(msgs)
             self._json(200, {"ok": True, "messages": load_session()})
+            return
+        if path == "/api/notepad":
+            from notepad import delete_note, new_note, write_note
+
+            body = self._read_body(300_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "save").lower()
+            if action == "delete":
+                self._json(200, delete_note(str(obj.get("id") or "")))
+                return
+            if action == "new":
+                self._json(200, new_note(str(obj.get("title") or "")))
+                return
+            self._json(
+                200,
+                write_note(obj.get("id"), str(obj.get("title") or ""), str(obj.get("text") or obj.get("content") or "")),
+            )
             return
         if path == "/api/limb":
             body = self._read_body(64_000)
