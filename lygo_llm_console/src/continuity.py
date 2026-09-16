@@ -73,7 +73,15 @@ def compose_system() -> str:
         parts.append("=== MEMORY.md (durable notes; grow with remember) ===")
         parts.append(mem)
         parts.append("")
+    for extra_name, cap in (("BRAIN.md", 8000), ("MAP.md", 6000), ("LINKS.md", 4000)):
+        ep = WORKSPACE / extra_name
+        if ep.is_file():
+            parts.append(f"=== {extra_name} ===")
+            parts.append(_read_cap(ep, cap))
+            parts.append("")
     parts.append("When the steward states a durable fact, call remember so MEMORY.md grows.")
+    parts.append("Never invent github.com/user/repo or lattice.example.com. Use MAP.md / LINKS.md.")
+    parts.append("Never print *.pass file contents. Point at the path only.")
     return "\n".join(parts)
 
 

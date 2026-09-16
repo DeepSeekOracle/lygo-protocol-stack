@@ -5,13 +5,12 @@ import json
 from pathlib import Path
 from typing import Any
 
+from admin_map import is_admin, read_roots, search_roots, write_roots
 from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS
 from p0_hook import gate_prompt
 from limbs import EXTRA_SCHEMA, extra as extra_dispatch
 
-# Public kit roots. Do not import USB CLAW modules.
-READ_ROOTS = (WORKSPACE,)
-WRITE_ROOTS = (WORKSPACE, SAVE)
+# Public kit default. Admin json expands roots at call time.
 
 # Split literals so public source does not contain steward path tokens.
 DENY_SUB = (
@@ -29,9 +28,9 @@ DENY_SUB = (
 )
 
 TOOLS_SCHEMA = [
-    {"type": "function", "function": {"name": "list_dir", "description": "List a directory under workspace", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
-    {"type": "function", "function": {"name": "read_file", "description": "Read a text file under workspace", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
-    {"type": "function", "function": {"name": "write_file", "description": "Write a text file under workspace or save", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"]}}},
+    {"type": "function", "function": {"name": "list_dir", "description": "List a directory (admin: real disks on the map; else workspace)", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
+    {"type": "function", "function": {"name": "read_file", "description": "Read a text file. Never echo *.pass / token files — report exists only.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
+    {"type": "function", "function": {"name": "write_file", "description": "Write a text file under allowed roots", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"]}}},
     {"type": "function", "function": {"name": "remember", "description": "Append a short note to workspace memory", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
     {"type": "function", "function": {"name": "kernel_status", "description": "Console + engine status (no secrets)", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "search_corpus", "description": "Lexical search under workspace", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
@@ -73,8 +72,8 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         p = Path(args.get("path") or ".")
         if not p.is_absolute():
             p = WORKSPACE / p
-        if _denied(p) or not _under(p, READ_ROOTS):
-            return {"ok": False, "error": "denied"}
+        if _denied(p) or not _under(p, read_roots()):
+            return {"ok": False, "error": "denied", "hint": "path not on admin map"}
         if not p.is_dir():
             return {"ok": False, "error": "not_dir"}
         names = []
@@ -85,17 +84,20 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         p = Path(args.get("path") or "")
         if not p.is_absolute():
             p = WORKSPACE / p
-        if _denied(p) or not _under(p, READ_ROOTS):
+        if _denied(p) or not _under(p, read_roots()):
             return {"ok": False, "error": "denied"}
         if not p.is_file():
             return {"ok": False, "error": "not_file"}
+        low = p.name.lower()
+        if low.endswith(".pass") or low in {".lygo_llm_token", ".llama_api_key"} or "lygo.pass" in low:
+            return {"ok": True, "exists": True, "redacted": True, "path": str(p), "bytes": p.stat().st_size, "note": "credential file present; content not echoed"}
         data = p.read_text(encoding="utf-8", errors="replace")[:64_000]
         return {"ok": True, "text": data}
     if name == "write_file":
         p = Path(args.get("path") or "")
         if not p.is_absolute():
             p = WORKSPACE / p
-        if _denied(p) or not _under(p, WRITE_ROOTS):
+        if _denied(p) or not _under(p, write_roots()):
             return {"ok": False, "error": "denied"}
         p.parent.mkdir(parents=True, exist_ok=True)
         content = str(args.get("content") or "")
@@ -118,22 +120,38 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
             "chat_runner": bool(r),
             "ollama_port_open": ollama_port_open(),
             "kit": str(KIT_ROOT),
+            "admin": is_admin(),
         }
     if name == "search_corpus":
         q = str(args.get("q") or "").lower()
         hits = []
         if q:
-            for p in WORKSPACE.rglob("*"):
-                if p.is_file() and p.stat().st_size < 256_000:
+            for root in search_roots():
+                if len(hits) >= 30:
+                    break
+                try:
+                    it = root.rglob("*")
+                except OSError:
+                    continue
+                for p in it:
+                    if not p.is_file():
+                        continue
+                    try:
+                        if p.stat().st_size > 256_000:
+                            continue
+                    except OSError:
+                        continue
+                    if p.suffix.lower() not in {".md", ".txt", ".json", ".html", ".py", ".bat"}:
+                        continue
                     try:
                         t = p.read_text(encoding="utf-8", errors="ignore")
                     except OSError:
                         continue
                     if q in t.lower():
-                        hits.append(str(p.relative_to(WORKSPACE)))
-                if len(hits) >= 20:
-                    break
-        return {"ok": True, "hits": hits}
+                        hits.append(str(p))
+                    if len(hits) >= 30:
+                        break
+        return {"ok": True, "hits": hits, "admin": is_admin()}
     if name == "p0_gate":
         return {"ok": True, "gate": gate_prompt(str(args.get("text") or ""))}
     if name == "stack_health":

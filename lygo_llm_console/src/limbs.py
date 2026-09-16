@@ -217,13 +217,17 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             return {"ok": False, "error": str(e)}
         return {"ok": True, "value": val}
     if name == "whoami":
+        from admin_map import is_admin, links
+
         return {
             "ok": True,
             "mark": "LYGO",
+            "role": "admin_kernel" if is_admin() else "public_kit",
             "steward": "Justin Helmer / Excavationpro / Lightfather",
             "kit": str(KIT_ROOT),
             "workspace": str(WORKSPACE),
             "portal": "https://chatagent.ca/lygo-llm-console.html",
+            "links": links() if is_admin() else {},
         }
     if name == "hash_text":
         t = str(args.get("text") or "").encode("utf-8")
