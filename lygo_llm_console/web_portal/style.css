@@ -252,6 +252,31 @@ h2 {
 .conn input[type=text], .conn input[type=password] {
   background:#120e0a; color:var(--ink); border:1px solid var(--line); padding:.4rem .55rem; border-radius:8px; min-width:12rem;
 }
+.skip {
+  position: absolute; left: -999px; top: 0;
+}
+.skip:focus { left: 0.5rem; top: 0.5rem; z-index: 90; background: #1a1510; color: var(--gold); padding: 0.4rem 0.6rem; }
+.brand-lockup { display: flex; gap: 0.9rem; align-items: flex-start; flex-wrap: wrap; }
+.brand-lockup .mark img {
+  width: 4.4rem; height: 4.4rem; object-fit: cover; border-radius: 12px;
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.kicker { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+header h1 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500; font-size: 2rem; margin: 0.15rem 0 0.35rem;
+  color: var(--gold); letter-spacing: 0.02em;
+}
+.site-nav { display: flex; flex-wrap: wrap; gap: 0.55rem 0.85rem; margin-top: 0.45rem; }
+.site-nav a { color: var(--muted); font-size: 0.78rem; text-decoration: none; }
+.site-nav a[aria-current="page"], .site-nav a:hover { color: var(--gold); }
+.ai-card {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.62rem;
+  white-space: pre-wrap; background: #100d0a; border: 1px solid var(--line);
+  border-radius: 8px; padding: 0.55rem; color: #d7cbb8; overflow: auto; max-height: 9rem;
+}
+footer.legal { padding: 0.45rem 0.9rem 0.7rem; color: var(--muted); font-size: 0.72rem; border-top: 1px solid var(--line); }
+footer.legal a { color: var(--gold); }
 .mode-pill { font-size:.72rem; color:var(--muted); }
 .champions { display:flex; flex-wrap:wrap; gap:.28rem; }
 .champions button { font-size:.68rem; padding:.22rem .4rem; font-weight:500; }

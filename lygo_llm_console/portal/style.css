@@ -31,6 +31,7 @@ header {
   background: linear-gradient(180deg, rgba(26, 21, 16, 0.92), rgba(12, 10, 8, 0.7));
   backdrop-filter: blur(10px);
 }
+.brand-lockup { display: flex; gap: 0.7rem; align-items: center; }
 .brand {
   font-family: Georgia, "Times New Roman", serif;
   color: var(--gold);

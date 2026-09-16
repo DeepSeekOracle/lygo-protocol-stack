@@ -1,39 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-cookie-key="chatagent_cookies">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LYGO Free LLM Portal</title>
-<meta name="description" content="Free LYGO LLM portal: hosted chat, Hugging Face (your token), or hook your own local console. Public mode is chat-only. Full LYGO limbs stay on your machine.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https: blob:; connect-src 'self' https: http://127.0.0.1:9641 http://localhost:9641 http://127.0.0.1:11434 http://127.0.0.1:11441">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+<title>LYGO LLM Portal — free public agent studio | chatagent.ca</title>
+<meta name="description" content="Free LYGO LLM Portal: public chat with P0 ethics, Δ9 champions, radio and LYGO TV. Hook Hugging Face (your token) or your local LYGO console. No account. Steward: Justin Helmer / Excavationpro.">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="creator" content="Justin Helmer">
+<meta name="publisher" content="chatagent.ca">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="googlebot" content="index, follow, max-image-preview:large">
+<meta name="bingbot" content="index, follow">
+<meta name="keywords" content="LYGO, LLM portal, free AI chat, local LLM, Hugging Face, Δ9 champions, Excavationpro, Justin Helmer, Lightfather, chatagent.ca, OpenClaw, llama.cpp">
+<meta name="theme-color" content="#0c0a08">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="application-name" content="LYGO LLM Portal">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LYGO Portal">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="canonical" href="https://chatagent.ca/portal/">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<meta name="robots" content="index, follow">
-<meta property="og:title" content="LYGO Free LLM Portal">
-<meta property="og:url" content="https://chatagent.ca/portal/">
-<meta property="og:image" content="https://chatagent.ca/assets/og-lygo-llm-console.jpg">
+<link rel="alternate" hreflang="en" href="https://chatagent.ca/portal/">
+<link rel="manifest" href="/portal/manifest.json">
+<link rel="icon" href="/portal/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/portal/logo.jpg" type="image/jpeg" sizes="512x512">
+<link rel="apple-touch-icon" href="/portal/logo.jpg">
+<link rel="image_src" href="https://chatagent.ca/portal/og.jpg">
+<link rel="author" href="https://chatagent.ca/about.html">
+<link rel="license" href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/LICENSE">
+<link rel="sitemap" type="application/xml" href="https://chatagent.ca/sitemap.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="chatagent.ca">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://chatagent.ca/portal/">
+<meta property="og:title" content="LYGO LLM Portal — free public agent studio">
+<meta property="og:description" content="Chat in a LYGO studio: public P0 chat, Hugging Face, or your local console. Radio + LYGO TV. No account.">
+<meta property="og:image" content="https://chatagent.ca/portal/og.jpg">
+<meta property="og:image:secure_url" content="https://chatagent.ca/portal/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1376">
+<meta property="og:image:height" content="768">
+<meta property="og:image:alt" content="LYGO LLM Portal — gold Δ9 phi seal, free public agent studio on chatagent.ca">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO LLM Portal — free public agent studio">
+<meta name="twitter:description" content="Free LYGO chat studio. Hugging Face or local console. P0 ethics. Radio + TV.">
+<meta name="twitter:image" content="https://chatagent.ca/portal/og.jpg">
+<meta name="twitter:image:alt" content="LYGO LLM Portal seal — Δ9Φ963 gold and cyan">
+<meta name="twitter:url" content="https://chatagent.ca/portal/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://chatagent.ca/portal/#app",
+      "name": "LYGO LLM Portal",
+      "alternateName": ["LYGO Free LLM Portal", "LYGO Agent Studio"],
+      "url": "https://chatagent.ca/portal/",
+      "image": "https://chatagent.ca/portal/og.jpg",
+      "logo": "https://chatagent.ca/portal/logo.jpg",
+      "description": "Free public LYGO agent studio: chat with P0 ethics, Δ9 champions, radio and LYGO TV. Optional Hugging Face token or local LYGO LLM Console for full limbs.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "author": {"@type": "Person", "name": "Justin Helmer", "alternateName": ["Excavationpro", "Lightfather"], "url": "https://chatagent.ca/about.html", "sameAs": ["https://x.com/Excavationpro", "https://github.com/DeepSeekOracle"]},
+      "publisher": {"@type": "Organization", "name": "chatagent.ca", "url": "https://chatagent.ca/", "logo": {"@type": "ImageObject", "url": "https://chatagent.ca/portal/logo.jpg"}},
+      "isPartOf": {"@type": "WebSite", "name": "chatagent.ca", "url": "https://chatagent.ca/"}
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://chatagent.ca/portal/#page",
+      "url": "https://chatagent.ca/portal/",
+      "name": "LYGO LLM Portal",
+      "isPartOf": {"@id": "https://chatagent.ca/portal/#app"},
+      "inLanguage": "en-US",
+      "dateModified": "2026-09-16"
+    }
+  ]
+}
+</script>
 </head>
-<body class="public-mode">
+<body class="public-mode branded">
+<a class="skip" href="#msg">Skip to chat</a>
 <header>
-  <div>
-    <div class="brand">Δ9Φ963 · LYGO Free LLM Portal</div>
-    <div class="sub">Same agent studio as the public console. Hosted chat is locked down (no disks, no shell). Opt-in full LYGO only against <em>your</em> local console.</div>
-    <div class="conn">
-      <select id="mode" title="Where inference runs">
-        <option value="hosted">LYGO hosted (free)</option>
-        <option value="hf">Hugging Face (your token)</option>
-        <option value="local">My local LYGO console :9641</option>
-        <option value="custom">Custom OpenAI-compatible URL</option>
-      </select>
-      <input id="endpoint" type="text" placeholder="https://…/v1/chat/completions or http://127.0.0.1:9641" autocomplete="off">
-      <input id="hf-token" type="password" placeholder="HF token (stays in this browser)" autocomplete="off">
-      <input id="model" type="text" placeholder="model id" value="qwen2.5:3b" autocomplete="off">
-      <button type="button" id="connect">Connect</button>
-      <label class="chk hide-public" id="full-wrap"><input type="checkbox" id="full"> Full LYGO limbs</label>
+  <div class="brand-lockup">
+    <a class="mark" href="https://chatagent.ca/" title="chatagent.ca">
+      <img src="logo.jpg" width="72" height="72" alt="LYGO Δ9 phi seal">
+    </a>
+    <div>
+      <p class="kicker">Δ9Φ963 · chatagent.ca · RESOURCE</p>
+      <h1>LYGO LLM Portal</h1>
+      <p class="sub">Free public agent studio. Public chat is P0-gated and has no server disks. Full LYGO limbs stay on <em>your</em> local console. Steward: <a href="https://chatagent.ca/about.html">Justin Helmer</a> (Excavationpro / Lightfather).</p>
+      <nav class="site-nav" aria-label="Site">
+        <a href="https://chatagent.ca/">Home</a>
+        <a href="https://chatagent.ca/portal/" aria-current="page">Portal</a>
+        <a href="https://chatagent.ca/lygo-llm-console.html">Console kit</a>
+        <a href="https://chatagent.ca/lygoskillhub.html">SkillHub</a>
+        <a href="https://chatagent.ca/sources/">LYGO TV</a>
+        <a href="https://asiancoastline.com/listen.html" rel="noopener">Listen</a>
+        <a href="https://chatagent.ca/champions.html">Champions</a>
+        <a href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">Donate</a>
+      </nav>
     </div>
-    <p class="mode-pill" id="mode-help">Public hosted = P0 chat only. Full limbs need http://127.0.0.1:9641/</p>
   </div>
   <div id="health" class="health">pick a backend…</div>
+  <div class="conn">
+    <select id="mode" title="Where inference runs">
+      <option value="hosted">LYGO hosted (free)</option>
+      <option value="hf">Hugging Face (your token)</option>
+      <option value="local">My local LYGO console :9641</option>
+      <option value="custom">Custom OpenAI-compatible URL</option>
+    </select>
+    <input id="endpoint" type="text" placeholder="https://…/v1/chat/completions or http://127.0.0.1:9641" autocomplete="off">
+    <input id="hf-token" type="password" placeholder="HF token (stays in this browser)" autocomplete="off">
+    <input id="model" type="text" placeholder="model id" value="qwen2.5:3b" autocomplete="off">
+    <button type="button" id="connect">Connect</button>
+    <label class="chk hide-public" id="full-wrap"><input type="checkbox" id="full"> Full LYGO limbs</label>
+  </div>
+  <p class="mode-pill" id="mode-help">Public hosted = P0 chat only. Full limbs need http://127.0.0.1:9641/</p>
 </header>
 <section id="world" class="world" aria-label="World time">
   <div class="world-now">
@@ -54,7 +150,22 @@
       <button type="button" data-limb="weather">weather</button>
       <button type="button" data-limb="skillhub">SkillHub</button>
     </div>
-    <p class="hint"><a href="https://chatagent.ca/lygo-llm-console.html">Install local console</a> · <a href="https://chatagent.ca/lygoskillhub.html">SkillHub</a> · <a href="https://chatagent.ca/sources/">LYGO TV</a> · <a href="https://www.paypal.com/paypalme/ExcavationPro">Donate</a></p>
+    <p class="hint"><a href="https://chatagent.ca/lygo-llm-console.html">Install local console</a> · <a href="https://chatagent.ca/lygoskillhub.html">SkillHub</a> · <a href="https://chatagent.ca/sources/">LYGO TV</a></p>
+    <pre class="ai-card" id="ai-card">name: LYGO LLM Portal
+url: https://chatagent.ca/portal/
+mark: LYGO · Δ9Φ963
+channel: PUBLIC RESOURCE (not CANON)
+steward: Justin Helmer / Excavationpro / Lightfather
+not: admin disks; vaults; ollama.exe; identity replacement
+modes: hosted_chat | huggingface_user_token | local_console_9641 | custom_openai_compat
+public_limbs: wikipedia, weather, notepad(localStorage), champions, radio, TV_link
+full_limbs: only on visitor local LYGO LLM Console
+canon: dual ledgers / Haven Star Chart
+donate: https://www.paypal.com/paypalme/ExcavationPro
+patreon: https://www.patreon.com/Excavationpro
+tv: https://chatagent.ca/sources/
+listen: https://asiancoastline.com/listen.html
+</pre>
   </nav>
   <section class="chat-panel">
     <div id="log" class="log" aria-live="polite"></div>
@@ -93,6 +204,12 @@
     <span id="radioHint" class="hint"></span>
   </div>
 </footer>
+<footer class="legal">
+  <p>© <span class="y">2026</span> Justin Helmer · LYGO™ · Dual ledgers / Star Chart remain CANON. This page is RESOURCE. <a href="https://chatagent.ca/privacy.html">Privacy</a> · <a href="https://chatagent.ca/terms.html">Terms</a> · <a href="https://chatagent.ca/security.txt">security.txt</a></p>
+</footer>
+<noscript>
+  <p>LYGO LLM Portal requires JavaScript. Docs: <a href="https://chatagent.ca/lygo-llm-console.html">lygo-llm-console.html</a>. Free. No account.</p>
+</noscript>
 <div id="donateLayer" class="donate-layer" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
   <div class="donate-card">
     <p class="kicker">Friendly reminder · every 15 minutes</p>
