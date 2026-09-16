@@ -224,7 +224,7 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         from web_tools import _get
 
         place = urllib.parse.quote(str(args.get("place") or "Earth"))
-        code, raw, _ = _get("https://wttr.in/" + place + "?format=3")
+        code, raw, _ = _get("https://wttr.in/" + place + "?format=3", headers={"Accept": "text/plain"})
         if code != 200:
             return {"ok": False, "error": f"http_{code}"}
         return {"ok": True, "text": raw.decode("utf-8", errors="replace").strip(), "class": "RESOURCE"}
