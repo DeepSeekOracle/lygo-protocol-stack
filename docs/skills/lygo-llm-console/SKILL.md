@@ -1,125 +1,75 @@
 ---
 name: lygo-llm-console
-description: "LYGO LLM Console v1.1 — local agent portal (not Ollama): GGUF scan/boot, 21 limbs, Wikipedia search, HTTPS fetch, workspace shell/python (P0-gated). ClawHub ships map + kit zip. Admin/steward vaults are not included. Install clawhub:@deepseekoracle/lygo-llm-console."
-version: 1.1.0
+description: "LYGO LLM Console map + operator runtime. Map scripts print URLs and verify the kit zip SHA-256. The operator-run kit is a local GGUF portal (loopback HTTP, HTTPS search/fetch, workspace files, optional workspace shell). Not Ollama. No vaults. Install with pinned npx clawhub@0.23.3."
+version: 1.2.0
 license: MIT-0
 metadata:
   openclaw:
-    emoji: "🜂"
+    emoji: "L"
     homepage: "https://chatagent.ca/lygo-llm-console.html"
     requires:
       anyBins: [python, python3]
   lygo: true
-  llm: true
-  console: true
-  dual_channel: true
-  signature: "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0"
+  signature: "LYGO-LLM-CONSOLE-SKILL-v1.2.0"
   publisher: deepseekoracle
   steward: "Justin Helmer / Excavationpro / Lightfather"
   clawhub: "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console"
   page: "https://chatagent.ca/lygo-llm-console.html"
-  public_zip: "lygo-llm-console-public.zip"
-  admin_tree: "lygo_llm_console/ (stack, not this skill)"
+  kit_zip: "kit/lygo-llm-console-public.zip"
+  kit_sha256: "0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce"
+  llama_cpu_tag: "b10988"
   permissions:
-    network: false
-    shell: false
-    subprocess: false
-    filesystem:
-      read: "skill files only"
-      write: false
-    publish: false
+    map_scripts: "no network, no subprocess, no writes"
+    operator_runtime: "loopback HTTP, HTTPS GET allowlist, workspace writes, optional cmd.exe /c without metacharacters, llama-server subprocess"
 ---
 
-# LYGO LLM Console — public skill v1.1.0
+# LYGO LLM Console — skill v1.2.0
 
-**Sovereign local LLM runtime + agent portal. Not Ollama. Not the admin tree.**
+Two layers. Do not mix their privileges.
 
-This ClawHub package is the **complete public skill**: map scripts **and** the `kit/` runtime (portal + Python). It does **not** ship llama.cpp binaries, GGUF weights, steward vaults, or the admin console.
+## Layer A — this ClawHub skill (map)
 
-Download and run the **public kit** from the studio page:
+Scripts under `scripts/` only print URLs, hashes, and a self-check. They do **not** download, unzip, spawn processes, or write disk.
 
-### → https://chatagent.ca/lygo-llm-console.html  
-### → file **`lygo-llm-console-public.zip`** (SHA-256 on that page)
-
-**Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0`  
-**ClawHub:** `@deepseekoracle/lygo-llm-console`  
-**Mark:** LYGO® project family — steward Justin Helmer (Excavationpro / Lightfather). Built with LYGO AI agents. Dual ledgers / Haven Star Chart remain **CANON**; this skill is **RESOURCE**.
-
----
-
-## Dual channel (honest)
-
-| Channel | What you get |
-|---------|----------------|
-| **This skill (ClawHub)** | `SKILL.md`, scripts, `kit/` public runtime, credits. |
-| **Public kit zip** | Same runtime as `kit/`, also at https://chatagent.ca/lygo-llm-console.html . ggml-org `llama-server` is **fetched by the operator**, not bundled. |
-| **Admin / steward** | `lygo-protocol-stack/lygo_llm_console/` plus any stream-node copy. **Not published on ClawHub.** Vaults, write-roots, and operator keys stay off the public kit. |
-
----
-
-## What the product is (for humans and agents)
-
-LYGO LLM Console is a **local orchestrator**. It does not implement transformer math itself. It:
-
-1. Scans disks for GGUF files and (read-only) Ollama CAS trees (`blobs/sha256-*` + manifests).  
-2. Starts official **ggml-org llama.cpp** `llama-server` on a private loopback port.  
-3. Serves a browser agent portal (text, optional images if a projector is registered, allowlisted tools).  
-4. Runs the LYGO **P0 Φ-gate** (physics + policy) on every generation.  
-5. Speaks a subset of the OpenAI HTTP shape so other local apps can point at it **instead of** `ollama.exe`.
-
-It **never requires Ollama**. Importing existing Ollama blobs is optional and read-only. It **never** calls `ollama.exe`.
-
----
-
-## Install this tentacle
+Pinned install (do not use `@latest`):
 
 ```bash
-npx clawhub@latest install deepseekoracle/lygo-llm-console
-cd path/to/lygo-llm-console
+npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console
 python scripts/self_check.py
-python scripts/lygo_llm_console_map.py plain
-python scripts/lygo_llm_console_map.py urls
+python scripts/verify_kit.py
 ```
 
-Then open https://chatagent.ca/lygo-llm-console.html and download the public zip yourself.
+## Layer B — operator-run runtime (kit)
 
----
+`kit/lygo-llm-console-public.zip` is the public console. **Required SHA-256:**
 
-## Commands
+```
+0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce
+```
 
-| Command | Output |
-|---------|--------|
-| `plain` | Human-readable overview |
-| `map` / `demo` | JSON: dual channel, credits, URLs |
-| `urls` | Page + zip + ClawHub + donate |
+Verify **before** unzip/run:
 
-No network, no subprocess, no disk writes.
+```
+python scripts/verify_kit.py
+certutil -hashfile kit\lygo-llm-console-public.zip SHA256
+```
 
----
+If the digest differs, **stop**. Do not run the BAT.
 
-## What this skill does *not* do
+Place ggml-org **CPU** `llama-server.exe` from release tag **b10988** (`llama-*-bin-win-cpu-x64.zip`) into `engine/`. Do not use a nested Ollama copy.
 
-- Does **not** ship `llama-server.exe` or GGUF weights (`kit/` is the Python/portal runtime only)  
-- Does **not** ship model weights  
-- Does **not** include the admin console, vaults, or steward write-roots  
-- Does **not** auto-download anything  
-- Does **not** replace dual ledgers / Star Chart CANON  
+Run as an **unprivileged** user: `LYGO_LLM_CONSOLE.bat`. Default bind `127.0.0.1:9641`. LAN bind needs `--lan --i-consent`.
 
----
+### Runtime capabilities (declared)
 
-## Credits
+- Loopback HTTP portal and llama-server on 127.0.0.1
+- Outbound HTTPS GET to public sites (Wikipedia, Open-Meteo, GitHub API, etc.); private/link-local/metadata blocked
+- Writes under kit `workspace/` and `save/` only
+- Optional `cmd.exe /c` **without** `| & > < \` $` metacharacters, cwd workspace, P0 blocks OS wipe
+- Subprocess: pinned llama-server + local python snippets
 
-- **Steward / author:** Justin Helmer (Excavationpro), Lightfather seat on the LYGO lattice  
-- **LYGO AI agents:** protocol stack, P0 gate, public kit assembly  
-- **Inference engine (separate project):** ggml-org llama.cpp  
-- Design notes may cite Grok (xAI) as **RESOURCE**, not CANON  
+Admin/steward vaults are **not** in this skill.
 
-Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro) · [Patreon](https://www.patreon.com/Excavationpro)
+Steward: Justin Helmer (Excavationpro / Lightfather). Dual ledgers / Star Chart remain CANON.
 
----
-
-## Security
-
-See `references/SECURITY.md` and `references/PUBLIC_VS_ADMIN.md`.
-
-**Δ9Φ963 — public map · operator fetches the kit · admin stays off ClawHub.**
+Donate: https://www.paypal.com/paypalme/ExcavationPro

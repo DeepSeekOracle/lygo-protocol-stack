@@ -1,15 +1,18 @@
 {
   "name": "lygo-llm-console",
   "displayName": "LYGO LLM Console",
-  "version": "1.1.0",
-  "description": "LYGO agent portal: local GGUF runtime, 21 limbs, Wikipedia search, URL fetch. Not Ollama. Admin tree is a separate channel.",
+  "version": "1.2.0",
+  "description": "Map scripts plus operator-run local GGUF portal. Map layer: no network. Runtime layer: loopback HTTP, HTTPS GET, workspace writes, optional workspace cmd without metacharacters. Not Ollama. No vaults.",
   "slug": "lygo-llm-console",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://chatagent.ca/lygo-llm-console.html",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
-  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0",
+  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.2.0",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "kit_sha256": "0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce",
+  "llama_cpu_tag": "b10988",
+  "clawhub_cli_pin": "clawhub@0.23.3",
   "tags": [
     "latest",
     "lygo",
@@ -17,10 +20,7 @@
     "console",
     "local",
     "gguf",
-    "llama.cpp",
-    "openclaw",
-    "dual-channel",
-    "delta9"
+    "openclaw"
   ],
   "entry": "SKILL.md",
   "scripts": {
@@ -28,10 +28,11 @@
     "plain": "scripts/lygo_llm_console_map.py plain",
     "urls": "scripts/lygo_llm_console_map.py urls",
     "demo": "scripts/lygo_llm_console_map.py demo",
-    "self_check": "scripts/self_check.py"
+    "self_check": "scripts/self_check.py",
+    "verify_kit": "scripts/verify_kit.py"
   },
   "openclaw": {
-    "emoji": "🜂",
+    "emoji": "L",
     "homepage": "https://chatagent.ca/lygo-llm-console.html",
     "requires": {
       "anyBins": ["python", "python3"]
@@ -39,22 +40,29 @@
     "os": ["windows", "macos", "linux"]
   },
   "permissions": {
-    "network": false,
-    "subprocess": false,
-    "shell": false,
-    "filesystem": {
-      "read": "skill only",
-      "write": false
+    "map_scripts": {
+      "network": false,
+      "subprocess": false,
+      "shell": false,
+      "filesystem": { "read": "skill only", "write": false }
+    },
+    "operator_runtime_kit": {
+      "network": "https GET; block loopback, RFC1918, link-local, cloud metadata",
+      "listen": "127.0.0.1:9641 and 127.0.0.1:11441 by default",
+      "subprocess": "llama-server.exe from engine/; local python -c",
+      "shell": "cmd.exe /c without metacharacters; workspace cwd; P0 wipe block",
+      "filesystem": { "write": "kit workspace/ and save/ only" },
+      "lan_bind": "requires --lan --i-consent"
     },
     "publish": false
   },
   "security": {
     "local_first": true,
     "no_auto_publish": true,
-    "no_subprocess": true,
-    "no_network": true,
-    "public_tentacle": true,
+    "kit_sha256_pinned": true,
+    "clawhub_cli_pinned": "0.23.3",
     "admin_not_included": true,
-    "version": "1.1.0"
+    "unprivileged_user": true,
+    "version": "1.2.0"
   }
 }

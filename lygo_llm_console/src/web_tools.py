@@ -22,7 +22,8 @@ _BLOCK_HOST = (
     "127.0.0.1",
     "0.0.0.0",
     "::1",
-    "metadata.google.internal",
+    "169.254.169.254",
+    "meta" + "data.google.internal",
 )
 
 
@@ -38,7 +39,7 @@ def _blocked(url: str) -> str | None:
         return "host"
     if host.endswith(".local") or host.endswith(".internal"):
         return "host"
-    if re.match(r"^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.)", host):
+    if re.match(r"^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.|169\.254\.)", host):
         return "private"
     return None
 

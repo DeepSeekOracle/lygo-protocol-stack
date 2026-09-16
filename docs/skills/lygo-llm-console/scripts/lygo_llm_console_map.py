@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LYGO LLM Console — public ClawHub tentacle. No network. No subprocess."""
+"""Map-only. No network. No subprocess."""
 from __future__ import annotations
 
 import argparse
@@ -8,19 +8,15 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-SIG = "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0"
-VERSION = "1.1.0"
+SIG = "LYGO-LLM-CONSOLE-SKILL-v1.2.0"
+VERSION = "1.2.0"
 PAGE = "https://chatagent.ca/lygo-llm-console.html"
 ZIP_NAME = "lygo-llm-console-public.zip"
-ZIP_URL = "https://chatagent.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip"
+KIT_SHA = "0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce"
 CLAWHUB = "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console"
-INSTALL = "npx clawhub@latest install deepseekoracle/lygo-llm-console"
+INSTALL = "npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console"
 DONATE_PP = "https://www.paypal.com/paypalme/ExcavationPro"
-DONATE_PAT = "https://www.patreon.com/Excavationpro"
-ARCADE = "https://chatagent.ca/games/"
-CRYPT = "https://chatagent.ca/games/lattice-crypt/"
-WHITEPAPER = "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/whitepapers/LYGO_LLM_CONSOLE_v1.md"
-STEWARD = "Justin Helmer (Excavationpro / Lightfather)"
+LLAMA_TAG = "b10988"
 
 
 def utc_now() -> str:
@@ -31,72 +27,36 @@ def map_payload() -> dict[str, Any]:
     return {
         "signature": SIG,
         "version": VERSION,
-        "channel": "CLAWHUB_PUBLIC_TENTACLE",
+        "channel": "CLAWHUB_PUBLIC_SKILL",
         "generated_utc": utc_now(),
-        "mark": "LYGO",
-        "steward": STEWARD,
-        "credits": {
-            "author": STEWARD,
-            "lygo_ai_agents": "LYGO protocol stack agents assembled the public kit; they do not own the mark.",
-            "inference": "ggml-org llama.cpp (separate project, operator-supplied binary)",
-            "canon": "Dual ledgers and Haven Star Chart remain CANON. This skill and page are RESOURCE.",
+        "layers": {
+            "A_map": "scripts only; no network; no spawn",
+            "B_runtime": "kit zip after SHA-256 verify; operator runs BAT as unprivileged user",
         },
-        "message": "This skill maps the public LYGO LLM Console. Admin/steward trees are not included.",
-        "product": {
-            "name": "LYGO LLM Console",
-            "not": ["Ollama", "ollama.exe", "cloud LLM API"],
-            "does": [
-                "Scan GGUF and read-only Ollama CAS",
-                "Spawn ggml-org llama-server on loopback (in the zip, not this skill)",
-                "Agent portal text/tools/images",
-                "P0 Φ-gate on generations",
-                "OpenAI-shaped /v1 proxy without executing Console tools",
-            ],
-        },
-        "public": {
-            "page": PAGE,
-            "zip": ZIP_NAME,
-            "zip_url": ZIP_URL,
-            "clawhub": CLAWHUB,
-            "install": INSTALL,
-        },
-        "admin": {
-            "included": False,
-            "note": "lygo_llm_console/ on the steward stack is a separate tree. Vaults never ship in the zip.",
-        },
-        "donate": {"paypal": DONATE_PP, "patreon": DONATE_PAT},
-        "play": {"arcade": ARCADE, "crypt": CRYPT},
-        "whitepaper": WHITEPAPER,
+        "kit_sha256": KIT_SHA,
+        "kit_zip": ZIP_NAME,
+        "llama_cpu_tag": LLAMA_TAG,
+        "public": {"page": PAGE, "clawhub": CLAWHUB, "install": INSTALL},
+        "admin": {"included": False},
+        "donate": {"paypal": DONATE_PP},
     }
 
 
 def plain() -> str:
-    m = map_payload()
     return "\n".join(
         [
-            "LYGO LLM Console — public map",
-            f"Steward: {STEWARD}",
-            f"Page: {PAGE}",
-            f"Zip: {ZIP_URL}",
-            f"ClawHub: {INSTALL}",
-            "Admin tree is NOT in this skill.",
-            "Ollama is not required.",
-            f"Donate: {DONATE_PP}",
-            f"Signature: {SIG}",
+            "LYGO LLM Console map v1.2.0",
+            "Install: " + INSTALL,
+            "Verify kit SHA-256: " + KIT_SHA,
+            "Engine tag: " + LLAMA_TAG,
+            "Page: " + PAGE,
+            "Admin vaults: not included",
         ]
     )
 
 
 def urls() -> dict[str, str]:
-    return {
-        "page": PAGE,
-        "zip": ZIP_URL,
-        "clawhub": CLAWHUB,
-        "whitepaper": WHITEPAPER,
-        "paypal": DONATE_PP,
-        "patreon": DONATE_PAT,
-        "arcade": ARCADE,
-    }
+    return {"page": PAGE, "clawhub": CLAWHUB, "paypal": DONATE_PP, "install": INSTALL}
 
 
 def main() -> int:

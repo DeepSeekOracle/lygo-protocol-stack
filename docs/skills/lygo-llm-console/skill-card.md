@@ -2,14 +2,10 @@
 
 | | |
 |--|--|
-| Slug | `lygo-llm-console` |
-| Version | **1.1.0** |
-| Channel | ClawHub public (complete file set) |
-| Steward | Justin Helmer / Excavationpro / Lightfather |
-| Page | https://chatagent.ca/lygo-llm-console.html |
-| Zip mirror | https://chatagent.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip |
-| Runtime | `kit/` in this skill |
-| Not | `ollama.exe`, vaults, admin write-roots |
-| Signature | `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0` |
-
-Install: `npx clawhub@latest install deepseekoracle/lygo-llm-console`
+| Version | **1.2.0** |
+| ClawHub CLI | clawhub@0.23.3 |
+| Kit SHA-256 | 0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce |
+| Engine | ggml-org llama.cpp b10988 CPU |
+| Map | no network / no spawn |
+| Runtime | operator BAT after hash verify |
+| Admin vaults | not included |

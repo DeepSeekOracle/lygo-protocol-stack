@@ -70,7 +70,8 @@ def ram_ok(model_bytes: int, headroom: int = 2 * 1024**3) -> bool:
 
 
 def _clean_env() -> dict[str, str]:
-    env = {k: v for k, v in os.environ.items() if not k.startswith("OLLAMA_") and not k.startswith("LLAMA_ARG_")}
+    keys = ("PATH", "SystemRoot", "COMSPEC", "PATHEXT", "TEMP", "TMP", "USERNAME", "USERPROFILE", "WINDIR", "NUMBER_OF_PROCESSORS")
+    env = {k: os.environ[k] for k in keys if k in os.environ}
     return env
 
 

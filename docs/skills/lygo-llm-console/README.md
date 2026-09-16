@@ -1,23 +1,21 @@
-# LYGO LLM Console (ClawHub public skill)
+# LYGO LLM Console (ClawHub skill v1.2.0)
 
-**Mark:** LYGO — Justin Helmer (Excavationpro / Lightfather) + LYGO AI agents.  
-**Page:** https://chatagent.ca/lygo-llm-console.html  
-**Install:** `npx clawhub@latest install deepseekoracle/lygo-llm-console`
+**Install (pinned CLI, not latest):**
 
-This folder is the **complete public skill**. It includes:
+```bash
+npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console
+python scripts/self_check.py
+python scripts/verify_kit.py
+```
 
-| Path | What it is |
-|------|------------|
-| `SKILL.md` | Agent instructions |
-| `claw.json` | OpenClaw metadata |
-| `skill-card.md` | Short identity card |
-| `scripts/` | `self_check.py`, `lygo_llm_console_map.py` (no network, no subprocess) |
-| `references/` | Security, public vs admin, credits |
-| `kit/` | **Public runtime** (portal + Python console). Not the steward admin tree. |
-| `examples/quickstart.md` | Install steps |
+Kit SHA-256 (must match):
 
-`kit/` does **not** contain `llama-server.exe` or GGUF weights. Place an official ggml-org Windows CPU `llama-server.exe` in `kit/engine/` then run `kit/LYGO_LLM_CONSOLE.bat`.
+```
+0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce
+```
 
-Admin/steward console (`lygo_llm_console/` on the stack, extra write-roots, vaults) is **not** this package.
+If verify_kit fails, do not unzip or run the BAT.
 
-Donate: https://www.paypal.com/paypalme/ExcavationPro
+Engine: ggml-org llama.cpp Windows CPU zip, tag **b10988**. Unprivileged user. Bind 127.0.0.1.
+
+Steward: Justin Helmer / Excavationpro / Lightfather.

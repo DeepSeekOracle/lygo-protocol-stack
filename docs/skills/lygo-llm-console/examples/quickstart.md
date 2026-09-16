@@ -1,9 +1,13 @@
 # Quickstart
 
 ```bash
-npx clawhub@latest install deepseekoracle/lygo-llm-console
+npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console
 python scripts/self_check.py
-python scripts/lygo_llm_console_map.py plain
+python scripts/verify_kit.py
 ```
 
-Open https://chatagent.ca/lygo-llm-console.html and download `lygo-llm-console-public.zip`.
+Unzip `kit/lygo-llm-console-public.zip` only after the SHA-256 matches.
+
+Place `llama-server.exe` from ggml-org tag b10988 into `engine/`.
+
+Run `LYGO_LLM_CONSOLE.bat` as a normal (non-admin) user.

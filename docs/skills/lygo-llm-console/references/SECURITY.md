@@ -1,26 +1,21 @@
-# Security — lygo-llm-console skill v1.0.0
+# Security — lygo-llm-console v1.2.0
 
-**Channel:** ClawHub **public tentacle** (not admin console, not FULL vault)
+## Two layers
 
-## Surfaces
+| Layer | Privilege |
+|-------|-----------|
+| Map scripts | No network, no subprocess, no writes |
+| Operator kit (after hash verify) | Loopback HTTP, HTTPS GET with private/metadata block, workspace writes, cmd.exe /c without metacharacters, llama-server subprocess |
 
-| Surface | Default |
-|---------|---------|
-| Network | **None** |
-| Subprocess / shell | **None** |
-| Filesystem write | **None** |
-| Filesystem read | Skill files only |
-| Auto-download zip | **No** |
+## Pins
 
-## Dual channel honesty
+- ClawHub CLI: `clawhub@0.23.3` (not `@latest`)
+- Kit SHA-256: `0df99aeb65593e336d33a8252101364fb7b4e595e888ed79280341aa7195e4ce`
+- llama.cpp CPU tag: `b10988`
 
-- This package **prints** https://chatagent.ca/lygo-llm-console.html  
-- It does not fetch the zip, spawn `llama-server`, or import USB/admin tools  
-- Admin tree `lygo_llm_console/` (stream node, vaults, extra write-roots) is **out of this package**
+## Operator rules
 
-## SkillSpector
-
-- Honest description: map / credits, not the runtime  
-- No secrets, no spawn, no network imports  
-
-**Δ9Φ963 — public map · operator fetches kit · admin stays private.**
+- Unprivileged user. No elevated terminal.
+- Default bind 127.0.0.1. LAN requires `--lan --i-consent`.
+- Do not run if `verify_kit.py` fails.
+- Admin vaults are not in this package.

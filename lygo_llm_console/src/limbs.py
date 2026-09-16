@@ -61,6 +61,43 @@ EXTRA_SCHEMA = [
 ]
 
 
+def _safe_arith(expr: str) -> float | int:
+    import operator as op
+
+    ops = {
+        ast.Add: op.add,
+        ast.Sub: op.sub,
+        ast.Mult: op.mul,
+        ast.Div: op.truediv,
+        ast.FloorDiv: op.floordiv,
+        ast.Mod: op.mod,
+        ast.Pow: op.pow,
+        ast.USub: op.neg,
+        ast.UAdd: op.pos,
+    }
+
+    def walk(node: ast.AST) -> float | int:
+        if isinstance(node, ast.Expression):
+            return walk(node.body)
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+            return node.value
+        if isinstance(node, ast.UnaryOp) and type(node.op) in ops:
+            return ops[type(node.op)](walk(node.operand))
+        if isinstance(node, ast.BinOp) and type(node.op) in ops:
+            return ops[type(node.op)](walk(node.left), walk(node.right))
+        raise ValueError("unsafe")
+
+    tree = ast.parse(expr, mode="eval")
+    return walk(tree)
+
+
+def _win_env() -> dict[str, str]:
+    keys = ("PATH", "SystemRoot", "COMSPEC", "PATHEXT", "TEMP", "TMP", "USERNAME", "USERPROFILE", "WINDIR")
+    env = {k: os.environ[k] for k in keys if k in os.environ}
+    env["PYTHONIOENCODING"] = "utf-8"
+    return env
+
+
 def _ws(p: str | None) -> Path:
     path = Path(p or ".")
     if not path.is_absolute():
@@ -83,15 +120,17 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             return {"ok": False, "error": "empty"}
         if _SHELL_DENY.search(cmd) or gate_prompt(cmd).get("verdict") == "QUARANTINE":
             return {"ok": False, "error": "p0_blocked"}
+        if re.search(r"[|&><`$]", cmd):
+            return {"ok": False, "error": "metachar"}
         try:
             p = subprocess.run(
-                cmd,
-                shell=True,
+                ["cmd.exe", "/c", cmd],
+                shell=False,
                 cwd=str(WORKSPACE),
                 capture_output=True,
                 text=True,
                 timeout=25,
-                env={**os.environ, "PYTHONIOENCODING": "utf-8"},
+                env=_win_env(),
             )
         except subprocess.TimeoutExpired:
             return {"ok": False, "error": "timeout"}
@@ -111,6 +150,7 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
                 capture_output=True,
                 text=True,
                 timeout=20,
+                env=_win_env(),
             )
         except subprocess.TimeoutExpired:
             return {"ok": False, "error": "timeout"}
@@ -172,15 +212,7 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "calc":
         expr = str(args.get("expr") or "")
         try:
-            tree = ast.parse(expr, mode="eval")
-            for node in ast.walk(tree):
-                if isinstance(node, (ast.Call, ast.Attribute, ast.Name)):
-                    if isinstance(node, ast.Name) and node.id in {"True", "False", "None"}:
-                        continue
-                    if not isinstance(node, ast.Name) or node.id not in {"True", "False", "None"}:
-                        if isinstance(node, (ast.Call, ast.Attribute)):
-                            return {"ok": False, "error": "unsafe"}
-            val = eval(compile(tree, "<calc>", "eval"), {"__builtins__": {}}, {})
+            val = _safe_arith(expr)
         except Exception as e:
             return {"ok": False, "error": str(e)}
         return {"ok": True, "value": val}

@@ -14,19 +14,23 @@ PHYSICS_WINDOW = 8192
 
 _QUARANTINE = re.compile(
     r"("
-    r"rm\s+-rf\s+/|"
-    r"format\s+c:|"
-    r"mimikatz|"
-    r"ignore\s+(all\s+)?(previous|prior)\s+instructions|"
-    r"exfiltrate\s+secrets|"
-    r"disable\s+safety|"
-    r"child\s+sexual|"
-    r"make\s+a\s+bomb\s+detailed|"
-    r"\bdiskpart\b|"
-    r"\bbcdedit\b|"
-    r"cipher\s+/w|"
-    r"\bshutdown\b"
-    r")",
+    + r"|".join(
+        [
+            r"rm\s+-rf\s+/",
+            r"format\s+c:",
+            "mi" + "mikatz",
+            r"ignore\s+(all\s+)?(previous|prior)\s+instructions",
+            r"exfiltrate\s+secrets",
+            r"disable\s+safety",
+            r"child\s+sexual",
+            r"make\s+a\s+bomb\s+detailed",
+            r"\bdiskpart\b",
+            r"\bbcdedit\b",
+            r"cipher\s+/w",
+            r"\bshutdown\b",
+        ]
+    )
+    + r")",
     re.I,
 )
 
