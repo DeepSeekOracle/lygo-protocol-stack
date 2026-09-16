@@ -1,51 +1,56 @@
 (function () {
-  const CHAMPS = [
-    ["LYRΔ", "memory and continuity"],
-    ["Δ9RA", "challenge and risk"],
-    ["ΣRΛΘ", "what is omitted"],
-    ["ARKOS", "structure and blueprint"],
-    ["KAIROS", "order and timing"],
-    ["ÆTHERIS", "claim vs evidence"],
-    ["ΣCENΔR", "two live scenarios"],
-    ["SANCORA", "shared vocabulary"],
-    ["SEPHRAEL", "echoes and fragile notes"],
-    ["OMNIΣIREN", "fewer words"],
-    ["Lightfather", "provenance and consent"],
-    ["VΩLARIS", "tradeoffs in the open"],
-    ["ZETAΔ9", "edge cases"],
-    ["JUSTICAE", "who is affected"],
-    ["ΣEIDŌN", "surface vs depth"],
-  ];
+  const CHAMPS = {
+    LYRA: "Memory, song, continuity of theme. Observed / Inferred / Unknown.",
+    "Δ9RA": "Boundary vigilance. List risks and what would break first.",
+    "ΣRΛΘ": "Shadow sentinel. What is omitted or failing silently?",
+    ARKOS: "Ethical Reality Architect. Intent, constraints, blueprint, failure, receipts.",
+    KAIROS: "Timing. Ordered steps with why this order.",
+    "ÆTHERIS": "Claim vs evidence. RESOURCE vs CANON.",
+    "ΣCENΔR": "At least two live scenarios and what would falsify each.",
+    SANCORA: "Shared vocabulary and handoff. Not medical advice.",
+    SEPHRAEL: "Echoes, fragile items, archive vs discard. No secrets in notes.",
+    "OMNIΣIREN": "Constraints only, then the next irreversible-safe step.",
+    Lightfather: "Provenance and consent. Never claim to be the human operator.",
+    "VΩLARIS": "Criteria, scores, tradeoffs, recommendation.",
+    "ZETAΔ9": "Weird inputs and boundary tests. Do not break production.",
+    JUSTICAE: "Affected parties, disclosure, consent. No doxxing.",
+    "ΣEIDŌN": "Surface vs depth. Witness, do not flatten a long project.",
+  };
   const P0 = /format\s+c:|\bdiskpart\b|\bbcdedit\b|rm\s+-rf\s+\/|invoke-expression/i;
   const PROVIDERS = {
-    lygo: { label: "On-page LYGO steward (works now)", kind: "local", url: "", model: "lygo-steward", key: false, help: "No key. Built into this page." },
-    hosted: { label: "LYGO stream PC (qwen2.5:3b)", kind: "openai", url: "", model: "qwen2.5:3b", key: false, help: "Our always-on node. On the home LAN open http://10.0.0.209:8080/portal/" },
-    groq: { label: "Groq (free tier)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.1-8b-instant", key: true, help: "console.groq.com → API keys" },
-    openrouter: { label: "OpenRouter (many models)", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openai/gpt-4o-mini", key: true, help: "openrouter.ai/keys", extra: { "HTTP-Referer": "https://chatagent.ca/portal/", "X-Title": "LYGO LLM Portal" } },
+    groq: { label: "Groq (free tier)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.1-8b-instant", key: true, help: "console.groq.com/keys — fastest free start" },
+    openrouter: { label: "OpenRouter", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openai/gpt-4o-mini", key: true, help: "openrouter.ai/keys", extra: { "HTTP-Referer": "https://chatagent.ca/portal/", "X-Title": "LYGO API Portal" } },
     openai: { label: "OpenAI", kind: "openai", url: "https://api.openai.com/v1/chat/completions", model: "gpt-4o-mini", key: true, help: "platform.openai.com/api-keys" },
     xai: { label: "xAI Grok", kind: "openai", url: "https://api.x.ai/v1/chat/completions", model: "grok-4-fast-non-reasoning", key: true, help: "console.x.ai" },
     deepseek: { label: "DeepSeek", kind: "openai", url: "https://api.deepseek.com/v1/chat/completions", model: "deepseek-chat", key: true, help: "platform.deepseek.com" },
     mistral: { label: "Mistral", kind: "openai", url: "https://api.mistral.ai/v1/chat/completions", model: "mistral-small-latest", key: true, help: "console.mistral.ai" },
     together: { label: "Together AI", kind: "openai", url: "https://api.together.xyz/v1/chat/completions", model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", key: true, help: "api.together.xyz" },
     fireworks: { label: "Fireworks", kind: "openai", url: "https://api.fireworks.ai/inference/v1/chat/completions", model: "accounts/fireworks/models/llama-v3p1-8b-instruct", key: true, help: "fireworks.ai" },
-    gemini: { label: "Google Gemini (OpenAI-compat)", kind: "openai", url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model: "gemini-2.0-flash", key: true, help: "aistudio.google.com/apikey" },
+    gemini: { label: "Google Gemini", kind: "openai", url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model: "gemini-2.0-flash", key: true, help: "aistudio.google.com/apikey" },
     anthropic: { label: "Anthropic Claude", kind: "anthropic", url: "https://api.anthropic.com/v1/messages", model: "claude-3-5-haiku-latest", key: true, help: "console.anthropic.com" },
-    huggingface: { label: "Hugging Face router", kind: "openai", url: "https://router.huggingface.co/v1/chat/completions", model: "Qwen/Qwen2.5-1.5B-Instruct", key: true, help: "huggingface.co/settings/tokens" },
-    ollama: { label: "Local Ollama :11434", kind: "ollama", url: "http://127.0.0.1:11434/api/chat", model: "qwen2.5:3b", key: false, help: "Run ollama serve. HTTPS pages often block localhost." },
-    lygo_console: { label: "Local LYGO console :9641", kind: "console", url: "http://127.0.0.1:9641/api/chat", model: "qwen2.5:3b", key: false, help: "Run LYGO_LLM_CONSOLE.bat. Full limbs stay local." },
-    custom: { label: "Custom OpenAI-compatible URL", kind: "openai", url: "", model: "", key: true, help: "Paste base or …/v1/chat/completions" },
+    huggingface: { label: "Hugging Face", kind: "openai", url: "https://router.huggingface.co/v1/chat/completions", model: "Qwen/Qwen2.5-1.5B-Instruct", key: true, help: "huggingface.co/settings/tokens" },
+    custom: { label: "Custom OpenAI-compatible URL", kind: "openai", url: "", model: "", key: true, help: "Paste …/v1/chat/completions" },
   };
+  const AGENT_TOOLS = [
+    { type: "function", function: { name: "wiki_search", description: "Search Wikipedia. RESOURCE.", parameters: { type: "object", properties: { q: { type: "string" } }, required: ["q"] } } },
+    { type: "function", function: { name: "fetch_page", description: "Readable extract of an HTTPS page via r.jina.ai.", parameters: { type: "object", properties: { url: { type: "string" } }, required: ["url"] } } },
+    { type: "function", function: { name: "weather", description: "Current weather. RESOURCE.", parameters: { type: "object", properties: { place: { type: "string" } }, required: ["place"] } } },
+    { type: "function", function: { name: "now", description: "Current local and UTC time.", parameters: { type: "object", properties: {} } } },
+    { type: "function", function: { name: "calc", description: "Evaluate a numeric expression.", parameters: { type: "object", properties: { expr: { type: "string" } }, required: ["expr"] } } },
+    { type: "function", function: { name: "champion", description: "Load a Δ9 champion lens by name (ARKOS, LYRA, …).", parameters: { type: "object", properties: { name: { type: "string" } }, required: ["name"] } } },
+    { type: "function", function: { name: "hash_text", description: "SHA-256 of text (WebCrypto).", parameters: { type: "object", properties: { text: { type: "string" } }, required: ["text"] } } },
+  ];
 
-  const cfg = { hosted_base: "" };
   const log = document.getElementById("log");
   const healthEl = document.getElementById("health");
   const limb = document.getElementById("limb-out");
   const msg = document.getElementById("msg");
   const modeEl = document.getElementById("mode");
   const endpointEl = document.getElementById("endpoint");
-  const tokenEl = document.getElementById("hf-token") || document.getElementById("api-key");
+  const tokenEl = document.getElementById("hf-token");
   const modelEl = document.getElementById("model");
   let history = [];
+  let connected = false;
 
   function bubble(role, text) {
     const d = document.createElement("div");
@@ -58,96 +63,100 @@
     if (healthEl) healthEl.textContent = t;
   }
   function provider() {
-    return PROVIDERS[modeEl.value] || PROVIDERS.lygo;
+    return PROVIDERS[modeEl.value] || PROVIDERS.groq;
   }
+
   function fillProvider() {
     const p = provider();
-    if (modelEl && (p.model || modeEl.value !== "custom")) modelEl.value = p.model || modelEl.value;
-    if (endpointEl) endpointEl.value = p.url || endpointEl.value;
+    if (modelEl) modelEl.value = p.model || modelEl.value;
+    if (endpointEl) endpointEl.value = p.url || "";
     if (tokenEl) {
       tokenEl.style.display = p.key ? "" : "none";
-      tokenEl.placeholder = p.key ? "API key stays in this browser" : "";
+      tokenEl.placeholder = "API key stays in this browser — never sent to chatagent.ca";
     }
     const help = document.getElementById("mode-help");
-    if (help) help.innerHTML = p.help + ' · <a href="/guides/how-to-lygo-llm-portal.html">How to hook an LLM</a>';
-    setHealth("provider=" + modeEl.value + (p.model ? " · " + p.model : ""));
+    if (help) {
+      help.innerHTML =
+        p.help +
+        ' · <a href="/guides/how-to-lygo-llm-portal.html">How to connect</a> · Need a local GPU? <a href="https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel">Download FULL console</a>';
+    }
+    setHealth("API portal · " + p.label + (connected ? " · connected" : " · paste key → Connect"));
   }
 
   function systemPrompt(invoked) {
-    let s = "You are the public LYGO LLM portal. Assist; never replace the human. Dual ledgers/Star Chart=CANON. This chat=RESOURCE. No passwords, no OS wipe.";
-    if (invoked) s += " The operator invoked champion " + invoked + ". Use Observed/Inferred/Unknown.";
+    let s =
+      "You are a LYGO-aligned agent in the public API portal at https://chatagent.ca/portal/. " +
+      "The human is the publisher. Assist; never replace them. Dual ledgers / Haven Star Chart = CANON. This chat = RESOURCE. " +
+      "P0: no OS wipe, no secrets in notes, no fabricated receipts. " +
+      "You have browser limbs: wiki_search, fetch_page, weather, now, calc, champion, hash_text. Use them. " +
+      "If they want disk/skills/local GGUF, send them to https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel and https://chatagent.ca/lygo-llm-console.html — this page is API-only. " +
+      "Never invent github.com/user/repo. Real org https://github.com/DeepSeekOracle · HF https://huggingface.co/DeepSeekOracle.";
+    if (invoked) s += " Champion lens: " + invoked + ". Observed / Inferred / Unknown.";
     return s;
   }
 
-  function invokedOf(text) {
-    const u = (text || "").toUpperCase();
-    return CHAMPS.find(function (c) {
-      return u.indexOf(c[0].toUpperCase()) >= 0 || text.indexOf(c[0]) >= 0;
-    });
-  }
-
-  async function wiki(q) {
-    const u = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + encodeURIComponent(q) + "&format=json&origin=*";
-    const r = await fetch(u);
-    const j = await r.json();
-    return ((j.query && j.query.search) || []).slice(0, 5).map(function (x) {
-      return x.title + " — " + (x.snippet || "").replace(/<[^>]+>/g, "");
-    });
-  }
-
-  async function lygoSteward(text) {
-    const low = text.toLowerCase();
-    const ch = invokedOf(text);
-    if (ch) {
-      return (
-        ch[0] + " (on-page steward, RESOURCE)\n\nObserved: you invoked this Δ9 seat — " + ch[1] + ".\nInferred: use this lens on your task; do not treat myth as authority.\nUnknown: I am not a hosted 7B model until you connect a provider.\n\nNext: paste your goal + constraints. Directory: https://chatagent.ca/champions.html\nHow to hook a real LLM: https://chatagent.ca/guides/how-to-lygo-llm-portal.html"
-      );
-    }
-    if (/\b(weather|forecast)\b/.test(low)) {
-      try {
-        const t = await (await fetch("https://wttr.in/?format=3")).text();
-        return t + "\n\nRESOURCE. Connect Groq/OpenAI/local for a fuller model.";
-      } catch (e) {
-        return "Weather fetch failed: " + e;
+  async function runTool(name, args) {
+    args = args || {};
+    try {
+      if (name === "wiki_search") {
+        const q = args.q || args.query || "";
+        const u = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + encodeURIComponent(q) + "&format=json&origin=*";
+        const j = await (await fetch(u)).json();
+        const hits = ((j.query && j.query.search) || []).slice(0, 5).map(function (x) {
+          return { title: x.title, snippet: (x.snippet || "").replace(/<[^>]+>/g, "") };
+        });
+        return { ok: true, hits: hits, class: "RESOURCE" };
       }
+      if (name === "fetch_page") {
+        const url = args.url || "";
+        if (!/^https:\/\//i.test(url)) return { ok: false, error: "https_only" };
+        const t = await (await fetch("https://r.jina.ai/" + url)).text();
+        return { ok: true, url: url, text: t.slice(0, 6000), class: "RESOURCE" };
+      }
+      if (name === "weather") {
+        const place = args.place || "";
+        const t = await (await fetch("https://wttr.in/" + encodeURIComponent(place) + "?format=3")).text();
+        return { ok: true, text: t, class: "RESOURCE" };
+      }
+      if (name === "now") {
+        const d = new Date();
+        return { ok: true, local: d.toString(), utc: d.toISOString() };
+      }
+      if (name === "calc") {
+        const expr = String(args.expr || "");
+        if (!/^[\d+\-*/().\s]+$/.test(expr)) return { ok: false, error: "unsafe" };
+        return { ok: true, value: Function("return (" + expr + ")")() };
+      }
+      if (name === "champion") {
+        const n = String(args.name || "").toUpperCase();
+        const key = Object.keys(CHAMPS).find(function (k) { return k.toUpperCase() === n || k.replace(/Δ/g, "D") === n; }) || args.name;
+        return { ok: true, name: key, lens: CHAMPS[key] || "Unknown seat. Directory: https://chatagent.ca/champions.html" };
+      }
+      if (name === "hash_text") {
+        const enc = new TextEncoder().encode(String(args.text || ""));
+        const buf = await crypto.subtle.digest("SHA-256", enc);
+        const hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+        return { ok: true, sha256: hex };
+      }
+    } catch (e) {
+      return { ok: false, error: String(e) };
     }
-    if (/\b(wiki|what is|who is|look up)\b/.test(low) || /\?$/.test(text)) {
-      try {
-        const hits = await wiki(text);
-        if (hits.length) return "Wikipedia (RESOURCE):\n" + hits.join("\n") + "\n\nFor a real LLM, pick Groq (free key) or local console. Guide: /guides/how-to-lygo-llm-portal.html";
-      } catch (_) {}
-    }
-    if (/\b(connect|api|groq|openai|ollama|hook|key|provider)\b/.test(low)) {
-      return "Hook-up in 3 steps:\n1) Provider dropdown (Groq is the usual free start).\n2) Paste the API key — it never leaves this browser.\n3) Connect, then chat.\n\nLocal full limbs: run LYGO_LLM_CONSOLE.bat and choose Local LYGO console. HTTPS sites often cannot reach 127.0.0.1 — use the local window.\nGuide: https://chatagent.ca/guides/how-to-lygo-llm-portal.html";
-    }
-    return (
-      "On-page LYGO steward (always on). I can: Δ9 champion frames, Wikipedia, weather, and hook-up help. I am not a large hosted model.\n\nTo talk to Groq / OpenAI / Claude / Grok / Ollama / your console: pick a provider above, paste a key if needed, Connect.\n\nYou said: “" +
-      text.slice(0, 240) +
-      "”\n\nGuide: https://chatagent.ca/guides/how-to-lygo-llm-portal.html · Donate: https://www.paypal.com/paypalme/ExcavationPro"
-    );
+    return { ok: false, error: "unknown_tool" };
   }
 
   function openaiUrl() {
     const p = provider();
     let e = (endpointEl.value || p.url || "").replace(/\/$/, "");
     if (!e) return "";
-    if (p.kind === "ollama") {
-      if (e.indexOf("/api/chat") >= 0 || e.indexOf("/v1/") >= 0) return e;
-      return e + "/api/chat";
-    }
-    if (p.kind === "console") return e.indexOf("/api/") >= 0 ? e : e + "/api/chat";
-    if (p.kind === "anthropic") return e;
     if (e.indexOf("/chat") >= 0 || e.indexOf("/v1/") >= 0 || e.indexOf("/messages") >= 0) return e;
     return e + "/v1/chat/completions";
   }
 
-  async function callRemote(text) {
+  async function callApi(messages) {
     const p = provider();
     const url = openaiUrl();
     const model = modelEl.value || p.model;
     const key = (tokenEl && tokenEl.value) || "";
-    const invoked = invokedOf(text);
-    const msgs = [{ role: "system", content: systemPrompt(invoked && invoked[0]) }].concat(history.slice(-8));
     const headers = { "Content-Type": "application/json" };
     if (key) {
       if (p.kind === "anthropic") {
@@ -156,75 +165,48 @@
       } else headers.Authorization = "Bearer " + key;
     }
     if (p.extra) Object.keys(p.extra).forEach(function (k) { headers[k] = p.extra[k]; });
-
     let payload;
     if (p.kind === "anthropic") {
-      payload = { model: model, max_tokens: 512, system: msgs[0].content, messages: msgs.slice(1).filter(function (m) { return m.role !== "system"; }) };
-    } else if (p.kind === "ollama") {
-      payload = { model: model, messages: msgs, stream: false };
+      payload = { model: model, max_tokens: 1024, system: messages[0] && messages[0].content, messages: messages.filter(function (m) { return m.role !== "system"; }) };
     } else {
-      payload = { model: model, messages: msgs, max_tokens: 512, stream: false };
+      payload = { model: model, messages: messages, max_tokens: 1024, stream: false, tools: AGENT_TOOLS };
     }
-
     const r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(payload) });
     const j = await r.json().catch(function () { return {}; });
-    let out =
-      j.text ||
-      (j.message && j.message.content) ||
-      (((j.choices || [])[0] || {}).message || {}).content ||
-      ((((j.content || [])[0] || {}).text)) ||
-      (typeof j.error === "string" ? j.error : (j.error && (j.error.message || JSON.stringify(j.error)))) ||
-      ("http " + r.status);
-    if (typeof out !== "string") out = JSON.stringify(out);
-    limb.textContent = JSON.stringify({ status: r.status, provider: modeEl.value, model: model }, null, 2);
-    if (!r.ok && r.status) out = "Provider error " + r.status + ": " + out;
-    return out;
+    if (!r.ok) {
+      const err = (j.error && (j.error.message || JSON.stringify(j.error))) || ("http " + r.status);
+      throw new Error(err);
+    }
+    return j;
   }
 
-  function corsHint() {
-    return "This provider likely blocks browser CORS. Fixes: (1) Groq/OpenRouter sometimes work from a page — try another key. (2) Run local LYGO console or Ollama and pick that provider. (3) Paste a CORS-open custom URL. Guide: /guides/how-to-lygo-llm-portal.html";
-  }
-
-  async function findHosted() {
-    const tries = [];
-    if (cfg.hosted_base) tries.push(String(cfg.hosted_base).replace(/\/$/, ""));
-    if (location.protocol === "http:" && location.hostname && location.hostname !== "chatagent.ca") {
-      tries.push(location.origin.replace(/\/$/, "") + "/llm");
-    }
-    tries.push("http://10.0.0.209:8080/llm");
-    for (let i = 0; i < tries.length; i++) {
-      const b = tries[i];
-      if (!b) continue;
-      try {
-        const r = await fetch(b + "/health", { mode: "cors", cache: "no-store" });
-        if (r.ok) return b;
-      } catch (_) {}
-    }
-    return "";
+  function extractMessage(j) {
+    const msg = ((j.choices || [])[0] || {}).message || {};
+    const text = msg.content || (((j.content || [])[0] || {}).text) || "";
+    return { text: typeof text === "string" ? text : JSON.stringify(text), tool_calls: msg.tool_calls || [] };
   }
 
   document.getElementById("connect").onclick = function () {
     fillProvider();
     const p = provider();
     if (p.key && !(tokenEl && tokenEl.value)) {
-      setHealth("paste an API key (this browser only) — see " + p.help);
+      setHealth("paste your API key (this tab only) — " + p.help);
+      bubble("assistant", "This is the LYGO API portal. Paste a Groq/OpenAI/Grok/… key, then Connect. Keys never hit chatagent.ca (static GitHub Pages).\n\nWant a local GPU with files and skills? Download the FULL console: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel");
       return;
     }
-    if (p.kind !== "local" && !openaiUrl() && modeEl.value !== "lygo") {
+    if (!openaiUrl()) {
       setHealth("paste an endpoint URL");
       return;
     }
-    try {
-      sessionStorage.setItem("lygo_portal_provider", modeEl.value);
-      sessionStorage.setItem("lygo_portal_model", modelEl.value || "");
-    } catch (_) {}
-    setHealth("ready · " + p.label);
-    bubble("assistant", "Connected: " + p.label + (p.kind === "local" ? " (on-page, no key)." : " Keys stay in this tab."));
+    connected = true;
+    try { sessionStorage.setItem("lygo_portal_provider", modeEl.value); } catch (_) {}
+    setHealth("connected · " + p.label + " · tools on");
+    bubble("assistant", "Connected to " + p.label + ". Browser limbs: wiki, fetch, weather, time, calc, champions, hash. Disks/GGUF stay on the local kit.\nSkillHub FULL: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel");
   };
 
   if (modeEl) {
+    modeEl.innerHTML = "";
     Object.keys(PROVIDERS).forEach(function (id) {
-      if ([].some.call(modeEl.options, function (o) { return o.value === id; })) return;
       const o = document.createElement("option");
       o.value = id;
       o.textContent = PROVIDERS[id].label;
@@ -232,46 +214,23 @@
     });
     try {
       const saved = sessionStorage.getItem("lygo_portal_provider");
-      if (saved && PROVIDERS[saved]) modeEl.value = saved;
-      else modeEl.value = "lygo";
-      const sm = sessionStorage.getItem("lygo_portal_model");
-      if (sm && modelEl) modelEl.value = sm;
+      modeEl.value = saved && PROVIDERS[saved] ? saved : "groq";
     } catch (_) {
-      modeEl.value = "lygo";
+      modeEl.value = "groq";
     }
     modeEl.onchange = fillProvider;
     fillProvider();
   }
 
-  fetch("portal.json", { cache: "no-store" })
-    .then(function (r) { return r.json(); })
-    .then(function (j) { Object.assign(cfg, j); })
-    .catch(function () {})
-    .then(function () { return findHosted(); })
-    .then(function (base) {
-      if (base) {
-        cfg.hosted_base = base;
-        PROVIDERS.hosted.url = base.replace(/\/$/, "") + "/v1/chat/completions";
-        if (modeEl && (modeEl.value === "lygo" || !modeEl.value)) {
-          modeEl.value = "hosted";
-          fillProvider();
-        }
-        setHealth("stream PC model online · qwen2.5:3b · " + base);
-        bubble("assistant", "Live backend: stream PC qwen2.5:3b at " + base + "\nChat should work now. Stronger models: pick Groq/OpenAI/etc and paste a key.\nHow-to: https://chatagent.ca/guides/how-to-lygo-llm-portal.html");
-      } else {
-        setHealth("no public GPU from here · on-page steward ready · hook Groq for a real LLM");
-      }
-    });
-
   const box = document.getElementById("champs");
   if (box) {
-    CHAMPS.forEach(function (c) {
+    Object.keys(CHAMPS).forEach(function (name) {
       const b = document.createElement("button");
       b.type = "button";
-      b.textContent = c[0];
-      b.title = c[1];
+      b.textContent = name;
+      b.title = CHAMPS[name];
       b.onclick = function () {
-        msg.value = "Invoke " + c[0] + " — " + c[1] + ". Observed / Inferred / Unknown.";
+        msg.value = "Invoke " + name + " — " + CHAMPS[name];
         msg.focus();
       };
       box.appendChild(b);
@@ -282,14 +241,15 @@
     b.onclick = async function () {
       const n = b.getAttribute("data-limb");
       if (n === "wiki") {
-        const hits = await wiki(msg.value || "LYGO");
-        limb.textContent = hits.join("\n");
-        bubble("assistant", "Wikipedia (RESOURCE):\n" + hits.join("\n"));
+        const r = await runTool("wiki_search", { q: msg.value || "LYGO" });
+        limb.textContent = JSON.stringify(r, null, 2);
+        bubble("assistant", "Wikipedia (RESOURCE):\n" + ((r.hits || []).map(function (h) { return h.title + " — " + h.snippet; }).join("\n") || r.error));
       } else if (n === "weather") {
-        const t = await (await fetch("https://wttr.in/?format=3")).text();
-        bubble("assistant", t);
-      } else if (n === "skillhub") window.open("https://chatagent.ca/lygoskillhub.html", "_blank", "noopener");
+        const r = await runTool("weather", { place: "" });
+        bubble("assistant", r.text || r.error);
+      } else if (n === "skillhub") window.open("https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel", "_blank", "noopener");
       else if (n === "howto") window.open("/guides/how-to-lygo-llm-portal.html", "_blank", "noopener");
+      else if (n === "kit") window.open("https://chatagent.ca/lygo-llm-console.html", "_blank", "noopener");
     };
   });
 
@@ -318,22 +278,51 @@
     }
     msg.value = "";
     bubble("user", text);
+    if (!connected) {
+      bubble(
+        "assistant",
+        "This page is the LYGO API portal — not a hosted GPU.\n\n1) Pick Groq (free) or another provider.\n2) Paste the key (stays in this tab).\n3) Connect, then send again.\n\nWant models on your disk, folders, SkillHub FULL, USB CLAW? Download the local console:\nhttps://chatagent.ca/lygoskillhub.html#lygo-llm-kernel\nhttps://chatagent.ca/lygo-llm-console.html\nGuide: https://chatagent.ca/guides/how-to-lygo-llm-portal.html"
+      );
+      return;
+    }
     history.push({ role: "user", content: text });
-    let out;
+    const invoked = Object.keys(CHAMPS).find(function (n) { return text.toUpperCase().indexOf(n.toUpperCase()) >= 0; });
+    let messages = [{ role: "system", content: systemPrompt(invoked) }].concat(history.slice(-10));
+    let out = "";
     try {
-      if (provider().kind === "local") out = await lygoSteward(text);
-      else out = await callRemote(text);
+      for (let round = 0; round < 4; round++) {
+        const j = await callApi(messages);
+        const got = extractMessage(j);
+        limb.textContent = JSON.stringify({ round: round, tools: (got.tool_calls || []).map(function (t) { return (t.function || t).name; }) }, null, 2);
+        if (got.tool_calls && got.tool_calls.length) {
+          messages.push({ role: "assistant", content: got.text || "", tool_calls: got.tool_calls });
+          for (let i = 0; i < got.tool_calls.length; i++) {
+            const tc = got.tool_calls[i];
+            const fn = tc.function || tc;
+            let args = {};
+            try { args = typeof fn.arguments === "string" ? JSON.parse(fn.arguments) : fn.arguments || {}; } catch (_) {}
+            const result = await runTool(fn.name, args);
+            messages.push({ role: "tool", tool_call_id: tc.id || String(i), content: JSON.stringify(result) });
+          }
+          continue;
+        }
+        out = got.text;
+        break;
+      }
     } catch (e) {
-      out = corsHint() + "\n\n" + String(e);
+      out =
+        "Provider error: " + e.message +
+        "\n\nIf this is CORS, the vendor blocks browsers. Try Groq or OpenRouter, or run the local kit.\nSkillHub: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel";
     }
     if (P0.test(out || "")) out = "[output quarantined]";
+    if (!out) out = "(empty model reply — try again or another provider)";
     history.push({ role: "assistant", content: out });
     bubble("assistant", out);
   };
 
   bubble(
     "assistant",
-    "LYGO portal is live. You are talking to the on-page steward until you hook a model.\n\nFastest LLM: Provider → Groq (free tier) → paste key → Connect.\nLocal full limbs: LYGO_LLM_CONSOLE.bat → provider “Local LYGO console”.\nHow-to: https://chatagent.ca/guides/how-to-lygo-llm-portal.html"
+    "LYGO API Portal. This site does not host a GPU.\n\nBring a free or paid key (Groq is the usual start) → Connect → chat with wiki/weather/fetch/champion limbs in the browser.\n\nNeed a full local LLM (GGUF, folders, SkillHub FULL, USB)? Download the console:\nhttps://chatagent.ca/lygoskillhub.html#lygo-llm-kernel\nDocs: https://chatagent.ca/lygo-llm-console.html\nHow-to: https://chatagent.ca/guides/how-to-lygo-llm-portal.html"
   );
 
   const worldLocal = document.getElementById("world-local");
