@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916f">
+<link rel="stylesheet" href="/static/style.css?v=20260916g">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -93,12 +93,43 @@
       </div>
     </section>
     <p class="hint">
-      Donate <a href="https://paypal.me/ExcavationPro">PayPal.me/ExcavationPro</a> ·
-      <a href="https://chatagent.ca/lygo-llm-console.html">docs</a> ·
-      <a href="https://chatagent.ca/games/">arcade</a>
+      Donate <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal</a> ·
+      <a href="https://www.patreon.com/Excavationpro" target="_blank" rel="noopener">Patreon</a> ·
+      <a href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a> ·
+      <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen</a>
     </p>
   </aside>
 </main>
-<script src="/static/app.js?v=20260916f"></script>
+<footer class="media-dock" aria-label="Radio and TV">
+  <audio id="radioEl" preload="auto"></audio>
+  <div id="radioDock" class="radio-inline">
+    <button type="button" id="radioPlay">Play</button>
+    <button type="button" id="radioNext">Next</button>
+    <button type="button" id="radioMute">Mute</button>
+    <label class="radio-vol" title="Radio volume">Vol
+      <input type="range" data-radio-vol min="0" max="100" value="45" aria-label="Radio volume">
+      <span id="radioVolPct">45%</span>
+    </label>
+    <span id="radioTitle" class="radio-title-inline">Radio</span>
+    <a id="radioListen" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen hub</a>
+    <a id="radioTv" href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a>
+    <span id="radioHint" class="hint"></span>
+  </div>
+</footer>
+<div id="donateLayer" class="donate-layer" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
+  <div class="donate-card">
+    <p class="kicker">Friendly reminder · every 15 minutes</p>
+    <h2 id="donateTitle">Keep the lattice lit</h2>
+    <p>This console is free. You do not have to donate. Opening a donate page (PayPal or Patreon) unlocks Continue — even if you give $0.</p>
+    <div class="donate-actions">
+      <a class="btn-gold" id="donatePaypal" href="https://www.paypal.com/paypalme/ExcavationPro">Open PayPal.me/ExcavationPro</a>
+      <a class="btn-gold" id="donatePatreon" href="https://www.patreon.com/Excavationpro">Open Patreon</a>
+    </div>
+    <button type="button" id="donateClose" disabled>Open a donate page to continue</button>
+  </div>
+</div>
+<script src="/static/app.js?v=20260916g"></script>
+<script src="/static/radio.js?v=20260916g"></script>
+<script src="/static/donate.js?v=20260916g"></script>
 </body>
 </html>

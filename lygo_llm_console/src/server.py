@@ -68,7 +68,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916f"
+BUILD = "v1.1-20260916g"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -238,7 +238,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header(
             "Content-Security-Policy",
-            "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'",
+            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https:; frame-src https://www.paypal.com https://www.patreon.com",
         )
         if extra:
             for k, v in extra.items():
@@ -268,8 +268,8 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916f">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916f"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916g">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916g"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
