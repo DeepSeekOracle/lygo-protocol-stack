@@ -51,7 +51,23 @@ def _read_cap(path: Path, cap: int) -> str:
 
 def compose_system() -> str:
     ensure_identity()
-    parts = [load_align(), ""]
+    parts: list[str] = []
+    try:
+        from admin_map import brief_text, is_admin
+
+        parts.append(brief_text())
+        parts.append("")
+        if is_admin():
+            parts.append(
+                "ADMIN RULE: For GitHub, Hugging Face, lattice, websites, drives, or passwords, "
+                "the host may already inject steward_map. Use those URLs. "
+                "Never invent github.com/user/repo, huggingface.co/models/transformers, or lattice.example.com."
+            )
+            parts.append("")
+    except Exception:
+        pass
+    parts.append(load_align())
+    parts.append("")
     try:
         from world_clock import pulse_stamps
 
@@ -64,7 +80,7 @@ def compose_system() -> str:
     except Exception:
         pass
     soul = _read_cap(soul_path(), SOUL_MAX)
-    mem = _read_cap(memory_path(), MEMORY_MAX)
+    mem = _read_cap(memory_path(), 2500)
     if soul:
         parts.append("=== SOUL.md (identity; edit workspace/SOUL.md) ===")
         parts.append(soul)
@@ -73,15 +89,15 @@ def compose_system() -> str:
         parts.append("=== MEMORY.md (durable notes; grow with remember) ===")
         parts.append(mem)
         parts.append("")
-    for extra_name, cap in (("BRAIN.md", 8000), ("MAP.md", 6000), ("LINKS.md", 4000)):
+    for extra_name, cap in (("BRAIN.md", 5000), ("MAP.md", 4000), ("LINKS.md", 3500)):
         ep = WORKSPACE / extra_name
         if ep.is_file():
             parts.append(f"=== {extra_name} ===")
             parts.append(_read_cap(ep, cap))
             parts.append("")
     parts.append("When the steward states a durable fact, call remember so MEMORY.md grows.")
-    parts.append("Never invent github.com/user/repo or lattice.example.com. Use MAP.md / LINKS.md.")
-    parts.append("Never print *.pass file contents. Point at the path only.")
+    parts.append("Never invent github.com/user/repo or lattice.example.com. Use steward_map / LINKS.md.")
+    parts.append("Never print *.pass file contents. Call credential_where. Point at the path only.")
     return "\n".join(parts)
 
 

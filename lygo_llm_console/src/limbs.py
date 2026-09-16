@@ -39,7 +39,7 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "todo_add", "description": "Append a todo line.", "parameters": {"type": "object", "properties": {"item": {"type": "string"}}, "required": ["item"]}}},
     {"type": "function", "function": {"name": "todo_list", "description": "List todos.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "calc", "description": "Evaluate a numeric Python expression.", "parameters": {"type": "object", "properties": {"expr": {"type": "string"}}, "required": ["expr"]}}},
-    {"type": "function", "function": {"name": "whoami", "description": "Operator/kit identity (no secrets).", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "whoami", "description": "Operator/kit identity (no secrets). Admin includes GitHub/HF/lattice links.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "hash_text", "description": "SHA-256 of text.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "memory_append", "description": "Append a durable note to MEMORY.md (grows across sessions).", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
     {"type": "function", "function": {"name": "memory_read", "description": "Read MEMORY.md (growing notes).", "parameters": {"type": "object", "properties": {}}}},
@@ -192,7 +192,14 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         dest.write_bytes(raw)
         return {"ok": True, "path": str(dest), "bytes": len(raw)}
     if name == "glob_files":
+        from admin_map import is_admin
+        from tools import dispatch as _dispatch
+
         pat = str(args.get("pattern") or "*")
+        if is_admin() and (":" in pat or any(ch in pat for ch in "\\/")):
+            return _dispatch("find_files", {"pattern": Path(pat).name, "root": str(Path(pat).parent)})
+        if is_admin():
+            return _dispatch("find_files", {"pattern": pat})
         hits = [str(p.relative_to(WORKSPACE)) for p in WORKSPACE.glob(pat) if p.is_file()][:80]
         return {"ok": True, "hits": hits}
     if name == "todo_add":
@@ -217,17 +224,28 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             return {"ok": False, "error": str(e)}
         return {"ok": True, "value": val}
     if name == "whoami":
-        from admin_map import is_admin, links
+        from admin_map import brief, is_admin
 
+        b = brief()
         return {
             "ok": True,
             "mark": "LYGO",
-            "role": "admin_kernel" if is_admin() else "public_kit",
-            "steward": "Justin Helmer / Excavationpro / Lightfather",
+            "role": b.get("role"),
+            "steward": b.get("steward"),
             "kit": str(KIT_ROOT),
             "workspace": str(WORKSPACE),
             "portal": "https://chatagent.ca/lygo-llm-console.html",
-            "links": links() if is_admin() else {},
+            "github": b.get("github_org"),
+            "huggingface": b.get("hf_org"),
+            "links": {
+                "github_org": b.get("github_org"),
+                "hf_org": b.get("hf_org"),
+                "github_repos": b.get("github_repos"),
+                "sites": b.get("sites"),
+                "lattice": b.get("lattice"),
+            }
+            if is_admin()
+            else {},
         }
     if name == "hash_text":
         t = str(args.get("text") or "").encode("utf-8")
@@ -327,9 +345,13 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
 
         return {"ok": True, "hits": hn_search(str(args.get("q") or "")), "class": "RESOURCE"}
     if name == "github_search":
+        from admin_map import is_admin
         from web_tools import github_search
 
-        return {"ok": True, "hits": github_search(str(args.get("q") or "")), "class": "RESOURCE"}
+        q = str(args.get("q") or "")
+        if is_admin() and "user:" not in q.lower() and "org:" not in q.lower():
+            q = ("user:DeepSeekOracle " + q).strip()
+        return {"ok": True, "hits": github_search(q), "query": q, "class": "RESOURCE"}
     if name == "image_info":
         from image_tools import image_info
 
