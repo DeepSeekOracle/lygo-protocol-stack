@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYGO Free LLM Portal</title>
+<meta name="description" content="Free LYGO LLM portal: hosted chat, Hugging Face (your token), or hook your own local console. Public mode is chat-only. Full LYGO limbs stay on your machine.">
+<link rel="canonical" href="https://chatagent.ca/portal/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="LYGO Free LLM Portal">
+<meta property="og:url" content="https://chatagent.ca/portal/">
+<meta property="og:image" content="https://chatagent.ca/assets/og-lygo-llm-console.jpg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="public-mode">
+<header>
+  <div>
+    <div class="brand">Δ9Φ963 · LYGO Free LLM Portal</div>
+    <div class="sub">Same agent studio as the public console. Hosted chat is locked down (no disks, no shell). Opt-in full LYGO only against <em>your</em> local console.</div>
+    <div class="conn">
+      <select id="mode" title="Where inference runs">
+        <option value="hosted">LYGO hosted (free)</option>
+        <option value="hf">Hugging Face (your token)</option>
+        <option value="local">My local LYGO console :9641</option>
+        <option value="custom">Custom OpenAI-compatible URL</option>
+      </select>
+      <input id="endpoint" type="text" placeholder="https://…/v1/chat/completions or http://127.0.0.1:9641" autocomplete="off">
+      <input id="hf-token" type="password" placeholder="HF token (stays in this browser)" autocomplete="off">
+      <input id="model" type="text" placeholder="model id" value="qwen2.5:3b" autocomplete="off">
+      <button type="button" id="connect">Connect</button>
+      <label class="chk hide-public" id="full-wrap"><input type="checkbox" id="full"> Full LYGO limbs</label>
+    </div>
+    <p class="mode-pill" id="mode-help">Public hosted = P0 chat only. Full limbs need http://127.0.0.1:9641/</p>
+  </div>
+  <div id="health" class="health">pick a backend…</div>
+</header>
+<section id="world" class="world" aria-label="World time">
+  <div class="world-now">
+    <div id="world-local" class="world-local">local —</div>
+    <div id="world-utc" class="world-utc">UTC —</div>
+  </div>
+  <div id="world-cities" class="world-cities"></div>
+</section>
+<main>
+  <nav class="rail">
+    <h2>Align</h2>
+    <p class="hint">15 Δ9 champions (public lenses). Click to invoke. <a href="https://chatagent.ca/champions.html">directory</a></p>
+    <div id="champs" class="champions"></div>
+    <h2>Public limbs</h2>
+    <p class="hint">Wikipedia / weather / notepad in this browser. No server disk.</p>
+    <div class="limbs">
+      <button type="button" data-limb="wiki">wiki</button>
+      <button type="button" data-limb="weather">weather</button>
+      <button type="button" data-limb="skillhub">SkillHub</button>
+    </div>
+    <p class="hint"><a href="https://chatagent.ca/lygo-llm-console.html">Install local console</a> · <a href="https://chatagent.ca/lygoskillhub.html">SkillHub</a> · <a href="https://www.paypal.com/paypalme/ExcavationPro">Donate</a></p>
+  </nav>
+  <section class="chat-panel">
+    <div id="log" class="log" aria-live="polite"></div>
+    <form id="form" class="composer">
+      <input id="msg" type="text" placeholder="Ask the public LYGO portal…" autocomplete="off" autofocus>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+  <aside>
+    <h2>Trace</h2>
+    <pre id="limb-out" class="limb-out">public · no server shell</pre>
+    <section class="notepad" id="notepad">
+      <h2>Notepad</h2>
+      <p class="hint">Saved in this browser only (not our servers).</p>
+      <textarea id="np-body" placeholder="Scratch pad…"></textarea>
+      <div class="np-foot">
+        <button type="button" id="np-save">Save locally</button>
+        <span id="np-status" class="hint">localStorage</span>
+      </div>
+    </section>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
