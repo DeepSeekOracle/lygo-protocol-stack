@@ -44,6 +44,7 @@ from paths import (  # noqa: E402
     LLAMA_PORT,
     LOCAL_JSON,
     PORTAL,
+    WORKSPACE,
     ensure_dirs,
 )
 from receipts import write_receipt  # noqa: E402
@@ -259,7 +260,7 @@ class Handler(BaseHTTPRequestHandler):
                     "bind": BIND,
                     "port": DEFAULT_PORT,
                     "tools": [t["function"]["name"] for t in TOOLS_SCHEMA],
-                    "workspace": str(__import__("paths", fromlist=["WORKSPACE"]).WORKSPACE),
+                    "workspace": str(WORKSPACE),
                 },
             )
             return
@@ -283,8 +284,6 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"tools": TOOLS_SCHEMA, "names": [t["function"]["name"] for t in TOOLS_SCHEMA]})
             return
         if path == "/api/workspace":
-            from paths import WORKSPACE
-
             ents = []
             if WORKSPACE.is_dir():
                 for child in list(WORKSPACE.iterdir())[:80]:
@@ -292,8 +291,6 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"path": str(WORKSPACE), "entries": ents})
             return
         if path == "/api/memory":
-            from paths import WORKSPACE
-
             mem = WORKSPACE / "memory.jsonl"
             lines = []
             if mem.is_file():
@@ -403,6 +400,12 @@ class Handler(BaseHTTPRequestHandler):
         if obj.get("prompt") and not messages:
             messages = [{"role": "user", "content": obj["prompt"]}]
         user = extract_user_text(messages)
+        last_user = ""
+        for m in reversed(messages):
+            if m.get("role") == "user":
+                c = m.get("content")
+                last_user = c if isinstance(c, str) else extract_user_text([m])
+                break
         gate = gate_prompt(user)
         if gate.get("verdict") == "QUARANTINE":
             self._json(451, {"error": "quarantine", "gate": gate})
@@ -415,8 +418,8 @@ class Handler(BaseHTTPRequestHandler):
         msgs = [{"role": "system", "content": SYSTEM}] + messages
         assistant = ""
         traces: list[Any] = []
-        if use_tools and user:
-            pre = host_prefetch(user)
+        if use_tools and last_user:
+            pre = host_prefetch(last_user)
             if pre:
                 traces.extend(pre)
                 msgs.append({"role": "user", "content": prefetch_message(pre)})

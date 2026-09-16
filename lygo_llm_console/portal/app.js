@@ -29,6 +29,7 @@
   const img = document.getElementById("img");
   let pendingImage = null;
   let bootedOnce = false;
+  let history = [];
 
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
@@ -138,8 +139,10 @@
     if (h && h.brain !== "ready" && h.brain !== "booting") {
       await boot(models.value);
     }
+    history.push({ role: "user", content });
+    if (history.length > 24) history = history.slice(-24);
     const body = {
-      messages: [{ role: "user", content }],
+      messages: history,
       model: models.value || undefined,
       tools: document.getElementById("tools").checked,
       stream: true,
@@ -164,6 +167,7 @@
             const evn = JSON.parse(line);
             if (evn.delta) b.textContent += evn.delta;
             if (evn.traces) limb.textContent = JSON.stringify(evn.traces, null, 2);
+            if (evn.type === "done" && b.textContent) history.push({ role: "assistant", content: b.textContent });
           } catch (_) {}
         }
       }
@@ -171,6 +175,7 @@
       const j = await r.json();
       b.textContent = j.text || j.error || JSON.stringify(j);
       if (j.traces) limb.textContent = JSON.stringify(j.traces, null, 2);
+      if (j.text) history.push({ role: "assistant", content: j.text });
     }
     await refreshHealth();
   };
