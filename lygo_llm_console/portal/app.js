@@ -7,7 +7,7 @@
       sessionStorage.setItem(TOKEN_KEY, t);
       u.searchParams.delete("t");
       u.searchParams.delete("token");
-      history.replaceState({}, "", u.pathname + u.search);
+      window.history.replaceState({}, "", u.pathname + u.search);
     }
     if (typeof window.LYGO_TOKEN === "string" && window.LYGO_TOKEN) {
       sessionStorage.setItem(TOKEN_KEY, window.LYGO_TOKEN);
@@ -30,8 +30,8 @@
   const img = document.getElementById("img");
   let pendingImage = null;
   let bootedOnce = false;
-  let history = [];
-  const HIST_KEY = "lygo_llm_history";
+  let chatHistory = [];
+  const HIST_KEY = "lygo_llm_chatHistory";
 
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
@@ -150,10 +150,10 @@
     if (h && h.brain !== "ready" && h.brain !== "booting") {
       await boot(models.value);
     }
-    history.push({ role: "user", content });
-    if (history.length > 24) history = history.slice(-24);
+    chatHistory.push({ role: "user", content });
+    if (chatHistory.length > 24) chatHistory = chatHistory.slice(-24);
     const body = {
-      messages: history,
+      messages: chatHistory,
       model: models.value || undefined,
       tools: document.getElementById("tools").checked,
       stream: true,
@@ -178,7 +178,7 @@
             const evn = JSON.parse(line);
             if (evn.delta) b.textContent += evn.delta;
             if (evn.traces) limb.textContent = JSON.stringify(evn.traces, null, 2);
-            if (evn.type === "done" && b.textContent) history.push({ role: "assistant", content: b.textContent });
+            if (evn.type === "done" && b.textContent) chatHistory.push({ role: "assistant", content: b.textContent });
           } catch (_) {}
         }
       }
@@ -186,7 +186,7 @@
       const j = await r.json();
       b.textContent = j.text || j.error || JSON.stringify(j);
       if (j.traces) limb.textContent = JSON.stringify(j.traces, null, 2);
-      if (j.text) history.push({ role: "assistant", content: j.text });
+      if (j.text) chatHistory.push({ role: "assistant", content: j.text });
     }
     await refreshHealth();
     await persistHistory();
@@ -238,10 +238,10 @@
   }
   async function persistHistory() {
     try {
-      sessionStorage.setItem(HIST_KEY, JSON.stringify(history.slice(-40)));
+      sessionStorage.setItem(HIST_KEY, JSON.stringify(chatHistory.slice(-40)));
     } catch (_) {}
     try {
-      await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ messages: history }) });
+      await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ messages: chatHistory }) });
     } catch (_) {}
   }
   async function loadContinuity() {
@@ -249,12 +249,12 @@
       const s = await fetch("/api/session", { headers: headers() });
       const j = await s.json();
       if (j.messages && j.messages.length) {
-        history = j.messages;
+        chatHistory = j.messages;
         log.innerHTML = "";
-        history.forEach((m) => bubble(m.role === "user" ? "user" : "assistant", typeof m.content === "string" ? m.content : JSON.stringify(m.content)));
+        chatHistory.forEach((m) => bubble(m.role === "user" ? "user" : "assistant", typeof m.content === "string" ? m.content : JSON.stringify(m.content)));
       } else {
         const raw = sessionStorage.getItem(HIST_KEY);
-        if (raw) history = JSON.parse(raw);
+        if (raw) chatHistory = JSON.parse(raw);
       }
     } catch (_) {}
     try {
@@ -267,7 +267,7 @@
   const ns = document.getElementById("new-session");
   if (ns) {
     ns.onclick = async () => {
-      history = [];
+      chatHistory = [];
       log.innerHTML = "";
       sessionStorage.removeItem(HIST_KEY);
       await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ new: true }) });
