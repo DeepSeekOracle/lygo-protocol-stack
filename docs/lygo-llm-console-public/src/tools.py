@@ -102,12 +102,9 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         p.write_text(content, encoding="utf-8")
         return {"ok": True, "path": str(p), "bytes": len(content.encode("utf-8"))}
     if name == "remember":
-        note = str(args.get("note") or "")[:4000]
-        mem = WORKSPACE / "memory.jsonl"
-        mem.parent.mkdir(parents=True, exist_ok=True)
-        with mem.open("a", encoding="utf-8") as f:
-            f.write(json.dumps({"note": note}) + "\n")
-        return {"ok": True}
+        from continuity import append_memory
+
+        return append_memory(str(args.get("note") or args.get("text") or ""))
     if name == "kernel_status":
         from engine import ollama_port_open, resolve_binary, runner_for
         from paths import LLAMA_PORT

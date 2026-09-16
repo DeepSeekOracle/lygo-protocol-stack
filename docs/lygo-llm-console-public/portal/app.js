@@ -7,7 +7,7 @@
       sessionStorage.setItem(TOKEN_KEY, t);
       u.searchParams.delete("t");
       u.searchParams.delete("token");
-      history.replaceState({}, "", u.pathname + u.search);
+      window.history.replaceState({}, "", u.pathname + u.search);
     }
     if (typeof window.LYGO_TOKEN === "string" && window.LYGO_TOKEN) {
       sessionStorage.setItem(TOKEN_KEY, window.LYGO_TOKEN);
@@ -18,8 +18,9 @@
     return sessionStorage.getItem(TOKEN_KEY) || window.LYGO_TOKEN || "";
   }
   function headers() {
-    return { "Content-Type": "application/json", "X-LYGO-LLM-Token": token() };
+    return { "Content-Type": "application/json", "X-LYGO-LLM-Token": token(), "Cache-Control": "no-store" };
   }
+  let lastScan = -1;
   const healthEl = document.getElementById("health");
   const log = document.getElementById("log");
   const form = document.getElementById("form");
@@ -29,12 +30,13 @@
   const img = document.getElementById("img");
   let pendingImage = null;
   let bootedOnce = false;
-  let history = [];
+  let chatHistory = [];
+  const HIST_KEY = "lygo_llm_chatHistory";
 
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
     healthEl.textContent =
-      `brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${err}`;
+      `build=${j.build || "?"} brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} limbs=${(j.tools||[]).length} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${err}`;
   }
 
   async function refreshHealth() {
@@ -42,6 +44,11 @@
       const r = await fetch("/api/health", { headers: headers() });
       const j = await r.json();
       setHealth(j);
+      document.body.dataset.brain = j.brain || "";
+      if (typeof j.scan_n === "number" && j.scan_n !== lastScan) {
+        lastScan = j.scan_n;
+        try { await refreshModels(); } catch (_) {}
+      }
       return j;
     } catch (e) {
       healthEl.textContent = "health failed";
@@ -49,9 +56,14 @@
     }
   }
   async function refreshModels() {
-    const r = await fetch("/api/models", { headers: headers() });
+    const r = await fetch("/api/models", { headers: headers(), cache: "no-store" });
     if (!r.ok) {
-      limb.textContent = "models " + r.status + " — retry Scan";
+      limb.textContent = "models " + r.status + " — retry Scan drives (header bar)";
+      const o = document.createElement("option");
+      o.textContent = "(scan failed " + r.status + ")";
+      o.value = "";
+      models.innerHTML = "";
+      models.appendChild(o);
       return;
     }
     const j = await r.json();
@@ -139,10 +151,10 @@
     if (h && h.brain !== "ready" && h.brain !== "booting") {
       await boot(models.value);
     }
-    history.push({ role: "user", content });
-    if (history.length > 24) history = history.slice(-24);
+    chatHistory.push({ role: "user", content });
+    if (chatHistory.length > 24) chatHistory = chatHistory.slice(-24);
     const body = {
-      messages: history,
+      messages: chatHistory,
       model: models.value || undefined,
       tools: document.getElementById("tools").checked,
       stream: true,
@@ -167,7 +179,7 @@
             const evn = JSON.parse(line);
             if (evn.delta) b.textContent += evn.delta;
             if (evn.traces) limb.textContent = JSON.stringify(evn.traces, null, 2);
-            if (evn.type === "done" && b.textContent) history.push({ role: "assistant", content: b.textContent });
+            if (evn.type === "done" && b.textContent) chatHistory.push({ role: "assistant", content: b.textContent });
           } catch (_) {}
         }
       }
@@ -175,16 +187,17 @@
       const j = await r.json();
       b.textContent = j.text || j.error || JSON.stringify(j);
       if (j.traces) limb.textContent = JSON.stringify(j.traces, null, 2);
-      if (j.text) history.push({ role: "assistant", content: j.text });
+      if (j.text) chatHistory.push({ role: "assistant", content: j.text });
     }
     await refreshHealth();
+    await persistHistory();
   };
 
   async function refreshWorkspace() {
     const ul = document.getElementById("ws");
     if (!ul) return;
-    const r = await fetch("/api/workspace", { headers: headers() });
-    const j = await r.json();
+    const r = await fetch("/api/workspace", { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(() => ({}));
     ul.innerHTML = "";
     (j.entries || []).forEach((e) => {
       const li = document.createElement("li");
@@ -199,8 +212,8 @@
   async function refreshLimbs() {
     const box = document.getElementById("limbs");
     if (!box) return;
-    const r = await fetch("/api/tools", { headers: headers() });
-    const j = await r.json();
+    const r = await fetch("/api/tools", { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(() => ({}));
     box.innerHTML = "";
     (j.names || []).forEach((n) => {
       const b = document.createElement("button");
@@ -224,6 +237,43 @@
       box.appendChild(b);
     });
   }
+  async function persistHistory() {
+    try {
+      sessionStorage.setItem(HIST_KEY, JSON.stringify(chatHistory.slice(-40)));
+    } catch (_) {}
+    try {
+      await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ messages: chatHistory }) });
+    } catch (_) {}
+  }
+  async function loadContinuity() {
+    try {
+      const s = await fetch("/api/session", { headers: headers() });
+      const j = await s.json();
+      if (j.messages && j.messages.length) {
+        chatHistory = j.messages;
+        log.innerHTML = "";
+        chatHistory.forEach((m) => bubble(m.role === "user" ? "user" : "assistant", typeof m.content === "string" ? m.content : JSON.stringify(m.content)));
+      } else {
+        const raw = sessionStorage.getItem(HIST_KEY);
+        if (raw) chatHistory = JSON.parse(raw);
+      }
+    } catch (_) {}
+    try {
+      const soul = await (await fetch("/api/soul", { headers: headers() })).json();
+      const mem = await (await fetch("/api/memory", { headers: headers() })).json();
+      const pre = document.getElementById("soul-preview");
+      if (pre) pre.textContent = ((soul.text || "").slice(0, 400) + "\n---\n" + (mem.memory_md || "").slice(-400)).trim();
+    } catch (_) {}
+  }
+  const ns = document.getElementById("new-session");
+  if (ns) {
+    ns.onclick = async () => {
+      chatHistory = [];
+      log.innerHTML = "";
+      sessionStorage.removeItem(HIST_KEY);
+      await fetch("/api/session", { method: "POST", headers: headers(), body: JSON.stringify({ new: true }) });
+    };
+  }
   const wsr = document.getElementById("ws-refresh");
   if (wsr) wsr.onclick = refreshWorkspace;
 
@@ -232,6 +282,7 @@
     await refreshModels();
     await refreshWorkspace();
     await refreshLimbs();
+    await loadContinuity();
     const h = await refreshHealth();
     if (h && h.brain !== "ready" && h.selected && !bootedOnce) {
       bootedOnce = true;

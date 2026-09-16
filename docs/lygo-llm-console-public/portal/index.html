@@ -3,20 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LYGO Agent Portal</title>
-<link rel="stylesheet" href="/static/style.css">
+<title>LYGO Agent Portal v1.1</title>
+<link rel="stylesheet" href="/static/style.css?v=20260916b">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
 <header>
   <div>
     <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
-    <div class="sub">Local OpenClaw-class console · Justin Helmer / Lightfather · LYGO AI agents</div>
+    <div class="sub">Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / MEMORY.md · Justin Helmer / Lightfather</div>
+    <div class="modelbar">
+      <button type="button" id="scan">Scan drives</button>
+      <select id="models" title="Available GGUF / Ollama CAS models"></select>
+      <button type="button" id="select">Boot LLM</button>
+      <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
+    </div>
   </div>
   <div id="health" class="health">probing…</div>
 </header>
 <main>
   <nav class="rail">
+    <h2>Continuity</h2>
+    <button type="button" id="new-session">New session</button>
+    <p class="hint"><code>SOUL.md</code> identity · <code>MEMORY.md</code> grows</p>
+    <pre id="soul-preview" class="limb-out"></pre>
     <h2>Workspace</h2>
     <button type="button" id="ws-refresh">Refresh files</button>
     <ul id="ws" class="filelist"></ul>
@@ -33,13 +43,6 @@
     </form>
   </section>
   <aside>
-    <h2>Models</h2>
-    <div class="row">
-      <button type="button" id="scan">Scan drives</button>
-      <select id="models"></select>
-      <button type="button" id="select">Boot LLM</button>
-    </div>
-    <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
     <h2>Trace</h2>
     <pre id="limb-out" class="limb-out">—</pre>
     <p class="hint">
@@ -49,6 +52,6 @@
     </p>
   </aside>
 </main>
-<script src="/static/app.js"></script>
+<script src="/static/app.js?v=20260916b"></script>
 </body>
 </html>

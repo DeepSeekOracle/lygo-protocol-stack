@@ -44,6 +44,7 @@
       const r = await fetch("/api/health", { headers: headers() });
       const j = await r.json();
       setHealth(j);
+      document.body.dataset.brain = j.brain || "";
       if (typeof j.scan_n === "number" && j.scan_n !== lastScan) {
         lastScan = j.scan_n;
         try { await refreshModels(); } catch (_) {}
