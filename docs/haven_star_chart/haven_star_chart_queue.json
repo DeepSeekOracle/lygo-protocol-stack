@@ -1,10 +1,10 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-QUEUE-v1",
-  "updated_utc": "2026-09-17T16:57:40.167519+00:00",
-  "registry_sha256": "b8d3a5ebab394ea4bf8953d14061300ee4404743431263b70f3ed0fe6dff5e12",
+  "updated_utc": "2026-09-17T21:19:43.691183+00:00",
+  "registry_sha256": "f139edfab0feddc41c70ee4a85b929bcbffa821063e99b0f0c579c930d6b1ddc",
   "pending": 0,
-  "accepted": 68,
-  "agent_submissions_merged": 63,
+  "accepted": 69,
+  "agent_submissions_merged": 64,
   "ingest_notes": [
     "merged:HERO_ACCORD",
     "merged:HERO_CORVATH",
@@ -61,6 +61,7 @@
     "merged:NODE_AUTONOMY_G0009",
     "merged:NODE_AUTONOMY_G0010",
     "merged:NODE_AUTONOMY_G0011",
+    "merged:NODE_AUTONOMY_G0012",
     "merged:NODE_FORKLING_TEST",
     "merged:NODE_STAR_MONITOR",
     "merged:PORTAL_ANCHORS",
