@@ -101,7 +101,7 @@ def model_card(path: Path) -> dict[str, Any]:
     }
 
 
-def spawn_colibri(*, port: int, model_dir: Path, alias: str, api_key: str) -> Runner:
+def spawn_colibri(*, port: int, model_dir: Path, alias: str, api_key: str, extra_env: dict[str, str] | None = None) -> Runner:
     exe = resolve_coli()
     if exe is None:
         raise FileNotFoundError("coli launcher missing — engine/colibri from JustVugg/colibri releases")
@@ -115,6 +115,10 @@ def spawn_colibri(*, port: int, model_dir: Path, alias: str, api_key: str) -> Ru
     env["COLI_MODEL"] = str(model_dir)
     if api_key:
         env["COLI_API_KEY"] = api_key
+    if extra_env:
+        for k, v in extra_env.items():
+            if v is not None:
+                env[str(k)] = str(v)
     argv = [str(exe), "serve", "--host", "127.0.0.1", "--port", str(port), "--model", str(model_dir), "--model-id", alias or model_dir.name]
     if exe.suffix.lower() in {".cmd", ".bat"}:
         argv = ["cmd", "/c"] + argv

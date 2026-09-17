@@ -177,6 +177,9 @@ def spawn_runner(
     ngl: int,
     alias: str,
     api_key: str,
+    threads: int | None = None,
+    mmap: bool = True,
+    skip_ram_gate: bool = False,
 ) -> Runner:
     exe = resolve_binary()
     if exe is None:
@@ -190,12 +193,14 @@ def spawn_runner(
         model_bytes = gguf.stat().st_size
     except OSError:
         model_bytes = 0
-    if not ram_ok(model_bytes):
+    if not skip_ram_gate and not ram_ok(model_bytes):
         raise MemoryError(
             json.dumps({"brain": "ram_refused", "avail": available_ram_bytes(), "need": model_bytes + 2 * 1024**3})
         )
     ctx = max(512, min(int(ctx or 4096), 8192))
     ngl = int(ngl or 0)
+    nth = int(threads or 4)
+    nth = max(2, min(16, nth))
     ensure_dirs()
     LOGS.mkdir(parents=True, exist_ok=True)
     log_f = open(LOGS / f"llama-server-{port}.log", "ab", buffering=0)
@@ -212,7 +217,7 @@ def spawn_runner(
         "-ngl",
         str(ngl),
         "-t",
-        "4",
+        str(nth),
         "-np",
         "1",
         "--jinja",
@@ -222,6 +227,10 @@ def spawn_runner(
         "--api-key",
         api_key,
     ]
+    if mmap:
+        pass  # llama.cpp mmaps GGUF from SSD by default — Colibri-style tiering for dense weights
+    else:
+        argv.append("--no-mmap")
     if kind == "embed":
         argv.append("--embedding")
     if mmproj and Path(mmproj).is_file() and kind == "chat":

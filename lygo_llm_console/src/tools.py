@@ -307,6 +307,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from p0_hook import PHYSICS_AVAILABLE
 
         from colibri import resolve_coli, status as coli_status
+        from lygo_engine import status as lygo_status
         from paths import COLIBRI_PORT
 
         r = runner_for(LLAMA_PORT)
@@ -314,6 +315,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         return {
             "ok": True,
             "physics": PHYSICS_AVAILABLE,
+            "lygo_engine": lygo_status(),
             "engine_binary": bool(resolve_binary()),
             "colibri_launcher": bool(resolve_coli()),
             "colibri": coli_status(),

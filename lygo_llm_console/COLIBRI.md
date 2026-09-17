@@ -1,3 +1,7 @@
+# Colibri — MoE limb of LYGO Engine
+
+LYGO Engine hybrid: see `LYGO_ENGINE.md`. Colibri is the SSD-streamed MoE backend, not a side product.
+
 # Colibri engine (optional)
 
 RESOURCE map to [JustVugg/colibri](https://github.com/JustVugg/colibri) (Apache-2.0).  
