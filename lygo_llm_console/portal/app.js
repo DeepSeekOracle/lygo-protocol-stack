@@ -35,9 +35,8 @@
 
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
+    const cloud = j.cloud && j.cloud.enabled ? " API=" + (j.cloud.label || j.cloud.provider) + "/" + (j.cloud.model || "") : "";
     healthEl.textContent =
-      const cloud = j.cloud && j.cloud.enabled ? " API=" + (j.cloud.label || j.cloud.provider) + "/" + (j.cloud.model || "") : "";
-      healthEl.textContent =
       `build=${j.build || "?"} brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} limbs=${(j.tools||[]).length} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${cloud}${err}`;
   }
 
@@ -690,7 +689,7 @@
       await npLoad(npId);
     } catch (_) {}
     const h = await refreshHealth();
-    if (h && h.brain !== "ready" && h.selected && !bootedOnce) {
+    if (h && h.brain !== "ready" && h.brain !== "booting" && h.selected && !bootedOnce) {
       bootedOnce = true;
       await boot(h.selected);
     }

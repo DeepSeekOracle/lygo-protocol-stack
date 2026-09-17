@@ -10,7 +10,7 @@ SIGNATURE = "Δ9Φ963-LYGO-LLM-CONSOLE-REG-v1"
 PREFER_IDS = ("qwen2.5:3b", "llama3.2:1b", "llama3.1:8b")
 
 
-def _pick_default(models: list[dict[str, Any]]) -> str | None:
+def pick_default(models: list[dict[str, Any]]) -> str | None:
     chats = [m for m in models if m.get("kind") == "chat" and m.get("runnable") and m.get("id")]
     ids = {m["id"]: m for m in chats}
     for pid in PREFER_IDS:
@@ -49,7 +49,7 @@ def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[st
     if selected:
         data["selected"] = selected
     elif not data.get("selected"):
-        data["selected"] = _pick_default(data["models"])
+        data["selected"] = pick_default(data["models"])
     save(data)
     return data
 

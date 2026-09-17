@@ -70,7 +70,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260917api"
+BUILD = "v1.1-20260917fix"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0, "engine": "llama", "engine_port": LLAMA_PORT}
 
 
@@ -245,16 +245,31 @@ class Handler(BaseHTTPRequestHandler):
             self._json(401, {"error": "unauthorized"})
             return
         if path == "/" or path == "/index.html":
+            import re
+
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916m">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916m"></script>', "<script>\n" + js + "\n</script>")
+            html = re.sub(
+                r'<link rel="stylesheet" href="/static/style\.css[^"]*">',
+                "<style>\n" + css + "\n</style>",
+                html,
+                count=1,
+            )
+            html = re.sub(
+                r'<script src="/static/app\.js[^"]*"></script>',
+                "<script>\n" + js + "\n</script>",
+                html,
+                count=1,
+            )
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
         if path.startswith("/static/"):
-            name = path[len("/static/") :]
+            name = path[len("/static/") :].split("?")[0]
+            if "/" in name or "\\" in name or not name:
+                self._json(404, {"error": "missing"})
+                return
             fp = PORTAL / name
             if not fp.is_file() or not str(fp.resolve()).startswith(str(PORTAL.resolve())):
                 self._json(404, {"error": "missing"})
@@ -917,6 +932,15 @@ def main() -> int:
             print("scanning models…")
             scanned = scan_roots(default_scan_roots(cfg))
             data = reg_upsert(scanned.get("models") or [])
+            from registry import pick_default
+
+            sel = data.get("selected")
+            rec = next((m for m in (data.get("models") or []) if m.get("id") == sel), None)
+            if not rec or not rec.get("runnable") or rec.get("kind") not in (None, "chat"):
+                data["selected"] = pick_default(data.get("models") or [])
+                from registry import save as reg_save
+
+                reg_save(data)
             STATE["selected"] = data.get("selected")
             STATE["scan_n"] = len(data.get("models") or [])
             print(f"scan models={STATE['scan_n']} truncated={scanned.get('scan_truncated')} selected={STATE.get('selected')}")
