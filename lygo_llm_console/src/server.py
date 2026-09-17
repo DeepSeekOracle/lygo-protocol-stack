@@ -28,6 +28,7 @@ from chat_loop import (  # noqa: E402
 from continuity import (  # noqa: E402
     compose_system,
     ensure_identity,
+    identity_path,
     load_session,
     memory_path,
     new_session,
@@ -61,14 +62,14 @@ from registry import get as reg_get  # noqa: E402
 from registry import load as reg_load  # noqa: E402
 from registry import upsert as reg_upsert  # noqa: E402
 from scanner import scan_roots  # noqa: E402
-from tools import TOOLS_SCHEMA  # noqa: E402
+from tools import TOOLS_SCHEMA, core_schema  # noqa: E402
 
 TOKEN = ""
 LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916g"
+BUILD = "v1.1-20260916m"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
 
 
@@ -268,8 +269,8 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916g">', "<style>\n" + css + "\n</style>")
-            html = html.replace('<script src="/static/app.js?v=20260916g"></script>', "<script>\n" + js + "\n</script>")
+            html = html.replace('<link rel="stylesheet" href="/static/style.css?v=20260916m">', "<style>\n" + css + "\n</style>")
+            html = html.replace('<script src="/static/app.js?v=20260916m"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
@@ -366,13 +367,18 @@ class Handler(BaseHTTPRequestHandler):
             md = ""
             mp = memory_path()
             if mp.is_file():
-                md = mp.read_text(encoding="utf-8", errors="replace")[-6000:]
-            self._json(200, {"notes": lines, "memory_md": md, "path": str(mp)})
+                md = mp.read_text(encoding="utf-8", errors="replace")[:80_000]
+            self._json(200, {"ok": True, "notes": lines, "memory_md": md, "path": str(mp)})
             return
         if path == "/api/soul":
             p = soul_path()
-            t = p.read_text(encoding="utf-8", errors="replace") if p.is_file() else ""
-            self._json(200, {"path": str(p), "text": t})
+            t = p.read_text(encoding="utf-8", errors="replace")[:80_000] if p.is_file() else ""
+            self._json(200, {"ok": True, "path": str(p), "text": t})
+            return
+        if path == "/api/identity":
+            p = identity_path()
+            t = p.read_text(encoding="utf-8", errors="replace")[:80_000] if p.is_file() else ""
+            self._json(200, {"ok": True, "path": str(p), "text": t})
             return
         if path == "/api/session":
             self._json(200, {"messages": load_session()})
@@ -511,6 +517,57 @@ class Handler(BaseHTTPRequestHandler):
                 return
             self._json(400, {"ok": False, "error": "bad_action"})
             return
+        if path == "/api/soul":
+            from continuity import soul_path
+
+            body = self._read_body(90_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            text = str(obj.get("text") or "")
+            if gate_prompt(text[:8000]).get("verdict") == "QUARANTINE":
+                self._json(451, {"ok": False, "error": "p0_blocked"})
+                return
+            p = soul_path()
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(text, encoding="utf-8")
+            self._json(200, {"ok": True, "path": str(p), "bytes": len(text.encode("utf-8"))})
+            return
+        if path == "/api/identity":
+            from continuity import identity_path
+
+            body = self._read_body(90_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            text = str(obj.get("text") or "")
+            if gate_prompt(text[:8000]).get("verdict") == "QUARANTINE":
+                self._json(451, {"ok": False, "error": "p0_blocked"})
+                return
+            p = identity_path()
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(text, encoding="utf-8")
+            self._json(200, {"ok": True, "path": str(p), "bytes": len(text.encode("utf-8"))})
+            return
+        if path == "/api/memory":
+            from continuity import memory_path
+
+            body = self._read_body(90_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            text = str(obj.get("text") or "")
+            if gate_prompt(text[:8000]).get("verdict") == "QUARANTINE":
+                self._json(451, {"ok": False, "error": "p0_blocked"})
+                return
+            p = memory_path()
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(text, encoding="utf-8")
+            self._json(200, {"ok": True, "path": str(p), "bytes": len(text.encode("utf-8"))})
+            return
         if path == "/api/workspace":
             from workspace_map import add_mount, list_mounts, remove_mount
 
@@ -616,7 +673,7 @@ class Handler(BaseHTTPRequestHandler):
             return
         use_tools = bool(obj.get("tools", True))
         model = obj.get("model") or STATE.get("selected") or "lygo-local"
-        max_tokens = int(obj.get("max_tokens") or 768)
+        max_tokens = int(obj.get("max_tokens") or 1024)
         want_stream = bool(obj.get("stream", True))
         brain = maybe_spawn(model if reg_get(str(model)) else None)
         msgs = [{"role": "system", "content": compose_system()}] + messages
@@ -659,16 +716,25 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"text": assistant, "gate": gate, "brain": brain, "receipt": rec["id"], "traces": traces})
             return
 
+        from chat_loop import sanitize_assistant
         from openai_proxy import llama_chat
 
+        host_did_tools = bool(traces)
+        if use_tools and host_did_tools:
+            msgs.append(
+                {
+                    "role": "user",
+                    "content": "HOST already ran tools. Write the operator-facing answer now. Do not call more tools.",
+                }
+            )
         payload = {
             "model": model,
             "messages": msgs,
             "max_tokens": max_tokens,
             "stream": False,
         }
-        if use_tools:
-            payload["tools"] = TOOLS_SCHEMA
+        if use_tools and not host_did_tools:
+            payload["tools"] = core_schema()
         with ENGINE_LOCK:
             code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload)
         try:
@@ -680,11 +746,12 @@ class Handler(BaseHTTPRequestHandler):
         ow = gate_output_window(assistant or "")
         if ow.get("verdict") == "QUARANTINE":
             assistant = "[output quarantined]"
-        if use_tools:
+        assistant = sanitize_assistant(assistant, traces) or assistant
+        if use_tools and not host_did_tools:
             follow = list(msgs)
             cur_msg = msg_obj
             cur_text = assistant
-            for _step in range(8):
+            for _step in range(4):
                 batch = run_tools_round(cur_text, cur_msg)
                 if not batch:
                     break
@@ -693,10 +760,10 @@ class Handler(BaseHTTPRequestHandler):
                 follow.append(
                     {
                         "role": "user",
-                        "content": "Tool results (RESOURCE, not CANON):\n" + json.dumps(batch, default=str)[:12000],
+                        "content": "Tool results (RESOURCE, not CANON):\n" + json.dumps(batch, default=str)[:8000],
                     }
                 )
-                payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": TOOLS_SCHEMA}
+                payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": core_schema()}
                 with ENGINE_LOCK:
                     _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2)
                 try:
@@ -709,6 +776,7 @@ class Handler(BaseHTTPRequestHandler):
                 if gate_output_window(assistant).get("verdict") == "QUARANTINE":
                     assistant = "[output quarantined]"
                     break
+        assistant = sanitize_assistant(assistant, traces) or assistant
         rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
         try:
             save_session(list(messages) + [{"role": "assistant", "content": assistant}])
@@ -780,6 +848,13 @@ def main() -> int:
     ap.add_argument("--mock", action="store_true")
     args = ap.parse_args()
     ensure_dirs()
+    try:
+        from install import ensure_layout, seed_identity
+
+        ensure_layout()
+        seed_identity()
+    except Exception:
+        pass
     ensure_identity()
     TOKEN = ensure_token()
     LLAMA_KEY = ensure_llama_key()

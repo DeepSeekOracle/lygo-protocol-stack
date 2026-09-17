@@ -43,7 +43,8 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "hash_text", "description": "SHA-256 of text.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "memory_append", "description": "Append a durable note to MEMORY.md (grows across sessions).", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
     {"type": "function", "function": {"name": "memory_read", "description": "Read MEMORY.md (growing notes).", "parameters": {"type": "object", "properties": {}}}},
-    {"type": "function", "function": {"name": "soul_read", "description": "Read SOUL.md identity.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "soul_read", "description": "Read SOUL.md (soul / decision spine).", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "identity_read", "description": "Read IDENTITY.md (who is on this console).", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "edit_file", "description": "Replace a string in a workspace file.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "old": {"type": "string"}, "new": {"type": "string"}}, "required": ["path", "old", "new"]}}},
     {"type": "function", "function": {"name": "weather", "description": "Current weather via wttr.in (RESOURCE).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
     {"type": "function", "function": {"name": "geocode", "description": "Place name to lat/lon (Nominatim).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
@@ -265,6 +266,12 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
 
         ensure_identity()
         p = soul_path()
+        return {"ok": True, "path": str(p), "text": p.read_text(encoding="utf-8", errors="replace")[:8000] if p.is_file() else ""}
+    if name == "identity_read":
+        from continuity import identity_path, ensure_identity
+
+        ensure_identity()
+        p = identity_path()
         return {"ok": True, "path": str(p), "text": p.read_text(encoding="utf-8", errors="replace")[:8000] if p.is_file() else ""}
     if name == "edit_file":
         p = _ws(str(args.get("path") or ""))

@@ -18,7 +18,7 @@
   };
   const P0 = /format\s+c:|\bdiskpart\b|\bbcdedit\b|rm\s+-rf\s+\/|invoke-expression/i;
   const PROVIDERS = {
-    groq: { label: "Groq (free, no card)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "llama-3.1-8b-instant", key: true, help: "console.groq.com/keys" },
+    groq: { label: "Groq (free, no card)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "openai/gpt-oss-20b", models: ["openai/gpt-oss-20b", "groq/compound-mini", "groq/compound", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"], key: true, help: "console.groq.com/keys — paste key, Connect. Model is chosen for you." },
     gemini: { label: "Google Gemini (free, no card)", kind: "openai", url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model: "gemini-2.0-flash", key: true, help: "aistudio.google.com/apikey" },
     openrouter: { label: "OpenRouter (many :free models)", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openrouter/auto", key: true, help: "openrouter.ai/keys — use model ids ending :free", extra: { "HTTP-Referer": "https://chatagent.ca/portal/", "X-Title": "LYGO API Portal" } },
     cerebras: { label: "Cerebras (fast, free/trial)", kind: "openai", url: "https://api.cerebras.ai/v1/chat/completions", model: "llama3.1-8b", key: true, help: "cloud.cerebras.ai" },
@@ -43,23 +43,8 @@
     github: { label: "GitHub Models (PAT)", kind: "openai", url: "https://models.inference.ai.azure.com/chat/completions", model: "gpt-4o-mini", key: true, help: "github.com/settings/tokens — GitHub Models may be limited" },
     custom: { label: "Any OpenAI-compatible URL", kind: "openai", url: "", model: "", key: true, help: "Paste base (we append /v1/chat/completions) or full chat URL" },
   };
-  const AGENT_TOOLS = [
-    { type: "function", function: { name: "wiki_search", description: "Search Wikipedia. RESOURCE.", parameters: { type: "object", properties: { q: { type: "string" } }, required: ["q"] } } },
-    { type: "function", function: { name: "fetch_page", description: "Readable extract of an HTTPS page via r.jina.ai.", parameters: { type: "object", properties: { url: { type: "string" } }, required: ["url"] } } },
-    { type: "function", function: { name: "weather", description: "Current weather. RESOURCE.", parameters: { type: "object", properties: { place: { type: "string" } }, required: ["place"] } } },
-    { type: "function", function: { name: "now", description: "Current local and UTC time.", parameters: { type: "object", properties: {} } } },
-    { type: "function", function: { name: "calc", description: "Evaluate a numeric expression.", parameters: { type: "object", properties: { expr: { type: "string" } }, required: ["expr"] } } },
-    { type: "function", function: { name: "champion", description: "Load a Δ9 champion lens by name (ARKOS, LYRA, …).", parameters: { type: "object", properties: { name: { type: "string" } }, required: ["name"] } } },
-    { type: "function", function: { name: "hash_text", description: "SHA-256 of text (WebCrypto).", parameters: { type: "object", properties: { text: { type: "string" } }, required: ["text"] } } },
-    { type: "function", function: { name: "skill_list", description: "List LYGO default skills shipped with this portal (SkillHub pack).", parameters: { type: "object", properties: {} } } },
-    { type: "function", function: { name: "skill_read", description: "Read one default LYGO skill by slug or name.", parameters: { type: "object", properties: { slug: { type: "string" } }, required: ["slug"] } } },
-    { type: "function", function: { name: "hn_search", description: "Hacker News Algolia search. RESOURCE.", parameters: { type: "object", properties: { q: { type: "string" } }, required: ["q"] } } },
-    { type: "function", function: { name: "arxiv_search", description: "Search arXiv papers. RESOURCE.", parameters: { type: "object", properties: { q: { type: "string" } }, required: ["q"] } } },
-    { type: "function", function: { name: "github_search", description: "Search public GitHub repositories. RESOURCE.", parameters: { type: "object", properties: { q: { type: "string" } }, required: ["q"] } } },
-    { type: "function", function: { name: "wayback", description: "Internet Archive availability for a URL.", parameters: { type: "object", properties: { url: { type: "string" } }, required: ["url"] } } },
-    { type: "function", function: { name: "geolocate", description: "Browser geolocation. Asks the human first.", parameters: { type: "object", properties: {} } } },
-    { type: "function", function: { name: "clipboard_write", description: "Write text to clipboard. Asks the human first.", parameters: { type: "object", properties: { text: { type: "string" } }, required: ["text"] } } },
-  ];
+  const AGENT_TOOLS = window.LYGO_AGENT_TOOLS || [];
+  const AGENT_TOOLS_CORE = window.LYGO_AGENT_TOOLS_CORE || AGENT_TOOLS;
 
   const log = document.getElementById("log");
   const healthEl = document.getElementById("health");
@@ -115,19 +100,70 @@
     return PROVIDERS[modeEl.value] || PROVIDERS.groq;
   }
 
+  function latin1(s) {
+    return String(s == null ? "" : s).replace(/[^\x00-\xFF]/g, "");
+  }
+  function readKey() {
+    let k = (tokenEl && tokenEl.value) || "";
+    k = k.replace(/^\uFEFF/, "");
+    k = k.replace(/[\u200B-\u200D\u2060\uFEFF\u00A0]/g, "");
+    k = k.replace(/[\u2018\u2019\u201C\u201D]/g, "");
+    k = k.replace(/^Bearer\s+/i, "").trim();
+    k = k.replace(/^["'`]+|["'`]+$/g, "");
+    k = k.replace(/\s+/g, "");
+    k = k.replace(/[^\x21-\x7E]/g, "");
+    if (tokenEl && k && tokenEl.value !== k) tokenEl.value = k;
+    return k;
+  }
+  function safeHeaders(obj) {
+    const out = {};
+    Object.keys(obj || {}).forEach(function (k) {
+      const key = String(k).replace(/[^\x21-\x7E]/g, "");
+      if (!key) return;
+      out[key] = latin1(obj[k]);
+    });
+    return out;
+  }
+
+  function fillModelOptions(ids, selected) {
+    if (!modelEl) return selected || "";
+    const want = selected || (modelEl.value) || (provider().model) || "";
+    const list = [];
+    (ids || []).forEach(function (id) {
+      if (id && list.indexOf(id) < 0) list.push(id);
+    });
+    if (want && list.indexOf(want) < 0) list.unshift(want);
+    if (!list.length) list.push("openai/gpt-oss-20b");
+    modelEl.innerHTML = "";
+    list.forEach(function (id) {
+      const o = document.createElement("option");
+      o.value = id;
+      o.textContent = id;
+      modelEl.appendChild(o);
+    });
+    modelEl.value = list.indexOf(want) >= 0 ? want : list[0];
+    return modelEl.value;
+  }
+
   function fillProvider() {
     const p = provider();
-    if (modelEl) modelEl.value = p.model || modelEl.value;
-    if (endpointEl) endpointEl.value = p.url || "";
+    fillModelOptions(p.models || (p.model ? [p.model] : []), p.model);
+    remapDeadModel();
+    if (endpointEl) {
+      endpointEl.value = p.url || "";
+      const custom = modeEl && modeEl.value === "custom";
+      endpointEl.hidden = !custom;
+      if (custom) endpointEl.removeAttribute("hidden");
+    }
     if (tokenEl) {
       tokenEl.style.display = p.key ? "" : "none";
-      tokenEl.placeholder = "API key stays in this browser — never sent to chatagent.ca";
+      tokenEl.placeholder = "Paste API key — stays in this browser";
     }
     const help = document.getElementById("mode-help");
     if (help) {
       help.innerHTML =
-        p.help +
-        ' · <a href="/guides/how-to-lygo-llm-portal.html">How to connect</a> · Need a local GPU? <a href="https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel">Download FULL console</a>';
+        (p.help || "Paste a key → Connect. Model is chosen for you.") +
+        ' · <a href="/guides/how-to-lygo-llm-portal.html">How to connect</a>';
     }
     setHealth("API portal · " + p.label + (connected ? " · connected" : " · paste key → Connect"));
   }
@@ -137,7 +173,7 @@
       "You are a LYGO-aligned agent in the public API portal at https://chatagent.ca/portal/. " +
       "The human is the publisher. Assist; never replace them. Dual ledgers / Haven Star Chart = CANON. This chat = RESOURCE. " +
       "P0: no OS wipe, no secrets in notes, no fabricated receipts. " +
-      "You have real browser limbs: wiki_search, fetch_page, weather, now, calc, champion, hash_text, skill_list, skill_read, hn_search, arxiv_search, github_search, wayback, geolocate (asks permission), clipboard_write (asks permission). Skills are already on this page — toggle on/off. Never tell the human to install or download a skill for this portal. " +
+      "You have real browser limbs (call them; do not describe calling): wiki_search, wiki_summary, web_search, fetch_page, web_fetch, http_json, weather, geocode, world_pulse, now, calc, hash_text, base64, uuid, json_pretty, champion, skill_list, skill_read, skill_enable, skill_disable, hn_search, arxiv_search, github_search, github_repo, wayback, clawhub_search, skillhub_list, hf_search, npm_search, pypi_search, so_search, define, currency, crypto_price, quake, eonet, iss, book_search, pubmed, lattice_handshake, site_card, whoami, kernel_status, soul_read, identity_read, memory_read, remember, memory_recall, notepad_read, notepad_write, todo_add, todo_list, p0_gate, geolocate (asks permission), clipboard_write/read (asks permission). Skills are already on this page — toggle on/off. Never tell the human to install or download a skill for this portal. " +
       "If they want disk/skills/local GGUF, send them to https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel and https://chatagent.ca/lygo-llm-console.html — this page is API-only. " +
       "Never invent github.com/user/repo. Real org https://github.com/DeepSeekOracle · HF https://huggingface.co/DeepSeekOracle.";
     if (invoked) s += " Champion lens: " + invoked + ". Observed / Inferred / Unknown.";
@@ -156,86 +192,18 @@
   async function runTool(name, args) {
     args = args || {};
     try {
-      if (name === "wiki_search") {
-        const q = args.q || args.query || "";
-        const u = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + encodeURIComponent(q) + "&format=json&origin=*";
-        const j = await (await fetch(u)).json();
-        const hits = ((j.query && j.query.search) || []).slice(0, 5).map(function (x) {
-          return { title: x.title, snippet: (x.snippet || "").replace(/<[^>]+>/g, "") };
+      if (typeof window.lygoRunPortalTool === "function") {
+        return await window.lygoRunPortalTool(name, args, {
+          skills: SKILLS,
+          enabled: ENABLED,
+          docs: DOCS,
+          champs: CHAMPS,
+          p0: P0,
+          persistEnabled: persistEnabled,
+          paintSkills: paintSkills,
+          connected: connected,
+          provider: modeEl && modeEl.value,
         });
-        return { ok: true, hits: hits, class: "RESOURCE" };
-      }
-      if (name === "fetch_page") {
-        const url = args.url || "";
-        if (!/^https:\/\//i.test(url)) return { ok: false, error: "https_only" };
-        const t = await (await fetch("https://r.jina.ai/" + url)).text();
-        return { ok: true, url: url, text: t.slice(0, 6000), class: "RESOURCE" };
-      }
-      if (name === "weather") {
-        const place = args.place || "";
-        const t = await (await fetch("https://wttr.in/" + encodeURIComponent(place) + "?format=3")).text();
-        return { ok: true, text: t, class: "RESOURCE" };
-      }
-      if (name === "now") {
-        const d = new Date();
-        return { ok: true, local: d.toString(), utc: d.toISOString() };
-      }
-      if (name === "calc") {
-        const expr = String(args.expr || "");
-        if (!/^[\d+\-*/().\s]+$/.test(expr)) return { ok: false, error: "unsafe" };
-        return { ok: true, value: Function("return (" + expr + ")")() };
-      }
-      if (name === "champion") {
-        const n = String(args.name || "").toUpperCase();
-        const key = Object.keys(CHAMPS).find(function (k) { return k.toUpperCase() === n || k.replace(/Δ/g, "D") === n; }) || args.name;
-        return { ok: true, name: key, lens: CHAMPS[key] || "Unknown seat. Directory: https://chatagent.ca/champions.html" };
-      }
-      if (name === "hash_text") {
-        const enc = new TextEncoder().encode(String(args.text || ""));
-        const buf = await crypto.subtle.digest("SHA-256", enc);
-        const hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
-        return { ok: true, sha256: hex };
-      }
-      if (name === "skill_list") {
-        const rows = SKILLS.map(function (s) { return { slug: s.slug, name: s.name, when: s.when, enabled: ENABLED[s.slug] !== false }; });
-        return { ok: true, n: rows.length, enabled: rows.filter(function (r) { return r.enabled; }), skills: rows };
-      }
-      if (name === "skill_read") {
-        const q = String(args.slug || args.name || "").toLowerCase();
-        const s = SKILLS.find(function (x) { return x.slug === q || (x.name || "").toLowerCase() === q || x.slug.indexOf(q) >= 0; });
-        if (!s) return { ok: false, error: "missing", hint: "skill_list" };
-        if (ENABLED[s.slug] === false) return { ok: false, error: "disabled", slug: s.slug };
-        return { ok: true, slug: s.slug, name: s.name, when: s.when, text: s.text };
-      }
-      if (name === "hn_search") {
-        const u = "https://hn.algolia.com/api/v1/search?query=" + encodeURIComponent(args.q || "") + "&hitsPerPage=5";
-        const j = await (await fetch(u)).json();
-        return { ok: true, hits: (j.hits || []).map(function (h) { return { title: h.title, url: h.url, points: h.points }; }), class: "RESOURCE" };
-      }
-      if (name === "arxiv_search") {
-        const u = "https://export.arxiv.org/api/query?search_query=all:" + encodeURIComponent(args.q || "") + "&start=0&max_results=5";
-        const t = await (await fetch(u)).text();
-        return { ok: true, text: t.slice(0, 5000), class: "RESOURCE" };
-      }
-      if (name === "github_search") {
-        const u = "https://api.github.com/search/repositories?q=" + encodeURIComponent(args.q || "DeepSeekOracle") + "&per_page=5";
-        const j = await (await fetch(u)).json();
-        return { ok: true, hits: ((j.items) || []).map(function (i) { return { full_name: i.full_name, html_url: i.html_url, description: i.description }; }), class: "RESOURCE" };
-      }
-      if (name === "wayback") {
-        const u = "https://archive.org/wayback/available?url=" + encodeURIComponent(args.url || "");
-        const j = await (await fetch(u)).json();
-        return { ok: true, snapshots: j.archived_snapshots || {}, class: "RESOURCE" };
-      }
-      if (name === "geolocate") {
-        if (!confirm("Allow this portal to read your location for weather/maps? (browser permission next)")) return { ok: false, error: "denied" };
-        const pos = await new Promise(function (res, rej) { navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000 }); });
-        return { ok: true, lat: pos.coords.latitude, lon: pos.coords.longitude, accuracy: pos.coords.accuracy };
-      }
-      if (name === "clipboard_write") {
-        if (!confirm("Allow this portal to write to your clipboard?")) return { ok: false, error: "denied" };
-        await navigator.clipboard.writeText(String(args.text || ""));
-        return { ok: true };
       }
     } catch (e) {
       return { ok: false, error: String(e) };
@@ -253,11 +221,78 @@
     return e + "/v1/chat/completions";
   }
 
+  const DEAD_MODELS = {
+    "llama-3.1-8b-instant": "openai/gpt-oss-20b",
+    "llama-3.3-70b-versatile": "openai/gpt-oss-120b",
+    "llama3.1-8b": "llama-3.3-70b",
+  };
+  const MODEL_PREFER = {
+    groq: ["openai/gpt-oss-20b", "groq/compound-mini", "groq/compound", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"],
+  };
+
+  function modelsUrl() {
+    const chat = openaiUrl();
+    if (!chat) return "";
+    return chat.replace(/\/chat\/completions$/i, "/models").replace(/\/messages$/i, "/models");
+  }
+  function isChatModel(id) {
+    const s = String(id || "").toLowerCase();
+    if (!s) return false;
+    if (/whisper|tts|orpheus|guard|embed|moderation|prompt-guard/.test(s)) return false;
+    return true;
+  }
+  function remapDeadModel() {
+    if (!modelEl) return "";
+    const cur = (modelEl.value || "").trim();
+    const next = DEAD_MODELS[cur];
+    if (next) {
+      fillModelOptions((provider().models || []).concat([next, cur]), next);
+      return next;
+    }
+    return cur;
+  }
+  async function listProviderModels() {
+    const u = modelsUrl();
+    const key = readKey();
+    if (!u || !key) return [];
+    try {
+      const headers = safeHeaders({ Authorization: "Bearer " + key });
+      if (modeEl.value === "github") headers["api-key"] = key;
+      const r = await fetch(u, { headers: headers });
+      const j = await r.json().catch(function () { return {}; });
+      return (j.data || j.models || []).map(function (m) { return m.id || m.name; }).filter(Boolean);
+    } catch (_) {
+      return [];
+    }
+  }
+  async function pickLiveModel() {
+    remapDeadModel();
+    const current = (modelEl && modelEl.value) || "";
+    const ids = (await listProviderModels()).filter(isChatModel);
+    if (!ids.length) {
+      const forced = remapDeadModel() || current || "openai/gpt-oss-20b";
+      fillModelOptions((provider().models || []).concat([forced]), forced);
+      return forced;
+    }
+    const prefer = (MODEL_PREFER[modeEl.value] || []).concat([current], ids);
+    let pick = "";
+    for (let i = 0; i < prefer.length; i++) {
+      if (ids.indexOf(prefer[i]) >= 0) {
+        pick = prefer[i];
+        break;
+      }
+    }
+    if (!pick) pick = ids[0];
+    fillModelOptions(prefer.concat(ids), pick);
+    return pick;
+  }
+
   async function callApi(messages) {
     const p = provider();
     const url = openaiUrl();
+    remapDeadModel();
     const model = modelEl.value || p.model;
-    const key = (tokenEl && tokenEl.value) || "";
+    const key = readKey();
     const headers = { "Content-Type": "application/json" };
     if (key) {
       if (p.kind === "anthropic") {
@@ -269,22 +304,38 @@
       }
     }
     if (p.extra) Object.keys(p.extra).forEach(function (k) { headers[k] = p.extra[k]; });
+    const hdrs = safeHeaders(headers);
     let payload;
     if (p.kind === "anthropic") {
       payload = { model: model, max_tokens: 1024, system: messages[0] && messages[0].content, messages: messages.filter(function (m) { return m.role !== "system"; }) };
     } else {
       payload = { model: model, messages: messages, max_tokens: 1024, stream: false, tools: AGENT_TOOLS };
     }
-    let r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(payload) });
+    let r = await fetch(url, { method: "POST", headers: hdrs, body: JSON.stringify(payload) });
     let j = await r.json().catch(function () { return {}; });
+    if (!r.ok && payload.tools && (r.status === 400 || r.status === 404 || r.status === 422) && AGENT_TOOLS_CORE.length && payload.tools.length > AGENT_TOOLS_CORE.length) {
+      payload.tools = AGENT_TOOLS_CORE;
+      r = await fetch(url, { method: "POST", headers: hdrs, body: JSON.stringify(payload) });
+      j = await r.json().catch(function () { return {}; });
+    }
     if (!r.ok && payload.tools && (r.status === 400 || r.status === 404 || r.status === 422)) {
       delete payload.tools;
-      r = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(payload) });
+      r = await fetch(url, { method: "POST", headers: hdrs, body: JSON.stringify(payload) });
       j = await r.json().catch(function () { return {}; });
     }
     if (!r.ok) {
       const err = (j.error && (j.error.message || JSON.stringify(j.error))) || j.detail || ("http " + r.status);
-      throw new Error(typeof err === "string" ? err : JSON.stringify(err));
+      const msg = typeof err === "string" ? err : JSON.stringify(err);
+      if (/does not exist|do not have access|model_not_found|invalid_model/i.test(msg)) {
+        const live = await pickLiveModel();
+        if (live && live !== model) {
+          payload.model = live;
+          r = await fetch(url, { method: "POST", headers: hdrs, body: JSON.stringify(payload) });
+          j = await r.json().catch(function () { return {}; });
+          if (r.ok) return j;
+        }
+      }
+      throw new Error(msg);
     }
     return j;
   }
@@ -295,23 +346,30 @@
     return { text: typeof text === "string" ? text : JSON.stringify(text), tool_calls: msg.tool_calls || [] };
   }
 
-  document.getElementById("connect").onclick = function () {
+  document.getElementById("connect").onclick = async function () {
     fillProvider();
     const p = provider();
-    if (p.key && !(tokenEl && tokenEl.value) && modeEl.value !== "llm7" && modeEl.value !== "custom") {
+    if (p.key && !readKey() && modeEl.value !== "llm7" && modeEl.value !== "custom") {
       setHealth("paste your API key (this tab only) — " + p.help);
-      bubble("assistant", "This is the LYGO API portal. Paste a Groq/OpenAI/Grok/… key, then Connect. Keys never hit chatagent.ca (static GitHub Pages).\n\nWant a local GPU with files and skills? Download the FULL console: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel");
+      bubble("assistant", "Paste a Groq/OpenAI/Grok/… key, then Connect. Keys stay in this tab.");
       return;
     }
     if (!openaiUrl()) {
       setHealth("paste an endpoint URL");
       return;
     }
+    setHealth("checking models…");
+    const live = await pickLiveModel();
     connected = true;
     try { sessionStorage.setItem("lygo_portal_provider", modeEl.value); } catch (_) {}
-    setHealth("connected · " + p.label + " · tools on");
-    bubble("assistant", "Connected to " + p.label + ". Browser limbs: wiki, fetch, weather, time, calc, champions, hash. Disks/GGUF stay on the local kit.\nSkillHub FULL: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel");
+    setHealth("connected · " + p.label + " · " + (live || p.model));
+    bubble("assistant", "Connected to " + p.label + " · model " + (live || p.model) + ". Send a message.");
   };
+  if (tokenEl) {
+    tokenEl.addEventListener("paste", function () { setTimeout(readKey, 0); });
+    tokenEl.addEventListener("blur", readKey);
+    tokenEl.addEventListener("change", readKey);
+  }
 
   if (modeEl) {
     modeEl.innerHTML = "";
@@ -422,16 +480,17 @@
   document.querySelectorAll("[data-limb]").forEach(function (b) {
     b.onclick = async function () {
       const n = b.getAttribute("data-limb");
-      if (n === "wiki") {
-        const r = await runTool("wiki_search", { q: msg.value || "LYGO" });
-        limb.textContent = JSON.stringify(r, null, 2);
-        bubble("assistant", "Wikipedia (RESOURCE):\n" + ((r.hits || []).map(function (h) { return h.title + " — " + h.snippet; }).join("\n") || r.error));
-      } else if (n === "weather") {
-        const r = await runTool("weather", { place: "" });
-        bubble("assistant", r.text || r.error);
-      } else if (n === "skillhub") window.open("https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel", "_blank", "noopener");
+      if (n === "skillhub") window.open("https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel", "_blank", "noopener");
       else if (n === "howto") window.open("/guides/how-to-lygo-llm-portal.html", "_blank", "noopener");
       else if (n === "kit") window.open("https://chatagent.ca/lygo-llm-console.html", "_blank", "noopener");
+      else {
+        const map = { wiki: "wiki_search", weather: "weather", now: "now", hn: "hn_search", github: "github_search", handshake: "lattice_handshake", whoami: "whoami", iss: "iss", quake: "quake" };
+        const tool = map[n] || n;
+        const args = tool.indexOf("search") >= 0 ? { q: (msg && msg.value) || "LYGO" } : {};
+        const r = await runTool(tool, args);
+        limb.textContent = JSON.stringify(r, null, 2);
+        bubble("assistant", tool + ":\n" + (typeof r.text === "string" ? r.text : JSON.stringify(r, null, 2)).slice(0, 2000));
+      }
     };
   });
 
@@ -552,13 +611,18 @@
     msg.value = "";
     bubble("user", text);
     if (!connected) {
-      bubble(
-        "assistant",
-        "This page is the LYGO API portal — not a hosted GPU.\n\n1) Pick Groq (free) or another provider.\n2) Paste the key (stays in this tab).\n3) Connect, then send again.\n\nWant models on your disk, folders, SkillHub FULL, USB CLAW? Download the local console:\nhttps://chatagent.ca/lygoskillhub.html#lygo-llm-kernel\nhttps://chatagent.ca/lygo-llm-console.html\nGuide: https://chatagent.ca/guides/how-to-lygo-llm-portal.html"
-      );
-      return;
+      if (readKey()) {
+        setHealth("connecting…");
+        const live = await pickLiveModel();
+        connected = true;
+        setHealth("connected · " + provider().label + " · " + live);
+      } else {
+        bubble("assistant", "Paste a Groq key in the key box, then send again. Model is chosen for you.");
+        return;
+      }
     }
     history.push({ role: "user", content: text });
+    await pickLiveModel();
     const invoked = Object.keys(CHAMPS).find(function (n) { return text.toUpperCase().indexOf(n.toUpperCase()) >= 0; });
     let messages = [{ role: "system", content: systemPrompt(invoked) }].concat(history.slice(-10));
     let out = "";
@@ -583,9 +647,31 @@
         break;
       }
     } catch (e) {
-      out =
-        "Provider error: " + e.message +
-        "\n\nIf this is CORS, the vendor blocks browsers. Try Groq or OpenRouter, or run the local kit.\nSkillHub: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel";
+      const m = String(e && e.message ? e.message : e);
+      if (/does not exist|do not have access|model_not_found|invalid_model/i.test(m)) {
+        const live = await pickLiveModel();
+        try {
+          const j2 = await callApi(messages);
+          const got2 = extractMessage(j2);
+          out = got2.text || "";
+          if (live) setHealth("connected · " + provider().label + " · " + live);
+        } catch (e2) {
+          out = "Could not reach a live model on this key (" + live + "). Try Connect again — the portal picks the model for you.";
+        }
+      } else if (/ISO-8859-1|non ISO|code point/i.test(m)) {
+        readKey();
+        try {
+          const j2 = await callApi(messages);
+          const got2 = extractMessage(j2);
+          out = got2.text || "Key cleaned. Send Hello again.";
+        } catch (e2) {
+          out = "The key paste had hidden characters. We cleaned it — press Connect and send Hello again.";
+        }
+      } else if (/Failed to fetch|CORS|NetworkError/i.test(m)) {
+        out = "Provider error: " + m + "\nThis vendor may block browser calls. Try Groq or OpenRouter.";
+      } else {
+        out = "Provider error: " + m;
+      }
     }
     if (P0.test(out || "")) out = "[output quarantined]";
     if (!out) out = "(empty model reply — try again or another provider)";
@@ -595,7 +681,7 @@
 
   bubble(
     "assistant",
-    "LYGO API Portal. This site does not host a GPU.\n\nBring a free or paid key (Groq is the usual start) → Connect → chat with wiki/weather/fetch/champion limbs in the browser.\n\nNeed a full local LLM (GGUF, folders, SkillHub FULL, USB)? Download the console:\nhttps://chatagent.ca/lygoskillhub.html#lygo-llm-kernel\nDocs: https://chatagent.ca/lygo-llm-console.html\nHow-to: https://chatagent.ca/guides/how-to-lygo-llm-portal.html"
+    "Paste a Groq key → Connect (or just send). The model is chosen for you."
   );
 
   const worldLocal = document.getElementById("world-local");

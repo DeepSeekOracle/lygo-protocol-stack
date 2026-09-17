@@ -2,11 +2,13 @@
 <html lang="en" data-cookie-key="chatagent_cookies">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https: blob:; connect-src 'self' https: http://127.0.0.1:9641 http://localhost:9641 http://127.0.0.1:11434 http://127.0.0.1:11441">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(self), payment=(), usb=()">
 <title>LYGO API Portal — bring Groq, OpenAI, Claude, Grok | chatagent.ca</title>
 <meta name="description" content="LYGO API Portal: connect Groq, OpenAI, Claude, Grok, DeepSeek or any OpenAI-compatible key. Browser agent tools (wiki, fetch, weather, Δ9 champions). Full local GGUF console is a separate SkillHub download. No GPU on this page.">
 <meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
@@ -36,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260916x">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="chatagent.ca">
 <meta property="og:locale" content="en_US">
@@ -102,7 +104,7 @@
     <div>
       <p class="kicker">Δ9Φ963 · chatagent.ca · RESOURCE</p>
       <h1>LYGO API Portal</h1>
-      <p class="sub">Bring a <strong>free or paid API key</strong> (Groq, OpenAI, Claude, Grok, DeepSeek, Hugging Face, or any OpenAI-compatible URL). This page is a LYGO-aligned <em>agent studio in the browser</em> — wiki, fetch, weather, Δ9 champions. It does <strong>not</strong> host a GPU. Full local GGUF console: <a href="https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub FULL</a>. Steward: <a href="https://chatagent.ca/about.html">Justin Helmer</a>.</p>
+      <p class="sub">Bring a <strong>free or paid API key</strong> (Groq, OpenAI, Claude, Grok, DeepSeek, Hugging Face, or any OpenAI-compatible URL). This page is a LYGO-aligned <em>agent studio in the browser</em> — 50+ tools (wiki, fetch, weather, GitHub, lattice handshake, Δ9 champions). It does <strong>not</strong> host a GPU. Full local GGUF console: <a href="https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub FULL</a>. Steward: <a href="https://chatagent.ca/about.html">Justin Helmer</a>.</p>
       <nav class="site-nav" aria-label="Site">
         <a href="https://chatagent.ca/">Home</a>
         <a href="https://chatagent.ca/portal/" aria-current="page">Portal</a>
@@ -120,13 +122,15 @@
     <select id="mode" title="API provider">
       <option value="groq" selected>Groq (free tier)</option>
     </select>
-    <input id="endpoint" type="text" placeholder="Endpoint (auto-filled)" autocomplete="off">
-    <input id="hf-token" type="password" placeholder="API key stays in this browser" autocomplete="off">
-    <input id="model" type="text" placeholder="model id" value="llama-3.1-8b-instant" autocomplete="off">
+    <select id="model" title="Model is chosen for you" aria-label="Model">
+      <option value="openai/gpt-oss-20b" selected>openai/gpt-oss-20b</option>
+    </select>
+    <input id="hf-token" type="password" placeholder="Paste API key — stays in this browser" autocomplete="off">
+    <input id="endpoint" type="text" placeholder="Endpoint (custom only)" autocomplete="off" hidden>
     <button type="button" id="connect">Connect</button>
     <label class="chk hide-public" id="full-wrap"><input type="checkbox" id="full"> Full LYGO limbs</label>
   </div>
-  <p class="mode-pill" id="mode-help">Paste a key → Connect. Guide: <a href="/guides/how-to-lygo-llm-portal.html">How to connect</a>. Local FULL kit: <a href="https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub</a></p>
+  <p class="mode-pill" id="mode-help">Paste a Groq key → Connect. The model is selected automatically. Guide: <a href="/guides/how-to-lygo-llm-portal.html">How to connect</a>.</p>
 </header>
 <section id="world" class="world" aria-label="World time">
   <div class="world-now">
@@ -152,10 +156,17 @@
     <div id="skills-list" class="skills-list"></div>
     <p class="hint" id="skill-pack">Loading pack…</p>
     <h2>Agent limbs</h2>
-    <p class="hint">Run in this browser after Connect. No server disk.</p>
+    <p class="hint">All browser-safe tools are installed on this page. Disk/shell stay on the local console.</p>
     <div class="limbs">
       <button type="button" data-limb="wiki">wiki</button>
       <button type="button" data-limb="weather">weather</button>
+      <button type="button" data-limb="now">now</button>
+      <button type="button" data-limb="hn">HN</button>
+      <button type="button" data-limb="github">GitHub</button>
+      <button type="button" data-limb="handshake">lattice</button>
+      <button type="button" data-limb="whoami">whoami</button>
+      <button type="button" data-limb="iss">ISS</button>
+      <button type="button" data-limb="quake">quakes</button>
       <button type="button" data-limb="howto">How to connect</button>
       <button type="button" data-limb="skillhub">SkillHub FULL</button>
       <button type="button" data-limb="kit">Console docs</button>
@@ -172,7 +183,7 @@ url: https://chatagent.ca/portal/
 channel: PUBLIC RESOURCE — API keys in the visitor browser
 not: hosted GPU; admin disks; vaults
 providers: groq, openrouter, openai, xai, deepseek, mistral, together, fireworks, gemini, anthropic, huggingface, custom OpenAI-compat
-browser_limbs: wiki_search, fetch_page, weather, now, calc, champion, hash_text, notepad(localStorage)
+browser_limbs: 50+ HTTPS + tab tools (wiki, fetch, weather, github, lattice_handshake, champions, …); no disk/shell
 full_local_kit: https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel
 docs: https://chatagent.ca/lygo-llm-console.html
 how_to: https://chatagent.ca/guides/how-to-lygo-llm-portal.html
@@ -235,7 +246,7 @@ steward: Justin Helmer / Excavationpro / Lightfather
   <table class="keys-table">
     <thead><tr><th>Get a key</th><th>Typical free offer</th><th>Use here</th></tr></thead>
     <tbody>
-      <tr><td><a href="https://console.groq.com/keys" rel="noopener">Groq</a></td><td>No card. Fast Llama/Qwen/gpt-oss. ~30 RPM.</td><td><button type="button" data-fill="groq">Fill Groq</button></td></tr>
+      <tr><td><a href="https://console.groq.com/keys" rel="noopener">Groq</a></td><td>No card. Default model <code>openai/gpt-oss-20b</code>. Llama 3.1 8B Instant is enterprise-only now.</td><td><button type="button" data-fill="groq">Fill Groq</button></td></tr>
       <tr><td><a href="https://aistudio.google.com/apikey" rel="noopener">Google AI Studio (Gemini)</a></td><td>No card. Gemini Flash/Pro. Generous daily cap.</td><td><button type="button" data-fill="gemini">Fill Gemini</button></td></tr>
       <tr><td><a href="https://openrouter.ai/keys" rel="noopener">OpenRouter</a></td><td>Email. Many models with <code>:free</code> suffix. ~50 req/day until you add credits.</td><td><button type="button" data-fill="openrouter">Fill OpenRouter</button></td></tr>
       <tr><td><a href="https://cloud.cerebras.ai" rel="noopener">Cerebras</a></td><td>Very fast wafer inference. Free/trial Llama &amp; Qwen.</td><td><button type="button" data-fill="cerebras">Fill Cerebras</button></td></tr>
@@ -284,7 +295,8 @@ steward: Justin Helmer / Excavationpro / Lightfather
     <button type="button" id="donateClose" disabled>Open a donate page to continue</button>
   </div>
 </div>
-<script src="app.js"></script>
+<script src="tools.js?v=20260916x"></script>
+<script src="app.js?v=20260916x"></script>
 <script src="radio.js"></script>
 <script src="donate.js"></script>
 </body>

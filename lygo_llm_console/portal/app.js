@@ -310,7 +310,7 @@
         else if (n === "web_fetch") args = { url: prompt("https url") || "https://chatagent.ca/" };
         else if (n === "list_dir") args = { path: "." };
         else if (n === "shell") args = { cmd: prompt("workspace command") || "dir" };
-        else if (n === "now" || n === "whoami" || n === "kernel_status" || n === "todo_list" || n === "notepad_list" || n === "skill_list") args = {};
+        else if (n === "now" || n === "whoami" || n === "kernel_status" || n === "todo_list" || n === "notepad_list" || n === "skill_list" || n === "self_check" || n === "steward_map") args = {};
         else {
           msg.value = "Use tool " + n + " as needed: ";
           msg.focus();
@@ -344,12 +344,49 @@
       }
     } catch (_) {}
     try {
-      const soul = await (await fetch("/api/soul", { headers: headers() })).json();
-      const mem = await (await fetch("/api/memory", { headers: headers() })).json();
-      const pre = document.getElementById("soul-preview");
-      if (pre) pre.textContent = ((soul.text || "").slice(0, 400) + "\n---\n" + (mem.memory_md || "").slice(-400)).trim();
+      const soul = await (await fetch("/api/soul", { headers: headers(), cache: "no-store" })).json();
+      const ident = await (await fetch("/api/identity", { headers: headers(), cache: "no-store" })).json();
+      const mem = await (await fetch("/api/memory", { headers: headers(), cache: "no-store" })).json();
+      const se = document.getElementById("soul-edit");
+      const ie = document.getElementById("id-edit");
+      const me = document.getElementById("mem-edit");
+      if (se) se.value = soul.text || "";
+      if (ie) ie.value = ident.text || "";
+      if (me) me.value = mem.memory_md || "";
+      const st = document.getElementById("cont-status");
+      if (st) st.textContent = "SOUL " + ((soul.text || "").length) + "c · ID " + ((ident.text || "").length) + "c · MEMORY " + ((mem.memory_md || "").length) + "c";
     } catch (_) {}
   }
+  document.querySelectorAll("[data-cont]").forEach((btn) => {
+    btn.onclick = () => {
+      document.querySelectorAll("[data-cont]").forEach((b) => b.classList.remove("on"));
+      btn.classList.add("on");
+      const id = btn.getAttribute("data-cont");
+      const soul = document.getElementById("pane-soul");
+      const ident = document.getElementById("pane-id");
+      const mem = document.getElementById("pane-mem");
+      if (soul) soul.hidden = id !== "soul";
+      if (ident) ident.hidden = id !== "id";
+      if (mem) mem.hidden = id !== "mem";
+    };
+  });
+  async function saveCont(kind) {
+    const se = document.getElementById("soul-edit");
+    const ie = document.getElementById("id-edit");
+    const me = document.getElementById("mem-edit");
+    const st = document.getElementById("cont-status");
+    const path = kind === "soul" ? "/api/soul" : kind === "id" ? "/api/identity" : "/api/memory";
+    const text = kind === "soul" ? (se && se.value) : kind === "id" ? (ie && ie.value) : (me && me.value);
+    const r = await fetch(path, { method: "POST", headers: headers(), body: JSON.stringify({ text }) });
+    const j = await r.json().catch(() => ({}));
+    if (st) st.textContent = j.ok ? (kind + " saved") : ("save failed " + (j.error || r.status));
+  }
+  const ss = document.getElementById("soul-save");
+  if (ss) ss.onclick = () => saveCont("soul");
+  const ids = document.getElementById("id-save");
+  if (ids) ids.onclick = () => saveCont("id");
+  const ms = document.getElementById("mem-save");
+  if (ms) ms.onclick = () => saveCont("mem");
   const ns = document.getElementById("new-session");
   if (ns) {
     ns.onclick = async () => {

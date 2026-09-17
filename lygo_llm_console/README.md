@@ -4,67 +4,64 @@ Complete local **agent portal**: boot GGUF models, chat, tools, HTTPS search/fet
 
 **Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-v1`  
 **Page / zip:** https://chatagent.ca/lygo-llm-console.html  
+**Git:** https://github.com/DeepSeekOracle/lygo-protocol-stack (folder `lygo_llm_console/`)  
 **ClawHub map:** `npx clawhub@latest install deepseekoracle/lygo-llm-console`  
 **Steward:** Justin Helmer (Excavationpro / Lightfather) · LYGO AI agents
 
-This GitHub folder is the **complete source** for the public product (portal, 21 limbs, Wikipedia search, P0 gate, tests).  
+This GitHub folder is the **public product** (portal, limbs, Wikipedia/search, P0 gate, 15 champions, Continuity tabs).  
 `llama-server.exe`, GGUF weights, operator tokens, and steward vaults are **not** in git.
 
 Whitepaper: [`docs/whitepapers/LYGO_LLM_CONSOLE_v1.md`](../docs/whitepapers/LYGO_LLM_CONSOLE_v1.md)
 
-## Boot (Windows)
+## Install (public — new machine)
 
-1. Put official ggml-org **CPU** `llama-server.exe` (and DLLs) in `engine/`. See `engine/README.md` (pin `b10988`).
-2. Double-click `LYGO_LLM_CONSOLE.bat` or:
+### A. Zip
+
+1. Download https://chatagent.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip  
+2. Unzip. Double-click **`INSTALL.bat`**.  
+3. Optional: let it fetch `llama-server.exe`, or drop a ggml-org **CPU** zip into `engine/` (pin `b10988`).  
+4. Put GGUF files in `models/` (or Scan later).  
+5. Double-click **`LYGO_LLM_CONSOLE.bat`** → http://127.0.0.1:9641/
+
+### B. Git (sparse, Windows)
+
+```bat
+git clone --depth 1 --filter=blob:none --sparse https://github.com/DeepSeekOracle/lygo-protocol-stack.git
+cd lygo-protocol-stack
+git sparse-checkout set lygo_llm_console
+cd lygo_llm_console
+INSTALL.bat
+LYGO_LLM_CONSOLE.bat
+```
+
+`INSTALL.bat` seeds **your** Soul / Identity / Memory from `prompts/` (the human at this machine). It does **not** copy steward drives, vaults, or `admin.json`.
+
+Add extra folders in the left-rail **Workspace** panel after boot.
+
+Python 3 is required (`py` or `python`). No npm. No pip. No Ollama required. Existing `%USERPROFILE%\.ollama\models` blobs can be imported read-only.
+
+## Boot
 
 ```bat
 python -u src\server.py serve
 ```
 
-3. Open http://127.0.0.1:9641/  
-   Loopback does not need a query token. LAN bind needs `--lan --i-consent`.
-
-Private llama-server: `127.0.0.1:11441`. Python: `%LYGO_PYTHON%` → `py` → `python`.
-
-No npm. No pip. No Ollama required. Existing `%USERPROFILE%\.ollama\models` blobs can be **imported read-only**.
+Loopback does not need a query token. LAN bind needs `--lan --i-consent`.  
+Private llama-server: `127.0.0.1:11441`.
 
 ## Agent portal
 
-Three panes: workspace + limb buttons, chat, model boot.  
-Paste an `https://` URL and the **host fetches it** before the model answers.  
-Factual questions (`how many`, `do X have`) trigger Wikipedia full-text search.
+Continuity: **Soul / Identity / Memory** (three files). Skills: 15 Δ9 champions on/off. Workspace: add/remove folders. Scan → Boot GGUF. Tools include wiki/web, fetch, weather, GitHub, lattice handshake, notepad, champions.
 
-### Limbs (21)
-
-`list_dir` `read_file` `write_file` `remember` `kernel_status` `search_corpus` `p0_gate` `stack_health`  
-`web_search` `web_fetch` `shell` `python_exec` `now` `memory_recall` `download_url` `glob_files`  
-`todo_add` `todo_list` `calc` `whoami` `hash_text`
-
-Writes stay under `workspace/` and `save/`. `shell` / `python_exec` are workspace-cwd and **P0-blocked** (`format c:`, diskpart, wipe). Dual ledgers / Star Chart remain CANON; web hits are RESOURCE.
-
-## Continuity (SOUL / MEMORY / sessions)
-
-| File | Role |
-|------|------|
-| `workspace/SOUL.md` | Identity. Public template offers Δ9 champions, not a private biography. |
-| `workspace/MEMORY.md` | Growing notes. `remember` / `memory_append` add dated lines. |
-| `save/sessions/current.json` | Chat session (survives refresh). **New session** archives the old file. |
-| `skills/` | Bundled OpenClaw-compatible SKILL.md (15 Δ9 champions). Toggle in the Skills panel. |
-| `save/skills/` | Enabled list + ClawHub installs. Extra dirs: `workspace/skills`, `~/.agents/skills`, `~/.openclaw/skills`. |
-
-Templates live in `prompts/SOUL.md` and `prompts/MEMORY.md` and are copied on first boot.
-
-## Tests
-
-```bat
-python -m unittest discover -s tests -v
-```
+Writes stay under `workspace/` and `save/` unless you add a Workspace mount. `shell` / `python_exec` are workspace-cwd and **P0-blocked**. Dual ledgers / Star Chart remain CANON; web hits are RESOURCE.
 
 ## Public vs admin
 
-| Public (this tree + zip) | Admin / steward only |
+| Public (git folder + zip + INSTALL.bat) | Admin / steward only |
 |--|--|
-| Kit-folder roots, no vaults | Extra disks / keys never committed |
+| `prompts/` seeds identity for the new operator | `config/admin.json` (gitignored) + local `workspace/` |
+| Kit-folder roots until they Add access | Extra disks / keys never committed |
+| `LYGO_LLM_CONSOLE.bat` uses `%~dp0` | Same BAT; admin.json unlocks steward map |
 | GitHub `lygo_llm_console/` | Local `data/`, `save/`, `engine/*.exe` gitignored |
 
 Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro) · [Patreon](https://www.patreon.com/Excavationpro)  

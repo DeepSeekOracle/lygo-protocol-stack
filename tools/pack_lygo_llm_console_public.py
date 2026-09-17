@@ -15,7 +15,23 @@ STACK_DIST = STACK / "docs" / "lygo-full-skills" / "dist"
 ZIP_NAME = "lygo-llm-console-public.zip"
 
 SKIP_DIR = {"__pycache__", "data", "engine", "save"}
-SKIP_FILE = {".lygo_llm_token", ".llama_api_key", "local.json", "engine.pid.json", "registry.json"}
+SKIP_FILE = {
+    ".lygo_llm_token",
+    ".llama_api_key",
+    "local.json",
+    "admin.json",
+    "engine.pid.json",
+    "registry.json",
+    "memory.jsonl",
+    "hello.txt",
+}
+ADMIN_MARKERS = (
+    "LYGO_SERVER_KEYS",
+    "LYGO_BUILDER_KEY",
+    "10.0.0.209",
+    "gitea.pass",
+    "GamePC",
+)
 
 
 def _copy_tree() -> None:
@@ -35,6 +51,16 @@ def _copy_tree() -> None:
             dest.mkdir(parents=True, exist_ok=True)
             continue
         dest.parent.mkdir(parents=True, exist_ok=True)
+        if rel.parts and rel.parts[0] == "workspace" and p.suffix.lower() in {".md", ".jsonl", ".txt"}:
+            # Public kit seeds workspace from prompts/ on INSTALL — never pack steward SOUL/MEMORY.
+            continue
+        if p.suffix.lower() in {".md", ".txt", ".json"}:
+            try:
+                body = p.read_text(encoding="utf-8", errors="ignore")
+            except OSError:
+                body = ""
+            if any(m in body for m in ADMIN_MARKERS) and "prompts" not in rel.parts:
+                continue
         shutil.copy2(p, dest)
 
 
@@ -66,14 +92,8 @@ def _patch_public() -> None:
 
     bat = STAGE / "LYGO_LLM_CONSOLE.bat"
     b = bat.read_text(encoding="utf-8")
-    b = b.replace(
-        'if exist "U:\\LYGO\\projects\\python\\python.exe" set LYGO_PYTHON=U:\\LYGO\\projects\\python\\python.exe\n',
-        "",
-    )
-    b = b.replace(
-        'if exist "F:\\LYGO\\projects\\python\\python.exe" set LYGO_PYTHON=F:\\LYGO\\projects\\python\\python.exe\n',
-        "",
-    )
+    if "I:\\E Drive" in b or "U:\\LYGO" in b or "F:\\LYGO" in b:
+        raise SystemExit("public BAT still contains steward paths")
     bat.write_text(b, encoding="utf-8")
 
     (STAGE / "CHANNEL.txt").write_text(
@@ -91,8 +111,9 @@ def _patch_public() -> None:
     readme = STAGE / "README.md"
     extra = (
         "\n\n## Public kit\n\nThis zip is the **public** channel. "
-        "It is not the steward admin tree. Write roots stay inside this folder. "
-        "Place ggml-org `llama-server.exe` in `engine/` (CPU Windows zip). "
+        "Run **INSTALL.bat** first (seeds Soul / Identity / Memory for this user). "
+        "It is not the steward admin tree. Write roots stay inside this folder until you Add Workspace access. "
+        "Place ggml-org `llama-server.exe` in `engine/` (CPU Windows zip) or let INSTALL fetch it. "
         "Page: https://chatagent.ca/lygo-llm-console.html\n"
     )
     readme.write_text(readme.read_text(encoding="utf-8") + extra, encoding="utf-8")
@@ -128,9 +149,14 @@ def main() -> int:
     blob = ""
     for p in (STAGE / "src").rglob("*.py"):
         blob += p.read_text(encoding="utf-8", errors="ignore")
-    for bad in ("run_cmd", r"C:\Users\justi", "Data Vault"):
+    for bad in ("run_cmd", r"C:\Users\justi", "Data Vault", "LYGO_SERVER_KEYS", "gitea.pass", r"I:\E Drive"):
         if bad in blob:
             raise SystemExit(f"public kit src contains forbidden token {bad}")
+    ws = STAGE / "workspace"
+    if ws.is_dir():
+        for p in ws.rglob("*"):
+            if p.is_file() and p.name != ".gitkeep" and p.suffix.lower() in {".md", ".jsonl"}:
+                raise SystemExit(f"public kit packed workspace identity {p}")
     out, sha = _zip()
     print(out)
     print(sha)

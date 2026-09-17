@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916g">
+<link rel="stylesheet" href="/static/style.css?v=20260916n">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -14,7 +14,7 @@
       <img src="/static/logo.jpg" width="48" height="48" alt="LYGO" style="border-radius:10px;border:1px solid rgba(224,179,106,.22)">
       <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
     </div>
-    <div class="sub">Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / MEMORY.md · Justin Helmer / Lightfather</div>
+    <div class="sub">Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / IDENTITY.md / MEMORY.md · Justin Helmer / Lightfather</div>
     <div class="modelbar">
       <button type="button" id="scan">Scan drives</button>
       <select id="models" title="Available GGUF / Ollama CAS models"></select>
@@ -35,8 +35,27 @@
   <nav class="rail">
     <h2>Continuity</h2>
     <button type="button" id="new-session">New session</button>
-    <p class="hint"><code>SOUL.md</code> identity · <code>MEMORY.md</code> grows</p>
-    <pre id="soul-preview" class="limb-out"></pre>
+    <div class="cont-tabs" role="tablist">
+      <button type="button" class="on" data-cont="soul" id="tab-soul">Soul</button>
+      <button type="button" data-cont="id" id="tab-id">Identity</button>
+      <button type="button" data-cont="mem" id="tab-mem">Memory</button>
+    </div>
+    <div id="pane-soul" class="cont-pane">
+      <p class="hint">SOUL.md — light math + decision spine. Saved to workspace.</p>
+      <textarea id="soul-edit" spellcheck="false" aria-label="SOUL.md"></textarea>
+      <button type="button" id="soul-save">Save soul</button>
+    </div>
+    <div id="pane-id" class="cont-pane" hidden>
+      <p class="hint">IDENTITY.md — who is on this console. Not mashed into soul.</p>
+      <textarea id="id-edit" spellcheck="false" aria-label="IDENTITY.md"></textarea>
+      <button type="button" id="id-save">Save identity</button>
+    </div>
+    <div id="pane-mem" class="cont-pane" hidden>
+      <p class="hint">MEMORY.md — handshake, tools, champions, recovery. Not mashed into identity.</p>
+      <textarea id="mem-edit" spellcheck="false" aria-label="MEMORY.md"></textarea>
+      <button type="button" id="mem-save">Save memory</button>
+    </div>
+    <p class="hint" id="cont-status">workspace/SOUL.md · IDENTITY.md · MEMORY.md</p>
     <h2>Workspace</h2>
     <p class="hint">Mapped folders the LLM may use as brain/stack. Add a drive or folder; Remove takes it away.</p>
     <div id="ws-mounts" class="ws-mounts"></div>
@@ -119,20 +138,7 @@
     <span id="radioHint" class="hint"></span>
   </div>
 </footer>
-<div id="donateLayer" class="donate-layer" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="donateTitle">
-  <div class="donate-card">
-    <p class="kicker">Friendly reminder · every 15 minutes</p>
-    <h2 id="donateTitle">Keep the lattice lit</h2>
-    <p>This console is free. You do not have to donate. Opening a donate page (PayPal or Patreon) unlocks Continue — even if you give $0.</p>
-    <div class="donate-actions">
-      <a class="btn-gold" id="donatePaypal" href="https://www.paypal.com/paypalme/ExcavationPro">Open PayPal.me/ExcavationPro</a>
-      <a class="btn-gold" id="donatePatreon" href="https://www.patreon.com/Excavationpro">Open Patreon</a>
-    </div>
-    <button type="button" id="donateClose" disabled>Open a donate page to continue</button>
-  </div>
-</div>
-<script src="/static/app.js?v=20260916g"></script>
-<script src="/static/radio.js?v=20260916g"></script>
-<script src="/static/donate.js?v=20260916g"></script>
+<script src="/static/app.js?v=20260916n"></script>
+<script src="/static/radio.js?v=20260916m"></script>
 </body>
 </html>

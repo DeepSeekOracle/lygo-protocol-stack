@@ -15,7 +15,7 @@ from limbs import EXTRA_SCHEMA, extra as extra_dispatch
 # Split literals so public source does not contain steward path tokens.
 DENY_SUB = (
     "I:\\" + "LYGO" + "_" + "SERVER" + "_" + "KEYS",
-    "gitea.pass",
+    "gitea" + ".pass",
     ".lygo_llm_token",
     ".llama_api_key",
     "save/logs",
@@ -29,6 +29,7 @@ DENY_SUB = (
 
 TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "steward_map", "description": "Canonical admin map: drives, GitHub/HF/lattice URLs, roots. Call this BEFORE fetching GitHub/HF/sites. Never invent URLs.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "self_check", "description": "Admin self-check: role, brain, mapped roots, D:\\chatagent, skills, canonical GitHub/HF/lattice. Use when the operator says self check.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "find_files", "description": "Find files on mapped disks (admin search/read roots). pattern e.g. *.md or SOUL.md", "parameters": {"type": "object", "properties": {"pattern": {"type": "string"}, "root": {"type": "string"}}, "required": ["pattern"]}}},
     {"type": "function", "function": {"name": "credential_where", "description": "Locate steward credential files by name. Returns path + exists. NEVER returns secret contents.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}}}},
     {"type": "function", "function": {"name": "workspace_map", "description": "Show mapped folders/drives the LLM may read/write. Operator adds/removes these in the Workspace panel.", "parameters": {"type": "object", "properties": {}}}},
@@ -54,6 +55,34 @@ TOOLS_SCHEMA = [
 ]
 
 TOOLS_SCHEMA = TOOLS_SCHEMA + EXTRA_SCHEMA
+CORE_NAMES = {
+    "steward_map",
+    "self_check",
+    "whoami",
+    "list_dir",
+    "read_file",
+    "web_search",
+    "web_fetch",
+    "find_files",
+    "workspace_map",
+    "skill_list",
+    "skill_read",
+    "kernel_status",
+    "now",
+    "world_pulse",
+    "weather",
+    "calc",
+    "remember",
+    "notepad_list",
+    "notepad_read",
+    "credential_where",
+}
+
+
+def core_schema() -> list[dict[str, Any]]:
+    return [t for t in TOOLS_SCHEMA if (t.get("function") or {}).get("name") in CORE_NAMES]
+
+
 ALIASES = {"read": "read_file", "write": "write_file", "bash": "shell", "exec": "shell", "terminal": "shell"}
 
 
@@ -78,6 +107,44 @@ def _under(path: Path, roots: tuple[Path, ...]) -> bool:
         except ValueError:
             continue
     return False
+
+
+def _self_check() -> dict[str, Any]:
+    from workspace_map import list_mounts
+
+    b = brief()
+    mounts = list_mounts()
+    live = [m.get("path") for m in (mounts.get("live") or [])]
+    chat = Path(r"D:\chatagent")
+    sample = []
+    if chat.is_dir():
+        try:
+            sample = [c.name for c in list(chat.iterdir())[:12]]
+        except OSError:
+            sample = []
+    skills = {}
+    try:
+        from skills_mod import list_skills
+
+        sl = list_skills()
+        skills = {"n": sl.get("n"), "enabled": len(sl.get("enabled") or [])}
+    except Exception as e:
+        skills = {"error": str(e)[:80]}
+    return {
+        "ok": True,
+        "role": b.get("role"),
+        "steward": b.get("steward"),
+        "github": b.get("github_org"),
+        "huggingface": b.get("hf_org"),
+        "lattice": "https://chatagent.ca/",
+        "drives": b.get("drives"),
+        "n_live_mounts": mounts.get("n_live"),
+        "chatagent_exists": chat.is_dir(),
+        "chatagent_sample": sample,
+        "skills": skills,
+        "never": ["github.com/user/repo", "lattice.example.com"],
+        "verdict": "admin_map_live" if is_admin() and chat.is_dir() else "check_roots",
+    }
 
 
 def _find_files(pattern: str, root: str | None = None) -> dict[str, Any]:
@@ -130,6 +197,8 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
     extra = extra or {}
     if name == "steward_map":
         return brief()
+    if name == "self_check":
+        return _self_check()
     if name == "workspace_map":
         from workspace_map import list_mounts
 

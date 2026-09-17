@@ -249,9 +249,10 @@ h2 {
   aside { max-height: 32rem; }
 }
 .conn { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin-top:.55rem; }
-.conn input[type=text], .conn input[type=password] {
+.conn input[type=text], .conn input[type=password], .conn select {
   background:#120e0a; color:var(--ink); border:1px solid var(--line); padding:.4rem .55rem; border-radius:8px; min-width:12rem;
 }
+.conn #model { min-width: 16rem; max-width: 28rem; }
 .skip {
   position: absolute; left: -999px; top: 0;
 }
