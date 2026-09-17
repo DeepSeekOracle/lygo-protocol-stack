@@ -40,6 +40,13 @@ PROVIDERS: dict[str, dict[str, Any]] = {
         "models": ["grok-2-latest", "grok-3"],
         "help": "console.x.ai",
     },
+    "gemini": {
+        "label": "Google Gemini",
+        "url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "model": "gemini-2.0-flash",
+        "models": ["gemini-2.0-flash", "gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro"],
+        "help": "aistudio.google.com/apikey — OpenAI-compatible Gemini",
+    },
     "openrouter": {
         "label": "OpenRouter",
         "url": "https://openrouter.ai/api/v1/chat/completions",
@@ -103,8 +110,8 @@ def save(obj: dict[str, Any]) -> dict[str, Any]:
     if "enabled" in obj:
         cur["enabled"] = bool(obj.get("enabled"))
     p = PROVIDERS.get(cur["provider"]) or PROVIDERS["deepseek"]
-    if cur["provider"] != "custom" and not cur.get("url"):
-        cur["url"] = p["url"]
+    if cur["provider"] != "custom":
+        cur["url"] = p.get("url") or cur.get("url") or ""
     if not cur.get("model"):
         cur["model"] = p.get("model") or "deepseek-chat"
     API_PATH.write_text(json.dumps(cur, indent=2), encoding="utf-8")

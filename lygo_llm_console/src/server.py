@@ -70,7 +70,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260917ok"
+BUILD = "v1.1-20260917api2"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0, "engine": "llama", "engine_port": LLAMA_PORT}
 
 
@@ -687,7 +687,13 @@ class Handler(BaseHTTPRequestHandler):
         from cloud_api import enabled as cloud_on
         from cloud_api import public_status as cloud_pub
 
-        use_cloud = cloud_on()
+        st_cloud = cloud_pub()
+        want_api = obj.get("use_api")
+        has_key = bool(st_cloud.get("has_key"))
+        if want_api is None:
+            use_cloud = bool(st_cloud.get("enabled") and has_key)
+        else:
+            use_cloud = bool(want_api) and has_key
         if use_cloud:
             brain = "cloud"
             model = cloud_pub().get("model") or model

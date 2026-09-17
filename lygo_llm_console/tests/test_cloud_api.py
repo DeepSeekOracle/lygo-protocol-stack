@@ -14,6 +14,8 @@ class CloudApiTests(unittest.TestCase):
     def test_deepseek_provider(self):
         self.assertIn("deepseek", PROVIDERS)
         self.assertIn("api.deepseek.com", PROVIDERS["deepseek"]["url"])
+        self.assertIn("gemini", PROVIDERS)
+        self.assertIn("generativelanguage.googleapis.com", PROVIDERS["gemini"]["url"])
 
     def test_sanitize_strips_junk(self):
         k = sanitize_key('  "sk-test\u200b"  ')

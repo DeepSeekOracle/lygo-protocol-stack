@@ -45,6 +45,7 @@
       const r = await fetch("/api/health", { headers: headers() });
       const j = await r.json();
       setHealth(j);
+      if (j.cloud) paintApi(j.cloud);
       document.body.dataset.brain = j.brain || "";
       if (typeof j.scan_n === "number" && j.scan_n !== lastScan) {
         lastScan = j.scan_n;
@@ -126,19 +127,53 @@
   const apiKey = document.getElementById("api-key");
   const apiModel = document.getElementById("api-model");
   const apiUrl = document.getElementById("api-url");
+  const apiUse = document.getElementById("api-use");
+  const apiStatus = document.getElementById("api-status");
+  function paintApi(j) {
+    if (!j) return;
+    if (apiProv && j.provider) apiProv.value = j.provider;
+    if (apiModel && j.model) apiModel.value = j.model;
+    if (apiUrl) {
+      apiUrl.hidden = j.provider !== "custom";
+      if (j.provider === "custom" && j.url) apiUrl.value = j.url;
+    }
+    if (apiUse) apiUse.checked = !!(j.enabled && j.has_key);
+    document.body.classList.toggle("api-on", !!(j.enabled && j.has_key));
+    if (apiStatus) {
+      if (j.enabled && j.has_key) apiStatus.textContent = "API ON · " + (j.label || "") + " / " + (j.model || "") + " (local still booted)";
+      else if (j.has_key) apiStatus.textContent = "API key saved · toggle Use API (local is default)";
+      else apiStatus.textContent = "API: off (local default)";
+    }
+    if (apiKey) apiKey.placeholder = j.has_key ? "key saved on this PC — paste to replace" : "paste key then Save key";
+  }
+  async function postCloud(body) {
+    const r = await fetch("/api/cloud", { method: "POST", headers: headers(), body: JSON.stringify(body) });
+    const j = await r.json().catch(function () { return {}; });
+    paintApi(j);
+    await refreshHealth();
+    return j;
+  }
   async function refreshCloud() {
     const r = await fetch("/api/cloud", { headers: headers(), cache: "no-store" });
     const j = await r.json().catch(function () { return {}; });
-    if (apiProv && j.provider) apiProv.value = j.provider;
-    if (apiModel && j.model) apiModel.value = j.model;
-    if (apiUrl && j.url && j.provider === "custom") apiUrl.value = j.url;
-    if (apiUrl) apiUrl.hidden = (apiProv && apiProv.value) !== "custom";
-    if (limb && j.ok) limb.textContent = JSON.stringify({ api: j.enabled, provider: j.label, model: j.model, has_key: j.has_key }, null, 2);
+    paintApi(j);
     return j;
   }
   if (apiProv) {
-    apiProv.onchange = function () {
+    apiProv.onchange = async function () {
       if (apiUrl) apiUrl.hidden = apiProv.value !== "custom";
+      const defs = { gemini: "gemini-2.0-flash", deepseek: "deepseek-chat", groq: "openai/gpt-oss-20b", openai: "gpt-4o-mini", xai: "grok-2-latest" };
+      if (apiModel && defs[apiProv.value]) apiModel.value = defs[apiProv.value];
+      await postCloud({ provider: apiProv.value, model: apiModel && apiModel.value, url: apiUrl && apiUrl.value });
+    };
+  }
+  if (apiUse) {
+    apiUse.onchange = async function () {
+      const j = await postCloud({ enabled: !!apiUse.checked, provider: apiProv && apiProv.value, model: apiModel && apiModel.value, url: apiUrl && apiUrl.value });
+      if (apiUse.checked && !j.has_key) {
+        apiUse.checked = false;
+        if (apiStatus) apiStatus.textContent = "Paste a key and Save key first";
+      }
     };
   }
   const apiBtn = document.getElementById("api-connect");
@@ -151,20 +186,15 @@
         url: apiUrl && apiUrl.value,
       };
       if (apiKey && apiKey.value) body.key = apiKey.value;
-      const r = await fetch("/api/cloud", { method: "POST", headers: headers(), body: JSON.stringify(body) });
-      const j = await r.json().catch(function () { return {}; });
+      const j = await postCloud(body);
       if (apiKey) apiKey.value = "";
-      limb.textContent = j.enabled ? ("API connected: " + (j.label || "") + " / " + (j.model || "") + " — full limbs on. Local Boot still works.") : JSON.stringify(j);
-      await refreshHealth();
+      if (limb) limb.textContent = j.has_key ? ("Key saved. Use API is " + (j.enabled ? "ON" : "OFF") + " · " + (j.label || "") + " / " + (j.model || "")) : "Save failed — paste a key";
     };
   }
-  const apiOff = document.getElementById("api-off");
-  if (apiOff) {
-    apiOff.onclick = async function () {
-      await fetch("/api/cloud", { method: "POST", headers: headers(), body: JSON.stringify({ enabled: false }) });
-      limb.textContent = "API off — chat uses local Boot LLM.";
-      await refreshHealth();
-    };
+  if (apiKey) {
+    apiKey.addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter") { ev.preventDefault(); if (apiBtn) apiBtn.click(); }
+    });
   }
   refreshCloud().catch(function () {});
   img.onchange = () => {
@@ -194,7 +224,7 @@
     pendingImage = null;
     img.value = "";
     const h = await refreshHealth();
-    const apiOn = h && h.cloud && h.cloud.enabled;
+    const apiOn = !!(apiUse && apiUse.checked);
     if (!apiOn && h && h.brain !== "ready" && h.brain !== "booting") {
       await boot(models.value);
     }
@@ -206,6 +236,7 @@
       tools: document.getElementById("tools").checked,
       stream: true,
       max_tokens: 768,
+      use_api: apiOn,
     };
     const r = await fetch("/api/chat", { method: "POST", headers: headers(), body: JSON.stringify(body) });
     const b = bubble("assistant", "");

@@ -22,19 +22,21 @@
       <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
     </div>
     <div class="modelbar apibar">
+      <label class="chk" title="When checked, chat uses the saved API. Uncheck = local GGUF."><input type="checkbox" id="api-use"> Use API</label>
+      <span id="api-status" class="api-status">API: off (local default)</span>
       <select id="api-provider" title="Cloud API (same full limbs as local)">
         <option value="deepseek" selected>DeepSeek API</option>
+        <option value="gemini">Gemini</option>
         <option value="groq">Groq</option>
         <option value="openai">OpenAI</option>
         <option value="xai">xAI Grok</option>
         <option value="openrouter">OpenRouter</option>
         <option value="custom">Custom URL</option>
       </select>
-      <input id="api-key" type="password" placeholder="API key (saved only on this PC)" autocomplete="off">
+      <input id="api-key" type="password" placeholder="paste key then Save key" autocomplete="off">
       <input id="api-model" type="text" placeholder="model id" value="deepseek-chat" autocomplete="off">
       <input id="api-url" type="text" placeholder="custom chat URL" hidden autocomplete="off">
-      <button type="button" id="api-connect">Connect API</button>
-      <button type="button" id="api-off">Use local</button>
+      <button type="button" id="api-connect">Save key</button>
     </div>
   </div>
   <div id="health" class="health">probing…</div>
