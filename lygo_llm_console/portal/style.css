@@ -54,6 +54,11 @@ body[data-brain="ready"] .health { border-color: rgba(125, 206, 160, 0.35); colo
 body[data-brain="booting"] .health { border-color: rgba(224, 179, 106, 0.45); }
 .modelbar { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-top: 0.7rem; }
 .modelbar select { min-width: min(24rem, 88vw); max-width: 38rem; }
+.apibar select { min-width: 10rem; max-width: 16rem; }
+.apibar input[type=password], .apibar input[type=text] {
+  background: #120e0a; color: var(--ink); border: 1px solid var(--line);
+  padding: 0.35rem 0.5rem; border-radius: 8px; min-width: 12rem;
+}
 main {
   display: grid;
   grid-template-columns: 16.5rem minmax(0, 1fr) 17.5rem;

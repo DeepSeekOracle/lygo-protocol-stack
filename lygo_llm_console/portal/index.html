@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916n">
+<link rel="stylesheet" href="/static/style.css?v=20260917api">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
@@ -20,6 +20,21 @@
       <select id="models" title="Available GGUF / Ollama CAS models"></select>
       <button type="button" id="select">Boot LLM</button>
       <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
+    </div>
+    <div class="modelbar apibar">
+      <select id="api-provider" title="Cloud API (same full limbs as local)">
+        <option value="deepseek" selected>DeepSeek API</option>
+        <option value="groq">Groq</option>
+        <option value="openai">OpenAI</option>
+        <option value="xai">xAI Grok</option>
+        <option value="openrouter">OpenRouter</option>
+        <option value="custom">Custom URL</option>
+      </select>
+      <input id="api-key" type="password" placeholder="API key (saved only on this PC)" autocomplete="off">
+      <input id="api-model" type="text" placeholder="model id" value="deepseek-chat" autocomplete="off">
+      <input id="api-url" type="text" placeholder="custom chat URL" hidden autocomplete="off">
+      <button type="button" id="api-connect">Connect API</button>
+      <button type="button" id="api-off">Use local</button>
     </div>
   </div>
   <div id="health" class="health">probing…</div>
@@ -138,7 +153,7 @@
     <span id="radioHint" class="hint"></span>
   </div>
 </footer>
-<script src="/static/app.js?v=20260916n"></script>
+<script src="/static/app.js?v=20260917api"></script>
 <script src="/static/radio.js?v=20260916m"></script>
 </body>
 </html>

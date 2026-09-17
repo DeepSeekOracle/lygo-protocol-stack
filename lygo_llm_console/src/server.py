@@ -70,7 +70,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260917hyb"
+BUILD = "v1.1-20260917api"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0, "engine": "llama", "engine_port": LLAMA_PORT}
 
 
@@ -293,8 +293,15 @@ class Handler(BaseHTTPRequestHandler):
                     "port": DEFAULT_PORT,
                     "tools": [t["function"]["name"] for t in TOOLS_SCHEMA],
                     "workspace": str(WORKSPACE),
+                    "cloud": __import__("cloud_api").public_status(),
                 },
             )
+            return
+        if path == "/api/cloud":
+            if not self._auth():
+                self._json(401, {"error": "unauthorized"})
+                return
+            self._json(200, __import__("cloud_api").public_status())
             return
         if path == "/api/models" or path == "/v1/models":
             if not self._auth():
@@ -441,6 +448,16 @@ class Handler(BaseHTTPRequestHandler):
             STATE["selected"] = mid
             boot_async(mid)
             self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid, "error": STATE.get("error")})
+            return
+        if path == "/api/cloud":
+            body = self._read_body(16_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            from cloud_api import save as cloud_save
+
+            self._json(200, cloud_save(obj if isinstance(obj, dict) else {}))
             return
         if path == "/api/session":
             body = self._read_body(512_000)
@@ -654,7 +671,16 @@ class Handler(BaseHTTPRequestHandler):
         model = obj.get("model") or STATE.get("selected") or "lygo-local"
         max_tokens = int(obj.get("max_tokens") or 1024)
         want_stream = bool(obj.get("stream", True))
-        brain = maybe_spawn(model if reg_get(str(model)) else None)
+        from cloud_api import chat as cloud_chat
+        from cloud_api import enabled as cloud_on
+        from cloud_api import public_status as cloud_pub
+
+        use_cloud = cloud_on()
+        if use_cloud:
+            brain = "cloud"
+            model = cloud_pub().get("model") or model
+        else:
+            brain = maybe_spawn(model if reg_get(str(model)) else None)
         msgs = [{"role": "system", "content": compose_system()}] + messages
         assistant = ""
         traces: list[Any] = []
@@ -676,13 +702,13 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Connection", "close")
             self.end_headers()
 
-        if brain != "ready":
+        if brain != "ready" and brain != "cloud":
             # mock / missing
             assistant = (
                 "LYGO LLM Console is up. Engine brain is "
                 f"{brain}. P0 verdict {gate.get('verdict')}. "
-                "LYGO Engine hybrid: Scan GGUF or a Colibri HF dir, then Boot. "
-                "This console does not call ollama.exe."
+                "Local: Scan GGUF then Boot. Or paste a DeepSeek/OpenAI key in API bar → Connect API. "
+                "Same full limbs either way."
             )
             if use_tools and "status" in user.lower():
                 name, result = "kernel_status", __import__("tools").dispatch("kernel_status", {})
@@ -712,16 +738,29 @@ class Handler(BaseHTTPRequestHandler):
             "max_tokens": max_tokens,
             "stream": False,
         }
+        tool_schema = TOOLS_SCHEMA if use_cloud else core_schema()
         if use_tools and not host_did_tools:
-            payload["tools"] = core_schema()
-        with ENGINE_LOCK:
-            code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
+            payload["tools"] = tool_schema
+        if use_cloud:
+            code, body, _ = cloud_chat(payload)
+            if code >= 400 and payload.get("tools"):
+                payload.pop("tools", None)
+                code, body, _ = cloud_chat(payload)
+        else:
+            with ENGINE_LOCK:
+                code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
         try:
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
             parsed = {}
-        msg_obj = ((parsed.get("choices") or [{}])[0].get("message") or {})
-        assistant = msg_obj.get("content") or ""
+        if use_cloud and code >= 400:
+            err = parsed.get("error") if isinstance(parsed, dict) else parsed
+            msg_err = err.get("message") if isinstance(err, dict) else str(err or body[:400])
+            assistant = "API error HTTP " + str(code) + ": " + str(msg_err)[:800]
+            msg_obj = {}
+        else:
+            msg_obj = ((parsed.get("choices") or [{}])[0].get("message") or {})
+            assistant = msg_obj.get("content") or ""
         ow = gate_output_window(assistant or "")
         if ow.get("verdict") == "QUARANTINE":
             assistant = "[output quarantined]"
@@ -742,9 +781,12 @@ class Handler(BaseHTTPRequestHandler):
                         "content": "Tool results (RESOURCE, not CANON):\n" + json.dumps(batch, default=str)[:8000],
                     }
                 )
-                payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": core_schema()}
-                with ENGINE_LOCK:
-                    _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2, port=brain_port())
+                payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": tool_schema}
+                if use_cloud:
+                    _, body2, _ = cloud_chat(payload2)
+                else:
+                    with ENGINE_LOCK:
+                        _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2, port=brain_port())
                 try:
                     p2 = json.loads(body2.decode("utf-8"))
                 except json.JSONDecodeError:

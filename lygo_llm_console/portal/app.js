@@ -36,7 +36,9 @@
   function setHealth(j) {
     const err = j.error ? " err=" + j.error : "";
     healthEl.textContent =
-      `build=${j.build || "?"} brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} limbs=${(j.tools||[]).length} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${err}`;
+      const cloud = j.cloud && j.cloud.enabled ? " API=" + (j.cloud.label || j.cloud.provider) + "/" + (j.cloud.model || "") : "";
+      healthEl.textContent =
+      `build=${j.build || "?"} brain=${j.brain || "?"} selected=${j.selected || "—"} models=${j.scan_n || 0} limbs=${(j.tools||[]).length} engine=${j.engine_present} ram=${Math.round((j.ram_avail || 0) / 1e9)}GB${cloud}${err}`;
   }
 
   async function refreshHealth() {
@@ -121,6 +123,51 @@
   document.getElementById("select").onclick = async () => {
     await boot(models.value);
   };
+  const apiProv = document.getElementById("api-provider");
+  const apiKey = document.getElementById("api-key");
+  const apiModel = document.getElementById("api-model");
+  const apiUrl = document.getElementById("api-url");
+  async function refreshCloud() {
+    const r = await fetch("/api/cloud", { headers: headers(), cache: "no-store" });
+    const j = await r.json().catch(function () { return {}; });
+    if (apiProv && j.provider) apiProv.value = j.provider;
+    if (apiModel && j.model) apiModel.value = j.model;
+    if (apiUrl && j.url && j.provider === "custom") apiUrl.value = j.url;
+    if (apiUrl) apiUrl.hidden = (apiProv && apiProv.value) !== "custom";
+    if (limb && j.ok) limb.textContent = JSON.stringify({ api: j.enabled, provider: j.label, model: j.model, has_key: j.has_key }, null, 2);
+    return j;
+  }
+  if (apiProv) {
+    apiProv.onchange = function () {
+      if (apiUrl) apiUrl.hidden = apiProv.value !== "custom";
+    };
+  }
+  const apiBtn = document.getElementById("api-connect");
+  if (apiBtn) {
+    apiBtn.onclick = async function () {
+      const body = {
+        enabled: true,
+        provider: apiProv && apiProv.value,
+        model: apiModel && apiModel.value,
+        url: apiUrl && apiUrl.value,
+      };
+      if (apiKey && apiKey.value) body.key = apiKey.value;
+      const r = await fetch("/api/cloud", { method: "POST", headers: headers(), body: JSON.stringify(body) });
+      const j = await r.json().catch(function () { return {}; });
+      if (apiKey) apiKey.value = "";
+      limb.textContent = j.enabled ? ("API connected: " + (j.label || "") + " / " + (j.model || "") + " — full limbs on. Local Boot still works.") : JSON.stringify(j);
+      await refreshHealth();
+    };
+  }
+  const apiOff = document.getElementById("api-off");
+  if (apiOff) {
+    apiOff.onclick = async function () {
+      await fetch("/api/cloud", { method: "POST", headers: headers(), body: JSON.stringify({ enabled: false }) });
+      limb.textContent = "API off — chat uses local Boot LLM.";
+      await refreshHealth();
+    };
+  }
+  refreshCloud().catch(function () {});
   img.onchange = () => {
     const f = img.files && img.files[0];
     if (!f) {
@@ -148,7 +195,8 @@
     pendingImage = null;
     img.value = "";
     const h = await refreshHealth();
-    if (h && h.brain !== "ready" && h.brain !== "booting") {
+    const apiOn = h && h.cloud && h.cloud.enabled;
+    if (!apiOn && h && h.brain !== "ready" && h.brain !== "booting") {
       await boot(models.value);
     }
     chatHistory.push({ role: "user", content });
