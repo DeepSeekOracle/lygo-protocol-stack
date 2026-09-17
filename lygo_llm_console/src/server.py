@@ -70,7 +70,7 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260917fix"
+BUILD = "v1.1-20260917ok"
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0, "engine": "llama", "engine_port": LLAMA_PORT}
 
 
@@ -250,18 +250,15 @@ class Handler(BaseHTTPRequestHandler):
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
-            html = re.sub(
-                r'<link rel="stylesheet" href="/static/style\.css[^"]*">',
-                "<style>\n" + css + "\n</style>",
-                html,
-                count=1,
-            )
-            html = re.sub(
-                r'<script src="/static/app\.js[^"]*"></script>',
-                "<script>\n" + js + "\n</script>",
-                html,
-                count=1,
-            )
+
+            def _splice(src: str, pattern: str, block: str) -> str:
+                m = re.search(pattern, src)
+                if not m:
+                    return src
+                return src[: m.start()] + block + src[m.end() :]
+
+            html = _splice(html, r'<link rel="stylesheet" href="/static/style\.css[^"]*">', "<style>\n" + css + "\n</style>")
+            html = _splice(html, r'<script src="/static/app\.js[^"]*"></script>', "<script>\n" + js + "\n</script>")
             html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
             return
