@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>LYGO CLAW Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="refresh" content="0; url=http://127.0.0.1:9631/" />
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0b0f14; color: #e8eef4; padding: 2rem; }
+    a { color: #5eb8ff; }
+    code { background: #141a22; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>LYGO CLAW Dashboard</h1>
+  <p>Redirecting to the USB agent UI…</p>
+  <p>If nothing opens, run <code>LYGO_USB_BOOT.bat</code> then visit:</p>
+  <ul>
+    <li><a href="http://127.0.0.1:9631/">http://127.0.0.1:9631/</a> — Agent chat dashboard</li>
+    <li><a href="http://127.0.0.1:9631/control-ui/?token=lygo-usb-standalone-token">OpenClaw Control UI</a></li>
+  </ul>
+  <p style="opacity:.7;font-size:.9rem">No password gate. Offline chat uses USB Ollama when models are hydrated on the stick.</p>
+  <script>
+    // Prefer agent server; if not up, still show links
+    setTimeout(function () {
+      location.href = 'http://127.0.0.1:9631/';
+    }, 400);
+  </script>
+</body>
+</html>

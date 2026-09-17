@@ -1,0 +1,385 @@
+{
+  "ok": true,
+  "host": "GAMEPC",
+  "scanned_skills": 79,
+  "band_counts": {
+    "critical": 17,
+    "high": 6,
+    "elevated": 2,
+    "low": 37,
+    "clear": 17
+  },
+  "worst": [
+    {
+      "skill": "lygo-kernel-egg-planter",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-kernel-egg-planter",
+      "band": "critical",
+      "score": 100,
+      "mismatches": [
+        "Claims no publish but code mentions push/auto-publish"
+      ],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-ollama-army",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-ollama-army",
+      "band": "critical",
+      "score": 100,
+      "mismatches": [
+        "Claims no publish but code mentions push/auto-publish"
+      ],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-sovereign-kernel-seeder",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-sovereign-kernel-seeder",
+      "band": "critical",
+      "score": 100,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-cyborg-kernel",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-cyborg-kernel",
+      "band": "critical",
+      "score": 96,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-api-token-saver",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-api-token-saver",
+      "band": "critical",
+      "score": 92,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-external-lattice-anchor",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-external-lattice-anchor",
+      "band": "critical",
+      "score": 92,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "openclaw-flow-kit",
+      "path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\openclaw-flow-kit",
+      "band": "critical",
+      "score": 86,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "D:\\lygo-protocol-stack\\clawhub\\mirrors"
+    },
+    {
+      "skill": "lygo-smart-disk-agent",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-smart-disk-agent",
+      "band": "critical",
+      "score": 72,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-network-builder",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-network-builder",
+      "band": "critical",
+      "score": 57,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-protocol-stack-operator",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-protocol-stack-operator",
+      "band": "critical",
+      "score": 56,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-skill-spector",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-skill-spector",
+      "band": "critical",
+      "score": 53,
+      "mismatches": [
+        "Claims no subprocess but code imports/spawns processes"
+      ],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-joy-loop",
+      "path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-joy-loop",
+      "band": "critical",
+      "score": 53,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "D:\\lygo-protocol-stack\\clawhub\\mirrors"
+    },
+    {
+      "skill": "lygo-agent-lattice",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-agent-lattice",
+      "band": "critical",
+      "score": 51,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-living-mesh",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-living-mesh",
+      "band": "critical",
+      "score": 51,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-guardian-p0-stack",
+      "path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-guardian-p0-stack",
+      "band": "critical",
+      "score": 51,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "D:\\lygo-protocol-stack\\clawhub\\mirrors"
+    },
+    {
+      "skill": "lygo-mint-operator-suite",
+      "path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-mint-operator-suite",
+      "band": "critical",
+      "score": 51,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "D:\\lygo-protocol-stack\\clawhub\\mirrors"
+    },
+    {
+      "skill": "lygo-mint-verifier",
+      "path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lygo-mint-verifier",
+      "band": "critical",
+      "score": 51,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "D:\\lygo-protocol-stack\\clawhub\\mirrors"
+    },
+    {
+      "skill": "lyra-coin-launch-manager",
+      "path": "D:\\lygo-protocol-stack\\clawhub\\mirrors\\lyra-coin-launch-manager",
+      "band": "high",
+      "score": 36,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "D:\\lygo-protocol-stack\\clawhub\\mirrors"
+    },
+    {
+      "skill": "lygo-geodesic-sealer",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-geodesic-sealer",
+      "band": "high",
+      "score": 34,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-kickstart-wizard",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-kickstart-wizard",
+      "band": "high",
+      "score": 30,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-public-lattice-gate",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-public-lattice-gate",
+      "band": "high",
+      "score": 30,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-cli-bridge",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-cli-bridge",
+      "band": "high",
+      "score": 27,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-excavationpro-music-lattice",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-excavationpro-music-lattice",
+      "band": "high",
+      "score": 27,
+      "mismatches": [],
+      "recommendation": "DO_NOT_INSTALL \u2014 review findings; sandbox only if you fully understand every hit",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-resonance",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-resonance",
+      "band": "elevated",
+      "score": 24,
+      "mismatches": [],
+      "recommendation": "REVIEW_FIRST \u2014 read flagged files; enable only features you need",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-context-guard",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-context-guard",
+      "band": "elevated",
+      "score": 20,
+      "mismatches": [],
+      "recommendation": "REVIEW_FIRST \u2014 read flagged files; enable only features you need",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-second-brain",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-second-brain",
+      "band": "low",
+      "score": 8,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-ascii-art-studio",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-ascii-art",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-fractalweaver",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-fractalweaver",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-glyph2resonance",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-glyph2resonance",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-haven-star-chart",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-haven-star-chart",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-lattice-birth",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-lattice-birth",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-lattice-pulse",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-lattice-pulse",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-lightfather-vector",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-lightfather-vector",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-mesh-deploy",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-mesh-deploy",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-pc-lattice-hardening",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-pc-lattice-hardening",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-pxpipe-lygo",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-pxpipe-lygo",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-sovereign-super-skill",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-sovereign-super-skill",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-truthlightecho",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-truthlightecho",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lygo-universal-living-memory-library",
+      "path": "I:\\E Drive\\.grok\\skills\\lygo-universal-living-memory-library",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    },
+    {
+      "skill": "lyra-brain",
+      "path": "I:\\E Drive\\.grok\\skills\\lyra-brain",
+      "band": "low",
+      "score": 6,
+      "mismatches": [],
+      "recommendation": "PROCEED_WITH_EYES_OPEN \u2014 minor signals; still skim SECURITY.md",
+      "root": "I:\\E Drive\\.grok\\skills"
+    }
+  ],
+  "roots": [
+    "I:\\E Drive\\.grok\\skills",
+    "D:\\lygo-protocol-stack\\clawhub\\mirrors",
+    "D:\\lygo-protocol-stack\\docs\\skills"
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "signature": "Delta9Phi963-AGENT-BOOT-v1",
+  "generated_utc": "2026-08-23T05:51:21.673774+00:00",
+  "stack": "I:\\E Drive\\lygo-protocol-stack",
+  "purpose": "Continuity map for Grok/OpenClaw agents after self-upgrade",
+  "synced": [
+    {
+      "slug": "lygo-sovereign-super-skill",
+      "ok": true,
+      "version": "1.1.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-sovereign-super-skill"
+    },
+    {
+      "slug": "lygo-protocol-stack-operator",
+      "ok": true,
+      "version": null,
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-protocol-stack-operator"
+    },
+    {
+      "slug": "lygo-continuum",
+      "ok": true,
+      "version": "1.0.1",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-continuum"
+    },
+    {
+      "slug": "lygo-continuum-integrator",
+      "ok": true,
+      "version": "1.0.1",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-continuum-integrator"
+    },
+    {
+      "slug": "lygo-geodesic-sealer",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-geodesic-sealer"
+    },
+    {
+      "slug": "lygo-quantum-attestor",
+      "ok": true,
+      "version": "1.0.1",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-quantum-attestor"
+    },
+    {
+      "slug": "lygo-sanctuary-guardian",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-sanctuary-guardian"
+    },
+    {
+      "slug": "lygo-mint-verifier",
+      "ok": true,
+      "version": "1.1.1",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-mint-verifier"
+    },
+    {
+      "slug": "lygo-mint-walkthrough",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-mint-walkthrough"
+    },
+    {
+      "slug": "lygo-pure-data-witness",
+      "ok": true,
+      "version": "1.3.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-pure-data-witness"
+    },
+    {
+      "slug": "lygo-automation-workflows",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-automation-workflows"
+    },
+    {
+      "slug": "lygo-continuity-advisor",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-continuity-advisor"
+    },
+    {
+      "slug": "lygo-emotional-ram",
+      "ok": true,
+      "version": "1.0.1",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-emotional-ram"
+    },
+    {
+      "slug": "lygo-joy-loop",
+      "ok": true,
+      "version": null,
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-joy-loop"
+    },
+    {
+      "slug": "lygo-context-guard",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-context-guard"
+    },
+    {
+      "slug": "lygo-skill-spector",
+      "ok": true,
+      "version": "1.0.1",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-skill-spector"
+    },
+    {
+      "slug": "lygo-sandcastle",
+      "ok": true,
+      "version": null,
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-sandcastle"
+    },
+    {
+      "slug": "lygo-haven-star-chart",
+      "ok": true,
+      "version": null,
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-haven-star-chart"
+    },
+    {
+      "slug": "lygo-champion-lightfather",
+      "ok": true,
+      "version": null,
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-champion-lightfather"
+    },
+    {
+      "slug": "lygo-cyborg-kernel",
+      "ok": true,
+      "version": "1.1.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-cyborg-kernel"
+    },
+    {
+      "slug": "lygo-cyborg-onramp",
+      "ok": true,
+      "version": "1.0.0",
+      "dst": "I:\\E Drive\\.grok\\skills\\lygo-cyborg-onramp"
+    }
+  ],
+  "read_first": [
+    "docs/AGENT_BOOT.md",
+    "docs/GIT_LATTICE_OVERVIEW.md",
+    "docs/MULTI_SITE_PAGES_CENSUS.md",
+    "docs/seals/DEADMAN_OPERATOR_RUNBOOK.md"
+  ],
+  "clawhub_recent": {
+    "lygo-pure-data-witness": "1.3.0",
+    "lygo-mint-verifier": "1.1.0",
+    "lygo-continuum-integrator": "1.0.1",
+    "lygo-automation-workflows": "1.0.0",
+    "lygo-continuity-advisor": "1.0.0",
+    "lygo-sovereign-super-skill": "1.1.0"
+  },
+  "rules": [
+    "Consent before plant/publish/social",
+    "No auto git push / HF upload / ClawHub publish unless user asks",
+    "PDW fetch/all require consent flags",
+    "Mint verifier is in-process (no subprocess)",
+    "Prefer local-first automation (Sandcastle) before SaaS"
+  ],
+  "quick_cli": [
+    "python tools/agent_self_upgrade.py --usb-copy",
+    "python tools/seal_deadman_lattice.py status",
+    "python tools/build_git_lattice_overview.py --usb-copy",
+    "python tools/census_multi_site_pages.py --usb-copy"
+  ]
+}

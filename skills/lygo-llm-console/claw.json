@@ -1,0 +1,68 @@
+{
+  "name": "lygo-llm-console",
+  "displayName": "LYGO LLM Console",
+  "version": "1.2.0",
+  "description": "Map scripts plus operator-run local GGUF portal. Map layer: no network. Runtime layer: loopback HTTP, HTTPS GET, workspace writes, optional workspace cmd without metacharacters. Not Ollama. No vaults.",
+  "slug": "lygo-llm-console",
+  "publisher": "deepseekoracle",
+  "license": "MIT-0",
+  "homepage": "https://chatagent.ca/lygo-llm-console.html",
+  "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
+  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.2.0",
+  "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "kit_sha256": "b60ed6deae6f1dba7182fa386bd00b1e724001638e8f2f30936af0a240b4444e",
+  "llama_cpu_tag": "b10988",
+  "clawhub_cli_pin": "clawhub@0.23.3",
+  "tags": [
+    "latest",
+    "lygo",
+    "llm",
+    "console",
+    "local",
+    "gguf",
+    "openclaw"
+  ],
+  "entry": "SKILL.md",
+  "scripts": {
+    "map": "scripts/lygo_llm_console_map.py map",
+    "plain": "scripts/lygo_llm_console_map.py plain",
+    "urls": "scripts/lygo_llm_console_map.py urls",
+    "demo": "scripts/lygo_llm_console_map.py demo",
+    "self_check": "scripts/self_check.py",
+    "verify_kit": "scripts/verify_kit.py"
+  },
+  "openclaw": {
+    "emoji": "L",
+    "homepage": "https://chatagent.ca/lygo-llm-console.html",
+    "requires": {
+      "anyBins": ["python", "python3"]
+    },
+    "os": ["windows", "macos", "linux"]
+  },
+  "permissions": {
+    "map_scripts": {
+      "network": false,
+      "subprocess": false,
+      "shell": false,
+      "filesystem": { "read": "skill only", "write": false }
+    },
+    "operator_runtime_kit": {
+      "network": "https GET; block loopback, RFC1918, link-local, cloud metadata",
+      "listen": "127.0.0.1:9641 and 127.0.0.1:11441 by default",
+      "subprocess": "llama-server.exe from engine/; local python -c",
+      "shell": "cmd.exe /c without metacharacters; workspace cwd; P0 wipe block",
+      "filesystem": { "write": "kit workspace/ and save/ only" },
+      "lan_bind": "requires --lan --i-consent"
+    },
+    "publish": false
+  },
+  "security": {
+    "local_first": true,
+    "no_auto_publish": true,
+    "kit_sha256_pinned": true,
+    "clawhub_cli_pinned": "0.23.3",
+    "admin_not_included": true,
+    "unprivileged_user": true,
+    "version": "1.2.0"
+  }
+}

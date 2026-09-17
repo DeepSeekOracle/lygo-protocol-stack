@@ -1,0 +1,55 @@
+{
+  "signature": "Delta9Phi963-QD-DIGITAL-TWIN-v2.0",
+  "version": "2.0.0",
+  "generated_utc": "2026-08-21T04:28:07Z",
+  "params": {
+    "n": 512,
+    "seed": 7
+  },
+  "qd_decision": {
+    "verdict": "QUARANTINE",
+    "confidence": 0.85,
+    "reasons": [
+      "bleach_frac=0.795",
+      "ratiometric=0.0006",
+      "policy=software_authority_not_pl_oracle"
+    ],
+    "sensor_digest": "44acdaf0bada9a3470cfd6af2d71f6e17fd107b4ad56c292e05daafe108475ad"
+  },
+  "pd_decision": {
+    "verdict": "QUARANTINE",
+    "confidence": 0.85,
+    "reasons": [
+      "bleach_frac=0.783",
+      "ratiometric=0.0057",
+      "policy=software_authority_not_pl_oracle"
+    ],
+    "sensor_digest": "19be192f52fc2e7083d1e72cfb7cb198dd51c3cb95c4ed85a6fb2cf80bae1cdb"
+  },
+  "claims": [
+    {
+      "id": "QD_TWIN_SENSOR_DIGEST",
+      "claim": "QD digital-twin channel produces a stable SHA-256 digest of samples",
+      "sha256": "44acdaf0bada9a3470cfd6af2d71f6e17fd107b4ad56c292e05daafe108475ad"
+    },
+    {
+      "id": "QD_SOFTWARE_AUTHORITY",
+      "claim": "Verdict is emitted by software policy, not by claiming PL=truth",
+      "verdict": "QUARANTINE",
+      "reasons_include": "policy=software_authority_not_pl_oracle"
+    },
+    {
+      "id": "QD_SUBSTITUTION",
+      "claim": "Photodiode-like substitute under same policy is runnable (QD optional transducer)",
+      "qd_verdict": "QUARANTINE",
+      "pd_verdict": "QUARANTINE"
+    }
+  ],
+  "epistemic": {
+    "level": "L4-sim",
+    "note": "Simulation receipt \u2014 not lab hardware certification",
+    "doctrine": "Sensor \u2192 software policy \u2192 lattice"
+  },
+  "receipt_sha256": "fe3b022c1bba0a5bc085911d1aaae7a5428c7c08eb2ab9d13bedbfbad44b2129",
+  "ok": true
+}

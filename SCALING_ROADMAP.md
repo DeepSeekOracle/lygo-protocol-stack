@@ -1,0 +1,124 @@
+# LYGO Scaling Roadmap (Phases 1–4+)
+
+| Phase | Name | Status | Deliverables |
+|-------|------|--------|--------------|
+| **1** | Infrastructure Elasticity | **Live** | `infrastructure_elasticity.py` — priority queue + mycelium batching wired into `lygo_stack` |
+| **2** | Community Deployment | **Live** | Docker, Compose, setup scripts, alignment badge, CI, HF/GitHub surfaces |
+| **3** | Federation Registry | **Live (local)** | `federation_runtime.NodeRegistry` — peer registration, heartbeats |
+| **4** | Horizontal Scale | **Live (local)** | Worker pool + Compose `scale` profile; gossip bus for badge propagation |
+| **3b** | Blueprint & gauntlet | **Live** | `docs/BLUEPRINT.md`, `tools/run_lattice_gauntlet.py` |
+| **5** | Wide-area mesh | **Live (local HTTP)** | `deploy_100_nodes.sh` / `.ps1`, `monitor_convergence.py`, sim + HTTP epidemic |
+| **6** | Hardware attest | **Live (software)** | `protocol6_quantum_attest/` — measurement, signed badges, `/attestation/*`; Keylime/FPGA pending |
+| **7** | Human-AI Interface (HAIP) | **Live (simulated)** | `protocol7_human_ai_interface/` — devices, pipeline, ethical map, IBI entropy; BLE pending |
+| **SLM** | Sovereign Lattice Mesh | **Live (local)** | Merkle gossip + distributed mycelium + harmonic consensus — `docs/SOVEREIGN_LATTICE_MESH.md` |
+| **9** | Public mesh | **Live (local HTTPS)** | TLS pinning, Keylime quote bridge, LDQ live synthesis — `docs/PHASE9_PUBLIC_MESH.md` |
+
+## Phase 2–4 operator checklist
+
+1. Run `setup.sh` or `setup.ps1`.
+2. Confirm badge: `python tools/verify_alignment_badge.py`.
+3. Start Docker node or `node_api_server.py`.
+4. Optional: `docker compose --profile scale up -d`.
+5. Re-bundle HF Space: `python tools/bundle_hf_space_stack.py --mode=twin-gate`.
+
+## Phase 5 — 100-node epidemic proof (2026-07-01)
+
+| Metric | Result |
+|--------|--------|
+| Nodes | 100 (ports **8700–8799** concept) |
+| Fanout | 2 |
+| Convergence rounds | **7** (100% saturation) |
+| Target | &lt; 10 rounds |
+| Artifact | `tests/mesh_scale_last_run.json` |
+
+```bash
+python tools/run_mesh_scale_sim.py --nodes 100 --fanout 2 --no-pause
+```
+
+Live HTTP mesh: `node_api_server.py` exposes `GET /gossip`, `POST /gossip/scatter`, `GET /badge/{node_id}` in addition to `POST /gossip/badge`.
+
+### Phase 5 live deployment
+
+```bash
+./tools/deploy_100_nodes.sh          # or: pwsh tools/deploy_100_nodes.ps1
+python tools/monitor_convergence.py  # logs tests/mesh_live_convergence_last_run.json
+python tools/deploy_mesh_cluster.py stop
+```
+
+| Gate | Target | Result (2026-07-01) |
+|------|--------|---------------------|
+| Live HTTP (8 nodes) | **&lt; 20 rounds** | **3 rounds**, 100% — `tests/mesh_live_convergence_last_run.json` ✅ |
+| Live HTTP (100 nodes) | operator script | `deploy_100_nodes.ps1` (validated tooling; scale on build host) |
+| Stochastic sim (100) | **&lt; 10 rounds** | **7–8 rounds** — `tests/mesh_scale_last_run.json` ✅ |
+
+**Phase 5 Live:** complete (**measured** HTTP epidemic &lt;20 rounds on 8-node live; sim &lt;10 rounds at N=100).
+
+### Scale language (honest / bullet-resistant)
+
+| Say this | Avoid this |
+|----------|------------|
+| Fixed Φ-structure gate; mesh expands with compute | “Ethics undiluted at infinite scale by physics law” |
+| Epidemic sim **N=100, fanout=2 → 7–8 rounds** (artifact on disk) | “Never crash under expansion at any scale” |
+| Engineering horizon is **measured** (N, fanout, failure model, SLOs) | “Unbounded horizon” as absolute guarantee |
+| Local Continuum / eggs / dual ledgers = authority | “Proven true solely because a public model agreed” |
+
+Public multi-AI restatements (e.g. Grok@X) are **L1 cross-ref anchors**, not L4 disk proof. See `docs/data-vault/multi-ai-canon.html` and `LYRA_CORE/memory/MULTI_AI_PUBLIC_AUDIT_ANCHOR_PROTOCOL.md`.
+
+Public reference: https://deepseekoracle.github.io/lygo-protocol-stack/ · Data Vault: `docs/data-vault/` · Grokipedia: `docs/GROkipedia_SUBMIT.md`
+
+## Audit scale
+
+- **60** falsifiable vectors in `tests/test_falsifiable_vectors.json` (5 categories + `infrastructure_scaling`).
+- **42** P0 canonical fixtures (determinism / cross-lang parity).
+- Twin Gate pilot: 6 edge scenarios; target **Δφ → 0** after calibration.
+
+## Phase 6 — hardware attestation (2026-07-01)
+
+```bash
+python tools/verify_hardware_attestation.py
+python tools/verify_peer_badge.py --badge-file tests/phase6_audit_last_run.json  # or --peer URL
+python tools/run_phase6_audit.py
+```
+
+| Component | Status |
+|-----------|--------|
+| Measurement pipeline | ✅ Live |
+| Attestation service | ✅ Live |
+| API / node routes | ✅ Live |
+| PUF (FPGA) | ⏳ Pending |
+| TPM (Keylime) | ⏳ Pending |
+
+## Phase 7 — HAIP (2026-07-02)
+
+```bash
+python tools/register_device.py --type apple_watch --id watch_001 --connection simulated
+python tools/run_phase7_audit.py
+python tools/p7_entropy_harness.py --ibi-from simulate
+```
+
+| Component | Status |
+|-----------|--------|
+| Device abstraction | ✅ Simulated |
+| Data pipeline | ✅ Live |
+| Ethical mapping (P2) | ✅ Live |
+| IBI entropy harness | ✅ Live |
+| Real BLE / HealthKit | ⏳ Pending |
+
+## SLM — Sovereign Lattice Mesh (2026-07-01)
+
+```bash
+python tools/run_slm_audit.py
+python -m pytest tests/test_slm_mesh.py -q
+```
+
+| Vector | Meaning |
+|--------|---------|
+| SLM-01..02 | Merkle root divergence + sync merge |
+| SLM-03..05 | Hash ring + 1KB store + node failure reconstruct |
+| SLM-06 | Harmonic 3/6/9 center |
+| SLM-07 | Multi-catalog converge |
+| SLM-09 | Audit wall-clock under 1s |
+
+Artifact: `tests/slm_audit_last_run.json` · Doc: `docs/SOVEREIGN_LATTICE_MESH.md`
+
+**Signature:** `Δ9Φ963-SLM-v1.0` · `Δ9Φ963-PHASE7-v1.0` · `Δ9Φ963-PHASE6-v1.0` · `Δ9Φ963-PHASE5-LIVE-DEPLOYMENT`

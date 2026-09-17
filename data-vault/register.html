@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register into LYGO Pure-Data Lattice</title>
+  <meta name="description" content="Manually register a page or file into LYGO Pure-Data Witness. Safety-gated. Agents use lygo-pure-data-witness skill." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@Excavationpro" />
+  <meta name="twitter:title" content="Register into LYGO Pure-Data Lattice" />
+  <meta name="twitter:description" content="Safety-gated page registration for Pure-Data Witness + Star Chart fork log." />
+  <meta name="twitter:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/assets/og-data-vault.jpg?v=20260817b" />
+  <meta property="og:title" content="Register into LYGO Pure-Data Lattice" />
+  <meta property="og:description" content="Safety-gated page registration for Pure-Data Witness + Star Chart." />
+  <meta property="og:image" content="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/assets/og-data-vault.jpg?v=20260817b" />
+  <link rel="canonical" href="https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/register.html" />
+  <link rel="stylesheet" href="assets/vault.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">Δ9Φ963 · Pure-Data Registrar</p>
+      <h1>Register a <span>page</span></h1>
+      <p class="lead">
+        Manual lattice registration for Pure-Data Witness. This static page never uploads your file
+        and never fetches URLs from the browser (CORS + safety). It builds a <strong>registration pack</strong>
+        and the CLI/agent command that performs safety-gated archive + Star Chart fork node.
+      </p>
+      <nav class="nav">
+        <a href="index.html">Vault</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="pure-data.html">Pure Data</a>
+        <a class="active" href="register.html">Register</a>
+        <a href="../LYGO_PURE_DATA_WITNESS.md">Design</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <h2>Safety rules (enforced in CLI/skill)</h2>
+      <ul>
+        <li><strong>HTTPS only</strong> — no http, no credentials in URL</li>
+        <li><strong>No private/loopback/cloud-metadata IPs</strong> (SSRF block)</li>
+        <li><strong>Size cap</strong> 256 KiB public snapshot</li>
+        <li><strong>Content heuristics</strong> reject malware bait / extreme script density</li>
+        <li><strong>Star Chart</strong> nodes go to <em>pending</em> via gate + <code>--i-consent</code> (no anonymous browser inject)</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>1) URL registration pack</h2>
+      <div class="controls">
+        <input id="url" type="url" placeholder="https://…" style="flex:1;min-width:220px" />
+        <button type="button" id="urlBtn">Build pack</button>
+      </div>
+      <pre class="excerpt" id="urlOut">Paste an https URL…</pre>
+    </section>
+
+    <section class="panel">
+      <h2>2) Local file digest (browser-only)</h2>
+      <div class="controls">
+        <input id="file" type="file" />
+        <button type="button" id="fileBtn">Hash + pack</button>
+      </div>
+      <pre class="excerpt" id="fileOut">Choose a file to hash locally…</pre>
+    </section>
+
+    <section class="panel">
+      <h2>Agent path (ClawHub)</h2>
+      <p>Aligned agents install <code>lygo-pure-data-witness</code> and run:</p>
+      <pre class="excerpt">python scripts/pdw_cli.py register --url https://example.com/page --i-authorize-fetch --i-consent
+# or stack:
+python tools/pure_data_register.py --url https://example.com/page --i-consent</pre>
+      <p class="muted">Summon-bot (@mention save) is designed in <a href="../PURE_DATA_BOT_DESIGN.md">PURE_DATA_BOT_DESIGN.md</a> — resee.it-class, LYGO-gated.</p>
+    </section>
+  </div>
+  <script>
+    const BLOCK = ['localhost','127.0.0.1','0.0.0.0','metadata.google.internal','169.254.169.254'];
+    function checkUrl(u) {
+      const errors = [], warnings = [];
+      let parsed;
+      try { parsed = new URL(u); } catch { return {ok:false, errors:['invalid_url']}; }
+      if (parsed.protocol !== 'https:') errors.push('scheme_must_be_https');
+      if (parsed.username || parsed.password) errors.push('url_credentials_forbidden');
+      const host = (parsed.hostname||'').toLowerCase();
+      if (BLOCK.includes(host) || host.endsWith('.onion')) errors.push('blocked_host');
+      if (/^\d+\.\d+\.\d+\.\d+$/.test(host)) warnings.push('literal_ip');
+      if (/(bit\.ly|tinyurl\.com)/i.test(host)) warnings.push('shortener');
+      return {ok: !errors.length, errors, warnings, normalized: u.trim()};
+    }
+    async function sha256Hex(buf) {
+      const h = await crypto.subtle.digest('SHA-256', buf);
+      return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+    document.getElementById('urlBtn').onclick = () => {
+      const u = document.getElementById('url').value.trim();
+      const g = checkUrl(u);
+      const pack = {
+        type: 'lygo_pdw_registration_pack_v1',
+        mode: 'url',
+        safety: g,
+        cli: g.ok ? `python tools/pure_data_register.py --url "${g.normalized}" --i-consent` : null,
+        skill: g.ok ? `python scripts/pdw_cli.py register --url "${g.normalized}" --i-authorize-fetch --i-consent` : null,
+        note: 'Browser cannot fetch (CORS). Run CLI/skill on a trusted machine. Star Chart pending requires gate+consent.'
+      };
+      document.getElementById('urlOut').textContent = JSON.stringify(pack, null, 2);
+    };
+    document.getElementById('fileBtn').onclick = async () => {
+      const f = document.getElementById('file').files[0];
+      const out = document.getElementById('fileOut');
+      if (!f) { out.textContent = 'Choose a file.'; return; }
+      const buf = await f.arrayBuffer();
+      const hex = await sha256Hex(buf);
+      const pack = {
+        type: 'lygo_pdw_registration_pack_v1',
+        mode: 'file_local_hash',
+        file: f.name,
+        bytes: f.size,
+        content_sha256: hex,
+        cli: `python tools/pure_data_register.py --file "./${f.name}" --i-consent`,
+        note: 'Hash computed in-browser only. Copy file next to CLI to archive + egg + star pending.'
+      };
+      out.textContent = JSON.stringify(pack, null, 2);
+    };
+  </script>
+</body>
+</html>
