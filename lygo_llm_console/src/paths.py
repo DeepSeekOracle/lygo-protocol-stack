@@ -28,6 +28,7 @@ PID_PATH = DATA / "engine.pid.json"
 DEFAULT_PORT = 9641
 LLAMA_PORT = 11441
 EMBED_PORT = 11442
+COLIBRI_PORT = 11443
 
 
 def ensure_dirs() -> None:

@@ -33,4 +33,6 @@ Drop any `*.gguf` into `models\` or keep Ollama blobs under `%USERPROFILE%\.olla
 
 `engine\llama-server.exe` from ggml-org llama.cpp **b10988** Windows CPU zip. Not Ollama's nested copy.
 
+Optional second engine: **Colibri** (`engine/colibri/coli.cmd`) — streams MoE experts from SSD. See `COLIBRI.md`. Scan a Hugging Face / Colibri model **directory** (not GGUF), then Boot. Slow without a fast disk. Do not auto-download 372 GB+ weights.
+
 We do **not** ship Meta Llama weights with this pack.

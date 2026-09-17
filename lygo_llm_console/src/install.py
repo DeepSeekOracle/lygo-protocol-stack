@@ -191,6 +191,12 @@ def main(argv: list[str] | None = None) -> int:
         print("  or put llama-server.exe in engine\\ from ggml-org CPU zip (pin b10988)")
     else:
         print("engine: llama-server.exe present")
+    from colibri import resolve_coli
+
+    if resolve_coli():
+        print("colibri: launcher present (optional MoE SSD engine)")
+    else:
+        print("colibri: optional — scripts\\fetch_colibri.ps1 (engine only, not 372GB weights)")
     print("Next: double-click LYGO_LLM_CONSOLE.bat")
     print("Portal: http://127.0.0.1:9641/")
     return 0

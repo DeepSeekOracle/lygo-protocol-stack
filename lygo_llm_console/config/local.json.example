@@ -3,5 +3,5 @@
     "U:/LYGO/models",
     "U:/LYGO/projects/lygo-llm/models"
   ],
-  "comment": "Copy to local.json (gitignored). Do not add steward vaults. Extra roots need --i-consent."
+  "comment": "Copy to local.json (gitignored). Do not add steward vaults. Optional Colibri HF dirs (config.json + safetensors) can be scan_roots."
 }

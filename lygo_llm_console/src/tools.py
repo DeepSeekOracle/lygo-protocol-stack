@@ -306,12 +306,19 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from paths import LLAMA_PORT
         from p0_hook import PHYSICS_AVAILABLE
 
+        from colibri import resolve_coli, status as coli_status
+        from paths import COLIBRI_PORT
+
         r = runner_for(LLAMA_PORT)
+        rc = runner_for(COLIBRI_PORT)
         return {
             "ok": True,
             "physics": PHYSICS_AVAILABLE,
             "engine_binary": bool(resolve_binary()),
-            "chat_runner": bool(r),
+            "colibri_launcher": bool(resolve_coli()),
+            "colibri": coli_status(),
+            "chat_runner": bool(r or rc),
+            "engine_port": COLIBRI_PORT if rc else LLAMA_PORT,
             "ollama_port_open": ollama_port_open(),
             "kit": str(KIT_ROOT),
             "admin": is_admin(),

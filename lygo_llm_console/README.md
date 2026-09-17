@@ -40,6 +40,8 @@ Add extra folders in the left-rail **Workspace** panel after boot.
 
 Python 3 is required (`py` or `python`). No npm. No pip. No Ollama required. Existing `%USERPROFILE%\.ollama\models` blobs can be imported read-only.
 
+Optional: **Colibri** for huge MoE models (DeepSeek V4.1 Flash, GLM-5.2, Kimi K3) via SSD streaming — `COLIBRI.md` and `scripts/fetch_colibri.ps1`. GGUF llama.cpp remains the default small-agent brain.
+
 ## Boot
 
 ```bat

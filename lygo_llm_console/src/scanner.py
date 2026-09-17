@@ -46,9 +46,16 @@ def scan_roots(roots: list[str], wall_s: float = 25.0) -> dict[str, Any]:
                 break
             dirnames[:] = [d for d in dirnames if d.lower() not in SKIP_DIR]
             base = Path(dirpath)
-            if "model.safetensors.index.json" in filenames or any(
-                fn.endswith(".safetensors") for fn in filenames
+            if "config.json" in filenames and (
+                "model.safetensors.index.json" in filenames
+                or any(fn.endswith(".safetensors") for fn in filenames)
             ):
+                from colibri import looks_like_colibri_model, model_card
+
+                if looks_like_colibri_model(base):
+                    models.append(model_card(base))
+                    dirnames[:] = []
+                    continue
                 models.append(
                     {
                         "id": base.name,

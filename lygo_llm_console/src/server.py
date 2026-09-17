@@ -46,6 +46,7 @@ from engine import (  # noqa: E402
 )
 from p0_hook import PHYSICS_AVAILABLE, gate_output_window, gate_prompt  # noqa: E402
 from paths import (  # noqa: E402
+    COLIBRI_PORT,
     CONSOLE_JSON,
     DEFAULT_PORT,
     EMBED_PORT,
@@ -69,8 +70,12 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260916m"
-STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0}
+BUILD = "v1.1-20260917coli"
+STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0, "engine": "llama", "engine_port": LLAMA_PORT}
+
+
+def brain_port() -> int:
+    return int(STATE.get("engine_port") or LLAMA_PORT)
 
 
 def load_console() -> dict[str, Any]:
@@ -124,10 +129,6 @@ def maybe_spawn(model_id: str | None) -> str:
     if MOCK_ONLY:
         STATE["brain"] = "mock"
         return "mock"
-    exe = resolve_binary()
-    if exe is None:
-        STATE["brain"] = "missing"
-        return "missing"
     rec = reg_get(model_id) if model_id else None
     if rec is None:
         data = reg_load()
@@ -136,6 +137,37 @@ def maybe_spawn(model_id: str | None) -> str:
         STATE["brain"] = "missing"
         return "missing"
     p = Path(rec["path"])
+    coli = (rec.get("engine") == "colibri") or (rec.get("kind") == "colibri")
+    if coli:
+        from colibri import resolve_coli, spawn_colibri
+
+        if resolve_coli() is None:
+            STATE["brain"] = "missing_colibri"
+            STATE["error"] = "coli launcher missing — engine/colibri from github.com/JustVugg/colibri/releases"
+            return "missing_colibri"
+        with ENGINE_LOCK:
+            existing = runner_for(COLIBRI_PORT)
+            if existing and existing.gguf == str(p):
+                STATE["brain"] = "ready"
+                STATE["engine"] = "colibri"
+                STATE["engine_port"] = COLIBRI_PORT
+                return "ready"
+            try:
+                spawn_colibri(port=COLIBRI_PORT, model_dir=p, alias=str(rec.get("id") or p.name), api_key=LLAMA_KEY)
+            except Exception as e:
+                STATE["brain"] = "error"
+                STATE["error"] = f"{type(e).__name__}: {e}"
+                return "error"
+        STATE["brain"] = "ready"
+        STATE["engine"] = "colibri"
+        STATE["engine_port"] = COLIBRI_PORT
+        STATE["error"] = None
+        STATE["selected"] = rec.get("id")
+        return "ready"
+    exe = resolve_binary()
+    if exe is None:
+        STATE["brain"] = "missing"
+        return "missing"
     size = int(rec.get("bytes") or (p.stat().st_size if p.is_file() else 0))
     if not ram_ok(size):
         STATE["brain"] = "ram_refused"
@@ -144,6 +176,8 @@ def maybe_spawn(model_id: str | None) -> str:
         existing = runner_for(LLAMA_PORT)
         if existing and existing.gguf == str(p):
             STATE["brain"] = "ready"
+            STATE["engine"] = "llama"
+            STATE["engine_port"] = LLAMA_PORT
             return "ready"
         mm = Path(rec["mmproj"]) if rec.get("mmproj") else None
         try:
@@ -166,6 +200,8 @@ def maybe_spawn(model_id: str | None) -> str:
             STATE["error"] = f"{type(e).__name__}: {e}"
             return "error"
     STATE["brain"] = "ready"
+    STATE["engine"] = "llama"
+    STATE["engine_port"] = LLAMA_PORT
     STATE["error"] = None
     STATE["selected"] = rec.get("id")
     return "ready"
@@ -702,7 +738,7 @@ class Handler(BaseHTTPRequestHandler):
             assistant = (
                 "LYGO LLM Console is up. Engine brain is "
                 f"{brain}. P0 verdict {gate.get('verdict')}. "
-                "Scan a GGUF or Ollama CAS tree, then Select a chat model. "
+                "Scan a GGUF (llama.cpp) or a Colibri HF dir (coli serve), then Boot. "
                 "This console does not call ollama.exe."
             )
             if use_tools and "status" in user.lower():
@@ -736,7 +772,7 @@ class Handler(BaseHTTPRequestHandler):
         if use_tools and not host_did_tools:
             payload["tools"] = core_schema()
         with ENGINE_LOCK:
-            code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload)
+            code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
         try:
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
@@ -765,7 +801,7 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": core_schema()}
                 with ENGINE_LOCK:
-                    _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2)
+                    _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2, port=brain_port())
                 try:
                     p2 = json.loads(body2.decode("utf-8"))
                 except json.JSONDecodeError:
@@ -824,7 +860,7 @@ class Handler(BaseHTTPRequestHandler):
         from openai_proxy import llama_chat
 
         with ENGINE_LOCK:
-            code, body, ctype = llama_chat(api_key=LLAMA_KEY, payload={**obj, "stream": False})
+            code, body, ctype = llama_chat(api_key=LLAMA_KEY, payload={**obj, "stream": False}, port=brain_port())
         try:
             parsed = json.loads(body.decode("utf-8"))
             txt = (((parsed.get("choices") or [{}])[0].get("message") or {}).get("content")) or ""

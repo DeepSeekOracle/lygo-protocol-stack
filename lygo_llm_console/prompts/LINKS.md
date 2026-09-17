@@ -1,6 +1,7 @@
 # LINKS.md — fetch these, never invent
 
 ## GitHub
+- https://github.com/JustVugg/colibri
 - https://github.com/DeepSeekOracle
 - https://github.com/DeepSeekOracle/lygo-protocol-stack
 - https://github.com/DeepSeekOracle/chatagent
