@@ -13,6 +13,30 @@ This GitHub folder is the **public product** (portal, limbs, Wikipedia/search, P
 
 Whitepaper: [`docs/whitepapers/LYGO_LLM_CONSOLE_v1.md`](../docs/whitepapers/LYGO_LLM_CONSOLE_v1.md)
 
+## Three systems, one console
+
+The same console, three ways to run it. **One of them is always the one you are in** — health and
+status say which, and every surface is labelled the same way.
+
+| System | Where the kit lives | What answers | Reach it by |
+|--------|--------------------|--------------|-------------|
+| **USB LOCAL** | On the stick, in a pocket | The stick's own engine (CPU-proven, boots on any PC); the API boosts it when a host or question needs more | `LYGO_AGENT_STICK.bat` on the stick |
+| **PC LOCAL** | On a PC / fixed disk | This PC's engine — GPU when present, CPU otherwise — same API boost on demand | `LYGO_LLM_CONSOLE.bat` |
+| **WEB PORTAL (API ONLY)** | Nothing local | The online API through the public web portal — no engine, no disks, no local models | `PUBLIC_GATEWAY.bat` + https://chatagent.ca/portal/ |
+
+What each system **is** — three separate systems that share one console:
+
+* **USB LOCAL** — the **stand-alone USB agent**: everything onboard the stick, so it plugs in and
+  plays and is mobile (the same stick, any PC).
+* **PC LOCAL** — the **fully built admin console on this PC**; this is the build that will later be
+  turned into a public version.
+* **WEB PORTAL (API ONLY)** — the **internet web portal**: API-only and usable online as an easy API
+  agent portal, already fully built, so people have a web page version.
+
+Which one you are in is measured, not assumed: the Windows volume type of the drive holding the kit
+decides USB vs PC, and whether a local engine booted decides LOCAL vs API-ONLY (`src/surface.py`).
+Override on unusual hardware with `LYGO_SURFACE=usb` or `LYGO_SURFACE=pc`.
+
 ## Install (public — new machine)
 
 ### A. Zip
@@ -68,3 +92,10 @@ Writes stay under `workspace/` and `save/` unless you add a Workspace mount. `sh
 
 Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro) · [Patreon](https://www.patreon.com/Excavationpro)  
 Arcade: https://chatagent.ca/games/ · Crypt: https://chatagent.ca/games/lattice-crypt/
+
+## Docs for whoever builds this next
+
+- **`WHITEPAPER.md`** — the as-built record: folder map (§8), defect ledger + rules (§11), builder recipes (§12), roadmap (§14). The same file is archived as `LYGO_LLM_CONSOLE_v2_AS_BUILT.md` under `E:\LYGO_BUILDER_KEY\docs\` and `E:\LYGO_BUILDER_KEY\RECOVERY\`.
+- **`BUILD_MANIFEST.json`** — machine-readable ports, routes, modules, tests, invariants; hand it to an AI agent together with the whitepaper.
+- **`tools/make_index.py`** — regenerates Appendix B (the module/function index) after code changes.
+- Credentials (`config/api.json`, `.env`, `save/registry.json`) are never committed, never copied to the USB and always `[REDACTED]` in documents. Agents build, verify and report; **the steward publishes**.

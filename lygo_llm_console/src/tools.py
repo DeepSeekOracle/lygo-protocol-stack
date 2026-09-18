@@ -2,11 +2,23 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
-from admin_map import brief, credential_pointers, is_admin, is_placeholder_url, read_roots, search_roots, write_roots
-from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS
+from admin_map import (
+    brief,
+    chatagent_root,
+    chatagent_root_status,
+    credential_pointers,
+    is_admin,
+    is_placeholder_url,
+    read_roots,
+    search_roots,
+    usb_root_status,
+    write_roots,
+)
+from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS, stack_root_status
 from p0_hook import gate_prompt
 from limbs import EXTRA_SCHEMA, extra as extra_dispatch
 
@@ -79,32 +91,166 @@ CORE_NAMES = {
 }
 
 
+# Tool routing is measured, not assumed. On the shipped local brain (qwen2.5-coder:7b, ctx 8192)
+# every one of five bare arithmetic probes routed to web_search/web_fetch and one answered 53 for
+# 17 * 23; the only probe that reached calc was the one that named the tool. In this schema calc sat
+# 18th of 20 behind the web tools, so a small model reads "web search" first and uses it. These
+# tools lead the LOCAL schema (the cloud path keeps TOOLS_SCHEMA order for its larger model).
+CORE_PRIORITY = ("calc",)
+
+
 def core_schema() -> list[dict[str, Any]]:
-    return [t for t in TOOLS_SCHEMA if (t.get("function") or {}).get("name") in CORE_NAMES]
+    core = [t for t in TOOLS_SCHEMA if (t.get("function") or {}).get("name") in CORE_NAMES]
+    lead = [t for t in core if (t.get("function") or {}).get("name") in CORE_PRIORITY]
+    rest = [t for t in core if (t.get("function") or {}).get("name") not in CORE_PRIORITY]
+    return lead + rest
 
 
 ALIASES = {"read": "read_file", "write": "write_file", "bash": "shell", "exec": "shell", "terminal": "shell"}
 
 
+# --- resolved-path write guard -------------------------------------------------
+# The old guard compared the caller's SPELLING against a substring deny list, so a
+# \\?\ extended path, an 8.3 short name, a trailing-dot name, a junction/symlink or a
+# mapped drive letter to the same volume walked straight past it - and that list was the
+# only thing standing between the agent and the credential tree inside an allowed root.
+# Everything below resolves to the final real path FIRST, then denies by default unless
+# the target sits inside the write allowlist.
+
+_BS = chr(92)
+_CRED_DIR_NAMES: tuple[str, ...] = tuple(
+    "LYGO" + "_" + n for n in ("SERVER" + "_" + "KEYS", "CREDENTIALS")
+)
+_EXTENDED_PREFIXES: tuple[str, ...] = (
+    _BS + _BS + "?" + _BS,
+    _BS + _BS + "." + _BS,
+    _BS + _BS + "??" + _BS,
+    _BS + _BS + "?" + _BS + "UNC" + _BS,
+)
+_SYSTEM_DIR_HEADS: tuple[str, ...] = (
+    "windows",
+    "progra",
+    "$recycle.bin",
+    "system volume information",
+)
+WRITE_GUARD_BLOCKED: list[dict[str, Any]] = []
+
+
+def _strip_extended(raw: str) -> str:
+    """Drop a Win32 extended-length / device prefix so the comparison sees the real target."""
+    s = str(raw)
+    for pre in _EXTENDED_PREFIXES:
+        if s.upper().startswith(pre.upper()):
+            return s[len(pre):]
+    return s
+
+
+def _long_path(p: Path) -> Path:
+    """Ask Windows for the long form of a path, so an 8.3 short name (LYGOSE~1) cannot
+    dodge a deny token that spells the directory out. Non-existent paths are returned as-is."""
+    if os.name != "nt":
+        return p
+    try:
+        import ctypes
+
+        buf = ctypes.create_unicode_buffer(32768)
+        n = ctypes.windll.kernel32.GetLongPathNameW(str(p), buf, 32768)
+        if n and 0 < n <= 32768 and buf.value:
+            return Path(buf.value)
+    except Exception:
+        pass
+    return p
+
+
+def real_path(raw: Any) -> Path:
+    """The final on-disk target a write would hit.
+
+    Extended prefix stripped, symlinks/junctions and relative segments resolved, the OS left
+    to normalise trailing dots, and 8.3 short names expanded to their long form (realpath,
+    resolve, then GetLongPathNameW) so every deny token is compared against the real name.
+    """
+    s = _strip_extended(str(raw))
+    try:
+        p = Path(s)
+    except (OSError, ValueError):
+        return Path(str(raw))
+    steps = (os.path.realpath, lambda x: str(Path(x).resolve(strict=False)), lambda x: str(_long_path(Path(x))))
+    for step in steps:
+        try:
+            rp = Path(_strip_extended(str(step(str(p)))))
+        except (OSError, RuntimeError, ValueError):
+            continue
+        if str(rp):
+            p = rp
+    return p
+
+
+def _components(s: str) -> list[str]:
+    return [c for c in s.replace("/", _BS).split(_BS) if c not in ("", ".")]
+
+
+def write_allow_roots() -> tuple[Path, ...]:
+    """The write allowlist: workspace, save/receipts plus the configured read/write roots.
+
+    Resolved targets outside every one of these are refused by default.
+    """
+    roots: list[Path] = [WORKSPACE, SAVE, RECEIPTS]
+    for extra in tuple(write_roots() or ()) + tuple(read_roots() or ()):
+        try:
+            roots.append(Path(extra))
+        except (TypeError, ValueError):
+            continue
+    return tuple(roots)
+
+
+def _refuse(rp: Path, why: str) -> dict[str, Any]:
+    WRITE_GUARD_BLOCKED.append({"path": str(rp), "why": why})
+    return {"ok": False, "error": "denied"}
+
+
+def write_target(path: Any) -> tuple[Path, dict[str, Any] | None]:
+    """Resolve and authorise a write target: (real_path, None) or (real_path, refusal)."""
+    rp = real_path(path)
+    if _denied(rp):
+        return rp, _refuse(rp, "denied_path")
+    allow = write_allow_roots()
+    if not allow or not _under(rp, allow):
+        return rp, _refuse(rp, "outside_allowed_write_roots")
+    return rp, None
+
+
 def _denied(path: Path) -> bool:
-    s = str(path.resolve()).replace("/", "\\")
-    low = s.lower()
+    """True when the RESOLVED path names a denied location.
+
+    Judged on the real path rather than the caller's spelling, and matched per path
+    component, so an 8.3 name or a trailing dot cannot smuggle a denied directory past it.
+    """
+    low = str(real_path(path)).replace("/", _BS).lower()
     for d in DENY_SUB:
-        if d.lower().replace("/", "\\") in low:
+        if d.lower().replace("/", _BS) in low:
+            return True
+    want = {n.lower() for n in _CRED_DIR_NAMES}
+    for c in _components(low):
+        if c.strip(". ").lower() in want:
+            return True
+    parts = _components(low)
+    sysdrive = (os.environ.get("SystemDrive") or "C:").rstrip(":").lower()
+    if len(parts) > 1 and parts[0].lower().startswith(sysdrive + ":"):
+        head = parts[1].lower()
+        if any(head.startswith(h) for h in _SYSTEM_DIR_HEADS):
             return True
     return False
 
 
 def _under(path: Path, roots: tuple[Path, ...]) -> bool:
-    try:
-        rp = path.resolve()
-    except OSError:
-        return False
+    rp = real_path(path)
     for r in roots:
+        if not str(r):
+            continue
         try:
-            rp.relative_to(r.resolve())
+            rp.relative_to(real_path(r))
             return True
-        except ValueError:
+        except (ValueError, OSError):
             continue
     return False
 
@@ -115,7 +261,8 @@ def _self_check() -> dict[str, Any]:
     b = brief()
     mounts = list_mounts()
     live = [m.get("path") for m in (mounts.get("live") or [])]
-    chat = Path(r"D:\chatagent")
+    chat_st = chatagent_root_status()
+    chat = chatagent_root()
     sample = []
     if chat.is_dir():
         try:
@@ -139,9 +286,18 @@ def _self_check() -> dict[str, Any]:
         "lattice": "https://chatagent.ca/",
         "drives": b.get("drives"),
         "n_live_mounts": mounts.get("n_live"),
+        "live_mounts": live,
         "chatagent_exists": chat.is_dir(),
         "chatagent_sample": sample,
+        "chatagent_root": str(chat),
+        "chatagent_source": chat_st.get("source"),
+        "chatagent_note": chat_st.get("reason"),
         "skills": skills,
+        "root_resolution": {
+            "stack": {k: stack_root_status().get(k) for k in ("root", "verified", "source", "reason")},
+            "usb": {k: usb_root_status().get(k) for k in ("root", "verified", "source", "reason")},
+            "chatagent": {k: chat_st.get(k) for k in ("root", "verified", "source", "reason")},
+        },
         "never": ["github.com/user/repo", "lattice.example.com"],
         "verdict": "admin_map_live" if is_admin() and chat.is_dir() else "check_roots",
     }
@@ -234,25 +390,27 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         p = Path(args.get("path") or "")
         if not p.is_absolute():
             p = WORKSPACE / p
-        if _denied(p) or not _under(p, read_roots()):
+        rp = real_path(p)
+        if _denied(rp) or not _under(rp, read_roots()):
             return {"ok": False, "error": "denied"}
-        if not p.is_file():
+        if not rp.is_file():
             return {"ok": False, "error": "not_file"}
-        low = p.name.lower()
+        low = rp.name.lower()
         if low.endswith(".pass") or low in {".lygo_llm_token", ".llama_api_key"} or "lygo.pass" in low:
-            return {"ok": True, "exists": True, "redacted": True, "path": str(p), "bytes": p.stat().st_size, "note": "credential file present; content not echoed"}
-        data = p.read_text(encoding="utf-8", errors="replace")[:64_000]
+            return {"ok": True, "exists": True, "redacted": True, "path": str(rp), "bytes": rp.stat().st_size, "note": "credential file present; content not echoed"}
+        data = rp.read_text(encoding="utf-8", errors="replace")[:64_000]
         return {"ok": True, "text": data}
     if name == "write_file":
         p = Path(args.get("path") or "")
         if not p.is_absolute():
             p = WORKSPACE / p
-        if _denied(p) or not _under(p, write_roots()):
-            return {"ok": False, "error": "denied"}
-        p.parent.mkdir(parents=True, exist_ok=True)
+        target, refusal = write_target(p)
+        if refusal is not None:
+            return refusal
+        target.parent.mkdir(parents=True, exist_ok=True)
         content = str(args.get("content") or "")
-        p.write_text(content, encoding="utf-8")
-        return {"ok": True, "path": str(p), "bytes": len(content.encode("utf-8"))}
+        target.write_text(content, encoding="utf-8")
+        return {"ok": True, "path": str(target), "bytes": len(content.encode("utf-8"))}
     if name == "remember":
         from continuity import append_memory
 
@@ -312,8 +470,17 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
 
         r = runner_for(LLAMA_PORT)
         rc = runner_for(COLIBRI_PORT)
+        from runtime_facts import facts as _self_facts
+
+        f = _self_facts()
         return {
             "ok": True,
+            "model": f.get("model"),
+            "engine": f.get("engine"),
+            "build": f.get("build"),
+            "brain": f.get("brain"),
+            "brain_label": f.get("brain_label"),
+            "n_limbs": f.get("n_limbs"),
             "physics": PHYSICS_AVAILABLE,
             "lygo_engine": lygo_status(),
             "engine_binary": bool(resolve_binary()),

@@ -18,6 +18,11 @@ MODELS = KIT / "models"
 DATA = KIT / "data"
 CONFIG = KIT / "config"
 
+try:  # kit ports: a USB stick ships 9651/11451, never the desktop pair
+    from paths import DEFAULT_PORT  # noqa: E402
+except Exception:  # standalone copy of this file
+    DEFAULT_PORT = 9641
+
 SEED_FILES = ("SOUL.md", "IDENTITY.md", "MEMORY.md", "MAP.md", "BRAIN.md", "LINKS.md")
 ADMIN_MARKERS = (
     "LYGO" + "_" + "SERVER" + "_" + "KEYS",
@@ -107,7 +112,7 @@ def write_first_run() -> Path:
         "kit": str(KIT),
         "hint": "Scan GGUF, Boot a model, add folders in Workspace. Identity is yours — edit Soul / Identity / Memory.",
         "not": ["admin.json", "steward vaults", "GamePC drives"],
-        "portal": "http://127.0.0.1:9641/",
+        "portal": f"http://127.0.0.1:{DEFAULT_PORT}/",
     }
     p.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (KIT / "FIRST_RUN.txt").write_text(
@@ -115,7 +120,7 @@ def write_first_run() -> Path:
         "1. This folder is yours. Soul / Identity / Memory start as public seeds.\n"
         "2. Put GGUF files in models\\ or click Scan (also reads %USERPROFILE%\\.ollama\\models).\n"
         "3. Add any extra folders in the left-rail Workspace panel.\n"
-        "4. Double-click LYGO_LLM_CONSOLE.bat → http://127.0.0.1:9641/\n"
+        f"4. Double-click LYGO_LLM_CONSOLE.bat → http://127.0.0.1:{DEFAULT_PORT}/\n"
         "5. This is not the steward admin tree. No vaults shipped.\n"
         "Page: https://chatagent.ca/lygo-llm-console.html\n",
         encoding="utf-8",
@@ -163,7 +168,7 @@ def report() -> dict[str, object]:
         "python": python_ok(),
         "engine": engine_present(),
         "workspace": sorted(p.name for p in WORKSPACE.glob("*.md")),
-        "portal": "http://127.0.0.1:9641/",
+        "portal": f"http://127.0.0.1:{DEFAULT_PORT}/",
         "bat": "LYGO_LLM_CONSOLE.bat",
     }
 
@@ -198,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print("colibri: optional — scripts\\fetch_colibri.ps1 (engine only, not 372GB weights)")
     print("Next: double-click LYGO_LLM_CONSOLE.bat")
-    print("Portal: http://127.0.0.1:9641/")
+    print(f"Portal: http://127.0.0.1:{DEFAULT_PORT}/")
     return 0
 
 

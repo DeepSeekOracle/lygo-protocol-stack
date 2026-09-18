@@ -16,12 +16,18 @@
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); }
 body {
   font-family: "Segoe UI", system-ui, sans-serif;
+  /* The page is a flex column: header / world strip / main / media dock. `main` takes the
+     leftover height with flex:1 instead of subtracting a guessed header height, so a header
+     that wraps to two or three lines can no longer break the chat column's sizing. */
+  display: flex;
+  flex-direction: column;
   background:
     radial-gradient(1200px 500px at 10% -10%, rgba(224, 179, 106, 0.08), transparent 50%),
     radial-gradient(900px 400px at 100% 0%, rgba(80, 50, 20, 0.25), transparent 45%),
     var(--bg);
 }
 header {
+  flex: 0 0 auto;
   padding: 1rem 1.25rem 0.95rem;
   border-bottom: 1px solid var(--line);
   display: flex;
@@ -40,6 +46,25 @@ header {
   font-size: 1.15rem;
 }
 .sub { color: var(--muted); font-size: 0.82rem; margin-top: 0.28rem; max-width: 46rem; line-height: 1.4; }
+/* index.html renders the three-role SYSTEM line with .syslabel, which had no rule at all, so the
+   steward vocabulary (USB LOCAL · PC LOCAL · WEB PORTAL) read as an unstyled paragraph. Small
+   labelled chip row: sits between the sub-line and the model bar, one step down the hierarchy. */
+.syslabel {
+  display: block;
+  width: fit-content;
+  max-width: min(46rem, 100%);
+  margin-top: 0.45rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold2);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
 .health {
   font-size: 0.75rem;
   color: var(--muted);
@@ -64,7 +89,14 @@ body.api-on .api-status { color: var(--gold); }
 main {
   display: grid;
   grid-template-columns: 16.5rem minmax(0, 1fr) 17.5rem;
-  min-height: calc(100% - 7.2rem);
+  /* was `min-height: calc(100% - 7.2rem)` - a magic offset guessing the header's height. The
+     header stacks brand, sub-line, system line, model bar, brain bar, API bar and the health box
+     and wraps well past any fixed value, so the guess broke the chat column on small windows.
+     The body is a flex column now; main takes the leftover height instead of guessing. */
+  flex: 1 1 auto;
+  grid-template-rows: minmax(0, 1fr);
+  /* floor so a very tall header on a short window scrolls the page instead of squashing chat */
+  min-height: 20rem;
 }
 .rail, aside { padding: 1rem 0.95rem; overflow: auto; background: rgba(20, 16, 12, 0.55); }
 .rail { border-right: 1px solid var(--line); }
@@ -114,14 +146,14 @@ button, select {
 }
 button:hover, select:hover { border-color: var(--gold); }
 h2 {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold);
   margin: 1.05rem 0 0.45rem;
 }
 .cont-tabs { display: flex; gap: 0.3rem; margin: 0.35rem 0; }
-.cont-tabs button { font-size: 0.72rem; padding: 0.28rem 0.5rem; font-weight: 600; opacity: 0.65; }
+.cont-tabs button { font-size: 0.75rem; padding: 0.28rem 0.5rem; font-weight: 600; opacity: 0.65; }
 .cont-tabs button.on { opacity: 1; border-color: var(--gold); color: var(--gold); }
 .cont-pane textarea {
   width: 100%;
@@ -133,15 +165,15 @@ h2 {
   border-radius: 8px;
   padding: 0.5rem;
   font-family: Consolas, "Segoe UI", monospace;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   line-height: 1.4;
   resize: vertical;
 }
-.cont-pane button { margin-top: 0.3rem; font-size: 0.72rem; }
+.cont-pane button { margin-top: 0.3rem; font-size: 0.75rem; }
 .limb-out {
   background: #100d0a;
   padding: 0.65rem;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   overflow: auto;
   max-height: 12rem;
   flex: 0 0 auto;
@@ -155,6 +187,16 @@ h2 {
   flex: 1 1 auto;
   min-height: 14rem;
   margin-top: 0.15rem;
+}
+/* index.html's inline <style> declares the same .notepad box but leaves overflow visible, so when
+   the aside is squeezed the notepad keeps its 14rem floor while its content needs more: the footer
+   rows then paint OUTSIDE the notepad and collide with the hint underneath it. "main .notepad"
+   outranks the inline ".notepad" (0,1,1 vs 0,1,0) and needs no markup change: a slightly lower
+   floor plus its own scroll means the box never spills, and the aside keeps doing the outer scroll. */
+main .notepad {
+  min-height: 12rem;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 .np-bar { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
 .np-bar select { flex: 1; min-width: 0; }
@@ -192,9 +234,9 @@ h2 {
   align-items: center;
   margin-top: 0.4rem;
 }
-.np-foot button { font-size: 0.72rem; padding: 0.32rem 0.5rem; font-weight: 500; }
+.np-foot button { font-size: 0.75rem; padding: 0.32rem 0.5rem; font-weight: 500; }
 #np-status { margin-left: auto; }
-.hint { color: var(--muted); font-size: 0.74rem; line-height: 1.45; }
+.hint { color: var(--muted); font-size: 0.75rem; line-height: 1.45; }
 .hint a { color: var(--gold); }
 .chk { display: flex; gap: 0.4rem; align-items: center; font-size: 0.82rem; margin: 0; color: var(--muted); }
 .attach {
@@ -206,22 +248,22 @@ h2 {
   border: 1px solid #5a4630;
 }
 .limbs { display: flex; flex-wrap: wrap; gap: 0.32rem; }
-.limbs button { font-size: 0.7rem; padding: 0.28rem 0.45rem; font-weight: 500; }
+.limbs button { font-size: 0.75rem; padding: 0.28rem 0.45rem; font-weight: 500; }
 .skills-list { display: flex; flex-direction: column; gap: 0.18rem; max-height: 14rem; overflow: auto; }
 .skill-row {
   display: flex;
   gap: 0.35rem;
   align-items: flex-start;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   color: var(--muted);
   padding: 0.12rem 0;
 }
 .skill-row input { margin-top: 0.15rem; }
 .skill-row .sn { color: var(--ink); cursor: pointer; }
 .skill-row .sn:hover { color: var(--gold); }
-.skill-row .src { font-size: 0.64rem; opacity: 0.75; }
-.skills-hub { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; }
-.skills-hub button { font-size: 0.68rem; padding: 0.2rem 0.4rem; margin-left: 0.25rem; }
+.skill-row .src { font-size: 0.75rem; opacity: 0.75; }
+.skills-hub { font-size: 0.75rem; color: var(--muted); margin-top: 0.35rem; }
+.skills-hub button { font-size: 0.75rem; padding: 0.2rem 0.4rem; margin-left: 0.25rem; }
 #skills-q {
   flex: 1;
   min-width: 0;
@@ -238,17 +280,20 @@ h2 {
 .ws-mounts { display: flex; flex-direction: column; gap: 0.28rem; max-height: 11rem; overflow: auto; margin-bottom: 0.35rem; }
 .ws-mount {
   display: flex; flex-wrap: wrap; gap: 0.28rem; align-items: center;
-  font-size: 0.72rem; color: var(--muted); border: 1px solid var(--line);
+  font-size: 0.75rem; color: var(--muted); border: 1px solid var(--line);
   border-radius: 8px; padding: 0.28rem 0.4rem; background: rgba(0,0,0,.22);
 }
 .ws-mount .p { color: var(--ink); cursor: pointer; flex: 1; min-width: 0; word-break: break-all; }
 .ws-mount .p:hover { color: var(--gold); }
-.ws-mount .tag { font-size: 0.62rem; letter-spacing: .04em; text-transform: uppercase; }
+.ws-mount .tag { font-size: 0.75rem; letter-spacing: .04em; text-transform: uppercase; }
 .ws-mount .tag.on { color: var(--ok); }
 .ws-mount .tag.off { opacity: .45; }
-.ws-mount button { font-size: 0.64rem; padding: 0.15rem 0.35rem; font-weight: 500; }
+.ws-mount button { font-size: 0.75rem; padding: 0.15rem 0.35rem; font-weight: 500; }
 #ws-path { flex: 1; min-width: 0; background: #120e0a; color: var(--ink); border: 1px solid var(--line); padding: 0.35rem 0.45rem; border-radius: 8px; font-size: 0.78rem; }
 .world {
+  /* fixed strip between the (possibly three-line) header and main: it must never be the
+     flex item that gets squeezed when the header wraps. */
+  flex: 0 0 auto;
   display: flex;
   gap: 0.75rem;
   align-items: stretch;
@@ -278,19 +323,128 @@ h2 {
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.28);
 }
-.wcity .n { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.wcity .n { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
 .wcity .t { font-size: 0.95rem; color: var(--ink); }
-.wcity .w { font-size: 0.68rem; color: var(--gold); margin-top: 0.12rem; }
+.wcity .w { font-size: 0.75rem; color: var(--gold); margin-top: 0.12rem; }
+/* ----------------------------------------------------------------------------------------------
+   Small screens.
+   The old single rule stacked the grid, which on a phone dropped the conversation between the
+   Continuity rail (a 16rem scroll box) and the Workspace aside (a 32rem scroll box): you had to
+   scroll past two panels to reach the chat. Layout is now chat-first at every width, and on
+   phones the three panels become one horizontally scrollable rail of cards, which needs no
+   markup or JS (index.html stays untouched).
+   ---------------------------------------------------------------------------------------------- */
 @media (max-width: 960px) {
-  main { grid-template-columns: 1fr; }
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    overflow-y: auto;
+  }
+  /* chat is the first card whatever the source order of main's children */
+  .chat-panel { order: -1; min-height: 60vh; }
   .rail, aside { border: none; border-top: 1px solid var(--line); }
   .rail { max-height: 16rem; }
   aside { max-height: 32rem; }
 }
+
+@media (max-width: 700px) {
+  /* phone: the header stack plus the world strip and dock can leave main less than a screen
+     tall, so let the page scroll vertically and give main a floor - the chat card keeps a real
+     height and the rail cards never grow past it (they scroll inside themselves). */
+  body { height: auto; min-height: 100vh; overflow-y: auto; }
+  /* The header is a stack of seven bars (brand, sub, syslabel, model, brain, API, health) and on
+     a phone it can eat the whole first screen before the chat is reached, so it is tightened
+     here. Nothing is hidden, just denser, and the decorative sub-line clamps to two lines. */
+  header { padding: 0.7rem 0.8rem 0.65rem; gap: 0.6rem; }
+  .brand { font-size: 1.05rem; }
+  .sub {
+    font-size: 0.78rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .syslabel, .modelbar, .brainbar, .apibar, .health { margin-top: 0.45rem; }
+  .health { padding: 0.45rem 0.55rem; line-height: 1.35; }
+  /* Card rail: chat first (order:-1), then the two side panels, swiped horizontally. Flex is
+     used instead of grid tracks because a percentage grid track collapses to content width in
+     Chrome - it squeezed all three panels into 130px strips - while percentage flex-basis is
+     well defined against the scroll container's own width. No per-panel scroll boxes, no JS and
+     no new markup: the cards are the same three children of main. */
+  main {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 70vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .chat-panel { order: -1; flex: 0 0 100%; min-width: 0; min-height: 0; scroll-snap-align: start; }
+  .rail, aside {
+    flex: 0 0 92%;
+    min-width: 0;
+    max-height: none;
+    min-height: 0;
+    scroll-snap-align: start;
+    border: none;
+    border-left: 1px solid var(--line);
+  }
+  /* labels for the two off-screen cards, generated here so no markup has to change */
+  .rail::before,
+  aside::before {
+    content: "swipe \2190\00a0\00b7\00a0 continuity\00a0\00b7\00a0 workspace\00a0\2192";
+    display: block;
+    margin: -0.15rem 0 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rail::before { content: "swipe \2190\00a0 chat\00a0\00b7\00a0 workspace\00a0\2192"; }
+  aside::before { content: "swipe \2190\00a0 chat\00a0\00b7\00a0 continuity\00a0\2192"; }
+  .world { flex-wrap: wrap; }
+  .world-now { flex: 0 0 100%; border-right: 0; padding-right: 0; }
+  /* The media dock is pinned to the bottom of the phone viewport, so every pixel the header and
+     the dock keep is a pixel of chat the user cannot see on the first screen. Everything here is
+     made denser - no text is hidden, and the "press Play ... to unmute" hint stays visible, it
+     just loses leading and gains no stray margins. */
+  header { padding: 0.6rem 0.7rem 0.55rem; }
+  .syslabel { line-height: 1.35; }
+  .modelbar, .brainbar, .apibar { gap: 0.35rem; row-gap: 0.35rem; }
+  .modelbar label, .brainbar label, .apibar label { line-height: 1.3; }
+  .media-dock { padding: 0.4rem 0.6rem; gap: 0.3rem; }
+  .radio-inline { gap: 0.3rem; }
+  #radioHint { font-size: 0.75rem; line-height: 1.3; }
+}
+
+/* Media-dock links leave the kit (radio stream, TV page) so they are labelled and dimmed when
+   the console is offline; radio.js flips .offline on those two anchors from a connectivity
+   check, nothing else in index.html changes. */
+.media-dock a[href^="http"]::after { content: " \2197\00a0online"; font-size: 0.75rem; color: var(--muted); }
+.media-dock a.offline { color: var(--muted); text-decoration: line-through; }
+.media-dock a.offline::after { content: " \2197\00a0online only \00b7\00a0needs internet"; }
+/* The same marker for any other link that leaves the kit for the public web (the aside hint's
+   PayPal / Patreon / TV / Listen links), so an offline user is not surprised by a dead tab. */
+.hint a[href^="http"]::after { content: " \2197\00a0online"; font-size: 0.75rem; color: var(--muted); }
+
+/* Type floor: this stylesheet was floored at 0.75rem, but index.html carries its own inline
+   rules (another agent's file) that still shrink badges and captions to 0.62-0.74rem. The
+   `body` prefix out-specifies those later rules without !important, so the smallest UI text on
+   the page is readable without touching index.html. */
+body .trace-badge,
+body .build-stamp,
+body .ctx-note,
+body .trace-list,
+body .trace-pane > summary,
+body .about > summary { font-size: 0.75rem; }
 .media-dock {
   position: sticky;
   bottom: 0;
   z-index: 8;
+  flex: 0 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
@@ -310,6 +464,10 @@ h2 {
 .radio-vol input { width: 7rem; }
 .radio-title-inline { color: var(--gold); font-size: 0.78rem; max-width: 22rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .media-dock a { color: var(--gold); font-size: 0.78rem; }
+/* Donate layer. The local console portal (portal/index.html) does not load portal/donate.js - it
+   uses inline footer links and test_donate_radio.py asserts exactly that - so for this console
+   these rules are unreferenced. They stay because the layer is still used by the online web
+   portal (web_portal/, which ships its own copy of this stylesheet and of donate.js). */
 .donate-layer {
   position: fixed;
   inset: 0;
@@ -331,7 +489,7 @@ h2 {
   box-shadow: var(--shadow);
 }
 .donate-card h2 { font-family: Georgia, serif; text-transform: none; letter-spacing: 0; font-size: 1.35rem; color: var(--gold); margin: 0.2rem 0 0.6rem; }
-.donate-card .kicker { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 0; }
+.donate-card .kicker { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 0; }
 .donate-actions { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.9rem 0; }
 .btn-gold {
   display: block;
@@ -347,3 +505,95 @@ h2 {
 .btn-gold:hover { border-color: var(--gold); }
 #donateClose { width: 100%; }
 #donateClose:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ---- brain switch: LOCAL (default) <-> API (cloud), local always the safety net ---- */
+.brainbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(224, 179, 106, 0.06), rgba(0, 0, 0, 0));
+}
+.brain-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg-btn {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  background: #221b14;
+  color: var(--muted);
+  border: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.34rem 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.seg-btn:last-child { border-right: 0; }
+.seg-btn i {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.seg-btn:hover { color: var(--ink); }
+.seg-btn.on { background: var(--gold); color: #1a1208; }
+.seg-btn.on i { opacity: 0.85; }
+/* Degraded API state. app.js flags the segment .degraded when the cloud call fails and hands
+   the answer to local. This used to be colour-only (`#brain-api.degraded.on` red pill, no
+   words), so the state carried no meaning without colour vision and no way back. Both the text
+   state and the retry affordance ride on elements that already exist: the pill IS the retry
+   control (app.js re-tries the API when it is pressed) and the status line already explains the
+   handoff, so only the wording and the affordance are added here. */
+#brain-api.degraded { cursor: pointer; box-shadow: inset 2px 0 0 var(--bad); }
+#brain-api.degraded.on { background: var(--bad); color: #1a1208; }
+#brain-api.degraded:not(.on) { color: #e9b9ad; background: #2a1713; }
+#brain-api.degraded::after { content: " \00b7\00a0 failing \27f3\00a0 retry"; font-weight: 700; }
+#brain-api.degraded:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.brain-status { font-size: 0.78rem; color: var(--ink); opacity: 0.92; }
+.brain-status.warn { color: var(--bad); font-weight: 600; }
+/* The escape needs an explicit non-breaking space: in `"\26a0 "` the space is swallowed as the
+   escape terminator, so the glyph printed hard against the word ("⚠LOCAL"). */
+.brain-status.warn::before { content: "\26a0\00a0"; }
+.brainbar .mini,
+.apibar .mini {
+  background: #221b14;
+  color: var(--gold);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0.32rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.brainbar .mini:hover,
+.apibar .mini:hover { border-color: var(--gold); }
+body.api-on .brainbar { border-color: rgba(224, 179, 106, 0.5); }
+
+/* per-answer badge: which brain produced it, and whether local had to take over */
+.bubble.assistant.via-api::before,
+.bubble.assistant.via-local::before {
+  display: inline-block;
+  margin-right: 0.45rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  vertical-align: 0.12em;
+  border: 1px solid var(--line);
+}
+.bubble.assistant.via-api::before { content: "API"; color: var(--gold); }
+.bubble.assistant.via-local::before { content: "LOCAL"; color: var(--ok); }
+.bubble.assistant.takeover { border-color: var(--bad); }
+.bubble.assistant.takeover::before { content: "LOCAL · handoff"; color: var(--bad); }

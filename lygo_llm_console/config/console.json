@@ -1,13 +1,44 @@
 {
   "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
+  "_notes": {
+    "kit": "Portable LYGO LLM Console config. Every path and every port in this kit is either relative to the kit folder or declared here - nothing is bound to a drive letter, so the whole folder can be copied to another drive and run beside the original.",
+    "how_it_is_read": "src/server.py + src/paths.py read the keys below. If config/local.json (gitignored, per machine) exists it is overlaid on top of this file, and an exported LYGO_*_PORT variable beats both. Relative paths are resolved inside the kit folder, %VARS% and ~ are expanded.",
+    "ports": {
+      "note": "The launchers (LYGO_LLM_CONSOLE.bat / LYGO_LLM_CONSOLE_STOP.bat / PUBLIC_GATEWAY.bat) read these and export LYGO_*_PORT, which is what src/paths.py actually uses. To run a second copy side by side, change port / llama_port / embed_port / colibri_port here (or in that copy's local.json, or in the environment).",
+      "port": "Console + agent portal HTTP port. Env override: LYGO_CONSOLE_PORT.",
+      "llama_port": "Chat engine (llama-server) port. Env override: LYGO_LLAMA_PORT.",
+      "embed_port": "Embedding engine port. Env override: LYGO_EMBED_PORT.",
+      "colibri_port": "Colibri / vision engine port. Env override: LYGO_COLIBRI_PORT."
+    },
+    "bind": "Console listen address. 127.0.0.1 = this PC only. Any other value is refused by src/server.py unless it is started with --lan --i-consent, so a public bind is never a silent side effect.",
+    "scan_roots": "Folders scanned for models. Relative entries resolve inside the kit folder ('./models' = <kit>/models), %USERPROFILE% and ~ are expanded, absolute paths are used as they are. The env vars LYGO_MODELS / OLLAMA_MODELS also declare a model dir and are added at scan time. Keep this list kit-relative so a copied kit finds its own models.",
+    "other_keys": {
+      "signature": "Kit signature string. Do not change - tests and the installer read it.",
+      "ctx_default": "Default context size (tokens) used for a model with no explicit value.",
+      "ctx_max": "Hard cap on context size; larger model settings are clamped to this.",
+      "ngl": "'auto' or an integer: GPU layers offloaded for llama-server.",
+      "threads": "'auto' or an integer: CPU threads for llama-server.",
+      "max_tokens": "Default maximum reply tokens.",
+      "prefer_by_ram": "true: pick a model that fits the machine's RAM when several match.",
+      "gpu": "'auto', or a backend name to force (e.g. cuda, vulkan, cpu).",
+      "flash_attn": "llama-server flash-attention setting: 'off', 'on' or 'auto'."
+    }
+  },
   "bind": "127.0.0.1",
   "port": 9641,
   "llama_port": 11441,
   "embed_port": 11442,
+  "colibri_port": 11443,
   "ctx_default": 4096,
   "ctx_max": 8192,
-  "ngl": 0,
-  "threads": 4,
+  "ngl": "auto",
+  "threads": "auto",
   "max_tokens": 512,
-  "scan_roots": ["./models", "%USERPROFILE%/.ollama/models"]
+  "scan_roots": [
+    "./models",
+    "%USERPROFILE%/.ollama/models"
+  ],
+  "prefer_by_ram": true,
+  "gpu": "auto",
+  "flash_attn": "off"
 }

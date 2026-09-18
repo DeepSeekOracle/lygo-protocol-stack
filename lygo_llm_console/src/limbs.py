@@ -7,18 +7,22 @@ import hashlib
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import urllib.parse
 from pathlib import Path
 from typing import Any
 
+import atomicio
 from paths import KIT_ROOT, SAVE, WORKSPACE
 from p0_hook import gate_prompt
 
 TODO_PATH = WORKSPACE / "todo.jsonl"
 MEM_PATH = WORKSPACE / "memory.jsonl"
 
+# Deny list only: these patterns are matched to REFUSE a command (see the shell and python_exec
+# limbs below) - nothing here is executed, and no limb in this file stages a recursive delete.
 _SHELL_DENY = re.compile(
     r"(format\s+c:|\bdiskpart\b|\bbcdedit\b|cipher\s+/w|\bshutdown\b|"
     r"rm\s+-rf\s+/|del\s+/[fqs].*c:\\|remove-item\s+-recurse.*c:\\|"
@@ -27,8 +31,8 @@ _SHELL_DENY = re.compile(
 )
 
 EXTRA_SCHEMA = [
-    {"type": "function", "function": {"name": "web_search", "description": "Public web search (Wikipedia+DDG). RESOURCE.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
-    {"type": "function", "function": {"name": "web_fetch", "description": "HTTPS GET a page as text. RESOURCE.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "web_search", "description": "Public web search (Wikipedia+DDG) for external facts. RESOURCE. Not for arithmetic - use calc.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "web_fetch", "description": "HTTPS GET a page as text. RESOURCE. Use for a URL you already have, not for arithmetic - use calc.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "shell", "description": "Run a short command in workspace (not OS wipe). stdout/stderr captured.", "parameters": {"type": "object", "properties": {"cmd": {"type": "string"}}, "required": ["cmd"]}}},
     {"type": "function", "function": {"name": "python_exec", "description": "Run a Python snippet in workspace. Print to capture result.", "parameters": {"type": "object", "properties": {"code": {"type": "string"}}, "required": ["code"]}}},
     {"type": "function", "function": {"name": "now", "description": "Local date/time and timezone.", "parameters": {"type": "object", "properties": {}}}},
@@ -38,7 +42,7 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "glob_files", "description": "Glob files under workspace.", "parameters": {"type": "object", "properties": {"pattern": {"type": "string"}}, "required": ["pattern"]}}},
     {"type": "function", "function": {"name": "todo_add", "description": "Append a todo line.", "parameters": {"type": "object", "properties": {"item": {"type": "string"}}, "required": ["item"]}}},
     {"type": "function", "function": {"name": "todo_list", "description": "List todos.", "parameters": {"type": "object", "properties": {}}}},
-    {"type": "function", "function": {"name": "calc", "description": "Evaluate a numeric Python expression.", "parameters": {"type": "object", "properties": {"expr": {"type": "string"}}, "required": ["expr"]}}},
+    {"type": "function", "function": {"name": "calc", "description": "Exact arithmetic - use this for any numeric computation, never web search.", "parameters": {"type": "object", "properties": {"expr": {"type": "string"}}, "required": ["expr"]}}},
     {"type": "function", "function": {"name": "whoami", "description": "Operator/kit identity (no secrets). Admin includes GitHub/HF/lattice links.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "hash_text", "description": "SHA-256 of text.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "memory_append", "description": "Append a durable note to MEMORY.md (grows across sessions).", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
@@ -106,6 +110,56 @@ def _ws(p: str | None) -> Path:
     return path
 
 
+def _kill_tree(pid: int) -> None:
+    """Kill a pid and everything it spawned.
+
+    subprocess's own timeout handling kills only the direct child: `cmd.exe /c <exe>` leaves the
+    real program (browser, installer) alive as an orphan, still holding files on the stick.
+    taskkill /T walks the tree first, so a grandchild dies with its parent.
+    """
+    if not pid:
+        return
+    if os.name == "nt":
+        try:
+            subprocess.run(["taskkill", "/F", "/T", "/PID", str(int(pid))], capture_output=True, timeout=20)
+            return
+        except Exception:
+            pass
+    try:
+        os.kill(int(pid), signal.SIGTERM)
+    except Exception:
+        pass
+
+
+def _run_capture(argv: list[str], *, timeout: int, cwd: str, env: dict[str, str]) -> tuple[int | None, str, str, bool]:
+    """Run argv, capturing text output; on timeout kill the whole process TREE.
+
+    Returns (returncode, stdout, stderr, timed_out). returncode is None when it timed out.
+    """
+    proc = subprocess.Popen(argv, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=env)
+    try:
+        out, err = proc.communicate(timeout=timeout)
+        return proc.returncode, out or "", err or "", False
+    except subprocess.TimeoutExpired:
+        _kill_tree(proc.pid)
+        try:
+            proc.kill()
+        except Exception:
+            pass
+        try:
+            proc.communicate(timeout=10)
+        except Exception:
+            pass
+        return None, "", "", True
+    finally:
+        for stream in (proc.stdout, proc.stderr):
+            try:
+                if stream is not None and not stream.closed:
+                    stream.close()
+            except Exception:
+                pass
+
+
 def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "web_search":
         from web_tools import web_search
@@ -124,20 +178,14 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         if re.search(r"[|&><`$]", cmd):
             return {"ok": False, "error": "metachar"}
         try:
-            p = subprocess.run(
-                ["cmd.exe", "/c", cmd],
-                shell=False,
-                cwd=str(WORKSPACE),
-                capture_output=True,
-                text=True,
-                timeout=25,
-                env=_win_env(),
+            code, out, err, timed_out = _run_capture(
+                ["cmd.exe", "/c", cmd], timeout=25, cwd=str(WORKSPACE), env=_win_env()
             )
-        except subprocess.TimeoutExpired:
+        except OSError as exc:
+            return {"ok": False, "error": f"spawn_failed:{type(exc).__name__}"}
+        if timed_out:
             return {"ok": False, "error": "timeout"}
-        out = (p.stdout or "")[-8000:]
-        err = (p.stderr or "")[-4000:]
-        return {"ok": p.returncode == 0, "code": p.returncode, "stdout": out, "stderr": err}
+        return {"ok": code == 0, "code": code, "stdout": out[-8000:], "stderr": err[-4000:]}
     if name == "python_exec":
         code = str(args.get("code") or "")
         if not code.strip():
@@ -145,17 +193,14 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         if _SHELL_DENY.search(code) or gate_prompt(code).get("verdict") == "QUARANTINE":
             return {"ok": False, "error": "p0_blocked"}
         try:
-            p = subprocess.run(
-                [sys.executable, "-c", code],
-                cwd=str(WORKSPACE),
-                capture_output=True,
-                text=True,
-                timeout=20,
-                env=_win_env(),
+            code, out, err, timed_out = _run_capture(
+                [sys.executable, "-c", code], timeout=20, cwd=str(WORKSPACE), env=_win_env()
             )
-        except subprocess.TimeoutExpired:
+        except OSError as exc:
+            return {"ok": False, "error": f"spawn_failed:{type(exc).__name__}"}
+        if timed_out:
             return {"ok": False, "error": "timeout"}
-        return {"ok": p.returncode == 0, "stdout": (p.stdout or "")[-8000:], "stderr": (p.stderr or "")[-4000:]}
+        return {"ok": code == 0, "stdout": out[-8000:], "stderr": err[-4000:]}
     if name == "now":
         n = dt.datetime.now().astimezone()
         u = dt.datetime.now(dt.timezone.utc)
@@ -227,15 +272,26 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "whoami":
         from admin_map import brief, is_admin
 
+        from runtime_facts import facts as _facts
+
         b = brief()
+        f = _facts()
         return {
             "ok": True,
             "mark": "LYGO",
             "role": b.get("role"),
+            "seat": "LYRA-Δ9 architect seat on this console",
             "steward": b.get("steward"),
             "kit": str(KIT_ROOT),
             "workspace": str(WORKSPACE),
             "portal": "https://chatagent.ca/lygo-llm-console.html",
+            "model": f.get("model"),
+            "engine": f.get("engine"),
+            "engine_port": f.get("engine_port"),
+            "brain": f.get("brain"),
+            "brain_label": f.get("brain_label"),
+            "build": f.get("build"),
+            "n_limbs": f.get("n_limbs"),
             "github": b.get("github_org"),
             "huggingface": b.get("hf_org"),
             "links": {
@@ -285,7 +341,7 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         t = p.read_text(encoding="utf-8", errors="replace")
         if old not in t:
             return {"ok": False, "error": "old_not_found"}
-        p.write_text(t.replace(old, new, 1), encoding="utf-8")
+        atomicio.atomic_write_text(p, t.replace(old, new, 1))
         return {"ok": True, "path": str(p)}
     if name == "weather":
         from web_tools import _get

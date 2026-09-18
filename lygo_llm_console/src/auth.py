@@ -6,9 +6,12 @@ import os
 import secrets
 from pathlib import Path
 
+from atomicio import atomic_write_text, read_text as read_text_locked
+
 from paths import DATA, TOKEN_PATH, LLAMA_KEY_PATH, ensure_dirs
 
 HEADER = "X-LYGO-LLM-Token"
+COOKIE_NAME = "lygo_token"
 
 
 def _chmod600(path: Path) -> None:
@@ -22,11 +25,16 @@ def ensure_token() -> str:
     ensure_dirs()
     DATA.mkdir(parents=True, exist_ok=True)
     if TOKEN_PATH.is_file():
-        t = TOKEN_PATH.read_text(encoding="utf-8").strip()
+        # A token read during a write looked empty and silently minted a new one, breaking every
+        # open browser tab; read through the retrying reader and write atomically instead.
+        try:
+            t = read_text_locked(TOKEN_PATH).strip()
+        except OSError:
+            t = ""
         if t:
             return t
     t = secrets.token_urlsafe(24)
-    TOKEN_PATH.write_text(t, encoding="utf-8")
+    atomic_write_text(TOKEN_PATH, t)
     _chmod600(TOKEN_PATH)
     return t
 
@@ -34,11 +42,14 @@ def ensure_token() -> str:
 def ensure_llama_key() -> str:
     ensure_dirs()
     if LLAMA_KEY_PATH.is_file():
-        k = LLAMA_KEY_PATH.read_text(encoding="utf-8").strip()
+        try:
+            k = read_text_locked(LLAMA_KEY_PATH).strip()
+        except OSError:
+            k = ""
         if k:
             return k
     k = secrets.token_urlsafe(32)
-    LLAMA_KEY_PATH.write_text(k, encoding="utf-8")
+    atomic_write_text(LLAMA_KEY_PATH, k)
     _chmod600(LLAMA_KEY_PATH)
     return k
 
@@ -59,4 +70,11 @@ def token_from_request(headers: dict[str, str], query: dict[str, list[str]]) -> 
     qs = query.get("t") or query.get("token")
     if qs:
         return qs[0]
+    # Set once by the portal shell for an operator who already proved the token, so it need not
+    # sit in the URL and in browser history. SameSite=Strict, so it is never sent cross-site.
+    cookie = headers.get("Cookie") or headers.get("cookie") or ""
+    for part in cookie.split(";"):
+        name, _, value = part.strip().partition("=")
+        if name == COOKIE_NAME and value:
+            return value.strip()
     return None

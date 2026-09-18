@@ -18,11 +18,16 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+try:  # kit ports (a stick runs 9651/11451); never hard-code the desktop pair here
+    from paths import DEFAULT_PORT, LLAMA_PORT  # noqa: E402
+except Exception:  # standalone copy of this file
+    DEFAULT_PORT, LLAMA_PORT = 9641, 11441
+
 HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
-from p0_hook import gate_output_window, gate_prompt  # noqa: E402
+from p0_hook import PHYSICS_AVAILABLE, gate_output_window, gate_prompt  # noqa: E402
 
 ALLOW_ORIGINS = (
     "https://chatagent.ca",
@@ -36,10 +41,15 @@ ALLOW_ORIGINS = (
     "https://asiancoastline.com",
     "https://bpmfinder.ca",
     "https://deepseekoracle.github.io",
-    "http://127.0.0.1:9641",
-    "http://localhost:9641",
+    f"http://127.0.0.1:{DEFAULT_PORT}",
+    f"http://localhost:{DEFAULT_PORT}",
     "http://127.0.0.1:8080",
-    "http://10.0.0.209:8080",
+    # A machine-specific origin (a LAN dev box, a staging host) does not belong in shipped source:
+    # it is a permanent hole nobody remembers. Set LYGO_PUBLIC_ORIGINS="https://a,https://b".
+) + tuple(
+    o.strip().rstrip("/")
+    for o in os.environ.get("LYGO_PUBLIC_ORIGINS", "").split(",")
+    if o.strip()
 )
 PUBLIC_SYSTEM = (
     "You are the public LYGO LLM portal. Assist the human. Never replace them. "
@@ -53,6 +63,22 @@ MAX_REQ = 24
 MAX_CHARS = 4000
 MAX_MSGS = 10
 _hits: dict[str, deque[float]] = defaultdict(deque)
+# A public endpoint may not answer behind a quieter gate than the console it fronts. The deep
+# layer missing is a degraded mode, not a free pass: it is marked in every verdict, warned about
+# once, and reported on /health. LYGO_PUBLIC_REQUIRE_PHYSICS=1 refuses instead of degrading.
+STRICT_PHYSICS = os.environ.get("LYGO_PUBLIC_REQUIRE_PHYSICS", "").strip().lower() in ("1", "true", "yes")
+_degraded_warned = False
+
+
+def _warn_degraded_once() -> None:
+    global _degraded_warned
+    if not _degraded_warned:
+        _degraded_warned = True
+        sys.stderr.write(
+            "[public-gateway] P0 physics layer unavailable: answering with the policy regex only. "
+            "Set LYGO_PUBLIC_REQUIRE_PHYSICS=1 to refuse instead of degrade.\n"
+        )
+        sys.stderr.flush()
 
 
 def _cors_ok(origin: str) -> bool:
@@ -103,7 +129,7 @@ def _openai_chat(url: str, model: str, messages: list[dict[str, Any]], key: str)
 class Handler(BaseHTTPRequestHandler):
     backend = "ollama"
     ollama = "http://127.0.0.1:11434"
-    openai_url = "http://127.0.0.1:11441/v1/chat/completions"
+    openai_url = f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions"
     openai_key = ""
     model = "qwen2.5:3b"
     server_version = "LYGO-PublicGateway/1"
@@ -148,6 +174,8 @@ class Handler(BaseHTTPRequestHandler):
                     "full_lygo": False,
                     "tools": False,
                     "model": self.model,
+                    "physics": PHYSICS_AVAILABLE,
+                    "gate": "physics" if PHYSICS_AVAILABLE else "regex_only",
                     "portal": "https://chatagent.ca/portal/",
                     "note": "Public chat only. Full limbs require a local LYGO LLM Console.",
                 },
@@ -192,7 +220,16 @@ class Handler(BaseHTTPRequestHandler):
         user = " ".join(m["content"] for m in msgs if m["role"] == "user")[-MAX_CHARS:]
         gate = gate_prompt(user)
         if gate.get("reason") == "p0_import_failed":
-            gate = {"verdict": "ALLOW", "reason": "p0_regex_only"}
+            # p0_hook fails CLOSED when its physics layer cannot be imported. This endpoint used
+            # to override that closed gate with a fabricated {"verdict": "ALLOW"} labelled
+            # "p0_regex_only" - a label for a regex that never ran. The public surface therefore
+            # answered with no gating whatsoever. Run the real policy stage instead and say out
+            # loud that only the shallow layer is active.
+            gate = {**gate_output_window(user), "reason": "p0_regex_only", "degraded": True, "physics": None}
+            _warn_degraded_once()
+            if STRICT_PHYSICS:
+                self._json(503, {"error": "gate_unavailable", "gate": gate})
+                return
         if gate.get("verdict") == "QUARANTINE":
             self._json(451, {"error": "quarantine", "gate": gate})
             return
@@ -203,9 +240,15 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 text = _ollama_chat(self.ollama, model, msgs)
         except Exception as e:
-            self._json(502, {"error": "upstream", "detail": str(e)[:200]})
+            # This endpoint is public: upstream internals (host, port, stack frames) belong in the
+            # operator's stderr, not in the caller's response.
+            sys.stderr.write(f"[public-gateway] upstream failed: {type(e).__name__}: {e}\n")
+            sys.stderr.flush()
+            self._json(502, {"error": "upstream"})
             return
-        if gate_output_window(text[:8000]).get("verdict") == "QUARANTINE":
+        # The whole reply, not its first 8 KB: _policy also QUARANTINEs a payload over its
+        # POLICY_MAX_CHARS, so slicing the head let an oversized answer through unchecked.
+        if gate_output_window(text).get("verdict") == "QUARANTINE":
             text = "[output quarantined]"
         if path == "/api/chat":
             self._json(200, {"text": text, "public": True, "gate": gate, "model": model})
@@ -229,7 +272,7 @@ def main() -> int:
     ap.add_argument("--lan", action="store_true")
     ap.add_argument("--backend", choices=("ollama", "openai"), default="ollama")
     ap.add_argument("--ollama", default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
-    ap.add_argument("--openai-url", default="http://127.0.0.1:11441/v1/chat/completions")
+    ap.add_argument("--openai-url", default=f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions")
     ap.add_argument("--model", default=os.environ.get("LYGO_PUBLIC_MODEL", "qwen2.5:3b"))
     args = ap.parse_args()
     bind = args.bind

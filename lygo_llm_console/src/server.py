@@ -3,11 +3,23 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
+import subprocess
 import sys
 import threading
 import time
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+import sys as _sys
+
+# A stick console is often cp437: a print() of a non-ASCII line (the Delta9Phi963 signature,
+# a model answer) must degrade, never raise.
+for _stream in (_sys.stdout, _sys.stderr):
+    try:
+        _stream.reconfigure(errors="replace")
+    except Exception:  # noqa: BLE001 - not a real console (pipe, IDE, pytest capture)
+        pass
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
@@ -17,13 +29,18 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
+from atomicio import atomic_write_text  # noqa: E402
+from atomicio import read_text as read_text_locked  # noqa: E402
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
 from chat_loop import (  # noqa: E402
     extract_user_text,
     has_image,
     host_prefetch,
+    normalise_messages,
     prefetch_message,
     run_tools_round,
+    trim_history,
+    user_text_of,
 )
 from continuity import (  # noqa: E402
     compose_system,
@@ -58,7 +75,7 @@ from paths import (  # noqa: E402
     WORKSPACE,
     ensure_dirs,
 )
-from receipts import write_receipt  # noqa: E402
+from receipts import prune_at_startup, write_receipt  # noqa: E402
 from registry import get as reg_get  # noqa: E402
 from registry import load as reg_load  # noqa: E402
 from registry import upsert as reg_upsert  # noqa: E402
@@ -78,15 +95,73 @@ def brain_port() -> int:
     return int(STATE.get("engine_port") or LLAMA_PORT)
 
 
+# A peer that opens a socket and stalls must not hold a handler thread until it decides to close.
+try:
+    REQUEST_TIMEOUT = float(os.environ.get("LYGO_REQUEST_TIMEOUT", "120"))
+except ValueError:
+    REQUEST_TIMEOUT = 120.0
+
+# host_prefetch fetches URLs out of the user's text before the model answers. On by default, but
+# switchable: a fetched page is untrusted input landing beside the shell and python limbs.
+HOST_PREFETCH = os.environ.get("LYGO_HOST_PREFETCH", "1").strip().lower() not in ("0", "false", "no")
+
+
+class _BadRequest(Exception):
+    """A malformed request envelope (Content-Length, transfer encoding) -> 400, not a 500."""
+
+
+class _BodyTooLarge(Exception):
+    """Request body over the endpoint's limit: answers 413 instead of a misleading 400."""
+
+
+# A half-written or hand-edited console.json used to raise out of load_console(): startup
+# aborted before the server existed and every endpoint that reads the config answered 500.
+# Bad config now costs the operator the config, never the console, and the reason is reported
+# through /api/health instead of vanishing into a stderr traceback.
+CONFIG_ERRORS: list[str] = []
+_CONFIG_CACHE: dict[str, Any] = {"key": None, "cfg": {}}
+
+
+def _note_config_error(msg: str) -> None:
+    if msg not in CONFIG_ERRORS:
+        CONFIG_ERRORS.append(msg)
+    del CONFIG_ERRORS[5:]
+
+
+def _config_key() -> tuple[Any, ...] | None:
+    try:
+        return tuple(
+            (p.stat().st_mtime_ns, p.stat().st_size) if p.is_file() else None
+            for p in (CONSOLE_JSON, LOCAL_JSON)
+        )
+    except OSError:
+        return None
+
+
 def load_console() -> dict[str, Any]:
+    """config/console.json, optionally overlaid by config/local.json.
+
+    Parsed once per file state: every POST used to re-read and re-parse both files.
+    """
+    key = _config_key()
+    if key is not None and _CONFIG_CACHE.get("key") == key:
+        return dict(_CONFIG_CACHE["cfg"])
     cfg: dict[str, Any] = {}
-    if CONSOLE_JSON.is_file():
-        cfg = json.loads(CONSOLE_JSON.read_text(encoding="utf-8"))
-    if LOCAL_JSON.is_file():
-        loc = json.loads(LOCAL_JSON.read_text(encoding="utf-8"))
-        if isinstance(loc, dict):
-            cfg = {**cfg, **loc}
-    return cfg
+    for path in (CONSOLE_JSON, LOCAL_JSON):
+        if not path.is_file():
+            continue
+        try:
+            loaded = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001 - a broken config must not kill the console
+            _note_config_error(f"{path.name}: {type(e).__name__}: {e}"[:200])
+            continue
+        if isinstance(loaded, dict):
+            cfg = {**cfg, **loaded}
+        else:
+            _note_config_error(f"{path.name}: not a JSON object")
+    if key is not None:
+        _CONFIG_CACHE.update(key=key, cfg=cfg)
+    return dict(cfg)
 
 
 def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
@@ -103,16 +178,38 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
     home_cas = Path(os.path.expandvars(r"%USERPROFILE%\.ollama\models"))
     if home_cas.is_dir() and str(home_cas) not in out:
         out.append(str(home_cas))
-    extras = [
-        KIT_ROOT / "models",
-        Path(r"U:\LYGO\models"),
-        Path(r"F:\LYGO\models"),
-        Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
-    ]
+    # Declared roots first, kit-relative second, raw drive letters last: a kit packaged onto
+    # another drive must find its own models without a stale letter being the only candidate.
+    extras = [KIT_ROOT / "models"]
+    for env_name in ("LYGO_STACK_ROOT", "LYGO_BUILDER_KEY_ROOT"):
+        declared = os.environ.get(env_name, "").strip()
+        if declared:
+            base = Path(os.path.expandvars(declared))
+            extras.extend([base / "models", base / "product" / "models" / "ollama"])
+    extras.extend(
+        [
+            Path(r"U:\LYGO\models"),
+            Path(r"F:\LYGO\models"),
+            Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
+        ]
+    )
     usb = os.environ.get("LYGO_USB_ROOT", "").strip()
     if usb:
         extras.append(Path(usb) / "product" / "models" / "ollama")
         extras.append(Path(usb) / "models")
+    # The launchers declare where this stick keeps its models (LYGO_MODELS / OLLAMA_MODELS).
+    # Trusting that declaration is what lets the console find its OWN brains on a PC that has
+    # never run ollama — the difference between a walking agent and an empty shell.
+    for env_name in ("LYGO_MODELS", "OLLAMA_MODELS"):
+        declared = os.environ.get(env_name, "").strip()
+        if declared:
+            extras.append(Path(os.path.expandvars(declared)))
+    # A CAS is a folder holding manifests/ + blobs/, and it usually sits one level down
+    # (<usb>\models\ollama), so descend from the declared parents too.
+    for parent in list(extras):
+        child = parent / "ollama"
+        if (child / "manifests").is_dir() and (child / "blobs").is_dir():
+            extras.append(child)
     # Portable: console lives at <USB>/lygo_llm_console
     extras.append(KIT_ROOT.parent / "product" / "models" / "ollama")
     for p in extras:
@@ -123,6 +220,22 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         if p.exists() and s not in out:
             out.append(s)
     return out
+
+
+def _next_model_rec(models: list[dict[str, Any]], exclude: list[str]) -> dict[str, Any] | None:
+    """Next brain to try after one failed to load here: registry order, minus what we tried."""
+    try:
+        import registry as _reg
+
+        for mid in _reg.candidates(models, prefer_ram=_reg.prefer_by_ram()):
+            if mid in exclude:
+                continue
+            rec = next((m for m in models if m.get("id") == mid), None)
+            if rec and rec.get("runnable") and rec.get("path"):
+                return rec
+    except Exception:  # noqa: BLE001 - the fallback picker must never be what fails
+        return None
+    return None
 
 
 def maybe_spawn(model_id: str | None) -> str:
@@ -136,18 +249,43 @@ def maybe_spawn(model_id: str | None) -> str:
     if not rec or not rec.get("path") or not rec.get("runnable"):
         STATE["brain"] = "missing"
         return "missing"
-    try:
-        from lygo_engine import boot as lygo_boot
+    from lygo_engine import boot as lygo_boot
 
-        return lygo_boot(rec, api_key=LLAMA_KEY, state=STATE)
-    except MemoryError as e:
-        STATE["brain"] = "ram_refused"
-        STATE["error"] = str(e)
-        return "ram_refused"
-    except Exception as e:
-        STATE["brain"] = "error"
-        STATE["error"] = f"{type(e).__name__}: {e}"
-        return "error"
+    # A model whose header parses but which this engine cannot actually load (wrong tensor
+    # offsets, unsupported quant, half-copied file) used to be fatal: brain=error and a dark
+    # console. Remember the verdict for THIS host and boot the next-best brain instead.
+    tried: list[str] = []
+    last_err = ""
+    for attempt in range(3):
+        try:
+            if attempt == 0:
+                STATE.pop("model_fallback", None)
+            return lygo_boot(rec, api_key=LLAMA_KEY, state=STATE)
+        except MemoryError as e:
+            STATE["brain"] = "ram_refused"
+            STATE["error"] = str(e)
+            return "ram_refused"
+        except Exception as e:  # noqa: BLE001 - never let one bad file take the console down
+            last_err = f"{type(e).__name__}: {e}"
+            mid = str(rec.get("id") or "")
+            if mid:
+                tried.append(mid)
+            try:
+                import model_verdicts
+
+                model_verdicts.mark_bad(mid, str(rec.get("path") or ""), last_err)
+            except Exception:  # noqa: BLE001
+                pass
+            nxt = _next_model_rec(reg_load().get("models") or [], exclude=tried)
+            if not nxt:
+                break
+            rec = nxt
+            STATE["model_fallback"] = (
+                f"{tried[-1]} could not load here ({last_err}); trying {rec.get('id')}"
+            )
+    STATE["brain"] = "error"
+    STATE["error"] = last_err
+    return "error"
 
 
 def boot_async(model_id: str | None) -> None:
@@ -164,7 +302,41 @@ def boot_async(model_id: str | None) -> None:
     threading.Thread(target=_run, daemon=True, name="lygo-llm-boot").start()
 
 
+GATE_CHUNK = 8000
+
+
+def gate_all(text: str) -> dict[str, Any]:
+    """Gate the WHOLE text, not just its head.
+
+    soul / identity / memory accept up to 90 KB but were only scanned as text[:8000]; anything
+    appended past the first chunk reached disk unscanned. Every chunk is judged now, and the
+    first QUARANTINE verdict wins.
+    """
+    if len(text) <= GATE_CHUNK:
+        return gate_prompt(text)
+    head: dict[str, Any] = {}
+    for i in range(0, len(text), GATE_CHUNK):
+        verdict = gate_prompt(text[i : i + GATE_CHUNK])
+        if verdict.get("verdict") == "QUARANTINE":
+            return verdict
+        head = head or verdict
+    return head
+
+
+def _read_text_locked(path: Any, limit: int = 80_000) -> str:
+    """Read a state file through the retrying reader - a writer may be mid-swap right now."""
+    p = Path(path)
+    if not p.is_file():
+        return ""
+    try:
+        return read_text_locked(p, errors="replace")[:limit]
+    except OSError:
+        return ""
+
+
 class Handler(BaseHTTPRequestHandler):
+    # StreamRequestHandler applies this to the socket, so one stalled peer cannot pin a thread.
+    timeout = REQUEST_TIMEOUT
     server_version = "LYGO-LLM-Console/1.0"
 
     def log_message(self, fmt: str, *args: Any) -> None:
@@ -182,9 +354,18 @@ class Handler(BaseHTTPRequestHandler):
         return {k: v for k, v in self.headers.items()}
 
     def _loopback(self) -> bool:
+        """Is this request from this machine? Judged on the socket, never on the Host header.
+
+        Trusting Host let any LAN client send "Host: localhost" and collect the loopback
+        shortcut - and with the token spliced into the page it fetched, that was a full
+        bypass of the token layer. A local reverse proxy does rewrite Host, so that case is
+        explicit opt-in instead of a default.
+        """
         ip = ((self.client_address or ("", 0))[0] or "").lower().replace("::ffff:", "")
         if ip in ("127.0.0.1", "::1", "localhost"):
             return True
+        if os.environ.get("LYGO_TRUSTED_PROXY", "").strip().lower() not in ("1", "true", "yes"):
+            return False
         host = (self.headers.get("Host") or "").split(":")[0].lower().strip("[]")
         return host in ("127.0.0.1", "localhost", "::1")
 
@@ -199,13 +380,13 @@ class Handler(BaseHTTPRequestHandler):
             return True
         if self._loopback():
             return True
-        if self._ok_public() and urlparse(self.path).path != "/":
-            if urlparse(self.path).path.startswith("/static/") or urlparse(self.path).path == "/api/health":
-                return True
-        tok = token_from_request(self._headers_map(), self._query())
-        if urlparse(self.path).path == "/":
+        path = urlparse(self.path).path
+        # The portal shell and the health bar stay reachable without a token - that is how a
+        # remote operator gets in. Everything else needs one, and the shell hands the token out
+        # only to a loopback caller (see _dispatch_GET).
+        if path in ("/", "/api/health", "/api/world") or path.startswith("/static/"):
             return True
-        return check(tok, TOKEN)
+        return check(token_from_request(self._headers_map(), self._query()), TOKEN)
 
     def _send(self, code: int, body: bytes, ctype: str = "application/json", extra: dict[str, str] | None = None) -> None:
         self.send_response(code)
@@ -234,19 +415,59 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, json.dumps(obj).encode("utf-8"))
 
     def _read_body(self, limit: int) -> bytes:
-        n = int(self.headers.get("Content-Length") or 0)
+        """Read the body, refusing a malformed or oversized Content-Length.
+
+        Three ways this went wrong: `Content-Length: -1` reached rfile.read(-1), which reads until
+        the peer closes, so a loop of such requests wedged a handler thread each; a non-numeric
+        length raised ValueError out of the handler as a 500; and an over-limit body was emptied,
+        which made the endpoint report 400 no_input for a payload that was merely large.
+        """
+        raw_len = (self.headers.get("Content-Length") or "0").strip()
+        try:
+            n = int(raw_len)
+        except ValueError:
+            raise _BadRequest(f"Content-Length: {raw_len[:32]!r}") from None
+        if n < 0:
+            raise _BadRequest(f"Content-Length: {n}")
         if n > limit:
-            return b""
+            raise _BodyTooLarge(f"{n} > {limit}")
         return self.rfile.read(n) if n else b""
 
+    def _contain(self, exc: BaseException) -> None:
+        """Answer 500 instead of dropping the connection when a handler raises."""
+        try:
+            # Detail carries absolute paths and internals: right for the operator on this
+            # machine, not for whoever else can reach a LAN-bound console.
+            detail = f"{type(exc).__name__}: {exc}"[:300] if self._loopback() else type(exc).__name__
+        except Exception:  # noqa: BLE001
+            detail = "unprintable_error"
+        try:
+            self._json(500, {"error": "handler_failed", "detail": detail})
+        except Exception:  # noqa: BLE001 - the socket may already be gone
+            pass
+
     def do_GET(self) -> None:  # noqa: N802
+        try:
+            self._dispatch_GET()
+        except _BodyTooLarge as exc:
+            # The body is deliberately left unread; this answer closes the connection.
+            self.close_connection = True
+            self._json(413, {"error": "too_large", "limit": str(exc)[:60]})
+        except _BadRequest as exc:
+            self.close_connection = True
+            self._json(400, {"error": "bad_request", "detail": str(exc)[:60]})
+        except Exception as exc:  # noqa: BLE001 - one bad request must not end the console
+            self._contain(exc)
+
+    def _dispatch_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
-        if not self._auth() and path not in ("/",) and not path.startswith("/static/") and path not in ("/api/health", "/api/world"):
+        # One gate, not two: _auth() already exempts the shell, its assets, the health bar and the
+        # world clock. This used to re-implement the same check with a slightly different list, so
+        # the two could disagree about what was public. Behaviour is unchanged.
+        if not self._auth():
             self._json(401, {"error": "unauthorized"})
             return
         if path == "/" or path == "/index.html":
-            import re
-
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
             js = (PORTAL / "app.js").read_text(encoding="utf-8")
@@ -259,13 +480,29 @@ class Handler(BaseHTTPRequestHandler):
 
             html = _splice(html, r'<link rel="stylesheet" href="/static/style\.css[^"]*">', "<style>\n" + css + "\n</style>")
             html = _splice(html, r'<script src="/static/app\.js[^"]*"></script>', "<script>\n" + js + "\n</script>")
-            html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN))
-            self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
+            # The portal needs the token to talk to its own console, but this page is served
+            # WITHOUT one. Hand the real token only to a loopback caller: a LAN client used to
+            # fetch "/" and be handed the secret in the page source.
+            html = html.replace("/*LYGO_TOKEN*/", json.dumps(TOKEN if self._loopback() else ""))
+            _sys = __import__("surface").report(local_ready=(STATE.get("brain") == "ready"))
+            html = html.replace("/*LYGO_SYSTEM*/", _sys["label"])
+            extra: dict[str, str] = {}
+            if AUTH_REQUIRED and check(token_from_request(self._headers_map(), self._query()), TOKEN):
+                # The operator has already proven the token: keep it in a SameSite cookie so the
+                # URL, the browser history and the printed launcher line need not carry it again.
+                extra["Set-Cookie"] = f"lygo_token={TOKEN}; Path=/; SameSite=Strict; Max-Age=43200"
+            self._send(200, html.encode("utf-8"), "text/html; charset=utf-8", extra or None)
             return
         if path.startswith("/static/"):
             name = path[len("/static/") :].split("?")[0]
             if "/" in name or "\\" in name or not name:
                 self._json(404, {"error": "missing"})
+                return
+            if name.lower().endswith((".html", ".htm")):
+                # The only HTML this console serves is the one document assembled at "/" with the
+                # token, system label and assets spliced in. Served raw, the template's
+                # `window.LYGO_TOKEN = /*LYGO_TOKEN*/;` is a SyntaxError and the page dies silent.
+                self._json(404, {"error": "use_shell_route"})
                 return
             fp = PORTAL / name
             if not fp.is_file() or not str(fp.resolve()).startswith(str(PORTAL.resolve())):
@@ -286,6 +523,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/health":
             from engine import available_ram_bytes
 
+            local_caller = self._loopback()
             self._json(
                 200,
                 {
@@ -297,16 +535,29 @@ class Handler(BaseHTTPRequestHandler):
                     "brain": STATE.get("brain"),
                     "selected": STATE.get("selected") or reg_load().get("selected"),
                     "error": STATE.get("error"),
+                    "model_fallback": STATE.get("model_fallback"),
                     "scan_n": STATE.get("scan_n") or len(reg_load().get("models") or []),
                     "ollama_port_open": ollama_port_open(),
                     "engine_present": bool(resolve_binary()),
+                    "engine_dir": str(__import__("paths").engine_dir()) if local_caller else Path(__import__("paths").engine_dir()).name,
+                    "backend_layer": __import__("backends").report(),
+                    "system": __import__("surface").report(local_ready=(STATE.get("brain") == "ready")),
                     "ram_avail": available_ram_bytes(),
+                    "ram_auto": __import__("registry").prefer_by_ram(),
+                    "ram_fit": __import__("registry").ram_choice(
+                        reg_load().get("models") or [], available_ram_bytes()
+                    ),
+                    "perf": __import__("perf").report(STATE),
+                    "selected_source": reg_load().get("selected_source"),
                     "bind": BIND,
                     "port": DEFAULT_PORT,
                     "tools": [t["function"]["name"] for t in TOOLS_SCHEMA],
-                    "workspace": str(WORKSPACE),
+                    "workspace": str(WORKSPACE) if local_caller else WORKSPACE.name,
+                    "config_errors": CONFIG_ERRORS,
                     "cloud": __import__("cloud_api").public_status(),
-                },
+                    "last_brain": STATE.get("last_brain"),
+                    "fallback": STATE.get("fallback"),
+                    },
             )
             return
         if path == "/api/cloud":
@@ -351,31 +602,34 @@ class Handler(BaseHTTPRequestHandler):
                     self._json(403, {"ok": False, "error": "denied"})
                     return
             ents = []
+            total = 0
             if root.is_dir():
-                for child in list(root.iterdir())[:120]:
+                kids = list(root.iterdir())
+                total = len(kids)
+                for child in kids[:120]:
                     ents.append({"name": child.name, "dir": child.is_dir(), "path": str(child)})
             mounts = list_mounts()
-            self._json(200, {"ok": True, "path": str(root), "entries": ents, "mounts": mounts.get("mounts"), "n_live": mounts.get("n_live")})
+            # The 120-entry cap was silent: a large folder looked complete and an unreadable one
+            # looked empty. Report the true count and whether it was cut.
+            self._json(200, {"ok": True, "path": str(root), "entries": ents, "total": total, "truncated": total > len(ents), "limit": 120, "mounts": mounts.get("mounts"), "n_live": mounts.get("n_live")})
             return
         if path == "/api/memory":
             mem = WORKSPACE / "memory.jsonl"
             lines = []
             if mem.is_file():
                 lines = mem.read_text(encoding="utf-8", errors="ignore").splitlines()[-40:]
-            md = ""
             mp = memory_path()
-            if mp.is_file():
-                md = mp.read_text(encoding="utf-8", errors="replace")[:80_000]
+            md = _read_text_locked(mp)
             self._json(200, {"ok": True, "notes": lines, "memory_md": md, "path": str(mp)})
             return
         if path == "/api/soul":
             p = soul_path()
-            t = p.read_text(encoding="utf-8", errors="replace")[:80_000] if p.is_file() else ""
+            t = _read_text_locked(p)
             self._json(200, {"ok": True, "path": str(p), "text": t})
             return
         if path == "/api/identity":
             p = identity_path()
-            t = p.read_text(encoding="utf-8", errors="replace")[:80_000] if p.is_file() else ""
+            t = _read_text_locked(p)
             self._json(200, {"ok": True, "path": str(p), "text": t})
             return
         if path == "/api/session":
@@ -423,6 +677,19 @@ class Handler(BaseHTTPRequestHandler):
         self._json(404, {"error": "not_found"})
 
     def do_POST(self) -> None:  # noqa: N802
+        try:
+            self._dispatch_POST()
+        except _BodyTooLarge as exc:
+            # The body is deliberately left unread; this answer closes the connection.
+            self.close_connection = True
+            self._json(413, {"error": "too_large", "limit": str(exc)[:60]})
+        except _BadRequest as exc:
+            self.close_connection = True
+            self._json(400, {"error": "bad_request", "detail": str(exc)[:60]})
+        except Exception as exc:  # noqa: BLE001 - one bad request must not end the console
+            self._contain(exc)
+
+    def _dispatch_POST(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
         if not self._auth():
             self._json(401, {"error": "unauthorized"})
@@ -454,6 +721,8 @@ class Handler(BaseHTTPRequestHandler):
             mid = obj.get("id") or STATE.get("selected") or reg_load().get("selected")
             data = reg_load()
             data["selected"] = mid
+            # An explicit switch is a human decision: pin it so the RAM-auto brain stops re-picking.
+            data["selected_source"] = "manual" if obj.get("id") else data.get("selected_source", "auto")
             from registry import save as reg_save
 
             reg_save(data)
@@ -470,6 +739,65 @@ class Handler(BaseHTTPRequestHandler):
             from cloud_api import save as cloud_save
 
             self._json(200, cloud_save(obj if isinstance(obj, dict) else {}))
+            return
+        if path == "/api/brain":
+            # one clear switch: local (default, always complete) <-> api (cloud, engine as safety net)
+            if not self._auth():
+                self._json(401, {"error": "unauthorized"})
+                return
+            body = self._read_body(16_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            if not isinstance(obj, dict):
+                obj = {}
+            want = str(obj.get("mode") or "").strip().lower()
+            if want not in ("local", "api"):
+                self._json(400, {"error": "mode_must_be_local_or_api", "got": want})
+                return
+            import cloud_api
+
+            if want == "api":
+                patch: dict[str, Any] = {"enabled": True, "clear_error": True}
+                for k in ("provider", "model", "url", "key"):
+                    if obj.get(k):
+                        patch[k] = obj[k]
+                if isinstance(obj.get("keys"), dict):
+                    # second (and further) provider keys: {"gemini": "AIza..."} wires the backup
+                    patch["keys"] = obj["keys"]
+                if isinstance(obj.get("fallbacks"), list):
+                    patch["fallbacks"] = obj["fallbacks"]
+                st = cloud_api.public_status()
+                if not st.get("has_key") and not patch.get("key"):
+                    self._json(
+                        409,
+                        {
+                            "error": "no_api_key",
+                            "hint": "paste the key in the API row then Save key (or send key with this call)",
+                            "cloud": st,
+                        },
+                    )
+                    return
+                cloud_api.save(patch)
+                # the API is an option — keep the local engine booted as the safety net
+                if not MOCK_ONLY and STATE.get("brain") != "ready":
+                    sel = STATE.get("selected") or reg_load().get("selected")
+                    if sel:
+                        boot_async(str(sel))
+            else:
+                cloud_api.save({"enabled": False})
+            st = cloud_api.public_status()
+            self._json(
+                200,
+                {
+                    "ok": True,
+                    "mode": st.get("mode"),
+                    "brain": STATE.get("brain"),
+                    "selected": STATE.get("selected"),
+                    "cloud": st,
+                },
+            )
             return
         if path == "/api/session":
             body = self._read_body(512_000)
@@ -534,12 +862,12 @@ class Handler(BaseHTTPRequestHandler):
             except json.JSONDecodeError:
                 obj = {}
             text = str(obj.get("text") or "")
-            if gate_prompt(text[:8000]).get("verdict") == "QUARANTINE":
+            if gate_all(text).get("verdict") == "QUARANTINE":
                 self._json(451, {"ok": False, "error": "p0_blocked"})
                 return
             p = soul_path()
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(text, encoding="utf-8")
+            atomic_write_text(p, text)
             self._json(200, {"ok": True, "path": str(p), "bytes": len(text.encode("utf-8"))})
             return
         if path == "/api/identity":
@@ -551,12 +879,12 @@ class Handler(BaseHTTPRequestHandler):
             except json.JSONDecodeError:
                 obj = {}
             text = str(obj.get("text") or "")
-            if gate_prompt(text[:8000]).get("verdict") == "QUARANTINE":
+            if gate_all(text).get("verdict") == "QUARANTINE":
                 self._json(451, {"ok": False, "error": "p0_blocked"})
                 return
             p = identity_path()
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(text, encoding="utf-8")
+            atomic_write_text(p, text)
             self._json(200, {"ok": True, "path": str(p), "bytes": len(text.encode("utf-8"))})
             return
         if path == "/api/memory":
@@ -568,12 +896,12 @@ class Handler(BaseHTTPRequestHandler):
             except json.JSONDecodeError:
                 obj = {}
             text = str(obj.get("text") or "")
-            if gate_prompt(text[:8000]).get("verdict") == "QUARANTINE":
+            if gate_all(text).get("verdict") == "QUARANTINE":
                 self._json(451, {"ok": False, "error": "p0_blocked"})
                 return
             p = memory_path()
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(text, encoding="utf-8")
+            atomic_write_text(p, text)
             self._json(200, {"ok": True, "path": str(p), "bytes": len(text.encode("utf-8"))})
             return
         if path == "/api/workspace":
@@ -665,16 +993,18 @@ class Handler(BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             self._json(400, {"error": "bad_json"})
             return
-        messages = obj.get("messages") or []
-        if obj.get("prompt") and not messages:
-            messages = [{"role": "user", "content": obj["prompt"]}]
+        # D13: `messages[]` is the contract; `prompt`/`message` are tolerated shorthands. A payload
+        # that carries no user text at all is refused loudly (400 no_input) instead of being
+        # answered with an empty turn — except image-only turns, which are legitimate.
+        messages = normalise_messages(obj)
+        if not messages and obj.get("messages"):
+            self._json(400, {"error": "no_input", "hint": "messages[] entries must be objects with role/content"})
+            return
         user = extract_user_text(messages)
-        last_user = ""
-        for m in reversed(messages):
-            if m.get("role") == "user":
-                c = m.get("content")
-                last_user = c if isinstance(c, str) else extract_user_text([m])
-                break
+        last_user = user_text_of(messages)
+        if not (str(user).strip() or str(last_user).strip()) and not has_image(messages):
+            self._json(400, {"error": "no_input", "hint": "send messages:[{\"role\":\"user\",\"content\":\"...\"}] (prompt or message also accepted)"})
+            return
         gate = gate_prompt(user)
         if gate.get("verdict") == "QUARANTINE":
             self._json(451, {"error": "quarantine", "gate": gate})
@@ -684,25 +1014,41 @@ class Handler(BaseHTTPRequestHandler):
         max_tokens = int(obj.get("max_tokens") or 1024)
         want_stream = bool(obj.get("stream", True))
         from cloud_api import chat as cloud_chat
-        from cloud_api import enabled as cloud_on
-        from cloud_api import public_status as cloud_pub
+        import brain_router
+        import cloud_api
 
-        st_cloud = cloud_pub()
+        # LOCAL is the default brain and always stays complete; the API is an option that hands
+        # the turn back to the engine whenever it cannot answer (tokens, rate limit, outage).
+        local_model = str(obj.get("model") or STATE.get("selected") or reg_load().get("selected") or "lygo-local")
+        st_cloud = cloud_api.public_status()
+        api_label = brain_router.label_of(st_cloud)
         want_api = obj.get("use_api")
+        force_api = bool(obj.get("force_api"))
         has_key = bool(st_cloud.get("has_key"))
         if want_api is None:
             use_cloud = bool(st_cloud.get("enabled") and has_key)
         else:
             use_cloud = bool(want_api) and has_key
+        handoff: dict[str, Any] | None = None
+        if use_cloud and st_cloud.get("degraded") and not force_api and cloud_api.cooldown_active():
+            # this API already handed off moments ago — answer locally, don't burn another call
+            use_cloud = False
+            handoff = brain_router.handoff_info(
+                st_cloud.get("last_code") or 0, st_cloud.get("last_error") or "", api_label, skipped=True
+            )
         if use_cloud:
             brain = "cloud"
-            model = cloud_pub().get("model") or model
+            model = st_cloud.get("model") or model
         else:
-            brain = maybe_spawn(model if reg_get(str(model)) else None)
-        msgs = [{"role": "system", "content": compose_system()}] + messages
+            brain = maybe_spawn(local_model if reg_get(str(local_model)) else None)
+        msgs = [{"role": "system", "content": compose_system("api" if use_cloud else "local")}] + trim_history(messages)
         assistant = ""
         traces: list[Any] = []
-        if use_tools and last_user:
+        if use_tools and last_user and HOST_PREFETCH:
+            # host_prefetch pulls URLs out of the user's text and fetches them before the model
+            # answers, so a pasted or forwarded link becomes untrusted content in the same context
+            # as the shell and python limbs. On by default - it is how the small local models get
+            # live context - but the operator can switch it off with LYGO_HOST_PREFETCH=0.
             pre = host_prefetch(last_user)
             if pre:
                 traces.extend(pre)
@@ -719,15 +1065,31 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Cache-Control", "no-store")
             self.send_header("Connection", "close")
             self.end_headers()
+            emit_sse(
+                {
+                    "type": "brain",
+                    "active": "cloud" if use_cloud else "local",
+                    "brain": brain,
+                    "model": str(model),
+                    "api": api_label,
+                    "fallback": handoff,
+                }
+            )
 
         if brain != "ready" and brain != "cloud":
             # mock / missing
             assistant = (
                 "LYGO LLM Console is up. Engine brain is "
                 f"{brain}. P0 verdict {gate.get('verdict')}. "
-                "Local: Scan GGUF then Boot. Or paste a DeepSeek/OpenAI key in API bar → Connect API. "
-                "Same full limbs either way."
+                "Local: Scan drives, pick a model, Boot LLM (it stays the default). "
+                "Or press API in the brain switch to run the chat on a cloud key. Same full limbs either way."
             )
+            if handoff:
+                assistant = (
+                    brain_router.banner(handoff["why"], handoff.get("api") or "", "", skipped=bool(handoff.get("skipped")))
+                    + "\n\n"
+                    + assistant
+                )
             if use_tools and "status" in user.lower():
                 name, result = "kernel_status", __import__("tools").dispatch("kernel_status", {})
                 traces.append({"name": name, "result": result})
@@ -739,7 +1101,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"text": assistant, "gate": gate, "brain": brain, "receipt": rec["id"], "traces": traces})
             return
 
-        from chat_loop import sanitize_assistant
+        from chat_loop import sanitize_assistant, same_answer
         from openai_proxy import llama_chat
 
         host_did_tools = bool(traces)
@@ -747,7 +1109,11 @@ class Handler(BaseHTTPRequestHandler):
             msgs.append(
                 {
                     "role": "user",
-                    "content": "HOST already ran tools. Write the operator-facing answer now. Do not call more tools.",
+                    "content": (
+                        "HOST already ran the readout above. Write the operator-facing answer now, in your "
+                        "own words. You may call at most ONE more limb if a specific path or URL is still "
+                        "missing — otherwise answer."
+                    ),
                 }
             )
         payload = {
@@ -757,13 +1123,35 @@ class Handler(BaseHTTPRequestHandler):
             "stream": False,
         }
         tool_schema = TOOLS_SCHEMA if use_cloud else core_schema()
-        if use_tools and not host_did_tools:
+        if use_tools:
             payload["tools"] = tool_schema
         if use_cloud:
             code, body, _ = cloud_chat(payload)
             if code >= 400 and payload.get("tools"):
                 payload.pop("tools", None)
                 code, body, _ = cloud_chat(payload)
+            if code >= 400 and brain_router.should_fallback(code):
+                # the API is not going to answer this turn — the local engine takes over
+                try:
+                    perr = json.loads(body.decode("utf-8"))
+                    e0 = perr.get("error") if isinstance(perr, dict) else perr
+                    msg0 = e0.get("message") if isinstance(e0, dict) else str(e0 or "")
+                except Exception:
+                    msg0 = body[:300].decode("utf-8", "replace")
+                why = brain_router.reason(code, msg0)
+                cloud_api.note_error(code, why)
+                handoff = brain_router.handoff_info(code, msg0, api_label)
+                STATE["fallback"] = handoff
+                brain = maybe_spawn(local_model if reg_get(str(local_model)) else None)
+                if brain == "ready":
+                    tool_schema = core_schema()
+                    payload.pop("tools", None)
+                    with ENGINE_LOCK:
+                        code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
+                    model = local_model
+                    use_cloud = False
+                else:
+                    brain = "cloud"
         else:
             with ENGINE_LOCK:
                 code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
@@ -783,11 +1171,13 @@ class Handler(BaseHTTPRequestHandler):
         if ow.get("verdict") == "QUARANTINE":
             assistant = "[output quarantined]"
         assistant = sanitize_assistant(assistant, traces) or assistant
-        if use_tools and not host_did_tools:
+        if use_tools:
+            # A host-prefetched turn still gets one extra step so the agent can follow up when the
+            # readout did not answer the question; model-initiated turns get the full loop.
             follow = list(msgs)
             cur_msg = msg_obj
             cur_text = assistant
-            for _step in range(4):
+            for _step in range(1 if host_did_tools else 4):
                 batch = run_tools_round(cur_text, cur_msg)
                 if not batch:
                     break
@@ -816,16 +1206,81 @@ class Handler(BaseHTTPRequestHandler):
                     assistant = "[output quarantined]"
                     break
         assistant = sanitize_assistant(assistant, traces) or assistant
-        rec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate, extra={"has_image": has_image(messages)})
+        prev_answer = ""
+        for m in reversed(messages):
+            if m.get("role") == "assistant" and isinstance(m.get("content"), str) and m["content"].strip():
+                prev_answer = m["content"]
+                break
+        if prev_answer and assistant and same_answer(prev_answer, assistant):
+            # The operator asked something new and got the old answer back — small models happily echo
+            # whatever is in the session. One nudge; whatever comes back is kept.
+            nudge = list(msgs) + [
+                {"role": "assistant", "content": assistant},
+                {
+                    "role": "user",
+                    "content": (
+                        "That was your previous answer repeated. Answer only the newest operator message, in "
+                        "different words, with different content. If nothing new applies, say what changed in "
+                        "one line."
+                    ),
+                },
+            ]
+            p3 = {"model": model, "messages": nudge, "max_tokens": max_tokens, "stream": False}
+            if use_cloud:
+                _, body3, _ = cloud_chat(p3)
+            else:
+                with ENGINE_LOCK:
+                    _, body3, _ = llama_chat(api_key=LLAMA_KEY, payload=p3, port=brain_port())
+            try:
+                p3j = json.loads(body3.decode("utf-8"))
+                fresh = (((p3j.get("choices") or [{}])[0].get("message") or {}).get("content") or "").strip()
+            except json.JSONDecodeError:
+                fresh = ""
+            if fresh and not same_answer(prev_answer, fresh):
+                assistant = sanitize_assistant(fresh, traces) or fresh
+        active = "cloud" if use_cloud else "local"
+        if handoff and assistant and active == "local" and not assistant.startswith("\u26a0"):
+            assistant = brain_router.banner(handoff["why"], handoff.get("api") or "", str(model)) + "\n\n" + assistant
+        if not handoff:
+            # a clean turn clears the last-handoff note on the health bar
+            STATE["fallback"] = None
+        STATE["last_brain"] = active
+        rec = write_receipt(
+            prompt=user,
+            output=assistant,
+            model=str(model),
+            gate=gate,
+            extra={"has_image": has_image(messages), "active_brain": active, "api_handoff": handoff},
+        )
         try:
             save_session(list(messages) + [{"role": "assistant", "content": assistant}])
         except Exception:
             pass
         if want_stream:
             emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
-            emit_sse({"type": "done", "traces": traces, "receipt": rec["id"]})
+            emit_sse(
+                {
+                    "type": "done",
+                    "traces": traces,
+                    "receipt": rec["id"],
+                    "active": active,
+                    "brain": brain,
+                    "fallback": handoff,
+                }
+            )
             return
-        self._json(200, {"text": assistant, "gate": gate, "brain": brain, "receipt": rec["id"], "traces": traces})
+        self._json(
+            200,
+            {
+                "text": assistant,
+                "gate": gate,
+                "brain": brain,
+                "active": active,
+                "fallback": handoff,
+                "receipt": rec["id"],
+                "traces": traces,
+            },
+        )
 
     def _v1_chat(self) -> None:
         raw = self._read_body(256_000)
@@ -875,11 +1330,31 @@ class Handler(BaseHTTPRequestHandler):
         self._send(code, body, ctype or "application/json")
 
 
+class _StickContainment(ThreadingHTTPServer):
+    """Console server that contains a failure instead of dying on it.
+
+    socketserver's default handle_error prints the traceback to stderr; on a stick console
+    whose stream is cp437 that print can itself raise, which ends the whole console. Logging
+    here can never raise, so one bad request costs one response, not the session.
+    """
+
+    def handle_error(self, ref: object, ca: object) -> None:  # noqa: N802
+        try:
+            import traceback  # noqa: PLC0415
+
+            tb = "".join(traceback.format_exception(*_sys.exc_info()))[-4000:]
+            _sys.stderr.write(f"[stick] request from {ca} failed:\n{tb}\n")
+            _sys.stderr.flush()
+        except Exception:  # noqa: BLE001 - logging must never raise
+            pass
+
+
 def main() -> int:
     global TOKEN, LLAMA_KEY, BIND, AUTH_REQUIRED, MOCK_ONLY
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", nargs="?", default="serve")
-    ap.add_argument("--port", type=int, default=DEFAULT_PORT)
+    # None means "whoever knows": console.json may declare the port for this copy of the kit.
+    ap.add_argument("--port", type=int, default=None)
     ap.add_argument("--lan", action="store_true")
     ap.add_argument("--i-consent", action="store_true", dest="i_consent")
     ap.add_argument("--gguf", default="")
@@ -887,6 +1362,15 @@ def main() -> int:
     ap.add_argument("--mock", action="store_true")
     args = ap.parse_args()
     ensure_dirs()
+    # Retention is a boot-time concern: receipts/events/todo stores grow forever and every
+    # turn used to pay a re-read of the whole history. Bounded, and it must never stop the
+    # console from coming up, so a failure here is reported and swallowed.
+    try:
+        _ret = prune_at_startup()
+        print(f"[stick] retention: receipts={_ret.get('receipts')} "
+              f"events={_ret.get('events')} todos={_ret.get('todos')}", file=sys.stderr)
+    except Exception as _ret_e:  # noqa: BLE001 - retention must not block boot
+        print(f"[stick] retention prune skipped: {_ret_e}", file=sys.stderr)
     try:
         from install import ensure_layout, seed_identity
 
@@ -905,11 +1389,71 @@ def main() -> int:
         BIND = "0.0.0.0"
         AUTH_REQUIRED = True
     cfg = load_console()
+    # console.json used to be dead config for the two keys that matter most for running a second
+    # copy of this kit (its port pair and its bind). Honour them - and refuse a config that tries
+    # to expose the console on the network without the explicit --lan --i-consent handshake.
+    if args.port is None:
+        try:
+            args.port = int(cfg.get("port") or DEFAULT_PORT)
+        except (TypeError, ValueError):
+            print(f"console.json port is not a number, using {DEFAULT_PORT}", file=sys.stderr)
+            args.port = DEFAULT_PORT
+    if not args.lan:
+        want_bind = str(cfg.get("bind") or "").strip()
+        if want_bind and want_bind.lower() not in ("127.0.0.1", "localhost", "::1"):
+            print(
+                f"console.json asks to bind {want_bind}; refusing without --lan --i-consent",
+                file=sys.stderr,
+            )
+            return 2
     if args.cmd != "serve":
         print("unknown cmd", args.cmd)
         return 2
-    httpd = ThreadingHTTPServer((BIND, args.port), Handler)
-    url = f"http://127.0.0.1:{args.port}/?t={TOKEN}&v={BUILD}"
+    class _ConsoleServer(_StickContainment):
+        # Windows maps SO_REUSEADDR (which http.server sets by default) to a *permissive* bind:
+        # two consoles can share 9641 and the browser then talks to whichever one wins, while
+        # their boots fight over 11441 — that is exactly "models vanished / boot hangs".
+        # Exclusive-address makes the second start fail loudly instead of double-binding.
+        allow_reuse_address = False
+
+    def _port_owner_hint(port: int) -> str:
+        try:
+            out = subprocess.run(["netstat", "-ano"], capture_output=True, text=True, timeout=15).stdout or ""
+        except Exception as e:  # pragma: no cover
+            return f"unknown ({e})"
+        rows = [ln.split() for ln in out.splitlines()]
+        # netstat -ano columns: [Proto, Local, Foreign, State, PID]
+        pids = sorted({r[4] for r in rows if len(r) >= 5 and f":{port}" in r[1] and r[3].upper() == "LISTENING"})
+        names = []
+        for pid in pids:
+            nm = "?"
+            try:
+                t = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"], capture_output=True, text=True, timeout=15).stdout or ""
+                if t.strip():
+                    nm = t.split(",")[0].strip().strip('"')
+            except Exception:
+                pass
+            names.append(f"PID {pid} ({nm})")
+        return ", ".join(names) or "free"
+
+    # The portal is spliced into one HTML document per request; a missing asset used to surface
+    # as a 500 on every visit. Fail loudly here instead, before the port is taken.
+    missing_assets = [n for n in ("index.html", "style.css", "app.js") if not (PORTAL / n).is_file()]
+    if missing_assets:
+        print(f"portal assets missing in {PORTAL}: {', '.join(missing_assets)}", file=sys.stderr)
+        return 4
+    try:
+        httpd = _ConsoleServer((BIND, args.port), Handler)
+    except OSError as e:
+        print("", file=sys.stderr)
+        print(f"port {args.port} is already in use — {e}", file=sys.stderr)
+        print("another LYGO console is still running (or its engine):", file=sys.stderr)
+        for _p in (args.port, LLAMA_PORT, EMBED_PORT):
+            print(f"  {_p} -> {_port_owner_hint(_p)}", file=sys.stderr)
+        print("close that window, or run LYGO_LLM_CONSOLE_STOP.bat, then start again.", file=sys.stderr)
+        return 3
+    # The token matters only when auth is on; printing it otherwise puts a useless secret on screen.
+    url = f"http://127.0.0.1:{args.port}/?v={BUILD}" + (f"&t={TOKEN}" if AUTH_REQUIRED else "")
     print(f"LYGO LLM Console {BUILD}  {url}")
     print(f"kit {KIT_ROOT}")
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
@@ -935,12 +1479,14 @@ def main() -> int:
             print("scanning models…")
             scanned = scan_roots(default_scan_roots(cfg))
             data = reg_upsert(scanned.get("models") or [])
-            from registry import pick_default
+            from registry import pick_default, prefer_by_ram
 
             sel = data.get("selected")
             rec = next((m for m in (data.get("models") or []) if m.get("id") == sel), None)
             if not rec or not rec.get("runnable") or rec.get("kind") not in (None, "chat"):
-                data["selected"] = pick_default(data.get("models") or [])
+                want_ram = prefer_by_ram()
+                data["selected"] = pick_default(data.get("models") or [], prefer_ram=want_ram)
+                data["selected_source"] = "ram" if want_ram else "auto"
                 from registry import save as reg_save
 
                 reg_save(data)

@@ -17,15 +17,18 @@ import io
 import json
 import os
 import re
+import shutil
+import tempfile
 import time
 import zipfile
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 from urllib.parse import quote, urlencode
 
 import hashlib
 
-from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs
+from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs, stack_root
+from atomicio import atomic_write_text, read_text
 from p0_hook import gate_prompt
 
 BUNDLED = KIT_ROOT / "skills"
@@ -41,6 +44,25 @@ MAX_ZIP = 6_000_000
 MAX_CATALOG = 900_000
 ID_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,79}$")
 _CAT_CACHE: dict[str, Any] = {"ts": 0.0, "hub": None, "full": None}
+
+
+def core_root() -> Path:
+    """Live LYRA core root, resolved at call time — never a frozen drive letter.
+
+    Generated skill text must name the real location of the core the Δ9 seat derives from,
+    so the kit keeps working when the stick moves from I: to D:. Order: LYGO_CORE_ROOT,
+    a LYRA_CORE inside or beside the resolved stack root, else the same-named sibling of
+    this kit (which is what the core is on the default GamePC layout).
+    """
+    env = (os.environ.get("LYGO_CORE_ROOT") or "").strip()
+    if env:
+        return Path(env)
+    base = stack_root() or KIT_ROOT.parent
+    for cand in (base / "LYRA_CORE", base.parent / "LYRA_CORE"):
+        if cand.is_dir():
+            return cand
+    return base.parent / "LYRA_CORE"
+
 
 CHAMPIONS: list[dict[str, str]] = [
     {
@@ -178,6 +200,31 @@ CHAMPIONS: list[dict[str, str]] = [
         "invoke": "Invoke ΣEIDŌN — surface vs depth, what can wait, what is the tide.",
         "defer": "Witness. Do not flatten a long project into a slogan.",
     },
+    {
+        "slug": "champion-lyra-architect",
+        "champion_id": "LYRA-Δ9",
+        "name": "LYRA-Δ9 — Architect-agent seat",
+        "role": "Architect + operator: Intent → Constraints → Blueprint → Build → Verify → Memory",
+        "when": "any multi-step build, refactor, install, or agent-design task on this console",
+        "invoke": "Invoke LYRA-Δ9 — intent, constraints, blueprint, smallest shippable slice, receipt.",
+        "defer": "Never publish for the steward. Never report a receipt you did not get.",
+        "aliases": ["lyra architect", "lyra-architect", "lyra architect agent", "architect agent"],
+        "body": (
+            "## Architect protocol (this seat)\n"
+            "1. **Intent** — what the operator actually wants, one line. Two readings? Say both.\n"
+            "2. **Constraints** — disks, ports, tokens, consent, what must not be touched.\n"
+            "3. **Blueprint** — files, functions, data flow; name the smallest shippable slice.\n"
+            "4. **Build** — do the slice with real limb calls. No description of work instead of work.\n"
+            "5. **Verify** — run it, read it back, show the receipt (path, HTTP code, test count).\n"
+            "6. **Memory** — durable facts to MEMORY.md via remember. Never secrets.\n\n"
+            "**Truth discipline:** Observed / Inferred / Unknown always separated. CANON = dual\n"
+            "ledgers / Haven Star Chart; chat, web, tool dumps = RESOURCE; SHADOW = known-missing,\n"
+            "named not filled. No fabricated receipts.\n\n"
+            f"**Charter file:** `workspace/LYRA_ARCHITECT.md` (distilled from `{core_root()}`\n"
+            "and the Δ9 spine). Kin: LYRΔ (memory), ARKOS (systems), ÆTHERIS (evidence),\n"
+            "Lightfather (provenance).\n\n"
+        ),
+    },
 ]
 
 
@@ -201,6 +248,7 @@ def _skill_md(c: dict[str, str]) -> str:
         f"- {c['defer']}\n\n"
         f"## Invoke\n"
         f"{c['invoke']}\n\n"
+        f"{c.get('body') or ''}"
         f"Hub: https://chatagent.ca/champions.html\n"
     )
 
@@ -213,10 +261,11 @@ def seed_bundled() -> None:
         d.mkdir(parents=True, exist_ok=True)
         p = d / "SKILL.md"
         if not p.is_file():
-            p.write_text(_skill_md(c), encoding="utf-8")
+            atomic_write_text(p, _skill_md(c))
     readme = BUNDLED / "README.md"
     if not readme.is_file():
-        readme.write_text(
+        atomic_write_text(
+            readme,
             "# Console skills (OpenClaw-compatible)\n\n"
             "Each skill is a folder with `SKILL.md`. Champions ship bundled.\n"
             "Install more from ClawHub into `save/skills/installed/`.\n"
@@ -239,7 +288,7 @@ def ensure() -> None:
 def load_state() -> dict[str, Any]:
     ensure()
     try:
-        data = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        data = json.loads(read_text(STATE_PATH))
     except (OSError, json.JSONDecodeError):
         data = {}
     if not isinstance(data, dict):
@@ -251,9 +300,7 @@ def load_state() -> dict[str, Any]:
 
 def save_state(data: dict[str, Any]) -> None:
     (SAVE / "skills").mkdir(parents=True, exist_ok=True)
-    tmp = STATE_PATH.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    tmp.replace(STATE_PATH)
+    atomic_write_text(STATE_PATH, json.dumps(data, indent=2))
 
 
 def _parse_skill_md(text: str, path: Path) -> dict[str, Any] | None:
@@ -297,7 +344,7 @@ def _walk_skills(root: Path, source: str, depth: int = 5) -> list[dict[str, Any]
             rel = p.relative_to(root)
             if len(rel.parts) > depth:
                 continue
-            text = p.read_text(encoding="utf-8", errors="replace")[: MAX_SKILL_BODY + 2000]
+            text = read_text(p, errors="replace")[: MAX_SKILL_BODY + 2000]
         except OSError:
             continue
         parsed = _parse_skill_md(text, p)
@@ -442,7 +489,7 @@ def add_root(path: str) -> dict[str, Any]:
     return {"ok": True, "extra_dirs": dirs, "added": s}
 
 
-def prompt_catalog(cap: int = 2800) -> str:
+def prompt_catalog(cap: int = 1500) -> str:
     rows = [r for r in catalog() if r.get("enabled")]
     if not rows:
         return (
@@ -466,13 +513,23 @@ def prompt_catalog(cap: int = 2800) -> str:
 
 
 def match_invoked(user_text: str) -> list[str]:
+    """Which seats/skills the operator named. The most specific name wins.
+
+    "summon LYRA architect" has to land on the architect seat, not on LYRΔ (plain "lyra"), so hits
+    are ranked by how much of the name matched instead of by list order.
+    """
     t = (user_text or "").lower()
-    hits: list[str] = []
+    scored: list[tuple[int, str]] = []
     for c in CHAMPIONS:
         keys = {c["slug"], c["champion_id"].lower(), c["slug"].replace("champion-", "")}
         keys.add(c["champion_id"].replace("Δ", "d").replace("Σ", "s").replace("Λ", "l").lower())
-        if any(k and k in t for k in keys):
-            hits.append(c["slug"])
+        for a in c.get("aliases") or []:
+            keys.add(str(a).lower())
+        best = max((len(k) for k in keys if k and k in t), default=0)
+        if best:
+            scored.append((best, c["slug"]))
+    scored.sort(key=lambda row: (-row[0], row[1]))
+    hits: list[str] = [slug for _, slug in scored]
     m = re.search(r"(?:/skill|skill_read|invoke|summon|align with)\s+([a-zA-Z0-9._ΔΣΛΩÆ-]{2,40})", user_text or "", re.I)
     if m:
         hits.append(m.group(1))
@@ -571,39 +628,86 @@ def _download(url: str, max_bytes: int) -> tuple[int, bytes, str]:
         return 0, str(e).encode("utf-8")[:200], "error"
 
 
+def _safe_member(name: str, dest: Path) -> Path | None:
+    """Relative target for one zip member, or None when the member must be skipped.
+
+    A member name is attacker-controlled: besides '..' and a leading '/', Windows happily
+    resolves a drive-absolute name ('C:/Users/x/evil.txt') to an absolute path, which would
+    drop the file outside save/skills entirely. Reject anything that is not strictly a
+    relative path inside dest (same containment check the HTTP file routes use).
+    """
+    raw = (name or "").replace("\\", "/")
+    if not raw or raw.startswith("/") or PureWindowsPath(raw).drive:
+        return None
+    if Path(raw).is_absolute():
+        return None
+    parts = [p for p in raw.split("/") if p not in ("", ".")]
+    if not parts or ".." in parts:
+        return None
+    rel = Path(*parts[-4:]) if len(parts) > 4 else Path(*parts)
+    target = (dest / rel).resolve()
+    root = dest.resolve()
+    if target != root and root not in target.parents:
+        return None
+    return target
+
+
+def _commit_staged(staging: Path, dest: Path) -> None:
+    """Move a fully-extracted skill tree into place, replacing any previous copy."""
+    for item in sorted(staging.iterdir()):
+        target = dest / item.name
+        if item.is_dir():
+            if target.is_dir():
+                shutil.rmtree(target, ignore_errors=True)
+            elif target.exists():
+                target.unlink()
+            shutil.move(str(item), str(target))
+        else:
+            if target.is_dir():
+                shutil.rmtree(target, ignore_errors=True)
+            os.replace(str(item), str(target))
+
+
 def _extract_skill_zip(raw: bytes, dest: Path, origin: dict[str, Any]) -> dict[str, Any]:
     dest.mkdir(parents=True, exist_ok=True)
     try:
         zf = zipfile.ZipFile(io.BytesIO(raw))
     except zipfile.BadZipFile:
         if b"---" in raw[:80]:
-            (dest / "SKILL.md").write_bytes(raw)
+            atomic_write_text(dest / "SKILL.md", raw.decode("utf-8", errors="replace"))
             return {"ok": True, "path": str(dest), "files": 1}
         return {"ok": False, "error": "not_zip"}
+    # Extract into a sibling temp dir first: nothing reaches save/skills until the tree has
+    # passed the SKILL.md check, and a partial/bad archive never leaves a half-written skill.
+    staging = Path(tempfile.mkdtemp(prefix=dest.name + ".", suffix=".staging", dir=str(dest.parent)))
     n = 0
-    for info in zf.infolist():
-        name = info.filename.replace("\\", "/")
-        if name.endswith("/") or ".." in name.split("/") or name.startswith("/"):
-            continue
-        low = name.lower()
-        if low.endswith((".exe", ".dll", ".bat", ".cmd", ".ps1", ".msi", ".scr")):
-            continue
-        if info.file_size > 500_000:
-            continue
-        parts = Path(name).parts
-        rel = Path(*parts[-4:]) if len(parts) > 4 else Path(name)
-        target = dest / rel
-        try:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(zf.read(info)[:500_000])
-            n += 1
-        except OSError:
-            continue
-        if n >= 80:
-            break
-    if not list(dest.rglob("SKILL.md")) and not list(dest.rglob("skill.md")):
-        return {"ok": False, "error": "no_skill_md", "files": n, "path": str(dest)}
-    (dest / ".clawhub-origin.json").write_text(json.dumps(origin, indent=2), encoding="utf-8")
+    try:
+        for info in zf.infolist():
+            name = info.filename.replace("\\", "/")
+            if name.endswith("/"):
+                continue
+            low = name.lower()
+            if low.endswith((".exe", ".dll", ".bat", ".cmd", ".ps1", ".msi", ".scr")):
+                continue
+            if info.file_size > 500_000:
+                continue
+            target = _safe_member(name, staging)
+            if target is None:
+                continue
+            try:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(zf.read(info)[:500_000])
+                n += 1
+            except OSError:
+                continue
+            if n >= 80:
+                break
+        if not list(staging.rglob("SKILL.md")) and not list(staging.rglob("skill.md")):
+            return {"ok": False, "error": "no_skill_md", "files": n, "path": str(dest)}
+        atomic_write_text(staging / ".clawhub-origin.json", json.dumps(origin, indent=2))
+        _commit_staged(staging, dest)
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
     return {"ok": True, "path": str(dest), "files": n}
 
 

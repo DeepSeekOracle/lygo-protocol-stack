@@ -9,6 +9,7 @@ from typing import Any
 
 from align import load_align
 from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs
+from atomicio import atomic_write_text
 
 SOUL_NAME = "SOUL.md"
 IDENTITY_NAME = "IDENTITY.md"
@@ -18,6 +19,8 @@ CURRENT = SESSIONS / "current.json"
 SOUL_MAX = 6000
 IDENTITY_MAX = 4000
 MEMORY_MAX = 8000
+MEMORY_PROMPT_CAP = 2800  # chars of MEMORY.md the prompt carries (memory is the section that yields)
+PROMPT_CEILING = 16300  # the composed identity block must fit the 8192-token engine window
 HISTORY_MAX = 40
 
 
@@ -43,7 +46,7 @@ def ensure_identity() -> None:
         if not dest.is_file() and src.is_file():
             shutil.copy2(src, dest)
         elif not dest.is_file():
-            dest.write_text(f"# {name}\n\n", encoding="utf-8")
+            atomic_write_text(dest, f"# {name}\n\n")
 
 
 def _read_cap(path: Path, cap: int) -> str:
@@ -56,7 +59,92 @@ def _read_cap(path: Path, cap: int) -> str:
     return t[: max(0, cap - 24)] + "\n\n…[truncated]…\n"
 
 
-def compose_system() -> str:
+def _read_cap_tail(path: Path, cap: int, tail_share: float = 0.38) -> str:
+    """Head (protocol) + tail (what `remember` just wrote).
+
+    MEMORY.md grows at the bottom, so a head-only cap meant the agent could never see the notes it
+    had just appended. Keep both ends.
+    """
+    if not path.is_file():
+        return ""
+    t = path.read_text(encoding="utf-8", errors="replace")
+    if len(t) <= cap:
+        return t
+    tail = int(cap * tail_share)
+    head = max(0, cap - tail - 40)
+    return t[:head] + "\n\n…[middle of file omitted]…\n\n" + t[-tail:]
+
+
+def _split_note(line: str) -> tuple[str, str] | None:
+    """`- (2026-09-17 17:05) note text` → (stamp, note), else None."""
+    s = line.strip()
+    if not (s.startswith("- (") and ") " in s):
+        return None
+    ts, _, note = s[3:].partition(") ")
+    return (ts.strip(), note.strip()) if note.strip() else None
+
+
+def dedupe_notes(text: str) -> str:
+    """Collapse repeated `remember` lines, keeping the newest stamp.
+
+    Identical notes piled up and crowded out the tail window that the agent actually needs.
+    """
+    idx: dict[str, int] = {}
+    count: dict[str, int] = {}
+    out: list[str] = []
+    for line in text.splitlines():
+        parsed = _split_note(line)
+        if not parsed:
+            out.append(line)
+            continue
+        stamp, note = parsed
+        key = note.lower()
+        count[key] = count.get(key, 0) + 1
+        if key in idx:
+            out[idx[key]] = "- (" + stamp + ") " + note
+            continue
+        idx[key] = len(out)
+        out.append(line)
+    for key, pos in idx.items():
+        if count[key] > 1 and count[key] > 0:
+            out[pos] = out[pos].rstrip() + "  (repeated " + str(count[key]) + "x)"
+    return "\n".join(out)
+
+
+def read_memory_block(cap: int = 3200, tail_share: float = 0.5) -> str:
+    """MEMORY.md for the prompt: head (protocol) + tail (newest notes), de-duplicated first."""
+    p = memory_path()
+    if not p.is_file():
+        return ""
+    t = dedupe_notes(p.read_text(encoding="utf-8", errors="replace"))
+    if len(t) <= cap:
+        return t
+    tail = int(cap * tail_share)
+    head = max(0, cap - tail - 40)
+    return t[:head] + "\n\n…[middle of file omitted]…\n\n" + t[-tail:]
+
+
+def _fits(out: str, mem: str) -> str:
+    """Shrink the MEMORY.md block - never SOUL/IDENTITY - until the prompt fits the engine window.
+
+    The window is fixed while the skill catalog and the notes grow, so memory is the section that
+    gives way. Bounded: it stops at 600 chars instead of looping.
+    """
+    if len(out) <= PROMPT_CEILING or not mem:
+        return out
+    cap = len(mem)
+    while len(out) > PROMPT_CEILING and cap > 600:
+        cap = max(600, cap - (len(out) - PROMPT_CEILING) - 120)
+        smaller = read_memory_block(cap)
+        if smaller == mem:
+            break
+        out = out.replace(mem, smaller, 1)
+        mem = smaller
+    return out
+
+
+
+def compose_system(brain: str | None = None) -> str:
     ensure_identity()
     parts: list[str] = []
     try:
@@ -76,6 +164,24 @@ def compose_system() -> str:
     parts.append(load_align())
     parts.append("")
     try:
+        from runtime_facts import limb_catalog, prompt_block
+
+        block = prompt_block(brain)
+        if block:
+            parts.append(block)
+            parts.append("")
+        limbs = limb_catalog()
+        if limbs:
+            parts.append(limbs)
+            parts.append("")
+        parts.append(
+            "Answer the operator's NEWEST message only. Never repeat or paraphrase a previous answer; "
+            "if nothing new applies, say what changed in one line."
+        )
+        parts.append("")
+    except Exception:
+        pass
+    try:
         from world_clock import pulse_stamps
 
         w = pulse_stamps()
@@ -86,9 +192,9 @@ def compose_system() -> str:
         parts.append("")
     except Exception:
         pass
-    soul = _read_cap(soul_path(), 2200)
+    soul = _read_cap(soul_path(), 2400)
     ident = _read_cap(identity_path(), 1400)
-    mem = _read_cap(memory_path(), 4800)
+    mem = read_memory_block(MEMORY_PROMPT_CAP)
     if soul:
         parts.append("=== SOUL.md ===")
         parts.append(soul)
@@ -116,7 +222,7 @@ def compose_system() -> str:
         parts.append("When the operator invokes a champion or /skill, call skill_read then follow that SKILL.md.")
     except Exception:
         pass
-    return "\n".join(parts)
+    return _fits("\n".join(parts), mem)
 
 
 def append_memory(note: str) -> dict[str, Any]:
@@ -126,6 +232,12 @@ def append_memory(note: str) -> dict[str, Any]:
         return {"ok": False, "error": "empty"}
     stamp = time.strftime("%Y-%m-%d %H:%M")
     line = f"\n- ({stamp}) {note}\n"
+    p = memory_path()
+    if p.is_file():
+        recent = p.read_text(encoding="utf-8", errors="replace")[-8000:].lower()
+        if (") " + note.lower()) in recent:
+            return {"ok": True, "duplicate": True, "path": str(p),
+                    "note": "already in MEMORY.md - not appended twice"}
     with memory_path().open("a", encoding="utf-8") as f:
         f.write(line)
     jl = WORKSPACE / "memory.jsonl"
@@ -160,9 +272,7 @@ def save_session(messages: list[dict[str, Any]]) -> None:
             continue
         slim.append({"role": m.get("role"), "content": m.get("content")})
     payload = json.dumps({"updated": time.time(), "messages": slim}, indent=2)
-    tmp = CURRENT.with_suffix(".json.tmp")
-    tmp.write_text(payload, encoding="utf-8")
-    tmp.replace(CURRENT)
+    atomic_write_text(CURRENT, payload)
 
 
 def new_session() -> None:
@@ -173,4 +283,4 @@ def new_session() -> None:
             shutil.copy2(CURRENT, bak)
         except OSError:
             pass
-    CURRENT.write_text(json.dumps({"updated": time.time(), "messages": []}, indent=2), encoding="utf-8")
+    atomic_write_text(CURRENT, json.dumps({"updated": time.time(), "messages": []}, indent=2))

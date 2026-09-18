@@ -11,18 +11,28 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
+import time
 from pathlib import Path
 from typing import Any
 
+import perf
 from engine import available_ram_bytes, ram_ok, resolve_binary, runner_for, spawn_runner
-from paths import COLIBRI_PORT, LLAMA_PORT
+from paths import (
+    COLIBRI_PORT,
+    CONSOLE_JSON,
+    DEFAULT_PORT,
+    ENGINE_DIR,
+    LLAMA_PORT,
+    LOCAL_JSON,
+    console_limits,
+)
 
 GIB = 1024**3
 
 
 def cpu_threads() -> int:
-    n = os.cpu_count() or 4
-    return max(4, min(16, n - 1 if n > 4 else n))
+    """One thread policy for the whole kit — see perf.auto_threads()."""
+    return perf.auto_threads()
 
 
 def vram_free_bytes() -> int:
@@ -49,9 +59,37 @@ def vram_free_bytes() -> int:
         return 0
 
 
+def backend_selection(*, refresh: bool = False) -> dict[str, Any]:
+    """Which engine build this host may use, straight from the backend layer.
+
+    backends.py installs nothing on its own: it looks at engine/backends/, remembers this
+    host's verdict, and self-tests a candidate with a real model load before trusting it.
+    A failure here must never stop a boot, so every error becomes a CPU answer.
+    """
+    try:
+        import backends as be
+        import registry
+
+        models = [m for m in ((registry.load() or {}).get("models") or []) if isinstance(m, dict)]
+        gpu_cfg = str(console_limits().get("gpu") or "auto")
+        return be.ensure(models=models, threads=cpu_threads(), host=perf.host_id(),
+                         enabled=gpu_cfg != "off", refresh=refresh)
+    except Exception as exc:
+        return {
+            "backend": "cpu",
+            "engine_dir": str(ENGINE_DIR),
+            "kind": "base",
+            "gpu_ok": False,
+            "reason": "backend_layer_error",
+            "detail": f"{type(exc).__name__}: {exc}",
+        }
+
+
 def probe() -> dict[str, Any]:
     ram = available_ram_bytes()
     vram = vram_free_bytes()
+    sel = backend_selection()
+    chosen = Path(str(sel.get("engine_dir") or ENGINE_DIR))
     return {
         "ram_bytes": ram,
         "ram_gib": round(ram / GIB, 2) if ram else 0,
@@ -60,6 +98,14 @@ def probe() -> dict[str, Any]:
         "threads": cpu_threads(),
         "llama_binary": bool(resolve_binary()),
         "ssd_stream": True,
+        "backends": perf.engine_backends(chosen),
+        "devices": perf.engine_devices(chosen / "llama-server.exe"),
+        "backend": str(sel.get("backend") or "cpu"),
+        "engine_dir": str(chosen),
+        "gpu_ok": bool(sel.get("gpu_ok")),
+        "gpu_reason": str(sel.get("reason") or ""),
+        "gpu_detail": str(sel.get("detail") or ""),
+        "gpu_tested_now": bool(sel.get("tested")),
     }
 
 
@@ -75,19 +121,45 @@ def _is_moe(rec: dict[str, Any]) -> bool:
     return any(x in blob for x in ("moe", "mixtral", "deepseek", "qwen2moe", "glm", "kimi", "olmoe"))
 
 
+def flash_attn_on() -> bool:
+    """console.json/local.json "flash_attn": "on" forces the flag; otherwise the measured default."""
+    try:
+        import json as _json
+
+        cfg: dict[str, Any] = {}
+        for p in (CONSOLE_JSON, LOCAL_JSON):
+            if p.is_file():
+                raw = _json.loads(p.read_text(encoding="utf-8"))
+                if isinstance(raw, dict):
+                    cfg = {**cfg, **raw}
+        return str(cfg.get("flash_attn") or "off").strip().lower() in ("on", "true", "1", "yes")
+    except Exception:  # noqa: BLE001 - a preference must never stop a boot
+        return False
+
+
 def plan(rec: dict[str, Any]) -> dict[str, Any]:
     """VRAM / RAM / SSD placement. Does not silently change precision."""
     hw = probe()
     ram = int(hw["ram_bytes"] or 0)
     vram = int(hw["vram_bytes"] or 0)
-    threads = int(hw["threads"])
     coli = _is_colibri(rec)
     backend = "colibri" if coli else "llama"
-    ngl = 0
-    if vram >= 4 * GIB:
-        ngl = 99
-    elif vram >= 2 * GIB:
-        ngl = 20
+    model_path = Path(rec.get("path") or "")
+    model_bytes = int(rec.get("bytes") or 0)
+    if not model_bytes and model_path.is_file():
+        try:
+            model_bytes = model_path.stat().st_size
+        except OSError:
+            model_bytes = 0
+    lim = console_limits()
+    prof = perf.resolve(
+        lim=lim,
+        hw=hw,
+        model_bytes=model_bytes,
+        model_id=str(rec.get("id") or model_path.stem),
+    )
+    ngl = int(prof["ngl"])
+    threads = int(prof["threads"])
     pin_gib = max(2, int((ram * 0.55) / GIB)) if ram else 8
     cuda_expert = "auto" if vram >= 4 * GIB else "0"
     return {
@@ -106,8 +178,13 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
             "threads": threads,
             "mmap": True,
             "mlock": False,
-            "flash_attn": vram >= 4 * GIB,
+            # Honest flag. This used to read "mode != cpu" — i.e. every GPU host was told flash
+            # attention was on while spawn_runner never sent the flag. Measured here on the CUDA
+            # path, -fa on was SLOWER for prompt eval (2620 vs 3246 tok/s), so it defaults off and
+            # console.json ("flash_attn": "on") opts in.
+            "flash_attn": flash_attn_on(),
         },
+        "perf": prof,
         "colibri": {
             "pin_gib": pin_gib,
             "cuda_expert_gb": cuda_expert,
@@ -115,7 +192,32 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
         },
         "port": COLIBRI_PORT if coli else LLAMA_PORT,
         "hardware": hw,
+        "limits": {
+            "source": lim["source"],
+            "ctx_default": lim["ctx_default"],
+            "ctx_max": lim["ctx_max"],
+        },
     }
+
+
+def _drop_backend(pl: dict[str, Any], why: str) -> str:
+    """Retire a GPU backend that just killed the engine on this host. Returns '' if there was none."""
+    name = str((pl.get("perf") or {}).get("backend") or "cpu")
+    if name == "cpu":
+        return ""
+    try:
+        import backends as be
+
+        info = be.backend_info(name)
+        be.remember_backend(perf.host_id(), name, verdict="bad",
+                            key=be.backend_key(name, info), detail=f"launch_failed: {why}")
+        be.deactivate(name, info)
+        be.clear_active()
+        (pl.get("perf") or {})["gpu_ok"] = False
+        return (f"{name} failed at launch on this host ({why}); backend dropped, "
+                f"retrying on the shipped engine")
+    except Exception as exc:
+        return f"backend {name} looked broken but could not be retired: {type(exc).__name__}: {exc}"
 
 
 def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
@@ -125,6 +227,7 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
     p = Path(rec.get("path") or "")
     pl = plan(rec)
     state["lygo_engine"] = pl
+    state.pop("perf_fallback", None)
     if pl["backend"] == "colibri":
         if resolve_coli() is None:
             state["brain"] = "missing_colibri"
@@ -159,6 +262,8 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
     if resolve_binary() is None:
         state["brain"] = "missing"
         return "missing"
+    perf_rec = pl["perf"]
+    perf_rec.setdefault("effective", {})
     size = int(rec.get("bytes") or (p.stat().st_size if p.is_file() else 0))
     ram = int(pl["hardware"].get("ram_bytes") or 0)
     # mmap + SSD: do not require the whole GGUF to fit in RAM (Colibri lesson).
@@ -175,24 +280,83 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
     with __import__("engine").ENGINE_LOCK:
         existing = runner_for(port)
         if existing and existing.gguf == str(p):
+            # Already up from an earlier launch: report the plan and say so, rather than
+            # claiming a profile this process never verified.
+            perf_rec["effective"] = {"ngl": None, "threads": None,
+                                     "note": "engine already running from an earlier launch"}
             state["brain"] = "ready"
             state["engine"] = "lygo-llama"
             state["engine_port"] = port
             return "ready"
         mm = Path(rec["mmproj"]) if rec.get("mmproj") else None
-        spawn_runner(
-            port=port,
-            gguf=p,
-            kind=rec.get("kind") or "chat",
-            mmproj=mm,
-            ctx=int(rec.get("ctx") or 4096),
-            ngl=int(rec.get("n_gpu_layers") or lp["ngl"]),
-            alias=rec.get("id") or p.stem,
-            api_key=api_key,
-            threads=int(lp["threads"]),
-            mmap=True,
-            skip_ram_gate=True,
-        )
+        lim = console_limits()
+        ctx = int(rec.get("ctx") or lim["ctx_default"])
+        planned = int(rec["n_gpu_layers"]) if rec.get("n_gpu_layers") is not None else int(lp["ngl"])
+        planned_first = planned
+        queue = perf.ladder(planned)
+        started = time.monotonic()
+        dropped_backend = False
+        while queue:
+            ngl_try = queue.pop(0)
+            try:
+                spawn_runner(
+                    port=port,
+                    gguf=p,
+                    kind=rec.get("kind") or "chat",
+                    mmproj=mm,
+                    ctx=ctx,
+                    ngl=int(ngl_try),
+                    alias=rec.get("id") or p.stem,
+                    api_key=api_key,
+                    threads=int(lp["threads"]),
+                    mmap=True,
+                    flash_attn=bool(lp.get("flash_attn")),
+                    skip_ram_gate=True,
+                    ctx_max=lim["ctx_max"],
+                )
+            except (RuntimeError, TimeoutError, OSError) as exc:
+                if not queue:
+                    # A backend that fails even at ngl 0 is the suspect, not the machine:
+                    # drop it, remember the verdict and give the shipped engine one try.
+                    why = _drop_backend(pl, f"{type(exc).__name__}: {exc}") if not dropped_backend else ""
+                    if why:
+                        dropped_backend = True
+                        planned = 0
+                        queue = [0]
+                        state["perf_fallback"] = why
+                        continue
+                    state["error"] = f"engine_launch_failed: {type(exc).__name__}: {exc}"
+                    raise
+                # A launch that burned its whole readiness deadline is a hung engine, not a
+                # tight fit: go straight to the CPU instead of spending another deadline.
+                if (time.monotonic() - started) > perf.SLOW_ATTEMPT_S:
+                    queue = [0]
+                state["perf_fallback"] = (
+                    f"ngl {ngl_try} failed ({type(exc).__name__}); retrying ngl {queue[0]}"
+                )
+                continue
+            if int(ngl_try) != planned:
+                state["perf_fallback"] = f"ngl {planned} failed on this host; running ngl {ngl_try}"
+            _exe = resolve_binary()
+            perf_rec["effective"] = {
+                "ngl": int(ngl_try),
+                "threads": int(lp["threads"]),
+                "mode": "cpu" if int(ngl_try) <= 0 else (
+                    "gpu_full" if int(ngl_try) >= perf.FULL_LAYERS else "gpu_partial"),
+                "planned_ngl": int(planned_first),
+                "backend": str(perf_rec.get("backend") or "cpu"),
+                "engine_dir": str(_exe.parent) if _exe else "",
+                "engine": str(_exe.name) if _exe else "",
+            }
+            perf.remember_host(
+                pl["perf"]["host"],
+                ngl=int(ngl_try),
+                threads=int(lp["threads"]),
+                model=str(rec.get("id") or p.stem),
+                mode="cpu" if int(ngl_try) <= 0 else "gpu",
+                note="" if int(ngl_try) == planned else "reduced after a failed launch",
+            )
+            break
     state["brain"] = "ready"
     state["engine"] = "lygo-llama"
     state["engine_port"] = port
@@ -211,5 +375,5 @@ def status() -> dict[str, Any]:
         "probe": probe(),
         "llama": bool(resolve_binary()),
         "colibri": bool(resolve_coli()),
-        "ports": {"llama": LLAMA_PORT, "colibri": COLIBRI_PORT, "portal": 9641},
+        "ports": {"llama": LLAMA_PORT, "colibri": COLIBRI_PORT, "portal": DEFAULT_PORT},
     }

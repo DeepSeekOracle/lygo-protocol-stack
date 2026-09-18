@@ -3,27 +3,79 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260917api">
+<title>LYGO Local Agent Console</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0a08'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23e0b36a' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/style.css?v=20260918console">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
+<!-- Behaviour patch classes (status line, trace pane, error bubbles, empty state, brand stamp).
+     Same tokens as style.css; small enough to fold into style.css later. -->
+<style>
+  .brand-logo { border-radius: 10px; border: 1px solid rgba(224, 179, 106, 0.22); }
+  .build-stamp { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+  .about { margin-top: 0.3rem; font-size: 0.78rem; color: var(--muted); }
+  .about > summary { cursor: pointer; color: var(--gold); font-size: 0.74rem; letter-spacing: 0.08em; }
+  .about p { margin: 0.35rem 0 0; max-width: 46rem; line-height: 1.45; }
+  .status-out { margin: 0.15rem 0 0.5rem; font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .status-out.warn { color: var(--bad); }
+  .hint.warn { color: var(--bad); }
+  .trace-pane { border: 1px solid var(--line); border-radius: 8px; padding: 0.35rem 0.5rem; margin-bottom: 0.4rem; background: rgba(0, 0, 0, 0.22); }
+  .trace-pane > summary { cursor: pointer; color: var(--gold); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .trace-list { list-style: none; margin: 0.35rem 0 0; padding: 0; max-height: 11rem; overflow: auto; font-size: 0.72rem; }
+  .trace-item { display: flex; gap: 0.35rem; align-items: baseline; padding: 0.14rem 0; color: #d7cbb8; border-bottom: 1px dashed rgba(224, 179, 106, 0.12); }
+  .trace-item b { color: var(--ink); font-weight: 600; }
+  .trace-badge { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--line); border-radius: 999px; padding: 0 0.35rem; color: var(--ok); }
+  .trace-item.fail .trace-badge { color: var(--bad); }
+  .trace-args { color: var(--muted); word-break: break-all; }
+  .bubble.error, .bubble.failed { background: #241512; border-color: var(--bad); color: #f2dcd6; }
+  .bubble.stopped { border-color: var(--warn); }
+  .bubble.streaming::after { content: "▌"; color: var(--gold); }
+  .empty-state { color: var(--muted); font-size: 0.85rem; line-height: 1.5; border: 1px dashed var(--line); border-radius: 12px; padding: 0.9rem 1.05rem; max-width: 46rem; }
+  .empty-state h3 { font-family: Georgia, serif; color: var(--gold); margin: 0 0 0.35rem; font-size: 1.05rem; }
+  .empty-state ol { margin: 0.2rem 0 0.55rem 1.1rem; padding: 0; }
+  .empty-state li { margin: 0.15rem 0; }
+  .empty-state b { color: var(--ink); }
+  .example-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .example-row button { font-size: 0.75rem; font-weight: 500; text-align: left; }
+  .ctx-note { font-size: 0.72rem; color: var(--muted); padding: 0.28rem 0.85rem 0; background: rgba(18, 14, 10, 0.9); }
+  .ctx-note.warn { color: var(--bad); }
+  .stop-btn:disabled, .send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .seg-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #brain-api.needs-key { opacity: 0.6; }
+  .ws-mount.ws-error { display: block; color: var(--bad); }
+</style>
 </head>
 <body>
 <header>
   <div>
     <div class="brand-lockup">
-      <img src="/static/logo.jpg" width="48" height="48" alt="LYGO" style="border-radius:10px;border:1px solid rgba(224,179,106,.22)">
-      <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
+      <img class="brand-logo" src="/static/logo.jpg" width="48" height="48" alt="">
+      <div class="brand">Δ9Φ963 · <span id="brand-name">LYGO Local Agent Console</span> <span id="brand-build" class="build-stamp">build 1.1.0</span></div>
     </div>
-    <div class="sub">Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / IDENTITY.md / MEMORY.md · Justin Helmer / Lightfather</div>
+    <div class="sub">Local console for this machine — chat with the on-board engine, run its limbs, keep SOUL / IDENTITY / MEMORY next to it.</div>
+    <details class="about">
+      <summary>About / Help</summary>
+      <p>Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / IDENTITY.md / MEMORY.md · Justin Helmer / Lightfather</p>
+      <p>First run: press <b>Scan drives</b>, pick a model and press <b>Boot LLM</b> — the health box on the right says <b>engine=ready</b> when the local brain can answer. Nothing here needs the internet unless you press the API brain or a web limb.</p>
+    </details>
+    <div class="syslabel" id="syslabel" title="One console, three systems: stand-alone USB agent (everything onboard the stick, plug and play, mobile) · admin console on a PC (the build that becomes the public version) · online API-only web portal (already built)">SYSTEM: /*LYGO_SYSTEM*/ — USB LOCAL (stick, stand-alone) · PC LOCAL (this PC, admin console) · WEB PORTAL (API ONLY, online — already built)</div>
     <div class="modelbar">
       <button type="button" id="scan">Scan drives</button>
       <select id="models" title="Available GGUF / Ollama CAS models"></select>
       <button type="button" id="select">Boot LLM</button>
       <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
     </div>
+    <div class="brainbar" id="brainbar">
+      <span class="brain-title">Brain</span>
+      <div class="seg" role="group" aria-label="Brain switch">
+        <button type="button" id="brain-local" class="seg-btn on" aria-pressed="true" title="Local GGUF engine on this PC — the default, always complete">LOCAL<i>default</i></button>
+        <button type="button" id="brain-api" class="seg-btn" aria-pressed="false" title="Add key first: paste your API key in the row below, press Save key, then press API.">API<i>cloud</i></button>
+      </div>
+      <span id="brain-status" class="brain-status" aria-live="polite">LOCAL · engine</span>
+      <button type="button" id="brain-boot" class="mini">Boot local</button>
+      <button type="button" id="brain-newchat" class="mini" title="Clear the conversation and keep the active brain">New chat</button>
+    </div>
     <div class="modelbar apibar">
-      <label class="chk" title="When checked, chat uses the saved API. Uncheck = local GGUF."><input type="checkbox" id="api-use"> Use API</label>
-      <span id="api-status" class="api-status">API: off (local default)</span>
+      <span id="api-status" class="api-status" aria-live="polite">API: off (local default)</span>
       <select id="api-provider" title="Cloud API (same full limbs as local)">
         <option value="deepseek" selected>DeepSeek API</option>
         <option value="gemini">Gemini</option>
@@ -37,6 +89,7 @@
       <input id="api-model" type="text" placeholder="model id" value="deepseek-chat" autocomplete="off">
       <input id="api-url" type="text" placeholder="custom chat URL" hidden autocomplete="off">
       <button type="button" id="api-connect">Save key</button>
+      <button type="button" id="api-off" class="mini" title="Back to the local engine">API off</button>
     </div>
   </div>
   <div id="health" class="health">probing…</div>
@@ -52,29 +105,29 @@
   <nav class="rail">
     <h2>Continuity</h2>
     <button type="button" id="new-session">New session</button>
-    <div class="cont-tabs" role="tablist">
-      <button type="button" class="on" data-cont="soul" id="tab-soul">Soul</button>
-      <button type="button" data-cont="id" id="tab-id">Identity</button>
-      <button type="button" data-cont="mem" id="tab-mem">Memory</button>
+    <div class="cont-tabs" role="tablist" aria-label="Continuity documents">
+      <button type="button" role="tab" class="on" data-cont="soul" id="tab-soul" aria-selected="true" aria-controls="pane-soul" tabindex="0">Soul</button>
+      <button type="button" role="tab" data-cont="id" id="tab-id" aria-selected="false" aria-controls="pane-id" tabindex="-1">Identity</button>
+      <button type="button" role="tab" data-cont="mem" id="tab-mem" aria-selected="false" aria-controls="pane-mem" tabindex="-1">Memory</button>
     </div>
-    <div id="pane-soul" class="cont-pane">
+    <div id="pane-soul" class="cont-pane" role="tabpanel" aria-labelledby="tab-soul" tabindex="0">
       <p class="hint">SOUL.md — light math + decision spine. Saved to workspace.</p>
       <textarea id="soul-edit" spellcheck="false" aria-label="SOUL.md"></textarea>
       <button type="button" id="soul-save">Save soul</button>
     </div>
-    <div id="pane-id" class="cont-pane" hidden>
+    <div id="pane-id" class="cont-pane" role="tabpanel" aria-labelledby="tab-id" tabindex="0" hidden>
       <p class="hint">IDENTITY.md — who is on this console. Not mashed into soul.</p>
       <textarea id="id-edit" spellcheck="false" aria-label="IDENTITY.md"></textarea>
       <button type="button" id="id-save">Save identity</button>
     </div>
-    <div id="pane-mem" class="cont-pane" hidden>
+    <div id="pane-mem" class="cont-pane" role="tabpanel" aria-labelledby="tab-mem" tabindex="0" hidden>
       <p class="hint">MEMORY.md — handshake, tools, champions, recovery. Not mashed into identity.</p>
       <textarea id="mem-edit" spellcheck="false" aria-label="MEMORY.md"></textarea>
       <button type="button" id="mem-save">Save memory</button>
     </div>
-    <p class="hint" id="cont-status">workspace/SOUL.md · IDENTITY.md · MEMORY.md</p>
+    <p class="hint" id="cont-status" aria-live="polite">workspace/SOUL.md · IDENTITY.md · MEMORY.md</p>
     <h2>Workspace</h2>
-    <p class="hint">Mapped folders the LLM may use as brain/stack. Add a drive or folder; Remove takes it away.</p>
+    <p class="hint">Mapped folders the LLM may use as brain/stack. Add a drive or folder; Remove takes it away. Click a mapped folder to browse it here (it does not touch your draft).</p>
     <div id="ws-mounts" class="ws-mounts"></div>
     <div class="np-bar">
       <input id="ws-path" type="text" placeholder="C:\  or  D:\chatagent  or any folder" autocomplete="off">
@@ -86,7 +139,7 @@
       <button type="button" id="ws-add">Add access</button>
       <button type="button" id="ws-refresh">Files</button>
     </div>
-    <p class="hint" id="ws-status">live map</p>
+    <p class="hint" id="ws-status" aria-live="polite">live map</p>
     <ul id="ws" class="filelist"></ul>
     <h2>Skills</h2>
     <p class="hint">Δ9 champions on/off. Browse <a href="https://chatagent.ca/lygoskillhub.html" target="_blank" rel="noopener">SkillHub</a> (public tentacle or FULL zip + hash). OpenClaw SKILL.md compatible.</p>
@@ -99,22 +152,45 @@
       <button type="button" id="skills-hub-btn">SkillHub</button>
       <button type="button" id="skills-full-btn">FULL vault</button>
     </div>
-    <div id="skills-hub" class="skills-hub"></div>
+    <div id="skills-hub" class="skills-hub" aria-live="polite"></div>
     <h2>Limbs</h2>
     <div id="limbs" class="limbs"></div>
     <p class="hint">Click a limb to run it, or ask in chat. HTTPS search/fetch is live. Shell stays in workspace. P0 blocks OS wipe.</p>
   </nav>
   <section class="chat-panel">
-    <div id="log" class="log" aria-live="polite"></div>
+    <div id="log" class="log" aria-live="polite" aria-label="Transcript">
+      <div id="empty-state" class="empty-state">
+        <h3>Start here</h3>
+        <ol>
+          <li><b>Scan drives</b> — press it in the header. It finds the GGUF / Ollama models on this PC and on any stick that is plugged in.</li>
+          <li><b>Boot LLM</b> — pick a model in the drop-down next to it, press <b>Boot LLM</b>, and wait for <b>engine=ready</b> in the health box. First load can take a minute.</li>
+        </ol>
+        <p>Then just ask. Two examples:</p>
+        <div class="example-row">
+          <button type="button" class="example-prompt" data-prompt="Scan my mapped drives and tell me which models are runnable right now.">Scan my mapped drives and tell me which models are runnable</button>
+          <button type="button" class="example-prompt" data-prompt="Read the first 40 lines of README.md in my workspace, then summarize it in five bullets.">Read README.md in my workspace and summarize it</button>
+        </div>
+      </div>
+    </div>
+    <div id="ctx-note" class="ctx-note" aria-live="polite">context: 0 messages · images kept 2 · max_tokens 768</div>
     <form id="form" class="composer">
       <input id="msg" type="text" placeholder="Task the agent… paste an https:// URL to auto-read" autocomplete="off" autofocus>
       <label class="attach">img<input id="img" type="file" accept="image/*" hidden></label>
-      <button type="submit">Send</button>
+      <button type="submit" id="send" class="send-btn">Send</button>
+      <button type="button" id="stop" class="stop-btn" disabled title="Stop waiting on the engine (aborts this answer)">Stop</button>
     </form>
   </section>
   <aside>
     <h2>Trace</h2>
-    <pre id="limb-out" class="limb-out">—</pre>
+    <p id="status-out" class="hint status-out" aria-live="polite">status: starting…</p>
+    <details id="trace-pane" class="trace-pane" open>
+      <summary>Tool trace · <span id="trace-count">0</span></summary>
+      <ul id="trace-list" class="trace-list" aria-live="polite"></ul>
+    </details>
+    <details id="raw-pane" class="trace-pane">
+      <summary>Raw output</summary>
+      <pre id="limb-out" class="limb-out">—</pre>
+    </details>
     <section class="notepad" id="notepad" aria-label="Console notepad">
       <h2>Notepad</h2>
       <div class="np-bar">
@@ -128,7 +204,7 @@
       <div class="np-foot">
         <button type="button" id="np-capture">Capture selection</button>
         <button type="button" id="np-ask">Ask agent</button>
-        <span id="np-status" class="hint">local · save/notepad</span>
+        <span id="np-status" class="hint" aria-live="polite">local · save/notepad</span>
       </div>
     </section>
     <p class="hint">
@@ -152,10 +228,10 @@
     <span id="radioTitle" class="radio-title-inline">Radio</span>
     <a id="radioListen" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen hub</a>
     <a id="radioTv" href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a>
-    <span id="radioHint" class="hint"></span>
+    <span id="radioHint" class="hint" aria-live="polite"></span>
   </div>
 </footer>
-<script src="/static/app.js?v=20260917api"></script>
+<script src="/static/app.js?v=20260918console"></script>
 <script src="/static/radio.js?v=20260916m"></script>
 </body>
 </html>

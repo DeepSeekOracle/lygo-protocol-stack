@@ -36,13 +36,16 @@ class RegistryTests(unittest.TestCase):
             t = Path(td)
             with mock.patch.object(paths, "SAVE", t), mock.patch.object(registry, "REGISTRY_PATH", t / "registry.json"), mock.patch.object(paths, "REGISTRY_PATH", t / "registry.json"):
                 importlib.reload(registry)
-                data = registry.upsert(
-                    [
-                        {"id": "deepseek-r1:14b", "kind": "chat", "runnable": True, "bytes": 9_000_000_000},
-                        {"id": "qwen2.5:3b", "kind": "chat", "runnable": True, "bytes": 1_900_000_000},
-                    ]
-                )
-                self.assertEqual(data["selected"], "qwen2.5:3b")
+                # This test pins the PREFER_IDS order, so RAM-auto (console.json prefer_by_ram, on for
+                # the USB stick) is forced off here; the RAM path has its own tests in test_registry_ram.
+                with mock.patch.object(registry, "prefer_by_ram", lambda: False):
+                    data = registry.upsert(
+                        [
+                            {"id": "deepseek-r1:14b", "kind": "chat", "runnable": True, "bytes": 9_000_000_000},
+                            {"id": "qwen2.5:3b", "kind": "chat", "runnable": True, "bytes": 1_900_000_000},
+                        ]
+                    )
+                    self.assertEqual(data["selected"], "qwen2.5:3b")
 
 
 if __name__ == "__main__":

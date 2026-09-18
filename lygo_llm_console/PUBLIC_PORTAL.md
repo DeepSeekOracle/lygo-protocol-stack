@@ -4,6 +4,26 @@ Live page: **https://chatagent.ca/portal/**
 
 Same studio chrome as the public console. Inference is **not** your admin tree.
 
+## Three systems, one console
+
+This page is the **WEB PORTAL (API ONLY)** system: inference is remote, nothing of the visitor's or
+the host's local models is involved.
+
+| System | What answers |
+|--------|--------------|
+| **USB LOCAL** | The stick's own engine, plugged into any PC |
+| **PC LOCAL** | The host PC's engine (GPU when present) |
+| **WEB PORTAL (API ONLY)** | The online API, here — no local engine |
+
+What each system **is**:
+
+* **USB LOCAL** — the stand-alone USB agent: everything onboard the stick, plug and play, mobile.
+* **PC LOCAL** — the fully built admin console on this PC; later turned into a public version.
+* **WEB PORTAL (API ONLY)** — the internet portal: API-only, online, already fully built — an easy
+  API agent portal, so people have a web page version.
+
+All three are the same console and share the same limbs, P0 gate and labels.
+
 ## Three ways to talk
 
 | Mode | Who pays compute | Limbs |

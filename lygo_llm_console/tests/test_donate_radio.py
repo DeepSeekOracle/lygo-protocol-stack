@@ -9,7 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 class DonateRadioTests(unittest.TestCase):
     def test_console_portal(self):
         html = (ROOT / "portal" / "index.html").read_text(encoding="utf-8")
-        self.assertIn("donateLayer", html)
+        # the 15-minute donate popup layer was replaced by inline links in the footer hint
+        self.assertIn("Donate", html)
         self.assertIn("paypal.com/paypalme/ExcavationPro", html)
         self.assertIn("patreon.com/Excavationpro", html)
         self.assertIn("radioEl", html)

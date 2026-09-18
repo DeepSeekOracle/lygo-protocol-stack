@@ -1,0 +1,347 @@
+{
+  "name": "LYGO LLM Local Console",
+  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
+  "build": "v1.1-20260917api2",
+  "status": "BETA 1 - stable working prototype",
+  "generated": "2026-09-18",
+  "steward": "Justin Helmer (ExcavationPro / Lightfather)",
+  "publish_rule": "Agents build, verify and report. The steward publishes. No push to GitHub/HuggingFace/ClawHub/social, no deployment, no live Star Chart write by an agent.",
+  "paths": {
+    "live_kit": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
+    "usb_builder_key": "E:\\LYGO_BUILDER_KEY",
+    "usb_kit_stale_master": "E:\\LYGO_BUILDER_KEY\\lygo_llm_console",
+    "whitepaper_canonical": "I:\\E Drive\\lygo-protocol-stack\\docs\\whitepapers\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
+    "whitepaper_in_kit": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\WHITEPAPER.md",
+    "whitepaper_usb_docs": "E:\\LYGO_BUILDER_KEY\\docs\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
+    "whitepaper_usb_recovery": "E:\\LYGO_BUILDER_KEY\\RECOVERY\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
+    "model_blobs_readonly": "E:\\LYGO_BUILDER_KEY\\product\\models\\ollama\\blobs",
+    "lyra_core": "I:\\E Drive\\LYRA_CORE",
+    "runtime_state": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\save"
+  },
+  "ports": {
+    "console": {
+      "port": 9641,
+      "bind": "127.0.0.1",
+      "lan": "forbidden without --lan --i-consent"
+    },
+    "engine": {
+      "port": 11441,
+      "binary": "engine/llama-server.exe",
+      "alias": "qwen2.5:3b",
+      "ctx": 8192,
+      "ngl": 99,
+      "threads": 16
+    },
+    "embed": {
+      "port": 11442,
+      "state": "not booted",
+      "endpoint_state": "/v1/embeddings returns 501"
+    },
+    "public_gateway": {
+      "port": 9642,
+      "mode": "chat-only, P0 both ways, rate limited",
+      "public_url": "https://chatagent.ca/portal/"
+    }
+  },
+  "usb_stick": {
+    "role": "the same kit, self-contained on the builder stick (LYGO CLAW)",
+    "kit": "E:\\LYGO_BUILDER_KEY\\lygo_llm_console",
+    "launcher": "LYGO_AGENT_STICK.bat",
+    "console": {
+      "port": 9651,
+      "bind": "127.0.0.1",
+      "token_file": "data/.lygo_llm_token [REDACTED]"
+    },
+    "engine": {
+      "port": 11451,
+      "binary": "engine/llama-server.exe",
+      "alias": "qwen2.5:3b",
+      "ctx": 8192,
+      "ngl": 0,
+      "threads": 4,
+      "weights": "E:\\LYGO_BUILDER_KEY\\product\\models\\ollama\\blobs (stick CAS, 6 manifests, ~14.7 GB)"
+    },
+    "embed": {
+      "port": 11452,
+      "state": "not booted by the stick launcher"
+    },
+    "foreign_ports_never_used": [
+      8080,
+      11434
+    ],
+    "state": "save/ under the stick kit; every write through src/atomicio.py, every state read through atomicio.read_text()",
+    "acceptance_receipt": "%LOCALAPPDATA%\\Temp\\lygo_usbclaw_acceptance_final3.json"
+  },
+  "entrypoints": {
+    "start": [
+      "LYGO_LLM_CONSOLE.bat",
+      "C:\\Users\\justi\\Desktop\\LYGO_LLM_CONSOLE.bat"
+    ],
+    "stop": [
+      "LYGO_LLM_CONSOLE_STOP.bat",
+      "POST /api/shutdown"
+    ],
+    "install": [
+      "INSTALL.bat",
+      "src/install.py"
+    ],
+    "serve": "C:\\Python313\\python.exe -u src\\server.py serve",
+    "public_gateway": "C:\\Python313\\python.exe -u src\\public_gateway.py --backend ollama --model qwen2.5:3b --lan --i-consent --port 9642"
+  },
+  "scale": {
+    "src": {
+      "modules": 37,
+      "lines": 9730
+    },
+    "tests": {
+      "modules": 34,
+      "lines": 3343,
+      "cases": 247,
+      "discovery": "python -m unittest discover -s tests (from the kit root)"
+    },
+    "models_visible": 14,
+    "limbs": 56,
+    "scan_n": 14
+  },
+  "tests": {
+    "command": "cd <kit> && C:\\Python313\\python.exe -m unittest discover -s tests",
+    "last_result": "OK",
+    "last_line": "Ran 255 tests",
+    "trees": [
+      "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
+      "E:\\LYGO_BUILDER_KEY\\lygo_llm_console"
+    ],
+    "previous_line": "Ran 102 tests in 13.031s (before the D13 fix)",
+    "exit_code": 0,
+    "run_at": "2026-09-18",
+    "modules": 34,
+    "cases": 255
+  },
+  "brains": {
+    "local": {
+      "default": true,
+      "engine": "llama.cpp",
+      "model": "qwen2.5-coder:7b (default preference; smaller hosts fall back by tool_rank + RAM)",
+      "boot_seconds_typical": 35,
+      "capability": "full limbs",
+      "default_policy": "registry.PREFER_IDS + registry.tool_rank(): the best TOOL-calling model the host can hold, size only as a tier tiebreak"
+    },
+    "api": {
+      "default": false,
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "key_file": "config/api.json [REDACTED]",
+      "activation": "POST /api/brain {\"mode\":\"api\"}",
+      "requires": "saved key else 409 no_api_key",
+      "standby": "local engine kept booted",
+      "default_backup": true,
+      "policy": "DeepSeek is the always-default provider and leads the failover order (cloud_api.DEFAULT_PROVIDER); health publishes default_provider + is_default"
+    },
+    "handoff": {
+      "trigger_codes": [
+        0,
+        400,
+        401,
+        402,
+        403,
+        404,
+        408,
+        409,
+        425,
+        429,
+        ">=500"
+      ],
+      "cooldown_s": 300,
+      "result": "same turn re-run locally + warning banner + receipt",
+      "bypass": "force_api: true or POST /api/brain {mode:\"api\"}"
+    },
+    "verified_turns": {
+      "cloud": {
+        "receipt": "b32073d8-6d2a-4cc8-8aa0-d2525928f9b7",
+        "answer": "deepseek-chat via the DeepSeek API - engine https://api.deepseek.com, with llama.cpp (:11441, qwen2.5:3b) booted as local standby.",
+        "active": "cloud"
+      },
+      "local": {
+        "receipt": "c4e34f39-2cfe-4f00-8e5d-96cfcc1777d6",
+        "answer": "Model: qwen2.5:3b - Engine: llama.cpp",
+        "active": "local"
+      }
+    }
+  },
+  "input_contract": {
+    "accepts": [
+      "messages[] of {role, content}",
+      "prompt",
+      "message",
+      "input",
+      "text"
+    ],
+    "rejects": "400 {\"error\":\"no_input\"} when there is no user text and no image",
+    "rule": "never answer a request you did not understand (defect D13)",
+    "tests": "tests/test_agent_io.py ChatInputTests (6 cases)"
+  },
+  "closed_defects": [
+    "D13 - /api/chat answered a payload it did not understand; fixed 2026-09-17 and verified against the live console",
+    "D15 - fixed .json.tmp name in four persistence modules killed the stick console mid-chat (WinError 32); src/atomicio.py added",
+    "D16 - reader-vs-writer WinError 5 on the same index under load; per-path lock + no-op rewrite skip + bounded retry + in-place fallback",
+    "D17 - readers denied Errno 13 for the instant of a swap; atomicio.read_text() now retries transient denials on every state read",
+    "D18 - stick port contract 9651/11451/11452; foreign 8080 and 11434 never claimed, enforced by tests/test_usb_portability.py",
+    "D19 - the stick MODEL_MANIFEST.json contradicted itself (llama3.1:8b vs qwen2.5:3b); data-fixed with backup"
+  ],
+  "docs": {
+    "whitepaper_copies": 5,
+    "index_tool": "tools/make_index.py - AST module/function index = whitepaper Appendix B",
+    "manifest": "BUILD_MANIFEST.json - this file"
+  },
+  "prompt_budget": {
+    "engine_window_tokens": 8192,
+    "engine_window_chars_approx": 30000,
+    "composed_prompt_chars_measured": 15950,
+    "history_chars": 9000,
+    "caps": {
+      "soul": 2400,
+      "identity": 1400,
+      "memory": 3200,
+      "memory_tail_share": 0.5,
+      "limb_catalog": 2200,
+      "prompt_catalog": 1500,
+      "compact_json": 3000
+    },
+    "rule": "the system prompt is never trimmed; trim_history() drops old turns first"
+  },
+  "routes": {
+    "console": [
+      "/api/health",
+      "/api/models",
+      "/api/tools",
+      "/api/workspace",
+      "/api/memory",
+      "/api/soul",
+      "/api/identity",
+      "/api/session",
+      "/api/skills",
+      "/api/notepad",
+      "/api/receipts",
+      "/api/scan",
+      "/api/select",
+      "/api/boot",
+      "/api/limb",
+      "/api/shutdown",
+      "/api/chat",
+      "/api/brain",
+      "/api/cloud",
+      "/api/world",
+      "/static/"
+    ],
+    "openai_compat": [
+      "/v1/models",
+      "/v1/chat/completions",
+      "/v1/embeddings"
+    ],
+    "public_gateway": [
+      "/v1/chat/completions",
+      "/api/chat",
+      "/v1/models"
+    ]
+  },
+  "invariants": [
+    "local is the default brain and is complete on its own; the API is additive and must degrade to local",
+    "one source of truth per fact: the effective brain is threaded into compose_system(), never re-derived from saved state",
+    "the host never authors the answer: facts are injected, limbs pre-run, placeholders repaired in place",
+    "runtime facts (build, model, engine, brain, standby) are always present in the prompt",
+    "the public gateway has no limbs, no disks, no admin map, no steward data; P0 gates input and output",
+    "credentials are never printed, never transported to the USB, never embedded in documents or prompts, always [REDACTED]",
+    "every turn returns a receipt id; a claimed action without a receipt is not a result"
+  ],
+  "data_safety": {
+    "credential_bearing": [
+      "config/api.json",
+      ".env",
+      "save/registry.json",
+      "config/admin.json"
+    ],
+    "policy": "never copied to the USB, never committed, never echoed; paths only",
+    "backups": "%LOCALAPPDATA%\\Temp\\lygo_backup_1722\\ and api_json_backup2.json"
+  },
+  "known_gaps": [
+    "hosted portal mode is NOT live: web_portal/portal.json hosted_base is empty",
+    "image-only turns are accepted but the default local engine qwen2.5:3b has no vision",
+    "studio UI (portal/) and public UI (web_portal/) are duplicated trees",
+    "engine ctx 8192 tokens limits long documents",
+    "embeddings runner not booted (:11442 -> 501)",
+    "public gateway has no per-day quota or IP ban list",
+    "engine ctx is 8192 tokens (the coder model itself offers 32768) - raising it needs a KV-memory plan per host",
+    "the 747 MB GPU backend store on the stick is not part of the public SKU; exclusion policy still to confirm",
+    "verified on one host (RTX 4060 Ti): the CPU-only path is covered by tests and the CPU bench, not by a second machine",
+    "ternary/low-bit families that need a forked llama.cpp (e.g. PrismML Ternary Bonsai) will not load on the shipped stock engine - by design"
+  ],
+  "roadmap": [
+    "1 make hosted portal real (gateway + HTTPS + hosted_base)",
+    "2 harden the public path (per-day quota, IP block, quota counter)",
+    "3 finish cloud verification: 402 stub handoff re-run",
+    "4 ship the model chooser (studio + public whitelist)",
+    "5 de-duplicate the two UIs into one shared chat/brain component",
+    "6 DONE 2026-09-17: /api/chat rejects a payload with no user text (400 no_input) and honours messages[]/prompt/message",
+    "7 sync the kit to the USB in the steward's chosen direction",
+    "8 long-context pass (raise -c, re-budget, re-run the budget test)",
+    "9 host/engine cleanup (stale U: roots, duplicate env key, socket warning)",
+    "10 self-check that lists credential-bearing files and refuses to export them"
+  ],
+  "performance": {
+    "host_adaptive": true,
+    "backend_store": "engine/backends/<name>/ (overlay DLLs or a complete engine build)",
+    "applied_only_after_self_test": true,
+    "verdict_store": "data/perf.json (keyed per host and per backend file hash)",
+    "config_keys": {
+      "gpu": "auto|off",
+      "threads": "auto|<int pin>",
+      "ngl": "auto|<int pin>"
+    },
+    "measured_on_rtx_4060ti_8gb_20cores": {
+      "cpu_pin_ngl0_t4": {
+        "prompt_tok_s": 80,
+        "gen_tok_s": 15.1,
+        "prompt_3.3k_s": 58
+      },
+      "cpu_auto_t16": {
+        "prompt_tok_s": 133,
+        "gen_tok_s": 18.9,
+        "prompt_3.3k_s": 35
+      },
+      "cuda_ngl99": {
+        "prompt_tok_s": 4300,
+        "gen_tok_s": 101.9,
+        "prompt_3.3k_s": 1.16
+      }
+    },
+    "live_stick": {
+      "boot_to_ready_s": 8.1,
+      "chat_turn_s": 6.6,
+      "ngl": 99,
+      "threads": 16,
+      "backend": "cuda"
+    },
+    "vulkan_on_this_host": "crashes inside nvoglv64.dll at any ngl (0xC0000005) -> self-test gate, defect D16",
+    "flash_attn": "opt-in via config/console.json; measured slower on this CUDA path (2620 vs 3246 tok/s prompt)",
+    "flag_bench_2026_09_18": {
+      "model": "qwen2.5-coder:7b (Q4_K_M), 1059-token prompt, CUDA -ngl 99 -t 16",
+      "baseline": {
+        "prompt_tok_s": 3245.7,
+        "gen_tok_s": 55.4,
+        "load_s": 12.2
+      },
+      "flash_attn_on": {
+        "prompt_tok_s": 2620.6,
+        "gen_tok_s": 55.2,
+        "load_s": 14.0
+      },
+      "big_batch_4096_1024": {
+        "prompt_tok_s": 2750.1,
+        "gen_tok_s": 55.0,
+        "load_s": 12.5
+      },
+      "no_mmap_flag": "invalid in this build -> -lm/--load-mode; mmap=False now maps to '-lm none'"
+    },
+    "unloadable_model_survival": "data/model_verdicts.json keeps per-host verdicts keyed to the file; a brain that cannot load is swapped for the next candidate instead of killing the boot"
+  }
+}

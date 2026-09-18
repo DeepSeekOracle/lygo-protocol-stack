@@ -51,12 +51,33 @@
     const pay = el("donatePaypal");
     const pat = el("donatePatreon");
     const close = el("donateClose");
+    // Both donate targets live on the public web while this kit ships offline-first, and the only
+    // console that loads this file is the online web portal (web_portal/index.html). So the links
+    // are labelled online-only, and with no network they say so instead of opening a dead tab -
+    // which also stops the layer from being a dialog the user cannot close while offline.
+    function offline() {
+      return typeof navigator !== "undefined" && navigator.onLine === false;
+    }
     function openLink(url) {
+      if (offline()) {
+        opened = true;
+        if (close) {
+          close.disabled = false;
+          close.textContent = "Donate pages need internet — close to continue";
+        }
+        return;
+      }
       window.open(url, "_blank", "noopener");
       markOpened();
     }
-    if (pay) pay.onclick = function (e) { e.preventDefault(); openLink(PAYPAL); };
-    if (pat) pat.onclick = function (e) { e.preventDefault(); openLink(PATREON); };
+    if (pay) {
+      pay.title = "online only · opens the public web";
+      pay.onclick = function (e) { e.preventDefault(); openLink(PAYPAL); };
+    }
+    if (pat) {
+      pat.title = "online only · opens the public web";
+      pat.onclick = function (e) { e.preventDefault(); openLink(PATREON); };
+    }
     if (close) {
       close.onclick = function () {
         if (!opened) return;
