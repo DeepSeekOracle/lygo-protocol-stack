@@ -185,6 +185,42 @@ def _ctx_for(data: dict[str, Any], text: str, path: Path) -> dict[str, Any]:
 
 
 # --- rewriting ----------------------------------------------------------------
+def _host_owned(value: str) -> bool:
+    """True for paths that belong to the machine rather than to the kit.
+
+    Repair must never adopt C:\\Users\\<user>\\Pictures, Windows or Program Files for a copy.
+    A second pass used to do exactly that: once the stamped origin drive became the kit's own
+    drive, every path on it looked like an origin path, and the remap produced a path that
+    exists but is not what the steward configured. The existence check cannot see this, so the
+    host folders are excluded by name.
+    """
+    low = str(value).strip().lower()
+    for name in ("USERPROFILE", "SystemRoot", "WINDIR", "ProgramFiles", "ProgramFiles(x86)", "ProgramData"):
+        root = (os.environ.get(name) or "").strip().lower()
+        if root and low.startswith(root):
+            return True
+    return False
+
+def _candidate_exists(value: str) -> bool:
+    """True when a rewritten root would actually resolve on this host.
+
+    Repair used to remap any origin-drive path to {drive} unconditionally, so a copy on D: got
+    D:\\E Drive\\LYRA LOCAL while the real folder stayed on I: - a read root that exists nowhere
+    and fails silently, because a missing root simply returns no files. Tokens that only
+    paths.py can resolve late, or %ENV% values, are not judgeable here and are allowed through.
+    """
+    v = str(value)
+    for token, replacement in (("{kit}", str(KIT_ROOT)),
+                              ("{workspace}", str(KIT_ROOT / "workspace")),
+                              ("{drive}", (KIT_ROOT.drive or "C:")[:1])):
+        v = v.replace(token, replacement)
+    if "{stack}" in v or "{usb}" in v or "%" in v:
+        return True
+    try:
+        return os.path.exists(v)
+    except OSError:
+        return False
+
 def rewrite_value(value: str, key: str, ctx: dict[str, Any]) -> tuple[str | None, str, str]:
     """(new_value | None, kind, note) for one config string."""
     s = str(value).strip()
@@ -207,9 +243,18 @@ def rewrite_value(value: str, key: str, ctx: dict[str, Any]) -> tuple[str | None
             return token + ("\\" + tail if tail else ""), "relocate", f"was under the old location, now {token}"
     drive = ctx["origin_drive"]
     if drive and _drive_of(s) == drive:
+        if _host_owned(s):
+            return None, "keep", f"host location ({s}) - a copy of the kit must not adopt it"
         if not _is_path_key(key):
             return None, "review", f"origin drive {drive}: in a non-path key - left for manual review"
-        return "{drive}:" + s[2:], "remap", f"origin drive {drive}: now follows this kit's drive"
+        cand = "{drive}:" + s[2:]
+        if not _candidate_exists(cand):
+            # A remap that lands nowhere is worse than the original: the root silently yields
+            # nothing and no layer reports it. Only follow this kit's drive when the folder is
+            # really here, otherwise keep the value and say so in the plan output.
+            return None, "keep", (f"origin drive {drive}: {cand} does not exist here - kept {s}"
+                                  " (rewrite by hand if this copy really owns that folder)")
+        return cand, "remap", f"origin drive {drive}: now follows this kit's drive"
     return None, "keep", "host-anchored on another drive"
 
 
