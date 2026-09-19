@@ -154,23 +154,23 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "c07da99706c9e4a0",
-      "bytes": 37305
+      "sha256_16": "4b4e82b44cbc0f02",
+      "bytes": 36636
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "954065bb1ea1bd69",
-      "bytes": 33107
+      "sha256_16": "b7f8e171b0d70356",
+      "bytes": 32300
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "c3a71aa1ad6e689b",
-      "bytes": 76030
+      "sha256_16": "1558c413f593900a",
+      "bytes": 74285
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "7a2b96340223c8f4",
-      "bytes": 19699
+      "sha256_16": "a803cd8413de5f17",
+      "bytes": 19416
     },
     {
       "path": "tests/test_sessions.py",
@@ -188,9 +188,14 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T15:40:42-06:00",
-  "rebrand_refresh_note": "brand/license package added: LICENSE v3.0, NOTICE, TRADEMARKS.md, LICENSING.md, SUCCESSION.md, brand line on portal + web portal, README license section, scripts/certify_build.py",
+  "rebrand_refresh_iso": "2026-09-19T16:32:02-06:00",
+  "rebrand_refresh_note": "line-ending-canonical identity (sha256 over LF-normalised bytes); fixes a broken normalisation that wrote NULs instead of newlines",
   "rebrand_refresh_files": [
+    "src/server.py",
+    "src/continuity.py",
+    "src/limbs.py",
+    "src/chat_loop.py",
+    "portal/app.js",
     "portal/index.html"
   ]
 }

@@ -41,8 +41,8 @@
     },
     {
       "path": "README.md",
-      "sha256_16": "9ff3c17e1b24fb3d",
-      "bytes": 7287
+      "sha256_16": "bf337f4071d3eee9",
+      "bytes": 7162
     },
     {
       "path": "READ_DISCLAIMER_FIRST.md",
@@ -51,18 +51,33 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "7a2b96340223c8f4",
-      "bytes": 19699
+      "sha256_16": "a803cd8413de5f17",
+      "bytes": 19416
     },
     {
       "path": "web_portal/index.html",
-      "sha256_16": "6a0737de57570ea8",
-      "bytes": 25109
+      "sha256_16": "120dbdadba578196",
+      "bytes": 24803
     },
     {
       "path": "scripts/certify_build.py",
-      "sha256_16": "57c9beac481617fc",
-      "bytes": 7711
+      "sha256_16": "a1091d0fedab9edf",
+      "bytes": 8899
     }
+  ],
+  "rebrand_refresh_iso": "2026-09-19T16:32:02-06:00",
+  "rebrand_refresh_note": "line-ending-canonical identity (sha256 over LF-normalised bytes); fixes a broken normalisation that wrote NULs instead of newlines",
+  "rebrand_refresh_files": [
+    "LICENSE",
+    "NOTICE",
+    "TRADEMARKS.md",
+    "LICENSING.md",
+    "SUCCESSION.md",
+    "BRANDING.md",
+    "README.md",
+    "READ_DISCLAIMER_FIRST.md",
+    "portal/index.html",
+    "web_portal/index.html",
+    "scripts/certify_build.py"
   ]
 }

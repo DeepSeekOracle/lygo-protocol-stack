@@ -41,8 +41,8 @@
     },
     {
       "path": "README.md",
-      "sha256_16": "7f88bc26d098f1e3",
-      "bytes": 4678
+      "sha256_16": "ced0ec28ed80746a",
+      "bytes": 4587
     },
     {
       "path": "READ_DISCLAIMER_FIRST.md",
@@ -51,18 +51,26 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "9859cbaf76e34d39",
-      "bytes": 8506
+      "sha256_16": "6be667cae2b0946a",
+      "bytes": 8355
     },
     {
       "path": "web_portal/index.html",
-      "sha256_16": "c819f5655590a7e5",
-      "bytes": 24571
+      "sha256_16": "47adc4244645edd9",
+      "bytes": 24266
     },
     {
       "path": "scripts/certify_build.py",
-      "sha256_16": "57c9beac481617fc",
-      "bytes": 7711
+      "sha256_16": "a1091d0fedab9edf",
+      "bytes": 8899
     }
+  ],
+  "rebrand_refresh_iso": "2026-09-19T16:32:17-06:00",
+  "rebrand_refresh_note": "line-ending-canonical identity (sha256 over LF-normalised bytes); certifier ships with an in-tree refresher",
+  "rebrand_refresh_files": [
+    "README.md",
+    "portal/index.html",
+    "web_portal/index.html",
+    "scripts/certify_build.py"
   ]
 }

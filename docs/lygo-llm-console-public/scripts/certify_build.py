@@ -12,7 +12,9 @@ What it does
 1. Brand + license identity: confirms LICENSE / NOTICE / TRADEMARKS.md / LICENSING.md are present,
    that LICENSE carries the v3.0 resonance signature, and that the NOTICE still claims the marks.
 2. Integrity: reads every *_MANIFEST.json in the kit root that lists shipped files as
-   {path, sha256_16, bytes} entries and recomputes each hash + size from disk.
+   {path, sha256_16, bytes} entries and recomputes each hash + size from disk. Line endings are
+   normalised to LF before hashing: a raw-byte comparison would flag every Windows checkout
+   (core.autocrlf=true) as MODIFIED even though nothing changed.
 3. Verdict: CERTIFIED (everything matches) or MODIFIED (list of what differs).
 
 Why it matters
@@ -33,18 +35,30 @@ import json
 import sys
 from pathlib import Path
 
+# Line-ending bytes, written via codes so no escaping layer can mangle them:
+CRLF = bytes((13, 10))
+LF = bytes((10,))  # note the comma: bytes((10)) would be ten NUL bytes, not a newline
+
 KIT = Path(__file__).resolve().parent.parent
 SIGNATURE = "\u03949\u03a6963-LICENSE-v3.0"
 BRAND_FILES = ["LICENSE", "NOTICE", "TRADEMARKS.md", "LICENSING.md", "SUCCESSION.md"]
 MARKS = ["LYGO", "\u03949\u03a6963", "Justin Helmer"]
 
 
-def sha256_of(path: Path) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as fh:
-        for chunk in iter(lambda: fh.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def identity(path: Path) -> tuple[str, int]:
+    """Content identity of a shipped file: (sha256 over LF-normalised bytes, that length).
+
+    Line endings are a checkout detail, not part of the build's identity. With core.autocrlf=true
+    (the Windows default) git rewrites text files to CRLF whenever it checks them out - after a
+    clone, a rebase with autostash, or a restore - so hashing raw bytes makes a pristine copy read
+    MODIFIED for no reason. Normalising CRLF -> LF first means a certified build verifies on
+    Windows, Linux and macOS alike, while any real edit (a changed word, a stripped notice, a
+    rebranded surface) still changes the hash.
+    """
+    data = path.read_bytes()
+    if CRLF in data:
+        data = data.replace(CRLF, LF)
+    return hashlib.sha256(data).hexdigest(), len(data)
 
 
 def check_brand() -> tuple[bool, list[str]]:
@@ -101,12 +115,12 @@ def check_manifest(path: Path) -> tuple[int, int, list[str]]:
             problems.append(f"MISSING  {rel}")
             continue
         checked += 1
-        got = sha256_of(target)
-        size = target.stat().st_size
+        got, size = identity(target)
+        raw_size = target.stat().st_size
         if want16 and not got.startswith(want16):
             problems.append(f"CHANGED  {rel}  manifest {want16}  on-disk {got[:16]}")
             continue
-        if isinstance(want_bytes, int) and size != want_bytes:
+        if isinstance(want_bytes, int) and size != want_bytes and raw_size != want_bytes:
             problems.append(f"RESIZED  {rel}  manifest {want_bytes}  on-disk {size}")
             continue
         matched += 1
@@ -154,6 +168,7 @@ def main() -> int:
     if not args.quiet:
         print(f"LYGO build certification - {KIT}")
         print("=" * 72)
+        print("Identity: sha256 over LF-normalised bytes (line endings are a checkout detail,\n          not a build change - a CRLF checkout of a clean build still certifies)")
         print("Brand and license identity")
         for n in brand_notes:
             print("  " + n)
