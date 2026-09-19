@@ -111,3 +111,10 @@ data/music_catalog/yandex_cdp_profile/
 # Pure-Data Witness binary snapshots (digests/json/txt are enough for public)
 data/pure_data/**/*.bin
 
+
+# Scratch / run-state output (kept on disk, deliberately untracked)
+_tmp_*
+data/_tmp_*
+clawhub/packages/_inspect/
+data/pure_data/_skill_smoke/
+*_last_run.json
