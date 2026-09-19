@@ -1,0 +1,114 @@
+{
+  "build": "record v1",
+  "signature": "\u03949\u03a6963-LYGO-COMPACTION-v1",
+  "console_build": "1.1.0",
+  "status": "installed_and_tested_not_yet_boot_verified",
+  "written": "2026-09-19 14:47 MDT",
+  "owner": "steward (Lightfather) - agent: LYGO Lattice co-builder",
+  "document": {
+    "canonical": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\COMPACTION.md",
+    "mirrors": [
+      "E:\\LYGO_BUILDER_KEY\\lygo_llm_console\\COMPACTION.md",
+      "E:\\LYGO_BUILDER_KEY\\docs\\LYGO_LLM_CONSOLE_COMPACTION_AS_BUILT.md"
+    ]
+  },
+  "trees": {
+    "pc": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
+    "stick": "E:\\LYGO_BUILDER_KEY\\lygo_llm_console"
+  },
+  "suite": {
+    "command": "python -m unittest discover -s . -p \"test_*.py\"",
+    "baseline_pristine_stick": {"line": "Ran 372 tests in 34.910s", "result": "OK", "exit_code": 0},
+    "pc_after": {"line": "Ran 455 tests in 50.112s", "result": "OK", "exit_code": 0},
+    "stick_after": {"line": "Ran 455 tests in 55.602s", "result": "OK", "exit_code": 0}
+  },
+  "focused_suites": {
+    "unit": {"command": "python -m unittest test_compaction", "line": "Ran 74 tests in 13.268s", "result": "OK"},
+    "http": {"command": "python -m unittest test_record_e2e", "line": "Ran 9 tests in 0.992s", "result": "OK"}
+  },
+  "installed_files_sha256_16": {
+    "src/compaction.py": "af136374a2557aa9",
+    "src/server.py": "f782b3e605eb3e2f",
+    "src/continuity.py": "e3aa01874c4ecbb7",
+    "src/limbs.py": "401fb41af4a8a394",
+    "src/chat_loop.py": "690ce25beabc28ef",
+    "portal/app.js": "0c03629d7bd9dba4",
+    "portal/index.html": "c4729c2f2f56db56",
+    "tests/test_compaction.py": "1cdcc78a9aa66f65",
+    "verified": "ALL_MATCH=1 across both trees"
+  },
+  "config": {
+    "pc": {"file": "config/console.json", "ctx_max": 32768, "kv_type": "q8_0"},
+    "stick": {"file": "config/console.json", "ctx_max": 32768, "kv_type": "q8_0", "note": "edited in place; stick was 8192 and had no kv_type"},
+    "not_copied_between_trees": [
+      "config/local.json",
+      "config/admin.json",
+      "data/*",
+      "LYGO_AGENT_STICK.bat",
+      "LYGO_AGENT_STICK_STOP.bat"
+    ]
+  },
+  "window": {
+    "ctx": 32768,
+    "system_reserve": 5116,
+    "answer_reserve": 1024,
+    "safety_reserve": 640,
+    "history_tokens": 25988,
+    "history_chars": 93556,
+    "compact_at": 20270,
+    "auto_compact_pct": 78,
+    "chars_per_token": 3.6,
+    "kv_mib_estimate": 896,
+    "model": "qwen2.5-coder:7b",
+    "model_ctx_native": 32768,
+    "kv_type": "q8_0"
+  },
+  "endpoints": {
+    "GET /api/compaction": "live-window report",
+    "POST /api/compaction": ["status", "save", "compact", "roll", "seal", "recall", "index", "transcript", "bundle"],
+    "GET /api/archive": "sealed session list, or ?sid=<id> for a transcript"
+  },
+  "limbs": {
+    "recall_history": {
+      "schema": "registered in limbs.EXTRA_SCHEMA",
+      "canonical_key": "q",
+      "aliases": ["query", "term", "terms", "search", "search_query", "keywords", "question", "input", "text", "value"],
+      "host_auto_run": "chat_loop.AUTO_ONE"
+    },
+    "sessions_list": "now also returns journals, sealed count, sealed bytes, session id"
+  },
+  "storage": {
+    "journal": "save/sessions/journal-<sid>.jsonl",
+    "rollups": "save/sessions/rollups/",
+    "checkpoints": "save/sessions/checkpoints/<sid>-000N.md",
+    "archive": "save/archive/<sid>.zip",
+    "index": "save/archive/index.jsonl",
+    "bundles": "save/archive/bundles/<month>.zip",
+    "state": "save/sessions/compaction_state.json"
+  },
+  "io_contract": {
+    "record": "appended before the engine is called; never removed except by seal",
+    "seal": "zip is read back and CRC/digest verified before the journal is trimmed",
+    "digest": "deterministic, assembled from on-disk records, no model call",
+    "prompt": "identity block <= PROMPT_CEILING (16300 chars) + optional digest <= CARRY_CAP (1400 chars)",
+    "failure": "safe_* wrappers return {ok:false,error} and the turn continues",
+    "boot": "a broken compaction module degrades the record, never the console"
+  },
+  "roadmap": {
+    "1_boot_stick_and_read_compaction_route": false,
+    "2_boot_pc_console": false,
+    "3_one_real_turn_each_journal_line_check": false,
+    "4_press_save_and_compact": false,
+    "5_seal_then_recall": false,
+    "6_200_turn_soak": false,
+    "7_monthly_bundle": false
+  },
+  "known_limitations": [
+    "256k live window is not available on this host (KV math in the document)",
+    "two consoles share one 8 GB card; one engine at a time",
+    "served artifact not yet boot-verified on this build",
+    "test_security_hardening.OversizedBodyTest is flaky (pre-existing)",
+    "a standalone scratch kit copy did not answer HTTP within 180s (unexplained, low severity)",
+    "images bounded in the prompt (2), not in the record"
+  ]
+}
