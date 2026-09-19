@@ -118,3 +118,7 @@ data/_tmp_*
 clawhub/packages/_inspect/
 data/pure_data/_skill_smoke/
 *_last_run.json
+
+# Literal backup copies of docs (kept on disk, not tracked)
+*.pre_docs*
+*.bak-2*
