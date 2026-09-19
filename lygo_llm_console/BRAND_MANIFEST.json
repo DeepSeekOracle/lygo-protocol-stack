@@ -1,0 +1,68 @@
+{
+  "signature": "\u03949\u03a6963-LYGO-BRANDING-v1",
+  "name": "LYGO brand, license and integrity package",
+  "written_iso": "2026-09-19T15:50:26-06:00",
+  "status": "installed_and_tested",
+  "license": "LYGO Sovereign License v3.0 (\u03949\u03a6963-LICENSE-v3.0)",
+  "steward": "Justin Helmer (Lightfather \u00b7 Excavationpro \u00b7 DeepSeekOracle)",
+  "purpose": "The license package and the brand-bearing surfaces of this kit, hashed so that a copy which edits the license, strips the notices/seals, or rebrands a surface is detectable. Verification is read-only and offline: python scripts/certify_build.py",
+  "why_hash_the_license": "An editable license is a claim, not a record. These hashes make tampering visible; certify_build.py prints CERTIFIED or MODIFIED, and LYGO Sovereign License v3.0 sections 4 and 9 explain what a MODIFIED copy may not do (no resale, no marks, no 'official' claim).",
+  "verify_with": "python scripts/certify_build.py",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256_16": "91a34b504e9e9ae7",
+      "bytes": 26044
+    },
+    {
+      "path": "NOTICE",
+      "sha256_16": "63c4c4a05cb3efb3",
+      "bytes": 3234
+    },
+    {
+      "path": "TRADEMARKS.md",
+      "sha256_16": "16e867c802d1d59c",
+      "bytes": 4920
+    },
+    {
+      "path": "LICENSING.md",
+      "sha256_16": "1b177722aa7f0f39",
+      "bytes": 7758
+    },
+    {
+      "path": "SUCCESSION.md",
+      "sha256_16": "8e63150a2802f9be",
+      "bytes": 7137
+    },
+    {
+      "path": "BRANDING.md",
+      "sha256_16": "f3866df5ff4bc23f",
+      "bytes": 11843
+    },
+    {
+      "path": "README.md",
+      "sha256_16": "9ff3c17e1b24fb3d",
+      "bytes": 7287
+    },
+    {
+      "path": "READ_DISCLAIMER_FIRST.md",
+      "sha256_16": "28eaebf70c8d4358",
+      "bytes": 1016
+    },
+    {
+      "path": "portal/index.html",
+      "sha256_16": "7a2b96340223c8f4",
+      "bytes": 19699
+    },
+    {
+      "path": "web_portal/index.html",
+      "sha256_16": "6a0737de57570ea8",
+      "bytes": 25109
+    },
+    {
+      "path": "scripts/certify_build.py",
+      "sha256_16": "57c9beac481617fc",
+      "bytes": 7711
+    }
+  ]
+}

@@ -38,6 +38,17 @@
   .example-row button { font-size: 0.75rem; font-weight: 500; text-align: left; }
   .ctx-note { font-size: 0.72rem; color: var(--muted); padding: 0.28rem 0.85rem 0; background: rgba(18, 14, 10, 0.9); }
   .ctx-note.warn { color: var(--bad); }
+  .compact-bar { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; padding: 0.24rem 0.85rem 0.3rem; background: rgba(18, 14, 10, 0.9); }
+  .compact-bar button { font-size: 0.72rem; padding: 0.18rem 0.5rem; }
+  .compact-bar button.busy { opacity: 0.55; }
+  .compact-status { font-size: 0.7rem; color: var(--muted); }
+  .compact-status.ok { color: var(--good, #6f6); }
+  .compact-status.warn { color: var(--bad); }
+  .vault-transcript { max-height: 20rem; overflow: auto; white-space: pre-wrap; font-size: 0.74rem; line-height: 1.35; background: rgba(0, 0, 0, 0.25); padding: 0.5rem; border-radius: 6px; margin-top: 0.35rem; }
+  .vault-row { display: flex; gap: 0.35rem; align-items: baseline; justify-content: space-between; }
+  .vault-row small { color: var(--muted); font-size: 0.7rem; }
+  .vault-tag { font-size: 0.68rem; color: var(--muted); }
+  .vault-picks { display: flex; gap: 0.25rem; flex: none; }
   .stop-btn:disabled, .send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
   .seg-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   #brain-api.needs-key { opacity: 0.6; }
@@ -105,6 +116,29 @@
   <nav class="rail">
     <h2>Continuity</h2>
     <button type="button" id="new-session">New session</button>
+    <p class="hint">The chat you are in is filed to the vault before the window is wiped — nothing is thrown away.</p>
+    <h2>Session vault</h2>
+    <p class="hint" id="vault-status" aria-live="polite">every finished chat is filed, labelled and findable here</p>
+    <div class="np-bar">
+      <input id="vault-q" type="text" placeholder="search titles, tags and transcripts" maxlength="80" autocomplete="off">
+      <button type="button" id="vault-search">Find</button>
+    </div>
+    <div class="compact-bar" style="padding-left:0">
+      <button type="button" id="vault-file">File this chat</button>
+      <button type="button" id="vault-adopt">File old history</button>
+      <button type="button" id="vault-refresh">Refresh</button>
+    </div>
+    <ul id="vault-list" class="filelist"></ul>
+    <div id="vault-view" hidden>
+      <h3 id="vault-view-title">—</h3>
+      <p class="hint" id="vault-view-meta"></p>
+      <div class="np-bar">
+        <button type="button" id="vault-resume">Reopen in chat</button>
+        <button type="button" id="vault-label">Name / tag</button>
+        <button type="button" id="vault-close">Close</button>
+      </div>
+      <textarea id="vault-transcript" class="vault-transcript" readonly spellcheck="false"></textarea>
+    </div>
     <div class="cont-tabs" role="tablist" aria-label="Continuity documents">
       <button type="button" role="tab" class="on" data-cont="soul" id="tab-soul" aria-selected="true" aria-controls="pane-soul" tabindex="0">Soul</button>
       <button type="button" role="tab" data-cont="id" id="tab-id" aria-selected="false" aria-controls="pane-id" tabindex="-1">Identity</button>
@@ -173,6 +207,11 @@
       </div>
     </div>
     <div id="ctx-note" class="ctx-note" aria-live="polite">context: 0 messages · images kept 2 · max_tokens 768</div>
+    <div class="compact-bar" id="compact-bar">
+      <button type="button" id="compact-now" title="Save this conversation to the record now, stamped, and fold whatever left the engine window into the digest — the save button on a game, for a chat">Save &amp; compact</button>
+      <button type="button" id="archive-open" class="mini" title="Where the record lives and what is sealed in it">Archive</button>
+      <span id="compact-status" class="compact-status" aria-live="polite">record: —</span>
+    </div>
     <form id="form" class="composer">
       <input id="msg" type="text" placeholder="Task the agent… paste an https:// URL to auto-read" autocomplete="off" autofocus>
       <label class="attach">img<input id="img" type="file" accept="image/*" hidden></label>
@@ -231,6 +270,13 @@
     <span id="radioHint" class="hint" aria-live="polite"></span>
   </div>
 </footer>
+  <p class="hint brand-legal">LYGO PC LOCAL CONSOLE™ · Δ9Φ963 · © 2024–2026 Justin Helmer (Lightfather · Excavationpro · DeepSeekOracle) ·
+  <strong>LYGO Sovereign License v3.0</strong> — use and build on it; <strong>no resale, rebranding, white-labelling or modified distribution</strong>.
+  Not open source. <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/LICENSING.md" target="_blank" rel="noopener">What you may do</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/LICENSE" target="_blank" rel="noopener">LICENSE</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/TRADEMARKS.md" target="_blank" rel="noopener">Brand policy</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/SUCCESSION.md" target="_blank" rel="noopener">Stewardship</a> ·
+  licence files also sit in this kit's folder.</p>
 <script src="/static/app.js?v=20260918console"></script>
 <script src="/static/radio.js?v=20260916m"></script>
 </body>

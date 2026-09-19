@@ -4,14 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Agent Portal v1.1</title>
-<link rel="stylesheet" href="/static/style.css?v=20260916e">
+<link rel="stylesheet" href="/static/style.css?v=20260916n">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 </head>
 <body>
 <header>
   <div>
-    <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
-    <div class="sub">Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / MEMORY.md · Justin Helmer / Lightfather</div>
+    <div class="brand-lockup">
+      <img src="/static/logo.jpg" width="48" height="48" alt="LYGO" style="border-radius:10px;border:1px solid rgba(224,179,106,.22)">
+      <div class="brand">Δ9Φ963 · LYGO Agent Portal</div>
+    </div>
+    <div class="sub">Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / IDENTITY.md / MEMORY.md · Justin Helmer / Lightfather</div>
     <div class="modelbar">
       <button type="button" id="scan">Scan drives</button>
       <select id="models" title="Available GGUF / Ollama CAS models"></select>
@@ -32,10 +35,41 @@
   <nav class="rail">
     <h2>Continuity</h2>
     <button type="button" id="new-session">New session</button>
-    <p class="hint"><code>SOUL.md</code> identity · <code>MEMORY.md</code> grows</p>
-    <pre id="soul-preview" class="limb-out"></pre>
+    <div class="cont-tabs" role="tablist">
+      <button type="button" class="on" data-cont="soul" id="tab-soul">Soul</button>
+      <button type="button" data-cont="id" id="tab-id">Identity</button>
+      <button type="button" data-cont="mem" id="tab-mem">Memory</button>
+    </div>
+    <div id="pane-soul" class="cont-pane">
+      <p class="hint">SOUL.md — light math + decision spine. Saved to workspace.</p>
+      <textarea id="soul-edit" spellcheck="false" aria-label="SOUL.md"></textarea>
+      <button type="button" id="soul-save">Save soul</button>
+    </div>
+    <div id="pane-id" class="cont-pane" hidden>
+      <p class="hint">IDENTITY.md — who is on this console. Not mashed into soul.</p>
+      <textarea id="id-edit" spellcheck="false" aria-label="IDENTITY.md"></textarea>
+      <button type="button" id="id-save">Save identity</button>
+    </div>
+    <div id="pane-mem" class="cont-pane" hidden>
+      <p class="hint">MEMORY.md — handshake, tools, champions, recovery. Not mashed into identity.</p>
+      <textarea id="mem-edit" spellcheck="false" aria-label="MEMORY.md"></textarea>
+      <button type="button" id="mem-save">Save memory</button>
+    </div>
+    <p class="hint" id="cont-status">workspace/SOUL.md · IDENTITY.md · MEMORY.md</p>
     <h2>Workspace</h2>
-    <button type="button" id="ws-refresh">Refresh files</button>
+    <p class="hint">Mapped folders the LLM may use as brain/stack. Add a drive or folder; Remove takes it away.</p>
+    <div id="ws-mounts" class="ws-mounts"></div>
+    <div class="np-bar">
+      <input id="ws-path" type="text" placeholder="C:\  or  D:\chatagent  or any folder" autocomplete="off">
+    </div>
+    <div class="np-bar">
+      <label class="chk"><input type="checkbox" id="ws-read" checked> read</label>
+      <label class="chk"><input type="checkbox" id="ws-write"> write</label>
+      <label class="chk"><input type="checkbox" id="ws-search" checked> search</label>
+      <button type="button" id="ws-add">Add access</button>
+      <button type="button" id="ws-refresh">Files</button>
+    </div>
+    <p class="hint" id="ws-status">live map</p>
     <ul id="ws" class="filelist"></ul>
     <h2>Skills</h2>
     <p class="hint">Δ9 champions on/off. Browse <a href="https://chatagent.ca/lygoskillhub.html" target="_blank" rel="noopener">SkillHub</a> (public tentacle or FULL zip + hash). OpenClaw SKILL.md compatible.</p>
@@ -81,12 +115,37 @@
       </div>
     </section>
     <p class="hint">
-      Donate <a href="https://paypal.me/ExcavationPro">PayPal.me/ExcavationPro</a> ·
-      <a href="https://chatagent.ca/lygo-llm-console.html">docs</a> ·
-      <a href="https://chatagent.ca/games/">arcade</a>
+      Donate <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal</a> ·
+      <a href="https://www.patreon.com/Excavationpro" target="_blank" rel="noopener">Patreon</a> ·
+      <a href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a> ·
+      <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen</a>
     </p>
   </aside>
 </main>
-<script src="/static/app.js?v=20260916e"></script>
+<footer class="media-dock" aria-label="Radio and TV">
+  <audio id="radioEl" preload="auto"></audio>
+  <div id="radioDock" class="radio-inline">
+    <button type="button" id="radioPlay">Play</button>
+    <button type="button" id="radioNext">Next</button>
+    <button type="button" id="radioMute">Mute</button>
+    <label class="radio-vol" title="Radio volume">Vol
+      <input type="range" data-radio-vol min="0" max="100" value="45" aria-label="Radio volume">
+      <span id="radioVolPct">45%</span>
+    </label>
+    <span id="radioTitle" class="radio-title-inline">Radio</span>
+    <a id="radioListen" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen hub</a>
+    <a id="radioTv" href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a>
+    <span id="radioHint" class="hint"></span>
+  </div>
+</footer>
+  <p class="hint brand-legal">LYGO PC LOCAL CONSOLE™ · Δ9Φ963 · © 2024–2026 Justin Helmer (Lightfather · Excavationpro · DeepSeekOracle) ·
+  <strong>LYGO Sovereign License v3.0</strong> — use and build on it; <strong>no resale, rebranding, white-labelling or modified distribution</strong>.
+  Not open source. <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/LICENSING.md" target="_blank" rel="noopener">What you may do</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/LICENSE" target="_blank" rel="noopener">LICENSE</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/TRADEMARKS.md" target="_blank" rel="noopener">Brand policy</a> ·
+  <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/SUCCESSION.md" target="_blank" rel="noopener">Stewardship</a> ·
+  licence files also sit in this kit's folder.</p>
+<script src="/static/app.js?v=20260916n"></script>
+<script src="/static/radio.js?v=20260916m"></script>
 </body>
 </html>

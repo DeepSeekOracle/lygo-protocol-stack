@@ -99,3 +99,27 @@ Arcade: https://chatagent.ca/games/ · Crypt: https://chatagent.ca/games/lattice
 - **`BUILD_MANIFEST.json`** — machine-readable ports, routes, modules, tests, invariants; hand it to an AI agent together with the whitepaper.
 - **`tools/make_index.py`** — regenerates Appendix B (the module/function index) after code changes.
 - Credentials (`config/api.json`, `.env`, `save/registry.json`) are never committed, never copied to the USB and always `[REDACTED]` in documents. Agents build, verify and report; **the steward publishes**.
+
+## License and brand — read before you ship this
+
+**LYGO PC LOCAL CONSOLE™ is a branded product. Not open source, not MIT.** Licensed under the
+**LYGO Sovereign License v3.0** (`Δ9Φ963-LICENSE-v3.0`): you may **use** it and **build on** it; you may
+**not** sell it, rebrand it, white-label it, publish modified copies, or strip attribution, seals or
+signatures.
+
+| File | What it is |
+|---|---|
+| `LICENSE` | the terms — this is the controlling text |
+| `LICENSING.md` | plain English: yes-you-may / no-you-may-not, certified builds, the succession lock |
+| `TRADEMARKS.md` | the marks, the powered-by badge, how a fork must be named |
+| `NOTICE` | attribution line, integrity/manifest rules, third-party licences (engine, model weights, vendored OpenClaw MIT) |
+| `SUCCESSION.md` | who holds the name and the seals if the Steward cannot |
+| `scripts/certify_build.py` | verify a copy against its manifests → **CERTIFIED** or **MODIFIED** (and what that means) |
+
+**No license is retroactive:** anything published earlier under a more permissive license keeps that
+license for the copies already distributed. This and every future release is v3.0.
+
+An independent reimplementation that copies no LYGO code and carries none of the marks is welcome —
+with attribution. Anything else: ask in writing. Silence is not permission.
+
+Steward: Justin Helmer (Lightfather · Excavationpro · DeepSeekOracle).
