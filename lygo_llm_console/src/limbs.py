@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Any
 
 import atomicio
-from paths import KIT_ROOT, SAVE, WORKSPACE
+from paths import KIT_ROOT, SAVE, WORKSPACE, under_workspace
 from p0_hook import gate_prompt
 
 TODO_PATH = WORKSPACE / "todo.jsonl"
@@ -63,6 +63,12 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "page_thumbnail", "description": "Capture a public HTTPS page thumbnail into workspace/images.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "jina_fetch", "description": "Readable extract of a page via r.jina.ai.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "sessions_list", "description": "List saved chat session files.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "session_list", "description": "List the filed session vault: title, id, turns, date, tags, note. Filters: q, tag, month.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "tag": {"type": "string"}, "month": {"type": "string"}, "limit": {"type": "integer"}}}}},
+    {"type": "function", "function": {"name": "session_open", "description": "Read a filed session back: its transcript, manifest and where it sits on disk. Use it to revisit or quote an older conversation.", "parameters": {"type": "object", "properties": {"sid": {"type": "string"}, "chars": {"type": "integer"}}, "required": ["sid"]}}},
+    {"type": "function", "function": {"name": "session_search", "description": "Find a past session by phrase. Searches the vault's titles, tags, notes and the transcripts themselves.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "k": {"type": "integer"}}, "required": ["q"]}}},
+    {"type": "function", "function": {"name": "session_label", "description": "Name, tag or annotate a filed session so it can be found again later. Omit sid to label the conversation in progress.", "parameters": {"type": "object", "properties": {"sid": {"type": "string"}, "title": {"type": "string"}, "tags": {"type": "array", "items": {"type": "string"}}, "note": {"type": "string"}, "pinned": {"type": "boolean"}}}}},
+    {"type": "function", "function": {"name": "session_resume", "description": "Reopen a filed session as the live conversation. The session in progress is filed first, so nothing is lost.", "parameters": {"type": "object", "properties": {"sid": {"type": "string"}}, "required": ["sid"]}}},
+    {"type": "function", "function": {"name": "recall_history", "description": "Search everything said in this chat: the live journal and sealed sessions. Use it when the operator refers to something older than your window.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "k": {"type": "integer"}}, "required": ["q"]}}},
 ]
 
 
@@ -96,6 +102,90 @@ def _safe_arith(expr: str) -> float | int:
     return walk(tree)
 
 
+# --- argument aliases: a small model labels the same argument differently ---------------------
+# Measured 2026-09-18: the agent called python_exec with {"value": "print(6*7)"} (the schema says
+# "code") and got a bare {"ok": false, "error": "empty"}; arxiv_search with {"query": ...} (schema
+# says "q") and got http_400. Same limb, same intent, unusable key. Fill the canonical key from the
+# aliases before any branch reads args, so a limb fails only when the *value* is actually missing.
+CANON_KEYS: dict[str, tuple[str, ...]] = {
+    "web_search": ("q",), "web_fetch": ("url",), "jina_fetch": ("url",), "wayback": ("url",),
+    "http_json": ("url",), "page_thumbnail": ("url",), "download_url": ("url", "path"),
+    "arxiv_search": ("q",), "hn_search": ("q",), "github_search": ("q",), "search_corpus": ("q",),
+    "memory_recall": ("q",), "clawhub_search": ("q",), "credential_where": ("q",),
+    "recall_history": ("q",),
+    "session_list": ("q", "tag", "month"), "session_open": ("sid",), "session_search": ("q",),
+    "session_label": ("sid", "title"), "session_resume": ("sid",),
+    "skillhub_list": ("q", "channel"), "clawhub_install": ("slug",), "skillhub_install": ("slug", "full"),
+    "skill_read": ("slug",), "skill_enable": ("slug",), "skill_disable": ("slug",),
+    "shell": ("cmd",), "python_exec": ("code",), "calc": ("expr",), "hash_text": ("text",),
+    "p0_gate": ("text",), "remember": ("note",), "memory_append": ("note",), "todo_add": ("item",),
+    "read_file": ("path",), "write_file": ("path", "content"), "list_dir": ("path",),
+    "find_files": ("pattern", "root"), "glob_files": ("pattern",), "image_info": ("path",),
+    "image_save": ("b64", "path"), "edit_file": ("path", "old", "new"), "weather": ("place",),
+    "geocode": ("place",), "notepad_read": ("id",), "notepad_write": ("id", "title", "text"),
+}
+ALIAS_POOL: dict[str, tuple[str, ...]] = {
+    "q": ("query", "term", "terms", "search", "search_query", "keywords", "question", "input", "text", "value"),
+    "url": ("link", "uri", "address", "site", "page", "href"),
+    "slug": ("skill", "skill_name", "name", "key"),
+    "cmd": ("command", "shell_command", "line", "script", "run"),
+    "code": ("value", "src", "source", "snippet", "script", "python", "body"),
+    "expr": ("expression", "formula", "equation", "math", "sum", "query", "value", "input"),
+    "text": ("value", "content", "body", "message", "input", "src", "data"),
+    "note": ("text", "content", "message", "value", "body"),
+    "item": ("text", "todo", "task", "value", "content"),
+    "path": ("file", "filepath", "file_path", "filename", "target", "dest", "destination", "dir", "directory"),
+    "pattern": ("glob", "mask", "wildcard", "query"),
+    "place": ("location", "city", "town", "where", "query"),
+    "id": ("name", "key", "slug"),
+    "content": ("text", "body", "data", "value"),
+    "b64": ("base64", "data", "image", "img"),
+    "old": ("from", "find", "search"),
+    "new": ("to", "replace", "with"),
+    "root": ("dir", "directory", "path"),
+    "channel": ("type",),
+}
+
+
+def canonicalize(name: str, args: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Fill a limb's canonical argument names from the aliases a small model reaches for."""
+    keys = CANON_KEYS.get(name)
+    if not keys or not isinstance(args, dict):
+        return name, args
+    out = dict(args)
+    # taken = keys already CONSUMED as an alias source. Pre-seeding it with every present key
+    # skipped the alias itself ({"value": ...} never filled "code"), which is how this helper first
+    # shipped broken. Canonical keys that already carry a value are skipped by the guard above.
+    taken: set[str] = set()
+    for key in keys:
+        if str(out.get(key) or "").strip():
+            continue
+        for alt in ALIAS_POOL.get(key, ()):
+            if alt in taken:
+                continue
+            val = out.get(alt)
+            if isinstance(val, str) and val.strip():
+                if key == "url" and not val.strip().lower().startswith("http"):
+                    continue
+                out[key] = val.strip()
+                taken.add(alt)
+                break
+            if val not in (None, "", [], {}):
+                out[key] = val
+                taken.add(alt)
+                break
+    if name == "edit_file" and not str(out.get("old") or "").strip():
+        # Measured 2026-09-18: asked to replace "old-value" with "agent-value", the model emitted
+        # those words AS KEY NAMES. Two loose string args beside "path" are the replacement pair,
+        # in the order the model wrote them - a mechanical fill, not an invention.
+        loose = [k for k in out if k not in keys and str(out.get(k) or "").strip()]
+        if loose:
+            out["old"] = out[loose[0]]
+            if len(loose) > 1:
+                out["new"] = out[loose[1]]
+    return name, out
+
+
 def _win_env() -> dict[str, str]:
     keys = ("PATH", "SystemRoot", "COMSPEC", "PATHEXT", "TEMP", "TMP", "USERNAME", "USERPROFILE", "WINDIR")
     env = {k: os.environ[k] for k in keys if k in os.environ}
@@ -104,10 +194,9 @@ def _win_env() -> dict[str, str]:
 
 
 def _ws(p: str | None) -> Path:
-    path = Path(p or ".")
-    if not path.is_absolute():
-        path = WORKSPACE / path
-    return path
+    # under_workspace also accepts the redundant leading "workspace/" that models add by habit
+    # (workspace/gauntlet_edit.txt used to resolve to workspace/workspace/gauntlet_edit.txt).
+    return under_workspace(p or ".")
 
 
 def _kill_tree(pid: int) -> None:
@@ -161,6 +250,7 @@ def _run_capture(argv: list[str], *, timeout: int, cwd: str, env: dict[str, str]
 
 
 def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
+    name, args = canonicalize(name, args or {})
     if name == "web_search":
         from web_tools import web_search
 
@@ -189,7 +279,9 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "python_exec":
         code = str(args.get("code") or "")
         if not code.strip():
-            return {"ok": False, "error": "empty"}
+            # name the missing argument: a bare "empty" told the operator nothing and the model
+            # then answered from its own arithmetic (measured: {"value": "print(6*7)"} -> 42).
+            return {"ok": False, "error": "empty", "hint": "python_exec needs 'code' - a python snippet that prints its result", "got_keys": sorted(args)}
         if _SHELL_DENY.search(code) or gate_prompt(code).get("verdict") == "QUARANTINE":
             return {"ok": False, "error": "p0_blocked"}
         try:
@@ -338,19 +430,56 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         if not p.is_file():
             return {"ok": False, "error": "missing"}
         old, new = str(args.get("old") or ""), str(args.get("new") or "")
+        if not old:
+            # "" is a substring of every string, so the old_not_found guard below could never fire:
+            # a call that named neither "old" nor "new" replaced nothing and still returned ok:True.
+            return {"ok": False, "error": "empty",
+                    "hint": "edit_file needs 'old' (the exact text to replace) and 'new'",
+                    "got_keys": sorted(args)}
         t = p.read_text(encoding="utf-8", errors="replace")
         if old not in t:
-            return {"ok": False, "error": "old_not_found"}
+            return {"ok": False, "error": "old_not_found",
+                    "hint": "'old' does not appear in this file - read the file first",
+                    "head": t[:200]}
         atomicio.atomic_write_text(p, t.replace(old, new, 1))
-        return {"ok": True, "path": str(p)}
+        return {"ok": True, "path": str(p), "replaced": 1, "occurrences": t.count(old),
+                "bytes": len(t) - len(old) + len(new)}
     if name == "weather":
-        from web_tools import _get
+        from web_tools import _get, _json_get
 
-        place = urllib.parse.quote(str(args.get("place") or "Earth"))
-        code, raw, _ = _get("https://wttr.in/" + place + "?format=3", headers={"Accept": "text/plain"})
+        place = str(args.get("place") or "Earth")
+        # wttr.in answers a browser-like agent with its HTML page even when Accept says text/plain,
+        # so read the JSON form (format=j1) and render one line ourselves.
+        data = _json_get("https://wttr.in/" + urllib.parse.quote(place) + "?format=j1")
+        cur = {}
+        if isinstance(data, dict):
+            rows = data.get("current_condition") or []
+            if rows and isinstance(rows[0], dict):
+                cur = rows[0]
+        if cur:
+            desc = ""
+            wd = cur.get("weatherDesc") or []
+            if wd and isinstance(wd[0], dict):
+                desc = str(wd[0].get("value") or "").strip()
+            bits = [
+                "{}C".format(cur.get("temp_C")),
+                desc,
+                "feels {}C".format(cur.get("FeelsLikeC")),
+                "wind {}km/h".format(cur.get("windspeedKmph")),
+                "humidity {}%".format(cur.get("humidity")),
+            ]
+            text = place + ": " + ", ".join([b for b in bits if b and "None" not in b])
+            return {"ok": True, "text": text, "class": "RESOURCE"}
+        code, raw, _ = _get(
+            "https://wttr.in/" + urllib.parse.quote(place) + "?format=3",
+            headers={"Accept": "text/plain", "User-Agent": "curl/8.4.0"},
+        )
         if code != 200:
             return {"ok": False, "error": f"http_{code}"}
-        return {"ok": True, "text": raw.decode("utf-8", errors="replace").strip(), "class": "RESOURCE"}
+        text = raw.decode("utf-8", errors="replace").strip()
+        if "<html" in text[:400].lower():
+            return {"ok": False, "error": "html_page_not_weather"}
+        return {"ok": True, "text": text, "class": "RESOURCE"}
     if name == "geocode":
         from web_tools import _json_get
 
@@ -385,8 +514,20 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         from web_tools import _get
         import xml.etree.ElementTree as ET
 
-        qs = urllib.parse.quote(str(args.get("q") or ""))
-        code, raw, _ = _get("https://export.arxiv.org/api/query?search_query=all:" + qs + "&start=0&max_results=5")
+        q = str(args.get("q") or "").strip()
+        # Date-sorted results are precise only if the phrase is exact; an unquoted multi-word q
+        # matches any paper sharing one word, so quote it before it goes to arXiv.
+        if " " in q and '"' not in q:
+            q = '"' + q + '"'
+        qs = urllib.parse.quote(q)
+        # arXiv's default order is relevance, which surfaced 2003-2016 papers as "newest"; ask for
+        # submission-date order explicitly.
+        url = (
+            "https://export.arxiv.org/api/query?search_query=all:"
+            + qs
+            + "&start=0&max_results=5&sortBy=submittedDate&sortOrder=descending"
+        )
+        code, raw, _ = _get(url)
         if code != 200:
             return {"ok": False, "error": f"http_{code}"}
         papers = []
@@ -413,8 +554,13 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
 
         q = str(args.get("q") or "")
         if is_admin() and "user:" not in q.lower() and "org:" not in q.lower():
-            q = ("user:DeepSeekOracle " + q).strip()
-        return {"ok": True, "hits": github_search(q), "query": q, "class": "RESOURCE"}
+            scoped = github_search("user:DeepSeekOracle " + q)
+            if scoped:
+                return {"ok": True, "hits": scoped, "query": "user:DeepSeekOracle " + q, "scope": "steward", "class": "RESOURCE"}
+            # An empty answer is worse than a broad one: the steward-scoped search matched nothing,
+            # so search GitHub generally and say plainly that the scope was widened.
+            return {"ok": True, "hits": github_search(q), "query": q, "scope": "global_fallback", "class": "RESOURCE"}
+        return {"ok": True, "hits": github_search(q), "query": q, "scope": "global", "class": "RESOURCE"}
     if name == "image_info":
         from image_tools import image_info
 
@@ -440,5 +586,84 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
 
         d = SAVE / "sessions"
         names = [p.name for p in d.glob("*.json")] if d.is_dir() else []
-        return {"ok": True, "files": names}
+        # The record of truth lives beside the session snapshots: one journal per session, plus the
+        # sealed archive. Listing only *.json would hide exactly the conversations worth finding.
+        journals = sorted(p.name for p in d.glob("journal-*.jsonl")) if d.is_dir() else []
+        out: dict[str, Any] = {"ok": True, "files": names, "journals": journals}
+        try:
+            import compaction
+
+            st = compaction.status()
+            out["sealed"] = st.get("sessions_sealed")
+            out["sealed_bytes"] = st.get("sealed_bytes")
+            out["session_id"] = st.get("session_id")
+        except Exception:  # noqa: BLE001
+            pass
+        return out
+    if name in {"session_list", "session_catalog"}:
+        import sessions
+
+        out = sessions.safe_catalog(int(args.get("limit") or 50), str(args.get("q") or ""),
+                                    str(args.get("tag") or ""), str(args.get("month") or ""))
+        if not out.get("ok"):
+            return out
+        rows = out.get("sessions") or []
+        return {
+            "ok": True, "vault": out.get("vault"), "count": out.get("count"), "shown": len(rows),
+            "turns": out.get("turns"), "tags": out.get("tags"),
+            "sessions": [{"sid": r.get("sid"), "title": r.get("title"), "turns": r.get("turns"),
+                          "started": str(r.get("created_iso") or "")[:16], "tags": r.get("tags") or [],
+                          "note": r.get("note") or "", "pinned": bool(r.get("pinned")),
+                          "folder": r.get("folder")} for r in rows],
+        }
+    if name == "session_open":
+        import sessions
+
+        out = sessions.safe_open(str(args.get("sid") or args.get("id") or ""),
+                                 int(args.get("chars") or 12000))
+        if out.get("ok"):
+            out.pop("messages", None)  # the transcript is the readable form; this would double it
+        return out
+    if name == "session_search":
+        import sessions
+
+        return sessions.safe_search(str(args.get("q") or args.get("query") or ""),
+                                    int(args.get("k") or 6))
+    if name == "session_label":
+        import sessions
+
+        sid = str(args.get("sid") or args.get("id") or "")
+        kw: dict = {}
+        if args.get("title") is not None:
+            kw["title"] = str(args["title"])
+        if args.get("note") is not None:
+            kw["note"] = str(args["note"])
+        if args.get("tags") is not None:
+            tags = args["tags"]
+            kw["tags"] = (tags if isinstance(tags, list)
+                          else [p.strip() for p in str(tags).split(",") if p.strip()])
+        if args.get("pinned") is not None:
+            kw["pinned"] = bool(args["pinned"])
+        if not sid:
+            filed = sessions.safe_vault("manual")  # no id: file the conversation in progress
+            sid = str(filed.get("sid") or "")
+            if not sid:
+                return filed
+        return sessions.safe_label(sid, **kw)
+    if name == "session_resume":
+        import sessions
+
+        out = sessions.safe_resume(str(args.get("sid") or args.get("id") or ""))
+        if out.get("ok"):
+            out.pop("messages", None)  # the console reads those from its own session file
+        return out
+    if name == "recall_history":
+        import compaction
+
+        q = str(args.get("q") or args.get("query") or args.get("term") or "")
+        try:
+            k = int(args.get("k") or args.get("limit") or 6)
+        except (TypeError, ValueError):
+            k = 6
+        return compaction.recall(q, k=k)
     return None

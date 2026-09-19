@@ -20,7 +20,14 @@ SOUL_MAX = 6000
 IDENTITY_MAX = 4000
 MEMORY_MAX = 8000
 MEMORY_PROMPT_CAP = 2800  # chars of MEMORY.md the prompt carries (memory is the section that yields)
-PROMPT_CEILING = 16300  # the composed identity block must fit the 8192-token engine window
+PROMPT_CEILING = 16300  # the composed identity block, capped well inside the engine window (16,384 tokens):
+#                        the headroom belongs to history, tool traces and the answer, not to longer prompts
+# The compacted-conversation digest is a second, bounded block that rides with the identity block on a
+# real turn (compose_system(..., carry=True)). It is capped separately so that the digest can never
+# squeeze SOUL/IDENTITY/MEMORY out of the prompt: the two ceilings together are what the history budget
+# is measured against (see compaction.system_reserve).
+CARRY_CAP = 1400
+PROMPT_CEILING_TOTAL = PROMPT_CEILING + CARRY_CAP
 HISTORY_MAX = 40
 
 
@@ -144,7 +151,13 @@ def _fits(out: str, mem: str) -> str:
 
 
 
-def compose_system(brain: str | None = None) -> str:
+def compose_system(brain: str | None = None, carry: bool = False) -> str:
+    """The identity block. `carry=True` appends the compacted-conversation digest.
+
+    The digest is opt-in so that the identity block keeps its own, separately tested ceiling: a caller
+    that wants the agent to remember what left the window asks for it, and the two blocks together stay
+    inside `PROMPT_CEILING_TOTAL`.
+    """
     ensure_identity()
     parts: list[str] = []
     try:
@@ -222,7 +235,17 @@ def compose_system(brain: str | None = None) -> str:
         parts.append("When the operator invokes a champion or /skill, call skill_read then follow that SKILL.md.")
     except Exception:
         pass
-    return _fits("\n".join(parts), mem)
+    out = _fits("\n".join(parts), mem)
+    if carry:
+        try:
+            from compaction import carry_over
+
+            block = carry_over()
+            if block:
+                out = out + "\n\n" + block
+        except Exception:
+            pass
+    return out
 
 
 def append_memory(note: str) -> dict[str, Any]:
@@ -277,6 +300,15 @@ def save_session(messages: list[dict[str, Any]]) -> None:
 
 def new_session() -> None:
     ensure_identity()
+    # The conversation about to be wiped is FILED FIRST: pressing New session must never cost the
+    # operator the chat they just had. vault_live() copies the journal into the vault - it never
+    # moves or deletes anything - and a failure here is not allowed to block the new session.
+    try:
+        import sessions
+
+        sessions.vault_live(reason="new_session")
+    except Exception:  # noqa: BLE001
+        pass
     if CURRENT.is_file():
         bak = SESSIONS / f"session-{int(time.time())}.json"
         try:

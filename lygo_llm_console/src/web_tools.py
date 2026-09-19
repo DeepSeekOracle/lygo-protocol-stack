@@ -60,6 +60,134 @@ def _get(url: str, *, data: bytes | None = None, headers: dict[str, str] | None 
         return 0, str(e).encode("utf-8", errors="replace"), ""
 
 
+# --- X / Twitter post reads ----------------------------------------------------
+# x.com answers an anonymous GET with a login wall (~500 chars of "Log in or sign up
+# for X"), so web_fetch returned ok=True carrying nothing, the host handed that to the
+# model as its readout, and the only honest answer left was "UNKNOWN (SHADOW)". Post
+# URLs are read through a public mirror API first (fxtwitter, then the syndication
+# endpoint X uses for embedded posts).
+_X_HOSTS = {"x.com", "www.x.com", "mobile.x.com", "twitter.com", "www.twitter.com", "mobile.twitter.com"}
+_X_STATUS_RE = re.compile(r"^/([A-Za-z0-9_]{1,20})/status(?:es)?/(\d{5,25})(?:/|$)")
+
+
+def x_status(url: str) -> tuple[str, str] | None:
+    """(handle, post_id) when url is an x.com / twitter.com post URL, else None."""
+    try:
+        u = urlparse(url or "")
+    except (TypeError, ValueError):
+        return None
+    if (u.hostname or "").lower() not in _X_HOSTS:
+        return None
+    m = _X_STATUS_RE.match(u.path or "")
+    return (m.group(1), m.group(2)) if m else None
+
+
+def _x_lines(tw: dict[str, Any]) -> list[str]:
+    author = tw.get("author") or {}
+    who = str(author.get("name") or "").strip()
+    handle = str(author.get("screen_name") or "").strip()
+    if handle:
+        who = (who + " " if who else "") + "(@" + handle + ")"
+    lines = ["X post by " + (who or "unknown")]
+    if tw.get("created_at"):
+        lines.append("posted " + str(tw["created_at"]))
+    metrics = [(k, tw.get(k)) for k in ("likes", "retweets", "replies", "views") if tw.get(k) is not None]
+    if metrics:
+        lines.append("metrics: " + ", ".join(f"{v} {k}" for k, v in metrics))
+    body = str(tw.get("text") or "").strip()
+    if not body and isinstance(tw.get("raw_text"), dict):
+        body = str((tw.get("raw_text") or {}).get("text") or "").strip()
+    lines += ["", body or "(no text on this post)"]
+    media = tw.get("media") if isinstance(tw.get("media"), dict) else {}
+    for key, tag in (("photos", "photo"), ("videos", "video"), ("mosaic", "photo")):
+        for m in media.get(key) or []:
+            if not isinstance(m, dict):
+                continue
+            mu = m.get("url") or m.get("thumbnail_url") or ""
+            alt = (" — " + str(m.get("altText"))) if m.get("altText") else ""
+            if mu:
+                lines.append(f"{tag}: {mu}{alt}")
+    q = tw.get("quote")
+    if isinstance(q, dict) and q:
+        qa = str((q.get("author") or {}).get("screen_name") or "?")
+        lines.append("quoted post (@" + qa + "): " + re.sub(r"\s+", " ", str(q.get("text") or ""))[:400])
+        if q.get("url"):
+            lines.append("quoted url: " + str(q["url"]))
+    return lines
+
+
+def x_post(url: str) -> dict[str, Any]:
+    """Read one X/Twitter post through a mirror API. RESOURCE, never CANON."""
+    ids = x_status(url)
+    if not ids:
+        return {"ok": False, "error": "not_x_status", "url": url}
+    handle, tid = ids
+    code, raw, _ = _get(f"https://api.fxtwitter.com/{handle}/status/{tid}")
+    if code == 200:
+        try:
+            data = json.loads(raw.decode("utf-8", errors="replace"))
+        except json.JSONDecodeError:
+            data = None
+        tw = data.get("tweet") if isinstance(data, dict) else None
+        if isinstance(tw, dict) and tw:
+            art = tw.get("article")
+            if isinstance(art, dict) and art.get("title") and not str(tw.get("text") or "").strip():
+                tw = dict(tw)
+                tw["text"] = str(art.get("title")) + "\n" + str(art.get("preview_text") or "")
+            return {
+                "ok": True,
+                "url": url,
+                "via": "fxtwitter",
+                "kind": "x_post",
+                "class": "RESOURCE",
+                "id": tid,
+                "author": str((tw.get("author") or {}).get("screen_name") or handle),
+                "posted": tw.get("created_at"),
+                "text": "\n".join(_x_lines(tw))[:4000],
+            }
+    code2, raw2, _ = _get(f"https://cdn.syndication.twimg.com/tweet-result?id={tid}&lang=en&token=a")
+    if code2 == 200:
+        try:
+            d = json.loads(raw2.decode("utf-8", errors="replace"))
+        except json.JSONDecodeError:
+            d = None
+        if isinstance(d, dict) and str(d.get("text") or "").strip():
+            u = d.get("user") or {}
+            lines = [f"X post by {u.get('name') or 'unknown'} (@{u.get('screen_name') or handle})"]
+            if d.get("created_at"):
+                lines.append("posted " + str(d["created_at"]))
+            lines += ["", str(d.get("text") or "").strip()]
+            for p in d.get("photos") or []:
+                if isinstance(p, dict) and p.get("url"):
+                    lines.append("photo: " + str(p["url"]))
+            return {
+                "ok": True,
+                "url": url,
+                "via": "syndication",
+                "kind": "x_post",
+                "class": "RESOURCE",
+                "id": tid,
+                "author": str(u.get("screen_name") or handle),
+                "posted": d.get("created_at"),
+                "text": "\n".join(lines)[:4000],
+            }
+        if isinstance(d, dict) and d.get("__typename"):
+            return {
+                "ok": False,
+                "error": "x_" + str(d["__typename"]).lower(),
+                "url": url,
+                "id": tid,
+                "hint": "post is deleted, protected, or age-restricted",
+            }
+    return {
+        "ok": False,
+        "error": f"x_post_unreadable_{code}",
+        "url": url,
+        "id": tid,
+        "hint": "no mirror API returned this post",
+    }
+
+
 class _DDG(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
@@ -340,10 +468,33 @@ def jina_fetch(url: str) -> dict[str, Any]:
         return {"ok": False, "error": why}
     ju = "https://r.jina.ai/" + url
     code, raw, _ = _get(ju)
+    jina_err = ""
+    if code == 200:
+        text = raw.decode("utf-8", errors="replace")[:24000]
+        if not _wall(text):
+            return {"ok": True, "url": url, "via": "jina", "class": "RESOURCE", "text": text}
+        jina_err = "wall"
+    else:
+        jina_err = f"jina_{code}"
+    # r.jina.ai answers 403 for anonymous callers (rate policy), so a readable extract must not
+    # depend on it: read the page locally and hand back plain text, saying which route was used.
+    code, raw, ctype = _get(url)
     if code != 200:
-        return {"ok": False, "error": f"jina_{code}"}
-    text = raw.decode("utf-8", errors="replace")[:24000]
-    return {"ok": True, "url": url, "via": "jina", "class": "RESOURCE", "text": text}
+        return {"ok": False, "error": jina_err, "url": url, "local": f"http_{code}"}
+    body = raw.decode("utf-8", errors="replace")
+    low = body[:400].lower()
+    text = _strip_html(body) if "html" in (ctype or "").lower() or "<html" in low else body
+    wall = _wall(body) or _wall(text)
+    if wall:
+        return {"ok": False, "error": "wall:" + wall, "url": url, "jina": jina_err}
+    return {
+        "ok": True,
+        "url": url,
+        "via": "local",
+        "jina_error": jina_err,
+        "class": "RESOURCE",
+        "text": text[:24000],
+    }
 
 
 def web_search(q: str) -> dict[str, Any]:
@@ -386,6 +537,48 @@ def web_search(q: str) -> dict[str, Any]:
     }
 
 
+# Pages that are an HTTP 200 with no content in them: login / JavaScript / consent walls
+# and bot checks. web_fetch used to report ok=True for these, so the host readout handed the
+# model a login wall as if it were the page and the answer came out as confident nonsense.
+_WALL_MARKERS = (
+    "log in or sign up for x",
+    "this post is only available in the x app",
+    "log in to continue",
+    "sign in to continue",
+    "you must log in",
+    "enable javascript",
+    "javascript is not available",
+    "javascript is disabled",
+    "just a moment...",
+    "checking your browser",
+    "verify you are human",
+    "are you a robot",
+    "attention required!",
+    "unusual traffic",
+    "please enable cookies",
+    "you have been blocked",
+    "access denied",
+    "request unsuccessful",
+    "consent to the use of",
+)
+_WALL_MAX = 3000
+
+
+def _wall(text: str) -> str | None:
+    """The marker that makes this body a wall instead of content, else None.
+
+    Only short bodies are judged: a long article that happens to mention "log in to
+    continue" is content, not a wall.
+    """
+    low = (text or "").lower()
+    if len(low) > _WALL_MAX:
+        return None
+    for m in _WALL_MARKERS:
+        if m in low:
+            return m
+    return None
+
+
 def _strip_html(raw: str) -> str:
     raw = re.sub(r"(?is)<script[^>]*>.*?</script>", " ", raw)
     raw = re.sub(r"(?is)<style[^>]*>.*?</style>", " ", raw)
@@ -400,6 +593,12 @@ def web_fetch(url: str) -> dict[str, Any]:
     why = _blocked(url)
     if why:
         return {"ok": False, "error": why, "url": url}
+    ids = x_status(url)
+    post: dict[str, Any] = {}
+    if ids:
+        post = x_post(url)
+        if post.get("ok"):
+            return post
     code, raw, ctype = _get(url)
     if code != 200:
         alt = jina_fetch(url)
@@ -412,7 +611,16 @@ def web_fetch(url: str) -> dict[str, Any]:
     if len(text) < 400:
         alt = jina_fetch(url)
         if alt.get("ok") and len(str(alt.get("text") or "")) > len(text):
-            return alt
+            text = str(alt.get("text") or "")
+    wall = _wall(text)
+    if wall:
+        why = (
+            "x.com serves posts behind a login for anonymous readers and the mirror read failed: "
+            + str(post.get("error") or "unknown")
+            if ids
+            else "this page is a login/JavaScript/consent wall for anonymous readers"
+        )
+        return {"ok": False, "error": "content_wall", "url": url, "marker": wall, "hint": why, "detail": text[:300]}
     if len(text) > 24_000:
         text = text[:24_000] + "\n…[truncated]"
     from p0_hook import gate_output_window

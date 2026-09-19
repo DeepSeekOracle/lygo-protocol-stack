@@ -15,13 +15,16 @@
     "other_keys": {
       "signature": "Kit signature string. Do not change - tests and the installer read it.",
       "ctx_default": "Default context size (tokens) used for a model with no explicit value.",
-      "ctx_max": "Hard cap on context size; larger model settings are clamped to this.",
+      "ctx_max": "Hard cap on context size; larger model settings are clamped to this. 32768 is the native window of the shipped 7B (qwen2.5-coder:7b) - the most the model can hold WITHOUT rope scaling, so no YaRN, no drift. With kv_type q8_0 that is 896 MiB of KV cache (448 MiB at 16384, measured 2026-09-18), which fits the 8 GB card beside the 4.36 GiB of weights. If a boot ever reports ram_refused, this is the number to lower.",
       "ngl": "'auto' or an integer: GPU layers offloaded for llama-server.",
       "threads": "'auto' or an integer: CPU threads for llama-server.",
       "max_tokens": "Default maximum reply tokens.",
       "prefer_by_ram": "true: pick a model that fits the machine's RAM when several match.",
       "gpu": "'auto', or a backend name to force (e.g. cuda, vulkan, cpu).",
-      "flash_attn": "llama-server flash-attention setting: 'off', 'on' or 'auto'."
+      "flash_attn": "llama-server flash-attention setting: 'off', 'on' or 'auto'. Measured on the CUDA path here: 'on' is ~2% slower for prompt eval, so it ships off.",
+   "kv_type": "KV cache type: absent means the engine's own f16, or q8_0 / q4_0. Quantised KV is how a small card gets a long context: q8_0 halves the cache for ~3% end to end.",
+   "batch": "llama-server -b (prompt batch). Absent or 'auto' means the engine default.",
+   "ubatch": "llama-server -ub (micro batch). Absent or 'auto' means the engine default."
     }
   },
   "bind": "127.0.0.1",
@@ -30,7 +33,7 @@
   "embed_port": 11442,
   "colibri_port": 11443,
   "ctx_default": 4096,
-  "ctx_max": 8192,
+  "ctx_max": 32768,
   "ngl": "auto",
   "threads": "auto",
   "max_tokens": 512,
@@ -40,5 +43,6 @@
   ],
   "prefer_by_ram": true,
   "gpu": "auto",
+  "kv_type": "q8_0",
   "flash_attn": "off"
 }

@@ -19,7 +19,7 @@ def run_stack_health() -> dict[str, Any]:
     code = (
         "from lygo_stack import deploy_stack\n"
         "r = deploy_stack().demo_cycle()\n"
-        "print(repr(type(r).__name__), flush=True)\n"
+        "print('demo_cycle_return_type=' + type(r).__name__, flush=True)\n"
     )
     env = {k: os.environ[k] for k in ("PATH", "SystemRoot", "COMSPEC", "PATHEXT", "TEMP", "TMP", "PYTHONHOME") if k in os.environ}
     env["PYTHONPATH"] = str(stack_dir)

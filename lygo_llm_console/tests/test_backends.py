@@ -36,6 +36,11 @@ class BackendStoreTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.tmp = tempfile.TemporaryDirectory(prefix="lygo_backends_")
+        # Release the fake kit explicitly. Left to the GC, every one of these emits
+        # "Implicitly cleaning up <TemporaryDirectory ...>", which under
+        # -W error::ResourceWarning lands as an unraisable exception on whichever test
+        # happens to be running when the collector fires (defect D29).
+        self.addCleanup(self.tmp.cleanup)
         root = Path(self.tmp.name)
         self.engine = root / "engine"
         self.store = self.engine / "backends"

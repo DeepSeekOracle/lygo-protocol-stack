@@ -69,17 +69,17 @@ Since the v1 design document, the console has been **built, wired, driven and me
 
 | Fact | Value | Evidence |
 |---|---|---|
-| Test suite | **108 tests, OK, 13.4 s, exit 0** | `unittest discover` run 2026-09-17, re-run after the D13 fix (`Ran 108 tests in 13.446s`) |
-| Source | **33 Python modules · 7,525 lines** | static scan of `src/` |
-| Tests | **24 test modules · 1,370 lines** | static scan of `tests/` |
+| Test suite | **372 tests, OK, 33.4 s, exit 0** | `unittest discover` 2026-09-18, re-run after the performance & stability pass (`Ran 372 tests in 33.426s`); `pytest -q` agrees: 372 passed |
+| Source | **39 Python modules · 12,840 lines** | `tools/make_index.py`, 2026-09-18 — Appendix B is that tool's output |
+| Tests | **44 test modules · 5,191 lines** | `tools/make_index.py`, 2026-09-18 |
 | Limbs (callable tools) | **56 wired** | `/api/health` → `tools[]`, enumerated 1–56 |
-| Local models discoverable | **14** | `/api/health` → `scan_n: 14` |
-| Live engine | `llama-server` PID 26752 · `qwen2.5:3b` · `-c 8192 -ngl 99 -t 16 -np 1 --jinja --metrics` | process command line + health |
-| Console process | PID 7960, started 17:29:09; newest source patch 17:26:18 → **the running process serves current code** | process start time vs. file mtimes |
+| Local models discoverable | **15** | `/api/health` → `scan_n: 15` |
+| Live engine | `llama-server` PID 28448 · `qwen2.5-coder:7b` · `-c 16384 -ngl 99 -t 16 -np 1 --jinja --metrics -ctk q8_0 -ctv q8_0` | process command line + health; `kv_mib: 448` |
+| Console process | PID 12664, started 18:03:22; newest source patch 17:59:04 → **the running process serves current code** | process start time vs. file mtimes |
 | Local studio | `127.0.0.1:9641` → health `ok`, `brain: ready`, `engine_present: true` | `/api/health` |
-| Composed system prompt | **15,950 chars** (of a ~30k-char engine window) | `compose_system()` measured in-process |
-| Self-knowledge turn | “**Model: qwen2.5:3b, Engine: llama.cpp**” | live `/api/chat`, `tools:false` |
-| Self-knowledge turn (tools on) | “**The model answering this turn is qwen2.5:3b and the engine is llama.cpp:11441.**” | live `/api/chat`, tools on, 0 prefetch traces |
+| Composed system prompt | **15,950 chars**, self-capped at 16,300 (of a ~60k-char engine window) | `compose_system()` measured in-process; `continuity.PROMPT_CEILING` |
+| Self-knowledge turn | “**The qwen2.5-coder:7b model is answering this turn.**” | live `/api/chat`, `tools:false`, 2026-09-18 — 18 tokens at 52.1 tok/s |
+| Self-knowledge turn (tools on) | “**This turn is answered by the qwen2.5-coder:7b model using the llama.cpp engine.**” | live `/api/chat`, `tools:true`, 2026-09-18 — 3,684-token prompt at 2,846 tok/s, 24 tokens at 51.1 tok/s |
 | Public portal page | `https://chatagent.ca/portal/` → HTTP 200, `text/html` | live HTTPS fetch |
 | Public hosted backend | **`hosted_base` is empty** → no LYGO-hosted inference live yet | live `portal.json` |
 
@@ -117,7 +117,7 @@ The project is one kit with **two faces** and **three processes**.
 | Port | Process | Role | Notes |
 |---|---|---|---|
 | `9641` | `src/server.py` (studio) | agent API + studio UI + `/api/health` | binds **127.0.0.1** only; token-guarded (`src/auth.py`), loopback/public-path exemptions |
-| `11441` | `llama-server` (`engine.py` / `lygo_engine.py`) | local inference (OpenAI-compatible) | `--jinja --metrics --alias qwen2.5:3b`, `-c 8192` |
+| `11441` | `llama-server` (`engine.py` / `lygo_engine.py`) | local inference (OpenAI-compatible) | `--jinja --metrics --alias qwen2.5-coder:7b`, `-c 16384 -ctk q8_0 -ctv q8_0` |
 | `11442` | embed runner (optional) | embeddings | `/v1/embeddings` returns `501 embed_runner_optional` when absent — currently **not listening** |
 | `9642` | `src/public_gateway.py` | public chat gateway | starts only on demand with `--lan --i-consent`; not part of boot |
 
@@ -307,6 +307,21 @@ Reproduced end-to-end with a stub that returns HTTP 402:
 
 ---
 
+### 5.7 House defaults — the default brain and the default API (binding) **[VERIFIED 2026-09-18]**
+
+Two defaults ship with the kit, in code, not in a habit:
+
+| Slot | Default | Where the rule lives | What it means |
+|---|---|---|---|
+| **Main brain (local)** | a tool-strong **coder** model — `qwen2.5-coder:7b` on the stick CAS, then coder 3b, then qwen/llama general | `registry.PREFER_IDS`, `registry.tool_rank()` | The console is an agent. Among the models a host can actually hold, the best *tool caller* wins; size is only a tiebreak inside a capability tier. A 9B general chat model no longer outranks a 7B coder. |
+| **Backup API (cloud)** | **DeepSeek** — `deepseek-chat` | `cloud_api.DEFAULT_PROVIDER`, `cloud_api.DEFAULT_MODEL` | A blank/hand-edited/junk `config/api.json` normalises to DeepSeek instead of a chain entry posting to an empty URL. DeepSeek also **leads the failover order** behind an explicit primary: `groq, deepseek, gemini` is the order even if nobody wrote it down. |
+
+`GET /api/health` publishes the policy so a human or an agent can check it without reading source:
+`cloud.provider`, `cloud.default_provider`, `cloud.is_default`.
+
+**Rule:** the API is the *backup*, never the default mode. `mode` stays `local` until a human or a
+tool switches it (`POST /api/brain {"mode":"api"}`), and the local engine stays booted as standby.
+
 ## 6. The agent layer
 
 An LLM call is not an agent. What makes this an agent is the ring of deterministic host code around the model — and the discipline that **host code supports the model's answer instead of replacing it**.
@@ -397,11 +412,12 @@ The tool catalog is passed to the model **every turn** (tools are never withheld
 
 | Quantity | Value | Note |
 |---|---|---|
-| Engine context window | **8,192 tokens** | `-c 8192` on the live runner |
-| Rough char equivalent | ~30,000–33,000 chars | ~3.7 chars/token at this mix |
+| Engine context window | **16,384 tokens** | `-c 16384` with `-ctk q8_0 -ctv q8_0` on the live runner (was 8,192) |
+| Rough char equivalent | ~60,000 chars | ~3.7 chars/token at this mix |
 | Composed system prompt | **15,950 chars** | measured in-process **[VERIFIED]** |
 | History window | 9,000 chars | `HISTORY_CHARS` + `trim_history()` |
-| Headroom after prompt + history | ~5,000–8,000 chars | left for tool traces + the answer |
+| Headroom after prompt + history | ~34,000–40,000 chars | left for tool traces + the answer (the console's own ceiling, not the window, is the binding limit) |
+| Prompt ceiling | **16,300 chars** (`PROMPT_CEILING`) | the composed prompt never crosses this; the window behind it is headroom |
 | Section caps | soul 2,400 · ident 1,400 · memory 3,200 · limb catalog 2,200 · skills catalog 1,500 · compact JSON 3,000 | each guards its own block |
 
 **Why this matters:** on an 8k window, an unbounded prompt silently evicts the system prompt from the top of the context — which is exactly how an agent “forgets who it is”. Every cap above exists because that failure was observed, and `test_prompt_fits_the_engine_window` keeps it from regressing.
@@ -454,6 +470,70 @@ therefore live in the store, activation is earned, and a bad verdict is remember
 | Pin threads or layers | `"threads": 12`, `"ngl": 20` — an integer is always a pin |
 | Re-test after a driver update | delete `data/perf.json` (verdicts only), or re-run the fetch script |
 
+### 7.2 Launch-flag tuning — measured, not assumed **[VERIFIED 2026-09-18]**
+
+The engine accepts many knobs; on this host only one of the candidates helped and one candidate
+turned out not to exist. Same 7B coder, same 1,059-token prompt, CUDA `-ngl 99 -t 16`:
+
+| Variant | Prompt eval | Generation | Load |
+|---|---|---|---|
+| **baseline (shipped)** | **3,245.7 tok/s** | **55.4 tok/s** | 12.2 s |
+| `-fa on` (flash attention) | 2,620.6 tok/s | 55.2 tok/s | 14.0 s |
+| `-b 4096 -ub 1024` | 2,750.1 tok/s | 55.0 tok/s | 12.5 s |
+| `--no-mmap` | *launch aborted: invalid argument* | — | — |
+
+Consequences, all of them in code:
+
+* **Flash attention is opt-in** (`config/console.json` → `"flash_attn"`). Every GPU plan used to
+  advertise `flash_attn: true` while `engine.spawn_runner()` never passed the flag — the plan was
+  a lie and the setting was unreachable (defect D20). Now the plan tells the truth and the flag is
+  plumbed through, default **off** because it measured slower here.
+* **No batch-size tuning.** The defaults win; shipping a regression with a nicer-looking argv is
+  still shipping a regression.
+* **`--no-mmap` does not exist in this build** — `-lm/--load-mode {auto,none,mmap,mlock,mmap+mlock,dio}`
+  replaced it. The old flag is mapped to `-lm none` so a future caller passing `mmap=False` cannot
+  kill a launch (defect D23).
+
+### 7.3 Generation is bandwidth-locked; the cache was the only lever **[VERIFIED 2026-09-18]**
+
+Measuring first, then buying, is what this section is for. Three interleaved prompts through the
+console on the default brain (`qwen2.5-coder:7b`, Q4_K_M, CUDA `-ngl 99 -t 16`), plus one real
+gated turn, gave 56.8 / 56.6 / 56.0 tok/s — **mean 56.5**. A direct conversation with the engine
+measured 56.2, so the console's own overhead on generation is unmeasurable here, and the number is
+~92% of what this card can do at all: 288 GB/s of bandwidth over a 4.68 GB model is a **61 tok/s**
+ceiling, and generation is memory-bound, not compute-bound.
+
+That is why the flag hunt below produced almost nothing — and why the pass stopped hunting:
+
+| Variant (fresh engine each, same prompts) | Generation | Code prompt | Prefill | Verdict |
+|---|---|---|---|---|
+| baseline, ctx 8,192 | 56.7 | 56.8 | 3,550.8 | — |
+| `-fa on` (flash attention) | 56.7 | 56.5 | 3,474.2 | rejected, −2% prefill |
+| `-b 4096 -ub 1024` | 56.5 | 56.0 | 3,590.5 | noise |
+| `--spec-type ngram-simple` | 56.5 | 56.7 | 3,566.2 | no effect |
+| `--spec-type ngram-map-k4v` | 56.9 | 56.5 | 3,556.9 | no effect |
+| **draft model `qwen2.5:1.5b`** | 54.7 | **78.5** | 2,794.7 | **+38% on code** — deferred (see below) |
+| ctx 16,384 + `q8_0` KV + fa | 55.1 | 54.8 | 3,428.7 | rejected |
+| **ctx 16,384 + `q8_0` KV** | 54.6 | 54.9 | 3,447.5 | **adopted** |
+
+**What was adopted: twice the context at the same VRAM.** A `q8_0` KV cache costs half of f16 per
+token, so 16,384 tokens of context fits in the *same 448 MiB* that 8,192 tokens of f16 was using —
+measured live, twice, at `kv_mib: 448`. The cost is ~1% of generation rate (56.5 → 56.0 through the
+console), and what it buys is the failure mode the engine log had been showing: a **6,342-token
+truncation** on real prompts. `PROMPT_CEILING` is deliberately *not* raised with the window — the
+window is headroom for history, tool traces and the answer, not a licence to write longer prompts.
+
+**What was deferred, with numbers.** Draft-model speculative decoding is the one real find: a
+`qwen2.5:1.5b` draft took code generation from 56.5 to **78.5 tok/s**. It is not wired because it
+costs −21% prefill, +10 s load, ~1 GB of VRAM, and a second model to ship, pin and validate per
+host. A number in the record is worth more than a half-validated feature.
+
+**Telemetry, so this is re-checkable without a lab:** every `/api/chat` reply and SSE `done` event
+now carries `perf` (`gen_tok_s`, `prompt_tok_s`, `gen_tokens`, `engine_calls`) straight from
+llama.cpp's own `timings`; `/api/health` carries `last_perf`; `portal/app.js` shows it on the
+context line and as the answer's tooltip; and `scripts/bench_toks.py` reproduces the whole table
+read-only against a live console, printing the config beside every number.
+
 ## 8. Repository map — every folder, and what you edit there
 
 Live kit root: **`I:\E Drive\lygo-protocol-stack\lygo_llm_console\`**
@@ -497,7 +577,7 @@ Live kit root: **`I:\E Drive\lygo-protocol-stack\lygo_llm_console\`**
 
 ### 9.1 What it is
 
-One static studio page (`web_portal/`) that gives any visitor a LYGO agent without an install. It is the third of three separate systems that share one console: the **stand-alone USB agent** (everything onboard the stick — plug and play, mobile), the **admin console on a PC** (the build that becomes the public version), and **this portal** — API-only, online, already fully built, so people have a web page version. The visitor picks **who pays for the compute**:
+One static studio page (`web_portal/`) that gives any visitor a LYGO agent without an install. The visitor picks **who pays for the compute**:
 
 | Mode | Compute | Limbs | Status **[VERIFIED 2026-09-17]** |
 |---|---|---|---|
@@ -686,6 +766,22 @@ belonged to the harness, not the kit. The harness quoted above refreshes the way
 | Nothing unproven sits in `engine/` | `fetch_engine.ps1 -List`: `applied to engine\: none (CPU)` while both `cuda` and `vulkan` sit in `engine/backends/` |
 | Backends are tag-consistent | both built from the kit's own pin `b10988`, manifests carry file sha256, sizes and the source tag |
 
+### 10.10 Dial-in and harden pass **[VERIFIED 2026-09-18]**
+
+* **Default brain staged on the stick:** `qwen2.5-coder:7b` copied into the canonical CAS
+  (`product/models/ollama`) — 4,466.1 MB, blob size exact, **sha256 verified** against the digest.
+  The CAS now holds 7 manifests.
+* **3.03 GiB reclaimed:** the top-level `models/ollama` CAS held 10 blobs that were byte-identical
+  to the canonical CAS (same sha256 digests, same sizes). Duplicates removed, manifests archived;
+  no unique byte was deleted.
+* **Tests:** 247 cases, OK on both trees (`live` 26.4 s). The pass added `tests/test_api_default.py`,
+  `tests/test_model_verdicts.py`, `tests/test_usb_selfcontained.py` and moved the RAM-auto
+  expectations to the tool-rank policy.
+* **Self-containment re-proved by simulation:** with `%USERPROFILE%` pointed at an empty folder
+  (a PC that has never run ollama) the console still resolves the stick's own CAS and its models.
+* **Harden pass receipt:** `%TEMP%\lygo_harden_pass_receipt.json` — suites, secret scan, ports,
+  engine purity, backend manifests, house policy, hygiene and a five-boot matrix.
+
 ## 11. Defect ledger — what broke, why, and the rule that prevents it
 
 Every entry is a real failure observed in this build. The "rule" column is the generalizable lesson — this is the most valuable part of the document for whoever builds next.
@@ -718,6 +814,19 @@ Every entry is a real failure observed in this build. The "rule" column is the g
 | **D17** | The backend self-test chose the smallest model in the CAS, which was an embedding model; loading it at `-ngl 99` with a chat alias dies with `0xC0000409`, and that crash was recorded as a per-host verdict — one bad probe model could have disabled a working GPU for good. | Probe with chat models only (`PROBE_SKIP_TOKENS`) and try every probe model before condemning a backend. |
 | **D18** | Device probes were cached per exe path + mtime, and neither changes when a backend DLL lands beside the exe — so the pre-activation "no devices" answer survived activation and a good backend was rejected as device-less. | `perf.engine_devices(..., refresh=True)` after applying a backend; the regression test asserts the post-activation probe is always the fresh one. |
 | **D19** | The verdict store is `perf.PERF_JSON`, but the tests patched `backends.DATA` — so the suite wrote `host-a`/`host-b` verdicts into the real kit store. | Tests patch the path they actually write through, plus a guard test asserting the store stays inside the patched data dir. |
+| D20 | Every GPU plan advertised `flash_attn: true` while `spawn_runner()` never passed a flash-attn flag: the setting was unreachable and the health output was false | `engine.spawn_runner(flash_attn=…)` + `console.json "flash_attn"`, default **off** because `-fa on` measured slower (2,620 vs 3,246 tok/s) | A plan field is a promise. If it is not passed to the process, it must not appear in health |
+| D21 | A GGUF whose header parses but which the engine cannot load (PrismML ternary offsets, wrong quant type, half-copied file) was **fatal**: `boot()` raised `engine_launch_failed` and the console stayed dark with `brain=error` | `src/model_verdicts.py` verdicts keyed to host + file (size+mtime) + `maybe_spawn` fallback to the next-best brain, surfaced as `model_fallback` in health | The scanner's "runnable" is a header opinion. Only a real load proves a model, and one such proof must not be repeated forever |
+| D22 | The launcher declares `LYGO_MODELS`/`OLLAMA_MODELS`, but the console's scan roots ignored them — on a PC with no `%USERPROFILE%\.ollama\models` the console saw **zero** models while gigabytes of brains sat on the stick | `server.default_scan_roots()` trusts the declared roots and descends into a CAS parent (`<usb>\models` → `\ollama`) | A portable agent must read the paths its own launcher set, not the host's habits |
+| D23 | `mmap=False` emitted `--no-mmap`, a flag this engine build no longer accepts: any caller would get an aborted launch, not a slower one | mapped to `-lm none`, the current spelling | Flags expire. Verify a flag against `--help` of the binary you actually ship |
+
+| D24 | `POST /api/chat {"tools": false}` → **500 `handler_failed`**, `UnboundLocalError: cannot access local variable 'honest_pending'` — and `false` is what the portal sends when its "Agent limbs" box is unticked | `honest_pending`/`traces` were bound **inside** `if use_tools:` and read unguarded further down | hoisted above the branch; three tests drive the real handler over HTTP with a mocked engine; live: `tools:true`, `tools:false` and omitted all answer 200 | **A variable bound in one branch and read outside it is a 500 waiting for the other payload.** Test every documented payload shape, not the happy one. |
+| D25 | `plan_ngl()` costed a model's weights but **nothing for the KV cache**, so a plan could promise layers the card cannot hold | the cache was treated as free | cache sized from the model's own GGUF header (`n_layer × n_kv_head × (key_len + value_len) × 2` = 57,344 B/token for this 7B) at the context the engine will actually run; a flat 256 MiB allowance only when the dims cannot be read | **A GPU plan that ignores the cache is arithmetic that lies.** Size it from the artifact, per model. |
+| D26 | The same sizing used the model's **native 32,768** ctx while the engine runs clamped to 16,384 — a 2× over-charge (896 MiB) that could have demoted a GPU which fits | two places decided the context; only one of them clamped | sizing goes through the same `clamp_ctx()` the launch uses → 448 MiB, matching the card | **If two code paths decide the same quantity, they must share the function.** |
+| D27 | `kv_mib: 256` — a flat fallback for *every* model: the GGUF header scan ended on `attention.head_count` before reaching `attention.head_count_kv`, so GQA models looked dimless | the break condition named the wrong key | break tightened to `head_count_kv`; a model with no such key is correctly read as MHA (head count *is* the KV count) — and that wrong expectation was itself caught by a test | **Parsing stops where you tell it to stop.** Verify a "missing" field is really missing before you code a fallback for it. |
+| D28 | `data/.llama_api_key` held the literal string `secret-key`, and `ensure_llama_key()` returned a stored value forever: the engine's only guard on loopback was a published placeholder | the generator only ran when the file was *absent* — one shipped placeholder made it permanent | placeholders and sub-16-char values are treated as absent and replaced with a generated per-install key; the live engine's `--api-key` now matches the rotated file (43 chars) | **A placeholder that is read is indistinguishable from a real secret.** Refuse to serve defaults, not just avoid writing them. |
+| D29 | `pytest -W error::ResourceWarning` was **not** green, and which test failed moved between runs: `372 passed, 24 warnings` one run, `1 failed, 371 passed` the next | the suite leaked resources — `test_openai_proxy` called `httpd.shutdown()` with no `server_close()`, and `test_backends.setUp` created a `TemporaryDirectory` per test (24 tests) that only the GC reclaimed, so an unraisable `Implicitly cleaning up <TemporaryDirectory …>` landed on whatever test was running when the collector fired | both released explicitly (`server_close()`; `addCleanup(self.tmp.cleanup)`); the strict run is now **372 passed, 0 warnings** across three consecutive runs | **A leak stops being cosmetic once warnings are errors: the test that fails is whichever one the GC interrupted, so the report names an innocent test.** Close what you open — especially in `setUp`. |
+| D30 | Two suite runs at once failed **different** tests each time (`test_agent_io`, then `test_workspace_map`, then `test_notepad` once the first two were fixed), and the live kit had quietly accumulated **239 test rows in `workspace/memory.jsonl`** plus 120 dead temp paths in `save/workspace_map.json` | four tests wrote the operator's real state and tidied up by hand afterwards: two appended to the real `MEMORY.md` and rewrote the old text in a `finally`, one added and removed a mount in the live map, one wrote real notes into the live notepad. Concurrent runs interleaved on one file, and a killed run left the junk behind for good | each now runs against a throwaway state dir (`patch.object(continuity, "WORKSPACE", …)`, `workspace_map.MAP_PATH`, `notepad.NOTEPAD_ROOT/NOTES_DIR/INDEX_PATH`, released with `addCleanup`); **two concurrent strict suites both pass 372**, and the live files are identical before and after a full run | **A test must never write the operator's real state — tidying up in `finally` is not a transaction.** Isolate the path in `setUp`, and treat "two runs at once" as a supported case, not an accident |
+
 ## 12. Builder template — how to extend this kit
 
 ### 12.1 Ground rules for any builder (human or AI agent)
@@ -819,7 +928,7 @@ Then hold it to §12.2. An agent that cannot show the suite green and a live tur
 | L4 | Image-only turns are accepted (`has_image` is true) but the default local engine `qwen2.5:3b` has no vision — such a turn degrades to text handling | M | send an image-only payload: it answers without seeing the picture | route image turns to a vision-capable engine, or answer `503 no_vision` instead of pretending |
 | L5 | Embeddings endpoint is `501` (embed runner not booted) | L | chat works without it | boot the embed runner when a feature needs vectors |
 | L6 | USB master at `E:\LYGO_BUILDER_KEY\lygo_llm_console` is stale (build `v1.1-20260916m`, 47 tests, py3.12, no brain switch, no LYRA seat) | **H** | this whitepaper + docs are copied to the USB | decide sync direction (`I:→E:` or `E:→I:`) and resync the kit |
-| L7 | Engine context is 8,192 tokens; anything needing long documents will not fit | M | memory/notes are the long-term store; caps keep the window honest | raise `-c` when the hardware allows, then re-run the budget test |
+| L7 | Engine context is 16,384 tokens (the model itself offers 32,768), and the console's own ceiling is 16,300 chars — a document that must reach the engine whole still will not fit | M | memory/notes are the long-term store; caps keep the window honest | the window is no longer the binding limit; raise `PROMPT_CEILING` and the per-section caps together, then re-run the budget test |
 | L8 | A long-lived studio window can keep serving pre-fix code after a `src/` edit (D10) | M | compare the console PID start time with the newest `src/*.py` mtime, then restart | have `/api/health` report a `stale` flag when `src/` is newer than the process |
 | L9 | Public gateway has no per-day quota or ban list | M | 24 req/10 min/IP, 4,000 chars, P0 both ways | gap P4 |
 | L10 | One test leaks a socket `ResourceWarning`; duplicate `OPENAI_API_KEY` in host `.env` | L | harmless | cleanup pass |
@@ -860,6 +969,8 @@ Each step is independently shippable, has an acceptance test, and leaves the con
 | `llama_port` | `11441` | local inference runner |
 | `embed_port` | `11442` | optional embeddings runner |
 | `scan_roots` | `["./models", "%USERPROFILE%/.ollama/models"]` | where models are discovered |
+| `ctx_max` | `16384` | engine context cap; the KV cache is sized from the model's own GGUF header at this clamped value |
+| `kv_type` | `q8_0` | KV cache quantisation — 2× context at the same VRAM (448 MiB, what 8,192 + f16 cost) |
 
 ### A.2 `config/local.json` — extra model roots
 
@@ -906,15 +1017,25 @@ build     : v1.1-20260917api2
 
 *Auto-generated from the live source tree on 2026-09-17 by AST scan (see §0.3 for the command). Format: module — lines/bytes — module docstring, then each top-level function with its contract docstring.*
 
-### `src/` — 33 python modules, 7523 lines total
+### `src/` — 39 python modules, 12840 lines total
 
 **`src/__init__.py`** — 4 lines / 103 bytes — LYGO LLM Console — Δ9Φ963-LYGO-LLM-CONSOLE-v1
 
-**`src/admin_map.py`** — 204 lines / 6306 bytes — Admin unlock map. Loaded only if config/admin.json exists (not in public git).
+**`src/admin_map.py`** — 421 lines / 15651 bytes — Admin unlock map. Loaded only if config/admin.json exists (not in public git).
   - `invalidate`
   - `load`
   - `is_admin`
-  - `_usb_root`
+  - `_usb_root` — The builder-key root when one resolves, else '' - usb_root_status() carries the reason.
+  - `_chatagent_candidates`
+  - `chatagent_root_status` — Resolve the chatagent tree and say which candidate won or why each was skipped.
+  - `chatagent_root` — The chatagent tree, or a named-not-found path when this host has none.
+  - `_usb_record`
+  - `usb_resolution_log` — Every candidate the last builder-key root resolution considered, in order.
+  - `_usb_marker` — A reason string when root really is the builder-key tree, else ''.
+  - `_usb_candidates`
+  - `_warn_usb` — One hard stderr warning per distinct reason - never a silent wrong-tree fallback.
+  - `usb_root_status` — Resolve the LYGO_BUILDER_KEY tree and say exactly what happened.
+  - `path_warnings` — Unresolved-root warnings for status surfaces.
   - `_expand_path`
   - `paths_of`
   - `read_roots`
@@ -922,7 +1043,7 @@ build     : v1.1-20260917api2
   - `search_roots`
   - `links`
   - `credential_pointers`
-  - `drives`
+  - `drives` — Drive roles. Config wins; the fallback describes roles without pinning another host's
   - `is_placeholder_url`
   - `brief`
   - `brief_text`
@@ -930,12 +1051,51 @@ build     : v1.1-20260917api2
 **`src/align.py`** — 26 lines / 930 bytes
   - `load_align`
 
-**`src/auth.py`** — 63 lines / 1637 bytes
+**`src/atomicio.py`** — 155 lines / 6157 bytes — Atomic file writes that survive a stick.
+  - `_lock_for` — One lock per target path: two writes to the same file must not race the swap.
+  - `_transient` — WinError 32/33 (in use / lock violation) are worth waiting out; nothing else is.
+  - `_write_in_place` — Non-atomic rewrite that still lets concurrent readers open the target.
+  - `read_text` — Read text, waiting out a transient lock another handle holds on the file.
+  - `atomic_write_text` — Write text to path atomically, safe for concurrent writers and locked targets.
+  - `_write_locked`
+
+**`src/auth.py`** — 98 lines / 3061 bytes
   - `_chmod600`
   - `ensure_token`
-  - `ensure_llama_key`
+  - `ensure_llama_key` — The engine's API key: generated per install, stored 0600, reused once it is a real key.
   - `check`
   - `token_from_request`
+
+**`src/backends.py`** — 736 lines / 29072 bytes — LYGO Backends — which engine build actually runs on this host.
+  - `base_engine_dir`
+  - `backend_dirs` — Installed backend directories, name -> path. Unreadable store means no backends.
+  - `backend_kind` — 'engine' when the dir is a complete engine build, 'overlay' when it is DLLs for one.
+  - `_sha256`
+  - `_manifest`
+  - `backend_files` — The files this backend owns — overlay: its backend DLLs; engine: its executables.
+  - `backend_info` — Everything the planner needs about one backend: kind, files, size, integrity.
+  - `backend_key` — Verdict identity: changes when the backend's files, size or tag change.
+  - `installed`
+  - `host_looks_nvidia` — Cheap vendor hint for ordering: the NVIDIA tools ship with the driver.
+  - `order_candidates` — Which backend to try first here: CUDA on an NVIDIA device, else the usual order.
+  - `_active_read`
+  - `active_record` — The backend currently applied to the engine dir, as last written by ensure().
+  - `set_active`
+  - `clear_active`
+  - `activate` — Make a backend usable. Overlay: copy its DLLs into engine/. Engine: nothing to copy.
+  - `deactivate` — Undo activate() for an overlay: remove exactly the files the backend owns.
+  - `applied_overlays` — Backends with files sitting in engine/ — by store manifest and by file pattern.
+  - `verdict_store_path`
+  - `backend_verdict`
+  - `remember_backend` — Record one backend's verdict for one host. Atomic, bounded, never raises.
+  - `_health_ok`
+  - `_port_free`
+  - `self_test` — Load a real model with this backend and see whether the process survives it.
+  - `probe_models` — Smallest-first model candidates a self-test may use, skipping giants.
+  - `engine_dir_for` — Where llama-server.exe lives when this backend is active.
+  - `ensure` — Decide the engine dir and backend for this host, proving GPU use before claiming it.
+  - `_cli` — python src/backends.py [status|list|test|drop|apply] — for receipts and debugging.
+  - `report` — Health view of the backend layer. Never raises.
 
 **`src/brain_router.py`** — 119 lines / 3738 bytes — Local-first brain routing for the LYGO LLM Console.
   - `_code`
@@ -946,12 +1106,24 @@ build     : v1.1-20260917api2
   - `handoff_info` — Record for the UI/receipt/health payload describing one local takeover.
   - `banner` — Line prepended to the answer that the local engine produced instead of the API.
 
-**`src/chat_loop.py`** — 478 lines / 18025 bytes
+**`src/chat_loop.py`** — 806 lines / 32956 bytes
+  - `math_expr` — The arithmetic inside a plain question, in a form `calc` can evaluate.
+  - `math_only` — True when the whole message is a bare arithmetic question and nothing else.
   - `extract_user_text`
+  - `normalise_messages` — Accept every payload shape a caller might send and return a real messages[] list.
+  - `user_text_of` — Text of the newest user turn that actually carries text (else "").
   - `has_image`
   - `_args`
   - `extract_tool_calls`
   - `extract_urls`
+  - `_flat` — One-line rendering of a tool result value (never a dict repr — a small model parrots those).
+  - `tool_prose` — Readable summary of the newest tool result — the answer of last resort when the model echoed
+  - `is_tool_call_echo` — True when the whole reply is a tool call (or a dump of one) with no prose around it.
+  - `tool_names` — Every limb name plus its aliases (read -> read_file).
+  - `named_tool` — The limb the operator asked for by name ("use the weather tool"), else "".
+  - `_operator_args` — Args taken only from the operator's words. None = not enough there; answer honestly.
+  - `auto_limb` — Args to run `name` on the host when the model would not call it. None = do not run it.
+  - `tool_card` — One-limb instruction with the exact schema — the retry when a named limb was not called.
   - `host_prefetch` — 3B models talk about tools instead of calling them. Host runs URL/search/map first.
   - `_compact_trace`
   - `prefetch_message` — What the model sees when the host already ran the limbs for this turn.
@@ -965,14 +1137,18 @@ build     : v1.1-20260917api2
   - `trim_history` — Keep the newest turns inside the engine's window so the system prompt always survives.
   - `run_tools_round`
 
-**`src/cloud_api.py`** — 265 lines / 9132 bytes — Cloud API brain for the admin console. Keys stay in gitignored config/api.json. Never echo secrets.
+**`src/cloud_api.py`** — 422 lines / 16595 bytes — Cloud API brain for the admin console. Keys stay in gitignored config/api.json. Never echo secrets.
   - `sanitize_key`
   - `_blank`
   - `_load`
   - `save`
   - `public_status`
+  - `chain_for` — Ordered candidates: the primary (provider + key) first, then every keyed fallback.
   - `enabled`
-  - `chat`
+  - `_post`
+  - `_note_chain` — Record which keys were attempted (codes only — never key material).
+  - `_note_success`
+  - `chat` — One API turn, walked down the wired key chain.
   - `active` — API usable *right now*: key saved, switched on, and not in a handoff.
   - `note_error` — Record that an API turn failed; the console hands the next turns to local until cleared.
   - `clear_error` — Operator re-activation: forget the handoff so the API is tried again.
@@ -985,7 +1161,7 @@ build     : v1.1-20260917api2
   - `spawn_colibri`
   - `status`
 
-**`src/continuity.py`** — 266 lines / 8885 bytes — SOUL.md + IDENTITY.md + MEMORY.md + session history so the agent can grow and reference.
+**`src/continuity.py`** — 287 lines / 9727 bytes — SOUL.md + IDENTITY.md + MEMORY.md + session history so the agent can grow and reference.
   - `soul_path`
   - `identity_path`
   - `memory_path`
@@ -995,13 +1171,14 @@ build     : v1.1-20260917api2
   - `_split_note` — `- (2026-09-17 17:05) note text` → (stamp, note), else None.
   - `dedupe_notes` — Collapse repeated `remember` lines, keeping the newest stamp.
   - `read_memory_block` — MEMORY.md for the prompt: head (protocol) + tail (newest notes), de-duplicated first.
+  - `_fits` — Shrink the MEMORY.md block - never SOUL/IDENTITY - until the prompt fits the engine window.
   - `compose_system`
   - `append_memory`
   - `load_session`
   - `save_session`
   - `new_session`
 
-**`src/engine.py`** — 298 lines / 9221 bytes
+**`src/engine.py`** — 597 lines / 20960 bytes
   - `binary_forbidden`
   - `resolve_binary`
   - `class MEMORYSTATUSEX`
@@ -1010,29 +1187,42 @@ build     : v1.1-20260917api2
   - `_clean_env`
   - `_assign_job`
   - `class Runner`
+  - `_port_lock`
+  - `_log_keep_bytes` — Newest bytes of each server log to keep; LYGO_ENGINE_LOG_MAX_BYTES=0 disables rotation.
+  - `_open_engine_log` — Open this port's server log for append, dropping all but the newest LOG_KEEP bytes.
+  - `_close_log` — Close a server log handle exactly once: on Windows the open handle locks the log file.
+  - `_log_note` — Best-effort one-liner into save/logs/engine.log - why the engine refused to do something.
+  - `kill_tree` — Kill pid and everything it spawned (taskkill /T /F; job objects only cover our own jobs).
+  - `process_image_name` — Full image path of a live pid, or None when it cannot be queried (gone, or access denied).
+  - `pid_is_our_engine` — True only when pid is alive AND its image really is our llama-server.exe.
+  - `kill_pid` — Kill a pid recorded in the pid file, but only after proving it is really our engine.
+  - `kill_recorded_pids` — Stop every engine pid in engine.pid.json, skipping any pid we cannot verify.
   - `stop_runner`
   - `stop_port`
+  - `clamp_ctx` — Context window: model-native (else the config default), capped by the config ctx_max.
+  - `clamp_threads` — CPU threads: a pin when given, else every core the host offers; always 2..16.
+  - `clean_kv_type` — A KV cache type the engine actually accepts, else '' (= let llama.cpp decide).
   - `spawn_runner`
   - `_health`
-  - `_write_pids`
+  - `_write_pids` — Mirror the live runners into engine.pid.json, atomically.
   - `ollama_port_open`
   - `runner_for`
 
-**`src/gguf_header.py`** — 180 lines / 5357 bytes
+**`src/gguf_header.py`** — 199 lines / 6177 bytes
   - `class Truncated`
   - `class Cursor` —  | methods: __init__, need, u32, u64, string
   - `_skip_value`
   - `parse_gguf_header`
   - `write_tiny_gguf` — GGUF v3, tensor_count=0, kv general.name=tiny, general.architecture=llama.
 
-**`src/image_tools.py`** — 78 lines / 2529 bytes — Image limbs: save, inspect, page thumbnail. No extra pip.
+**`src/image_tools.py`** — 78 lines / 2507 bytes — Image limbs: save, inspect, page thumbnail. No extra pip.
   - `_in_ws`
   - `image_info`
   - `image_save`
   - `image_list`
   - `page_thumbnail`
 
-**`src/install.py`** — 207 lines / 7326 bytes — Public first-run for LYGO LLM Console. Never copies admin.json or steward vaults.
+**`src/install.py`** — 212 lines / 7571 bytes — Public first-run for LYGO LLM Console. Never copies admin.json or steward vaults.
   - `is_admin_tree`
   - `_write_if_missing`
   - `seed_identity` — Copy public prompts into workspace. Skip if this is the steward admin tree unless force_public.
@@ -1044,23 +1234,41 @@ build     : v1.1-20260917api2
   - `report`
   - `main`
 
-**`src/limbs.py`** — 400 lines / 21212 bytes — Extra agent limbs. Names avoid forbidden source tokens in tools.py.
+**`src/limbs.py`** — 582 lines / 31422 bytes — Extra agent limbs. Names avoid forbidden source tokens in tools.py.
   - `_safe_arith`
+  - `canonicalize` — Fill a limb's canonical argument names from the aliases a small model reaches for.
   - `_win_env`
   - `_ws`
+  - `_kill_tree` — Kill a pid and everything it spawned.
+  - `_run_capture` — Run argv, capturing text output; on timeout kill the whole process TREE.
   - `extra`
 
-**`src/lygo_engine.py`** — 216 lines / 6846 bytes — LYGO Engine — hybrid brain.
-  - `cpu_threads`
+**`src/lygo_engine.py`** — 432 lines / 17551 bytes — LYGO Engine — hybrid brain.
+  - `cpu_threads` — One thread policy for the whole kit — see perf.auto_threads().
   - `vram_free_bytes`
+  - `backend_selection` — Which engine build this host may use, straight from the backend layer.
   - `probe`
   - `_is_colibri`
   - `_is_moe`
+  - `flash_attn_on` — console.json/local.json "flash_attn": "on" forces the flag; otherwise the measured default.
   - `plan` — VRAM / RAM / SSD placement. Does not silently change precision.
+  - `_drop_backend` — Retire a GPU backend that just killed the engine on this host. Returns '' if there was none.
   - `boot` — Spawn the planned backend. Returns brain status string.
   - `status`
 
-**`src/notepad.py`** — 159 lines / 5290 bytes — Standalone console notepad. Files live under save/notepad (kit-local, not MEMORY.md).
+**`src/model_verdicts.py`** — 122 lines / 4233 bytes — Models THIS host has already proved it cannot load.
+  - `_host`
+  - `_fingerprint`
+  - `_load`
+  - `_save` — Write through the kit's atomic writer.
+  - `entries`
+  - `_still_valid`
+  - `bad_ids` — Ids this host proved unloadable, where the verdict still describes the file on disk.
+  - `is_bad`
+  - `mark_bad`
+  - `clear` — Forget one model's verdict, or every verdict for this host.
+
+**`src/notepad.py`** — 166 lines / 5689 bytes — Standalone console notepad. Files live under save/notepad (kit-local, not MEMORY.md).
   - `ensure`
   - `_ok_id`
   - `_note_path`
@@ -1092,11 +1300,49 @@ build     : v1.1-20260917api2
 **`src/p3_note.py`** — 45 lines / 1083 bytes
   - `vortex_signature`
 
-**`src/paths.py`** — 63 lines / 1539 bytes
+**`src/paths.py`** — 323 lines / 12062 bytes
+  - `under_workspace` — Resolve a limb-supplied path against the workspace.
+  - `engine_dir` — The engine directory to launch: an activated GPU backend build, else engine/.
+  - `_port_from_env` — Ports are env-overridable so a USB stick can run *beside* a desktop console.
+  - `console_cfg` — Merged config/console.json + config/local.json (local wins). Cached, never raises.
+  - `_cfg_int` — Config integer. An explicit number is a pin (0 included); "auto"/absent means
+  - `_cfg_str` — Config text value, lowercased. Absent or junk means the default.
+  - `console_limits` — Engine launch limits from the kit config.
   - `ensure_dirs`
-  - `stack_root`
+  - `_record`
+  - `resolution_log` — Every candidate the last stack-root resolution considered, in order, with its verdict.
+  - `_stack_marker` — A reason string when root really is the protocol stack, else ''.
+  - `_as_path`
+  - `_stack_candidates`
+  - `stack_root_status` — Resolve the protocol-stack root and say exactly what happened.
+  - `stack_root` — The protocol-stack root. Never None - stack_root_status() carries the reason.
 
-**`src/public_gateway.py`** — 256 lines / 10105 bytes — Public LYGO inference gateway — chat only, P0, rate-limited, no disks/shell.
+**`src/perf.py`** — 505 lines / 21240 bytes — LYGO Perf — host-adaptive launch profile for the engine.
+  - `engine_path` — The engine directory in play: an explicit one, else whatever is active for this host.
+  - `engine_backends` — GPU backends this engine build actually ships — a file scan, not a hope.
+  - `parse_devices` — Parse `llama-server --list-devices`: 'Vulkan0: NVIDIA GeForce RTX 4060 Ti (7949 MiB, 7181 MiB free)'.
+  - `engine_devices` — Ask the engine itself which devices it sees. Never raises: [] means none we can use.
+  - `best_device` — The device with the most free VRAM — where the layers would go.
+  - `gpu_free_mib` — Free VRAM on the best device, 0 when there is none. Never raises, never over-claims.
+  - `auto_threads` — Every core the host offers, one left for the console, capped for sanity.
+  - `clamp_threads` — CPU threads for llama-server: a pin is honored, else the host's own cores.
+  - `sanitize_kv_type` — A KV cache type this kit will plan around, else 'f16' (the engine's own default).
+  - `kv_bytes_per_token` — KV cache bytes for ONE token, read from the model's own GGUF header.
+  - `kv_cache_mib` — KV cache size in MiB for a context. An unknown model gets the flat allowance.
+  - `plan_ngl` — How many of 99 layers fit in the free VRAM. Returns (ngl, reason).
+  - `_legacy_ngl` — Pre-adaptive rule, kept for callers that cannot see a device list.
+  - `host_id` — This PC, for backend verdicts: no model, no live memory — the machine itself.
+  - `fingerprint` — Host identity: a stick carried to another PC must not inherit this PC's verdict.
+  - `_load_store`
+  - `host_record`
+  - `remember_host` — Merge one host's launch outcome. Atomic write, bounded history, never raises.
+  - `_pin_int` — An integer pin, or None. "auto", "", junk and a typo all mean "let the host decide".
+  - `resolve` — Probe facts + config pins + this host's memory -> the launch profile.
+  - `ladder` — Launch attempts, best first, CPU last: a GPU that cannot load must not kill the brain.
+  - `report` — The /api/health view of the launch profile. Never raises: health must always answer.
+
+**`src/public_gateway.py`** — 299 lines / 12723 bytes — Public LYGO inference gateway — chat only, P0, rate-limited, no disks/shell.
+  - `_warn_degraded_once`
   - `_cors_ok`
   - `_rate`
   - `_ollama_chat`
@@ -1104,18 +1350,70 @@ build     : v1.1-20260917api2
   - `class Handler` —  | methods: log_message, _origin, _send, _json, do_OPTIONS, do_GET, do_POST
   - `main`
 
-**`src/receipts.py`** — 49 lines / 1787 bytes
+**`src/receipts.py`** — 187 lines / 7194 bytes
+  - `_events_path`
+  - `_todos_path`
+  - `_keep_from_env` — Positive int from the environment, else *default* (garbage is ignored, not fatal).
+  - `_prune_receipts` — Delete all but the newest *keep* receipt files, oldest first.
+  - `_prune_lines` — Keep only the newest *keep* lines of a jsonl store, rewritten atomically.
+  - `prune_state` — Bound the on-stick stores; returns counts/sizes so a caller can report them.
+  - `prune_at_startup` — Explicit startup prune (counts/sizes returned); safe to call before the first turn.
+  - `_maybe_prune` — Periodic prune after a write: throttled, and never allowed to fail a turn.
   - `create_node`
   - `write_receipt`
 
-**`src/registry.py`** — 62 lines / 1940 bytes
-  - `pick_default`
-  - `load`
+**`src/registry.py`** — 388 lines / 15166 bytes
+  - `registry_backup_path` — registry.json.bak beside the live file (computed live: tests patch REGISTRY_PATH).
+  - `load_status` — What the last load() did — public so callers can surface a recovery.
+  - `_log` — Loud, dependency-free: stderr plus a line in save/logs/registry.log.
+  - `tool_rank` — How well this model does agentic TOOL CALLING — the console's actual job.
+  - `_bad_on_this_host` — Ids this host already proved it cannot load. A missing memory module is never fatal.
+  - `_chats`
+  - `ranked` — Every usable brain, best first: PREFER_IDS order, then tool rank, then size.
+  - `candidates` — Ordered ids to try as the brain: the default first, then every fallback.
+  - `avail_ram_bytes` — Available physical RAM, or 0 when it cannot be read (0 = 'unknown', never a refusal).
+  - `vram_free_mib` — This host's free VRAM (0 when there is none). Lazy + fail-safe: registry stays GPU-agnostic.
+  - `_ram_floor_bytes` — Half of INSTALLED RAM — a deterministic floor under the momentary-free measurement.
+  - `prefer_by_ram`
+  - `ram_choice` — Best tool-capable brain this host can actually RUN WELL; None when RAM/sizes are unknown.
+  - `_fits` — Would this model fit here? Unknown sizes/RAM return True — never move a human's pin blind.
+  - `pick_default` — Deterministic default (PREFER_IDS, else smallest). RAM-auto is opt-in via `prefer_ram`.
+  - `_present` — Only advertise a model whose weights are really on this machine.
+  - `_read_registry` — Parsed registry at *path*, or None when the file is absent, torn or not an object.
+  - `load` — Read registry.json, falling back to registry.json.bak instead of losing every model.
   - `save`
   - `upsert`
   - `get`
 
-**`src/runtime_facts.py`** — 209 lines / 7121 bytes — Live console + model facts.
+**`src/repair_paths.py`** — 472 lines / 19510 bytes — Portable path repair for the LYGO LLM Console - the --repair-paths entry point.
+  - `_split`
+  - `_join`
+  - `_is_abs`
+  - `_drive_of`
+  - `_norm`
+  - `_under_root`
+  - `_tail`
+  - `_looks_pathish`
+  - `_is_path_key`
+  - `_is_secret_key`
+  - `_display`
+  - `_stamp`
+  - `_current_roots` — Longest root first, so a workspace path tokenises as {workspace}, not {kit}.
+  - `_infer_origin` — Guess the drive/folders the config was written for, when it does not say.
+  - `_collect_strings`
+  - `_ctx_for`
+  - `_host_owned` — True for paths that belong to the machine rather than to the kit.
+  - `_candidate_exists` — True when a rewritten root would actually resolve on this host.
+  - `rewrite_value` — (new_value | None, kind, note) for one config string.
+  - `_transform`
+  - `_stamp_policy` — Record where this config's paths were written, so a later copy can still relocate them.
+  - `plan` — Load every config file and return [(path, mutated_data, ctx, rows), ...] without writing.
+  - `print_plan`
+  - `apply` — Back up then atomically rewrite every file that has changes. Returns what was written.
+  - `repair_paths` — Programmatic entry point. Without consent it prints the plan and refuses to write.
+  - `main`
+
+**`src/runtime_facts.py`** — 222 lines / 8047 bytes — Live console + model facts.
   - `_server_module`
   - `_state`
   - `console_build`
@@ -1126,6 +1424,7 @@ build     : v1.1-20260917api2
   - `cloud_info`
   - `answering` — Who generates the tokens this turn — the brain switch decides, the model never guesses.
   - `facts`
+  - `system_roles` — The three systems and what each one is, in the compact form the prompt window can carry.
   - `prompt_block`
   - `limb_catalog` — Name + intent for every wired limb, so the agent knows what it can actually call.
 
@@ -1134,16 +1433,25 @@ build     : v1.1-20260917api2
   - `scan_roots`
   - `_from_header`
 
-**`src/server.py`** — 1217 lines / 51078 bytes
+**`src/server.py`** — 1695 lines / 75628 bytes
   - `brain_port`
-  - `load_console`
+  - `class _BadRequest` — A malformed request envelope (Content-Length, transfer encoding) -> 400, not a 500.
+  - `class _BodyTooLarge` — Request body over the endpoint's limit: answers 413 instead of a misleading 400.
+  - `_note_config_error`
+  - `_config_key`
+  - `load_console` — config/console.json, optionally overlaid by config/local.json.
   - `default_scan_roots`
+  - `_next_model_rec` — Next brain to try after one failed to load here: registry order, minus what we tried.
   - `maybe_spawn`
   - `boot_async`
-  - `class Handler` —  | methods: log_message, _query, _headers_map, _loopback, _ok_public, _auth, _send, _json, _read_body, do_GET, do_POST, _api_chat
+  - `gate_all` — Gate the WHOLE text, not just its head.
+  - `_read_text_locked` — Read a state file through the retrying reader - a writer may be mid-swap right now.
+  - `class Handler` —  | methods: log_message, _query, _headers_map, _loopback, _ok_public, _auth, _send, _json, _read_body, _contain, do_GET, _dispatch_GET
+  - `class _StickContainment` — Console server that contains a failure instead of dying on it. | methods: handle_error
   - `main`
 
-**`src/skills_mod.py`** — 802 lines / 31872 bytes — OpenClaw-compatible skills for LYGO LLM Console.
+**`src/skills_mod.py`** — 870 lines / 34684 bytes — OpenClaw-compatible skills for LYGO LLM Console.
+  - `core_root` — Live LYRA core root, resolved at call time — never a frozen drive letter.
   - `_skill_md`
   - `seed_bundled`
   - `ensure`
@@ -1163,27 +1471,46 @@ build     : v1.1-20260917api2
   - `clawhub_search`
   - `clawhub_inspect`
   - `_download`
+  - `_safe_member` — Relative target for one zip member, or None when the member must be skipped.
+  - `_commit_staged` — Move a fully-extracted skill tree into place, replacing any previous copy.
   - `_extract_skill_zip`
   - `_load_catalogs`
   - `skillhub_list`
   - `skillhub_install`
   - `clawhub_install`
 
-**`src/stack_health.py`** — 41 lines / 1308 bytes
+**`src/stack_health.py`** — 41 lines / 1330 bytes
   - `run_stack_health`
 
-**`src/tools.py`** — 418 lines / 19838 bytes
+**`src/surface.py`** — 157 lines / 6589 bytes — One console, three systems - named, and measured rather than assumed.
+  - `drive_type` — Windows volume type for a drive letter ("E:"), 0 when it cannot be read.
+  - `media` — Return ("usb"|"pc", why). Declaration wins, then the volume type, then the launchers.
+  - `here` — The system answering now: a LOCAL one while a local engine is ready, else the API-only portal.
+  - `report` — The label block: which system this is, what answers, and all three with one flagged.
+  - `lines` — Human-readable labels for a banner or a status screen: who this is, and all three.
+
+**`src/tools.py`** — 569 lines / 25831 bytes
   - `core_schema`
-  - `_denied`
+  - `_strip_extended` — Drop a Win32 extended-length / device prefix so the comparison sees the real target.
+  - `_long_path` — Ask Windows for the long form of a path, so an 8.3 short name (LYGOSE~1) cannot
+  - `real_path` — The final on-disk target a write would hit.
+  - `_components`
+  - `write_allow_roots` — The write allowlist: workspace, save/receipts plus the configured read/write roots.
+  - `_refuse`
+  - `write_target` — Resolve and authorise a write target: (real_path, None) or (real_path, refusal).
+  - `_denied` — True when the RESOLVED path names a denied location.
   - `_under`
   - `_self_check`
   - `_find_files`
   - `dispatch`
   - `parse_fence_tool`
 
-**`src/web_tools.py`** — 424 lines / 15406 bytes — HTTPS search + fetch for LYGO LLM Console. Witness/RESOURCE only — not CANON.
+**`src/web_tools.py`** — 632 lines / 23973 bytes — HTTPS search + fetch for LYGO LLM Console. Witness/RESOURCE only — not CANON.
   - `_blocked`
   - `_get`
+  - `x_status` — (handle, post_id) when url is an x.com / twitter.com post URL, else None.
+  - `_x_lines`
+  - `x_post` — Read one X/Twitter post through a mirror API. RESOURCE, never CANON.
   - `class _DDG` —  | methods: __init__, handle_starttag, handle_endtag, handle_data
   - `_keywords`
   - `wikipedia_extract`
@@ -1198,10 +1525,11 @@ build     : v1.1-20260917api2
   - `searx_search`
   - `jina_fetch`
   - `web_search`
+  - `_wall` — The marker that makes this body a wall instead of content, else None.
   - `_strip_html`
   - `web_fetch`
 
-**`src/workspace_map.py`** — 220 lines / 6981 bytes — Operator-editable folder/drive mounts. Overlay on admin.json roots.
+**`src/workspace_map.py`** — 219 lines / 6939 bytes — Operator-editable folder/drive mounts. Overlay on admin.json roots.
   - `_load`
   - `_save`
   - `_norm`
@@ -1222,42 +1550,62 @@ build     : v1.1-20260917api2
 
 ### `tests/` — test modules
 
+- `tests/test_adaptive_perf.py` — 467 lines — Host-adaptive performance: the stick must run as fast as the host it is plugged into.
 - `tests/test_admin_train.py` — 64 lines
-- `tests/test_agent_io.py` — 247 lines — Agent input/output: the model speaks for itself, knows its runtime, and can see its limbs.
+- `tests/test_agent_io.py` — 283 lines — Agent input/output: the model speaks for itself, knows its runtime, and can see its limbs.
+- `tests/test_api_default.py` — 80 lines — House API policy: DeepSeek is the default provider AND the standing backup.
+- `tests/test_backends.py` — 413 lines — Backend store: a GPU is claimed only after it loads a real model on this host.
 - `tests/test_brain_switch.py` — 130 lines — Local-default brain switching: API activation and automatic local handoff.
 - `tests/test_cloud_api.py` — 39 lines
+- `tests/test_cloud_chain.py` — 198 lines
 - `tests/test_colibri.py` — 44 lines
 - `tests/test_continuity.py` — 40 lines
 - `tests/test_continuity_ui.py` — 25 lines
+- `tests/test_debug_pass.py` — 111 lines — De-bug pass regressions: the fixed failure paths must stay fixed and must stay safe.
 - `tests/test_donate_radio.py` — 35 lines
 - `tests/test_engine.py` — 25 lines
-- `tests/test_lygo_engine.py` — 51 lines
+- `tests/test_lygo_engine.py` — 71 lines
+- `tests/test_math_routing.py` — 86 lines — Arithmetic must not be routed to the web tools: host guard + model-call redirect.
+- `tests/test_model_verdicts.py` — 88 lines — A model this host cannot load must not be picked again — and must not poison other hosts.
 - `tests/test_no_history_shadow.py` — 20 lines
 - `tests/test_notepad.py` — 64 lines
 - `tests/test_openai_proxy.py` — 49 lines
 - `tests/test_p0_hook.py` — 43 lines
+- `tests/test_port_isolation.py` — 95 lines — Port isolation between copies of the kit.
+- `tests/test_ports_env.py` — 67 lines — Port env overrides — the USB CLAW runs beside a desktop console, never on top of it.
 - `tests/test_public_gateway.py` — 40 lines
-- `tests/test_public_install.py` — 44 lines
-- `tests/test_registry.py` — 50 lines
+- `tests/test_public_install.py` — 55 lines
+- `tests/test_registry.py` — 53 lines
+- `tests/test_registry_ram.py` — 200 lines — RAM-auto brain: the console picks the biggest model THIS host can hold.
+- `tests/test_repair_guards.py` — 105 lines — Guards on the config-path repair.
+- `tests/test_request_envelope.py` — 125 lines — Request-envelope regression tests (2026-09-18 sweep).
 - `tests/test_scanner.py` — 81 lines
+- `tests/test_security_hardening.py` — 203 lines — Security hardening regression tests (2026-09-18 sweep).
+- `tests/test_shipped_engine_purity.py` — 109 lines — The shipped engine/ must stay CPU-pure, and every GPU dll must live in engine/backends/.
 - `tests/test_skills.py` — 66 lines
+- `tests/test_surface_labels.py` — 213 lines — The three systems must stay named, distinct, and read from the machine.
 - `tests/test_tool_battery.py` — 45 lines
+- `tests/test_tool_routing.py` — 53 lines — Tool routing on the shipped local brain: the fix must stay fixed.
 - `tests/test_tools.py` — 41 lines
-- `tests/test_web_tools.py` — 50 lines
+- `tests/test_tuning.py` — 578 lines — Performance-pass regression tests (2026-09-18 tuning sweep).
+- `tests/test_usb_atomic_writes.py` — 250 lines — USB CLAW: persistence and request handling must survive a stick.
+- `tests/test_usb_portability.py` — 170 lines — USB CLAW portability contract.
+- `tests/test_usb_selfcontained.py` — 71 lines — The stick must find its OWN model store on a PC that has never run ollama.
+- `tests/test_web_tools.py` — 131 lines
 - `tests/test_workspace_map.py` — 37 lines
 - `tests/test_world_clock.py` — 28 lines
 
-tests total lines: 1358
+tests total lines: 5191
 
 ### `portal/`
 
-- `portal/app.js` — 34658 bytes
-- `portal/donate.js` — 2054 bytes
-- `portal/index.html` — 9375 bytes
+- `portal/app.js` — 60230 bytes
+- `portal/donate.js` — 2907 bytes
+- `portal/index.html` — 15945 bytes
 - `portal/logo.jpg` — 154829 bytes
 - `portal/logo.svg` — 620 bytes
-- `portal/radio.js` — 5719 bytes
-- `portal/style.css` — 13709 bytes
+- `portal/radio.js` — 10025 bytes
+- `portal/style.css` — 23069 bytes
 
 ### `web_portal/`
 
@@ -1267,7 +1615,7 @@ tests total lines: 1358
 - `web_portal/SOUL.md` — 2326 bytes
 - `web_portal/app.js` — 33321 bytes
 - `web_portal/donate.js` — 2129 bytes
-- `web_portal/index.html` — 23012 bytes
+- `web_portal/index.html` — 23853 bytes
 - `web_portal/logo.jpg` — 154829 bytes
 - `web_portal/logo.svg` — 620 bytes
 - `web_portal/lygo-skills.json` — 5568 bytes
@@ -1281,11 +1629,11 @@ tests total lines: 1358
 
 ### `config/`
 
-- `config/admin.json` — 3280 bytes
-- `config/api.json` — 286 bytes
-- `config/console.json` — 301 bytes
+- `config/admin.json` — 4018 bytes
+- `config/api.json` — 428 bytes
+- `config/console.json` — 3654 bytes
 - `config/local.json` — 242 bytes
-- `config/local.json.example` — 242 bytes
+- `config/local.json.example` — 1552 bytes
 
 ### `prompts/`
 
@@ -1301,8 +1649,9 @@ tests total lines: 1358
 
 ### `scripts/`
 
+- `scripts/bench_toks.py` — 9564 bytes — tok/s benchmark for this console - read-only, re-runnable, prints the config with the numbers.
 - `scripts/fetch_colibri.ps1` — 1135 bytes
-- `scripts/fetch_engine.ps1` — 1018 bytes
+- `scripts/fetch_engine.ps1` — 9343 bytes
 
 ### `skills/`
 
@@ -1311,21 +1660,25 @@ tests total lines: 1358
 ### kit root files
 
 - `.gitignore` — 220 bytes
+- `.pytest_cache/` (dir)
+- `BUILD_MANIFEST.json` — 20097 bytes
 - `COLIBRI.md` — 1618 bytes
 - `FULL_LYGO.md` — 557 bytes
 - `HARDENING.md` — 1630 bytes
-- `INSTALL.bat` — 767 bytes
+- `INSTALL.bat` — 1335 bytes
 - `LYGO_ENGINE.md` — 1259 bytes
-- `LYGO_LLM_CONSOLE.bat` — 2288 bytes
-- `LYGO_LLM_CONSOLE_STOP.bat` — 362 bytes
+- `LYGO_LLM_CONSOLE.bat` — 13136 bytes
+- `LYGO_LLM_CONSOLE_STOP.bat` — 10308 bytes
 - `MODELS.md` — 1762 bytes
-- `PUBLIC_GATEWAY.bat` — 206 bytes
-- `PUBLIC_PORTAL.md` — 1728 bytes
-- `README.md` — 3400 bytes
+- `PUBLIC_GATEWAY.bat` — 4661 bytes
+- `PUBLIC_PORTAL.md` — 2668 bytes
+- `README.md` — 5851 bytes
 - `READ_DISCLAIMER_FIRST.md` — 429 bytes
 - `SKILLS.md` — 1568 bytes
+- `WHITEPAPER.md` — 108293 bytes
 - `config/` (dir)
 - `data/` (dir)
+- `docs_addendum_v23.md` — 0 bytes
 - `engine/` (dir)
 - `models/` (dir)
 - `portal/` (dir)
@@ -1335,9 +1688,9 @@ tests total lines: 1358
 - `skills/` (dir)
 - `src/` (dir)
 - `tests/` (dir)
+- `tools/` (dir)
 - `web_portal/` (dir)
 - `workspace/` (dir)
----
 
 ## Appendix C — Glossary
 
@@ -1586,6 +1939,8 @@ directory.
 
 | **v2.1 (this)** | **2026-09-18** | **Host-adaptive performance**: CPU threads and GPU layers follow the host, GPU builds live in `engine/backends/` and are applied only after a self-test proves them on that PC; measured 4,300 tok/s prompt eval and 101.9 tok/s generation on CUDA where the shipped pin did ~82 / 14.5; four new defects (D16–D19) with rules |
 
+| 2026-09-18 (dial-in + harden) | DeepSeek fixed as the always-default backup API (`DEFAULT_PROVIDER`, normalised configs, failover ordering); the default main brain became a tool-strong coder (`PREFER_IDS` + `tool_rank`), `qwen2.5-coder:7b` staged and sha256-verified on the stick CAS (7 manifests); 3.03 GiB of duplicate blobs reclaimed; launch flags tuned by measurement (baseline wins, flash-attn opt-in); unloadable-model verdicts make a bad brain survivable (D21); scan roots honour the launcher (D22); 247 tests OK on both trees; harden pass receipt written |
+
 | **v2.2 (this)** | **2026-09-18** | **Dial-in + tool routing + three-system role labels**: arithmetic questions now reach `calc` on both consoles (0/4 mis-routed, was 5/5); composed prompt held under a structural budget (15,867 / 16,090 chars vs 16,500 limit); USB LOCAL / PC LOCAL / WEB PORTAL roles proven on the served pages; 296-test green suite in both trees. |
 **Maintenance rule:** this document is part of the build. When a roadmap step lands, update §1.1 (numbers), §10 (verification record) and §11 (defect ledger, move the fix out of §13/§14) **in the same change**, and re-copy it to the three archive locations in §0.1. A stale whitepaper is worse than none.
 
@@ -1593,3 +1948,108 @@ directory.
 
 *End of whitepaper v2 — as-built. Build `v1.1-20260917api2` · signature `Δ9Φ963-LYGO-LLM-CONSOLE-v1`.*
 *Steward: Justin Helmer (ExcavationPro / Lightfather). Agents build, verify, and report; the human publishes.*
+
+## Defaults, dialled in (2026-09-18)
+
+**Policy, in one place each.** `DEFAULT_PROVIDER`/`DEFAULT_MODEL` in `src/cloud_api.py` make
+**DeepSeek the default API and the standing backup**: a blank config, or a provider name this build
+does not ship, resolves to `deepseek` / `deepseek-chat`, and DeepSeek also leads the failover order
+behind an explicit primary (so a second key only needs pasting in, never re-ordering). `PREFER_IDS`
++ `tool_rank()` in `src/registry.py` make the **default brain a coder**: tool-calling models are
+ranked above general chat, so a 9B general model no longer outranks a 7B coder for agent work.
+
+**The default brain must fit the machine, not just the RAM.** Two measured rules, both from booting
+rather than reading:
+
+* *VRAM before rank.* A rank-3 coder that cannot be offloaded loses to a rank-3 coder that can.
+  Observed: an 8.5 GB 14B coder on an 8 GB GPU fell back to the CPU at a partial 60/99 layers,
+  turning a tool turn into 101s; the 5 GiB 7B coder on the same host runs
+  `mode=gpu_full ngl=99` and answered a tool prompt in **2.54s**.
+* *A deterministic RAM budget.* The gate uses `max(measured available, half of installed RAM)`, so
+  the chosen brain cannot swing because something else was running a minute earlier (observed: a
+  32 GB host reading 3 GiB free picked its smallest model).
+
+**Bench, shipped engine, 1,059-token prompt, same model:** baseline 3,245.7 tok/s prompt-eval /
+55.4 tok/s generation; `-fa on` 2,620.6 / 55.2 (**slower** — so flash attention is opt-in via
+`console.json`, and the plan no longer advertises it by default); `-b 4096 -ub 1024` 2,750.1 / 55.0
+(slower); `--no-mmap` **invalid argument** in this build — it is `-lm/--load-mode` now.
+
+**Harden pass 2: 15/15** (`lygo_harden2_receipt.json`) — shipped `engine/` CPU-pure on both trees,
+GPU DLLs only in `engine/backends/`, backend manifests parse, no foreign port bound, and the boot
+matrix: normal / stale `perf_active.json` / GPU off / backend store removed / **a brain that cannot
+load is swapped instead of killing the console** (a crafted GGUF that parses but will not load was
+replaced live and remembered in `data/model_verdicts.json`).
+
+**Stick contents.** CAS now holds 7 manifests including `qwen2.5-coder:7b` (4,466.1 MB, sha256
+verified against source); the redundant top-level CAS was reclaimed (3.03 GiB of byte-identical
+blobs, manifests archived to `I:\LYGO_STICK_ARCHIVE`); free space 3.57 GiB. Suites: **255 tests OK
+on both trees**, byte-identical (`src/`, `tests/`, `config/`).
+
+**Not done / limits.** The 27B PrismML Ternary Bonsai that prompted this pass needs its own
+llama.cpp fork (`tensor 'output_norm.weight' has offset …` — it will not load on stock) and does not
+fit this stick; context stays at the conservative 8192; the CUDA path is verified on one host.
+
+---
+
+## Addendum — performance & stability pass, 2026-09-18 (v2.3)
+
+This pass started as "measure the default brain", turned into a flag hunt, and ended as a
+stability pass with two real defects fixed in the console's own code. Baseline first, always: the
+shipped configuration was **56.5 tok/s generation** on the default brain, which §7.3 now records as
+the practical ceiling of the card rather than a starting point to beat.
+
+### What changed in the kit
+
+1. **`/api/chat` no longer 500s on `tools: false`** (defect D24) — the payload the portal sends
+   when its Agent-limbs box is unticked, and the one the API docs told testers to send.
+2. **Per-turn tok/s telemetry** — `perf` on every reply and on the SSE `done` event, `last_perf`
+   in `/api/health`, and the number shown in the studio (context line + answer tooltip).
+3. **KV-aware GPU planning** (D25, D26, D27) — the cache is costed from the model's own header, at
+   the context the engine will actually run.
+4. **New knobs** `kv_type`, `batch`, `ubatch` through one config reader, sanitised and clamped,
+   part of the launch signature so changing one forces the restart it needs.
+5. **Launch safety net** — if tuned flags fail to load, the runner degrades to the shipped defaults
+   *before* a GPU backend is retired, and says so in health.
+6. **The engine key is no longer a placeholder** (D28) — generated per install, 43 chars, and the
+   only thing standing between `llama-server` and anything else that can reach loopback.
+7. **`scripts/bench_toks.py` ships with the kit** — read-only, re-runnable, config printed beside
+   every number.
+
+### Verification
+
+* `Ran 372 tests in 33.426s` — **OK** (`unittest discover`, the documented command); `pytest -q`
+  agrees at 372 passed. The suite was 255 before this pass; `tests/test_tuning.py` (39 cases)
+  covers the KV arithmetic, the plan knobs, GGUF dimensions, the `/api/chat` tools flag, key
+  rotation and the portal wiring.
+* `pytest -q -W error::ResourceWarning` — **372 passed, 0 warnings, three runs in a row** (defect D29).
+* Two strict suites **run simultaneously** — both 372 passed, and a full run leaves `workspace/MEMORY.md`, `workspace/memory.jsonl` and `save/workspace_map.json` untouched (defect D30: four tests used to write the operator's real state; 239 test rows and 120 dead temp paths were pruned out of it with backups kept).
+* Live engine argv, read from the process table: `-c 16384 -ngl 99 -t 16 -np 1 --jinja --metrics
+  --alias qwen2.5-coder:7b --api-key [REDACTED] -ctk q8_0 -ctv q8_0`, with the runner's key matching
+  `data/.llama_api_key`.
+* `/api/health` → `brain: ready`, `mode: local`, `ngl: 99`, `threads: 16`, `backend: cuda`,
+  `kv_mib: 448`, `scan_n: 15`.
+* After-bench on the final config (record: `save/logs/bench_toks_20260918_175653.json`): generation
+  55.6 / 56.2 / 56.1 = **mean 56.0 tok/s**; depth 52.4 gen / 3,130.7 prefill; a real gated turn
+  5,582 prompt tokens, 1.96 s wall, 46.0 tok/s; `tools=false` → HTTP 200.
+* Two self-knowledge turns on the new default brain, tools on and off, named
+  **qwen2.5-coder:7b / llama.cpp** correctly (§1.1).
+
+### Deliberately not done
+
+* **Flash attention stays off** and batch size stays default — measured slower or neutral here, and
+  shipping a regression with a nicer-looking argv is still shipping a regression.
+* **The draft model is not wired** (see §7.3) — the numbers are in the record instead.
+* **`PROMPT_CEILING` is not raised** with the window. The engine window grew; the prompt budget did
+  not, because the headroom belongs to history, traces and the answer.
+* **The stick keeps its portable profile** — `9651/11451`, `-ngl 0`, `-t 4`, ctx 8,192. It boots on
+  hosts nobody has measured, and a conservative default is the point of a portable kit. What it
+  *does* inherit in this sync is the fixed code, including the KV-aware planner and the safety net.
+
+### The USB, and one honest caveat
+
+The steward chose the sync direction for roadmap #7: **live → stick**, the live tree being the one
+verified green. The stick's prior state was backed up first, and credential-bearing files
+(`config/api.json`, `.env`, `save/registry.json`, `config/admin.json`, `data/.llama_api_key`,
+`data/.lygo_llm_token`) were never copied. Two copies of one kit drift; that is why the record
+lives in `BUILD_MANIFEST.json` and the copies live in four places, all byte-identical after this
+pass.

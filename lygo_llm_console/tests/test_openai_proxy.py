@@ -42,6 +42,7 @@ class ProxyTests(unittest.TestCase):
             self.assertIn(b"ok", body)
         finally:
             httpd.shutdown()
+            httpd.server_close()
 
 
 if __name__ == "__main__":

@@ -36,6 +36,12 @@ VRAM_RESERVE_MIB = 1024  # the desktop compositor and driver keep their room
 FULL_LAYERS = 99  # llama.cpp's idiom for "all layers"
 MIN_PARTIAL_LAYERS = 6  # below this the transfer costs more than it buys
 THREAD_MIN, THREAD_MAX = 4, 16
+COMPUTE_MIN_MIB = 192  # graph and scratch buffers llama.cpp needs while offloaded
+COMPUTE_FRACTION = 0.04  # ...plus a slice of the weights, which is how they scale in practice
+KV_UNKNOWN_MIB = 256  # what a model with no readable header is charged for its KV cache
+# KV cache bytes per element, relative to f16. q8_0 halves the cache and q4_0 quarters it: that is
+# what buys a larger context on a small GPU.
+KV_TYPE_FACTOR = {"f16": 1.0, "bf16": 1.0, "q8_0": 0.5, "q4_0": 0.25, "q5_0": 0.3125, "q5_1": 0.3125}
 DEVICE_TTL_S = 300
 SLOW_ATTEMPT_S = 150  # a launch that burns this long is hung, not merely tight
 HOST_LIMIT = 12
@@ -182,8 +188,66 @@ def clamp_threads(threads: Any) -> int:
     return max(2, min(THREAD_MAX, nth or auto_threads()))
 
 
-def plan_ngl(model_bytes: int, free_mib: int, *, reserve_mib: int = VRAM_RESERVE_MIB) -> tuple[int, str]:
-    """How many of 99 layers fit in the free VRAM. Returns (ngl, reason)."""
+def sanitize_kv_type(value: object) -> str:
+    """A KV cache type this kit will plan around, else 'f16' (the engine's own default)."""
+    t = str(value or "").strip().lower()
+    return t if t in KV_TYPE_FACTOR else "f16"
+
+
+def kv_bytes_per_token(dims: object) -> int | None:
+    """KV cache bytes for ONE token, read from the model's own GGUF header.
+
+    n_layer * n_kv_head * (key_len + value_len) * 2 bytes. Grouped-query models have far fewer KV
+    heads than attention heads, so this has to come from the header: a guess would mis-plan every
+    host it was not guessed on. None means the header did not say, and the caller charges a flat
+    allowance instead of pretending the cache is free.
+    """
+    if not isinstance(dims, dict) or not dims:
+        return None
+
+    def pick(*suffixes: str) -> int | None:
+        # Suffix order is precedence, NOT dict order: "attention.head_count_kv" has to win over
+        # "attention.head_count". A header that lists head_count first would otherwise be read as
+        # a 7x larger cache (401 KiB/token instead of 56), and every GPU would plan as too small.
+        for s in suffixes:
+            for key, val in dims.items():
+                if str(key).lower().endswith(s):
+                    try:
+                        return int(val)
+                    except (TypeError, ValueError):
+                        return None
+        return None
+
+    layers = pick(".block_count", ".n_layer")
+    kv_heads = pick(".attention.head_count_kv", ".attention.head_count")
+    if not layers or not kv_heads:
+        return None
+    key_len = pick(".attention.key_length") or 128
+    val_len = pick(".attention.value_length") or key_len
+    return int(layers) * int(kv_heads) * (int(key_len) + int(val_len)) * 2
+
+
+def kv_cache_mib(per_token: int | None, ctx: int, kv_type: str = "f16") -> int:
+    """KV cache size in MiB for a context. An unknown model gets the flat allowance."""
+    if not per_token or not ctx:
+        return KV_UNKNOWN_MIB
+    factor = KV_TYPE_FACTOR.get(sanitize_kv_type(kv_type), 1.0)
+    return max(1, int(int(per_token) * int(ctx) * factor / MIB))
+
+
+def plan_ngl(
+    model_bytes: int,
+    free_mib: int,
+    *,
+    reserve_mib: int = VRAM_RESERVE_MIB,
+    kv_mib: int = 0,
+) -> tuple[int, str]:
+    """How many of 99 layers fit in the free VRAM. Returns (ngl, reason).
+
+    The KV cache is charged explicitly when the caller knows it (kv_mib, from the
+    model's own header) and with a flat allowance when it does not. A plan that ignores
+    the cache is how a confident "fits_vram" becomes an engine that dies allocating its
+    context."""
     if free_mib <= 0:
         return 0, "no_gpu_device"
     avail = int(free_mib) - int(reserve_mib)
@@ -191,7 +255,10 @@ def plan_ngl(model_bytes: int, free_mib: int, *, reserve_mib: int = VRAM_RESERVE
         return 0, "no_vram_headroom"
     if model_bytes <= 0:
         return FULL_LAYERS, "model_size_unknown_full_offload"
-    need = int(model_bytes / MIB * 1.12) + 256  # weights + KV/compute buffers
+    weights = int(model_bytes / MIB)
+    kv = int(kv_mib) if kv_mib else KV_UNKNOWN_MIB
+    compute = max(COMPUTE_MIN_MIB, int(weights * COMPUTE_FRACTION))
+    need = weights + kv + compute
     if need <= avail:
         return FULL_LAYERS, "fits_vram"
     ngl = min(FULL_LAYERS - 1, int(FULL_LAYERS * avail / need))
@@ -280,7 +347,14 @@ def _pin_int(value: Any) -> int | None:
         return None
 
 
-def resolve(*, lim: dict[str, Any], hw: dict[str, Any], model_bytes: int, model_id: str = "") -> dict[str, Any]:
+def resolve(
+    *,
+    lim: dict[str, Any],
+    hw: dict[str, Any],
+    model_bytes: int,
+    model_id: str = "",
+    kv_mib: int = 0,
+) -> dict[str, Any]:
     """Probe facts + config pins + this host's memory -> the launch profile."""
     devs = hw.get("devices")
     known = devs is not None
@@ -304,7 +378,7 @@ def resolve(*, lim: dict[str, Any], hw: dict[str, Any], model_bytes: int, model_
     elif device is None:
         ngl, reason, source = 0, "no_gpu_device", "auto"
     else:
-        ngl, reason = plan_ngl(model_bytes, vram_free_mib)
+        ngl, reason = plan_ngl(model_bytes, vram_free_mib, kv_mib=kv_mib)
         source = "auto"
     # A GPU is only planned when backends.py has proven one *on this host*: devices seen
     # by a candidate build that failed its self-test must not become layers.
@@ -331,6 +405,7 @@ def resolve(*, lim: dict[str, Any], hw: dict[str, Any], model_bytes: int, model_
         "vram_total_mib": vram_total_mib,
         "backends": backends,
         "reserve_mib": VRAM_RESERVE_MIB,
+        "kv_mib": int(kv_mib),
         "host": fp,
         "backend": str(hw.get("backend") or "cpu"),
         "engine_dir": str(hw.get("engine_dir") or ""),
@@ -398,6 +473,7 @@ def report(state: dict[str, Any] | None = None) -> dict[str, Any]:
         # Effective beats planned: after a fallback, health must report what is actually running.
         eff = prof.get("effective") if isinstance(prof.get("effective"), dict) else {}
         out["planned"] = {"mode": mode, "ngl": prof.get("ngl"), "threads": prof.get("threads")}
+        out["kv_mib"] = prof.get("kv_mib") or 0
         out["backend"] = prof.get("backend") or ""
         out["engine_dir"] = prof.get("engine_dir") or ""
         if eff:

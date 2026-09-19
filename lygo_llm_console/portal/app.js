@@ -40,11 +40,29 @@
   const traceList = document.getElementById("trace-list");
   const traceCount = document.getElementById("trace-count");
   const ctxNote = document.getElementById("ctx-note");
+  const compactNow = document.getElementById("compact-now");
+  const archiveOpen = document.getElementById("archive-open");
+  const compactStatus = document.getElementById("compact-status");
+  const vaultList = document.getElementById("vault-list");
+  const vaultStatus = document.getElementById("vault-status");
+  const vaultView = document.getElementById("vault-view");
+  const vaultViewTitle = document.getElementById("vault-view-title");
+  const vaultViewMeta = document.getElementById("vault-view-meta");
+  const vaultTranscript = document.getElementById("vault-transcript");
+  const vaultFile = document.getElementById("vault-file");
+  const vaultAdopt = document.getElementById("vault-adopt");
+  const vaultRefreshBtn = document.getElementById("vault-refresh");
+  const vaultSearch = document.getElementById("vault-search");
+  const vaultQ = document.getElementById("vault-q");
+  const vaultResumeBtn = document.getElementById("vault-resume");
+  const vaultLabelBtn = document.getElementById("vault-label");
+  const vaultClose = document.getElementById("vault-close");
+  let vaultPick = null;
   let pendingImage = null;
   let bootedOnce = false;
   let chatHistory = [];
   const HIST_KEY = "lygo_llm_chatHistory";
-  const MAX_MSGS = 24;        /* history window sent to the engine */
+  const MAX_MSGS = 60;        /* messages this browser keeps in the request; the console trims by TOKENS */
   const MAX_IMAGES = 2;       /* base64 images kept in chatHistory — they are re-sent every turn */
   const MAX_TOKENS = 768;     /* shown in #ctx-note so a cut-off answer is explainable */
   const STREAM_IDLE_MS = 60000;  /* no token for this long = engine not responding */
@@ -166,14 +184,264 @@
     }
     return h;
   }
+  let lastPerf = null;   /* what llama.cpp reported for the last turn (passed through by the console) */
+
+  function notePerf(perf) {
+    /* The console forwards the engine's own timings, so the operator can see what a turn cost
+       without benchmarking the kit. An older console sends no perf: then this stays silent. */
+    if (!perf || typeof perf !== "object" || !(perf.gen_tok_s || perf.prompt_tok_s)) return;
+    lastPerf = perf;
+    paintCtx();
+  }
+
+  function perfBit() {
+    const p = lastPerf;
+    if (!p || !(p.gen_tok_s || p.prompt_tok_s)) return "";
+    let s = " · last turn:";
+    if (p.gen_tok_s) s += " " + p.gen_tok_s + " tok/s gen";
+    if (p.prompt_tok_s) s += (p.gen_tok_s ? " /" : "") + " " + Math.round(p.prompt_tok_s) + " tok/s prefill";
+    if (p.gen_tokens) s += " (" + p.gen_tokens + " token" + (p.gen_tokens === 1 ? "" : "s");
+    if (p.engine_calls > 1) s += ", " + p.engine_calls + " engine calls";
+    if (p.gen_tokens) s += ")";
+    return s;
+  }
+
+  /* ---- the conversation record ----------------------------------------------------------------
+     The engine window is decided in TOKENS by the console, not by a message count here. So this line
+     reports the console's own numbers when /api/compaction answers, and keeps the old local counters
+     when it does not (an older console has no record route). Nothing is dropped any more: what leaves
+     the window is stamped into a journal on disk that is sealed, indexed and searchable by the agent
+     (recall_history) - so "window full" now means "the record carries it", not "the chat lost it". */
+  let lastRecord = null;
+
+  function bytesBit(n) {
+    n = Number(n) || 0;
+    if (n >= 1073741824) return (n / 1073741824).toFixed(2) + " GB";
+    if (n >= 1048576) return (n / 1048576).toFixed(1) + " MB";
+    if (n >= 1024) return Math.round(n / 1024) + " KB";
+    return n + " B";
+  }
+
+  function recordBit() {
+    const r = lastRecord;
+    if (!r || !r.ok) return "";
+    let s = " · record: " + (r.turns_total || 0) + " turns stamped";
+    if (r.turns_compacted) s += ", " + r.turns_compacted + " folded";
+    if (r.turns_sealed) s += ", " + r.turns_sealed + " sealed";
+    if (r.last_save_iso) s += " · saved " + String(r.last_save_iso).replace("T", " ").slice(0, 16);
+    return s;
+  }
+
+  function paintRecord() {
+    if (!compactStatus) return;
+    const r = lastRecord;
+    if (!r || !r.ok) {
+      compactStatus.textContent = "record: —";
+      compactStatus.className = "compact-status";
+      return;
+    }
+    const w = r.window || {};
+    const pct = Number(w.used_pct) || 0;
+    compactStatus.textContent =
+      "window " + pct + "% · journal " + bytesBit(r.journal_bytes) +
+      " · sealed " + (r.sessions_sealed || 0) + " (" + bytesBit(r.sealed_bytes) + ")" +
+      " · checkpoints " + (r.checkpoints || 0);
+    compactStatus.className = "compact-status " + (pct >= 78 ? "warn" : "ok");
+    compactStatus.title =
+      "session " + (r.session_id || "—") + "\n" +
+      "turns live " + (r.turns_live || 0) + " of " + (r.turns_total || 0) + " in the record\n" +
+      "window " + (w.live_tokens || 0) + " / " + (w.history_tokens || 0) + " tokens (auto-compact at " +
+      (w.auto_compact_pct || 78) + "%)\n" +
+      "journal " + (r.paths ? r.paths.journal : "") + "\n" +
+      "archive " + (r.paths ? r.paths.archive : "");
+  }
+
+  async function refreshRecord() {
+    /* Server truth, never a guess: if the route is missing the line simply stays blank. */
+    try {
+      const r = await fetch("/api/compaction", { headers: headers(), cache: "no-store" });
+      if (r.ok) {
+        const d = await r.json();
+        lastRecord = d && d.ok ? d : null;
+      }
+    } catch (e) { /* keep whatever we had */ }
+    paintRecord();
+    paintCtx();
+  }
+
+  /* ---- the session vault: what every finished chat became --------------------------------- */
+  function vaultMeta(r) {
+    const bits = [];
+    if (r.turns) bits.push(r.turns + " turns");
+    if (r.created_iso) bits.push(String(r.created_iso).replace("T", " ").slice(0, 16));
+    if (r.tags && r.tags.length) bits.push(r.tags.join(", "));
+    if (r.zip_bytes) bits.push(bytesBit(r.zip_bytes));
+    return bits.join(" · ");
+  }
+
+  function paintVault(d) {
+    if (!vaultList) return;
+    const rows = (d && d.sessions) || [];
+    const hits = (d && d.hits) || [];
+    /* Two shapes arrive here: catalog rows, and transcript search hits (a phrase found inside a
+       session). Both render as the same list, or the panel would lie about finding nothing. */
+    const items = rows.length
+      ? rows.map((r) => ({
+        sid: r.sid,
+        title: (r.pinned ? "★ " : "") + (r.title || r.sid || "?"),
+        meta: vaultMeta(r),
+        folder: r.folder,
+      }))
+      : hits.map((h) => ({
+        sid: h.sid,
+        title: "“" + (h.title || h.sid) + "”",
+        meta: (h.where === "transcript" ? "in the transcript" : "in the catalog") + " · " +
+          (h.turns || 0) + " turns · " + String(h.iso || "").slice(0, 16),
+        folder: h.folder,
+      }));
+    vaultList.innerHTML = "";
+    if (!items.length) {
+      const li = document.createElement("li");
+      li.className = "hint";
+      li.textContent = (d && (d.count || d.q))
+        ? "no session matches"
+        : "nothing filed yet — press File this chat, or File old history";
+      vaultList.appendChild(li);
+      if (vaultStatus) vaultStatus.textContent = "vault empty · " + ((d && d.vault) || "");
+      return;
+    }
+    items.forEach(function (it) {
+      const li = document.createElement("li");
+      li.className = "vault-row";
+      const open = document.createElement("button");
+      open.type = "button";
+      open.textContent = it.title;
+      open.title = (it.sid || "") + "  ·  " + (it.folder || "");
+      open.onclick = function () { openVaultSession(it.sid); };
+      const side = document.createElement("small");
+      side.textContent = it.meta;
+      li.appendChild(open);
+      li.appendChild(side);
+      vaultList.appendChild(li);
+    });
+    if (vaultStatus) {
+      vaultStatus.textContent = rows.length
+        ? ("filed " + (d.count || 0) + " sessions · " + (d.turns || 0) + " turns vaulted · " +
+           bytesBit(d.bytes || 0))
+        : (items.length + " session(s) matched “" + (d.q || "") + "”");
+    }
+  }
+
+  async function refreshVault(q) {
+    if (!vaultList) return;
+    try {
+      const url = q
+        ? "/api/sessions?q=" + encodeURIComponent(q) + "&limit=60"
+        : "/api/sessions?limit=60";
+      const r = await fetch(url, { headers: headers(), cache: "no-store" });
+      const d = await r.json().catch(() => ({}));
+      if (!d || !d.ok) {
+        if (vaultStatus) vaultStatus.textContent = "vault unavailable on this console";
+        return;
+      }
+      paintVault(d);
+      /* Nothing matched the titles or tags: look inside the transcripts before giving up. */
+      if (q && !((d.sessions || []).length)) {
+        const hits = await vaultPost({ action: "search", q: q, k: 20 });
+        if (hits && hits.ok && (hits.hits || []).length) paintVault(hits);
+      }
+    } catch (e) { /* the panel keeps whatever it had */ }
+  }
+
+  async function openVaultSession(sid) {
+    try {
+      const r = await fetch("/api/sessions?sid=" + encodeURIComponent(sid) + "&chars=20000",
+        { headers: headers(), cache: "no-store" });
+      const d = await r.json().catch(() => ({}));
+      if (!d || !d.ok) { setStatus("vault: " + ((d && d.error) || r.status), true); return; }
+      vaultPick = d.sid;
+      if (vaultView) vaultView.hidden = false;
+      if (vaultViewTitle) vaultViewTitle.textContent = (d.pinned ? "★ " : "") + (d.title || d.sid);
+      if (vaultViewMeta) {
+        vaultViewMeta.textContent = d.sid + " · " + d.turns + " turns · " +
+          String(d.created_iso || "").slice(0, 16) + " → " + String(d.ended_iso || "").slice(0, 16) +
+          (d.tags && d.tags.length ? " · " + d.tags.join(", ") : "") +
+          (d.note ? " · " + d.note : "") +
+          (d.truncated ? " · shown head+tail of the file" : "") +
+          (d.folder ? "\n" + d.folder : "");
+      }
+      if (vaultTranscript) vaultTranscript.value = d.transcript_text || "";
+    } catch (e) {
+      setStatus("vault: " + (e && e.message ? e.message : e), true);
+    }
+  }
+
+  async function vaultPost(body) {
+    try {
+      const r = await fetch("/api/sessions", { method: "POST", headers: headers(), body: JSON.stringify(body) });
+      return await r.json().catch(() => ({}));
+    } catch (e) {
+      return { ok: false, error: String(e && e.message ? e.message : e) };
+    }
+  }
+
+  async function saveAndCompact() {
+    if (!compactNow) return;
+    compactNow.classList.add("busy");
+    compactNow.disabled = true;
+    const was = compactStatus ? compactStatus.textContent : "";
+    if (compactStatus) { compactStatus.textContent = "stamping…"; compactStatus.className = "compact-status"; }
+    let line;
+    try {
+      /* No messages in the body: the console already journals every turn, and a body carrying two
+         base64 images can blow past the route's read cap for no gain. */
+      const r = await fetch("/api/compaction", {
+        method: "POST", headers: headers(), body: JSON.stringify({ action: "save" }),
+      });
+      const d = await r.json().catch(() => ({}));
+      const cp = (d && d.checkpoint) || {};
+      if (d && d.ok) {
+        lastRecord = d.status && d.status.ok ? d.status : lastRecord;
+        line = "saved " + (cp.turns || 0) + " turns · stamped " + String(d.at || "").replace("T", " ").slice(0, 19);
+        setStatus(line, false);
+      } else {
+        line = "save failed: " + ((d && (d.error || (d.compact && d.compact.error))) || r.status);
+        setStatus(line, true);
+      }
+    } catch (e) {
+      line = "save failed: " + (e && e.message ? e.message : e);
+      setStatus(line, true);
+    }
+    compactNow.classList.remove("busy");
+    compactNow.disabled = false;
+    if (compactStatus && line.indexOf("failed") === 0) { compactStatus.textContent = line; compactStatus.className = "compact-status warn"; }
+    await refreshRecord();
+    if (was && compactStatus && !lastRecord) compactStatus.textContent = line;
+  }
+
   function paintCtx(dropped) {
     if (!ctxNote) return;
     const msgN = chatHistory.length;
     const imgN = chatHistory.reduce((n, m) => n + (Object.prototype.toString.call(m.content) === "[object Array]" ? m.content.filter((p) => p && p.type === "image_url").length : 0), 0);
-    /* Full window = the next turn pushes something out, so say so and keep saying it. */
+    const r = lastRecord;
+    if (r && r.ok) {
+      const w = r.window || {};
+      const pct = Number(w.used_pct) || 0;
+      ctxNote.textContent =
+        "context: " + msgN + " messages sent · live ~" + (w.live_tokens || 0) + "/" + (w.history_tokens || 0) +
+        " tokens (" + pct + "% of " + (w.ctx || 0) + " ctx)" +
+        " · images kept " + imgN + "/" + MAX_IMAGES + " · max_tokens " + MAX_TOKENS +
+        recordBit() +
+        (w.will_compact_next_turn ? " · auto-compact next turn" : "") +
+        perfBit();
+      ctxNote.classList.toggle("warn", pct >= 78);
+      return;
+    }
+    /* Older console (no /api/compaction): the local message window is all we know. */
     const full = msgN >= MAX_MSGS;
     ctxNote.textContent = "context: " + msgN + "/" + MAX_MSGS + " messages · images kept " + imgN + "/" + MAX_IMAGES + " · max_tokens " + MAX_TOKENS +
-      (dropped || full ? " · history window full — older turns are dropped from what the engine sees" : "");
+      (dropped || full ? " · history window full — older turns are dropped from what the engine sees" : "") +
+      perfBit();
     ctxNote.classList.toggle("warn", !!(dropped || full));
   }
   function fillComposerIfEmpty(text) {
@@ -685,6 +953,11 @@
             if (evn.error) failBubble(b, "engine error — " + evn.error);
             if (evn.type === "done") {
               markBrain(b, evn);
+              notePerf(evn.perf);
+              refreshRecord(); /* the turn just changed the record: journal, rollup, maybe a seal */
+              if (evn.perf && evn.perf.gen_tok_s) {
+                b.title = "gen " + evn.perf.gen_tok_s + " tok/s · prefill " + Math.round(evn.perf.prompt_tok_s || 0) + " tok/s";
+              }
               done = true;
               if (b.textContent) chatHistory.push({ role: "assistant", content: b.textContent });
             }
@@ -710,6 +983,8 @@
         } else {
           b.textContent = j.text || "";
           markBrain(b, j);
+          notePerf(j.perf);
+          refreshRecord(); /* the turn just changed the record */
           if (j.text) chatHistory.push({ role: "assistant", content: j.text });
         }
         if (j.traces) renderTraces(j.traces);
@@ -1072,6 +1347,97 @@
       await resetSession("New session");
     };
   }
+  /* The save button on a game, for a chat: stamp what has been said, fold what left the window. */
+  if (compactNow) compactNow.onclick = saveAndCompact;
+  /* ---- session vault wiring ---------------------------------------------------------------- */
+  if (vaultRefreshBtn) vaultRefreshBtn.onclick = () => refreshVault(vaultQ ? vaultQ.value.trim() : "");
+  if (vaultSearch) vaultSearch.onclick = () => refreshVault(vaultQ ? vaultQ.value.trim() : "");
+  if (vaultQ) {
+    vaultQ.onkeydown = function (ev) {
+      if (ev.key === "Enter") { ev.preventDefault(); refreshVault(vaultQ.value.trim()); }
+    };
+  }
+  if (vaultFile) {
+    vaultFile.onclick = async function () {
+      vaultFile.disabled = true;
+      const d = await vaultPost({ action: "vault_live" });
+      vaultFile.disabled = false;
+      if (d && d.ok) {
+        setStatus("filed to the vault: " + (d.title || d.sid || "") + " · " + (d.turns || 0) +
+          " turns · " + (d.folder || ""), false);
+      } else {
+        setStatus("vault: " + ((d && (d.error || d.skipped)) || "could not file"), !(d && d.ok));
+      }
+      await refreshVault();
+    };
+  }
+  if (vaultAdopt) {
+    vaultAdopt.onclick = async function () {
+      vaultAdopt.disabled = true;
+      const d = await vaultPost({ action: "adopt" });
+      vaultAdopt.disabled = false;
+      setStatus(d && d.ok
+        ? ("filed older history: " + (d.count || 0) + " sessions into " + (d.vault || "the vault"))
+        : ("vault: " + ((d && d.error) || "could not file older history")), !(d && d.ok));
+      await refreshVault();
+    };
+  }
+  if (vaultResumeBtn) {
+    vaultResumeBtn.onclick = async function () {
+      if (!vaultPick) return;
+      vaultResumeBtn.disabled = true;
+      const d = await vaultPost({ action: "resume", sid: vaultPick });
+      vaultResumeBtn.disabled = false;
+      if (d && d.ok) {
+        chatHistory = (d.messages || []).map((m) => ({
+          role: m.role === "user" ? "user" : "assistant", content: m.content,
+        }));
+        renderHistory();
+        try { sessionStorage.setItem(HIST_KEY, JSON.stringify(pruneHistory(chatHistory))); } catch (_) {}
+        setStatus("reopened “" + (d.title || vaultPick) + "” (" + (d.turns || 0) +
+          " turns) — this console is continuing that thread now", false);
+        await refreshVault();
+        await refreshRecord();
+      } else {
+        setStatus("vault: " + ((d && d.error) || "could not reopen that session"), true);
+      }
+    };
+  }
+  if (vaultLabelBtn) {
+    vaultLabelBtn.onclick = async function () {
+      if (!vaultPick) return;
+      const title = prompt("Name this session", (vaultViewTitle && vaultViewTitle.textContent) || "");
+      if (title === null) return;
+      const tags = prompt("Tags, comma separated", "");
+      if (tags === null) return;
+      const d = await vaultPost({ action: "label", sid: vaultPick, title: title, tags: tags });
+      if (d && d.ok) {
+        setStatus("named: " + (d.title || "") + (d.tags && d.tags.length ? " · " + d.tags.join(", ") : ""), false);
+        if (vaultViewTitle) vaultViewTitle.textContent = (d.pinned ? "★ " : "") + (d.title || vaultPick);
+        await openVaultSession(vaultPick);
+      } else {
+        setStatus("vault: " + ((d && d.error) || "could not name it"), true);
+      }
+      await refreshVault();
+    };
+  }
+  if (vaultClose) vaultClose.onclick = function () { if (vaultView) vaultView.hidden = true; vaultPick = null; };
+  refreshVault();
+  if (archiveOpen) {
+    archiveOpen.onclick = async function () {
+      try {
+        const r = await fetch("/api/archive", { headers: headers(), cache: "no-store" });
+        const d = await r.json();
+        const list = (d && d.sessions) || [];
+        const lines = list.slice(0, 12).map((s) => "  " + (s.sid || "?") + "  " + (s.turns || 0) + " turns  " + bytesBit(s.zip_bytes) + "  " + String(s.sealed_iso || "").slice(0, 19));
+        const head = "record on disk\n  archive: " + ((d && d.archive) || "") + "\n  index:   " + ((d && d.index) || "") + "\n  sealed sessions: " + list.length + " · " + bytesBit((d && d.bytes) || 0);
+        setStatus(head + (lines.length ? "\n" + lines.join("\n") : "\n  (nothing sealed yet — the live journal holds it all)"), false);
+      } catch (e) {
+        setStatus("archive: " + (e && e.message ? e.message : e), true);
+      }
+    };
+  }
+  refreshRecord();
   const wsr = document.getElementById("ws-refresh");
   if (wsr) wsr.onclick = refreshWorkspace;
 

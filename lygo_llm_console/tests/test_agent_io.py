@@ -7,14 +7,30 @@ system prompt, and one regeneration when the model just echoes itself.
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 import chat_loop  # noqa: E402
+import continuity  # noqa: E402
 import runtime_facts  # noqa: E402
+
+def isolate_workspace(case: unittest.TestCase) -> None:
+    """Point `continuity` at a throwaway workspace for the duration of one test.
+
+    These tests used to write the operator's real MEMORY.md (and memory.jsonl) and put the old text
+    back in a `finally` block. Two suite runs at once then raced on one file, and a run killed
+    mid-test left a probe line in the steward's memory for good (defect D30).
+    """
+    td = tempfile.TemporaryDirectory(prefix="lygo_ws_")
+    case.addCleanup(td.cleanup)
+    patcher = patch.object(continuity, "WORKSPACE", Path(td.name))
+    patcher.start()
+    case.addCleanup(patcher.stop)
 
 SC = {
     "ok": True,
@@ -118,14 +134,11 @@ class SystemPromptTests(unittest.TestCase):
 
         from continuity import append_memory, compose_system, memory_path
 
+        isolate_workspace(self)  # a throwaway MEMORY.md, never the operator's (defect D30)
         p = memory_path()
-        before = p.read_text(encoding="utf-8") if p.is_file() else ""
         marker = "agent-layer probe " + uuid4().hex[:8]
-        try:
-            append_memory(marker)
-            sysp = compose_system()
-        finally:
-            p.write_text(before, encoding="utf-8")
+        append_memory(marker)
+        sysp = compose_system()
         # MEMORY.md grows at the bottom; a head-only cap hid everything `remember` wrote
         self.assertIn(marker, sysp)
 
@@ -144,15 +157,12 @@ class SystemPromptTests(unittest.TestCase):
 
         from continuity import append_memory, memory_path
 
+        isolate_workspace(self)  # a throwaway MEMORY.md, never the operator's (defect D30)
         p = memory_path()
-        before = p.read_text(encoding="utf-8") if p.is_file() else ""
         marker = "dup probe " + uuid4().hex[:8]
-        try:
-            first = append_memory(marker)
-            second = append_memory(marker)
-            after = p.read_text(encoding="utf-8")
-        finally:
-            p.write_text(before, encoding="utf-8")
+        first = append_memory(marker)
+        second = append_memory(marker)
+        after = p.read_text(encoding="utf-8")
         self.assertFalse(first.get("duplicate"))
         self.assertTrue(second.get("duplicate"))
         self.assertEqual(after.count(marker), 1)

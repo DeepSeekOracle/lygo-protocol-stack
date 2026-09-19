@@ -7,7 +7,7 @@ from typing import Any
 
 from align import load_align
 from p0_hook import gate_output_window
-from tools import dispatch, parse_fence_tool
+from tools import ALIASES as TOOL_ALIASES, TOOLS_SCHEMA, dispatch, parse_fence_tool
 
 SYSTEM = load_align()
 URL_RE = re.compile(r"https://[^\s<>\]\)\"'`]+", re.I)
@@ -189,6 +189,26 @@ def extract_tool_calls(message: dict[str, Any], content: str) -> list[dict[str, 
         name = obj.get("name") or obj.get("tool")
         if name:
             out.append({"name": str(name), "arguments": _args(obj.get("arguments") or obj.get("parameters") or obj)})
+    # Some small models drop the wrapper entirely and send the call object as their whole reply
+    # ({"name": "arxiv_search", "arguments": {...}}), so nothing above matches and the call is lost.
+    # Accept it only when the *whole* trimmed reply is that object, so prose that merely quotes JSON
+    # is left alone.
+    stripped = (content or "").strip().strip("`").strip()
+    if stripped.startswith("{") and stripped.endswith("}"):
+        try:
+            obj = json.loads(stripped)
+        except json.JSONDecodeError:
+            obj = None
+        if isinstance(obj, dict):
+            fn = obj.get("function")
+            if isinstance(fn, dict):
+                name = fn.get("name") or obj.get("name")
+                args_raw = fn.get("arguments")
+            else:
+                name = obj.get("name") or obj.get("tool")
+                args_raw = obj.get("arguments") or obj.get("parameters")
+            if name:
+                out.append({"name": str(name), "arguments": _args(args_raw)})
     # dedupe
     seen = set()
     uniq = []
@@ -210,10 +230,205 @@ def extract_urls(text: str) -> list[str]:
     return out[:3]
 
 
+def _flat(v: Any, depth: int = 0) -> str:
+    """One-line rendering of a tool result value (never a dict repr — a small model parrots those)."""
+    if isinstance(v, (str, int, float, bool)) or v is None:
+        return str(v)
+    if isinstance(v, dict):
+        return ", ".join(f"{k}={_flat(x, depth + 1)}" for k, x in list(v.items())[:8])
+    if isinstance(v, (list, tuple)):
+        return "; ".join(_flat(x, depth + 1) for x in list(v)[:6])
+    return str(v)
+
+
+def tool_prose(traces: list[dict[str, Any]], limit: int = 700) -> str:
+    """Readable summary of the newest tool result — the answer of last resort when the model echoed
+    its own tool call instead of narrating what came back."""
+    if not traces:
+        return ""
+    t = traces[-1]
+    name = str(t.get("name") or "tool")
+    res = t.get("result")
+    args = t.get("arguments") if isinstance(t.get("arguments"), dict) else {}
+    if not isinstance(res, dict):
+        return ""
+    if res.get("ok") is False:
+        why = res.get("error") or "unknown error"
+        hint = res.get("hint")
+        return f"{name} could not answer ({why})" + (f" — {hint}" if hint else "") + "."
+    body = {k: v for k, v in res.items() if k not in {"class", "ok", "url"} and v not in (None, "", [], {})}
+    text = f"{name}({_flat(args)}) -> {_flat(body)}"
+    return text[:limit].rstrip() + ("…" if len(text) > limit else "")
+
+
+def is_tool_call_echo(text: str, message: dict[str, Any] | None = None) -> bool:
+    """True when the whole reply is a tool call (or a dump of one) with no prose around it."""
+    raw = (text or "").strip()
+    if not raw or not extract_tool_calls(message or {}, raw):
+        return False
+    body = re.sub(r"(?s)```.*?```", " ", raw)
+    body = re.sub(r"(?s)<tool_call>.*?</tool_call>", " ", body)
+    body = re.sub(r"(?s)\{.*\}", " ", body)
+    return len(re.sub(r"\W+", "", body)) < 24
+
+
+# --- the limb the operator asked for BY NAME ------------------------------------------------
+# Measured 2026-09-18: a prompt like "Use the skill_list tool" matched SEARCH_HINT on "how many",
+# so host_prefetch ran web_search+web_fetch and the model never got a turn in which it could call
+# the named limb; "Use the wayback tool on <url>" was answered with a plain page fetch. When the
+# operator names a limb, the host defers and the model gets the clean turn.
+WEBISH = {
+    "web_search", "web_fetch", "jina_fetch", "download_url", "wayback", "http_json",
+    "page_thumbnail", "github_search", "hn_search", "arxiv_search", "web",
+}
+NAMED_TOOL_RE = re.compile(
+    r"\b(?:use|using|via|with|call|run|invoke)\s+(?:the\s+)?([a-z_][a-z0-9_]{2,})\s+(?:tool|limb)\b",
+    re.I,
+)
+
+
+def tool_names() -> set[str]:
+    """Every limb name plus its aliases (read -> read_file)."""
+    names = set(TOOL_ALIASES)
+    for t in TOOLS_SCHEMA:
+        fn = t.get("function") if isinstance(t, dict) else None
+        if isinstance(fn, dict) and fn.get("name"):
+            names.add(str(fn["name"]))
+    return names
+
+
+def named_tool(text: str) -> str:
+    """The limb the operator asked for by name ("use the weather tool"), else ""."""
+    names = tool_names()
+    for m in NAMED_TOOL_RE.finditer(text or ""):
+        cand = m.group(1).lower()
+        if cand in names:
+            return TOOL_ALIASES.get(cand, cand)
+    for m in re.finditer(r"`([a-z_][a-z0-9_]{2,})`", text or ""):
+        cand = m.group(1).lower()
+        if cand in names:
+            return TOOL_ALIASES.get(cand, cand)
+    return ""
+
+
+# Limbs the HOST may run itself when the operator named one and the model would not call it.
+# Read-only or trivially reversible only — a shell command, a python snippet, a file write or an
+# edit is NEVER invented on the operator's behalf; those stay honest "I did not call it" answers.
+AUTO_ZERO = {
+    "list_dir", "whoami", "soul_read", "todo_list", "stack_health", "notepad_list",
+    "sessions_list", "self_check", "kernel_status", "workspace_map", "memory_read", "identity_read",
+}
+AUTO_ONE = {
+    "skill_read": "slug", "skill_enable": "slug", "skill_disable": "slug",
+    "skillhub_list": "q", "clawhub_search": "q", "search_corpus": "q", "memory_recall": "q",
+    "recall_history": "q", "session_list": "q", "session_open": "sid",
+    "session_search": "q", "session_label": "title", "session_resume": "sid",
+    "http_json": "url", "wayback": "url", "download_url": "url", "jina_fetch": "url",
+    "web_fetch": "url", "page_thumbnail": "url", "geocode": "place", "weather": "place",
+}
+
+
+# Limb the host may run for the operator, but ONLY with arguments the operator's own message
+# carries — never invented: a write needs the text AND the filename, a shell call needs a single
+# read-only command the operator typed, a python call needs a print(...) they typed.
+AUTO_OPERATOR = {"write_file", "shell", "python_exec"}
+SHELL_READONLY = {
+    "echo", "dir", "ls", "pwd", "whoami", "hostname", "ver", "date", "time", "type",
+    "where", "find", "tasklist", "netstat", "ipconfig", "systeminfo",
+}
+SHELL_META = re.compile(r"[|&;<>$`(){}!\n\r]")
+
+
+def _operator_args(name: str, text: str) -> dict[str, Any] | None:
+    """Args taken only from the operator's words. None = not enough there; answer honestly."""
+    t = str(text or "")
+    if name == "write_file":
+        body = re.search(r"['\"]([^'\"]{1,400})['\"]", t)
+        dest = re.search(r"([A-Za-z0-9_.\-/\\]+\.(?:txt|md|json|html|csv|log|py|tsv))", t)
+        if body and dest:
+            return {"path": dest.group(1), "content": body.group(1)}
+        return None
+    if name == "shell":
+        m = re.search(r"\b(?:run|execute)\s*:?\s+(.+)$", t.strip(), re.I)
+        if not m:
+            return None
+        cmd = m.group(1).strip().strip('"').strip("'").strip()
+        if not cmd or SHELL_META.search(cmd):
+            return None
+        if cmd.split()[0].lower().rstrip(".") not in SHELL_READONLY:
+            return None
+        return {"cmd": cmd}
+    if name == "python_exec":
+        m = re.search(r"\bprint\s*\(([^()]{1,200})\)", t)
+        if m:
+            return {"code": "print(" + m.group(1).strip() + ")"}
+        m = re.search(r"\bprint\s+([0-9A-Za-z_+\-*/%. ]{1,120})", t)
+        if m:
+            expr = m.group(1).strip().rstrip(".")
+            if expr:
+                return {"code": "print(" + expr + ")"}
+        return None
+    return None
+
+
+def auto_limb(name: str, text: str) -> dict[str, Any] | None:
+    """Args to run `name` on the host when the model would not call it. None = do not run it."""
+    if name in AUTO_OPERATOR:
+        return _operator_args(name, text)
+    if name in AUTO_ZERO:
+        args: dict[str, Any] = {}
+        if name == "list_dir":
+            m = re.search(r"([A-Za-z]:[\\/][^\s\"']{2,}|/[^\s\"']{3,})", text or "")
+            hit = re.search(r"([A-Za-z]:[\\/][^\n]{2,})", text or "")
+            if hit:
+                tail = re.split(r"\s+(?:and|then|please|tool)\b", hit.group(1).strip().strip('"').strip("'"), 1)[0]
+                args = {"path": tail.rstrip(" .,;:!?")}
+            else:
+                hit = re.search(r"(/[^\s]{3,})", text or "")
+                args = {"path": hit.group(1).rstrip(" .,;:!?")} if hit else {}
+        return args
+    key = AUTO_ONE.get(name)
+    if not key:
+        return None
+    if key == "url":
+        urls = extract_urls(text or "")
+        return {"url": urls[0]} if urls else None
+    if key == "place":
+        m = re.search(r"\b(?:in|for|at)\s+([A-Z][A-Za-z .'\-]{2,40})", text or "")
+        return {"place": m.group(1).strip(" .,")} if m else None
+    if key == "q":
+        q = re.sub(r"^\s*use\s+(?:the\s+)?[a-z_]+\s+(?:tool|limb)\b", " ", text or "", flags=re.I)
+        q = re.sub(r"\b(search for|search|browse for|browse|look for|for|about|to)\b", " ", q, flags=re.I)
+        q = re.sub(r"[^A-Za-z0-9_.\- ]+", " ", q).strip()
+        return {"q": q[:120]} if q else None
+    m = re.search(r"\bslug\s+([A-Za-z0-9_.\-]{2,})", text or "", re.I)
+    if not m:
+        m = re.search(r"\b([a-z0-9]+-[a-z0-9][a-z0-9\-]{2,})\b", text or "")
+    return {key: m.group(1)} if m else None
+
+
+def tool_card(name: str) -> str:
+    """One-limb instruction with the exact schema — the retry when a named limb was not called."""
+    desc, props = "", {}
+    for t in TOOLS_SCHEMA:
+        fn = t.get("function") if isinstance(t, dict) else None
+        if isinstance(fn, dict) and fn.get("name") == name:
+            desc = str(fn.get("description") or "")
+            props = ((fn.get("parameters") or {}).get("properties") or {})
+    args = ", ".join('"%s": <%s>' % (k, (v or {}).get("type", "string")) for k, v in props.items()) or "(no arguments)"
+    return (
+        "You were asked for the " + name + " limb and you did not call it. Reply with exactly ONE "
+        'tool call and nothing else:\n{"name": "' + name + '", "arguments": {' + args + "}}\n"
+        "Limb: " + desc + "\n"
+        "Do not answer in prose. Do not explain. Do not invent a result. Emit the call."
+    )
+
+
 def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     """3B models talk about tools instead of calling them. Host runs URL/search/map first."""
     traces: list[dict[str, Any]] = []
     text = user_text or ""
+    named = named_tool(text)
     try:
         from skills_mod import match_invoked
 
@@ -296,7 +511,7 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
-    urls = extract_urls(text)
+    urls = extract_urls(text) if (not named or named in WEBISH) else []
     for url in urls:
         result = dispatch("web_fetch", {"url": url})
         traces.append({"name": "web_fetch", "arguments": {"url": url}, "result": result, "host": True})
@@ -320,7 +535,7 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
-    if math_only(text):
+    if math_only(text) and named in ("", "calc"):
         # Bare arithmetic: answer it on the host instead of searching the web for the numbers.
         expr = math_expr(text)
         result = dispatch("calc", {"expr": expr})
@@ -330,7 +545,7 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
 
     if META_TOOLS.search(text) and not SEARCH_HINT.search(text) and not STEWARD_HINT.search(text):
         return traces
-    if SEARCH_HINT.search(text) and not GH_HINT.search(text) and not HF_HINT.search(text):
+    if SEARCH_HINT.search(text) and not named and not GH_HINT.search(text) and not HF_HINT.search(text):
         q = re.sub(r"\s+", " ", text).strip()[:220]
         result = dispatch("web_search", {"q": q})
         hits = (result or {}).get("hits") or []
@@ -383,12 +598,16 @@ def _compact_trace(t: dict[str, Any]) -> dict[str, Any]:
             "rule": "never github.com/user/repo or lattice.example.com",
         }
     if name == "web_fetch":
+        res = res if isinstance(res, dict) else {}
         return {
             "name": name,
             "ok": res.get("ok"),
             "url": res.get("url") or (t.get("arguments") or {}).get("url"),
             "error": res.get("error"),
-            "text": str(res.get("text") or "")[:600],
+            "hint": res.get("hint"),
+            "marker": res.get("marker"),
+            # An X post read carries the post body in ~600 chars; give it a little more room.
+            "text": str(res.get("text") or "")[: 900 if res.get("kind") == "x_post" else 600],
         }
     if name == "github_search":
         hits = res.get("hits") or []
@@ -415,7 +634,9 @@ def prefetch_message(traces: list[dict[str, Any]]) -> str:
         "Use these values for the live facts and answer the operator's newest message in your own "
         "words, as short as the question deserves. Lead with the answer, then the receipts (the real "
         "paths/URLs/values above). Never repeat your previous answer, never narrate the tool calls, "
-        "never add next steps.\n"
+        "never add next steps. "
+        "If a readout has ok=false the limb failed: say what failed and why (the url and the error "
+        "code), never invent the content it was supposed to bring.\n"
         + json.dumps(compact, default=str)[:3000]
     )
 

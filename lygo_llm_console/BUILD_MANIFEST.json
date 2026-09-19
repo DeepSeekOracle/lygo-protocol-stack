@@ -9,14 +9,15 @@
   "paths": {
     "live_kit": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
     "usb_builder_key": "E:\\LYGO_BUILDER_KEY",
-    "usb_kit_stale_master": "E:\\LYGO_BUILDER_KEY\\lygo_llm_console",
     "whitepaper_canonical": "I:\\E Drive\\lygo-protocol-stack\\docs\\whitepapers\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
     "whitepaper_in_kit": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\WHITEPAPER.md",
     "whitepaper_usb_docs": "E:\\LYGO_BUILDER_KEY\\docs\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
     "whitepaper_usb_recovery": "E:\\LYGO_BUILDER_KEY\\RECOVERY\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
     "model_blobs_readonly": "E:\\LYGO_BUILDER_KEY\\product\\models\\ollama\\blobs",
     "lyra_core": "I:\\E Drive\\LYRA_CORE",
-    "runtime_state": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\save"
+    "runtime_state": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\save",
+    "usb_kit": "E:\\LYGO_BUILDER_KEY\\lygo_llm_console",
+    "usb_kit_role": "the same kit on the builder stick - synced with the live tree 2026-09-18 (see usb_stick.sync)"
   },
   "ports": {
     "console": {
@@ -27,10 +28,14 @@
     "engine": {
       "port": 11441,
       "binary": "engine/llama-server.exe",
-      "alias": "qwen2.5:3b",
-      "ctx": 8192,
+      "alias": "qwen2.5-coder:7b",
+      "ctx": 16384,
       "ngl": 99,
-      "threads": 16
+      "threads": 16,
+      "kv_type": "q8_0",
+      "kv_mib": 448,
+      "flash_attn": "off (measured slower on this CUDA path)",
+      "binary_note": "engine/backends/cuda/llama-server.exe (self-tested backend)"
     },
     "embed": {
       "port": 11442,
@@ -70,7 +75,18 @@
       11434
     ],
     "state": "save/ under the stick kit; every write through src/atomicio.py, every state read through atomicio.read_text()",
-    "acceptance_receipt": "%LOCALAPPDATA%\\Temp\\lygo_usbclaw_acceptance_final3.json"
+    "acceptance_receipt": "%LOCALAPPDATA%\\Temp\\lygo_usbclaw_acceptance_final3.json",
+    "sync": {
+      "direction": "live -> stick (the steward chose the verified tree; roadmap #7 closed)",
+      "at": "2026-09-18",
+      "scope": "src/, tests/, scripts/, portal/, prompts/, skills/, web_portal/, tools/, 4 launcher .bat files, WHITEPAPER.md, BUILD_MANIFEST.json",
+      "files_verified": 148,
+      "method": "per-file sha256 live vs stick - 0 mismatches",
+      "suite_after_sync": "Ran 372 tests in 35.208s - OK (identical to the live tree)",
+      "stick_backup": "%LOCALAPPDATA%\\Temp\\lygo_kit_debris\\stick_pre_sync_20260918 (141 files, incl. the previous bats and config/console.json)",
+      "never_copied": "config/api.json, config/admin.json, .env, save/, data/ - credential-bearing files stay on the host",
+      "intentionally_not_synced": "config/console.json and the stick-only launchers: the stick keeps its portable profile (9641/11441 desktop launcher, 9651/11451/11452 via LYGO_AGENT_STICK.bat, ctx 8192, ngl 0, -t 4). It inherits the fixed code, including the KV-aware planner and the launch safety net"
+    }
   },
   "entrypoints": {
     "start": [
@@ -90,32 +106,38 @@
   },
   "scale": {
     "src": {
-      "modules": 37,
-      "lines": 9730
+      "modules": 39,
+      "lines": 12840,
+      "counted_by": "tools/make_index.py"
     },
     "tests": {
-      "modules": 34,
-      "lines": 3343,
-      "cases": 247,
+      "modules": 44,
+      "lines": 5191,
+      "cases": 372,
       "discovery": "python -m unittest discover -s tests (from the kit root)"
     },
-    "models_visible": 14,
+    "models_visible": 15,
     "limbs": 56,
-    "scan_n": 14
+    "scan_n": 15
   },
   "tests": {
     "command": "cd <kit> && C:\\Python313\\python.exe -m unittest discover -s tests",
     "last_result": "OK",
-    "last_line": "Ran 255 tests",
+    "last_line": "Ran 372 tests in 33.426s",
     "trees": [
       "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
       "E:\\LYGO_BUILDER_KEY\\lygo_llm_console"
     ],
-    "previous_line": "Ran 102 tests in 13.031s (before the D13 fix)",
+    "previous_line": "Ran 255 tests (before the 2026-09-18 performance & stability pass)",
     "exit_code": 0,
     "run_at": "2026-09-18",
-    "modules": 34,
-    "cases": 255
+    "modules": 44,
+    "cases": 372,
+    "pytest_line": "372 passed in 34.80s (pytest -q, same tree)",
+    "added_this_pass": "tests/test_tuning.py - 39 cases: KV math, plan knobs, GGUF dims, the /api/chat tools flag, engine-key rotation, portal perf wiring",
+    "stick_line": "Ran 372 tests in 35.208s - OK (stick tree, after the sync)",
+    "strict_line": "pytest -q -W error::ResourceWarning: 372 passed, 0 warnings (three consecutive runs, 2026-09-18, after D29)",
+    "concurrent_line": "pytest -q -W error::ResourceWarning run twice at the same time: both 372 passed; live state identical before/after (defect D30)"
   },
   "brains": {
     "local": {
@@ -178,7 +200,8 @@
     ],
     "rejects": "400 {\"error\":\"no_input\"} when there is no user text and no image",
     "rule": "never answer a request you did not understand (defect D13)",
-    "tests": "tests/test_agent_io.py ChatInputTests (6 cases)"
+    "tests": "tests/test_agent_io.py ChatInputTests (6 cases)",
+    "tools_flag": "true / false / omitted all answer 200 (D24); false is the portal's unticked Agent-limbs box"
   },
   "closed_defects": [
     "D13 - /api/chat answered a payload it did not understand; fixed 2026-09-17 and verified against the live console",
@@ -186,16 +209,37 @@
     "D16 - reader-vs-writer WinError 5 on the same index under load; per-path lock + no-op rewrite skip + bounded retry + in-place fallback",
     "D17 - readers denied Errno 13 for the instant of a swap; atomicio.read_text() now retries transient denials on every state read",
     "D18 - stick port contract 9651/11451/11452; foreign 8080 and 11434 never claimed, enforced by tests/test_usb_portability.py",
-    "D19 - the stick MODEL_MANIFEST.json contradicted itself (llama3.1:8b vs qwen2.5:3b); data-fixed with backup"
+    "D19 - the stick MODEL_MANIFEST.json contradicted itself (llama3.1:8b vs qwen2.5:3b); data-fixed with backup",
+    "D20 - every GPU plan advertised flash_attn:true while spawn_runner() passed no flag; now plumbed, default off (opt-in via console.json)",
+    "D21 - a GGUF that parses but will not load killed the boot; model_verdicts.json keeps a per-host verdict and falls back to the next brain",
+    "D22 - the console ignored the LYGO_MODELS/OLLAMA_MODELS roots its own launcher declares; default_scan_roots() now trusts them and descends into a CAS parent",
+    "D23 - mmap=False emitted --no-mmap, dead in this engine build; mapped to -lm none",
+    "D24 - POST /api/chat {\"tools\": false} returned 500 handler_failed (UnboundLocalError: honest_pending): honest_pending/traces were bound inside `if use_tools:` and read unguarded. Fixed by hoisting above the branch; three tests drive the real handler, and the live console now answers tools=true, tools=false and omitted",
+    "D25 - plan_ngl() charged NOTHING for the KV cache, so a plan could promise layers the card cannot hold; the cache is now sized from the model's own GGUF header (57,344 B/token for this 7B) with a flat 256 MiB allowance only when the dims cannot be read",
+    "D26 - the KV sizing used the model's native 32768 ctx while the engine runs clamped to 16384: a 2x over-charge (896 MiB) that could have demoted a GPU that fits. Sizing now goes through the same clamp_ctx() the launch uses (448 MiB - matches the card)",
+    "D27 - the GGUF header scan broke on attention.head_count instead of attention.head_count_kv, so GQA models fell back to the flat allowance and the console mis-answered kv_mib:256. Break tightened to the GQA key; a no-head_count_kv model is correctly read as MHA",
+    "D28 - data/.llama_api_key held the literal placeholder 'secret-key' and ensure_llama_key() returned it forever: the engine's only guard on loopback was a published default. Placeholders and sub-16-char values are now treated as absent and replaced with a generated per-install key; the live engine's --api-key matches the rotated file",
+    "D29 - the suite leaked resources (test_openai_proxy: shutdown() without server_close(); test_backends: a TemporaryDirectory per test, 24 of them, reclaimed only by the GC), so -W error::ResourceWarning was not green and the failing test moved between runs. Both released explicitly; strict run now 372 passed / 0 warnings, three consecutive runs",
+    "D30 - four tests wrote the operator's REAL state (MEMORY.md + memory.jsonl, the live workspace map, the live notepad) and cleaned up by hand, so concurrent suite runs collided on one file and a killed run left junk: the live kit held 239 test rows in workspace/memory.jsonl and 120 dead temp paths in save/workspace_map.json. Each test now runs against a throwaway dir; two concurrent strict suites pass 372 and a full run leaves the live files unchanged. Junk pruned 2026-09-18, backups in %LOCALAPPDATA%\\Temp\\lygo_kit_debris\\state_prune_20260918"
   ],
   "docs": {
-    "whitepaper_copies": 5,
-    "index_tool": "tools/make_index.py - AST module/function index = whitepaper Appendix B",
+    "whitepaper_copies": 6,
+    "copies": [
+      "I:\\E Drive\\lygo-protocol-stack\\docs\\whitepapers\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
+      "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console\\WHITEPAPER.md",
+      "E:\\LYGO_BUILDER_KEY\\lygo_llm_console\\WHITEPAPER.md",
+      "E:\\LYGO_BUILDER_KEY\\lygo_llm_console\\WHITEPAPER_v2_AS_BUILT.md",
+      "E:\\LYGO_BUILDER_KEY\\docs\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md",
+      "E:\\LYGO_BUILDER_KEY\\RECOVERY\\LYGO_LLM_CONSOLE_v2_AS_BUILT.md"
+    ],
+    "all_identical_sha256": "e78080c80266cde0e42c7738d6ebfe43c37fe68129f8a99c1b6e30de361cf752",
+    "rule": "update the canonical copy, then re-copy to every archive location in the same change",
+    "index_tool": "tools/make_index.py - AST module/function index = whitepaper Appendix B (regenerated this pass)",
     "manifest": "BUILD_MANIFEST.json - this file"
   },
   "prompt_budget": {
-    "engine_window_tokens": 8192,
-    "engine_window_chars_approx": 30000,
+    "engine_window_tokens": 16384,
+    "engine_window_chars_approx": 60000,
     "composed_prompt_chars_measured": 15950,
     "history_chars": 9000,
     "caps": {
@@ -207,7 +251,9 @@
       "prompt_catalog": 1500,
       "compact_json": 3000
     },
-    "rule": "the system prompt is never trimmed; trim_history() drops old turns first"
+    "rule": "the system prompt is never trimmed; trim_history() drops old turns first",
+    "console_prompt_ceiling_chars": 16300,
+    "note": "the engine window is headroom, not a target: continuity.PROMPT_CEILING still caps the composed prompt at 16300 chars, leaving room for history, tool traces and the answer"
   },
   "routes": {
     "console": [
@@ -251,7 +297,8 @@
     "runtime facts (build, model, engine, brain, standby) are always present in the prompt",
     "the public gateway has no limbs, no disks, no admin map, no steward data; P0 gates input and output",
     "credentials are never printed, never transported to the USB, never embedded in documents or prompts, always [REDACTED]",
-    "every turn returns a receipt id; a claimed action without a receipt is not a result"
+    "every turn returns a receipt id; a claimed action without a receipt is not a result",
+    "a placeholder credential is never a permanent credential: a stored default key is treated as absent and replaced at boot (D28)"
   ],
   "data_safety": {
     "credential_bearing": [
@@ -267,13 +314,13 @@
     "hosted portal mode is NOT live: web_portal/portal.json hosted_base is empty",
     "image-only turns are accepted but the default local engine qwen2.5:3b has no vision",
     "studio UI (portal/) and public UI (web_portal/) are duplicated trees",
-    "engine ctx 8192 tokens limits long documents",
     "embeddings runner not booted (:11442 -> 501)",
     "public gateway has no per-day quota or IP ban list",
-    "engine ctx is 8192 tokens (the coder model itself offers 32768) - raising it needs a KV-memory plan per host",
     "the 747 MB GPU backend store on the stick is not part of the public SKU; exclusion policy still to confirm",
     "verified on one host (RTX 4060 Ti): the CPU-only path is covered by tests and the CPU bench, not by a second machine",
-    "ternary/low-bit families that need a forked llama.cpp (e.g. PrismML Ternary Bonsai) will not load on the shipped stock engine - by design"
+    "ternary/low-bit families that need a forked llama.cpp (e.g. PrismML Ternary Bonsai) will not load on the shipped stock engine - by design",
+    "engine ctx is 16384 tokens per host plan (the coder model itself offers 32768): raising it further still needs a per-host KV-memory plan, and the console's own prompt ceiling is unchanged",
+    "speculative decoding with a draft model measured +38% on code (56.5 -> 78.5 tok/s) but is NOT wired: it ships a second model, +1 GB VRAM, +10 s load, and -21% prefill - numbers recorded in performance.pass_2026_09_18"
   ],
   "roadmap": [
     "1 make hosted portal real (gateway + HTTPS + hosted_base)",
@@ -282,9 +329,9 @@
     "4 ship the model chooser (studio + public whitelist)",
     "5 de-duplicate the two UIs into one shared chat/brain component",
     "6 DONE 2026-09-17: /api/chat rejects a payload with no user text (400 no_input) and honours messages[]/prompt/message",
-    "7 sync the kit to the USB in the steward's chosen direction",
-    "8 long-context pass (raise -c, re-budget, re-run the budget test)",
-    "9 host/engine cleanup (stale U: roots, duplicate env key, socket warning)",
+    "7 DONE 2026-09-18: synced live -> stick in the steward's chosen direction (steward chose live as the verified tree); stick state backed up first, credential-bearing files never cross",
+    "8 DONE 2026-09-18: long-context pass - ctx 8192 -> 16384 with q8_0 KV at the same VRAM (448 MiB), KV sized from the model's own GGUF header at the clamped ctx, budget + budget test re-run",
+    "9 OPEN (narrowed 2026-09-18, D29 fixed): the unclosed-socket ResourceWarning is gone - the suite is clean under -W error::ResourceWarning. What remains is NOT the kit's to change: the duplicate OPENAI_API_KEY is in the Hermes agent host .env (C:\\Users\\justi\\AppData\\Local\\hermes\\.env), and the two dead U:/LYGO roots in config/local.json are the steward's recorded intent for another layout",
     "10 self-check that lists credential-bearing files and refuses to export them"
   ],
   "performance": {
@@ -342,6 +389,108 @@
       },
       "no_mmap_flag": "invalid in this build -> -lm/--load-mode; mmap=False now maps to '-lm none'"
     },
-    "unloadable_model_survival": "data/model_verdicts.json keeps per-host verdicts keyed to the file; a brain that cannot load is swapped for the next candidate instead of killing the boot"
+    "unloadable_model_survival": "data/model_verdicts.json keeps per-host verdicts keyed to the file; a brain that cannot load is swapped for the next candidate instead of killing the boot",
+    "pass_2026_09_18": {
+      "model": "qwen2.5-coder:7b (Q4_K_M), CUDA -ngl 99 -t 16, 8 GB RTX 4060 Ti (288 GB/s)",
+      "baseline_shipped_ctx8192": {
+        "gen_tok_s_mean": 56.5,
+        "gen_runs": [
+          56.8,
+          56.6,
+          56.0
+        ],
+        "prefill_tok_s": 3526,
+        "gated_turn_s": 2.88,
+        "gated_turn_gen_tok_s": 52.3
+      },
+      "after_live_ctx16384_kv_q8_0": {
+        "gen_tok_s_mean": 56.0,
+        "gen_runs": [
+          55.6,
+          56.2,
+          56.1
+        ],
+        "depth_gen_tok_s": 52.4,
+        "depth_prefill_tok_s": 3130.7,
+        "gated_turn_s": 1.96,
+        "gated_turn_gen_tok_s": 46.0,
+        "gated_prompt_tokens": 5582,
+        "record": "save/logs/bench_toks_20260918_175653.json"
+      },
+      "verdict": "generation is memory-bandwidth locked: 56.5 tok/s is ~92% of the 288 GB/s ceiling for a 4.68 GB model, and no launch flag moved it. The pass therefore bought context headroom at identical VRAM (16384 + q8_0 KV = 448 MiB, exactly what 8192 + f16 cost) instead of chasing generation speed",
+      "eight_config_fresh_engine_sweep": {
+        "base_ctx8192": {
+          "gen": 56.7,
+          "code": 56.8,
+          "prefill": 3550.8
+        },
+        "fa_on": {
+          "gen": 56.7,
+          "code": 56.5,
+          "prefill": 3474.2,
+          "verdict": "rejected, -2% prefill (confirms the code note)"
+        },
+        "ub_1024": {
+          "gen": 56.5,
+          "code": 56.0,
+          "prefill": 3590.5,
+          "verdict": "noise"
+        },
+        "ngram_simple": {
+          "gen": 56.5,
+          "code": 56.7,
+          "prefill": 3566.2,
+          "verdict": "no effect"
+        },
+        "ngram_map_k4v": {
+          "gen": 56.9,
+          "code": 56.5,
+          "prefill": 3556.9,
+          "verdict": "no effect"
+        },
+        "draft_qwen2.5_1.5b": {
+          "gen": 54.7,
+          "code": 78.5,
+          "prefill": 2794.7,
+          "load_s": 22.6,
+          "verdict": "DEFERRED: +38% on code, -21% prefill, +1 GB VRAM, +10 s load, a second model to ship and validate"
+        },
+        "ctx16k_kv8_fa_on": {
+          "gen": 55.1,
+          "code": 54.8,
+          "prefill": 3428.7,
+          "verdict": "rejected"
+        },
+        "ctx16k_kv8_no_fa": {
+          "gen": 54.6,
+          "code": 54.9,
+          "prefill": 3447.5,
+          "verdict": "ADOPTED: ~-1% live generation for 2x context at the same VRAM"
+        }
+      },
+      "telemetry": "/api/chat replies and SSE done events carry perf {gen_tok_s, prompt_tok_s, gen_tokens, engine_calls}; /api/health carries last_perf; portal/app.js shows it on the context line and as the answer's tooltip",
+      "bench_script": "scripts/bench_toks.py - read-only, re-runnable, prints the config next to every number and writes save/logs/bench_toks_<stamp>.json",
+      "kv_cache": {
+        "bytes_per_token": 57344,
+        "ctx8192_f16_mib": 448,
+        "ctx16384_q8_0_mib": 448,
+        "source": "the model's own GGUF header, sized at the clamped ctx"
+      }
+    }
+  },
+  "state_hygiene": {
+    "rule": "a test never writes the operator's real state: patch every path a test writes through, in setUp, and release it with addCleanup (defect D30)",
+    "isolated_by": [
+      "continuity.WORKSPACE",
+      "workspace_map.MAP_PATH",
+      "notepad.NOTEPAD_ROOT/NOTES_DIR/INDEX_PATH"
+    ],
+    "pruned_2026_09_18": {
+      "workspace/memory.jsonl": "244 rows -> 5 kept, 239 test rows dropped (markers: dup probe, agent-layer probe, 'leeches have three jaws')",
+      "save/workspace_map.json": "revoke list 120 -> 0 dead temp paths",
+      "backup": "%LOCALAPPDATA%\\Temp\\lygo_kit_debris\\state_prune_20260918",
+      "live_notepad": "clean - ids are ['agent-gauntlet','gauntlet','scratch'], no test residue"
+    },
+    "how_to_find_the_next_one": "run two strict suites at once; whichever test fails is writing shared state"
   }
 }

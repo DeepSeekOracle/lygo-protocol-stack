@@ -6,7 +6,7 @@ import struct
 from pathlib import Path
 from typing import Any
 
-from paths import WORKSPACE
+from paths import WORKSPACE, under_workspace
 from web_tools import _blocked, _get
 
 
@@ -19,7 +19,7 @@ def _in_ws(p: Path) -> Path:
 
 
 def image_info(path: str) -> dict[str, Any]:
-    p = _in_ws(Path(path) if Path(path).is_absolute() else WORKSPACE / path)
+    p = _in_ws(under_workspace(path))
     if not p.is_file():
         return {"ok": False, "error": "missing"}
     raw = p.read_bytes()[:32]

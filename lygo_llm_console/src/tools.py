@@ -18,9 +18,9 @@ from admin_map import (
     usb_root_status,
     write_roots,
 )
-from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS, stack_root_status
+from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS, stack_root_status, under_workspace
 from p0_hook import gate_prompt
-from limbs import EXTRA_SCHEMA, extra as extra_dispatch
+from limbs import EXTRA_SCHEMA, canonicalize, extra as extra_dispatch
 
 # Public kit default. Admin json expands roots at call time.
 
@@ -350,6 +350,7 @@ def _find_files(pattern: str, root: str | None = None) -> dict[str, Any]:
 
 def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = None) -> dict[str, Any]:
     name = ALIASES.get(name, name)
+    name, args = canonicalize(name, args or {})
     extra = extra or {}
     if name == "steward_map":
         return brief()
@@ -375,9 +376,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         raw = str(args.get("path") or "").strip()
         if not raw or raw in {".", "drives", "roots"}:
             return {"ok": True, "roots": [str(p) for p in read_roots()], "hint": "pass a root path to list entries"}
-        p = Path(raw)
-        if not p.is_absolute():
-            p = WORKSPACE / p
+        p = under_workspace(raw)
         if _denied(p) or not _under(p, read_roots()):
             return {"ok": False, "error": "denied", "hint": "path not on admin map; call steward_map"}
         if not p.is_dir():
@@ -387,10 +386,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
             names.append(child.name + ("/" if child.is_dir() else ""))
         return {"ok": True, "path": str(p), "entries": names, "n": len(names)}
     if name == "read_file":
-        p = Path(args.get("path") or "")
-        if not p.is_absolute():
-            p = WORKSPACE / p
-        rp = real_path(p)
+        rp = real_path(under_workspace(args.get("path") or ""))
         if _denied(rp) or not _under(rp, read_roots()):
             return {"ok": False, "error": "denied"}
         if not rp.is_file():
@@ -401,10 +397,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         data = rp.read_text(encoding="utf-8", errors="replace")[:64_000]
         return {"ok": True, "text": data}
     if name == "write_file":
-        p = Path(args.get("path") or "")
-        if not p.is_absolute():
-            p = WORKSPACE / p
-        target, refusal = write_target(p)
+        target, refusal = write_target(under_workspace(args.get("path") or ""))
         if refusal is not None:
             return refusal
         target.parent.mkdir(parents=True, exist_ok=True)

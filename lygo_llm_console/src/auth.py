@@ -39,14 +39,31 @@ def ensure_token() -> str:
     return t
 
 
+# Placeholder values the kit has shipped or a hand-edited config may carry. The engine key is the
+# only thing between llama-server and anything else on this box that can reach loopback, so one of
+# these must never become a permanent answer just because it is sitting in the file.
+WEAK_LLAMA_KEYS = {
+    "secret-key",
+    "secret",
+    "changeme",
+    "change-me",
+    "key",
+    "test",
+    "password",
+    "lygo",
+}
+MIN_KEY_CHARS = 16
+
+
 def ensure_llama_key() -> str:
+    """The engine's API key: generated per install, stored 0600, reused once it is a real key."""
     ensure_dirs()
     if LLAMA_KEY_PATH.is_file():
         try:
             k = read_text_locked(LLAMA_KEY_PATH).strip()
         except OSError:
             k = ""
-        if k:
+        if k and len(k) >= MIN_KEY_CHARS and k.lower() not in WEAK_LLAMA_KEYS:
             return k
     k = secrets.token_urlsafe(32)
     atomic_write_text(LLAMA_KEY_PATH, k)

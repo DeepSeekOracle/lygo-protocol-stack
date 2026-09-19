@@ -1,19 +1,38 @@
 from __future__ import annotations
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from chat_loop import host_prefetch  # noqa: E402
 from continuity import compose_system  # noqa: E402
+import notepad as notepad_mod  # noqa: E402
 from notepad import delete_note, list_notes, read_note, write_note  # noqa: E402
 from tools import dispatch  # noqa: E402
 
 
 class NotepadTests(unittest.TestCase):
+    def setUp(self) -> None:
+        """Notes go to a throwaway notepad, never the operator's live save/notepad/.
+
+        This test wrote real notes into the live index and deleted them again: two concurrent runs
+        interleaved on one index.json, and a run that died mid-test left the steward a
+        "unit-test-note" (defect D30).
+        """
+        self._td = tempfile.TemporaryDirectory(prefix="lygo_np_")
+        self.addCleanup(self._td.cleanup)
+        root = Path(self._td.name) / "notepad"
+        for const, value in (("NOTEPAD_ROOT", root), ("NOTES_DIR", root / "notes"), ("INDEX_PATH", root / "index.json")):
+            patcher = patch.object(notepad_mod, const, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+        notepad_mod.ensure()   # seeds the scratch note the assertions expect
+
     def test_write_read_list(self):
         w = write_note("unit-test-note", "Unit", "paste me later")
         self.assertTrue(w.get("ok"))

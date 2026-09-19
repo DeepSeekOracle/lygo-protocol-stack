@@ -368,6 +368,19 @@ def clamp_threads(threads: int | None) -> int:
     return perf.clamp_threads(nth)
 
 
+KV_TYPES = ("f16", "q8_0", "q4_0")
+
+
+def clean_kv_type(value: object) -> str:
+    """A KV cache type the engine actually accepts, else '' (= let llama.cpp decide).
+
+    Only these three are ever sent: a typo from config must not become an invalid launch argument,
+    because a rejected flag means no brain at all rather than a slower one.
+    """
+    t = str(value or "").strip().lower()
+    return t if t in KV_TYPES else ""
+
+
 def spawn_runner(
     *,
     port: int,
@@ -381,6 +394,9 @@ def spawn_runner(
     threads: int | None = None,
     mmap: bool = True,
     flash_attn: bool = False,
+    kv_type: str = "",
+    batch: int = 0,
+    ubatch: int = 0,
     skip_ram_gate: bool = False,
     ctx_max: int | None = None,
 ) -> Runner:
@@ -408,8 +424,10 @@ def spawn_runner(
     # Identifies the launch exactly, so a later boot of the same port with the same arguments can
     # reuse the live server instead of killing and restarting it. The api key is deliberately not
     # part of the string (it is compared in memory instead).
+    kv_type = clean_kv_type(kv_type)
     launch_sig = "|".join(
-        str(x).lower() for x in (exe, gguf, kind, ctx, ngl, nth, alias, mmproj, mmap, flash_attn)
+        str(x).lower()
+        for x in (exe, gguf, kind, ctx, ngl, nth, alias, mmproj, mmap, flash_attn, kv_type, batch, ubatch)
     )
     argv = [
         str(exe),
@@ -442,6 +460,15 @@ def spawn_runner(
         # lygo_engine.plan() decides this (console.json "flash_attn"). Passing it here is what
         # keeps that plan honest: it used to advertise flash attention and never send the flag.
         argv.extend(["-fa", "on"])
+    if kv_type:
+        # Quantised KV cache: q8_0 halves and q4_0 quarters the KV memory, which is what buys a
+        # larger context on a small GPU. Never sent unless the plan asked for it.
+        argv.extend(["-ctk", kv_type, "-ctv", kv_type])
+    if batch:
+        # Prefill batching, clamped: a silly value must not become an unbootable engine.
+        argv.extend(["-b", str(max(256, min(8192, int(batch))))])
+    if ubatch:
+        argv.extend(["-ub", str(max(64, min(4096, int(ubatch))))])
     if kind == "embed":
         argv.append("--embedding")
     if mmproj and Path(mmproj).is_file() and kind == "chat":

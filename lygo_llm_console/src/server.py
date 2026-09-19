@@ -62,6 +62,96 @@ from engine import (  # noqa: E402
     stop_port,
 )
 from p0_hook import PHYSICS_AVAILABLE, gate_output_window, gate_prompt  # noqa: E402
+try:  # the record module must never be able to cost the operator the console
+    import compaction  # noqa: E402
+    from compaction import (  # noqa: E402
+        carry_over,
+        live_ctx,
+        safe_pre_turn,
+        safe_record,
+        safe_status,
+        trim_messages,
+    )
+
+    COMPACTION_AVAILABLE = True
+    COMPACTION_ERROR = ""
+except Exception as _compact_err:  # noqa: BLE001  (a broken record module, not a broken console)
+    import traceback as _tb
+
+    COMPACTION_AVAILABLE = False
+    COMPACTION_ERROR = f"{type(_compact_err).__name__}: {_compact_err}"
+    _tb.print_exc()
+
+    class _NoRecord:
+        """Every read answers honestly instead of raising, so the routes stay 200 and say why."""
+
+        BUILD_TAG = "unavailable"
+        RECALL_K = 6
+        ARCHIVE = INDEX = SESSIONS = ROLLUPS = CHECKPOINTS = None  # type: ignore[assignment]
+        CARRY_CAP = 0
+
+        def __getattr__(self, name: str):
+            def _missing(*a, **k):
+                return {"ok": False, "error": "compaction_unavailable", "detail": COMPACTION_ERROR}
+
+            return _missing
+
+    compaction = _NoRecord()  # type: ignore[assignment]
+
+    def live_ctx() -> int:  # noqa: D103
+        try:
+            from paths import console_limits
+
+            return int(console_limits().get("ctx_max") or 8192)
+        except Exception:  # noqa: BLE001
+            return 8192
+
+    def carry_over(cap: int = 0) -> str:  # noqa: D103
+        return ""
+
+    def _no_record(*a, **k) -> dict:
+        return {"ok": False, "error": "compaction_unavailable", "detail": COMPACTION_ERROR}
+
+    safe_pre_turn = safe_record = safe_status = _no_record  # type: ignore[assignment]
+
+    def trim_messages(messages: list, ctx: int | None = None, keep_turns: int | None = None):
+        """Fall back to the console's own message window - the behaviour before the record existed."""
+        kept = trim_history(messages)
+        return kept, max(0, len(messages) - len(kept)), {"ok": False, "fallback": "trim_history"}
+try:  # the vault is a second, independent subsystem: its absence must not cost the console either
+    import sessions  # noqa: E402
+    from sessions import (  # noqa: E402
+        safe_catalog,
+        safe_open,
+        safe_resume,
+        safe_search,
+        safe_stats,
+        safe_vault_live,
+    )
+
+    SESSIONS_AVAILABLE = True
+    SESSIONS_ERROR = ""
+except Exception as _sessions_err:  # noqa: BLE001  (a broken vault module, not a broken console)
+    SESSIONS_AVAILABLE = False
+    SESSIONS_ERROR = f"{type(_sessions_err).__name__}: {_sessions_err}"
+
+    class _NoVault:
+        """Every session read answers honestly instead of raising."""
+
+        BUILD_TAG = "unavailable"
+
+        def __getattr__(self, name: str):
+            def _missing(*a, **k):
+                return {"ok": False, "error": "sessions_unavailable", "detail": SESSIONS_ERROR}
+
+            return _missing
+
+    sessions = _NoVault()  # type: ignore[assignment]
+
+    def _no_vault(*a, **k) -> dict:
+        return {"ok": False, "error": "sessions_unavailable", "detail": SESSIONS_ERROR}
+
+    safe_catalog = safe_open = safe_resume = safe_search = safe_stats = safe_vault_live = _no_vault  # type: ignore[assignment]
 from paths import (  # noqa: E402
     COLIBRI_PORT,
     CONSOLE_JSON,
@@ -556,6 +646,7 @@ class Handler(BaseHTTPRequestHandler):
                     "config_errors": CONFIG_ERRORS,
                     "cloud": __import__("cloud_api").public_status(),
                     "last_brain": STATE.get("last_brain"),
+                    "last_perf": STATE.get("last_perf"),
                     "fallback": STATE.get("fallback"),
                     },
             )
@@ -634,6 +725,52 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/session":
             self._json(200, {"messages": load_session()})
+            return
+        if path == "/api/sessions":
+            # The vault, read-only: ?stats=1 for the summary, ?sid=… to read one session back,
+            # ?search=1&q=… to find one, otherwise the catalog.
+            qs = parse_qs(urlparse(self.path).query)
+            sid = (qs.get("sid") or [""])[0].strip()
+            if sid:
+                self._json(200, safe_open(sid, int((qs.get("chars") or ["24000"])[0] or 24000)))
+                return
+            if (qs.get("stats") or [""])[0].strip() in {"1", "true", "yes"}:
+                self._json(200, safe_stats())
+                return
+            q = (qs.get("q") or [""])[0].strip()
+            # `q` alone FILTERS the catalog (titles, ids, tags, notes) - that is what the panel's
+            # Find box means. Reading inside the transcripts is the heavier search: ask for it.
+            if q and (qs.get("search") or [""])[0].strip() in {"1", "true", "yes"}:
+                self._json(200, safe_search(q, int((qs.get("k") or ["8"])[0] or 8)))
+                return
+            self._json(200, safe_catalog(
+                int((qs.get("limit") or ["200"])[0] or 200),
+                q,
+                (qs.get("tag") or [""])[0].strip(),
+                (qs.get("month") or [""])[0].strip(),
+            ))
+            return
+        if path == "/api/compaction":
+            # The live window report: what the engine will actually see this turn, how full it is,
+            # and what has been folded/sealed behind it.
+            self._json(200, safe_status(live_ctx()))
+            return
+        if path == "/api/archive":
+            qs = parse_qs(urlparse(self.path).query)
+            sid = (qs.get("sid") or [""])[0].strip()
+            if sid:
+                self._json(200, compaction.read_transcript(sid))
+                return
+            self._json(
+                200,
+                {
+                    "ok": True,
+                    "sessions": compaction.index_entries(limit=500),
+                    "archive": str(compaction.ARCHIVE),
+                    "index": str(compaction.INDEX),
+                    "bytes": compaction._dir_bytes(compaction.ARCHIVE),
+                },
+            )
             return
         if path == "/api/skills":
             from skills_mod import clawhub_search, list_skills, skillhub_list
@@ -807,12 +944,136 @@ class Handler(BaseHTTPRequestHandler):
                 obj = {}
             if obj.get("new"):
                 new_session()
-                self._json(200, {"ok": True, "messages": []})
+                # Where did the conversation that just ended go? Say it, instead of leaving the
+                # operator to wonder whether pressing the button threw their chat away.
+                filed = {}
+                try:
+                    filed = (compaction._load_state() or {}).get("last_vault") or {}
+                except Exception:  # noqa: BLE001
+                    filed = {}
+                self._json(200, {"ok": True, "messages": [], "vault": filed})
                 return
             msgs = obj.get("messages")
             if isinstance(msgs, list):
                 save_session(msgs)
             self._json(200, {"ok": True, "messages": load_session()})
+            return
+        if path == "/api/sessions":
+            # One route for the operator's Sessions panel and for the agent's own session limbs.
+            body = self._read_body(512_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "catalog").lower()
+            if action == "catalog":
+                self._json(200, safe_catalog(
+                    int(obj.get("limit") or 200), str(obj.get("q") or ""),
+                    str(obj.get("tag") or ""), str(obj.get("month") or "")))
+                return
+            if action == "stats":
+                self._json(200, safe_stats())
+                return
+            if action == "open":
+                self._json(200, safe_open(str(obj.get("sid") or ""), int(obj.get("chars") or 24000)))
+                return
+            if action == "vault":
+                title = str(obj.get("title") or "").strip() or None
+                sid = str(obj.get("sid") or "").strip() or None
+                self._json(200, sessions.safe_vault(sid, title, "manual"))
+                return
+            if action in {"vault_live", "file"}:
+                # File the conversation in progress without ending it - the manual save button.
+                self._json(200, safe_vault_live("manual"))
+                return
+            if action == "adopt":
+                self._json(200, sessions.safe_adopt(int(obj.get("limit") or 300)))
+                return
+            if action == "label":
+                kw: dict = {}
+                if obj.get("title") is not None:
+                    kw["title"] = str(obj["title"])
+                if obj.get("note") is not None:
+                    kw["note"] = str(obj["note"])
+                if obj.get("tags") is not None:
+                    tags = obj["tags"]
+                    kw["tags"] = (tags if isinstance(tags, list)
+                                  else [p.strip() for p in str(tags).split(",") if p.strip()])
+                if obj.get("pinned") is not None:
+                    kw["pinned"] = bool(obj["pinned"])
+                self._json(200, sessions.safe_label(str(obj.get("sid") or ""), **kw))
+                return
+            if action == "search":
+                self._json(200, safe_search(str(obj.get("q") or ""), int(obj.get("k") or 8)))
+                return
+            if action == "resume":
+                self._json(200, safe_resume(str(obj.get("sid") or ""), bool(obj.get("file_current", True))))
+                return
+            if action == "rebuild":
+                self._json(200, sessions.safe_rebuild())
+                return
+            if action == "transcript":
+                info = sessions.find_session(str(obj.get("sid") or ""))
+                self._json(200, info or {"ok": False, "error": "not_found"})
+                return
+            self._json(400, {"ok": False, "error": "bad_action", "action": action,
+                             "actions": ["catalog", "stats", "open", "vault", "vault_live", "adopt",
+                                         "label", "search", "resume", "rebuild", "transcript"]})
+            return
+        if path == "/api/compaction":
+            # One route, one switch: the portal's Save & Compact button, the auto-trigger, the
+            # archive browser and the model's own recall limb all come through here.
+            body = self._read_body(512_000)
+            try:
+                obj = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                obj = {}
+            action = str(obj.get("action") or "status").lower()
+            msgs = obj.get("messages") if isinstance(obj.get("messages"), list) else None
+            if action == "status":
+                self._json(200, safe_status(live_ctx(), msgs))
+                return
+            if action in {"save", "autosave"}:
+                self._json(200, compaction.save_now("button" if action == "save" else "autosave"))
+                return
+            if action == "compact":
+                out = compaction.compact(reason="manual", keep_turns=obj.get("keep_turns"))
+                out["status"] = safe_status(live_ctx(), msgs)
+                self._json(200, out)
+                return
+            if action in {"roll", "seal"}:
+                out = compaction.seal(reason="manual")
+                out["status"] = safe_status(live_ctx())
+                self._json(200, out)
+                return
+            if action == "recall":
+                q = str(obj.get("q") or obj.get("query") or "")
+                if gate_prompt(q).get("verdict") == "QUARANTINE":
+                    self._json(451, {"ok": False, "error": "quarantine"})
+                    return
+                out = compaction.recall(q, k=int(obj.get("k") or compaction.RECALL_K))
+                out["text"] = compaction.recall_text(q, k=int(obj.get("k") or 3))
+                self._json(200, out)
+                return
+            if action == "index":
+                self._json(
+                    200,
+                    {
+                        "ok": True,
+                        "sessions": compaction.index_entries(limit=500),
+                        "archive": str(compaction.ARCHIVE),
+                        "bytes": compaction._dir_bytes(compaction.ARCHIVE),
+                    },
+                )
+                return
+            if action == "transcript":
+                self._json(200, compaction.read_transcript(str(obj.get("sid") or "")))
+                return
+            if action == "bundle":
+                self._json(200, compaction.bundle_archives(int(obj.get("older_than_days") or 30)))
+                return
+            self._json(400, {"ok": False, "error": "bad_action", "action": action,
+                             "actions": ["status", "save", "compact", "roll", "recall", "index", "transcript", "bundle"]})
             return
         if path == "/api/skills":
             from skills_mod import add_root, clawhub_install, clawhub_inspect, clawhub_search, read_skill, set_enabled, skillhub_install, skillhub_list
@@ -1041,9 +1302,62 @@ class Handler(BaseHTTPRequestHandler):
             model = st_cloud.get("model") or model
         else:
             brain = maybe_spawn(local_model if reg_get(str(local_model)) else None)
-        msgs = [{"role": "system", "content": compose_system("api" if use_cloud else "local")}] + trim_history(messages)
+        # Conversation compaction, before the prompt is built: stamp a checkpoint on its own cadence,
+        # fold whatever has left the live window, and seal a session that has outgrown its caps. All
+        # three are deterministic and bounded - a compaction must never be why a turn stalls.
+        _ctx = live_ctx()
+        pre_note = safe_pre_turn(messages, _ctx)
+        kept, dropped, trim_info = trim_messages(messages, _ctx)
+        # Journal the operator's own turn BEFORE generating, so a crash or a stopped answer still
+        # leaves the question in the record of truth.
+        _last = messages[-1] if messages else None
+        if isinstance(_last, dict) and _last.get("role") == "user":
+            safe_record("user", _last.get("content"), {"turn": True})
+        elif str(user).strip():
+            safe_record("user", user, {"turn": True})
+        msgs = [{"role": "system", "content": compose_system("api" if use_cloud else "local")}] + kept
         assistant = ""
         traces: list[Any] = []
+        # Hoisted out of the `if use_tools:` block below: it used to be initialised there and read
+        # unconditionally at the end of the turn, so `"tools": false` (the portal's unticked
+        # "Agent limbs" box, and the documented test payload) raised UnboundLocalError and answered
+        # HTTP 500 handler_failed on EVERY turn. Initialise every turn variable before any branch.
+        honest_pending = ""
+        # Engine telemetry: llama.cpp reports its own tokens/s per call, so the console can show
+        # the real generation speed of every turn instead of the operator having to benchmark it.
+        timing_log: list[dict[str, Any]] = []
+
+        def note_timings(parsed_obj: Any) -> None:
+            """Keep the engine's own timing block. Never raises: telemetry must not break a turn."""
+            try:
+                t = parsed_obj.get("timings") if isinstance(parsed_obj, dict) else None
+                if not isinstance(t, dict) or not (t.get("predicted_n") or t.get("prompt_n")):
+                    return
+                timing_log.append(
+                    {
+                        "prompt_n": int(t.get("prompt_n") or 0),
+                        "prompt_tok_s": round(float(t.get("prompt_per_second") or 0), 1),
+                        "gen_n": int(t.get("predicted_n") or 0),
+                        "gen_tok_s": round(float(t.get("predicted_per_second") or 0), 1),
+                    }
+                )
+            except Exception:  # noqa: BLE001 - a missing timing block is not a turn failure
+                return
+
+        def perf_summary() -> dict[str, Any]:
+            """What this turn's engine calls actually did: tokens/s, token counts, last few blocks."""
+            if not timing_log:
+                return {}
+            deep = max(timing_log, key=lambda e: int(e.get("prompt_n") or 0))
+            last = timing_log[-1]
+            return {
+                "engine_calls": len(timing_log),
+                "gen_tokens": sum(int(e.get("gen_n") or 0) for e in timing_log),
+                "gen_tok_s": last.get("gen_tok_s"),
+                "prompt_tokens": deep.get("prompt_n"),
+                "prompt_tok_s": deep.get("prompt_tok_s"),
+                "calls": timing_log[-4:],
+            }
         if use_tools and last_user and HOST_PREFETCH:
             # host_prefetch pulls URLs out of the user's text and fetches them before the model
             # answers, so a pasted or forwarded link becomes untrusted content in the same context
@@ -1101,7 +1415,7 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"text": assistant, "gate": gate, "brain": brain, "receipt": rec["id"], "traces": traces})
             return
 
-        from chat_loop import sanitize_assistant, same_answer
+        from chat_loop import auto_limb, is_tool_call_echo, named_tool, sanitize_assistant, same_answer, tool_card, tool_prose
         from openai_proxy import llama_chat
 
         host_did_tools = bool(traces)
@@ -1159,6 +1473,7 @@ class Handler(BaseHTTPRequestHandler):
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
             parsed = {}
+        note_timings(parsed)
         if use_cloud and code >= 400:
             err = parsed.get("error") if isinstance(parsed, dict) else parsed
             msg_err = err.get("message") if isinstance(err, dict) else str(err or body[:400])
@@ -1186,7 +1501,10 @@ class Handler(BaseHTTPRequestHandler):
                 follow.append(
                     {
                         "role": "user",
-                        "content": "Tool results (RESOURCE, not CANON):\n" + json.dumps(batch, default=str)[:8000],
+                        "content": "Tool results (RESOURCE, not CANON):\n"
+                        + json.dumps(batch, default=str)[:8000]
+                        + "\n\nNow answer the operator's newest message in plain prose using these results."
+                        " Do not emit another tool call, and do not repeat the call JSON.",
                     }
                 )
                 payload2 = {"model": model, "messages": follow, "max_tokens": max_tokens, "stream": False, "tools": tool_schema}
@@ -1199,12 +1517,97 @@ class Handler(BaseHTTPRequestHandler):
                     p2 = json.loads(body2.decode("utf-8"))
                 except json.JSONDecodeError:
                     break
+                note_timings(p2)
                 cur_msg = ((p2.get("choices") or [{}])[0].get("message") or {})
                 cur_text = cur_msg.get("content") or ""
                 assistant = cur_text or assistant
                 if gate_output_window(assistant).get("verdict") == "QUARANTINE":
                     assistant = "[output quarantined]"
                     break
+        if use_tools:
+            # The operator's OWN newest text, not msgs[-1] — the host-readout instruction is
+            # appended to msgs above, and taking that as the request silently disabled this whole
+            # guarantee on every prefetched turn (list_dir, whoami, wayback, http_json, download_url).
+            newest = str(user or "")
+            want = named_tool(newest)
+            if want and not any(t.get("name") == want for t in traces):
+                # The operator asked for a limb BY NAME and the turn came back without calling it —
+                # measured 2026-09-18, sometimes with an invented result ("agent_gauntlet.html
+                # downloaded"). Ask once more with only that limb's card, run whatever it emits, and
+                # if it still will not call, say so rather than let a guessed result stand.
+                card = {"role": "user", "content": tool_card(want)}
+                pf = {"model": model, "messages": list(msgs) + [card], "max_tokens": max_tokens, "stream": False, "tools": tool_schema}
+                if use_cloud:
+                    _, bodyf, _ = cloud_chat(pf)
+                else:
+                    with ENGINE_LOCK:
+                        _, bodyf, _ = llama_chat(api_key=LLAMA_KEY, payload=pf, port=brain_port())
+                try:
+                    parsed_f = json.loads(bodyf.decode("utf-8"))
+                except Exception:
+                    parsed_f = {}
+                note_timings(parsed_f)
+                msgf = ((parsed_f.get("choices") or [{}])[0].get("message") or {})
+                textf = str(msgf.get("content") or "")
+                forced = run_tools_round(textf, msgf)
+                got_named = [t for t in forced if t.get("name") == want]
+                if got_named:
+                    traces.extend(forced)
+                    follow_f = list(msgs) + [
+                        card,
+                        {"role": "assistant", "content": textf, "tool_calls": msgf.get("tool_calls")},
+                        {
+                            "role": "user",
+                            "content": "Tool results (RESOURCE, not CANON):\n"
+                            + json.dumps(forced, default=str)[:8000]
+                            + "\n\nNow answer the operator's newest message in plain prose using these results."
+                            " Do not emit another tool call, and do not repeat the call JSON.",
+                        },
+                    ]
+                    p_f = {"model": model, "messages": follow_f, "max_tokens": max_tokens, "stream": False}
+                    if use_cloud:
+                        _, body_f, _ = cloud_chat(p_f)
+                    else:
+                        with ENGINE_LOCK:
+                            _, body_f, _ = llama_chat(api_key=LLAMA_KEY, payload=p_f, port=brain_port())
+                    try:
+                        parsed_ff = json.loads(body_f.decode("utf-8"))
+                    except Exception:
+                        parsed_ff = {}
+                    note_timings(parsed_ff)
+                    try:
+                        t_f = str(((parsed_ff.get("choices") or [{}])[0].get("message") or {}).get("content") or "")
+                    except Exception:
+                        t_f = ""
+                    if t_f.strip():
+                        assistant = t_f
+                else:
+                    auto = auto_limb(want, newest)
+                    if auto is not None:
+                        # The operator named the limb and the model would not call it. The HOST runs it
+                        # (read-only limbs only — never a shell command, a python snippet or a file write)
+                        # and hands back the readout, labelled as host-run.
+                        res = __import__("tools").dispatch(want, auto)
+                        tr = {"name": want, "arguments": auto, "result": res, "host": True}
+                        traces.append(tr)
+                        assistant = "Host ran the " + want + " limb you named: " + (tool_prose([tr]) or "no readout")
+                    else:
+                        honest_pending = want
+        if use_tools and traces and is_tool_call_echo(assistant, cur_msg):
+            # The model emitted a call and then echoed it as its answer instead of narrating the
+            # result: hand the operator the host readout rather than the raw call JSON.
+            own = [t for t in traces if not t.get("host")] or traces
+            echoed_prose = tool_prose(own)
+            if echoed_prose:
+                assistant = echoed_prose
+        if use_tools and traces and re.search(
+            r"\bunknown\b|\bcannot\b|\bcan't\b|^\s*(?:no result|nothing|n/a)\s*$", str(assistant or ""), re.I
+        ) and len(str(assistant or "").strip()) < 40:
+            # A limb DID run and the model still shrugged ("UNKNOWN"). Give the operator the readout
+            # instead of a shrug — measured on skill_read, where the call and its text were fine.
+            shrug_prose = tool_prose(traces)
+            if shrug_prose:
+                assistant = shrug_prose
         assistant = sanitize_assistant(assistant, traces) or assistant
         prev_answer = ""
         for m in reversed(messages):
@@ -1233,11 +1636,23 @@ class Handler(BaseHTTPRequestHandler):
                     _, body3, _ = llama_chat(api_key=LLAMA_KEY, payload=p3, port=brain_port())
             try:
                 p3j = json.loads(body3.decode("utf-8"))
-                fresh = (((p3j.get("choices") or [{}])[0].get("message") or {}).get("content") or "").strip()
             except json.JSONDecodeError:
+                p3j = {}
+            note_timings(p3j)
+            try:
+                fresh = (((p3j.get("choices") or [{}])[0].get("message") or {}).get("content") or "").strip()
+            except Exception:
                 fresh = ""
             if fresh and not same_answer(prev_answer, fresh):
                 assistant = sanitize_assistant(fresh, traces) or fresh
+        if honest_pending:
+            # Last word: a limb was named, never called, and is not one the host may run for the
+            # operator — so say that plainly instead of letting a guessed answer stand.
+            assistant = (
+                "I was asked for the " + honest_pending + " limb and did not issue the call, so I have no "
+                "result to report — nothing was invented to fill the gap. Ask again with \"use the "
+                + honest_pending + " limb\", or tell me to answer without it."
+            )
         active = "cloud" if use_cloud else "local"
         if handoff and assistant and active == "local" and not assistant.startswith("\u26a0"):
             assistant = brain_router.banner(handoff["why"], handoff.get("api") or "", str(model)) + "\n\n" + assistant
@@ -1245,6 +1660,9 @@ class Handler(BaseHTTPRequestHandler):
             # a clean turn clears the last-handoff note on the health bar
             STATE["fallback"] = None
         STATE["last_brain"] = active
+        _perf = perf_summary()
+        if _perf:
+            STATE["last_perf"] = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), **_perf}
         rec = write_receipt(
             prompt=user,
             output=assistant,
@@ -1256,6 +1674,9 @@ class Handler(BaseHTTPRequestHandler):
             save_session(list(messages) + [{"role": "assistant", "content": assistant}])
         except Exception:
             pass
+        # The record of truth: the engine's window may have dropped older turns, this journal has not.
+        safe_record("assistant", assistant, {"receipt": rec.get("id")})
+        _comp = safe_status(_ctx, list(messages) + [{"role": "assistant", "content": assistant}])
         if want_stream:
             emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
             emit_sse(
@@ -1266,6 +1687,8 @@ class Handler(BaseHTTPRequestHandler):
                     "active": active,
                     "brain": brain,
                     "fallback": handoff,
+                    "perf": perf_summary(),
+                    "compaction": _comp,
                 }
             )
             return
@@ -1279,6 +1702,11 @@ class Handler(BaseHTTPRequestHandler):
                 "fallback": handoff,
                 "receipt": rec["id"],
                 "traces": traces,
+                "perf": perf_summary(),
+                "compaction": _comp,
+                "history": {"kept": len(kept), "dropped": dropped, "of": len(messages),
+                            "budget_tokens": trim_info["budget"]["history_tokens"],
+                            "used_tokens": trim_info["used_tokens"], "pre": pre_note},
             },
         )
 

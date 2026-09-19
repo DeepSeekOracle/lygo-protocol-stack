@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import perf
-from engine import available_ram_bytes, ram_ok, resolve_binary, runner_for, spawn_runner
+from engine import available_ram_bytes, clamp_ctx, ram_ok, resolve_binary, runner_for, spawn_runner
 from paths import (
     COLIBRI_PORT,
     CONSOLE_JSON,
@@ -152,11 +152,29 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
         except OSError:
             model_bytes = 0
     lim = console_limits()
+    # Placement needs the KV cache, not just the weights: on this host the cache is a few hundred
+    # MiB and on a larger context it is the difference between a full offload and a partial one.
+    # The figures come from the model's own GGUF header (n_layer, n_kv_head, key/value length).
+    kv_type = perf.sanitize_kv_type(lim.get("kv_type"))
+    # The engine clamps a model's native context to ctx_max before it launches, so the cache has
+    # to be sized at that same window. Sizing it at the native 32k while the engine runs 16k
+    # over-charged the plan by 2x, which is how a GPU that would have fit gets demoted.
+    ctx_planned = clamp_ctx(rec.get("ctx"), lim["ctx_max"])
+    dims: dict[str, Any] = {}
+    try:
+        if model_path.is_file():
+            import gguf_header
+
+            dims = gguf_header.parse_gguf_header(model_path).get("found") or {}
+    except Exception:  # noqa: BLE001 - an unreadable header means "charge the flat allowance"
+        dims = {}
+    kv_mib = perf.kv_cache_mib(perf.kv_bytes_per_token(dims), ctx_planned, kv_type)
     prof = perf.resolve(
         lim=lim,
         hw=hw,
         model_bytes=model_bytes,
         model_id=str(rec.get("id") or model_path.stem),
+        kv_mib=kv_mib,
     )
     ngl = int(prof["ngl"])
     threads = int(prof["threads"])
@@ -183,6 +201,13 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
             # path, -fa on was SLOWER for prompt eval (2620 vs 3246 tok/s), so it defaults off and
             # console.json ("flash_attn": "on") opts in.
             "flash_attn": flash_attn_on(),
+            # Every one of these is read back by boot() and really sent to llama-server; a knob
+            # that only exists in the plan is a knob that lies about the running engine.
+            "kv_type": kv_type,
+            "kv_mib": kv_mib,
+            "ctx": ctx_planned,
+            "batch": int(lim.get("batch") or 0),
+            "ubatch": int(lim.get("ubatch") or 0),
         },
         "perf": prof,
         "colibri": {
@@ -296,6 +321,11 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
         queue = perf.ladder(planned)
         started = time.monotonic()
         dropped_backend = False
+        # The performance flags are the newest thing in this launch, so they are the first suspect
+        # when it fails: degrade to the shipped defaults once, then start blaming the backend.
+        conservative = False
+        flag_note = ""
+        tuned_flags = bool(lp.get("kv_type") or lp.get("batch") or lp.get("ubatch") or lp.get("flash_attn"))
         while queue:
             ngl_try = queue.pop(0)
             try:
@@ -311,10 +341,25 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
                     threads=int(lp["threads"]),
                     mmap=True,
                     flash_attn=bool(lp.get("flash_attn")),
+                    kv_type=str(lp.get("kv_type") or ""),
+                    batch=int(lp.get("batch") or 0),
+                    ubatch=int(lp.get("ubatch") or 0),
                     skip_ram_gate=True,
                     ctx_max=lim["ctx_max"],
                 )
             except (RuntimeError, TimeoutError, OSError) as exc:
+                if not queue and tuned_flags and not conservative:
+                    conservative = True
+                    lp["flash_attn"] = False
+                    lp["kv_type"] = ""
+                    lp["batch"] = 0
+                    lp["ubatch"] = 0
+                    queue = [int(ngl_try)]
+                    flag_note = (
+                        "tuned engine flags failed (" + type(exc).__name__ + ") - running the shipped defaults"
+                    )
+                    state["perf_fallback"] = flag_note + "; retrying"
+                    continue
                 if not queue:
                     # A backend that fails even at ngl 0 is the suspect, not the machine:
                     # drop it, remember the verdict and give the shipped engine one try.
@@ -335,8 +380,11 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
                     f"ngl {ngl_try} failed ({type(exc).__name__}); retrying ngl {queue[0]}"
                 )
                 continue
+            notes = [flag_note] if flag_note else []
             if int(ngl_try) != planned:
-                state["perf_fallback"] = f"ngl {planned} failed on this host; running ngl {ngl_try}"
+                notes.append(f"ngl {planned} failed on this host; running ngl {ngl_try}")
+            if notes:
+                state["perf_fallback"] = "; ".join(notes)
             _exe = resolve_binary()
             perf_rec["effective"] = {
                 "ngl": int(ngl_try),
@@ -347,6 +395,10 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
                 "backend": str(perf_rec.get("backend") or "cpu"),
                 "engine_dir": str(_exe.parent) if _exe else "",
                 "engine": str(_exe.name) if _exe else "",
+                "flash_attn": bool(lp.get("flash_attn")),
+                "kv_type": str(lp.get("kv_type") or ""),
+                "batch": int(lp.get("batch") or 0),
+                "ubatch": int(lp.get("ubatch") or 0),
             }
             perf.remember_host(
                 pl["perf"]["host"],

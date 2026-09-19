@@ -30,6 +30,25 @@ PID_PATH = DATA / "engine.pid.json"
 ACTIVE_ENGINE_JSON = DATA / "perf_active.json"
 
 
+def under_workspace(raw: Any) -> Path:
+    """Resolve a limb-supplied path against the workspace.
+
+    Absolute paths are kept as given. A relative path is taken under the workspace, and a redundant
+    leading ``workspace/`` is stripped rather than becoming ``workspace/workspace/<x>`` — models add
+    that prefix because the tool docs say "workspace", and it made perfectly reasonable calls fail
+    (``read_file("workspace/SOUL.md")`` -> not_file, ``image_info("workspace/images/i.png")`` ->
+    missing). Whole-disk reads still go through the admin-map checks in tools.py, not this helper.
+    """
+    text = str(raw or "").strip().strip('"').strip("'")
+    p = Path(text)
+    if p.is_absolute():
+        return p
+    parts = [x for x in p.parts if x not in (".", "")]
+    if parts and parts[0].lower() in {"workspace", "ws"}:
+        parts = parts[1:]
+    return WORKSPACE / (Path(*parts) if parts else Path("."))
+
+
 def engine_dir() -> Path:
     """The engine directory to launch: an activated GPU backend build, else engine/.
 
@@ -138,6 +157,11 @@ def console_limits() -> dict[str, Any]:
         "ctx_default": _cfg_int("ctx_default") or 4096,
         "ctx_max": _cfg_int("ctx_max") or 8192,
         "gpu": _cfg_str("gpu", "auto"),
+        # Engine launch flags. One reader for the whole kit (console.json, local.json over it), so
+        # a stick that ships its own tuning is honoured on any host, and junk reads as the default.
+        "kv_type": _cfg_str("kv_type", ""),
+        "batch": _cfg_int("batch") or 0,
+        "ubatch": _cfg_int("ubatch") or 0,
         "source": "console.json" if console_cfg() else "defaults",
     }
 
