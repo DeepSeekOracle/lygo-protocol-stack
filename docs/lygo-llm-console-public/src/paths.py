@@ -55,7 +55,4 @@ def stack_root() -> Path | None:
         if p.is_dir():
             return p
     # GamePC default
-    cand = Path(r"I:\E Drive\lygo-protocol-stack")
-    if cand.is_dir():
-        return cand
     return None

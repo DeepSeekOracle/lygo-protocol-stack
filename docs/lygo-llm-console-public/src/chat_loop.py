@@ -36,6 +36,7 @@ NOTE_HINT = re.compile(
     r"saved notes|note pad)\b",
     re.I,
 )
+SELF_CHECK_HINT = re.compile(r"\b(self[-\s]?check|admin check|end of admin check)\b", re.I)
 SKILL_HINT = re.compile(
     r"\b(/skill|skill_read|clawhub|skillhub|skill hub|lygoskillhub|invoke|summon|align with|"
     r"enable (the )?(skill|champion)|skills panel|champion)\b",
@@ -171,6 +172,15 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
+    if SELF_CHECK_HINT.search(text):
+        traces.append(
+            {
+                "name": "self_check",
+                "arguments": {},
+                "result": dispatch("self_check", {}),
+                "host": True,
+            }
+        )
     if STEWARD_HINT.search(text):
         traces.append(
             {
@@ -204,7 +214,7 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
         traces.append({"name": "web_fetch", "arguments": {"url": url}, "result": result, "host": True})
     if urls:
         return traces
-    if GH_HINT.search(text):
+    if GH_HINT.search(text) and not any(t.get("name") == "steward_map" for t in traces):
         traces.append(
             {
                 "name": "github_search",
@@ -213,15 +223,7 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
-        traces.append(
-            {
-                "name": "web_fetch",
-                "arguments": {"url": "https://github.com/DeepSeekOracle"},
-                "result": dispatch("web_fetch", {"url": "https://github.com/DeepSeekOracle"}),
-                "host": True,
-            }
-        )
-    if HF_HINT.search(text):
+    if HF_HINT.search(text) and not any(t.get("name") == "steward_map" for t in traces):
         traces.append(
             {
                 "name": "web_fetch",
@@ -251,14 +253,112 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     return traces
 
 
+def _compact_trace(t: dict[str, Any]) -> dict[str, Any]:
+    res = t.get("result") if isinstance(t.get("result"), dict) else {}
+    name = t.get("name")
+    if name == "self_check":
+        return {
+            "name": name,
+            "verdict": res.get("verdict"),
+            "github": res.get("github"),
+            "huggingface": res.get("huggingface"),
+            "lattice": res.get("lattice"),
+            "chatagent_exists": res.get("chatagent_exists"),
+            "chatagent_sample": res.get("chatagent_sample"),
+            "n_live_mounts": res.get("n_live_mounts"),
+            "skills": res.get("skills"),
+        }
+    if name == "steward_map":
+        return {
+            "name": name,
+            "role": res.get("role"),
+            "github": res.get("github_org"),
+            "hf": res.get("hf_org"),
+            "sites": (res.get("sites") or res.get("lattice") or [])[:8],
+            "drives": res.get("drives"),
+            "rule": "never github.com/user/repo or lattice.example.com",
+        }
+    if name == "web_fetch":
+        return {
+            "name": name,
+            "ok": res.get("ok"),
+            "url": res.get("url") or (t.get("arguments") or {}).get("url"),
+            "error": res.get("error"),
+            "text": str(res.get("text") or "")[:600],
+        }
+    if name == "github_search":
+        hits = res.get("hits") or []
+        return {"name": name, "query": res.get("query"), "hits": hits[:6]}
+    slim = {"name": name, "ok": res.get("ok", True)}
+    for k in ("role", "n", "path", "error", "github"):
+        if res.get(k) is not None:
+            slim[k] = res.get(k)
+    return slim
+
+
 def prefetch_message(traces: list[dict[str, Any]]) -> str:
     if not traces:
         return ""
+    compact = [_compact_trace(t) for t in traces]
     return (
-        "HOST ALREADY FETCHED THESE PAGES/SEARCHES (RESOURCE, not CANON). "
-        "Summarize them now. Do NOT ask for the URL. Do NOT claim tools failed.\n"
-        + json.dumps(traces, default=str)[:14000]
+        "HOST MAP (RESOURCE). Answer NOW in 6–10 short bullets from this JSON. "
+        "No Next Steps. No End of Admin Check. Cite only these URLs/paths.\n"
+        + json.dumps(compact, default=str)[:5000]
     )
+
+
+def fallback_from_traces(traces: list[dict[str, Any]]) -> str:
+    sc = None
+    sm = None
+    for t in traces:
+        if t.get("name") == "self_check" and isinstance(t.get("result"), dict):
+            sc = t["result"]
+        if t.get("name") == "steward_map" and isinstance(t.get("result"), dict):
+            sm = t["result"]
+    if sc:
+        sample = ", ".join(str(x) for x in (sc.get("chatagent_sample") or [])[:8])
+        return (
+            f"Self-check {sc.get('verdict')}.\n"
+            f"GitHub {sc.get('github')}\n"
+            f"Hugging Face {sc.get('huggingface')}\n"
+            f"Lattice {sc.get('lattice')}\n"
+            f"D:\\chatagent exists={sc.get('chatagent_exists')} sample={sample}\n"
+            f"Live mounts={sc.get('n_live_mounts')} skills={sc.get('skills')}\n"
+            "No placeholder URLs."
+        )
+    if not sm:
+        return ""
+    sites = sm.get("sites") or sm.get("lattice") or []
+    return (
+        "LYGO admin map is live (RESOURCE, not CANON).\n"
+        f"GitHub: {sm.get('github_org') or 'https://github.com/DeepSeekOracle'}\n"
+        f"Hugging Face: {sm.get('hf_org') or 'https://huggingface.co/DeepSeekOracle'}\n"
+        f"Lattice: {', '.join(str(s) for s in sites[:6]) or 'https://chatagent.ca/'}\n"
+        "I will not fetch github.com/user/repo or lattice.example.com.\n"
+        "Say a real path (D:\\chatagent) or a URL from this map and I will list_dir / web_fetch it."
+    )
+
+
+PLACEHOLDER_OUT = re.compile(
+    r"github\.com/user/repo|lattice\.example\.com|huggingface\.co/models/transformers",
+    re.I,
+)
+
+
+BOILER = re.compile(r"end of admin check|next steps:|tools used:", re.I)
+
+
+def sanitize_assistant(text: str, traces: list[dict[str, Any]]) -> str:
+    raw = (text or "").strip()
+    fb = fallback_from_traces(traces)
+    if not raw:
+        return fb
+    if PLACEHOLDER_OUT.search(raw):
+        if fb:
+            return fb + "\n\n(Ignored placeholder URLs in the draft.)"
+    if traces and BOILER.search(raw) and fb:
+        return fb
+    return raw
 
 
 def run_tools_round(assistant_text: str, message: dict[str, Any] | None = None) -> list[dict[str, Any]]:
