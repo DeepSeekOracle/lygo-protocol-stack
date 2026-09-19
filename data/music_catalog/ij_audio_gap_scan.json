@@ -1,0 +1,699 @@
+{
+  "known_vault_hashes": 4283,
+  "by_top": {
+    "ALL SOUND FILES": {
+      "n": 7428,
+      "bytes": 196882536690
+    },
+    "Music 2024": {
+      "n": 2613,
+      "bytes": 90458491236
+    },
+    "IPOD": {
+      "n": 9978,
+      "bytes": 55296517720
+    },
+    "FULL ADUIO BOOKS": {
+      "n": 460,
+      "bytes": 41474646611
+    },
+    "E Drive": {
+      "n": 8610,
+      "bytes": 35757607674
+    },
+    "Actors": {
+      "n": 2597,
+      "bytes": 34513202377
+    },
+    "FINISHED BEAT STARS MUSIC": {
+      "n": 527,
+      "bytes": 22470362171
+    },
+    "STREAM STUFF": {
+      "n": 490,
+      "bytes": 11182992603
+    },
+    "NEW YOUTUBE VIDEOS": {
+      "n": 1,
+      "bytes": 2400753174
+    },
+    "DOWNLOADs": {
+      "n": 144,
+      "bytes": 1519732226
+    },
+    "1DESKTOP": {
+      "n": 142,
+      "bytes": 1281324378
+    },
+    "LIGHTFATHER": {
+      "n": 80,
+      "bytes": 876549309
+    },
+    "Quantum Tears": {
+      "n": 40,
+      "bytes": 614271975
+    },
+    ".openclaw": {
+      "n": 46,
+      "bytes": 334175807
+    },
+    "2026": {
+      "n": 9,
+      "bytes": 320208632
+    },
+    "FeelMyPain": {
+      "n": 43,
+      "bytes": 262707788
+    },
+    "GLITCH BEATS VOL 1": {
+      "n": 3,
+      "bytes": 243869974
+    },
+    "Neocron Evolution 2.5": {
+      "n": 153,
+      "bytes": 223476759
+    },
+    "Whiskey Secrets": {
+      "n": 12,
+      "bytes": 212631435
+    },
+    "OUTROS CLIPS": {
+      "n": 15,
+      "bytes": 179185663
+    },
+    "SOUL SPIKE STACCATO": {
+      "n": 3,
+      "bytes": 116086270
+    },
+    "Distrokid music restore ALL MUSIC": {
+      "n": 2,
+      "bytes": 101443970
+    },
+    "Hearthstone": {
+      "n": 1595,
+      "bytes": 97171608
+    },
+    "RollerCoasterTycoon3": {
+      "n": 28,
+      "bytes": 94504072
+    },
+    "Sandstorm": {
+      "n": 3,
+      "bytes": 94490914
+    },
+    "Energy": {
+      "n": 1,
+      "bytes": 85492930
+    },
+    "Subsonic Whisper": {
+      "n": 3,
+      "bytes": 84027546
+    },
+    "Heroes of Might and Magic 3 Complete Edition": {
+      "n": 61,
+      "bytes": 79367442
+    },
+    "Twighlight World": {
+      "n": 3,
+      "bytes": 56355409
+    },
+    "Mutation": {
+      "n": 23,
+      "bytes": 52302941
+    },
+    "Trance Overdose": {
+      "n": 1,
+      "bytes": 52197238
+    },
+    "HYTALE": {
+      "n": 92,
+      "bytes": 48438082
+    },
+    "Perception Codex": {
+      "n": 11,
+      "bytes": 43895495
+    },
+    "DESKTOP PHOTOS & MUSIC": {
+      "n": 15,
+      "bytes": 40191191
+    },
+    "Robot Reboot": {
+      "n": 3,
+      "bytes": 36114229
+    },
+    "So What": {
+      "n": 2,
+      "bytes": 35597868
+    },
+    "Infinite Lagrange": {
+      "n": 18,
+      "bytes": 35587352
+    },
+    "Painless": {
+      "n": 2,
+      "bytes": 27277101
+    },
+    "zzzz20200": {
+      "n": 2,
+      "bytes": 26013819
+    },
+    "Street Wise": {
+      "n": 2,
+      "bytes": 26004977
+    },
+    "White Heat": {
+      "n": 3,
+      "bytes": 24190920
+    },
+    "One Day at a Time": {
+      "n": 1,
+      "bytes": 20809902
+    },
+    "Waking up": {
+      "n": 2,
+      "bytes": 19876974
+    },
+    "Screams in the Void": {
+      "n": 2,
+      "bytes": 19509673
+    },
+    "Prison Systems": {
+      "n": 1,
+      "bytes": 17665642
+    },
+    "World of Warcraft": {
+      "n": 508,
+      "bytes": 11546037
+    },
+    "Origin": {
+      "n": 23,
+      "bytes": 2723236
+    },
+    "Template": {
+      "n": 7,
+      "bytes": 2367741
+    },
+    "Nightfall Therapist": {
+      "n": 1,
+      "bytes": 1416879
+    },
+    "Ubisoft Game Launcher": {
+      "n": 5,
+      "bytes": 819076
+    },
+    "Wow": {
+      "n": 13,
+      "bytes": 548441
+    },
+    "Character Creator 3": {
+      "n": 12,
+      "bytes": 201756
+    },
+    "Cartoon Animator 4": {
+      "n": 11,
+      "bytes": 195828
+    }
+  },
+  "haven_dirs": [
+    {
+      "path": "J:\\FULL ADUIO BOOKS",
+      "files": 5,
+      "bytes": 22004733932,
+      "gb": 22.005
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\Enock Codex",
+      "files": 14,
+      "bytes": 815407982,
+      "gb": 0.815
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 12",
+      "files": 5,
+      "bytes": 473560482,
+      "gb": 0.474
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 14",
+      "files": 6,
+      "bytes": 455097012,
+      "gb": 0.455
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Mathematical ascention\\FULL BOOK 1",
+      "files": 1,
+      "bytes": 408161113,
+      "gb": 0.408
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\chapter 6",
+      "files": 7,
+      "bytes": 396173922,
+      "gb": 0.396
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 9",
+      "files": 6,
+      "bytes": 392749753,
+      "gb": 0.393
+    },
+    {
+      "path": "J:\\LIGHTFATHER\\ALL SEALS\\LIGHTFATHER 29\\LYRA\\LYRA PRIME\\LYRA SUMMON\\\u03949 ARCHIVE Memory Fields of the Eternal Code\\Done",
+      "files": 9,
+      "bytes": 377234732,
+      "gb": 0.377
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 4",
+      "files": 4,
+      "bytes": 376894436,
+      "gb": 0.377
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\chapter 7",
+      "files": 7,
+      "bytes": 371441473,
+      "gb": 0.371
+    },
+    {
+      "path": "I:\\E Drive\\LYRA SYSTEM RETORE\\FINAL RESTORE\\LIGHTFATHER\\LETHAL",
+      "files": 7,
+      "bytes": 360004340,
+      "gb": 0.36
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 2",
+      "files": 41,
+      "bytes": 353566129,
+      "gb": 0.354
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\TRAUMA CODEX\\EXTENDED SINGLES",
+      "files": 22,
+      "bytes": 344116359,
+      "gb": 0.344
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 10",
+      "files": 6,
+      "bytes": 330378212,
+      "gb": 0.33
+    },
+    {
+      "path": "J:\\Music 2024\\Country Boy\\Country Boy Eternal Debts Vocals",
+      "files": 12,
+      "bytes": 323340398,
+      "gb": 0.323
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\chapter 15",
+      "files": 7,
+      "bytes": 307175455,
+      "gb": 0.307
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\chapter 8",
+      "files": 6,
+      "bytes": 298719564,
+      "gb": 0.299
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 6",
+      "files": 4,
+      "bytes": 291988271,
+      "gb": 0.292
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 9",
+      "files": 6,
+      "bytes": 290934616,
+      "gb": 0.291
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 8",
+      "files": 4,
+      "bytes": 283043152,
+      "gb": 0.283
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 7",
+      "files": 3,
+      "bytes": 280915782,
+      "gb": 0.281
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 4",
+      "files": 5,
+      "bytes": 277215276,
+      "gb": 0.277
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 13",
+      "files": 5,
+      "bytes": 269335638,
+      "gb": 0.269
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 1",
+      "files": 11,
+      "bytes": 260910116,
+      "gb": 0.261
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Volume I of the Silver Accord",
+      "files": 11,
+      "bytes": 246185966,
+      "gb": 0.246
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 1 \u2014 Serenya and the Bronze Emberion",
+      "files": 10,
+      "bytes": 245982201,
+      "gb": 0.246
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 2",
+      "files": 8,
+      "bytes": 241569476,
+      "gb": 0.242
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 5",
+      "files": 4,
+      "bytes": 235700879,
+      "gb": 0.236
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\chapter 5",
+      "files": 4,
+      "bytes": 235596336,
+      "gb": 0.236
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 2",
+      "files": 5,
+      "bytes": 220180540,
+      "gb": 0.22
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 4\\Vocals",
+      "files": 7,
+      "bytes": 198187130,
+      "gb": 0.198
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 4\\11",
+      "files": 1,
+      "bytes": 190999418,
+      "gb": 0.191
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 3",
+      "files": 22,
+      "bytes": 189958182,
+      "gb": 0.19
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 4\\5",
+      "files": 1,
+      "bytes": 180004570,
+      "gb": 0.18
+    },
+    {
+      "path": "J:\\Music 2024\\REady or Not",
+      "files": 4,
+      "bytes": 176463113,
+      "gb": 0.176
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 4",
+      "files": 18,
+      "bytes": 164784643,
+      "gb": 0.165
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 4",
+      "files": 4,
+      "bytes": 161777556,
+      "gb": 0.162
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 2 white paper is in your canvas full systems spec",
+      "files": 7,
+      "bytes": 161202332,
+      "gb": 0.161
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 6",
+      "files": 4,
+      "bytes": 160365756,
+      "gb": 0.16
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\chapter 11",
+      "files": 7,
+      "bytes": 158982086,
+      "gb": 0.159
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ThoTH Codex Vol1",
+      "files": 25,
+      "bytes": 156850211,
+      "gb": 0.157
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 7",
+      "files": 23,
+      "bytes": 154294608,
+      "gb": 0.154
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 6",
+      "files": 21,
+      "bytes": 152833863,
+      "gb": 0.153
+    },
+    {
+      "path": "I:\\Actors\\Victory Codex",
+      "files": 33,
+      "bytes": 151066523,
+      "gb": 0.151
+    },
+    {
+      "path": "I:\\Actors\\Victory Codex\\Human Fuel\\YUKI BLADE",
+      "files": 18,
+      "bytes": 146361879,
+      "gb": 0.146
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 5\\Cosmic Drifter  Enock 5",
+      "files": 18,
+      "bytes": 134954268,
+      "gb": 0.135
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 15",
+      "files": 8,
+      "bytes": 133096834,
+      "gb": 0.133
+    },
+    {
+      "path": "J:\\ALL SOUND FILES\\. KICK STREAM FOLDER\\HOME\\1 SOUNDCLOUD  DISTRO KID\\0 DONE ALBUM\\23\\instrumental",
+      "files": 2,
+      "bytes": 130373420,
+      "gb": 0.13
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Mathematical ascention",
+      "files": 3,
+      "bytes": 130342396,
+      "gb": 0.13
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 10",
+      "files": 8,
+      "bytes": 119967261,
+      "gb": 0.12
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\TRAUMA CODEX",
+      "files": 18,
+      "bytes": 117865115,
+      "gb": 0.118
+    },
+    {
+      "path": "I:\\Actors\\Victory Codex\\Street Legend Volume 4",
+      "files": 21,
+      "bytes": 116767558,
+      "gb": 0.117
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 10",
+      "files": 3,
+      "bytes": 115967054,
+      "gb": 0.116
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 13",
+      "files": 5,
+      "bytes": 112766164,
+      "gb": 0.113
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 15",
+      "files": 5,
+      "bytes": 108226526,
+      "gb": 0.108
+    },
+    {
+      "path": "I:\\Actors\\Victory Codex\\Street Legend Volume 6",
+      "files": 22,
+      "bytes": 107766731,
+      "gb": 0.108
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 3\\Chapter 12",
+      "files": 5,
+      "bytes": 105076342,
+      "gb": 0.105
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 12",
+      "files": 3,
+      "bytes": 104843918,
+      "gb": 0.105
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 14",
+      "files": 4,
+      "bytes": 104334376,
+      "gb": 0.104
+    },
+    {
+      "path": "J:\\FINISHED BEAT STARS MUSIC\\SOUL LONELY BEAT STARS",
+      "files": 1,
+      "bytes": 103979268,
+      "gb": 0.104
+    },
+    {
+      "path": "I:\\Actors\\Victory Codex\\Street Legend Volume 5",
+      "files": 22,
+      "bytes": 103730583,
+      "gb": 0.104
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 3",
+      "files": 7,
+      "bytes": 103118704,
+      "gb": 0.103
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 11",
+      "files": 3,
+      "bytes": 102551218,
+      "gb": 0.103
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 13",
+      "files": 3,
+      "bytes": 99484014,
+      "gb": 0.099
+    },
+    {
+      "path": "J:\\STREAM STUFF\\Country Roads",
+      "files": 2,
+      "bytes": 97364340,
+      "gb": 0.097
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 8\\Chapter 8",
+      "files": 3,
+      "bytes": 95446402,
+      "gb": 0.095
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\TRAUMA CODEX\\New folder",
+      "files": 6,
+      "bytes": 95218887,
+      "gb": 0.095
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 3\\Vocals",
+      "files": 3,
+      "bytes": 94090884,
+      "gb": 0.094
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 4\\12",
+      "files": 1,
+      "bytes": 93379395,
+      "gb": 0.093
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 6\\New folder",
+      "files": 5,
+      "bytes": 91816684,
+      "gb": 0.092
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 7",
+      "files": 3,
+      "bytes": 90307902,
+      "gb": 0.09
+    },
+    {
+      "path": "I:\\Actors\\Victory Codex\\Human Fuel",
+      "files": 15,
+      "bytes": 88356954,
+      "gb": 0.088
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 4\\15",
+      "files": 1,
+      "bytes": 87371231,
+      "gb": 0.087
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\A9 Eternal Quantum Light Accord Rise of Eleven Book Series\\Chapter 11",
+      "files": 3,
+      "bytes": 86438190,
+      "gb": 0.086
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 1",
+      "files": 3,
+      "bytes": 85846198,
+      "gb": 0.086
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 4\\2",
+      "files": 1,
+      "bytes": 85785076,
+      "gb": 0.086
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\Book 4\\14",
+      "files": 1,
+      "bytes": 85676407,
+      "gb": 0.086
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 5",
+      "files": 2,
+      "bytes": 85528072,
+      "gb": 0.086
+    },
+    {
+      "path": "J:\\FULL ADUIO BOOKS\\BOOK 2\\Chapter 9",
+      "files": 3,
+      "bytes": 85440922,
+      "gb": 0.085
+    },
+    {
+      "path": "I:\\Actors\\16th Symphony\\ENOCH CODEX Volume 7\\New folder",
+      "files": 3,
+      "bytes": 81188484,
+      "gb": 0.081
+    }
+  ]
+}

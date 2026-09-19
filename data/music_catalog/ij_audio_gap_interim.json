@@ -1,0 +1,87 @@
+{
+  "generated": "2026-07-18T07:51:22.4442357-06:00",
+  "note": "Vault DEFAULT_ROOTS expanded; merge scan starting. Dedup by SHA-256 will skip files already in vault from Actors/DONE.",
+  "haven_books_detail": {
+    "root_full_book_wavs_gb": 23.9,
+    "chapter_folders": {
+      "Book 4": {
+        "files": 128,
+        "gb": 2.79
+      },
+      "MATRIX WEBSITE - COMPLETE": {
+        "files": 63,
+        "gb": 3.51
+      },
+      "Mathematical ascention": {
+        "files": 6,
+        "gb": 0.6
+      },
+      "A9 Eternal Quantum Light Accord Rise of Eleven Book Series": {
+        "files": 96,
+        "gb": 4.44
+      },
+      "LYGO": {
+        "files": 10,
+        "gb": 0.15
+      },
+      "Book 3": {
+        "files": 89,
+        "gb": 3.19
+      },
+      "BOOK 2": {
+        "files": 55,
+        "gb": 1.67
+      }
+    }
+  },
+  "already_in_vault_roots": [
+    "J:\\ALL SOUND FILES\\...\\0 DONE ALBUM",
+    "J:\\ALL SOUND FILES\\...\\HOME",
+    "I:\\Actors"
+  ],
+  "missed_priority": [
+    {
+      "files": 460,
+      "gb": 41.47,
+      "kind": "haven_audiobooks",
+      "path": "J:\\FULL ADUIO BOOKS"
+    },
+    {
+      "files": 2613,
+      "gb": 90.46,
+      "kind": "music_library",
+      "path": "J:\\Music 2024"
+    },
+    {
+      "files": 527,
+      "gb": 22.47,
+      "kind": "music",
+      "path": "J:\\FINISHED BEAT STARS MUSIC"
+    },
+    {
+      "files": 490,
+      "gb": 11.18,
+      "kind": "stream_audio",
+      "path": "J:\\STREAM STUFF"
+    },
+    {
+      "files": 80,
+      "gb": 0.88,
+      "kind": "lightfather",
+      "path": "J:\\LIGHTFATHER"
+    },
+    {
+      "files": 174,
+      "gb": 1.0,
+      "kind": "ipod_library",
+      "path": "J:\\IPOD"
+    },
+    {
+      "files": 220,
+      "gb": 2.3,
+      "kind": "album_masters",
+      "path": "I:\\ album project folders (aggregate)"
+    }
+  ],
+  "vault_hashes_before": 4283
+}

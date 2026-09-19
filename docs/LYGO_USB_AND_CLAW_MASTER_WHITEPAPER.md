@@ -210,4 +210,33 @@ Push steward tool: `lygo-protocol-stack/tools/push_with_git_credential.py` (cons
 
 ---
 
+
+<!-- LYGO_ADDENDUM: 2026-09-18 dial-in pass -->
+
+---
+
+## 14. 2026-09-18 — dial-in pass: tool routing, three-system roles, prompt budget
+
+Both surfaces boot from their `.bat` and hold a fast turn on this host: USB claw 9651/11451, boot
+19.0 s; PC console 9641/11441, boot 16.9 s; both `gpu_full ngl=99 threads=16` on `qwen2.5-coder:7b`,
+with the shipped CPU-only `engine/` still the proven floor for hosts without a usable GPU.
+
+**Fixed:** arithmetic questions were reaching `web_search` + `web_fetch` instead of `calc`, because
+`host_prefetch()` matched the literal words *"what is"* before the model ran. A host-side arithmetic
+gate now answers them locally. Measured on **both** consoles: **0/4 routed to the web (was 5/5), 0/4
+answered wrong**, control question untouched. The second iteration mattered — an instruction wrapped
+around the sum ("Use the calc tool.") is exactly what a first strict recogniser rejects.
+
+**Labelled:** USB LOCAL / PC LOCAL / WEB PORTAL (API ONLY), one source of truth in `src/surface.py`,
+proven by booting each console and reading the served page — not just the JSON.
+
+**Budgeted:** the composed prompt is held under a structural ceiling (15,867 PC / 16,090 USB chars vs
+16,500 test limit), shrinking the mutable MEMORY.md block and never SOUL/IDENTITY.
+
+**Verified:** `Ran 296 tests` — OK in both trees; role verify PASS; public SKU CLEAN (195 files /
+22.9 MB). **Nothing committed or pushed** — publishing remains the steward's call, and public lattice
+updates wait for the end of the build phase.
+
+*Signature `Δ9Φ963-LYGO-LLM-CONSOLE-v1`.*
+
 *D9Phi963 — USB + Claw master log. Update this file when phases change; append benchmark JSON date in §6.*

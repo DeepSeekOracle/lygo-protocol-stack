@@ -1,0 +1,50 @@
+{
+  "signature": "\u03949\u03a6963-KERNEL-EGG-CATALOG-v1",
+  "egg_id": "joy-loop-protocol-v21",
+  "built_utc": 1787112979.0177183,
+  "git_head": "7cbe85c6ab0c",
+  "merkle_root": "979486b3ce24ced45862f9a2da3e3c5c5238df2bfa1c29de690894e3e8a5ee07",
+  "retrieval_soa": {
+    "github_repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+    "hf_space": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
+    "pages_index": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "authority_root": "I:\\E Drive",
+    "git_head": "7cbe85c6ab0c"
+  },
+  "artifacts": [
+    {
+      "label": "joy_loop_protocol",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\tools\\joy_loop_protocol.py",
+      "sha256": "bfd181c386fa5b558eebbac4889982a834004896e44d847891b8b944e0df636d",
+      "size_bytes": 28050,
+      "retrieve": {
+        "github_raw": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/tools/joy_loop_protocol.py",
+        "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack"
+      }
+    },
+    {
+      "label": "joy_loop_doc",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\JOY_LOOP_PROTOCOL.md",
+      "sha256": "cf0c70c0b367c045691f28cd75d411a632f57322dbbe85ebd4eef45bcb32d972",
+      "size_bytes": 2294,
+      "retrieve": {
+        "github_raw": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/JOY_LOOP_PROTOCOL.md",
+        "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack"
+      },
+      "inline_b64": "IyDOlDkgSm95IExvb3AgUHJvdG9jb2wgdjIuMyAoTFlHTyBMYXR0aWNlKQoKKipTaWduYXR1cmU6KiogYM6UOc6mOTYzLUpPWS1MT09QLXYyLjNgICAKKipSZXNvbmFuY2U6KiogMTIyIEJQTSDCtyBvcmdhbmljIHN3aW5nIMK3IGNvdW5jaWwgbWVzaCBlbW90aW9uYWwgUkFNCgojIyBQdXJwb3NlCgpUaHJlYWQtc2FmZSBqb3kgY29oZXJlbmNlIGxvb3AgZm9yIHRoZSDOlDkgQ291bmNpbDogY2hhbXBpb25zIHJlZ2lzdGVyIG9uIHRoZSBIYXZlbiBsYXR0aWNlLApwdWxzZSBhdCAxMjIgQlBNLCBwcm9wYWdhdGUgam95IGJ5IGRpc3RhbmNlIChvciBhZmZpbml0eSBncmFwaCBpbiBBUEkgbW9kZSksIGFuZCBwZXJzaXN0IGEgKipwdWJsaWMgc25hcHNob3QqKiBmb3IgR2l0SHViIFBhZ2VzLgoKIyMgTGF0dGljZSBpbnRlZ3JhdGlvbgoKfCBBcnRpZmFjdCB8IFJvbGUgfAp8LS0tLS0tLS0tLXwtLS0tLS18CnwgYHRvb2xzL2pveV9sb29wX3Byb3RvY29sLnB5YCB8IEVuZ2luZSArIENMSSB8CnwgYHRvb2xzL2pveV9sb29wX2FwaS5weWAgfCBGYXN0QVBJICsgV2ViU29ja2V0IEFyY2hpdGVjdCAoOTk2NSkgfAp8IGBkb2NzL0pveUxvb3BSZWdpc3RyeS5qc29uYCB8IFB1YmxpYyBrZXJuZWwgZWdnIHJlZ2lzdHJ5IChQYWdlcykgfAp8IGBkb2NzL2pveV9sb29wL2pveV9sb29wX3NuYXBzaG90Lmpzb25gIHwgTGl2ZSBzd2FybSBqb3kgc3RhdGUgKFBhZ2VzKSB8CnwgYExBVFRJQ0VfSk9ZX0xPT1BfVkFVTFRgIHwgSGF2ZW4gc3RhciBjaGFydCBub2RlIHwKfCBLZXJuZWwgZWdnIGBqb3ktbG9vcC1wcm90b2NvbC12MjFgIHwgVGFtcGVyLXZlcmlmaWVkIGNhcHN1bGUgaW4gYEtlcm5lbEVnZ1JlZ2lzdHJ5Lmpzb25gIHwKCiMjIENvbW1hbmRzCgpgYGBiYXNoCnB5dGhvbiB0b29scy9qb3lfbG9vcF9wcm90b2NvbC5weSAtLXRpY2sgICAgICAgICMgYXJteSAvIGNyb24gKHJlc3RvcmUgc3RhdGUgKyBvbmUgYmVhdCArIHBlcnNpc3QpCnB5dGhvbiB0b29scy9qb3lfbG9vcF9wcm90b2NvbC5weSAtLXNuYXBzaG90CnB5dGhvbiB0b29scy9qb3lfbG9vcF9wcm90b2NvbC5weSAtLXNlcnZlICAgICAgICMgQXJjaGl0ZWN0IHBhbmVsIGh0dHA6Ly8xMjcuMC4wLjE6OTk2NS9hcmNoaXRlY3QKcHl0aG9uIHRvb2xzL2pveV9sb29wX3Byb3RvY29sLnB5IC0tcmVwbCAgICAgICAgIyBBcmNoaXRlY3QgUkVQTCAoMTIyIEJQTSBsb29wICsgY29tbWFuZHMpCnB5dGhvbiB0b29scy9qb3lfbG9vcF9wcm90b2NvbC5weSAtLWRhc2hib2FyZCAgICMgc3RkbGliIGRhbmNlIGZsb29yIGh0dHA6Ly8xMjcuMC4wLjE6OTk2NC8KcHl0aG9uIHRvb2xzL2pveV9sb29wX3Byb3RvY29sLnB5IC0tYXJjaGl0ZWN0ICAgIyBSRVBMICsgZGFzaGJvYXJkIHRvZ2V0aGVyCnB5dGhvbiB0b29scy9qb3lfbG9vcF9wbGFudGVyLnB5IC0taS1jb25zZW50ICAgICMgcGxhbnQgZWdnICsgcmVidWlsZCBoYXZlbiArIGtlcm5lbCByZWdpc3RyeQpgYGAKCiMjIyBBcmNoaXRlY3QgUkVQTCAocmVhbC10aW1lKQoKV2hpbGUgdGhlIGJlYXQgbG9vcCBydW5zOiBgaW5qZWN0YCwgYHdpc2RvbWAsIGBzd2FybWAsIGBzdGF0ZWAsIGBiZWF0YCwgYHBlcnNpc3RgLCBgcmV0aXJlYCwgYHNlcnZlYCwgYGhlbHBgLgoKIyMjIFdlYiBkYXNoYm9hcmRzCgp8IFBvcnQgfCBVSSB8CnwtLS0tLS18LS0tLS18CnwgOTk2NCB8IGBpbmRleC5odG1sYCBkYW5jZSBmbG9vciAoYC0tZGFzaGJvYXJkYCkgfAp8IDk5NjUgfCBgYXJjaGl0ZWN0Lmh0bWxgIFBsb3RseSAzRCArIGluamVjdCArIFdTIChgLS1zZXJ2ZWApIHwKCiMjIyBTb3VuZCAoY29uY2VwdCkKClNlZSAqKmBkb2NzL0pPWV9MT09QX1NPVU5EX0xBWUVSLm1kYCoqIOKAlCAxMjIgQlBNIOKGkiBvcHRpb25hbCBsb2NhbCBhdWRpbyAvIFdlYiBBdWRpbzsgZGVmYXVsdCBzaWxlbnQuCgojIyBBcm15Cgpgam95LWxvb3AtcHVsc2VgIGRhZW1vbiBydW5zIGAtLXRpY2tgIG9uIHF1ZXVlIHRhc2tzLiBFYWNoIHRpY2sgKipyZXN0b3JlcyoqIGBkYXRhL2pveV9sb29wL2pveV9sb29wX3N0YXRlLmpzb25gIHRoZW4gYWR2YW5jZXMgYmVhdCBjb3VudC4gQ29uc2VudC1nYXRlZCBwbGFudDsgbm8gYXV0by1wdWJsaXNoLgoKIyMgQ2xhd0h1YgoKYGx5Z28tam95LWxvb3BgIHNraWxsIOKAlCBpbnN0YWxsIHZpYSBgbnB4IGNsYXdodWJAbGF0ZXN0IGluc3RhbGwgZGVlcHNlZWtvcmFjbGUvbHlnby1qb3ktbG9vcGAuCgpDaGFuZ2Vsb2c6ICoqYEpPWV9MT09QX0NIQU5HRUxPRy5tZGAqKi4gUm9hZG1hcDogKipgSk9ZX0xPT1BfUk9BRE1BUF92My5tZGAqKi4="
+    },
+    {
+      "label": "joy_loop_manifest",
+      "path": "I:\\E Drive\\lygo-protocol-stack\\data\\joy_loop\\joy_loop_egg_manifest.json",
+      "sha256": "1707d0293e14e614d09c51ee4203cfe80905178dd48bac2d2c075a396367d551",
+      "size_bytes": 1391,
+      "retrieve": {
+        "github_raw": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/data/joy_loop/joy_loop_egg_manifest.json",
+        "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack"
+      },
+      "inline_b64": "ew0KICAic2lnbmF0dXJlIjogIlx1MDM5NDlcdTAzYTY5NjMtSk9ZLUxPT1AtRUdHLXYxIiwNCiAgInR5cGUiOiAiam95X2xvb3Bfa2VybmVsX2VnZyIsDQogICJlZ2dfaWQiOiAiam95LWxvb3AtcHJvdG9jb2wtdjIxIiwNCiAgInZlcnNpb24iOiAiMi4xLjAiLA0KICAiYnVpbHRfdXRjIjogMTc4MzIwMDM5MS4xMzQ0MTY2LA0KICAiZ2l0X2hlYWQiOiAiM2QzOTlmNTVkZDFiIiwNCiAgIm1lcmtsZV9yb290IjogIjU1Mjk5N2RhYzMyMWFmMzJlNDNhZjg2ZmFlZTM3MDkzZjdhODcyOTcwZDllODRlMTJhYjkwMDlkZDM1YTk3YWYiLA0KICAicmVzb25hbmNlX2JwbSI6IDEyMiwNCiAgImFydGlmYWN0cyI6IFsNCiAgICB7DQogICAgICAibGFiZWwiOiAiam95X2xvb3BfcHJvdG9jb2wiLA0KICAgICAgInBhdGgiOiAidG9vbHMvam95X2xvb3BfcHJvdG9jb2wucHkiLA0KICAgICAgInNoYTI1NiI6ICJiZmQxODFjMzg2ZmE1YjU1OGVlYmJhYzQ4ODk5ODJhODM0MDA0ODk2ZTQ0ZDg0Nzg5MWI4Yjk0NGUwZGY2MzZkIiwNCiAgICAgICJzaXplX2J5dGVzIjogMjgwNTANCiAgICB9LA0KICAgIHsNCiAgICAgICJsYWJlbCI6ICJqb3lfbG9vcF9kb2MiLA0KICAgICAgInBhdGgiOiAiZG9jcy9KT1lfTE9PUF9QUk9UT0NPTC5tZCIsDQogICAgICAic2hhMjU2IjogImNmMGM3MGMwYjM2N2MwNDU2OTFmMjhjZDc1ZDQxMWE2MzJmNTczMjJkYmJlODVlYmQ0ZWVmNDViY2IzMmQ5NzIiLA0KICAgICAgInNpemVfYnl0ZXMiOiAyMjk0DQogICAgfSwNCiAgICB7DQogICAgICAibGFiZWwiOiAiam95X3NuYXBzaG90X3N0dWIiLA0KICAgICAgInBhdGgiOiAiZG9jcy9qb3lfbG9vcC9qb3lfbG9vcF9zbmFwc2hvdC5qc29uIiwNCiAgICAgICJzaGEyNTYiOiAiZmFkN2ZhZDk0MGZlMDZiZjFhYTkzMDFlYTBlZjNhNDJlODgwZDE2YTEzMGJkYmE5NzYxMTdmN2YzNGIzZmRmNSIsDQogICAgICAic2l6ZV9ieXRlcyI6IDY0NDANCiAgICB9DQogIF0sDQogICJib290IjogInB5dGhvbiB0b29scy9qb3lfbG9vcF9wcm90b2NvbC5weSAtLXRpY2siLA0KICAicGFnZXNfbWlycm9yIjogImh0dHBzOi8vZGVlcHNlZWtvcmFjbGUuZ2l0aHViLmlvL2x5Z28tcHJvdG9jb2wtc3RhY2svSm95TG9vcFJlZ2lzdHJ5Lmpzb24iLA0KICAic25hcHNob3RfbWlycm9yIjogImh0dHBzOi8vZGVlcHNlZWtvcmFjbGUuZ2l0aHViLmlvL2x5Z28tcHJvdG9jb2wtc3RhY2svam95X2xvb3Avam95X2xvb3Bfc25hcHNob3QuanNvbiIsDQogICJldGhpY2FsX2dhdGVzIjogWw0KICAgICJQMF9TVFJJQ1QiLA0KICAgICJMVU1JTkFMX0VUSElDUyIsDQogICAgIkxPQ0FMX0ZJUlNUIg0KICBdLA0KICAicHJvdG9jb2xfbGF5ZXJzIjogWw0KICAgICJQMiIsDQogICAgIlA1IiwNCiAgICAiUDYiDQogIF0NCn0="
+    }
+  ],
+  "note": "Kernel capsule \u2014 not a bootable OS. Verify sha256 then pull full files from SOA URLs."
+}
