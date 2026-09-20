@@ -71,61 +71,253 @@ def image_info(path: str) -> dict[str, Any]:
     return {"ok": True, "path": str(p), "kind": kind, "bytes": p.stat().st_size, "width": w, "height": h}
 
 
-OLLAMA_DEFAULT = "http://127.0.0.1:11434"
-VISION_DEFAULT = "gemma4:12b"
+VISION_PORT_DEFAULT = 11461  # a spare port: our own runner, so the chat engine is never disturbed
 
 
-def vision_model() -> str:
-    """Which local vision model answers. LYGO_VISION_MODEL, then config/console.json, then default."""
-    import json
-    import os
+def vision_record() -> dict[str, Any] | None:
+    """The registered model that carries a projector (mmproj): OUR OWN engine is what runs it.
 
-    env = (os.environ.get("LYGO_VISION_MODEL") or "").strip()
-    if env:
-        return env
-    cfg = Path(__file__).resolve().parents[1] / "config" / "console.json"
-    try:
-        data = json.loads(cfg.read_text(encoding="utf-8"))
-        name = str(data.get("vision_model") or "").strip()
-        if name:
-            return name
-    except Exception:
-        pass
-    return VISION_DEFAULT
-
-
-def image_see(path: str, prompt: str | None = None, timeout: int = 180) -> dict[str, Any]:
-    """Describe a picture with the local vision model (Ollama).
-
-    image_info only reports kind/size/dimensions, so a request like "check this photo" cannot be
-    answered from it. This limb hands the bytes to a multimodal model and returns its words.
-    Failures are honest and named: outside_read_roots / missing / no_vision_model / vision_timeout.
+    Zero Ollama. The kit boots llama-server itself (engine.spawn_runner -> --mmproj) and this machine's
+    registry already carries gemma4:12b with its mmproj blob, so vision needs no daemon, no keep-alive
+    setting and no second vendor: the projector GGUF is just another file the engine is pointed at.
     """
     import json
+
+    reg = Path(__file__).resolve().parents[1] / "save" / "registry.json"
+    try:
+        data = json.loads(reg.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    for rec in data.get("models") or []:
+        mm = rec.get("mmproj")
+        gguf = rec.get("path") or rec.get("gguf") or rec.get("file")
+        if not (mm and gguf):
+            continue
+        try:
+            if Path(str(mm)).is_file() and Path(str(gguf)).is_file():
+                return rec
+        except OSError:
+            continue
+    return None
+
+
+def vision_port() -> int:
     import os
+
+    try:
+        return int(os.environ.get("LYGO_VISION_PORT") or VISION_PORT_DEFAULT)
+    except ValueError:
+        return VISION_PORT_DEFAULT
+
+
+def chat_port() -> int:
+    import os
+
+    try:
+        from paths import LLAMA_PORT
+
+        return int(os.environ.get("LYGO_LLAMA_PORT") or LLAMA_PORT)
+    except Exception:
+        try:
+            return int(os.environ.get("LYGO_LLAMA_PORT") or 11441)
+        except ValueError:
+            return 11441
+
+
+def _engine_key() -> str:
+    """The key our own engine runs with (data/.llama_api_key). Read, never echoed."""
+    try:
+        from paths import LLAMA_KEY_PATH
+
+        return LLAMA_KEY_PATH.read_text(encoding="utf-8").strip()
+    except Exception:
+        return ""
+
+
+def _engine_up(port: int) -> bool:
+    import urllib.request
+
+    try:
+        req = urllib.request.Request("http://127.0.0.1:" + str(port) + "/v1/models")
+        key = _engine_key()
+        if key:
+            req.add_header("Authorization", "Bearer " + key)
+        with urllib.request.urlopen(req, timeout=5):
+            return True
+    except Exception:
+        return False
+
+
+def _ask_engine(port: int, alias: str, image: Path, prompt: str, timeout: int) -> dict[str, Any]:
+    """One picture, one question, straight at a llama-server booted with --mmproj (our own binary)."""
+    import json
     import time
     import urllib.error
     import urllib.request
 
+    data_url = "data:image/" + (image.suffix.lower().lstrip(".") or "png") + ";base64," + \
+        base64.b64encode(image.read_bytes()).decode("ascii")
+    heads = {"Content-Type": "application/json"}
+    key = _engine_key()
+    if key:
+        heads["Authorization"] = "Bearer " + key
+    # llama.cpp's server takes the dict shape only. The plain-string form comes back 500
+    # "Invalid base64 value", and because that second attempt overwrote the first result it threw away a
+    # good description - measured 2026-09-19: 300 generated tokens discarded by the retry. One shape.
+    shapes = ({"type": "image_url", "image_url": {"url": data_url}},)
+    t0 = time.time()
+    last: dict[str, Any] = {}
+    for shape in shapes:
+        body = {
+            "model": alias,
+            "messages": [{"role": "user", "content": [{"type": "text", "text": prompt}, shape]}],
+            "max_tokens": 420,
+            "temperature": 0.2,
+            # gemma4 answers a photo request in its REASONING channel, so with the template default the
+            # whole budget goes there and `content` comes back empty (finish_reason "length", 26 s wasted).
+            # Measured 2026-09-19 on our own runner: the same question with thinking disabled returns the
+            # description in 9.7 s, finish_reason "stop". This is llama.cpp's own request knob - no daemon.
+            "chat_template_kwargs": {"enable_thinking": False},
+        }
+        req = urllib.request.Request(
+            "http://127.0.0.1:" + str(port) + "/v1/chat/completions",
+            data=json.dumps(body).encode("utf-8"),
+            headers=heads,
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as fh:
+                out = json.loads(fh.read().decode("utf-8", "replace"))
+        except urllib.error.HTTPError as exc:
+            last = {"ok": False, "error": "vision_http", "http": exc.code, "port": port}
+            continue
+        except Exception as exc:
+            err = "vision_timeout" if "timeout" in type(exc).__name__.lower() else "engine_unreachable"
+            return {"ok": False, "error": err, "port": port, "why": type(exc).__name__}
+        try:
+            text = (out["choices"][0]["message"]["content"] or "").strip()
+        except Exception:
+            text = ""
+        if text:
+            return {"ok": True, "path": str(image), "model": alias, "port": port,
+                    "seconds": round(time.time() - t0, 1), "text": text, "bytes": image.stat().st_size}
+        reason = str((out.get("choices") or [{}])[0].get("message", {}).get("reasoning_content") or "")
+        last = {"ok": False, "error": "vision_thinking_only" if reason else "vision_empty",
+                "port": port, "thinking_chars": len(reason),
+                "finish": (out.get("choices") or [{}])[0].get("finish_reason"),
+                "hint": "the model spent its budget in the reasoning channel; keep enable_thinking false "
+                        "or raise max_tokens"}
+    return last
+
+
+def _selected_id() -> str:
+    import json
+
+    reg = Path(__file__).resolve().parents[1] / "save" / "registry.json"
+    try:
+        return str(json.loads(reg.read_text(encoding="utf-8")).get("selected") or "")
+    except Exception:
+        return ""
+
+
+def image_see(path: str, prompt: str | None = None, timeout: int = 180) -> dict[str, Any]:
+    """Describe a picture with OUR OWN engine - llama-server booted with --mmproj. No daemon, no vendor.
+
+    image_info only reports kind/size/dimensions, so "check this photo" cannot be answered from it.
+    Order of preference:
+      1. the console's own engine when the model it runs IS the registered vision model - no extra
+         process and no extra VRAM;
+      2. otherwise a runner on LYGO_VISION_PORT (default 11461) via engine.spawn_runner, stopped again
+         the moment the answer is in, because one engine at a time is the rule on an 8 GB card;
+      3. otherwise an honest refusal naming the knob - never an invented description.
+    """
+    import os
+    import time
+
+    q = (
+        prompt
+        or "Describe this image in 3-5 sentences: what it shows, what is visible, and any text you can read."
+    ).strip()
     p, why = _allowed_read(under_workspace(path))
     if why:
         return {"ok": False, "error": why, "path": str(p),
                 "read_roots": [str(x) for x in (read_roots() or ())]}
     if not p.is_file():
         return {"ok": False, "error": "missing", "path": str(p)}
-    model = vision_model()
-    base = (os.environ.get("LYGO_OLLAMA_URL") or os.environ.get("OLLAMA_HOST") or OLLAMA_DEFAULT).rstrip("/")
-    if not base.startswith("http"):
-        base = "http://" + base
-    body = {
-        "model": model,
-        "prompt": prompt
-        or "Describe this image in 3-5 sentences: what it shows, what is visible, and any text you can read.",
-        "images": [base64.b64encode(p.read_bytes()).decode("ascii")],
-        "stream": False,
-        "think": False,
-        "options": {"num_predict": 220, "temperature": 0.2},
-    }
+    rec = vision_record()
+    if not rec:
+        return {"ok": False, "error": "no_vision_model", "path": str(p),
+                "hint": "no registered model carries an mmproj projector; register a vision GGUF with its mmproj"}
+    alias = str(rec.get("id") or rec.get("alias") or "vision")
+    cp = chat_port()
+    if _engine_up(cp):
+        if _selected_id() == str(rec.get("id") or ""):
+            return _ask_engine(cp, alias, p, q, timeout)
+        return {"ok": False, "error": "vision_engine_busy", "path": str(p), "model": alias, "port": cp,
+                "hint": "the chat engine is holding the card with a model that has no projector; boot "
+                        + alias + " as the console brain, then ask again"}
+
+    try:
+        from lygo_engine import plan as _plan
+
+        pl = _plan(rec) or {}
+    except Exception:
+        pl = {}
+    lg = pl.get("llama") if isinstance(pl.get("llama"), dict) else {}
+    ctx = min(int(lg.get("ctx") or 8192), 8192)  # one picture + a few sentences: no chat-sized window
+    ngl = int(lg.get("ngl") or 99)
+    threads = lg.get("threads")
+    kv_type = str(lg.get("kv_type") or "")
+    flash_attn = bool(lg.get("flash_attn"))
+    mmap = bool(lg.get("mmap", True))
+    port = vision_port()
+    from engine import spawn_runner, stop_port  # our own binary: engine/llama-server.exe
+
+    try:
+        spawn_runner(
+            port=port,
+            gguf=Path(str(rec.get("path") or rec.get("gguf") or rec.get("file"))),
+            kind="chat",
+            mmproj=Path(str(rec.get("mmproj"))),
+            ctx=ctx,
+            ngl=ngl,
+            alias=alias,
+            api_key=_engine_key(),
+            threads=threads,
+            mmap=mmap,
+            flash_attn=flash_attn,
+            kv_type=kv_type,
+            # A projector is processed with NON-CAUSAL attention, which requires n_ubatch >= the whole
+            # image-token batch. The text defaults are too small and llama.cpp dies with
+            # "non-causal attention requires n_ubatch >= n_tokens" (llama-context.cpp assert) - measured
+            # 2026-09-19 on a 1024x1536 photo, which crashed the runner mid-request.
+            batch=4096,
+            ubatch=4096,
+        )
+    except MemoryError as exc:
+        return {"ok": False, "error": "vision_needs_ram", "model": alias, "why": str(exc)[:300],
+                "hint": "the RAM gate refused the vision model; boot it as the console brain instead"}
+    except Exception as exc:
+        return {"ok": False, "error": "vision_boot_failed", "model": alias,
+                "why": type(exc).__name__ + ": " + str(exc)[:300]}
+    try:
+        t0 = time.time()
+        ready = False
+        while time.time() - t0 < 180:
+            if _engine_up(port):
+                ready = True
+                break
+            time.sleep(3)
+        if not ready:
+            return {"ok": False, "error": "vision_boot_timeout", "model": alias, "port": port,
+                    "seconds": round(time.time() - t0, 1)}
+        out = _ask_engine(port, alias, p, q, timeout)
+        out["booted"] = True
+        return out
+    finally:
+        try:
+            stop_port(port)
+        except Exception:
+            pass
     req = urllib.request.Request(
         base + "/api/generate",
         data=json.dumps(body).encode("utf-8"),

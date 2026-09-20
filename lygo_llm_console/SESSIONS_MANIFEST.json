@@ -154,8 +154,8 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "7a9fb77537234017",
-      "bytes": 37546
+      "sha256_16": "46cb6feae13d7c5d",
+      "bytes": 37593
     },
     {
       "path": "src/chat_loop.py",
@@ -188,10 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T18:20:39-06:00",
-  "rebrand_refresh_note": "image limbs: read via mapped roots; image_see (local vision); paths masked out of host hint matching",
+  "rebrand_refresh_iso": "2026-09-19T18:43:32-06:00",
+  "rebrand_refresh_note": "image_see now runs our own engine (llama-server --mmproj on the registered vision model): zero daemon",
   "rebrand_refresh_files": [
-    "src/limbs.py",
-    "src/chat_loop.py"
+    "src/limbs.py"
   ]
 }
