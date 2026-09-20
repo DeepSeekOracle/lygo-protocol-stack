@@ -212,6 +212,11 @@ def check_vault(deep: bool) -> None:
     entries = data.get("models") or data
     rows = entries.values() if isinstance(entries, dict) else entries
     rows = [r for r in rows if isinstance(r, dict)]
+    if rows and not any(r.get("path") or r.get("file") or r.get("gguf") for r in rows):
+        names = [str(r.get("name") or r.get("id") or "?") for r in rows]
+        return say("PASS", "model vault declaration", "%s lists %d models by name (%s) - no file paths here, "
+                                                        "so this is what the kit intends to hold, not proof of what it has"
+                   % (man.name, len(rows), ", ".join(names[:5])))
     base = man.parent
 
     def _resolve(value: str) -> Path:
