@@ -38,6 +38,39 @@ done, restore it into a clean folder and run `scripts/certify_build.py` plus the
 
 ---
 
+## 1.2.2 — HARDENING SWEEP (PC, then the stick)
+
+A debug pass over both trees, live and static: every route hit, hostile and malformed input sent,
+the suites run, the module surfaces read back. Six defects, all fixed, all pinned by a test.
+
+- **`src/auth.py`** — the token was looked up in the case the client sent it in, while header NAMES are
+  case-insensitive (RFC 9110) and clients canonicalise them: urllib title-cases every part, HTTP/2
+  lowercases them all. The same valid token answered **401** through `X-Lygo-Llm-Token` and **200**
+  through `Authorization: Bearer`. Names are folded once, where the token is read.
+- **`src/server.py`** — **OPTIONS was answered 501 with an HTML page.** `BaseHTTPRequestHandler` has no
+  `do_OPTIONS`, so a capability probe for a method the console does implement got the stdlib's
+  "Unsupported method" markup, where every other answer is JSON. Now 204 + `Allow` on the console's own
+  surface, a JSON 404 elsewhere — and still no CORS headers: the console is loopback-bound and
+  token-gated, and an `Access-Control-Allow-Origin` here would let any page the operator visits read
+  their local console. The public web edition keeps its own allowlist.
+- **`lygo.notepad` (module + the legacy handler)** — a body that was not JSON, or a save with no id and
+  no text, reached `write_note(None, "", "")` and answered `{"ok": true, ...}` for a **phantom empty
+  note**: one note per junk request, and the caller told a write had happened. Now 400
+  `nothing_to_save`, store untouched. Emptying a note *by id* still works — the rule is "nothing to
+  save", not "empty text".
+- **`lygo.envwatch`** — the age came from `f.stat()` **after** the tail read, so `scripts/rotate_logs.py`
+  moving a log inside that window raised `FileNotFoundError` out of the panel. A file that moved
+  mid-read is now reported **undated and still loud** (no age means no downgrade). The same race is
+  closed in the store size sum, and the redundant second `load_state()` is gone: `catalog()` already
+  merges `enabled.json` into each row.
+- **`src/image_tools.py`** — **26 lines of dead code** orphaned after `image_see`'s `finally`: the body
+  of the old `/api/generate` helper, referencing `base`, `body`, `model`, `urllib` and `json` — all
+  undefined. Unreachable, so nothing broke *yet*; one re-indent away from a NameError. Removed.
+- **`src/modules/host.py`** — every module row now carries **`lifecycle`** (what the manifest declared)
+  beside `state` (the effective status, which the host overwrites to REFUSED / DISABLED / DEGRADED).
+  The row had only `state` — the same name a *pane* uses for its health colour — so a report reading
+  `row["lifecycle"]` saw `None` for five healthy modules.
+
 ## 1.2.1 — ENVIRONMENT TRUTHFULNESS · tag `build-line 2026-09-20 · envwatch-clean`
 
 **Why:** the first boot of the module strip on the stick reported three things that were not faults, and one

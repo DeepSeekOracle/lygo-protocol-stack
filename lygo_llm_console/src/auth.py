@@ -78,10 +78,16 @@ def check(provided: str | None, expected: str) -> bool:
 
 
 def token_from_request(headers: dict[str, str], query: dict[str, list[str]]) -> str | None:
-    h = headers.get(HEADER) or headers.get(HEADER.lower())
+    # Header NAMES are case-insensitive (RFC 9110) but this lookup was done in the case the client
+    # happened to send. Clients canonicalise: urllib title-cases every part (X-Lygo-Llm-Token),
+    # HTTP/2 lowercases them all, and a proxy may do either - so a caller holding the correct token
+    # was told 401 by the receipts gate. Measured 2026-09-20: the same token answered 401 through
+    # X-Lygo-Llm-Token and 200 through Authorization: Bearer. Fold the names once, here.
+    lower = {str(k).lower(): v for k, v in headers.items()}
+    h = lower.get(HEADER.lower())
     if h:
         return h.strip()
-    auth = headers.get("Authorization") or headers.get("authorization") or ""
+    auth = lower.get("authorization") or ""
     if auth.lower().startswith("bearer "):
         return auth[7:].strip()
     qs = query.get("t") or query.get("token")

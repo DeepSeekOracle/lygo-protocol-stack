@@ -2,7 +2,7 @@
   "id": "lygo.notepad",
   "title": "Notepad",
   "summary": "Scratch notes the operator and the agent share: written from the pane or by a limb, stored as files.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "introduced": "1.2.0",
   "lifecycle": "WIRED",
   "surfaces": {

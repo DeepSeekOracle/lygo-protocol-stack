@@ -144,8 +144,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "0590997ad91e5bbc",
-      "bytes": 101207
+      "sha256_16": "55f0daf731f65147",
+      "bytes": 102919
     },
     {
       "path": "src/continuity.py",
@@ -164,7 +164,7 @@
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "987e7ec6ed7ac052",
+      "sha256_16": "6e1ffc7c6be34ab3",
       "bytes": 95352
     },
     {
@@ -188,9 +188,10 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-20T14:17:58-06:00",
-  "rebrand_refresh_note": "1.2.1 environment truthfulness: declared-optional roots, guard-held refusals, log rotation, docs folder, truthful surfaces",
+  "rebrand_refresh_iso": "2026-09-20T14:43:27-06:00",
+  "rebrand_refresh_note": "1.2.2 hardening sweep: token header case, OPTIONS answered properly, no phantom notes, envwatch rotation race, dead code removed, lifecycle exposed on the module row",
   "rebrand_refresh_files": [
+    "src/server.py",
     "portal/app.js"
   ]
 }

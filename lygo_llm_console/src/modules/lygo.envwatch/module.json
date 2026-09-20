@@ -3,7 +3,7 @@
   "family": "watch",
   "title": "Environment watch",
   "summary": "The pair to LLM data: it finds what needs fixing - skill files that never reach the model, mapped paths that do not resolve, error lines in the background - and stays green only when nothing does.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "introduced": "1.2.0",
   "lifecycle": "PARITY",
   "surfaces": {

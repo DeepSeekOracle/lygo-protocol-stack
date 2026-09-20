@@ -42,7 +42,7 @@ SIGNATURE = "Δ9Φ963-LYGO-MODULE-CORE-v1"
 MODULES_DIR = Path(__file__).resolve().parent
 KIT_ROOT = MODULES_DIR.parents[1]
 CATALOG_PATH = MODULES_DIR / "catalog.json"
-KERNEL_RELEASE_FALLBACK = "1.2.1"
+KERNEL_RELEASE_FALLBACK = "1.2.2"
 MAX_BODY = 512_000
 
 
@@ -335,6 +335,13 @@ class ModuleHost:
                 "id": mid,
                 "title": mid,
                 "state": "SCAFFOLDED",
+                # `state` is the EFFECTIVE status (the manifest's rung, or REFUSED/DISABLED/DEGRADED
+                # after a failure) and `lifecycle` is what the manifest itself declared. They are
+                # separate keys because they answer different questions, and because a pane's own
+                # `state` (green/amber/red) is not a rung at all. Measured 2026-09-20: a report that
+                # read row["lifecycle"] got None for every module and called five healthy modules
+                # nameless, which is how this key came to exist.
+                "lifecycle": "",
                 "enabled": True,
                 "error": "",
                 "surfaces": {},
@@ -346,6 +353,10 @@ class ModuleHost:
             },
         )
         row.update(kw)
+        # A row can exist before its manifest is readable (a disabled catalog entry, or a refusal
+        # raised by the manifest check itself). "No declared rung" is then the honest answer - the
+        # effective `state` still carries REFUSED/DISABLED.
+        row.setdefault("lifecycle", "")
         return row
 
     # --- load ---------------------------------------------------------------------------------
@@ -410,6 +421,7 @@ class ModuleHost:
             mid,
             title=str(manifest.get("title") or mid),
             state=str(manifest.get("lifecycle") or "SCAFFOLDED"),
+            lifecycle=str(manifest.get("lifecycle") or "SCAFFOLDED"),
             surfaces=manifest.get("surfaces") or {},
             notes=str(manifest.get("notes") or ""),
             order=entry.get("order"),
@@ -609,6 +621,7 @@ class ModuleHost:
                     "id": r["id"],
                     "title": r["title"],
                     "state": r["state"],
+                    "lifecycle": r.get("lifecycle") or "",
                     "enabled": r["enabled"],
                     "error": r["error"],
                     "surfaces": r["surfaces"],

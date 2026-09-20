@@ -917,6 +917,28 @@ class Handler(BaseHTTPRequestHandler):
             return
         self._json(404, {"error": "not_found"})
 
+    def do_OPTIONS(self) -> None:  # noqa: N802
+        """Answer a capability probe - until now OPTIONS fell through to the stdlib's 501 page.
+
+        `BaseHTTPRequestHandler` has no `do_OPTIONS`, so every OPTIONS request was answered 501
+        ("Unsupported method") with an HTML error page. Wrong twice: 501 means the server does not
+        implement the method at all, and this console's API never answers HTML - a client parsing
+        JSON got a page of markup. The answer carries no CORS headers, on purpose: the console is
+        loopback-bound and token-gated, and an Access-Control-Allow-Origin here would let any page
+        the operator visits read their local console. The public web edition keeps its own
+        allowlist (see `public_gateway._cors_ok`).
+        """
+        path = urlparse(self.path).path
+        served = (path in ("/", "/index.html") or path.startswith("/static/")
+                  or path.startswith("/api/") or path.startswith("/v1/"))
+        if not served:
+            self._json(404, {"error": "not_found"})
+            return
+        self.send_response(204)
+        self.send_header("Allow", "GET, POST, OPTIONS")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def do_POST(self) -> None:  # noqa: N802
         try:
             self._dispatch_POST()
@@ -1312,6 +1334,12 @@ class Handler(BaseHTTPRequestHandler):
                 return
             if action == "new":
                 self._json(200, new_note(str(obj.get("title") or "")))
+                return
+            if not (obj.get("id") or obj.get("text") or obj.get("content") or obj.get("title")):
+                # A junk or empty body used to reach write_note(None, "", "") and mint a phantom
+                # empty note, answered {"ok": true, ...} - a write the caller never asked for.
+                self._json(400, {"error": "nothing_to_save",
+                                 "hint": 'send {"id": "..."} or {"text": "..."}, or action:"new"'})
                 return
             self._json(
                 200,

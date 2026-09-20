@@ -318,16 +318,59 @@ class DispatchTests(unittest.TestCase):
             self.assertEqual(fake.last, {"ok": True, "deleted": "nope"})
             spy.assert_called_once_with("nope")
 
-    def test_unparsable_body_answers_like_the_kernel(self) -> None:
-        """1.1.1 treated a junk body as {}; the module route must do the same, not 500."""
-        with patch("notepad.write_note", return_value={"ok": True, "id": "x"}) as spy:
-            fake = FakeHandler(body=b"{not json at all")
+    def test_a_save_with_nothing_to_save_is_refused_and_writes_nothing(self) -> None:
+        """A junk or empty body must not mint a phantom note.
+
+        2026-09-20 sweep: `POST /api/notepad` with a body that was not JSON - or with no id and no
+        text - reached `write_note(None, "", "")` and answered `{"ok": true, "id": ...}` for a note
+        nobody asked for. One empty note per junk request, and the caller was told a write had
+        happened. The parse still behaves like the kernel (a junk body reads as `{}`, never a 500);
+        the refusal lands where there is demonstrably nothing to save.
+        """
+        for body in (b"{not json at all", b"{}", b'{"action": "save"}'):
+            with patch("notepad.write_note", return_value={"ok": True, "id": "x"}) as spy:
+                fake = FakeHandler(body=body)
+                self.assertTrue(self.host.handle(fake, "POST", "/api/notepad"))
+                self.assertEqual(fake.code, 400, body)
+                self.assertEqual(fake.last["error"], "nothing_to_save", body)
+                spy.assert_not_called()
+
+    def test_clearing_a_note_is_still_a_save(self) -> None:
+        """The rule is 'nothing to save', not 'empty text': emptying a note must keep working."""
+        with patch("notepad.write_note", return_value={"ok": True, "id": "scratch"}) as spy:
+            fake = FakeHandler(body=json.dumps({"id": "scratch", "text": ""}).encode())
             self.assertTrue(self.host.handle(fake, "POST", "/api/notepad"))
             self.assertEqual(fake.code, 200)
-            spy.assert_called_once_with(None, "", "")
+            spy.assert_called_once_with("scratch", "", "")
+
+    def test_every_row_reports_the_lifecycle_its_manifest_declares(self) -> None:
+        """`state` is the effective status; `lifecycle` is what the manifest itself declared.
+
+        2026-09-20 sweep: the row carried only `state` - the same name a PANE uses for its health
+        colour - so a report reading row["lifecycle"] saw None for five healthy modules.
+        """
+        by_id = {m["id"]: m for m in self.host.table()["modules"]}
+        self.assertIn("lygo.envwatch", by_id)
+        for mid in sorted(by_id):
+            declared = json.loads((ROOT / "src" / "modules" / mid / "module.json").read_text(encoding="utf-8"))
+            self.assertEqual(by_id[mid]["lifecycle"], declared["lifecycle"], mid)
+            self.assertEqual(by_id[mid]["state"], declared["lifecycle"], mid)
 
 
 class RefusalAndDegradationTests(unittest.TestCase):
+    def test_a_refused_module_still_reports_what_its_manifest_declared(self) -> None:
+        """`state` says REFUSED; `lifecycle` still says what the manifest claimed. Two facts."""
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = build_tree(
+                Path(raw),
+                [("lygo.one", manifest("lygo.one", routes=ECHO_ROUTE), ECHO_BACKEND),
+                 ("lygo.two", manifest("lygo.two", routes=ECHO_ROUTE), ECHO_BACKEND)],
+            )
+            host = host_mod.ModuleHost(kit_root=ROOT, modules_dir=tmp).load()
+            by_id = {m["id"]: m for m in host.table()["modules"]}
+            self.assertEqual(by_id["lygo.two"]["state"], "REFUSED")
+            self.assertEqual(by_id["lygo.two"]["lifecycle"], "WIRED")
+
     def test_route_collision_refuses_the_second_module_and_names_both(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
             tmp = build_tree(

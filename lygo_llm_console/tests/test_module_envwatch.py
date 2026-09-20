@@ -502,6 +502,40 @@ class TestLogFindings(unittest.TestCase):
         self.assertTrue(made)
         self.assertEqual(made[0]["level"], "red", "a fault written minutes ago is live")
 
+    def test_a_log_that_moves_between_the_read_and_the_stat_is_reported_not_raised(self) -> None:
+        """`scripts/rotate_logs.py` moves logs while this card may be reading them.
+
+        2026-09-20 sweep: the age came from `f.stat()` *after* the tail read, unguarded - so a
+        rotation landing in that window raised FileNotFoundError out of the panel and the whole
+        card answered 500. A file that moved mid-read is not an error the operator can act on, but
+        the FAULT still is, so it is reported undated and stays loud (no age means no downgrade).
+        """
+        with tempfile.TemporaryDirectory() as tmp:
+            logs = Path(tmp) / "logs"
+            logs.mkdir()
+            log = logs / "llama-server-11441.log"
+            log.write_text("0.01.1 E engine fault: out of memory\n", encoding="utf-8")
+            rec = Path(tmp) / "receipts"
+            rec.mkdir()
+            my = Path(tmp) / "mycelium"
+            my.mkdir()
+            paths = stub_module("paths", LOGS=logs, RECEIPTS=rec, MYCELIUM=my)
+            cloud = stub_module("cloud_api", public_status=lambda: {"degraded": False, "chain_tried": []})
+            real_stat = Path.stat
+
+            def vanishing(self, *a, **kw):  # noqa: ANN001, ANN002, ANN003 - a Path.stat stand-in
+                if self.name == "llama-server-11441.log":
+                    raise FileNotFoundError(2, "rotated while the card was reading it")
+                return real_stat(self, *a, **kw)
+
+            with patch.dict(sys.modules, {"paths": paths, "cloud_api": cloud}), \
+                 patch.object(Path, "stat", vanishing):
+                part = self.backend._errors()
+        made = [i for i in part.issues if "engine fault" in i["title"]]
+        self.assertTrue(made, "the fault is still reported - the line was read, only the age was lost")
+        self.assertEqual(made[0]["level"], "red", "an undateable fault stays loud, never silently amber")
+        self.assertIn("moved while it was being read", made[0]["detail"])
+
     def test_a_check_that_could_not_run_keeps_the_card_out_of_green(self) -> None:
         part = self.backend._Part("stubbed", "stub")
         part.unchecked_for("owner missing")

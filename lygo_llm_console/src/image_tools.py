@@ -326,32 +326,6 @@ def image_see(path: str, prompt: str | None = None, timeout: int = 180) -> dict[
             stop_port(port)
         except Exception:
             pass
-    req = urllib.request.Request(
-        base + "/api/generate",
-        data=json.dumps(body).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-    )
-    t0 = time.time()
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as fh:
-            out = json.loads(fh.read().decode("utf-8", "replace"))
-    except urllib.error.HTTPError as exc:
-        return {"ok": False, "error": "no_vision_model", "model": model, "http": exc.code, "url": base}
-    except Exception as exc:
-        err = "vision_timeout" if "timeout" in type(exc).__name__.lower() else "no_vision_model"
-        return {"ok": False, "error": err, "model": model, "url": base, "why": type(exc).__name__}
-    text = (out.get("response") or "").strip()
-    if not text:
-        # Measured 2026-09-19: gemma4:12b advertises a "thinking" capability, and with thinking ON a
-        # 320-token budget went entirely into reasoning (done_reason "length", empty response, 127 s).
-        # The request above sets think=False; if it still comes back empty, say which knob to turn
-        # instead of returning a blank description into the turn.
-        return {"ok": False, "error": "vision_empty", "model": model, "seconds": round(time.time() - t0, 1),
-                "done_reason": out.get("done_reason"), "eval_count": out.get("eval_count"),
-                "hint": "the vision model returned no visible text; check its thinking setting / token budget"}
-    return {"ok": True, "path": str(p), "model": model, "seconds": round(time.time() - t0, 1),
-            "text": text, "bytes": p.stat().st_size, "done_reason": out.get("done_reason"),
-            "truncated": bool(out.get("done_reason") == "length")}
 
 
 def image_save(b64: str, path: str | None = None) -> dict[str, Any]:

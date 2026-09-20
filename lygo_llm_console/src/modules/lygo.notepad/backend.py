@@ -44,6 +44,13 @@ def notes_write(ctx: Any, req: Any) -> None:
     if action == "new":
         req.json(200, new_note(str(obj.get("title") or "")))
         return
+    if not (obj.get("id") or obj.get("text") or obj.get("content") or obj.get("title")):
+        # Measured 2026-09-20: a body that is not JSON, or a save with no id and no text, reached
+        # write_note(None, "", "") and minted a phantom empty note, answered {"ok": true, ...}.
+        # Nothing to save is a client error, not a write - say so and leave the store alone.
+        req.json(400, {"error": "nothing_to_save",
+                       "hint": 'send {"id": "..."} or {"text": "..."}, or action:"new"'})
+        return
     req.json(
         200,
         write_note(

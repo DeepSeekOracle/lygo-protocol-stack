@@ -181,13 +181,13 @@ def _skills(seen_slugs: dict[str, str] | None = None) -> _Part:
         part.unchecked_for(f"skills_mod did not import ({type(exc).__name__}: {exc})")
         return part
     try:
+        # catalog() already merges save/skills/enabled.json into each row's own `enabled` flag, so
+        # reading the state file a second time here would only be a second chance to disagree with it.
         catalogue = skills_mod.catalog()
-        state = skills_mod.load_state()
     except Exception as exc:  # noqa: BLE001
         part.unchecked_for(f"the skill catalogue could not be read ({type(exc).__name__}: {exc})")
         return part
 
-    enabled = {str(x) for x in (state.get("enabled") or [])}
     loaded = len(catalogue)
     on_count = sum(1 for r in catalogue if r.get("enabled"))
 
@@ -298,6 +298,20 @@ def _impossible_target(line: str) -> str:
             return "the write was handed an empty path"
     return ""
 
+
+def _total_bytes(files: list[Path]) -> int:
+    """Total size of `files`, skipping any that vanished between the listing and the stat.
+
+    Store folders hold session files, receipts and archives; anything that sweeps them can delete one
+    while this runs, and a missing file is not a reason to fail the whole card.
+    """
+    total = 0
+    for f in files:
+        try:
+            total += f.stat().st_size
+        except OSError:
+            continue
+    return total
 
 def _split_declared_optional(missing: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """(absent on purpose, genuinely missing) using the config's own `optional_roots` declaration.
@@ -434,11 +448,23 @@ def _errors() -> _Part:
             # named in the finding, because the reader has to know the age did not come from the line.
             dated_by_file = when is None
             if dated_by_file:
-                age_h = _hours_since(f.stat().st_mtime)
+                # A log can be rotated between the read above and this stat - `scripts/rotate_logs.py` moves
+                # files the card is allowed to be reading at that moment. Losing the age is not an error: the
+                # fault is still reported and still loud (age 0 means no downgrade), and a file that moved
+                # mid-read must never turn the panel into a 500.
                 try:
-                    stamp = _dt.datetime.fromtimestamp(f.stat().st_mtime).strftime("%Y-%m-%d %H:%M") + " (log file)"
-                except (OSError, OverflowError, ValueError):
-                    stamp = "undated"
+                    mtime: float | None = f.stat().st_mtime
+                except OSError:
+                    mtime = None
+                if mtime is None:
+                    age_h = 0.0
+                    stamp = "undated (the log moved while it was being read)"
+                else:
+                    age_h = _hours_since(mtime)
+                    try:
+                        stamp = _dt.datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M") + " (log file)"
+                    except (OSError, OverflowError, ValueError):
+                        stamp = "undated"
             else:
                 age_h = max(0.0, (_dt.datetime.now() - when).total_seconds() / 3600.0)
                 stamp = when.strftime("%Y-%m-%d %H:%M")
@@ -630,7 +656,7 @@ def _stores() -> _Part:
                 part.issue("amber", f"the {label} store folder is missing", "the console will create it on the next write, but a store it cannot see is worth knowing about", str(p))
                 continue
             files = [f for f in p.rglob("*") if f.is_file()]
-            part.row(label, _plural(len(files), "file"), _size(sum(f.stat().st_size for f in files)))
+            part.row(label, _plural(len(files), "file"), _size(_total_bytes(files)))
     except Exception as exc:  # noqa: BLE001
         part.unchecked_for(f"the stores could not be listed ({type(exc).__name__}: {exc})")
 

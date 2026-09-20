@@ -1,5 +1,5 @@
 {
-  "build": "v1.2.1",
+  "build": "v1.2.2",
   "signature": "\u03949\u03a6963-LYGO-COMPACTION-v1",
   "console_build": "1.1.0",
   "status": "installed_and_tested_not_yet_boot_verified",
@@ -161,8 +161,8 @@
     "a standalone scratch kit copy did not answer HTTP within 180s (unexplained, low severity)",
     "images bounded in the prompt (2), not in the record"
   ],
-  "release": "1.2.1",
-  "release_tag": "build-line 2026-09-20 \u00b7 module-strip",
-  "rebrand_refresh_iso": "2026-09-20T14:17:58-06:00",
-  "rebrand_refresh_note": "1.2.1 environment truthfulness: declared-optional roots, guard-held refusals, log rotation, docs folder, truthful surfaces"
+  "release": "1.2.2",
+  "release_tag": "build-line 2026-09-20 \u00b7 module-strip \u00b7 hardening sweep",
+  "rebrand_refresh_iso": "2026-09-20T14:43:27-06:00",
+  "rebrand_refresh_note": "1.2.2 hardening sweep: token header case, OPTIONS answered properly, no phantom notes, envwatch rotation race, dead code removed, lifecycle exposed on the module row"
 }
