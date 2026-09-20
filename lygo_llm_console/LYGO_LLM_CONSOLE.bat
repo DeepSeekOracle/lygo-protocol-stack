@@ -141,6 +141,11 @@ if defined LYGO_FOREIGN (
 )
 if defined LYGO_HELD (
   echo.
+  if defined LYGO_DENIED (
+    echo  [denied] that process could not be stopped even by force: it was started from an
+    echo           ELEVATED window and this one is not allowed to kill it. Right-click
+    echo           LYGO_LLM_CONSOLE_STOP.bat ^> Run as administrator ^(desktop: LYGO PC CONSOLE STOP^).
+  )
   echo  Close that console window, or run LYGO_LLM_CONSOLE_STOP.bat, then start again.
   echo  If it will not close: taskkill /F /T /PID ^<pid^>  from an Administrator window.
   echo.
@@ -228,7 +233,50 @@ if not defined LYGO_OURS (
   exit /b 0
 )
 echo  port %~1: stopping our %LYGO_IMGRAW% PID %~2
-taskkill /F /T /PID %2 >nul 2>&1
+call :lygo_kill %~2 %~1
+exit /b 0
+
+:lygo_kill
+rem %1 = PID, %2 = the port it holds. Kill ONLY our own process, and SAY what the kill answered.
+rem A blanket ">nul 2>&1" is how a console looked stuck: when the holder had been started from an
+rem ELEVATED window, taskkill is refused with "Access is denied", the text was swallowed, and the
+rem line above still said "stopping" as though it had worked. So: print the real answer, retry,
+rem escalate (Stop-Process, then a WMI terminate), and if nothing can take it, say why and what
+rem fixes it instead of looping until the operator gives up.
+set "LYGO_DENIED="
+call :lygo_kill_once %~1
+ping -n 2 127.0.0.1 >nul
+call :lygo_pidof %~2
+if not defined LYGO_PID exit /b 0
+echo    ^| still held - second attempt
+call :lygo_kill_once %~1
+ping -n 3 127.0.0.1 >nul
+call :lygo_pidof %~2
+if not defined LYGO_PID exit /b 0
+echo    ^| still held - escalating: Stop-Process, then WMI terminate
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Stop-Process -Id %~1 -Force -ErrorAction SilentlyContinue" >nul 2>&1
+ping -n 3 127.0.0.1 >nul
+call :lygo_pidof %~2
+if not defined LYGO_PID exit /b 0
+powershell -NoProfile -ExecutionPolicy Bypass -Command "(Get-CimInstance Win32_Process -Filter 'ProcessId=%~1' -ErrorAction SilentlyContinue).Terminate() | Out-Null" >nul 2>&1
+ping -n 3 127.0.0.1 >nul
+call :lygo_pidof %~2
+if not defined LYGO_PID exit /b 0
+set "LYGO_DENIED=1"
+exit /b 0
+
+:lygo_kill_once
+rem %1 = PID. Run taskkill and echo exactly what it said.
+set "LYGO_KILLMSG="
+for /f "delims=" %%K in ('taskkill /F /T /PID %~1 2^>^&1') do set "LYGO_KILLMSG=%%K"
+rem No ( ) block around these two lines: taskkill's own SUCCESS line reads "... with PID 1234
+rem (child process of PID 5678) has been terminated." and a ")" inside an expanded value ends a
+rem parenthesised block early - this helper killed the whole batch (exit 255) the first time it ran.
+if not defined LYGO_KILLMSG goto :lygo_kill_silent
+echo    ^| %LYGO_KILLMSG%
+exit /b 0
+:lygo_kill_silent
+echo    ^| taskkill said nothing
 exit /b 0
 
 :lygo_sweep
