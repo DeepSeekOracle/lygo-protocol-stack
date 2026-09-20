@@ -154,13 +154,13 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "fb6df674721c184f",
-      "bytes": 36847
+      "sha256_16": "7a9fb77537234017",
+      "bytes": 37546
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "b7f8e171b0d70356",
-      "bytes": 32300
+      "sha256_16": "c5963ccc0f50fc67",
+      "bytes": 35322
     },
     {
       "path": "portal/app.js",
@@ -188,9 +188,10 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T17:59:52-06:00",
-  "rebrand_refresh_note": "image_info now reads through the mapped read roots instead of silently rewriting an outside path into the workspace (a real picture reported 'does not exist'); tool description updated in limbs.py",
+  "rebrand_refresh_iso": "2026-09-19T18:20:39-06:00",
+  "rebrand_refresh_note": "image limbs: read via mapped roots; image_see (local vision); paths masked out of host hint matching",
   "rebrand_refresh_files": [
-    "src/limbs.py"
+    "src/limbs.py",
+    "src/chat_loop.py"
   ]
 }

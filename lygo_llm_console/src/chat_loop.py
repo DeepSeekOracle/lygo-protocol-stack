@@ -424,11 +424,53 @@ def tool_card(name: str) -> str:
     )
 
 
+BS = chr(92)  # a literal backslash, built at runtime so no escape layer can mangle it
+QUOTES = chr(34) + chr(39)
+BADCHARS = chr(34) + chr(39) + "<>|"
+
+# A file path in the operator's message is DATA, not intent. Measured 2026-09-19: the steward sent
+# "check this photo <path>" where the path was drive I:, folder "E Drive", YOUTUBE LYGO VIDEOS,
+# Pictures, cc988550....png. STEWARD_HINT matched the word "Drive" inside that path, so host_prefetch
+# ran steward_map and injected a drives/policy recital BEFORE the model was called - he asked about a
+# picture and got a read_roots dump, then the model repeated it. Same trigger hit his earlier "find a
+# image on my pc in ..." turn. Mask paths out of every hint test below; the untouched words survive in
+# `raw` and the image branch reads the real path back out of it.
+PATH_TOKEN = re.compile(
+    "[A-Za-z]:" + "[" + BS + BS + "/]" + "[^" + BADCHARS + "]*"
+    + "|" + BS + BS + "[^" + BADCHARS + "]+",
+    re.I,
+)
+IMAGE_EXT = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tif", ".tiff")
+LOOK_HINT = re.compile("(check|look|see|view|describe|inspect|analyse|analyze|read|photo|image|picture|what)", re.I)
+
+
+def mask_paths(text: str) -> str:
+    """The text with file paths blanked, so a filename can never select a host limb."""
+    return PATH_TOKEN.sub(" ", text or "")
+
+
+def paths_in(text: str) -> list[str]:
+    """Absolute Windows paths in the text, in order, stripped of quotes and trailing punctuation."""
+    out: list[str] = []
+    for m in PATH_TOKEN.findall(text or ""):
+        p = m.strip().strip(QUOTES).rstrip(" .,;:)")
+        if p and p not in out:
+            out.append(p)
+    return out
+
+
+def image_paths_in(text: str) -> list[str]:
+    """The image files among the paths in the text."""
+    return [p for p in paths_in(text) if p.lower().endswith(IMAGE_EXT)]
+
+
 def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     """3B models talk about tools instead of calling them. Host runs URL/search/map first."""
     traces: list[dict[str, Any]] = []
     text = user_text or ""
     named = named_tool(text)
+    raw = text                  # the operator's own words, for the limbs that need the real path
+    text = mask_paths(text)     # every hint test below now sees intent, not filenames
     try:
         from skills_mod import match_invoked
 
@@ -516,6 +558,25 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
         result = dispatch("web_fetch", {"url": url})
         traces.append({"name": "web_fetch", "arguments": {"url": url}, "result": result, "host": True})
     if urls:
+        return traces
+    pics = image_paths_in(raw)
+    if pics:
+        # "check this photo <path>": the picture IS the request. Inspect the file on the host, and when
+        # the operator asked to look at it (or sent nothing but the path) hand the bytes to the local
+        # vision model, so the answer is grounded in the picture instead of in a filename that looks
+        # like a policy question.
+        for pic in pics[:2]:
+            info = dispatch("image_info", {"path": pic})
+            traces.append({"name": "image_info", "arguments": {"path": pic}, "result": info, "host": True})
+            if (info or {}).get("ok") and (LOOK_HINT.search(text) or len(text.strip()) < 12):
+                traces.append(
+                    {
+                        "name": "image_see",
+                        "arguments": {"path": pic},
+                        "result": dispatch("image_see", {"path": pic}),
+                        "host": True,
+                    }
+                )
         return traces
     if GH_HINT.search(text) and not any(t.get("name") == "steward_map" for t in traces):
         traces.append(

@@ -58,6 +58,7 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "hn_search", "description": "Hacker News Algolia search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "github_search", "description": "GitHub repository search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "image_info", "description": "Inspect one image file: kind, byte size and pixel dimensions. `path` may be an absolute path on this PC under a mapped read root (config/admin.json read_roots) or a workspace path. This reads metadata only - it does not describe or generate pictures.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
+    {"type": "function", "function": {"name": "image_see", "description": "LOOK AT a picture: sends the image file to the local vision model and returns a written description. `path` may be an absolute path on this PC under a mapped read root or a workspace path. Use for 'check this photo', 'what is in this image'. Needs a vision model (gemma4:12b via Ollama); failures name the rule.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "prompt": {"type": "string"}}, "required": ["path"]}}},
     {"type": "function", "function": {"name": "image_save", "description": "Save a base64 or data-URL image into workspace/images.", "parameters": {"type": "object", "properties": {"b64": {"type": "string"}, "path": {"type": "string"}}, "required": ["b64"]}}},
     {"type": "function", "function": {"name": "image_list", "description": "List workspace/images files.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "page_thumbnail", "description": "Capture a public HTTPS page thumbnail into workspace/images.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
@@ -121,7 +122,7 @@ CANON_KEYS: dict[str, tuple[str, ...]] = {
     "p0_gate": ("text",), "remember": ("note",), "memory_append": ("note",), "todo_add": ("item",),
     "read_file": ("path",), "write_file": ("path", "content"), "list_dir": ("path",),
     "find_files": ("pattern", "root"), "glob_files": ("pattern",), "image_info": ("path",),
-    "image_save": ("b64", "path"), "edit_file": ("path", "old", "new"), "weather": ("place",),
+    "image_see": ("path", "prompt"), "image_save": ("b64", "path"), "edit_file": ("path", "old", "new"), "weather": ("place",),
     "geocode": ("place",), "notepad_read": ("id",), "notepad_write": ("id", "title", "text"),
 }
 ALIAS_POOL: dict[str, tuple[str, ...]] = {
@@ -565,6 +566,10 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         from image_tools import image_info
 
         return image_info(str(args.get("path") or ""))
+    if name == "image_see":
+        from image_tools import image_see
+
+        return image_see(str(args.get("path") or ""), args.get("prompt"))
     if name == "image_save":
         from image_tools import image_save
 

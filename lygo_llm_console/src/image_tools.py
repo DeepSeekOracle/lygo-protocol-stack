@@ -71,6 +71,89 @@ def image_info(path: str) -> dict[str, Any]:
     return {"ok": True, "path": str(p), "kind": kind, "bytes": p.stat().st_size, "width": w, "height": h}
 
 
+OLLAMA_DEFAULT = "http://127.0.0.1:11434"
+VISION_DEFAULT = "gemma4:12b"
+
+
+def vision_model() -> str:
+    """Which local vision model answers. LYGO_VISION_MODEL, then config/console.json, then default."""
+    import json
+    import os
+
+    env = (os.environ.get("LYGO_VISION_MODEL") or "").strip()
+    if env:
+        return env
+    cfg = Path(__file__).resolve().parents[1] / "config" / "console.json"
+    try:
+        data = json.loads(cfg.read_text(encoding="utf-8"))
+        name = str(data.get("vision_model") or "").strip()
+        if name:
+            return name
+    except Exception:
+        pass
+    return VISION_DEFAULT
+
+
+def image_see(path: str, prompt: str | None = None, timeout: int = 180) -> dict[str, Any]:
+    """Describe a picture with the local vision model (Ollama).
+
+    image_info only reports kind/size/dimensions, so a request like "check this photo" cannot be
+    answered from it. This limb hands the bytes to a multimodal model and returns its words.
+    Failures are honest and named: outside_read_roots / missing / no_vision_model / vision_timeout.
+    """
+    import json
+    import os
+    import time
+    import urllib.error
+    import urllib.request
+
+    p, why = _allowed_read(under_workspace(path))
+    if why:
+        return {"ok": False, "error": why, "path": str(p),
+                "read_roots": [str(x) for x in (read_roots() or ())]}
+    if not p.is_file():
+        return {"ok": False, "error": "missing", "path": str(p)}
+    model = vision_model()
+    base = (os.environ.get("LYGO_OLLAMA_URL") or os.environ.get("OLLAMA_HOST") or OLLAMA_DEFAULT).rstrip("/")
+    if not base.startswith("http"):
+        base = "http://" + base
+    body = {
+        "model": model,
+        "prompt": prompt
+        or "Describe this image in 3-5 sentences: what it shows, what is visible, and any text you can read.",
+        "images": [base64.b64encode(p.read_bytes()).decode("ascii")],
+        "stream": False,
+        "think": False,
+        "options": {"num_predict": 220, "temperature": 0.2},
+    }
+    req = urllib.request.Request(
+        base + "/api/generate",
+        data=json.dumps(body).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+    )
+    t0 = time.time()
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as fh:
+            out = json.loads(fh.read().decode("utf-8", "replace"))
+    except urllib.error.HTTPError as exc:
+        return {"ok": False, "error": "no_vision_model", "model": model, "http": exc.code, "url": base}
+    except Exception as exc:
+        err = "vision_timeout" if "timeout" in type(exc).__name__.lower() else "no_vision_model"
+        return {"ok": False, "error": err, "model": model, "url": base, "why": type(exc).__name__}
+    text = (out.get("response") or "").strip()
+    if not text:
+        # Measured 2026-09-19: gemma4:12b advertises a "thinking" capability, and with thinking ON a
+        # 320-token budget went entirely into reasoning (done_reason "length", empty response, 127 s).
+        # The request above sets think=False; if it still comes back empty, say which knob to turn
+        # instead of returning a blank description into the turn.
+        return {"ok": False, "error": "vision_empty", "model": model, "seconds": round(time.time() - t0, 1),
+                "done_reason": out.get("done_reason"), "eval_count": out.get("eval_count"),
+                "hint": "the vision model returned no visible text; check its thinking setting / token budget"}
+    return {"ok": True, "path": str(p), "model": model, "seconds": round(time.time() - t0, 1),
+            "text": text, "bytes": p.stat().st_size, "done_reason": out.get("done_reason"),
+            "truncated": bool(out.get("done_reason") == "length")}
+
+
 def image_save(b64: str, path: str | None = None) -> dict[str, Any]:
     s = (b64 or "").strip()
     if "," in s and s.lower().startswith("data:"):
