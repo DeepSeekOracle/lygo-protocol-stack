@@ -12,6 +12,27 @@ llama.cpp engine on its own GGUF vault - it does not require, call, or depend on
 This GitHub folder is the **public product** (portal, limbs, Wikipedia/search, P0 gate, 15 champions, Continuity tabs).  
 `llama-server.exe`, GGUF weights, operator tokens, and steward vaults are **not** in git.
 
+## License - read this before you use it
+
+**Not open source.** This is a *source-available, brand-protective* product, published under the
+[LYGO Sovereign License v3.0](LICENSE) (`Δ9Φ963-LICENSE-v3.0`) - © 2024-2026 Justin Helmer
+(Lightfather · Excavationpro · DeepSeekOracle), all rights reserved except as expressly granted.
+
+The short version: **you can use it, build on it, read it, and share an unmodified copy.** You may
+**not** sell it, rebrand it, strip its notices, or redistribute a modified version. Attribution is
+required.
+
+| What you want | Where to read it |
+|---|---|
+| The license in plain English (does **not** override the license) | [`LICENSING.md`](LICENSING.md) |
+| Brand, names and logos | [`TRADEMARKS.md`](TRADEMARKS.md) |
+| Credits, steward and third-party notices | [`NOTICE`](NOTICE) |
+| The full legal text - **this is the one that controls** | [`LICENSE`](LICENSE) |
+
+**No warranty.** Provided **as is**, without warranty of any kind, express or implied. The steward
+is not liable for any damages arising from its use. Nothing in this repository is legal advice - if
+the stakes are real for you, have your own lawyer read the license.
+
 Whitepaper: [`docs/whitepapers/LYGO_LLM_CONSOLE_v1.md`](../docs/whitepapers/LYGO_LLM_CONSOLE_v1.md)
 
 ## Three systems, one console
