@@ -380,13 +380,72 @@ def maybe_spawn(model_id: str | None) -> str:
     return "error"
 
 
+def local_system_message(brain: str = "local") -> dict[str, Any]:
+    """The system message every local turn opens with - built in ONE place.
+
+    The prefix primer below has to send the identical opening, so both callers come through here. If
+    they ever drift apart the primer silently stops helping, which is the kind of defect that looks
+    like "the engine got slow again" months later.
+    """
+    from continuity import compose_system
+
+    return {"role": "system", "content": compose_system(brain)}
+
+
+def warm_prefix(model_id: str | None = None) -> None:
+    """Put the fixed opening of a local turn into the engine's prompt cache after a boot.
+
+    A local turn sends local_system_message() + history + core_schema(). The fixed part is large: on
+    this class of machine prefilling it costs ~40 s at ~130 tokens/s, and llama-server streams nothing
+    until prefill finishes - so the operator's first ask after pressing Boot looked like a dead engine
+    and the portal stopped the answer after 60 s of silence. One 1-token completion with the identical
+    opening, sent as soon as the engine reports ready, makes that first real ask cost seconds instead
+    of a minute.
+
+    This is an optimisation and never a reason for a turn to fail: it takes no engine lock (a request
+    that arrives while it runs simply queues behind it, exactly as it would have anyway) and any error
+    is logged and dropped.
+    """
+    if MOCK_ONLY or STATE.get("brain") != "ready":
+        return
+    model = str(model_id or STATE.get("selected") or "")
+    if not model or STATE.get("prefix_primed_for") == model:
+        return
+
+    def _run() -> None:
+        try:
+            from openai_proxy import llama_chat
+            from tools import core_schema
+
+            from openai_proxy import for_local_engine
+
+            payload = for_local_engine({
+                "model": model,
+                "messages": [local_system_message("local"), {"role": "user", "content": "ready"}],
+                "max_tokens": 1,
+                "stream": False,
+                "tools": core_schema(),
+            })
+            t0 = time.time()
+            code, _body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port(), timeout=900.0)
+            if STATE.get("brain") == "ready" and STATE.get("selected") == model:
+                STATE["prefix_primed_for"] = model
+            print(f"prefix primed for {model} in {time.time() - t0:.1f}s (code {code})")
+        except Exception as e:  # noqa: BLE001 - an optimisation may never break a turn
+            print(f"prefix prime skipped: {type(e).__name__}: {e}")
+
+    threading.Thread(target=_run, daemon=True, name="lygo-prefix").start()
+
+
 def boot_async(model_id: str | None) -> None:
     STATE["brain"] = "booting"
     STATE["error"] = None
 
     def _run() -> None:
         try:
-            maybe_spawn(model_id)
+            status = maybe_spawn(model_id)
+            if status == "ready":
+                warm_prefix(model_id)
         except Exception as e:
             STATE["brain"] = "error"
             STATE["error"] = str(e)
@@ -1317,7 +1376,7 @@ class Handler(BaseHTTPRequestHandler):
             safe_record("user", _last.get("content"), {"turn": True})
         elif str(user).strip():
             safe_record("user", user, {"turn": True})
-        msgs = [{"role": "system", "content": compose_system("api" if use_cloud else "local")}] + kept
+        msgs = [local_system_message("api" if use_cloud else "local")] + kept
         assistant = ""
         traces: list[Any] = []
         # Hoisted out of the `if use_tools:` block below: it used to be initialised there and read
@@ -1595,6 +1654,15 @@ class Handler(BaseHTTPRequestHandler):
                         assistant = "Host ran the " + want + " limb you named: " + (tool_prose([tr]) or "no readout")
                     else:
                         honest_pending = want
+        if use_tools and traces and not str(assistant or "").strip():
+            # A limb ran and the turn still has no words for the operator. The engine can answer the
+            # "now answer in plain prose, do not emit another tool call" instruction with a second tool
+            # call, and the loop has no step left to narrate it - so the bubble arrived empty while the
+            # console was holding the readout. Measured 2026-09-19 on the plainest possible ask ("what
+            # time is it right now?"): finish=tool_calls, content '', call now({}), then a 25-token
+            # follow-up call. Say what the limbs returned instead of saying nothing.
+            own = [t for t in traces if not t.get("host")] or traces
+            assistant = tool_prose(own) or ""
         if use_tools and traces and is_tool_call_echo(assistant, cur_msg):
             # The model emitted a call and then echoed it as its answer instead of narrating the
             # result: hand the operator the host readout rather than the raw call JSON.
@@ -1779,7 +1847,61 @@ class _StickContainment(ThreadingHTTPServer):
             pass
 
 
+class _Tee:
+    """Write to the window AND to a file, so a console that dies leaves a reason behind.
+
+    This console has exited on its own twice with nothing on disk to explain it: stdout lived only in
+    the launcher window, and when the window closed the reason closed with it. Everything printed now
+    also lands in save/logs/console-<date>.log. A write failure here is never allowed to break a turn.
+    """
+
+    def __init__(self, stream, handle) -> None:
+        self._stream = stream
+        self._handle = handle
+
+    def write(self, data: str) -> int:
+        # The file side is flushed on every write on purpose: this log exists to explain a death, and a
+        # buffered handle loses exactly the last lines that would - which is what happened when the
+        # primer's own "prefix primed" line sat in the buffer while the engine log showed it had run.
+        for target in (self._stream, self._handle):
+            try:
+                target.write(data)
+                target.flush()
+            except Exception:  # noqa: BLE001 - logging may never take the console down
+                pass
+        return len(data)
+
+    def flush(self) -> None:
+        for target in (self._stream, self._handle):
+            try:
+                target.flush()
+            except Exception:  # noqa: BLE001
+                pass
+
+    def __getattr__(self, name: str):
+        return getattr(self._stream, name)
+
+
+def install_console_log() -> str:
+    """Tee stdout/stderr into save/logs/console-<date>.log. Returns the path, or '' if it could not."""
+    try:
+        from paths import LOGS
+
+        LOGS.mkdir(parents=True, exist_ok=True)
+        path = LOGS / f"console-{time.strftime('%Y%m%d')}.log"
+        handle = open(path, "a", encoding="utf-8", errors="replace")
+        stamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        handle.write(f"\n===== console start {stamp} pid={os.getpid()} =====\n")
+        handle.flush()
+        sys.stdout = _Tee(sys.stdout, handle)
+        sys.stderr = _Tee(sys.stderr, handle)
+        return str(path)
+    except Exception:  # noqa: BLE001 - a read-only stick still has to run
+        return ""
+
+
 def main() -> int:
+    _log = install_console_log()
     global TOKEN, LLAMA_KEY, BIND, AUTH_REQUIRED, MOCK_ONLY
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", nargs="?", default="serve")
@@ -1886,6 +2008,8 @@ def main() -> int:
     url = f"http://127.0.0.1:{args.port}/?v={BUILD}" + (f"&t={TOKEN}" if AUTH_REQUIRED else "")
     print(f"LYGO LLM Console {BUILD}  {url}")
     print(f"kit {KIT_ROOT}")
+    if _log:
+        print(f"console log {_log}")
     print(f"signature Δ9Φ963-LYGO-LLM-CONSOLE-v1  physics={PHYSICS_AVAILABLE}  bind={BIND}")
 
     def warmup() -> None:

@@ -218,5 +218,75 @@ class RescanTests(unittest.TestCase):
         self.assertEqual("operator", data.get("selected_source"))
 
 
+class SilentTurnTests(unittest.TestCase):
+    """The first ask after a boot must not look like a dead engine.
+
+    A local turn streams nothing until the engine finishes prefilling its context - on this class of
+    machine about 40 s for the system prompt plus the tool schemas - and the portal used to stop the
+    answer after 60 s of silence. The console now primes that prefix as soon as the engine reports
+    ready, and the portal waits longer for a local turn than for an API. Both only work while they
+    stay in step with the chat path, which is what these pin.
+    """
+
+    def _src(self, name: str) -> str:
+        return (ROOT / "src" / name).read_text(encoding="utf-8", errors="replace")
+
+    def test_the_primer_reuses_the_opening_the_chat_path_sends(self) -> None:
+        import inspect
+
+        import server
+
+        msg = server.local_system_message("local")
+        self.assertEqual({"role", "content"}, set(msg))
+        self.assertTrue(str(msg.get("content") or "").strip(), "the system message must not be empty")
+        primer = inspect.getsource(server.warm_prefix)
+        self.assertIn("local_system_message", primer, "the primer must reuse the chat path's opening")
+        self.assertIn("core_schema", primer, "it must send the same tool schemas a local turn sends")
+        self.assertIn("max_tokens", primer)
+        self.assertIn('local_system_message("api" if use_cloud else "local")', self._src("server.py"),
+                      "the chat path must keep opening through the shared builder, not compose_system directly")
+
+    def test_a_boot_primes_the_prefix(self) -> None:
+        src = self._src("server.py")
+        self.assertIn("warm_prefix(model_id)", src, "the boot funnel must start the primer")
+        self.assertIn('if status == "ready"', src, "only a ready engine has a cache to prime")
+
+    def test_a_local_turn_waits_longer_than_an_api_call(self) -> None:
+        js = (ROOT / "portal" / "app.js").read_text(encoding="utf-8", errors="replace")
+        local = re.search(r"STREAM_IDLE_LOCAL_MS\s*=\s*(\d+)", js)
+        cloud = re.search(r"STREAM_IDLE_MS\s*=\s*(\d+)", js)
+        self.assertTrue(local and cloud, "both windows must be named in the portal")
+        self.assertGreater(int(local.group(1)), int(cloud.group(1)),
+                           "a local prefill takes longer than an API is allowed to be silent")
+
+    def test_the_console_writes_its_own_log(self) -> None:
+        """It has exited on its own twice with nothing on disk to explain it."""
+        src = self._src("server.py")
+        self.assertIn("install_console_log", src)
+        self.assertIn("console-", src)
+
+
+class EmptyTurnTests(unittest.TestCase):
+    """A turn that ran a limb must never reach the operator as an empty bubble.
+
+    The engine can answer the console's "now answer in plain prose" instruction with another tool call,
+    and the loop has no step left to narrate it: measured 2026-09-19 with the plainest ask there is
+    ("what time is it right now?"), the model called now({}) and the console showed an empty answer while
+    holding the readout. The guard has to sit BEFORE the echo and shrug guards: both fall through on an
+    empty string (the shrug guard needs a word like "unknown" to match at all).
+    """
+
+    def test_a_blank_answer_with_real_tool_results_falls_back_to_the_readout(self):
+        src = (ROOT / "src" / "server.py").read_text(encoding="utf-8", errors="replace")
+        self.assertIn('if use_tools and traces and not str(assistant or "").strip():', src)
+        guard = src.index('if use_tools and traces and not str(assistant or "").strip():')
+        echo = src.index("if use_tools and traces and is_tool_call_echo(assistant, cur_msg):")
+        shrug = src.index("def _limb_card_text") if False else src.index("shrug_prose = tool_prose(traces)")
+        self.assertLess(guard, echo, "the empty-answer guard must run before the echo guard")
+        self.assertLess(guard, shrug, "the empty-answer guard must run before the shrug guard")
+        block = src[guard:guard + 1400]   # my own note above it is long
+        self.assertIn("tool_prose(", block, "the fallback must be the readout the limbs actually returned")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -144,13 +144,13 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "6ec5f38d5ddd82ea",
-      "bytes": 89136
+      "sha256_16": "1180081f85c78cfb",
+      "bytes": 94902
     },
     {
       "path": "src/continuity.py",
-      "sha256_16": "35b2ed0ee169ff2d",
-      "bytes": 11289
+      "sha256_16": "d8a3e04419d237e7",
+      "bytes": 12227
     },
     {
       "path": "src/limbs.py",
@@ -164,8 +164,8 @@
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "1558c413f593900a",
-      "bytes": 74285
+      "sha256_16": "3ccba0be68d4943b",
+      "bytes": 75232
     },
     {
       "path": "portal/index.html",
@@ -188,10 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T19:14:47-06:00",
-  "rebrand_refresh_note": "standalone: our own engine + own model vault, gateway and scan roots no longer default to a daemon",
+  "rebrand_refresh_iso": "2026-09-19T20:49:11-06:00",
+  "rebrand_refresh_note": "empty tool-call turns fall back to the readout",
   "rebrand_refresh_files": [
-    "src/server.py",
-    "portal/index.html"
+    "src/server.py"
   ]
 }

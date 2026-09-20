@@ -65,7 +65,16 @@
   const MAX_MSGS = 60;        /* messages this browser keeps in the request; the console trims by TOKENS */
   const MAX_IMAGES = 2;       /* base64 images kept in chatHistory — they are re-sent every turn */
   const MAX_TOKENS = 768;     /* shown in #ctx-note so a cut-off answer is explainable */
-  const STREAM_IDLE_MS = 60000;  /* no token for this long = engine not responding */
+  /* A local turn streams nothing while the engine prefills its context: the system prompt plus the
+     tool schemas are thousands of tokens, and on a mid machine that is ~40 s of silence before the
+     first token. 60 s was therefore normal, not death, and it stopped answers that were about to
+     arrive. The console primes that prefix right after a boot (server.py warm_prefix), so the first
+     ask is usually fast - but a big history or a cold cache can still exceed a minute. */
+  const STREAM_IDLE_MS = 60000;          /* cloud: an API that says nothing for a minute is gone */
+  const STREAM_IDLE_LOCAL_MS = 240000;   /* local: prefill + a slow first token on a mid machine */
+  /* Set once per turn, before the request goes out: a local turn prefills before it streams anything. */
+  let streamIsApi = false;
+  function idleWindowMs() { return streamIsApi ? STREAM_IDLE_MS : STREAM_IDLE_LOCAL_MS; }
   const STREAM_CAP_MS = 600000;  /* hard ceiling on one answer */
 
   /* ---- footer status: its own element, so a trace dump can never erase it -------------- */
@@ -898,7 +907,7 @@
     let idleTimer = null, capTimer = null, timedOut = false, stopped = false, parseFails = 0, done = false;
     const arm = function () {
       if (idleTimer) clearTimeout(idleTimer);
-      idleTimer = setTimeout(function () { timedOut = true; try { ctl.abort(); } catch (_) {} }, STREAM_IDLE_MS);
+      idleTimer = setTimeout(function () { timedOut = true; try { ctl.abort(); } catch (_) {} }, idleWindowMs());
     };
     const say = function (delta) {
       if (!delta) return;
@@ -908,6 +917,7 @@
     try {
       const h = await refreshHealth();
       const apiOn = brainMode === "api";
+      streamIsApi = apiOn;
       if (!apiOn && h && h.brain !== "ready" && h.brain !== "booting") {
         setStatus("local engine is " + (h.brain || "down") + " — booting the selected model, then asking…");
         await boot(models.value);
@@ -996,9 +1006,10 @@
         b.textContent += "\n[stopped by user]";
       } else if (timedOut) {
         b.classList.add("failed");
-        b.textContent += "\n⚠ engine not responding — no output for " + Math.round(STREAM_IDLE_MS / 1000) +
-          "s, so this answer was stopped. Check the health box, press Boot LLM, then ask again.";
-        setStatus("engine not responding — no output for " + Math.round(STREAM_IDLE_MS / 1000) + "s", true);
+        b.textContent += "\n⚠ no output for " + Math.round(idleWindowMs() / 1000) +
+          "s, so this answer was stopped. Check the health box: if the brain reads ready, ask again — the " +
+          "first turn after a boot pays for the engine reading its context, and the console primes that for you.";
+        setStatus("engine silent for " + Math.round(idleWindowMs() / 1000) + "s — stopped", true);
       } else if (e && e.name === "AbortError") {
         b.classList.add("stopped");
       } else {

@@ -194,15 +194,22 @@ def compose_system(brain: str | None = None, carry: bool = False) -> str:
         parts.append("")
     except Exception:
         pass
+    # The clock is VOLATILE: it changes every second, so it is held back and appended as the very last
+    # thing in the identity block. Mid-block it made every turn's prompt differ about 7,300 characters in,
+    # which is why a local turn re-prefilled thousands of tokens every time: the engine's prompt cache can
+    # only reuse the tokens before the first difference (llama-server reported f_sim_best 0.366 for two
+    # turns that were identical apart from this line). Last instead of mid-block, the tool schemas and the
+    # whole identity block stay cacheable and a turn prefills only what the operator actually wrote.
+    volatile: list[str] = []
     try:
         from world_clock import pulse_stamps
 
         w = pulse_stamps()
-        parts.append(
+        volatile.append(
             f"NOW UTC {w.get('utc_iso')} · local {w.get('local_iso')} ({w.get('local_tz')}) · unix {w.get('unix')} · {w.get('weekday')}."
         )
-        parts.append("Call world_pulse for city clocks + weather. RESOURCE, not CANON.")
-        parts.append("")
+        volatile.append("Call world_pulse for city clocks + weather. RESOURCE, not CANON.")
+        volatile.append("")
     except Exception:
         pass
     soul = _read_cap(soul_path(), 2400)
@@ -245,6 +252,10 @@ def compose_system(brain: str | None = None, carry: bool = False) -> str:
                 out = out + "\n\n" + block
         except Exception:
             pass
+    if volatile:
+        # deliberately last: everything above it is identical from one turn to the next (see the note
+        # where the clock is read), so the engine keeps it in cache instead of re-reading it every turn.
+        out = out + "\n" + "\n".join(volatile)
     return out
 
 
