@@ -36,6 +36,38 @@ def is_admin() -> bool:
     return bool(load())
 
 
+def optional_roots() -> list[str]:
+    """Roots the config declares as legitimately absent - mapped only during steward ops.
+
+    A declared-optional root that does not resolve is **normal**. A reader that calls it a fault
+    sends the operator chasing a drive that is meant to be offline, so the declaration lives in
+    `config/admin.json` next to the roots it describes, and this is the only place it is read.
+    """
+    try:
+        raw = load().get("optional_roots")
+    except Exception:  # noqa: BLE001
+        return []
+    if not isinstance(raw, list):
+        return []
+    return [str(x) for x in raw if str(x).strip()]
+
+
+def _norm_root(path: Any) -> str:
+    return os.path.normcase(str(path or "").strip().rstrip("\\/"))
+
+
+def is_optional_root(path: Any) -> bool:
+    """True when `path` - or something inside it - was declared optional by the config."""
+    want = _norm_root(path)
+    if not want:
+        return False
+    for r in optional_roots():
+        root = _norm_root(r)
+        if root and (want == root or want.startswith(root + os.sep)):
+            return True
+    return False
+
+
 def _usb_root() -> str:
     """The builder-key root when one resolves, else '' - usb_root_status() carries the reason."""
     st = usb_root_status()

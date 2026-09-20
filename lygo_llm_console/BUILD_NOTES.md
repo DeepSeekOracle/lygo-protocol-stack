@@ -38,6 +38,39 @@ done, restore it into a clean folder and run `scripts/certify_build.py` plus the
 
 ---
 
+## 1.2.1 — ENVIRONMENT TRUTHFULNESS · tag `build-line 2026-09-20 · envwatch-clean`
+
+**Why:** the first boot of the module strip on the stick reported three things that were not faults, and one
+that was a real config defect. A watcher that cries wolf is worse than no watcher: an operator learns to
+ignore the card, and then the one real fault goes unread. This release makes the card's "needs fixing" mean
+*needs fixing*.
+
+**What changed**
+
+1. **A declared-optional root is no longer a fault.** `U:\LYGO` is the stream share, mapped only during
+   steward ops - the config said so in prose ("when mapped") and `lygo.envwatch` reported it as a broken path.
+   `config/admin.json` now declares `optional_roots`, `src/admin_map.py` owns the answer
+   (`optional_roots()`, `is_optional_root()`), and the card shows such a root as
+   *Absent (declared optional)* - visible, never a finding. An undeclared missing root still is one.
+2. **A guard that holds is not a fault.** The notepad refuses a path carrying an embedded null byte, which is
+   the writing guard working exactly as designed; the card was reporting it as `write refused`. Refusals of a
+   path that cannot exist (null byte, empty target) are now reported as *correctly refused*, with the reason,
+   and stay out of the fault count. A refusal of a real path is still amber.
+3. **Old logs are rotated, never deleted** - `scripts/rotate_logs.py` (`--days`, `--root`, `--apply`; dry run
+   by default). A fault line from a test run days ago held the strip amber for ever over something that cannot
+   happen again, while deleting the log would destroy the record. Rotated logs move to `save/logs/archive/`,
+   and the card **counts** the archive so the history cannot be hidden.
+4. **The `{kit}\docs` mapping resolves.** Both trees had a config root pointing at a folder that did not
+   exist; `docs/` now exists in both, with a README saying what belongs there (and what must never).
+5. **The manifests stopped lying about their editions.** Both modules claimed `usb: N/A(not promoted yet)` and
+   `web: DEGRADED(...)` after the 1.2.0 promotion; they now read `usb: FULL` with the promotion recorded in
+   `notes`, and `web: N/A(by steward decision ...)`. Their tests pin that truth, not the old scope.
+
+**Module version:** `lygo.envwatch` 1.0.0 → **1.1.0** (its behaviour changed); `lygo.llminfo` stays 1.0.0.
+
+**Verified:** `python -m pytest tests -q` on both trees; `refresh_manifests.py` + `certify_build.py` on both;
+both cards read green with the modules on `dock.llm` (LLM data) and `dock.env` (Environment watch).
+
 ## 1.2.0 — MODULE STRIP · tag `build-line 2026-09-20 · module-strip`
 
 **Status: current.** `1.1.1` is sealed for both installs. This release ships the **first pair of function

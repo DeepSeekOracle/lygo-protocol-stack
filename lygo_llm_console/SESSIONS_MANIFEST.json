@@ -164,7 +164,7 @@
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "49832e93c3c2cce8",
+      "sha256_16": "987e7ec6ed7ac052",
       "bytes": 95352
     },
     {
@@ -188,11 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-20T13:46:51-06:00",
-  "rebrand_refresh_note": "1.2.0 module-strip: lygo.llminfo + lygo.envwatch panes in the bottom dock, release anchored at 1.2.0",
+  "rebrand_refresh_iso": "2026-09-20T14:17:58-06:00",
+  "rebrand_refresh_note": "1.2.1 environment truthfulness: declared-optional roots, guard-held refusals, log rotation, docs folder, truthful surfaces",
   "rebrand_refresh_files": [
-    "src/server.py",
-    "portal/app.js",
-    "portal/index.html"
+    "portal/app.js"
   ]
 }

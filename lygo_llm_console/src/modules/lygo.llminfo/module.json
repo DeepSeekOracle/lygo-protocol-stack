@@ -8,8 +8,8 @@
   "lifecycle": "PARITY",
   "surfaces": {
     "pc": "FULL",
-    "usb": "N/A(not promoted yet - steward scoped this module to the PC edition first; its pane slot is 'dock', the bottom strip, which is a PC-only shell change so far - the module and the strip must be promoted together)",
-    "web": "DEGRADED(a browser tab can render the panel and its own provider facts, but it has no local engine, registry file or compaction record to report; it takes the console's table instead)"
+    "usb": "FULL",
+    "web": "N/A(by steward decision 2026-09-20: the web portal does not need these modules - a browser tab has no local engine, no registry file, no receipts and no log files, so a card there could only be decoration)"
   },
   "requires": {
     "console": ">=1.2.0",
@@ -65,5 +65,5 @@
   ],
   "docs": "04_MODULES/lygo.llminfo/MODULE_SPEC.md",
   "adapter": "backend.py",
-  "notes": "Read-only collector: it adds no state and writes nothing, so its gate is 'none'. It reports only facts another owner already holds - the selected model record (registry), the live window budget and the record counters (compaction.safe_status), the API switch and its last answer (cloud_api.public_status), the clock (world_clock.pulse) and the release (version) - and it names every fact it cannot get rather than filling the gap with a guess. The pane id is slot-prefixed ('dock.llm') because /api/modules publishes pane ids; the shell places a pane by its prefix - slot 'dock' is the console page's bottom strip, full length, one card per module, with the PAGE scrolling to it - so a pane reaches that strip without a shell edit, and no module can take room from the working area. inner_scroll is false on purpose: the page scrolls, not the pane. Rate windows are the PROVIDER's published policy, not our inference: only DeepSeek publishes one today (peak 01:00-04:00 and 06:00-10:00 UTC, Mon-Fri, off-peak is half the peak rate) and the source URL travels with the answer."
+  "notes": "Read-only collector: it adds no state and writes nothing, so its gate is 'none'. It reports only facts another owner already holds - the selected model record (registry), the live window budget and the record counters (compaction.safe_status), the API switch and its last answer (cloud_api.public_status), the clock (world_clock.pulse) and the release (version) - and it names every fact it cannot get rather than filling the gap with a guess. The pane id is slot-prefixed ('dock.llm') because /api/modules publishes pane ids; the shell places a pane by its prefix - slot 'dock' is the console page's bottom strip, full length, one card per module, with the PAGE scrolling to it - so a pane reaches that strip without a shell edit, and no module can take room from the working area. inner_scroll is false on purpose: the page scrolls, not the pane. Rate windows are the PROVIDER's published policy, not our inference: only DeepSeek publishes one today (peak 01:00-04:00 and 06:00-10:00 UTC, Mon-Fri, off-peak is half the peak rate) and the source URL travels with the answer. Promoted to the USB LYGO CLAW in 1.2.0 (as-built Addendum A7): the module and the pane host travelled together, every file sha256-verified against the PC tree, and the stick re-ran the tests."
 }

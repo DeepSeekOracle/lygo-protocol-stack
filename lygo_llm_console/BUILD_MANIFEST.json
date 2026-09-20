@@ -1,7 +1,7 @@
 {
   "name": "LYGO LLM Local Console",
   "signature": "\u03949\u03a6963-LYGO-LLM-CONSOLE-v1",
-  "build": "v1.2.0",
+  "build": "v1.2.1",
   "status": "BETA 1 - stable working prototype",
   "generated": "2026-09-18",
   "steward": "Justin Helmer (ExcavationPro / Lightfather)",
@@ -493,8 +493,8 @@
     },
     "how_to_find_the_next_one": "run two strict suites at once; whichever test fails is writing shared state"
   },
-  "release": "1.2.0",
+  "release": "1.2.1",
   "release_tag": "build-line 2026-09-20 \u00b7 module-strip",
-  "rebrand_refresh_iso": "2026-09-20T13:46:51-06:00",
-  "rebrand_refresh_note": "1.2.0 module-strip: lygo.llminfo + lygo.envwatch panes in the bottom dock, release anchored at 1.2.0"
+  "rebrand_refresh_iso": "2026-09-20T14:17:58-06:00",
+  "rebrand_refresh_note": "1.2.1 environment truthfulness: declared-optional roots, guard-held refusals, log rotation, docs folder, truthful surfaces"
 }

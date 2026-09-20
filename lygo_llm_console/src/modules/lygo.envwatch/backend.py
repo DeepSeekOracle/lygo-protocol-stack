@@ -282,6 +282,40 @@ def _skills(seen_slugs: dict[str, str] | None = None) -> _Part:
 # ------------------------------------------------------------------------------------------------
 # 2. paths — mapped roots that are not firing
 # ------------------------------------------------------------------------------------------------
+def _impossible_target(line: str) -> str:
+    """Why the path in this line cannot exist - '' when it looks like a real path.
+
+    A refusal of a path that can never *be* a path (an embedded null, an empty target) is the
+    writing guard working exactly as designed. Reporting it as a fault is how a card trains its
+    operator to stop reading it, so such a line is reported as a guard that held instead.
+    """
+    if "\x00" in line:
+        return "the path carries an embedded null character, which no filesystem accepts"
+    low = line.lower()
+    if "failed: open:" in low:
+        tail = line.split("failed: open:", 1)[1].strip().strip("'\"")
+        if not tail:
+            return "the write was handed an empty path"
+    return ""
+
+
+def _split_declared_optional(missing: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """(absent on purpose, genuinely missing) using the config's own `optional_roots` declaration.
+
+    If the paths owner cannot answer, every root stays a real finding - the conservative way round,
+    because a fault wrongly called 'optional' is worse than an optional root wrongly called a fault.
+    """
+    try:
+        import admin_map  # noqa: PLC0415
+
+        declared = admin_map.is_optional_root
+    except Exception:  # noqa: BLE001
+        return [], missing
+    on_purpose = [m for m in missing if declared(m.get("path"))]
+    real = [m for m in missing if not declared(m.get("path"))]
+    return on_purpose, real
+
+
 def _paths() -> _Part:
     part = _Part("paths", "mapped roots, and whether each one resolves right now")
     mounts: list[dict[str, Any]] = []
@@ -295,11 +329,19 @@ def _paths() -> _Part:
 
     if mounts:
         missing = [m for m in mounts if str(m.get("status")) == "missing"]
+        absent_by_choice, missing = _split_declared_optional(missing)
         revoked = [m for m in mounts if m.get("revoked")]
         part.row("Mapped paths", _plural(len(mounts), "root"), "what the limbs may read")
-        part.row("Resolving", _plural(len(mounts) - len(missing), "root"), "the path exists right now")
+        part.row("Resolving", _plural(len(mounts) - len(missing) - len(absent_by_choice), "root"), "the path exists right now")
         if revoked:
             part.row("Revoked", _plural(len(revoked), "root"), "switched off on purpose")
+        if absent_by_choice:
+            part.row(
+                "Absent (declared optional)",
+                _plural(len(absent_by_choice), "root"),
+                "; ".join(str(m.get("path")) for m in absent_by_choice[:3])
+                + " — set in config/admin.json as mapped only during steward ops, so absent is normal, not a fault",
+            )
         if missing:
             part.issue(
                 "amber",
@@ -374,6 +416,12 @@ def _errors() -> _Part:
                     if any(p in low for p in pats):
                         hits.append((name, line.strip()))
                         break
+            # A refusal of a path that can never exist is the guard working, not a fault. It stays
+            # visible (a row, with the reason) and never becomes a finding.
+            held = [(n, ln) for n, ln in hits if n == "write refused" and _impossible_target(ln)]
+            if held:
+                hits = [(n, ln) for n, ln in hits if not (n == "write refused" and _impossible_target(ln))]
+                part.row(f.name, _plural(len(held), "line"), "correctly refused: " + _impossible_target(held[-1][1]))
             if not hits:
                 continue
             found_any = True
@@ -407,6 +455,14 @@ def _errors() -> _Part:
             )
         part.row("Log files searched", _plural(scanned, "file"), "save/logs/*.log, newest 400 KB each" if scanned else "none found")
         part.row("Rules used", _plural(len(LOG_RULES), "pattern set"), ", ".join(n for n, _ in LOG_RULES))
+        archived = sorted((log_dir / "archive").glob("*.log")) if (log_dir / "archive").is_dir() else []
+        if archived:
+            part.row(
+                "Archived logs",
+                _plural(len(archived), "file"),
+                "rotated to save/logs/archive/ and deliberately not scanned — counted here so the history stays "
+                f"visible rather than hidden (newest: {archived[-1].name})",
+            )
     if log_dir is not None and not scanned:
         part.unchecked_for("no *.log file in save/logs, so the background-error sweep had nothing to read")
 

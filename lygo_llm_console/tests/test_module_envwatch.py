@@ -88,8 +88,11 @@ class TestManifestAndContract(unittest.TestCase):
         self.assertIn(self.manifest["lifecycle"], ladder)
         self.assertGreaterEqual(ladder.index(self.manifest["lifecycle"]), ladder.index("WIRED"))
         self.assertEqual(self.manifest["surfaces"]["pc"], "FULL")
-        self.assertTrue(self.manifest["surfaces"]["usb"].startswith("N/A"), "not promoted yet, and it says why")
-        self.assertIn("DEGRADED", self.manifest["surfaces"]["web"])
+        self.assertTrue(self.manifest["surfaces"]["usb"].startswith("FULL"),
+                        "promoted in 1.2.0 (A7): the stick carries it and tested it")
+        self.assertTrue(self.manifest["surfaces"]["web"].startswith("N/A"),
+                        "the web needs no card here, and the manifest says why")
+        self.assertIn("steward decision", self.manifest["surfaces"]["web"])
 
     def test_it_owns_no_state_and_fixes_nothing(self) -> None:
         self.assertEqual(self.manifest["state"]["owns"], [])
@@ -343,7 +346,15 @@ class TestPathsFindings(unittest.TestCase):
     def setUp(self) -> None:
         self.backend = load_backend()
 
-    def _run(self, mounts, warnings=(), usb_ok=True):
+    def _run(self, mounts, warnings=(), usb_ok=True, declared=()):
+        """`declared` are the roots config/admin.json calls optional - `is_optional_root` is the
+        paths owner's answer, so it is stubbed exactly as the real admin_map exposes it."""
+        import os as _os
+
+        def _is_optional(path, _declared=tuple(declared)):
+            want = _os.path.normcase(str(path or "").strip().rstrip("\\/"))
+            return any(want == _os.path.normcase(str(d).strip().rstrip("\\/")) for d in _declared)
+
         wm = stub_module(
             "workspace_map",
             list_mounts=lambda: {"mounts": mounts},
@@ -353,6 +364,7 @@ class TestPathsFindings(unittest.TestCase):
             "admin_map",
             path_warnings=lambda: list(warnings),
             is_admin=lambda: False,
+            is_optional_root=_is_optional,
             chatagent_root_status=lambda: {"verified": True, "root": "D:/chatagent", "reason": "verified by .git"},
             usb_root_status=lambda: {"verified": usb_ok, "root": "E:/LYGO_BUILDER_KEY", "reason": "no marker"},
         )
@@ -376,6 +388,38 @@ class TestPathsFindings(unittest.TestCase):
     def test_a_clean_root_set_reports_nothing(self) -> None:
         part = self._run([{"path": "I:/kit", "status": "ok", "source": "pinned", "write": True}])
         self.assertEqual(part.issues, [])
+
+
+    def test_a_declared_optional_root_is_not_a_fault(self) -> None:
+        """A drive that is *meant* to be offline must not send the operator chasing it. The
+        declaration lives in config/admin.json; the finding is reserved for roots nobody declared."""
+        part = self._run(
+            [{"path": "U:\\LYGO", "status": "missing", "source": "admin.json", "write": True}],
+            declared=["U:\\LYGO"],
+        )
+        self.assertEqual([i for i in part.issues if "do not resolve" in i["title"]], [])
+        row = next(r for r in part.rows if r["k"] == "Absent (declared optional)")
+        text = row["k"] + " " + row["v"] + " " + row.get("note", "")
+        self.assertIn("U:\\LYGO", text)
+        self.assertIn("optional", text.lower())
+
+    def test_an_undeclared_missing_root_still_holds_the_finding(self) -> None:
+        part = self._run(
+            [
+                {"path": "U:\\LYGO", "status": "missing", "source": "admin.json", "write": True},
+                {"path": "Q:\\gone", "status": "missing", "source": "admin.json", "write": False},
+            ],
+            declared=["U:\\LYGO"],
+        )
+        bad = [i for i in part.issues if "do not resolve" in i["title"]]
+        self.assertEqual(len(bad), 1, "one declared-optional and one real root: exactly one finding")
+        self.assertIn("Q:\\gone", bad[0]["where"])
+        self.assertNotIn("U:\\LYGO", bad[0]["where"], "the optional root is not named as a fault")
+
+    def test_a_resolving_root_set_states_how_many_resolve(self) -> None:
+        part = self._run([{"path": "I:/kit", "status": "ok", "source": "pinned", "write": True}])
+        row = next(r for r in part.rows if r["k"] == "Resolving")
+        self.assertIn("1", row["v"])
 
 
 class TestLogFindings(unittest.TestCase):
@@ -497,6 +541,51 @@ class TestLogFindings(unittest.TestCase):
     def test_a_failed_event_is_reported(self) -> None:
         part = self._run(["[2026-09-20 10:00:00] fine"], events=['{"ok": false, "what": "x"}'])
         self.assertTrue([i for i in part.issues if "recorded a failure" in i["title"]])
+
+
+    def test_a_refusal_of_an_impossible_path_is_the_guard_working(self) -> None:
+        """The kit really did refuse a write - but the path it was handed carried a null byte, so
+        no filesystem would take it. Counting that as a fault is how a card trains its operator to
+        stop reading it. It stays visible as a guard that held."""
+        stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        line = (f"[{stamp}] [module lygo.notepad] write_text(E:\\kit\\src\\modules\\nope\x00bad.json) "
+                "failed: open: embedded null character in path")
+        part = self._run([line])
+        self.assertEqual([i for i in part.issues if i["level"] in ("amber", "red")], [])
+        row = next(r for r in part.rows if "correctly refused" in str(r.get("note", "")))
+        self.assertIn("null character", row["note"])
+
+    def test_a_real_write_refusal_is_still_a_finding(self) -> None:
+        stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        part = self._run([f"[{stamp}] [module x] write_text(E:\\kit\\save\\note.md) failed: open: PermissionError"])
+        bad = [i for i in part.issues if "write refused" in i["title"]]
+        self.assertTrue(bad, "a refusal of a real path is a real finding")
+        self.assertEqual(bad[0]["level"], "amber")
+
+    def test_an_empty_target_refusal_is_also_the_guard_working(self) -> None:
+        stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        part = self._run([f"[{stamp}] [module x] write_text() failed: open: "])
+        self.assertEqual([i for i in part.issues if i["level"] in ("amber", "red")], [])
+
+    def test_archived_logs_are_counted_not_hidden(self) -> None:
+        """Rotation must not become a way of hiding a fault: the archive is named on the card."""
+        with tempfile.TemporaryDirectory() as tmp:
+            logs = Path(tmp) / "logs"
+            (logs / "archive").mkdir(parents=True)
+            (logs / "archive" / "llama-server-old.log").write_text("0.1 E engine fault\n", encoding="utf-8")
+            (logs / "console-today.log").write_text("[2026-09-20 10:00:00] fine\n", encoding="utf-8")
+            rec = Path(tmp) / "receipts"
+            rec.mkdir()
+            my = Path(tmp) / "mycelium"
+            my.mkdir()
+            paths = stub_module("paths", LOGS=logs, RECEIPTS=rec, MYCELIUM=my)
+            cloud = stub_module("cloud_api", public_status=lambda: {"degraded": False, "chain_tried": []})
+            with patch.dict(sys.modules, {"paths": paths, "cloud_api": cloud}):
+                part = self.backend._errors()
+        row = next(r for r in part.rows if r["k"] == "Archived logs")
+        self.assertIn("1", row["v"])
+        self.assertIn("save/logs/archive", row.get("note", ""))
+        self.assertEqual([i for i in part.issues if "old" in i["title"]], [], "an archived log is not scanned")
 
 
 class TestUncheckedIsNeverGreen(unittest.TestCase):

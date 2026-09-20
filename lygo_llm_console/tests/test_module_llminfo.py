@@ -275,11 +275,13 @@ class TestContract(unittest.TestCase):
         payload = fake.last
         self.assertEqual(payload["signature"], "Δ9Φ963-LYGO-LLMINFO-v1")
 
-    def test_it_declares_the_surfaces_it_has_not_reached(self) -> None:
+    def test_it_declares_its_surfaces_truthfully(self) -> None:
         mf = json.loads((MODULES_DIR / MID / "module.json").read_text(encoding="utf-8"))
         self.assertEqual(mf["surfaces"]["pc"], "FULL")
-        self.assertTrue(mf["surfaces"]["usb"].startswith("N/A("), "not promoted: say why")
-        self.assertTrue(mf["surfaces"]["web"].startswith("DEGRADED("))
+        # promoted in 1.2.0 (A7): carried byte-identical to the stick and tested there
+        self.assertTrue(mf["surfaces"]["usb"].startswith("FULL"), "the stick carries this panel now")
+        self.assertTrue(mf["surfaces"]["web"].startswith("N/A("), "and the web says why it does not")
+        self.assertIn("steward decision", mf["surfaces"]["web"])
 
     def test_it_declares_no_state_it_does_not_own(self) -> None:
         mf = json.loads((MODULES_DIR / MID / "module.json").read_text(encoding="utf-8"))
