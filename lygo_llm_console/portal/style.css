@@ -13,18 +13,30 @@
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); }
+html { height: 100%; }
 body {
+  margin: 0;
+  min-height: 100%;
   font-family: "Segoe UI", system-ui, sans-serif;
-  /* The page is a flex column: header / world strip / main / media dock. `main` takes the
-     leftover height with flex:1 instead of subtracting a guessed header height, so a header
-     that wraps to two or three lines can no longer break the chat column's sizing. */
-  display: flex;
-  flex-direction: column;
   background:
     radial-gradient(1200px 500px at 10% -10%, rgba(224, 179, 106, 0.08), transparent 50%),
     radial-gradient(900px 400px at 100% 0%, rgba(80, 50, 20, 0.25), transparent 45%),
     var(--bg);
+  color: var(--ink);
+}
+/* The shell is one viewport tall and holds the working area: header / world strip / main. Its
+   height is definite ON PURPOSE — `main` takes the leftover with flex:1, which is what keeps the
+   chat column a fixed-height scroll box, so the working view is the same size whether or not a
+   module publishes anything. Everything a module adds lives BELOW this box, in the bottom strip
+   (see .modules-dock), and the page scrolls to reach it. Body must therefore NOT be height:100%:
+   that would clamp the page to one screen and squeeze the chat to make room for a module.
+
+   On phones the shell goes back to auto height (see the 700px query): there the header stack
+   already exceeds a screen, so the page has to scroll instead of the chat scrolling inside it. */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 header {
   flex: 0 0 auto;
@@ -77,6 +89,162 @@ header {
 }
 body[data-brain="ready"] .health { border-color: rgba(125, 206, 160, 0.35); color: #d5e8db; }
 body[data-brain="booting"] .health { border-color: rgba(224, 179, 106, 0.45); }
+
+/* --- module strip: the page's own bottom section (LYGO Function Modules) ------------------
+   The top-right box stays a STATUS readout — one line, the size the operator set it at — so
+   the working area above keeps every pixel it had. Module panes live down here instead: full
+   length, one card per module, and the PAGE scrolls to reach them, so a module that publishes
+   a lot of data extends the page downward instead of stealing room from the chat.
+   Adding a module must still mean adding nothing here: the shell draws whatever panes the
+   module table publishes, and the strip is the only host that exists today. */
+.modules-dock {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--line);
+  /* Opaque, and deliberately so. On a short window the header stacks tall enough that the working
+     area overflows its one-viewport shell (the composer lands below the fold — a known limit of the
+     stacked header, not of the strip). The strip starts exactly at the fold, so a translucent
+     background would draw the chat through the module cards. A module strip must read as the module
+     strip, whatever is scrolling past behind it. */
+  background-color: var(--bg);
+  background-image: linear-gradient(180deg, rgba(28, 23, 17, 0.92), rgba(12, 10, 8, 0.98));
+  padding: 0.85rem 1.25rem 1.2rem;
+}
+body[data-brain="ready"] .modules-dock { border-top-color: rgba(125, 206, 160, 0.35); }
+.modules-head { display: flex; flex-wrap: wrap; gap: 0.15rem 0.9rem; align-items: baseline; justify-content: space-between; }
+.modules-title { color: var(--gold); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.modules-note { color: var(--muted); font-size: 0.7rem; }
+.module-panes {
+  display: grid;
+  /* ONE module, ONE full-length strip: the cards stack in load order and each one extends the page
+     down, which is what "modules extend down the page" means with more than one module. Tiling the
+     cards into columns instead (auto-fit/minmax) looks fine with one module and leaves a tall dead
+     gap beside a short one as soon as a second arrives — the taller card sets the row height. Each
+     module's GROUPS still tile sideways inside its own strip, so the width is used either way. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.8rem;
+  margin-top: 0.7rem;
+  align-items: start;
+}
+.llm-pane {
+  min-width: 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.4;
+  padding: 0.55rem 0.7rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+}
+.llm-head { display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+.llm-title { color: var(--gold); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.llm-src { font-size: 0.62rem; color: var(--muted); }
+.llm-lights { display: flex; flex-wrap: wrap; gap: 0.3rem 0.7rem; margin: 0.35rem 0 0.15rem; }
+.llm-light { display: inline-flex; align-items: center; gap: 0.35rem; }
+.llm-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--muted); flex: 0 0 auto; }
+.llm-dot.green { background: var(--ok); box-shadow: 0 0 6px rgba(125, 206, 160, 0.8); }
+.llm-dot.amber { background: var(--warn); box-shadow: 0 0 6px rgba(224, 179, 106, 0.8); }
+.llm-dot.red { background: var(--bad); box-shadow: 0 0 6px rgba(217, 137, 122, 0.85); }
+.llm-dot.grey { background: var(--muted); }
+
+/* ---- severity -------------------------------------------------------------------------------
+   A pane may declare an overall `state` (green/amber/red/grey) and a `state_text`; the shell
+   paints the card, its badge and the strip's chip from that one field. Nothing here names a
+   module: a panel that answers "what needs fixing" and one that answers "what is hooked up" are
+   drawn by the same rules, and a pane that declares no state looks exactly like it did before.
+   Colour is never the only signal - every state carries its own words. */
+.llm-pane { border-left: 4px solid transparent; }
+.llm-pane.sev-green { border-left-color: rgba(125, 206, 160, 0.6); }
+.llm-pane.sev-amber { border-left-color: var(--warn); box-shadow: inset 3px 0 0 rgba(224, 179, 106, 0.08); }
+.llm-pane.sev-red {
+  border-left-color: var(--bad);
+  background: linear-gradient(90deg, rgba(217, 137, 122, 0.09), rgba(0, 0, 0, 0.28) 22%);
+}
+.llm-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 55%;
+}
+.llm-badge.sev-green { color: var(--ok); border-color: rgba(125, 206, 160, 0.45); background: rgba(125, 206, 160, 0.08); }
+.llm-badge.sev-amber { color: var(--warn); border-color: rgba(224, 179, 106, 0.5); background: rgba(224, 179, 106, 0.09); }
+.llm-badge.sev-red { color: var(--bad); border-color: rgba(217, 137, 122, 0.55); background: rgba(217, 137, 122, 0.12); }
+.llm-rdot { width: 0.42rem; height: 0.42rem; border-radius: 50%; display: inline-block; margin-right: 0.4rem; vertical-align: middle; background: var(--muted); }
+.llm-rdot.green { background: var(--ok); box-shadow: 0 0 6px rgba(125, 206, 160, 0.75); }
+.llm-rdot.amber { background: var(--warn); box-shadow: 0 0 6px rgba(224, 179, 106, 0.75); }
+.llm-rdot.red { background: var(--bad); box-shadow: 0 0 6px rgba(217, 137, 122, 0.8); }
+.llm-rdot.grey { background: var(--muted); opacity: 0.6; }
+/* The tile that holds findings gets a tint, so the eye lands on it before the reference rows. */
+.llm-group-fix { background: rgba(224, 179, 106, 0.06); border-radius: 8px; padding: 0.2rem 0.5rem 0.35rem; }
+.llm-group-fix .llm-gt { color: var(--warn); }
+.llm-group-fix .llm-row { border-top-color: rgba(224, 179, 106, 0.22); }
+/* The strip's own chip: one glance answers "is anything broken", across every module. */
+.modules-state {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.modules-state::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+  background: var(--muted);
+}
+.modules-state.sev-green { color: var(--ok); border-color: rgba(125, 206, 160, 0.45); background: rgba(125, 206, 160, 0.07); }
+.modules-state.sev-green::before { background: var(--ok); box-shadow: 0 0 7px rgba(125, 206, 160, 0.85); }
+.modules-state.sev-amber { color: var(--warn); border-color: rgba(224, 179, 106, 0.5); background: rgba(224, 179, 106, 0.08); }
+.modules-state.sev-amber::before { background: var(--warn); box-shadow: 0 0 7px rgba(224, 179, 106, 0.85); }
+.modules-state.sev-red { color: var(--bad); border-color: rgba(217, 137, 122, 0.55); background: rgba(217, 137, 122, 0.1); }
+.modules-state.sev-red::before { background: var(--bad); box-shadow: 0 0 8px rgba(217, 137, 122, 0.9); }
+@keyframes llm-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.62; } }
+.modules-state.sev-red::before, .llm-badge.sev-red { animation: llm-breathe 2.4s ease-in-out infinite; }
+/* Motion is a nicety, never the message: with it off, every state still reads in words. */
+@media (prefers-reduced-motion: reduce) {
+  .modules-state.sev-red::before, .llm-badge.sev-red { animation: none; }
+}
+.llm-ltext { color: var(--ink); }
+.llm-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.3rem 1.1rem;
+  align-items: start;
+  margin-top: 0.3rem;
+}
+.llm-group { margin-top: 0.45rem; min-width: 0; }
+.llm-gt { color: var(--gold2); font-size: 0.64rem; letter-spacing: 0.07em; text-transform: uppercase; }
+.llm-row { display: flex; gap: 0.45rem; align-items: baseline; flex-wrap: wrap; padding: 0.14rem 0; border-top: 1px dashed rgba(224, 179, 106, 0.12); }
+.llm-k { flex: 0 0 42%; color: var(--muted); }
+.llm-v { flex: 1 1 auto; min-width: 0; color: var(--ink); word-break: break-word; }
+/* The note wraps. It used to be clamped to one line with an ellipsis, which was right for a
+   narrow side box; in the full-length strip the rows are wide and the notes carry the "why",
+   so cutting them mid-word loses the point of the panel. A tile may grow a few lines — the
+   page scrolls, and the strip has room. */
+.llm-note { display: block; font-size: 0.64rem; color: var(--muted); opacity: 0.8; white-space: normal; overflow-wrap: anywhere; }
+.llm-gap { grid-column: 1 / -1; margin-top: 0.6rem; border-top: 1px dashed rgba(217, 137, 122, 0.35); padding-top: 0.35rem; }
+.llm-gap-t { color: var(--bad); font-size: 0.64rem; letter-spacing: 0.07em; text-transform: uppercase; }
+.llm-gap ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 0.15rem 1.2rem;
+  margin: 0.25rem 0 0;
+  padding-left: 1rem;
+}
+.llm-gap li { margin: 0.1rem 0; }
 .modelbar { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-top: 0.7rem; }
 .modelbar select { min-width: min(24rem, 88vw); max-width: 38rem; }
 .apibar select { min-width: 10rem; max-width: 16rem; }
@@ -352,6 +520,7 @@ main .notepad {
      tall, so let the page scroll vertically and give main a floor - the chat card keeps a real
      height and the rail cards never grow past it (they scroll inside themselves). */
   body { height: auto; min-height: 100vh; overflow-y: auto; }
+  .app-shell { height: auto; min-height: 100vh; }
   /* The header is a stack of seven bars (brand, sub, syslabel, model, brain, API, health) and on
      a phone it can eat the whole first screen before the chat is reached, so it is tightened
      here. Nothing is hidden, just denser, and the decorative sub-line clamps to two lines. */

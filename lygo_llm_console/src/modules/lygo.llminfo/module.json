@@ -1,0 +1,69 @@
+{
+  "id": "lygo.llminfo",
+  "family": "info",
+  "title": "LLM data",
+  "summary": "One panel for whatever LLM is hooked up: model and file facts, the token budget from the record, the API rate window (peak / off-peak), and what the provider does not tell us.",
+  "version": "1.0.0",
+  "introduced": "1.2.0",
+  "lifecycle": "PARITY",
+  "surfaces": {
+    "pc": "FULL",
+    "usb": "N/A(not promoted yet - steward scoped this module to the PC edition first; its pane slot is 'dock', the bottom strip, which is a PC-only shell change so far - the module and the strip must be promoted together)",
+    "web": "DEGRADED(a browser tab can render the panel and its own provider facts, but it has no local engine, registry file or compaction record to report; it takes the console's table instead)"
+  },
+  "requires": {
+    "console": ">=1.2.0",
+    "python": [
+      "3.11",
+      "3.13"
+    ],
+    "modules": [
+      "lygo.world"
+    ],
+    "env": []
+  },
+  "kernel_services": [
+    "paths",
+    "receipts",
+    "p0",
+    "auth"
+  ],
+  "machinery": [
+    "registry",
+    "compaction",
+    "cloud_api",
+    "world_clock",
+    "version"
+  ],
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/llminfo",
+      "handler": "data",
+      "legacy": false
+    }
+  ],
+  "limbs": [],
+  "panes": [
+    {
+      "id": "dock.llm",
+      "slot": "dock",
+      "title": "LLM data",
+      "data": "GET /api/llminfo",
+      "refresh_s": 5,
+      "inner_scroll": false
+    }
+  ],
+  "state": {
+    "owns": [],
+    "writes_via": "atomicio",
+    "gate": "none"
+  },
+  "health": "health",
+  "tests": [
+    "tests/test_module_llminfo.py"
+  ],
+  "docs": "04_MODULES/lygo.llminfo/MODULE_SPEC.md",
+  "adapter": "backend.py",
+  "notes": "Read-only collector: it adds no state and writes nothing, so its gate is 'none'. It reports only facts another owner already holds - the selected model record (registry), the live window budget and the record counters (compaction.safe_status), the API switch and its last answer (cloud_api.public_status), the clock (world_clock.pulse) and the release (version) - and it names every fact it cannot get rather than filling the gap with a guess. The pane id is slot-prefixed ('dock.llm') because /api/modules publishes pane ids; the shell places a pane by its prefix - slot 'dock' is the console page's bottom strip, full length, one card per module, with the PAGE scrolling to it - so a pane reaches that strip without a shell edit, and no module can take room from the working area. inner_scroll is false on purpose: the page scrolls, not the pane. Rate windows are the PROVIDER's published policy, not our inference: only DeepSeek publishes one today (peak 01:00-04:00 and 06:00-10:00 UTC, Mon-Fri, off-peak is half the peak rate) and the source URL travels with the answer."
+}

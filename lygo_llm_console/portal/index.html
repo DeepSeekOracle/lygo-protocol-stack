@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Local Agent Console</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0a08'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23e0b36a' stroke-width='4'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/static/style.css?v=20260918console">
+<link rel="stylesheet" href="/static/style.css?v=20260920envwatch3">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 <!-- Behaviour patch classes (status line, trace pane, error bubbles, empty state, brand stamp).
      Same tokens as style.css; small enough to fold into style.css later. -->
@@ -56,6 +56,7 @@
 </style>
 </head>
 <body>
+<div class="app-shell">
 <header>
   <div>
     <div class="brand-lockup">
@@ -256,6 +257,15 @@
     </p>
   </aside>
 </main>
+</div>
+<section id="modules-dock" class="modules-dock" hidden aria-label="Modules">
+  <div class="modules-head">
+    <span class="modules-title">Modules</span>
+    <span id="modules-state" class="modules-state" hidden></span>
+    <span id="modules-note" class="modules-note">a module publishes a pane and the page stacks it here — the strip grows downward as modules are added</span>
+  </div>
+  <div id="module-panes" class="module-panes"></div>
+</section>
 <footer class="media-dock" aria-label="Radio and TV">
   <audio id="radioEl" preload="auto"></audio>
   <div id="radioDock" class="radio-inline">
@@ -279,7 +289,7 @@
   <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/TRADEMARKS.md" target="_blank" rel="noopener">Brand policy</a> ·
   <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/SUCCESSION.md" target="_blank" rel="noopener">Stewardship</a> ·
   licence files also sit in this kit's folder.</p>
-<script src="/static/app.js?v=20260918console"></script>
+<script src="/static/app.js?v=20260920envwatch2"></script>
 <script src="/static/radio.js?v=20260916m"></script>
 </body>
 </html>

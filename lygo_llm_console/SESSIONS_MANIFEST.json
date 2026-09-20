@@ -144,8 +144,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "0f6541a99fdff861",
-      "bytes": 99955
+      "sha256_16": "0590997ad91e5bbc",
+      "bytes": 101207
     },
     {
       "path": "src/continuity.py",
@@ -164,13 +164,13 @@
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "71b534ed89fe9ae5",
-      "bytes": 83515
+      "sha256_16": "49832e93c3c2cce8",
+      "bytes": 95352
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "9780c2348067306c",
-      "bytes": 19731
+      "sha256_16": "8f448d9854d961ed",
+      "bytes": 20218
     },
     {
       "path": "tests/test_sessions.py",
@@ -188,9 +188,11 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T23:12:51-06:00",
-  "rebrand_refresh_note": "a host readout keeps the text it brought back",
+  "rebrand_refresh_iso": "2026-09-20T13:46:51-06:00",
+  "rebrand_refresh_note": "1.2.0 module-strip: lygo.llminfo + lygo.envwatch panes in the bottom dock, release anchored at 1.2.0",
   "rebrand_refresh_files": [
-    "src/chat_loop.py"
+    "src/server.py",
+    "portal/app.js",
+    "portal/index.html"
   ]
 }

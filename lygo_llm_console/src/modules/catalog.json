@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "signature": "Δ9Φ963-LYGO-MODULE-CATALOG-v1",
+  "notes": "The ordered list of modules this build ships. Order = the order they load and the order their panes appear. `enabled: false` disables a module without deleting it (the host reports it as DISABLED, which is a recorded decision, not a silent skip).",
+  "modules": [
+    { "id": "lygo.health", "order": 10, "enabled": true },
+    { "id": "lygo.world", "order": 20, "enabled": true },
+    { "id": "lygo.llminfo", "order": 30, "enabled": true },
+    { "id": "lygo.envwatch", "order": 40, "enabled": true },
+    { "id": "lygo.notepad", "order": 60, "enabled": true }
+  ]
+}

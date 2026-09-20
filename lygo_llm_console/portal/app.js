@@ -2,8 +2,14 @@
   /* One product name, one build stamp. The header, the document title and every status line read
      from here, so the console cannot drift back into three names and no version in the UI. */
   const LYGO_PRODUCT = "LYGO Local Agent Console";
-  const LYGO_BUILD = "1.1.0";
+  const LYGO_BUILD = "1.2.0";
   const BUILD_STAMP = "build " + LYGO_BUILD;
+  /* The build stamp the console actually serves (/api/health), so a release bump cannot disagree with
+     the header. Declared up HERE, above its first use, because paintBrand() reads it and paintBrand()
+     runs at load: the same `let` declared further down the file sat in the temporal dead zone, threw
+     "Cannot access 'servedBuild' before initialization", and killed this whole script - which the
+     operator sees as a console stuck on "probing..." with an empty model picker. */
+  let servedBuild = "";
   const TOKEN_KEY = "lygo_llm_token";
   function captureTokenFromUrl() {
     const u = new URL(location.href);
@@ -791,9 +797,6 @@
   const brainApiBtn = document.getElementById("brain-api");
   let brainMode = "local"; /* local (default) | api */
   let lastHealth = {};
-  /* The build stamp the console reports. The header used to print this file's own const, so a
-     release bump here could disagree with /api/health for as long as nobody noticed. */
-  let servedBuild = "";
   let brainBusy = false;
 
   function localLabel() {
@@ -1931,4 +1934,229 @@
   refreshWorld();
   setInterval(paintWorld, 1000);
   setInterval(refreshWorld, 120000);
+
+  /* ---- LYGO Function Modules: the bottom strip --------------------------------------------
+     A module offers a pane (id "dock.<name>") and a GET route. This shell places it by that
+     prefix — one card per module, down the full length of the page, the module's groups tiled
+     across the strip — and renders whatever the route answers: the lights first, then groups of
+     key/value rows, then the facts the module admits it could NOT get. No module is named in
+     this file: a new pane down here is a manifest change, not a shell change.
+
+     The strip sits BELOW the working area and the page scrolls to it, so no module can take
+     room from the chat column — a module that publishes a lot of data makes the page longer,
+     which is the whole point of putting it here. The top-right box stays a one-line status
+     readout (`#health`), untouched by any of this.
+
+     The pane carries the durable facts (the model record, the token budget, the rate window).
+     The live numbers — tok/s, GPU layers, RAM — come from this tab's own 3s health poll and the
+     last turn's timings, which the page already had; they are labelled as such rather than
+     fetched twice. */
+
+  const paneHost = document.getElementById("module-panes");
+  const paneDock = document.getElementById("modules-dock");
+  const paneNote = document.getElementById("modules-note");
+  const paneState = document.getElementById("modules-state");
+  const PANE_REFRESH_MS = 5000;
+
+  function paneRoute(mod) {
+    const routes = (mod && mod.routes) || [];
+    for (let i = 0; i < routes.length; i++) {
+      const bits = String(routes[i]).trim().split(/\s+/);
+      if (bits.length > 1 && bits[0].toUpperCase() === "GET") return bits[1];
+      if (bits.length === 1 && bits[0].charAt(0) === "/") return bits[0];
+    }
+    return "";
+  }
+
+  function paneEl(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined && text !== null && text !== "") n.textContent = String(text);
+    return n;
+  }
+
+  function paneRow(k, v, note, dot) {
+    const row = paneEl("div", "llm-row");
+    const key = paneEl("span", "llm-k");
+    if (dot) key.appendChild(paneEl("i", "llm-rdot " + dot));  /* inside the key: the row grid is 42/58 */
+    key.appendChild(document.createTextNode(String(k)));
+    row.appendChild(key);
+    const val = paneEl("span", "llm-v", v);
+    row.appendChild(val);
+    if (note) {
+      const n = paneEl("span", "llm-note", note);
+      n.title = note;             /* the note is clamped to one line; hover reads the whole thing */
+      val.appendChild(n);
+    }
+    return row;
+  }
+
+  /* The live half of the panel: what this tab already polls, plus the engine's own timings. */
+  function paneLiveRows() {
+    const rows = [];
+    const push = (k, v, note) => {
+      if (v === undefined || v === null || v === "" || v === "—") return;
+      rows.push([k, v, note]);
+    };
+    const h = lastHealth || {};
+    push("Engine", h.brain, h.engine_present ? "the engine's port is open" : "no engine on this port — an API brain needs none");
+    push("Selected", h.selected, h.selected_source ? "chosen by " + h.selected_source : "");
+    push("Scanned", h.scan_n ? h.scan_n + " models" : "", "what this tree can see right now");
+    push("Limbs", (h.tools || []).length ? (h.tools || []).length + " offered" : "", "what the console can do this turn");
+    push("RAM free", h.ram_avail ? Math.round(h.ram_avail / 1e9) + " GB" : "");
+    const p = h.perf || {};
+    push("Mode", p.mode, p.reason || "");
+    push("GPU layers", p.ngl, p.threads ? p.threads + " CPU threads" : "");
+    push("Device", p.device || p.backend, p.vram_free_mib ? Math.round(p.vram_free_mib / 1024) + " GB VRAM free" : "");
+    if (h.fallback && h.fallback.why) push("Handoff", h.fallback.why, "the API failed and the engine took the turn");
+    const lp = lastPerf;
+    if (lp) {
+      const speed = (lp.gen_tok_s ? lp.gen_tok_s + " tok/s gen" : "") +
+        (lp.prompt_tok_s ? (lp.gen_tok_s ? " · " : "") + Math.round(lp.prompt_tok_s) + " tok/s prefill" : "");
+      push("Last turn", speed || "measured", "the engine's own timings, forwarded by the console");
+      push("Tokens moved", lp.gen_tokens ? lp.gen_tokens + " generated" : "", lp.prompt_tokens ? lp.prompt_tokens + " in the prompt" : "");
+    } else {
+      push("Speed", "no turn measured yet", "send one message and this fills in");
+    }
+    return rows;
+  }
+
+  function panePaint(meta, payload) {
+    /* A pane may declare its own overall `state` (green/amber/red/grey) and a `state_text`. The
+       shell paints the card, the badge and the strip's chip from that one field, so a module that
+       answers "what needs fixing" is drawn by the same code as one that answers "what is hooked
+       up" — no module is named anywhere in this file. A pane that declares nothing stays plain. */
+    const state = String(payload.state || "").toLowerCase();
+    const known = state === "green" || state === "amber" || state === "red";
+    const card = paneEl("div", known ? "llm-pane sev-" + state : "llm-pane");
+    if (known) card.dataset.state = state;
+    const head = paneEl("div", "llm-head");
+    head.appendChild(paneEl("span", "llm-title", meta.title || meta.id));
+    if (payload.state_text) {
+      const badge = paneEl("span", known ? "llm-badge sev-" + state : "llm-badge", payload.state_text);
+      badge.title = payload.state_text;
+      head.appendChild(badge);
+    }
+    const stamp = payload.at ? String(payload.at).replace("T", " ").slice(0, 19) : "";
+    head.appendChild(paneEl("span", "llm-src", stamp));
+    card.appendChild(head);
+
+    const lights = payload.lights || [];
+    if (lights.length) {
+      const wrap = paneEl("div", "llm-lights");
+      lights.forEach((l) => {
+        const one = paneEl("span", "llm-light");
+        one.title = [l.text, l.detail, l.next_change].filter(Boolean).join(" · ");
+        one.appendChild(paneEl("i", "llm-dot " + (l.state || "grey")));
+        one.appendChild(paneEl("span", "llm-ltext", (l.label ? l.label + ": " : "") + (l.text || "")));
+        wrap.appendChild(one);
+      });
+      card.appendChild(wrap);
+    }
+
+    /* The groups tile across the strip: the dock is full length, so a module's groups sit side by
+       side instead of stacking into one tall column. A group is one tile. */
+    const grid = paneEl("div", "llm-groups");
+    (payload.groups || []).forEach((g) => {
+      const box = paneEl("div", "llm-group");
+      box.appendChild(paneEl("div", "llm-gt", g.title));
+      const rows = g.rows || [];
+      /* Anything amber or red in a group makes that group the one the eye lands on first. */
+      if (rows.some((r) => r.dot === "amber" || r.dot === "red")) box.classList.add("llm-group-fix");
+      rows.forEach((r) => box.appendChild(paneRow(r.k, r.v, r.note, r.dot)));
+      grid.appendChild(box);
+    });
+    card.appendChild(grid);
+
+    const live = paneLiveRows();
+    if (live.length) {
+      const box = paneEl("div", "llm-group");
+      box.appendChild(paneEl("div", "llm-gt", "Live (this page)"));
+      box.appendChild(paneEl("div", "llm-note", "this tab's health poll + the last turn's timings — not asked twice"));
+      live.forEach((r) => box.appendChild(paneRow(r[0], r[1], r[2])));
+      grid.appendChild(box);
+    }
+
+    const gaps = payload.missing || [];
+    if (gaps.length) {
+      const box = paneEl("div", "llm-gap");
+      box.appendChild(paneEl("div", "llm-gap-t", "Named gaps — what no source here can tell us"));
+      const ul = paneEl("ul");
+      gaps.forEach((m) => ul.appendChild(paneEl("li", null, m)));
+      box.appendChild(ul);
+      card.appendChild(box);
+    }
+
+    paneHost.appendChild(card);
+  }
+
+  async function paneRefresh() {
+    if (!paneHost) return;
+    try {
+      const r = await fetch("/api/modules", { headers: headers(), cache: "no-store" });
+      if (!r.ok) return;
+      const table = await r.json();
+      const wanted = [];
+      (table.modules || []).forEach((m) => {
+        const route = paneRoute(m);
+        if (!route || m.enabled === false) return;
+        const panes = m.panes || [];
+        for (let i = 0; i < panes.length; i++) {
+          const pid = typeof panes[i] === "string" ? panes[i] : (panes[i] && panes[i].id) || "";
+          if (pid.indexOf("dock.") === 0) wanted.push({ id: pid, route: route, title: m.title || m.id });
+        }
+      });
+      if (!wanted.length) { if (paneDock) paneDock.hidden = true; return; }
+      const answers = await Promise.all(wanted.map((w) =>
+        fetch(w.route, { headers: headers(), cache: "no-store" })
+          .then((res) => (res.ok ? res.json() : null))
+          .catch(() => null)));
+      const parts = [];
+      wanted.forEach((w, i) => { if (answers[i]) parts.push([w, answers[i]]); });
+      if (!parts.length) return;
+      /* The strip is rebuilt on every refresh. It does not scroll on its own any more — the PAGE
+         scrolls, and the browser keeps the window's scroll position across a DOM replace inside
+         the strip, so a rebuild every 5s no longer yanks the reader back to the top. */
+      paneHost.textContent = "";
+      parts.forEach(([meta, payload]) => panePaint(meta, payload));
+      if (paneDock) paneDock.hidden = false;
+      if (paneState) {
+        let worst = "";
+        let red = 0;
+        let amber = 0;
+        let grey = 0;
+        const lines = [];
+        parts.forEach(([m, p]) => {
+          const s = String(p.state || "").toLowerCase();
+          if (s === "red") red++;
+          else if (s === "amber") amber++;
+          else if (s !== "green") grey++;   /* no state, or grey: this pane cannot say it is good */
+          if (s === "red") worst = "red";
+          else if (s === "amber" && worst !== "red") worst = "amber";
+          else if (s === "green" && !worst) worst = "green";
+          lines.push((m.title || m.id) + ": " + (p.state_text || (s ? s : "no state published")));
+        });
+        const bits2 = [];
+        if (red) bits2.push(red + (red === 1 ? " broken" : " broken"));
+        if (amber) bits2.push(amber + " need" + (amber === 1 ? "s" : "") + " attention");
+        if (grey) bits2.push(grey + " unchecked");
+        paneState.className = "modules-state sev-" + (worst || "grey");
+        paneState.textContent = bits2.length ? bits2.join(" · ") : "all green";
+        paneState.title = lines.join(" · ");
+        paneState.hidden = false;
+      }
+      if (paneNote) {
+        const counts = table.counts || {};
+        const bits = [parts.length + (parts.length === 1 ? " module pane" : " module panes"), "wired " + (counts.wired !== undefined ? counts.wired : "—")];
+        if (counts.refused) bits.push("refused " + counts.refused);
+        if (counts.degraded) bits.push("degraded " + counts.degraded);
+        paneNote.textContent = bits.join(" · ") + " · the strip grows down the page as modules are added";
+      }
+    } catch (e) { /* the box stays as it was: a panel that cannot refresh must not break the page */ }
+  }
+
+  if (paneHost && paneDock) {
+    paneRefresh();
+    setInterval(paneRefresh, PANE_REFRESH_MS);
+  }
 })();

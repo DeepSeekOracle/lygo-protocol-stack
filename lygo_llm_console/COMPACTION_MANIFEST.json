@@ -1,5 +1,5 @@
 {
-  "build": "record v1",
+  "build": "v1.2.0",
   "signature": "\u03949\u03a6963-LYGO-COMPACTION-v1",
   "console_build": "1.1.0",
   "status": "installed_and_tested_not_yet_boot_verified",
@@ -18,13 +18,33 @@
   },
   "suite": {
     "command": "python -m unittest discover -s . -p \"test_*.py\"",
-    "baseline_pristine_stick": {"line": "Ran 372 tests in 34.910s", "result": "OK", "exit_code": 0},
-    "pc_after": {"line": "Ran 455 tests in 50.112s", "result": "OK", "exit_code": 0},
-    "stick_after": {"line": "Ran 455 tests in 55.602s", "result": "OK", "exit_code": 0}
+    "baseline_pristine_stick": {
+      "line": "Ran 372 tests in 34.910s",
+      "result": "OK",
+      "exit_code": 0
+    },
+    "pc_after": {
+      "line": "Ran 455 tests in 50.112s",
+      "result": "OK",
+      "exit_code": 0
+    },
+    "stick_after": {
+      "line": "Ran 455 tests in 55.602s",
+      "result": "OK",
+      "exit_code": 0
+    }
   },
   "focused_suites": {
-    "unit": {"command": "python -m unittest test_compaction", "line": "Ran 74 tests in 13.268s", "result": "OK"},
-    "http": {"command": "python -m unittest test_record_e2e", "line": "Ran 9 tests in 0.992s", "result": "OK"}
+    "unit": {
+      "command": "python -m unittest test_compaction",
+      "line": "Ran 74 tests in 13.268s",
+      "result": "OK"
+    },
+    "http": {
+      "command": "python -m unittest test_record_e2e",
+      "line": "Ran 9 tests in 0.992s",
+      "result": "OK"
+    }
   },
   "installed_files_sha256_16": {
     "src/compaction.py": "af136374a2557aa9",
@@ -38,8 +58,17 @@
     "verified": "ALL_MATCH=1 across both trees"
   },
   "config": {
-    "pc": {"file": "config/console.json", "ctx_max": 32768, "kv_type": "q8_0"},
-    "stick": {"file": "config/console.json", "ctx_max": 32768, "kv_type": "q8_0", "note": "edited in place; stick was 8192 and had no kv_type"},
+    "pc": {
+      "file": "config/console.json",
+      "ctx_max": 32768,
+      "kv_type": "q8_0"
+    },
+    "stick": {
+      "file": "config/console.json",
+      "ctx_max": 32768,
+      "kv_type": "q8_0",
+      "note": "edited in place; stick was 8192 and had no kv_type"
+    },
     "not_copied_between_trees": [
       "config/local.json",
       "config/admin.json",
@@ -65,14 +94,35 @@
   },
   "endpoints": {
     "GET /api/compaction": "live-window report",
-    "POST /api/compaction": ["status", "save", "compact", "roll", "seal", "recall", "index", "transcript", "bundle"],
+    "POST /api/compaction": [
+      "status",
+      "save",
+      "compact",
+      "roll",
+      "seal",
+      "recall",
+      "index",
+      "transcript",
+      "bundle"
+    ],
     "GET /api/archive": "sealed session list, or ?sid=<id> for a transcript"
   },
   "limbs": {
     "recall_history": {
       "schema": "registered in limbs.EXTRA_SCHEMA",
       "canonical_key": "q",
-      "aliases": ["query", "term", "terms", "search", "search_query", "keywords", "question", "input", "text", "value"],
+      "aliases": [
+        "query",
+        "term",
+        "terms",
+        "search",
+        "search_query",
+        "keywords",
+        "question",
+        "input",
+        "text",
+        "value"
+      ],
       "host_auto_run": "chat_loop.AUTO_ONE"
     },
     "sessions_list": "now also returns journals, sealed count, sealed bytes, session id"
@@ -110,5 +160,9 @@
     "test_security_hardening.OversizedBodyTest is flaky (pre-existing)",
     "a standalone scratch kit copy did not answer HTTP within 180s (unexplained, low severity)",
     "images bounded in the prompt (2), not in the record"
-  ]
+  ],
+  "release": "1.2.0",
+  "release_tag": "build-line 2026-09-20 \u00b7 module-strip",
+  "rebrand_refresh_iso": "2026-09-20T13:46:51-06:00",
+  "rebrand_refresh_note": "1.2.0 module-strip: lygo.llminfo + lygo.envwatch panes in the bottom dock, release anchored at 1.2.0"
 }

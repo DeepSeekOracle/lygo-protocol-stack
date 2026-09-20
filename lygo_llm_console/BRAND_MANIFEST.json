@@ -51,8 +51,8 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "9780c2348067306c",
-      "bytes": 19731
+      "sha256_16": "8f448d9854d961ed",
+      "bytes": 20218
     },
     {
       "path": "web_portal/index.html",
@@ -61,13 +61,14 @@
     },
     {
       "path": "scripts/certify_build.py",
-      "sha256_16": "a1091d0fedab9edf",
-      "bytes": 8899
+      "sha256_16": "b12d167c0001a5a8",
+      "bytes": 10329
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T22:28:00-06:00",
-  "rebrand_refresh_note": "attachments: img and file reach the agent",
+  "rebrand_refresh_iso": "2026-09-20T13:46:51-06:00",
+  "rebrand_refresh_note": "1.2.0 module-strip: lygo.llminfo + lygo.envwatch panes in the bottom dock, release anchored at 1.2.0",
   "rebrand_refresh_files": [
-    "portal/index.html"
+    "portal/index.html",
+    "scripts/certify_build.py"
   ]
 }

@@ -29,6 +29,12 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
+try:  # the module layer must never be able to cost the operator the console (WO-0001)
+    from modules import host as module_host  # noqa: E402
+except Exception as _module_err:  # noqa: BLE001
+    module_host = None
+    print(f"[modules] module layer unavailable: {type(_module_err).__name__}: {_module_err}", flush=True)
+
 import version  # noqa: E402  (the release number lives in VERSION - see src/version.py)
 from atomicio import atomic_write_text  # noqa: E402
 from atomicio import read_text as read_text_locked  # noqa: E402
@@ -638,6 +644,11 @@ class Handler(BaseHTTPRequestHandler):
         if not self._auth():
             self._json(401, {"error": "unauthorized"})
             return
+        # --- LYGO module host (Δ9Φ963-LYGO-MODULE-CORE-v1) ---------------------------------------
+        # Modules own the routes they declare in their own module.json. The kernel routes below are
+        # untouched: if the host answers the request this returns, if it does not, nothing changed.
+        if module_host is not None and module_host.handle(self, "GET", path):
+            return
         if path == "/" or path == "/index.html":
             html = (PORTAL / "index.html").read_text(encoding="utf-8")
             css = (PORTAL / "style.css").read_text(encoding="utf-8")
@@ -923,6 +934,9 @@ class Handler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if not self._auth():
             self._json(401, {"error": "unauthorized"})
+            return
+        # --- LYGO module host (Δ9Φ963-LYGO-MODULE-CORE-v1) ---------------------------------------
+        if module_host is not None and module_host.handle(self, "POST", path):
             return
         if path == "/api/scan":
             body = self._read_body(256_000)

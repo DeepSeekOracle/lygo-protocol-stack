@@ -148,6 +148,31 @@ def main() -> int:
         per_manifest.append({"manifest": m.name, "checked": checked, "matched": matched,
                              "problems": probs})
 
+    # Module manifests (Phase M1, WO-0001): a module that cannot be validated is a build problem.
+    # Disabled only if the module tree is missing entirely, which is a legitimate pre-module kit.
+    module_problems: list[str] = []
+    module_count = 0
+    modules_dir = KIT / "src" / "modules"
+    if modules_dir.is_dir():
+        try:
+            import sys as _sys
+
+            if str(KIT / "src") not in _sys.path:
+                _sys.path.insert(0, str(KIT / "src"))
+            from modules import validate as _validate  # noqa: PLC0415
+
+            catalog = _validate.load_catalog(modules_dir)
+            if not catalog.get("ok"):
+                module_problems.append(f"MODULES   catalog unreadable: {catalog.get('error')}")
+            else:
+                module_count = len([m for m in catalog["modules"] if m.get("enabled", True)])
+            module_problems.extend(
+                f"MODULES   {p}" for p in _validate.validate_tree(modules_dir)
+            )
+        except Exception as exc:  # noqa: BLE001 - report, never crash the verdict
+            module_problems.append(f"MODULES   could not be validated: {type(exc).__name__}: {exc}")
+    problems.extend(module_problems)
+
     certified = brand_ok and not problems
     integrity_checked = total_checked > 0
 
@@ -180,6 +205,11 @@ def main() -> int:
             print(f"  {row['manifest']}: {row['matched']}/{row['checked']} files match")
         for p in problems:
             print("  " + p)
+        print("Module manifests")
+        if module_count:
+            print(f"  {module_count} enabled module(s) validated against the contract")
+        else:
+            print("  no module tree in this kit (pre-module build)")
         print("=" * 72)
 
     if certified and not integrity_checked:
