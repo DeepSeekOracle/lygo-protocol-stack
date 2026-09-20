@@ -148,5 +148,75 @@ class VaultTests(unittest.TestCase):
         self.assertTrue(Path(str(rec["path"])).is_file())
 
 
+class RescanTests(unittest.TestCase):
+    """A refresh run rewrote the registry once, and it took the standalone work with it.
+
+    The scanner reports every store it finds - an imported CAS included - so its record carries that
+    store's path, and the picker re-chose the default by available RAM. Both halves are pinned here.
+    """
+
+    def _patched(self, t: Path):
+        import paths
+        import registry as reg_mod
+
+        return [
+            mock.patch.object(paths, "SAVE", t),
+            mock.patch.object(reg_mod, "SAVE", t),
+            mock.patch.object(reg_mod, "REGISTRY_PATH", t / "registry.json"),
+            mock.patch.object(paths, "REGISTRY_PATH", t / "registry.json"),
+        ]
+
+    def test_a_rescan_does_not_take_an_owned_model_back(self) -> None:
+        import registry as reg_mod
+
+        with tempfile.TemporaryDirectory() as td:
+            t = Path(td)
+            vault = t / "LYGO_MODELS"
+            vault.mkdir()
+            owned = vault / "owned.gguf"
+            owned.write_bytes(b"gguf")
+            cas = t / "cas-blob"
+            cas.write_bytes(b"gguf")
+            patches = self._patched(t)
+            for p in patches:
+                p.start()
+            try:
+                reg_mod.save({"models": [{"id": "m:1", "source": "lygo_vault", "path": str(owned), "kind": "chat"}],
+                              "selected": "m:1", "selected_source": "operator"})
+                reg_mod.upsert([{"id": "m:1", "source": "ollama_cas", "path": str(cas), "kind": "chat"}])
+                data = reg_mod.load()
+            finally:
+                for p in patches:
+                    p.stop()
+        rec = [m for m in data["models"] if m["id"] == "m:1"][0]
+        self.assertEqual(str(owned), str(rec["path"]), "a rescan re-pointed an owned model at a foreign store")
+        self.assertEqual("lygo_vault", rec["source"])
+
+    def test_an_operator_default_survives_a_rescan(self) -> None:
+        import registry as reg_mod
+
+        with tempfile.TemporaryDirectory() as td:
+            t = Path(td)
+            files = {}
+            for mid in ("m:1", "m:2", "m:3"):
+                f = t / (mid.replace(":", "-") + ".gguf")
+                f.write_bytes(b"gguf")
+                files[mid] = f
+            patches = self._patched(t)
+            for p in patches:
+                p.start()
+            try:
+                reg_mod.save({"models": [{"id": "m:2", "source": "lygo_vault", "path": str(files["m:2"]), "kind": "chat"}],
+                              "selected": "m:2", "selected_source": "operator"})
+                reg_mod.upsert([{"id": mid, "source": "ollama_cas", "path": str(files[mid]), "kind": "chat"}
+                                for mid in ("m:1", "m:2", "m:3")])
+                data = reg_mod.load()
+            finally:
+                for p in patches:
+                    p.stop()
+        self.assertEqual("m:2", data.get("selected"), "a rescan re-picked the operator's default")
+        self.assertEqual("operator", data.get("selected_source"))
+
+
 if __name__ == "__main__":
     unittest.main()

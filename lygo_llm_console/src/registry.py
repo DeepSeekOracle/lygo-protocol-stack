@@ -340,12 +340,38 @@ def save(data: dict[str, Any]) -> None:
     atomic_write_text(REGISTRY_PATH, text)
 
 
+# A selection an operator made on purpose. Anything else is this machine re-tuning itself.
+PINNED_SOURCES = {"manual", "operator", "steward"}
+OWNED_SOURCE = "lygo_vault"
+
+
+def _owned_wins(existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
+    """An owned copy must survive a rescan of the store it was imported from.
+
+    The scanner reports whatever store it finds, and an imported CAS is one of them, so its record
+    carries that store's path. Once the kit owns a copy in its own vault, a rescan must not hand the
+    model back to the foreign store: the vault is what makes this kit standalone. Losing it silently
+    is not hypothetical - a refresh run put every owned path back into an Ollama blob folder.
+    """
+    if str(existing.get("source")) != OWNED_SOURCE:
+        return {**existing, **incoming}
+    merged = {**existing, **incoming}
+    for key in ("path", "gguf", "mmproj"):
+        value = existing.get(key)
+        if value and Path(str(value)).is_file():
+            merged[key] = value
+    for key in ("source", "sha256", "bytes", "manifest", "sidecars"):
+        if existing.get(key):
+            merged[key] = existing[key]
+    return merged
+
+
 def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[str, Any]:
     data = load()
     by_id = {m.get("id"): m for m in data.get("models") or [] if m.get("id")}
     for m in models:
         if m.get("id"):
-            by_id[m["id"]] = {**by_id.get(m["id"], {}), **m}
+            by_id[m["id"]] = _owned_wins(by_id.get(m["id"]) or {}, m)
     data["models"] = [m for m in by_id.values() if _present(m)]
     want_ram = prefer_by_ram()
     avail = avail_ram_bytes() if want_ram else 0
@@ -354,7 +380,7 @@ def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[st
         data["selected_source"] = "manual"
     else:
         pinned = data.get("selected")
-        manual = bool(pinned) and data.get("selected_source") == "manual"
+        manual = bool(pinned) and data.get("selected_source") in PINNED_SOURCES
         # Re-pick unless a human switched it AND their pick still fits this host: that is what lets
         # the same stick re-tune itself when it walks onto a bigger or smaller machine.
         ids_now = {m.get("id") for m in data["models"]}
