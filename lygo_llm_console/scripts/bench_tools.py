@@ -59,6 +59,14 @@ CASES: list[tuple[str, str]] = [
     ("whoami", "who am I?"),
     ("session_search", "search my past sessions for the word license"),
 ]
+# Where the kit ships two schemas for one intent, either name is a correct answer: scoring one of
+# them wrong measures the labeller, not the model. Keep this list short and justified - it is only for
+# genuine duplicates, never for "close enough" (a drives question answered with list_dir stays a miss).
+ALSO_OK: dict[str, set[str]] = {
+    "remember": {"memory_append", "remember"},
+    "whoami": {"whoami", "identity_read"},
+}
+
 REQUIRED = {t["function"]["name"]: set(t["function"].get("parameters", {}).get("required") or [])
             for t in TOOLS_SCHEMA}
 
@@ -150,7 +158,10 @@ def bench(model_id: str, port: int = 11471) -> dict:
         for want, text in CASES:
             got = ask(port, alias, key, text)
             got["want"] = want
-            got["ok"] = got.get("name") == want
+            accept = ALSO_OK.get(want) or {want}
+            got["ok"] = (got.get("name") or "") in accept
+            if got["ok"] and got.get("name") != want:
+                got["accepted_as"] = want
             req_keys = REQUIRED.get(got.get("name") or "", set())
             got["required_keys"] = sorted(req_keys)
             results.append(got)
