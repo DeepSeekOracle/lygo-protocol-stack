@@ -154,8 +154,8 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "4b4e82b44cbc0f02",
-      "bytes": 36636
+      "sha256_16": "fb6df674721c184f",
+      "bytes": 36847
     },
     {
       "path": "src/chat_loop.py",
@@ -188,14 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T16:32:02-06:00",
-  "rebrand_refresh_note": "line-ending-canonical identity (sha256 over LF-normalised bytes); fixes a broken normalisation that wrote NULs instead of newlines",
+  "rebrand_refresh_iso": "2026-09-19T17:59:52-06:00",
+  "rebrand_refresh_note": "image_info now reads through the mapped read roots instead of silently rewriting an outside path into the workspace (a real picture reported 'does not exist'); tool description updated in limbs.py",
   "rebrand_refresh_files": [
-    "src/server.py",
-    "src/continuity.py",
-    "src/limbs.py",
-    "src/chat_loop.py",
-    "portal/app.js",
-    "portal/index.html"
+    "src/limbs.py"
   ]
 }
