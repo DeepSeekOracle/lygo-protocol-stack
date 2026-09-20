@@ -597,3 +597,15 @@ body.api-on .brainbar { border-color: rgba(224, 179, 106, 0.5); }
 .bubble.assistant.via-local::before { content: "LOCAL"; color: var(--ok); }
 .bubble.assistant.takeover { border-color: var(--bad); }
 .bubble.assistant.takeover::before { content: "LOCAL · handoff"; color: var(--bad); }
+
+/* What is attached, shown before it is sent: the picker used to take a photo and give no sign of it
+   anywhere on screen, so the button looked broken even when the file was being held. */
+.attach-strip { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.3rem 0 0.4rem; }
+.attach-strip[hidden] { display: none; }
+.chip { display: inline-flex; align-items: center; gap: 0.35rem; background: #2a2318;
+  border: 1px solid #5a4630; border-radius: 999px; padding: 0.18rem 0.5rem; color: var(--gold);
+  font-size: 0.72rem; }
+.chip img { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; }
+.chip-x { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 0.8rem;
+  padding: 0 0.1rem; }
+.bubble-img { display: block; max-width: 220px; max-height: 220px; border-radius: 8px; margin-top: 0.35rem; }

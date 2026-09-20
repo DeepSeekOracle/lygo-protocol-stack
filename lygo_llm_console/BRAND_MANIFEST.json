@@ -51,8 +51,8 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "2a6687e5842340a0",
-      "bytes": 19419
+      "sha256_16": "9780c2348067306c",
+      "bytes": 19731
     },
     {
       "path": "web_portal/index.html",
@@ -65,10 +65,9 @@
       "bytes": 8899
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T19:14:47-06:00",
-  "rebrand_refresh_note": "standalone: our own engine + own model vault, gateway and scan roots no longer default to a daemon",
+  "rebrand_refresh_iso": "2026-09-19T22:28:00-06:00",
+  "rebrand_refresh_note": "attachments: img and file reach the agent",
   "rebrand_refresh_files": [
-    "README.md",
     "portal/index.html"
   ]
 }

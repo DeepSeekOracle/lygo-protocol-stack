@@ -33,6 +33,8 @@
   const models = document.getElementById("models");
   const limb = document.getElementById("limb-out");
   const img = document.getElementById("img");
+  const filePick = document.getElementById("file");
+  const attachStrip = document.getElementById("attach-strip");
   const stopBtn = document.getElementById("stop");
   const sendBtn = document.getElementById("send");
   const emptyState = document.getElementById("empty-state");
@@ -58,7 +60,131 @@
   const vaultLabelBtn = document.getElementById("vault-label");
   const vaultClose = document.getElementById("vault-close");
   let vaultPick = null;
-  let pendingImage = null;
+  let pendingImage = null;   // the last photo as the data URL the engine takes (kept for the send path)
+  let pendingAttach = [];    // everything the operator picked: {kind:"image"|"text"|"file", name, size, …}
+  const ATTACH_TEXT_MAX = 200000;  // a text file this big is read into the message; bigger is saved instead
+  const IMG_MAX_PX = 1600;         // photos are shrunk before they go near the engine: a phone photo is
+                                   // 3-8 MB and the preview + the upload choke on a mid machine otherwise
+
+  function attachBytes(n) {
+    n = Number(n) || 0;
+    return n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+  }
+
+  /* Show what is attached. The picker used to take a photo and give no sign of it anywhere, so the
+     button looked broken even when the file was held. */
+  function renderAttach() {
+    if (!attachStrip) return;
+    attachStrip.hidden = !pendingAttach.length;
+    attachStrip.innerHTML = "";
+    pendingAttach.forEach(function (a, i) {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      if (a.kind === "image" && a.dataUrl) {
+        const t = document.createElement("img");
+        t.src = a.dataUrl;
+        t.alt = a.name;
+        chip.appendChild(t);
+      }
+      const label = document.createElement("span");
+      label.textContent = (a.kind === "image" ? "photo " : a.kind === "text" ? "text " : "file ")
+        + a.name + " · " + attachBytes(a.size);
+      chip.appendChild(label);
+      const x = document.createElement("button");
+      x.type = "button";
+      x.className = "chip-x";
+      x.textContent = "✕";
+      x.title = "Remove this attachment";
+      x.onclick = function () {
+        pendingAttach.splice(i, 1);
+        syncAttach();
+      };
+      chip.appendChild(x);
+      attachStrip.appendChild(chip);
+    });
+  }
+
+  function syncAttach() {
+    const last = pendingAttach.filter(function (a) { return a.kind === "image" && a.dataUrl; }).pop();
+    pendingImage = last ? last.dataUrl : null;
+    renderAttach();
+  }
+
+  function addImageFile(f) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const raw = String(reader.result || "");
+      const im = new Image();
+      im.onload = function () {
+        let dataUrl = raw;
+        let w = im.width;
+        let h = im.height;
+        try {
+          const scale = Math.min(1, IMG_MAX_PX / Math.max(im.width || 1, im.height || 1));
+          const c = document.createElement("canvas");
+          c.width = Math.max(1, Math.round((im.width || 1) * scale));
+          c.height = Math.max(1, Math.round((im.height || 1) * scale));
+          c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+          dataUrl = c.toDataURL("image/jpeg", 0.85);
+          w = c.width;
+          h = c.height;
+        } catch (e) { /* a format the canvas will not re-encode: send it as it came */ }
+        pendingAttach.push({ kind: "image", name: f.name, size: f.size, dataUrl: dataUrl, width: w, height: h });
+        syncAttach();
+        setStatus("attached " + f.name + (w && h ? " (" + w + "×" + h + ")" : "") + " — type your question and press Send", false);
+      };
+      im.onerror = function () {
+        pendingAttach.push({ kind: "image", name: f.name, size: f.size, dataUrl: raw });
+        syncAttach();
+        setStatus("attached " + f.name + " — type your question and press Send", false);
+      };
+      im.src = raw;
+    };
+    reader.readAsDataURL(f);
+  }
+
+  function isTexty(f) {
+    if (String(f.type || "").indexOf("text/") === 0) return true;
+    return /\.(txt|md|markdown|json|jsonl|csv|tsv|log|ini|cfg|conf|ya?ml|toml|py|js|mjs|ts|tsx|jsx|html?|css|scss|sh|bat|ps1|sql|xml|svg|rst|srt|vtt)$/i
+      .test(String(f.name || ""));
+  }
+
+  function addFile(f) {
+    // A photo picked through the FILE button is still a photo: send it the way the img button does, so
+    // the engine's projector sees it. Sent as a path instead, the agent holds a file it cannot look at.
+    if (String(f.type || "").indexOf("image/") === 0
+        || /\.(png|jpe?g|gif|bmp|webp|avif|tiff?)$/i.test(String(f.name || ""))) {
+      addImageFile(f);
+      return;
+    }
+    if (isTexty(f) && f.size <= ATTACH_TEXT_MAX) {
+      const r = new FileReader();
+      r.onload = function () {
+        pendingAttach.push({ kind: "text", name: f.name, size: f.size, text: String(r.result || "") });
+        syncAttach();
+        setStatus("attached " + f.name + " — its text rides with your question", false);
+      };
+      r.readAsText(f);
+      return;
+    }
+    setStatus("saving " + f.name + " where the agent can open it…", false);
+    fetch("/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/octet-stream", "X-Lygo-Filename": encodeURIComponent(f.name) },
+      body: f,
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.path) {
+          pendingAttach.push({ kind: "file", name: j.name || f.name, size: f.size, path: j.path });
+          syncAttach();
+          setStatus("saved " + (j.name || f.name) + " to the workspace — the agent can read it there", false);
+        } else {
+          setStatus("could not save " + f.name + ": " + ((j && j.error) || "unknown"), true);
+        }
+      })
+      .catch(function (e) { setStatus("could not save " + f.name + ": " + e, true); });
+  }
   let bootedOnce = false;
   let chatHistory = [];
   const HIST_KEY = "lygo_llm_chatHistory";
@@ -549,10 +675,19 @@
       models.appendChild(o);
     });
   }
-  function bubble(role, text) {
+  function bubble(role, text, images) {
     const d = document.createElement("div");
     d.className = "bubble " + role;
-    d.textContent = text;
+    const t = document.createElement("div");
+    t.textContent = text;
+    d.appendChild(t);
+    (images || []).forEach(function (src) {
+      const im = document.createElement("img");
+      im.className = "bubble-img";
+      im.src = src;
+      im.alt = "attached photo";
+      d.appendChild(im);
+    });
     log.appendChild(d);
     if (emptyState) emptyState.hidden = true;
     log.scrollTop = log.scrollHeight;
@@ -850,18 +985,20 @@
     });
   }
   refreshCloud().catch(function () {});
-  img.onchange = () => {
-    const f = img.files && img.files[0];
-    if (!f) {
-      pendingImage = null;
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      pendingImage = reader.result;
+  if (img) {
+    img.onchange = () => {
+      const f = img.files && img.files[0];
+      if (f) addImageFile(f);
+      img.value = "";   // clearing it lets the same file be picked again after a removal
     };
-    reader.readAsDataURL(f);
-  };
+  }
+  if (filePick) {
+    filePick.onchange = () => {
+      const f = filePick.files && filePick.files[0];
+      if (f) addFile(f);
+      filePick.value = "";
+    };
+  }
   if (stopBtn) stopBtn.onclick = function () { stopStream("stopped by user — the answer above may be incomplete"); };
   function setSending(on) {
     if (stopBtn) stopBtn.disabled = !on;
@@ -878,21 +1015,43 @@
 
   async function sendChat() {
     const text = (msg && msg.value ? msg.value : "").trim();
-    if (!text && !pendingImage) return;
+    if (!text && !pendingAttach.length) return;
     if (activeAbort) {
       setStatus("still answering — press Stop before sending again", true);
       return;
     }
     if (msg) msg.value = "";
-    const content = pendingImage
-      ? [
-          { type: "text", text: text },
-          { type: "image_url", image_url: { url: pendingImage } },
-        ]
-      : text;
-    pendingImage = null;
+    const parts = [];
+    if (text) parts.push({ type: "text", text: text });
+    pendingAttach.forEach(function (a) {
+      if (a.kind === "text") {
+        // Inlined on purpose: the agent reads it in the same breath as the question, so a small file
+        // needs no limb call and cannot be "forgotten" between turns.
+        parts.push({
+          type: "text",
+          text: "Attached file " + a.name + " (" + attachBytes(a.size) + "), its contents follow:\n```\n"
+            + a.text + "\n```",
+        });
+      } else if (a.kind === "file") {
+        parts.push({
+          type: "text",
+          text: "Attached file " + a.name + " (" + attachBytes(a.size) + ") is saved in the workspace at "
+            + a.path + " — open it with the read_file limb before you answer, and say plainly if you cannot.",
+        });
+      } else if (a.kind === "image" && a.dataUrl) {
+        parts.push({ type: "image_url", image_url: { url: a.dataUrl } });
+      }
+    });
+    const content = parts.length === 1 && parts[0].type === "text" ? parts[0].text
+      : (parts.length ? parts : text);
+    const shownImages = pendingAttach.filter(function (a) { return a.kind === "image" && a.dataUrl; })
+      .map(function (a) { return a.dataUrl; });
+    const shownNames = pendingAttach.map(function (a) { return a.name; });
+    pendingAttach = [];
+    syncAttach();
     if (img) img.value = "";
-    bubble("user", text || "[image]");
+    if (filePick) filePick.value = "";
+    bubble("user", text || "[" + (shownNames.join(", ") || "attachment") + "]", shownImages);
     chatHistory.push({ role: "user", content });
     const beforeN = chatHistory.length;
     lastPruneDropped = false;

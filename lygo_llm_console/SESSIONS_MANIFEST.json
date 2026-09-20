@@ -144,8 +144,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "b381a8e82a47e7a3",
-      "bytes": 96355
+      "sha256_16": "a84757983ab75513",
+      "bytes": 98202
     },
     {
       "path": "src/continuity.py",
@@ -154,8 +154,8 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "46cb6feae13d7c5d",
-      "bytes": 37593
+      "sha256_16": "950442915b3e1c9e",
+      "bytes": 37809
     },
     {
       "path": "src/chat_loop.py",
@@ -164,13 +164,13 @@
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "3ccba0be68d4943b",
-      "bytes": 75232
+      "sha256_16": "1b998af49230b4d4",
+      "bytes": 82404
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "2a6687e5842340a0",
-      "bytes": 19419
+      "sha256_16": "9780c2348067306c",
+      "bytes": 19731
     },
     {
       "path": "tests/test_sessions.py",
@@ -188,9 +188,12 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T21:14:24-06:00",
-  "rebrand_refresh_note": "a receipt on the failing path can no longer raise",
+  "rebrand_refresh_iso": "2026-09-19T22:28:00-06:00",
+  "rebrand_refresh_note": "attachments: img and file reach the agent",
   "rebrand_refresh_files": [
-    "src/server.py"
+    "src/server.py",
+    "src/limbs.py",
+    "portal/app.js",
+    "portal/index.html"
   ]
 }

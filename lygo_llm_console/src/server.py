@@ -1301,14 +1301,50 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/v1/embeddings":
             self._json(501, {"error": "embed_runner_optional"})
             return
+        if path == "/api/upload":
+            self._api_upload()
+            return
         self._json(404, {"error": "not_found"})
 
+    def _api_upload(self) -> None:
+        """Put an attached file where the agent's own limbs can read it.
+
+        The portal cannot hand the engine an arbitrary path on the operator's disk, and the engine only
+        ever sees the messages. So anything the browser cannot inline as text is written under
+        workspace/uploads/ - a root read_file, list_dir and search_corpus already cover - and the chat
+        message then carries that path with the instruction to open it. Refusing a file with no home is
+        why a picked file used to go nowhere.
+        """
+        raw = self._read_body(32 * 1024 * 1024)
+        if not raw:
+            self._json(400, {"error": "empty", "detail": "no bytes in the body"})
+            return
+        from urllib.parse import unquote
+
+        from paths import WORKSPACE
+
+        name = unquote(str(self.headers.get("X-Lygo-Filename") or "attachment.bin"))
+        name = name.replace("\\", "/").split("/")[-1].strip() or "attachment.bin"
+        safe = "".join(ch for ch in name if ch.isalnum() or ch in "._- ()").strip() or "attachment.bin"
+        dest_dir = WORKSPACE / "uploads"
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        dest = dest_dir / (time.strftime("%Y%m%d-%H%M%S") + "-" + safe)
+        dest.write_bytes(raw)
+        self._json(200, {
+            "path": str(dest),
+            "name": safe,
+            "bytes": len(raw),
+            "note": "saved in the workspace: the agent opens it with the read_file limb",
+        })
+
     def _api_chat(self) -> None:
-        raw = self._read_body(4 * 1024 * 1024)
+        # 12 MB, not 4: an attached photo arrives as base64 inside this JSON, and a phone photo encoded
+        # is 1.3x its size - the old limit turned "attach a photo" into a silent 413 on the operator.
+        raw = self._read_body(12 * 1024 * 1024)
         if not raw:
             cl = int(self.headers.get("Content-Length") or 0)
-            if cl > 4 * 1024 * 1024:
-                self._json(413, {"error": "too_large"})
+            if cl > 12 * 1024 * 1024:
+                self._json(413, {"error": "too_large", "limit": "12 MB - the photo is probably too large"})
                 return
         try:
             obj = json.loads(raw.decode("utf-8") or "{}")

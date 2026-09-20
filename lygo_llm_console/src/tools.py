@@ -68,6 +68,12 @@ TOOLS_SCHEMA = [
 
 TOOLS_SCHEMA = TOOLS_SCHEMA + EXTRA_SCHEMA
 CORE_NAMES = {
+    # The local agent had no way to look at a picture at all: a photo attached through the file button
+    # arrives as a path in the workspace, and without these two the model could only say it cannot see
+    # it. Photographs attached through the img button need neither - the engine's own projector sees
+    # those directly - so their descriptions say which case is which.
+    "image_see",
+    "image_info",
     "steward_map",
     "self_check",
     "whoami",

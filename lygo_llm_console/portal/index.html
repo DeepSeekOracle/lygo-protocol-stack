@@ -212,9 +212,11 @@
       <button type="button" id="archive-open" class="mini" title="Where the record lives and what is sealed in it">Archive</button>
       <span id="compact-status" class="compact-status" aria-live="polite">record: —</span>
     </div>
+    <div id="attach-strip" class="attach-strip" hidden aria-live="polite"></div>
     <form id="form" class="composer">
       <input id="msg" type="text" placeholder="Task the agent… paste an https:// URL to auto-read" autocomplete="off" autofocus>
-      <label class="attach">img<input id="img" type="file" accept="image/*" hidden></label>
+      <label class="attach" title="Attach a photo for the agent to look at">img<input id="img" type="file" accept="image/*" hidden></label>
+      <label class="attach" title="Attach a file: text is read into your message, anything else is saved where the agent can open it">file<input id="file" type="file" hidden></label>
       <button type="submit" id="send" class="send-btn">Send</button>
       <button type="button" id="stop" class="stop-btn" disabled title="Stop waiting on the engine (aborts this answer)">Stop</button>
     </form>
