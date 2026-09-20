@@ -40,6 +40,23 @@ def identity(path: Path) -> tuple[str, int]:
     return hashlib.sha256(data).hexdigest(), len(data)
 
 
+def release_stamp(kit_root: Path) -> tuple[str, str, str] | None:
+    """(stamp, release, tag) read from that kit's own VERSION, or None if it is unreadable.
+
+    A release number is not a hash, but it is still something two files can disagree about: this
+    manifest carried its own 'build' string, so a bump could leave the published record advertising a
+    build the console never reported. Reading VERSION here (the kit being refreshed, not this script's
+    kit) keeps the manifest, the header and /api/health on one number - see src/version.py.
+    """
+    try:
+        lines = [line.strip() for line in (kit_root / "VERSION").read_text(encoding="utf-8").splitlines()]
+    except OSError:
+        return None
+    if not lines or not lines[0]:
+        return None
+    return ("v" + lines[0], lines[0], lines[1] if len(lines) > 1 else "")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Refresh *_MANIFEST.json file hashes.")
     ap.add_argument("--root", default=str(Path(__file__).resolve().parent.parent),
@@ -59,9 +76,30 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001 - report, never crash
             print(f"  {m.name}: unreadable ({exc})")
             continue
+        # The release number is not a hash, but it can still drift: stamp it from THIS kit's VERSION
+        # (src/version.py) so the published record and the running console cannot advertise different
+        # builds. Done before the files-list gate, because BUILD_MANIFEST.json has no hash entries.
+        stamp_moved = False
+        stamped = release_stamp(root)
+        if stamped and isinstance(data, dict) and "build" in data:
+            stamp, rel, tag = stamped
+            for key, want in (("build", stamp), ("release", rel), ("release_tag", tag)):
+                if want and data.get(key) != want:
+                    print(f"    {key}: {data.get(key)!r} -> {want!r} (from VERSION)")
+                    data[key] = want
+                    stamp_moved = True
         files = data.get("files") if isinstance(data, dict) else None
         if not isinstance(files, list):
-            print(f"  {m.name}: no files list - skipped")
+            if stamp_moved and not args.check:
+                data["rebrand_refresh_iso"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
+                if args.note:
+                    data["rebrand_refresh_note"] = args.note
+                m.write_text(json.dumps(data, indent=2) + ("\n" if trailing_nl else ""), encoding="utf-8")
+                print(f"  {m.name}: release stamped (this manifest carries no file hashes)")
+            else:
+                if args.check and stamp_moved:
+                    total += 1
+                print(f"  {m.name}: no files list - skipped" + (" (release stamp DRIFTED)" if stamp_moved else ""))
             continue
         changed = []
         for row in files:
@@ -77,19 +115,22 @@ def main() -> int:
                                 row.get("bytes"), size))
                 row["sha256_16"] = digest[:16]
                 row["bytes"] = size
-        if not changed:
+        if not changed and not stamp_moved:
             print(f"  {m.name}: all {len(files)} entries already correct")
             continue
-        total += len(changed)
+        total += len(changed) + (1 if stamp_moved else 0)
         for path, old, new, ob, nb in changed:
             print(f"    {path}: {old} -> {new}  ({ob} -> {nb} bytes)")
         if args.check:
-            print(f"  {m.name}: {len(changed)} entries DRIFTED (not written, --check)")
+            print(f"  {m.name}: {len(changed)} entries DRIFTED (not written, --check)"
+                        + (" + a stale release stamp" if stamp_moved else ""))
             continue
         data["rebrand_refresh_iso"] = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
         if args.note:
             data["rebrand_refresh_note"] = args.note
         data["rebrand_refresh_files"] = [c[0] for c in changed]
+        if stamp_moved:
+            print(f"  {m.name}: release stamped from VERSION")
         m.write_text(json.dumps(data, indent=2) + ("\n" if trailing_nl else ""), encoding="utf-8")
         print(f"  {m.name}: {len(changed)} of {len(files)} entries refreshed")
 

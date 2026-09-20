@@ -29,6 +29,7 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
+import version  # noqa: E402  (the release number lives in VERSION - see src/version.py)
 from atomicio import atomic_write_text  # noqa: E402
 from atomicio import read_text as read_text_locked  # noqa: E402
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
@@ -177,7 +178,9 @@ LLAMA_KEY = ""
 BIND = "127.0.0.1"
 AUTH_REQUIRED = False
 MOCK_ONLY = False
-BUILD = "v1.1-20260917api2"
+# The release number lives in ONE file (VERSION); see src/version.py for why. A bump there
+# moves the header, this health line and the runtime facts together.
+BUILD = version.stamp()
 STATE: dict[str, Any] = {"brain": "missing", "selected": None, "error": None, "scan_n": 0, "engine": "llama", "engine_port": LLAMA_PORT}
 
 
@@ -697,6 +700,8 @@ class Handler(BaseHTTPRequestHandler):
                 {
                     "ok": True,
                     "build": BUILD,
+            "release": version.release(),
+            "release_tag": version.tag(),
                     "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
                     "authenticated": check(token_from_request(self._headers_map(), self._query()), TOKEN),
                     "physics": PHYSICS_AVAILABLE,

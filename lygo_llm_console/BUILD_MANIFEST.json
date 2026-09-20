@@ -1,7 +1,7 @@
 {
   "name": "LYGO LLM Local Console",
-  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
-  "build": "v1.1-20260917api2",
+  "signature": "\u03949\u03a6963-LYGO-LLM-CONSOLE-v1",
+  "build": "v1.1.0",
   "status": "BETA 1 - stable working prototype",
   "generated": "2026-09-18",
   "steward": "Justin Helmer (ExcavationPro / Lightfather)",
@@ -492,5 +492,9 @@
       "live_notepad": "clean - ids are ['agent-gauntlet','gauntlet','scratch'], no test residue"
     },
     "how_to_find_the_next_one": "run two strict suites at once; whichever test fails is writing shared state"
-  }
+  },
+  "release": "1.1.0",
+  "release_tag": "stable-anchor 2026-09-19",
+  "rebrand_refresh_iso": "2026-09-20T00:10:18-06:00",
+  "rebrand_refresh_note": "1.1.0 stable anchor - the release number is now a single source (VERSION)"
 }

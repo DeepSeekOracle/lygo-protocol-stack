@@ -12,9 +12,11 @@ import platform
 import sys
 from typing import Any
 
+import version
 from paths import DEFAULT_PORT, KIT_ROOT, LLAMA_PORT
 
-_FALLBACK_BUILD = "v1.1-20260917api2"
+# Same one file as server.BUILD: the model is told the release the operator is actually running.
+_FALLBACK_BUILD = version.stamp()
 
 
 def _server_module() -> Any:

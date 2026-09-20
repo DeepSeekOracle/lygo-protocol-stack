@@ -602,8 +602,9 @@
     const nameEl = document.getElementById("brand-name");
     const buildEl = document.getElementById("brand-build");
     if (nameEl) nameEl.textContent = LYGO_PRODUCT;
-    if (buildEl) buildEl.textContent = BUILD_STAMP;
-    if (typeof document.title === "string") document.title = LYGO_PRODUCT + " · " + BUILD_STAMP;
+    const stamp = servedBuild || BUILD_STAMP;   /* served wins; the const is only the pre-health fallback */
+    if (buildEl) buildEl.textContent = stamp;
+    if (typeof document.title === "string") document.title = LYGO_PRODUCT + " · " + stamp;
   }
   paintBrand();
 
@@ -636,6 +637,7 @@
       }
       const j = await r.json();
       lastHealth = j;
+    if (j && j.build) { servedBuild = String(j.build); paintBrand(); }
       setHealth(j);
       healthDown = false;
       if (j.cloud) paintApi(j.cloud);
@@ -789,6 +791,9 @@
   const brainApiBtn = document.getElementById("brain-api");
   let brainMode = "local"; /* local (default) | api */
   let lastHealth = {};
+  /* The build stamp the console reports. The header used to print this file's own const, so a
+     release bump here could disagree with /api/health for as long as nobody noticed. */
+  let servedBuild = "";
   let brainBusy = false;
 
   function localLabel() {
