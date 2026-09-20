@@ -79,7 +79,10 @@ class ComposerTests(unittest.TestCase):
         js = _src("portal/app.js")
         self.assertIn('fetch("/api/upload"', js)
         self.assertIn("its contents follow", js, "a small text file should ride the message itself")
-        self.assertIn("open it with the read_file limb before you answer", js)
+        # The path rides its own line, because this kit's folder is "I:\\E Drive\\..." and the space
+        # inside it truncates any inline path pattern (chat_loop.PATH_LINE reads a whole line).
+        self.assertIn("is saved in the workspace as:", js)
+        self.assertIn("pen it with the read_file limb before you answer, and say plainly if you cannot", js)
 
     def test_photos_are_shrunk_before_they_are_sent(self):
         """A phone photo is 3-8 MB; downscaling here is the difference between an attachment that flows
