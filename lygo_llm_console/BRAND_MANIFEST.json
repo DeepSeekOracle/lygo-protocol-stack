@@ -41,8 +41,8 @@
     },
     {
       "path": "README.md",
-      "sha256_16": "bf337f4071d3eee9",
-      "bytes": 7162
+      "sha256_16": "c6417aed3f0b84f6",
+      "bytes": 7242
     },
     {
       "path": "READ_DISCLAIMER_FIRST.md",
@@ -51,8 +51,8 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "a803cd8413de5f17",
-      "bytes": 19416
+      "sha256_16": "2a6687e5842340a0",
+      "bytes": 19419
     },
     {
       "path": "web_portal/index.html",
@@ -65,19 +65,10 @@
       "bytes": 8899
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T16:32:02-06:00",
-  "rebrand_refresh_note": "line-ending-canonical identity (sha256 over LF-normalised bytes); fixes a broken normalisation that wrote NULs instead of newlines",
+  "rebrand_refresh_iso": "2026-09-19T19:14:47-06:00",
+  "rebrand_refresh_note": "standalone: our own engine + own model vault, gateway and scan roots no longer default to a daemon",
   "rebrand_refresh_files": [
-    "LICENSE",
-    "NOTICE",
-    "TRADEMARKS.md",
-    "LICENSING.md",
-    "SUCCESSION.md",
-    "BRANDING.md",
     "README.md",
-    "READ_DISCLAIMER_FIRST.md",
-    "portal/index.html",
-    "web_portal/index.html",
-    "scripts/certify_build.py"
+    "portal/index.html"
   ]
 }
