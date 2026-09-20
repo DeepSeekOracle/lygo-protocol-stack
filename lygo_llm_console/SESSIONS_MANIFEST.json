@@ -159,8 +159,8 @@
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "2cde43bed7dd8a4c",
-      "bytes": 37216
+      "sha256_16": "3f3ef5111426cc6d",
+      "bytes": 38630
     },
     {
       "path": "portal/app.js",
@@ -188,10 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T23:08:40-06:00",
-  "rebrand_refresh_note": "the projector is wired to the model it belongs to",
+  "rebrand_refresh_iso": "2026-09-19T23:12:51-06:00",
+  "rebrand_refresh_note": "a host readout keeps the text it brought back",
   "rebrand_refresh_files": [
-    "src/chat_loop.py",
-    "portal/app.js"
+    "src/chat_loop.py"
   ]
 }

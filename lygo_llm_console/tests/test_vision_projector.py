@@ -212,6 +212,18 @@ class AttachedFileIsReadByTheHostTests(unittest.TestCase):
         self.assertTrue((read.get("result") or {}).get("ok"), read.get("result"))
         self.assertIn("DELTA-963", str((read.get("result") or {}).get("text")))
 
+    def test_the_readout_reaches_the_model_with_the_file_in_it(self):
+        """The host reading the file is not the fix - the model receiving its CONTENTS is.
+
+        Measured 2026-09-19: the host read the attached file, `_compact_trace`'s slim branch kept only
+        name/ok/path, and the model answered "LUMINA-77" for a file that says OMEGA-441. A readout whose
+        payload was trimmed away is a readout the model invents.
+        """
+        from chat_loop import prefetch_message
+
+        msg = prefetch_message(self.host_prefetch(self._message()))
+        self.assertIn("DELTA-963", msg, "the file's own text must be in what the model is given")
+
     def test_the_host_does_not_go_to_the_web_for_a_file_it_was_handed(self):
         names = [t["name"] for t in self.host_prefetch(self._message())]
         self.assertNotIn("web_search", names)

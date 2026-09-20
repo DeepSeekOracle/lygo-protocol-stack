@@ -662,6 +662,13 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     return traces
 
 
+# Limbs that exist to bring text back to the model. Their body must survive the slim trace.
+READOUT_LIMBS = {
+    "read_file", "read_text", "search_corpus", "skill_read", "list_dir", "notepad_read",
+    "session_read", "memory_read", "identity_read", "whoami", "http_json", "jina_fetch",
+}
+
+
 def _compact_trace(t: dict[str, Any]) -> dict[str, Any]:
     res = t.get("result") if isinstance(t.get("result"), dict) else {}
     name = t.get("name")
@@ -710,6 +717,26 @@ def _compact_trace(t: dict[str, Any]) -> dict[str, Any]:
     if name == "github_search":
         hits = res.get("hits") or []
         return {"name": name, "query": res.get("query"), "hits": hits[:6]}
+    if name in READOUT_LIMBS:
+        # A limb whose whole job is to bring text back must carry that text into the prompt. The slim
+        # branch below keeps only name/ok/path, and a host read of the operator's own attached file then
+        # reached the model as {"name": "read_file", "ok": true, "path": ...} with none of its contents -
+        # so it answered "LUMINA-77" for a file that says OMEGA-441 (measured 2026-09-19). Same class as
+        # the calc value that went missing: a readout without its payload is a readout the model invents.
+        slim = {"name": name, "ok": res.get("ok", True)}
+        for k in ("role", "n", "path", "error", "hint", "marker", "value", "verdict"):
+            if res.get(k) is not None:
+                slim[k] = res.get(k)
+        body = res.get("text")
+        if body in (None, ""):
+            body = res.get("content")
+        if isinstance(body, str) and body:
+            slim["text"] = body[:2000]
+        for k in ("entries", "hits", "matches", "skills", "lines"):
+            v = res.get(k)
+            if v:
+                slim[k] = v[:20]
+        return slim
     slim = {"name": name, "ok": res.get("ok", True)}
     for k in ("role", "n", "path", "error", "github"):
         if res.get(k) is not None:
