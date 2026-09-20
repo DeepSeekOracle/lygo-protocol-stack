@@ -330,6 +330,13 @@ def _next_model_rec(models: list[dict[str, Any]], exclude: list[str]) -> dict[st
     return None
 
 
+VISION_BLIND_NOTE = (
+    "\u26a0 the picture attached to this message was not looked at: {model} has no vision projector on "
+    "this machine, so only your text was read. Attach the picture with the FILE button to keep it in the "
+    "workspace, or boot a model with vision."
+)
+
+
 def maybe_spawn(model_id: str | None) -> str:
     if MOCK_ONLY:
         STATE["brain"] = "mock"
@@ -341,6 +348,16 @@ def maybe_spawn(model_id: str | None) -> str:
     if not rec or not rec.get("path") or not rec.get("runnable"):
         STATE["brain"] = "missing"
         return "missing"
+    # A record can name a file this machine does not have - the stick's registry was measured carrying
+    # eight such records, its only vision model among them. Failing here, naming the path it wanted, is
+    # answerable; the engine's own "failed to load model" inside a log tail is not.
+    from registry import reach as _reach
+
+    _where = _reach(rec)
+    if not _where["reachable"]:
+        STATE["brain"] = "error"
+        STATE["error"] = "model_not_on_this_machine: %s - %s" % (rec.get("id"), _where["why"])
+        return "error"
     from lygo_engine import boot as lygo_boot
 
     # A model whose header parses but which this engine cannot actually load (wrong tensor
@@ -685,6 +702,7 @@ class Handler(BaseHTTPRequestHandler):
                     "physics": PHYSICS_AVAILABLE,
                     "brain": STATE.get("brain"),
                     "selected": STATE.get("selected") or reg_load().get("selected"),
+                    "vision": __import__("registry").selected_vision(),
                     "error": STATE.get("error"),
                     "model_fallback": STATE.get("model_fallback"),
                     "scan_n": STATE.get("scan_n") or len(reg_load().get("models") or []),
@@ -723,6 +741,15 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(401, {"error": "unauthorized"})
                 return
             data = reg_load()
+            # Hand back what each record IS on this machine, not just what it claims: reachable (the
+            # files are here) and portable (they sit in storage this kit carries). Without this the
+            # stick advertises models that live on the PC it was built on.
+            from registry import reach as _reach
+
+            data = {
+                **data,
+                "models": [{**m, "reach": _reach(m)} for m in data.get("models") or []],
+            }
             if path.startswith("/v1"):
                 self._json(
                     200,
@@ -1785,6 +1812,10 @@ class Handler(BaseHTTPRequestHandler):
         active = "cloud" if use_cloud else "local"
         if handoff and assistant and active == "local" and not assistant.startswith("\u26a0"):
             assistant = brain_router.banner(handoff["why"], handoff.get("api") or "", str(model)) + "\n\n" + assistant
+        if active == "local" and has_image(messages) and not __import__("registry").selected_vision():
+            # Never silently ignore a picture: the operator attached it and is owed one honest sentence
+            # instead of an answer that reads as though the photo had been considered.
+            assistant = VISION_BLIND_NOTE.format(model=str(model)) + "\n\n" + assistant
         if not handoff:
             # a clean turn clears the last-handoff note on the health bar
             STATE["fallback"] = None

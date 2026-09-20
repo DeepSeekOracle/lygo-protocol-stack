@@ -609,3 +609,12 @@ body.api-on .brainbar { border-color: rgba(224, 179, 106, 0.5); }
 .chip-x { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 0.8rem;
   padding: 0 0.1rem; }
 .bubble-img { display: block; max-width: 220px; max-height: 220px; border-radius: 8px; margin-top: 0.35rem; }
+
+/* The chip row can carry one honest warning under the chips: a photo attached to a model that has no
+   vision projector will not be looked at, and the operator should know before they send it. */
+#attach-strip .attach-note {
+  flex-basis: 100%;
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: 0.85;
+}

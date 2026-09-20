@@ -102,6 +102,15 @@
       chip.appendChild(x);
       attachStrip.appendChild(chip);
     });
+    /* A model with no projector cannot see a photo: say it under the chips, where the operator is
+       looking, instead of letting them wait for an answer that only ever read the text. */
+    if (pendingAttach.some(function (a) { return a.kind === "image"; }) && lastHealth && lastHealth.vision === false) {
+      const note = document.createElement("span");
+      note.className = "attach-note";
+      note.textContent = "\u26a0 " + (lastHealth.selected || "this model")
+        + " cannot see pictures - attach it with File to keep it in the workspace, or boot a model with vision";
+      attachStrip.appendChild(note);
+    }
   }
 
   function syncAttach() {
@@ -670,7 +679,12 @@
       const o = document.createElement("option");
       o.value = m.id;
       const gb = m.bytes ? (m.bytes / 1e9).toFixed(1) + "GB" : "";
-      o.textContent = `${m.id} [${m.kind || "?"} ${m.runnable ? "ok" : m.status} ${gb}]`;
+      /* A travelling kit must not list a model it does not hold: reach.portable means the files sit
+         inside storage this kit carries. Reachable-but-not-portable runs on the machine the stick is
+         plugged into today and is gone on the next one, so say which is which. */
+      const where = m.reach && !m.reach.portable ? (m.reach.reachable ? " . not carried by this kit" : " . not found here") : "";
+      o.textContent = `${m.id} [${m.kind || "?"} ${m.runnable ? "ok" : m.status} ${gb}${where}]`;
+      if (m.reach && m.reach.why) o.title = m.reach.why;
       if (m.id === j.selected) o.selected = true;
       models.appendChild(o);
     });

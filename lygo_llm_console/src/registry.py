@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from pathlib import Path
 from typing import Any
 
-from paths import LOGS, REGISTRY_PATH, SAVE, ensure_dirs
+from paths import CONSOLE_JSON, KIT_ROOT, LOGS, REGISTRY_PATH, SAVE, ensure_dirs
 from atomicio import atomic_write_text, read_text as read_file_text
 
 SIGNATURE = "Δ9Φ963-LYGO-LLM-CONSOLE-REG-v1"
@@ -20,6 +21,115 @@ LOAD_STATUS: dict[str, Any] = {"recovered": False, "source": "", "reason": "", "
 def registry_backup_path() -> Path:
     """registry.json.bak beside the live file (computed live: tests patch REGISTRY_PATH)."""
     return REGISTRY_PATH.with_name(REGISTRY_PATH.name + ".bak")
+
+
+def kit_storage_roots() -> list[Path]:
+    """Storage this kit C A R R I E S with it: the kit folder, and any root it declares by env.
+
+    Deliberately narrower than the scanner's roots. The scanner may look at a vault on the machine it
+    is plugged into (and should - that is how the operator's own models get imported), but a file that
+    lives outside the kit is not something the stick holds.
+    """
+    roots = [Path(KIT_ROOT)]
+    for env_name in ("LYGO_BUILDER_KEY_ROOT", "LYGO_USB_ROOT", "LYGO_STACK_ROOT"):
+        declared = os.environ.get(env_name, "").strip()
+        if declared:
+            roots.append(Path(os.path.expandvars(declared)))
+    roots.extend(_declared_in_config())
+    # A vault named by the machine counts only when it is on the SAME DRIVE as the kit. LYGO_MODELS
+    # points at the PC's vault; a stick that called the PC's vault its own would advertise models it
+    # does not carry, which is the exact lie this helper exists to stop.
+    vault = os.environ.get("LYGO_MODELS", "").strip()
+    if vault:
+        try:
+            if Path(os.path.expandvars(vault)).drive.lower() == Path(KIT_ROOT).drive.lower():
+                roots.append(Path(os.path.expandvars(vault)))
+        except (OSError, ValueError):
+            pass
+    out: list[Path] = []
+    for r in roots:
+        try:
+            out.append(r.resolve())
+        except OSError:
+            continue
+    return out
+
+
+def _declared_in_config() -> list[Path]:
+    """Roots THIS kit declares in its own config/console.json (absolute entries).
+
+    An arrangement written into the kit's own config travels with the kit; a path that merely exists on
+    today's host does not.
+    """
+    roots: list[Path] = []
+    try:
+        cfg = json.loads(Path(CONSOLE_JSON).read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001 - a missing or malformed config is not a reason to fail a boot
+        return roots
+    for r in cfg.get("scan_roots") or []:
+        s = os.path.expandvars(os.path.expanduser(str(r)))
+        p = Path(s)
+        roots.append(p if p.is_absolute() else Path(KIT_ROOT) / s)
+    return roots
+
+
+def reach(rec: dict[str, Any]) -> dict[str, Any]:
+    """Can this model run HERE, and does it travel with the kit?
+
+    Two different questions, and a travelling stick needs both answered separately:
+
+      reachable - its files exist on this machine (a fact about now)
+      portable  - they sit inside storage the kit carries (a fact about the road)
+
+    A record that is reachable but not portable runs on the machine the stick is plugged into today and
+    is gone on the next one. Measured on the stick 2026-09-19: 8 of its 14 records named
+    C:\\Users\\justi\\.ollama and even D:\\Ollama blobs - the only vision model among them - so the picker
+    was advertising models the stick does not hold. A missing mmproj counts: a record whose projector
+    is gone cannot look at a picture either.
+    """
+    files: list[tuple[str, Path]] = []
+    for key in ("path", "mmproj"):
+        v = str(rec.get(key) or "").strip()
+        if v:
+            files.append((key, Path(v)))
+    if not files:
+        return {"reachable": False, "portable": False, "why": "the record names no model file",
+                "missing": [], "outside": []}
+    missing = [str(p) for _, p in files if not p.is_file()]
+    roots = [str(r).lower() for r in kit_storage_roots()]
+    outside: list[str] = []
+    for _, p in files:
+        try:
+            rp = str(p.resolve()).lower()
+        except OSError:
+            rp = str(p).lower()
+        if not any(rp.startswith(r) for r in roots):
+            outside.append(str(p))
+    why = None
+    if missing:
+        why = "its file is not on this machine: %s" % missing[0]
+    elif outside:
+        why = "it lives outside the kit, so it does not travel: %s" % outside[0]
+    return {"reachable": not missing, "portable": not missing and not outside, "why": why,
+            "missing": missing, "outside": outside}
+
+
+def selected_vision() -> bool:
+    """True when the SELECTED record can actually look at a picture on this machine.
+
+    The vision limbs and an attached photo both need a projector: a chat model with no mmproj, or one
+    whose mmproj is not present here, cannot see an image no matter what the picker says.
+    """
+    data = load()
+    sel = data.get("selected")
+    rec = next((m for m in data.get("models") or [] if m.get("id") == sel), None)
+    if not rec:
+        return False
+    mp = str(rec.get("mmproj") or "").strip()
+    try:
+        return bool(mp) and Path(mp).is_file()
+    except OSError:
+        return False
 
 
 def load_status() -> dict[str, Any]:
