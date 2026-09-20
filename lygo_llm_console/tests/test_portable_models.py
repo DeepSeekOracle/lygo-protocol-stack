@@ -58,9 +58,20 @@ class ReachTests(unittest.TestCase):
             got = registry.reach({"id": "x", "path": tmp})
             self.assertTrue(got["reachable"], got)
             self.assertFalse(got["portable"], got)
-            self.assertIn("outside the kit", got["why"])
+            self.assertIn("not inside this kit", got["why"])
         finally:
             os.unlink(tmp)
+
+    def test_a_vault_on_the_kits_own_drive_is_carried(self):
+        """Same rule, two answers: the PC's vault is on the kit's drive and counts as carried; a stick
+        whose kit sits on E: must not call that same vault its own."""
+        roots = " ".join(str(r).lower() for r in registry.kit_storage_roots())
+        kit_drive = Path(ROOT).drive.lower()
+        same = [p for p in registry.KNOWN_VAULTS if Path(p).drive.lower() == kit_drive]
+        if not same:
+            self.skipTest("this kit is not installed on a vault drive")
+        for p in same:
+            self.assertIn(Path(p).drive.lower(), roots, "%s is on the kit's own drive" % p)
 
     def test_a_gone_file_is_not_reachable_and_says_which(self):
         got = registry.reach({"id": "x", "path": str(ROOT / "no_such_model_9f3.gguf")})

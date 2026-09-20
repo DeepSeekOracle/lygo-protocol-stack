@@ -23,6 +23,17 @@ def registry_backup_path() -> Path:
     return REGISTRY_PATH.with_name(REGISTRY_PATH.name + ".bak")
 
 
+# The vault locations the scanner knows (server.default_scan_roots). They count as THIS kit's storage
+# only on the kit's own drive: the PC's vault is I:\LYGO_MODELS and the PC kit lives on I:, so its
+# models are its own - the same path seen by a stick whose kit is on E: is another machine's vault.
+KNOWN_VAULTS = (
+    r"I:\LYGO_MODELS",
+    r"U:\LYGO\models",
+    r"F:\LYGO\models",
+    r"E:\LYGO_BUILDER_KEY\product\models\ollama",
+)
+
+
 def kit_storage_roots() -> list[Path]:
     """Storage this kit C A R R I E S with it: the kit folder, and any root it declares by env.
 
@@ -39,6 +50,16 @@ def kit_storage_roots() -> list[Path]:
     # A vault named by the machine counts only when it is on the SAME DRIVE as the kit. LYGO_MODELS
     # points at the PC's vault; a stick that called the PC's vault its own would advertise models it
     # does not carry, which is the exact lie this helper exists to stop.
+    try:
+        kit_drive = Path(KIT_ROOT).drive.lower()
+    except (OSError, ValueError):
+        kit_drive = ""
+    for known in KNOWN_VAULTS:
+        try:
+            if Path(known).drive.lower() == kit_drive:
+                roots.append(Path(known))
+        except (OSError, ValueError):
+            continue
     vault = os.environ.get("LYGO_MODELS", "").strip()
     if vault:
         try:
@@ -109,7 +130,7 @@ def reach(rec: dict[str, Any]) -> dict[str, Any]:
     if missing:
         why = "its file is not on this machine: %s" % missing[0]
     elif outside:
-        why = "it lives outside the kit, so it does not travel: %s" % outside[0]
+        why = "it is not inside this kit's own storage: %s" % outside[0]
     return {"reachable": not missing, "portable": not missing and not outside, "why": why,
             "missing": missing, "outside": outside}
 
