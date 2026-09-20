@@ -1678,6 +1678,23 @@ class Handler(BaseHTTPRequestHandler):
             shrug_prose = tool_prose(traces)
             if shrug_prose:
                 assistant = shrug_prose
+        if not str(assistant or "").strip():
+            # An empty bubble is the symptom that has cost the most time here, and the console keeps no
+            # record of a turn's internals - only HTTP access lines - so every guess had to be inferred.
+            # Leave a receipt: what came back, what ran, and what the model's message actually held.
+            print(
+                "[turn] blank answer: use_tools=%s host_did_tools=%s tools_ran=%s first_msg_keys=%s "
+                "cur_text=%d chars follow_msg_keys=%s"
+                % (
+                    use_tools,
+                    locals().get("host_did_tools"),
+                    [t.get("name") for t in traces],
+                    sorted(msg_obj or {}),
+                    len(str(locals().get("cur_text") or "")),
+                    sorted(locals().get("cur_msg") or {}),
+                ),
+                flush=True,
+            )
         assistant = sanitize_assistant(assistant, traces) or assistant
         prev_answer = ""
         for m in reversed(messages):
