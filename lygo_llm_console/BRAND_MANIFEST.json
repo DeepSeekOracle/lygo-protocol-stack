@@ -41,8 +41,8 @@
     },
     {
       "path": "README.md",
-      "sha256_16": "c6417aed3f0b84f6",
-      "bytes": 7242
+      "sha256_16": "9bd0d6030bc85256",
+      "bytes": 8413
     },
     {
       "path": "READ_DISCLAIMER_FIRST.md",
@@ -65,10 +65,9 @@
       "bytes": 10329
     }
   ],
-  "rebrand_refresh_iso": "2026-09-20T13:46:51-06:00",
-  "rebrand_refresh_note": "1.2.0 module-strip: lygo.llminfo + lygo.envwatch panes in the bottom dock, release anchored at 1.2.0",
+  "rebrand_refresh_iso": "2026-09-20T15:00:44-06:00",
+  "rebrand_refresh_note": "README: full license disclaimer for the public release (1.2.2 hardening sweep)",
   "rebrand_refresh_files": [
-    "portal/index.html",
-    "scripts/certify_build.py"
+    "README.md"
   ]
 }
