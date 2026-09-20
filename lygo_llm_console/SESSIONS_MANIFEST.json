@@ -144,8 +144,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "18cad3ec83202f45",
-      "bytes": 95814
+      "sha256_16": "b381a8e82a47e7a3",
+      "bytes": 96355
     },
     {
       "path": "src/continuity.py",
@@ -188,8 +188,8 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T21:09:27-06:00",
-  "rebrand_refresh_note": "a blank turn now leaves a receipt in the console log",
+  "rebrand_refresh_iso": "2026-09-19T21:14:24-06:00",
+  "rebrand_refresh_note": "a receipt on the failing path can no longer raise",
   "rebrand_refresh_files": [
     "src/server.py"
   ]

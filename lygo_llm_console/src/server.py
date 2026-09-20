@@ -1682,19 +1682,25 @@ class Handler(BaseHTTPRequestHandler):
             # An empty bubble is the symptom that has cost the most time here, and the console keeps no
             # record of a turn's internals - only HTTP access lines - so every guess had to be inferred.
             # Leave a receipt: what came back, what ran, and what the model's message actually held.
-            print(
-                "[turn] blank answer: use_tools=%s host_did_tools=%s tools_ran=%s first_msg_keys=%s "
-                "cur_text=%d chars follow_msg_keys=%s"
-                % (
-                    use_tools,
-                    locals().get("host_did_tools"),
-                    [t.get("name") for t in traces],
-                    sorted(msg_obj or {}),
-                    len(str(locals().get("cur_text") or "")),
-                    sorted(locals().get("cur_msg") or {}),
-                ),
-                flush=True,
-            )
+            # Wrapped, and every name read through locals(): this runs on the failing path, which is
+            # exactly where a name may be missing. A receipt may never become the failure itself - a
+            # bare NameError here reached an operator as HTTP 500 handler_failed while printing nothing.
+            try:
+                print(
+                    "[turn] blank answer: use_tools=%s host_did_tools=%s tools_ran=%s first_msg_keys=%s "
+                    "cur_text=%d chars follow_msg_keys=%s"
+                    % (
+                        locals().get("use_tools"),
+                        locals().get("host_did_tools"),
+                        [t.get("name") for t in (locals().get("traces") or [])],
+                        sorted(locals().get("msg_obj") or {}),
+                        len(str(locals().get("cur_text") or "")),
+                        sorted(locals().get("cur_msg") or {}),
+                    ),
+                    flush=True,
+                )
+            except Exception:  # noqa: BLE001 - logging may never take the console down
+                pass
         assistant = sanitize_assistant(assistant, traces) or assistant
         prev_answer = ""
         for m in reversed(messages):
