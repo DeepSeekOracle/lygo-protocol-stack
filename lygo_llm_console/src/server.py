@@ -257,7 +257,7 @@ def load_console() -> dict[str, Any]:
 def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
     raw = cfg.get("scan_roots")
     if not isinstance(raw, list) or not raw:
-        raw = ["./models", r"%USERPROFILE%\.ollama\models"]
+        raw = ["./models"]
     out: list[str] = []
     for r in raw:
         s = os.path.expandvars(os.path.expanduser(str(r)))
@@ -265,9 +265,10 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         if not p.is_absolute():
             p = (KIT_ROOT / s).resolve()
         out.append(str(p))
-    home_cas = Path(os.path.expandvars(r"%USERPROFILE%\.ollama\models"))
-    if home_cas.is_dir() and str(home_cas) not in out:
-        out.append(str(home_cas))
+    # No implicit %USERPROFILE%\.ollama\models any more: this kit boots its own engine on its own
+    # GGUF vault, so an Ollama folder is only ever read when the operator maps it on purpose (the
+    # one-time read-only import in src/ollama_import.py). Requiring it would be a dependency; a
+    # dependency is the difference between a walking agent and an empty shell when it is absent.
     # Declared roots first, kit-relative second, raw drive letters last: a kit packaged onto
     # another drive must find its own models without a stale letter being the only candidate.
     extras = [KIT_ROOT / "models"]
@@ -278,6 +279,7 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
             extras.extend([base / "models", base / "product" / "models" / "ollama"])
     extras.extend(
         [
+            Path(r"I:\LYGO_MODELS"),
             Path(r"U:\LYGO\models"),
             Path(r"F:\LYGO\models"),
             Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
@@ -287,9 +289,9 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
     if usb:
         extras.append(Path(usb) / "product" / "models" / "ollama")
         extras.append(Path(usb) / "models")
-    # The launchers declare where this stick keeps its models (LYGO_MODELS / OLLAMA_MODELS).
-    # Trusting that declaration is what lets the console find its OWN brains on a PC that has
-    # never run ollama — the difference between a walking agent and an empty shell.
+    # LYGO_MODELS is the kit's own declaration of its model vault (the launchers set it; a machine
+    # can set it too). OLLAMA_MODELS is tolerated because launchers written before the vault existed
+    # used it to point at their own folder - it is still only ever read as files, never executed.
     for env_name in ("LYGO_MODELS", "OLLAMA_MODELS"):
         declared = os.environ.get(env_name, "").strip()
         if declared:

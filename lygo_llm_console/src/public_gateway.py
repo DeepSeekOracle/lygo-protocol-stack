@@ -102,6 +102,7 @@ def _rate(ip: str) -> bool:
 
 
 def _ollama_chat(base: str, model: str, messages: list[dict[str, Any]]) -> str:
+    """LEGACY: a daemon backend, kept only for an operator who still runs one. Not the default."""
     payload = json.dumps({"model": model, "messages": messages, "stream": False, "options": {"num_predict": 384}}).encode()
     req = urllib.request.Request(
         base.rstrip("/") + "/api/chat",
@@ -127,11 +128,13 @@ def _openai_chat(url: str, model: str, messages: list[dict[str, Any]], key: str)
 
 
 class Handler(BaseHTTPRequestHandler):
-    backend = "ollama"
+    # Default backend is our own engine. The daemon attributes below are the legacy path: they are
+    # only reached when an operator passes --backend ollama on purpose.
+    backend = "local"
     ollama = "http://127.0.0.1:11434"
     openai_url = f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions"
     openai_key = ""
-    model = "qwen2.5:3b"
+    model = ""   # empty = resolve from our own registry when the caller names no model
     server_version = "LYGO-PublicGateway/1"
 
     def log_message(self, fmt: str, *args: Any) -> None:
@@ -233,9 +236,9 @@ class Handler(BaseHTTPRequestHandler):
         if gate.get("verdict") == "QUARANTINE":
             self._json(451, {"error": "quarantine", "gate": gate})
             return
-        model = str(obj.get("model") or self.model)
+        model = str(obj.get("model") or self.model or _selected_model())
         try:
-            if self.backend == "openai":
+            if self.backend != "ollama":   # "local" and "openai" are the same thing: our own engine
                 text = _openai_chat(self.openai_url, model, msgs, self.openai_key)
             else:
                 text = _ollama_chat(self.ollama, model, msgs)
@@ -264,16 +267,29 @@ class Handler(BaseHTTPRequestHandler):
         )
 
 
+def _selected_model() -> str:
+    """The console's own default brain, so a public gateway starts on a model this machine has."""
+    import json
+
+    reg = Path(__file__).resolve().parents[1] / "save" / "registry.json"
+    try:
+        return str(json.loads(reg.read_text(encoding="utf-8")).get("selected") or "qwen2.5-coder:7b")
+    except Exception:
+        return "qwen2.5-coder:7b"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Public LYGO chat gateway (no admin, no shell).")
     ap.add_argument("--port", type=int, default=9642)
     ap.add_argument("--bind", default="127.0.0.1")
     ap.add_argument("--i-consent", action="store_true")
     ap.add_argument("--lan", action="store_true")
-    ap.add_argument("--backend", choices=("ollama", "openai"), default="ollama")
+    # Our own engine is the default: the kit runs its own llama-server. "ollama" survives only as an
+    # explicit legacy opt-in for a machine that happens to run a daemon - the kit never needs one.
+    ap.add_argument("--backend", choices=("local", "openai", "ollama"), default="local")
     ap.add_argument("--ollama", default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
     ap.add_argument("--openai-url", default=f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions")
-    ap.add_argument("--model", default=os.environ.get("LYGO_PUBLIC_MODEL", "qwen2.5:3b"))
+    ap.add_argument("--model", default=os.environ.get("LYGO_PUBLIC_MODEL") or _selected_model())
     args = ap.parse_args()
     bind = args.bind
     if args.lan:

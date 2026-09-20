@@ -157,7 +157,7 @@ def main() -> int:
                 "max_tokens": 512,
                 # RAM-auto: pick the biggest model THIS host can hold (src/registry.py).
                 "prefer_by_ram": True,
-                "scan_roots": ["./models", "%USERPROFILE%/.ollama/models"],
+                "scan_roots": ["./models"],
             },
             indent=2,
         ),

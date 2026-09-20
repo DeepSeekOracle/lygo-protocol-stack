@@ -27,7 +27,9 @@ This is enough for a KERNEL-level local agent loop (tools, search, SOUL/MEMORY).
 
 ## Add more models (your downloads)
 
-Drop any `*.gguf` into `models\` or keep Ollama blobs under `%USERPROFILE%\.ollama\models`. Scan again. You are responsible for each model's license (Llama, Gemma, etc.).
+Drop any `*.gguf` into `models\`, or into the vault the machine declares with `LYGO_MODELS`
+(`I:\LYGO_MODELS` on this PC). Scan again. Existing Ollama blobs can be imported once, read-only -
+they are plain GGUF files and nothing here runs the daemon. You are responsible for each model's license (Llama, Gemma, etc.).
 
 ## Engine (not a model)
 

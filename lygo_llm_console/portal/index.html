@@ -71,7 +71,7 @@
     <div class="syslabel" id="syslabel" title="One console, three systems: stand-alone USB agent (everything onboard the stick, plug and play, mobile) · admin console on a PC (the build that becomes the public version) · online API-only web portal (already built)">SYSTEM: /*LYGO_SYSTEM*/ — USB LOCAL (stick, stand-alone) · PC LOCAL (this PC, admin console) · WEB PORTAL (API ONLY, online — already built)</div>
     <div class="modelbar">
       <button type="button" id="scan">Scan drives</button>
-      <select id="models" title="Available GGUF / Ollama CAS models"></select>
+      <select id="models" title="Available GGUF models (own vault)"></select>
       <button type="button" id="select">Boot LLM</button>
       <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
     </div>
@@ -196,7 +196,7 @@
       <div id="empty-state" class="empty-state">
         <h3>Start here</h3>
         <ol>
-          <li><b>Scan drives</b> — press it in the header. It finds the GGUF / Ollama models on this PC and on any stick that is plugged in.</li>
+          <li><b>Scan drives</b> — press it in the header. It finds the GGUF models in this machine's vault and on any stick that is plugged in.</li>
           <li><b>Boot LLM</b> — pick a model in the drop-down next to it, press <b>Boot LLM</b>, and wait for <b>engine=ready</b> in the health box. First load can take a minute.</li>
         </ol>
         <p>Then just ask. Two examples:</p>

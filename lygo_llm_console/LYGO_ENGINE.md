@@ -4,7 +4,7 @@ One brain. Two runtimes. **VRAM + RAM + SSD as one placement hierarchy** — Col
 
 | Path | Runtime | When |
 |------|---------|------|
-| GGUF / Ollama CAS | ggml-org **llama.cpp** (`engine/llama-server.exe`) | default agent loop |
+| GGUF (own vault, incl. an imported Ollama CAS) | ggml-org **llama.cpp** (`engine/llama-server.exe`) | default agent loop |
 | HF / Colibri dir (`config.json` + safetensors) | **Colibri** `coli serve` | GLM / DeepSeek V4.x / Kimi K3 / … |
 
 **Boot LLM** does not ask you to pick a vendor. `lygo_engine.plan()` measures RAM, optional NVIDIA VRAM, and CPU threads, then:

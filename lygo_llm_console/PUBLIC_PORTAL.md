@@ -38,7 +38,7 @@ All three are the same console and share the same limbs, P0 gate and labels.
 Do **not** bind the admin console (`:9641`) to the internet.
 
 ```bat
-python -u src\public_gateway.py --backend ollama --model qwen2.5:3b --lan --i-consent --port 9642
+python -u src\public_gateway.py --backend local --lan --i-consent --port 9642
 ```
 
 Caddy (example):

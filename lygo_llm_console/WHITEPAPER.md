@@ -61,7 +61,7 @@ curl -s -X POST http://127.0.0.1:9641/api/chat -H "Content-Type: application/jso
 
 ## 1. Executive summary
 
-The LYGO LLM Console is a **self-contained, offline-first agent console** that runs an LLM agent on the steward's own machine, with a real agent loop (identity, memory, skills, 56 callable limbs, receipts, output policy gate) and **no cloud dependency by default**. It boots a local GGUF engine from the kit, scans locally-imported Ollama models, exposes a browser studio on loopback, and can optionally hand a turn to a cloud API — which is an **additive** option, never a requirement: if the API runs out of tokens or goes down, the console answers from the local engine and says so.
+The LYGO LLM Console is a **self-contained, offline-first agent console** that runs an LLM agent on the steward's own machine, with a real agent loop (identity, memory, skills, 63 callable limbs, receipts, output policy gate) and **no cloud dependency by default**. It boots its own llama.cpp engine on its own GGUF vault (an existing Ollama model store can be imported once, read-only, and is then not needed), exposes a browser studio on loopback, and can optionally hand a turn to a cloud API — which is an **additive** option, never a requirement: if the API runs out of tokens or goes down, the console answers from the local engine and says so.
 
 Since the v1 design document, the console has been **built, wired, driven and measured**. This whitepaper is that record.
 
@@ -108,7 +108,7 @@ The project is one kit with **two faces** and **three processes**.
 
 | # | Surface | Address | Audience | Compute | Tools/limbs |
 |---|---|---|---|---|---|
-| 1 | **Local studio (admin console)** | `http://127.0.0.1:9641` (loopback only) | the steward | local engine by default; API optional | **full: 56 limbs**, disks, notepad, skills, scans |
+| 1 | **Local studio (admin console)** | `http://127.0.0.1:9641` (loopback only) | the steward | local engine by default; API optional | **full: 63 limbs**, disks, notepad, skills, scans |
 | 2 | **Public portal** | `https://chatagent.ca/portal/` | any visitor | 4 modes: LYGO hosted → HF token → visitor's local console → custom URL | chat only (local mode: visitor's own limbs) |
 | 3 | **Public inference gateway** | `:9642` (behind HTTPS/Caddy; `--lan --i-consent`) | the hosted portal mode | Stream-PC engine | **chat only** — no disks, no shell, no `admin.json` |
 
@@ -164,7 +164,7 @@ because the engine binary, every weight, and all state live on the stick.
                         │      ├─ continuity.compose_system(brain) ───┤ system prompt          │
                         │      │      └─ runtime_facts.prompt_block ──┤  (live facts)          │
                         │      ├─ chat_loop.trim_history() ───────────┤ history window         │
-                        │      ├─ chat_loop.host_prefetch() ──────────┤ 56 limbs (pre-ran)     │
+                        │      ├─ chat_loop.host_prefetch() ──────────┤ 63 limbs (pre-ran)     │
                         │      │                                      │                        │
                         │      ├── brain_router / cloud_api ──────────┼──▶ cloud API  (opt-in) │
                         │      │        └─ 402/429/outage ────────────┼──▶ handoff → local     │
@@ -207,7 +207,7 @@ because the engine binary, every weight, and all state live on the stick.
 
 ```
         ┌──────────────────────── LOCAL (default, always complete) ────────────────────────┐
-        │  no key needed · engine auto-spawned · full 56 limbs · offline                   │
+        │  no key needed · engine auto-spawned · full 63 limbs · offline                   │
         └───────────────▲───────────────────────────────────────────▲──────────────────────┘
                         │ press LOCAL                               │ handoff (auto)
                         │                                           │ 402 · 429 · outage
@@ -849,7 +849,7 @@ Every entry is a real failure observed in this build. The "rule" column is the g
 [ ] backup of every file touched
 [ ] a test in tests/ exercises the new behavior (and fails without the change)
 [ ] cd tests && python -m unittest discover -s . -p "test_*.py"  →  OK, exit 0, count >= 102
-[ ] /api/health still reports ok, brain ready, engine_present true, 56 limbs, scan_n 14
+[ ] /api/health still reports ok, brain ready, engine_present true, 63 limbs, scan_n 14
 [ ] one live /api/chat turn proves the operator-visible behavior
 [ ] docs updated: README.md (if orientation changed) and WHITEPAPER.md (this record)
 [ ] no credential in any file, log, prompt, or answer

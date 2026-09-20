@@ -1,0 +1,119 @@
+"""The console must be standalone: own engine, own model vault, no daemon anywhere.
+
+The steward's rule for this kit is a zero-Ollama system - our own backend services and
+infrastructure. Ollama's blob folder may still be *imported* once (read-only) by
+src/ollama_import.py, but nothing may require it, scan it implicitly, or talk to a daemon.
+
+These tests pin that contract so a later edit cannot quietly put the dependency back:
+  1. no source file subprocesses anything called ollama,
+  2. the public gateway defaults to our own engine, not a daemon,
+  3. scan roots do not silently include %USERPROFILE%\\.ollama\\models,
+  4. the shipped config does not list an Ollama path,
+  5. the declared vault (LYGO_MODELS) is honoured,
+  6. a model record the kit owns points at a file the kit owns.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+import public_gateway  # noqa: E402
+import server  # noqa: E402
+
+VAULT = Path(r"I:\LYGO_MODELS")
+
+
+class NoDaemonTests(unittest.TestCase):
+    def test_nothing_subprocesses_ollama(self) -> None:
+        bad = []
+        for path in (ROOT / "src").glob("*.py"):
+            text = path.read_text(encoding="utf-8", errors="replace")
+            for m in re.finditer(r"^.*subprocess.*ollama.*$", text, re.I | re.M):
+                if "Never subprocess" in m.group(0):      # the importer's own contract comment
+                    continue
+                bad.append("%s: %s" % (path.name, m.group(0).strip()[:80]))
+        self.assertEqual([], bad, "the kit must never launch a daemon")
+
+    def test_the_importer_says_it_is_read_only(self) -> None:
+        text = (ROOT / "src" / "ollama_import.py").read_text(encoding="utf-8")
+        self.assertIn("Never subprocess ollama", text)
+
+    def test_the_public_gateway_defaults_to_our_own_engine(self) -> None:
+        self.assertEqual("local", public_gateway.Handler.backend)
+        self.assertIn(str(public_gateway.LLAMA_PORT), public_gateway.Handler.openai_url)
+
+    def test_the_gateway_model_default_comes_from_our_own_registry(self) -> None:
+        self.assertTrue(public_gateway._selected_model())
+
+
+class ScanRootTests(unittest.TestCase):
+    def test_a_clean_pc_needs_no_ollama_folder(self) -> None:
+        """Simulate a machine that never ran ollama: the kit still finds a usable root."""
+        with tempfile.TemporaryDirectory() as td:
+            fake_home = Path(td) / "home"
+            fake_home.mkdir()
+            with mock.patch.dict(os.environ, {"USERPROFILE": str(fake_home)}, clear=False):
+                roots = server.default_scan_roots({})
+        self.assertIn(str(server.KIT_ROOT / "models"), roots)
+
+    def test_the_home_ollama_folder_is_not_scanned_implicitly(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            home_cas = Path(td) / ".ollama" / "models"
+            (home_cas / "blobs").mkdir(parents=True)
+            with mock.patch.dict(os.environ, {"USERPROFILE": td}, clear=False):
+                os.environ.pop("OLLAMA_MODELS", None)
+                roots = server.default_scan_roots({})
+        self.assertNotIn(str(home_cas), roots,
+                         "an Ollama folder must only be scanned when the operator maps it")
+
+    def test_the_declared_vault_is_honoured(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            with mock.patch.dict(os.environ, {"LYGO_MODELS": td}, clear=False):
+                roots = server.default_scan_roots({})
+        self.assertIn(str(Path(td)), roots)
+
+    def test_the_shipped_config_lists_no_ollama_path(self) -> None:
+        cfg = json.loads((ROOT / "config" / "console.json").read_text(encoding="utf-8"))
+        joined = " ".join(str(x) for x in (cfg.get("scan_roots") or []))
+        self.assertNotIn("ollama", joined.lower())
+
+
+@unittest.skipUnless(VAULT.is_dir(), "no LYGO_MODELS vault on this machine")
+class VaultTests(unittest.TestCase):
+    def test_the_declared_vault_is_a_scan_candidate(self) -> None:
+        roots = server.default_scan_roots({})
+        self.assertIn(str(VAULT), roots)
+
+    def test_models_the_kit_owns_point_inside_the_vault(self) -> None:
+        reg = json.loads((ROOT / "save" / "registry.json").read_text(encoding="utf-8"))
+        owned = [r for r in (reg.get("models") or []) if str(r.get("source")) == "lygo_vault"]
+        self.assertTrue(owned, "at least one model must be owned by the vault")
+        for rec in owned:
+            for key in ("path", "mmproj"):
+                value = rec.get(key)
+                if not value:
+                    continue
+                self.assertTrue(str(value).lower().startswith(str(VAULT).lower()),
+                                "%s %s must live in the vault, got %s" % (rec.get("id"), key, value))
+
+    def test_a_vision_model_is_registered_with_its_projector(self) -> None:
+        """The registry carries a projector for a real multimodal model: pick one that still exists."""
+        import image_tools
+
+        rec = image_tools.vision_record()
+        self.assertIsNotNone(rec, "no registered model carries an mmproj")
+        self.assertTrue(Path(str(rec["mmproj"])).is_file())
+        self.assertTrue(Path(str(rec["path"])).is_file())
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -95,7 +95,7 @@ def ensure_layout() -> list[str]:
     _write_if_missing(MODELS / ".gitkeep", "Put GGUF files here (or map another folder in Workspace).\n")
     _write_if_missing(
         CONFIG / "local.json.example",
-        '{\n  "scan_roots": ["./models", "%USERPROFILE%/.ollama/models"],\n'
+        '{\n  "scan_roots": ["./models"],\n'
         '  "comment": "Public kit. Add your own folders in the Workspace panel."\n}\n',
     )
     if not (CONFIG / "local.json").is_file():
@@ -118,7 +118,7 @@ def write_first_run() -> Path:
     (KIT / "FIRST_RUN.txt").write_text(
         "LYGO LLM Console — public kit\n\n"
         "1. This folder is yours. Soul / Identity / Memory start as public seeds.\n"
-        "2. Put GGUF files in models\\ or click Scan (also reads %USERPROFILE%\\.ollama\\models).\n"
+        "2. Put GGUF files in models\\ or click Scan. The kit boots its own engine on them - no Ollama.\n"
         "3. Add any extra folders in the left-rail Workspace panel.\n"
         f"4. Double-click LYGO_LLM_CONSOLE.bat → http://127.0.0.1:{DEFAULT_PORT}/\n"
         "5. This is not the steward admin tree. No vaults shipped.\n"

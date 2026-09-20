@@ -144,8 +144,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "ab74559f6f3e8391",
-      "bytes": 88880
+      "sha256_16": "6ec5f38d5ddd82ea",
+      "bytes": 89136
     },
     {
       "path": "src/continuity.py",
@@ -169,8 +169,8 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "a803cd8413de5f17",
-      "bytes": 19416
+      "sha256_16": "2a6687e5842340a0",
+      "bytes": 19419
     },
     {
       "path": "tests/test_sessions.py",
@@ -188,9 +188,10 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T18:43:32-06:00",
-  "rebrand_refresh_note": "image_see now runs our own engine (llama-server --mmproj on the registered vision model): zero daemon",
+  "rebrand_refresh_iso": "2026-09-19T19:14:47-06:00",
+  "rebrand_refresh_note": "standalone: our own engine + own model vault, gateway and scan roots no longer default to a daemon",
   "rebrand_refresh_files": [
-    "src/limbs.py"
+    "src/server.py",
+    "portal/index.html"
   ]
 }

@@ -5,7 +5,7 @@ rem ===========================================================================
 rem  PUBLIC GATEWAY launcher - drive-portable and config-driven. Nothing is pinned here:
 rem     port     LYGO_GATEWAY_PORT     config key: gateway_port     app default: src\public_gateway.py
 rem     bind     LYGO_GATEWAY_BIND     config key: gateway_bind     app default: 127.0.0.1 (loopback)
-rem     backend  LYGO_GATEWAY_BACKEND  config key: gateway_backend  app default: ollama
+rem     backend  LYGO_GATEWAY_BACKEND  config key: gateway_backend  app default: local
 rem     model    LYGO_GATEWAY_MODEL    config key: gateway_model    app default: LYGO_PUBLIC_MODEL
 rem  Precedence: exported LYGO_*  >  config\local.json  >  config\console.json  >  app default.
 rem
@@ -15,9 +15,9 @@ rem  public. Only a wildcard value (lan / public / any / 0.0.0.0 / *) is passed 
 rem  --lan --i-consent, which is what public_gateway.py requires for a non-loopback bind -
 rem  its own default is loopback, so an unconfigured gateway can never silently go public.
 rem
-rem  Backend model: with backend ollama the gateway talks to OLLAMA_HOST and the chosen model
-rem  must exist there (the launcher checks and warns); with backend openai it talks to the
-rem  kit's own engine on LYGO_LLAMA_PORT.
+rem  Backend model: backend local (the default) talks to the kit's OWN engine on LYGO_LLAMA_PORT,
+rem  so boot the console's engine first. backend ollama is a legacy opt-in for a machine that
+rem  still runs a daemon; nothing in this kit requires, calls, or needs one.
 rem ===========================================================================
 setlocal EnableExtensions EnableDelayedExpansion
 title LYGO Public Gateway
@@ -28,7 +28,7 @@ cd /d "%ROOT%"
 set "LYGO_KIT_ROOT=%ROOT%"
 set "LYGO_RESOLVE_GATEWAY=1"
 PORTSBLOCK
-if not defined LYGO_P_gwbackend set "LYGO_P_gwbackend=ollama"
+if not defined LYGO_P_gwbackend set "LYGO_P_gwbackend=local"
 echo  Kit root   : %ROOT%
 echo  Env names  : LYGO_GATEWAY_PORT  LYGO_GATEWAY_BIND  LYGO_GATEWAY_BACKEND  LYGO_GATEWAY_MODEL
 if defined LYGO_P_gwport (echo  Gateway    : port %LYGO_P_gwport%   backend %LYGO_P_gwbackend%   model %LYGO_P_gwmodel%) else (echo  Gateway    : port n/a ^(app default^)   backend %LYGO_P_gwbackend%   model %LYGO_P_gwmodel%)
@@ -45,15 +45,16 @@ if defined LYGO_P_gwlan (
 )
 if defined LYGO_P_gwmissing if "%LYGO_P_gwmissing%"=="1" (
   echo.
-  echo  [warn] model "%LYGO_P_gwmodel%" is NOT installed in ollama at %LYGO_P_ollama%
+  echo  [warn] model "%LYGO_P_gwmodel%" is NOT in this machine's model vault
   echo         available now : %LYGO_P_gwmodels%
-  echo         every request fails until it is pulled ^(ollama pull %LYGO_P_gwmodel%^) or
+  echo         every request fails until it is found by a Scan ^(console header^) or
   echo         gateway_model / LYGO_GATEWAY_MODEL points at one of the models above.
   echo.
   ping -n 6 127.0.0.1 >nul
 )
 if defined LYGO_P_gwmissing if "%LYGO_P_gwmissing%"=="?" (
-  echo  [note] could not reach ollama at %LYGO_P_ollama% to verify the model - check with: ollama list
+  echo  [note] could not reach the kit's own engine on LYGO_LLAMA_PORT to verify the model -
+  echo         boot the console first ^(or set gateway_backend=ollama to use a daemon^).
 )
 if defined LYGO_P_gwtaken (
   echo.

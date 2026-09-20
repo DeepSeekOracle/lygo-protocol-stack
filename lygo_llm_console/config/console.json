@@ -11,7 +11,7 @@
       "colibri_port": "Colibri / vision engine port. Env override: LYGO_COLIBRI_PORT."
     },
     "bind": "Console listen address. 127.0.0.1 = this PC only. Any other value is refused by src/server.py unless it is started with --lan --i-consent, so a public bind is never a silent side effect.",
-    "scan_roots": "Folders scanned for models. Relative entries resolve inside the kit folder ('./models' = <kit>/models), %USERPROFILE% and ~ are expanded, absolute paths are used as they are. The env vars LYGO_MODELS / OLLAMA_MODELS also declare a model dir and are added at scan time. Keep this list kit-relative so a copied kit finds its own models.",
+    "scan_roots": "Folders scanned for models. Relative entries resolve inside the kit folder ('./models' = <kit>/models), %USERPROFILE% and ~ are expanded, absolute paths are used as they are. The env var LYGO_MODELS declares this machine's model vault and is added at scan time (I:\\LYGO_MODELS on the studio PC). Keep this list kit-relative so a copied kit finds its own models.",
     "other_keys": {
       "signature": "Kit signature string. Do not change - tests and the installer read it.",
       "ctx_default": "Default context size (tokens) used for a model with no explicit value.",
@@ -38,8 +38,7 @@
   "threads": "auto",
   "max_tokens": 512,
   "scan_roots": [
-    "./models",
-    "%USERPROFILE%/.ollama/models"
+    "./models"
   ],
   "prefer_by_ram": true,
   "gpu": "auto",

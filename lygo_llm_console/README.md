@@ -1,6 +1,7 @@
 # LYGO LLM Console
 
-Complete local **agent portal**: boot GGUF models, chat, tools, HTTPS search/fetch. **Does not call `ollama.exe`.**
+Complete local **agent portal**: boot GGUF models, chat, tools, HTTPS search/fetch. **Runs its own
+llama.cpp engine on its own GGUF vault - it does not require, call, or depend on `ollama.exe`.**
 
 **Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-v1`  
 **Page / zip:** https://chatagent.ca/lygo-llm-console.html  
