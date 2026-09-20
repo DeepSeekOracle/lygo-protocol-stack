@@ -1049,8 +1049,8 @@
       } else if (a.kind === "file") {
         parts.push({
           type: "text",
-          text: "Attached file " + a.name + " (" + attachBytes(a.size) + ") is saved in the workspace at "
-            + a.path + " — open it with the read_file limb before you answer, and say plainly if you cannot.",
+          text: "Attached file " + a.name + " (" + attachBytes(a.size) + ") is saved in the workspace as:\n"
+            + a.path + "\nOpen it with the read_file limb before you answer, and say plainly if you cannot.",
         });
       } else if (a.kind === "image" && a.dataUrl) {
         parts.push({ type: "image_url", image_url: { url: a.dataUrl } });

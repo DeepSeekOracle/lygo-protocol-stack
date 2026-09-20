@@ -81,10 +81,47 @@ def scan_roots(roots: list[str], wall_s: float = 25.0) -> dict[str, Any]:
                     continue
                 seen.add(key)
                 h = parse_gguf_header(p)
+                if (h.get("kind") or "") == "mmproj" and _model_beside(p):
+                    # A projector is a sidecar, not a model: registering it as one put "gemma4-12b-mmproj"
+                    # in the picker and left the model beside it looking blind.
+                    continue
                 models.append(_from_header(h, p))
         if truncated:
             break
     return {"models": models, "scan_truncated": truncated, "seconds": round(time.time() - t0, 3)}
+
+
+def _model_beside(projector: Path) -> Path | None:
+    """The chat model a projector file belongs to, when it sits in the same folder."""
+    stem = projector.stem
+    names: list[str] = []
+    if stem.lower().endswith("-mmproj"):
+        names.append(stem[: -len("-mmproj")] + ".gguf")
+    if stem.lower().startswith("mmproj-"):
+        names.append(stem[len("mmproj-") :] + ".gguf")
+    for name in names:
+        cand = projector.parent / name
+        if cand.is_file():
+            return cand
+    return None
+
+
+def _projector_beside(model: Path) -> Path | None:
+    """The projector that belongs to a model file, when it sits in the same folder."""
+    stem = model.stem
+    if stem.lower().endswith("-mmproj"):
+        return None
+    for name in (stem + "-mmproj.gguf", "mmproj-" + stem + ".gguf"):
+        cand = model.parent / name
+        if cand.is_file():
+            return cand
+    try:
+        for cand in sorted(model.parent.glob("*mmproj*.gguf")):
+            if cand.is_file() and stem.lower() in cand.name.lower():
+                return cand
+    except OSError:
+        return None
+    return None
 
 
 def _from_header(h: dict[str, Any], path: Path) -> dict[str, Any]:
@@ -92,13 +129,15 @@ def _from_header(h: dict[str, Any], path: Path) -> dict[str, Any]:
         nbytes = path.stat().st_size
     except OSError:
         nbytes = 0
+    kind = h.get("kind") or "chat"
+    beside = _projector_beside(path) if kind == "chat" else None
     return {
         "id": h.get("name") or path.stem,
         "path": str(path),
-        "kind": h.get("kind") or "chat",
+        "kind": kind,
         "ctx": h.get("ctx"),
         "n_gpu_layers": 0,
-        "mmproj": None,
+        "mmproj": str(beside) if beside else None,
         "source": "gguf",
         "bytes": nbytes,
         "runnable": bool(h.get("ok")) and h.get("status") == "ok",

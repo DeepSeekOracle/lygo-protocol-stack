@@ -135,6 +135,41 @@ def reach(rec: dict[str, Any]) -> dict[str, Any]:
             "missing": missing, "outside": outside}
 
 
+def mmproj_for(rec: dict[str, Any] | None) -> Path | None:
+    """The projector that belongs to this record: its own field, or the file sitting beside the model.
+
+    A GGUF scanned straight off a disk arrives with mmproj None - scanner._from_header cannot know - and
+    the projector next to it was registered as a model in its own right. So the engine booted a vision
+    model WITHOUT its projector, and every attached picture came back from the engine as
+    "image input is not supported - hint: if this is unexpected, you may need to provide the mmproj",
+    while the console honestly said the picture was not looked at. Boot, vision limb and console guard
+    must all ask THIS one question, or the three answers disagree.
+    """
+    if not rec:
+        return None
+    own = str(rec.get("mmproj") or "").strip()
+    if own:
+        try:
+            if Path(own).is_file():
+                return Path(own)
+        except OSError:
+            pass
+    p = Path(str(rec.get("path") or ""))
+    try:
+        if not p.parent.is_dir() or p.stem.lower().endswith("-mmproj"):
+            return None
+        for name in (p.stem + "-mmproj.gguf", "mmproj-" + p.stem + ".gguf"):
+            cand = p.parent / name
+            if cand.is_file():
+                return cand
+        for cand in sorted(p.parent.glob("*mmproj*.gguf")):
+            if cand.is_file() and p.stem.lower() in cand.name.lower():
+                return cand
+    except OSError:
+        return None
+    return None
+
+
 def selected_vision() -> bool:
     """True when the SELECTED record can actually look at a picture on this machine.
 
@@ -146,11 +181,7 @@ def selected_vision() -> bool:
     rec = next((m for m in data.get("models") or [] if m.get("id") == sel), None)
     if not rec:
         return False
-    mp = str(rec.get("mmproj") or "").strip()
-    try:
-        return bool(mp) and Path(mp).is_file()
-    except OSError:
-        return False
+    return mmproj_for(rec) is not None
 
 
 def load_status() -> dict[str, Any]:
@@ -497,13 +528,53 @@ def _owned_wins(existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str,
     return merged
 
 
+def dedupe_by_file(models: list[dict[str, Any]], selected: str | None = None) -> list[dict[str, Any]]:
+    """Two records naming the same file are ONE model.
+
+    The vault import registers the model together with its projector ("gemma4:12b", source lygo_vault)
+    while the disk scanner registers the same file without one ("gemma4-12b", source gguf). The picker
+    listed the model twice and the operator's pinned pick was the projector-less twin - measured on this
+    machine 2026-09-19: the engine booted I:\\LYGO_MODELS\\gemma4-12b.gguf with no --mmproj and answered
+    every attached picture with "image input is not supported - hint: ... you may need to provide the
+    mmproj". Keep one record per file, keeping the id that is actually selected so a manual pick survives,
+    and fill that record's gaps from the twin.
+    """
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    order: list[str] = []
+    for m in models:
+        key = str(m.get("path") or "").strip().lower() or "id:" + str(m.get("id"))
+        if key not in grouped:
+            order.append(key)
+        grouped.setdefault(key, []).append(m)
+
+    def weight(m: dict[str, Any]) -> int:
+        if str(m.get("id")) == str(selected):
+            return 100
+        if m.get("mmproj"):
+            return 20
+        if str(m.get("source") or "") in PINNED_SOURCES or str(m.get("source") or "") == "lygo_vault":
+            return 10
+        return 1
+
+    out: list[dict[str, Any]] = []
+    for key in order:
+        group = sorted(grouped[key], key=weight, reverse=True)
+        keep = dict(group[0])
+        for other in group[1:]:
+            for k, v in other.items():
+                if keep.get(k) in (None, "", [], {}) and v not in (None, "", [], {}):
+                    keep[k] = v
+        out.append(keep)
+    return out
+
+
 def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[str, Any]:
     data = load()
     by_id = {m.get("id"): m for m in data.get("models") or [] if m.get("id")}
     for m in models:
         if m.get("id"):
             by_id[m["id"]] = _owned_wins(by_id.get(m["id"]) or {}, m)
-    data["models"] = [m for m in by_id.values() if _present(m)]
+    data["models"] = dedupe_by_file([m for m in by_id.values() if _present(m)], data.get("selected"))
     want_ram = prefer_by_ram()
     avail = avail_ram_bytes() if want_ram else 0
     if selected:

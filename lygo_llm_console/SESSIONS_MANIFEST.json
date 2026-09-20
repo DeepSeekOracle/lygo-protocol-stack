@@ -159,13 +159,13 @@
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "c5963ccc0f50fc67",
-      "bytes": 35322
+      "sha256_16": "2cde43bed7dd8a4c",
+      "bytes": 37216
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "8853aa201f069f2e",
-      "bytes": 83516
+      "sha256_16": "71b534ed89fe9ae5",
+      "bytes": 83515
     },
     {
       "path": "portal/index.html",
@@ -188,10 +188,10 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T22:39:04-06:00",
-  "rebrand_refresh_note": "reachability + vision honesty",
+  "rebrand_refresh_iso": "2026-09-19T23:08:40-06:00",
+  "rebrand_refresh_note": "the projector is wired to the model it belongs to",
   "rebrand_refresh_files": [
-    "src/server.py",
+    "src/chat_loop.py",
     "portal/app.js"
   ]
 }

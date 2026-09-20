@@ -313,7 +313,11 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
             state["engine"] = "lygo-llama"
             state["engine_port"] = port
             return "ready"
-        mm = Path(rec["mmproj"]) if rec.get("mmproj") else None
+        # Ask registry for the projector, not the raw field: a record scanned off a disk carries None
+        # while the projector sits right beside the model file (see registry.mmproj_for).
+        from registry import mmproj_for as _mmproj_for
+
+        mm = _mmproj_for(rec)
         lim = console_limits()
         ctx = int(rec.get("ctx") or lim["ctx_default"])
         planned = int(rec["n_gpu_layers"]) if rec.get("n_gpu_layers") is not None else int(lp["ngl"])

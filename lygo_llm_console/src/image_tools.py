@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any
 
 from admin_map import read_roots
+from registry import mmproj_for  # one rule for 'the projector that belongs to this record'
+
 from paths import WORKSPACE, under_workspace
 from web_tools import _blocked, _get
 
@@ -88,13 +90,19 @@ def vision_record() -> dict[str, Any] | None:
         data = json.loads(reg.read_text(encoding="utf-8"))
     except Exception:
         return None
+    import registry as _registry
+
     for rec in data.get("models") or []:
-        mm = rec.get("mmproj")
         gguf = rec.get("path") or rec.get("gguf") or rec.get("file")
-        if not (mm and gguf):
+        if not gguf:
+            continue
+        # registry.mmproj_for finds a projector the record does not name but which sits beside the model,
+        # so a vision GGUF scanned straight off a disk is not read as text-only.
+        mm = _registry.mmproj_for(rec)
+        if not mm:
             continue
         try:
-            if Path(str(mm)).is_file() and Path(str(gguf)).is_file():
+            if mm.is_file() and Path(str(gguf)).is_file():
                 return rec
         except OSError:
             continue
@@ -277,7 +285,7 @@ def image_see(path: str, prompt: str | None = None, timeout: int = 180) -> dict[
             port=port,
             gguf=Path(str(rec.get("path") or rec.get("gguf") or rec.get("file"))),
             kind="chat",
-            mmproj=Path(str(rec.get("mmproj"))),
+            mmproj=mmproj_for(rec) or Path(str(rec.get("mmproj"))),
             ctx=ctx,
             ngl=ngl,
             alias=alias,

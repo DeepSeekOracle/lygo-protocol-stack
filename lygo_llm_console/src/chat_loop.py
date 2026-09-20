@@ -459,6 +459,33 @@ def paths_in(text: str) -> list[str]:
     return out
 
 
+ATTACH_MARK = re.compile(r"attached file|its contents follow|read_file limb", re.I)
+# A path alone on its line. The composer writes it that way because this kit's own folder has a space in
+# it ("I:\E Drive\..."), which every inline path pattern truncates.
+PATH_LINE = re.compile(r"^\s*\"?([A-Za-z]:[\\/][^\n]*?)\"?\s*$")
+
+
+def attached_files(text: str) -> list[str]:
+    """The files the composer attached to this message, out of the operator's own words.
+
+    The portal sends "<absolute path> - open it with the read_file limb before you answer" for anything
+    it could not inline, and a small model often never issues that call: measured 2026-09-19 the console
+    answered "I was asked for the read_file limb and did not issue the call" to a message whose own
+    attachment line named the file. The path is right there in the operator's message, so the host reads
+    it and the answer stops depending on the model remembering to ask. Pictures are left to the image
+    path (they need the projector, not read_file).
+    """
+    out: list[str] = []
+    for line in (text or "").splitlines():
+        m = PATH_LINE.match(line)
+        if not m:
+            continue
+        p = m.group(1).strip().strip(QUOTES).rstrip(" .,;:)")
+        if p and not p.lower().endswith(IMAGE_EXT) and p not in out:
+            out.append(p)
+    return out
+
+
 def image_paths_in(text: str) -> list[str]:
     """The image files among the paths in the text."""
     return [p for p in paths_in(text) if p.lower().endswith(IMAGE_EXT)]
@@ -553,6 +580,16 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
+    if ATTACH_MARK.search(raw):
+        # The composer named the file in this very message. Read it here rather than asking the model to
+        # issue the call, and do not go to the web for an answer that is sitting in the attachment.
+        read_any = False
+        for path in attached_files(raw):
+            result = dispatch("read_file", {"path": path})
+            traces.append({"name": "read_file", "arguments": {"path": path}, "result": result, "host": True})
+            read_any = True
+        if read_any:
+            return traces
     urls = extract_urls(text) if (not named or named in WEBISH) else []
     for url in urls:
         result = dispatch("web_fetch", {"url": url})
