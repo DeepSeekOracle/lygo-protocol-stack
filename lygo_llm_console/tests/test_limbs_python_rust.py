@@ -162,5 +162,22 @@ class RustBuildsOrSaysWhy(unittest.TestCase):
             self.assertIn("probe", got.get("note", "") + json.dumps(got.get("probe")))
 
 
+
+    def test_files_the_agent_saved_are_importable(self):
+        """Gauntlet T12: saved mod_a.py, then ModuleNotFoundError when running run_a.py."""
+        import sys as _sys
+        from pathlib import Path as _Path
+
+        kroot = _Path(__file__).resolve().parents[1]
+        _sys.path.insert(0, str(kroot / "src"))
+        import limbs
+
+        mod = limbs.extra("save_note", {"name": "gauntlet_mod_a.py",
+                                        "text": "def answer():\n    return 6 * 7\n"})
+        self.assertTrue(mod.get("ok"), mod)
+        run = limbs.extra("python_exec", {"code": "import gauntlet_mod_a\nprint(gauntlet_mod_a.answer())"})
+        self.assertTrue(run.get("ok"), run)
+        self.assertIn("42", run.get("stdout") or "", f"could not import what it saved: {run}")
+
 if __name__ == "__main__":
     unittest.main()

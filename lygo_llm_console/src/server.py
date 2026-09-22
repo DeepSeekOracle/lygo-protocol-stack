@@ -43,6 +43,7 @@ from atomicio import read_text as read_text_locked  # noqa: E402
 from auth import check, ensure_llama_key, ensure_token, token_from_request  # noqa: E402
 from chat_loop import (  # noqa: E402
     extract_user_text,
+    console_completes_the_write,
     has_image,
     host_prefetch,
     normalise_messages,
@@ -2199,6 +2200,7 @@ class Handler(BaseHTTPRequestHandler):
         if ow.get("verdict") == "QUARANTINE":
             assistant = "[output quarantined]"
         assistant = sanitize_assistant(assistant, traces) or assistant
+        assistant, _write_receipt = console_completes_the_write(last_user, traces, assistant)
         if use_tools:
             # A host-prefetched turn still gets one extra step so the agent can follow up when the
             # readout did not answer the question; model-initiated turns get the full loop.

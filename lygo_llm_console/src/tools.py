@@ -109,6 +109,7 @@ CORE_NAMES = {
     # kernel_status - the same "a diagnostic is not a capability" rule that keeps media_status out.
     "python_exec",
     "save_note",
+    "portal_status",
     "rust_exec",
     # The self-build loop: with these the console can check a change it just made and publish it.
     # Without them the operator had to run the suite, the seal and the restart by hand - the agent

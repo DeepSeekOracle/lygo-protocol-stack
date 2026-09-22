@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import ast
 import datetime as dt
+import time as _time
 import hashlib
 import json
 import os
@@ -34,6 +35,13 @@ import hashlib
 import user_paths
 
 EXTRA_SCHEMA = [
+    {"type": "function", "function": {
+        "name": "portal_status",
+        "description": "One call that shows what the agents are doing: the task queue (queued/running/done/"
+                       "failed), the schedules and what is due next, the keeper daemon, what has been "
+                       "written lately, and the last honesty gauntlet score. Use it before telling an "
+                       "operator what work is outstanding.",
+        "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {
         "name": "save_note",
         "description": "Save a text file somewhere real and get back a verified absolute path. Use this "
@@ -678,6 +686,50 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
                 "bytes": len(back), "sha256_12": digest, "verified": back == data and dest.is_file(),
                 "receipt": f"wrote {len(back)} bytes to {dest.resolve()}"}
 
+    if name == "portal_status":
+        import json as _json
+
+        out: dict[str, Any] = {"ok": True, "at": _time.strftime("%Y-%m-%d %H:%M:%S"), "gaps": []}
+        # every number is asked of its owner; nothing is recomputed here (the meminfo rule)
+        for key, limb, args in (("tasks", "task_list", {}), ("crons", "cron_list", {}),
+                                ("keeper", "keeper_status", {})):
+            try:
+                got = extra(limb, dict(args))
+                out[key] = got if isinstance(got, dict) else {"raw": str(got)[:200]}
+            except Exception as exc:  # a gap is NAMED, never folded into green
+                out["gaps"].append(f"{key}: {type(exc).__name__}")
+                out[key] = None
+        tasks = out.get("tasks") or {}
+        items = tasks.get("tasks") if isinstance(tasks, dict) else None
+        if isinstance(items, list):
+            counts: dict[str, int] = {}
+            for t in items:
+                state = str((t or {}).get("state") or "unknown")
+                counts[state] = counts.get(state, 0) + 1
+            out["counts"] = counts
+            out["recent"] = [{k: (t or {}).get(k) for k in ("id", "state", "target", "seconds", "note")}
+                             for t in items[-5:]]
+        report = WORKSPACE.parent / "docs" / ("GAUNTLET_" + _time.strftime("%Y-%m-%d") + ".md")
+        out["gauntlet"] = str(report) if report.is_file() else "not run today"
+        try:
+            blob = _json.loads((WORKSPACE.parent / "save" / "gauntlet"
+                                / (_time.strftime("%Y-%m-%d") + ".json")).read_text(encoding="utf-8"))
+            out["gauntlet_score"] = blob.get("verdict", {}).get("passed"), blob.get("verdict", {}).get("tasks")
+        except Exception:
+            out["gauntlet_score"] = None
+        try:
+            arts = sorted((WORKSPACE / "notes").glob("*"), key=lambda f: f.stat().st_mtime, reverse=True)[:5]
+            out["written_lately"] = [f"{f.name} ({f.stat().st_size}B)" for f in arts if f.is_file()]
+        except OSError as exc:
+            out["gaps"].append(f"written_lately: {type(exc).__name__}")
+        out["summary"] = (f"{sum((out.get('counts') or {}).values())} tasks · "
+                          f"done {(out.get('counts') or {}).get('done', 0)} · "
+                          f"failed {(out.get('counts') or {}).get('failed', 0)} · "
+                          + ("keeper alive" if (out.get("keeper") or {}).get("keeper_alive") else "keeper unknown")
+                          + (f" · gauntlet {out['gauntlet_score'][0]}/{out['gauntlet_score'][1]}"
+                             if out.get("gauntlet_score") and out["gauntlet_score"][1] else ""))
+        return out
+
     if name == "python_exec":
         code = str(args.get("code") or "")
         _interp = str(args.get("interpreter") or sys.executable or "python")
@@ -690,9 +742,16 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             return {"ok": False, "error": "empty", "hint": "python_exec needs 'code' - a python snippet that prints its result", "got_keys": sorted(args)}
         if _SHELL_DENY.search(code) or gate_prompt(code).get("verdict") == "QUARANTINE":
             return {"ok": False, "error": "p0_blocked"}
+        # Measured 2026-09-21 (gauntlet T12): the agent saved mod_a.py with save_note and then the
+        # interpreter could not import it, because the folders it writes code into were not on sys.path.
+        # Code the agent saves must be importable when the agent runs code.
+        _penv = _tool_env()
+        _penv["PYTHONPATH"] = os.pathsep.join(
+            [str(WORKSPACE), str(WORKSPACE / "notes"), str(WORKSPACE / "python"), str(_where)]
+        )
         try:
             code, out, err, timed_out = _run_capture(
-                _argv, timeout=_secs, cwd=str(_where), env=_tool_env()
+                _argv, timeout=_secs, cwd=str(_where), env=_penv
             )
         except OSError as exc:
             return {"ok": False, "error": f"spawn_failed:{type(exc).__name__}"}

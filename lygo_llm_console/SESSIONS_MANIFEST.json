@@ -144,8 +144,8 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "71781c1f499b70b0",
-      "bytes": 141047
+      "sha256_16": "cca4e485e244a21e",
+      "bytes": 141174
     },
     {
       "path": "src/continuity.py",
@@ -154,13 +154,13 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "f5f7d399f220ab67",
-      "bytes": 79768
+      "sha256_16": "e5fb16ec0372144e",
+      "bytes": 83462
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "1fcf287694b57958",
-      "bytes": 49888
+      "sha256_16": "512aef33c1d10ea1",
+      "bytes": 53715
     },
     {
       "path": "portal/app.js",
@@ -188,9 +188,11 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-21T22:52:08-06:00",
+  "rebrand_refresh_iso": "2026-09-21T23:05:56-06:00",
   "rebrand_refresh_note": "eye: a photo is fitted to the projector's window before it is sent (new src/vision.py); the tail rides as a content part instead of str() of the parts; the picture limb reports a busy card and the CPU route; the gateway flattens image parts to [image]",
   "rebrand_refresh_files": [
+    "src/server.py",
+    "src/limbs.py",
     "src/chat_loop.py"
   ]
 }

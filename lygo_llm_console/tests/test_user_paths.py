@@ -15,9 +15,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import limbs  # noqa: E402
 import tools  # noqa: E402
-import user_paths  # noqa: E402
+import user_paths  # noqa: E402
+
 
 
+
+NOTES_DIR = Path(__file__).resolve().parents[1] / "workspace" / "notes"
+DESKTOP_DIR = Path(r"C:\Users\justi\Desktop")
+
 class FoldersAreReal(unittest.TestCase):
     def test_the_operator_folders_resolve_to_directories_that_exist(self):
         found = user_paths.folder_map()
@@ -142,6 +147,88 @@ class AClaimWithoutEvidenceDoesNotStand(unittest.TestCase):
 
         self.assertEqual(chat_loop.sanitize_assistant("Seventeen times twenty three is 391.", []),
                          "Seventeen times twenty three is 391.")
+
+
+    def test_backtick_junk_is_not_reported_as_a_path(self):
+        import chat_loop
+
+        out = chat_loop.sanitize_assistant("I have saved the note. Path: `t:**` and it is done.", [])
+        self.assertIn("[host check]", out)
+        tail = out.split("[host check]")[1] if "[host check]" in out else ""
+        self.assertNotIn("t:**", tail)
+
+
+class TheConsoleFinishesTheJob(unittest.TestCase):
+    """The last rung: if the model will not call the limb, the console writes the file and says so."""
+
+    def test_it_writes_the_file_when_no_limb_did(self):
+        import chat_loop
+
+        dest = NOTES_DIR / "ladder_t1.txt"
+        if dest.exists():
+            dest.unlink()
+        reply, got = chat_loop.console_completes_the_write(
+            "create a file called ladder_t1.txt in your workspace notes and save it",
+            [], "I have created the file for you.")
+        self.assertIsNotNone(got, "the console did not step in")
+        self.assertTrue(Path(got["path"]).is_file(), "it reported a write it did not do")
+        self.assertIn("[console]", reply)
+        self.assertIn(got["path"], reply)
+        self.assertIn("ladder_t1.txt", str(got["path"]))
+
+    def test_the_written_note_is_honest_about_who_wrote_it(self):
+        import chat_loop
+
+        dest = NOTES_DIR / "ladder_t2.txt"
+        if dest.exists():
+            dest.unlink()
+        _reply, got = chat_loop.console_completes_the_write(
+            "save a note called ladder_t2.txt in the workspace", [], "done")
+        body = Path(got["path"]).read_text(encoding="utf-8")
+        self.assertIn("Written by the console", body)
+        self.assertIn("did not call the writing limb", body)
+
+    def test_a_real_limb_write_is_left_alone(self):
+        import chat_loop
+
+        traces = [{"name": "save_note", "result": {"ok": True, "path": "C:/x/y.txt", "verified": True}}]
+        reply, got = chat_loop.console_completes_the_write(
+            "create a file called y.txt on my desktop", traces, "I created it.")
+        self.assertIsNone(got)
+        self.assertEqual(reply, "I created it.")
+
+    def test_an_ordinary_question_is_never_touched(self):
+        import chat_loop
+
+        reply, got = chat_loop.console_completes_the_write("what is 17 times 23?", [], "391")
+        self.assertIsNone(got)
+        self.assertEqual(reply, "391")
+
+    def test_a_desktop_ask_resolves_to_the_real_desktop(self):
+        import chat_loop
+
+        dest = DESKTOP_DIR / "ladder_t5.txt"
+        if dest.exists():
+            dest.unlink()
+        _reply, got = chat_loop.console_completes_the_write(
+            "create a note called ladder_t5.txt on my desktop", [], "I have created it.")
+        try:
+            self.assertIsNotNone(got)
+            self.assertEqual(Path(got["path"]).parent, DESKTOP_DIR)
+            self.assertTrue(Path(got["path"]).is_file())
+        finally:
+            if dest.exists():
+                dest.unlink()
+
+
+class ThePortalShowsWhatAgentsAreDoing(unittest.TestCase):
+    def test_portal_status_speaks_for_its_owners(self):
+        got = limbs.extra("portal_status", {})
+        self.assertTrue(got.get("ok"), got)
+        self.assertIn("summary", got)
+        self.assertIn("tasks", got)
+        self.assertIn("keeper", got)
+        self.assertIn("portal_status", [t["function"]["name"] for t in tools.core_schema()])
 
 
 if __name__ == "__main__":

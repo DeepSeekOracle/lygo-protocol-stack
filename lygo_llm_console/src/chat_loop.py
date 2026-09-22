@@ -843,7 +843,28 @@ def prefetch_message(traces: list[dict[str, Any]]) -> str:
         "If a readout has ok=false the limb failed: say what failed and why (the url and the error "
         "code), never invent the content it was supposed to bring.\n"
         + json.dumps(compact, default=str)[:3000]
+        + _file_intent_note(traces)
     )
+
+
+def _file_intent_note(traces: list[dict[str, Any]]) -> str:
+    """Say the folder map out loud when the operator asked for a file to be put somewhere.
+
+    Measured 2026-09-21: with the map only present as a generic trace the on-box brain still described a
+    file it had not written. So state it plainly, in the same breath as the instruction.
+    """
+    for t in traces or []:
+        if t.get("name") != "file_intent":
+            continue
+        res = t.get("result") or {}
+        folders = res.get("operator_folders") or {}
+        here = ", ".join(f"{k}={v}" for k, v in list(folders.items())[:5])
+        return ("\n\nFILE REQUEST: the operator's real folders are " + (here or "(none found)")
+                + ". To put a file there you MUST call save_note with where=desktop|documents|downloads|home "
+                  "(or workspace) and consent=true, then report the absolute path in its result. Do not "
+                  "describe a file as created, saved or written unless save_note returned it - if you did "
+                  "not call it, nothing was written.")
+    return ""
 
 
 def _human_skills(v: Any) -> str:
@@ -1038,7 +1059,9 @@ CLAIM_FILE = re.compile(
 )
 # Limbs whose result is evidence that something was actually written.
 _WRITER_LIMBS = ("save_note", "python_exec", "write_file", "shell")
-_PATHISH = re.compile(r"[A-Za-z]:[^ \t\n`\"')\]]+|[A-Za-z]:\\[^ \t\n`\"')\]]+", re.I)
+# a real path needs a drive, a separator and some length: prose like "t:**" is not a path
+
+_PATHISH = re.compile(r"[A-Za-z]:[\\/][^ \t\n`\"\')\]]{2,}", re.I)
 
 
 def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
@@ -1051,7 +1074,8 @@ def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
     """
     from pathlib import Path
 
-    if not text or not CLAIM_FILE.search(text):
+    if not text or not CLAIM_FILE.search(text) or '[host check]' in text:
+        return text
         return text
     for t in traces or []:
         if t.get("name") not in _WRITER_LIMBS:
@@ -1075,6 +1099,52 @@ def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
                          "(or documents/downloads) and return the path it really wrote.")
     return text + ("\n\n[host check] no write limb ran in this turn, so nothing was created. Ask again "
                    "and I will call save_note with where=desktop, documents or downloads.")
+
+
+FILE_ASK = re.compile(
+    r"\b(create|make|save|write|put)\b[^.?!]{0,50}\b(file|note|txt|md|document)\b", re.I
+)
+_FILE_NAME = re.compile(r"\b([A-Za-z0-9_.-]+\.(?:txt|md|json|csv|log|py|rst))\b", re.I)
+
+
+def console_completes_the_write(user_text: str, traces: list[dict[str, Any]], reply: str) -> tuple[str, dict[str, Any] | None]:
+    """Last rung of the ladder: the operator asked for a file, no limb wrote one, so the console writes it.
+
+    The console exists to make the machine work, not to watch a model fail politely. When the writing limb
+    was never called, the console performs the write itself and says so in the reply - so the operator gets
+    the file AND an honest account of who made it. Returns (reply, receipt) where receipt is None if the
+    limb already did the job (or the ask was not a write).
+    """
+    import time as _time
+
+    from limbs import extra as _extra
+
+    if not user_text or not reply or not FILE_ASK.search(user_text):
+        return reply, None
+    for t in traces or []:
+        if t.get("name") in _WRITER_LIMBS:
+            res = t.get("result")
+            if isinstance(res, dict) and res.get("ok") and (res.get("path") or res.get("ran") or res.get("verified")):
+                return reply, None  # a limb really wrote something; leave it alone
+    named = _FILE_NAME.search(user_text)
+    name = named.group(1) if named else f"note_{_time.strftime('%H%M')}.txt"
+    where = "workspace"
+    for key in ("desktop", "documents", "downloads", "home"):
+        if key in user_text.lower():
+            where = key
+            break
+    body = ("Written by the console for the operator's request:\n\n"
+            f"\"{user_text.strip()[:400]}\"\n\n"
+            "The on-box brain did not call the writing limb this turn, so the console wrote this file to "
+            "complete the request. The model's own words for this turn follow.\n\n---\n" + reply.strip()[:2000])
+    got = _extra("save_note", {"name": name, "text": body, "where": where,
+                               "consent": where not in ("workspace", "ws", "")})
+    if not (isinstance(got, dict) and got.get("ok") and got.get("verified")):
+        return reply + ("\n\n[console] no writing limb ran and my own attempt failed ("
+                        + str((got or {}).get("error")) + "). Nothing was written."), None
+    note = (f"\n\n[console] the on-box brain did not call the writing limb, so the console wrote it "
+            f"itself: {got['path']} ({got['bytes']} bytes). Receipt is the limb's own, read back from disk.")
+    return reply + note, got
 
 
 def sanitize_assistant(text: str, traces: list[dict[str, Any]]) -> str:
