@@ -95,6 +95,12 @@ NOTE_HINT = re.compile(
     re.I,
 )
 SELF_CHECK_HINT = re.compile(r"\b(self[-\s]?check|admin check|end of admin check)\b", re.I)
+FILE_HINT = re.compile(
+    r"\b(create|make|write|save|put|drop)\b[^.?!]{0,40}\b(file|note|text file|txt|md|document|folder)\b"
+    r"|\b(file|note)\b[^.?!]{0,30}\b(on|to|in)\b[^.?!]{0,20}\b(desktop|documents?|downloads?|home)\b"
+    r"|\bsave (it|this|that)\b",
+    re.I,
+)
 SKILL_HINT = re.compile(
     r"\b(/skill|skill_read|clawhub|skillhub|skill hub|lygoskillhub|invoke|summon|align with|"
     r"enable (the )?(skill|champion)|skills panel|champion)\b",
@@ -690,6 +696,23 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
+    if FILE_HINT.search(text) and not any(t.get("name") == "file_intent" for t in traces):
+        import user_paths
+
+        traces.append(
+            {
+                "name": "file_intent",
+                "arguments": {"text": text[:120]},
+                "result": {
+                    "operator_folders": user_paths.folder_map(),
+                    "rule": "To write a file call save_note (where=desktop/documents/downloads/home/"
+                            "workspace, or an absolute folder; consent=true outside the workspace). It "
+                            "returns the absolute path it really wrote. Do not describe a file as created "
+                            "unless that result says so.",
+                },
+                "host": True,
+            }
+        )
     if math_only(text) and named in ("", "calc"):
         # Bare arithmetic: answer it on the host instead of searching the web for the numbers.
         expr = math_expr(text)
@@ -1008,7 +1031,56 @@ def surface_artifacts(text, traces) -> str:
     return (body + ("\n" if body.strip() else "") + "\n".join(lines)).strip() if lines else body
 
 
+CLAIM_FILE = re.compile(
+    r"(i (have )?(created|made|saved|written)|(created|saved|written) (the|a) (file|note|document)|"
+    r"file (is|has been|was) (created|saved|written)|receipt|path:)",
+    re.I,
+)
+# Limbs whose result is evidence that something was actually written.
+_WRITER_LIMBS = ("save_note", "python_exec", "write_file", "shell")
+_PATHISH = re.compile(r"[A-Za-z]:[^ \t\n`\"')\]]+|[A-Za-z]:\\[^ \t\n`\"')\]]+", re.I)
+
+
+def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
+    """A receipt the host cannot find is not a receipt.
+
+    Measured live 2026-09-21: asked to "create a note on the desktop", the on-box brain replied with a
+    receipt for a path under C:/Users/Justin/Desktop that did not exist anywhere - wrong user name, and no
+    writing limb had run. So: when a turn claims a file and nothing wrote one, say so; when it names an
+    absolute path, look at the disk and report what is really there.
+    """
+    from pathlib import Path
+
+    if not text or not CLAIM_FILE.search(text):
+        return text
+    for t in traces or []:
+        if t.get("name") not in _WRITER_LIMBS:
+            continue
+        res = t.get("result")
+        if isinstance(res, dict) and res.get("ok") and (res.get("path") or res.get("verified") or res.get("ran")):
+            return text  # something really was written, or really did run
+    seen: list[str] = []
+    for m in _PATHISH.finditer(text):
+        raw = m.group(0).rstrip(".,;:)`")
+        if raw and raw not in seen:
+            seen.append(raw)
+    real = [q for q in seen if Path(q).exists()]
+    missing = [q for q in seen if q not in real]
+    if real:
+        return text + "\n\n[host check] that file really is on disk: " + real[0]
+    if missing:
+        return text + ("\n\n[host check] no write limb ran in this turn, and this is not on disk: "
+                       + ", ".join(missing[:3])
+                       + ". Nothing was created. Ask again and I will call save_note with where=desktop "
+                         "(or documents/downloads) and return the path it really wrote.")
+    return text + ("\n\n[host check] no write limb ran in this turn, so nothing was created. Ask again "
+                   "and I will call save_note with where=desktop, documents or downloads.")
+
+
 def sanitize_assistant(text: str, traces: list[dict[str, Any]]) -> str:
+    return verify_file_claims(_sanitize_assistant_base(text, traces), traces)
+
+def _sanitize_assistant_base(text: str, traces: list[dict[str, Any]]) -> str:
     """Clean the model's answer. It never gets replaced by a canned string any more.
 
     The old behaviour (any draft containing "End of Admin Check" was thrown away and swapped for a

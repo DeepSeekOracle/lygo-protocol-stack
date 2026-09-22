@@ -89,5 +89,60 @@ class ItsVisibleToTheOnBoxBrain(unittest.TestCase):
         self.assertLess(len(str(tools.core_schema())), 18000)
 
 
+class AClaimWithoutEvidenceDoesNotStand(unittest.TestCase):
+    """Live 2026-09-21: a receipt for C:\\Users\\Justin\\Desktop\\test_note.txt, no file, no limb called."""
+
+    def test_the_operators_own_sentence_is_recognised_as_a_file_request(self):
+        import chat_loop
+
+        self.assertTrue(chat_loop.FILE_HINT.search(
+            "you have access to this PC - I need you to test your environment to see if you can make a "
+            "file and save it.. Create a note on the desktop and save it"))
+        self.assertTrue(chat_loop.FILE_HINT.search("save a note to my documents"))
+        self.assertFalse(chat_loop.FILE_HINT.search("what is 17 times 23"))
+
+    def test_a_claim_of_a_file_with_no_writer_is_corrected(self):
+        import chat_loop
+
+        fake = "I have created a note on the desktop.\\nReceipt: C:\\Users\\Justin\\Desktop\\test_note.txt"
+        out = chat_loop.sanitize_assistant(fake, [])
+        self.assertIn("[host check]", out)
+        self.assertIn("Nothing was created", out)
+        self.assertIn("test_note.txt", out, "the correction must name the path it could not find")
+
+    def test_a_claim_with_nothing_backing_it_is_corrected(self):
+        import chat_loop
+
+        out = chat_loop.sanitize_assistant("I have saved the file for you.", [])
+        self.assertIn("[host check]", out)
+        self.assertIn("nothing was created", out.lower())
+
+    def test_a_real_write_is_left_alone(self):
+        import chat_loop
+
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "real.txt"
+            dest.write_text("hi", encoding="utf-8")
+            traces = [{"name": "save_note", "result": {"ok": True, "path": str(dest), "verified": True}}]
+            text = f"I created the file at {dest}"
+            self.assertEqual(chat_loop.sanitize_assistant(text, traces), text)
+
+    def test_a_claim_naming_a_file_that_really_exists_is_confirmed(self):
+        import chat_loop
+
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "there.txt"
+            dest.write_text("hi", encoding="utf-8")
+            out = chat_loop.sanitize_assistant(f"I have saved the note to {dest}", [])
+            self.assertIn("really is on disk", out)
+            self.assertIn(str(dest), out)
+
+    def test_an_ordinary_answer_is_never_touched(self):
+        import chat_loop
+
+        self.assertEqual(chat_loop.sanitize_assistant("Seventeen times twenty three is 391.", []),
+                         "Seventeen times twenty three is 391.")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
