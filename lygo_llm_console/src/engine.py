@@ -67,6 +67,19 @@ def available_ram_bytes() -> int:
     return int(st.ullAvailPhys)
 
 
+def total_ram_bytes() -> int:
+    """Installed RAM.
+
+    Unlike available memory, which moves by gigabytes as browsers and models come and go, this is a
+    fixed fact about the machine - so it is the only safe value to key a per-host verdict on.
+    """
+    st = MEMORYSTATUSEX()
+    st.dwLength = ctypes.sizeof(MEMORYSTATUSEX)
+    if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(st)) == 0:
+        return 0
+    return int(st.ullTotalPhys)
+
+
 def ram_ok(model_bytes: int, headroom: int = 2 * 1024**3) -> bool:
     avail = available_ram_bytes()
     if avail <= 0:
@@ -404,7 +417,7 @@ def spawn_runner(
     if exe is None:
         raise FileNotFoundError("llama-server.exe missing under engine/")
     if binary_forbidden(exe):
-        raise PermissionError("forbidden_ollama_nested_binary")
+        raise PermissionError("forbidden_foreign_daemon_binary")
     gguf = Path(gguf)
     if not gguf.is_file():
         raise FileNotFoundError(str(gguf))
@@ -583,7 +596,7 @@ def _write_pids() -> None:
         _log_note(f"pid file write failed ({type(exc).__name__})")
 
 
-def ollama_port_open() -> bool:
+def foreign_daemon_port_open() -> bool:
     try:
         urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=1)
         return True

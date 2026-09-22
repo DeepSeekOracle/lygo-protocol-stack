@@ -133,6 +133,16 @@ def answering(brain: str | None = None) -> dict[str, str]:
     }
 
 
+def _console_port() -> int:
+    """The port this console is bound to right now, falling back to the configured default."""
+    import os
+
+    try:
+        return int(os.environ.get("LYGO_CONSOLE_PORT") or DEFAULT_PORT)
+    except (TypeError, ValueError):
+        return DEFAULT_PORT
+
+
 def facts(brain: str | None = None) -> dict[str, Any]:
     names = limb_names()
     a = answering(brain)
@@ -149,7 +159,9 @@ def facts(brain: str | None = None) -> dict[str, Any]:
         "brain_label": a["brain_label"],
         "standby_model": a.get("standby") or selected_model(),
         "local_engine": f"{engine_name()} :{port}",
-        "portal": f"http://127.0.0.1:{DEFAULT_PORT}/",
+        # The live bound port, not the configured default: measured 2026-09-21, the agent told the
+        # operator 9641 while the console served 9651. The boot publishes LYGO_CONSOLE_PORT.
+        "portal": f"http://127.0.0.1:{_console_port()}/",
         "kit": str(KIT_ROOT),
         "host": platform.node(),
         "n_limbs": len(names),

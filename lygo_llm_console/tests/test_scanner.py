@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from gguf_header import parse_gguf_header, write_tiny_gguf  # noqa: E402
-from ollama_import import import_cas_tree  # noqa: E402
+from cas_import import import_cas_tree  # noqa: E402
 from scanner import scan_roots  # noqa: E402
 
 

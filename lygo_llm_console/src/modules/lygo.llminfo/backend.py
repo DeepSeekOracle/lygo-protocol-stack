@@ -262,16 +262,23 @@ def _token_group() -> tuple[dict[str, Any] | None, list[str], dict[str, Any]]:
         compact_at = int(w.get("compact_at") or 0)
         used = float(w.get("used_pct") or 0.0)
         auto = float(w.get("auto_compact_pct") or 0.0)
+        rc = (st.get("recall") or {}) if isinstance(st, dict) else {}
+        _rline = (f"recall: {int(rc.get('runs') or 0)} search(es), last {int(rc.get('chars') or 0):,} chars"
+                  if rc.get("runs") else "recall: not used yet - the history still fits the window")
         left = max(0, compact_at - live) if compact_at else 0
         rows = [
             _row("Engine window", f"{ctx:,} tokens" if ctx else "?", "what the engine can hold this turn"),
-            _row("In the window now", f"{live:,} tokens", f"{used:.1f}% of the engine window"),
+            _row("In the window now", f"{live:,} tokens",
+                 f"{used:.1f}% of the {int(w.get('history_tokens') or 0):,}-token history room - "
+                 f"{100.0 * live / max(1, ctx):.1f}% of the {ctx:,}-token engine window"),
+            _row("The record behind it", f"{int(w.get('journal_tokens') or 0):,} tokens",
+                 f"{int(w.get('journal_turns') or 0)} turns since the last fold - {float(w.get('journal_pct') or 0):,.0f}% of one window, all of it filed and searchable; the engine never sees it all at once"),
             _row("Room before auto-compact", f"{left:,} tokens", f"the record compacts at {auto:.0f}% ({compact_at:,} tokens)"),
             _row("History budget", f"{int(w.get('history_tokens') or 0):,} tokens", "reserved for the conversation"),
             _row("Reserved", f"{int(w.get('system_reserve') or 0):,} sys + {int(w.get('answer_reserve') or 0):,} answer + {int(w.get('safety_reserve') or 0):,} safety", "never handed to history"),
             _row("KV cache", f"{int(w.get('kv_mib_estimate') or 0)} MiB", "estimate for this window and context type"),
             _row("Estimate basis", f"{w.get('chars_per_token')} chars/token", NOT_PUBLISHED["usage"]),
-            _row("Next turn", "compacts first" if w.get("will_compact_next_turn") else "answers as is"),
+            _row("Next turn", "compacts first" if w.get("will_compact_next_turn") else "answers as is", _rline),
         ]
         state = "green"
         if auto and used >= auto:
@@ -375,6 +382,141 @@ def _console_group(ctx: Any) -> tuple[dict[str, Any] | None, list[str]]:
 # --------------------------------------------------------------------------------------
 # the answer
 # --------------------------------------------------------------------------------------
+# How a verdict reads to a person. The last three are the point of the group: a model this host
+# cannot run is still reported, and labelled as such instead of offered as a brain.
+VERDICT_WORD = {
+    "gpu_full": "runs on the GPU — fast",
+    "gpu_partial": "GPU + CPU — usable",
+    "cpu_ok": "CPU only — works, slow",
+    "cpu_tight": "very tight — expect swapping",
+    "too_big": "will NOT run here",
+    "unknown": "size unknown — unjudged",
+}
+VERDICT_ORDER = {
+    "gpu_full": 0,
+    "gpu_partial": 1,
+    "cpu_ok": 2,
+    "cpu_tight": 3,
+    "too_big": 4,
+    "unknown": 5,
+}
+
+
+def _availability_group(limit: int = 14) -> tuple[dict[str, Any] | None, list[str], dict[str, Any]]:
+    """What this PC can run, and what it can *see* but cannot run.
+
+    The console scans every place a model can live, so this panel exists to keep "here" and
+    "usable here" apart: a 300 GB model on an 8 GB card is a fact about this machine, and the
+    operator asked to see it rather than have it quietly dropped.
+
+    A record with no `fit` block has simply not been scanned with placement in mind yet, and that is
+    said out loud. This panel never guesses a verdict and never renders a gap as a blank.
+    """
+    missing: list[str] = []
+    light: dict[str, Any] = {}
+    try:
+        import registry  # noqa: PLC0415 - kernel module, present at run time only
+
+        models = [m for m in (registry.load().get("models") or []) if isinstance(m, dict)]
+        if not models:
+            missing.append("no models are registered yet — a scan is what finds what this PC can see")
+            return None, missing, light
+        judged = [m for m in models if isinstance(m.get("fit"), dict)]
+        if not judged:
+            missing.append(
+                "models are registered but none carry a placement verdict, so this panel cannot say "
+                "which would run here — a scan with placement enabled is what answers that"
+            )
+            return None, missing, light
+
+        def rank(m: dict[str, Any]) -> tuple[int, int]:
+            verdict = str((m.get("fit") or {}).get("verdict") or "unknown")
+            return (VERDICT_ORDER.get(verdict, 6), -int(m.get("bytes") or 0))
+
+        rows: list[dict[str, Any]] = []
+        runs = cannot = 0
+        for m in sorted(judged, key=rank):
+            fit = m.get("fit") or {}
+            verdict = str(fit.get("verdict") or "unknown")
+            if verdict == "sidecar":
+                continue
+            if verdict in ("gpu_full", "gpu_partial", "cpu_ok"):
+                runs += 1
+            else:
+                cannot += 1
+            rows.append(
+                _row(
+                    str(m.get("id") or "?"),
+                    VERDICT_WORD.get(verdict, verdict),
+                    f"{_size(m.get('bytes'))} · {fit.get('text') or fit.get('reason') or ''}",
+                )
+            )
+        head = [
+            _row("Visible here", f"{len(rows)} model(s)", "every model this PC can see, wherever it lives"),
+            _row("Runnable now", runs, "fits this host's GPU or its RAM"),
+            _row(
+                "Visible, not runnable",
+                cannot,
+                "too large for this host — listed on purpose, and never offered as the brain",
+            ),
+        ]
+        shown = rows[:limit]
+        if len(rows) > limit:
+            shown.append(_row("…", f"{len(rows) - limit} more", "the panel shows the first " + str(limit)))
+        state = "green" if runs else ("amber" if cannot else "grey")
+        light = {
+            "id": "models",
+            "label": "Local models",
+            "state": state,
+            "text": f"{runs} runnable · {cannot} visible but too large",
+            "detail": "the console scans every fixed drive; a model it cannot run is still named here",
+        }
+        return {"title": "Models here", "rows": head + shown}, missing, light
+    except Exception as exc:  # noqa: BLE001 - a panel must never take the console down
+        missing.append(f"local model list unavailable: {exc}")
+        return None, missing, light
+
+
+def _models_group() -> tuple[dict[str, Any] | None, list[str]]:
+    """What this box can RUN, and what it can only SEE - the checker's own measurements.
+
+    Every model the console can see is listed with the labels src/model_check.py measured (text, coder,
+    image-in, image-out, sound, embed) and a dot: green = this host ran it and answered a real turn,
+    grey = visible but not runnable here (a RIG limit, named in words - never an agent fault), amber =
+    attempted and failed on the wiring. A model nobody has attempted is said to be unchecked rather
+    than shown as if it had passed.
+    """
+    missing: list[str] = []
+    try:
+        import model_route  # noqa: PLC0415
+
+        rep = model_route.rig_report()
+    except Exception as e:  # noqa: BLE001 - a gap is named, never raised
+        return None, [
+            f"the model checker's results cannot be read ({type(e).__name__}), so this panel cannot say "
+            f"which models this box can run - press the checker to measure them"
+        ]
+    rows: list[dict[str, Any]] = []
+    for m in rep.get("routes") or []:
+        caps = "+".join(m.get("caps") or []) or "unlabelled"
+        if m.get("runs"):
+            dot = "green"
+            note = (f"ran here · {m['gen_tps']} tok/s · boot {m['boot_s']}s"
+                    if m.get("gen_tps") else "ran here") + ((" · " + str(m["gpu_backend"])) if m.get("gpu_backend") else "")
+        elif m.get("verdict") == "unchecked":
+            dot, note = "grey", "not checked yet - no verdict measured on this box"
+        elif m.get("fail_class") == "rig":
+            dot, note = "grey", f"rig limit: {m.get('why') or 'did not boot here'}"
+        else:
+            dot = "amber"
+            note = str(m.get("hint") or f"{m.get('verdict')}: {m.get('why') or ''}")
+        rows.append({**_row(m.get("id"), caps, note), "dot": dot})
+    if not rows:
+        missing.append("no models are registered on this tree yet, so there is nothing to label")
+    title = f"Models this box can run ({rep.get('models_running', 0)} of {rep.get('models_total', 0)})"
+    return {"title": title, "rows": rows}, missing
+
+
 def build(ctx: Any = None) -> dict[str, Any]:
     """Collect everything into one panel. Never raises: a panel that dies is worse than a gap."""
     groups: list[dict[str, Any]] = []
@@ -387,7 +529,9 @@ def build(ctx: Any = None) -> dict[str, Any]:
     record_group, miss4 = _record_group()
     clock_group, miss5, utc_iso = _clock_group()
     console_group, miss6 = _console_group(ctx)
-    for chunk in (miss, miss2, miss3, miss4, miss5, miss6):
+    avail_group, miss7, avail_light = _availability_group()
+    models_group, miss8 = _models_group()
+    for chunk in (miss, miss2, miss3, miss4, miss5, miss6, miss7, miss8):
         missing.extend(chunk)
 
     peak = peak_state(api_state.get("provider"), api_active=bool(api_state.get("on")))
@@ -398,6 +542,8 @@ def build(ctx: Any = None) -> dict[str, Any]:
     lights.append(peak)
     if token_light:
         lights.append(token_light)
+    if avail_light:
+        lights.append(avail_light)
 
     # the rate window's own group, so the numbers behind the light are readable too
     rate_rows = [
@@ -427,6 +573,12 @@ def build(ctx: Any = None) -> dict[str, Any]:
         groups.append(clock_group)
     if console_group:
         groups.append(console_group)
+    if avail_group:
+        groups.append(avail_group)
+    # What this machine can actually run - measured, not claimed. A rig limit is a fact about the box,
+    # so it sits here as a grey row and never drags this card (or the agent) out of green.
+    if models_group:
+        groups.append(models_group)
 
     if not any(g["title"] == "Tokens" for g in groups) and NOT_PUBLISHED["usage"] not in missing:
         missing.append(NOT_PUBLISHED["usage"])
@@ -463,6 +615,7 @@ def build(ctx: Any = None) -> dict[str, Any]:
             "cloud_api.public_status() — the switch, never a key",
             "world_clock.pulse() — local and UTC",
             "version.release()/stamp() — which build this is",
+            "model_check.json + model_route.rig_report() — what this host proved it can run",
         ],
         "refresh_s": 5,
     }

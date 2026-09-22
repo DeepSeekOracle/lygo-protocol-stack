@@ -8,6 +8,7 @@ import subprocess
 import sys
 import threading
 import time
+import traceback
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -35,6 +36,7 @@ except Exception as _module_err:  # noqa: BLE001
     module_host = None
     print(f"[modules] module layer unavailable: {type(_module_err).__name__}: {_module_err}", flush=True)
 
+import http_body  # noqa: E402  (defect 27: how a body we refuse is consumed)
 import version  # noqa: E402  (the release number lives in VERSION - see src/version.py)
 from atomicio import atomic_write_text  # noqa: E402
 from atomicio import read_text as read_text_locked  # noqa: E402
@@ -61,14 +63,20 @@ from continuity import (  # noqa: E402
 )
 from engine import (  # noqa: E402
     ENGINE_LOCK,
-    ollama_port_open,
+    foreign_daemon_port_open,
     ram_ok,
     resolve_binary,
     runner_for,
     spawn_runner,
     stop_port,
 )
-from p0_hook import PHYSICS_AVAILABLE, gate_output_window, gate_prompt  # noqa: E402
+from p0_hook import (  # noqa: E402
+    PHYSICS_AVAILABLE,
+    POLICY_MAX_CONVERSATION_CHARS,
+    SIGNATURE as P0_SIGNATURE,
+    gate_output_window,
+    gate_prompt,
+)
 try:  # the record module must never be able to cost the operator the console
     import compaction  # noqa: E402
     from compaction import (  # noqa: E402
@@ -125,6 +133,11 @@ except Exception as _compact_err:  # noqa: BLE001  (a broken record module, not 
         """Fall back to the console's own message window - the behaviour before the record existed."""
         kept = trim_history(messages)
         return kept, max(0, len(messages) - len(kept)), {"ok": False, "fallback": "trim_history"}
+# How much recalled history a turn may carry when the window is full. What the window cannot
+# hold is not lost - it is filed, and the passages that bear on the message come back with it.
+RAG_RECALL_CHARS = 1800
+
+
 try:  # the vault is a second, independent subsystem: its absence must not cost the console either
     import sessions  # noqa: E402
     from sessions import (  # noqa: E402
@@ -176,7 +189,8 @@ from receipts import prune_at_startup, write_receipt  # noqa: E402
 from registry import get as reg_get  # noqa: E402
 from registry import load as reg_load  # noqa: E402
 from registry import upsert as reg_upsert  # noqa: E402
-from scanner import scan_roots  # noqa: E402
+from scanner import discover, scan_roots  # noqa: E402
+import model_fit  # noqa: E402
 from tools import TOOLS_SCHEMA, core_schema  # noqa: E402
 
 TOKEN = ""
@@ -200,9 +214,23 @@ try:
 except ValueError:
     REQUEST_TIMEOUT = 120.0
 
+# A body we refuse is consumed before the answer is written (defect 27, 2026-09-20). Refusing
+# without reading leaves the caller's write in the socket: we answer and close, Windows resets the
+# rest of that write, and the caller sees a network error instead of the reason — the portal's own
+# paste path did. Bounded twice, because a declared length is the caller's word and not ours:
+# discard at most DRAIN_CAP bytes, and wait at most DRAIN_TIMEOUT seconds for what has not arrived.
+DRAIN_CAP = http_body.CAP
+DRAIN_TIMEOUT = http_body.TIMEOUT
+DRAIN_CHUNK = http_body.CHUNK
+
 # host_prefetch fetches URLs out of the user's text before the model answers. On by default, but
 # switchable: a fetched page is untrusted input landing beside the shell and python limbs.
 HOST_PREFETCH = os.environ.get("LYGO_HOST_PREFETCH", "1").strip().lower() not in ("0", "false", "no")
+
+
+# A browser that goes away mid-answer is not a server fault: these are the socket errors from
+# writing to a socket the client already closed (tab closed, Stop pressed, page reloaded).
+_CLIENT_GONE = (BrokenPipeError, ConnectionAbortedError, ConnectionResetError)
 
 
 class _BadRequest(Exception):
@@ -274,10 +302,12 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         if not p.is_absolute():
             p = (KIT_ROOT / s).resolve()
         out.append(str(p))
-    # No implicit %USERPROFILE%\.ollama\models any more: this kit boots its own engine on its own
-    # GGUF vault, so an Ollama folder is only ever read when the operator maps it on purpose (the
-    # one-time read-only import in src/ollama_import.py). Requiring it would be a dependency; a
-    # dependency is the difference between a walking agent and an empty shell when it is absent.
+    # This kit boots its own engine on its own GGUF vault. It never looks inside another daemon's
+    # store: no home daemon store, no foreign daemon env var, no descent into a folder
+    # named after one. A store is OURS (`cas` = a manifests/ + blobs/ pair we carry) or it is the
+    # operator's deliberate mapping in config/console.json scan_roots. A dependency would be the
+    # difference between a walking agent and an empty shell on a machine that has never run anything
+    # else - which is the whole point of this kit.
     # Declared roots first, kit-relative second, raw drive letters last: a kit packaged onto
     # another drive must find its own models without a stale letter being the only candidate.
     extras = [KIT_ROOT / "models"]
@@ -285,34 +315,37 @@ def default_scan_roots(cfg: dict[str, Any]) -> list[str]:
         declared = os.environ.get(env_name, "").strip()
         if declared:
             base = Path(os.path.expandvars(declared))
-            extras.extend([base / "models", base / "product" / "models" / "ollama"])
+            extras.extend([base / "models", base / "product" / "models" / "cas"])
     extras.extend(
         [
             Path(r"I:\LYGO_MODELS"),
+            Path(r"D:\LYGO_MODEL_VAULT"),
+            Path(r"D:\LYGO_MODEL_VAULT\cas"),
             Path(r"U:\LYGO\models"),
             Path(r"F:\LYGO\models"),
-            Path(r"E:\LYGO_BUILDER_KEY\product\models\ollama"),
+            Path(r"E:\LYGO_BUILDER_KEY\product\models\cas"),
         ]
     )
     usb = os.environ.get("LYGO_USB_ROOT", "").strip()
     if usb:
-        extras.append(Path(usb) / "product" / "models" / "ollama")
+        extras.append(Path(usb) / "product" / "models" / "cas")
         extras.append(Path(usb) / "models")
     # LYGO_MODELS is the kit's own declaration of its model vault (the launchers set it; a machine
-    # can set it too). OLLAMA_MODELS is tolerated because launchers written before the vault existed
-    # used it to point at their own folder - it is still only ever read as files, never executed.
-    for env_name in ("LYGO_MODELS", "OLLAMA_MODELS"):
+    # can set it too). A foreign daemon's variable is deliberately NOT read: a folder of GGUF bytes
+    # is only ever read as files, but naming another service inside our own resolution path is how a
+    # kit starts to believe it needs that service.
+    for env_name in ("LYGO_MODELS",):
         declared = os.environ.get(env_name, "").strip()
         if declared:
             extras.append(Path(os.path.expandvars(declared)))
     # A CAS is a folder holding manifests/ + blobs/, and it usually sits one level down
-    # (<usb>\models\ollama), so descend from the declared parents too.
+    # (<usb>\models\cas), so descend from the declared parents too.
     for parent in list(extras):
-        child = parent / "ollama"
+        child = parent / "cas"
         if (child / "manifests").is_dir() and (child / "blobs").is_dir():
             extras.append(child)
     # Portable: console lives at <USB>/lygo_llm_console
-    extras.append(KIT_ROOT.parent / "product" / "models" / "ollama")
+    extras.append(KIT_ROOT.parent / "product" / "models" / "cas")
     for p in extras:
         try:
             s = str(p)
@@ -415,7 +448,191 @@ def local_system_message(brain: str = "local") -> dict[str, Any]:
     """
     from continuity import compose_system
 
-    return {"role": "system", "content": compose_system(brain)}
+    # with_clock=False: the clock is volatile and now rides the NEWEST message instead (see
+    # local_tail + continuity.volatile_tail). Inside this block it sat in front of the history and
+    # invalidated the prompt cache for the whole turn, every turn.
+    return {"role": "system", "content": compose_system(brain, with_clock=False)}
+
+
+def prefix_prime_payload(model: str) -> dict[str, Any]:
+    """The opening a real local turn sends, built in ONE place for the prefix primer.
+
+    The primer only works if its prompt has the same longest-common-prefix with a real turn as two
+    real turns have with each other. Built inline, the two shapes could drift silently and the
+    optimisation would just stop helping - a defect that looks like "the engine got slow again".
+    """
+    from tools import core_schema
+
+    tail = local_tail()
+    return {
+        "model": model,
+        "messages": [
+            local_system_message("local"),
+            {"role": "user", "content": "ready" + (("\n\n" + tail) if tail else "")},
+        ],
+        "max_tokens": 1,
+        "stream": False,
+        "tools": core_schema(),
+    }
+
+
+def local_tail(with_clock: bool = True) -> str:
+    """The volatile block that rides the newest message of every local turn.
+
+    `with_clock=False` is for a turn that asks nothing: the clock is material with nothing to do there,
+    and the model recited it back instead of answering the greeting (continuity.volatile_tail has the
+    measurement and the fix).
+    """
+    from continuity import volatile_tail
+
+    return volatile_tail(with_clock=with_clock)
+
+
+def _hardware_reading(*, local_caller: bool) -> dict[str, Any]:
+    """Live card/RAM/CPU reading for /api/health. Cached two seconds inside hardware.py."""
+    import hardware as _hw
+
+    snap = _hw.snapshot()
+    out: dict[str, Any] = {
+        "available": snap.get("available"),
+        "why": snap.get("why"),
+        "gpus": snap.get("gpus") or [],
+        "ram": snap.get("ram") or {},
+        "cpu": snap.get("cpu") or {},
+    }
+    if local_caller:
+        # nvidia-smi lists every process with a graphics context; this desktop has ~23, nearly all at
+        # 0 MiB. The panel gets the ones actually holding memory, plus the count so the noise is visible
+        # rather than printed as if it were load.
+        holders = snap.get("holders") or []
+        busy = [a for a in holders if a.get("used_mib", 0) > 0]
+        out["holders"] = busy or holders[:5]
+        out["holders_total"] = len(holders)
+    return out
+
+
+def health_payload(*, local_caller: bool, authenticated: bool) -> dict[str, Any]:
+    """What /api/health answers. One failing probe blanks its own field; the route never 500s.
+
+    Measured on this tree 2026-09-21, two boots: `GET /api/health -> 500` once while the engine was
+    still loading (five polled 200s, one 500, then 200s again) and once as the very last line the
+    console logged before the process went away. The operator's own console ended its log the same way
+    at 00:16 that morning, which is why it read as "the console died". The body carries the exception
+    and the handler sends it only to a loopback caller, so neither cause was ever readable - and it does
+    not need to be. This route is what the operator reads state from, and every field below is one call
+    away from raising on a box where a drive can be unplugged mid-read. A partial answer that names the
+    probe it could not read is worth more than no answer at all.
+    """
+    degraded: list[dict[str, str]] = []
+
+    def safe(field: str, fn, fallback):
+        try:
+            return fn()
+        except Exception as exc:  # noqa: BLE001 - one probe may never take the whole route down
+            degraded.append({"field": field, "error": f"{type(exc).__name__}: {exc}"[:200]})
+            return fallback
+
+    import backends as _backends
+    import cloud_api as _cloud
+    import paths as _paths
+    import perf as _perf
+    import registry as _registry
+    import surface as _surface
+    import version as _version
+    from engine import available_ram_bytes
+
+    ram = safe("ram_avail", available_ram_bytes, None)
+    return {
+        # What this box can use RIGHT NOW (src/hardware.py): the same reading the picture limb uses to
+        # decide between the card and the CPU, so the operator can SEE the number that decided it.
+        # Process names and pids only for a local caller, like every other path-shaped field here.
+        "hardware": safe("hardware", lambda: _hardware_reading(local_caller=local_caller), {}),
+        "ok": True,
+        "build": BUILD,
+        "release": safe("release", _version.release, ""),
+        "release_tag": safe("release_tag", _version.tag, ""),
+        "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
+        "authenticated": authenticated,
+        "physics": PHYSICS_AVAILABLE,
+        "brain": STATE.get("brain"),
+        "selected": safe("selected", lambda: STATE.get("selected") or reg_load().get("selected"), None),
+        "vision": safe("vision", _registry.selected_vision, None),
+        # The reply cap this console is actually running (console.json -> local.json). The page reads it
+        # and asks for it, instead of hardcoding its own number: it shipped 768, and that constant - not
+        # this server - is what cut every long answer off mid-sentence.
+        "max_tokens": safe("max_tokens", lambda: _paths.console_limits().get("max_tokens"), None),
+        "error": STATE.get("error"),
+        "model_fallback": STATE.get("model_fallback"),
+        "scan_n": safe("scan_n", lambda: STATE.get("scan_n") or len(reg_load().get("models") or []), 0),
+        "foreign_daemon_port_open": safe("foreign_daemon_port_open", foreign_daemon_port_open, False),
+        "engine_present": safe("engine_present", lambda: bool(resolve_binary()), False),
+        "engine_dir": safe(
+            "engine_dir",
+            lambda: str(_paths.engine_dir()) if local_caller else Path(_paths.engine_dir()).name,
+            "",
+        ),
+        "backend_layer": safe("backend_layer", _backends.report, {}),
+        "system": safe("system", lambda: _surface.report(local_ready=(STATE.get("brain") == "ready")), {}),
+        "ram_avail": ram,
+        "ram_auto": safe("ram_auto", _registry.prefer_by_ram, {}),
+        "ram_fit": safe("ram_fit", lambda: _registry.ram_choice(reg_load().get("models") or [], ram), {}),
+        "perf": safe("perf", lambda: _perf.report(STATE), {}),
+        "selected_source": safe("selected_source", lambda: reg_load().get("selected_source"), None),
+        "bind": BIND,
+        "port": DEFAULT_PORT,
+        "tools": safe("tools", lambda: [t["function"]["name"] for t in TOOLS_SCHEMA], []),
+        "workspace": str(WORKSPACE) if local_caller else WORKSPACE.name,
+        "config_errors": CONFIG_ERRORS,
+        "cloud": safe("cloud", _cloud.public_status, {}),
+        "last_brain": STATE.get("last_brain"),
+        "last_perf": STATE.get("last_perf"),
+        "fallback": STATE.get("fallback"),
+        "degraded": degraded,
+    }
+
+
+def _stream_local_turn(payload: dict[str, Any], emit) -> str | None:
+    """Run one local turn as a stream, showing each token as the engine writes it.
+
+    The old engine streamed by default; this console's local path did not. It waited for the whole reply and
+    then emitted ONE token frame, so a 1,300-token answer at ~8 tok/s sat silent for ~160 s and looked
+    like a dead engine - the operator'"'"'s complaint that gemma4 replies take forever. The page has
+    rendered every `delta` frame it is sent all along, so the fix belongs here, on the ground.
+
+    Returns the finished text, or None when the engine never produced a single token. The caller then
+    makes the ordinary buffered call, so this can only make a turn faster - never break one.
+    """
+    import json as _json
+
+    from openai_proxy import llama_chat_stream
+
+    ask = dict(payload)
+    ask["stream"] = True
+    acc: list[str] = []
+    try:
+        with ENGINE_LOCK:
+            for raw in llama_chat_stream(api_key=LLAMA_KEY, payload=ask, port=brain_port()):
+                line = (raw.decode("utf-8", "replace") if isinstance(raw, (bytes, bytearray)) else str(raw)).strip()
+                if not line.startswith("data:"):
+                    continue
+                chunk = line[5:].strip()
+                if chunk == "[DONE]":
+                    break
+                try:
+                    piece = _json.loads(chunk)
+                except _json.JSONDecodeError:
+                    continue
+                for choice in piece.get("choices") or []:
+                    delta = (choice.get("delta") or {}).get("content")
+                    if delta:
+                        acc.append(delta)
+                        try:
+                            emit({"type": "token", "delta": delta})
+                        except Exception:  # noqa: BLE001 - a closed page must not kill the turn
+                            pass
+    except Exception as e:  # noqa: BLE001
+        print(f"stream fallback: {type(e).__name__}: {e}")
+    return "".join(acc) or None
 
 
 def warm_prefix(model_id: str | None = None) -> None:
@@ -445,13 +662,7 @@ def warm_prefix(model_id: str | None = None) -> None:
 
             from openai_proxy import for_local_engine
 
-            payload = for_local_engine({
-                "model": model,
-                "messages": [local_system_message("local"), {"role": "user", "content": "ready"}],
-                "max_tokens": 1,
-                "stream": False,
-                "tools": core_schema(),
-            })
+            payload = for_local_engine(prefix_prime_payload(model))
             t0 = time.time()
             code, _body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port(), timeout=900.0)
             if STATE.get("brain") == "ready" and STATE.get("selected") == model:
@@ -574,9 +785,22 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
         self.send_header("Referrer-Policy", "no-referrer")
+        if getattr(self, "close_connection", False):
+            # Say it, don't just do it: a caller that read Content-Length would otherwise treat
+            # this socket as reusable and fail its next request on it (defect 27).
+            self.send_header("Connection", "close")
+        _cport = int(getattr(self.server, "server_port", 0) or 0)
+        # One request leaves this page for a port beside it: the Boot server button rings the doorbell, which by
+        # construction listens one below whichever port this copy bound (tools/doorbell.py). Not named here, the
+        # browser refuses that call with "Failed to fetch" while the doorbell sits there perfectly alive - which
+        # is exactly how this was found. Derived, so the USB copy gets its own port and never the PC's.
+        _dport = (_cport - 1) if _cport > 1 else 9639
         self.send_header(
             "Content-Security-Policy",
-            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https:; frame-src https://www.paypal.com https://www.patreon.com",
+            "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data: blob: https:; media-src 'self' blob: https:; "
+            f"connect-src 'self' https: http://127.0.0.1:{_dport} http://localhost:{_dport}; "
+            "frame-src https://www.paypal.com https://www.patreon.com",
         )
         if extra:
             for k, v in extra.items():
@@ -591,13 +815,24 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, code: int, obj: Any) -> None:
         self._send(code, json.dumps(obj).encode("utf-8"))
 
+    def _drain(self, declared: int) -> int:
+        """Consume a body this handler is refusing, so the caller can finish writing it.
+
+        Refusing without reading is what turned a 413 into a network error on the caller's side
+        (defect 27). The policy and its two bounds live in `http_body`, which the public gateway
+        shares, so the two refusing surfaces cannot drift apart.
+        """
+        return http_body.drain(self, declared)
+
     def _read_body(self, limit: int) -> bytes:
         """Read the body, refusing a malformed or oversized Content-Length.
 
-        Three ways this went wrong: `Content-Length: -1` reached rfile.read(-1), which reads until
+        Four ways this went wrong: `Content-Length: -1` reached rfile.read(-1), which reads until
         the peer closes, so a loop of such requests wedged a handler thread each; a non-numeric
-        length raised ValueError out of the handler as a 500; and an over-limit body was emptied,
-        which made the endpoint report 400 no_input for a payload that was merely large.
+        length raised ValueError out of the handler as a 500; an over-limit body was emptied,
+        which made the endpoint report 400 no_input for a payload that was merely large; and an
+        over-limit body was refused *unread*, so the caller's remaining write was reset instead of
+        being answered (defect 27).
         """
         raw_len = (self.headers.get("Content-Length") or "0").strip()
         try:
@@ -607,11 +842,37 @@ class Handler(BaseHTTPRequestHandler):
         if n < 0:
             raise _BadRequest(f"Content-Length: {n}")
         if n > limit:
+            self._drain(n)
             raise _BodyTooLarge(f"{n} > {limit}")
         return self.rfile.read(n) if n else b""
 
     def _contain(self, exc: BaseException) -> None:
-        """Answer 500 instead of dropping the connection when a handler raises."""
+        if isinstance(exc, _CLIENT_GONE):
+            # Nobody is listening, so there is nothing to answer - and a 500 would blame the
+            # server for the browser's exit. One line, no traceback.
+            try:
+                sys.stderr.write("[client-gone] %s %s: %s\n" % (self.command, self.path, exc))
+            except Exception:  # noqa: BLE001 - a note that fails must not hide the leave
+                pass
+            return
+
+        """Answer 500 instead of dropping the connection when a handler raises.
+
+        The cause also goes to stderr, which the console tees into save/logs/console-<date>.log
+        (`_tee_logs`). It used to go nowhere: the access line said 500 and nothing anywhere said why,
+        which is exactly how the health route's boot-window 500 (ledger row 40) stayed unnamed while
+        being reproducible - it could only be reached by hammering /api/health through a boot, and each
+        occurrence left no evidence behind it. Naming a failure must never add one, so this is the first
+        thing the method does and the last thing it trusts.
+        """
+        try:
+            where = "%s %s" % (self.command, self.path)
+            print("[500] %s\n%s" % (
+                where,
+                "".join(traceback.format_exception(type(exc), exc, exc.__traceback__)),
+            ), file=sys.stderr, flush=True)
+        except Exception:  # noqa: BLE001 - a log that fails must not become the failure
+            pass
         try:
             # Detail carries absolute paths and internals: right for the operator on this
             # machine, not for whoever else can reach a LAN-bound console.
@@ -627,7 +888,8 @@ class Handler(BaseHTTPRequestHandler):
         try:
             self._dispatch_GET()
         except _BodyTooLarge as exc:
-            # The body is deliberately left unread; this answer closes the connection.
+            # The refused body has already been consumed (see _drain) so the caller can finish its
+            # write and read this answer; the connection closes after it.
             self.close_connection = True
             self._json(413, {"error": "too_large", "limit": str(exc)[:60]})
         except _BadRequest as exc:
@@ -638,6 +900,38 @@ class Handler(BaseHTTPRequestHandler):
 
     def _dispatch_GET(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
+
+        if path == "/api/doorbell":
+            # Where the page's own "Boot server" button rings. This process is answering, so it can say
+            # where the doorbell is and hand over the token the page will need the moment this process is
+            # gone: tools/doorbell.py is the one thing that can still start the console when the console
+            # is not there. Never invented - if the doorbell is not running, this says so plainly.
+            bell = {"port": None, "url": "", "up": False, "token": "",
+                    "launcher": "LYGO_LLM_CONSOLE.bat",
+                    "why": "tools/doorbell.py has not run for this copy"}
+            try:
+                _tools = str(Path(__file__).resolve().parents[1] / "tools")
+                if _tools not in sys.path:
+                    sys.path.insert(0, _tools)
+                import doorbell as _bell
+
+                _dport = _bell.doorbell_port(_bell.ROOT)
+                _dup = _bell.console_is_up(_dport, timeout=0.3)
+                bell.update({"port": _dport, "url": f"http://127.0.0.1:{_dport}/", "up": _dup,
+                             "token": _bell.token(_bell.ROOT, create=True),
+                             "why": "" if _dup else
+                             "the doorbell is not listening - run LYGO_LLM_CONSOLE.bat once to start it"})
+            except Exception as _bell_exc:  # a console with no doorbell is still a console
+                bell["why"] = f"{type(_bell_exc).__name__}: {_bell_exc}"[:160]
+            _bbody = json.dumps(bell).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(_bbody)))
+            self.end_headers()
+            self.wfile.write(_bbody)
+            return
+
         # One gate, not two: _auth() already exempts the shell, its assets, the health bar and the
         # world clock. This used to re-implement the same check with a slightly different list, so
         # the two could disagree about what was public. Behaviour is unchanged.
@@ -703,48 +997,30 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, pulse())
             return
         if path == "/api/health":
-            from engine import available_ram_bytes
-
+            # The route the operator reads state from may degrade, never 500 - see health_payload, which
+            # also carries the measurement (two boots logged a 500 here; the operator's console ended its
+            # log on the same route).
             local_caller = self._loopback()
-            self._json(
-                200,
-                {
+            try:
+                auth_ok = bool(check(token_from_request(self._headers_map(), self._query()), TOKEN))
+            except Exception:  # noqa: BLE001 - an odd token is no reason to lose the whole answer
+                auth_ok = False
+            try:
+                answer = health_payload(local_caller=local_caller, authenticated=auth_ok)
+            except Exception as exc:  # noqa: BLE001 - last resort: answer with what is certain
+                answer = {
                     "ok": True,
                     "build": BUILD,
-            "release": version.release(),
-            "release_tag": version.tag(),
-                    "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
-                    "authenticated": check(token_from_request(self._headers_map(), self._query()), TOKEN),
-                    "physics": PHYSICS_AVAILABLE,
-                    "brain": STATE.get("brain"),
-                    "selected": STATE.get("selected") or reg_load().get("selected"),
-                    "vision": __import__("registry").selected_vision(),
-                    "error": STATE.get("error"),
-                    "model_fallback": STATE.get("model_fallback"),
-                    "scan_n": STATE.get("scan_n") or len(reg_load().get("models") or []),
-                    "ollama_port_open": ollama_port_open(),
-                    "engine_present": bool(resolve_binary()),
-                    "engine_dir": str(__import__("paths").engine_dir()) if local_caller else Path(__import__("paths").engine_dir()).name,
-                    "backend_layer": __import__("backends").report(),
-                    "system": __import__("surface").report(local_ready=(STATE.get("brain") == "ready")),
-                    "ram_avail": available_ram_bytes(),
-                    "ram_auto": __import__("registry").prefer_by_ram(),
-                    "ram_fit": __import__("registry").ram_choice(
-                        reg_load().get("models") or [], available_ram_bytes()
-                    ),
-                    "perf": __import__("perf").report(STATE),
-                    "selected_source": reg_load().get("selected_source"),
-                    "bind": BIND,
-                    "port": DEFAULT_PORT,
-                    "tools": [t["function"]["name"] for t in TOOLS_SCHEMA],
-                    "workspace": str(WORKSPACE) if local_caller else WORKSPACE.name,
-                    "config_errors": CONFIG_ERRORS,
-                    "cloud": __import__("cloud_api").public_status(),
-                    "last_brain": STATE.get("last_brain"),
-                    "last_perf": STATE.get("last_perf"),
-                    "fallback": STATE.get("fallback"),
-                    },
-            )
+                    "degraded": [
+                        {
+                            "field": "health",
+                            "error": (
+                                f"{type(exc).__name__}: {exc}"[:200] if local_caller else type(exc).__name__
+                            ),
+                        }
+                    ],
+                }
+            self._json(200, answer)
             return
         if path == "/api/cloud":
             if not self._auth():
@@ -776,6 +1052,27 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 return
             self._json(200, data)
+            return
+        if path == "/api/models/check":
+            # The checker's own results with the rig report on top: what runs here, what is a rig limit
+            # and why (src/model_check.py + src/model_route.py). Read-only, no query needed.
+            if not self._auth():
+                self._json(401, {"error": "unauthorized"})
+                return
+            import model_route
+
+            self._json(200, model_route.rig_report(cloud=__import__("cloud_api").public_status()))
+            return
+        if path == "/api/models/route":
+            # "Which model should take this turn?" - with no query it answers the general best route.
+            if not self._auth():
+                self._json(401, {"error": "unauthorized"})
+                return
+            import model_route
+
+            cloud = __import__("cloud_api").public_status()
+            self._json(200, {"best": model_route.best_for(None, cloud=cloud),
+                             "routes": model_route.routes(cloud=cloud)})
             return
         if path == "/api/tools":
             self._json(200, {"tools": TOOLS_SCHEMA, "names": [t["function"]["name"] for t in TOOLS_SCHEMA]})
@@ -943,7 +1240,8 @@ class Handler(BaseHTTPRequestHandler):
         try:
             self._dispatch_POST()
         except _BodyTooLarge as exc:
-            # The body is deliberately left unread; this answer closes the connection.
+            # The refused body has already been consumed (see _drain) so the caller can finish its
+            # write and read this answer; the connection closes after it.
             self.close_connection = True
             self._json(413, {"error": "too_large", "limit": str(exc)[:60]})
         except _BadRequest as exc:
@@ -964,19 +1262,58 @@ class Handler(BaseHTTPRequestHandler):
             body = self._read_body(256_000)
             cfg = load_console()
             roots = default_scan_roots(cfg)
+            obj: dict[str, Any] = {}
             if body:
                 try:
-                    extra = json.loads(body.decode("utf-8"))
-                    if extra.get("roots"):
-                        roots = list(extra["roots"])
+                    parsed = json.loads(body.decode("utf-8"))
+                    if isinstance(parsed, dict):
+                        obj = parsed
                 except json.JSONDecodeError:
-                    pass
-            result = scan_roots(roots)
+                    obj = {}
+            if obj.get("roots"):
+                roots = [str(r) for r in obj["roots"]]
+            # The wide walk over every fixed drive lives HERE, on a scan the operator asked for, and
+            # deliberately not on the boot path: walking a whole disk at boot would only make a slow
+            # boot slower, and boot only needs the roots the kit already knows about.
+            if obj.get("all_drives") or obj.get("everywhere"):
+                result = discover(
+                    extra_roots=roots,
+                    per_root_s=float(obj.get("per_root_s") or 20.0),
+                )
+            else:
+                # Even the narrow scan carries a placement verdict, so the LLM panel can say which
+                # models would actually run here.
+                result = scan_roots(
+                    roots,
+                    annotate_fit=True,
+                    vram_free_mib=model_fit.vram_free_mib(),
+                    ram_total=model_fit.ram_total_mib(),
+                )
             data = reg_upsert(result["models"])
             STATE["scan_n"] = len(data.get("models") or [])
             if data.get("selected"):
                 STATE["selected"] = data.get("selected")
-            self._json(200, {**result, "registry": data, "roots": roots})
+            self._json(200, {**result, "registry": data, "roots": result.get("roots") or roots})
+            return
+        if path == "/api/models/route":
+            # "Which model should take THIS turn?" - the answer for a capability the operator names.
+            if not self._auth():
+                self._json(401, {"error": "unauthorized"})
+                return
+            body = self._read_body(16_000)
+            try:
+                q = json.loads(body.decode("utf-8") or "{}")
+            except json.JSONDecodeError:
+                q = {}
+            import model_route
+
+            cloud = __import__("cloud_api").public_status()
+            cap = str((q or {}).get("cap") or "").strip() or None
+            prefer = str((q or {}).get("prefer") or "").strip() or None
+            self._json(200, {"cap": cap,
+                             "best": model_route.best_for(cap, cloud=cloud, prefer=prefer),
+                             "routes": model_route.routes(cap, cloud=cloud),
+                             "report": model_route.rig_report(cloud=cloud)})
             return
         if path == "/api/select" or path == "/api/boot":
             body = self._read_body(16_000)
@@ -994,7 +1331,20 @@ class Handler(BaseHTTPRequestHandler):
             reg_save(data)
             STATE["selected"] = mid
             boot_async(mid)
-            self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid, "error": STATE.get("error")})
+            # Fail SOFT in the answer, not only in the log. A model this host cannot hold is a RIG limit
+            # with a way forward: the console stays up, the session survives, and the reply names what
+            # else can take the turn (`agent_fault: false` is the line the operator reads).
+            import model_route
+
+            _cloud = __import__("cloud_api").public_status()
+            _known = model_route.results().get(str(mid)) or {}
+            _rig = None
+            if _known and not str(_known.get("verdict") or "").startswith("runs"):
+                _rig = model_route.soft_failure(str(mid), str(_known.get("why") or "this model did not run on this host"),
+                                                cloud=_cloud)
+            self._json(200, {"ok": True, "brain": STATE.get("brain"), "selected": mid,
+                             "error": STATE.get("error"), "rig": _rig,
+                             "route": model_route.best_for(None, cloud=_cloud, prefer=str(mid))})
             return
         if path == "/api/cloud":
             body = self._read_body(16_000)
@@ -1002,6 +1352,16 @@ class Handler(BaseHTTPRequestHandler):
                 obj = json.loads(body.decode("utf-8") or "{}")
             except json.JSONDecodeError:
                 obj = {}
+            if isinstance(obj, dict) and (str(obj.get("action") or "") == "probe" or obj.get("probe")):
+                # "is my API key alive?" - one call to the provider, recorded like any other attempt,
+                # so a probe that fails and a turn that fails read the same on the panel.
+                # Imported here, not by the name: `cloud_api` is a local of this method (a later import
+                # in the same body binds it), so the first version raised UnboundLocalError and answered
+                # 500 - caught by the traceback the 500 handler had just been taught to log.
+                from cloud_api import probe as cloud_probe
+
+                self._json(200, cloud_probe())
+                return
             from cloud_api import save as cloud_save
 
             self._json(200, cloud_save(obj if isinstance(obj, dict) else {}))
@@ -1414,12 +1774,9 @@ class Handler(BaseHTTPRequestHandler):
     def _api_chat(self) -> None:
         # 12 MB, not 4: an attached photo arrives as base64 inside this JSON, and a phone photo encoded
         # is 1.3x its size - the old limit turned "attach a photo" into a silent 413 on the operator.
+        # An over-limit body raises out of `_read_body` — 413 with the reason. The dead branch that
+        # second-guessed it here was written when a refused body came back empty instead.
         raw = self._read_body(12 * 1024 * 1024)
-        if not raw:
-            cl = int(self.headers.get("Content-Length") or 0)
-            if cl > 12 * 1024 * 1024:
-                self._json(413, {"error": "too_large", "limit": "12 MB - the photo is probably too large"})
-                return
         try:
             obj = json.loads(raw.decode("utf-8") or "{}")
         except json.JSONDecodeError:
@@ -1437,13 +1794,46 @@ class Handler(BaseHTTPRequestHandler):
         if not (str(user).strip() or str(last_user).strip()) and not has_image(messages):
             self._json(400, {"error": "no_input", "hint": "send messages:[{\"role\":\"user\",\"content\":\"...\"}] (prompt or message also accepted)"})
             return
-        gate = gate_prompt(user)
+        # Two ceilings, because one number cannot serve both jobs (see p0_hook): the newest message is
+        # judged as a payload, the whole conversation as a conversation. The old single 12,000-character
+        # total refused every later turn of a long build session - measured on this box, a 30,222-char
+        # conversation came back HTTP 451 while an 8,904-char one answered normally - which stopped the
+        # work instead of protecting anything.
+        gate = gate_prompt(str(last_user or user))
+        if gate.get("verdict") != "QUARANTINE" and len(str(user or "")) > POLICY_MAX_CONVERSATION_CHARS:
+            gate = {
+                "verdict": "QUARANTINE",
+                "reason": f"conversation_exceeds_{POLICY_MAX_CONVERSATION_CHARS}",
+                "policy": "QUARANTINE",
+                "physics": None,
+                "signature": P0_SIGNATURE,
+            }
         if gate.get("verdict") == "QUARANTINE":
             self._json(451, {"error": "quarantine", "gate": gate})
             return
         use_tools = bool(obj.get("tools", True))
+        # A turn that asks for nothing is offered no limbs at all. Measured on this box 2026-09-21
+        # (qwen2.5-coder:7b, this console's own local schema of 24 limbs): given the schema, a bare
+        # "hi" came back as a world_pulse call on 3 of 3 turns and "heloo?" on 2 of 3 - the console
+        # then ran the limb and answered the operator's greeting with a city-clock and weather report.
+        # With the limbs withheld, 8 of 8 greetings were answered as greetings. The rule is strict and
+        # lives in chat_loop.is_conversational: the WHOLE message has to be the greeting, so
+        # "hi, what's the weather in Tokyo?" keeps every limb. The same flag decides the tail below -
+        # withheld limbs alone still left the turn reciting the clock back (see the tail site).
+        from chat_loop import is_conversational
+
+        _conversational = is_conversational(last_user)
+        if use_tools and _conversational:
+            use_tools = False
         model = obj.get("model") or STATE.get("selected") or "lygo-local"
-        max_tokens = int(obj.get("max_tokens") or 1024)
+        # Reply length. The operator's config is the source of truth (console.json, then local.json
+        # over it) - not this line and not the portal's own constant, which is how every long answer
+        # came to be cut off at exactly 768 tokens while the config said 512 and this said 1024.
+        # A request may ask for LESS than the configured cap; it may never raise it.
+        from paths import console_limits
+
+        _cap = int(console_limits().get("max_tokens") or 1024)
+        max_tokens = max(64, min(int(obj.get("max_tokens") or _cap), _cap))
         want_stream = bool(obj.get("stream", True))
         from cloud_api import chat as cloud_chat
         import brain_router
@@ -1486,7 +1876,131 @@ class Handler(BaseHTTPRequestHandler):
             safe_record("user", _last.get("content"), {"turn": True})
         elif str(user).strip():
             safe_record("user", user, {"turn": True})
+        # The forever history: the operator's own words are filed the moment they are sent, before any
+        # answer exists. `sync` hands the text to a background writer and cannot raise, so a slow or
+        # full disk costs this turn nothing - and it reads the whole conversation, so a message sent
+        # while the console was down is filed by the next turn.
+        try:
+            from transcript_archive import sync as file_history
+
+            file_history(messages, {"model": local_model, "brain": "cloud" if use_cloud else "local"})
+        except Exception as _arch_exc:  # pragma: no cover - the turn must not care
+            print(f"[archive] skipped: {_arch_exc!r}", flush=True)
+        # Recall. `trim_messages` above reports what the window could not hold; that history is filed,
+        # and the passages bearing on this message come back with the turn. Retrieval is local BM25 -
+        # no model, no network - so it can only cost a few milliseconds.
+        recall_note = ""
+        try:
+            # Autonomous, and bounded: asked for when the window shed history, and also when what is
+            # being asked clearly matches something filed that this turn is not carrying. The recall
+            # reserve in window_budget() is what keeps a recap from ever overflowing the engine.
+            recall_note = compaction.recall_for(str(last_user or user or ""), messages=messages, ctx=_ctx)
+            if recall_note:
+                recall_note = ("This conversation is longer than the window can hold. The console filed the whole of it and recalled these passages for you:" + "\n\n" + recall_note)
+        except Exception as _rag_exc:  # pragma: no cover
+            print(f"[rag] recall skipped: {_rag_exc!r}", flush=True)
         msgs = [local_system_message("api" if use_cloud else "local")] + kept
+        # The clock rides the NEWEST message, never the identity block. A turn is
+        # [system][history][newest user]; llama-server reuses the longest common token prefix, so a
+        # line that changes every minute decides how much of the turn is cached. Measured on this
+        # box, one model, one flag set, two turns identical apart from the clock 61 s apart:
+        #   clock in the system block -> turn 2 re-prefilled 7,974 tokens in 146.1 s (54 tok/s)
+        #   clock behind the history  -> turn 2 prefilled        17 tokens in   2.5 s
+        # The operator text was journaled above, so this changes only what the model reads.
+        # A turn that asks nothing is NOT sent the clock, and IS told to answer as a person: measured on
+        # this box 2026-09-21 (qwen2.5-coder:7b), a session holding a greeting the console had already
+        # answered with the clock, 3 texts x 4 reps - shipped tail 7 of 12 answers were answers, with the
+        # directive 12 of 12. "thanks" alone went from 0 of 4 to 4 of 4. Nothing here is stored or
+        # journalled: the tail and the directive ride this request only.
+        _tail = local_tail(with_clock=not _conversational)
+        _ride = _tail
+        if recall_note:
+            # Ahead of the tail: the recalled history is context, the tail is the instruction to answer.
+            _ride = recall_note + ("\n\n" + _ride if _ride else "")
+        if _conversational:
+            from chat_loop import CONVERSATIONAL_DIRECTIVE
+
+            _ride = (_tail + "\n\n" + CONVERSATIONAL_DIRECTIVE) if _tail else CONVERSATIONAL_DIRECTIVE
+        if _ride:
+            if msgs and isinstance(msgs[-1], dict) and msgs[-1].get("role") == "user":
+                _content = msgs[-1].get("content")
+                if isinstance(_content, list):
+                    # A turn with a picture attached arrives as a content LIST. `str()` of that list
+                    # renders the parts as Python repr - the photo's whole base64 data URL, AS TEXT -
+                    # so the image part was destroyed and a 200 KB JPEG became ~74,000 tokens of
+                    # garbage. Measured 2026-09-21 on the operator's own console (gemma4-12b, projector
+                    # loaded): the engine refused the turn with "request (133868 tokens) exceeds the
+                    # available context size (32768 tokens)" and the operator saw an empty bubble.
+                    # The tail is a PART; the picture stays a picture.
+                    msgs[-1] = {**msgs[-1], "content": list(_content) + [{"type": "text", "text": _ride}]}
+                else:
+                    msgs[-1] = {**msgs[-1], "content": str(_content or "") + "\n\n" + _ride}
+            else:
+                msgs.append({"role": "user", "content": _ride})
+        # The window gate: what the engine is about to be handed.
+        # An image part used to be billed a flat 900 tokens (compaction.content_tokens), so a session
+        # with pictures was sent anyway and the engine answered NOTHING - measured on this box
+        # 2026-09-21, the failure the operator reported as "the engine sent no text for this turn":
+        #     console: [turn] blank answer: ... cur_text=0 chars
+        #     engine:  send_error: request (133868 tokens) exceeds the available context size (32768)
+        # Every turn now passes this gate. The newest picture is shrunk until it fits, older pictures
+        # are shed to `[image: ...]` text (their words are kept), and a turn that still cannot fit is
+        # ANSWERED in words instead of being sent to an engine that will refuse it.
+        _vision_block = ""
+        _vision_info: dict[str, Any] = {}
+        try:
+            import vision as _vision
+
+            _vb = (trim_info.get("budget") or {}) if isinstance(trim_info, dict) else {}
+            _plan = _vision.fit_turn(
+                msgs[1:],
+                window=int(_vb.get("ctx") or _ctx or 0) or 8192,
+                system_tokens=int(_vb.get("system_reserve") or 0),
+                reserve=int(_vb.get("answer_reserve") or 0) + int(_vb.get("safety_reserve") or 0),
+            )
+            if _plan["changed"]:
+                msgs = [msgs[0]] + _plan["messages"]
+            _vision_info = {"used": _plan["used_tokens"], "window": _plan["window"],
+                            "shed": _plan["shed"], "shrunk": _plan["shrunk"], "over": _plan["over"]}
+            if _plan["changed"] or _plan["over"]:
+                print("[vision] " + json.dumps(_vision_info, default=str))
+            if _plan["over"]:
+                _vision_block = _plan["note"]
+        except Exception as _exc:  # a gate may never become the failure it exists to prevent
+            print("[vision] gate skipped: " + type(_exc).__name__ + ": " + str(_exc)[:200])
+        if _vision_block:
+            assistant = _vision_block
+            try:
+                _vrec = write_receipt(prompt=user, output=assistant, model=str(model), gate=gate,
+                                      extra={"has_image": has_image(messages), "vision_refused": True})
+                save_session(list(messages) + [{"role": "assistant", "content": assistant}])
+                # The answer is filed only now, as a completed turn - never mid-stream, never twice:
+                # the archive cursor decides what is new, not this call site.
+                try:
+                    from transcript_archive import sync as file_history
+                
+                    _answered = str(cloud_api.public_status().get("last_provider") or "")
+                    file_history(list(messages) + [{"role": "assistant", "content": assistant}],
+                                 {"model": model,
+                                  "brain": "cloud" if use_cloud else "local",
+                                  "provider": _answered if use_cloud else ""})
+                except Exception as _arch_exc2:  # pragma: no cover
+                    print(f"[archive] skipped: {_arch_exc2!r}", flush=True)
+
+            except Exception:
+                _vrec = {"id": "vision-refused"}
+            safe_record("assistant", assistant, {"receipt": _vrec.get("id")})
+            if want_stream:
+                emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
+                emit_sse({"type": "done", "traces": [], "receipt": _vrec.get("id"),
+                          "active": "local" if not use_cloud else "cloud", "brain": brain,
+                          "vision": _vision_info})
+            else:
+                self._json(200, {"text": assistant, "gate": gate, "brain": brain,
+                                 "active": "local" if not use_cloud else "cloud", "receipt": _vrec.get("id"),
+                                 "traces": [], "vision": _vision_info})
+            return
+
         assistant = ""
         traces: list[Any] = []
         # Hoisted out of the `if use_tools:` block below: it used to be initialised there and read
@@ -1494,6 +2008,8 @@ class Handler(BaseHTTPRequestHandler):
         # "Agent limbs" box, and the documented test payload) raised UnboundLocalError and answered
         # HTTP 500 handler_failed on EVERY turn. Initialise every turn variable before any branch.
         honest_pending = ""
+        # Set only when the turn was streamed, so the final frame never sends the text twice.
+        streamed: str | None = None
         # Engine telemetry: llama.cpp reports its own tokens/s per call, so the console can show
         # the real generation speed of every turn instead of the operator having to benchmark it.
         timing_log: list[dict[str, Any]] = []
@@ -1540,9 +2056,21 @@ class Handler(BaseHTTPRequestHandler):
                 msgs.append({"role": "user", "content": prefetch_message(pre)})
 
         def emit_sse(event: dict[str, Any]) -> None:
+            # Measured live: closing the tab mid-answer raised ConnectionAbortedError here
+            # ([WinError 10053]) and the turn was logged as a 500. The client leaving is not a
+            # server fault: note it once, then stop writing to a socket nobody is reading.
+            if getattr(self, "_client_gone", False):
+                return
             line = json.dumps(event) + "\n"
-            self.wfile.write(b"data: " + line.encode("utf-8") + b"\n")
-            self.wfile.flush()
+            try:
+                self.wfile.write(b"data: " + line.encode("utf-8") + b"\n")
+                self.wfile.flush()
+            except _CLIENT_GONE as exc:
+                self._client_gone = True
+                try:
+                    sys.stderr.write("[client-gone] %s %s: %s\n" % (self.command, self.path, exc))
+                except Exception:  # noqa: BLE001
+                    pass
 
         if want_stream:
             self.send_response(200)
@@ -1631,6 +2159,10 @@ class Handler(BaseHTTPRequestHandler):
                 if brain == "ready":
                     tool_schema = core_schema()
                     payload.pop("tools", None)
+                    # The engine must be asked with ITS model. Measured 2026-09-21: a fallback that
+                    # carried the API's model was refused by our own engine too, so nothing answered
+                    # and the operator was shown the "API handoff" notice instead of a reply.
+                    payload = cloud_api.local_payload_from(payload, str(local_model))
                     with ENGINE_LOCK:
                         code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
                     model = local_model
@@ -1638,8 +2170,18 @@ class Handler(BaseHTTPRequestHandler):
                 else:
                     brain = "cloud"
         else:
-            with ENGINE_LOCK:
-                code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
+            # A plain local turn (no limb round, engine ready) streams: the operator watches the
+            # answer being written instead of ~160 s of nothing and then the whole reply at once.
+            # Any limb turn, or a stream that never produced a token, falls through to the
+            # buffered call - so this can only make a turn faster, never break one.
+            if want_stream and not use_tools and brain == "ready":
+                streamed = _stream_local_turn(payload, emit_sse)
+            if streamed is None:
+                with ENGINE_LOCK:
+                    code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
+            else:
+                code = 200
+                body = json.dumps({"choices": [{"message": {"content": streamed}}]}).encode("utf-8")
         try:
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
@@ -1682,8 +2224,20 @@ class Handler(BaseHTTPRequestHandler):
                 if use_cloud:
                     _, body2, _ = cloud_chat(payload2)
                 else:
-                    with ENGINE_LOCK:
-                        _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2, port=brain_port())
+                    # The round that answers the operator streams. This is the one they wait on with
+                    # limbs ticked: the limb results are in `follow` and the model was just told to
+                    # answer in prose rather than call another limb, so the text it writes here IS the
+                    # answer. A round that still emits a tool call carries no content deltas, this
+                    # returns nothing, and the buffered call below keeps the tool calls intact.
+                    body2 = None
+                    if want_stream and brain == "ready":
+                        text2 = _stream_local_turn(payload2, emit_sse)
+                        if text2 is not None:
+                            streamed = text2
+                            body2 = json.dumps({"choices": [{"message": {"content": text2}}]}).encode("utf-8")
+                    if body2 is None:
+                        with ENGINE_LOCK:
+                            _, body2, _ = llama_chat(api_key=LLAMA_KEY, payload=payload2, port=brain_port())
                 try:
                     p2 = json.loads(body2.decode("utf-8"))
                 except json.JSONDecodeError:
@@ -1879,13 +2433,55 @@ class Handler(BaseHTTPRequestHandler):
         )
         try:
             save_session(list(messages) + [{"role": "assistant", "content": assistant}])
+            # The answer is filed only now, as a completed turn - never mid-stream, never twice:
+            # the archive cursor decides what is new, not this call site.
+            try:
+                from transcript_archive import sync as file_history
+            
+                _answered = str(cloud_api.public_status().get("last_provider") or "")
+                file_history(list(messages) + [{"role": "assistant", "content": assistant}],
+                             {"model": model, "brain": active, "provider": _answered if active == "cloud" else ""})
+            except Exception as _arch_exc2:  # pragma: no cover
+                print(f"[archive] skipped: {_arch_exc2!r}", flush=True)
+
         except Exception:
             pass
+        # What the operator reads must be the answer, not our own machinery. Measured 2026-09-21:
+        # asked to reply exactly "KEY CHECK", the local model answered the readout that rides the
+        # newest message ("NOW UTC ... The world_pulse provides timestamps ...") and the operator was
+        # handed the clock. The readout is stripped here - the one place every turn's text passes
+        # through, both brains, stream and buffered alike - and a limb that failed never stands in for
+        # an answer. Nothing else in the text is touched: a genuine answer about the time survives.
+        try:
+            from chat_loop import (strip_readout, is_limb_failure, limb_failure_name,
+                                   surface_artifacts)
+
+            _was = assistant
+            # A produced picture the answer does not name is an answer that hides its own result.
+            assistant = surface_artifacts(assistant, traces)
+            assistant = strip_readout(assistant)
+            if is_limb_failure(assistant):
+                assistant = ("The %s limb could not answer, so this reply does not use it."
+                             % limb_failure_name(assistant))
+            if assistant != _was:
+                print("[answer] cleaned %d chars of readout out of the reply" % (len(_was) - len(assistant)),
+                      flush=True)
+            if not assistant.strip():
+                assistant = ("I read the clock back to you instead of answering - ask again and I "
+                             "will answer the question itself.")
+        except Exception as _clean_exc:  # pragma: no cover - a turn must never fail on cosmetics
+            print("[answer] cleanup skipped: %r" % (_clean_exc,), flush=True)
         # The record of truth: the engine's window may have dropped older turns, this journal has not.
         safe_record("assistant", assistant, {"receipt": rec.get("id")})
         _comp = safe_status(_ctx, list(messages) + [{"role": "assistant", "content": assistant}])
         if want_stream:
-            emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
+            if streamed is None:
+                emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
+            elif assistant != streamed:
+                # The text was already shown as it arrived. When the finished answer differs - a
+                # sanitised tool-call echo, or the output-window quarantine - the gates are the
+                # last word on what the operator keeps, and this frame is that word.
+                emit_sse({"type": "replace", "replace": assistant, "verdict": gate.get("verdict")})
             emit_sse(
                 {
                     "type": "done",
@@ -1918,10 +2514,7 @@ class Handler(BaseHTTPRequestHandler):
         )
 
     def _v1_chat(self) -> None:
-        raw = self._read_body(256_000)
-        if not raw and int(self.headers.get("Content-Length") or 0) > 256_000:
-            self._json(413, {"error": "too_large"})
-            return
+        raw = self._read_body(256_000)  # over the limit raises 413 with the reason; see _read_body
         try:
             obj = json.loads(raw.decode("utf-8") or "{}")
         except json.JSONDecodeError:
@@ -2051,6 +2644,21 @@ def main() -> int:
     ap.add_argument("--mock", action="store_true")
     args = ap.parse_args()
     ensure_dirs()
+    # The page's own "Boot server" button rings tools/doorbell.py, and that has to already be running when
+    # this process is gone - which is exactly when it is needed. So the console makes sure one exists on its
+    # way up: best effort, never allowed to stop the console coming up, and LYGO_NO_DOORBELL=1 turns it off.
+    if not os.environ.get("LYGO_NO_DOORBELL"):
+        try:
+            _tools = str(Path(__file__).resolve().parents[1] / "tools")
+            if _tools not in sys.path:
+                sys.path.insert(0, _tools)
+            import doorbell as _bell
+
+            _made = _bell.ensure_running(_bell.ROOT)
+            print(f"[doorbell] {'already up' if _made.get('already') else 'started'} "
+                  f"on port {_made.get('port')}", file=sys.stderr)
+        except Exception as _bell_e:  # noqa: BLE001 - the button is a convenience; the console is the job
+            print(f"[doorbell] not started: {_bell_e}", file=sys.stderr)
     # Retention is a boot-time concern: receipts/events/todo stores grow forever and every
     # turn used to pay a re-read of the whole history. Bounded, and it must never stop the
     # console from coming up, so a failure here is reported and swallowed.
@@ -2131,6 +2739,11 @@ def main() -> int:
     if missing_assets:
         print(f"portal assets missing in {PORTAL}: {', '.join(missing_assets)}", file=sys.stderr)
         return 4
+    # The port this console is actually bound to, published for anything that describes this box.
+    # Measured 2026-09-21: the console ran on 9651, yet both agents told the operator 9641 -
+    # config/console.json's default - because --port only ever reached the banner, never the facts
+    # the agent reads. State the live port; the config value is a fallback, not the truth.
+    os.environ["LYGO_CONSOLE_PORT"] = str(args.port)
     try:
         httpd = _ConsoleServer((BIND, args.port), Handler)
     except OSError as e:
@@ -2143,6 +2756,16 @@ def main() -> int:
         return 3
     # The token matters only when auth is on; printing it otherwise puts a useless secret on screen.
     url = f"http://127.0.0.1:{args.port}/?v={BUILD}" + (f"&t={TOKEN}" if AUTH_REQUIRED else "")
+    # The operator's branding: the logo and the live reading first, then the three plain lines that
+    # follow (other surfaces and tests read those, so they are left exactly as they were).
+    try:
+        import banner as _banner
+
+        _banner.print_banner(_banner.live_facts(url=url, kit=str(KIT_ROOT),
+                                                console_port=args.port, engine_port=LLAMA_PORT))
+        _banner.set_window_title("LYGO LLM CONSOLE  Δ9Φ963  port %s" % args.port)
+    except Exception as exc:  # noqa: BLE001 - a banner must never be able to stop a boot
+        print("[banner] degraded: %s: %s" % (type(exc).__name__, exc), file=sys.stderr)
     print(f"LYGO LLM Console {BUILD}  {url}")
     print(f"kit {KIT_ROOT}")
     if _log:
@@ -2158,7 +2781,8 @@ def main() -> int:
                 "path": str(p),
                 "kind": "chat",
                 "ctx": 4096,
-                "n_gpu_layers": 0,
+                # Not an instruction: the launch plan decides the offload (see lygo_engine.boot).
+                "n_gpu_layers": None,
                 "runnable": p.is_file(),
                 "source": "cli",
                 "bytes": p.stat().st_size if p.is_file() else 0,
@@ -2186,6 +2810,15 @@ def main() -> int:
             print(f"scan models={STATE['scan_n']} truncated={scanned.get('scan_truncated')} selected={STATE.get('selected')}")
         if not MOCK_ONLY and STATE.get("selected"):
             print(f"booting {STATE.get('selected')} …")
+            try:
+                import banner as _banner
+
+                _perf = STATE.get("perf") or {}
+                _banner.print_engine_line(str(STATE.get("selected") or ""),
+                                          backend=str(_perf.get("backend") or _perf.get("mode") or ""),
+                                          ngl=_perf.get("ngl"), port=LLAMA_PORT)
+            except Exception:  # noqa: BLE001 - branding must not be able to stop a boot
+                pass
             boot_async(str(STATE.get("selected")))
       except Exception as e:
         STATE["brain"] = "error"
@@ -2218,7 +2851,10 @@ def main() -> int:
                 time.sleep(0.25)
             time.sleep(0.3)
             try:
-                webbrowser.open(url)
+                # The doorbell starts this console because its page said health failed - the browser
+                # is already open on that page, so a second tab is noise.
+                if os.environ.get("LYGO_NO_BROWSER", "").strip().lower() not in ("1", "true", "yes"):
+                    webbrowser.open(url)
             except Exception:
                 pass
 

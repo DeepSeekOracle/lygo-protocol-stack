@@ -151,7 +151,7 @@ def _fits(out: str, mem: str) -> str:
 
 
 
-def compose_system(brain: str | None = None, carry: bool = False) -> str:
+def compose_system(brain: str | None = None, carry: bool = False, with_clock: bool = True) -> str:
     """The identity block. `carry=True` appends the compacted-conversation digest.
 
     The digest is opt-in so that the identity block keeps its own, separately tested ceiling: a caller
@@ -208,7 +208,14 @@ def compose_system(brain: str | None = None, carry: bool = False) -> str:
         volatile.append(
             f"NOW UTC {w.get('utc_iso')} · local {w.get('local_iso')} ({w.get('local_tz')}) · unix {w.get('unix')} · {w.get('weekday')}."
         )
-        volatile.append("Call world_pulse for city clocks + weather. RESOURCE, not CANON.")
+        # Stated, never ordered. This block rides the operator's OWN message (and the primer sends it
+        # too), so a bare imperative here is obeyed on any input: with "Call world_pulse for city
+        # clocks + weather" sitting under a bare "heloo?", the local 7b emitted a world_pulse call and
+        # answered a greeting with the clock and weather. The tool schemas already say what each tool
+        # is for; the wording here can offer the capability without giving an order.
+        volatile.append(
+            "world_pulse holds city clocks and weather (RESOURCE, not CANON), for turns about time or place."
+        )
         volatile.append("")
     except Exception:
         pass
@@ -252,11 +259,58 @@ def compose_system(brain: str | None = None, carry: bool = False) -> str:
                 out = out + "\n\n" + block
         except Exception:
             pass
-    if volatile:
+    if volatile and with_clock:
         # deliberately last: everything above it is identical from one turn to the next (see the note
         # where the clock is read), so the engine keeps it in cache instead of re-reading it every turn.
         out = out + "\n" + "\n".join(volatile)
     return out
+
+
+def volatile_tail(with_clock: bool = True) -> str:
+    """The block that must ride the NEWEST message, never the identity block.
+
+    A turn is [system][history][newest user message]. llama-server reuses the longest common token
+    prefix between turns, so a line that changes every minute decides how much of the turn is cached:
+    inside the system block it invalidates the whole history behind it. Measured on this box, one
+    model, one flag set, two turns identical apart from the clock 61 s apart:
+
+        clock in the system block -> turn 2 re-prefilled 7,974 tokens in 146.1 s (54 tok/s)
+        clock behind the history  -> turn 2 prefilled        17 tokens in   2.5 s
+
+    So the identity block is composed with `with_clock=False` and this tail is appended to the newest
+    message by the caller. The primer (warm_prefix) sends the identical opening, which is the only way
+    the primed prefix can still match: if the two shapes drift, the primer silently stops helping.
+
+    `with_clock=False` is for a turn that asks nothing (chat_loop.is_conversational): there the clock is
+    material with nothing to do, and this 7b handed it straight back - "thanks" came out as "Understood.
+    The current time is UTC 2026-09-21T15:25:05+00:00". A turn that asks nothing is sent the capability
+    line and chat_loop.CONVERSATIONAL_DIRECTIVE instead (measured there: 7 of 12 -> 12 of 12).
+    """
+    try:
+        from world_clock import pulse_stamps
+
+        w = pulse_stamps()
+        stamp = (
+            f"NOW UTC {w.get('utc_iso')} · local {w.get('local_iso')} ({w.get('local_tz')}) · "
+            f"unix {w.get('unix')} · {w.get('weekday')}.\n"
+            if with_clock
+            else ""
+        )
+        # This line used to read "world_pulse holds city clocks and weather ..." and the 7b handed it
+        # back as the ANSWER to an unrelated question ("The world_pulse provides timestamps and weather
+        # updates for various cities, but it's important to ..."), while a task asked of it came back as
+        # the city clocks - measured on this box 2026-09-21. Label it as what it is: material for the
+        # turn, never the question, never the answer.
+        note = ("READOUT (context for this turn only - this is NOT the question and NOT an answer to "
+                "repeat; use it only when the turn is actually about time or place):")
+        # The capability line stays: it is what makes clocks and weather reachable from the tail while
+        # ordering nothing (test_continuity asserts both halves). The label above is the new part -
+        # on 2026-09-21 the 7b handed this block back as the answer to unrelated questions.
+        cal = ("world_pulse holds city clocks and weather (RESOURCE, not CANON), for turns about "
+               "time or place.")
+        return (note + "\n" + stamp + cal) if stamp else (note + "\n" + cal)
+    except Exception:
+        return ""
 
 
 def append_memory(note: str) -> dict[str, Any]:

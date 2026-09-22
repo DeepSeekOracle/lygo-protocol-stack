@@ -51,8 +51,8 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "8f448d9854d961ed",
-      "bytes": 20218
+      "sha256_16": "a3ce16a650f97c1d",
+      "bytes": 20516
     },
     {
       "path": "web_portal/index.html",
@@ -65,9 +65,9 @@
       "bytes": 10329
     }
   ],
-  "rebrand_refresh_iso": "2026-09-20T15:00:44-06:00",
+  "rebrand_refresh_iso": "2026-09-21T17:29:57-06:00",
   "rebrand_refresh_note": "README: full license disclaimer for the public release (1.2.2 hardening sweep)",
   "rebrand_refresh_files": [
-    "README.md"
+    "portal/index.html"
   ]
 }

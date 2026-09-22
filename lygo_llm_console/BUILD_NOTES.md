@@ -17,6 +17,36 @@ Two installs, one code base:
 
 ---
 
+## 1.3.0 — the forever history, the four-provider chain, and both copies signed off
+
+**Released 2026-09-21.** This release is what the PC build has been running since the campaign closed, and
+the USB copy now carries it too.
+
+Carried: every turn filed, verbatim and permanent, into `workspace/memory/conversations/` and pointed at
+from `MEMORY.md`, with the LYGO RAG recalling trimmed history without a model; the cloud chain
+DeepSeek → NVIDIA NIM → Google Gemini → Groq, with the model following the provider on a switch;
+images read and drawn both ways, by our own engine and through the API; and answer fidelity — the clock
+readout stripped from answers, a failed limb never standing in for the reply, a produced picture named under
+it, the walk record labelled with the walk it belongs to, and the completion line naming only the brain that
+actually answered.
+
+**Verified:** `1089 passed, 43 subtests passed` on the PC tree, exit 0. On the USB copy: `1080 passed,
+9 skipped, 43 subtests passed`, exit 0 — the 9 skips are the PC-build assertions (shipped-config values and
+the git checkout above the kit) that a stick cannot satisfy, each printing its reason. `scripts/sweep_build.py`
+reports `0 failure(s)` on both trees and `VERDICT: CERTIFIED BUILD` on both.
+
+**Tested on the stick itself:** booted from its own bundled Python on its own ports (banner
+`LYGO LLM Console v1.3.0 http://127.0.0.1:9651`), identified itself as `usb_local` from the volume type, ran a
+real turn through the calc limb (`17*23` → 391 in 6.9 s, local brain), and filed it verbatim in its own
+forever history.
+
+**Open:** the stick has no model blobs of its own — its canonical store `%USB%\product\models\ollama` is
+missing (the duplicate CAS was archived to `I:\LYGO_STICK_ARCHIVE\dup_cas_20260918`). It is a cloud-only
+console until that store is put back; that is the steward's call. Also carried: the stick still holds key
+material (row 61), `src/p3_note.py` is an orphan, vulkan is still b10988, and the photo-price calibration and
+the 5,428% window composition remain as recorded.
+
+**Signature** Δ9Φ963-LYGO-LLM-CONSOLE-v1 · LYGO Sovereign License v3.0 · steward LIGHTFATHER
 ## THE FREEZE RULE — read this before you change anything
 
 **A sealed build is reference only: never edit a sealed build, never build inside one.**
@@ -37,6 +67,72 @@ Rule of proof: **a seal is not a safety net until it has been restored and run.*
 done, restore it into a clean folder and run `scripts/certify_build.py` plus the suite *there*.
 
 ---
+
+## 1.3.0 — MEMORY AND GUARD MODULES · tag `build-line 2026-09-20 · module-strip · memory + guard modules`
+
+**Why:** the module layer could say what the console *is*, but not what it *holds* or what it might be
+*leaking*. Two read-only modules close that gap: `lygo.meminfo` (order 50, family `info`) reads the memory
+the console keeps, and `lygo.guardwatch` (order 55, family `watch`) looks for credentials sitting where a
+limb can read them and for secret-shaped files written into the tree. Both declare
+`requires.console >=1.3.0` — that condition, not a feature, is why this release number exists.
+
+- **`lygo.meminfo`** — one card over five fact owners (`compaction`, `sessions`, `paths`, `atomicio`,
+  `receipts`). It owns no state, opens no gate and writes nothing. The window/token budget is
+  `lygo.llminfo`'s to report; this card names that owner instead of re-deriving it.
+- **The honesty gate, again** — a source that could not be read is a **named gap**, never a zero.
+  `0 sessions filed` prints only when the vault was actually read and was empty; an unread store says
+  UNCHECKED and drags the card off green. Both directions are pinned by a test.
+- **`lygo.guardwatch`** — a finder. It asks the kernel's own `tools._denied()` for the authoritative deny
+  decision rather than keeping a second deny list, and it **never opens a credential file**: it stats,
+  resolves and compares paths, and prints pointers, never values. A check it could not run is reported as
+  UNCHECKED, so green means *checked and clean*, not *not checked*.
+- **Three defects found by RUNNING it, not by the suite** — (1) the kit is a *subfolder* of its repo
+  (the checkout is rooted at `lygo-protocol-stack`), so looking for `.git` at the kit alone reported
+  "not a git checkout" for a tree that plainly is one; (2) tier-2 name matching flagged
+  `engine\llama-tokenize.exe` and hashed `*.d.ts` build output as secret-shaped — a false alarm on the
+  engine's own tokenizer, which would have pinned the card amber *permanently*, and no operator reads a
+  card that is always amber; tier 2 now requires an extension a secret is actually kept in; (3) one wide
+  root (the stick tree) spent a **shared** scan budget and left six roots unread — each root now carries
+  its own budget, and a walk that stops at its *stated* depth rule is no longer counted as an unrun check.
+- **Two false alarms removed** — a committed template (`.env.example`, `*.credentials.example.json`) is
+  not a finding, and the sibling kit's own declared keys read `expected` rather than contradicting the
+  kit-scoped group that already called them expected.
+- **Stamped in four surfaces from `VERSION`** — `VERSION` (1.3.0), `portal/app.js` (`LYGO_BUILD`),
+  `src/modules/host.py` (`KERNEL_RELEASE_FALLBACK`), and the built manifest.
+- **REPLY LENGTH — the 768-token wall, and the three numbers that disagreed** — every long answer
+  stopped mid-sentence. Measured cause, not inferred: `portal/app.js` sent a hardcoded
+  `max_tokens: 768` on every request, the engine honoured it exactly (`gen_tokens: 768`,
+  `finish_reason: length`, 81.5 s at a measured **10 tok/s**), while `config/console.json` said
+  **512** and `server.py` said **1024**. Three numbers, one of them live, and the operator's own
+  config key had **no reader at all** — `console_limits()` never returned `max_tokens`, so the
+  documented knob was dead config. Now one source of truth: the config key is read by
+  `console_limits()`, the chat handler clamps to it (a request may lower, never raise), the portal
+  seeds its cap from `/api/health` instead of carrying a constant, and the window budget
+  **reserves** it.
+- **The coupling that made the fix safe** — `ANSWER_RESERVE` was a 1024 constant with the comment
+  "the portal's cap is 768", i.e. the window reserved room for a reply nobody asked for. Raising the
+  cap and leaving it behind is how a long answer overflows the window and evicts the conversation it
+  is answering, so `answer_reserve()` now reads the same config key: reserve 4096 (was 1024),
+  history room 25,988 → 22,916 tokens. A 5.3× longer reply costs 12% of the live window, and the
+  operator sees that trade in one number.
+- **`config/console.json`: `max_tokens` 512 → 4096**, with the note rewritten to say what the key
+  actually does and why it is sized against generation speed.
+- **Client timeouts scale with the cap** — a local answer is still buffered (see the open item
+  below), so the page's idle window must cover the whole generation, not the first token: a flat
+  240 s aborted a long answer as "engine silent" moments before it arrived. Both the idle window and
+  the hard ceiling now derive from the configured cap at a pessimistic 4 tok/s.
+
+- **Editions** — PC is the authoring tree this release was built and tested on. The USB promotion is
+  **pending** and each module says so in its own manifest: `surfaces.usb = DEGRADED(promotion pending)`,
+  not `FULL`, until the per-file hash-verified promotion and the stick's own suite have run. Web is
+  declared out of scope for the module layer.
+
+- **Still buffered — the known limit of this release** — the engine call is **not** streamed yet: the
+  console waits for the engine to finish the entire answer, then sends it in one burst. A long reply
+  therefore arrives after a long silence, which is exactly why the client windows in this same change
+  had to be sized off the cap. `openai_proxy.llama_chat_stream()` already exists in the tree and is
+  currently called by **nothing**. Routing the answer through it is the next change, and the one that
+  makes a long answer *appear as it is generated* instead of arriving after it.
 
 ## 1.2.2 — HARDENING SWEEP (PC, then the stick)
 
@@ -223,3 +319,18 @@ live trees, never edit a canon copy.
 6. Hand the steward the ready-to-publish state. **Agents build and verify; the steward publishes.**
 
 Agents do not push, and do not touch a canon copy.
+
+## 1.3.0 — the Boot server button (unreleased, 2026-09-21)
+
+* **A standalone `Boot server` button** in the BRAIN row, beside `Boot local`. It runs `LYGO_LLM_CONSOLE.bat`
+  itself — the launcher keeps its port sweep, ownership check and refusal to double-start; nothing is copied.
+* **`tools/doorbell.py`** — the reason a button can work at all: the page is served *by* the server it would start,
+  and a browser cannot spawn a process. A tiny loopback listener on the console's port minus one rings the launcher.
+  It serves its own page too (`http://127.0.0.1:<port-1>/`), which is the one bookmarked door worth having.
+* Token in `data/.lygo_doorbell_token`; loopback only; `connect-src` in the console's CSP names the doorbell
+  (derived from the bound port, so the USB copy gets its own); requests logged with the query stripped.
+* It detaches (`--detach`, no window) and the console `ensure_running`s one on the way up, so the button is never
+  a dead end. `LYGO_NO_DOORBELL=1` opts out; `LYGO_NO_BROWSER=1` stops a second tab when the doorbell boots.
+* Verified live: page → doorbell `200` → launcher → console back on 9641, engine 11441, page `up=true`.
+
+Ports: PC doorbell **9640** (console 9641) · USB doorbell **9650** (console 9651). Both derived, never hardcoded.

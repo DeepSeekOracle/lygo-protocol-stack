@@ -375,6 +375,26 @@ class CompactionCase(unittest.TestCase):
         self.assertGreaterEqual(out["hits"][0]["score"], out["hits"][-1]["score"])
 
     # -- status ----------------------------------------------------------------------------
+    def test_the_window_report_is_what_the_engine_sees_not_the_whole_journal(self):
+        """The pane asks for status() with NO messages, so the journal is all it has to go on.
+
+        Reporting the journal as "in the window" made a 232-turn record read 3394.2% of the engine
+        window while the turn actually sent was 6 messages at ~70% of it - a permanent false alarm
+        that also kept promising "auto-compact next turn" when no fold was due. What the engine sees
+        is the newest turns that fit the room.
+        """
+        for i in range(60):
+            C.record("user", f"turn {i} " + "x" * 4000)
+            C.record("assistant", f"answer {i} " + "y" * 4000)
+        st = C.status(ctx=32768)
+        w = st["window"]
+        room = int(w["history_tokens"])
+        self.assertGreater(w["journal_tokens"], room, "precondition: the record is bigger than one window")
+        self.assertLessEqual(w["live_tokens"], room, "the window report handed over more than the history room")
+        self.assertLess(w["live_tokens"], w["journal_tokens"], "the report confused the record with the request")
+        self.assertLessEqual(w["used_pct"], 100.0,
+                             f"a window percentage above 100 ({w['used_pct']}%) is a mislabel, not a state")
+
     def test_status_shape_and_consistency(self):
         self.fill(9)
         C.compact(reason="test")

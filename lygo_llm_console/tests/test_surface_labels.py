@@ -104,7 +104,9 @@ class WiringTests(unittest.TestCase):
 
     def test_health_quotes_the_system(self):
         src = (ROOT / "src/server.py").read_text(encoding="utf-8")
-        self.assertIn('"system": __import__("surface").report(', src)
+        # surface still owns the label; the answer reads it through health_payload's safe() wrapper
+        # (defect 34), so a hardcoded system string still fails this guard.
+        self.assertIn('"system": safe("system", lambda: _surface.report(', src)
 
     def test_runtime_facts_quote_the_system(self):
         src = (ROOT / "src/runtime_facts.py").read_text(encoding="utf-8")

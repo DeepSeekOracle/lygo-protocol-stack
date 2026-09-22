@@ -29,6 +29,22 @@ if str(HERE) not in sys.path:
 
 from p0_hook import PHYSICS_AVAILABLE, gate_output_window, gate_prompt  # noqa: E402
 
+try:  # the body-refusal policy is shared with the kernel (defect 27); this file also ships alone
+    from http_body import drain as drain_body  # noqa: E402
+except Exception:  # a copy without http_body: same job, same bounds, inline
+
+    def drain_body(handler: Any, declared: int) -> int:
+        want, got = min(int(declared or 0), 1 << 20), 0
+        try:
+            while got < want:
+                chunk = handler.rfile.read(min(65_536, want - got))
+                if not chunk:
+                    break
+                got += len(chunk)
+        except (OSError, ValueError):
+            pass
+        return got
+
 ALLOW_ORIGINS = (
     "https://chatagent.ca",
     "https://www.chatagent.ca",
@@ -101,21 +117,6 @@ def _rate(ip: str) -> bool:
     return True
 
 
-def _ollama_chat(base: str, model: str, messages: list[dict[str, Any]]) -> str:
-    """LEGACY: a daemon backend, kept only for an operator who still runs one. Not the default."""
-    payload = json.dumps({"model": model, "messages": messages, "stream": False, "options": {"num_predict": 384}}).encode()
-    req = urllib.request.Request(
-        base.rstrip("/") + "/api/chat",
-        data=payload,
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        data = json.loads(resp.read().decode("utf-8", errors="replace"))
-    msg = data.get("message") or {}
-    return str(msg.get("content") or "")
-
-
 def _openai_chat(url: str, model: str, messages: list[dict[str, Any]], key: str) -> str:
     payload = json.dumps({"model": model, "messages": messages, "max_tokens": 384, "stream": False}).encode()
     h = {"Content-Type": "application/json"}
@@ -128,10 +129,10 @@ def _openai_chat(url: str, model: str, messages: list[dict[str, Any]], key: str)
 
 
 class Handler(BaseHTTPRequestHandler):
-    # Default backend is our own engine. The daemon attributes below are the legacy path: they are
-    # only reached when an operator passes --backend ollama on purpose.
+    # Our own engine is the backend, full stop. There is no daemon path here: a gateway that can
+    # reach another service is a gateway that will be pointed at one, and this kit is standalone by
+    # design - it boots its own llama-server on its own port.
     backend = "local"
-    ollama = "http://127.0.0.1:11434"
     openai_url = f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions"
     openai_key = ""
     model = ""   # empty = resolve from our own registry when the caller names no model
@@ -152,6 +153,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header("X-Frame-Options", "SAMEORIGIN")
+        if getattr(self, "close_connection", False):
+            # Say it, don't just do it (defect 27): a caller that read Content-Length would treat
+            # this socket as reusable and fail its next request on it.
+            self.send_header("Connection", "close")
         if _cors_ok(origin):
             self.send_header("Access-Control-Allow-Origin", origin)
             self.send_header("Vary", "Origin")
@@ -202,8 +207,25 @@ class Handler(BaseHTTPRequestHandler):
         if not _rate(ip):
             self._json(429, {"error": "rate_limited"})
             return
-        n = int(self.headers.get("Content-Length") or 0)
+        declared = (self.headers.get("Content-Length") or "0").strip()
+        try:
+            n = int(declared)
+        except ValueError:
+            # `int()` used to raise out of the handler: the connection closed with no answer at all
+            # and the operator got a traceback on stderr. A malformed envelope is the caller's
+            # problem, and it gets an answer like any other.
+            self.close_connection = True
+            self._json(400, {"error": "bad_request", "detail": "Content-Length: " + declared[:32]})
+            return
+        if n < 0:
+            self.close_connection = True
+            self._json(400, {"error": "bad_request", "detail": "Content-Length: " + str(n)})
+            return
         if n > 48_000:
+            # Refuse the body *and consume it*: answering while the caller is still writing resets
+            # the rest of that write, so the caller never reads this reason (defect 27).
+            drain_body(self, n)
+            self.close_connection = True
             self._json(413, {"error": "too_large"})
             return
         raw = self.rfile.read(n) if n else b"{}"
@@ -218,7 +240,22 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(m, dict):
                 continue
             role = m.get("role") if m.get("role") in {"user", "assistant"} else "user"
-            content = str(m.get("content") or "")[:MAX_CHARS]
+            _c = m.get("content")
+            if isinstance(_c, list):
+                # An OpenAI-style content list can carry an image part whose url is a base64 blob.
+                # `str()` of that list pastes the blob into the prompt (truncated, so not even a
+                # usable URL) and hands it to the gate as prose. A public caller gets the words plus
+                # a marker that a picture came with them - never the blob.
+                bits = []
+                for _p in _c:
+                    if isinstance(_p, dict):
+                        if _p.get("type") == "image_url" or _p.get("image_url"):
+                            bits.append("[image]")
+                        elif _p.get("text"):
+                            bits.append(str(_p["text"]))
+                content = " ".join(bits)[:MAX_CHARS]
+            else:
+                content = str(_c or "")[:MAX_CHARS]
             msgs.append({"role": role, "content": content})
         user = " ".join(m["content"] for m in msgs if m["role"] == "user")[-MAX_CHARS:]
         gate = gate_prompt(user)
@@ -238,10 +275,8 @@ class Handler(BaseHTTPRequestHandler):
             return
         model = str(obj.get("model") or self.model or _selected_model())
         try:
-            if self.backend != "ollama":   # "local" and "openai" are the same thing: our own engine
-                text = _openai_chat(self.openai_url, model, msgs, self.openai_key)
-            else:
-                text = _ollama_chat(self.ollama, model, msgs)
+            # "local" and "openai" are the same route: our own engine, OpenAI-compatible.
+            text = _openai_chat(self.openai_url, model, msgs, self.openai_key)
         except Exception as e:
             # This endpoint is public: upstream internals (host, port, stack frames) belong in the
             # operator's stderr, not in the caller's response.
@@ -284,10 +319,9 @@ def main() -> int:
     ap.add_argument("--bind", default="127.0.0.1")
     ap.add_argument("--i-consent", action="store_true")
     ap.add_argument("--lan", action="store_true")
-    # Our own engine is the default: the kit runs its own llama-server. "ollama" survives only as an
-    # explicit legacy opt-in for a machine that happens to run a daemon - the kit never needs one.
-    ap.add_argument("--backend", choices=("local", "openai", "ollama"), default="local")
-    ap.add_argument("--ollama", default=os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
+    # Our own engine is the backend. There is no daemon option: the kit never needs one, and offering
+    # it is how a standalone system starts to depend on something outside itself.
+    ap.add_argument("--backend", choices=("local", "openai"), default="local")
     ap.add_argument("--openai-url", default=f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions")
     ap.add_argument("--model", default=os.environ.get("LYGO_PUBLIC_MODEL") or _selected_model())
     args = ap.parse_args()
@@ -298,7 +332,6 @@ def main() -> int:
             return 2
         bind = "0.0.0.0"
     Handler.backend = args.backend
-    Handler.ollama = args.ollama if args.ollama.startswith("http") else "http://" + args.ollama
     Handler.openai_url = args.openai_url
     Handler.model = args.model
     httpd = ThreadingHTTPServer((bind, args.port), Handler)

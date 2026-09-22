@@ -84,6 +84,7 @@
       </div>
       <span id="brain-status" class="brain-status" aria-live="polite">LOCAL · engine</span>
       <button type="button" id="brain-boot" class="mini">Boot local</button>
+      <button type="button" id="server-boot" class="mini boot-server" title="Boot the console server itself — for when this page says health failed, or the window was closed. Runs LYGO_LLM_CONSOLE.bat through the doorbell.">Boot server</button>
       <button type="button" id="brain-newchat" class="mini" title="Clear the conversation and keep the active brain">New chat</button>
     </div>
     <div class="modelbar apibar">
@@ -95,6 +96,7 @@
         <option value="openai">OpenAI</option>
         <option value="xai">xAI Grok</option>
         <option value="openrouter">OpenRouter</option>
+        <option value="nvidia">NVIDIA NIM</option>
         <option value="custom">Custom URL</option>
       </select>
       <input id="api-key" type="password" placeholder="paste key then Save key" autocomplete="off">

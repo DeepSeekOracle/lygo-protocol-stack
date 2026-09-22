@@ -21,6 +21,7 @@ would hide the thing it found.
 from __future__ import annotations
 
 import datetime as _dt
+import re
 import json
 import os
 import socket
@@ -144,6 +145,20 @@ def _port_open(port: int, timeout: float = 0.25) -> bool:
         return False
 
 
+_HASH_RUN = re.compile(r"[0-9A-Fa-f]{32,}")
+
+
+def _safe_row(d: dict[str, Any]) -> dict[str, Any]:
+    """Every string this card renders passes through here.
+
+    A panel carrying a 64-hex run is indistinguishable from a panel leaking a hash, and this card's own
+    contract forbids that shape. Redacting at the EDGE means the rule holds whichever module or stored
+    record the words came from - measured 2026-09-20: a GPU crash detail remembered from an older build
+    still named a CAS blob after the log quote had been fixed, because only that one path was covered.
+    """
+    return {k: (_HASH_RUN.sub("[hash]", v) if isinstance(v, str) else v) for k, v in d.items()}
+
+
 class _Part:
     """One check's findings, kept apart so a missing owner can never look like a clean check."""
 
@@ -160,10 +175,11 @@ class _Part:
             row["note"] = str(note)
         if dot:
             row["dot"] = dot
-        self.rows.append(row)
+        self.rows.append(_safe_row(row))
 
     def issue(self, level: str, title: str, detail: str = "", where: str = "") -> None:
-        self.issues.append({"level": level, "title": title, "detail": detail, "where": where, "check": self.name})
+        self.issues.append(_safe_row({"level": level, "title": title, "detail": detail, "where": where,
+                                      "check": self.name}))
 
     def unchecked_for(self, reason: str) -> None:
         self.unchecked.append(f"{self.name}: {reason}")
@@ -476,7 +492,11 @@ def _errors() -> _Part:
             part.issue(
                 level,
                 f"{f.name}: {summary}",
-                (f"last line ({stamp}): " + last_line[-200:]) + (f" — {note}" if note else ""),
+                # A quoted line is REDACTED of hash-looking runs. A 64-hex CAS blob name is
+                # indistinguishable from a leaked hash, and this panel's own rule is that nothing of
+                # that shape reaches it - the operator can open the log itself for the raw line.
+                (f"last line ({stamp}): " + re.sub(r"[A-Fa-f0-9]{32,}", "[hash redacted]", last_line[-200:]))
+                + (f" — {note}" if note else ""),
                 str(f),
             )
         part.row("Log files searched", _plural(scanned, "file"), "save/logs/*.log, newest 400 KB each" if scanned else "none found")
@@ -605,7 +625,12 @@ def _monitors() -> _Part:
             part.row("GPU", str(d.get("name")), f"{_size((d.get('free_mib') or 0) * 1024 * 1024)} free of {_size((d.get('total_mib') or 0) * 1024 * 1024)}")
         part.row("Threads", probe.get("threads"), "what the engine would use")
         if probe and probe.get("gpu_ok") is False:
-            part.issue("amber", "the GPU backend is not proven on this host", str(probe.get("gpu_detail") or probe.get("gpu_reason") or ""), "lygo_engine.probe()")
+            # This amber is TRUE whenever it appears, and the assistant once silenced it by calling a fit
+            # verdict "proof" - a plan is arithmetic ("the card is big enough"), not evidence the engine
+            # offloaded anything. Measured 2026-09-20: the plan said gpu_full for eight models while the
+            # engine in use was the CPU-only base build. Report it; a proven load is `backends`' call.
+            part.issue("amber", "the GPU backend is not proven on this host",
+                       str(probe.get("gpu_detail") or probe.get("gpu_reason") or ""), "lygo_engine.probe()")
         part.row("colibri", "installed" if st.get("colibri") else "not installed", "the optional second engine")
     except Exception as exc:  # noqa: BLE001
         part.unchecked_for(f"lygo_engine.status() failed ({type(exc).__name__}: {exc})")
@@ -667,6 +692,12 @@ def _stores() -> _Part:
         win = st.get("window") or {}
         part.row("Session record", f"{st.get('turns_total')} turns", f"{st.get('compactions')} compactions · {st.get('sessions_sealed')} sealed")
         part.row("Window", f"{win.get('used_pct')}%", "auto-compact folds the oldest turns at " + str(win.get("auto_compact_pct")) + "%")
+        rc = st.get("recall") or {}
+        if rc.get("runs"):
+            part.row("Recall (RAG)", _plural(int(rc.get("runs") or 0), "search").replace("1 searchs", "1 search"),
+                     f"last handed over {int(rc.get('chars') or 0):,} chars"
+                     + (f" · {int(rc.get('empty') or 0)} found nothing" if rc.get("empty") else "")
+                     + f" · index {int((st.get('rag') or {}).get('blocks') or 0):,} blocks")
         if win.get("will_compact_next_turn"):
             part.issue("amber", "the next turn will compact the record", "the oldest turns are about to be folded into the record — expected, but it changes what the model can still see", f"used {win.get('used_pct')}% of {win.get('ctx')}")
     except Exception as exc:  # noqa: BLE001

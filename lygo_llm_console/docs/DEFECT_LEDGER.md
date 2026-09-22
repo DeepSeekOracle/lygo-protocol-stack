@@ -1,0 +1,461 @@
+# Defect ledger — lygo_llm_console
+
+Every fault found on this box, with the evidence that found it and what closed it. Rule: a defect is
+logged the moment it is seen, fixed one at a time, and struck only with a test or a measurement —
+never with "should be fine now". A fixed line keeps its evidence so the next build can re-run it.
+
+Class legend: **wiring** (our own plumbing) · **leak** (something reached a surface that must not
+carry it) · **false fault** (a panel blamed a healthy part) · **engine** (the loader/build, not the
+box) · **rig** (the box itself) · **open** (logged, not yet fixed).
+
+## Pass: 2026-09-21 11:30–12:25 — the picture that now draws itself, and the harness that asks the box first
+
+Trigger: the steward's **"focus on getting the basic image reading and generation working with the
+gemma4 … then i will test myself"**, and **"you can make harnesses for this console that better scan
+this PC so it can use the vram, gpu and cpu better in real time"**. Read: `src/media_tools.py`,
+`src/hardware.py` (new), `config/console.json`, `engine/backends/*/backend.json`, `tests/`, and the live
+card through `nvidia-smi`.
+
+### FIXED
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 39 | rig / wiring (**the operator's creation report, closed**) | "make me a picture" produced no picture | the limb reported the busy card and stopped. On this box the chat model holds the whole card on every working boot, so "the card is busy" is the **normal** state - reporting it is the same as never drawing | the card is no longer merely described: the limb **takes the CPU route by itself** and says which route drew it. `hardware.picture_route()` answers BEFORE an engine is spawned, so the ~20 s doomed GPU attempt is skipped when there is no room | **live, the operator's own route** (`POST /api/chat`, gemma4-12b resident): `200 in 333.0 s`, reply *"I have generated the image of the red cube on a white table. The file is saved at …gen-20260921-112236.png"*, and a real **957,430-byte** PNG on disk. The route measured alone: **172.1 s** for a 1024×1024 SDXL-Turbo picture on the CPU build (`ok True`, `engine sd-cpu`, `gen-20260921-111500.png`, 1,299,042 bytes). `tests/test_media_limbs.py::ABusyCardStillDrawsTests` (4 tests) |
+| 40 | wiring (new) | a live state read that can still fail: `GET /api/health → 500` | **reopens defect 34's claim.** During this pass's boot the access log shows `GET /api/health` alternating **500/200/500/200/200/500** while gemma4 was loading, and 40/40 answered 200 once the engine was up. Defect 34 closed this class *by contract* ("the route answers 200 even if the builder itself raises") and its proof forced each **probe** to raise. Something outside that coverage still fails in the boot window - the `detail` field at `src/server.py:803-811` is where the name is, and the boot is the only window that reproduces it | **not yet fixed.** The reproduction is known and cheap: poll `/api/health` while an engine is booting and read the 500 body's `detail`. Until then the honest statement is that the route can still 500 during a boot, and defect 34's "never" was too strong | observed on this boot: `[vision]`-era console log lines `GET /api/health 500` ×3 interleaved with 200s, then **40/40 200s** with the engine up |
+
+### CLOSED / CORRECTED
+
+- **A design note in `src/media_tools.py` was wrong and is struck.** It said sd.cpp's `--auto-fit` places
+  weights in RAM/disk "so a generation can start while chat is loaded - it is just slower". Measured: the
+  CUDA build loaded its checkpoint, ran 19.8 s and died asking for 644.05 MB with **0.00 MB** available.
+  No auto-fit rescue. The route that works is the CPU build, and it is not a slow fallback (172.1 s).
+- **Test-suite caveat worth knowing when reading these tests:** `mock.patch.object(mt.subprocess, "run", …)`
+  patches the **global** subprocess module, so a new sensor inside the limb reads through the test's own
+  fake. The busy-card tests therefore pin `picture_route` explicitly - they test the failure branch, not
+  the sensor.
+- A comment placed inside a backslash-continued `with` chain is a syntax error (it eats the statement);
+  the pin lines carry no comment for that reason.
+
+### OPEN
+
+- **The `/api/health` 500 in the boot window** (row 40) - the one live defect found this pass, and the
+  only one that contradicts a previous pass's claim.
+- **`hardware.py` is not yet shown on any panel**: the module measures live (card, holders, RAM, CPU) and
+  the picture limb now uses it, but `/api/health` does not carry a `hardware` field yet, so the operator
+  cannot *see* the reading that decided the route. Owed: one `safe()` probe in `health_payload`.
+- Unchanged from earlier: recalibrate the photo price; `vision.fit_turn` note in words; vulkan still on the
+  old pin b10988; L10 needs the steward's hands; L6 untouched.
+
+**Suite:** the limbs and the new harness: **45 passed** (`tests/test_hardware.py` 10, `tests/test_media_limbs.py` 35).
+A full-suite run for this pass had not been taken when it ended - it is the first thing owed next.
+
+---
+
+## Pass: 2026-09-21 10:05–12:10 — the photo the engine refused, and the two models the engine cannot read
+
+Trigger: the steward's **"image read + create broke after the switch to gemma4… we need to re wire it
+all.. test it"**, and then **"seems the engine also needs a small update so it reads the two models it
+cant read like nemo"**. Read for this: `save/receipts/7cbd2802*.json`, `save/logs/console-20260921.log`,
+`save/logs/llama-server-11441.log`, `save/registry.json`, `src/server.py` (the turn path and the tail
+site), `src/compaction.py`, `src/image_tools.py`, `src/media_tools.py`, `src/openai_proxy.py`,
+`portal/app.js`, `scripts/fetch_engine.ps1`, `engine/backends/*/backend.json`.
+
+### FIXED
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 35 | wiring (**the operator's own report**) | an attached photo answered **nothing** — the banner "the engine sent no text for this turn" | `server._api_chat` appended the volatile tail with `str(msgs[-1].get("content") or "")`. On an image turn `content` is a **list** of parts, so `str()` rendered them as Python source — **the photo's base64 data URL as plain text**. One ~200 KB photo ≈ 74,000 tokens of text, two in the session → `request (133868 tokens) exceeds the available context size (32768 tokens)`; zero frames came back, so the page showed its banner | the tail rides as a **part** (`list(content) + [{"type": "text", …}]`) whenever the content is a list, so the image part survives; a turn that still cannot fit the window is answered in words | live, on the page's own route: `[vision] {"used": 16381, "window": 32768, "shed": 0, "shrunk": 1, "over": false}` for a **2400×1600** photo (downscaled before sending, was unbounded); through the console's own engine path a controlled picture → *"The picture has three horizontal bands, which are red, green, and blue from top to bottom, and a circle sits in the middle."*, `finish: stop`, empty `reasoning_content`, **6.7 s**; `tests/test_vision_budget.py` (18 passed) incl. `TheTailMustNotDestroyThePictureTests` |
+| 36 | wiring (no model of a photo's cost) | a photo could be attached to a session with no room for it — nothing shrank it, nothing refused it | `compaction.est_tokens` billed any content list a flat **900** tokens, and `trim_messages` exempts the newest messages from the budget, so the last size control before the engine could not see a picture at all | new **`src/vision.py`**: a picture is priced per patch of its real pixels, the newest photo is fitted to the window, older ones are shed to `[image]`, and a turn that still cannot fit is refused in words instead of sent | two-point measurement through the console on this box: a 256² photo = **5,734** engine tokens, a 1024² = **14,732** (difference **8,998**, area ratio 16) → the constant used is 0.0092/px, 256² → 605, 1024² → 9,649. **Conservative, not calibrated** — see CORRECTED below. `tests/test_vision_budget.py` |
+| 37 | rig / engine (**the operator's creation report**) | "make me a picture" produced no picture | `sd-cli.exe` loaded the 6.9 GB checkpoint, then died **19.8 s** in: `model_manager cannot make enough memory available on CUDA0: need 644.05 MB device / 132.05 MB budget, available 0.00 MB device` — gemma4-12b holds the whole 8 GB card. Nothing was mis-wired | the picture limb reports a busy card in plain words (`memory_hint()`) and offers the CPU route already on disk (`retry_with_cpu`, `D:\LYGO_MEDIA\tools\sd-cpu\`) | `tests/test_media_limbs.py::AFullCardIsExplainedTests` (3 passed, written RED first — `AttributeError: media_tools has no attribute 'memory_hint'`); the old render test's contract corrected: a card held by the chat model is the **normal** state here, so it asserts an honest report, not an outcome this box cannot give |
+| 38 | engine (**the operator's second report**) | `qwen3.6:latest` and `nemotron-3-super:latest` "cannot be read like nemo" | **not the engine build.** Both files come from an **Ollama** store (`source: legacy_cas`, manifests under `registry.ollama.ai/library/`), and their layout is Ollama's, not upstream llama.cpp's: the pinned **b10988** and the newest release **b11074** refuse both with **byte-identical** errors — `check_tensor_dims: tensor 'blk.1.ffn_down_exps.weight' has wrong shape` (`nemotron_h_moe`) and `key qwen35moe.rope.dimension_sections has wrong array length; expected 4, got 3` (`qwen35moe`) | the kit's engine was raised to the newest release anyway — `engine\backends\cuda\` = **tag b11074** (CUDA 13.4, 706 MB), old build preserved at `engine\backends\cuda-b10988\` (708 MB, tag verified), and the fetch script's pin raised so a re-fetch cannot silently downgrade. The route that can read them is **Ollama's own engine** (`D:\Ollama\lib\ollama\llama-server.exe`, `version: 1 (cb295bf59)` — a different patch set), whose updater has already downloaded v0.34.2 | `engine\backends\cuda\llama-server.exe --version` → `version: 0.4.1-dev (build 11074, commit 26394b4e)`; four bounded load attempts (2 models × 2 builds), every one `exit 1` in ≤0.8 s, each carrying the loader's own sentence; `scripts/fetch_engine.ps1 -Backend cuda -Tag b11074` exit 0; `backend.json` on disk = `tag=b11074` |
+
+### CLOSED / CORRECTED
+
+- **My own "a newer engine build will read them" is measured false** (row 38). The update was still worth
+  doing and is installed, but it is not the fix for those two files, and the ledger does not get to say it is.
+- **The photo price is conservative, not calibrated (row 36).** The 0.0092/px constant comes from a two-point
+  *difference* between two console turns, and the live fitted turn implies it **over**-charges a picture —
+  the safe direction (photos are shrunk earlier than strictly necessary), but the number is not measured
+  against the engine one image at a time. Recalibration is queued in OPEN, not claimed done.
+- **The one suite failure in this pass was mine, not the code's.** `test_shipped_engine_purity.py` caught the
+  backend store **while my own fetch had `cuda/` deleted mid-replacement** — the suite and the fetch ran
+  concurrently. Re-run alone on the settled store: **4 passed**. No fix owed.
+- **The first end-to-end photo probe ended `ConnectionResetError` for the same reason of my own making**: the
+  engine on 11441 was a **child of the test console instance I had started**, so my `taskkill` took the engine
+  down mid-turn. Not a defect; re-run with the tree left alone.
+- Withdrawn earlier and still withdrawn: **"two photos → 400"** — through the console the same turn answered
+  **200 with a correct five-band description**; and **"the console returned `{}`"** — a probe reading the wrong
+  key, not a server fault.
+- Nothing committed, pushed, sealed, swept, promoted or written to the stick kit in this pass.
+
+### OPEN
+
+- **L3 (revised).** The two Ollama-native models. Was "a newer engine build or a different quant — a fetch";
+  now measured to be **the engine that wrote them**: Ollama **0.32.1 → 0.34.2**, whose installer Ollama's own
+  updater has already downloaded (`C:\Users\justi\AppData\Local\Ollama\updates_v2\4bee597e…\OllamaSetup.exe`,
+  1.57 GB, 2026-09-17). Installing it is the steward's click. If 0.34.2 still refuses them, the remaining route
+  is a llama.cpp-native re-issue of the two models.
+- **The other backend still carries the old pin**: `engine\backends\vulkan\backend.json` = `tag=b10988`. Only
+  cuda was raised.
+- **`engine\backends\cuda-b10988\` (708 MB)** is a working-build fallback created this pass; deletable once
+  b11074 is trusted.
+- **Recalibrate the photo price** (row 36) against the engine one image at a time, then correct the constant
+  and its comment. The live turn is the witness: the console priced the turn at **16,381** tokens while the
+  engine's own count for the same prefill was **4,817** (plus a 6,107-token primed prefix) — the estimate is
+  conservative by a factor of about three, so photos are shrunk harder than they need to be.
+- **`vision.fit_turn` notes a shrink in its gate line but returns an empty `note` to the page** — observed on
+  the live 2400×1600 turn (`shrunk: 1`, `note: ""`). Cosmetic: the numbers are in the console log's
+  `[vision]` line and the answer was correct. Owed: say the fit in words when it happens.
+- L10 live proof still needs the steward's hands (unplug `E:`); L6 (cloud-brain image parts) untouched.
+
+**Suite:** **979 passed, 43 subtests, 1 failed** — that one failure was the concurrent-fetch race above and
+passes alone (**4 passed**). Before the manifest refresh: **978 passed, 43 subtests, 2 failed** (manifest
+identity, expected). Build **CERTIFIED** — 11/11 both manifests, 7 modules.
+
+---
+
+## Pass: 2026-09-21 09:22–10:05 — the turn that answers a greeting with the clock, and the route that could 500
+
+Trigger: the steward's **"do another pass complete anthing hung, de bug and fix the LLM struggling to
+reply properly"**. Read for this: a fresh boot of this tree, `save/logs/console-20260921.log`,
+`save/logs/llama-server-11441.log`, `data/engine.pid.json`, `src/chat_loop.py`, `src/continuity.py`,
+`src/server.py` (the turn path, the tail site, the health route), `portal/app.js`. The hung sweep found
+**nothing hung**: no `*.lock` / `*.pid` / `*.tmp` / in-flight marker anywhere in the tree, no
+`llama-server`, ports 9631/9641/9651/11441/11471/11481 free.
+
+### FIXED
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 33 | wiring (**the second half of the operator's report**) | a greeting answered with the clock, and then every greeting after it: `"thanks"` → **"Understood. The current time is UTC 2026-09-21T15:25:05+00:00…"**, `"you there?"` → **"Yes, I'm here.  NOW: - UTC: …"**, and on one turn `"hi"` → **"UNKNOWN (named SHADOW)"** — the model's own words, imitating the prompt's readout vocabulary | the volatile tail (clock + capability line) rides the newest message. On a turn that asks nothing the model had a clock in front of it and nothing to do with it, so it handed the clock back. Withholding the limbs (defect 30) had closed the tool errand but not this — and once the session held one such answer the later greetings inherited the pattern | `chat_loop.CONVERSATIONAL_DIRECTIVE`: it **states** the turn and asks for one short warm line, orders nothing, names no limb. `server._api_chat` appends it to the newest message on such a turn, and sends the tail **without the clock** (`continuity.volatile_tail(with_clock=False)`) — the recitation material is never sent | **live console, the operator's own contaminated history** (a session holding a greeting already answered with the clock): **9 of 9 answers were answers**, 0.5–1.8 s each (was 1.6–4.8 s and wrong). A/B, 3 texts × 4 reps, engine direct, console's own message shape: shipped tail **7 of 12** → directive **12 of 12** → directive + clock withheld **12 of 12**; worst single case `"thanks"` **0 of 4 → 4 of 4**. `tests/test_conversational_reply.py` (8 tests) including the control that one argument is what decides the shape, and that the directive names no limb |
+| 34 | wiring (the log line that reads as "the console died") | a boot's access log ending in `GET /api/health → 500` — the operator's own console at 00:16 ended exactly that way | the whole health answer was one dict built inline from ~14 live probes (drives, RAM, backend layer, perf, registry, cloud). Any one raising escaped to the generic handler → 500, although the payload already advertises an `error` field. Measured this pass on a fresh boot: five polled 200s, **one 500**, then 200s again (the engine was still loading), and a second 500 as the process's last logged line | the answer moved into `server.health_payload()`: every live probe goes through a `safe()` that blanks its own field and names itself in the new `degraded` list, and the route answers 200 even if the builder itself raises | `tests/test_health_never_500.py` — **12 probes each forced to raise** and every one still answered 200 with the rest of the answer intact (12 subtests), a healthy boot reports `degraded == []`, one failing probe blanks only its own field. The 500 did not recur on its own in the next fresh boot (**0 of ~48 requests**, taken before this change), so the proof is the forced-failure file, not a quiet boot |
+
+### CLOSED / CORRECTED
+
+- **L11 closed by contract, not by attribution.** The `/api/health` 500 was reproduced twice in one boot
+  (once while the engine was loading, once as the last line) — and both bodies were thrown away by the
+  callers that saw them, one of which was my own startup wait loop, while the counting thread reported
+  "non-200: 0". The exception behind it therefore stays unknown; what is certain is that the route can no
+  longer take the operator's state read down, whatever it was. Row 34 is the fix, the tests are its proof.
+- **Correction to row L11's own text (mine, same pass).** It said `engine.pid.json` surviving its process
+  is "a separate, certain wart — a stale pid reads as a live engine". **That was carried, not measured.**
+  `PID_PATH` is read in exactly one place, `engine.kill_recorded_pids()`, which verifies the process image
+  before it kills anything; grep finds no reader in `src/modules/`, in `portal/`, or in the health route,
+  so nothing decides anything from that file. The stale entry is cosmetic — no self-invalidation is owed.
+
+**Suite:** **959 passed, 39 subtests** (was 948 / 27 — plus the 8 conversational-reply tests, the 11
+health tests with their 12 subtests of a forced failing probe, and the control that one argument decides
+the tail's shape). Four source-guard tests were updated to the new spelling — `test_version.py`,
+`test_reply_length.py`, `test_portable_models.py`, `test_surface_labels.py` each assert the exact text by
+which the health answer quotes its owner; the owners are unchanged, but every probe now goes through
+`safe()`, and each guard still fails on a hardcoded value.
+
+**Build:** CERTIFIED (11/11 both manifests, 7 modules) after `refresh_manifests.py`, which this pass's
+`src/` edits made necessary (`server.py`, `continuity.py`, `chat_loop.py`). Nothing running, six ports
+free. Untouched: no commit, push, seal, sweep, promotion or stick writes.
+
+---
+
+## Pass: 2026-09-21 00:16–00:50 — the booted model answered a greeting with a weather report
+
+Trigger: the steward booted the console and reported **"i booted the model and its not responding
+properly = heloo?"**. Read for this: `save/logs/console-20260921.log`, `save/logs/llama-server-11441.log`,
+`data/engine.pid.json`, `src/continuity.py`, `src/chat_loop.py`, `src/server.py` (`_api_chat` and the limb
+loop), `src/limbs.py`, `src/tools.py`. Measurements were taken against the live engine on this box.
+
+### FIXED
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 30 | wiring (**the operator's own report**) | a booted console answered the greeting **"heloo?"** with a **city-clock and weather report** instead of an answer | a turn that asks for nothing was offered the whole 24-limb schema. This brain routes real asks correctly (`17*23` → `calc` 3/3, "weather in Tokyo" → `weather`, "what time is it?" → `now`) and reaches for a limb anyway on a greeting — measured a bare `"hi"` → a `world_pulse` call **3 of 3**, `"heloo?"` **2 of 3** — so the console ran the limb and narrated its readout as the answer | `chat_loop.is_conversational()` (deliberately strict: the WHOLE message must be the greeting, ≤60 chars) and `server._api_chat` withholds the limb schema on such a turn — nothing is offered, so nothing can be called | `tests/test_greeting_and_wrapped_calls.py` — 8 tests. Measurement, same engine and prompt, 3-6 reps per arm: limbs offered `"hi"` → **3/3 calls**; limbs withheld → **8/8 greetings answered as greetings** (0.2 s); and the strictness holds: `"hi, what's the weather in Tokyo?"` still carries every limb |
+| 31 | **false fix (mine, corrected same pass)** | — | **my first diagnosis was the prompt wording, and a green test agreed with me.** The volatile tail carried `Call world_pulse for city clocks + weather.` glued to the operator's own message; I reworded it, wrote three tests, watched them go red then green — and the greeting **still** called a limb. Worse: my first A/B printed `shipped line present in tail: False`, because I had already fixed the file, so its "shipped" arm was the fixed text and it "proved" the opposite of the truth | the rewording is kept (it is a real improvement: the shipped sentence produced a `world_pulse` call **6 of 6** on `"heloo?"`, the reworded one **3 of 8** clean, and the clock alone **4 of 8** clean) but it is logged as **not the fix**. The fix is row 30 | the corrected A/B, with the shipped sentence hard-coded and the console's own parser (`chat_loop.extract_tool_calls`, so a call written as prose counts): 6/6 shipped · 3/8 reworded · 4/8 clock-only · 8/8 limbs withheld. `tests/test_continuity.py::TailNeverOrdersAToolTest` (3 tests) |
+| 32 | wiring (a shape the model really emits was never parsed) | a real ask ("weather in Tokyo") sometimes answered with **raw JSON** instead of the weather | `extract_tool_calls()` parsed a ```json fence, `<tool_call>…</tool_call>` and a whole-reply object — but **not** `<tools>…</tools>`, and 2 of 3 weather calls arrived inside that wrapper. Measured directly: fence → parsed · `<tool_call>` → parsed · `<tools>` → `[]` | the wrapper regex now accepts both tags (`<(?P<tag>tool_call\|tools)>…</(?P=tag)>`), so the limb the model asked for runs | `tests/test_greeting_and_wrapped_calls.py::WrappedCallTests` — 3 tests, including one that drives a real `/api/chat` turn whose whole reply is the `<tools>` wrapper and asserts the trace is `['now']` |
+
+### OPEN (new this pass)
+
+| # | Class | What it is | Evidence, and why it is not attributed | Next step |
+|---|-------|-----------|----------------------------------------|-----------|
+| L11 | wiring | the access log's **last line is `GET /api/health` → 500**, after which the console and its engine were both gone, and `data/engine.pid.json` still named the dead pid | the 500 is real but not reproducible: on a clean boot in-process `/api/health` answers **200, 6,868 bytes**, and the route is covered by 7 test files. The old console's stderr died with its window, so there is no traceback to read. `engine.pid.json` surviving its process is a separate, certain wart — a stale pid reads as a live engine | hammer `/api/health` on a fresh boot with stderr captured (the pattern used this pass); make `engine.pid.json` self-invalidating when the pid is gone |
+
+**Also measured this pass, and neither is a product defect.** (1) `test_media_limbs.py`'s live image test
+failed with `model manager cannot make enough memory available on CUDA0: available 0.00 MB device` — the
+console I had booted for testing was holding the chat engine's 4.8 GB; with the console stopped and the
+ports clear the same file runs **28 passed**. (2) The two `test_branding.py` failures were this pass's own
+edits moving the manifest identity. Both are recorded so a fresh session does not chase them.
+
+**Suite:** **948 passed, 27 subtests** (was 937 — the 3 tail tests, the 8 greeting/wrapper tests, the
+`<tools>` cases). **Build:** CERTIFIED (11/11 both manifests, 7 modules) after this pass's manifest
+refresh, which moved `src/server.py` `043e680c → e7b28af5`, `src/continuity.py` `b7fee42c → 9e08deb2`,
+`src/chat_loop.py` `3f3ef511 → 1bc8e698` — so this is not the identity the 937 line above describes.
+
+---
+
+## Verification pass: 2026-09-20 23:03–23:57 — `HANDOFF.md` read back, and four defects closed
+
+The handoff written at 22:59 asserted a state this tree was not in. Found by running §0's own four
+commands on the live tree, then fixed one at a time with a failing test first. Nothing was committed,
+pushed or sealed.
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 25 | false fault (my own) | the console came up on the **CPU engine with nothing saying so** after the pass ended; `data/perf_active.json` gone, both GPU verdicts `bad` — cuda at 22:54:00, vulkan at 22:29:28, detail `launch_failed: RuntimeError: llama-server exited 1` | **a BOOT condemned a backend.** `lygo_engine._drop_backend()` wrote `bad`, deactivated the build and ran `clear_active()` on *any* launch failure — including a contended one ~74 s after the sweep's last GPU boot (22:52:46), with `llama-server-11481.log` still being written at 22:54 and no loader sentence anywhere in the record. The pass's busy-card and fault rules lived only in `ensure()`, so the boot path bypassed every one of them — and a verdict is believed for 6 h | `backends.boot_condemnation()` now owns that question, and it refuses four ways a boot lies: the card was in use, the launch faulted, the engine's own words blame the **model's metadata** (`classify_failure … == engine`, i.e. L3's class), or there are no engine words at all. What is left — the accelerator refusing to come up — still condemns. A boot keeps its CPU fallback; it just cannot write the store | `tests/test_backends.py` — 5 new cases (busy · fault · no-words · loader-limit all refuse; `ggml_cuda_init: failed to initialize CUDA` still condemns). Measurement 12 min later on an idle card: cuda `model_load_ok` 10.7 s and vulkan `model_load_ok` 10.7 s → `active "cuda"`, `applied_overlays ["vulkan"]`, `perf_active.json` rebuilt |
+| 26 (was L10) | wiring | with the removable stick out, the choice box called its model **"not found here"** — the same words a file he had *deleted* gets | `reach()` answered *reachable* and *portable* but never *why*, so the picker could not tell a drive that is away from a file that is gone | `reach()` returns `state` (`available` / `not_plugged_in` / `missing`) and a `label`, from the new `drive_present()` (is the **drive** mounted?); `portal/app.js` renders the server's label instead of its own fixed sentence | `tests/test_portable_models.py` — 3 cases (absent drive → `not plugged in`; gone file on a live drive → `missing`; present → available). **Live proof still owed on hardware** — see the caveat below |
+| 27 | wiring (was flaky — **closed 2026-09-21 00:20**) | the suite was green per-run but **not deterministically**: `test_security_hardening.py::OversizedBodyTest::test_oversized_body_is_413_not_400` failed once in three full runs | `_read_body()` refused an over-limit body **unread** and the handler answered 413 and closed: the caller's 600 kB was still in flight, so the close reset the rest of that write and the answer was lost — the test sometimes lost the status line in `getresponse()`, and the portal's own paste path would have read a merely-too-large paste as the network being down | `Handler._drain()` now consumes a body it refuses **before** the answer is written, bounded twice because the declared length is the caller's word (`DRAIN_CAP` 1 MiB discarded, `DRAIN_TIMEOUT` 2 s waiting for what has not arrived); `_send()` says `Connection: close` when it is closing, so no caller reuses a socket this answer ends | 4 new tests: `RejectedBodyIsConsumedTest` (consumed · bounded in size · a body that never arrives does not hold the thread) and `OversizedBodyTest::test_the_reason_reaches_the_caller` / `::test_the_caller_is_told_this_answer_ends_the_connection`. Suite green (930 + 27 subtests), `certify_build.py` CERTIFIED after the `src/server.py` manifest refresh. **Honest limit:** the reset could not be forced on demand — a split 600 kB write over a 4 kB send buffer still completed with the drain disabled, which is why this was a 1-in-3 flake and not a hard failure. The mechanism is proven at the unit; the end-to-end test now fails loudly if a caller ever loses the reason again |
+| 28 | wiring (same class as 27, on the other surface) | the **public gateway** — the internet-facing `/api/chat` — refused a body over 48 KB **unread** and closed: an outside caller still writing its request lost the answer to a reset, exactly as `/api/session` did | the 413 was written while the body was still in flight, and the gateway's `_send` never said `Connection: close`, so a caller could treat that socket as reusable | the refusal policy now lives in one place: `src/http_body.py` (`drain(handler, declared)` · `CAP` 1 MiB · `TIMEOUT` 2 s · `CHUNK` 64 KiB), used by `server.Handler._drain` and by the gateway's `do_POST`; both `_send`s declare the close | `tests/test_public_gateway.py` — 2 socket cases (413 carries `too_large`; `Connection: close`) plus a unit on the shared drain (consumes · bounded); kernel side in `tests/test_security_hardening.py` (row 27) |
+| 29 | wiring (a fix that reached one surface and not the other) | a public caller sending `Content-Length: abc` — or a negative one — got **no answer at all**: the connection closed and the operator's stderr carried a `ValueError` traceback from `public_gateway.py` | `do_POST` parsed the header with a bare `int()`, so a malformed envelope raised out of the handler into `socketserver`. The **kernel had already been taught this** — `_read_body`'s own docstring lists it among the ways that went wrong — and the lesson never crossed to the gateway | `do_POST` parses the header, answers `400 bad_request` naming the offending value, and closes deliberately | `tests/test_public_gateway.py::MalformedContentLengthTest` — 2 cases (non-numeric, negative). RED proof: before the fix the caller read `b""` while pytest captured the `ValueError` traceback from `do_POST` |
+| — | dead code (this pass's own workaround) | `_api_chat()` and `_v1_chat()` each kept a second 413 branch for "the body came back empty with a large declared length" | that branch was written when a refused body was *emptied* by `_read_body`; now the refusal raises and the body is drained, so it cannot be reached | both removed, with a comment pointing at `_read_body` | `tests/test_security_hardening.py` and `tests/test_p0_hook.py` unchanged and green; the raise path is covered by the `too_large` cases above |
+
+**Live registry check for L10** (read-only, `registry.reach()` over the operator's own 19 records):
+`not reachable: 0 of 19` — **because the stick is in.** The record's file is present, so this fix cannot
+be demonstrated live without unplugging `E:`, which is the steward's hardware and his running console.
+Caveat worth fixing next: `registry._present()` *drops* an unreachable record at the next scan rather
+than keeping it marked, so today the "not plugged in" label only reaches the picker while the stale
+record is still in `registry.json`. Keeping removable-drive records (and their aliases) marked instead
+of dropped is the next step, and it is a policy change — the steward's call.
+
+**Manifest identity moved.** `portal/app.js` is `SESSIONS_MANIFEST`-tracked, so the picker label change
+made the tree read `MODIFIED / UNCERTIFIED COPY`. `scripts/refresh_manifests.py --note "portal/app.js:
+picker names a drive that is not plugged in (L10)"` refreshed 1 of 11 entries
+(`85f5f139330d3bb3 → 313fb3150852bfb6`) and `certify_build.py` returns **CERTIFIED** (11/11 both
+manifests, 7 modules). The identity of this build is therefore not the one the 22:59 handoff describes.
+
+---
+
+## Pass: 2026-09-20 — completing CUDA (prove the GPU builds, then let them run)
+
+### FIXED
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 14 | false fault | both GPU backends condemned — `active: cpu` with a complete CUDA build sitting installed, and envwatch ambered for good | the self-tests ran at 21:08–21:09 **while our own checker sweep held the card** (cuda "exited 1" after 41.9 s, vulkan three `0xC0000005`), and a verdict keyed by the backend's files never expires (**L1**) | `VERDICT_RETRY_AFTER_S = 6h` + `allow_retest`; `card_busy()` refuses to test a card that is in use and then **remembers nothing** | verdicts now `ok`: cuda `model_load_ok` 10.7 s, vulkan 10.6 s; `report()` → `active: cuda`; live console `/api/health` → `engine_dir …\engine\backends\cuda` |
+| 15 | rig (mislabelled) | the planner filed ten models `no_gpu_device` with `vram_free_mib: 0` on a box with a free 4060 Ti | `perf.gpu_free_mib()` asked the **CPU-only base binary** for its device list (**L9**) | `perf.gpu_vram_mib()` reads the driver; `gpu_free_mib()` and `model_fit.rig_vram_mib()` both use it — one owner | `perf.gpu_vram_mib()` → `(8188, 7152)`; a 20 GB model now plans `ngl 28 of 99`; `registry.py`'s reader fixed with it |
+| 16 | wiring | a recorded "why" could be garbage | the log reader tried UTF-16 first and returned **mojibake without raising** on this build's UTF-8 log, so the fallback never fired | `_decode()` scores `utf-8`/`utf-16`/`utf-16-be` and takes the printable one | `tests/test_model_check.py::TestEvidenceIsNeverInvented::test_decoder_reads_both_encodings` |
+| 17 | false fault | a GPU run recorded `gpu_layers_used: 0, devices_seen: 0` | an absent offload line was recorded as a **zero**, the same class as L9 | evidence now names the build that answered and its device list; an unstated layer count is `None`, never `0` | `test_absent_offload_line_is_unknown_not_zero`; live record: `gpu_backend: cuda`, `gpu_device: NVIDIA GeForce RTX 4060 Ti`, `gpu_layers_used: None` |
+| 18 | wiring | a model measured at 135.8 tok/s was labelled **16.6 tok/s** in the record and the choice box | the rate came from a two-token answer | `rate_from()`: a rate needs ≥16 generated tokens, otherwise the count is recorded and the label says "too few tokens to rate" | `TestRatesAreSamplesNotNoise` (2-token answer not rated; 128-token answer rated 135.8) |
+
+| 19 | wiring (mine) | — | my new retry line called `.get()` on a **None** verdict (a host that has never been tested) where the old code short-circuited on `fresh` first | guarded with `bool(verdict)` | `tests/test_backends.py` — 5 store tests failed at `backends.py:660` `AttributeError`, then **24 passed** |
+
+| 20 | wiring (mine) | the suite failed **while real work was running**: six store tests came back `gpu_busy_not_probed` | the store tests depended on this box's card state — my new busy-card policy (correct in production) pre-empted their faked self-tests | the fixture now holds `card_busy` open (`""`) so a test measures the store, and the policy got its own tests: a busy card is skipped and remembers **nothing**; an aged-out `bad` verdict is **retested** | `tests/test_backends.py` — 6 failed → **26 passed**, and the suite stopped taking 220 s for 110 s of tests |
+
+| 21 | engine (mine) | the console silently dropped to the CPU engine after a sweep; `perf_active.json` gone, both verdicts `bad` with `llama-server exited 3221225477` | a contended self-test faulted mid-teardown (0xC0000005) and the fault was recorded as a **verdict about the build**, which then withdrew the proven selection | a fault writes **no verdict** (`backend_faulted_not_probed`) — a build is condemned by a clean exit carrying the loader's own words; and `clear_active()` runs only when nothing on this host is proven | `tests/test_backends.py` — `test_a_faulted_launch_is_not_a_verdict` (28 passed); live: `backends.py test cuda` → `ok`, 14.3 s, `active: cuda` |
+| 22 | engine (mine) | every model in a checker sweep re-ran a real self-test — one launch beside a live engine per model | the `ensure()` memo was keyed `host\|enabled\|threads`, and the checker varies threads per model | the memo is keyed `host\|enabled` — what the decision depends on | `test_the_memo_survives_a_thread_change` |
+
+| 23 | wiring | `nemotron-3-super` (86 GB) is classed `engine` in one sweep and `rig` in another | `classify_failure()` picks the class by sniffing the **engine's log tail** for loader-limit needles, so a model that cannot fit at all is labelled by however far the loader got before the box ran out | let the **fit plan decide first**: a `model_fit` verdict of `too_big` is a rig limit regardless of what the tail says, and the tail sniff applies only when the plan thought the model could load | two sweeps' own lines disagree; `src/model_check.py:172-179, 403`. **Corrected 2026-09-20 23:57: until now the Fix column described an intended repair, not a made one** — `classify_failure()` took no fit plan and its call site passed none, so #23 was still open while this row read FIXED. Now built: `classify_failure(..., fit=...)` answers `rig` for `too_big` before the tail is read, and `check_one()` passes its own `out["fit"]` |
+| 24 | wiring | `gemma4:12b` kept a CPU-pass rate (6.8, no `gpu_backend`) while its twin `gemma4-12b` was re-measured at 17.0 | the checker enumerated **both names of one weights file**, so one twin was swept and the other left holding a stale number the choice box shows | drive the sweep from the **deduped** record set (`registry.dedupe_by_file`), and mark a record's rate with the backend it was measured on (already recorded — the stale one has none) | `save/model_check.json`: 18 records, 14 `cuda`, `gemma4:12b` unmeasured on this pass. **Corrected 2026-09-20 23:57: as with #23 the fix was described, not built.** Now built: the sweep's record set comes from `registry.dedupe_by_file` (`model_check._one_record_per_file`), so one weights file under two names is swept once, and the registry stamp folds a same-file twin into the record that was measured instead of leaving it holding a stale rate |
+
+### OPEN (new this pass)
+
+| # | Class | What it is | Mitigation today | Next step |
+|---|-------|-----------|------------------|-----------|
+| L10 | wiring | the PC registry carries **one record whose file lives on the removable stick** (`E:\LYGO_BUILDER_KEY\…`, drive `ESD-USB`); with the stick out, that model dangles | the boot raises, `model_check`/`router` classify it as a rig condition and fail soft to another route; the visibility rule intentionally shows every store on every drive | mark records whose file is absent in the picker ("not plugged in") so the operator sees why, and keep the vault twin as the preferred path when both exist. **CLOSED 2026-09-20 — `reach()` now names the reason and the picker renders it (row 26 in the verification pass above).** What stays open is only the policy half: `registry._present()` still *drops* an unreachable record at the next scan, so the label reaches the picker only while the stale record is still in `registry.json`. Keeping removable-drive records (and their aliases) marked instead of dropped is a policy change — the steward's call |
+
+## Pass: 2026-09-20 — LLM checker & balancer (boot everything, fail soft, wire every route)
+
+### FIXED
+
+| # | Class | What the operator saw | Root cause | Fix | Evidence |
+|---|-------|----------------------|------------|-----|----------|
+| 1 | wiring | HTTP 451 `payload_exceeds_12000` on **every turn** once a build conversation grew past 12,000 chars | the gate was fed the **joined user text of the whole conversation** but judged it against a *single message* ceiling | two dials: 48,000 per message / 600,000 per conversation; the chat path judges the newest message as a payload and the conversation as a conversation | `tests/test_p0_hook.py` — an 80,000-char conversation is accepted while the same text judged as one message is refused |
+| 2 | false fault | pasting code or a minified file was refused as "high entropy blob" | the rule fired when the first 200 chars had no space | the rule now needs **one unbroken run over 4,000 chars** (policy patterns untouched) | same suite; `rm -rf` still quarantines with `matched_p0_policy_pattern` |
+| 3 | wiring | the answer arrived in one lump at the end | both answer paths buffered | local chat path and the limb answer round stream; a `replace` frame carries any sanitise/quarantine rewrite | live proof: turn 1 `text/event-stream`, 90 delta frames, first at 190.5 s of 206.1 s |
+| 4 | wiring | a fresh turn cost a **full re-prefill** (7,974 tok / 146.1 s) | the live clock sat *inside* the system block, ahead of the history, so the cached prefix was invalidated every turn | clock moved to a **tail fragment**; `warm_prefix` in lockstep | A/B: 7,974 tok / 146.1 s → **17 tok / 2.5 s**; live turn 2 = 5.6 s total |
+| 5 | wiring | every model's `boot_s` recorded 0.0 | measured after `boot()` had already waited for health | the boot time is read from the real launch | `save/model_check.json` boot_s non-zero per model |
+| 6 | wiring | a model that failed to boot was recorded with **no reason** | the boot-raised path didn't capture the engine's own error | the raised reason is recorded verbatim, then classified | `qwen3.6` / `nemotron-3-super` reasons in the log below |
+| 7 | false fault | envwatch reported **"engine fault ×119"** on a console that was healthy | the checker booted through the console's own engine port, so its 119 `failed to load model` lines landed in the *console's* engine log (the log is named by port) | the checker boots on its **own port (11481)** and writes `llama-server-11481.log`; the polluted log was archived, not deleted, under `save/logs/archive/` | port 11441 log no longer carries a tool's lines; `backends.SELFTEST_PORT` 11471 was already taken, which is why 11481 |
+| 8 | leak | a 64-hex CAS blob name reached the envwatch panel | a quoted log line was echoed whole | quoted log lines are redacted of 32+ hex runs — a hash-shaped token is indistinguishable from a leaked hash and this panel forbids one on principle | `tests/test_module_envwatch.py::TestWritesNothing::test_no_secret_material_reaches_the_panel` |
+| 9 | leak | a GPU probe crash was attributed to `sha256-0fc53cc9…` | the probe reported the file's name | `backends._probe_label()` names the model by its **registry id**, with a redacted fallback | crash detail now reads as a model name |
+| 10 | false fault | "**the GPU backend is not proven on this host**" amber on a box whose GPU turns measure 46 tok/s | a remembered probe crash was reported as a *current* fault | the panel asks `model_route.gpu_proven()` first: a model that **answered on a GPU plan** outranks a remembered probe failure; the row shows the proof instead of a phantom fault | `tests/test_model_route.py::test_the_gpu_proof_is_a_measured_turn_not_a_remembered_belief` |
+| 12 (was L4) | wiring | `planned_ngl` recorded as `null` for every model — the balancer's offload decision was invisible in the pane | the plan keeps the layer count under `plan["llama"]["ngl"]` (that is where the engine's own arg builder reads it); the pane read `plan["ngl"]` | read `plan["llama"]["ngl"]` with fallbacks, so a plan whose shape changes cannot blank a number | `tests/test_model_check.py` — 15 passed |
+| 13 (was L7) | wiring | the choice box listed **the same 7.38 GB of gemma-4-12B weights twice** (`gemma4-12b` and `gemma4:12b`) | a CAS blob hides the content hash in its **filename** (`…\cas\blobs\sha256-1278394b…`) while a plain store copy carries that same hash in `sha256` — identity keyed on the path alone cannot see that two records are one file | `registry._file_identity()`: content hash first, path as fallback; the dropped name survives as `also_known_as`, which the picker already renders as "also: …" | `tests/test_registry_identity.py` — 3 tests (one file → one record, two real files stay two, no hash falls back to path); verified against the live registry: `gemma4-12b.sha256` = `1278394b6936…` is the same hash the legacy blob name carries |
+| 11 | wiring | my own patch put `import re` above `from __future__ import annotations` → SyntaxError that surfaced as **50 test failures** | `__future__` must be the first statement after the docstring | import moved below it | lesson: `__future__` first, and **pytest is the check** — an `ast.parse` "OK" is not |
+| 14 | rig truth | ten models filed `no_gpu_device` on a box with an idle RTX 4060 Ti | the VRAM reading came from **our CPU-only base engine**: `perf.gpu_free_mib()` → `engine_devices()` → `llama-server --list-devices` on the base build → `(none)` → `0`, and a caller's `0` was taken as "no GPU" | `model_fit.rig_vram_mib()` reads the **driver** (`nvidia-smi`); a passed `0` asks the driver instead of concluding; `gpu_busy_at_check` is now distinct from `no_gpu_device` | this box reports `(8188, 7157)`; a 20 GB model plans `gpu_partial, ngl 28 of 99` (was `cpu_tight/no_gpu_device`), 7 GB → `ngl 78 of 99`; `tests/test_fail_soft_evidence.py` + `tests/test_model_fit.py` |
+| 15 | **false calm (my own regression, corrected)** | envwatch's true amber "the GPU backend is not proven on this host" was silenced | I built `model_route.gpu_proven()` on `fit.mode == gpu_full` — a **plan**, arithmetic over sizes. The engine in use is the CPU-only base build (`--list-devices` → `(none)`, `backends.report()["active"]` → `cpu`, `cuda`+`vulkan` installed but unproven) | proof now requires `devices_seen` / `gpu_layers_used` from a real launch; the amber is restored | `tests/test_model_route.py::test_a_plan_is_never_accepted_as_proof_the_gpu_carried_a_turn`. **An earlier report of mine called that amber a false fault — it was not; the panel was right and my guard was wrong** |
+| 16 | leak | a *stored* GPU crash detail still named a CAS blob (`183715c4…`) in the panel | only the log-quote path had been redacted; the rule was not enforced where it matters | `envwatch._safe_row()` redacts every string the card renders, at the edge — so the rule holds whatever module or stored record the words came from | `tests/test_module_envwatch.py::TestWritesNothing::test_no_secret_material_reaches_the_panel` |
+
+### OPEN — logged, next in the queue
+
+| # | Class | Issue | Plan |
+|---|-------|-------|------|
+| L2 | wiring | the checker's routes are **kernel-side** (`/api/models/check`, `/api/models/route` in `server.py`) | Law 6: the assistant flags it rather than growing the kernel sideways — the steward decides. Candidate: a `lygo.modelcheck` module |
+| L3 | engine | `qwen3.6:latest` and `nemotron-3-super:latest` cannot boot on engine build 10988 | loader limits, **not the rig**: `key qwen35moe.rope.dimension_sections has wrong array length; expected 4, got 3` and `tensor 'blk.1.ffn_down_exps.weight' has wrong shape; expected 2688,4096,512, got 2688,1024,512,1`. Both fail **soft in 7 s**, reason logged, another route offered. Plan: a newer engine build or a different quant — a fetch, so the steward's call |
+| L5 | rig | **no local sound model exists** in any store; the label schema covers sound (`sound-in` via a cloud brain, `sound-out` via the media engine) but nothing local is proven | wire one small TTS/STT GGUF when the steward wants it — wiring only, never the weights |
+| L6 | wiring | cloud-brain **image parts** (`image_url`) landed in `cloud_api.py` but were never proven against a provider | a stub provider that asserts the part travelled, then a live turn |
+| L8 | rig | the **cold first turn is still ~190 s** at 7.6 k context (honest 54 tok/s prefill); `--cache-prompt` is on, so this is the initial prefill of a large system block | trim the system block / keep the warm prefix — measure before claiming |
+
+### Measured state of the lineup (this pass)
+
+15 of 18 named models boot and answer through the console's own launch path; the 3 that do not are
+**1 projector** (`Gemma-4-12B-It` — correct not to boot: it is a vision encoder, `not_a_model`) and
+the **2 loader limits** in L3. `nomic-embed-text` answers as an embedding model. Smallest first:
+`qwen2.5:1.5b` 49.1 tok/s · `llama3.2:1b` 46.2 · `qwen2.5:3b` 24.1 · `lygo-turbo-coder` 7.4 (18.6 GB)
+· `lygo-turbo-agent` (21.2 GB). Every failure carries the engine's own reason and leaves the port
+clean — fail soft, name the route, let the operator pick another.
+
+**Suite:** **937 passed, 27 subtests** (the 915 of this pass plus the 22 of the verification pass — boot verdicts, fit-first class, sweep identity, reach labels, and body refusal on both surfaces with its two bounds). **Build:** CERTIFIED (11/11 both manifests, 7 modules) — **after** this pass's two manifest refreshes, so this is not the identity the 22:59 handoff describes.
+
+**Companion pages:** `docs/ARCHITECTURE_MAP.md` (the wiring map — who answers which question, ports, data
+files, invariants) and `docs/BUILDERS_LOG.md` (the pass log, newest first).
+
+---
+
+## Pass: 2026-09-21 12:25-13:15 - the harness asks the box first (and paid for it once)
+
+| # | state | what | evidence |
+|---|---|---|---|
+| 41 | FIXED | Image **generation** works with gemma4-12b resident: `image_generate` asks `hardware.picture_route()` before spawning anything and takes the CPU route itself | console turn `200 in 333.0 s` - "I have generated the image of the red cube on a white table ... gen-20260921-112236.png", 957,430 B; the same render alone: **172.1 s**, 1,299,042 B, `engine sd-cpu` |
+| 42 | FIXED (mine) | the harness's first `_proc_name()` shelled out to `tasklist` **per VRAM holder** -> `hardware.snapshot()` **3.678 s**, `/api/health` **4.766 s** | now **0.103 s** (Win32 `QueryFullProcessImageNameW` + 300 s name cache); `tests/test_hardware.py` 12 passed in **0.18 s** (was 52 s); the payload's other probes total ~20 ms |
+| 43 | FIXED (mine) | `holder_note()` named the largest graphics context - this desktop has ~23, nearly all **0 MiB** - and said "dwm.exe (pid 1504) holds 0 MiB of the card" | only a holder with memory is named now; with none, the words are the numbers: `('cpu', 'the card has 87 MiB free but this render needs 644 MiB')` |
+
+Measured this pass, worth keeping:
+
+- **Per-process VRAM is not accounted on this driver (Windows/WDDM).** With gemma4-12b resident and the card held, `nvidia-smi --query-compute-apps` reported **0 MiB for llama-server** too. Free VRAM from the GPU query IS reliable (87 MiB with the engine up, 7111 MiB with nothing running). "Who holds the card" may be unanswerable here; the route decision deliberately does not depend on the name.
+- Two independent pictures are now the proof: probe **172.1 s / 1,299,042 B**, console turn **333.0 s / 957,430 B**.
+- `src/hardware.py` is on the health payload as `hardware`, `holders` trimmed to the ones with memory plus `holders_total`.
+
+Not closed: **`/api/health` can still 500 during the engine's boot window.** Reproduced in the 11:20 boot (`500/200/500/200/200/500` in the access log); a 420 s poller across the 12:30 boot caught **0** (intermittent, boot-only) and `40/40` were 200 once the engine was up. The one lead: inside that window the route **timed out at 8.2 s** instead of refusing, so this is a blocking probe under a client that gives up - not the payload builder, which is why forcing every probe to raise does not reproduce it. Next step: log the exception in the 500 handler (line ~811 already builds `detail`) so the next occurrence names itself.
+
+The 11:30 pass's claim that "the route can no longer 500" is therefore **too strong as measured**: it cannot 500 from a failing probe, and it still can in the boot window.
+
+### Closing this pass
+
+| # | state | what | evidence |
+|---|---|---|---|
+| 44 | FIXED | `Handler._contain` answered 500 and logged **nothing anywhere** - which is exactly why the health route's boot-window 500 stayed unnamed through two passes. It now writes the route and the full traceback to stderr, which `_tee_logs` puts in `save/logs/console-<date>.log`; a log write that fails is still a 500, never a new failure | `tests/test_errors_are_named.py` (NEW, 4 passed): names the exception and the route, keeps internals off a remote caller's 500 while the operator's own log keeps them, survives a log that raises |
+| 45 | REFRESHED | 3 new files (`src/hardware.py`, `tests/test_hardware.py`, `tests/test_errors_are_named.py`) plus the health `hardware` field | manifests refreshed (`scripts/refresh_manifests.py`, `src/server.py` hash) -> suite **1000 passed, 43 subtests, 0 failed** in 144 s; `scripts/certify_build.py` -> **CERTIFIED 11/11 both manifests, 7 modules** |
+
+Health-500 status at the end of this pass: **still not attributed.** This boot's poller: 193 requests, **0 x 500** (the 65 refusals are my own kill at 321 s); the standing lead is the 8.2 s block inside the boot window. What changed is that the next occurrence arrives with its traceback attached instead of a bare "500" in the access log.
+
+---
+
+## Pass: 2026-09-21 13:20-14:10 - branding on boot, and the API key that was never broken
+
+Operator's two asks: a branded LYGO logo on the PowerShell the engine boots in; and "the API system is not working ... the Agent does not respond using API key".
+
+### The branding (delivered)
+
+| # | state | what | evidence |
+|---|---|---|---|
+| 46 | DONE | `src/banner.py` (NEW, `Δ9Φ963-LYGO-BANNER-v1`): ANSI-Shadow LYGO letterforms, the Δ9Φ963 mark, the licence line, and **live** facts read at print time - card, free VRAM, utilisation, RAM, CPU, backend, ports, kit path. Printed at console boot above the three plain lines (which are unchanged, so other surfaces keep reading them), plus a one-line branded engine banner when the engine loads, plus the window title. 17 tests in `tests/test_banner.py` | real boot: logo, `GPU NVIDIA GeForce RTX 4060 Ti 6853 MiB free of 8188 1% busy`, `RAM 19364 MiB free of 32581`, then `◆ Δ9Φ963  loading qwen2.5-coder:7b   engine cuda · build b11074 · port 11441` |
+| 47 | FIXED (mine, twice) | the first real boot printed `[banner] degraded: TypeError: live_facts() got an unexpected keyword argument 'kit'` - the boot site passed `kit`/ports that the function did not accept. The guard held the boot up, the branding did not appear. Second: my `try:` block landed at the wrong indent and **broke the boot entirely** (`SyntaxError: expected 'except' or 'finally' block` at server.py:2632) | both fixed; `tests/test_banner.py::test_live_facts_accepts_exactly_what_the_boot_site_passes_it` now calls what the boot calls, and a `py_compile` check after every server.py patch |
+
+### The API (diagnosed, and the reporting fixed)
+
+Measured, in order:
+
+| # | what was claimed | what is actually true |
+|---|---|---|
+| - | "the API does not work" | **`POST /v1/chat/completions` answers 200 with a real completion** - with the console token, with the engine key, and with **no key at all** (a loopback caller is trusted by design; `bind=127.0.0.1`). `/api/chat` likewise answers 200. An unknown model name falls back to the selected one |
+| - | "the key is bad" (the console's own record said `deepseek:401`) | **the DeepSeek key is alive**: the configured endpoint answered **200** ("pong", `model: deepseek-flash`) and `/v1/models` answered 200. `config/api.json` was `enabled: false` - the cloud brain is switched **off** - with a stale 401 from 11:57:33 sitting in `chain_tried` |
+| 48 | FIXED | **the console knew the refusal code and dropped it.** `config/api.json` read `chain_tried: ["deepseek:401"]` next to `last_code: 0, last_error: ""` - the two fields the portal prints. So the page said "API handoff · " and stopped: no code, no reason, nothing to act on. The walk now records its own failure facts (`cloud_api._note_failure` + `_why`: 401/402/429/404 told apart in the operator's words, never key material) beside `chain_tried`, so no caller can lose them | `tests/test_cloud_api_reason.py` (NEW, 7 passed) |
+| 49 | DONE | **"is my key alive?" is now one call**: `cloud_api.probe()` and `POST /api/cloud {"action": "probe"}` - a real call to the provider, recorded in the same state the panel reads, returning `{ok, code, provider, model, seconds, why}` | live: `{"ok": true, "code": 200, "provider": "deepseek", "model": "deepseek-chat", "seconds": 1.1, "why": "the key answered"}` - which also cleared the stale degraded record |
+
+| 50 | DONE | **The page could not show its own tail.** `FOOTER.media-dock` was `position: sticky; bottom: 0`, so it floated over whatever scrolled beneath it - measured at max scroll the document's last content ended at y=567 while the dock's top was y=451 (116 px hidden at every scroll position, unreachable). Trailing space cannot fix a sticky element that floats above the viewport bottom (measured dock top=359 in a 569px viewport), so the dock is `position: fixed; bottom/left/right: 0` and `app.js fitDockSpace()` reserves exactly its height (80px measured) | measured live: `dock position=fixed top=498 bottom=569 | paddingBottom=80px | bottomMost={"b":476} => NO OVERLAP` |
+| 51 | DONE | **A client that left mid-answer was written into the log as a server failure.** Closing the console tab while an answer streamed produced `[500] POST /api/chat` + `ConnectionAbortedError [WinError 10053]` out of `emit_sse` (server.py:1959). The browser hung up; the server did nothing wrong. `emit_sse` now catches the three socket-close errors, notes `[client-gone]` once and stops writing; `_contain` answers nothing and never 500s for a client that is gone | `tests/test_errors_are_named.py` +3 tests (7 passed); live traceback found first, in the operator's own log |
+| 52 | DONE | **My own probe route 500'd on first live call** - `UnboundLocalError: cannot access local variable 'cloud_api'` (a name imported further down `_dispatch_POST`, used above its binding). The test that should have caught it only grepped the source, so it passed a route that crashed: replaced by a real route test that spins the handler and calls the route | `tests/test_cloud_api_reason.py` route tests (9 passed); the traceback came from `_contain`'s own instrumentation |
+
+| 53 | DONE | **The console flashed erratically in the operator's window.** Measured on the live page: `paintWorld` ran every 1000ms and did `worldCities.innerHTML = ""` then re-created all 13 city cards every tick (a full re-render of the weather row at 1Hz), and `paneRefresh` did `paneHost.textContent = ""` then repainted the dock strip every 5s - the strip visibly blanked and refilled whenever a response was slow or out of order. An idle console mutated the DOM **220 times in 10s**. Now the cards are built once per data change and only their clock TEXT ticks, the pane strip is built into a fragment and swapped with `replaceChildren` so nothing is destroyed before its replacement exists, and `PANE_REFRESH_MS` is 10000 (diagnostics, not a live feed) | measured after: card nodes reused, clock still ticking (12:30:52 -> 12:31:04), 13 cards alive with live times, mutations 220/10s -> 98/12s and text-only |
+| 54 | DONE | **My own verification tabs multiplied that load.** Six endpoints are polled by every open console tab (`/api/health` 3s, five module routes 5s); with the extra `?verify=` tabs I had opened, the log showed `/api/health` x831 and 336 each of modules/meminfo/llminfo/guardwatch/envwatch in one window. Duplicates closed, one tab left | server log request counts, before/after |
+| 55 | DONE | **NVIDIA NIM added as a provider, with a per-provider `body`.** The test key's account answers on `nvidia/nemotron-3-super-120b-a12b` - the model this kit's LOCAL engine cannot read (L3) - so the API is a real workaround for it. Measured: with thinking ON that model writes its reasoning into `content`; with `chat_template_kwargs: {"thinking": false}` it answers cleanly. Providers could only send extra HEADERS (`extra`) before, so the kit gained a per-provider `body` that merges into the request while the kit keeps ownership of `model` and `stream` | `tests/test_nvidia_provider.py` (NEW, 6 passed, RED first); live: `chat() -> 200 | model=nvidia/nemotron-3-super-120b-a12b | answer='NVIDIA OK' | reasoning_content=False`; the provider is in the page's dropdown too |
+
+Test-isolation finding (recorded, not fixed): `tests/test_conversational_reply.py` + `tests/test_greeting_and_wrapped_calls.py` inherit the operator's live cloud-brain switch. Measured both ways in one sitting: with `config/api.json` `enabled: true` -> **9 failed, 7 passed**; with `enabled: false` -> **16 passed**. Same code, one flag. Those nine were reported as a full-suite failure for that reason, not a defect in the turn. The fix belongs in the tests (pin the flag in setUp) and was not made this pass.
+
+Key hygiene: the Gemini key in `E:\Data Vault\Deep Seek Agent *.txt` is in Google's newer `AQ.` format, which my first scrub pattern did not cover, so its value was printed once into this session's transcript. It is the operator's own key in his own session, it is not written into any tracked kit file, and it should be rotated if this log is ever shared. The scrub pattern now covers `AQ.` keys.
+
+Standing note for the operator: the console's cloud brain is **off** (`enabled: false` in `config/api.json`), so turns are answered by the local engine. If a turn should go to the API instead, that is the switch; and if the key is refused, the panel now says which refusal it was.
+
+Unconfirmed observation, recorded so it is not lost and not claimed: one screenshot at a mid-page scroll position showed panel text apparently overlapping panel text (e.g. "Search titles, tags and transc..." over "Local (Mon-Fri)"). **Not reproducible by measurement** - the probe elements had no intersecting rects and several no longer existed in the DOM, so it is most likely an intermediate paint frame while the panels swapped, not a layout defect. If it recurs in a still screenshot, measure it the same way before fixing.
+
+Standing note for the operator: the console's cloud brain is **off** (`enabled: false` in `config/api.json`), so turns are answered by the local engine. If a turn should go to the API instead, that is the switch; and if the key is refused, the panel now says which refusal it was.
+
+### Pass 2026-09-21 (evening) - the chain, the suite, and the forever history
+
+| # | Found | Cause | Fix | Evidence |
+|---|-------|-------|-----|----------|
+| 56 | Switching the brain to another provider silently **removed the house default from the failover chain**: `keys_wired` went `['nvidia','gemini','groq']` while the DeepSeek key sat in the config | `chain_for()` offered the legacy top-level `key` only to the candidate whose name equalled the *primary*, so moving the primary orphaned it | the legacy key is offered to the primary **and** the house default (unless another provider already claims that value), and `save()` now files a key under its own provider | RED: `'deepseek' not found in ['nvidia']`; GREEN 19 passed; fresh process: `keys_wired ['nvidia','deepseek']`, candidate keeps its own url |
+| 57 | A live cloud turn answered correctly while the archive labelled it `nvidia/nemotron-3-super-120b-a12b` - the provider that had just returned 500 | the completion hook stamped the *configured* model, not the provider that produced the text (the walk hands off mid-turn) | the archive stamps `answered by <provider>` from `last_provider`, read after the walk finishes | label now reads `complete by LYGO · nvidia/nemotron-3-super-120b-a12b · cloud · answered by nvidia` |
+| 58 | The suite reported 9 failures whenever the operator's own cloud brain switch was on | `test_conversational_reply.py` and `test_greeting_and_wrapped_calls.py` inherited the live switch instead of pinning the brain | both files pin `cloud_api.enabled`/`public_status` off: the operator's switch must not decide whether a test passes | with the switch **on** 16 passed (was 9 failed); with it **off** 16 passed |
+| 59 | Groq was left unwired as "a key that does not work" | the key was fine - the 24-token test budget was not: `openai/gpt-oss-20b` is a reasoning model and spent the budget thinking | wired as the last hop with its own headers; the console sets a real budget per turn | `200 answer='GROQ OK'`; chain is now DeepSeek -> NVIDIA NIM -> Google Gemini -> Groq |
+| 60 | `chain_tried` showed `['nvidia:500','deepseek:200']` on a turn NVIDIA had just answered 200 | the record is not cleared when a new walk starts, so a previous turn's refusals ride along | **open** - reported, not fixed (misleading only) | same turn: `last_provider=nvidia` with nvidia:500 still listed |
+| 61 | The portable stick holds key material: `lygo_llm_console\config\api.json` (one Google AQ key, 53 chars) and `stack\lygo-protocol-stack\.env` (NVIDIA 70, Google AQ 53, Google classic AIza 39) | pre-existing (nothing in this pass wrote to the stick); against the kit's own "no secrets on the stick" rule | **open - the operator decides**; nothing on the stick needs a key to boot, so a strip is safe | key-shaped values found by pattern scan, values never printed; all of this pass's edits were on the live tree |
+
+### Feature: the forever history + the LYGO RAG (asked for in this pass)
+
+| # | Asked | Built | Evidence |
+|---|-------|-------|----------|
+| 62 | "Conversations to flow unlimited ... SAVES the whole conversation window, all text into a folder inside the console ... a program that doesnt bother the AI ... triggered after the COMPLETE response ... so we dont duplicate saves" | `src/transcript_archive.py` - a cursor over the session files each message once, a background writer keeps it off the turn, blocks labelled who/when/turn/model; filed under `workspace/memory/conversations/<date>/`, indexed in `INDEX.md` | `tests/test_transcript_archive.py` 10 passed; live: a real cloud turn filed `sent by STEWARD` at 12:52:57 and `complete by LYGO` at 12:52:59 |
+| 63 | "even design a LYGO rage into it all" | `src/lygo_rag.py` - BM25 over the filed history, pure Python, no model/network; a recalled passage brings its turn-mate with it; the console injects it when the window dropped history | `tests/test_lygo_rag.py` 7 passed; live recall of the verification turn returned the passage with its file name |
+| 64 | reading it back | `scripts/read_history.py --where/--list/--tail/--grep/--ask` + a labelled section in `workspace/MEMORY.md` pointing at the folder | `--where` reports 1 conversation, 599 bytes, index present |
+
+## Pass: 2026-09-21 12:30-13:40 - the test campaign the steward asked for (local vs API, switching, pictures both ways)
+
+Trigger: the steward's **"specifically focus on testing the local and the API system, switching back and forth ...
+
+| # | Symptom | Cause | Fix | Evidence |
+|---|---------|-------|-----|----------|
+| 65 | Switching the brain to another provider left the **previous provider's model** in place, so every non-DeepSeek turn came back `404 model not found` - reported by the steward as *"the API system is not working"* | `save()` moved `provider` without moving `model`; the walk posted `deepseek-chat` to NVIDIA's endpoint | the provider carries its own default model on switch | RED `tests/test_campaign_fixes.py` 10 failed; live: bare switch -> `model=nvidia/nemotron-3-super-120b-a12b`, turn `200 'NVIDIA VIA UI SWITCH'` 2.01s |
+| 66 | With a bad model configured the operator got the API notice and **no answer at all**, even though the local engine was ready | the local handoff re-sent the API payload (model and API-only fields) to the engine | the handoff rebuilds a local payload (`cloud_api.local_payload_from`); a 404 still reports the model by design and is now tested as designed, not as a fault | live: `⚠ API handoff ... The model \`this-model-does-not-exist-lygo\` does not exist`; handoff path is the 5xx/429 case, proven by test |
+| 67 | Reasoning providers answered almost nothing on a normal budget - Gemini returned `GEM`, Groq returned an empty string | one flat token budget for every provider; a reasoning model spends it thinking | a per-provider output floor (512) | 400-byte answers through the console: `GEMINI CONSOLE OK` 13.21s, `GROQ CONSOLE OK` 1.62s |
+| 68 | The answer to an ordinary question contained the live clock readout | the readout rides the newest message and the model answered it | one choke point (`sanitize_assistant`) strips the readout wherever it appears in the reply | live: turn returns exactly `READOUT CHECK` |
+| 69 | A failed limb's internal error was shown to the operator as the reply (`calc could not answer (invalid syntax (<unknown>, line 1))`) | any text from a limb trace became the answer | a limb failure is never an answer | covered in `tests/test_campaign_fixes.py` |
+| 70 | Every turn logged `[archive] sync failed (KeyError('cursor'))` - self-inflicted this pass | the content re-key changed the state shape but the return value still read the old key | report the count of seen messages instead of the removed key | reverted the fix for one run: the test fails and reproduces the exact log line; with the fix 14 passed |
+| 71 | Both brains told the operator the console serves **9641** while it was bound to 9651 | the live `--port` was only ever passed to the banner; `runtime_facts` read the configured default | the boot publishes the bound port and the facts prefer it | after restart both agents state 9651 in their own words |
+| 72 | The local agent answered **the tail** instead of the question: asked to reply with one word it read out city clocks, and a task given to it returned the clock list | the tail's capability sentence was unlabelled, so the model treated it as the prompt | the tail labels itself context and not the question, and keeps its capability line so clocks stay reachable | the same task now runs the `steward_map` limb and reports its output verbatim (26.48s) |
+| 73 | My own row-72 fix broke two standing guards: `2 failed, 1073 passed` | the relabelling dropped the capability sentence, quietly making clocks unreachable from the tail | keep **both** halves - the label and the capability line; strip the echoed capability sentence as well | `test_continuity` + `test_conversational_reply` green; campaign file 17 passed |
+| 74 | The campaign harness could leave the console on a **half-set provider**: part one crashed at its image step and left `provider=groq, model=this-model-does-not-exist-lygo, enabled=true` | the restore sat at the end of the happy path, so any crash skipped it | all four campaign scripts restore through `atexit` (fires on exceptions and `sys.exit`), each self-contained | the broken state was observed at the start of a later run; four scripts now compile with `_restore` registered |
+| 75 | My harness reported a pass as a failure (`nvidia_answers_after_bare_switch`) and a design choice as a fault (`local_fallback_answers`) | the assertion read `chain_tried`, a field the reply body does not carry, and expected a silent local answer where a 404 must report the model | assert the answer text and the notice wording instead | final verdicts: `ALL PASS`, `VERIFY_EXIT=0` |
+| 76 | Logged, not fixed: an API-brain request for a picture is answered with a promise (*"I'll render it now ... give it a minute"*) while the file is produced without its path being handed back | the tool result is not surfaced into the reply text | **open** - low severity; the image is made, the operator just is not told where | part two: new PNG `gen-20260921-130555.png` 23.6s with a promise as the answer |
+
+**Final measurement for this pass:** full suite `1077 passed, 43 subtests passed in 150.83s`, `SUITE_EXIT=0`; live re-verification of the four scenarios `RESULT: ALL PASS`, `VERIFY_EXIT=0`; `CERTIFIED BUILD`. Console left on the house default (deepseek / `deepseek-chat` / cloud brain off / local brain) on port 9651. Nothing committed, sealed or pushed; the USB kit was not written to.
+
+
+### Pass: 2026-09-21 13:45-14:10 - the two open rows, and the port the copy actually owns
+
+| # | Symptom | Cause | Fix | Evidence |
+|---|---------|-------|-----|----------|
+| 77 | An API-brain request for a picture was answered with a promise - *"I'll render it now ... give it a minute"* - and the path was never handed back (row 76) | the limb's result stayed in the trace; nothing put it in the reply when the model answered in prose | `chat_loop.surface_artifacts` names every picture the turn produced, with its size, under the answer, and never over it; a reader limb (`image_see`) is excluded, and an answer that already names the file is left alone | live: `VERDICT: PASS - the answer names the picture it produced` - `gen-20260921-140400.png`, 149,855 bytes, 15.4s limb / 18.5s turn, file present on disk; 8 RED tests first, 25 passed in the file |
+| 78 | My live checker reported FAIL on a result that was correct | the kit lives under `I:\E Drive\...`: a path with a space parses as two fragments under a whitespace split, so the named, existing picture read as 'not named, not on disk' | judge the paths the LIMB reported (`in text`, `os.path.isfile`) instead of guessing at paths in prose | same run, corrected checker: `named in the answer: True`, `present on disk: True` |
+| 79 | `scripts/verify_fixes_live.py` traced back and never reached the console | `PORT = 9651` was hardcoded and `--port` was ignored, so it dialled the stick's port - on a machine where the live tree serves 9641 - and the connection error read as a dead console | the script takes `--port` and defaults to the copy's declared 9641 | `RESULT: ALL PASS` on 9641 immediately after the fix |
+| 80 | The live tree was being run on the **stick's** port (9651) for this whole pass | hand-started with `--port 9651`; `config/console.json`, the launcher, `tools/resolve_ports.py`, the docs and the agent's own environment facts are all built around this copy's declared 9641 / 11441 | started again with no `--port`, so it takes the copy's declared port | banner now reads `backend cuda - ports 9641/11441`; this is also why the agent said 9641 before row 71's fix - it was quoting the declared port of a copy running elsewhere |
+
+**Suite after these fixes:** `1085 passed, 43 subtests passed in 151.40s`, 0 failed. `CERTIFIED BUILD`; the console runs on its declared 9641/11441.
+
+### Pass: 2026-09-21 14:15-14:45 — the release sweep
+
+| # | Symptom | Cause | Fix | Evidence |
+|---|---------|-------|-----|----------|
+| 81 | No re-runnable sweep existed: the 1.2.2 sweep's six findings lived only in a commit message | the sweep was a one-off debug pass over the tree | `scripts/sweep_build.py` — syntax, encoding, duplicate top-level definitions, undefined names, bare excepts, markers, orphans, VERSION/manifest agreement, certify, plus a live smoke (`--live`) that runs a real turn and checks the image limb, the session archive and the forever-history folder | `SWEEP RESULT: 0 failure(s)` on the PC tree; the first run found the two defects below |
+| 82 | The sweep's own first version could never have failed: its name check unioned the whole tree **including the file under test** | a tree-wide cache built without excluding the current module | exclude the file under test from the union | the check now reports per-file; 
+| 83 | The live smoke probed `/api/images` and `/api/history`, which do not exist (404) | route names were assumed, not read | probe `/api/limb` (dispatch a real limb) and `/api/archive` (the session archive), and read the forever-history folder from disk since it owns no route | `image limb via /api/limb -> 200, 14 picture(s)`, `session archive -> 200, 4 session(s)`, `forever history: 159 file(s), 1,455,408 bytes` |
+| 84 | `src/p3_note.py` is imported nowhere: `vortex_signature()` (vortex digit · hex coordinate · governing principle) is dead code | written for a receipts/identity idea and never wired | **open — decide, do not guess**: wire it into receipts/identity, or retire it with the reason recorded | orphan scan: `src/p3_note.py is not referenced anywhere`; no string reference in any file of the tree |
+
+### Pass: 2026-09-21 14:05-15:05 — the USB copy brought to 1.3.0
+
+| # | Symptom | Cause | Fix | Evidence |
+|---|---------|-------|-----|----------|
+| 85 | The stick kit (`E:\LYGO_BUILDER_KEY\lygo_llm_console`) was still 1.2.2 while the PC tree was 1.3.0 | the whole pass landed on the live tree only; the stick is updated by hand, and `config/` is deliberately never synced | mirrored the synced surface (`src/ tests/ scripts/ portal/ prompts/ skills/ tools/ web_portal/ docs/` + root files) after backing the old tree up; the stick's own launchers, `config/` and `local.json` untouched | byte-identical across all nine trees; stick boot banner `LYGO LLM Console v1.3.0 http://127.0.0.1:9651`; `/api/health` `build: v1.3.0`; `SWEEP RESULT: 0 failure(s)` on the stick; backup 269 files at `.backups/stick-1.2.2-20260921` |
+| 86 | **Found by testing the stick**: a turn the local 1.5B model answered was filed `qwen2.5:1.5b · ready · answered by deepseek` | both completion sites stamped `cloud_api.public_status()["last_provider"]` whatever the brain was, and passed a status (“ready”) where the brain kind belongs | the archive credits a provider only when the brain is cloud/api; both sites now pass the answering brain (`active` / `use_cloud`) and gate the provider on it | RED first: 3 new tests failed; after the fix `18 passed` in `tests/test_transcript_archive.py` |
+| 87 | Five standing tests failed on the stick (`1076 passed, 5 failed`) that pass on the PC | they assert the *shipped PC config* (`flash_attn` default, a reply-length note) and a git checkout above the kit — invariants a stick cannot have, since `config/` is hand-kept and it sits in no repository | marked them PC-build assertions, skipped on removable media via a new `tests/_stick_profile.py` that asks `src/surface.py` for the volume type; **not weakened** — they still run and must pass on the PC | PC: `5 passed` with no skips; stick: `93 passed, 5 skipped`, each skip printing its reason |
+| 88 | The stick has **no model blobs at all**: its canonical store `%USB%\product\models\ollama` does not exist and `%USB%\models\ollama\blobs` is empty (0 files) | the duplicate CAS was archived off the stick to `I:\LYGO_STICK_ARCHIVE\dup_cas_20260918`; nothing put the canonical store back | **open — the steward's call**: restore the models to the path `LYGO_AGENT_STICK.bat` names (offline, plug-and-go), or decide the stick is a cloud-only console. Not invented here | `model scan` on the stick found 17 models only because `OLLAMA_MODELS` was pointed at this PC's store for the test; its own store is empty |
+| 89 | The mirror removed the stick-only `src/ollama_import.py` (47 stick-only files went) | the PC's module-strip retired it in favour of `src/cas_import.py`, and the mirror makes the two trees identical | kept as retired — nothing in code references it (docs still describe it, which is pre-existing doc drift), and the old file is in the backup at `.backups/stick-1.2.2-20260921\src\ollama_import.py` | source scan: 9 references, all in docs/whitepapers, none in `src/` or the launchers |
+| 90 | `test_branding.py` went red on **both** trees: `2 failed` (`test_sessions_manifest_matches_disk`, `test_clean_copy_is_certified`) | the fixes made after the last refresh changed `src/server.py`, so the published manifest no longer described the tree - the suite was right and the manifest was stale | refreshed the manifests; copying them to the stick too, since a stick whose manifest does not describe it cannot be certified | both trees `VERDICT: CERTIFIED BUILD`; `SESSIONS_MANIFEST.json: 1 of 11 entries refreshed` |
+
+## Pass: 2026-09-21 15:30–16:00 — the page can now start the server it is served by (the Boot server button)
+
+**The ask, verbatim:** *"a good feature would be a button on the console that is basically the boot bat thats on the desktop, built into the console ... right now the server is down and closed but the browser is up showing health failed ... the boot LLM button only switches the llm, we need a separate stand alone button that boots the server from the browser page just in case it goes down or needs a restart"*
+
+| # | Symptom | Cause | Fix | Evidence |
+|---|---------|-------|-----|----------|| 91 | The page could not start the server it is served by: on `health failed` it only said "is the window still running?", and `Boot local`/`Boot LLM` only wake the engine — the steward's ask | the page is served *by* the server it would start, and no browser may spawn a process; nothing was listening that could | added `tools/doorbell.py` (loopback, console-port minus one, ring→run `LYGO_LLM_CONSOLE.bat`) and a standalone `server-boot` button; the launcher keeps its own sweep and refusal | live browser run: doorbell log `"GET /boot?token=[redacted]&t=…" 200` from `http://127.0.0.1:9641` (the page itself), console back on 9641, page `up=true` |
+| 92 | `GET /api/doorbell` → `handler_failed: UnboundLocalError: cannot access local variable 'path'`, so the page could never learn where the doorbell was | the route was inserted *before* `path = urlparse(self.path).path` in `_dispatch_GET` — my own insertion point was wrong | moved the branch after the assignment | curl `/api/doorbell` → `{"port": 9640, "url": …, "up": true, …}` |
+| 93 | The button ran, counted down, and the fetch never left the page: `TypeError: Failed to fetch` while the doorbell was up and answering curl | the console's own CSP was `connect-src 'self' https:`, which forbids a plain-http port beside this one | `connect-src` now names the doorbell, derived from `self.server.server_port - 1` so the USB copy gets its own port and never the PC's | live: ring accepted `200`; 2 tests hold the clause and forbid the PC literal |
+| 94 | **Found in the browser**: the button was there, health said failed, and pressing it did nothing at all | the page had never called `refreshDoorbell()` while the server was alive, so it had no doorbell port and no token and gave up silently — asserting the strings exist was not enough, the wiring is the feature | called from the health poll (the one moment the page can be told), cached in localStorage, and a refused ring now forgets a stale token, re-learns, retries once, and says so | live: page token sha12 `a12f4e80ab6a` = the token file; 3 tests |
+| 95 | The doorbell died silently and the button then had nothing to ring (`nothing on 9640`, no error anywhere) | it was started attached from the launcher window and went away with it; it also had no log at all | `--detach` (`DETACHED_PROCESS | CREATE_NO_WINDOW`), every request and boot written to `save/logs/doorbell.log` with the query stripped, and the console now `ensure_running`s one on its way up (`LYGO_NO_DOORBELL=1` opts out) | live: `[doorbell] started on port 9640` then `already up`; log lines present; 5 tests |
+| 96 | The doorbell refused **its own token file's** token — `403` from curl as well as from the page, so every ring failed no matter what the page cached | the handler passed `parsed.path` to `handle()`, dropping the query string, so `?token=…` never reached the comparison — the page was blamed for a stale token it did not have | pass `self.path` (the whole request target) | curl ring → `{"launched": true, "pid": 10176, …}`; doorbell log `200 -`; 3 tests incl. one that names the argument |
+| 97 | The doorbell resolved `LYGO_LLM_CONSOLE.bat` only — the USB copy launches from its own .bat, so `serve()` would refuse to listen there: "no launcher - refusing to listen" | one hardcoded launcher name | launcher resolution: first existing of the copy's launchers, with `LYGO_LAUNCHER` as an override; both stick launchers now start the doorbell detached | 4 tests; stick launcher line verified in `LYGO_AGENT_STICK.bat` and the stick's `LYGO_LLM_CONSOLE.bat` |
+| 98 | Self-inflicted, same pass: my patch spliced `_dispatch_GET` mid-line, and a later edit exploded `tools/doorbell.py` into 3,853 lines of single characters | `lines[i:i] = "<a multi-line string>"` assigns the string's *characters* as separate list items — slice assignment takes an iterable | restored `src/server.py` from the byte-identical stick copy (pushed before the edit); rewrote `tools/doorbell.py` from its tests (the spec) and kept the mangle as `tools/doorbell.mangled-20260921.bak` | both files parse; 39 doorbell tests green; the mangle preserved rather than deleted |
+
+| 99 | The RAG ran invisibly: nothing recorded that a recall happened or what it spent, so the only signal an operator had was a window percentage reading `1132.1% of 32768` with no statement that recall covered it. `lygo_rag` now keeps a record of every search - runs, empties, chars handed over, terms, top score - written through a temp file and republished in `compaction.status()["recall"]`, and the Environment watch plus LLM data show it beside the window figure. | testing: the live status had 46 compactions and 3,003 sealed turns but no field describing what recall did | fixed |
+| 100 | My own telemetry missed the case it exists for: `recall()` returns early when nothing matches, so "asked and the history holds nothing" was never recorded - silence indistinguishable from the RAG not running at all. Fixed at that exit too; `empty` is counted separately from `runs`. | `test_a_recall_that_found_nothing_is_recorded_as_empty_not_as_a_success` went red at 0 != 1 | fixed |
+| 101 | Relevance cannot gate the always-on path: on the live index `what is 17 times 23` scored **13.12** (7.42 IDF-mass) while `what did we say about the seal button` - a real question about filed history - scored **7.97** (4.62); and a score floor is index-size dependent, so the same question was silenced in a small test archive. | measured on the live 541-block index, both gates abandoned | fixed: the always-on path is keyed on an explicit reference to the past; the shed-history path stays phrasing-independent, so a long conversation is covered either way |
+| 102 | Recall could paste a filed picture into the live prompt as **base64 text** - the archive files a turn verbatim, so a passage can carry an image's data URL. Caught live by `test_no_base64_is_pasted_into_the_prompt_as_text`: the prompt held the bytes *plus* the RAG's own `[…truncated here]` marker. | `tests/test_vision_budget.py` red; then a unit test written from it went red on `base64,` | fixed: a filed picture is reduced to a marker at index time, guarded again on read (stale index), and the signature bump drops the cached index |
+| 103 | The local agent had no Python or Rust limb **in its configuration**, though both were in the global schema: `core_schema()` - the tool list the local brain is actually given - is built from `CORE_NAMES`, and neither `python_exec` nor `rust_exec` was in it. Asked to run code the agent answered "I do not have a direct Python execution limb in my current configuration" and then computed 6*7 in its head. | live turn 19:37 + 20:08: `traces` empty, plain text answer; `core_schema()` = 24 tools, neither limb among them, `web_search` 16th | fixed: both limbs joined the local set and lead it beside `calc`; the two slots came from `weather` (`world_pulse` already carries city weather) and `kernel_status`, by the same "a diagnostic is not a capability" rule that keeps `media_status` out. Proof: the same turn returned `traces: [{name: python_exec, result: {ok: true, code: 0, stdout: "42"}}]` |
+| 104 | `CORE_PRIORITY` was a set in name only: `core_schema()` filtered the leads out of `TOOLS_SCHEMA` order, so the tuple could not put anything first - adding the code limbs made `python_exec` lead while the tuple said `calc`. | `test_priority_tool_leads_the_local_schema` red: `'python_exec' != 'calc'` | fixed: the priority tuple now sets the order (`names[0] == CORE_PRIORITY[0]` holds by construction); local schema reads calc, python_exec, rust_exec, ... with web_search 16th |

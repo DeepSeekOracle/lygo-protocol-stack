@@ -1,8 +1,8 @@
 """The console must be standalone: own engine, own model vault, no daemon anywhere.
 
 The steward's rule for this kit is a zero-Ollama system - our own backend services and
-infrastructure. Ollama's blob folder may still be *imported* once (read-only) by
-src/ollama_import.py, but nothing may require it, scan it implicitly, or talk to a daemon.
+infrastructure. A legacy blob store may still be *imported* once (read-only) by
+src/cas_import.py, but nothing may require it, scan it implicitly, or talk to a daemon.
 
 These tests pin that contract so a later edit cannot quietly put the dependency back:
   1. no source file subprocesses anything called ollama,
@@ -38,14 +38,15 @@ class NoDaemonTests(unittest.TestCase):
         for path in (ROOT / "src").glob("*.py"):
             text = path.read_text(encoding="utf-8", errors="replace")
             for m in re.finditer(r"^.*subprocess.*ollama.*$", text, re.I | re.M):
-                if "Never subprocess" in m.group(0):      # the importer's own contract comment
+                if "never subprocesses anything" in m.group(0).lower():  # the reader's own contract
                     continue
                 bad.append("%s: %s" % (path.name, m.group(0).strip()[:80]))
         self.assertEqual([], bad, "the kit must never launch a daemon")
 
     def test_the_importer_says_it_is_read_only(self) -> None:
-        text = (ROOT / "src" / "ollama_import.py").read_text(encoding="utf-8")
-        self.assertIn("Never subprocess ollama", text)
+        text = (ROOT / "src" / "cas_import.py").read_text(encoding="utf-8")
+        self.assertIn("never subprocesses anything", text.lower())
+        self.assertIn("never opens a socket", text.lower())
 
     def test_the_public_gateway_defaults_to_our_own_engine(self) -> None:
         self.assertEqual("local", public_gateway.Handler.backend)
@@ -87,6 +88,61 @@ class ScanRootTests(unittest.TestCase):
         self.assertNotIn("ollama", joined.lower())
 
 
+class OurVocabularyTests(unittest.TestCase):
+    """Our words carry no other service's name. Exactly two exceptions, each with a reason.
+
+    A migration has to be able to name what it migrates FROM, and a guard that forbids nesting a
+    foreign daemon's binary inside our tree has to name what it forbids. Everything else must be
+    clean, so a later edit cannot smuggle a real dependency in under cover of an exception.
+    """
+
+    # Split so this file does not itself trip the rule it enforces.
+    LEGACY = "oll" + "ama"
+    ALLOWED = {
+        "cas_import.py": "the migration names what it migrates from, and the format's own media types",
+        "engine.py": "the guard that REFUSES a nested copy of that binary in our tree",
+    }
+
+    def test_only_the_two_documented_modules_name_the_legacy_store(self) -> None:
+        offenders = []
+        for path in sorted((ROOT / "src").glob("*.py")):
+            if path.name in self.ALLOWED:
+                continue
+            if self.LEGACY in path.read_text(encoding="utf-8", errors="replace").lower():
+                offenders.append(path.name)
+        self.assertEqual([], offenders,
+                         "the legacy store's name belongs only in: %s" % ", ".join(sorted(self.ALLOWED)))
+
+    def test_no_foreign_daemon_env_var_is_read(self) -> None:
+        offenders = []
+        for path in sorted((ROOT / "src").glob("*.py")):
+            text = path.read_text(encoding="utf-8", errors="replace")
+            if re.search(self.LEGACY.upper() + r"_[A-Z_]+", text):
+                offenders.append(path.name)
+        self.assertEqual([], offenders,
+                         "a kit must not resolve models through another daemon's environment")
+
+    def test_scan_roots_never_descend_into_a_foreign_store(self) -> None:
+        """A folder shaped like a store, but named after the daemon, must not become a scan root."""
+        with tempfile.TemporaryDirectory() as td:
+            store = Path(td) / "models" / self.LEGACY
+            (store / "manifests").mkdir(parents=True)
+            (store / "blobs").mkdir(parents=True)
+            with mock.patch.dict(os.environ, {"LYGO_STACK_ROOT": td}, clear=False):
+                roots = server.default_scan_roots({})
+        self.assertNotIn(str(store), roots)
+
+    def test_a_cas_shaped_store_under_our_own_name_IS_scanned(self) -> None:
+        """The mirror of the test above: the neutral name still works, or we broke the stick."""
+        with tempfile.TemporaryDirectory() as td:
+            store = Path(td) / "models" / "cas"
+            (store / "manifests").mkdir(parents=True)
+            (store / "blobs").mkdir(parents=True)
+            with mock.patch.dict(os.environ, {"LYGO_STACK_ROOT": td}, clear=False):
+                roots = server.default_scan_roots({})
+        self.assertIn(str(store), roots)
+
+
 @unittest.skipUnless(VAULT.is_dir(), "no LYGO_MODELS vault on this machine")
 class VaultTests(unittest.TestCase):
     def test_the_declared_vault_is_a_scan_candidate(self) -> None:
@@ -96,7 +152,7 @@ class VaultTests(unittest.TestCase):
     def test_models_the_kit_owns_live_in_a_root_the_kit_scans(self) -> None:
         """An owned model must sit in a folder THIS kit scans.
 
-        'The vault' is `I:\\LYGO_MODELS` on the PC and the stick's own CAS (`product\\models\\ollama`)
+        'The vault' is `I:\\LYGO_MODELS` on the PC and the stick's own CAS (`product\\models\\cas`)
         on the USB, so the contract has to be 'a declared scan root', not one hard-coded drive:
         pinning `I:` here failed the stick while the stick was right. Records whose file cannot be
         found are skipped - other tests patch the registry and leave temp paths behind that are gone
@@ -183,7 +239,7 @@ class RescanTests(unittest.TestCase):
             try:
                 reg_mod.save({"models": [{"id": "m:1", "source": "lygo_vault", "path": str(owned), "kind": "chat"}],
                               "selected": "m:1", "selected_source": "operator"})
-                reg_mod.upsert([{"id": "m:1", "source": "ollama_cas", "path": str(cas), "kind": "chat"}])
+                reg_mod.upsert([{"id": "m:1", "source": "legacy_cas", "path": str(cas), "kind": "chat"}])
                 data = reg_mod.load()
             finally:
                 for p in patches:
@@ -239,10 +295,17 @@ class SilentTurnTests(unittest.TestCase):
         msg = server.local_system_message("local")
         self.assertEqual({"role", "content"}, set(msg))
         self.assertTrue(str(msg.get("content") or "").strip(), "the system message must not be empty")
-        primer = inspect.getsource(server.warm_prefix)
-        self.assertIn("local_system_message", primer, "the primer must reuse the chat path's opening")
-        self.assertIn("core_schema", primer, "it must send the same tool schemas a local turn sends")
-        self.assertIn("max_tokens", primer)
+        # As data, not as source text: the payload builder is a named function precisely so the primer
+        # can be held to the chat path's opening as a VALUE. A docstring mentioning the right names is
+        # not the same as sending them, and the earlier grep-shaped version of this test passed on the
+        # docstring alone.
+        payload = server.prefix_prime_payload("gemma4-12b")
+        self.assertEqual(msg, payload["messages"][0], "the primer must open exactly as a turn opens")
+        self.assertTrue(payload["tools"], "it must send the same tool schemas a local turn sends")
+        self.assertEqual(1, payload["max_tokens"])
+        self.assertFalse(payload["stream"])
+        self.assertIn("local_system_message", inspect.getsource(server.prefix_prime_payload),
+                      "the primer must reuse the chat path's opening")
         self.assertIn('local_system_message("api" if use_cloud else "local")', self._src("server.py"),
                       "the chat path must keep opening through the shared builder, not compose_system directly")
 

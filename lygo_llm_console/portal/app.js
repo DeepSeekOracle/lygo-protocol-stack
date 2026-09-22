@@ -2,7 +2,7 @@
   /* One product name, one build stamp. The header, the document title and every status line read
      from here, so the console cannot drift back into three names and no version in the UI. */
   const LYGO_PRODUCT = "LYGO Local Agent Console";
-  const LYGO_BUILD = "1.2.2";
+  const LYGO_BUILD = "1.3.0";
   const BUILD_STAMP = "build " + LYGO_BUILD;
   /* The build stamp the console actually serves (/api/health), so a release bump cannot disagree with
      the header. Declared up HERE, above its first use, because paintBrand() reads it and paintBrand()
@@ -205,18 +205,35 @@
   const HIST_KEY = "lygo_llm_chatHistory";
   const MAX_MSGS = 60;        /* messages this browser keeps in the request; the console trims by TOKENS */
   const MAX_IMAGES = 2;       /* base64 images kept in chatHistory — they are re-sent every turn */
-  const MAX_TOKENS = 768;     /* shown in #ctx-note so a cut-off answer is explainable */
+  /* The reply cap. Seeded from the console's own config (console.json `max_tokens`, surfaced on
+     /api/health) on the first health poll. The hardcoded 768 that used to live here is what every
+     long answer was ACTUALLY cut at, mid-sentence: the browser asked for 768, so the engine stopped
+     at exactly 768 tokens no matter what the server or the config said. The server clamps to the
+     configured cap, so this value can lower an answer but never raise one past config. */
+  let MAX_TOKENS = 4096;
+  const MAX_TOKENS_FALLBACK = 4096;
   /* A local turn streams nothing while the engine prefills its context: the system prompt plus the
      tool schemas are thousands of tokens, and on a mid machine that is ~40 s of silence before the
      first token. 60 s was therefore normal, not death, and it stopped answers that were about to
      arrive. The console primes that prefix right after a boot (server.py warm_prefix), so the first
      ask is usually fast - but a big history or a cold cache can still exceed a minute. */
   const STREAM_IDLE_MS = 60000;          /* cloud: an API that says nothing for a minute is gone */
-  const STREAM_IDLE_LOCAL_MS = 240000;   /* local: prefill + a slow first token on a mid machine */
+  /* Local: prefill, and then — until the engine is streamed token-by-token into the page — the WHOLE
+     reply arrives in one burst at the end, so this window has to cover the entire generation rather
+     than just the first token. At the shipped 7B's measured ~10 tok/s a 4096-token answer is ~7
+     minutes of silence, and a flat 240 s cut those answers off as "engine silent" just before they
+     arrived. Derived from the reply cap at a deliberately pessimistic 4 tok/s, so a slower host is
+     not aborted mid-answer either. */
+  const STREAM_IDLE_LOCAL_MS = 240000;   /* floor: prefill + a slow first token on a mid machine */
+  const MS_PER_TOKEN_WORST = 250;        /* 4 tok/s — pessimistic on purpose, it only sets a ceiling */
   /* Set once per turn, before the request goes out: a local turn prefills before it streams anything. */
   let streamIsApi = false;
-  function idleWindowMs() { return streamIsApi ? STREAM_IDLE_MS : STREAM_IDLE_LOCAL_MS; }
-  const STREAM_CAP_MS = 600000;  /* hard ceiling on one answer */
+  function idleWindowMs() {
+    if (streamIsApi) return STREAM_IDLE_MS;
+    return Math.max(STREAM_IDLE_LOCAL_MS, MAX_TOKENS * MS_PER_TOKEN_WORST + 120000);
+  }
+  function capWindowMs() { return Math.max(600000, MAX_TOKENS * MS_PER_TOKEN_WORST + 240000); }
+  const STREAM_CAP_MS = 600000;  /* floor for the hard ceiling on one answer; see capWindowMs() */
 
   /* ---- footer status: its own element, so a trace dump can never erase it -------------- */
   let stickyStatus = "";
@@ -631,6 +648,82 @@
   }
 
   let healthDown = false;
+
+/* --- the standalone Boot server button ---------------------------------------------------------
+   The page is served BY the server it would be asking to start, and a browser cannot spawn a process,
+   so the button rings the doorbell instead: tools/doorbell.py, on its own port, whose whole job is to run
+   LYGO_LLM_CONSOLE.bat. The console hands this page the doorbell's port and token while it is alive; the
+   token is also kept in localStorage so a reload *after* a crash can still ring. Nothing here pretends:
+   if the doorbell is not listening, the button says what to run instead. */
+let doorbell = { port: 0, token: "", up: false, url: "" };
+try {
+  const saved = JSON.parse(localStorage.getItem("lygo-doorbell") || "null");
+  if (saved && saved.token) doorbell = Object.assign(doorbell, saved);
+} catch (_) {}
+async function refreshDoorbell() {
+  try {
+    const r = await fetch("/api/doorbell", { headers: headers(), cache: "no-store" });
+    if (!r.ok) throw new Error(String(r.status));
+    const j = await r.json();
+    if (j && j.port) {
+      doorbell = Object.assign(doorbell, j);
+      try { localStorage.setItem("lygo-doorbell", JSON.stringify({ port: j.port, token: j.token || doorbell.token })); } catch (_) {}
+    }
+    return doorbell;
+  } catch (_) { return doorbell; }
+}
+async function bootServer() {
+  const btn = document.getElementById("server-boot");
+  const say = (t) => { if (btn) btn.textContent = t; };
+  if (!doorbell.port || !doorbell.token) { try { await refreshDoorbell(); } catch (_) {} }
+  if (!doorbell.port || !doorbell.token) {
+    const _dport = Number(location.port || doorbell.port || 9641) - 1;
+    setStatus("no doorbell token yet \u2014 open http://127.0.0.1:" + _dport + "/ and press \"Boot the console\" there, or run LYGO_LLM_CONSOLE.bat", true);
+    return;
+  }
+  say("Ringing\u2026");
+  let rang = false;
+  try {
+    let r = await fetch("http://127.0.0.1:" + doorbell.port + "/boot?token=" + encodeURIComponent(doorbell.token) + "&t=" + Date.now(),
+                        { mode: "cors", cache: "no-store" });
+    rang = r.ok;
+    if (!r.ok) {
+      /* The doorbell refused it, for the one honest reason: the token this page cached is no longer its own
+         (it was restarted, or the cache was written before a fix). Forget it, learn the current one while the
+         console still answers, ring once more - and if it will still not take it, say so. Polling a dead
+         server while the ring had already been refused is how this cost 88 seconds in silence. */
+      try { localStorage.removeItem("lygo-doorbell"); } catch (_) {}
+      doorbell.token = "";
+      await refreshDoorbell();
+      if (doorbell.token) {
+        r = await fetch("http://127.0.0.1:" + doorbell.port + "/boot?token=" + encodeURIComponent(doorbell.token) + "&t=" + Date.now(),
+                        { mode: "cors", cache: "no-store" });
+        rang = r.ok;
+      }
+      if (!rang) {
+        say("Boot server");
+        setStatus("the doorbell refused the ring (stale token) \u2014 open http://127.0.0.1:"
+                  + (Number(location.port || 9641) - 1) + "/ and press \"Boot the console\" there", true);
+        return;
+      }
+    }
+  } catch (_) { /* unreachable doorbell: the polling below decides, and says so if it never answers */ }
+  const t0 = Date.now();
+  while (Date.now() - t0 < 180000) {
+    await new Promise((r) => setTimeout(r, 1500));
+    try {
+      const r = await fetch("/api/health", { cache: "no-store", headers: headers() });
+      if (r.ok) { say("Back up"); location.reload(); return; }
+    } catch (_) {}
+    say("Starting… " + Math.round((Date.now() - t0) / 1000) + "s");
+  }
+  say("Boot server");
+  setStatus("the doorbell rang but the console did not come up \u2014 read save/logs/doorbell.log", true);
+}
+document.addEventListener("click", (e) => {
+  const t = e.target && e.target.closest ? e.target.closest("#server-boot") : null;
+  if (t) { e.preventDefault(); bootServer(); }
+});
   async function refreshHealth() {
     try {
       const r = await fetch("/api/health", { headers: headers() });
@@ -643,9 +736,15 @@
       }
       const j = await r.json();
       lastHealth = j;
+      /* The console's configured reply cap, so the page asks for what the config says instead of
+         carrying its own constant that no config change could ever move. */
+      if (j && Number(j.max_tokens) > 0) MAX_TOKENS = Number(j.max_tokens);
     if (j && j.build) { servedBuild = String(j.build); paintBrand(); }
       setHealth(j);
       healthDown = false;
+      /* While the console answers, learn where the doorbell is. After a crash this page can no longer
+         ask anything - it is served by the thing that died - so this is the one moment it can be told. */
+      if (!doorbell.port) { refreshDoorbell().catch(() => {}); }
       if (j.cloud) paintApi(j.cloud);
       document.body.dataset.brain = j.brain || "";
       if (typeof j.scan_n === "number" && j.scan_n !== lastScan) {
@@ -657,7 +756,9 @@
       healthEl.textContent = "health failed — console not reachable";
       if (!healthDown) {
         healthDown = true;
-        statusSoft("console not reachable (/api/health failed) — is the window still running?");
+        statusSoft("console not reachable (/api/health failed) — press Boot server to restart it, or run LYGO_LLM_CONSOLE.bat");
+      const _sb = document.getElementById("server-boot");
+      if (_sb) { _sb.classList.add("need"); }
       }
       return null;
     }
@@ -690,8 +791,22 @@
       /* A travelling kit must not list a model it does not hold: reach.portable means the files sit
          inside storage this kit carries. Reachable-but-not-portable runs on the machine the stick is
          plugged into today and is gone on the next one, so say which is which. */
-      const where = m.reach && !m.reach.portable ? (m.reach.reachable ? " . not carried by this kit" : " . not found here") : "";
-      o.textContent = `${m.id} [${m.kind || "?"} ${m.runnable ? "ok" : m.status} ${gb}${where}]`;
+      /* A drive that is not plugged in is not a deleted file. The server names which one this is
+         (reach.label), because "not found here" is what both cases used to say - L10. */
+      const where = m.reach && !m.reach.portable
+        ? (m.reach.reachable ? " . not carried by this kit" : " . " + (m.reach.label || "not found here"))
+        : "";
+      /* One weights file can carry several names (a LYGO turbo variant is the same GGUF under another
+         name), and the operator asked to see every model on this machine - so the other names ride
+         along here instead of vanishing from the list. */
+      const also = (m.also_known_as && m.also_known_as.length) ? " · also: " + m.also_known_as.join(", ") : "";
+      /* What it can actually DO, as measured by the checker (src/model_check.py): text, coder,
+         image-in, image-out, sound, embed. A model the checker proved too large for this host says so
+         HERE, in the choice box, instead of failing once it is picked. */
+      const caps = (m.caps && m.caps.length) ? " " + m.caps.join("+") : "";
+      const chk = (m.checked && m.checked.verdict === "too_large") ? " too-big-here"
+                : (m.checked && m.checked.verdict === "runs" && m.checked.gen_tps) ? ` ${m.checked.gen_tps}tok/s` : "";
+      o.textContent = `${m.id} [${m.kind || "?"}${caps} ${m.runnable ? "ok" : m.status} ${gb}${where}${chk}]${also}`;
       if (m.reach && m.reach.why) o.title = m.reach.why;
       if (m.id === j.selected) o.selected = true;
       models.appendChild(o);
@@ -768,19 +883,45 @@
     limb.textContent = "scanning…";
     let r;
     try {
-      r = await fetch("/api/scan", { method: "POST", headers: headers(), body: "{}" });
+      /* Ask for the WIDE scan. The kit's own roots are cheap but only ever re-find what was already
+         listed, so the button the operator presses is the one that walks the drives and reads any
+         store it finds there. The reply says whether it came from the cache and how old that is,
+         rather than implying a fresh walk of every disk. */
+      r = await fetch("/api/scan", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ all_drives: true, per_root_s: 25 }),
+      });
     } catch (e) {
       setStatus("scan failed — " + ((e && e.message) ? e.message : e), true);
       return;
     }
     const j = await r.json().catch(function () { return {}; });
-    const n = (j.models || (j.registry && j.registry.models) || []).length;
+    const all = j.models || (j.registry && j.registry.models) || [];
+    const n = all.length;
+    const runnable = all.filter(function (m) { return m && m.runnable; }).length;
     limb.textContent = JSON.stringify(
-      { n: n, truncated: j.scan_truncated, roots: j.roots, selected: (j.registry || {}).selected },
+      {
+        n: n,
+        runnable_here: runnable,
+        cached: !!j.cached,
+        cache_age_s: j.age_s === undefined ? null : j.age_s,
+        truncated: j.scan_truncated,
+        seconds: j.seconds,
+        roots: j.roots,
+        selected: (j.registry || {}).selected,
+      },
       null,
       2
     );
-    setStatus(r.ok ? ("scan found " + n + " model(s)" + (j.scan_truncated ? " · list truncated" : "") + " — pick one and press Boot LLM") : ("scan failed — " + (j.error || r.status)), !r.ok);
+    setStatus(
+      r.ok
+        ? ("scan found " + n + " model(s), " + runnable + " runnable here" +
+           (j.cached ? " (cached, " + j.age_s + "s old)" : "") +
+           (j.scan_truncated ? " · list truncated" : "") + " — pick one and press Boot LLM")
+        : ("scan failed — " + (j.error || r.status)),
+      !r.ok
+    );
     await refreshModels();
     await refreshHealth();
   };
@@ -1132,13 +1273,16 @@
         const dec = new TextDecoder();
         let buf = "";
         arm();
-        capTimer = setTimeout(function () { timedOut = true; try { ctl.abort(); } catch (_) {} }, STREAM_CAP_MS);
+        capTimer = setTimeout(function () { timedOut = true; try { ctl.abort(); } catch (_) {} }, capWindowMs());
         const handle = function (raw) {
           const line = raw.replace(/^data:\s*/, "").trim();
           if (!line) return;
           try {
             const evn = JSON.parse(line);
             if (evn.delta) say(evn.delta);
+            /* The turn streamed and the finished text differs from what arrived as deltas
+               (sanitised echo, or the output-window gate): this frame is the authoritative one. */
+            if (evn.replace) b.textContent = evn.replace;
             if (evn.traces) renderTraces(evn.traces);
             if (evn.type === "brain") markBrain(b, evn);
             if (evn.error) failBubble(b, "engine error — " + evn.error);
@@ -1905,6 +2049,12 @@
     }
     paintWorld();
   }
+  /* The city cards are built ONCE per data change and then only their clock text is ticked.
+     They used to be rebuilt with innerHTML = "" every second, which re-created ten cards per
+     tick - the weather row visibly flickered, and it did so while the operator was reading it.
+     Measured before this change: 220 DOM mutations in 10s on an idle console. */
+  let worldCardClocks = new Map();
+  let worldCardSig = "";
   function paintWorld() {
     const now = new Date();
     if (worldLocal) {
@@ -1914,21 +2064,31 @@
       worldUtc.textContent = "UTC " + now.toISOString().slice(0, 19).replace("T", " ");
     }
     if (!worldCities || !worldSnap || !worldSnap.cities) return;
-    worldCities.innerHTML = "";
+    const sig = worldSnap.cities.map((c) => (c.name || "") + "|" + (c.tz || "") + "|" +
+      JSON.stringify(c.weather || {})).join("~");
+    if (sig !== worldCardSig) {
+      worldCardSig = sig;
+      worldCardClocks = new Map();
+      worldCities.textContent = "";
+      worldSnap.cities.forEach((c) => {
+        const d = document.createElement("div");
+        d.className = "wcity";
+        d.innerHTML = '<div class="n"></div><div class="t"></div><div class="w"></div>';
+        const wx = c.weather || {};
+        d.querySelector(".n").textContent = c.name;
+        d.querySelector(".w").textContent = (wx.c != null ? Math.round(wx.c) + "\u00b0 " : "") + (wx.label || "");
+        worldCities.appendChild(d);
+        worldCardClocks.set(c.name, d.querySelector(".t"));
+      });
+    }
     worldSnap.cities.forEach((c) => {
-      const d = document.createElement("div");
-      d.className = "wcity";
+      const t = worldCardClocks.get(c.name);
+      if (!t) return;
       let clock = c.clock || "";
       try {
         clock = now.toLocaleTimeString(undefined, { timeZone: c.tz, hour: "2-digit", minute: "2-digit" });
       } catch (_) {}
-      const wx = c.weather || {};
-      const line = (wx.c != null ? Math.round(wx.c) + "° " : "") + (wx.label || "");
-      d.innerHTML = '<div class="n"></div><div class="t"></div><div class="w"></div>';
-      d.querySelector(".n").textContent = c.name;
-      d.querySelector(".t").textContent = clock;
-      d.querySelector(".w").textContent = line;
-      worldCities.appendChild(d);
+      if (t.textContent !== clock) t.textContent = clock;
     });
   }
   refreshWorld();
@@ -1956,7 +2116,7 @@
   const paneDock = document.getElementById("modules-dock");
   const paneNote = document.getElementById("modules-note");
   const paneState = document.getElementById("modules-state");
-  const PANE_REFRESH_MS = 5000;
+  const PANE_REFRESH_MS = 10000;  /* diagnostics, not a live feed: was 5000 */
 
   function paneRoute(mod) {
     const routes = (mod && mod.routes) || [];
@@ -2021,7 +2181,7 @@
     return rows;
   }
 
-  function panePaint(meta, payload) {
+  function panePaint(meta, payload, host) {
     /* A pane may declare its own overall `state` (green/amber/red/grey) and a `state_text`. The
        shell paints the card, the badge and the strip's chip from that one field, so a module that
        answers "what needs fixing" is drawn by the same code as one that answers "what is hooked
@@ -2087,7 +2247,7 @@
       card.appendChild(box);
     }
 
-    paneHost.appendChild(card);
+    (host || paneHost).appendChild(card);
   }
 
   async function paneRefresh() {
@@ -2117,8 +2277,12 @@
       /* The strip is rebuilt on every refresh. It does not scroll on its own any more — the PAGE
          scrolls, and the browser keeps the window's scroll position across a DOM replace inside
          the strip, so a rebuild every 5s no longer yanks the reader back to the top. */
-      paneHost.textContent = "";
-      parts.forEach(([meta, payload]) => panePaint(meta, payload));
+      /* Built into a fragment and swapped in one go. This used to be textContent = "" followed by
+         a repaint, so the strip went blank and refilled on every tick - with a slow or out-of-order
+         answer that read as the strip flashing. Nothing is destroyed before its replacement exists. */
+      const frag = document.createDocumentFragment();
+      parts.forEach(([meta, payload]) => panePaint(meta, payload, frag));
+      paneHost.replaceChildren(frag);
       if (paneDock) paneDock.hidden = false;
       if (paneState) {
         let worst = "";
@@ -2159,4 +2323,27 @@
     paneRefresh();
     setInterval(paneRefresh, PANE_REFRESH_MS);
   }
+})();
+
+/* ---- the sticky dock must not hide the tail of the page ----
+   The dock floats at the bottom of the viewport (position: sticky), so without
+   reserved space the last rows of the document can never be scrolled clear of it.
+   Reserve exactly its height, and keep it exact when its rows wrap. */
+(function fitDockSpace() {
+  function apply() {
+    const dock = document.querySelector(".media-dock");
+    if (!dock) return;
+    const h = Math.ceil(dock.getBoundingClientRect().height);
+    document.body.style.paddingBottom = (h + 8) + "px";
+  }
+  function wire() {
+    apply();
+    const dock = document.querySelector(".media-dock");
+    if (dock && window.ResizeObserver) new ResizeObserver(apply).observe(dock);
+    window.addEventListener("resize", apply);
+    /* the dock gains rows (title, hint) after the radio starts - re-measure */
+    setTimeout(apply, 1200);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire);
+  else wire();
 })();

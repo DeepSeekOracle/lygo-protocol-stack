@@ -85,6 +85,31 @@ class ReachTests(unittest.TestCase):
         self.assertEqual(len(got["missing"]), 1)
 
 
+    def test_a_record_on_a_drive_that_is_not_plugged_in_says_so(self):
+        """L10: this PC's registry carries a record whose file sits on the removable stick. With the
+        stick out, the choice box called it "not found here" - the same words a deleted file gets, so
+        the operator could not tell a drive that is away from a file that is gone.
+        """
+        letter = next(c for c in "ZYWVUQ" if not Path(f"{c}:\\").exists())
+        got = registry.reach({"id": "on-the-stick",
+                              "path": f"{letter}:\\LYGO_BUILDER_KEY\\models\\gemma4-12b.gguf"})
+        self.assertFalse(got["reachable"])
+        self.assertEqual(got["state"], "not_plugged_in")
+        self.assertEqual(got["label"], "not plugged in")
+        self.assertIn(letter, got["why"])
+
+    def test_a_gone_file_on_a_drive_that_is_here_is_missing(self):
+        got = registry.reach({"id": "deleted", "path": str(ROOT / "no-such-model-anywhere.gguf")})
+        self.assertFalse(got["reachable"])
+        self.assertEqual(got["state"], "missing")
+        self.assertEqual(got["label"], "missing")
+
+    def test_a_model_that_is_here_is_available(self):
+        got = registry.reach({"id": "x", "path": str(ROOT / "NOTICE")})
+        self.assertEqual(got["state"], "available")
+        self.assertEqual(got["label"], "")
+
+
 class SelectedVisionTests(unittest.TestCase):
     def _with_registry(self, payload: dict):
         old = registry.REGISTRY_PATH
@@ -122,7 +147,9 @@ class SurfaceTests(unittest.TestCase):
         self.assertIn("model_not_on_this_machine", s)
 
     def test_health_publishes_whether_the_selected_model_can_see(self):
-        self.assertIn('"vision": __import__("registry").selected_vision()', _src("src/server.py"))
+        # The registry still owns this fact; the answer reads it through health_payload's safe() wrapper
+        # (defect 34), which is what the field now has to look like.
+        self.assertIn('"vision": safe("vision", _registry.selected_vision, None)', _src("src/server.py"))
 
     def test_a_picture_attached_to_a_blind_model_is_answered_honestly(self):
         s = _src("src/server.py")

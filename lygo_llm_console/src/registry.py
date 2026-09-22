@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 import json
 import os
 import sys
@@ -30,7 +32,7 @@ KNOWN_VAULTS = (
     r"I:\LYGO_MODELS",
     r"U:\LYGO\models",
     r"F:\LYGO\models",
-    r"E:\LYGO_BUILDER_KEY\product\models\ollama",
+    r"E:\LYGO_BUILDER_KEY\product\models\cas",
 )
 
 
@@ -94,6 +96,24 @@ def _declared_in_config() -> list[Path]:
     return roots
 
 
+def drive_present(p: Path) -> bool:
+    """Is the DRIVE this file would live on mounted? (A stick that is out is not a deleted file.)
+
+    `reach()` reports a file that is not here either way; only this tells the two apart, and the choice
+    box needs the difference: one answer is "plug it in", the other is "it is gone, re-scan".
+    """
+    try:
+        anchor = Path(p).anchor
+    except (OSError, ValueError):
+        return False
+    if not anchor:
+        return False
+    try:
+        return Path(anchor).exists()
+    except OSError:
+        return False
+
+
 def reach(rec: dict[str, Any]) -> dict[str, Any]:
     """Can this model run HERE, and does it travel with the kit?
 
@@ -104,7 +124,7 @@ def reach(rec: dict[str, Any]) -> dict[str, Any]:
 
     A record that is reachable but not portable runs on the machine the stick is plugged into today and
     is gone on the next one. Measured on the stick 2026-09-19: 8 of its 14 records named
-    C:\\Users\\justi\\.ollama and even D:\\Ollama blobs - the only vision model among them - so the picker
+    another daemon's blob folders - the only vision model among them - so the picker
     was advertising models the stick does not hold. A missing mmproj counts: a record whose projector
     is gone cannot look at a picture either.
     """
@@ -115,8 +135,9 @@ def reach(rec: dict[str, Any]) -> dict[str, Any]:
             files.append((key, Path(v)))
     if not files:
         return {"reachable": False, "portable": False, "why": "the record names no model file",
-                "missing": [], "outside": []}
-    missing = [str(p) for _, p in files if not p.is_file()]
+                "state": "missing", "label": "missing", "missing": [], "outside": []}
+    missing_paths = [p for _, p in files if not p.is_file()]
+    missing = [str(p) for p in missing_paths]
     roots = [str(r).lower() for r in kit_storage_roots()]
     outside: list[str] = []
     for _, p in files:
@@ -127,12 +148,22 @@ def reach(rec: dict[str, Any]) -> dict[str, Any]:
         if not any(rp.startswith(r) for r in roots):
             outside.append(str(p))
     why = None
+    state, label = "available", ""
     if missing:
-        why = "its file is not on this machine: %s" % missing[0]
+        away = [str(p) for p in missing_paths if not drive_present(p)]
+        if away:
+            # L10: this PC's registry carries a record whose weights live on the removable stick. With
+            # the stick out the choice box said "not found here" - the same words a file the operator had
+            # DELETED gets - so the picker could not tell him to plug the drive back in. It can now.
+            state, label = "not_plugged_in", "not plugged in"
+            why = "the drive it lives on is not plugged in: %s" % away[0]
+        else:
+            state, label = "missing", "missing"
+            why = "its file is not on this machine: %s" % missing[0]
     elif outside:
         why = "it is not inside this kit's own storage: %s" % outside[0]
     return {"reachable": not missing, "portable": not missing and not outside, "why": why,
-            "missing": missing, "outside": outside}
+            "state": state, "label": label, "missing": missing, "outside": outside}
 
 
 def mmproj_for(rec: dict[str, Any] | None) -> Path | None:
@@ -513,7 +544,7 @@ def _owned_wins(existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str,
     The scanner reports whatever store it finds, and an imported CAS is one of them, so its record
     carries that store's path. Once the kit owns a copy in its own vault, a rescan must not hand the
     model back to the foreign store: the vault is what makes this kit standalone. Losing it silently
-    is not hypothetical - a refresh run put every owned path back into an Ollama blob folder.
+    is not hypothetical - a refresh run put every owned path back into a foreign blob folder.
     """
     if str(existing.get("source")) != OWNED_SOURCE:
         return {**existing, **incoming}
@@ -526,6 +557,29 @@ def _owned_wins(existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str,
         if existing.get(key):
             merged[key] = existing[key]
     return merged
+
+
+BLOB_RE = re.compile(r"sha256-([0-9a-f]{64})", re.I)
+
+
+def _file_identity(m: dict[str, Any]) -> str:
+    """What file this record IS - content first, path second.
+
+    A CAS blob hides the content hash in its FILENAME (``...\\cas\\blobs\\sha256-<64 hex>``) while a
+    plain store copy carries the same hash in ``sha256``. Keying identity on the path alone therefore
+    leaves one weights file as two records - measured on this machine 2026-09-20: ``gemma4:12b``
+    (legacy_cas blob ``sha256-1278394b...``) and ``gemma4-12b`` (``I:\\LYGO_MODELS\\gemma4-12b.gguf``,
+    sha256 ``1278394b...``) were the same 7.38 GB of weights, listed twice in the choice box. Content
+    hash first; the path is the fallback when no hash is known.
+    """
+    h = str(m.get("sha256") or "").strip().lower().split(":")[-1]
+    if len(h) == 64 and not re.search(r"[^0-9a-f]", h):
+        return "file:" + h
+    p = str(m.get("path") or "").strip().lower()
+    blob = BLOB_RE.search(p)
+    if blob:
+        return "file:" + blob.group(1).lower()
+    return p or "id:" + str(m.get("id"))
 
 
 def dedupe_by_file(models: list[dict[str, Any]], selected: str | None = None) -> list[dict[str, Any]]:
@@ -542,7 +596,7 @@ def dedupe_by_file(models: list[dict[str, Any]], selected: str | None = None) ->
     grouped: dict[str, list[dict[str, Any]]] = {}
     order: list[str] = []
     for m in models:
-        key = str(m.get("path") or "").strip().lower() or "id:" + str(m.get("id"))
+        key = _file_identity(m)
         if key not in grouped:
             order.append(key)
         grouped.setdefault(key, []).append(m)
@@ -560,10 +614,22 @@ def dedupe_by_file(models: list[dict[str, Any]], selected: str | None = None) ->
     for key in order:
         group = sorted(grouped[key], key=weight, reverse=True)
         keep = dict(group[0])
+        dropped: list[str] = []
         for other in group[1:]:
+            oid = str(other.get("id") or "")
+            if oid and oid != str(keep.get("id") or ""):
+                dropped.append(oid)
             for k, v in other.items():
                 if keep.get(k) in (None, "", [], {}) and v not in (None, "", [], {}):
                     keep[k] = v
+        if dropped:
+            # One file, several names. A LYGO turbo variant is the same weights under another
+            # Modelfile name, so one record per file is right - it is what stops the engine booting
+            # the projector-less twin - but the other names must not vanish: "why is turbo-hermes
+            # missing" is a fair question when its weights are sitting right here. Keep them as
+            # aliases so the picker can name every model the operator asked to see.
+            names = sorted({*(keep.get("also_known_as") or []), *dropped})
+            keep["also_known_as"] = [n for n in names if n != str(keep.get("id") or "")]
         out.append(keep)
     return out
 

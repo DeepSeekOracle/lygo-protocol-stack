@@ -21,6 +21,23 @@ API_PATH = CONFIG / "api.json"
 # engine answer; an explicit re-activation (or clear_error) lifts it immediately.
 COOLDOWN_S = 300.0
 
+# What the console can SEND through each provider, taken from that provider's own documentation - never
+# inferred from a model name. A route with no image capability is not a broken route: it is a text route,
+# and the console routes a photo to one that accepts pictures (or to the local vision model) instead of
+# letting a text model answer about a photo it never saw. `source` travels in the payload so the operator
+# can check the claim, and `custom` claims NOTHING because an unknown endpoint's limits are not ours to assert.
+PROVIDER_CAPS: dict[str, dict[str, Any]] = {
+    "deepseek": {"caps": ["text", "tools"], "source": "https://api-docs.deepseek.com/"},
+    "groq": {"caps": ["text", "tools"], "source": "https://console.groq.com/docs/models"},
+    "openai": {"caps": ["text", "tools", "image-in"], "source": "https://platform.openai.com/docs/guides/vision"},
+    "xai": {"caps": ["text", "tools", "image-in"], "source": "https://docs.x.ai/docs/models"},
+    "gemini": {"caps": ["text", "tools", "image-in", "sound-in"],
+               "source": "https://ai.google.dev/gemini-api/docs/vision"},
+    "openrouter": {"caps": ["text", "tools", "image-in"],
+                   "source": "https://openrouter.ai/docs/features/multimodal/overview"},
+    "custom": {"caps": [], "source": "unknown - a custom endpoint declares its own capabilities"},
+}
+
 PROVIDERS: dict[str, dict[str, Any]] = {
     "deepseek": {
         "label": "DeepSeek",
@@ -29,8 +46,34 @@ PROVIDERS: dict[str, dict[str, Any]] = {
         "models": ["deepseek-chat", "deepseek-reasoner", "deepseek-flash"],
         "help": "platform.deepseek.com — keys. Model deepseek-chat or deepseek-flash.",
     },
+    # NVIDIA NIM (build.nvidia.com). Added for the operator's test key: its account answers on
+    # nemotron-3-super-120b-a12b - the model this kit's LOCAL engine cannot read (ledger L3), so
+    # the API is a real workaround for it. Measured: with thinking ON that model writes its
+    # reasoning into the answer (and sets reasoning_content), with thinking OFF it answers
+    # cleanly. The same is true of the other nemotron reasoning ids, so it is off by default.
+    "nvidia": {
+        "label": "NVIDIA NIM",
+        "url": "https://integrate.api.nvidia.com/v1/chat/completions",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "models": [
+            "nvidia/nemotron-3-super-120b-a12b",
+            "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
+            "nvidia/nemotron-3.5-lightning-30b-a3b",
+            "meta/llama-3.2-11b-vision-instruct",
+        ],
+        "body": {"chat_template_kwargs": {"thinking": False}},
+        "help": "build.nvidia.com - OpenAI-compatible. The test account answers on nemotron-3-super, "
+                "nemotron-3-nano-omni, nemotron-3.5-lightning and llama-3.2-11b-vision; every other id "
+                "is listed but not enabled for it, and the account has worker rate limits.",
+    },
     "groq": {
         "label": "Groq",
+        # Measured: api.groq.com answers urllib with Cloudflare Error 1010 (browser-integrity
+        # block), 403, even with a valid key. One browser-like User-Agent and the same call
+        # answers 200. This is what `extra` is for: headers the provider needs.
+        "extra": {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                            "(KHTML, like Gecko) Chrome/128.0 Safari/537.36",
+                  "Accept": "application/json"},
         "url": "https://api.groq.com/openai/v1/chat/completions",
         "model": "openai/gpt-oss-20b",
         "models": ["openai/gpt-oss-20b", "openai/gpt-oss-120b"],
@@ -107,6 +150,8 @@ def _blank() -> dict[str, Any]:
         "fallbacks": [],
         "last_provider": "",
         "chain_tried": [],
+        "chain_at": 0.0,
+        "chain_when": "",
         "degraded": False,
         "last_error": "",
         "last_code": 0,
@@ -169,6 +214,14 @@ def save(obj: dict[str, Any]) -> dict[str, Any]:
         k = sanitize_key(str(obj.get("key") or ""))
         if k:
             cur["key"] = k
+            # File it under its provider as well. The legacy single-key field cannot say who owns a
+            # key once the operator switches providers, and a chain candidate is only built from a
+            # provider's own key.
+            owner = str(obj.get("provider") or cur.get("provider") or DEFAULT_PROVIDER).strip()
+            if owner in PROVIDERS:
+                if not isinstance(cur.get("keys"), dict):
+                    cur["keys"] = {}
+                cur["keys"][owner] = k
         elif obj.get("key") == "":
             cur["key"] = ""
     if isinstance(obj.get("keys"), dict):
@@ -185,7 +238,17 @@ def save(obj: dict[str, Any]) -> dict[str, Any]:
     if isinstance(obj.get("fallbacks"), list):
         cur["fallbacks"] = [str(x or "").strip() for x in obj["fallbacks"] if str(x or "").strip()]
     if "provider" in obj:
+        _was = str(cur.get("provider") or "")
         cur["provider"] = str(obj.get("provider") or "deepseek")
+        # The model must follow the provider. Measured 2026-09-21 on the running console: choosing a
+        # provider left the previous provider's model in place, so every turn posted `deepseek-chat`
+        # to NVIDIA, Gemini and Groq alike and came back 404 "model not found" - reported by the
+        # operator as "the API system is not working". An explicit model in the same call still wins,
+        # and a save that does not change the provider leaves the model alone.
+        if "model" not in obj and cur["provider"] != _was:
+            cur["model"] = str((PROVIDERS.get(cur["provider"]) or {}).get("model") or cur.get("model") or "")
+            # a new provider has not walked anything yet: last turn's codes read as this turn's
+            cur["chain_tried"] = []
     if "model" in obj:
         cur["model"] = str(obj.get("model") or "")
     if "url" in obj:
@@ -206,6 +269,26 @@ def save(obj: dict[str, Any]) -> dict[str, Any]:
     return public_status()
 
 
+def chain_label(state: dict[str, Any] | None = None) -> str:
+    """What the panel's walk readout MEANS: the last cloud walk, and when - never "this turn".
+
+    A turn that is answered locally, or served from the chain's first key, may not walk at all, so the
+    codes on screen can belong to an earlier turn. Saying so costs one clause and removes the only
+    reading of that line that was untrue.
+    """
+    st = state
+    if st is None:
+        try:
+            st = _load()
+        except Exception:
+            st = {}
+    tried = [str(x) for x in (st.get("chain_tried") or [])]
+    if not tried:
+        return "no cloud walk recorded yet"
+    when = str(st.get("chain_when") or "").strip()
+    return "last cloud walk%s - %s" % ((" at " + when) if when else "", ", ".join(tried))
+
+
 def public_status() -> dict[str, Any]:
     cur = _load()
     p = PROVIDERS.get(cur.get("provider") or "") or {}
@@ -219,6 +302,9 @@ def public_status() -> dict[str, Any]:
         "chain": [str(c.get("label")) for c in chain],
         "last_provider": str(cur.get("last_provider") or ""),
         "chain_tried": list(cur.get("chain_tried") or []),
+        "chain_at": float(cur.get("chain_at") or 0.0),
+        "chain_when": str(cur.get("chain_when") or ""),
+        "chain_label": chain_label(cur),
         "fallbacks": list(cur.get("fallbacks") or []),
         "failover": True,
         "default_provider": DEFAULT_PROVIDER,
@@ -228,7 +314,11 @@ def public_status() -> dict[str, Any]:
         "model": cur.get("model") or p.get("model"),
         "url": (cur.get("url") or p.get("url") or "")[:80],
         "help": p.get("help") or "",
-        "providers": {k: {"label": v["label"], "model": v["model"], "help": v["help"], "models": v.get("models") or []} for k, v in PROVIDERS.items()},
+        "providers": {k: {"label": v["label"], "model": v["model"], "help": v["help"],
+                          "models": v.get("models") or [],
+                          "caps": (PROVIDER_CAPS.get(k) or {}).get("caps") or [],
+                          "caps_source": (PROVIDER_CAPS.get(k) or {}).get("source")}
+                      for k, v in PROVIDERS.items()},
         "path": str(API_PATH),
         "secret": "never_echoed",
         "degraded": bool(cur.get("degraded")),
@@ -241,6 +331,39 @@ def public_status() -> dict[str, Any]:
     st["mode"] = mode_of(st)
     st["active"] = st["mode"] == API_MODE
     return st
+
+
+# Providers whose answers arrive as *reasoning* first: given a small output budget they spend it
+# thinking and return almost nothing. Measured 2026-09-21 - asked to reply "GEMINI OK" with a
+# 64-token budget, Gemini returned "GEM" after 11.2 s and Groq's shipped model returned an empty
+# string, while a plain provider answered the same ask in 0.9 s on the same budget.
+REASONING_FLOOR = {"gemini": 512, "groq": 512}
+
+
+def effective_max_tokens(provider: str, asked: Any) -> int:
+    """The output budget a provider actually needs: at least its floor, never more than was asked."""
+    try:
+        want = int(asked)
+    except (TypeError, ValueError):
+        want = 0
+    floor = int(REASONING_FLOOR.get(str(provider or "")) or 0)
+    return 0 if want <= 0 else max(want, floor)
+
+
+def local_payload_from(payload: dict[str, Any], model: str) -> dict[str, Any]:
+    """The same turn, addressed to our own engine.
+
+    When the API refuses and the local engine is asked to take over, the payload must not carry the
+    API's model or the API's provider-only fields: measured 2026-09-21, a turn whose provider model
+    was invalid fell back to an engine that was ready - *still carrying that model* - so the engine
+    refused it too, nothing answered, and the operator was shown the "API handoff" notice instead
+    of a reply.
+    """
+    out = dict(payload or {})
+    out["model"] = str(model or "")
+    for api_only in ("chat_template_kwargs", "extra_body", "stream_options", "reasoning_effort"):
+        out.pop(api_only, None)
+    return out
 
 
 def chain_for(cur: dict[str, Any] | None = None) -> list[dict[str, Any]]:
@@ -264,7 +387,17 @@ def chain_for(cur: dict[str, Any] | None = None) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     for name in order:
         p = PROVIDERS.get(name) or {}
-        key = sanitize_key(str(keys.get(name) or (cur.get("key") if name == primary else "")))
+        # The legacy top-level `key` belongs to the provider that saved it. It is always offered to
+        # the primary, and it stays available to the house default when the operator points the
+        # console at another provider - otherwise switching the brain silently deleted a saved key
+        # from the chain (measured live: `keys_wired` went from four providers to three the moment
+        # the primary was moved, and a shorter chain is invisible until every remaining one is down).
+        legacy = str(cur.get("key") or "")
+        if legacy:
+            claimed = [sanitize_key(str(v)) for k, v in keys.items() if str(k) != name]
+            if legacy in claimed:
+                legacy = ""  # a value already owned by another provider is not re-offered
+        key = sanitize_key(str(keys.get(name) or (legacy if name in (primary, DEFAULT_PROVIDER) else "")))
         if not key:
             continue
         url = str(((cur.get("url") if name == primary else "") or p.get("url") or "")).strip()
@@ -277,6 +410,7 @@ def chain_for(cur: dict[str, Any] | None = None) -> list[dict[str, Any]]:
                 "url": url,
                 "model": model,
                 "extra": p.get("extra") or {},
+                "body": p.get("body") or {},
             }
         )
     return out
@@ -310,6 +444,64 @@ def _post(url: str, key: str, body: dict[str, Any], extra: dict[str, Any], timeo
         return 502, err, "application/json"
 
 
+def _why(code: int, body: bytes = b"") -> str:
+    """The refusal in the operator's terms, naming the provider's own words when it gave any.
+
+    The three that look alike are not alike: 401 means the key itself was refused, 402 means the account
+    is out of credit, 429 means the key is fine but asking too fast. The next move differs in each case,
+    and a single "the API failed" sentence would hide that. Never echoes key material - these sentences
+    are written to `config/api.json` and printed in the portal.
+    """
+    said = ""
+    try:
+        parsed = json.loads(body.decode("utf-8", "replace") or "{}")
+        err = parsed.get("error") if isinstance(parsed, dict) else None
+        if isinstance(err, dict):
+            said = str(err.get("message") or err.get("type") or "")
+        elif err:
+            said = str(err)
+        elif isinstance(parsed, dict):
+            said = str(parsed.get("message") or "")
+    except Exception:  # noqa: BLE001
+        said = ""
+    said = " ".join(said.split())[:160]
+    table = {
+        400: "the provider refused the request as malformed (400)",
+        401: "the provider rejected the API key (401)",
+        402: "the account is out of credit (402)",
+        403: "the key is not allowed to do this (403)",
+        404: "the url or the model does not exist (404)",
+        408: "the provider timed out (408)",
+        429: "the key is being rate limited (429)",
+        500: "the provider had a server error (500)",
+        502: "the provider was unreachable (502)",
+        503: "the provider is unavailable (503)",
+    }
+    head = table.get(int(code or 0), "the provider answered HTTP %s" % int(code or 0))
+    return head + (": " + said if said else "")
+
+
+def _note_failure(code: int, message: str = "", provider: str = "") -> None:
+    """Record the code and the reason next to `chain_tried` - the walk's own, so no caller can drop them.
+
+    Measured 2026-09-21: `config/api.json` read `chain_tried: ["deepseek:401"]` with `last_code: 0` and
+    `last_error: ""`. The walk knew the answer and the portal's two fields were empty, so the page said
+    "API handoff · " and stopped. Whichever caller lost the code, this is where it cannot be lost.
+    """
+    try:
+        ensure_dirs()
+        CONFIG.mkdir(parents=True, exist_ok=True)
+        cur = _load()
+        if provider:
+            cur["last_provider"] = str(provider)
+        cur["last_code"] = int(code or 0)
+        if message:
+            cur["last_error"] = " ".join(str(message).split())[:300]
+        atomic_write_text(API_PATH, json.dumps(cur, indent=2))
+    except Exception:
+        pass
+
+
 def _note_chain(tried: list[str], last_provider: str = "") -> None:
     """Record which keys were attempted (codes only — never key material)."""
     try:
@@ -317,6 +509,11 @@ def _note_chain(tried: list[str], last_provider: str = "") -> None:
         CONFIG.mkdir(parents=True, exist_ok=True)
         cur = _load()
         cur["chain_tried"] = [str(x) for x in tried][-8:]
+        # The record is worth keeping - it must just say WHEN it was taken. Measured
+        # 2026-09-21: one turn's refusals sat beside an answer another turn produced, so the
+        # panel read as if this turn had failed over when it had not.
+        cur["chain_at"] = time.time()
+        cur["chain_when"] = time.strftime("%H:%M:%S", time.localtime())
         if last_provider:
             cur["last_provider"] = last_provider
         atomic_write_text(API_PATH, json.dumps(cur, indent=2))
@@ -358,6 +555,13 @@ def chat(payload: dict[str, Any], timeout: float = 180.0) -> tuple[int, bytes, s
             last = (400, b'{"error":"bad_url"}', "application/json")
             continue
         body = dict(payload)
+        # a reasoning provider given a small budget answers nothing: raise it, never lower an ask
+        if body.get("max_tokens"):
+            body["max_tokens"] = effective_max_tokens(str(cand.get("provider") or ""), body.get("max_tokens"))
+        # A provider may need body fields the OpenAI shape does not have (NVIDIA's thinking
+        # switch, reasoning effort). `extra` is headers; this is the body. The kit still owns
+        # model and stream, so a provider entry can never point a turn at another model.
+        body.update(cand.get("body") or {})
         body["model"] = cand.get("model") or payload.get("model")
         body["stream"] = False
         code, data, ctype = _post(url, str(cand.get("key")), body, cand.get("extra") or {}, timeout)
@@ -373,7 +577,54 @@ def chat(payload: dict[str, Any], timeout: float = 180.0) -> tuple[int, bytes, s
         if i + 1 < len(chain):
             _note_chain(tried, str(cand.get("provider") or ""))
     _note_chain(tried, str(tried[-1].split(":")[0]) if tried else "")
+    try:
+        _last_code = int(last[0] or 0)
+    except (TypeError, ValueError):
+        _last_code = 0
+    _note_failure(_last_code, _why(_last_code, last[1] if len(last) > 1 else b""),
+                  str(tried[-1].split(":")[0]) if tried else "")
     return last
+
+
+def probe(timeout: float = 45.0) -> dict[str, Any]:
+    """One small call to the configured provider: "is my API key alive?".
+
+    The operator's report was that the Agent does not respond using the API key, and there was no way to
+    ask the key itself. This asks, and records the answer in the same state the portal reads - so a probe
+    that fails and a turn that fails look the same to whoever is looking at the panel.
+
+    Never raises, never returns key material.
+    """
+    try:
+        cur = _load()
+        chain = chain_for(cur)
+        provider = str(cur.get("provider") or "")
+        if not chain:
+            why = "no API key is saved for this console (config/api.json is empty, or `keys` holds none)"
+            return {"ok": False, "code": 401, "provider": provider, "model": str(cur.get("model") or ""),
+                    "seconds": 0.0, "why": why}
+        cand = chain[0]
+        provider = str(cand.get("provider") or provider)
+        model = str(cand.get("model") or cur.get("model") or "")
+        started = time.time()
+        code, data, _ctype = _post(str(cand.get("url") or ""), str(cand.get("key") or ""),
+                                   {"model": model or "gpt-4o-mini",
+                                    "messages": [{"role": "user", "content": "ping"}],
+                                    "max_tokens": 4, "stream": False},
+                                   cand.get("extra") or {}, timeout)
+        took = round(time.time() - started, 1)
+        if code < 400:
+            _note_success(provider)
+            clear_error()
+            return {"ok": True, "code": int(code), "provider": provider, "model": model,
+                    "seconds": took, "why": "the key answered"}
+        why = _why(int(code), data)
+        note_error(int(code), "probe: " + why)
+        return {"ok": False, "code": int(code), "provider": provider, "model": model,
+                "seconds": took, "why": why}
+    except Exception as exc:  # noqa: BLE001 - a diagnostic that raises is not a diagnostic
+        return {"ok": False, "code": 0, "provider": "", "model": "", "seconds": 0.0,
+                "why": "%s: %s" % (type(exc).__name__, exc)}
 
 
 def active() -> bool:

@@ -1,2 +1,2 @@
-1.2.2
-build-line 2026-09-20 · module-strip · hardening sweep
+1.3.0
+build-line 2026-09-21 · forever history + LYGO RAG · four-provider chain (DeepSeek→NVIDIA→Gemini→Groq) · local/API switching fixed · image read+draw both ways · answer fidelity (readout, limb failures, artefacts, who answered) · 1089 tests on the PC, 1080 + 9 profile skips on the USB copy

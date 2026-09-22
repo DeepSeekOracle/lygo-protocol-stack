@@ -159,6 +159,12 @@ if exist "C:\Python313\python.exe" (set "LYGO_PYTHON=C:\Python313\python.exe") e
 if defined LYGO_P_console (echo  Starting http://%LYGO_URLHOST%:%LYGO_P_console%/) else (echo  Starting on the app default port ^(see src\paths.py^) - not declared in config)
 echo  Python     : %LYGO_PYTHON%
 echo.
+rem --- the doorbell: the page's own "Boot server" button needs something alive when this
+rem     window is not. It exits at once if one is already listening, and touches nothing else.
+if not defined LYGO_NO_DOORBELL (
+  start "LYGO doorbell" /min "%LYGO_PYTHON%" -u "%ROOT%tools\doorbell.py" --detach
+)
+
 "%LYGO_PYTHON%" -u "%ROOT%src\server.py" serve %LYGO_PORTARG%
 echo.
 echo  Console stopped.

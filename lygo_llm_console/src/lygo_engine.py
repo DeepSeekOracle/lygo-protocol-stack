@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import perf
-from engine import available_ram_bytes, clamp_ctx, ram_ok, resolve_binary, runner_for, spawn_runner
+from engine import available_ram_bytes, clamp_ctx, ram_ok, resolve_binary, runner_for, spawn_runner, total_ram_bytes
 from paths import (
     COLIBRI_PORT,
     CONSOLE_JSON,
@@ -92,6 +92,7 @@ def probe() -> dict[str, Any]:
     chosen = Path(str(sel.get("engine_dir") or ENGINE_DIR))
     return {
         "ram_bytes": ram,
+        "ram_total_bytes": total_ram_bytes(),
         "ram_gib": round(ram / GIB, 2) if ram else 0,
         "vram_bytes": vram,
         "vram_gib": round(vram / GIB, 2) if vram else 0,
@@ -196,11 +197,14 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
             "threads": threads,
             "mmap": True,
             "mlock": False,
-            # Honest flag. This used to read "mode != cpu" — i.e. every GPU host was told flash
-            # attention was on while spawn_runner never sent the flag. Measured here on the CUDA
-            # path, -fa on was SLOWER for prompt eval (2620 vs 3246 tok/s), so it defaults off and
-            # console.json ("flash_attn": "on") opts in.
-            "flash_attn": flash_attn_on(),
+            # Honest flag, and now a measured one. This used to read "mode != cpu" - every GPU host
+            # was told flash attention was on while spawn_runner never sent the flag. Measured then,
+            # -fa on was SLOWER for prompt eval (2620 vs 3246 tok/s) and it shipped off. Re-measured
+            # 2026-09-20 on the current build (0.4.1-dev 10988, -ngl 79 -t 6, q8_0 KV): -fa on is
+            # FASTER on both halves - prompt eval 154.1 vs 141.7 t/s, generation 15.15 vs 13.00 t/s -
+            # so config/console.json ships "on". Without a device to accelerate it stays off: with no
+            # GPU the flag buys nothing, and a plan must not advertise a benefit this host cannot feel.
+            "flash_attn": flash_attn_on() and bool(hw.get("devices")),
             # Every one of these is read back by boot() and really sent to llama-server; a knob
             # that only exists in the plan is a knob that lies about the running engine.
             "kv_type": kv_type,
@@ -225,8 +229,26 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _drop_backend(pl: dict[str, Any], why: str) -> str:
-    """Retire a GPU backend that just killed the engine on this host. Returns '' if there was none."""
+def _boot_log_tail(port: int) -> str:
+    """The engine's own last words for this boot. Imported lazily: lygo_engine is loaded by model_check."""
+    try:
+        import model_check  # noqa: PLC0415
+
+        return model_check._log_tail(int(port))
+    except Exception:  # noqa: BLE001 - evidence is never allowed to break a boot
+        return ""
+
+
+def _drop_backend(pl: dict[str, Any], why: str, *, tail: str = "") -> str:
+    """Retire a GPU backend that just killed the engine on this boot. Returns '' if there was none.
+
+    Whether this failure says anything about the BUILD is not this function's question to answer on its
+    own: `backends.boot_condemnation` owns the rules (a busy card, a fault, a model our loader cannot
+    read, and no engine words at all are all moments, not properties). Measured 2026-09-20 22:54 - this
+    function wrote `bad`, deactivated the build and cleared the proven selection on a contended launch,
+    so the next console came up on the CPU engine with nothing saying why. The fallback for THIS boot is
+    unchanged: the console must come up.
+    """
     name = str((pl.get("perf") or {}).get("backend") or "cpu")
     if name == "cpu":
         return ""
@@ -234,18 +256,25 @@ def _drop_backend(pl: dict[str, Any], why: str) -> str:
         import backends as be
 
         info = be.backend_info(name)
+        may, refused = be.boot_condemnation(name, detail=why, log_tail=tail)
+        (pl.get("perf") or {})["gpu_ok"] = False
+        if not may:
+            # No verdict, no deactivation, no cleared selection: the store is left exactly as it was, and
+            # the next boot decides on the same evidence this one had.
+            return (f"{name} failed at launch on this host ({why}); running the shipped engine for this "
+                    f"boot - no verdict recorded ({refused})")
         be.remember_backend(perf.host_id(), name, verdict="bad",
                             key=be.backend_key(name, info), detail=f"launch_failed: {why}")
         be.deactivate(name, info)
         be.clear_active()
-        (pl.get("perf") or {})["gpu_ok"] = False
         return (f"{name} failed at launch on this host ({why}); backend dropped, "
                 f"retrying on the shipped engine")
     except Exception as exc:
         return f"backend {name} looked broken but could not be retired: {type(exc).__name__}: {exc}"
 
 
-def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
+def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any],
+         port: int | None = None) -> str:
     """Spawn the planned backend. Returns brain status string."""
     from colibri import resolve_coli, spawn_colibri
 
@@ -300,7 +329,11 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
         if ram < 6 * GIB:
             state["brain"] = "ram_refused"
             return "ram_refused"
-    port = LLAMA_PORT
+    # The port is a PARAMETER so a tool can measure models without writing into the console's own engine
+    # log. The log is named by port (engine.py: LOGS/llama-server-<port>.log), and a checker's failed
+    # model loads left "engine fault x119" in the operator's engine log - read by envwatch as a fault on a
+    # console that was in perfect health. A measurement must never leave a mark on what it measures.
+    port = int(port or LLAMA_PORT)
     lp = pl["llama"]
     with __import__("engine").ENGINE_LOCK:
         existing = runner_for(port)
@@ -320,7 +353,12 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
         mm = _mmproj_for(rec)
         lim = console_limits()
         ctx = int(rec.get("ctx") or lim["ctx_default"])
-        planned = int(rec["n_gpu_layers"]) if rec.get("n_gpu_layers") is not None else int(lp["ngl"])
+        # The plan decides the offload. The record's n_gpu_layers is a *record of what ran*, not an
+        # instruction: our own scan writes 0 for every model it finds, so trusting it here pinned the
+        # machine to CPU and the adaptive plan never reached the argv - /api/health reported ngl 79
+        # while the engine was launched with -ngl 0. An operator pin belongs in config/console.json,
+        # where perf.resolve honours it, and it is applied before this line runs.
+        planned = int(lp["ngl"])
         planned_first = planned
         queue = perf.ladder(planned)
         started = time.monotonic()
@@ -367,7 +405,9 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
                 if not queue:
                     # A backend that fails even at ngl 0 is the suspect, not the machine:
                     # drop it, remember the verdict and give the shipped engine one try.
-                    why = _drop_backend(pl, f"{type(exc).__name__}: {exc}") if not dropped_backend else ""
+                    why = ""
+                    if not dropped_backend:
+                        why = _drop_backend(pl, f"{type(exc).__name__}: {exc}", tail=_boot_log_tail(port))
                     if why:
                         dropped_backend = True
                         planned = 0
@@ -410,7 +450,13 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any]) -> str:
                 threads=int(lp["threads"]),
                 model=str(rec.get("id") or p.stem),
                 mode="cpu" if int(ngl_try) <= 0 else "gpu",
-                note="" if int(ngl_try) == planned else "reduced after a failed launch",
+                # `failed` is the ONLY field allowed to lower a later plan, so it is set from evidence:
+                # the engine refused the planned offload and had to come down. Everything else recorded
+                # here describes what ran and must never outrank a fresh plan - a record written while
+                # the host merely ran on CPU carries no fault, and treating it as one would pin the
+                # machine to CPU for good.
+                failed=bool(int(ngl_try) < int(planned)),
+                note="" if int(ngl_try) == planned else f"planned {planned}, ran {int(ngl_try)} after a failed launch",
             )
             break
     state["brain"] = "ready"

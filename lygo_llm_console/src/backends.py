@@ -23,8 +23,10 @@ Nothing here changes weights, precision or semantics: only where they are comput
 """
 from __future__ import annotations
 
+import datetime
 import hashlib
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -54,6 +56,16 @@ PROBE_SKIP_TOKENS = ("embed", "rerank", "bge-", "clip", "whisper", "mmproj", "pr
 FULL_LAYERS = 99
 
 # Crash codes worth naming in a receipt instead of a raw number.
+# A remembered verdict is evidence about a MOMENT, not a life sentence. Measured 2026-09-20: both GPU
+# backends were self-tested at 21:08-21:09 while a sweep of ours held the card - cuda died "llama-server
+# exited 1" after 41.9 s and vulkan crashed three probe loads with 0xC0000005 - and a verdict keyed by the
+# backend's own files is remembered until those files change. A busy card must never be able to lock a
+# working GPU build out of the console for good.
+VERDICT_RETRY_AFTER_S = 6 * 3600
+# A self-test loads a small chat model at FULL_LAYERS plus its cache. Below this much free VRAM the test
+# would measure contention rather than the backend, so it is not run: nothing is proved, nothing condemned.
+SELFTEST_MIN_FREE_MIB = 3072
+
 CRASH_NAMES = {
     3221225477: "0xC0000005 access violation",
     3221225725: "0xC00000FD stack overflow",
@@ -102,6 +114,31 @@ def backend_kind(where: Any = None, name: str = "") -> str:
     if any(n.startswith("ggml-") and n.endswith(".dll") for n in names):
         return "overlay"
     return ""
+
+
+def _probe_label(model: Any) -> str:
+    """The operator's name for a probe model - never its filename on disk.
+
+    A CAS blob is named sha256-<64 hex>, which tells the reader nothing about WHICH model crashed and
+    is indistinguishable from a leaked hash (the envwatch panel forbids that shape on principle). The
+    registry knows the name; when it does not, a redacted short form is still honest.
+    """
+    p = str(model or "")
+    try:
+        import atomicio  # noqa: PLC0415
+
+        for base in (Path(DATA).parent / "save", Path(DATA)):
+            reg = base / "registry.json"
+            if not reg.is_file():
+                continue
+            doc = json.loads(atomicio.read_text(reg, errors="replace") or "{}")
+            for rec in (doc.get("models") if isinstance(doc, dict) else doc) or []:
+                if str(rec.get("path") or "") == p:
+                    return str(rec.get("id") or "") or Path(p).name
+    except Exception:  # noqa: BLE001 - the label is a courtesy; never fail the probe over it
+        pass
+    name = Path(p).name
+    return re.sub(r"[0-9A-Fa-f]{16,}", "[hash]", name) or "a model file"
 
 
 def _sha256(path: Path) -> str:
@@ -524,6 +561,105 @@ def engine_dir_for(name: str, info: dict[str, Any]) -> Path:
     return base_engine_dir()
 
 
+def _verdict_age_s(verdict: dict[str, Any]) -> float:
+    """Seconds since a verdict was recorded; inf when the stamp is missing or unreadable."""
+    try:
+        when = datetime.datetime.fromisoformat(str((verdict or {}).get("at") or ""))
+    except (TypeError, ValueError):
+        return float("inf")
+    return max(0.0, (datetime.datetime.now() - when).total_seconds())
+
+
+def _foreign_engine_running() -> bool:
+    """A llama-server is already up - the console's own, the steward's, or a tool's. The card is in use."""
+    try:
+        r = subprocess.run(["tasklist", "/FI", "IMAGENAME eq llama-server.exe", "/FO", "CSV", "/NH"],
+                           capture_output=True, text=True, timeout=15,
+                           creationflags=0x08000000 if os.name == "nt" else 0)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return "llama-server.exe" in (r.stdout or "").lower()
+
+
+def card_busy() -> str:
+    """Why a GPU self-test must not run right now ("" when it may).
+
+    A test run against a busy card records a failure belonging to the moment rather than to the backend -
+    which is exactly how both GPU verdicts on this box were written off on 2026-09-20.
+    """
+    if _foreign_engine_running():
+        return "another llama-server is running and holding the card"
+    try:
+        import perf  # noqa: PLC0415
+
+        total, free = perf.gpu_vram_mib()
+    except Exception:  # noqa: BLE001
+        return ""
+    if total and free < SELFTEST_MIN_FREE_MIB:
+        return (f"only {free} MiB of {total} MiB VRAM free - a self-test now would measure contention, "
+                f"not the backend")
+    return ""
+
+
+def _access_violation(test: dict[str, Any]) -> bool:
+    """True when a failed launch faulted the way a card being taken away does, rather than refusing to load.
+
+    Measured on this box twice on 2026-09-20: the CUDA build faulted with 0xC0000005 (3221225477) while a
+    model was still being torn down, and a working build was written off as ``bad`` - which then withdrew
+    the console's proven GPU selection. A loader that cannot use a model says so in words (a key shape, a
+    tensor shape); it does not fault.
+    """
+    detail = str((test or {}).get("detail") or "").lower()
+    return any(sig in detail for sig in ("0xc0000005", "3221225477", "access violation"))
+
+
+# What the engine says when the ACCELERATOR is the problem, and only then. Deliberately narrow: a CUDA
+# build names CUDA on every healthy load too ("found 1 CUDA devices"), so a bare "cuda" would condemn a
+# working build on any tail it was shown.
+_ACCELERATOR_WORDS = (
+    "no cuda-capable device", "failed to initialize cuda", "cuda error", "cudart", "cublas",
+    "ggml-cuda", "ggml_cuda", "ggml-vulkan", "ggml_vulkan", "no vulkan device", "vulkan error",
+    "no usable device", "driver", "failed to load shared library", "cannot open shared object",
+)
+
+
+def boot_condemnation(name: str, *, detail: str = "", log_tail: str = "") -> tuple[bool, str]:
+    """May a failed BOOT condemn this backend? Returns (may_condemn, why_not).
+
+    A boot is one attempt in one moment; a verdict is believed for hours. Measured 2026-09-20 22:54: a
+    boot wrote `bad` against the cuda build with "launch_failed: RuntimeError: llama-server exited 1"
+    while our own checker sweep was still releasing the card - which withdrew the proven selection,
+    deleted `data/perf_active.json`, and dropped the console onto the CPU engine with nothing saying so.
+    Four ways a boot lies, all of them now refused:
+
+      * the card was in use - a moment, and `ensure()` refuses to test a busy card for the same reason;
+      * the launch faulted (0xC0000005 and friends) - a fault is not a verdict;
+      * the engine's own words blame the MODEL's metadata - a newer llama.cpp build, or another quant, is
+        the fix, and that is not a property of this CUDA build;
+      * there are no engine words at all - "exited 1" with no loader sentence condemns nothing.
+
+    What is left - the accelerator itself refusing to come up - is a real condemnation, and it stays.
+    """
+    if card_busy():
+        return False, "the card was in use, which is a moment and not a property of the build"
+    if _access_violation({"detail": detail}):
+        return False, "the launch faulted, and a fault is not a verdict"
+    text = f"{log_tail or ''} {detail or ''}".strip()
+    if not text:
+        return False, "no engine words to blame the build with"
+    try:
+        import model_check  # noqa: PLC0415
+
+        cls, _hint = model_check.classify_failure(log_tail, detail)
+    except Exception:  # noqa: BLE001 - a missing classifier must not invent a condemnation
+        cls = ""
+    if cls == "engine":
+        return False, "the engine's own words blame the model's metadata, not this backend"
+    if not any(w in text.lower() for w in _ACCELERATOR_WORDS):
+        return False, "the engine's own words do not name the accelerator"
+    return True, ""
+
+
 def ensure(*, devices: Any = None, models: Any = None, threads: int = 8, host: str = "",
            enabled: bool = True, allow_retest: bool = False, refresh: bool = False) -> dict[str, Any]:
     """Decide the engine dir and backend for this host, proving GPU use before claiming it.
@@ -531,7 +667,10 @@ def ensure(*, devices: Any = None, models: Any = None, threads: int = 8, host: s
     Cheap after the first call in a process and after the first boot on a host: verdicts
     live in the kit's perf store, keyed by the backend's own files.
     """
-    memo_key = f"{host}|{enabled}|{threads}"
+    # Keyed by what the decision depends on - the host and the config. Threads change the *test*, not the
+    # outcome the test already recorded, and keying on them re-ran real self-tests for every model in a
+    # checker sweep (each one another chance to launch beside a live engine).
+    memo_key = f"{host}|{enabled}"
     if not refresh and memo_key in _MEMO:
         return dict(_MEMO[memo_key])
     out: dict[str, Any] = {
@@ -580,7 +719,11 @@ def ensure(*, devices: Any = None, models: Any = None, threads: int = 8, host: s
                        device=str(verdict.get("device") or ""))
             _MEMO[memo_key] = dict(out)
             return dict(out)
-        if fresh and verdict.get("verdict") == "bad" and not allow_retest:
+        # ``verdict`` is None on a host that has never been tested: the old line could not touch it because
+        # ``fresh`` short-circuited first. Guard it here too - the store tests caught this immediately.
+        stale = (bool(verdict) and verdict.get("verdict") == "bad"
+                 and _verdict_age_s(verdict) >= VERDICT_RETRY_AFTER_S)
+        if fresh and verdict.get("verdict") == "bad" and not (allow_retest or stale):
             last_reason = "backend_failed_on_this_host"
             # A backend already proven bad must not be left applied to the engine dir.
             if info.get("kind") == "overlay":
@@ -589,6 +732,12 @@ def ensure(*, devices: Any = None, models: Any = None, threads: int = 8, host: s
             out["detail"] = last_detail
             continue
         # Unproven (or explicitly retested): apply, look for a device, then load a model.
+        busy = card_busy()
+        if busy:
+            # Measure nothing rather than measure the moment: no verdict is remembered from a busy card.
+            last_reason = "gpu_busy_not_probed"
+            out["detail"] = busy
+            continue
         act = activate(name, info)
         if not act.get("activated"):
             last_reason = "backend_activation_failed"
@@ -624,10 +773,18 @@ def ensure(*, devices: Any = None, models: Any = None, threads: int = 8, host: s
             # A model that kills the engine is not automatically a backend verdict: keep
             # trying, and only condemn the backend when every probe model failed.
             if "0x" in str(test.get("detail")) or "exit" in str(test.get("detail")):
-                crashes.append(f"{Path(model).name}: {test.get('detail')}")
+                crashes.append(f"{_probe_label(model)}: {test.get('detail')}")
         if not test.get("ok") and crashes:
             test = dict(test, detail="; ".join(crashes[:3]))
         out["tested"] = True
+        if not test.get("ok") and _access_violation(test):
+            # A fault is not a verdict: remember nothing, apply nothing, and let the next boot reconsider.
+            last_reason = "backend_faulted_not_probed"
+            out["detail"] = (f"{name}: {test.get('detail')} - the card faulted on launch, which is a "
+                             f"moment and not a property of the build; no verdict recorded")
+            if info.get("kind") == "overlay":
+                deactivate(name, info)
+            continue
         remember_backend(host, name, verdict="ok" if test.get("ok") else "bad", key=key,
                          detail=str(test.get("detail") or ""), device=device,
                          seconds=test.get("seconds"), kind=info.get("kind") or "")
@@ -649,7 +806,18 @@ def ensure(*, devices: Any = None, models: Any = None, threads: int = 8, host: s
     for name in applied_overlays():
         if name not in store:
             deactivate(name)
-    clear_active()
+
+    def _proven(nm: str) -> bool:
+        v = backend_verdict(host, nm) or {}
+        return bool(v) and v.get("verdict") == "ok" and v.get("key") == backend_key(nm, store[nm])
+
+    if not any(_proven(nm) for nm in store):
+        # Only withdraw the selection when nothing on this host is proven. Clearing here is how the console
+        # silently lost its GPU build on 2026-09-20, after a contended self-test wrote a verdict it had no
+        # right to write.
+        clear_active()
+    else:
+        out["detail"] = (out.get("detail") or "") + " [a proven backend is still recorded; the selection "                                                    "was left alone]".strip()
     out["reason"] = last_reason
     _MEMO[memo_key] = dict(out)
     return dict(out)

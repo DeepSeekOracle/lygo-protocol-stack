@@ -10,7 +10,9 @@ from __future__ import annotations
 
 import http.client
 import json
+import socket
 import threading
+import time
 import unittest
 from pathlib import Path
 
@@ -69,9 +71,9 @@ def call(path, source=None, host_header=None, body=None, method="GET", headers=N
     try:
         data = resp.read()
     except OSError:
-        # The server refuses an oversized body and closes the socket instead of draining it,
-        # which Windows surfaces as a reset on our side of the read. The status line already
-        # arrived, and that is what these tests assert on, so a reset after it is not a failure.
+        # Guard, not expectation: since defect 27 was fixed the server consumes a body it refuses,
+        # so the reason arrives and this should not fire. It stayed because the status line is what
+        # most of these tests assert on, and a platform-level reset must not fail them.
         data = b""
     out = (resp.status, data, dict(resp.getheaders()))
     conn.close()
@@ -132,6 +134,102 @@ class OversizedBodyTest(unittest.TestCase):
             headers={"Content-Length": str(len(body))},
         )
         self.assertEqual(status, 413)
+
+    def test_the_reason_reaches_the_caller(self):
+        """Defect 27. This failed about once in three full runs: the server answered 413 without
+        consuming the 600 kB, Windows reset the connection, and the caller lost the answer to
+        `ConnectionAbortedError [WinError 10053]` — sometimes on the read, sometimes still writing.
+        The portal's own paste path took that reset, so a merely-too-large paste read as the
+        network being down instead of "too large"."""
+        body = b"x" * 600_000
+        status, data, _ = call(
+            "/api/session", source=LOCAL, body=body, method="POST",
+            headers={"Content-Length": str(len(body))},
+        )
+        self.assertEqual(status, 413)
+        self.assertEqual(json.loads(data).get("error"), "too_large", "the caller must get the reason, not a reset")
+
+    def test_the_caller_is_told_this_answer_ends_the_connection(self):
+        body = b"x" * 600_000
+        _, _, headers = call(
+            "/api/session", source=LOCAL, body=body, method="POST",
+            headers={"Content-Length": str(len(body))},
+        )
+        self.assertEqual(headers.get("Connection"), "close", "say it, don't just close: a caller that reuses this socket fails its next request on it")
+
+
+class _StubBodyPeer(server.Handler):
+    """A real handler with a faked transport: no socket, no server, and a body that never returns
+    more than the caller declared. `__init__` is replaced, so the socket setup never runs."""
+
+    def __init__(self, declared: int):
+        self.headers = {"Content-Length": str(declared)}
+        self.connection = None
+        self.close_connection = False
+        self.client_address = ("127.0.0.1", 0)
+        self.rfile = _DeclaredBodyStream(declared)
+
+
+class _DeclaredBodyStream:
+    """A body that never returns more than the caller declared and never blocks, so a test can see
+    what a reader consumed without allocating the tens of megabytes a caller merely claimed."""
+
+    def __init__(self, declared: int):
+        self.remaining = declared
+        self.read_bytes = 0
+
+    def read(self, n: int = -1) -> bytes:
+        if n is None or n < 0:
+            n = self.remaining
+        take = min(n, self.remaining)
+        self.remaining -= take
+        self.read_bytes += take
+        return b"x" * take
+
+
+class RejectedBodyIsConsumedTest(unittest.TestCase):
+    """Defect 27, at the unit the defect lives in: `server.Handler._read_body()`.
+
+    The refusal is right; refusing *without reading* is what resets the caller. Sockets make that
+    racy, so the contract is asserted here, where it is deterministic — the reader must consume a
+    body it will not accept, bounded in size and in time, since the declared length is the caller's
+    word and not ours.
+    """
+
+    LIMIT = 256_000
+
+    def test_a_rejected_body_is_consumed_so_a_caller_can_finish_writing(self):
+        peer = _StubBodyPeer(600_000)
+        with self.assertRaises(server._BodyTooLarge):
+            peer._read_body(self.LIMIT)
+        self.assertEqual(peer.rfile.read_bytes, 600_000, "the refused body must be consumed, not left in the socket")
+
+    def test_an_absurd_declared_length_is_not_drained_whole(self):
+        declared = server.DRAIN_CAP + 4_000_000
+        peer = _StubBodyPeer(declared)
+        with self.assertRaises(server._BodyTooLarge):
+            peer._read_body(self.LIMIT)
+        drained = peer.rfile.read_bytes
+        self.assertGreater(drained, 0, "a normal over-limit body is still consumed")
+        self.assertLessEqual(drained, server.DRAIN_CAP, "a caller who declares tens of megabytes must not cost us tens of megabytes")
+
+    def test_a_body_that_never_finishes_arriving_does_not_hold_the_thread(self):
+        """Bounded in time, over the real socket: declare 10 MB, send 1 KB. The 413 must arrive in
+        seconds — the drain is not a place a caller can park a handler thread."""
+        declared = 10_000_000
+        sock = socket.create_connection(("127.0.0.1", _port), timeout=15)
+        try:
+            nl = chr(13) + chr(10)
+            head = ("POST /api/session HTTP/1.1" + nl + "Host: 127.0.0.1" + nl
+                    + "Content-Length: " + str(declared) + nl + nl).encode()
+            sock.sendall(head + b"x" * 1024)
+            started = time.monotonic()
+            first = sock.recv(4096)
+            elapsed = time.monotonic() - started
+        finally:
+            sock.close()
+        self.assertIn(b"413", first)
+        self.assertLess(elapsed, 15.0, "a slow caller must not hold a handler thread past the drain timeout")
 
 
 class ConsoleConfigTest(unittest.TestCase):

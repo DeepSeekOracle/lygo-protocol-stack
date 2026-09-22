@@ -1,5 +1,5 @@
 {
-  "build": "v1.2.2",
+  "build": "v1.3.0",
   "signature": "\u03949\u03a6963-LYGO-COMPACTION-v1",
   "console_build": "1.1.0",
   "status": "installed_and_tested_not_yet_boot_verified",
@@ -161,8 +161,8 @@
     "a standalone scratch kit copy did not answer HTTP within 180s (unexplained, low severity)",
     "images bounded in the prompt (2), not in the record"
   ],
-  "release": "1.2.2",
-  "release_tag": "build-line 2026-09-20 \u00b7 module-strip \u00b7 hardening sweep",
-  "rebrand_refresh_iso": "2026-09-20T14:43:27-06:00",
-  "rebrand_refresh_note": "1.2.2 hardening sweep: token header case, OPTIONS answered properly, no phantom notes, envwatch rotation race, dead code removed, lifecycle exposed on the module row"
+  "release": "1.3.0",
+  "release_tag": "build-line 2026-09-21 \u00b7 forever history + LYGO RAG \u00b7 four-provider chain (DeepSeek\u2192NVIDIA\u2192Gemini\u2192Groq) \u00b7 local/API switching fixed \u00b7 image read+draw both ways \u00b7 answer fidelity (readout, limb failures, artefacts, who answered) \u00b7 1089 tests on the PC, 1080 + 9 profile skips on the USB copy",
+  "rebrand_refresh_iso": "2026-09-21T14:44:26-06:00",
+  "rebrand_refresh_note": "1.3.0: media limbs in core (image_generate, sound_speak); standalone vocabulary - cas_import rename, scan roots no longer enter foreign stores, gateway daemon backend removed"
 }

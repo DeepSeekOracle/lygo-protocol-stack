@@ -74,6 +74,15 @@ CORE_NAMES = {
     # those directly - so their descriptions say which case is which.
     "image_see",
     "image_info",
+    # The mirror of that gap on the making side. Without these the local agent can describe a picture
+    # and has no way to DRAW one, and no way to speak. Both are one-shot local binaries run by path -
+    # stable-diffusion.cpp for pictures, piper for voice - never a daemon, so nothing is left listening
+    # and nothing outlives the turn. media_status is deliberately NOT in this set: it is a diagnostic
+    # rather than a capability, it stays advertised in the global schema for the larger path, and this
+    # set is capped on purpose. A probe would buy the local brain nothing it cannot learn from
+    # image_generate failing outright, and it would spend budget the cap exists to protect.
+    "image_generate",
+    "sound_speak",
     "steward_map",
     "self_check",
     "whoami",
@@ -85,15 +94,42 @@ CORE_NAMES = {
     "workspace_map",
     "skill_list",
     "skill_read",
-    "kernel_status",
     "now",
     "world_pulse",
-    "weather",
     "calc",
     "remember",
     "notepad_list",
     "notepad_read",
     "credential_where",
+    # The local brain could describe code but never run it. python_exec and rust_exec are advertised
+    # in the global schema and were omitted here, so the agent (gemma4 local, 2026-09-21) answered
+    # "I do not have a direct Python execution limb in my current configuration" and then did the
+    # arithmetic in its head. Running code is a capability, not a diagnostic: it belongs in the
+    # local set. The two slots came from weather (world_pulse already carries city weather) and
+    # kernel_status - the same "a diagnostic is not a capability" rule that keeps media_status out.
+    "python_exec",
+    "rust_exec",
+    # The self-build loop: with these the console can check a change it just made and publish it.
+    # Without them the operator had to run the suite, the seal and the restart by hand - the agent
+    # could edit its own source and do nothing with the edit. Every one that changes the system is
+    # consent-gated, so the capability arrives without the accident.
+    "self_test",
+    "self_seal",
+    "self_restart",
+    "toolchain_install",
+    # A console that can only work inside a turn stalls whenever the work is slow, and nothing
+    # outlives the turn. These hand work to the queue, schedule it, and report the daemon. Five
+    # of the eight are here because the on-box brain is the one that gets asked to do the work:
+    # task_add/task_list to hand it off and read it, cron_add/cron_list to repeat it, and
+    # keeper_status so it can say whether anything is keeping this console alive.
+    "task_add",
+    "task_list",
+    "task_show",
+    "task_cancel",
+    "cron_add",
+    "cron_list",
+    "cron_remove",
+    "keeper_status",
 }
 
 
@@ -102,12 +138,18 @@ CORE_NAMES = {
 # 17 * 23; the only probe that reached calc was the one that named the tool. In this schema calc sat
 # 18th of 20 behind the web tools, so a small model reads "web search" first and uses it. These
 # tools lead the LOCAL schema (the cloud path keeps TOOLS_SCHEMA order for its larger model).
-CORE_PRIORITY = ("calc",)
+# Order is routing for a small model (measured above): the code limbs sit beside calc, so a turn
+# that means "work it out" reaches them before the web tools talk it out of computing at all.
+CORE_PRIORITY = ("calc", "python_exec", "rust_exec")
 
 
 def core_schema() -> list[dict[str, Any]]:
     core = [t for t in TOOLS_SCHEMA if (t.get("function") or {}).get("name") in CORE_NAMES]
-    lead = [t for t in core if (t.get("function") or {}).get("name") in CORE_PRIORITY]
+    # CORE_PRIORITY is the order, not merely a set: it used to be filtered out of TOOLS_SCHEMA order,
+    # so the tuple could not actually put anything first. Measured failure: the priority lead came out
+    # as python_exec while the tuple said calc.
+    by_name = {(t.get("function") or {}).get("name"): t for t in core}
+    lead = [by_name[n] for n in CORE_PRIORITY if n in by_name]
     rest = [t for t in core if (t.get("function") or {}).get("name") not in CORE_PRIORITY]
     return lead + rest
 
@@ -459,7 +501,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
 
         return skillhub_install(str(args.get("slug") or args.get("name") or ""), bool(args.get("full")))
     if name == "kernel_status":
-        from engine import ollama_port_open, resolve_binary, runner_for
+        from engine import foreign_daemon_port_open, resolve_binary, runner_for
         from paths import LLAMA_PORT
         from p0_hook import PHYSICS_AVAILABLE
 
@@ -487,7 +529,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
             "colibri": coli_status(),
             "chat_runner": bool(r or rc),
             "engine_port": COLIBRI_PORT if rc else LLAMA_PORT,
-            "ollama_port_open": ollama_port_open(),
+            "foreign_daemon_port_open": foreign_daemon_port_open(),
             "kit": str(KIT_ROOT),
             "admin": is_admin(),
         }

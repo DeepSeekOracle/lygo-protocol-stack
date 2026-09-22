@@ -139,38 +139,38 @@
     },
     {
       "path": "src/compaction.py",
-      "sha256_16": "cbe4c3d49a26bd21",
-      "bytes": 55116
+      "sha256_16": "3c90c1989cd23e4e",
+      "bytes": 62282
     },
     {
       "path": "src/server.py",
-      "sha256_16": "55f0daf731f65147",
-      "bytes": 102919
+      "sha256_16": "71781c1f499b70b0",
+      "bytes": 141047
     },
     {
       "path": "src/continuity.py",
-      "sha256_16": "d8a3e04419d237e7",
-      "bytes": 12227
+      "sha256_16": "1a0fb9384ef67c3a",
+      "bytes": 15733
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "950442915b3e1c9e",
-      "bytes": 37809
+      "sha256_16": "020dc9fd1d996779",
+      "bytes": 76718
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "3f3ef5111426cc6d",
-      "bytes": 38630
+      "sha256_16": "bbc38826e250d82b",
+      "bytes": 46382
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "6e1ffc7c6be34ab3",
-      "bytes": 95352
+      "sha256_16": "6e83f731f51629f6",
+      "bytes": 105856
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "8f448d9854d961ed",
-      "bytes": 20218
+      "sha256_16": "a3ce16a650f97c1d",
+      "bytes": 20516
     },
     {
       "path": "tests/test_sessions.py",
@@ -188,10 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-20T14:43:27-06:00",
-  "rebrand_refresh_note": "1.2.2 hardening sweep: token header case, OPTIONS answered properly, no phantom notes, envwatch rotation race, dead code removed, lifecycle exposed on the module row",
+  "rebrand_refresh_iso": "2026-09-21T22:34:59-06:00",
+  "rebrand_refresh_note": "eye: a photo is fitted to the projector's window before it is sent (new src/vision.py); the tail rides as a content part instead of str() of the parts; the picture limb reports a busy card and the CPU route; the gateway flattens image parts to [image]",
   "rebrand_refresh_files": [
-    "src/server.py",
-    "portal/app.js"
+    "src/limbs.py"
   ]
 }

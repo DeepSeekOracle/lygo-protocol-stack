@@ -14,6 +14,7 @@ Probes and self-tests are faked here: a CI box with no GPU runs the same asserti
 """
 from __future__ import annotations
 
+import datetime
 import json
 import sys
 import tempfile
@@ -62,6 +63,10 @@ class BackendStoreTest(unittest.TestCase):
             # the verdict store is perf.PERF_JSON: patching backends.DATA alone would
             # let a test write into the real kit store (it did, once)
             patch.object(perf, "PERF_JSON", self.data / "perf.json"),
+            # This box's own card must not decide a store test. The busy-card policy has its own test
+            # below; here it is held open ("") the way it is on an idle machine. Measured 2026-09-20: six
+            # of these tests failed while a real checker sweep of ours held the GPU.
+            patch.object(backends, "card_busy", lambda: ""),
         ]
         for p in self._patches:
             p.start()
@@ -128,6 +133,51 @@ class BackendStoreTest(unittest.TestCase):
         self.addCleanup(p.stop)
         return seen
 
+    # -- a boot may fall back, but it may not condemn ----------------------
+    # Measured 2026-09-20: a BOOT (not a self-test) wrote `bad` against the cuda build at 22:54 with
+    # "launch_failed: RuntimeError: llama-server exited 1" while our own sweep was still releasing the
+    # card. That verdict then withdrew the proven selection, data/perf_active.json disappeared, and the
+    # console came up on the CPU engine with nothing saying so - and a verdict is remembered for 6 h.
+    def test_a_boot_on_a_busy_card_records_no_verdict(self):
+        self.add_engine_build("cuda")
+        with patch.object(backends, "card_busy", lambda: "another llama-server is running"):
+            may, why = backends.boot_condemnation("cuda", detail="RuntimeError: llama-server exited 1")
+        self.assertFalse(may, why)
+        self.assertIn("in use", why)
+        self.assertIsNone(backends.backend_verdict("host-a", "cuda"))
+
+    def test_a_faulted_boot_records_no_verdict(self):
+        self.add_engine_build("cuda")
+        may, why = backends.boot_condemnation("cuda",
+                                              detail="RuntimeError: llama-server exited 3221225477")
+        self.assertFalse(may, why)
+        self.assertIn("fault", why)
+
+    def test_a_boot_with_no_engine_words_records_no_verdict(self):
+        self.add_engine_build("cuda")
+        may, why = backends.boot_condemnation("cuda", detail="RuntimeError: llama-server exited 1")
+        self.assertFalse(may, why)
+        self.assertIn("words", why)
+
+    def test_a_model_the_loader_cannot_read_does_not_condemn_the_backend(self):
+        self.add_engine_build("cuda")
+        may, why = backends.boot_condemnation(
+            "cuda", detail="RuntimeError: llama-server exited 1",
+            log_tail="error loading model hyperparameters: key qwen35moe.rope.dimension_sections "
+                     "has wrong array length; expected 4, got 3")
+        self.assertFalse(may, why)
+        self.assertIn("model", why)
+
+    def test_the_accelerator_refusing_to_come_up_still_condemns(self):
+        # The rule keeps its teeth: when the build's own accelerator will not start, that IS a property
+        # of the build on this host, and the verdict belongs in the store.
+        self.add_engine_build("cuda")
+        may, why = backends.boot_condemnation(
+            "cuda", detail="RuntimeError: llama-server exited 1",
+            log_tail="ggml_cuda_init: failed to initialize CUDA: no CUDA-capable device is detected")
+        self.assertTrue(may, why)
+        self.assertEqual(why, "")
+
     # -- store shape ------------------------------------------------------
     def test_store_kinds_are_detected(self):
         self.assertEqual(backends.backend_kind(self.add_overlay("vulkan")), "overlay")
@@ -169,6 +219,60 @@ class BackendStoreTest(unittest.TestCase):
         self.assertFalse(out["gpu_ok"])
         self.assertFalse((self.engine / "ggml-vulkan.dll").exists())
 
+    # -- policy: a moment is not a verdict ---------------------------------
+    def age_verdict(self, name: str) -> None:
+        """Push a remembered verdict past the retry window, without touching the code under test."""
+        when = datetime.datetime.now() - datetime.timedelta(seconds=backends.VERDICT_RETRY_AFTER_S + 60)
+        store = json.loads((self.data / "perf.json").read_text(encoding="utf-8"))
+
+        def walk(node) -> bool:
+            if isinstance(node, dict):
+                if isinstance(node.get(name), dict) and "verdict" in node[name]:
+                    node[name]["at"] = when.strftime("%Y-%m-%dT%H:%M:%S")
+                    return True
+                return any(walk(v) for v in node.values())
+            return False
+
+        self.assertTrue(walk(store), "the seeded verdict was not found in the store")
+        (self.data / "perf.json").write_text(json.dumps(store, indent=2, sort_keys=True), encoding="utf-8")
+
+    def test_a_busy_card_is_not_tested_and_remembers_no_verdict(self):
+        """A card in use measures the moment, not the backend: skip the test and remember nothing."""
+        self.add_overlay("vulkan")
+        self.patch_devices()
+        with patch.object(backends, "card_busy", lambda: "only 120 MiB of 8187 MiB VRAM free"), \
+                patch.object(backends, "self_test", side_effect=AssertionError("must not launch")):
+            out = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[],
+                                  refresh=True)
+        self.assertEqual(out["reason"], "gpu_busy_not_probed")
+        self.assertEqual(out["backend"], "cpu")
+        self.assertIn("VRAM free", out["detail"])
+        self.assertFalse(backends.backend_verdict("host-a", "vulkan"), "a skip is not a verdict")
+        self.assertFalse((self.engine / "ggml-vulkan.dll").exists(), "a skip leaves nothing applied")
+
+    def test_a_bad_verdict_ages_out_and_is_retested(self):
+        """A remembered verdict is evidence about a moment: past the window it stops blocking a test."""
+        self.add_overlay("vulkan")
+        self.patch_devices()
+        self.verdict("vulkan", "bad")
+        frozen = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[],
+                                 refresh=True)
+        self.assertEqual(frozen["reason"], "backend_failed_on_this_host")
+        self.assertEqual(frozen["backend"], "cpu")
+        self.age_verdict("vulkan")
+        calls = []
+
+        def fake_test(engine_dir, model_path, **kw):
+            calls.append(str(engine_dir))
+            return {"ok": True, "seconds": 1.0, "detail": "model_load_ok"}
+
+        with patch.object(backends, "self_test", side_effect=fake_test):
+            out = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[],
+                                  refresh=True)
+        self.assertTrue(calls, "a stale verdict must be retested")
+        self.assertEqual(out["backend"], "vulkan")
+        self.assertTrue(out["gpu_ok"])
+
     # -- a failed backend must not touch the engine -----------------------
     def test_failed_self_test_is_remembered_and_leaves_engine_untouched(self):
         self.add_overlay("vulkan")
@@ -177,8 +281,9 @@ class BackendStoreTest(unittest.TestCase):
 
         def fake_test(engine_dir, model_path, **kw):
             calls.append(str(engine_dir))
-            return {"ok": False, "rc": 3221225477, "seconds": 0.4,
-                    "detail": "0xC0000005 access violation"}
+            # A clean exit carrying the loader's own words: that is what condemns a build.
+            return {"ok": False, "rc": 1, "seconds": 0.4,
+                    "detail": "launch_failed: llama-server exited 1 - failed to load model"}
 
         with patch.object(backends, "self_test", side_effect=fake_test):
             first = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[])
@@ -188,7 +293,8 @@ class BackendStoreTest(unittest.TestCase):
         self.assertEqual(len(calls), 1)
         verdict = backends.backend_verdict("host-a", "vulkan")
         self.assertEqual(verdict["verdict"], "bad")
-        self.assertIn("access violation", verdict["detail"])
+        self.assertIn("failed to load model", verdict["detail"],
+                      "the build is condemned by the loader's own words, not by a fault code")
 
         # Second boot on the same host: remembered, so no second crash.
         backends._MEMO.clear()
@@ -207,6 +313,41 @@ class BackendStoreTest(unittest.TestCase):
         self.assertFalse((self.engine / "ggml-vulkan.dll").exists())
 
     # -- a proven backend is applied and reused ---------------------------
+    def test_a_faulted_launch_is_not_a_verdict(self):
+        """0xC0000005 is the card being taken away mid-launch, not a property of the build."""
+        self.add_overlay("vulkan")
+        self.patch_devices()
+
+        def faulted(engine_dir, model_path, **kw):
+            return {"ok": False, "rc": 3221225477, "seconds": 0.4,
+                    "detail": "launch_failed: RuntimeError: llama-server exited 3221225477"}
+
+        with patch.object(backends, "self_test", side_effect=faulted):
+            out = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[],
+                                  refresh=True)
+        self.assertEqual(out["reason"], "backend_faulted_not_probed")
+        self.assertEqual(out["backend"], "cpu")
+        self.assertFalse(backends.backend_verdict("host-a", "vulkan"), "a fault is not a verdict")
+        self.assertFalse((self.engine / "ggml-vulkan.dll").exists(), "a faulted launch applies nothing")
+        with patch.object(backends, "self_test", return_value={"ok": True, "rc": 0, "seconds": 1.0,
+                                                              "detail": "model_load_ok"}):
+            again = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[],
+                                    refresh=True)
+        self.assertEqual(again["backend"], "vulkan",
+                         "nothing was remembered, so the next boot may try again instead of waiting six hours")
+
+    def test_the_memo_survives_a_thread_change(self):
+        """Threads change how a backend is exercised, not which backend this host proved."""
+        self.add_overlay("vulkan")
+        self.patch_devices()
+        with patch.object(backends, "self_test", return_value={"ok": True, "rc": 0, "seconds": 1.0,
+                                                              "detail": "model_load_ok"}):
+            backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[], threads=8)
+        with patch.object(backends, "self_test", side_effect=AssertionError("a thread change must not re-test")):
+            out = backends.ensure(host="host-a", models=[{"path": str(self.model_file())}], devices=[],
+                                  threads=6)
+        self.assertEqual(out["backend"], "vulkan")
+
     def test_passing_self_test_applies_the_overlay_and_selects_it(self):
         self.add_overlay("vulkan")
         seen = self.patch_devices()

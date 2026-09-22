@@ -79,7 +79,7 @@ VISION_PORT_DEFAULT = 11461  # a spare port: our own runner, so the chat engine 
 def vision_record() -> dict[str, Any] | None:
     """The registered model that carries a projector (mmproj): OUR OWN engine is what runs it.
 
-    Zero Ollama. The kit boots llama-server itself (engine.spawn_runner -> --mmproj) and this machine's
+    Zero foreign daemons. The kit boots llama-server itself (engine.spawn_runner -> --mmproj) and this machine's
     registry already carries gemma4:12b with its mmproj blob, so vision needs no daemon, no keep-alive
     setting and no second vendor: the projector GGUF is just another file the engine is pointed at.
     """
@@ -163,8 +163,17 @@ def _ask_engine(port: int, alias: str, image: Path, prompt: str, timeout: int) -
     import urllib.error
     import urllib.request
 
-    data_url = "data:image/" + (image.suffix.lower().lstrip(".") or "png") + ";base64," + \
-        base64.b64encode(image.read_bytes()).decode("ascii")
+    # The picture is FITTED before it is sent. This limb boots its own engine with ubatch 4096, and
+    # a projector is charged per patch of pixels, so a raw 1400-pixel photo is both ~18,000 tokens of
+    # window and past the batch the runner was booted with - measured 2026-09-19: a 1024x1536 photo
+    # crashed the runner mid-request. `vision` owns the rule; this cap is what that ubatch carries.
+    import vision
+
+    data_url = vision.data_url_for_file(image, max_side=vision.LIMB_IMAGE_SIDE)
+    if not data_url:
+        return {"ok": False, "error": "image_unreadable", "path": str(image),
+                "hint": "the file could not be read as a picture (or resized without Pillow/ffmpeg); "
+                        "nothing was sent to the engine"}
     heads = {"Content-Type": "application/json"}
     key = _engine_key()
     if key:

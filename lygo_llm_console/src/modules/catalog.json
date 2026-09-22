@@ -7,6 +7,8 @@
     { "id": "lygo.world", "order": 20, "enabled": true },
     { "id": "lygo.llminfo", "order": 30, "enabled": true },
     { "id": "lygo.envwatch", "order": 40, "enabled": true },
+    { "id": "lygo.meminfo", "order": 50, "enabled": true },
+    { "id": "lygo.guardwatch", "order": 55, "enabled": true },
     { "id": "lygo.notepad", "order": 60, "enabled": true }
   ]
 }

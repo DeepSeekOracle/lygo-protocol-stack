@@ -118,7 +118,7 @@ def write_first_run() -> Path:
     (KIT / "FIRST_RUN.txt").write_text(
         "LYGO LLM Console — public kit\n\n"
         "1. This folder is yours. Soul / Identity / Memory start as public seeds.\n"
-        "2. Put GGUF files in models\\ or click Scan. The kit boots its own engine on them - no Ollama.\n"
+        "2. Put GGUF files in models\\ or click Scan. The kit boots its own engine on them - it never needs another service.\n"
         "3. Add any extra folders in the left-rail Workspace panel.\n"
         f"4. Double-click LYGO_LLM_CONSOLE.bat → http://127.0.0.1:{DEFAULT_PORT}/\n"
         "5. This is not the steward admin tree. No vaults shipped.\n"
@@ -193,7 +193,7 @@ def main(argv: list[str] | None = None) -> int:
         print("fetch_engine:", fetch_engine())
     elif not engine_present():
         print("engine: missing — run: powershell -File scripts\\fetch_engine.ps1")
-        print("  or put llama-server.exe in engine\\ from ggml-org CPU zip (pin b10988)")
+        print("  or put llama-server.exe in engine\\ from ggml-org CPU zip (pin b11074)")
     else:
         print("engine: llama-server.exe present")
     from colibri import resolve_coli

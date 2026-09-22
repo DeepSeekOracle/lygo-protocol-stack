@@ -20,7 +20,9 @@ from pathlib import Path
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # the stick/PC profile helper
+from _stick_profile import on_a_stick, stick_why  # noqa: E402
 
 import engine  # noqa: E402
 import lygo_engine  # noqa: E402
@@ -163,12 +165,51 @@ class HostMemoryTest(ProfileResolutionTest):
     def test_a_failed_launch_on_this_host_is_remembered_and_respected(self):
         hw = gpu_host()
         fp = perf.fingerprint(hw, perf.best_device(hw["devices"]), "qwen2.5:3b")
-        perf.remember_host(fp, ngl=0, note="llama-server exited 1")
+        perf.remember_host(fp, ngl=0, failed=True, note="llama-server exited 1")
         prof = perf.resolve(lim=self._lim(), hw=hw, model_bytes=2 * GIB, model_id="qwen2.5:3b")
         self.assertEqual(0, prof["ngl"])
         self.assertEqual("host_record", prof["source"])
         self.assertTrue(prof["fallback"])
-        self.assertIn("remembered_from_this_host", prof["reason"])
+        self.assertIn("remembered_failure_on_this_host", prof["reason"])
+
+    def test_a_record_with_no_evidence_of_a_fault_must_not_cap_the_plan(self):
+        # The regression this guards: a host recorded while it merely ran on CPU has no failure to
+        # report. Treating that as one pins the machine to CPU for good - the GPU is planned, measured
+        # and then never used - so only a record that says it failed may lower a plan.
+        hw = gpu_host()
+        fp = perf.fingerprint(hw, perf.best_device(hw["devices"]), "qwen2.5:3b")
+        perf.remember_host(fp, ngl=0, mode="cpu", threads=16, note="")
+        prof = perf.resolve(lim=self._lim(), hw=hw, model_bytes=2 * GIB, model_id="qwen2.5:3b")
+        self.assertEqual(99, prof["ngl"])
+        self.assertEqual("auto", prof["source"])
+
+    def test_a_later_success_clears_a_remembered_failure(self):
+        hw = gpu_host()
+        fp = perf.fingerprint(hw, perf.best_device(hw["devices"]), "qwen2.5:3b")
+        perf.remember_host(fp, ngl=0, failed=True, note="died")
+        perf.remember_host(fp, ngl=99, failed=False, note="")
+        prof = perf.resolve(lim=self._lim(), hw=hw, model_bytes=2 * GIB, model_id="qwen2.5:3b")
+        self.assertEqual(99, prof["ngl"])
+        self.assertEqual("auto", prof["source"])
+
+    def test_the_host_key_does_not_move_when_the_reported_vram_total_does(self):
+        # The same card reports 7949 then 8187 MiB depending on the driver read. A key that moves with
+        # it orphans every earlier record, so the host memory silently never applies - which is
+        # indistinguishable from having no memory at all.
+        hw = gpu_host()
+        a = perf.fingerprint(hw, {"name": "NVIDIA GeForce RTX 4060 Ti", "total_mib": 7949}, "gemma4-12b")
+        b = perf.fingerprint(hw, {"name": "NVIDIA GeForce RTX 4060 Ti", "total_mib": 8187}, "gemma4-12b")
+        self.assertEqual(a, b)
+
+    def test_the_host_key_ignores_available_ram_and_follows_installed_ram(self):
+        # Available memory swings by gigabytes between sessions; installed RAM does not. If the key
+        # follows the former, opening a browser renames this host and no verdict ever applies again.
+        dev = {"name": "NVIDIA GeForce RTX 4060 Ti", "total_mib": 8187}
+        a = perf.fingerprint({"ram_bytes": 12 * GIB, "ram_total_bytes": 32 * GIB}, dev, "gemma4-12b")
+        b = perf.fingerprint({"ram_bytes": 26 * GIB, "ram_total_bytes": 32 * GIB}, dev, "gemma4-12b")
+        c = perf.fingerprint({"ram_bytes": 26 * GIB, "ram_total_bytes": 64 * GIB}, dev, "gemma4-12b")
+        self.assertEqual(a, b)
+        self.assertNotEqual(b, c)
 
     def test_a_remembered_success_is_not_a_downgrade(self):
         hw = gpu_host()
@@ -244,15 +285,29 @@ class ThreadsTest(unittest.TestCase):
     def tearDown(self):
         paths._CFG_CACHE = self._cache
 
-    def test_auto_uses_every_core_leaving_one_for_the_console(self):
-        with patch("perf.os.cpu_count", return_value=20):
-            self.assertEqual(16, perf.auto_threads())
-        with patch("perf.os.cpu_count", return_value=8):
-            self.assertEqual(7, perf.auto_threads())
-        with patch("perf.os.cpu_count", return_value=2):
+    def test_auto_uses_the_fast_physical_cores_not_the_logical_count(self):
+        # This host advertises 20 logical processors but carries 6 performance cores. The sweep
+        # measured the 6-core pin FASTER than 16 threads on the same chip, so oversubscribing every
+        # logical processor is the bug, not the goal.
+        with patch("perf.physical_cores", return_value=(6, 14)):
+            self.assertEqual(6, perf.auto_threads())
+        with patch("perf.physical_cores", return_value=(8, 8)):
+            self.assertEqual(8, perf.auto_threads())
+        with patch("perf.physical_cores", return_value=(2, 2)):
             self.assertEqual(4, perf.auto_threads())
-        with patch("perf.os.cpu_count", return_value=None):
-            self.assertEqual(4, perf.auto_threads())
+
+    def test_auto_falls_back_to_logical_processors_when_topology_is_unreadable(self):
+        # A host whose core split cannot be read must still get a sane answer, never a crash and
+        # never zero threads.
+        with patch("perf.physical_cores", return_value=(0, 0)):
+            with patch("perf.os.cpu_count", return_value=20):
+                self.assertEqual(16, perf.auto_threads())
+            with patch("perf.os.cpu_count", return_value=8):
+                self.assertEqual(7, perf.auto_threads())
+            with patch("perf.os.cpu_count", return_value=2):
+                self.assertEqual(4, perf.auto_threads())
+            with patch("perf.os.cpu_count", return_value=None):
+                self.assertEqual(4, perf.auto_threads())
 
     def test_clamp_honors_a_pin_and_caps_absurd_values(self):
         self.assertEqual(4, perf.clamp_threads(4))
@@ -261,9 +316,10 @@ class ThreadsTest(unittest.TestCase):
 
     def test_clamp_falls_back_to_the_host_only_when_config_is_silent(self):
         paths._CFG_CACHE = {}
-        with patch("perf.os.cpu_count", return_value=20):
-            self.assertEqual(16, perf.clamp_threads(None))
-            self.assertEqual(16, engine.clamp_threads(None))
+        with patch("perf.physical_cores", return_value=(0, 0)):
+            with patch("perf.os.cpu_count", return_value=20):
+                self.assertEqual(16, perf.clamp_threads(None))
+                self.assertEqual(16, engine.clamp_threads(None))
         paths._CFG_CACHE = {"threads": 4}
         self.assertEqual(4, engine.clamp_threads(None))
 
@@ -347,6 +403,17 @@ class BootLadderTest(unittest.TestCase):
         self.assertEqual(99, list(hosts.values())[0]["ngl"])
         self.assertNotIn("perf_fallback", state)
 
+    def test_a_scanned_record_cannot_outrank_the_adaptive_plan(self):
+        # The bug this guards: the scan writes n_gpu_layers 0 for every model it finds, and the launch
+        # path read that as an operator instruction. /api/health reported ngl 79 while the engine was
+        # actually started with -ngl 0, so the GPU sat idle and every machine looked CPU-only.
+        self.rec = {**self.rec, "n_gpu_layers": 0}
+        status, calls, state = self._boot(lambda n: False)
+        self.assertEqual("ready", status)
+        self.assertEqual([99], calls)
+        self.assertEqual(99, state["lygo_engine"]["perf"]["effective"]["ngl"])
+        self.assertEqual("gpu_full", state["lygo_engine"]["perf"]["effective"]["mode"])
+
 
 class ReportTest(unittest.TestCase):
     def _state(self, reason="fits_vram", mode="gpu_full", ngl=99):
@@ -413,16 +480,18 @@ class PlanWiringTest(unittest.TestCase):
         paths._CFG_CACHE = self._cache
         self._td.cleanup()
 
+    @unittest.skipIf(on_a_stick(), "PC-build assertion: this reads the shipped PC config (config/ is synced to the stick by hand, by design) or the checkout above the kit")
+    @unittest.skipIf(on_a_stick(), "PC-build assertion: this reads the shipped PC config (config/ is synced to the stick by hand, by design) or the checkout above the kit")
     def test_plan_exposes_the_profile_and_the_gpu_threads(self):
         with patch("lygo_engine.probe", return_value=gpu_host()), patch.object(paths, "_CFG_CACHE", {}):
             pl = lygo_engine.plan({"id": "qwen2.5:3b", "path": "x.gguf", "bytes": 2 * GIB, "kind": "chat"})
         self.assertEqual(99, pl["llama"]["ngl"])
         self.assertEqual(perf.auto_threads(), pl["llama"]["threads"])
         self.assertEqual("gpu_full", pl["perf"]["mode"])
-        # Opt-in policy, stated truthfully: -fa on measured SLOWER for prompt eval on this host's
-        # CUDA path (2620 vs 3246 tok/s), so the plan no longer claims it is on just because a GPU
-        # is present — and spawn_runner now actually receives the flag when it IS on.
-        self.assertFalse(pl["llama"]["flash_attn"])
+        # Measured, not assumed from the GPU being present: -fa on is faster on both halves on the
+        # current build (prompt eval 154.1 vs 141.7 t/s, generation 15.15 vs 13.00 t/s), so the
+        # shipped config says on, the plan passes it through, and spawn_runner really sends it.
+        self.assertTrue(pl["llama"]["flash_attn"])
         self.assertEqual("vulkan", pl["perf"]["backends"][0])
 
     def test_plan_on_a_backendless_build_is_honest_and_info_only(self):
@@ -445,12 +514,28 @@ class PlanWiringTest(unittest.TestCase):
         self.assertEqual("fits_vram", pl["perf"]["reason"], "a 4 KB model always fits")
 
 
-    def test_flash_attention_is_opt_in_not_advertised_for_free(self):
+    @unittest.skipIf(on_a_stick(), "PC-build assertion: this reads the shipped PC config (config/ is synced to the stick by hand, by design) or the checkout above the kit")
+    @unittest.skipIf(on_a_stick(), "PC-build assertion: this reads the shipped PC config (config/ is synced to the stick by hand, by design) or the checkout above the kit")
+    def test_flash_attention_follows_the_configured_default(self):
+        """The shipped default is measured, and an operator pin still wins.
+
+        This test used to assert the opposite default, on a measurement taken before the current
+        engine: "-fa on measured SLOWER for prompt eval on this host's CUDA path (2620 vs 3246
+        tok/s), so it is opt-in". On 0.4.1-dev build 10988 that reading is gone - with -ngl 79, -t 6
+        and q8_0 KV on one 680-token prompt, prompt eval is 154.1 vs 141.7 t/s and generation is
+        15.15 vs 13.00 t/s, with a faster load - so config/console.json ships "on" and the plan must
+        pass that through. A pin of "off" in the config is still honoured.
+        """
         with patch("lygo_engine.probe", return_value=gpu_host()), patch.object(paths, "_CFG_CACHE", {}):
             pl = lygo_engine.plan(
                 {"id": "qwen2.5:3b", "path": "x.gguf", "bytes": 2 * GIB, "kind": "chat"}
             )
-        self.assertFalse(pl["llama"]["flash_attn"], "default is off, and the plan says so")
+            self.assertTrue(pl["llama"]["flash_attn"], "the shipped default is on")
+            with patch.object(lygo_engine, "flash_attn_on", return_value=False):
+                pl_off = lygo_engine.plan(
+                    {"id": "qwen2.5:3b", "path": "x.gguf", "bytes": 2 * GIB, "kind": "chat"}
+                )
+        self.assertFalse(pl_off["llama"]["flash_attn"], "an operator pin of off still wins")
         with (
             patch("lygo_engine.flash_attn_on", lambda: True),
             patch("lygo_engine.probe", return_value=gpu_host()),

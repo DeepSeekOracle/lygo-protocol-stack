@@ -65,8 +65,41 @@ BUILD_TAG = "Δ9Φ963-LYGO-COMPACTION-v1"
 # counts its own tokens; this estimate only decides when to compact, and over-estimating costs a
 # little earlier compaction rather than an overflowed prompt.
 CHARS_PER_TOKEN = 3.6
-ANSWER_RESERVE = 1024          # tokens held back for the reply (the portal's cap is 768)
+
+
+def answer_reserve() -> int:
+    """Tokens held back for the reply.
+
+    Read from the operator's own `max_tokens`, not a constant: when the two were separate numbers
+    (a 1024 constant against a portal that sent 768, then against a config that said something else
+    again) the window reserved room for a reply nobody was asking for. Raising the reply length and
+    leaving this behind is how a long answer ends up overflowing the window and evicting the
+    conversation it was answering.
+    """
+    try:
+        from paths import console_limits
+
+        return max(256, int(console_limits().get("max_tokens") or ANSWER_RESERVE_FALLBACK))
+    except Exception:  # noqa: BLE001 - a bad config must not break a turn
+        return ANSWER_RESERVE_FALLBACK
+
+
+ANSWER_RESERVE_FALLBACK = 1024  # only used when the config cannot be read at all
+ANSWER_RESERVE = ANSWER_RESERVE_FALLBACK  # kept for callers that imported the old name
 SAFETY_RESERVE = 640           # tokens of slack for tool traces and the per-turn host notes
+RECALL_RESERVE = 420           # tokens held back so a recalled passage always fits the turn
+# An ask that refers to the past is the one that wants the archive. Scoring cannot decide this and was
+# measured trying: on the live 541-block index "what is 17 times 23" scored 13.12 and 7.42 of IDF match
+# mass against the best passage, while a genuine "what did we say about the seal button" scored 7.97 and
+# 4.62 - the noise outscored the question in both currencies, because in an archive of everything, almost
+# every word appears somewhere. A reference to earlier conversation is what a turn needs the past for,
+# and that is something the ask states.
+RECALL_PAST_MARKERS = (
+    "what did we", "what did you", "what did i", "remind me", "we said", "you said", "i said",
+    "earlier", "last time", "we decided", "you decided", "as discussed", "previously", "before that",
+    "go back to", "the conversation so far", "we talked about", "mentioned", "recall", "remember when",
+    "what was the", "where did we leave", "you told me",
+)
 AUTO_COMPACT_AT = 0.78         # compact when the live window passes this fraction of its budget
 
 # --- how much stays live ---------------------------------------------------------------------
@@ -121,7 +154,18 @@ def est_tokens(text: Any) -> int:
     if isinstance(text, str):
         return int(len(text) / CHARS_PER_TOKEN) + 1
     if content_parts(text):
-        return 900
+        # A picture is charged per patch of PIXELS, never as a flat 900-token message. Measured on this
+        # host 2026-09-21 (gemma4-12b with its projector): a 1024x1024 photo cost the engine 8,998
+        # tokens more than a 256x256 one, over 983,040 more pixels. The flat number is how a turn came
+        # to be sent into a window it could not fit - the engine refused it whole ("request (133868
+        # tokens) exceeds the available context size (32768 tokens)") and the operator got an empty
+        # bubble. `vision` owns the rule so the boot, the limbs, the budget and the gate agree.
+        try:
+            import vision
+
+            return int(vision.est_text_tokens(text) + vision.est_image_tokens(text))
+        except Exception:
+            return 900
     return 1
 
 
@@ -547,8 +591,14 @@ def _selected_record() -> dict[str, Any] | None:
     return None
 
 
-def window_budget(ctx: int | None = None, answer_tokens: int = ANSWER_RESERVE) -> dict[str, Any]:
-    """How many tokens of conversation the live window may carry."""
+def window_budget(ctx: int | None = None, answer_tokens: int | None = None) -> dict[str, Any]:
+    """How many tokens of conversation the live window may carry.
+
+    `answer_tokens` defaults to the operator's configured reply cap rather than a constant, so the
+    window reserves room for the reply that is actually about to be asked for.
+    """
+    if answer_tokens is None:
+        answer_tokens = answer_reserve()
     ctx = int(ctx or live_ctx() or 8192)
     reserve = system_reserve()
     room = ctx - reserve - int(answer_tokens) - SAFETY_RESERVE
@@ -558,6 +608,7 @@ def window_budget(ctx: int | None = None, answer_tokens: int = ANSWER_RESERVE) -
         "system_reserve": reserve,
         "answer_reserve": int(answer_tokens),
         "safety_reserve": SAFETY_RESERVE,
+        "recall_reserve": RECALL_RESERVE,
         "history_tokens": room,
         "history_chars": int(room * CHARS_PER_TOKEN),
         "compact_at": int(room * AUTO_COMPACT_AT),
@@ -572,6 +623,51 @@ def history_tokens(messages: list[dict[str, Any]]) -> int:
 def window_pct(messages: list[dict[str, Any]], ctx: int | None = None) -> float:
     budget = window_budget(ctx)
     return round(100.0 * history_tokens(messages) / max(1, budget["history_tokens"]), 1)
+
+
+def recall_for(ask: str, messages: list[dict[str, Any]] | None = None, ctx: int | None = None) -> str:
+    """The filed history this turn needs, or "". Autonomous, bounded, and silent when unsure.
+
+    Two reasons to speak up, and only two:
+
+    * the live window had to shed turns - the conversation outgrew it, and whatever it dropped is
+      filed, so the passages bearing on this ask come back with the turn;
+    * nothing was shed, but the ask clearly matches something filed that this turn is not already
+      carrying - a detail from earlier in the session, or from an earlier session.
+
+    The second is what makes the archive useful on a short turn. It is gated on score and on the
+    passage not already being in the window, because an always-on recap would spend the window on
+    noise and call it memory. `lygo_rag.recall` is pure local BM25 - no model, no network - so
+    asking costs a turn nothing, and this never raises.
+    """
+    try:
+        from lygo_rag import query as _rag_query
+        from lygo_rag import recall as _rag_recall
+
+        budget_chars = int(round(RECALL_RESERVE * CHARS_PER_TOKEN))
+        shed = 0
+        if messages is not None:
+            try:
+                _kept, shed, _info = trim_messages(messages, ctx)
+            except Exception:  # noqa: BLE001
+                shed = 0
+        if not shed:
+            low = str(ask or "").lower()
+            if not any(marker in low for marker in RECALL_PAST_MARKERS):
+                return ""  # an ask that does not refer back is not asking for the archive
+            # No score floor here. BM25 scores shrink with the index, so a floor tuned on the live
+            # 541-block archive silenced the same question in a two-block test one - the reference to
+            # the past is the gate, and a passage that matches nothing returns "" on its own below.
+            hits = _rag_query(str(ask or ""), k=1)
+            if not hits:
+                return ""
+            live = " ".join(str(m.get("content") or "") for m in (messages or []) if isinstance(m, dict))
+            top = str(hits[0].get("text") or "").strip()
+            if top and top[:120] in live:
+                return ""  # the window is already carrying it; saying it twice is noise
+        return _rag_recall(str(ask or ""), budget_chars=budget_chars)
+    except Exception:  # noqa: BLE001
+        return ""
 
 
 def trim_messages(
@@ -592,6 +688,9 @@ def trim_messages(
     msgs = [m for m in (messages or []) if isinstance(m, dict)]
     budget = window_budget(ctx)
     room = budget["history_tokens"]
+    # The live history leaves room for the recall note that a long conversation rides on, so a recap
+    # can never be the reason the engine refuses the turn.
+    room = max(512, room - int(budget.get("recall_reserve") or 0))
     kept: list[dict[str, Any]] = []
     used = 0
     for idx, m in enumerate(reversed(msgs)):
@@ -709,6 +808,24 @@ def build_carry_locked(st: dict[str, Any]) -> str:
     if len(text) > CARRY_CAP:
         text = text[:CARRY_CAP] + "\n…[older compacted notes trimmed]…"
     return text
+
+
+def _sent_from_journal(recs: list[dict[str, Any]], budget: dict[str, Any]) -> int:
+    """What the engine will actually see: the newest journal turns that fit the history room.
+
+    `status()` is called by the panes with no messages, so the journal is all it has. Summing the
+    whole journal and calling that "in the window" is what produced a standing 3394% figure.
+    """
+    room = int(budget.get("history_tokens") or 0)
+    if not recs:
+        return 0
+    used = 0
+    for r in reversed(recs):
+        t = max(0, int(r.get("tokens") or 0))
+        if used and used + t > room:
+            break
+        used += t
+    return used or max(0, int(recs[-1].get("tokens") or 0))
 
 
 def maybe_auto_compact(messages: list[dict[str, Any]], ctx: int | None = None) -> dict[str, Any]:
@@ -1188,11 +1305,18 @@ def status(ctx: int | None = None, messages: list[dict[str, Any]] | None = None)
         sid = st["session_id"]
         recs = _read_lines(journal_path(sid))
         budget = window_budget(ctx)
-        live_tokens = history_tokens(messages) if messages is not None else sum(int(r.get("tokens") or 0) for r in recs)
+        journal_tokens = sum(int(r.get("tokens") or 0) for r in recs)
+        live_tokens = history_tokens(messages) if messages is not None else _sent_from_journal(recs, budget)
         entries = index_entries(limit=5)
         sealed_bytes = int(st.get("sealed_bytes") or 0)
         pct = round(100.0 * live_tokens / max(1, budget["history_tokens"]), 1)
         rec = _selected_record() or {}
+        try:
+            import lygo_rag as _rag  # deferred: the RAG reads the archive; compaction must not need it
+
+            _rag_stats: dict[str, Any] = _rag.status()
+        except Exception:
+            _rag_stats = {}
         return {
             "ok": True,
             "signature": BUILD_TAG,
@@ -1213,9 +1337,18 @@ def status(ctx: int | None = None, messages: list[dict[str, Any]] | None = None)
             "last_save_iso": st.get("last_save_iso"),
             "last_compact_iso": st.get("last_compact_iso"),
             "carry_span": [st.get("carry_from"), st.get("carry_to")],
+            "rag": _rag_stats,
+            "recall": _rag_stats.get("recall") or {},
             "window": {
                 **budget,
                 "live_tokens": live_tokens,
+                # The record and the request are two different things. The engine only ever sees the
+                # newest turns that fit the room; everything older stays filed and searchable.
+                # Reporting the record as "in the window" produced a standing 3394.2% that no
+                # operator could act on, and kept promising a fold that was not due.
+                "journal_tokens": journal_tokens,
+                "journal_turns": len(recs),
+                "journal_pct": round(100.0 * journal_tokens / max(1, budget["history_tokens"]), 1),
                 "used_pct": pct,
                 "auto_compact_pct": int(AUTO_COMPACT_AT * 100),
                 "will_compact_next_turn": live_tokens >= budget["compact_at"],

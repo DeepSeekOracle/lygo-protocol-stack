@@ -293,5 +293,71 @@ class TestContract(unittest.TestCase):
         self.assertTrue(mf["requires"]["console"].startswith(">="))
 
 
+class LocalModelAvailability(unittest.TestCase):
+    """The panel must show what this PC can run AND what it can see but cannot run.
+
+    The operator asked for oversized models to be visible, so a record that cannot load is asserted
+    to be present in the panel and asserted NOT to be counted as runnable. The verdicts come from
+    the shipped `model_fit.annotate` at fixed VRAM/RAM, so these say the same thing on any host.
+    """
+
+    VRAM, RAM = 7075, 32581
+
+    def _record(self, mid: str, gib: float, kind: str = "chat") -> dict:
+        import model_fit
+
+        rec = {
+            "id": mid,
+            "path": "--",
+            "kind": kind,
+            "ctx": 8192,
+            "bytes": int(gib * 1024**3),
+            "runnable": True,
+        }
+        model_fit.annotate(rec, dims=None, vram_free_mib=self.VRAM, ram_total=self.RAM)
+        return rec
+
+    def _build(self, records: list) -> dict:
+        import registry
+
+        mod = load_backend()
+        payload = {"models": records, "selected": records[0]["id"]}
+        with patch.object(registry, "load", return_value=payload):
+            return mod.build(ctx=None)
+
+    def _group(self, out: dict) -> dict:
+        return next(g for g in out["groups"] if g["title"] == "Models here")
+
+    def test_a_model_too_large_to_run_is_still_named(self):
+        out = self._build([self._record("small-3b", 2.0), self._record("huge-300b", 300.0)])
+        row = next(r for r in self._group(out)["rows"] if r["k"] == "huge-300b")
+        self.assertIn("NOT run", row["v"], "a model that cannot run must still be visible and honest")
+
+    def test_a_model_that_cannot_run_is_never_counted_as_runnable(self):
+        out = self._build([self._record("small-3b", 2.0), self._record("huge-300b", 300.0)])
+        counts = {r["k"]: r["v"] for r in self._group(out)["rows"]}
+        self.assertEqual(counts["Runnable now"], "1")
+        self.assertEqual(counts["Visible, not runnable"], "1")
+        self.assertEqual(counts["Visible here"], "2 model(s)")
+
+    def test_the_projector_is_not_counted_as_a_model(self):
+        out = self._build([self._record("small-3b", 2.0), self._record("mm", 0.18, kind="mmproj")])
+        counts = {r["k"]: r["v"] for r in self._group(out)["rows"]}
+        self.assertEqual(counts["Visible here"], "1 model(s)")
+
+    def test_no_verdicts_yet_is_admitted_rather_than_rendered_blank(self):
+        # A pre-existing registry has no fit blocks; the panel must name that, not look empty.
+        unjudged = {"id": "unjudged", "path": "--", "kind": "chat", "bytes": 1024, "runnable": True}
+        out = self._build([unjudged])
+        self.assertFalse([g for g in out["groups"] if g["title"] == "Models here"])
+        self.assertTrue(any("placement verdict" in m for m in out["missing"]), out["missing"])
+
+    def test_when_nothing_can_run_the_card_goes_amber_not_green(self):
+        out = self._build([self._record("huge-300b", 300.0)])
+        light = next(l for l in out["lights"] if l["id"] == "models")
+        self.assertEqual(light["state"], "amber")
+        self.assertIn("0 runnable", light["text"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

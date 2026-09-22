@@ -162,17 +162,104 @@ def best_device(devs: Any) -> dict[str, Any] | None:
     return max(items, key=lambda d: int(d.get("free_mib") or 0))
 
 
-def gpu_free_mib() -> int:
-    """Free VRAM on the best device, 0 when there is none. Never raises, never over-claims."""
+_VRAM_MEMO: dict[str, Any] = {}
+
+
+def gpu_vram_mib(*, refresh: bool = False) -> tuple[int, int]:
+    """(total, free) VRAM on the card ITSELF, from the driver - the rig's truth for planning.
+
+    Deliberately NOT the engine's device list: the shipped base engine is CPU-only on purpose, so asking
+    IT answers "(none)" on a box with a working card. Measured 2026-09-20: that reading filed ten models
+    "no_gpu_device" on a machine with an idle RTX 4060 Ti, and a backend self-test inherited the same
+    answer. "Can OUR engine use the GPU here" is a different question owned by `backends`, which awards it
+    only after a real model load proves it on this host.
+    """
+    if not refresh and _VRAM_MEMO:
+        at, pair = _VRAM_MEMO.get("v") or (0.0, (0, 0))
+        if (time.time() - at) < 2.0:
+            return pair
+    best = (0, 0)
     try:
-        dev = best_device(engine_devices())
-        return int((dev or {}).get("free_mib") or 0)
-    except Exception:
+        r = subprocess.run(
+            ["nvidia-smi", "--query-gpu=memory.total,memory.free", "--format=csv,noheader,nounits"],
+            capture_output=True, text=True, timeout=10,
+            creationflags=0x08000000 if os.name == "nt" else 0,
+        )
+    except (OSError, subprocess.SubprocessError):
+        _VRAM_MEMO["v"] = (time.time(), best)
+        return best
+    for line in (r.stdout or "").splitlines():
+        parts = [p.strip() for p in line.split(",")]
+        try:
+            tot, free = int(parts[0]), int(parts[1])
+        except (IndexError, ValueError):
+            continue
+        if tot > best[0]:
+            best = (tot, free)
+    _VRAM_MEMO["v"] = (time.time(), best)
+    return best
+
+
+def gpu_free_mib() -> int:
+    """Free VRAM on the card, from the driver. 0 when there is none. Never raises, never over-claims."""
+    try:
+        return int(gpu_vram_mib()[1])
+    except Exception:  # noqa: BLE001
         return 0
 
 
+def physical_cores() -> tuple[int, int]:
+    """(fast_cores, all_physical_cores) for this host; (0, 0) when it cannot be known.
+
+    On a hybrid part (Alder/Raptor Lake and later) the E-cores are slower per clock and packing
+    threads onto them costs more than it buys: llama.cpp measured *faster* on the 6 P-cores than on
+    16 of the 20 logical processors of the same chip. Windows exposes the split as an
+    EfficiencyClass per physical core, the P-cores carrying the higher class.
+
+    Off Windows, or on a uniform part, both numbers are the same physical count.
+    """
+    if os.name != "nt":
+        return 0, 0
+    try:
+        import ctypes
+
+        kernel32 = ctypes.windll.kernel32
+        needed = ctypes.c_uint(0)
+        # A FALSE return is how this API reports the buffer size it wants, not a failure.
+        kernel32.GetLogicalProcessorInformationEx(0, None, ctypes.byref(needed))
+        if not needed.value:
+            return 0, 0
+        buf = ctypes.create_string_buffer(needed.value + 4096)
+        size = ctypes.c_uint(needed.value + 4096)
+        if not kernel32.GetLogicalProcessorInformationEx(0, buf, ctypes.byref(size)):
+            return 0, 0
+        raw = buf.raw
+        classes: list[int] = []
+        off = 0
+        while off + 32 <= size.value:
+            step = int.from_bytes(raw[off + 4 : off + 8], "little")
+            if step == 0:
+                break
+            # PROCESSOR_RELATIONSHIP: Flags @8 (byte), EfficiencyClass @9 (byte).
+            classes.append(int(raw[off + 9]))
+            off += step
+    except Exception:
+        return 0, 0
+    if not classes:
+        return 0, 0
+    return classes.count(max(classes)), len(classes)
+
+
 def auto_threads() -> int:
-    """Every core the host offers, one left for the console, capped for sanity."""
+    """Threads for llama-server: the fast physical cores, capped for sanity.
+
+    Sized to the P-cores on a hybrid host and to the physical cores otherwise, never to the logical
+    processor count: hyperthreads on an inference loop contend for the same execution ports.
+    """
+    fast, total = physical_cores()
+    cores = fast or total
+    if cores:
+        return max(THREAD_MIN, min(THREAD_MAX, cores))
     n = os.cpu_count() or 4
     return max(THREAD_MIN, min(THREAD_MAX, n - 1 if n > THREAD_MIN else n))
 
@@ -288,15 +375,21 @@ def host_id() -> str:
 def fingerprint(hw: dict[str, Any], device: dict[str, Any] | None, model_id: str) -> str:
     """Host identity: a stick carried to another PC must not inherit this PC's verdict.
 
-    RAM is rounded to whole GiB because 'available' memory moves every second.
+    RAM is rounded to whole GiB because 'available' memory moves every second. The device's reported
+    *total* VRAM is deliberately NOT part of the key: it moves with the driver read for the same card
+    (seen here as 7949 then 8187 MiB), and a key that moves orphans every earlier record - the memory
+    then silently never applies, which is indistinguishable from having no memory at all.
     """
-    ram_gib = round(int(hw.get("ram_bytes") or 0) / GIB)
+    # Key on installed RAM, never available RAM: available memory moves by gigabytes as browsers and
+    # models come and go, and a key that moves renames the host - so every earlier verdict is orphaned
+    # and the memory silently stops applying. Callers that know the total pass ram_total_bytes; the
+    # rest fall back to ram_bytes.
+    ram_gib = round(int(hw.get("ram_total_bytes") or hw.get("ram_bytes") or 0) / GIB)
     parts = [
         platform.node(),
         str(os.cpu_count() or 0),
         str(ram_gib),
         str((device or {}).get("name") or ""),
-        str((device or {}).get("total_mib") or 0),
         str(model_id or ""),
     ]
     return hashlib.sha1("|".join(parts).encode("utf-8")).hexdigest()[:16]
@@ -384,11 +477,15 @@ def resolve(
     # by a candidate build that failed its self-test must not become layers.
     if int(ngl) > 0 and known and hw.get("gpu_ok") is False:
         ngl, source, reason = 0, "auto", str(hw.get("gpu_reason") or "backend_not_proven")
-    if source == "auto" and record and record.get("ngl") is not None:
-        remembered = int(record["ngl"])
-        if remembered < ngl:
+    # Only a PROVEN failure may lower the plan. A record written while the host simply ran on CPU
+    # carries no evidence of a fault, and treating it as one pins the machine to CPU permanently: the
+    # first CPU boot would outrank every later plan for that host+model, so a GPU gets planned,
+    # measured, and then never used. Evidence - not the absence of a success - is what caps.
+    if source == "auto" and isinstance(record, dict) and record.get("failed") is True:
+        remembered = _pin_int(record.get("ngl"))
+        if remembered is not None and remembered < ngl:
             ngl, source, fallback = remembered, "host_record", True
-            reason = f"remembered_from_this_host ({record.get('note') or 'earlier attempt failed'})"
+            reason = f"remembered_failure_on_this_host ({record.get('note') or 'a lower offload was all that ran'})"
 
     threads = int(pin_threads) if pin_threads is not None else auto_threads()
     mode = "cpu" if int(ngl) <= 0 else ("gpu_full" if int(ngl) >= FULL_LAYERS else "gpu_partial")

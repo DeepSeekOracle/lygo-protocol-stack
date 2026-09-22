@@ -74,8 +74,10 @@ class EverySurfaceCarriesItTests(unittest.TestCase):
         src = (ROOT / "src" / "server.py").read_text(encoding="utf-8")
         self.assertIn("BUILD = version.stamp()", src)
         self.assertNotIn(OLD_STAMP, src, "the hard-coded stamp is back - a bump would not move /api/health")
-        self.assertIn('"release": version.release(),', src)
-        self.assertIn('"release_tag": version.tag(),', src)
+        # The health answer now routes every live probe through health_payload's safe() wrapper (defect
+        # 34: the route may degrade one field, never 500). The owner of the release string is unchanged.
+        self.assertIn('"release": safe("release", _version.release, "")', src)
+        self.assertIn('"release_tag": safe("release_tag", _version.tag, "")', src)
 
     def test_runtime_facts_tells_the_model_the_same_release(self):
         src = (ROOT / "src" / "runtime_facts.py").read_text(encoding="utf-8")

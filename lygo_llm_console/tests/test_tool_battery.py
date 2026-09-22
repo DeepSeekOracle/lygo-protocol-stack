@@ -16,7 +16,12 @@ class ToolBattery(unittest.TestCase):
         self.assertIn("steward_map", names)
         self.assertIn("self_check", names)
         self.assertIn("web_fetch", names)
-        self.assertLessEqual(len(names), 24)
+        # A bare count was a proxy for context cost. Characters are what a small model actually pays,
+# and the count grew when the self-build limbs joined (each one is a capability, not a
+# convenience), so the assertion moved to the budget it was protecting. Measured 2026-09-21:
+# 28 tools, ~11.8k chars of schema - about 3k tokens against a 32k window.
+        self.assertLessEqual(len(names), 40)
+        self.assertLess(len(str(core_schema())), 18000)
 
     def test_dispatch_core(self):
         checks = [

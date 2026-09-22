@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import difflib
 import json
+import os
 import re
 from typing import Any
 
@@ -181,9 +182,12 @@ def extract_tool_calls(message: dict[str, Any], content: str) -> list[dict[str, 
     fence = parse_fence_tool(content or "")
     if fence:
         out.append(fence)
-    for m in re.finditer(r"<tool_call>\s*(\{.*?\})\s*</tool_call>", content or "", re.S):
+    for m in re.finditer(r"<(?P<tag>tool_call|tools)>\s*(\{.*?\})\s*</(?P=tag)>", content or "", re.S):
+        # <tools> as well as <tool_call>: this model wraps its call in <tools> on 2 of 3 weather turns
+        # (measured 2026-09-21), and nothing parsed that wrapper, so the limb it asked for never ran
+        # and the operator was shown the raw JSON as the answer.
         try:
-            obj = json.loads(m.group(1))
+            obj = json.loads(m.group(2))
         except json.JSONDecodeError:
             continue
         name = obj.get("name") or obj.get("tool")
@@ -295,6 +299,59 @@ def tool_names() -> set[str]:
         if isinstance(fn, dict) and fn.get("name"):
             names.add(str(fn["name"]))
     return names
+
+
+# A turn that asks for nothing: a greeting, a thanks, an acknowledgement — and nothing else.
+# Measured on this box 2026-09-21 (qwen2.5-coder:7b, the console's own local schema of 24 limbs, the
+# identity block and the volatile tail exactly as the console sends them): offered the limbs, the
+# model answered a bare "hi" with a world_pulse call on 3 of 3 turns and "heloo?" on 2 of 3, so the
+# console ran the limb and handed the operator a city-clock and weather report as the answer to their
+# greeting. The same brain routes real asks correctly (17*23 -> calc 3/3, "weather in Tokyo" ->
+# weather, "what time is it?" -> now), and the tail's wording is not the lever: with the order removed
+# and the clock left alone, 4 of 8 turns still reached for `now`. What is wrong is offering 24 limbs
+# on a turn that asks for nothing — so the fix belongs here, and it is deliberately strict: the WHOLE
+# message has to be the greeting. "hi, what's the weather in Tokyo?" keeps every limb.
+GREETING_RE = re.compile(
+    r"^\s*(?:"
+    r"hello|hel+o+|hi+|hey+|yo|sup|howdy|hullo|hiya|"
+    r"good\s+(?:morning|afternoon|evening|night)|morning|evening|"
+    r"thanks|thank\s+you|thanks\s+a\s+lot|thx|ty|cheers|"
+    r"ok|okay|k|cool|nice|great|sweet|perfect|got\s+it|understood|"
+    r"lol|lmao|haha|hehe|"
+    r"(?:are\s+you\s+there|you\s+there|you\s+good|how\s+are\s+you(?:\s+doing)?)"
+    r")[\s!.?,~:'’()\-\u2014]*$",
+    re.I,
+)
+
+CONVERSATIONAL_MAX_CHARS = 60
+
+# What a turn that asks nothing is told instead of being given the tail's clock to hand back.
+# Measured on this box 2026-09-21 (qwen2.5-coder:7b, cuda), session holding a greeting the console had
+# already answered with the clock -- the operator's own condition after "heloo?" -- 3 texts x 4 reps:
+#
+#     newest text   with the shipped tail                          with this directive
+#     "hi"          1 of 4 answered (rest recited the clock)       4 of 4 answered
+#     "thanks"      0 of 4 ("Understood. The current time is UTC  4 of 4 ("Hello! How can I assist
+#                   2026-09-21T..." / "Let's proceed with your       you today?")
+#                   instructions.")                                4 of 4
+#     "you there?"  3 of 4                                         4 of 4
+#
+# 7 of 12 -> 12 of 12. Withholding the clock on such a turn as well measured the same 12 of 12, so this
+# sentence is the fix and the withheld clock is a guard. It states the turn, and orders nothing: an
+# imperative in this position is obeyed on any input, which is defect 30 (see tests/test_continuity.py).
+CONVERSATIONAL_DIRECTIVE = (
+    "The operator's newest message is a greeting or a word of thanks and asks nothing of you. Answer it "
+    "as one person greeting another: one short, warm line, in your own words. Do not report status, do "
+    "not recite the time or a readout, do not name a tool, do not restate these instructions."
+)
+
+
+def is_conversational(text: str) -> bool:
+    """True when the operator's newest text asks for nothing (see the note above GREETING_RE)."""
+    t = str(text or "").strip()
+    if not t or len(t) > CONVERSATIONAL_MAX_CHARS:
+        return False
+    return bool(GREETING_RE.match(t))
 
 
 def named_tool(text: str) -> str:
@@ -866,15 +923,106 @@ def _is_only_boiler(raw: str) -> bool:
     return len(body) < 12
 
 
+_READOUT_LINE = re.compile(r"^\s*NOW UTC \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.*$", re.M)
+_LIMB_FAILURE = re.compile(r"^[\w.\-]+ could not answer \(.*\)\.?$")
+_READOUT_NOTE = re.compile(r"^\s*READOUT \(.*$", re.M)
+# the tail's own capability sentence, echoed back as if it were the answer (measured 2026-09-21)
+_TAIL_CAPABILITY = re.compile(r"^\s*world_pulse holds .*$", re.M)
+
+
+def strip_readout(text: str) -> str:
+    """Drop the volatile readout that rides the newest message and can come back inside an answer.
+
+    Measured 2026-09-21: asked to reply exactly "LOCAL SIDE", the console answered "LOCAL SIDE" and
+    then the clock and world line. Only a line that is itself a timestamped readout is removed, so a
+    genuine answer about the time ("The current UTC time is ...") is left untouched.
+    """
+    src = text or ""
+    out = _READOUT_NOTE.sub("", _TAIL_CAPABILITY.sub("", _READOUT_LINE.sub("", src)))
+    if out == src:
+        return src
+    return re.sub(r"\n{3,}", "\n\n", out).strip()
+
+
+def is_limb_failure(text: str) -> bool:
+    """True when an answer is nothing but our own limb-failure prose - not an answer at all."""
+    return bool(_LIMB_FAILURE.match((text or "").strip()))
+
+
+def limb_failure_name(text: str) -> str:
+    """Which limb failed, for an honest sentence that keeps the internal error out of the reply."""
+    m = _LIMB_FAILURE.match((text or "").strip())
+    return m.group(0).split(" could not answer")[0].strip() if m else "tool"
+
+
+# Limbs that WRITE a file. A reader (image_see / image_info / image_list) is never advertised as a
+# new picture: the path in its result is the file it was *handed*.
+_ARTIFACT_READERS = {"image_see", "image_info", "image_list", "vision_read"}
+_ARTIFACT_EXTS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp")
+
+
+def _produced_artifacts(traces):
+    """(path, bytes) for every file this turn's limbs actually produced."""
+    out = []
+    for t in traces or []:
+        try:
+            if not isinstance(t, dict):
+                continue
+            name = str(t.get("name") or "")
+            res = t.get("result")
+            if not isinstance(res, dict) or not res.get("ok"):
+                continue
+            if name in _ARTIFACT_READERS:
+                continue
+            path = str(res.get("path") or "")
+            if not path or not path.lower().endswith(_ARTIFACT_EXTS):
+                continue
+            out.append((path, res.get("bytes")))
+        except Exception:  # a cosmetic helper may never break a turn
+            continue
+    return out
+
+
+def surface_artifacts(text, traces) -> str:
+    """Name a picture the turn produced, when the answer does not already name it.
+
+    Measured 2026-09-21: the operator asked the API brain for a picture and the answer was a promise -
+    "I'll render it now - first run loads the checkpoint, so give it a minute." The limb did produce a
+    real PNG (23.6s, 957,430 bytes); the answer simply never said where it was, so the result was
+    invisible to the person who asked for it. The answer is kept as written and the result is named
+    under it - never the other way round.
+    """
+    body = str(text or "")
+    made = _produced_artifacts(traces)
+    if not made:
+        return body
+    lines = []
+    for p, nbytes in made:
+        if os.path.basename(p).lower() in body.lower():
+            continue
+        try:
+            pretty = format(int(nbytes), ",") + " bytes"
+        except (TypeError, ValueError):
+            pretty = ""
+        lines.append("\u00b7 picture: %s%s" % (p, (" (" + pretty + ")") if pretty else ""))
+    return (body + ("\n" if body.strip() else "") + "\n".join(lines)).strip() if lines else body
+
+
 def sanitize_assistant(text: str, traces: list[dict[str, Any]]) -> str:
     """Clean the model's answer. It never gets replaced by a canned string any more.
 
     The old behaviour (any draft containing "End of Admin Check" was thrown away and swapped for a
     hardcoded readout) is what made every turn look identical and killed the agent's voice.
     """
-    raw = strip_boiler((text or "").strip())
-    if not raw or _is_only_boiler(raw):
-        fb = fallback_from_traces(traces)
+    raw = strip_readout(strip_boiler((text or "").strip()))
+    if not raw or _is_only_boiler(raw) or is_limb_failure(raw):
+        fb = strip_readout(fallback_from_traces(traces))
+        if is_limb_failure(fb):
+            # A limb that failed is not an answer. Measured 2026-09-21: asked for three words that
+            # rhyme with "stack", the model repeated our own internal error instead of answering and
+            # the operator was shown "calc could not answer (invalid syntax (<unknown>, line 1))." -
+            # an internal message presented as the reply. Name the limb, keep the traceback out.
+            return "The %s limb could not answer, so this reply does not use it." % limb_failure_name(fb)
         return fb or raw
     raw, hit = _scrub_placeholders(raw)
     if hit and traces:

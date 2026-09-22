@@ -33,7 +33,7 @@
 #>
 param(
   [ValidateSet("cpu", "vulkan", "cuda")][string]$Backend = "cpu",
-  [string]$Tag = $(if ($env:LYGO_LLAMA_TAG) { $env:LYGO_LLAMA_TAG } else { "b10988" }),
+  [string]$Tag = $(if ($env:LYGO_LLAMA_TAG) { $env:LYGO_LLAMA_TAG } else { "b11074" }),
   [switch]$List
 )
 

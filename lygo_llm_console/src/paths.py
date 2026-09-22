@@ -157,6 +157,11 @@ def console_limits() -> dict[str, Any]:
         "ctx_default": _cfg_int("ctx_default") or 4096,
         "ctx_max": _cfg_int("ctx_max") or 8192,
         "gpu": _cfg_str("gpu", "auto"),
+        # Reply length. This key was documented in console.json but had NO reader until now, so the
+        # operator's own max_tokens was dead config while the portal sent a hardcoded 768 and every
+        # long answer was cut mid-sentence at exactly that many tokens. One reader, one source of
+        # truth: the chat handler, the window budget and the portal all ask here.
+        "max_tokens": _cfg_int("max_tokens") or 2048,
         # Engine launch flags. One reader for the whole kit (console.json, local.json over it), so
         # a stick that ships its own tuning is honoured on any host, and junk reads as the default.
         "kv_type": _cfg_str("kv_type", ""),
