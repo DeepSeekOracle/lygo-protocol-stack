@@ -33,8 +33,10 @@ matter, and `#brain-local` / `#brain-api` already switch brains at runtime.
 **Proven, measured, on disk:**
 - gemma4-12b unaided: **5/12** on graded tasking. Reliable at single-step work; it *can* call the right
   limb (it called `save_note` twice, correctly, for the multi-file task) but will not do so to order.
-- gemma4-12b assisted by the console: **10/12**. The five-point gap was closed by making the console
-  deterministic (host-run writes, host-run listings), not by asking the model to improve.
+- gemma4-12b assisted by the console: **11/12** (confirmed on a re-run after the last fixes). The
+  six-point gap was closed by making the console deterministic - host-run writes, host-run listings,
+  the ladder as backstop - not by asking the model to improve. The single remaining failure is T6,
+  and it is the model's: it will not chain a read into a write.
 - It does not chain: read-then-write failed in **every** run, including the assisted ones.
 - It is **non-deterministic**: the same task passed one run and failed the next on identical code.
 - It reports refusals honestly (it told the operator our own consent gate had blocked it).
