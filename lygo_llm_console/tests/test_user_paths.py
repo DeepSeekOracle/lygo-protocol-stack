@@ -231,5 +231,36 @@ class ThePortalShowsWhatAgentsAreDoing(unittest.TestCase):
         self.assertIn("portal_status", [t["function"]["name"] for t in tools.core_schema()])
 
 
+class TheHostWritesWhatTheOperatorAlreadySpecified(unittest.TestCase):
+    """Gauntlet T4/T5/T7: the brain described files it never wrote. A request that states the
+    name and the text needs no judgement, so the console runs it - as it already does for calc."""
+
+    def test_the_sentence_is_understood(self):
+        import chat_loop
+
+        spec = chat_loop.host_write_request("create a file called host_t1.txt in your workspace "
+                                            "notes with the exact text HOST-OK")
+        self.assertEqual(spec["name"], "host_t1.txt")
+        self.assertEqual(spec["text"], "HOST-OK")
+        desk = chat_loop.host_write_request("create a note called host_t5.txt on my desktop with the text DESK-OK")
+        self.assertEqual((desk["where"], desk["consent"]), ("desktop", True))
+        self.assertIsNone(chat_loop.host_write_request("what is 17 times 23"))
+
+    def test_the_prefetch_actually_writes_it(self):
+        import chat_loop
+
+        dest = NOTES_DIR / "host_t3.txt"
+        if dest.exists():
+            dest.unlink()
+        traces = chat_loop.host_prefetch("create a file called host_t3.txt in your workspace notes "
+                                         "with the exact text HOST-OK")
+        names = [t["name"] for t in traces]
+        self.assertIn("save_note", names, f"the host did not run the write: {names}")
+        self.assertTrue(dest.is_file(), "no file on disk")
+        self.assertEqual(dest.read_text(encoding="utf-8"), "HOST-OK")
+        got = [t for t in traces if t["name"] == "save_note"][0]["result"]
+        self.assertTrue(got.get("verified"), got)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

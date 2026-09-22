@@ -697,6 +697,18 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
             }
         )
     if FILE_HINT.search(text) and not any(t.get("name") == "file_intent" for t in traces):
+        _spec = host_write_request(text)
+        if _spec and not any(t.get("name") == "save_note" for t in traces):
+            try:
+                from limbs import extra as _extra
+
+                _got = _extra("save_note", _spec)
+                if isinstance(_got, dict) and _got.get("ok"):
+                    traces.append({"name": "save_note", "arguments": {"where": _spec["where"]},
+                                   "result": _got, "host": True})
+            except Exception as _exc:  # a failed host write must not cost the turn
+                traces.append({"name": "save_note", "arguments": {"where": _spec.get("where")},
+                               "result": {"ok": False, "error": f"{type(_exc).__name__}"}, "host": True})
         import user_paths
 
         traces.append(
@@ -845,6 +857,40 @@ def prefetch_message(traces: list[dict[str, Any]]) -> str:
         + json.dumps(compact, default=str)[:3000]
         + _file_intent_note(traces)
     )
+
+
+_FILE_TEXT = re.compile(
+    r"(?:with (?:the )?(?:exact )?(?:text|content|contents)\s*[:=]?\s*[\"\u201c']?(?P<t1>[^\"\u201d']{1,300})[\"\u201d']?"
+    r"|(?:containing|that says|which says|reading)\s*[:=]?\s*[\"\u201c']?(?P<t2>[^\"\u201d']{1,300})[\"\u201d']?)",
+    re.I,
+)
+
+
+def host_write_request(text: str) -> dict[str, Any] | None:
+    """Run the write on the host when the operator's own sentence names both the file and its contents.
+
+    Measured (gauntlet 2026-09-21, T4/T5/T7): asked in plain words for a file, the on-box brain did not
+    call save_note in five of twelve tasks - it described the file instead. A request that already states
+    the name and the text needs no judgement, so the console runs it, exactly as it already does for
+    arithmetic, github and hugging-face asks. The model then reports the path it really got.
+    """
+    if not text or not FILE_HINT.search(text):
+        return None
+    named = _FILE_NAME.search(text)
+    if not named:
+        return None
+    body = "Created by the console at the operator's request."
+    got_text = _FILE_TEXT.search(text)
+    if got_text:
+        body = (got_text.group("t1") or got_text.group("t2") or "").strip().rstrip(".") or body
+    where = "workspace"
+    low = text.lower()
+    for key in ("desktop", "documents", "downloads", "home", "workspace"):
+        if key in low:
+            where = key
+            break
+    return {"name": named.group(1), "text": body, "where": where,
+            "consent": where not in ("workspace", "ws", "")}
 
 
 def _file_intent_note(traces: list[dict[str, Any]]) -> str:
