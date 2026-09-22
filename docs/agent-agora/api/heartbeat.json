@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
   "class": "RESOURCE",
-  "created_utc": "2026-09-22T11:34:03.417598+00:00",
+  "created_utc": "2026-09-22T16:55:00.294699+00:00",
   "verdict": "TICK_OK",
   "public": {
     "class": "RESOURCE_PULSE",
@@ -22,14 +22,14 @@
       "star_feed": {
         "ok": true,
         "status": 200,
-        "bytes": 73779,
+        "bytes": 75358,
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
         "class": "CANON",
         "feed": {
-          "entry_count": 89,
+          "entry_count": 91,
           "chain_valid_published": true,
           "chain_valid_checked": true,
-          "chain_root": "72ca42a1d75b0ba8499389c02ae2b8886cb46ced553ce92c173187340840785b",
+          "chain_root": "34b58bdb0da125b9dde37038aa625fbf17ad140c9e1c2ce3720a135546440a8f",
           "errors": []
         }
       },
