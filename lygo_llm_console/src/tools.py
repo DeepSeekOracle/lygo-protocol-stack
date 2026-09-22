@@ -108,6 +108,7 @@ CORE_NAMES = {
     # local set. The two slots came from weather (world_pulse already carries city weather) and
     # kernel_status - the same "a diagnostic is not a capability" rule that keeps media_status out.
     "python_exec",
+    "save_note",
     "rust_exec",
     # The self-build loop: with these the console can check a change it just made and publish it.
     # Without them the operator had to run the suite, the seal and the restart by hand - the agent

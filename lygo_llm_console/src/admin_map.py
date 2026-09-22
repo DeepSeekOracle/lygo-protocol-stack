@@ -439,6 +439,10 @@ def brief_text() -> str:
     b = brief()
     lines = [
         "ADMIN BRIEF (call steward_map if you need the full map):",
+        "The operator's own folders are mapped: Desktop, Documents, Downloads, home. To put a file "
+        "there call save_note with where=desktop (or documents/downloads/home) and consent=true; it "
+        "returns the verified absolute path. Never report a file as created unless the limb that "
+        "wrote it said so - a receipt you did not receive is a receipt you do not have.",
         f"role={b.get('role')} steward={b.get('steward')}",
         f"GitHub org: {b.get('github_org')}",
         f"Hugging Face: {b.get('hf_org')}",

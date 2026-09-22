@@ -154,8 +154,8 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "020dc9fd1d996779",
-      "bytes": 76718
+      "sha256_16": "f5f7d399f220ab67",
+      "bytes": 79768
     },
     {
       "path": "src/chat_loop.py",
@@ -188,7 +188,7 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-21T22:34:59-06:00",
+  "rebrand_refresh_iso": "2026-09-21T22:47:45-06:00",
   "rebrand_refresh_note": "eye: a photo is fitted to the projector's window before it is sent (new src/vision.py); the tail rides as a content part instead of str() of the parts; the picture limb reports a busy card and the CPU route; the gateway flattens image parts to [image]",
   "rebrand_refresh_files": [
     "src/limbs.py"

@@ -30,7 +30,24 @@ _SHELL_DENY = re.compile(
     re.I,
 )
 
+import hashlib
+import user_paths
+
 EXTRA_SCHEMA = [
+    {"type": "function", "function": {
+        "name": "save_note",
+        "description": "Save a text file somewhere real and get back a verified absolute path. Use this "
+                       "instead of hand-rolling a write when the operator says 'on my desktop' or 'in my "
+                       "documents': where=desktop/documents/downloads/home/workspace, or an absolute "
+                       "folder. Writing outside the workspace needs consent=true. The result reports the "
+                       "path the file is actually at, its size and hash - never claim a file exists "
+                       "without that receipt.",
+        "parameters": {"type": "object", "properties": {
+            "name": {"type": "string", "description": "file name, e.g. note.txt"},
+            "text": {"type": "string", "description": "the contents to write"},
+            "where": {"type": "string", "description": "desktop, documents, downloads, home, workspace, or an absolute folder path"},
+            "consent": {"type": "boolean", "description": "required to write outside the workspace"},
+        }, "required": ["name", "text"]}}},
     {"type": "function", "function": {"name": "web_search", "description": "Public web search (Wikipedia+DDG) for external facts. RESOURCE. Not for arithmetic - use calc.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "web_fetch", "description": "HTTPS GET a page as text. RESOURCE. Use for a URL you already have, not for arithmetic - use calc.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "shell", "description": "Run a short command in workspace (not OS wipe). stdout/stderr captured.", "parameters": {"type": "object", "properties": {"cmd": {"type": "string"}}, "required": ["cmd"]}}},
@@ -628,6 +645,39 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
                 "timed_out": False, "via": "rustc", "file": str(srcf), "binary": str(binp),
                 "ran": True, "checked": True,
                 "compiler": (out + err)[-1500:]}
+    if name == "save_note":
+        fname = re.sub(r'[\\/:*?"<>|]', "_", str(args.get("name") or "").strip())[:120]
+        if not fname:
+            return {"ok": False, "error": "no_name", "hint": "give the file a name, e.g. note.txt"}
+        body = str(args.get("text") or "")
+        where = str(args.get("where") or "workspace").strip()
+        if where.lower() in ("workspace", "ws", ""):
+            target = _ws("notes")
+        else:
+            target = user_paths.resolve(where)
+        if target is None:
+            return {"ok": False, "error": "unknown_place", "asked_for": where,
+                    "known": user_paths.folder_map(),
+                    "hint": "say desktop/documents/downloads/home/workspace, or an absolute folder that exists"}
+        inside = str(target).lower().startswith(str(WORKSPACE).lower())
+        if not inside and not args.get("consent"):
+            return {"ok": False, "error": "consent_required", "path": str(target),
+                    "hint": "writing outside the workspace needs consent=true"}
+        dest = target / fname
+        try:
+            target.mkdir(parents=True, exist_ok=True)
+            data = body.encode("utf-8")
+            dest.write_bytes(data)
+            # the receipt is earned, not asserted: read it back and report what is really on disk
+            back = dest.read_bytes()
+            digest = hashlib.sha256(back).hexdigest()[:12]
+        except OSError as exc:
+            return {"ok": False, "error": f"write_failed:{type(exc).__name__}", "path": str(dest),
+                    "detail": str(exc)[:200]}
+        return {"ok": True, "path": str(dest.resolve()), "folder": str(target.resolve()), "name": fname,
+                "bytes": len(back), "sha256_12": digest, "verified": back == data and dest.is_file(),
+                "receipt": f"wrote {len(back)} bytes to {dest.resolve()}"}
+
     if name == "python_exec":
         code = str(args.get("code") or "")
         _interp = str(args.get("interpreter") or sys.executable or "python")
