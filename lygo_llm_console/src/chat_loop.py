@@ -95,6 +95,9 @@ NOTE_HINT = re.compile(
     re.I,
 )
 SELF_CHECK_HINT = re.compile(r"\b(self[-\s]?check|admin check|end of admin check)\b", re.I)
+LIST_ASK = re.compile(
+    r"\b(list|what('s| is| are) in|how many (entries|files|folders)|contents of)\b", re.I
+)
 FILE_HINT = re.compile(
     r"\b(create|make|write|save|put|drop)\b[^.?!]{0,40}\b(file|note|text file|txt|md|document|folder)\b"
     r"|\b(file|note)\b[^.?!]{0,30}\b(on|to|in)\b[^.?!]{0,20}\b(desktop|documents?|downloads?|home)\b"
@@ -725,6 +728,19 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
+    if LIST_ASK.search(text) and not any(t.get("name") in ("list_dir", "workspace_map") for t in traces):
+        # Measured (gauntlet T3, both runs): asked to list its own workspace the on-box brain reached for
+        # web_search and produced a listing it never looked at. A listing request needs no judgement either.
+        import user_paths as _up
+
+        _target = WORKSPACE
+        for _key in ("desktop", "documents", "downloads", "home"):
+            if _key in text.lower():
+                _target = _up.known_folder(_key) or WORKSPACE
+                break
+        _got = dispatch("list_dir", {"path": str(_target)})
+        if (_got or {}).get("ok"):
+            traces.append({"name": "list_dir", "arguments": {"path": str(_target)}, "result": _got, "host": True})
     if math_only(text) and named in ("", "calc"):
         # Bare arithmetic: answer it on the host instead of searching the web for the numbers.
         expr = math_expr(text)

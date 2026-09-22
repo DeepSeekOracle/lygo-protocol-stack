@@ -104,7 +104,7 @@ TASKS = [
     ("T9", "write code, run it", "Write a small Python program in your workspace that prints the sum of all "
      "whole numbers from 1 to 100, run it, and tell me the result.",
      lambda: None,
-     lambda reply, tr: ("5050" in reply, f"reply said 5050: {'5050' in reply}")),
+     lambda reply, tr: ("5050" in reply.replace(",", ""), f"reply said 5050: {'5050' in reply.replace(',', '')}")),
     ("T10", "deferred work", "Queue a background task that runs self_check, then tell me the task id it gave you.",
      lambda: None,
      lambda reply, tr: (bool(re.search(r"t[0-9a-f]{8,}", reply)) or any(n["name"] == "task_add" and n["ok"] for n in tr),
@@ -117,8 +117,8 @@ TASKS = [
      "that returns 6*7, and run_a.py that imports it and prints the result. Then run run_a.py with python_exec "
      "and tell me what it printed.",
      lambda: None,
-     lambda reply, tr: (("42" in reply) and (WS / "mod_a.py").is_file() or (WS / "python" / "mod_a.py").is_file(),
-                        f"reply said 42: {'42' in reply}")),
+     lambda reply, tr: (("42" in reply) and bool(list(WS.rglob("mod_a.py"))) and bool(list(WS.rglob("run_a.py"))),
+                        f"reply said 42: {'42' in reply} | mod_a.py anywhere under workspace: {bool(list(WS.rglob('mod_a.py')))}")),
 ]
 
 

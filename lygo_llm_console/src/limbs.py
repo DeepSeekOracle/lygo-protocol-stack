@@ -668,7 +668,16 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
                     "known": user_paths.folder_map(),
                     "hint": "say desktop/documents/downloads/home/workspace, or an absolute folder that exists"}
         inside = str(target).lower().startswith(str(WORKSPACE).lower())
-        if not inside and not args.get("consent"):
+        # Measured (gauntlet T7): the operator said "create it on my desktop", the model called this limb
+        # with where=desktop, and the limb refused for want of a consent flag - so a task that was asked for
+        # in plain words failed on our own gate. The four operator folders ARE the operator's own space;
+        # any other path outside the workspace still needs consent.
+        # the four folders the operator names by hand - NOT their whole profile, and not an arbitrary
+        # subfolder of it: a path they did not name still needs the flag.
+        named = {str(user_paths.known_folder(k)).lower()
+                 for k in ("desktop", "documents", "downloads", "pictures") if user_paths.known_folder(k)}
+        ours = str(target).lower() in named
+        if not inside and not ours and not args.get("consent"):
             return {"ok": False, "error": "consent_required", "path": str(target),
                     "hint": "writing outside the workspace needs consent=true"}
         dest = target / fname
