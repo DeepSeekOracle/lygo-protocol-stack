@@ -88,6 +88,9 @@ FIND_HINT = re.compile(
     re.I,
 )
 GH_HINT = re.compile(r"\bgithub\b", re.I)
+from pathlib import Path
+
+WORKSPACE = Path(__file__).resolve().parents[1] / "workspace"
 HF_HINT = re.compile(r"\b(hugging\s*face|huggingface|\bhf\b)\b", re.I)
 NOTE_HINT = re.compile(
     r"\b(notepad|look at (my |the )?notes|read (my |the )?notes|from (the |my )?notes|"
