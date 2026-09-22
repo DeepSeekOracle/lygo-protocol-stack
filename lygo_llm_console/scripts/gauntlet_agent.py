@@ -31,13 +31,34 @@ def health():
         return {"_err": type(exc).__name__}
 
 
+def wait_console(seconds=240):
+    """Block until the console answers, or give up. A dead port is not a model failure."""
+    deadline = time.time() + seconds
+    while time.time() < deadline:
+        if health().get("ok"):
+            return True
+        time.sleep(5)
+    return False
+
+
 def ask(text, timeout=420):
     tok = (KIT / "data" / ".lygo_llm_token").read_text(encoding="utf-8").strip()
     body = json.dumps({"messages": [{"role": "user", "content": text}]}).encode()
     req = urllib.request.Request(f"http://127.0.0.1:9641/api/chat?token={tok}", data=body,
                                  headers={"Content-Type": "application/json"})
     t0 = time.time()
-    raw = urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", "replace")
+    last = None
+    for attempt in range(3):
+        if not wait_console(240 if attempt else 60):
+            raise RuntimeError("console is not up")
+        try:
+            raw = urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", "replace")
+            break
+        except Exception as exc:  # a restart mid-task: wait for it, then run the task again
+            last = exc
+            time.sleep(10)
+    else:
+        raise RuntimeError(f"console unreachable: {last}")
     reply, traces = [], []
     for ln in raw.splitlines():
         if not ln.startswith("data: "):
