@@ -1,10 +1,10 @@
 {
   "signature": "Delta9Phi963-GIT-LATTICE-OVERVIEW-v1",
-  "generated_utc": "2026-08-30T17:45:24.853921+00:00",
+  "generated_utc": "2026-09-24T23:39:38.561951+00:00",
   "git": {
-    "head": "13c7bcb",
-    "subject": "Seed lattice: refresh GIT_LATTICE_OVERVIEW and Pages queue (un-stale).",
-    "committed": "2026-08-30T10:48:12-06:00",
+    "head": "20a00b2",
+    "subject": "Seed lattice: un-stale the Agora pulse and the Git Lattice Overview",
+    "committed": "2026-09-24T17:39:24-06:00",
     "branch": "main",
     "remote": "https://github.com/DeepSeekOracle/lygo-protocol-stack.git"
   },
@@ -64,7 +64,7 @@
       "path": "docs/HavenStarChart.html",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
       "data": "docs/haven_star_chart/haven_star_chart_data.json",
-      "nodes": 1399,
+      "nodes": 1418,
       "role": "Living constellation / agent map",
       "status": "live",
       "includes": [
