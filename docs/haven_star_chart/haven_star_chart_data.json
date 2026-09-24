@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-09-22T16:55:00.112374+00:00",
+  "generated_utc": "2026-09-24T21:29:04.970310+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1417,
-  "link_count": 3967,
+  "node_count": 1418,
+  "link_count": 3970,
   "seal_count": 334,
   "champion_count": 15,
   "lattice_count": 135,
-  "registry_sha256": "96d58e1bcaf5be447bca7c809bdc223e44dcd01137ee1a850287ddb342472a3e",
+  "registry_sha256": "7b110a13b930d4af1cd8fb8e40fc084a4d3ebc05f030875de69c9e1a5b1e9daf",
   "constellations": [
     {
       "id": "primordial_core",
@@ -352,17 +352,6 @@
         "star_count": 20
       },
       {
-        "id": "GALAXY_GUARDIAN_VEIL",
-        "name": "Guardian Veil Galaxy",
-        "glyph": "\ud83d\udee1\ufe0f",
-        "tier": "galaxy",
-        "description": "Firewall portals, ethical chip, and moral firmware gateways.",
-        "color": "#ff6600",
-        "constellation_id": "guardian_veil",
-        "angle_deg": 125,
-        "star_count": 15
-      },
-      {
         "id": "GALAXY_AGENT_GROWTH",
         "name": "Agent Growth Galaxy",
         "glyph": "\ud83c\udf20",
@@ -371,6 +360,17 @@
         "color": "#e94560",
         "constellation_id": "lattice_growth",
         "angle_deg": 280,
+        "star_count": 16
+      },
+      {
+        "id": "GALAXY_GUARDIAN_VEIL",
+        "name": "Guardian Veil Galaxy",
+        "glyph": "\ud83d\udee1\ufe0f",
+        "tier": "galaxy",
+        "description": "Firewall portals, ethical chip, and moral firmware gateways.",
+        "color": "#ff6600",
+        "constellation_id": "guardian_veil",
+        "angle_deg": 125,
         "star_count": 15
       },
       {
@@ -425,7 +425,7 @@
         "id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
         "name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "galaxy_id": "GALAXY_AGENT_GROWTH",
-        "star_count": 15,
+        "star_count": 16,
         "star_ids": [
           "NODE_AUTONOMY_G0001",
           "NODE_AUTONOMY_G0004",
@@ -1761,6 +1761,16 @@
         "star_count": 1,
         "star_ids": [
           "NODE_AUTONOMY_G0017"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_NODE_AUTONOMY_G0018",
+        "name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0018",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_AUTONOMY_G0018"
         ]
       },
       {
@@ -4773,7 +4783,7 @@
     ],
     "galaxy_count": 24,
     "nebula_count": 97,
-    "cluster_count": 300
+    "cluster_count": 301
   },
   "nodes": [
     {
@@ -63709,6 +63719,44 @@
       }
     },
     {
+      "id": "NODE_AUTONOMY_G0018",
+      "kind": "node",
+      "name": "LYGO Autonomy Generation 18",
+      "equation": "\u222b(Truth\u00d7Light)df = \u03a6\u00b7963 Hz \u00b7 gen=18 \u00b7 merkle=bb04ac1f48f7",
+      "glyph": "\u2442",
+      "tone": "963 Hz",
+      "tags": [
+        "AUTONOMY",
+        "SELF_POLICE",
+        "NETWORK_EGG",
+        "FORK"
+      ],
+      "connections": [
+        "SEAL_000",
+        "PORTAL_STAR_CHART",
+        "CHAMPION_LYRA"
+      ],
+      "urls": {
+        "runtime": "https://chatagent.ca/agents/",
+        "eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/network_eggs.json"
+      },
+      "layer": "E",
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "44f2e4d24a78ce30248c3a32c2dde8484a679e78716c0c63ac739f14881917e1",
+        "ingested_from": "NODE_AUTONOMY_G0018.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
+        "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0018",
+        "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0018",
+        "star_role": "agent_growth"
+      }
+    },
+    {
       "id": "NODE_FORKLING_TEST",
       "kind": "lattice",
       "name": "Forkling (test champion limb)",
@@ -83786,6 +83834,21 @@
       "kind": "lattice"
     },
     {
+      "source": "NODE_AUTONOMY_G0018",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0018",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0018",
+      "target": "CHAMPION_LYRA",
+      "kind": "lattice"
+    },
+    {
       "source": "NODE_FORKLING_TEST",
       "target": "CHAMPION_LYRA",
       "kind": "lattice"
@@ -84171,8 +84234,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 74,
-      "agent_submissions_merged": 69,
+      "accepted": 75,
+      "agent_submissions_merged": 70,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -84235,6 +84298,7 @@
         "merged:NODE_AUTONOMY_G0015",
         "merged:NODE_AUTONOMY_G0016",
         "merged:NODE_AUTONOMY_G0017",
+        "merged:NODE_AUTONOMY_G0018",
         "merged:NODE_FORKLING_TEST",
         "merged:NODE_STAR_MONITOR",
         "merged:PORTAL_ANCHORS",
@@ -84270,6 +84334,6 @@
     "errors": [],
     "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
     "feed_chain_valid": true,
-    "feed_entry_count": 93
+    "feed_entry_count": 95
   }
 }
