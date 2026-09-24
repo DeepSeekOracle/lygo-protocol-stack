@@ -200,6 +200,45 @@ ALIAS_POOL: dict[str, tuple[str, ...]] = {
 }
 
 
+_ESCAPE_PAYLOAD_KEYS = ("code", "source", "cmd")
+_ESCAPE_PAIRS = (("\\r\\n", "\n"), ("\\n", "\n"), ("\\r", "\r"), ("\\t", "\t"), ('\\"', '"'))
+_NEWLINE_ESCAPES = ("\\n", "\\r", "\\t")
+
+
+_PATHLIKE = re.compile(
+    r"^[A-Za-z0-9_ .\-/\\:]+\.(?:py|pyw|txt|json|md|bat|cmd|ps1|sh|js|ts|go|rs|java|c|cc|cpp|h)$"
+)
+
+
+def repair_escapes(value: str) -> str:
+    """Undo a small model's double-escaped payload: literal backslash-n where a newline belongs.
+
+    Measured (gauntlet T8, 2026-09-22, qwen2.5-coder:7b): the model wrote the call inside its own
+    JSON string as {"code": "def fibonacci(n):\\n    ..."} - the escape survived json.loads as a
+    two-character sequence, so python_exec received a one-line program and Python refused it with
+    "unexpected character after line continuation character". The program was right; only the
+    escaping was wrong, and the operator was shown a syntax error instead of 144.
+
+    Only executable payloads are repaired, and only when the value carries no real newline: in code,
+    a literal backslash-n is never what the model meant. Text destined for a file is left alone,
+    because there the sequence can be the content itself.
+    """
+    if not isinstance(value, str) or not value or "\n" in value:
+        return value
+    if _PATHLIKE.match(value.strip()):
+        # A path is not an escaped program. On Windows "\notes" contains a literal backslash-n that
+        # means "notes" and not a line break; repairing one inserted a newline into a filename
+        # (measured while fixing T9's call shape).
+        return value
+    if not any(esc in value for esc in _NEWLINE_ESCAPES):
+        return value
+    sentinel = "\x00"
+    out = value.replace("\\\\", sentinel)
+    for esc, real in _ESCAPE_PAIRS:
+        out = out.replace(esc, real)
+    return out.replace(sentinel, "\\")
+
+
 def canonicalize(name: str, args: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     """Fill a limb's canonical argument names from the aliases a small model reaches for."""
     keys = CANON_KEYS.get(name)
@@ -236,6 +275,9 @@ def canonicalize(name: str, args: dict[str, Any]) -> tuple[str, dict[str, Any]]:
             out["old"] = out[loose[0]]
             if len(loose) > 1:
                 out["new"] = out[loose[1]]
+    for pk in _ESCAPE_PAYLOAD_KEYS:
+        if isinstance(out.get(pk), str):
+            out[pk] = repair_escapes(out[pk])
     return name, out
 
 
@@ -742,13 +784,36 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
     if name == "python_exec":
         code = str(args.get("code") or "")
         _interp = str(args.get("interpreter") or sys.executable or "python")
-        _argv = [_interp, "-c", code] + [str(a) for a in (args.get("argv") or [])]
         _secs = max(1, min(120, int(args.get("timeout") or 20)))
         _where = _ws(str(args.get("cwd"))) if args.get("cwd") else WORKSPACE
+        if not _where.is_dir():
+            # Measured (gauntlet T9, 2026-09-22): the model passed cwd=<workspace>/scripts, which does
+            # not exist, and the spawn died as spawn_failed:FileNotFoundError - the operator was told
+            # "the specified directory does not exist" instead of getting an answer. A wrong folder is
+            # not a reason to lose the turn; run it in the workspace and the receipt shows where.
+            _where = WORKSPACE
         if not code.strip():
             # name the missing argument: a bare "empty" told the operator nothing and the model
             # then answered from its own arithmetic (measured: {"value": "print(6*7)"} -> 42).
             return {"ok": False, "error": "empty", "hint": "python_exec needs 'code' - a python snippet that prints its result", "got_keys": sorted(args)}
+        _run_file: Path | None = None
+        if "\n" not in code and re.fullmatch(r"[A-Za-z0-9_ .\-/\\:]+\.py", code.strip()):
+            # Measured (gauntlet T9, 2026-09-22): the model put the *name* of the program it meant to
+            # write into 'code' ({"code": "sum_of_numbers.py"}) and the filename went to python as
+            # source. Run the file when it exists; when it does not, say what to pass rather than
+            # executing a name and reporting the result of nothing.
+            _cand = _ws(code.strip())
+            if _cand.is_file():
+                _run_file = _cand
+            else:
+                return {"ok": False, "error": "filename_not_code",
+                        "hint": "python_exec takes the program TEXT in 'code' (or the path of a file "
+                                f"that already exists). Nothing was found at {code.strip()!r} - write "
+                                "the program first, then run it.",
+                        "got": code[:120], "cwd": str(_where)}
+        _argv = ([_interp, str(_run_file)] if _run_file else [_interp, "-c", code]) + [
+            str(a) for a in (args.get("argv") or [])
+        ]
         if _SHELL_DENY.search(code) or gate_prompt(code).get("verdict") == "QUARANTINE":
             return {"ok": False, "error": "p0_blocked"}
         # Measured 2026-09-21 (gauntlet T12): the agent saved mod_a.py with save_note and then the
@@ -767,7 +832,8 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         if timed_out:
             return {"ok": False, "error": "timeout"}
         return {"ok": code == 0, "code": code, "stdout": out[-8000:], "stderr": err[-4000:],
-                "timed_out": False, "interpreter": Path(_interp).name}
+                "timed_out": False, "interpreter": Path(_interp).name, "cwd": str(_where),
+                "ran": str(_run_file) if _run_file else "code"}
     if name == "now":
         n = dt.datetime.now().astimezone()
         u = dt.datetime.now(dt.timezone.utc)

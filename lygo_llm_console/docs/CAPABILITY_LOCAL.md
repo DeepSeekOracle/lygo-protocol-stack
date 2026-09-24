@@ -62,3 +62,5 @@ matter, and `#brain-local` / `#brain-api` already switch brains at runtime.
 4. **API for the ceiling, local for the floor.** The API chain proves what the *task* looks like when it
    goes right; the local model proves what this machine can hold without it. Both numbers, side by side,
    or neither is worth much.
+
+- **2026-09-22 (1.3.0, verified running)**: local brain `qwen2.5-coder:7b` at ctx 16384 — 42-49 tok/s, VRAM 5,275-6,155 of 8,188 MiB. Gauntlet 9/12 (PC) and 8/12 (USB) of 12 scored tasks; T7/T11/T12 fail on both brains and both copies, so they are console mechanism gaps, not model limits. A 12-task single run is not a precision instrument: the same PC coder scored 7, 10 and 9 across one day.

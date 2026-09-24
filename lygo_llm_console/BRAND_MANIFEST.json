@@ -61,13 +61,13 @@
     },
     {
       "path": "scripts/certify_build.py",
-      "sha256_16": "b12d167c0001a5a8",
-      "bytes": 10329
+      "sha256_16": "234fffcb0611355a",
+      "bytes": 12807
     }
   ],
-  "rebrand_refresh_iso": "2026-09-21T17:29:57-06:00",
+  "rebrand_refresh_iso": "2026-09-22T10:47:37-06:00",
   "rebrand_refresh_note": "README: full license disclaimer for the public release (1.2.2 hardening sweep)",
   "rebrand_refresh_files": [
-    "portal/index.html"
+    "scripts/certify_build.py"
   ]
 }

@@ -1,0 +1,98 @@
+{
+  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
+  "_notes": {
+    "kit": "Portable LYGO LLM Console config. Every path and every port in this kit is either relative to the kit folder or declared here - nothing is bound to a drive letter, so the whole folder can be copied to another drive and run beside the original.",
+    "how_it_is_read": "src/server.py + src/paths.py read the keys below. If config/local.json (gitignored, per machine) exists it is overlaid on top of this file, and an exported LYGO_*_PORT variable beats both. Relative paths are resolved inside the kit folder, %VARS% and ~ are expanded.",
+    "ports": {
+      "note": "The launchers (LYGO_LLM_CONSOLE.bat / LYGO_LLM_CONSOLE_STOP.bat / PUBLIC_GATEWAY.bat) read these and export LYGO_*_PORT, which is what src/paths.py actually uses. To run a second copy side by side, change port / llama_port / embed_port / colibri_port here (or in that copy's local.json, or in the environment).",
+      "port": "Console + agent portal HTTP port. Env override: LYGO_CONSOLE_PORT.",
+      "llama_port": "Chat engine (llama-server) port. Env override: LYGO_LLAMA_PORT.",
+      "embed_port": "Embedding engine port. Env override: LYGO_EMBED_PORT.",
+      "colibri_port": "Colibri / vision engine port. Env override: LYGO_COLIBRI_PORT."
+    },
+    "bind": "Console listen address. 127.0.0.1 = this PC only. Any other value is refused by src/server.py unless it is started with --lan --i-consent, so a public bind is never a silent side effect.",
+    "scan_roots": "Folders scanned for models. Relative entries resolve inside the kit folder ('./models' = <kit>/models), %USERPROFILE% and ~ are expanded, absolute paths are used as they are. The env var LYGO_MODELS declares this machine's model vault and is added at scan time (I:\\LYGO_MODELS on the studio PC). Keep this list kit-relative so a copied kit finds its own models.",
+    "other_keys": {
+      "signature": "Kit signature string. Do not change - tests and the installer read it.",
+      "ctx_default": "Default context size (tokens) used for a model with no explicit value.",
+      "ctx_max": "Hard cap on context size; larger model settings are clamped to this. 32768 is the native window of the shipped 7B (qwen2.5-coder:7b) - the most the model can hold WITHOUT rope scaling, so no YaRN, no drift. With kv_type q8_0 that is 896 MiB of KV cache (448 MiB at 16384, measured 2026-09-18), which fits the 8 GB card beside the 4.36 GiB of weights. If a boot ever reports ram_refused, this is the number to lower.",
+      "ngl": "'auto' or an integer: GPU layers offloaded for llama-server.",
+      "threads": "'auto' or an integer: CPU threads for llama-server.",
+      "max_tokens": "Maximum reply tokens - how long one answer may run before the engine stops. This is the number the portal sends, the chat handler clamps to, and the window budget RESERVES room for; all three read this one key. Size it against generation speed: the shipped 7B runs ~10 tok/s on this PC, so 4096 is ~7 minutes of generation, which is why the engine is streamed token-by-token into the page rather than buffered. Lower it on a slower host, or to keep replies snappy.",
+      "prefer_by_ram": "true: pick a model that fits the machine's RAM when several match.",
+      "gpu": "'auto', or a backend name to force (e.g. cuda, vulkan, cpu).",
+      "flash_attn": "llama-server flash-attention setting: 'off', 'on' or 'auto'. Measured on THIS build (0.4.1-dev, build 10988) with -ngl 79 -t 6, -ctk/-ctv q8_0, same 680-token prompt: 'on' is FASTER on both halves - prompt eval 154.1 vs 141.7 t/s (+8.8%), generation 15.15 vs 13.00 t/s (+16.5%), and the model loads in 6.5s vs 10.2s. An earlier note here said 'on' was ~2% slower for prompt eval and shipped it off; that measurement does not hold on the current binary, and if a future engine ever rejects it the launch ladder already drops the tuned flags and retries.",
+   "kv_type": "KV cache type: absent means the engine's own f16, or q8_0 / q4_0. Quantised KV is how a small card gets a long context: q8_0 halves the cache for ~3% end to end.",
+   "batch": "llama-server -b (prompt batch). Absent or 'auto' means the engine default.",
+   "ubatch": "llama-server -ub (micro batch). Absent or 'auto' means the engine default.",
+      "media_root": "Where THIS machine keeps the media generators and their checkpoints - the picture engine (stable-diffusion.cpp) and the voice engine (piper). They are hundreds of megabytes each, so they live outside the kit and are found by path, never copied in. Default: D:/LYGO_MEDIA. A machine that has none answers media_status with what is missing rather than failing a turn.",
+      "sd_exe": "Full path to sd-cli.exe (stable-diffusion.cpp). Empty = <media_root>/tools/sd/sd-cli.exe, falling back to <media_root>/tools/sd-cpu/sd-cli.exe when only the CPU build is present.",
+      "sd_model": "Full path to the image checkpoint (.safetensors/.gguf). Empty = the first *.safetensors under <media_root>/models/sd. Distilled checkpoints are detected by the filename (turbo/schnell/lightning/lcm/dmd/hyper) and then default to 4 steps at cfg 1.0, which is the difference between a good picture and a smear - a turbo model run at 20 steps is slow AND wrong.",
+      "piper_exe": "Full path to piper.exe. Empty = <media_root>/tools/piper/piper.exe.",
+      "piper_voice": "Full path to a piper voice (.onnx; its .onnx.json sits beside it). Empty = the first *.onnx under <media_root>/models/voices. espeak-ng-data must sit beside piper.exe - piper cannot phonemise without it.",
+      "image_timeout_s": "How long one picture may render before the limb gives up and names the timeout. Generous on purpose: a first run also loads a multi-gigabyte checkpoint. Lower it on a faster card, raise it on a slower one.",
+      "sound_timeout_s": "How long one spoken clip may take. A local voice renders faster than real time (measured 0.4 s for 3.1 s of speech), so this is a guard, not a budget."
+    }
+  },
+  "bind": "127.0.0.1",
+  "port": 9641,
+  "llama_port": 11441,
+  "embed_port": 11442,
+  "colibri_port": 11443,
+  "ctx_default": 4096,
+  "ctx_max": 32768,
+  "ngl": "auto",
+  "threads": "auto",
+  "max_tokens": 4096,
+  "scan_roots": [
+    "./models"
+  ],
+  "prefer_by_ram": true,
+  "gpu": "auto",
+  "kv_type": "q8_0",
+  "flash_attn": "on",
+  "media_root": "D:/LYGO_MEDIA",
+  "sd_exe": "",
+  "sd_model": "",
+  "image_models": [
+    {
+      "id": "qwen-image-2.1",
+      "diffusion_model": "models/qwen-image-2.1/qwen_image_2.1-Q4_K.gguf",
+      "vae": "models/qwen-image-2.1/qwen_image_2.1_vae_bf16.safetensors",
+      "llm": "models/qwen-image-2.1/Qwen3VL-8B-Instruct-Q4_K_M.gguf",
+      "steps": 20,
+      "cfg_scale": 2.5,
+      "size": 1024,
+      "align": 32,
+      "extra": [
+        "--offload-to-cpu",
+        "--vae-tiling"
+      ],
+      "license": "Qwen Research License - not open source and NOT redistributable. The kit ships the wiring only and never these weights: run them locally for testing and personal use, and point anyone else at the vendor URLs in `sources` so they fetch and run their own copy.",
+      "sources": {
+        "diffusion_model": {
+          "url": "https://huggingface.co/leejet/Qwen-Image-2.1-GGUF/resolve/main/qwen_image_2.1-Q4_K.gguf",
+          "page": "https://huggingface.co/leejet/Qwen-Image-2.1-GGUF",
+          "mib": 4003
+        },
+        "vae": {
+          "url": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/vae/qwen_image_2.1_vae_bf16.safetensors",
+          "page": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1",
+          "mib": 644,
+          "note": "2.1's OWN vae - the earlier Qwen-Image and Wan VAEs are not interchangeable"
+        },
+        "llm": {
+          "url": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct-GGUF/resolve/main/Qwen3VL-8B-Instruct-Q4_K_M.gguf",
+          "page": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct-GGUF",
+          "mib": 4794,
+          "note": "apache-2.0 - the only one of the three that is freely redistributable"
+        }
+      },
+      "_notes": "Qwen-Image-2.1: a 7B single-stream flow DiT, and it is NOT a single-checkpoint model. It takes three weight files passed separately - the diffusion model, its OWN VAE (the earlier Qwen-Image and Wan VAEs are not interchangeable), and a Qwen3-VL-8B text encoder. Paths here are relative to media_root. No separate engine is declared because none is needed: the shipped tools/sd build loads it, PROVEN by a real render rather than by inspecting the binary. Never judge engine support by grepping the exe for an architecture name - those strings are stored UTF-16 and a byte grep reports a false negative. --offload-to-cpu keeps all 8.9 GB of weights in RAM, because the card has 8 GB. MEASURED on this host: without that flag the engine places the DiT in VRAM (4003 MB) and then dies during weight preparation (qwen_image_2_1.transformer_blocks.2 failed) - so on this card the flag is required, not a tuning preference. LICENCE: the diffusion weights and VAE are Qwen Research License (not Apache-2.0); only the Qwen3-VL text encoder is apache-2.0. Check that before redistributing weights."
+    }
+  ],
+  "piper_exe": "",
+  "piper_voice": "",
+  "image_timeout_s": 900,
+  "sound_timeout_s": 180
+}

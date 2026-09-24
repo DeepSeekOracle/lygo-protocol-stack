@@ -151,6 +151,52 @@ def _fits(out: str, mem: str) -> str:
 
 
 
+def _fits_total(out: str, mem: str, digest: str) -> str:
+    """Hold the documented invariant: the composed prompt fits PROMPT_CEILING_TOTAL.
+
+    The two ceilings were stated independently - identity <= PROMPT_CEILING, digest <= CARRY_CAP - and
+    PROMPT_CEILING_TOTAL is exactly their sum. That arithmetic leaves no room for the identity block's
+    own slack, so the moment the identity block actually reaches its ceiling the composed prompt
+    overruns the total (measured 2026-09-22: 17,791 chars against a 17,700 ceiling on a console whose
+    align prompt had grown, which is what `test_the_digest_is_opt_in_and_capped` caught). The reserve
+    compaction derives from this constant is what stops the engine refusing a turn, so the invariant has
+    to hold by construction rather than by luck.
+
+    What gives way, in order: MEMORY.md first (the section `_fits` already designates), then the
+    conversation digest, and only as a last resort the middle of the block. SOUL.md, IDENTITY.md and the
+    instruction lines are never dropped, and the volatile tail stays last so the prompt cache still
+    matches from one turn to the next.
+    """
+    if len(out) <= PROMPT_CEILING_TOTAL:
+        return out
+    cur, m = out, mem
+    cap = len(m) if m else 0
+    while len(cur) > PROMPT_CEILING_TOTAL and cap > 600:
+        cap = max(600, cap - (len(cur) - PROMPT_CEILING_TOTAL) - 120)
+        smaller = read_memory_block(cap)
+        if smaller == m:
+            break
+        cur = cur.replace(m, smaller, 1)
+        m = smaller
+    if len(cur) > PROMPT_CEILING_TOTAL and digest:
+        keep = len(digest) - (len(cur) - PROMPT_CEILING_TOTAL) - 80
+        if keep > 200:
+            trimmed = digest[:keep].rstrip()
+            if trimmed != digest:
+                cur = cur.replace(digest, trimmed, 1)
+        else:
+            cur = cur.replace(digest, "", 1)
+    if len(cur) > PROMPT_CEILING_TOTAL:
+        cut = len(cur) - PROMPT_CEILING_TOTAL + 80
+        mid = len(cur) // 2
+        cur = (
+            cur[: mid - cut // 2]
+            + "\n…[middle of prompt omitted to fit the window]…\n"
+            + cur[mid + cut // 2 + 40 :]
+        )
+    return cur
+
+
 def compose_system(brain: str | None = None, carry: bool = False, with_clock: bool = True) -> str:
     """The identity block. `carry=True` appends the compacted-conversation digest.
 
@@ -250,12 +296,14 @@ def compose_system(brain: str | None = None, carry: bool = False, with_clock: bo
     except Exception:
         pass
     out = _fits("\n".join(parts), mem)
+    digest = ""
     if carry:
         try:
             from compaction import carry_over
 
             block = carry_over()
             if block:
+                digest = block
                 out = out + "\n\n" + block
         except Exception:
             pass
@@ -263,7 +311,7 @@ def compose_system(brain: str | None = None, carry: bool = False, with_clock: bo
         # deliberately last: everything above it is identical from one turn to the next (see the note
         # where the clock is read), so the engine keeps it in cache instead of re-reading it every turn.
         out = out + "\n" + "\n".join(volatile)
-    return out
+    return _fits_total(out, mem, digest)
 
 
 def volatile_tail(with_clock: bool = True) -> str:

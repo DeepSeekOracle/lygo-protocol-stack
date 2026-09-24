@@ -253,6 +253,13 @@ PREFER_IDS = (
 # factor*weights + headroom to fit in *available* physical RAM (same 2 GB rule engine.ram_ok uses).
 RAM_HEADROOM = 2 * 1024**3
 RAM_FIT_FACTOR = 1.6
+PREFER_FIT_FACTOR = 1.0
+# A stated preference (console.json "prefer_ids") is tested with plain weights + the same headroom,
+# NOT the conservative 1.6x. That factor exists to stop the AUTOMATIC pick from choosing a model whose
+# context and compute buffers will not fit on CPU; applied to an operator's own choice it is simply
+# wrong, and it was silently overruling them. Measured 2026-09-22 on this 20.7 GB host: gemma4-12b
+# (7.38 GB) was judged "does not fit" by the 1.6x rule (needs 13.8 GB), so the stick booted the coder
+# on every start and the operator's gemma4 default never took effect.
 
 
 TOOL_RANK_CODER = 3
@@ -383,6 +390,26 @@ def prefer_by_ram() -> bool:
         return False
 
 
+def prefer_ids() -> list[str]:
+    """This copy's brain preferences, in order, from console.json ("prefer_ids").
+
+    The same kit walks between machines and each copy is told what it is FOR: the PC copy leads with
+    the coder (tool tasking is its job), the stick leads with the gemma4 conversation/vision model and
+    falls through to the coder on a host where gemma4 is not present. A preference is a preference,
+    never a pin — an id that is not on this machine, or that does not fit it, is skipped, which is what
+    makes "the stick decides by its host" true instead of aspirational.
+    """
+    try:
+        from paths import CONSOLE_JSON
+
+        raw = json.loads(CONSOLE_JSON.read_text(encoding="utf-8")).get("prefer_ids") or []
+    except (OSError, json.JSONDecodeError, ImportError):
+        return []
+    if not isinstance(raw, list):
+        return []
+    return [str(x).strip() for x in raw if str(x).strip()]
+
+
 def ram_choice(
     models: list[dict[str, Any]],
     avail_bytes: int,
@@ -442,6 +469,7 @@ def pick_default(
     models: list[dict[str, Any]],
     prefer_ram: bool = False,
     avail_bytes: int | None = None,
+    prefer: list[str] | None = None,
 ) -> str | None:
     """Deterministic default (PREFER_IDS, else smallest). RAM-auto is opt-in via `prefer_ram`.
 
@@ -449,10 +477,19 @@ def pick_default(
     `prefer_ram=prefer_by_ram()` (registry.upsert does), so plain callers and tests never get a
     surprise model just because console.json happens to enable the flag.
     """
+    budget = avail_ram_bytes() if avail_bytes is None else int(avail_bytes)
+    # A copy's stated preference leads (console.json "prefer_ids"): the PC copy is a tooling box and
+    # leads with the coder, the stick leads with gemma4 and drops to the coder on a host that does not
+    # carry gemma4. Absent or oversized ids are skipped, so the fallback is a real choice about THIS
+    # machine and not a stale pin from the last one.
+    for pid in (prefer or []):
+        rec = next((m for m in models if str(m.get("id")) == str(pid)), None)
+        if rec and _present(rec) and rec.get("kind") in (None, "chat") and _fits(
+            pid, models, budget, factor=PREFER_FIT_FACTOR
+        ):
+            return str(pid)
     if prefer_ram:
-        chosen = ram_choice(
-            models, avail_ram_bytes() if avail_bytes is None else int(avail_bytes)
-        )
+        chosen = ram_choice(models, budget)
         if chosen:
             return chosen
     order = ranked(models)
@@ -658,7 +695,8 @@ def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[st
             or pinned not in ids_now
             or (want_ram and not _fits(pinned, data["models"], avail))
         ):
-            auto = pick_default(data["models"], prefer_ram=want_ram, avail_bytes=avail)
+            auto = pick_default(data["models"], prefer_ram=want_ram, avail_bytes=avail,
+                               prefer=prefer_ids())
             if auto:
                 data["selected"] = auto
                 data["selected_source"] = "ram" if want_ram and avail > 0 else "auto"
@@ -666,7 +704,8 @@ def upsert(models: list[dict[str, Any]], selected: str | None = None) -> dict[st
     if data.get("selected") in lost:
         # The pinned brain's weights left this machine: re-pick here, because the branch above
         # cannot — an explicit `selected=` call sets the pin, and that pin now dangles.
-        auto = pick_default(data["models"], prefer_ram=want_ram, avail_bytes=avail)
+        auto = pick_default(data["models"], prefer_ram=want_ram, avail_bytes=avail,
+                           prefer=prefer_ids())
         if auto:
             data["selected"] = auto
             data["selected_source"] = "ram" if want_ram and avail > 0 else "auto"

@@ -778,3 +778,14 @@ launchers, `engine/`, `python/`, `models/`, `save/`, `workspace/` — and tested
 the stick's own forever history. Two defects were found *by testing the stick* and fixed: the completion line
 credited a cloud provider for a local answer, and five standing tests asserted PC-only invariants. The stick's
 model store is empty — recorded as the steward's open decision, not papered over.
+
+- **2026-09-22 — closing the 1.3.0 pass. Status: running, stable, tested.**
+  The pass made the existing pipeline *answer* where it had been failing, rather than adding mechanism:
+  `emit_sse` defined above its first use and one idempotent `_start_sse()` (both over-window and streaming
+  paths), the engine window set to the 16,384 the identity block was sized for, `continuity._fits_total()`
+  holding `PROMPT_CEILING_TOTAL` by construction, sampling defaults at one chokepoint, a COMPLEX TASKS +
+  STYLE section in `prompts/LYGO_ALIGN.txt`, and `chat_loop.verify_output_claims()` — the fabrication
+  detector for a claimed limb output, counted in `/api/health` as `fabrications_caught`.
+  Defect ledger rows 113-119. Gauntlet: PC 9/12, USB 8/12 (T7/T11/T12 fail on both brains — mechanism, not
+  model). Final pass: `verify_fixes_live` ALL PASS, 1247 tests green, both copies CERTIFIED.
+  Evidence, settings and the carry-forward gaps: `docs/VERSION_CLOSEOUT_1.3.0_2026-09-22.md`.

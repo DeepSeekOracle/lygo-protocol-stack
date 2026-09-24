@@ -72,6 +72,33 @@ def math_only(text: str) -> bool:
     return bool(re.search(r"\d", s)) and bool(MATH_OP.search(s))
 
 
+MATH_CANDIDATE = re.compile(r"\d[\d\s,.()]*[+\-*/%^×÷][\d\s,.()+\-*/%^×÷]*")
+MATH_LIMB_NAMED = re.compile(
+    r"\b(?:use|using|via|with|call|run|invoke)\b[^.]{0,40}?\b(?:calc|calculator|arithmetic|math)\b"
+    r"[^.]{0,20}?\b(?:tool|limb)\b",
+    re.I,
+)
+
+
+def math_expr_in(text: str) -> str:
+    """The arithmetic sitting inside a longer sentence, in `calc`'s form; "" when there is none.
+
+    "Use your calc limb to work out 47 * 89." -> "47 * 89". Needed because math_only() only accepts a
+    message that is arithmetic and nothing else, and an operator who names the limb still writes a
+    sentence around the expression.
+    """
+    for m in MATH_CANDIDATE.finditer(str(text or "")):
+        cand = math_expr(m.group(0))
+        if math_only(cand):
+            return cand
+    return ""
+
+
+def math_limb_named(text: str) -> bool:
+    """True when the operator asked for arithmetic by naming the limb ("use your calc limb")."""
+    return bool(MATH_LIMB_NAMED.search(text or ""))
+
+
 META_TOOLS = re.compile(
     r"(access the internet|search tools|hooked up|are your tools|can you search|tools working)",
     re.I,
@@ -560,6 +587,87 @@ def image_paths_in(text: str) -> list[str]:
     return [p for p in paths_in(text) if p.lower().endswith(IMAGE_EXT)]
 
 
+def host_file_chain(user_text: str) -> list[dict[str, Any]]:
+    """D3: read file A then write file B from A's contents, on the host, in one turn.
+
+    Small models call save_note / file_intent once and never do the second step. The operator's
+    words already named both files; the console completes the chain and leaves a receipt.
+    """
+    traces: list[dict[str, Any]] = []
+    text = user_text or ""
+    if not re.search(r"\bthen\b", text, re.I):
+        return traces
+    names = re.findall(r"([A-Za-z0-9._-]+\.(?:txt|md|py|json))", text)
+    uniq: list[str] = []
+    for n in names:
+        if n not in uniq:
+            uniq.append(n)
+    if len(uniq) < 2:
+        return traces
+    src_name, dest_name = uniq[0], uniq[1]
+    src = None
+    for cand in (WORKSPACE / "notes" / src_name, WORKSPACE / src_name):
+        if cand.is_file():
+            src = cand
+            break
+    if src is None:
+        found = [p for p in WORKSPACE.rglob(src_name) if p.is_file()]
+        src = found[0] if found else None
+    if src is None:
+        # Measured (gauntlet T12, 2026-09-22): "Create two files ... mod_a.py and run_a.py ... Then
+        # run run_a.py" names two .py files, so this chain fired, found no mod_a.py and returned a
+        # read_file ok=false readout. The host readout then replaced the create request: the coder
+        # answered "UNKNOWN (SHADOW) - no mod_a.py file found" and wrote neither file. A chain whose
+        # first step has nothing to read is not a chain - it is a create request. Stay silent and let
+        # the rest of host_prefetch handle the turn.
+        return []
+    body = src.read_text(encoding="utf-8", errors="replace")
+    traces.append(
+        {
+            "name": "read_file",
+            "arguments": {"path": str(src)},
+            "result": {"ok": True, "path": str(src), "text": body[:8000]},
+            "host": True,
+        }
+    )
+    extra_m = re.search(r"followed by the word\s+([A-Za-z0-9_-]+)", text, re.I)
+    out_body = body
+    if extra_m:
+        word = extra_m.group(1)
+        out_body = body.rstrip() + (" " if body.strip() else "") + word
+        if not out_body.endswith("\n"):
+            out_body += "\n"
+    dest = src.parent / dest_name
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(out_body, encoding="utf-8")
+        verified = dest.read_text(encoding="utf-8") == out_body
+        traces.append(
+            {
+                "name": "save_note",
+                "arguments": {"name": dest_name, "where": str(dest.parent)},
+                "result": {
+                    "ok": True,
+                    "path": str(dest),
+                    "bytes": dest.stat().st_size,
+                    "verified": verified,
+                    "chain": True,
+                },
+                "host": True,
+            }
+        )
+    except OSError as exc:
+        traces.append(
+            {
+                "name": "save_note",
+                "arguments": {"name": dest_name},
+                "result": {"ok": False, "error": f"{type(exc).__name__}"},
+                "host": True,
+            }
+        )
+    return traces
+
+
 def host_prefetch(user_text: str) -> list[dict[str, Any]]:
     """3B models talk about tools instead of calling them. Host runs URL/search/map first."""
     traces: list[dict[str, Any]] = []
@@ -702,6 +810,13 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
                 "host": True,
             }
         )
+    chained = host_file_chain(raw)
+    if any(t.get("name") == "save_note" for t in chained):
+        # The chain owns the destination name for this turn (gauntlet T6): stop before the generic
+        # FILE_HINT path below, which reads "contents are what you read followed by the word CHECKED"
+        # as the file body and would overwrite the chained text with the instruction.
+        traces.extend(chained)
+        return traces
     if FILE_HINT.search(text) and not any(t.get("name") == "file_intent" for t in traces):
         _spec = host_write_request(text)
         if _spec and not any(t.get("name") == "save_note" for t in traces):
@@ -744,6 +859,17 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
         _got = dispatch("list_dir", {"path": str(_target)})
         if (_got or {}).get("ok"):
             traces.append({"name": "list_dir", "arguments": {"path": str(_target)}, "result": _got, "host": True})
+    if math_limb_named(text) and not any(t.get("name") == "calc" for t in traces):
+        # Measured (gauntlet T1, 2026-09-22): "Use your calc limb to work out 47 * 89. Tell me only
+        # the number." is arithmetic inside a sentence, so math_only() said no, no limb ran, and the
+        # on-box coder answered 4163 (wrong). An operator who names the arithmetic limb and states the
+        # expression has left nothing to judge - run it, exactly as the bare-arithmetic case below.
+        expr = math_expr_in(text)
+        if expr:
+            result = dispatch("calc", {"expr": expr})
+            if (result or {}).get("ok"):
+                traces.append({"name": "calc", "arguments": {"expr": expr}, "result": result, "host": True})
+                return traces
     if math_only(text) and named in ("", "calc"):
         # Bare arithmetic: answer it on the host instead of searching the web for the numbers.
         expr = math_expr(text)
@@ -1124,6 +1250,52 @@ CLAIM_FILE = re.compile(
 )
 # Limbs whose result is evidence that something was actually written.
 _WRITER_LIMBS = ("save_note", "python_exec", "write_file", "shell")
+# A picture limb writes a real file too, and its result carries the path it wrote.
+_PICTURE_LIMBS = ("image_generate",)
+_WRITES_A_FILE = _WRITER_LIMBS + _PICTURE_LIMBS
+# MEASURED live 2026-09-23: every picture reply in the operator's session was shaped
+# "I have generated the image of ... The image is saved at: `<path>`" (also "is available at", "is stored
+# at", "I have successfully generated the image"), none of it matched CLAIM_FILE, and the renders behind
+# them had died - so five prompts in a row were answered with an invented path and no picture on disk.
+CLAIM_PICTURE = re.compile(
+    r"(?:generated|created|drew|made|rendered|painted|produced)\s+"
+    r"(?:the|a|an|this|that|your|you)?\s*"
+    r"(?:image|picture|photo|photograph|meme|illustration|artwork|render)"
+    r"|(?:image|picture|photo|photograph|meme|illustration|artwork)\b[^.\n]{0,60}?(?:is|has been|was)\s+"
+    r"(?:\w+\s+){0,3}(?:saved|stored|written|created|generated|drawn|rendered|available|ready)"
+    r"|(?:saved|stored|written)\s+(?:it|the|that)\s+(?:as|to|in)",
+    re.I,
+)
+
+
+def _claim_advice(picture: bool) -> str:
+    """What to offer next, in the words of the thing that was claimed."""
+    if picture:
+        return ("Ask again and I will call image_generate for it and return the path it really wrote.")
+    return ("Ask again and I will call save_note with where=desktop (or documents/downloads) and return "
+            "the path it really wrote.")
+
+
+def _failed_picture_trace(traces) -> tuple[str, dict[str, Any]] | None:
+    """The picture limb that ran this turn and did not answer ok, with its own result."""
+    for t in reversed(list(traces or [])):
+        if t.get("name") not in _PICTURE_LIMBS:
+            continue
+        res = t.get("result")
+        if isinstance(res, dict) and not res.get("ok"):
+            return str(t.get("name")), res
+    return None
+
+
+def _drawn_trace(traces) -> tuple[str, dict[str, Any]] | None:
+    """The picture limb that really wrote a file this turn (its result carries the path it wrote)."""
+    for t in reversed(list(traces or [])):
+        if t.get("name") not in _PICTURE_LIMBS:
+            continue
+        res = t.get("result")
+        if isinstance(res, dict) and res.get("ok") and res.get("path"):
+            return str(t.get("name")), res
+    return None
 # a real path needs a drive, a separator and some length: prose like "t:**" is not a path
 
 _PATHISH = re.compile(r"[A-Za-z]:[\\/][^ \t\n`\"\')\]]{2,}", re.I)
@@ -1136,34 +1308,141 @@ def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
     receipt for a path under C:/Users/Justin/Desktop that did not exist anywhere - wrong user name, and no
     writing limb had run. So: when a turn claims a file and nothing wrote one, say so; when it names an
     absolute path, look at the disk and report what is really there.
+
+    Measured live 2026-09-23, the picture case: asked for a kitten, the limb answered
+    `{"ok": false, "error": "image_failed", "exit": 3221225786, "seconds": 183.4}` with no file on disk,
+    and the reply said "The image is saved at: `<path>`". Nothing caught it, so the operator asked five
+    times. A picture is a file claim like any other - and when the limb really did draw one, the path it
+    wrote is the only path that is true.
     """
     from pathlib import Path
 
-    if not text or not CLAIM_FILE.search(text) or '[host check]' in text:
-        return text
+    picture = bool(text and CLAIM_PICTURE.search(text))
+    if not text or '[host check]' in text or not (picture or CLAIM_FILE.search(text)):
         return text
     for t in traces or []:
-        if t.get("name") not in _WRITER_LIMBS:
+        if t.get("name") not in _WRITES_A_FILE:
             continue
         res = t.get("result")
         if isinstance(res, dict) and res.get("ok") and (res.get("path") or res.get("verified") or res.get("ran")):
-            return text  # something really was written, or really did run
-    seen: list[str] = []
-    for m in _PATHISH.finditer(text):
-        raw = m.group(0).rstrip(".,;:)`")
-        if raw and raw not in seen:
-            seen.append(raw)
-    real = [q for q in seen if Path(q).exists()]
-    missing = [q for q in seen if q not in real]
-    if real:
-        return text + "\n\n[host check] that file really is on disk: " + real[0]
-    if missing:
-        return text + ("\n\n[host check] no write limb ran in this turn, and this is not on disk: "
-                       + ", ".join(missing[:3])
-                       + ". Nothing was created. Ask again and I will call save_note with where=desktop "
-                         "(or documents/downloads) and return the path it really wrote.")
-    return text + ("\n\n[host check] no write limb ran in this turn, so nothing was created. Ask again "
-                   "and I will call save_note with where=desktop, documents or downloads.")
+            break          # something really was written, or really did run
+    else:
+        seen: list[str] = []
+        for m in _PATHISH.finditer(text):
+            raw = m.group(0).rstrip(".,;:)`")
+            if raw and raw not in seen:
+                seen.append(raw)
+        real = [q for q in seen if Path(q).exists()]
+        missing = [q for q in seen if q not in real]
+        failed = _failed_picture_trace(traces)
+        if failed is not None:
+            name, res = failed
+            secs = res.get("seconds")
+            line = ("[host check] %s ran in this turn and failed (%s%s), so nothing was drawn"
+                    % (name, str(res.get("error") or "no_file"),
+                       ", %.1f s" % float(secs) if isinstance(secs, (int, float)) and secs else ""))
+            if real:
+                line += "; the path in this answer is an older file already on disk: " + real[0]
+            if missing:
+                line += "; this is not on disk: " + ", ".join(missing[:3])
+            hint = str(res.get("hint") or "").strip()
+            line += ". " + (hint[:300] if hint else _claim_advice(picture))
+            return text + "\n\n" + line
+        if real:
+            return text + "\n\n[host check] that file really is on disk: " + real[0]
+        if picture:
+            if missing:
+                return text + ("\n\n[host check] nothing in this turn drew a picture, and this is not on "
+                               "disk: " + ", ".join(missing[:3]) + ". " + _claim_advice(True))
+            return text + ("\n\n[host check] nothing in this turn drew a picture, and no file is named. "
+                           + _claim_advice(True))
+        if missing:
+            return text + ("\n\n[host check] no write limb ran in this turn, and this is not on disk: "
+                           + ", ".join(missing[:3]) + ". Nothing was created. " + _claim_advice(picture))
+        return text + ("\n\n[host check] no write limb ran in this turn, so nothing was created. "
+                       + _claim_advice(picture))
+    # A writer ran, and a picture can still be described with a path it never wrote.
+    drawn = _drawn_trace(traces)
+    if drawn is not None:
+        name, res = drawn
+        true_path = str(res.get("path") or "")
+        named = [m.group(0).rstrip(".,;:)`") for m in _PATHISH.finditer(text)]
+        if true_path and not any(Path(q) == Path(true_path) for q in named):
+            return text + ("\n\n[host check] %s really wrote %s this turn; the path above is not that "
+                           "file." % (name, true_path))
+    return text
+
+
+CLAIM_LIMB_OUTPUT = re.compile(
+    r"(?:(?:the\s+)?(?:output|result|return value)\s+of\s+(?P<l1>python_exec|shell|calc|read_file|"
+    r"list_dir|find_files|glob_files|web_search|web_fetch|steward_map|task_add|download_url))"
+    r"|(?P<l2>python_exec|shell|calc|read_file|list_dir|find_files|glob_files|web_search|web_fetch|"
+    r"steward_map|task_add|download_url)\s*"
+    r"(?:returned|returns|printed|prints|gave|gives|produced|reported|reports|says|said|outputs)",
+    re.I,
+)
+_NUMBER = re.compile(r"-?\d+(?:\.\d+)?")
+
+
+def _trace_output(traces) -> dict[str, str]:
+    """limb name -> everything the result said, this turn, only for limbs that actually answered."""
+    out: dict[str, str] = {}
+    for t in traces or []:
+        try:
+            if not isinstance(t, dict):
+                continue
+            res = t.get("result")
+            if not isinstance(res, dict) or not res.get("ok"):
+                continue
+            out[str(t.get("name") or "")] = json.dumps(res, default=str)
+        except Exception:  # a cosmetic helper may never break a turn
+            continue
+    return out
+
+
+def verify_output_claims(text: str, traces: list[dict[str, Any]]) -> str:
+    """A tool output the host cannot show is not a tool output.
+
+    Measured 2026-09-21 (gauntlet T12): the reply ended "here is the output of python_exec: 63" while the
+    turn's traces held only `steward_map` - the number came from nowhere. `verify_file_claims` catches a
+    claimed FILE; nothing caught a claimed limb OUTPUT, which is the same lie in its other shape.
+
+    A named limb with no trace this turn is reported. A limb that did run is questioned only when the
+    reply states a number its own result does not contain, so an honest answer that quotes an earlier
+    turn's value is not touched. The answer is never rewritten: it is kept as written and the host check
+    goes under it, exactly like the file-path check.
+    """
+    body = str(text or "")
+    if not body or "[host check]" in body:
+        return body
+    claims: list[str] = []
+    for m in CLAIM_LIMB_OUTPUT.finditer(body):
+        limb = (m.group("l1") or m.group("l2") or "").lower()
+        if limb and limb not in claims:
+            claims.append(limb)
+    if not claims:
+        return body
+    ran = _trace_output(traces)
+    problems: list[str] = []
+    for limb in claims:
+        if limb not in ran:
+            problems.append("this reply names %s, and %s did not run in this turn" % (limb, limb))
+            continue
+        for m in CLAIM_LIMB_OUTPUT.finditer(body):
+            named = (m.group("l1") or m.group("l2") or "").lower()
+            if named != limb:
+                continue
+            window = body[max(0, m.start() - 90): m.end() + 140]
+            for num in _NUMBER.findall(window):
+                if num not in ran[limb]:
+                    problems.append("%s is stated as %s's output, and its result holds no %s"
+                                    % (num, limb, num))
+                    break
+    if not problems:
+        return body
+    return (body + "\n\n[host check] " + "; ".join(problems[:2])
+            + ". Nothing in this turn's traces supports that, so treat it as not measured - ask again and "
+              "I will call the limb and report the value it really returned.")
 
 
 FILE_ASK = re.compile(

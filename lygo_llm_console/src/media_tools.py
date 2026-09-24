@@ -34,8 +34,8 @@ import time
 from pathlib import Path
 from typing import Any
 
-from hardware import RENDER_NEED_MIB, picture_route
-from paths import WORKSPACE, console_cfg
+from hardware import RENDER_NEED_MIB, picture_route, render_need_mib
+from paths import KIT_ROOT, WORKSPACE, console_cfg
 
 # Checkpoint families that are distilled: few steps, low guidance. Prefix match on the file name.
 TURBO_HINTS = ("turbo", "schnell", "lightning", "lcm", "dmd", "hyper")
@@ -49,8 +49,19 @@ def _cfg() -> dict[str, Any]:
 
 
 def media_root() -> Path:
+    """Where the generators live: the machine's own media root, or THIS kit when it carries them.
+
+    The console ships the picture engine inside the package (tools/sd-cpu), so a fresh all-in-one
+    install works with no config at all: when the configured root has no tools/ of its own but this kit
+    does, the kit IS the media root. A machine that has a real media root (the steward's D:/LYGO_MEDIA,
+    with its CUDA build, its checkpoints and piper) keeps it exactly as before - the packaged engine is
+    a fallback for machines that have nothing, never an override of a machine that has something.
+    """
     raw = str(_cfg().get("media_root") or "D:/LYGO_MEDIA").strip()
-    return Path(raw)
+    root = Path(raw)
+    if not (root / "tools").is_dir() and (KIT_ROOT / "tools" / "sd-cpu" / "sd-cli.exe").is_file():
+        return KIT_ROOT
+    return root
 
 
 def _resolve(cfg_key: str, default_rel: str, pattern: str | None = None) -> Path | None:
@@ -86,12 +97,21 @@ def _route_for_a_render() -> tuple[str, str]:
     """('cpu', why) when the card cannot take this render right now, else ('', '').
 
     A boot-time total is a guess: the number that decides a render is the free VRAM at the moment it is
-    asked for. Measured on this host the chat model holds the whole 8188 MiB card, so the CUDA route costs
-    ~20 s and a CUDA warning before it dies; the CPU build drew a real 1024x1024 picture in 172.1 s.
+    asked for. And the number to clear is the CHECKPOINT, not the shortfall a failed attempt reported:
+    MEASURED 2026-09-23, with the 6.9 GB SDXL-Turbo checkpoint on disk, 7113 MiB free drew a real picture
+    on the CUDA build in 12.5 s while the chat model resident left ~0 MiB free. Asking a card for 644 MiB
+    when the weights have nowhere to go is how a doomed render reaches the card at all.
     A sensor that fails must never decide: any error here means "try the card", the status quo.
     """
+    need = RENDER_NEED_MIB
     try:
-        route, why = picture_route(RENDER_NEED_MIB)
+        mp = sd_model()
+        if mp and mp.is_file():
+            need = render_need_mib(mp.stat().st_size)
+    except Exception:
+        need = RENDER_NEED_MIB
+    try:
+        route, why = picture_route(need)
     except Exception:
         return "", ""
     if route == "cpu" and sd_cpu_exe() and sd_cpu_exe().is_file():
@@ -430,6 +450,14 @@ def image_generate(
             "-W", str(w), "-H", str(h), "--steps", str(st), "--cfg-scale", str(cf)]
     if negative.strip():
         argv += ["-n", negative.strip()]
+    # MEASURED on this host 2026-09-23, SDXL-Turbo at 1024x1024: on the CPU build the untitled VAE decode
+    # died mid-pass (exit 3221225786, its log ending at "decoding 1 latents"), wrote no file, and the limb
+    # answered `image_failed` after 183.4 s. The SAME argv plus --vae-tiling decoded the latent in 49 tiles
+    # and saved a real 2.1 MB picture in 272.0 s. Tiling is the difference between "image creation is
+    # broken" and a file on disk, so the CPU route always carries it. The CUDA build drew the same prompt
+    # in 12.5 s without it and is left exactly as it was.
+    if cpu or exe.parent.name.lower().endswith("cpu"):
+        argv.append("--vae-tiling")
     try:
         t0 = time.time()
         proc = subprocess.run(argv, capture_output=True, text=True, timeout=to, cwd=str(exe.parent))

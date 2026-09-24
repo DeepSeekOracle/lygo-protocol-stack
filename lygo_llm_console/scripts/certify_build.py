@@ -61,6 +61,53 @@ def identity(path: Path) -> tuple[str, int]:
     return hashlib.sha256(data).hexdigest(), len(data)
 
 
+def check_code_loads(kit: Path) -> tuple[bool, list[str]]:
+    """Byte-compile src/ (and any .py under portal/). A hash match on unimportable code is not a certificate.
+
+    D1: certify used to print CERTIFIED BUILD while chat_loop.py could not even import.
+    """
+    notes: list[str] = []
+    src = kit / "src"
+    if not src.is_dir():
+        return True, ["no src/ tree in this kit"]
+    import compileall
+    import py_compile
+
+    ok = True
+    if not compileall.compile_dir(str(src), quiet=1, force=False):
+        ok = False
+        notes.append("src/ failed python -m compileall (a module does not byte-compile)")
+    portal = kit / "portal"
+    if portal.is_dir():
+        for py in portal.rglob("*.py"):
+            try:
+                py_compile.compile(str(py), doraise=True)
+            except py_compile.PyCompileError as exc:
+                ok = False
+                notes.append(f"portal compile fail {py.name}: {exc}")
+    import subprocess
+
+    src_s = str(src)
+    probe = (
+        "import sys; sys.path.insert(0, sys.argv[1]); "
+        "import chat_loop, tools, limbs, engine, registry, p0_hook"
+    )
+    r = subprocess.run(
+        [sys.executable, "-c", probe, src_s],
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    if r.returncode != 0:
+        ok = False
+        err = (r.stderr or r.stdout or "").strip().splitlines()
+        tail = err[-1] if err else f"exit {r.returncode}"
+        notes.append(f"src import probe failed: {tail[:300]}")
+    if ok:
+        notes.append("src/ byte-compiles and entry modules import")
+    return ok, notes
+
+
 def check_brand() -> tuple[bool, list[str]]:
     notes: list[str] = []
     ok = True
@@ -127,6 +174,21 @@ def check_manifest(path: Path) -> tuple[int, int, list[str]]:
     return checked, matched, problems
 
 
+def _leave_console_up() -> None:
+    """D9: leave the console answering. Certifying beside a live console must not end with it down."""
+    import os
+
+    if os.environ.get("LYGO_NO_ENSURE", "").strip().lower() in {"1", "true", "yes"}:
+        return
+    try:
+        import ensure_console
+
+        _ok, line = ensure_console.ensure(KIT, quiet=True, restore_only=True)
+        print("console: " + line)
+    except Exception as exc:  # noqa: BLE001 - a helper must never fail the run it protects
+        print(f"console: not checked ({type(exc).__name__})")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Verify this LYGO kit copy against its manifests.")
     ap.add_argument("--quiet", action="store_true", help="print the verdict only")
@@ -172,6 +234,14 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001 - report, never crash the verdict
             module_problems.append(f"MODULES   could not be validated: {type(exc).__name__}: {exc}")
     problems.extend(module_problems)
+
+    code_ok, code_notes = check_code_loads(KIT)
+    if not args.json and not args.quiet:
+        print("Code load (src import / compileall)")
+        for n in code_notes:
+            print("  " + n)
+    if not code_ok:
+        problems.extend(code_notes)
 
     certified = brand_ok and not problems
     integrity_checked = total_checked > 0
@@ -235,4 +305,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    _console_code = main()
+    _leave_console_up()
+    sys.exit(_console_code)

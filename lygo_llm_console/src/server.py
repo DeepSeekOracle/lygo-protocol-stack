@@ -192,6 +192,7 @@ from registry import load as reg_load  # noqa: E402
 from registry import upsert as reg_upsert  # noqa: E402
 from scanner import discover, scan_roots  # noqa: E402
 import model_fit  # noqa: E402
+import turnperf  # noqa: E402  (what a turn cost, and which of its tokens were never shown)
 from tools import TOOLS_SCHEMA, core_schema  # noqa: E402
 
 TOKEN = ""
@@ -588,17 +589,33 @@ def health_payload(*, local_caller: bool, authenticated: bool) -> dict[str, Any]
         "last_brain": STATE.get("last_brain"),
         "last_perf": STATE.get("last_perf"),
         "fallback": STATE.get("fallback"),
+        # Turns where a claimed limb output had no limb behind it - this console says so in the reply
+        # and counts it here, so the operator can see the detector working instead of trusting it.
+        "fabrications_caught": int(STATE.get("fabrications_caught") or 0),
         "degraded": degraded,
     }
 
 
-def _stream_local_turn(payload: dict[str, Any], emit) -> str | None:
+def _stream_local_turn(
+    payload: dict[str, Any],
+    emit,
+    stop_when: Any = None,
+    stop_info: dict[str, Any] | None = None,
+    on_timings: Any = None,
+) -> str | None:
     """Run one local turn as a stream, showing each token as the engine writes it.
 
     The old engine streamed by default; this console's local path did not. It waited for the whole reply and
     then emitted ONE token frame, so a 1,300-token answer at ~8 tok/s sat silent for ~160 s and looked
-    like a dead engine - the operator'"'"'s complaint that gemma4 replies take forever. The page has
+    like a dead engine - the operator's complaint that gemma4 replies take forever. The page has
     rendered every `delta` frame it is sent all along, so the fix belongs here, on the ground.
+
+    `stop_when` is the turn's asked shape (see src/turnperf.py): once the operator's own requested
+    shape is complete, further tokens are text nobody asked for, so the read stops and the connection
+    closes - which is how the engine's own generation is cut short instead of being waited out. It is
+    also how the answer the operator keeps stays exactly what the shape asked for: the text is
+    truncated back to the completion point, and the caller's existing `replace` frame corrects a page
+    that had already rendered the extra tokens. `stop_info` receives what was stopped, for the record.
 
     Returns the finished text, or None when the engine never produced a single token. The caller then
     makes the ordinary buffered call, so this can only make a turn faster - never break one.
@@ -609,7 +626,16 @@ def _stream_local_turn(payload: dict[str, Any], emit) -> str | None:
 
     ask = dict(payload)
     ask["stream"] = True
+    # The numbers for this turn arrive in the final chunk, and only if they are asked for. Without
+    # this the console could measure nothing at all about a streamed turn - which is every turn the
+    # operator actually watches (measured 2026-09-22: a streamed turn recorded `perf: {}`).
+    ask["stream_options"] = {"include_usage": True}
     acc: list[str] = []
+    grace = int(getattr(stop_when, "grace", 0) or 0) if stop_when else 0
+    complete_at: int | None = None
+    complete_text = ""
+    seen = 0
+    first_delta_at: float | None = None
     try:
         with ENGINE_LOCK:
             for raw in llama_chat_stream(api_key=LLAMA_KEY, payload=ask, port=brain_port()):
@@ -623,17 +649,61 @@ def _stream_local_turn(payload: dict[str, Any], emit) -> str | None:
                     piece = _json.loads(chunk)
                 except _json.JSONDecodeError:
                     continue
+                if on_timings is not None:
+                    # The final chunk of a streamed turn carries the engine's own timings/usage;
+                    # every chunk is offered and the recorder ignores the ones that carry none.
+                    try:
+                        on_timings(piece)
+                    except Exception:  # noqa: BLE001 - telemetry may not break the read
+                        pass
                 for choice in piece.get("choices") or []:
                     delta = (choice.get("delta") or {}).get("content")
                     if delta:
+                        if first_delta_at is None:
+                            first_delta_at = time.time()
                         acc.append(delta)
+                        seen += 1
                         try:
                             emit({"type": "token", "delta": delta})
                         except Exception:  # noqa: BLE001 - a closed page must not kill the turn
                             pass
+                        if stop_when is not None:
+                            if complete_at is None:
+                                if stop_when("".join(acc)):
+                                    complete_at = seen
+                                    complete_text = "".join(acc)
+                            elif (seen - complete_at) >= grace:
+                                break
+                if complete_at is not None and (seen - complete_at) >= grace:
+                    break
     except Exception as e:  # noqa: BLE001
         print(f"stream fallback: {type(e).__name__}: {e}")
-    return "".join(acc) or None
+    text = "".join(acc)
+    if complete_at is not None:
+        # The shape asked for is delivered; the tokens after it were never requested. Keeping the
+        # truncation here (not at the engine) is deliberate: the operator's own words set the shape,
+        # so nothing the console invented is being imposed on the answer.
+        if stop_info is not None:
+            stop_info.update(
+                {
+                    "why": "shape_complete:" + str(getattr(stop_when, "kind", "") or "shape"),
+                    "at": complete_at,
+                    "saved": max(0, seen - complete_at),
+                    "text": complete_text[:200],
+                    # What the stream actually delivered, and how long it took - the two things a
+                    # stopped turn can still be measured by, since its final chunk never arrives.
+                    "seen_text": text,
+                    "read_ms": round((time.time() - first_delta_at) * 1000.0, 1) if first_delta_at else None,
+                }
+            )
+            print("[turnperf] the asked shape was complete after %d token(s) - stopped the read there, "
+                  "%d token(s) the engine had already sent were not shown" % (complete_at, max(0, seen - complete_at)),
+                  flush=True)
+        text = complete_text
+    elif stop_info is not None:
+        stop_info["seen_text"] = text
+        stop_info["read_ms"] = round((time.time() - first_delta_at) * 1000.0, 1) if first_delta_at else None
+    return text or None
 
 
 def warm_prefix(model_id: str | None = None) -> None:
@@ -1826,6 +1896,15 @@ class Handler(BaseHTTPRequestHandler):
         _conversational = is_conversational(last_user)
         if use_tools and _conversational:
             use_tools = False
+        # A turn that asks for a SHAPE, not a task, is offered no limbs either - the same rule, one
+        # step further. Measured on this box 2026-09-22 (qwen2.5-coder:7b, ngl 99, 16k window): asked
+        # "Reply with exactly: CACHE TEST" three times, the engine generated **137 tokens at 47.7
+        # tok/s** on each turn and the console displayed 10 characters - 2.87 s of a 3.2 s turn was
+        # text nobody saw, and the engine's own counter agreed (llamacpp:tokens_predicted_total 412
+        # for the whole engine life, three turns of 137). A request to repeat a phrase back is not a
+        # request to run anything; the 24-limb schema and a 4096-token budget are what turned two
+        # words into 137 tokens. See src/turnperf.py for the shape rules and their veto list.
+        turn_shape = {}
         model = obj.get("model") or STATE.get("selected") or "lygo-local"
         # Reply length. The operator's config is the source of truth (console.json, then local.json
         # over it) - not this line and not the portal's own constant, which is how every long answer
@@ -1835,6 +1914,25 @@ class Handler(BaseHTTPRequestHandler):
 
         _cap = int(console_limits().get("max_tokens") or 1024)
         max_tokens = max(64, min(int(obj.get("max_tokens") or _cap), _cap))
+        # The asked SHAPE, read from the operator's own words, before anything is sent. Two effects,
+        # both of them the operator's own request rather than an optimisation: a tighter reply cap
+        # (never higher than the configured one), and - for an ask that is nothing but an echo - no
+        # limb schema at all. The measurement behind this is in src/turnperf.py.
+        turn_shape = turnperf.shape_budget(last_user, _cap, port=brain_port(), api_key=LLAMA_KEY)
+        if turn_shape.get("cap"):
+            _shaped = max(turnperf.SHAPE_FLOOR, min(int(turn_shape["cap"]), max_tokens))
+            if _shaped < max_tokens:
+                print("[turnperf] reply cap %d -> %d (%s)" % (max_tokens, _shaped, turn_shape.get("why")),
+                      flush=True)
+                max_tokens = _shaped
+        if turn_shape.get("tools") is False and use_tools:
+            use_tools = False
+            print("[turnperf] shape-only ask (%s) - no limb schema for this turn"
+                  % turn_shape.get("why"), flush=True)
+        # The same reading of the operator's words, as a condition the streaming read can test after
+        # every token: once the asked shape is complete, the rest of the generation is text nobody
+        # asked for. None when the turn asks for no particular shape - then nothing here applies.
+        turn_stop = turnperf.make_stopper(last_user, turn_shape)
         want_stream = bool(obj.get("stream", True))
         from cloud_api import chat as cloud_chat
         import brain_router
@@ -1947,6 +2045,46 @@ class Handler(BaseHTTPRequestHandler):
         # Every turn now passes this gate. The newest picture is shrunk until it fits, older pictures
         # are shed to `[image: ...]` text (their words are kept), and a turn that still cannot fit is
         # ANSWERED in words instead of being sent to an engine that will refuse it.
+        def _start_sse() -> None:
+            """Send the SSE headers exactly once.
+
+            This dance used to live only in the streaming branch further down, so the over-window path
+            wrote `data: {...}` as the FIRST bytes of the response - no status line, no headers - and a
+            client that asked a question the window could not hold got `BadStatusLine` instead of the
+            answer the console had already composed for it (measured 2026-09-22).
+            """
+            if getattr(self, "_sse_started", False):
+                return
+            self._sse_started = True
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Connection", "close")
+            self.end_headers()
+
+        # Defined up here because the over-window path below emits through it: it used to sit after
+        # the vision/over-window block, so a turn that exceeded the window - the one turn that has to
+        # answer in words rather than reach the engine - died with
+        # "UnboundLocalError: cannot access local variable 'emit_sse'" and reached the operator as
+        # HTTP 500. Measured 2026-09-22: every turn 500'd while the session history was larger than
+        # the engine window, which is the console's "not responding properly" in its worst shape.
+        def emit_sse(event: dict[str, Any]) -> None:
+            # Measured live: closing the tab mid-answer raised ConnectionAbortedError here
+            # ([WinError 10053]) and the turn was logged as a 500. The client leaving is not a
+            # server fault: note it once, then stop writing to a socket nobody is reading.
+            if getattr(self, "_client_gone", False):
+                return
+            line = json.dumps(event) + "\n"
+            try:
+                self.wfile.write(b"data: " + line.encode("utf-8") + b"\n")
+                self.wfile.flush()
+            except _CLIENT_GONE as exc:
+                self._client_gone = True
+                try:
+                    sys.stderr.write("[client-gone] %s %s: %s\n" % (self.command, self.path, exc))
+                except Exception:  # noqa: BLE001
+                    pass
+
         _vision_block = ""
         _vision_info: dict[str, Any] = {}
         try:
@@ -1992,6 +2130,7 @@ class Handler(BaseHTTPRequestHandler):
                 _vrec = {"id": "vision-refused"}
             safe_record("assistant", assistant, {"receipt": _vrec.get("id")})
             if want_stream:
+                _start_sse()
                 emit_sse({"type": "token", "delta": assistant, "verdict": gate.get("verdict")})
                 emit_sse({"type": "done", "traces": [], "receipt": _vrec.get("id"),
                           "active": "local" if not use_cloud else "cloud", "brain": brain,
@@ -2013,39 +2152,33 @@ class Handler(BaseHTTPRequestHandler):
         streamed: str | None = None
         # Engine telemetry: llama.cpp reports its own tokens/s per call, so the console can show
         # the real generation speed of every turn instead of the operator having to benchmark it.
+        # `turnperf.note_call` keeps the engine's numbers AND the text those tokens became, which is
+        # what makes a generated-vs-shown gap countable at all. The log is per-turn, local to this
+        # handler: module-level state would leak across turns and across request threads.
         timing_log: list[dict[str, Any]] = []
+        turn_t0 = time.time()
+        # Filled in by the streaming path when the asked shape was delivered early.
+        stop_info: dict[str, Any] = {}
 
         def note_timings(parsed_obj: Any) -> None:
             """Keep the engine's own timing block. Never raises: telemetry must not break a turn."""
-            try:
-                t = parsed_obj.get("timings") if isinstance(parsed_obj, dict) else None
-                if not isinstance(t, dict) or not (t.get("predicted_n") or t.get("prompt_n")):
-                    return
-                timing_log.append(
-                    {
-                        "prompt_n": int(t.get("prompt_n") or 0),
-                        "prompt_tok_s": round(float(t.get("prompt_per_second") or 0), 1),
-                        "gen_n": int(t.get("predicted_n") or 0),
-                        "gen_tok_s": round(float(t.get("predicted_per_second") or 0), 1),
-                    }
-                )
-            except Exception:  # noqa: BLE001 - a missing timing block is not a turn failure
-                return
+            turnperf.note_call(timing_log, parsed_obj)
 
         def perf_summary() -> dict[str, Any]:
-            """What this turn's engine calls actually did: tokens/s, token counts, last few blocks."""
+            """What this turn's engine calls actually did - and how much of it the operator saw."""
             if not timing_log:
                 return {}
-            deep = max(timing_log, key=lambda e: int(e.get("prompt_n") or 0))
-            last = timing_log[-1]
-            return {
-                "engine_calls": len(timing_log),
-                "gen_tokens": sum(int(e.get("gen_n") or 0) for e in timing_log),
-                "gen_tok_s": last.get("gen_tok_s"),
-                "prompt_tokens": deep.get("prompt_n"),
-                "prompt_tok_s": deep.get("prompt_tok_s"),
-                "calls": timing_log[-4:],
-            }
+            return turnperf.attribute(
+                timing_log=timing_log,
+                shown_text=assistant,
+                wall_ms=(time.time() - turn_t0) * 1000.0,
+                limbs=len(traces),
+                shape=turn_shape,
+                stopped=stop_info or None,
+                port=brain_port(),
+                api_key=LLAMA_KEY,
+                default_cap=max_tokens,
+            )
         if use_tools and last_user and HOST_PREFETCH:
             # host_prefetch pulls URLs out of the user's text and fetches them before the model
             # answers, so a pasted or forwarded link becomes untrusted content in the same context
@@ -2056,29 +2189,8 @@ class Handler(BaseHTTPRequestHandler):
                 traces.extend(pre)
                 msgs.append({"role": "user", "content": prefetch_message(pre)})
 
-        def emit_sse(event: dict[str, Any]) -> None:
-            # Measured live: closing the tab mid-answer raised ConnectionAbortedError here
-            # ([WinError 10053]) and the turn was logged as a 500. The client leaving is not a
-            # server fault: note it once, then stop writing to a socket nobody is reading.
-            if getattr(self, "_client_gone", False):
-                return
-            line = json.dumps(event) + "\n"
-            try:
-                self.wfile.write(b"data: " + line.encode("utf-8") + b"\n")
-                self.wfile.flush()
-            except _CLIENT_GONE as exc:
-                self._client_gone = True
-                try:
-                    sys.stderr.write("[client-gone] %s %s: %s\n" % (self.command, self.path, exc))
-                except Exception:  # noqa: BLE001
-                    pass
-
         if want_stream:
-            self.send_response(200)
-            self.send_header("Content-Type", "text/event-stream")
-            self.send_header("Cache-Control", "no-store")
-            self.send_header("Connection", "close")
-            self.end_headers()
+            _start_sse()
             emit_sse(
                 {
                     "type": "brain",
@@ -2176,13 +2288,37 @@ class Handler(BaseHTTPRequestHandler):
             # Any limb turn, or a stream that never produced a token, falls through to the
             # buffered call - so this can only make a turn faster, never break one.
             if want_stream and not use_tools and brain == "ready":
-                streamed = _stream_local_turn(payload, emit_sse)
+                streamed = _stream_local_turn(payload, emit_sse, stop_when=turn_stop,
+                                              stop_info=stop_info, on_timings=note_timings)
             if streamed is None:
                 with ENGINE_LOCK:
                     code, body, _ = llama_chat(api_key=LLAMA_KEY, payload=payload, port=brain_port())
             else:
                 code = 200
                 body = json.dumps({"choices": [{"message": {"content": streamed}}]}).encode("utf-8")
+                # A streamed call's final chunk carries the timing block but no message text, so
+                # attach what the stream delivered: without it a streamed turn has numbers with
+                # nothing to attribute them to, and its surplus would read as unexplained.
+                if timing_log and not timing_log[-1].get("_content"):
+                    timing_log[-1]["_content"] = str(stop_info.get("seen_text") or streamed)
+                    timing_log[-1].setdefault("source", "stream")
+                if not timing_log:
+                    # The read was stopped before the engine's final chunk arrived (that is the
+                    # point of stopping), so this turn has no engine block. Record what is provable
+                    # rather than nothing: the tokens that actually arrived - counted by the
+                    # engine's own tokenizer - and the rate this console read them at. `source`
+                    # says where the numbers came from, so nobody reads them as the engine's own.
+                    _seen = str(stop_info.get("seen_text") or streamed)
+                    _n = turnperf.count(_seen, port=brain_port(), api_key=LLAMA_KEY)[0]
+                    _ms = stop_info.get("read_ms")
+                    timing_log.append({
+                        "prompt_n": 0,
+                        "prompt_tok_s": None,
+                        "gen_n": _n,
+                        "gen_tok_s": round(1000.0 * _n / _ms, 1) if (_n and _ms) else None,
+                        "source": "stream_text",
+                        "_content": _seen,
+                    })
         try:
             parsed = json.loads(body.decode("utf-8"))
         except json.JSONDecodeError:
@@ -2423,9 +2559,6 @@ class Handler(BaseHTTPRequestHandler):
             # a clean turn clears the last-handoff note on the health bar
             STATE["fallback"] = None
         STATE["last_brain"] = active
-        _perf = perf_summary()
-        if _perf:
-            STATE["last_perf"] = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), **_perf}
         rec = write_receipt(
             prompt=user,
             output=assistant,
@@ -2456,12 +2589,21 @@ class Handler(BaseHTTPRequestHandler):
         # an answer. Nothing else in the text is touched: a genuine answer about the time survives.
         try:
             from chat_loop import (strip_readout, is_limb_failure, limb_failure_name,
-                                   surface_artifacts)
+                                   surface_artifacts, verify_output_claims)
 
             _was = assistant
             # A produced picture the answer does not name is an answer that hides its own result.
             assistant = surface_artifacts(assistant, traces)
             assistant = strip_readout(assistant)
+            # A claimed limb OUTPUT no limb produced is the same lie as a claimed file that does not
+            # exist (measured: "here is the output of python_exec: 63" with only steward_map in the
+            # traces). The answer is kept and the host check goes under it.
+            _checked = verify_output_claims(assistant, traces)
+            if _checked != assistant:
+                assistant = _checked
+                STATE["fabrications_caught"] = int(STATE.get("fabrications_caught") or 0) + 1
+                print("[fabrication] a claimed limb output this turn could not support: %d caught so far"
+                      % STATE["fabrications_caught"], flush=True)
             if is_limb_failure(assistant):
                 assistant = ("The %s limb could not answer, so this reply does not use it."
                              % limb_failure_name(assistant))
@@ -2475,6 +2617,17 @@ class Handler(BaseHTTPRequestHandler):
             print("[answer] cleanup skipped: %r" % (_clean_exc,), flush=True)
         # The record of truth: the engine's window may have dropped older turns, this journal has not.
         safe_record("assistant", assistant, {"receipt": rec.get("id")})
+        # One performance record per turn, taken ONCE and taken LAST: after the sanitising, the
+        # readout strip and the fabrication check have all had their word. Taken earlier it would
+        # report text the operator never received as if it had been shown, which is the exact blind
+        # spot this record exists to close (measured 2026-09-22: 137 tokens generated, 10 characters
+        # shown, and nothing in the console could see the difference).
+        _perf = perf_summary()
+        if _perf:
+            STATE["last_perf"] = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), **_perf}
+            _line = turnperf.report(_perf)
+            if _line:
+                print(_line, flush=True)
         _comp = safe_status(_ctx, list(messages) + [{"role": "assistant", "content": assistant}])
         if want_stream:
             if streamed is None:
@@ -2492,7 +2645,7 @@ class Handler(BaseHTTPRequestHandler):
                     "active": active,
                     "brain": brain,
                     "fallback": handoff,
-                    "perf": perf_summary(),
+                    "perf": _perf,
                     "compaction": _comp,
                 }
             )
@@ -2507,7 +2660,7 @@ class Handler(BaseHTTPRequestHandler):
                 "fallback": handoff,
                 "receipt": rec["id"],
                 "traces": traces,
-                "perf": perf_summary(),
+                "perf": _perf,
                 "compaction": _comp,
                 "history": {"kept": len(kept), "dropped": dropped, "of": len(messages),
                             "budget_tokens": trim_info["budget"]["history_tokens"],
@@ -2796,13 +2949,14 @@ def main() -> int:
             print("scanning models…")
             scanned = scan_roots(default_scan_roots(cfg))
             data = reg_upsert(scanned.get("models") or [])
-            from registry import pick_default, prefer_by_ram
+            from registry import pick_default, prefer_by_ram, prefer_ids
 
             sel = data.get("selected")
             rec = next((m for m in (data.get("models") or []) if m.get("id") == sel), None)
             if not rec or not rec.get("runnable") or rec.get("kind") not in (None, "chat"):
                 want_ram = prefer_by_ram()
-                data["selected"] = pick_default(data.get("models") or [], prefer_ram=want_ram)
+                data["selected"] = pick_default(data.get("models") or [], prefer_ram=want_ram,
+                                                 prefer=prefer_ids())
                 data["selected_source"] = "ram" if want_ram else "auto"
                 from registry import save as reg_save
 

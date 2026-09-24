@@ -17,6 +17,115 @@ Two installs, one code base:
 
 ---
 
+## 1.3.2 — the picture engine travels inside the package
+
+**Released 2026-09-24.** The console could draw a picture through `image_generate` since 1.3.1, but only
+on a machine that already had an engine somewhere else: the media root was a config key pointing at a
+folder the installer never created. A fresh install therefore answered `image_failed` — the software was
+complete and the package was not.
+
+This release puts the engine in the package and makes it self-finding.
+
+**What is inside now.** `tools/sd-cpu/` — the CPU build of stable-diffusion.cpp: `sd-cli.exe`,
+`sd-diffusion.dll`, the ggml CPU kernels and the image encoders it needs. 20 files, 45 MB, no CUDA, no
+card, no Python, no service, no admin rights, nothing on PATH. It is the same engine the steward's studio
+box runs from `D:\LYGO_MEDIA`, at 45 MB instead of 1.1 GB of CUDA DLLs.
+
+**What changed in the code, not just in the payload.** `media_root()` (`src/media_tools.py`) falls back
+to the kit root when the machine has no media root of its own — a fresh install finds its own engine with
+no config file and no editing:
+
+| machine | media root | engine used |
+|---|---|---|
+| fresh all-in-one install | none configured | the kit's own `tools/sd-cpu/sd-cli.exe` |
+| studio PC (`media_root: D:/LYGO_MEDIA`) | declared | `tools/sd/sd-cli.exe`, exactly as before |
+
+The packaged engine is a fallback for machines that have nothing, never an override of a machine that has
+something. Four hermetic tests (`tests/test_packaged_engine.py`) build a fake kit on disk and pin both
+rules plus the checkpoint path, because a drive-specific assertion would pass on this PC and fail the USB
+kit while the USB kit was right.
+
+**No checkpoint is redistributed, on purpose.** They are 4-7 GB and their licences are their authors':
+SDXL Turbo is Stability's non-commercial research licence, SD 1.5 is CreativeML Open RAIL-M. So the
+package carries the fetcher instead — `tools/sd-cpu/get_model.ps1`, double-clickable as
+`FETCH_IMAGE_MODEL.bat` — which pulls from the author's own repo, resumes (`curl -C -`), checks the byte
+count, deletes a file that fails the check rather than keeping a bad one, and prints which licence it is
+pulling. `-List` shows the choices, `-From <url>` takes your own host.
+
+**Measured, this box** (8 GB card, chat model resident): 512×512 in ~55 s, 1024×1024 in 272-300 s on the
+CPU route; 12.5 s on the CUDA build with the card free. Distilled checkpoints are detected by filename
+and run at 4 steps, cfg 1.0.
+
+**The release number moved because the bytes moved.** 1.3.1 installers are published and frozen; an
+installer that carries an engine is a different package, so it is a different release. Manifests
+refreshed with `scripts/refresh_manifests.py --note "..."`.
+
+---
+
+## 1.3.1 — the turn you pay for is the turn you see
+
+**Released 2026-09-22.** The console could always say how fast the engine generates; it could not say how
+much of that generation ever reached the operator. It turns out that is where most of a turn's time was
+going — and it was invisible to every surface the kit had.
+
+Measured on the PC copy (qwen2.5-coder:7b, RTX 4060 Ti, ngl 99, 16k window), the same two-word ask
+`Reply with exactly: CACHE TEST`:
+
+| | before | after |
+|---|---|---|
+| wall | 2.84 s | **1.03 s** |
+| tokens generated | 106 | **2** |
+| tokens shown | 6 | 2 |
+| unseen | 94% | **0%** |
+| reply cap | 4096 | 24 |
+| limb schema | 24 tools | none |
+
+The engine's own cumulative counter agreed with the console both times (three turns of 137 tokens each
+under the old behaviour; 5 tokens for the whole probe after). Two things were wrong, and neither was the
+engine:
+
+- **A pure echo was treated as a task.** "Reply with exactly X" was offered the full 24-limb schema and a
+  4096-token budget, so the model answered the clock readout that rides every message and the console
+  stripped it: 105 of 106 tokens were text nobody asked for. Now the asked shape is read from the
+  operator's own words, the cap is that shape's cost, and a pure echo gets no limb schema at all. A shape
+  ask that also names work (a file, a folder, a limb, a URL) keeps every limb — the veto list is what makes
+  that safe.
+- **A streamed turn was unmeasurable.** The engine reports its timings in the *final* chunk of a stream,
+  and only when `stream_options.include_usage` asks for them — so the one path the operator actually
+  watches recorded nothing at all. Now it does, and the read stops the instant the asked shape is complete,
+  which closes the connection and cuts the generation itself rather than waiting it out.
+
+Published: `last_perf` in `/api/health` (generated, shown, unseen %, unattributed residual, limb calls,
+prefill new/cached, wall, and what was dropped), one line per turn in `save/logs/console-<date>.log`, and
+in the console itself a "Shown to you" row plus `shown N/M (X unseen, Y%)` on the status line. `LYGO_TURNPERF=0`
+puts every turn back exactly as it was, without editing code.
+
+Carried from 1.3.0: every turn filed verbatim into `workspace/memory/conversations/`, the cloud chain,
+images both ways, the fabrication detector, the 16384 engine window, straight sampling, and the gauntlet
+baseline (9/12 PC, 8/12 USB — T7/T11/T12 are mechanism gaps, not model).
+
+### Shipped as installers (this release)
+
+Four Inno Setup 6 installers were built from the sealed payloads and one of them was installed and booted
+before it was called done — details, sizes and the proof: `docs/RELEASE_1.3.1_INSTALLERS.md`. Two
+pre-ship fixes came out of that pass: the shipped `scan_roots` now carries `./models` (or an installed
+copy boots with no brain), and recovery of this tree's config goes through the sealed canon, not `git`
+(the settings only exist in the working tree — ledger 122).
+
+### The standing rule this release establishes
+
+**Every prompt token is paid on every turn.** The identity block is re-sent whole on each message, so a
+new watch, panel, digest line or instruction is a *permanent* prefill tax on every future turn — not a
+one-off cost at the moment it is added. Budget it against the window and the clock before adding it, and
+prefer replacing something over appending to something. The volatile parts of the prompt (the clock
+readout, live VRAM, environment watch, session counts) also destroy the engine's prefix cache for every
+token after them, which is why `cache_hit_pct` is now published per turn: a warm session should show the
+head being reused, and a number that falls is the signal that a volatile line moved to the head.
+
+
+
+---
+
 ## 1.3.0 — the forever history, the four-provider chain, and both copies signed off
 
 **Released 2026-09-21.** This release is what the PC build has been running since the campaign closed, and

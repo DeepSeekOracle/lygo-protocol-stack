@@ -140,6 +140,50 @@ def _cfg_str(key: str, default: str = "") -> str:
     return default
 
 
+SAMPLING_DEFAULTS: dict[str, Any] = {
+    # A tool-calling coder, not a poet. Low temperature keeps limb syntax and receipts exact; top_p
+    # stays wide enough that sentences still flow; a small repeat penalty stops a receipt being
+    # restated. These are the numbers this console reasons with, stated once, in the open.
+    "temperature": 0.25,
+    "top_p": 0.9,
+    "top_k": 40,
+    "repeat_penalty": 1.05,
+    "min_p": 0.05,
+}
+_SAMPLING_RANGE: dict[str, tuple[float, float]] = {
+    "temperature": (0.0, 2.0),
+    "top_p": (0.0, 1.0),
+    "top_k": (0, 200),
+    "repeat_penalty": (1.0, 2.0),
+    "min_p": (0.0, 1.0),
+}
+
+
+def console_sampling() -> dict[str, Any]:
+    """Sampling for a LOCAL turn: console.json "sampling", with local.json over it.
+
+    The console sent no sampling parameters at all before this, so llama.cpp's server defaults applied
+    (temperature 0.8) - high for a model whose whole job is limb calls, receipts and short answers, and
+    the measured symptom was limb-heavy turns drifting into prose that restated the tool instead of
+    reporting it. Every value is clamped to a legal range and a junk entry falls back to the default, so
+    a typo in the config can never break a turn. These are DEFAULTS for the payload, not a lock: a
+    caller that states its own temperature keeps it (see openai_proxy.for_local_engine).
+    """
+    block = console_cfg().get("sampling")
+    out: dict[str, Any] = dict(SAMPLING_DEFAULTS)
+    if isinstance(block, dict):
+        for key, (lo, hi) in _SAMPLING_RANGE.items():
+            raw = block.get(key)
+            if raw is None or isinstance(raw, bool):
+                continue
+            try:
+                num = float(raw)
+            except (TypeError, ValueError):
+                continue
+            out[key] = int(min(max(num, lo), hi)) if key == "top_k" else min(max(num, lo), hi)
+    return out
+
+
 def console_limits() -> dict[str, Any]:
     """Engine launch limits from the kit config.
 

@@ -1,5 +1,5 @@
 {
-  "build": "v1.3.0",
+  "build": "v1.3.2",
   "signature": "\u03949\u03a6963-LYGO-COMPACTION-v1",
   "console_build": "1.1.0",
   "status": "installed_and_tested_not_yet_boot_verified",
@@ -161,8 +161,8 @@
     "a standalone scratch kit copy did not answer HTTP within 180s (unexplained, low severity)",
     "images bounded in the prompt (2), not in the record"
   ],
-  "release": "1.3.0",
-  "release_tag": "build-line 2026-09-21 \u00b7 forever history + LYGO RAG \u00b7 four-provider chain (DeepSeek\u2192NVIDIA\u2192Gemini\u2192Groq) \u00b7 local/API switching fixed \u00b7 image read+draw both ways \u00b7 answer fidelity (readout, limb failures, artefacts, who answered) \u00b7 1089 tests on the PC, 1080 + 9 profile skips on the USB copy",
-  "rebrand_refresh_iso": "2026-09-21T14:44:26-06:00",
-  "rebrand_refresh_note": "1.3.0: media limbs in core (image_generate, sound_speak); standalone vocabulary - cas_import rename, scan roots no longer enter foreign stores, gateway daemon backend removed"
+  "release": "1.3.2",
+  "release_tag": "build-line 2026-09-24 \u00b7 the picture engine travels INSIDE the package: the CPU build of stable-diffusion.cpp ships in tools/sd-cpu (45 MB, 20 files, no CUDA, no admin), and media_root() falls back to the KIT ROOT when the machine has no media root of its own - so a fresh all-in-one install draws a picture with no config at all, while a machine that has its own media root (a studio PC with its CUDA build and checkpoints) keeps it untouched \u00b7 no checkpoint is redistributed (SDXL Turbo is Stability's non-commercial research licence, SD 1.5 is CreativeML Open RAIL-M): tools/sd-cpu/get_model.ps1, double-clickable as FETCH_IMAGE_MODEL.bat, fetches one from its author's repo, resumable and size-checked, and names the licence \u00b7 carried from 1.3.1: turn performance, measured not estimated: every turn records what it GENERATED vs what it SHOWED and attributes the gap (limb calls, reasoning, superseded text, a residual) \u2014 `last_perf` in /api/health, one line in the console log, a \"Shown to you\" row plus the gap on the status line \u00b7 the asked shape sets the turn: \"reply with exactly X\" caps max_tokens (4096 -> 24 on the measured ask) and offers NO limb schema; \"one word\" / \"N sentences\" / \"N items\" cap and stop the same way \u00b7 the streamed read stops the moment the asked shape is complete, which closes the connection and cuts the engine's own generation (engine counter 1 -> 5 tokens for the whole probe, vs 412 for three turns before) \u00b7 streamed turns report the engine's own timings at last (stream_options.include_usage \u2014 before this a streamed turn recorded `perf: {}`) \u00b7 prefix-cache reuse published per turn (cache_hit_pct) \u00b7 LYGO_TURNPERF=0 restores the previous behaviour exactly \u00b7 measured on the PC copy, same two-word ask: 2.84 s / 106 generated / 6 shown / 94% unseen -> 1.03 s / 2 generated / 2 shown / 0% unseen \u00b7 carried from 1.3.0: engine window 16384, over-window turns answer instead of 500, fabrication detector, straight sampling (temp 0.25), COMPLEX TASKS + STYLE in the align prompt, qwen2.5-coder:7b on both copies",
+  "rebrand_refresh_iso": "2026-09-24T12:09:34-06:00",
+  "rebrand_refresh_note": "1.3.2: the CPU picture engine (stable-diffusion.cpp) travels inside the package with the fetcher for its checkpoint, and media_root() falls back to the kit root when the machine has no media root of its own"
 }

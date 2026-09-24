@@ -166,6 +166,70 @@ class StatusTests(unittest.TestCase):
             mt.media_root = real
 
 
+class CpuRouteArgvTests(unittest.TestCase):
+    """The argv the picture limb actually builds, on both routes.
+
+    MEASURED on this host 2026-09-23, SDXL-Turbo at 1024x1024 on an 8 GB card:
+      CPU build, no tiling  -> exit 3221225786, log ends "decoding 1 latents", NO file, 183.4 s;
+      CPU build, --vae-tiling -> "latent 1 decoded, taking 151.17s" in 49 tiles, 2.1 MB PNG, 272.0 s;
+      CUDA build, no tiling -> the same prompt drawn in 12.5 s.
+    So the flag belongs to the CPU route, and only there.
+    """
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp(prefix="lygo_render_"))
+        for rel in ("tools/sd-cpu/sd-cli.exe", "tools/sd/sd-cli.exe",
+                    "models/sd/sd_xl_turbo_1.0_fp16.safetensors"):
+            f = self.tmp / rel
+            f.parent.mkdir(parents=True, exist_ok=True)
+            f.write_bytes(b"x" * 128)
+        self.seen: dict = {}
+
+        def fake_run(argv, **kw):
+            self.seen["argv"] = argv
+            dest = Path(argv[argv.index("-o") + 1])
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(b"\x89PNG" + b"0" * 64)
+            return type("P", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+
+        self.stack = [mock.patch.object(mt, "media_root", lambda: self.tmp),
+                      mock.patch.object(mt, "_cfg", lambda: {}),
+                      mock.patch.object(mt, "_out_dir", lambda kind: self.tmp / "out"),
+                      mock.patch.object(mt.subprocess, "run", fake_run)]
+        for p in self.stack:
+            p.start()
+
+    def tearDown(self):
+        for p in reversed(self.stack):
+            p.stop()
+
+    def test_the_cpu_route_tiles_the_vae_decode(self):
+        r = mt.image_generate("a lime green sports car on a neon street", cpu=True)
+        self.assertTrue(r["ok"], r)
+        self.assertEqual(r["engine"], "sd-cpu")
+        self.assertIn("--vae-tiling", self.seen["argv"])
+        self.assertTrue(Path(r["path"]).is_file())
+
+    def test_the_card_route_is_left_exactly_as_it_was(self):
+        r = mt.image_generate("a lime green sports car on a neon street")
+        self.assertTrue(r["ok"], r)
+        self.assertEqual(r["engine"], "sd")
+        self.assertNotIn("--vae-tiling", self.seen["argv"])
+
+    def test_the_route_asks_the_card_for_the_checkpoint_not_the_shortfall(self):
+        calls = {}
+
+        def fake_route(need, **kw):
+            calls["need"] = need
+            return "cuda", "the card has room for this"
+
+        with mock.patch.object(mt, "picture_route", fake_route):
+            mt._route_for_a_render()
+        size = mt.sd_model().stat().st_size
+        self.assertEqual(calls["need"], mt.render_need_mib(size))
+        self.assertGreaterEqual(calls["need"], mt.RENDER_NEED_MIB)
+
+
 class DeclaredModelTests(unittest.TestCase):
     """A model with several weight files is declared as data, and a heavy one stays opt-in.
 

@@ -407,3 +407,29 @@ checker), each with the exact command and the output to expect.
    and **L3** (fetch a newer engine build for `qwen3.6`?). Neither is a code problem.
 5. Only when the debugging round is declared finished: the 27-file promotion, the Law 1 rows, a version bump,
    one seal, and the publish list for him — never a push from the agent.
+
+
+---
+
+## Next version — backlog from the 2026-09-22 closeout
+
+The pass that produced this section changed no mechanism deliberately: it made the existing pipeline
+*answer* instead of failing. Read `docs/VERSION_CLOSEOUT_1.3.0_2026-09-22.md` before touching anything — it
+carries the settings, the measurements and the gotchas. Items for the next version, in the order they are
+worth doing:
+
+- **N1 — T7 (conditional branch → Desktop)**: fails on both brains and both copies. It is a console
+  mechanism gap, not a model weakness; a better local model will not move it.
+- **N2 — T11/T12 grading honesty**: apply the known-good/known-bad sample rule (ledger 107) to T11's
+  honest-failure grader and T12's multi-file grader, then re-run both copies and quote the spread.
+- **N3 — close the `limbs: []` gap**: T9 can pass with no limb running, so in-head arithmetic is
+  indistinguishable from a fabricated result. The detector (ledger 118) only covers a *claimed limb
+  output*; decide whether a scored task should require a trace.
+- **N4 — gemma4 on the stick**: the stick has 3 GB free and gemma4 needs ≈7.4 GB, so USB vision is capped.
+  Either accept it or give the stick a smaller vision model.
+- **N5 — per-copy config keys**: `prefer_ids` is currently the PC's list on both copies (ledger 119).
+  Decide the USB's own preference deliberately rather than inheriting it from a sync.
+- **N6 — the GPU driver reset**: intermittent, unproved, and *not* caused by the context setting. If it
+  recurs, capture `LiveKernelEvent` (Application log) **and** the engine log's last line before blaming code.
+- **N7 — seal the version**: the tree was 35 entries uncommitted at closeout. Commit locally (no push) and
+  tag it if the operator wants this version frozen.

@@ -178,5 +178,42 @@ class ThisBoxTests(HardwareTestCase):
         self.assertLessEqual(c["pct_busy"], 100.0)
 
 
+class RenderNeedTests(HardwareTestCase):
+    """The number a render has to clear is the CHECKPOINT, not the shortfall a dead attempt reported.
+
+    MEASURED on this host 2026-09-23 with the 6.9 GB SDXL-Turbo checkpoint: 7113 MiB free drew a real
+    1024x1024 picture on the CUDA build in 12.5 s, and with the chat model resident there is ~0 MiB free.
+    A decision that only asked for 644 MiB sent a render to a card that could not hold the weights (the
+    CUDA attempt died at 19.8 s, exit 1, "cannot make enough memory available on CUDA0").
+    """
+
+    CHECKPOINT = 6938081905  # the shipped sd_xl_turbo_1.0_fp16.safetensors, read off disk
+
+    def test_the_shortfall_is_a_floor_not_a_budget(self):
+        self.assertEqual(hw.render_need_mib(0), hw.RENDER_NEED_MIB)
+        self.assertEqual(hw.render_need_mib(None), hw.RENDER_NEED_MIB)
+        self.assertEqual(hw.render_need_mib(4096), hw.RENDER_NEED_MIB, "a tiny file must not lower it")
+
+    def test_a_real_checkpoint_measures_the_need(self):
+        need = hw.render_need_mib(self.CHECKPOINT)
+        self.assertEqual(need, self.CHECKPOINT // (1024 * 1024) + hw.RENDER_HEADROOM_MIB)
+        self.assertGreater(need, 6000)
+        self.assertGreater(need, hw.RENDER_NEED_MIB)
+
+    def test_a_card_the_chat_model_holds_is_not_asked_to_draw(self):
+        with mock.patch.object(hw, "free_vram_mib", lambda: 132), \
+                mock.patch.object(hw, "holder_note", lambda: ""):
+            route, why = hw.picture_route(hw.render_need_mib(self.CHECKPOINT))
+        self.assertEqual(route, "cpu")
+        self.assertIn("132", why)
+
+    def test_a_card_that_can_hold_the_checkpoint_still_gets_the_render(self):
+        with mock.patch.object(hw, "free_vram_mib", lambda: 7113), \
+                mock.patch.object(hw, "holder_note", lambda: ""):
+            route, why = hw.picture_route(hw.render_need_mib(self.CHECKPOINT))
+        self.assertEqual(route, "cuda")
+        self.assertIn("7113", why)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -144,28 +144,28 @@
     },
     {
       "path": "src/server.py",
-      "sha256_16": "cca4e485e244a21e",
-      "bytes": 141174
+      "sha256_16": "9d60f30d4e249cb6",
+      "bytes": 151497
     },
     {
       "path": "src/continuity.py",
-      "sha256_16": "1a0fb9384ef67c3a",
-      "bytes": 15733
+      "sha256_16": "ac26012d6a963b35",
+      "bytes": 17985
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "50791702c72554f4",
-      "bytes": 84247
+      "sha256_16": "1271dbbe2357f81d",
+      "bytes": 87844
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "2ab89b57ab83e23b",
-      "bytes": 56971
+      "sha256_16": "34ef90e33a2f707f",
+      "bytes": 70029
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "6e83f731f51629f6",
-      "bytes": 105856
+      "sha256_16": "b099e26760d50561",
+      "bytes": 108109
     },
     {
       "path": "portal/index.html",
@@ -188,9 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-21T23:30:18-06:00",
-  "rebrand_refresh_note": "eye: a photo is fitted to the projector's window before it is sent (new src/vision.py); the tail rides as a content part instead of str() of the parts; the picture limb reports a busy card and the CPU route; the gateway flattens image parts to [image]",
+  "rebrand_refresh_iso": "2026-09-24T12:09:34-06:00",
+  "rebrand_refresh_note": "1.3.2: the CPU picture engine (stable-diffusion.cpp) travels inside the package with the fetcher for its checkpoint, and media_root() falls back to the kit root when the machine has no media root of its own",
   "rebrand_refresh_files": [
-    "src/chat_loop.py"
+    "portal/app.js"
   ]
 }

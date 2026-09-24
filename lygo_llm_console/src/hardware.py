@@ -35,6 +35,12 @@ RENDER_NEED_MIB = 644
 # Headroom kept on the card: a render that exactly fits its own requirement still has to survive the
 # allocations around it, and a driver-level shortfall kills the process rather than the request.
 RESERVE_MIB = 256
+# MEASURED 2026-09-23, SDXL-Turbo at 1024x1024: the checkpoints weigh ~6.8 GB, so 644 MiB is a floor, not a
+# budget. With 7113 MiB free the CUDA build drew a real picture in 12.5 s; with the chat model resident the
+# same call has ~0 MiB free and dies at 19.8 s. A route decision therefore has to clear the CHECKPOINT plus
+# this much room for the buffers around it - and picture_route() adds RESERVE_MIB on top, so the room a card
+# must show is RENDER_HEADROOM_MIB + RESERVE_MIB (448 MiB here, against the 497 MiB the working render had).
+RENDER_HEADROOM_MIB = 192
 
 _GPU_Q = "name,memory.total,memory.used,memory.free,utilization.gpu,temperature.gpu,power.draw"
 _APPS_Q = "pid,used_memory"
@@ -260,6 +266,16 @@ def snapshot(force: bool = False) -> dict[str, Any]:
     }
     _CACHE.update({"snap": snap, "snap_ts": now})
     return snap
+
+
+def render_need_mib(checkpoint_bytes: int = 0) -> int:
+    """Free VRAM a render really needs: the whole checkpoint plus room, never just the shortfall.
+
+    `RENDER_NEED_MIB` is what the engine said it was STILL SHORT OF when it died - a floor, not a budget.
+    A checkpoint we can measure is the honest answer; an unmeasurable one leaves that floor alone.
+    """
+    have = int(checkpoint_bytes or 0) // (1024 * 1024)
+    return max(RENDER_NEED_MIB, have + RENDER_HEADROOM_MIB) if have else RENDER_NEED_MIB
 
 
 def picture_route(need_mib: int = RENDER_NEED_MIB,

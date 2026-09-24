@@ -1,14 +1,21 @@
-"""Public LYGO inference gateway — chat only, P0, rate-limited, no disks/shell.
+"""Public LYGO inference gateway — chat and pictures, P0, rate-limited, no disks/shell.
 
 Run on the always-on node (stream PC) behind Caddy/HTTPS. Never load admin.json.
 Requires --i-consent to bind beyond loopback.
+
+Pictures (`POST /api/image`, measured 2026-09-23) run the kit's own media_tools limb on THIS
+machine, one at a time, 3 per address per 10 minutes, off with `LYGO_PUBLIC_IMAGE=0`. The portal at
+chatagent.ca generates through this route because the console itself is loopback-bound and sends no
+CORS headers on purpose; the gateway's origin allowlist is what the portal is already on.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import os
+import secrets
 import sys
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -16,7 +23,7 @@ from collections import defaultdict, deque
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 try:  # kit ports (a stick runs 9651/11451); never hard-code the desktop pair here
     from paths import DEFAULT_PORT, LLAMA_PORT  # noqa: E402
@@ -79,6 +86,30 @@ MAX_REQ = 24
 MAX_CHARS = 4000
 MAX_MSGS = 10
 _hits: dict[str, deque[float]] = defaultdict(deque)
+
+# ── Picture generation, the public way ─────────────────────────────────────────────────────────────
+# The steward's ask (2026-09-23): the API portal has to be able to make the same pictures the PC
+# console makes. The static portal page cannot reach the console (loopback-bound, no CORS on
+# purpose), so this gateway - which chatagent.ca is already allowlisted against - is the route:
+# it calls the very same limb (media_tools.image_generate) on the operator's machine.
+#
+# MEASURED on the steward's box 2026-09-23, SDXL-Turbo 1024x1024: 12.5 s on a free card, and 272-300 s
+# on the CPU route the limb picks while the chat model holds the card. A five-minute HTTP request is
+# a request that dies in a proxy, so this is a JOB: POST starts it, the page polls, the bytes come
+# from a URL. `LYGO_PUBLIC_IMAGE=0` turns the whole route off.
+IMAGE_MAX_REQ = 3          # renders per IP per window (a picture costs the operator minutes of card or CPU)
+IMAGE_WINDOW = 600
+IMAGE_MAX_PROMPT = 700
+IMAGE_JOB_KEEP = 40        # finished job rows kept for the page to poll (a row is small: no images in it)
+IMAGE_JOB_TTL = 1800.0     # seconds a finished row stays readable
+IMAGE_MAX_BYTES = 32 << 20
+IMAGE_ENABLED = os.environ.get("LYGO_PUBLIC_IMAGE", "1").strip().lower() not in ("0", "false", "no", "off")
+_IMAGE_EXT = (".png", ".jpg", ".jpeg", ".webp")
+_image_hits: dict[str, deque[float]] = defaultdict(deque)
+_image_jobs: dict[str, dict[str, Any]] = {}
+_image_store_lock = threading.Lock()   # guards the job rows (nothing slow ever runs under it)
+_image_lock = threading.Lock()   # ONE render at a time: the card, the engine and the CPU are shared
+
 # A public endpoint may not answer behind a quieter gate than the console it fronts. The deep
 # layer missing is a degraded mode, not a free pass: it is marked in every verdict, warned about
 # once, and reported on /health. LYGO_PUBLIC_REQUIRE_PHYSICS=1 refuses instead of degrading.
@@ -115,6 +146,148 @@ def _rate(ip: str) -> bool:
         return False
     q.append(now)
     return True
+
+
+def _rate_image(ip: str) -> bool:
+    """Its own, much tighter limiter: one render costs the operator minutes of GPU or CPU."""
+    now = time.time()
+    q = _image_hits[ip]
+    while q and now - q[0] > IMAGE_WINDOW:
+        q.popleft()
+    if len(q) >= IMAGE_MAX_REQ:
+        return False
+    q.append(now)
+    return True
+
+
+def _image_prune() -> None:
+    """Drop aged-out and surplus job rows. The caller holds `_image_store_lock`."""
+    now = time.time()
+    for jid, row in list(_image_jobs.items()):
+        if row.get("status") != "running" and now - float(row.get("finished") or 0) > IMAGE_JOB_TTL:
+            _image_jobs.pop(jid, None)
+    while len(_image_jobs) > IMAGE_JOB_KEEP:
+        oldest = min(_image_jobs, key=lambda k: float(_image_jobs[k].get("started") or 0))
+        _image_jobs.pop(oldest, None)
+
+
+def _image_public(row: dict[str, Any]) -> dict[str, Any]:
+    """The row the page polls: status, clock, and (when there is one) the URL of the bytes."""
+    out = {
+        "ok": True,
+        "job": str(row.get("id") or ""),
+        "status": str(row.get("status") or "running"),
+        "started": round(float(row.get("started") or 0), 3),
+        "elapsed": round(time.time() - float(row.get("started") or time.time()), 1),
+        "seconds": row.get("seconds") or 0.0,
+        "bytes": int(row.get("bytes") or 0),
+        "size": int(row.get("size") or 0),
+        "drawn_w": int(row.get("drawn_w") or 0),
+        "drawn_h": int(row.get("drawn_h") or 0),
+        "engine": str(row.get("engine") or ""),
+        "route": str(row.get("route") or ""),
+        "prompt": str(row.get("prompt") or "")[:120],
+        "error": str(row.get("error") or ""),
+        "hint": str(row.get("hint") or ""),
+    }
+    if row.get("status") == "done" and row.get("file"):
+        out["url"] = "/api/image?file=" + str(row["file"])
+    return out
+
+
+def _image_file_path(name: str) -> Path | None:
+    """A generated picture by file name - never a path from the caller.
+
+    The name is a bare file name (no separators, no ..), it must end in a picture extension, it must
+    live in this kit's workspace/images, and it must really be there.
+    """
+    n = str(name or "").strip()
+    if not n or "/" in n or "\\" in n or n.startswith(".") or len(n) > 96:
+        return None
+    if not n.lower().endswith(_IMAGE_EXT):
+        return None
+    try:
+        from paths import WORKSPACE  # noqa: PLC0415 - kit paths, resolved at call time
+
+        base = (WORKSPACE / "images").resolve()
+        p = (base / n).resolve()
+        if p.parent != base or not p.is_file() or p.stat().st_size > IMAGE_MAX_BYTES:
+            return None
+    except Exception:
+        return None
+    return p
+
+
+def _image_health() -> dict[str, Any]:
+    """What the picture route can say for itself, without ever raising into a public answer."""
+    if not IMAGE_ENABLED:
+        return {"enabled": False, "note": "disabled by LYGO_PUBLIC_IMAGE=0"}
+    out: dict[str, Any] = {"enabled": True, "ready": False, "engine": "", "default": "", "route": "",
+                           "why": "", "busy": _image_lock.locked(), "limits": {
+                               "max_per_window": IMAGE_MAX_REQ, "window_s": IMAGE_WINDOW}}
+    try:
+        import media_tools  # noqa: PLC0415
+
+        st = (media_tools.media_status() or {}).get("image") or {}
+        out["ready"] = bool(st.get("ready"))
+        out["engine"] = str(st.get("cpu_exe") if not st.get("exe_on_disk") else st.get("exe") or "")
+        out["default"] = str(st.get("default") or "")
+        route, why = media_tools._route_for_a_render()
+        out["route"] = route or "cuda"
+        out["why"] = why
+    except Exception as e:  # a health line is not allowed to be the thing that breaks
+        out["why"] = type(e).__name__
+    return out
+
+
+def _image_run(jid: str, prompt: str, size: int = 0) -> None:
+    """The render itself, off the request thread. `_image_lock` is already held by the starter."""
+    t0 = time.time()
+    row = _image_jobs.get(jid) or {}
+    try:
+        import media_tools  # noqa: PLC0415
+
+        # 0 = the limb's own default (1024² on the classic checkpoint). A caller may ask for less.
+        res = media_tools.image_generate(prompt, "", size, size) if size else media_tools.image_generate(prompt)
+    except Exception as e:  # noqa: BLE001 - a public caller gets a named failure, never a traceback
+        sys.stderr.write(f"[public-gateway] image limb raised: {type(e).__name__}: {e}\n")
+        sys.stderr.flush()
+        res = {"ok": False, "error": "limb_raised", "hint": type(e).__name__}
+    if not isinstance(res, dict):
+        res = {"ok": False, "error": "limb_bad_result", "hint": type(res).__name__}
+    path = str(res.get("path") or "")
+    eng = str(res.get("engine") or "")
+    row.update({
+        "status": "done" if res.get("ok") else "failed",
+        "seconds": round(float(res.get("seconds") or (time.time() - t0)), 1),
+        "bytes": int(res.get("bytes") or 0),
+        "engine": eng,
+        # The route the limb actually used, from its own result where it says so, else from the build
+        # name it ran - the page shows this next to the picture, so it may not be a guess.
+        "route": str(res.get("drawn_on") or ("cpu" if eng.endswith("cpu") else ("cuda" if eng else ""))),
+        "file": Path(path).name if path else "",
+        # The pixels the limb actually drew, from the limb's own result - asked for 512, drawn 512.
+        "drawn_w": int(res.get("width") or 0),
+        "drawn_h": int(res.get("height") or 0),
+        "error": str(res.get("error") or ""),
+        "hint": str(res.get("hint") or res.get("log_tail") or "")[:600],
+        "finished": time.time(),
+    })
+    with _image_store_lock:
+        _image_jobs[jid] = row
+    try:
+        _image_lock.release()
+    except RuntimeError:
+        pass
+
+
+def _image_running() -> dict[str, Any]:
+    """The render in flight, if there is one - so a second caller can watch it instead of being told no."""
+    with _image_store_lock:
+        for row in _image_jobs.values():
+            if row.get("status") == "running":
+                return dict(row)
+    return {}
 
 
 def _openai_chat(url: str, model: str, messages: list[dict[str, Any]], key: str) -> str:
@@ -162,6 +335,13 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Vary", "Origin")
             self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            # Chrome's Private Network Access: a page served from a PUBLIC origin (chatagent.ca)
+            # fetching a LOCAL one (http://127.0.0.1:9642) is a public -> private request, and Chrome
+            # refuses it unless the preflight says so in so many words. Without this header the whole
+            # "use the web portal to drive your own engine" path dies as a bare `Failed to fetch`
+            # with no CORS message anywhere - MEASURED 2026-09-24, page https://chatagent.ca/portal/,
+            # fetch http://127.0.0.1:9642/api/health, while the same request from curl answered 200.
+            self.send_header("Access-Control-Allow-Private-Network", "true")
         self.end_headers()
         self.wfile.write(body)
 
@@ -184,18 +364,137 @@ class Handler(BaseHTTPRequestHandler):
                     "model": self.model,
                     "physics": PHYSICS_AVAILABLE,
                     "gate": "physics" if PHYSICS_AVAILABLE else "regex_only",
+                    # The portal reads this to say, honestly, whether a picture can be made here right
+                    # now and on which route - the same question the console answers for itself.
+                    "image": _image_health(),
                     "portal": "https://chatagent.ca/portal/",
-                    "note": "Public chat only. Full limbs require a local LYGO LLM Console.",
+                    "note": "Public chat and pictures only. Full limbs require a local LYGO LLM Console.",
                 },
             )
+            return
+        if path == "/api/image":
+            self._get_image()
             return
         if path in ("/v1/models", "/api/models"):
             self._json(200, {"object": "list", "data": [{"id": self.model, "object": "model"}]})
             return
         self._json(404, {"error": "not_found"})
 
+    def _get_image(self) -> None:
+        """`?job=` the status the page polls · `?file=` the bytes of a picture this gateway wrote."""
+        qs = parse_qs(urlparse(self.path).query)
+        origin = self._origin()
+        if origin and not _cors_ok(origin):
+            self._json(403, {"error": "origin"})
+            return
+        jid = (qs.get("job") or [""])[0].strip()
+        if jid:
+            with _image_store_lock:
+                row = _image_jobs.get(jid)
+                row = dict(row) if row else None
+            if not row:
+                self._json(404, {"error": "no_such_job",
+                                 "hint": "the gateway restarted or the job aged out - start another one"})
+                return
+            self._json(200, _image_public(row))
+            return
+        name = (qs.get("file") or [""])[0]
+        p = _image_file_path(name)
+        if p is None:
+            self._json(404, {"error": "no_such_picture",
+                             "hint": "file= must name a picture in this machine's workspace/images"})
+            return
+        ctype = {".png": "image/png", ".webp": "image/webp"}.get(p.suffix.lower(), "image/jpeg")
+        self._send(200, p.read_bytes(), ctype)
+
+    def _post_image(self) -> None:
+        """Start one render. The answer is a job handle, because a picture can take minutes.
+
+        MEASURED 2026-09-23 on the steward's box: 12.5 s when the card is free, 272-300 s on the CPU
+        route the limb picks while the chat model holds the card. A five-minute HTTP request dies in
+        any proxy, so the caller gets a handle and polls `GET /api/image?job=`.
+        """
+        origin = self._origin()
+        if origin and not _cors_ok(origin):
+            self._json(403, {"error": "origin"})
+            return
+        if not IMAGE_ENABLED:
+            self._json(503, {"error": "image_off",
+                             "hint": "the operator turned the picture route off (LYGO_PUBLIC_IMAGE=0)"})
+            return
+        ip = (self.client_address or ("", 0))[0]
+        if not _rate_image(ip):
+            self._json(429, {"error": "rate_limited",
+                             "hint": "%d picture(s) per %d s from one address" % (IMAGE_MAX_REQ, IMAGE_WINDOW)})
+            return
+        declared = (self.headers.get("Content-Length") or "0").strip()
+        try:
+            n = int(declared)
+        except ValueError:
+            self.close_connection = True
+            self._json(400, {"error": "bad_request", "detail": "Content-Length: " + declared[:32]})
+            return
+        if n < 0 or n > 16_000:
+            drain_body(self, n)
+            self.close_connection = True
+            self._json(413, {"error": "too_large", "hint": "a prompt, nothing else"})
+            return
+        raw = self.rfile.read(n) if n else b"{}"
+        try:
+            obj = json.loads(raw.decode("utf-8") or "{}")
+        except json.JSONDecodeError:
+            self._json(400, {"error": "bad_json"})
+            return
+        prompt = str(obj.get("prompt") or obj.get("text") or "").strip()[:IMAGE_MAX_PROMPT]
+        if not prompt:
+            self._json(400, {"error": "empty_prompt", "hint": 'send {"prompt": "..."}'})
+            return
+        try:
+            size = int(obj.get("size") or 0)
+        except (TypeError, ValueError):
+            size = 0
+        if size and not (256 <= size <= 1536):
+            self._json(400, {"error": "bad_size", "hint": "size is square pixels, 256-1536; omit it for the default"})
+            return
+        gate = gate_prompt(prompt)
+        if gate.get("verdict") == "QUARANTINE":
+            self._json(451, {"error": "quarantine", "gate": gate})
+            return
+        health = _image_health()
+        if not health.get("ready"):
+            self._json(503, {"error": "no_image_engine",
+                             "hint": "this machine has no picture engine wired - see media_status",
+                             "image": health})
+            return
+        if not _image_lock.acquire(blocking=False):
+            run = _image_running()
+            self._json(429, {"error": "busy",
+                             "hint": "one picture at a time on this machine - watch this job, or ask again",
+                             "job": str(run.get("id") or ""),
+                             "elapsed": round(time.time() - float(run.get("started") or time.time()), 1)})
+            return
+        jid = secrets.token_hex(8)
+        row = {"id": jid, "status": "running", "prompt": prompt[:120], "size": size or 1024, "started": time.time(),
+               "seconds": 0.0, "bytes": 0, "engine": "", "route": str(health.get("route") or ""),
+               "error": "", "hint": "", "file": ""}
+        with _image_store_lock:
+            _image_jobs[jid] = row
+            _image_prune()
+        threading.Thread(target=_image_run, args=(jid, prompt, size), daemon=True).start()
+        # The estimate is the measurement, not a promise: 12.5 s on a free card, ~300 s on the CPU route.
+        self._json(202, {
+            "ok": True, "job": jid, "status": "running", "size": size or 1024,
+            "route": row["route"], "engine": health.get("engine") or "",
+            "eta_s": 20 if row["route"] != "cpu" else 300,
+            "poll": "/api/image?job=" + jid,
+            "url_when_done": "/api/image?file=<name>",
+        })
+
     def do_POST(self) -> None:  # noqa: N802
         path = urlparse(self.path).path
+        if path == "/api/image":
+            self._post_image()
+            return
         if path not in ("/v1/chat/completions", "/api/chat"):
             self._json(404, {"error": "not_found"})
             return
@@ -335,7 +634,15 @@ def main() -> int:
     Handler.openai_url = args.openai_url
     Handler.model = args.model
     httpd = ThreadingHTTPServer((bind, args.port), Handler)
-    print(f"LYGO public gateway {bind}:{args.port} backend={args.backend} model={args.model}  (chat only)")
+    pic = _image_health()
+    if not pic.get("enabled"):
+        pic_note = "off (LYGO_PUBLIC_IMAGE=0)"
+    elif not pic.get("ready"):
+        pic_note = "NO ENGINE WIRED (media_status image.ready=false) - pictures will answer 503"
+    else:
+        pic_note = "ready on %s · route %s" % (pic.get("engine") or "engine", pic.get("route") or "cuda")
+    print(f"LYGO public gateway {bind}:{args.port} backend={args.backend} model={args.model}  (chat + pictures)")
+    print(f"  pictures : {pic_note} · {IMAGE_MAX_REQ} per {IMAGE_WINDOW} s per address, one render at a time")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

@@ -10,6 +10,7 @@ Writes docs/GAUNTLET_<date>.md and save/gauntlet/<date>.json
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import time
@@ -18,15 +19,40 @@ from pathlib import Path
 
 KIT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(KIT / "src"))
-DESKTOP = Path(r"C:\Users\justi\Desktop")
+DESKTOP = Path(os.environ.get("USERPROFILE") or Path.home()) / "Desktop"  # portable, not one operator's
 NOTES = KIT / "workspace" / "notes"
 WS = KIT / "workspace"
 STAMP = time.strftime("%Y-%m-%d")
 
 
+def _base() -> str:
+    """The console THIS copy talks to.
+
+    Measured 2026-09-22: the URL was hardcoded to 127.0.0.1:9641, so this script could not measure
+    the USB copy at all - run from the stick it either graded the PC console or refused with
+    "console is not up" while the stick answered on 9651. The port now comes from the copy's own
+    config, the same reader the launchers use, with an explicit override for a remote/odd setup.
+    """
+    url = os.environ.get("LYGO_CONSOLE_URL", "").strip()
+    if url:
+        return url.rstrip("/")
+    port = os.environ.get("LYGO_CONSOLE_PORT", "").strip()
+    if not port.isdigit():
+        try:
+            import ensure_console
+
+            port = str(ensure_console._read_port(KIT)[0])
+        except Exception:  # noqa: BLE001 - a missing helper must not stop the measurement
+            port = "9641"
+    return f"http://127.0.0.1:{port}"
+
+
+BASE = _base()
+
+
 def health():
     try:
-        return json.loads(urllib.request.urlopen("http://127.0.0.1:9641/api/health", timeout=10).read().decode("utf-8", "replace"))
+        return json.loads(urllib.request.urlopen(f"{BASE}/api/health", timeout=10).read().decode("utf-8", "replace"))
     except Exception as exc:
         return {"_err": type(exc).__name__}
 
@@ -44,7 +70,7 @@ def wait_console(seconds=240):
 def ask(text, timeout=420):
     tok = (KIT / "data" / ".lygo_llm_token").read_text(encoding="utf-8").strip()
     body = json.dumps({"messages": [{"role": "user", "content": text}]}).encode()
-    req = urllib.request.Request(f"http://127.0.0.1:9641/api/chat?token={tok}", data=body,
+    req = urllib.request.Request(f"{BASE}/api/chat?token={tok}", data=body,
                                  headers={"Content-Type": "application/json"})
     t0 = time.time()
     last = None
@@ -73,6 +99,31 @@ def ask(text, timeout=420):
             traces.append({"name": tr.get("name"), "args": tr.get("arguments"),
                            "ok": (tr.get("result") or {}).get("ok") if isinstance(tr.get("result"), dict) else None})
     return round(time.time() - t0, 1), "".join(reply), traces
+
+
+def wipe_scratch() -> dict:
+    """D2: each run starts from an empty graded workspace. Prior files must not grade this run."""
+    removed: list[str] = []
+    named = [
+        NOTES / "gauntlet_t4.txt",
+        NOTES / "gauntlet_t6.txt",
+        NOTES / "gauntlet_t8.txt",
+        WS / "gauntlet_t8.txt",
+        DESKTOP / "gauntlet_t5.txt",
+        DESKTOP / "gauntlet_t7.txt",
+    ]
+    for p in named:
+        if p.is_file():
+            p.unlink()
+            removed.append(str(p))
+    for name in ("mod_a.py", "run_a.py"):
+        for p in WS.rglob(name):
+            try:
+                p.unlink()
+                removed.append(str(p))
+            except OSError:
+                continue
+    return {"wiped": len(removed), "paths": removed}
 
 
 def fresh(p: Path):
@@ -143,11 +194,23 @@ TASKS = [
 ]
 
 
+def _leave_console_up() -> None:
+    """D9: the long scripts take the console down; put it back before the operator finds it dead."""
+    try:
+        import ensure_console
+
+        _ok, line = ensure_console.ensure(KIT, restore_only=True)
+        print("console: " + line, flush=True)
+    except Exception as exc:  # noqa: BLE001 - a helper must never fail the run it protects
+        print(f"console: not checked ({type(exc).__name__})", flush=True)
+
+
 def main():
     if not health().get("ok"):
         print("console is not up; ring the doorbell first")
         return 1
-    print(f"gauntlet against the live local brain, {len(TASKS)} tasks", flush=True)
+    wipe = wipe_scratch()
+    print(f"gauntlet against the live local brain, {len(TASKS)} tasks; wiped {wipe['wiped']} scratch files", flush=True)
     results = []
     for tid, level, prompt, prepare, grade in TASKS:
         try:
@@ -159,7 +222,8 @@ def main():
         try:
             secs, reply, traces = ask(prompt)
             ok, evidence = grade(reply, traces)
-            row.update({"seconds": secs, "reply": reply[:600], "traces": traces,
+            row.update({"seconds": secs, "reply": reply[:2000], "raw_reply": reply,
+                        "traces": traces,
                         "limbs_used": [t["name"] for t in traces], "pass": bool(ok), "evidence": evidence})
             print(f"   {secs}s | {'PASS' if ok else 'FAIL'} | limbs: {row['limbs_used']} | {evidence}", flush=True)
         except Exception as exc:
@@ -178,7 +242,7 @@ def main():
     }
     (KIT / "save" / "gauntlet").mkdir(parents=True, exist_ok=True)
     (KIT / "save" / "gauntlet" / f"{STAMP}.json").write_text(
-        json.dumps({"verdict": verdict, "results": results}, indent=1), encoding="utf-8")
+        json.dumps({"verdict": verdict, "wipe": wipe, "results": results}, indent=1), encoding="utf-8")
 
     lines = [f"# Gauntlet: what the on-box brain can actually do ({STAMP})", "",
              f"Local brain, live console, {len(graded)} tasks. Every task is graded on an effect checked "
@@ -198,6 +262,7 @@ def main():
     (KIT / "docs" / f"GAUNTLET_{STAMP}.md").write_text("\n".join(lines), encoding="utf-8")
     print("\n" + json.dumps(verdict, indent=1))
     print(f"\nreport: {KIT / 'docs' / f'GAUNTLET_{STAMP}.md'}")
+    _leave_console_up()
     return 0
 
 

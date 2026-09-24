@@ -2,7 +2,7 @@
   /* One product name, one build stamp. The header, the document title and every status line read
      from here, so the console cannot drift back into three names and no version in the UI. */
   const LYGO_PRODUCT = "LYGO Local Agent Console";
-  const LYGO_BUILD = "1.3.0";
+  const LYGO_BUILD = "1.3.2";
   const BUILD_STAMP = "build " + LYGO_BUILD;
   /* The build stamp the console actually serves (/api/health), so a release bump cannot disagree with
      the header. Declared up HERE, above its first use, because paintBrand() reads it and paintBrand()
@@ -356,9 +356,23 @@
   function notePerf(perf) {
     /* The console forwards the engine's own timings, so the operator can see what a turn cost
        without benchmarking the kit. An older console sends no perf: then this stays silent. */
-    if (!perf || typeof perf !== "object" || !(perf.gen_tok_s || perf.prompt_tok_s)) return;
+    if (!perf || typeof perf !== "object" || !(perf.gen_tok_s || perf.prompt_tok_s || perf.gen_tokens)) return;
     lastPerf = perf;
     paintCtx();
+  }
+
+  /* The gap between what the engine generated and what the operator was shown - the one number
+     that makes every other speed claim falsifiable. Measured 2026-09-22 on this box: a two-word
+     ask, "Reply with exactly: CACHE TEST", had the engine generate 137 tokens at 47.7 tok/s to
+     display 10 characters - 2.87 s of a 3.2 s turn was text nobody saw, and no surface in the
+     console could see it, which is why it went unnoticed for so long. */
+  function gapBit(p) {
+    if (!p || !p.gen_tokens) return "";
+    if (typeof p.shown_tokens !== "number") return "";
+    const surplus = typeof p.surplus_tokens === "number" ? p.surplus_tokens : 0;
+    let s = "shown " + p.shown_tokens + "/" + p.gen_tokens;
+    if (surplus > 0) s += " (" + surplus + " unseen, " + (p.surplus_pct || 0) + "%)";
+    return s;
   }
 
   function perfBit() {
@@ -370,6 +384,8 @@
     if (p.gen_tokens) s += " (" + p.gen_tokens + " token" + (p.gen_tokens === 1 ? "" : "s");
     if (p.engine_calls > 1) s += ", " + p.engine_calls + " engine calls";
     if (p.gen_tokens) s += ")";
+    const gap = gapBit(p);
+    if (gap) s += " · " + gap;
     return s;
   }
 
@@ -2175,6 +2191,23 @@ document.addEventListener("click", (e) => {
         (lp.prompt_tok_s ? (lp.gen_tok_s ? " · " : "") + Math.round(lp.prompt_tok_s) + " tok/s prefill" : "");
       push("Last turn", speed || "measured", "the engine's own timings, forwarded by the console");
       push("Tokens moved", lp.gen_tokens ? lp.gen_tokens + " generated" : "", lp.prompt_tokens ? lp.prompt_tokens + " in the prompt" : "");
+      if (typeof lp.shown_tokens === "number" && lp.gen_tokens) {
+        const surplus = typeof lp.surplus_tokens === "number" ? lp.surplus_tokens : 0;
+        let note = surplus > 0
+          ? surplus + " of them (" + (lp.surplus_pct || 0) + "%) were generated for the engine and never shown to you"
+          : "every generated token reached the page";
+        if (lp.unaccounted_tokens) note += " · " + lp.unaccounted_tokens + " not explained by the answer, a limb call or reasoning";
+        if (lp.stopped && lp.stopped.why) note += " · generation stopped early: " + lp.stopped.why;
+        if (lp.dropped_head) note += " · sample of what was dropped: " + lp.dropped_head;
+        push("Shown to you", lp.shown_tokens + " of " + lp.gen_tokens + " tokens", note);
+      }
+      if (typeof lp.cache_hit_pct === "number" && lp.prompt_tokens) {
+        push("Prefix reused", lp.cache_hit_pct + "%",
+             lp.cache_hit_pct >= 90
+               ? "the head of the prompt was already in the engine, so this turn only paid for the new tokens"
+               : "a volatile line near the head of the prompt (clock, VRAM, a rewritten digest) forces the engine to re-read it");
+      }
+      if (typeof lp.limbs === "number" && lp.limbs) push("Limbs this turn", String(lp.limbs), "each limb call is a whole generate-and-prefill cycle of its own");
     } else {
       push("Speed", "no turn measured yet", "send one message and this fills in");
     }
