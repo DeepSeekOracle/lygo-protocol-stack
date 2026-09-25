@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-CYBORG-HEARTBEAT-v1.1",
   "class": "RESOURCE",
-  "created_utc": "2026-09-24T21:29:05.149587+00:00",
+  "created_utc": "2026-09-25T04:54:00.770238+00:00",
   "verdict": "TICK_OK",
   "public": {
     "class": "RESOURCE_PULSE",
@@ -22,14 +22,14 @@
       "star_feed": {
         "ok": true,
         "status": 200,
-        "bytes": 76937,
+        "bytes": 78516,
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
         "class": "CANON",
         "feed": {
-          "entry_count": 93,
+          "entry_count": 95,
           "chain_valid_published": true,
           "chain_valid_checked": true,
-          "chain_root": "a6676fd0ef5733b860b09751b5af63ab847053d677c11c7b3ed19403423c9569",
+          "chain_root": "6eb55be8647ff1d707ac773e01a89e1e5d6b78428f947b9f55fd941c2b0e554d",
           "errors": []
         }
       },
@@ -52,9 +52,9 @@
         "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
         "class": "CANON",
         "pulse": {
-          "chart_nodes": 1399,
-          "feed_entries": 65,
-          "feed_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+          "chart_nodes": 1418,
+          "feed_entries": 95,
+          "feed_root": "6eb55be8647ff1d707ac773e01a89e1e5d6b78428f947b9f55fd941c2b0e554d",
           "writes": false
         }
       },
