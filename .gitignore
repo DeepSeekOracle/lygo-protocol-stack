@@ -127,3 +127,10 @@ data/pure_data/_skill_smoke/
 lygo_llm_console/config/api.json
 config/api.json
 .backups/
+
+# local handoff archives and the 517 MB vendor working copy - never pushed
+_vendor-work/
+GROK_HANDOFF_2026-09-22/
+GROK_HANDOFF_2026-09-22_FINAL/
+HERMES_HANDOFF_2026-09-22/
+_final_facts.json
