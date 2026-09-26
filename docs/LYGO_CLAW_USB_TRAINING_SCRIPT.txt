@@ -112,7 +112,7 @@ When you extract the joined release, you receive:
 3. Model weights — qwen2.5:3b default, often llama3.2:1b fallback. Under models/ollama/.
 4. LYGO CLAW Gateway — tools/lygo-gateway/, portable Node in tools/node/. WebSocket port 18789, loopback.
 5. Dashboards — dashboard/lygo-claw.html simple chat; control-ui for fuller features. file:// origins supported.
-6. Configuration — lygo-claw/lygo.json. Token: lygo-usb-standalone-token.
+6. Configuration — lygo-claw/lygo.json. Token: set `gateway.auth.token` per stick.
 
 Ports: 11434 Ollama, 18789 Gateway.
 

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs
+from atomicio import atomic_write_text, read_text
 
 MAP_PATH = SAVE / "workspace_map.json"
 WRITE_BLOCK = (
@@ -23,7 +24,7 @@ def _load() -> dict[str, Any]:
     if not MAP_PATH.is_file():
         return {"mounts": [], "revoke": []}
     try:
-        data = json.loads(MAP_PATH.read_text(encoding="utf-8"))
+        data = json.loads(read_text(MAP_PATH))
     except (OSError, json.JSONDecodeError):
         return {"mounts": [], "revoke": []}
     if not isinstance(data, dict):
@@ -35,9 +36,7 @@ def _load() -> dict[str, Any]:
 
 def _save(data: dict[str, Any]) -> None:
     MAP_PATH.parent.mkdir(parents=True, exist_ok=True)
-    tmp = MAP_PATH.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    tmp.replace(MAP_PATH)
+    atomic_write_text(MAP_PATH, json.dumps(data, indent=2))
     try:
         from admin_map import invalidate
 

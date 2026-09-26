@@ -14,7 +14,7 @@ Working product: Agent Portal with 24 limbs, Wikipedia search, URL prefetch, SOU
 ## Always
 
 - Inline CSS/JS on `GET /` so the browser cannot mix old `app.js` with new HTML.
-- BAT: `I:\E Drive\lygo-protocol-stack\lygo_llm_console\LYGO_LLM_CONSOLE.bat` (Desktop trampoline OK).
+- BAT: `LYGO_LLM_CONSOLE.bat` in the kit root (drive-portable, `%~dp0`; a desktop shortcut is fine).
 - Tests: `python -m unittest discover -s tests -v`
 - Loopback bind `127.0.0.1`; `AUTH_REQUIRED` only with `--lan --i-consent`.
 - P0 blocks `format c:`, diskpart, OS wipe.

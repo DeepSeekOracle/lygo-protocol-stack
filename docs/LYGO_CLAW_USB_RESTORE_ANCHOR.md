@@ -70,7 +70,7 @@ LYGO is the overarching "rep" (representation + repo + resonance protocol) for t
   - Wrapped gateway engine under `tools\lygo-gateway\` (lygo.mjs entry + full dist with control-ui).
   - Dashboards speak pure LYGO: `dashboard\lygo-claw.html` (simple WS sovereign client) + `control-ui\` (full rebranded interface).
   - Gateway always on 18789 with strict LYGO origins (null, file:, *, localhost) + insecure auth bypass for USB file:// use.
-  - Token: "lygo-usb-standalone-token".
+  - Token: `gateway.auth.token` in `lygo-claw/lygo.json` (set per stick; not published).
   - Master flow: `LYGO_CLAW_Launch.bat` → titled "LYGO Ollama" + "LYGO CLAW Gateway" windows → dashboards auto-open.
   - No global C: leaks, no onboarding/doctor, no OpenClaw windows or commands.
 - **Representation in Code, Agents, and Responses**:
@@ -140,7 +140,7 @@ This is the **LYGO CLAW Standalone USB** (also called LYGO_BUILDER_KEY on E:).
 - `lygo-claw\lygo.json` — The active config (renamed from any openclaw.json).
   - Critical: `"allowedOrigins": ["null", "file:", "*", "http://localhost:18789", "http://127.0.0.1:18789"]`
   - `"allowInsecureAuth": true`
-  - `"token": "lygo-usb-standalone-token"`
+  - `"token": "<token>"`  (in `lygo-claw/lygo.json`; set per stick)
   - `"model": "ollama/qwen2.5:3b"`
   - `"port": 18789
 - `lygo-data\` — Redirected home for the process (HOME, USERPROFILE, APPDATA, LOCALAPPDATA point here). Prevents C:\Users\justi\.openclaw state.

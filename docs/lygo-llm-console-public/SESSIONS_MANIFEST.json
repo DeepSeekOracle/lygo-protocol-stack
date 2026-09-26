@@ -1,0 +1,196 @@
+{
+  "signature": "\u03949\u03a6963-LYGO-SESSIONS-v1",
+  "name": "LYGO LLM Console - session vault (session history, catalog, long-term continuity)",
+  "written_iso": "2026-09-19T15:15:00-06:00",
+  "status": "installed_and_tested_not_yet_boot_verified",
+  "builds_on": "\u03949\u03a6963-LYGO-COMPACTION-v1",
+  "purpose": "A finished conversation is filed, labelled, indexed, zipped and findable again - by the operator and by the agent - so 'New session' can never cost the chat it wipes, and a thread can be reopened months later with its context carried forward.",
+  "module": "src/sessions.py",
+  "entry_points": {
+    "module": [
+      "vault_live",
+      "vault_session",
+      "adopt",
+      "catalog",
+      "find_session",
+      "open_session",
+      "label",
+      "search",
+      "resume",
+      "stats",
+      "rebuild_catalog_md",
+      "safe_*"
+    ],
+    "routes_get": [
+      "/api/sessions",
+      "/api/sessions?stats=1",
+      "/api/sessions?sid=<id>",
+      "/api/sessions?q=<filter>",
+      "/api/sessions?search=1&q=<phrase>"
+    ],
+    "routes_post": {
+      "/api/sessions": [
+        "catalog",
+        "stats",
+        "open",
+        "vault",
+        "vault_live",
+        "adopt",
+        "label",
+        "search",
+        "resume",
+        "rebuild",
+        "transcript"
+      ],
+      "/api/session": [
+        "new (now reports where the chat was filed)"
+      ]
+    },
+    "limbs": [
+      "session_list",
+      "session_open",
+      "session_search",
+      "session_label",
+      "session_resume"
+    ],
+    "panel": [
+      "vault-list",
+      "vault-q+vault-search",
+      "vault-file",
+      "vault-adopt",
+      "vault-refresh",
+      "vault-resume",
+      "vault-label",
+      "vault-close"
+    ]
+  },
+  "layout": {
+    "vault": "save/vault/<year>/<month>/<session-id>-<title-slug>/",
+    "per_session_files": [
+      "session.json",
+      "transcript.md",
+      "turns.jsonl",
+      "digest.md",
+      "session.zip"
+    ],
+    "machine_index": "save/vault/catalog.jsonl (append-only)",
+    "human_index": "save/vault/CATALOG.md (regenerated)"
+  },
+  "invariants": [
+    "nothing is deleted: filing copies, it never moves or removes",
+    "the journal and the legacy session files stay exactly where they were",
+    "filing twice replaces the catalog line instead of duplicating it",
+    "every zip is reopened, CRC-checked and compared byte-for-byte before a session is called filed",
+    "session folders are <id>-<slug>: prefix-matchable by id, readable by title",
+    "a filed session always carries a digest built without an LLM call",
+    "reopening files the conversation being interrupted first",
+    "a broken vault answers sessions_unavailable and never raises into a turn or a boot"
+  ],
+  "evidence": {
+    "tests_total": 496,
+    "tests_pc": "496 OK in 47.967s",
+    "tests_stick": "496 OK in 50.523s",
+    "new_this_build": 41,
+    "new_test_files": {
+      "tests/test_sessions.py": 35,
+      "tests/test_record_e2e.py (+6)": 6
+    },
+    "real_run_pc": {
+      "sessions": 21,
+      "turns": 214,
+      "zip_bytes": 43163,
+      "vault_files": 87,
+      "live_session": "20260919-141200-ccec (102 turns)"
+    },
+    "real_run_stick": {
+      "sessions": 2,
+      "turns": 60,
+      "zip_bytes": 2695,
+      "vault_files": 12,
+      "live_session": "20260919-141729-7fd3 (56 turns)"
+    },
+    "skipped": {
+      "session-1789704230.json": "held 0 messages - nothing to file"
+    },
+    "hashes": "both installs byte-identical for every file below"
+  },
+  "defects_found_and_fixed": [
+    "the record state schema keeps only declared keys, so resume lineage and the last-filed report were written and silently dropped on read -> keys declared, state read back after write",
+    "digest.md was a 26-byte stub because build_carry() reads rollups a live conversation has not produced yet -> _digest_for() builds the thread from the turns",
+    "the panel's Find box and the route disagreed (hits vs catalog rows) -> ?q= filters the catalog, ?search=1&q= searches transcripts, the panel renders both and falls back",
+    "the e2e harness redirected the record's dirs but not the vault's -> it now sandboxes the vault too, so a test can never file into the operator's vault"
+  ],
+  "roadmap": [
+    "boot-verify the USB stick against this build",
+    "hand seal() straight into the vault month folders instead of a flat save/archive",
+    "fold the stick's pre-vault current.json in through adopt once the first new session is started"
+  ],
+  "no_push_to": [
+    "github",
+    "huggingface",
+    "clawhub",
+    "any social surface"
+  ],
+  "files": [
+    {
+      "path": "src/sessions.py",
+      "sha256_16": "cabcca8f5817e086",
+      "bytes": 40343
+    },
+    {
+      "path": "src/compaction.py",
+      "sha256_16": "7da2ad643a9a1455",
+      "bytes": 79775
+    },
+    {
+      "path": "src/server.py",
+      "sha256_16": "6699ec7f88921d59",
+      "bytes": 154869
+    },
+    {
+      "path": "src/continuity.py",
+      "sha256_16": "ac26012d6a963b35",
+      "bytes": 17985
+    },
+    {
+      "path": "src/limbs.py",
+      "sha256_16": "42a4abf51636a25a",
+      "bytes": 90673
+    },
+    {
+      "path": "src/chat_loop.py",
+      "sha256_16": "2c8c72809a963885",
+      "bytes": 84860
+    },
+    {
+      "path": "portal/app.js",
+      "sha256_16": "df2e209082bf1cea",
+      "bytes": 152609
+    },
+    {
+      "path": "portal/index.html",
+      "sha256_16": "79a27f98fb08aa50",
+      "bytes": 27348
+    },
+    {
+      "path": "tests/test_sessions.py",
+      "sha256_16": "86419ec7631f4a3c",
+      "bytes": 21291
+    },
+    {
+      "path": "tests/test_record_e2e.py",
+      "sha256_16": "19dbdaf7b237c9ea",
+      "bytes": 13311
+    },
+    {
+      "path": "SESSIONS.md",
+      "sha256_16": "2cbbcc8c403b1f28",
+      "bytes": 12766
+    }
+  ],
+  "rebrand_refresh_iso": "2026-09-25T21:39:40-06:00",
+  "rebrand_refresh_note": "1.5.6: the RAG index write no longer races itself (per-write temp name + a write lock); proved by reproduction at 8, 10 and 24 threads",
+  "rebrand_refresh_files": [
+    "portal/app.js"
+  ]
+}

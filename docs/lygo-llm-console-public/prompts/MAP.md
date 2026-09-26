@@ -4,7 +4,7 @@ You are on a **public** LYGO LLM Console. The operator maps folders. Do not inve
 
 Default scan roots (until they add more):
 - `models/` inside this kit
-- `%USERPROFILE%\.ollama\models` (read-only import if present)
+- the model vault (`LYGO_MODELS`, `I:\LYGO_MODELS` on this PC); an Ollama folder only if the operator maps it
 
 **Workspace panel:** left rail → Add access. That is how extra folders/drives join the brain.
 

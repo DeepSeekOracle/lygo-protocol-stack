@@ -45,6 +45,46 @@ PORT = int(os.environ.get("LYGO_AGENT_PORT", "9631"))
 HOST = os.environ.get("LYGO_AGENT_HOST", "127.0.0.1")
 SERVER_SIG = "Delta9Phi963-LYGO-USB-AGENT-SERVER-v1.3-public"
 
+# The standalone token the stick ships with, so a fresh stick can open its own control UI without a
+# setup step. It is a PUBLISHED default, and that is only safe while the gateway is bound to
+# loopback - see the guard in main(). Point it at a real one with LYGO_CLAW_TOKEN, or with
+# gateway.auth.token in this stick's lygo-claw/lygo.json.
+DEFAULT_GATEWAY_TOKEN = "lygo-usb-standalone-token"
+TOKEN_ENV_NAMES = ("LYGO_CLAW_TOKEN", "LYGO_GATEWAY_TOKEN")
+PLACEHOLDER_TOKENS = {"", "replace_me", "replace_me_on_install", "change_me", "your-token-here"}
+CONFIG_REL = Path("lygo-claw") / "lygo.json"
+
+
+def _config_token() -> str:
+    """gateway.auth.token from this stick's own config, or "" when it is absent or unreadable."""
+    try:
+        cfg = json.loads((USB_ROOT / CONFIG_REL).read_text(encoding="utf-8"))
+        tok = str(cfg.get("gateway", {}).get("auth", {}).get("token", "") or "")
+    except (OSError, ValueError, AttributeError):
+        return ""
+    return tok.strip()
+
+
+def gateway_token() -> str:
+    """env -> this stick's config -> the shipped default. Never yields an empty token in a URL."""
+    for name in TOKEN_ENV_NAMES:
+        tok = os.environ.get(name, "").strip()
+        if tok:
+            return tok
+    tok = _config_token()
+    if tok and tok.lower() not in PLACEHOLDER_TOKENS:
+        return tok
+    return DEFAULT_GATEWAY_TOKEN
+
+
+def is_loopback(host: str) -> bool:
+    return host in ("localhost", "::1") or host.startswith("127.")
+
+
+def control_ui_url() -> str:
+    return f"http://{HOST}:{PORT}/control-ui/?token={gateway_token()}"
+
+
 TASKS: list[dict[str, Any]] = []
 TASK_LOCK = threading.Lock()
 STARTED = time.time()
@@ -406,8 +446,8 @@ def system_status() -> dict[str, Any]:
             "host": f"http://{GATEWAY}",
             "ws": f"ws://{GATEWAY}",
             "reachable": gateway_up(),
-            "token": "lygo-usb-standalone-token",
-            "control_ui": f"http://{HOST}:{PORT}/control-ui/?token=lygo-usb-standalone-token",
+            "token": gateway_token(),
+            "control_ui": control_ui_url(),
         },
         "agent_ui": f"http://{HOST}:{PORT}/",
         "daemon": {
@@ -622,6 +662,14 @@ def main() -> int:
         )
         return 0
 
+    # A published default token is only acceptable on loopback: anyone who can reach the port
+    # would know it. Fail closed instead of quietly serving the control plane.
+    if not is_loopback(HOST) and gateway_token() == DEFAULT_GATEWAY_TOKEN:
+        raise SystemExit(
+            f"refusing to bind {HOST}:{PORT} with the published default gateway token - "
+            "set LYGO_CLAW_TOKEN, or gateway.auth.token in lygo-claw/lygo.json, or bind 127.0.0.1"
+        )
+
     httpd = ThreadingHTTPServer((HOST, PORT), Handler)
     print(
         json.dumps(
@@ -629,7 +677,7 @@ def main() -> int:
                 "ok": True,
                 "signature": SERVER_SIG,
                 "agent_ui": f"http://{HOST}:{PORT}/",
-                "control_ui": f"http://{HOST}:{PORT}/control-ui/?token=lygo-usb-standalone-token",
+                "control_ui": control_ui_url(),
                 "api": f"http://{HOST}:{PORT}/api/status",
                 "lattice": f"http://{HOST}:{PORT}/api/lattice",
                 "usb_root": str(USB_ROOT),

@@ -2,6 +2,7 @@ data/
 save/
 config/local.json
 config/admin.json
+config/api.json
 engine/*.exe
 engine/*.dll
 engine/*.so

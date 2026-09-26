@@ -48,6 +48,18 @@ SECRET_ASSIGN = re.compile(r"(?i)\b(api[_-]?key|secret|password|passwd|token)\b\
 # The steward's private material. The vault's own filenames are not repeated here on purpose - they
 # contain key fragments; these are the markers that show its CONTENT has leaked.
 STEWARD_MARKERS = ("supporter-codes", "pit_src", "pittmp", "RUMBLE API DATA", "NVIDIA AGENT API TEST KEY")
+# A documented default is not a credential. These are published on purpose so a fresh artifact can
+# talk to its own loopback service, and the service that owns each one refuses to bind anything but
+# loopback while it is in use. Named file+value pairs, never a pattern: a NEW hardcoded value in the
+# same file is still fatal, and so is the same value anywhere else.
+DOCUMENTED_DEFAULTS = (
+    (
+        "docs/lygo-claw-usb/scripts/lygo_usb_agent_server.py",
+        "lygo-usb-standalone-token",
+        "the stick's gateway default for a fresh USB; lygo_usb_agent_server.py refuses a non-loopback "
+        "bind while it is in use, and docs/lygo.json now ship a placeholder instead of the value",
+    ),
+)
 NOT_CONSOLE_EXT = {".gguf", ".safetensors", ".pt", ".ckpt", ".bin", ".onnx", ".mp3", ".wav", ".flac",
                    ".ogg", ".mp4", ".mkv", ".mov", ".pdf", ".zip", ".7z", ".rar", ".msi", ".exe", ".dll",
                    ".so", ".db", ".sqlite", ".iso", ".img", ".bak", ".mangled", ".pem", ".key", ".p12"}
@@ -132,8 +144,11 @@ def scrub_tree(tree: Path) -> list[str]:
             # exactly that: the local engine key is generated at boot into data/, and no literal
             # appears in the file at all. Deliberately NOT a general mixed-case allowance - a
             # mixed-case literal is still reported.
-            if re.fullmatch(r"[A-Z][A-Z0-9_]*[)\]\[.,;:0-9]*", val):
+            if re.fullmatch(r"[A-Z][A-Z0-9_]*[)\][.,;:0-9]*", val):
                 findings.append(f"NOTE ASSIGN  {rel}  ({m.group(1)}={val[:16]} = an upper-case constant, not a value)")
+                continue
+            if any(rel.as_posix() == rp and val == rv for rp, rv, _why in DOCUMENTED_DEFAULTS):
+                findings.append(f"NOTE ASSIGN  {rel}  ({m.group(1)} = a documented default, guarded)")
                 continue
             findings.append(f"ASSIGNMENT   {rel}  ({m.group(1)}={val[:4]}...)")
         code_ext = {".py", ".ps1", ".bat", ".sh", ".iss", ".md", ".txt"}

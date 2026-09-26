@@ -30,7 +30,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\sync_lattice_live_re
 | UI | URL |
 |----|-----|
 | **Agent dashboard (use this)** | http://127.0.0.1:9631/ |
-| OpenClaw control UI | http://127.0.0.1:9631/control-ui/?token=lygo-usb-standalone-token |
+| OpenClaw control UI | http://127.0.0.1:9631/control-ui/ then `?token=<token from lygo-claw/lygo.json>` |
 | Status API | http://127.0.0.1:9631/api/status |
 | Lattice API | http://127.0.0.1:9631/api/lattice |
 | Synced public JSON | http://127.0.0.1:9631/lattice/IMMUTABLE_ANCHORS.json |

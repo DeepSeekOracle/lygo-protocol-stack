@@ -35,6 +35,7 @@ from pathlib import Path
 
 STACK = Path(__file__).resolve().parents[1]
 SRC = STACK / "lygo_llm_console"
+CONSOLE_VERSION_FILE = SRC / "VERSION"
 DEST = STACK / "clawhub" / "mirrors" / "lygo-llm-console" / "kit"
 
 INCLUDE_DIRS = ("src", "portal", "web_portal", "prompts", "skills", "config")

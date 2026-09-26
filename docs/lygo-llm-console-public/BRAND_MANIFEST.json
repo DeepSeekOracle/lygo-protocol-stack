@@ -41,8 +41,8 @@
     },
     {
       "path": "README.md",
-      "sha256_16": "ced0ec28ed80746a",
-      "bytes": 4587
+      "sha256_16": "9bd0d6030bc85256",
+      "bytes": 8413
     },
     {
       "path": "READ_DISCLAIMER_FIRST.md",
@@ -51,26 +51,23 @@
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "6be667cae2b0946a",
-      "bytes": 8355
+      "sha256_16": "79a27f98fb08aa50",
+      "bytes": 27348
     },
     {
       "path": "web_portal/index.html",
-      "sha256_16": "47adc4244645edd9",
-      "bytes": 24266
+      "sha256_16": "120dbdadba578196",
+      "bytes": 24803
     },
     {
       "path": "scripts/certify_build.py",
-      "sha256_16": "a1091d0fedab9edf",
-      "bytes": 8899
+      "sha256_16": "234fffcb0611355a",
+      "bytes": 12807
     }
   ],
-  "rebrand_refresh_iso": "2026-09-19T16:32:17-06:00",
-  "rebrand_refresh_note": "line-ending-canonical identity (sha256 over LF-normalised bytes); certifier ships with an in-tree refresher",
+  "rebrand_refresh_iso": "2026-09-25T17:45:33-06:00",
+  "rebrand_refresh_note": "1.5.3: the lyric sheet speaks the engine's language - the exact YuE-shaped sheet is the box's default, # comments are read but never sung, [VERSE 1] folds onto [verse], check/convert cost nothing, and the agent writes the whole song into the box",
   "rebrand_refresh_files": [
-    "README.md",
-    "portal/index.html",
-    "web_portal/index.html",
-    "scripts/certify_build.py"
+    "portal/index.html"
   ]
 }

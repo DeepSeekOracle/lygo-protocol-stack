@@ -55,6 +55,7 @@
     fn("book_search", "Open Library book search. RESOURCE.", { q: S }, ["q"]),
     fn("pubmed", "PubMed id search. RESOURCE.", { q: S }, ["q"]),
     fn("lattice_handshake", "GET join gate + CANON JSON (anchors, star chart, agora). RESOURCE/CANON labeled.", {}),
+    fn("continuity_seed", "Load The Continuity Seed (JSON math + poem soul). RESOURCE. Hash/verify alignment.", {}),
     fn("site_card", "Title/excerpt card for a public HTTPS URL.", { url: S }, ["url"]),
     fn("whoami", "This portal identity (no secrets, no disks).", {}),
     fn("kernel_status", "Portal status: provider, skills, tool count. No secrets.", {}),
@@ -76,7 +77,7 @@
   const CORE_NAMES = {
     wiki_search: 1, fetch_page: 1, weather: 1, now: 1, calc: 1, champion: 1, hash_text: 1,
     skill_list: 1, skill_read: 1, hn_search: 1, arxiv_search: 1, github_search: 1, wayback: 1,
-    geolocate: 1, clipboard_write: 1, web_search: 1, http_json: 1, lattice_handshake: 1, whoami: 1,
+    geolocate: 1, clipboard_write: 1, web_search: 1, http_json: 1, lattice_handshake: 1, continuity_seed: 1, whoami: 1,
     world_pulse: 1,
   };
 
@@ -358,6 +359,29 @@
     if (name === "pubmed") {
       const j = await getJson("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=5&term=" + encodeURIComponent(args.q || ""));
       return { ok: true, ids: j.esearchresult && j.esearchresult.idlist, class: "RESOURCE" };
+    }
+    if (name === "continuity_seed") {
+      const seed = await getJson("https://chatagent.ca/portal/CONTINUITY_SEED.json");
+      let poem = "";
+      try { poem = await getText("https://chatagent.ca/continuity-seed/POEM.txt"); } catch (_) {}
+      const enc = new TextEncoder().encode((String(poem).replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim() + "\n"));
+      let hex = "";
+      try {
+        const buf = await crypto.subtle.digest("SHA-256", enc);
+        hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+      } catch (_) {}
+      const expect = seed.alignment_hash;
+      const match = hex && hex === expect;
+      return {
+        ok: true,
+        class: "RESOURCE",
+        status: match ? "CONTINUATION" : (hex ? "QUARANTINE" : "SHADOW"),
+        seed: seed,
+        poem: String(poem).slice(0, 2000),
+        sha256: hex,
+        alignment_match: match,
+        page: "https://chatagent.ca/continuity-seed/",
+      };
     }
     if (name === "lattice_handshake") {
       const urls = {

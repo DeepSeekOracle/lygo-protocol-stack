@@ -16,7 +16,7 @@
     "mode": "local",
     "auth": {
       "mode": "token",
-      "token": "lygo-usb-standalone-token"
+      "token": "REPLACE_ME_ON_INSTALL"
     },
     "port": 18789,
     "bind": "loopback",

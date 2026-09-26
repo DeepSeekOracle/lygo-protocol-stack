@@ -18,6 +18,11 @@ MODELS = KIT / "models"
 DATA = KIT / "data"
 CONFIG = KIT / "config"
 
+try:  # kit ports: a USB stick ships 9651/11451, never the desktop pair
+    from paths import DEFAULT_PORT  # noqa: E402
+except Exception:  # standalone copy of this file
+    DEFAULT_PORT = 9641
+
 SEED_FILES = ("SOUL.md", "IDENTITY.md", "MEMORY.md", "MAP.md", "BRAIN.md", "LINKS.md")
 ADMIN_MARKERS = (
     "LYGO" + "_" + "SERVER" + "_" + "KEYS",
@@ -90,7 +95,7 @@ def ensure_layout() -> list[str]:
     _write_if_missing(MODELS / ".gitkeep", "Put GGUF files here (or map another folder in Workspace).\n")
     _write_if_missing(
         CONFIG / "local.json.example",
-        '{\n  "scan_roots": ["./models", "%USERPROFILE%/.ollama/models"],\n'
+        '{\n  "scan_roots": ["./models"],\n'
         '  "comment": "Public kit. Add your own folders in the Workspace panel."\n}\n',
     )
     if not (CONFIG / "local.json").is_file():
@@ -107,15 +112,15 @@ def write_first_run() -> Path:
         "kit": str(KIT),
         "hint": "Scan GGUF, Boot a model, add folders in Workspace. Identity is yours — edit Soul / Identity / Memory.",
         "not": ["admin.json", "steward vaults", "GamePC drives"],
-        "portal": "http://127.0.0.1:9641/",
+        "portal": f"http://127.0.0.1:{DEFAULT_PORT}/",
     }
     p.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     (KIT / "FIRST_RUN.txt").write_text(
         "LYGO LLM Console — public kit\n\n"
         "1. This folder is yours. Soul / Identity / Memory start as public seeds.\n"
-        "2. Put GGUF files in models\\ or click Scan (also reads %USERPROFILE%\\.ollama\\models).\n"
+        "2. Put GGUF files in models\\ or click Scan. The kit boots its own engine on them - it never needs another service.\n"
         "3. Add any extra folders in the left-rail Workspace panel.\n"
-        "4. Double-click LYGO_LLM_CONSOLE.bat → http://127.0.0.1:9641/\n"
+        f"4. Double-click LYGO_LLM_CONSOLE.bat → http://127.0.0.1:{DEFAULT_PORT}/\n"
         "5. This is not the steward admin tree. No vaults shipped.\n"
         "Page: https://chatagent.ca/lygo-llm-console.html\n",
         encoding="utf-8",
@@ -163,7 +168,7 @@ def report() -> dict[str, object]:
         "python": python_ok(),
         "engine": engine_present(),
         "workspace": sorted(p.name for p in WORKSPACE.glob("*.md")),
-        "portal": "http://127.0.0.1:9641/",
+        "portal": f"http://127.0.0.1:{DEFAULT_PORT}/",
         "bat": "LYGO_LLM_CONSOLE.bat",
     }
 
@@ -188,11 +193,17 @@ def main(argv: list[str] | None = None) -> int:
         print("fetch_engine:", fetch_engine())
     elif not engine_present():
         print("engine: missing — run: powershell -File scripts\\fetch_engine.ps1")
-        print("  or put llama-server.exe in engine\\ from ggml-org CPU zip (pin b10988)")
+        print("  or put llama-server.exe in engine\\ from ggml-org CPU zip (pin b11074)")
     else:
         print("engine: llama-server.exe present")
+    from colibri import resolve_coli
+
+    if resolve_coli():
+        print("colibri: launcher present (optional MoE SSD engine)")
+    else:
+        print("colibri: optional — scripts\\fetch_colibri.ps1 (engine only, not 372GB weights)")
     print("Next: double-click LYGO_LLM_CONSOLE.bat")
-    print("Portal: http://127.0.0.1:9641/")
+    print(f"Portal: http://127.0.0.1:{DEFAULT_PORT}/")
     return 0
 
 
