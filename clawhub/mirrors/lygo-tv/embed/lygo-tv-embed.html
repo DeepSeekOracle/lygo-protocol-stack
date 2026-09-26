@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LYGO TV — live channels</title>
+<meta name="description" content="LYGO TV Ninja: live channels in one block of HTML. Rumble room first, twelve thousand channels in the pool, pulled from the LYGO catalog. MIT-0." />
+<!-- LYGO TV Ninja · Δ9Φ963 · MIT-0 · player + catalog: https://chatagent.ca/sources/ -->
+<style>
+  /* The player themes itself from these variables — set them to match your site, keep the gold. */
+  :root { --bg:#07070f; --panel:#12121f; --line:#25253a; --fg:#eef0f8; --muted:#9292a8;
+          --gold:#d4af37; --accent:#d4af37; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:22px 16px 44px; background:var(--bg); color:var(--fg);
+         font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.55; }
+  .lygo-tv-page { max-width:1000px; margin:0 auto; }
+  .brand { font-family:Georgia,"Times New Roman",serif; color:var(--gold); letter-spacing:.04em;
+           font-size:clamp(1.4rem,3vw,2rem); margin:0 0 .2rem; font-weight:500; }
+  .sig { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.66rem; letter-spacing:.16em;
+         text-transform:uppercase; color:var(--muted); margin:0 0 .9rem; }
+  .lead { color:var(--muted); font-size:.92rem; max-width:74ch; margin:0 0 1rem; }
+  .lead a, footer.credit a { color:var(--gold); }
+  footer.credit { margin-top:1.1rem; padding-top:.8rem; border-top:1px solid var(--line);
+                  color:var(--muted); font-size:.78rem; }
+</style>
+<!-- the player's stylesheet: it inherits the variables above, so it matches this page -->
+<link rel="stylesheet" href="https://chatagent.ca/assets/lygo-tv-ninja.css?v=7" />
+</head>
+<body>
+<main class="lygo-tv-page">
+  <h1 class="brand">LYGO TV</h1>
+  <p class="sig">Δ9Φ963 · live channels · Rumble default</p>
+  <p class="lead">Live rooms from the <a href="https://chatagent.ca/sources/">LYGO TV source pool</a>.
+     The first channel is the steward's Rumble room; Prev and Next walk the whole pool, and the channel list is
+     pulled straight from the LYGO catalog, so this page stays current on its own.</p>
+
+  <!-- The whole install is this one element. Add data-lygo-tv to any page and load the script below. -->
+  <div data-lygo-tv></div>
+
+  <footer class="credit">
+    Player by <a href="https://chatagent.ca/sources/">LYGO TV</a> · Δ9Φ963 · MIT-0 ·
+    <a href="https://chatagent.ca/sources/catalog.json">channel catalog</a> ·
+    support: <a href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">PayPal</a> ·
+    <a href="https://www.patreon.com/Excavationpro" rel="noopener">Patreon</a>
+  </footer>
+</main>
+<script src="https://chatagent.ca/assets/lygo-tv-ninja.js?v=7" defer></script>
+</body>
+</html>

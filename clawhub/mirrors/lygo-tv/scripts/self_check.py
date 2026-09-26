@@ -19,12 +19,18 @@ def main() -> int:
     no_net = "urllib" not in src and "requests" not in src and "http.client" not in src
     m = t.map_payload()
     u = t.urls()
+    embed = t.embed()
+    # The declared version is the one in SKILL.md: the script and the signature follow it, so a
+    # release needs the version written once. Hardcoding it here meant editing three files and
+    # forgetting one still passed.
+    found = re.search(r"(?m)^version:\s*([0-9][0-9.]*)\s*$", skill)
+    declared = found.group(1) if found else ""
     ok = (
         no_sub
         and no_net
-        and t.VERSION == "1.2.0"
-        and t.SIG == "Delta9Phi963-LYGO-TV-v1.2.0"
-        and "version: 1.2.0" in skill
+        and bool(declared)
+        and t.VERSION == declared
+        and t.SIG == "Delta9Phi963-LYGO-TV-v" + declared
         and u["player"] == "https://chatagent.ca/sources/"
         and u["catalog"].endswith("/sources/catalog.json")
         and u["terms"].endswith("/terms.html")
@@ -35,16 +41,26 @@ def main() -> int:
         and m["live_star_chart_ingest"] is False
         and "CORS or pirate proxy" in m["forbidden"]
         and t.plain().startswith("LYGO TV")
+        # the embed: the shipped snippet, the shipped files, and the fetch contract behind them
+        and u["player_js"].endswith("/assets/lygo-tv-ninja.js")
+        and u["player_css"].endswith("/assets/lygo-tv-ninja.css")
+        and "<div data-lygo-tv></div>" in embed
+        and "data-lygo-tv" in skill
+        and (ROOT / "embed" / "lygo-tv-ninja.js").is_file()
+        and (ROOT / "embed" / "lygo-tv-ninja.css").is_file()
+        and (ROOT / "embed" / "lygo-tv-embed.html").is_file()
     )
     print(
         json.dumps(
             {
                 "ok": ok,
+                "declared_in_skill_md": declared,
+                "script_version": t.VERSION,
                 "signature": t.SIG,
-                "version": t.VERSION,
                 "no_subprocess": no_sub,
                 "no_network_imports": no_net,
                 "player": u["player"],
+                "embed_assets_present": (ROOT / "embed" / "lygo-tv-ninja.js").is_file(),
                 "emblem_file": (ROOT / "emblem.svg").is_file(),
             },
             indent=2,

@@ -8,8 +8,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-SIG = "Delta9Phi963-LYGO-TV-v1.2.0"
-VERSION = "1.2.0"
+SIG = "Delta9Phi963-LYGO-TV-v1.3.0"
+VERSION = "1.3.0"
 
 TV = "https://chatagent.ca/sources/"
 CATALOG = "https://chatagent.ca/sources/catalog.json"
@@ -23,6 +23,14 @@ WITNESS = "https://chatagent.ca/witness/"
 LISTEN = "https://asiancoastline.com/listen.html"
 CLAWHUB = "https://clawhub.ai/deepseekoracle/skills/lygo-tv"
 INSTALL = "npx clawhub@latest install deepseekoracle/lygo-tv"
+PLAYER_JS = "https://chatagent.ca/assets/lygo-tv-ninja.js"
+PLAYER_CSS = "https://chatagent.ca/assets/lygo-tv-ninja.css"
+# the snippet carries a version query so a page can be told to move to a new player; the canonical
+# URLs above stay clean, and the check below compares against those.
+PLAYER_TAG = "?v=7"
+EMBED_PAGE = "embed/lygo-tv-embed.html"
+VENDORED_JS = "embed/lygo-tv-ninja.js"
+VENDORED_CSS = "embed/lygo-tv-ninja.css"
 PAYPAL = "https://www.paypal.com/paypalme/ExcavationPro"
 PATREON = "https://www.patreon.com/Excavationpro"
 RUMBLE = "https://rumble.com/register/Excavationpro/"
@@ -45,6 +53,8 @@ def urls() -> dict[str, str]:
         "stack_mirror": STACK,
         "witness": WITNESS,
         "listen": LISTEN,
+        "player_js": PLAYER_JS,
+        "player_css": PLAYER_CSS,
         "clawhub": CLAWHUB,
         "install": INSTALL,
         "paypal": PAYPAL,
@@ -95,6 +105,26 @@ def plain() -> str:
     )
 
 
+def embed() -> str:
+    """The whole install: one stylesheet, one element, one script. Printed, never fetched."""
+    return "\n".join(
+        [
+            "<!-- LYGO TV Ninja · \u03949\u03a6963 · MIT-0 · channel feed: " + CATALOG + " -->",
+            '<link rel="stylesheet" href="' + PLAYER_CSS + PLAYER_TAG + '">',
+            "<div data-lygo-tv></div>",
+            '<script src="' + PLAYER_JS + PLAYER_TAG + '" defer></script>',
+            "",
+            "Opens on the steward's Rumble room (rumble_live). Prev/Next walk the pool of about",
+            "12,000 channels, pulled in the visitor's browser from the catalog above. Nothing is",
+            "proxied and nothing is stored.",
+            "",
+            "A whole branded page: " + EMBED_PAGE,
+            "Self-hosted copies of the player: " + VENDORED_JS + " + " + VENDORED_CSS,
+            "Sound starts off until the visitor presses Sound \u2014 that is the browser's autoplay rule.",
+        ]
+    )
+
+
 def donate() -> dict[str, str]:
     return {"paypal": PAYPAL, "patreon": PATREON, "rumble_join": RUMBLE}
 
@@ -105,7 +135,7 @@ def main(argv: list[str] | None = None) -> int:
         "cmd",
         nargs="?",
         default="plain",
-        choices=("plain", "urls", "map", "demo", "donate", "bookmark"),
+        choices=("plain", "urls", "map", "demo", "donate", "bookmark", "embed"),
     )
     args = p.parse_args(argv)
     if args.cmd == "plain":
@@ -113,6 +143,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.cmd == "urls":
         print(json.dumps(urls(), indent=2))
+        return 0
+    if args.cmd == "embed":
+        sys.stdout.write(embed() + "\n")
         return 0
     if args.cmd == "donate":
         print(json.dumps(donate(), indent=2))
