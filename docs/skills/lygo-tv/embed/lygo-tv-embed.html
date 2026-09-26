@@ -4,10 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LYGO TV — live channels</title>
-<meta name="description" content="LYGO TV Ninja: live channels in one block of HTML. Rumble room first, twelve thousand channels in the pool, pulled from the LYGO catalog. MIT-0." />
-<!-- LYGO TV Ninja · Δ9Φ963 · MIT-0 · player + catalog: https://chatagent.ca/sources/ -->
+<meta name="description" content="LYGO TV Ninja: live channels in one block of HTML. Rumble room first, channels taken from the public LYGO catalog. MIT-0." />
 <style>
-  /* The player themes itself from these variables — set them to match your site, keep the gold. */
   :root { --bg:#07070f; --panel:#12121f; --line:#25253a; --fg:#eef0f8; --muted:#9292a8;
           --gold:#d4af37; --accent:#d4af37; }
   * { box-sizing:border-box; }
@@ -19,12 +17,16 @@
   .sig { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.66rem; letter-spacing:.16em;
          text-transform:uppercase; color:var(--muted); margin:0 0 .9rem; }
   .lead { color:var(--muted); font-size:.92rem; max-width:74ch; margin:0 0 1rem; }
-  .lead a, footer.credit a { color:var(--gold); }
+  .lead a, footer.credit a, .disclosure a { color:var(--gold); }
+  .disclosure { margin:1.1rem 0 0; padding:.7rem .85rem; border:1px solid var(--line); border-radius:10px;
+                background:rgba(255,255,255,.03); color:var(--muted); font-size:.8rem; max-width:80ch; }
+  .disclosure h2 { margin:0 0 .35rem; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+                   color:var(--gold); font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+  .disclosure ul { margin:.3rem 0 0; padding-left:1.1rem; }
   footer.credit { margin-top:1.1rem; padding-top:.8rem; border-top:1px solid var(--line);
                   color:var(--muted); font-size:.78rem; }
 </style>
-<!-- the player's stylesheet: it inherits the variables above, so it matches this page -->
-<link rel="stylesheet" href="https://chatagent.ca/assets/lygo-tv-ninja.css?v=7" />
+<link rel="stylesheet" href="https://chatagent.ca/assets/lygo-tv-ninja.css?v=8" />
 </head>
 <body>
 <main class="lygo-tv-page">
@@ -32,10 +34,28 @@
   <p class="sig">Δ9Φ963 · live channels · Rumble default</p>
   <p class="lead">Live rooms from the <a href="https://chatagent.ca/sources/">LYGO TV source pool</a>.
      The first channel is the steward's Rumble room; Prev and Next walk the whole pool, and the channel list is
-     pulled straight from the LYGO catalog, so this page stays current on its own.</p>
+     taken from the public LYGO catalog, so this page stays current on its own.</p>
 
-  <!-- The whole install is this one element. Add data-lygo-tv to any page and load the script below. -->
   <div data-lygo-tv></div>
+
+  <section class="disclosure" aria-label="What this player loads">
+    <h2>What this player loads</h2>
+    <p>This is not an offline widget. Visitors to this page run code and load data from outside it:</p>
+    <ul>
+      <li><strong>chatagent.ca</strong> — the player script and stylesheet, and the channel catalog at
+        <a href="https://chatagent.ca/sources/catalog.json">/sources/catalog.json</a>. Those files can change
+        after you review them; this page follows that host by design.</li>
+      <li><strong>cdn.jsdelivr.net</strong> — hls.js 1.5.18, loaded only if an HLS channel is played, pinned
+        with Subresource Integrity. Every other channel type skips it.</li>
+      <li><strong>rumble.com, player.kick.com, player.twitch.tv, youtube-nocookie.com</strong> — whichever
+        platform the current channel belongs to, as that platform's own embed.</li>
+      <li><strong>the HLS stream's host</strong> — if a channel is a plain stream, the video element pulls it
+        directly from the host that the catalog names.</li>
+    </ul>
+    <p>Catalog entries are URL-checked before anything is framed or played: https only, no credentials, and an
+      embed must sit on its own platform's domain. Prefer not to depend on our files? Self-host the player and
+      pin the catalog — see <code>embed/README.md</code>.</p>
+  </section>
 
   <footer class="credit">
     Player by <a href="https://chatagent.ca/sources/">LYGO TV</a> · Δ9Φ963 · MIT-0 ·
@@ -44,6 +64,6 @@
     <a href="https://www.patreon.com/Excavationpro" rel="noopener">Patreon</a>
   </footer>
 </main>
-<script src="https://chatagent.ca/assets/lygo-tv-ninja.js?v=7" defer></script>
+<script src="https://chatagent.ca/assets/lygo-tv-ninja.js?v=8" defer></script>
 </body>
 </html>

@@ -8,8 +8,8 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-SIG = "Delta9Phi963-LYGO-TV-v1.3.0"
-VERSION = "1.3.0"
+SIG = "Delta9Phi963-LYGO-TV-v1.3.1"
+VERSION = "1.3.1"
 
 TV = "https://chatagent.ca/sources/"
 CATALOG = "https://chatagent.ca/sources/catalog.json"
@@ -22,12 +22,16 @@ STACK = "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/fr
 WITNESS = "https://chatagent.ca/witness/"
 LISTEN = "https://asiancoastline.com/listen.html"
 CLAWHUB = "https://clawhub.ai/deepseekoracle/skills/lygo-tv"
-INSTALL = "npx clawhub@latest install deepseekoracle/lygo-tv"
+# Pinned twice over: the CLI that was verified with this package, and this package's own version. A
+# A floating version on either side runs whatever is published at install time, which is the supply-chain
+# finding the ClawHub audit raised (RP1).
+CLI_PIN = "0.23.3"
+INSTALL = "npx clawhub@" + CLI_PIN + " install deepseekoracle/lygo-tv@" + VERSION
 PLAYER_JS = "https://chatagent.ca/assets/lygo-tv-ninja.js"
 PLAYER_CSS = "https://chatagent.ca/assets/lygo-tv-ninja.css"
 # the snippet carries a version query so a page can be told to move to a new player; the canonical
 # URLs above stay clean, and the check below compares against those.
-PLAYER_TAG = "?v=7"
+PLAYER_TAG = "?v=8"
 EMBED_PAGE = "embed/lygo-tv-embed.html"
 VENDORED_JS = "embed/lygo-tv-ninja.js"
 VENDORED_CSS = "embed/lygo-tv-ninja.css"
@@ -109,7 +113,7 @@ def embed() -> str:
     """The whole install: one stylesheet, one element, one script. Printed, never fetched."""
     return "\n".join(
         [
-            "<!-- LYGO TV Ninja · \u03949\u03a6963 · MIT-0 · channel feed: " + CATALOG + " -->",
+            "<!-- LYGO TV Ninja · \u03949\u03a6963 · MIT-0 · " + TV + " -->",
             '<link rel="stylesheet" href="' + PLAYER_CSS + PLAYER_TAG + '">',
             "<div data-lygo-tv></div>",
             '<script src="' + PLAYER_JS + PLAYER_TAG + '" defer></script>',
@@ -117,6 +121,11 @@ def embed() -> str:
             "Opens on the steward's Rumble room (rumble_live). Prev/Next walk the pool of about",
             "12,000 channels, pulled in the visitor's browser from the catalog above. Nothing is",
             "proxied and nothing is stored.",
+            "",
+            "What the visitor's browser then contacts: chatagent.ca (player assets + catalog.json),",
+            "cdn.jsdelivr.net only if an HLS channel plays (hls.js, SRI-pinned), and whichever platform",
+            "embed the channel belongs to. Catalog URLs are https-checked and embed hosts are pinned",
+            "before anything is framed or played. See embed/README.md before pasting it anywhere.",
             "",
             "A whole branded page: " + EMBED_PAGE,
             "Self-hosted copies of the player: " + VENDORED_JS + " + " + VENDORED_CSS,
