@@ -142,3 +142,7 @@ a.lyg-open::after {
   border-radius: 999px;
 }
 #lygOpenBar button:hover { border-color: var(--gold, #d4af37); color: var(--gold, #d4af37); }
+
+/* #lygOpenBar.lyg-bar sets display:flex, which out-specifies the browser's [hidden] rule — without
+   this the bar would sit there even while locked. */
+#lygOpenBar[hidden] { display: none !important; }
