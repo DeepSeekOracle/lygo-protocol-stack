@@ -28,7 +28,7 @@
   "use strict";
 
   var UNLOCK_STORE = "lygo_portal_supporter";     // the portal's key: one unlock, whole site
-  var GATE_VERSION = "2026-09-26";
+  var GATE_VERSION = "2026-09-26b";
   var PATREON = "https://www.patreon.com/Excavationpro/posts/lygo-supporter-170485961";
   var PAYPAL = "https://www.paypal.com/paypalme/ExcavationPro";
   var VAULT = "huggingface.co/DeepSeekOracle/lygo-console-builds/";
@@ -38,6 +38,11 @@
      hosts or the vault, and only for real artifacts, so a README or a note is never gated. */
   var ARTIFACT = /\.(exe|bin|zip|7z|dmg|iso|msi|tar|gz|whl|pkg)($|[?#])/i;
   var ARTIFACT_HOSTS = ["deepseekoracle.github.io/", "chatagent.ca/", "huggingface.co/DeepSeekOracle/"];
+  /* A "Download kit" button sometimes points at a repository or a downloads folder instead of a
+     file, and those hand over everything inside them — so they are the same offer. Docs stay free:
+     reading a note is not taking the build. */
+  var DOC_TAIL = /\.(txt|md|pdf|html?|json|csv|png|jpe?g|svg)($|[?#])/i;
+  var FOLDER_HOSTS = ["deepseekoracle.github.io/Excavationpro/downloads", "chatagent.ca/downloads"];
 
 /* @supporter-hashes:start */
   var CODE_HASHES = [
@@ -163,6 +168,14 @@
         if (h.indexOf(ARTIFACT_HOSTS[i]) !== -1) return true;
       }
     }
+    if (DOC_TAIL.test(h)) return false;                  // a note or a page: reading, not taking
+    if (h.indexOf("huggingface.co/") !== -1 && h.indexOf("/DeepSeekOracle/") !== -1 &&
+        h.indexOf("/blob/") === -1 && h.indexOf("/spaces/") === -1) {
+      return true;                                       // the project's repo roots, trees, files
+    }
+    for (i = 0; i < FOLDER_HOSTS.length; i++) {
+      if (h.indexOf(FOLDER_HOSTS[i]) !== -1) return true; // a downloads folder, not one file
+    }
     return false;
   }
   function anchorOf(node) {
@@ -191,8 +204,10 @@
       a.setAttribute("data-lyg-gated", "1");
       if (on) {
         a.classList.remove("lyg-locked");
+        a.classList.add("lyg-open");                 // open, but visibly open
         a.removeAttribute("title");
       } else {
+        a.classList.remove("lyg-open");
         a.classList.add("lyg-locked");
         a.setAttribute("title", "Supporter code required — this month's code is in the Patreon member section");
       }
@@ -208,6 +223,9 @@
     qsa("[data-lyg-gate-open]").forEach(function (n) {
       n.textContent = on ? "Supporter state" : "I have a code";
     });
+    /* While a code is active, say so where nobody can miss it: a visitor who unlocked once has to
+       be able to tell why no button is asking, and lock it again in one press. */
+    buildBar().hidden = !on;
     try { d.dispatchEvent(new CustomEvent("lygo-supporter", { detail: st })); } catch (_) {}
   }
 
@@ -381,6 +399,24 @@
         t = g.setTimeout(function () { t = null; paint(); }, 150);
       }).observe(d.body, { childList: true, subtree: true });
     }
+  }
+
+  var bar = null;
+  function buildBar() {
+    if (bar) return bar;
+    bar = d.createElement("div");
+    bar.id = "lygOpenBar";
+    bar.className = "lyg-bar";
+    bar.hidden = true;
+    bar.innerHTML =
+      '<span class="lyg-bar-text"><strong>Supporter code active in this browser</strong> \u2014 every ' +
+      'download button on this site is open. Rotate month to month: <a href="' + PATREON +
+      '" target="_blank" rel="noopener">this month\u2019s code</a>.</span>' +
+      '<button type="button" id="lygBarRelock" data-lyg-gate-relock>Lock again</button>';
+    d.body.appendChild(bar);
+    var b = el("lygBarRelock");
+    if (b) b.addEventListener("click", function (e) { e.preventDefault(); relock(); });
+    return bar;
   }
 
   function relock() { drop(UNLOCK_STORE); paint(); }

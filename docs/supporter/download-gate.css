@@ -116,3 +116,29 @@ a.lyg-locked { position: relative; }
 @media (prefers-reduced-motion: reduce) {
   .lyg-btn { transition: none; }
 }
+
+/* An unlocked browser says so: the badge on each button flips to "unlocked", and a slim bar keeps
+   the state and a one-press relock in view. Without this, an unlocked visitor sees plainly
+   unlocked-looking buttons and reasonably concludes the gate is missing. */
+a.lyg-open::after {
+  content: "\2713 unlocked";
+  display: inline-block; margin-left: 0.45rem; padding: 0.06rem 0.42rem;
+  font-family: var(--lyg-mono, ui-monospace, monospace); font-size: 0.62em;
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  color: #7fe3a0; border: 1px solid currentColor; border-radius: 999px;
+  vertical-align: 0.12em;
+}
+#lygOpenBar.lyg-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 2147483000;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: center;
+  padding: 0.55rem 0.9rem; font-size: 0.82rem; line-height: 1.35; text-align: center;
+  background: rgba(8, 10, 20, 0.97); color: #eef0f8;
+  border-top: 1px solid rgba(212, 175, 55, 0.55); box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+}
+#lygOpenBar a { color: var(--gold, #d4af37); }
+#lygOpenBar button {
+  padding: 0.3rem 0.7rem; font: inherit; font-size: 0.78rem; cursor: pointer;
+  color: #eef0f8; background: transparent; border: 1px solid rgba(238, 240, 248, 0.45);
+  border-radius: 999px;
+}
+#lygOpenBar button:hover { border-color: var(--gold, #d4af37); color: var(--gold, #d4af37); }
