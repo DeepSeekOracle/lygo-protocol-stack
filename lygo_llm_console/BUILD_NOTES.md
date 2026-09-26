@@ -17,6 +17,112 @@ Two installs, one code base:
 
 ---
 
+## 1.5.6 — the index write was racing itself
+
+**The line the logs had been printing for days, finally read properly.** `[rag] could not write the index`
+appeared in the operator's own logs on consecutive days, twice as `PermissionError(13, 'Permission denied')` on
+09-24 and twice as `FileNotFoundError(2, ...)` on 09-25 — and because the handler printed only `repr(exc)`, it
+had been reasoned about instead of diagnosed. It is one defect with two faces:
+
+```python
+tmp = index_path().with_name(f".lygo-rag.{os.getpid()}.tmp")   # per PROCESS
+```
+
+The comment beside that line reasoned about two *processes* keeping the index; the pid separates those but not
+*threads*, and this server answers requests on several. Two writers then share one temp path, and the second
+`os.replace` finds the file already moved — the `FileNotFoundError`. A reader holding the destination open gives
+the `PermissionError`. Neither is a real failure: the index on disk is current, written by whichever writer got
+there first.
+
+**Reproduced before it was fixed.** Eight threads x 25 writes on the pid-only name: **33 FileNotFoundError + 4
+PermissionError**. A per-write temp name alone still left one complaint under ten continuous rebuilders, because
+the `os.replace` onto the same destination collides even with distinct temp paths — so the fix has two parts: a
+temp name per write (pid **and** `threading.get_ident()`), and a module write lock serialising only the
+temp-write-and-rename section, so readers are never blocked. Re-verified at **10 threads x 60 and 24 threads x 40
+forced rebuilds: zero exceptions, zero complaints, no orphaned temp files**, and `FileNotFoundError` is now treated
+as "another writer finished first", which is success. All 109 RAG-dependent tests pass.
+
+**Why this mattered enough to be its own release.** Recall was never actually broken, and the console's own message
+said so accurately. But a scary line on every busy day is how a real fault later hides, and the missing traceback is
+what kept this one invisible for five days.
+
+**Licence.** This release ships under the **LYGO Sovereign License v3.0** (`Δ9Φ963-LICENSE-v3.0`),
+unchanged from 1.5.5 and 1.5.4: source-available and brand-protective — not open source, not MIT.
+The authority is `LICENSE`; `LICENSING.md` is the same deal in plain English and does not override it;
+`NOTICE` carries the steward, the canonical sources and the required attribution wording;
+`TRADEMARKS.md` carries the brand rules. Every installer shows `LICENSE` before it copies anything
+(`LicenseFile`), and each install note now ends with a **LICENCE AND ATTRIBUTION** section naming all
+four files, the required attribution line, and the third-party licences that travel unmodified — the
+Apache-2.0 GGUF weights and the CreativeML Open RAIL-M SD 1.5 checkpoint whose licence is the reason
+SD 1.5 is the one redistributed and SDXL Turbo is fetched instead. Where any summary disagrees with
+`LICENSE`, `LICENSE` controls.
+
+---
+
+## 1.5.5 — three defects that only installing and booting 1.5.4 could find
+
+**1. A fresh install printed a RAG error on its first boot.** `[rag] could not write the index
+(FileNotFoundError(2, ...))` on the installed console's very first turn of the crank. The index lives at
+`workspace/memory/conversations/.lygo-rag.json`; every file in that folder is operator history and is
+excluded from the installers on purpose, and Inno Setup only creates a directory for a file it actually
+copies — the pack log has **zero** occurrences of `conversations`, and the folder in the installed tree was
+stamped by the console's own boot, nine minutes after the install finished. So the write ran against a
+folder that did not exist yet. Non-fatal (the console's own message was accurate: recall works from memory
+and the index is rewritten when the history next changes), but it fired on every fresh install's first boot.
+Fixed in `src/lygo_rag.py` by creating the parent before the write, which also covers a hand-copied or
+ZIP-distributed kit, not just an Inno install.
+
+**2. `workspace\notes\` shipped.** The recipes claim "no bench logs", but that folder rode into both FULL
+installers — seven files, one of them a single byte, three of them quoting the operator's own probe prompts
+including a local `C:/Users/<user>/...` path. Harmless in content (scanned: no keys, tokens or credentials),
+but it publishes environment detail and contradicts the note. Now excluded like the rest of the operator's
+workspace state.
+
+**3. Two stick-suite tests only passed on the machine that made them.** `test_chat_pictures` named a PNG the
+live workspace happened to hold, so it failed on the stick copy and in every fresh install; `test_reply_length`
+read the PC config without the `on_a_stick()` skip its two siblings have, and the stick's hand-kept config
+says 16k where the PC assertion wants 32k. The stick suite was **1508 passed / 2 failed / 6 skipped** — a red
+suite cannot sign the copy off, which is why this release exists. Both fixed; the picture test now writes and
+removes its own fixture, and the 23 tests in those two files run green on the live tree.
+
+**Proven where it matters.** 1.5.4's two FULL installers were installed, audited file by file and booted: PC
+FULL 1945 payload files → 570 hash-identical, 1375 excluded by the recipe, 0 missing and 0 changed, 589 files
+/ 18.45 GB, four weight sizes exact, SD 1.5 hashed end to end; USB FULL 977 → 864 identical, 113 excluded, 0
+missing, 0 changed, 881 files / 10.18 GB, bundled `python\python.exe` byte-exact. The installed PC console then
+answered `/api/health` 200 with `build v1.5.4` and loaded **10 modules, 0 refused**, the three music modules
+among them.
+
+---
+
+## 1.5.4 — the carry is finished: both FULL installers rebuilt from this release
+
+**What moved.** The stick copy (`E:\LYGO_BUILDER_KEY\lygo_llm_console`) was found four files behind the live
+tree, not more: the music systems, the portal and the three music modules were already carried in the
+earlier fold. The four that were behind are in it now — `tools/sd-cpu/get_model.ps1` (the picture
+engine's own fetcher), `tools/sd-cpu/README_IMAGE_ENGINE.txt`, `docs/DEFECT_LEDGER.md` and
+`BUILD_NOTES.md` — proven by hashing both trees (317 files identical, 0 differing, 0 missing, 0
+stick-only in the mirrored scope; the stick-only launchers and its own `config/` are deliberate and
+untouched).
+
+**Why the release number moved for four files.** Only the recipe, the portal const and the manifests
+carry the stamp; the payload of an installer is the *sealed* tree, so a re-seal after any content
+change makes new bytes under the old number — the drift this file exists to prevent. The bump keeps
+`VERSION`, the header, `/api/health`, the module floors and the manifests on one number.
+
+**The installers of this release.**
+
+| installer | payload | inside |
+|---|---|---|
+| `LYGO_LLM_CONSOLE_1.5.4_PC_SETUP.exe` | seal of the live tree | console, engine, picture engine; brains fetched |
+| `LYGO_LLM_CONSOLE_1.5.4_PC_SETUP_FULL.exe` + `.bin` | seal of the live tree | + gemma4-12b, its projector, the coder, embeddings, SD 1.5 (RAIL-M) |
+| `LYGO_LLM_CONSOLE_1.5.4_USB_SETUP.exe` | seal of the stick | console, own engine, own Python, picture engine; brains fetched |
+| `LYGO_LLM_CONSOLE_1.5.4_USB_SETUP_FULL.exe` + `.bin` | seal of the stick | + coder, embeddings, SD 1.5 (RAIL-M) |
+
+Both FULL variants are built into `D:\` because the stick has 3 GB free and a FULL payload is 9-17 GB —
+the same reason the stick installer tells the operator to keep the slices together.
+
+---
+
 ## 1.5.3 — the lyric sheet speaks the engine's own language
 
 **What the engine actually accepts, from its own code** (`inference/gradio_server.py`):

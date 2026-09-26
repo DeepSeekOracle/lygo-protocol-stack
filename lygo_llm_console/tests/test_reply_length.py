@@ -158,6 +158,7 @@ class TheServerClampsTests(unittest.TestCase):
 class TheEngineCanReachTheCapTests(unittest.TestCase):
     """The window must be able to hold the configured reply, or the cap is fiction."""
 
+    @unittest.skipIf(on_a_stick(), "PC-build assertion: this reads the shipped PC config (config/ is synced to the stick by hand, by design)")
     def test_the_shipped_window_can_hold_the_shipped_cap_with_room_for_a_conversation(self) -> None:
         shipped = json.loads((ROOT / "config" / "console.json").read_text(encoding="utf-8"))
         cap = shipped["max_tokens"]

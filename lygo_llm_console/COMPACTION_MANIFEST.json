@@ -1,5 +1,5 @@
 {
-  "build": "v1.5.3",
+  "build": "v1.5.6",
   "signature": "\u03949\u03a6963-LYGO-COMPACTION-v1",
   "console_build": "1.1.0",
   "status": "installed_and_tested_not_yet_boot_verified",
@@ -161,8 +161,8 @@
     "a standalone scratch kit copy did not answer HTTP within 180s (unexplained, low severity)",
     "images bounded in the prompt (2), not in the record"
   ],
-  "release": "1.5.3",
-  "release_tag": "build-line 2026-09-25 \u00b7 the lyric sheet speaks the engine's language: the exact YuE-shaped template is the box's default (and one press puts it back), # lines are read and never sung, [VERSE 1] folds onto [verse], convert/check answer without spending a render, and the agent writes a whole song into the box from your brief or at random from the engine's own tag vocabulary",
-  "rebrand_refresh_iso": "2026-09-25T17:45:33-06:00",
-  "rebrand_refresh_note": "1.5.3: the lyric sheet speaks the engine's language - the exact YuE-shaped sheet is the box's default, # comments are read but never sung, [VERSE 1] folds onto [verse], check/convert cost nothing, and the agent writes the whole song into the box"
+  "release": "1.5.6",
+  "release_tag": "build-line 2026-09-25 \u00b7 the RAG index write was racing itself, and the logs had been saying so for days: `could not write the index` appeared on 09-24 as PermissionError and 09-25 as FileNotFoundError, and the cause was one temp path per PROCESS rather than per write, in a server that answers on threads - the second writer's rename found the temp already moved, and a reader holding the destination gave the other error \u00b7 reproduced (8 threads x 25 writes: 33 FileNotFoundError + 4 PermissionError), fixed twice over - a per-write temp name and a write lock so only one writer replaces the destination while readers are never blocked - and re-verified at 24 threads with zero errors, zero complaints and no orphaned temp files \u00b7 plus the 1.5.5 carry: the installer now lays down workspace\\memory\\conversations, workspace\\notes is excluded, and the two tests that only passed on the machine that made them are fixed",
+  "rebrand_refresh_iso": "2026-09-25T21:39:39-06:00",
+  "rebrand_refresh_note": "1.5.6: the RAG index write no longer races itself (per-write temp name + a write lock); proved by reproduction at 8, 10 and 24 threads"
 }

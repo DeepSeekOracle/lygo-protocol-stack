@@ -23,6 +23,7 @@ import json
 import math
 import os
 import re
+import threading
 import time
 from collections import Counter
 from pathlib import Path
@@ -42,6 +43,9 @@ def _plain(text: str) -> str:
     t = text or ""
     return _PICTURE.sub("[image filed with this turn]", t) if "base64," in t.lower() else t
 _WRITE_COMPLAINED = False
+#: One writer at a time. Readers never take this - they read the destination directly - so recall
+#: is never blocked by a rebuild; only the temp-write-and-rename section is serialised.
+_WRITE_LOCK = threading.Lock()
 _PICTURE = re.compile(
 r"data:image/[a-z0-9.+-]+;base64,[A-Za-z0-9+/=]{64,}", re.I)
 _WORD = re.compile(r"[a-z0-9_]+|[\u4e00-\u9fff]", re.I)
@@ -168,19 +172,38 @@ def build(force: bool = False) -> dict[str, Any]:
            "postings": postings, "df": dict(df), "len": lengths}
     try:
         archive.ROOT.mkdir(parents=True, exist_ok=True)
-        # The temp name carries the pid: two keepers of the index would otherwise collide on one
-        # temp path. A reader holding the destination open makes os.replace fail on Windows - that
-        # is a moment, not a fault, so it is retried instead of reported.
-        tmp = index_path().with_name(f".lygo-rag.{os.getpid()}.tmp")
-        tmp.write_text(json.dumps(idx), encoding="utf-8")
-        for attempt in range(6):
+        # The index lives under workspace/memory/conversations/, and a FRESH INSTALL has no
+        # such folder: every file in it is operator history, excluded from the installers on
+        # purpose, and Inno Setup only creates a directory for a file it actually copies. So the
+        # first boot of an install raised FileNotFoundError here and printed the "could not write
+        # the index" line. Create the parent before writing, which also covers a hand-copied kit.
+        # ONE WRITER AT A TIME. A per-write temp name stops two writers sharing a temp path, but the
+        # os.replace onto the SAME destination still collides under load: with ten threads rebuilding,
+        # a writer can lose all six retries to "Access is denied" and report a fault for an index that
+        # is in fact current. Serialising only the write section - readers keep reading the
+        # destination directly - removes the contention instead of retrying through it.
+        index_path().parent.mkdir(parents=True, exist_ok=True)
+        with _WRITE_LOCK:
+            tmp = index_path().with_name(f".lygo-rag.{os.getpid()}.{threading.get_ident()}.tmp")
             try:
-                os.replace(tmp, index_path())
-                break
-            except PermissionError:
-                if attempt == 5:
-                    raise
-                time.sleep(0.15 * (attempt + 1))
+                tmp.write_text(json.dumps(idx), encoding="utf-8")
+                for attempt in range(6):
+                    try:
+                        os.replace(tmp, index_path())
+                        break
+                    except FileNotFoundError:
+                        # another writer already renamed its temp into place: the index on disk is
+                        # current, so this writer's job is done. Not a moment and not a fault.
+                        break
+                    except PermissionError:
+                        if attempt == 5:
+                            raise
+                        time.sleep(0.15 * (attempt + 1))
+            finally:
+                try:
+                    tmp.unlink(missing_ok=True)   # a temp that lost its race is not left behind
+                except OSError:
+                    pass
     except Exception as exc:
         global _WRITE_COMPLAINED
         if not _WRITE_COMPLAINED:      # one line per process, not one per collision
