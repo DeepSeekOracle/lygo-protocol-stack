@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="supporter/download-gate.css" />
+<link rel="stylesheet" href="assets/lygo-tv-ninja.css?v=7" />
 <meta name="theme-color" content="#0a0a12" />
 <meta name="google-adsense-account" content="ca-pub-0646320966060599" />
 <meta property="og:type" content="website" />
@@ -171,6 +172,26 @@ header.top { position:relative; padding:16px 0 6px; }
 .navgroup .nav { margin-top:0; }
 /* a bare <code> holding a 64-char hash ran 120px past the viewport on desktop */
 code { overflow-wrap:anywhere; }
+/* The live feed and the radio dock. The TV player ships its own stylesheet; these are only the
+   heading above it and the dock below, borrowing the portal's media-dock so the pages agree. */
+.tv-h { font-family:"Cormorant Garamond",Georgia,serif; font-weight:500; color:var(--gold);
+  font-size:clamp(1.25rem,2.6vw,1.7rem); margin:.1rem 0 .2rem; letter-spacing:.02em; }
+.tv-h .tv-sub { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.6rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted); margin-left:.6rem; vertical-align:.15em; }
+.tv-lead { color:var(--muted); font-size:.88rem; max-width:76ch; margin:0 0 .7rem; }
+.media-dock { display:flex; flex-wrap:wrap; gap:.45rem .8rem; align-items:center;
+  margin:26px 0 0; padding:.6rem .8rem; border:1px solid var(--line); border-radius:12px;
+  background:rgba(12,10,8,.72); }
+.radio-inline { display:flex; flex-wrap:wrap; gap:.4rem .6rem; align-items:center; width:100%; }
+.radio-inline button { font:inherit; font-size:.75rem; padding:6px 10px; border-radius:8px;
+  border:1px solid rgba(0,229,255,.3); background:rgba(0,229,255,.08); color:var(--cyan); cursor:pointer; }
+.radio-inline button:hover { border-color:var(--gold); color:var(--gold); }
+.radio-vol { display:inline-flex; align-items:center; gap:.35rem; color:var(--muted); font-size:.75rem; }
+.radio-vol input[type="range"] { width:7rem; accent-color:var(--gold); cursor:pointer; }
+.radio-title-inline { color:var(--gold); font-size:.78rem; max-width:24rem; overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap; }
+.media-dock a { color:var(--gold); font-size:.78rem; }
+.media-dock .hint { color:var(--muted); font-size:.72rem; }
 </style>
 </head>
 <body>
@@ -245,7 +266,15 @@ code { overflow-wrap:anywhere; }
     </div>
 </header>
 
-<main class="wrap">
+<main class="wrap">  <!-- the live feed leads the page: watch first, then the downloads -->
+  <section class="lygo-tv-wrap tv-med" aria-label="LYGO TV — live channels">
+    <p class="kicker">Δ9Φ963 · live tv</p>
+    <h2 class="tv-h">LYGO TV <span class="tv-sub">Ninja portal · Rumble default</span></h2>
+    <p class="tv-lead">Live channels from the <a href="https://chatagent.ca/sources/">LYGO TV source pool</a> — the
+      steward's Rumble room opens by default, and every channel can be walked with the zap buttons. Sound stays off
+      until you press it: that is the browser's autoplay rule, not ours.</p>
+    <div data-lygo-tv></div>
+  </section>
   <div class="channels">
     <article class="ch">
       <h2>Channel A · Public tentacle</h2>
@@ -602,7 +631,24 @@ code { overflow-wrap:anywhere; }
     </div>
   </section>
 
-  <footer class="site">
+    <section class="media-dock" aria-label="LYGO Radio">
+    <audio id="radioEl" preload="auto"></audio>
+    <div id="radioDock" class="radio-inline">
+      <button type="button" id="radioPlay">Play</button>
+      <button type="button" id="radioNext">Next</button>
+      <button type="button" id="radioMute">Mute</button>
+      <label class="radio-vol" title="Radio volume">Vol
+        <input type="range" data-radio-vol min="0" max="100" value="50" aria-label="Radio volume">
+        <span id="radioVolPct">50%</span>
+      </label>
+      <span id="radioTitle" class="radio-title-inline">Loading radio…</span>
+      <a id="radioListen" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen hub</a>
+      <a id="radioTv" href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a>
+      <span id="radioHint" class="hint"></span>
+    </div>
+  </section>
+
+<footer class="site">
     <p><strong style="color:var(--gold)">Δ9Φ963 · LYGO SkillHub</strong> — Justin Helmer / Excavationpro (Lightfather). Public tentacles remain on ClawHub. FULL zips are this portal only. Consent-gated ops. No auto-publish from install alone.</p>
     <p class="code">Hub catalog data/lygoskillhub_catalog.json · FULL catalog data/lygo-full-skills/catalog.json · zip base data/lygo-full-skills/dist/</p>
   </footer>
@@ -803,6 +849,9 @@ code { overflow-wrap:anywhere; }
   }
 })();
 </script>
+<script>window.LYGO_RADIO_DEFAULT_VOL = 0.5;</script>
+<script src="assets/lygo-tv-ninja.js?v=7" defer></script>
+<script src="portal/radio.js?v=2" defer></script>
 <script src="supporter/download-gate.js" defer></script>
 </body>
 </html>
