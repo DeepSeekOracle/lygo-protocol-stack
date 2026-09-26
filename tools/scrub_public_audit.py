@@ -20,6 +20,7 @@ accepted and never silently dropped either.
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -65,11 +66,31 @@ def _pem_with_body(text: str) -> bool:
     return False
 
 
+def publishable(tree: Path) -> list[Path]:
+    """What git would actually publish: tracked files, plus untracked ones git does not ignore.
+
+    Auditing an ignored file invents a finding nobody can act on - MEASURED 2026-09-25: a 7-byte
+    `workspace/hello.txt` sat ignored in both kit copies, was reported as a secret file, and was never
+    in any published tree (0 occurrences on the remote). Falls back to a plain walk outside a repo.
+    """
+    try:
+        rel = str(tree.relative_to(STACK))
+        out = subprocess.run(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard", "--", rel],
+                             cwd=STACK, capture_output=True, text=True, timeout=120).stdout
+        files = [STACK / p for p in out.split("\0") if p.strip()]
+        files = [p for p in files if p.is_file()]
+        if files:
+            return files
+    except (OSError, ValueError, subprocess.SubprocessError):
+        pass
+    return [p for p in tree.rglob("*") if p.is_file()]
+
+
 def scrub_tree(tree: Path) -> list[str]:
     findings: list[str] = []
     if not tree.is_dir():
         return [f"{tree}: MISSING - the public tree is not there to audit"]
-    files = [p for p in tree.rglob("*") if p.is_file()]
+    files = publishable(tree)
     if not files:
         return [f"{tree}: EMPTY - nothing published, nothing verified"]
     for p in files:

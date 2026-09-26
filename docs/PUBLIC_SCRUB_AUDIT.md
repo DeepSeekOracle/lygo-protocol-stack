@@ -35,7 +35,7 @@ containing a copy of that file).
 | # | Where | What | Class | State |
 |---|-------|------|-------|-------|
 | 1 | `docs/lygo-claw-usb/dashboard/lygo-claw.html:20`, `docs/USB_AGENT_DASHBOARD.md:33`, `scripts/lygo_usb_agent_server.py:410,632` | The USB control-UI gate is a **hardcoded constant** (`lygo-usb-control-ui-token`), published in four places | by design, not a secret | **your call** - see below |
-| 2 | `clawhub/mirrors/lygo-llm-console/kit/workspace/hello.txt` | A file the packer's own skip list says must never arrive | junk artifact | **removed in this commit** |
+| 2 | `clawhub/mirrors/lygo-llm-console/kit/workspace/hello.txt` (7 B, and the same file in the kit) | A name on the packer's skip list | **false alarm** - git-ignored by `workspace/*`, untracked, and **0 occurrences on the remote** | gate corrected: it audits what git would publish, not what sits ignored in a working tree. My first pass said "removed"; nothing was removed because nothing was tracked |
 | 3 | `clawhub/mirrors/lygo-llm-console/kit/lygo-llm-console-public.zip` (100 KB) | The shipped public zip, committed inside the mirror | artifact, likely intended | left, flagged |
 | 4 | 25 `NOTE PATH` lines | The console's own source names the machine/USB paths it manages (`GamePC`, `LYGO_BUILDER_KEY`, `10.0.0.209`, `gitea.pass`, `LYGO_SERVER_KEYS`) | review notes, not leaks | left, listed by the gate |
 | 5 | `docs/data-vault/` (11 files incl. `data/deadman_origin_archive.json`, 129 KB, 92 mentions of the steward's name, 0 keys, 0 emails) | A **published** Data Vault site carrying personal origin material | **personal, published** | **your call** - see below |
