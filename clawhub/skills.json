@@ -11,14 +11,14 @@
     {
       "slug": "lygo-llm-console",
       "name": "LYGO LLM Console",
-      "summary": "Public map to the LYGO sovereign local LLM runtime (not Ollama). Page + zip. Admin tree is a separate channel. No network, no subprocess.",
+      "summary": "Public map scripts plus the LYGO sovereign local LLM runtime, shipped as an UNPACKED public kit (console 1.5.6, 152 files, per-file SHA-256). Not Ollama. Map layer: no network, no subprocess, no writes. Runtime layer: loopback HTTP, https GET, kit-local writes, optional shell/Python (not a sandbox).",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
       "mirror": "mirrors/lygo-llm-console",
       "published": true,
-      "pending_publication": true,
+      "pending_publication": false,
       "downloads": 0,
-      "version": "1.0.1",
-      "notes": "v1.0.1 complete file set (README, skill-card, kit runtime zip) submitted to ClawHub; listing may stay pending.publication until registry scan posts."
+      "version": "1.6.0",
+      "notes": "v1.6.0 shipped 2026-09-26: the kit is no longer a zip - it is the unpacked console tree built by tools/build_clawhub_llm_console_kit.py, so the registry scanner reads what would run instead of reporting an uninspectable archive. Audit page now shows ONE finding (T01 host prefetch: fetched page text shares the model context with the shell/python limbs; the console can already disable it with LYGO_HOST_PREFETCH=0) plus static-analysis notes for the code-execution limbs the product exists to run. The v1.2.0 package was SkillSpector CRITICAL / 33 issues / DO_NOT_INSTALL with 5 HIGH."
     },
     {
       "slug": "lygo-tv",
