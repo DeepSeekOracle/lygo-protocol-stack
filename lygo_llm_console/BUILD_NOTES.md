@@ -129,6 +129,39 @@ release was hardened for.**
 
 ---
 
+## 1.5.3 installers (PC + USB) - built 2026-09-25
+
+Recipes: `installer/lygo_pc_153.iss` and `installer/lygo_usb_153.iss`, derived from the 1.3.2 pair.
+
+Payloads: the two 1.5.3 seals - `D:\LYGO_CANON\2026-09-25_build-1.5.3_PC_LOCAL\PC_LOCAL`
+(1,928 files, listing digest `bd509ebc91f8b715`) and `..._USB_CLAW\USB_CLAW` (1,930 files, digest
+`46f09c4a85d76987`). Neither carries `config/api.json` - the seal script's own `SKIP_FILES` drops it
+before anything is copied - and neither carries model weights. Verified by inspecting the seals, not assumed.
+
+Compiler: Inno Setup 6.7.3, per-user install (`%LOCALAPPDATA%\Programs\Inno Setup 6\ISCC.exe`).
+
+Artifacts: `D:\LYGO_LLM_CONSOLE_1.5.3_PC_SETUP.exe` and `D:\LYGO_LLM_CONSOLE_1.5.3_USB_SETUP.exe`.
+
+Three things this build changed on purpose:
+
+- **Output moved off `E:`.** The USB recipe wrote its setup EXE to `E:\`; that drive is at 94% (2.99 GB
+  free). Both recipes now build to `D:\`.
+- **26 exclusion rules instead of 4.** The 1.3.2 recipes inherited only the conversations exclusion, so the
+  workspace's *residue* travelled inside the EXE: generated songs, generated images (182 MB), uploads
+  (proof screenshots, a handoff note), rust build output (`.rcgu.o`, `six_by_seven.exe/.pdb`), raw daily
+  notes, stray probe PNGs and gauntlet HTML. Now excluded. What still travels is the console's **identity**
+  at the workspace root - `SOUL.md`, `IDENTITY.md`, `MEMORY.md`, `BRAIN.md`, `MAP.md`, `LINKS.md`,
+  `LYRA_ARCHITECT.md` - because a console restored without them is soulless, which the seal script's own
+  comment records as a caught regression.
+- **Post-install notes are versioned.** `installer/notes/INSTALL_NOTES_1.5.3_{PC,USB}.txt` (was `%TEMP%`),
+  naming what 1.5.3's systems are, how to fetch models, and that keys are never part of a build.
+
+**These installers are private artifacts.** They carry the console's workspace, so they belong on the
+operator's own machines - not on a public link. The public copies are the separate trees under `docs/`.
+
+Known and accepted: the PC seal was taken ~50 s before the two new recipes existed, so a restore from that
+seal returns the kit without them (the USB seal has them; both recipes are in git and in the live tree).
+
 ## 1.5.2 — the Song studio gets depth, and the take list becomes a list
 
 **The complaint, in the operator's words:** *"the Song studio still needs more depth so its not

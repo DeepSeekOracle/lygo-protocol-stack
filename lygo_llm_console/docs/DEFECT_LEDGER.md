@@ -510,3 +510,6 @@ Trigger: the steward's **"i need the exact template the YuE needs as a default t
 - **One job at a time is prose, not a lock.** The rule is stated and honoured by hand; nothing enforces it.
 - **~26 test-session files were filed in the operator's store** before the isolation fix (row 136). They
   are his data until he says otherwise: offered a move to `save/archive/` rather than a delete.
+
+| 139 | payload leak | the installer recipes carried the operator's workspace residue into the shipped EXE | the 1.3.2 recipes excluded only `workspace\memory\conversations\*` + `*.jsonl`, so the first 1.5.3 build packed 273 MB of generated songs, images, uploads, rust build output and raw daily notes | residue exclusions added to both 1.5.3 recipes (26 rules); the workspace's identity files still travel |
+| 140 | build environment | the USB installer recipe wrote its own output EXE to a 94%-full drive | `OutputDir=E:\` with 2.99 GB free - the stick's drive, not a build target | both 1.5.3 recipes build to `D:\` |
