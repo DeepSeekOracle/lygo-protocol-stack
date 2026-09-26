@@ -1,0 +1,5 @@
+LYGO LLM Console (public kit)
+Mark: LYGO — project family of Justin Helmer (Excavationpro / Lightfather).
+Credits: Justin Helmer; LYGO AI agents; ggml-org llama.cpp (operator-supplied binary).
+Dual ledgers / Haven Star Chart remain CANON. This kit is RESOURCE.
+Donate: https://www.paypal.com/paypalme/ExcavationPro

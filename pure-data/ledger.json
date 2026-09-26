@@ -1,0 +1,55 @@
+{
+  "signature": "Delta9Phi963-PURE-DATA-WITNESS-v1.1-LEDGER",
+  "updated_utc": "2026-08-18T01:16:23Z",
+  "count": 4,
+  "merkle_style_root": "373d2a4bdd8df390cecf8fcf108716043c5dab606934aff612e08da31f8cf5dc",
+  "egg_fragment_root": "7f2363d7e61d01ba46354e3eb11e1bce87d77d883271a9da238d1de1bcb68034",
+  "egg_fragment_count": 4,
+  "note": "Public digest ledger. Digests refuse rewrites; snapshots/eggs optional.",
+  "witnesses": [
+    {
+      "witness_id": "PDW-2FA82ACA1886",
+      "captured_utc": "2026-08-18T00:48:33Z",
+      "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/",
+      "content_sha256": "c4189f1fe1e6a6a042a72f2d326bde23abf498c76ca8315ba72b73030abba99f",
+      "bytes": 10829,
+      "fetch_status": 200,
+      "truncated": false,
+      "egg_id": "pdw-frag-pdw-2fa82aca1886",
+      "egg_merkle_root": "ac8282614a4f80d6c748d4345eef591c56ae75d12bec65b1ca81d700f505ddce"
+    },
+    {
+      "witness_id": "PDW-375388F057B0",
+      "captured_utc": "2026-08-18T00:52:56Z",
+      "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+      "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+      "bytes": 7048,
+      "fetch_status": 200,
+      "truncated": false,
+      "egg_id": "pdw-frag-pdw-375388f057b0",
+      "egg_merkle_root": "2bfed7c6c38396557d0e84236b98d58950e2ef57f0e543c35693c2ecfff5d07f"
+    },
+    {
+      "witness_id": "PDW-396B3A62D3DE",
+      "captured_utc": "2026-08-18T01:16:23Z",
+      "source_url": null,
+      "content_sha256": "57a88b5b5796645c8c6cdc8fb73ba480dd277f7fcea5144fea298070dca70c96",
+      "bytes": 150,
+      "fetch_status": null,
+      "truncated": false,
+      "egg_id": "pdw-frag-pdw-396b3a62d3de",
+      "egg_merkle_root": "afa58fb24002553bb132207d479b9aec352c534ce8b18094455411539742fa0a"
+    },
+    {
+      "witness_id": "PDW-5A5E3C3C0E77",
+      "captured_utc": "2026-08-18T00:48:33Z",
+      "source_url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_PURE_DATA_WITNESS.md",
+      "content_sha256": "5a9fc6f67ce55d4988a81ff1ae62117dddda931357fa0c712b504badb6ce3f59",
+      "bytes": 7048,
+      "fetch_status": null,
+      "truncated": null,
+      "egg_id": "pdw-frag-pdw-5a5e3c3c0e77",
+      "egg_merkle_root": "8934ad93974f07d8be9cad9b2f054e06a5c3f06f598e6c08adefb3243993cc48"
+    }
+  ]
+}

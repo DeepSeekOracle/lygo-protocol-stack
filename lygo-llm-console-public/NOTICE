@@ -1,0 +1,53 @@
+LYGO CLAW™ · LYGO PC LOCAL CONSOLE™ · LYGO Protocol Stack — NOTICE
+Steward: Justin Helmer (Lightfather · Excavationpro · DeepSeekOracle)
+License: LYGO Sovereign License v3.0 (Δ9Φ963-LICENSE-v3.0) — see LICENSE in this directory.
+
+This product is NOT open source. It is source-available under a brand-protective license:
+you may use it and build on it; you may not sell, rebrand, modify-and-distribute, or strip
+attribution, seals or signatures.
+
+CANONICAL SOURCE
+  https://github.com/DeepSeekOracle/lygo-protocol-stack        (stack, console, docs)
+  https://github.com/DeepSeekOracle/lygo-claw                   (USB LYGO CLAW agent)
+  https://deepseekoracle.github.io/lygo-protocol-stack/LYGO_CLAW.html  (product page)
+Mirrors do not inherit authority: if a copy conflicts with the canonical source, the
+canonical source controls.
+
+ATTRIBUTION REQUIRED IN DERIVED WORK AND PUBLIC USE
+  "LYGO Protocol / LYGO CLAW / LYGO PC LOCAL CONSOLE © Justin Helmer
+   (Lightfather · Excavationpro · DeepSeekOracle). LYGO Sovereign License v3.0."
+
+INTEGRITY / CERTIFIED BUILDS
+  Branded builds ship a file manifest (BUILD_MANIFEST.json and per-component
+  *_MANIFEST.json) and a Resonance Signature (Δ9Φ963-…). A build whose hashes match the
+  published manifest is a Certified Build. If the files differ, or the signature has been
+  altered, the copy is UNCERTIFIED: do not resell it, do not present it as LYGO, and do not
+  keep the marks on it in any way that suggests Steward endorsement.
+
+THIRD-PARTY COMPONENTS (their licenses govern them; this license does not relicense them)
+  · OpenClaw — https://github.com/openclaw/openclaw — Copyright (c) Peter Steinberger and
+    contributors — MIT License. Vendored copies live under vendor/openclaw/ (produced by
+    scripts/vendor_openclaw.ps1) and remain subject to the upstream MIT license and
+    copyright notices. LYGO's license covers LYGO's own additions and integration only.
+  · llama.cpp / GGUF inference engine and DLLs — MIT License, © the llama.cpp authors.
+  · Model weights (e.g. Qwen / qwen2.5-coder, embeddings) — governed by each model's own
+    license and terms, as published by its authors. Running a model does not transfer any
+    rights in it.
+  · Python and other runtime dependencies — as bundled by their authors.
+  Where this license and a third-party license conflict for a third-party component, the
+  third-party license controls for that component.
+  Registry note: some registries (for example ClawHub) require a listing to carry a
+  registry-wide license such as MIT-0. That is a contract about a listing, not a transfer of
+  the Steward's copyright, and it does not cover the code as distributed from the canonical
+  GitHub source.
+
+PROTECTED QUANTITIES
+  The file names, seals, glyphs, Resonance Signatures, manifests, kernel eggs' sealed form,
+  the CATALOG/index structure and the branding in the UI are part of the work. Do not
+  overwrite, forge, mislabel or strip them.
+
+WARRANTY
+  Provided AS IS, without warranty of any kind. Not legal, medical, financial or safety
+  advice. Use in light; harmful or deceptive use is outside the grant.
+
+Δ9Φ963 — use in light · build on the lattice · do not sell the seal.

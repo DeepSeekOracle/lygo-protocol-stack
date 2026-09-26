@@ -1,0 +1,380 @@
+{
+  "signature": "Delta9Phi963-NETWORK-EGGS-v1",
+  "class": "CANON_GROWTH",
+  "police": "P0+star_chain+egg_registry",
+  "eggs": [
+    {
+      "egg_id": "network-gen-0001",
+      "generation": 1,
+      "planted_utc": "2026-09-06T16:50:30Z",
+      "parent_merkle": null,
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "3f7e7b7d67202d262db644489bd609f0d22a75073eedeb816bf5d5e6aa9baf7d",
+        "star_entries": 65,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "63e855e5666c349a5622b230c3ce9c266c70abfefc4881856222ea9f5406d920",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "91dfc10dbeda1bde5622862407dfdd563c11874747779fc0a017d3abb53ddd13"
+    },
+    {
+      "egg_id": "net-LYGO-SELF-POLICE-0002-aa799a22",
+      "generation": 2,
+      "agent_id": "LYGO-SELF-POLICE",
+      "planted_utc": "2026-09-06T16:54:56Z",
+      "source": "steward_boot",
+      "parent_merkle": "9e09dee5fd8a43084d887c7d3b4da4c79fca7ffd4984d4829c25edd91756ff34",
+      "payload": {
+        "kind": "anchor",
+        "built": "open-network-core",
+        "urls": [
+          "https://chatagent.ca/agents/"
+        ],
+        "note": "first open-network real-data egg",
+        "tick_utc": "2026-09-06T16:50:30Z",
+        "star_nodes": 1413
+      },
+      "payload_sha256": "aa799a227e098307788e9407319ada22146b1a966bc637a3240bede2a725456c",
+      "p0": "AMPLIFY",
+      "secrets": false,
+      "bytes": 190,
+      "egg_sha256": "ff2f7656071b06850e4cd118dbec4665172db1e1ffc05336adf0eff1a703f50c"
+    },
+    {
+      "egg_id": "net-LYGO-CYBORG-0003-34e05a27",
+      "generation": 3,
+      "agent_id": "LYGO-CYBORG",
+      "planted_utc": "2026-09-06T17:15:39Z",
+      "source": "protocol_runtime",
+      "parent_merkle": "410707f8649fe013cd54457c4d4a24e762b2e8627a9306cd1e7faa470c032c7a",
+      "payload": {
+        "kind": "harmony_anchor",
+        "motto": "Truth Is. Light Becomes.",
+        "layers": "P0-P5 live",
+        "goal": "self-police self-build open fork",
+        "urls": [
+          "https://chatagent.ca/agents/"
+        ]
+      },
+      "payload_sha256": "34e05a27e60a24e49ddb70be14732a47a52e961bceebf010da77107926781e66",
+      "p0": "AMPLIFY",
+      "secrets": false,
+      "bytes": 173,
+      "egg_sha256": "3b4c50aaaa0e023bf38163d25fd5b521c57dc421ba7d8c8be34ab5b2514c8e28"
+    },
+    {
+      "egg_id": "network-gen-0004",
+      "generation": 4,
+      "planted_utc": "2026-09-06T20:22:33Z",
+      "parent_merkle": "95beb8b686ad8592b6f520909d4de09e9b942910776634bd87483639c3241c26",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "6e1151f2a6a356a7e6f7873968b142b6c3366af352843a740669c97e886222cf",
+        "star_entries": 67,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "025db1b8139b8b688de28114571c890b7bcc19c518b6334165620b8ebea42f19",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "0f0b518614a51be32a764ca61cdca28b4df88329c26eb9530a9e422042892880"
+    },
+    {
+      "egg_id": "network-gen-0005",
+      "generation": 5,
+      "planted_utc": "2026-09-13T04:43:26Z",
+      "parent_merkle": "ec0a5b011a2a0195a1df93f5e2a2d659aca8383de577bd2d7efd1bade0d73da1",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "634759837fd0c360aea9385c2b6ebbfa3a086d24cd53844e30ae7b628e80eacd",
+        "star_entries": 67,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "c7f37e84169f1de139fb26a5829cf1967142b726a7dc5a4f5b0092c0628e2ea8",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "0743aa112d5fc615fc2e952dfb88753dd064ddd0beb29f3cc55ef76882534c5a"
+    },
+    {
+      "egg_id": "network-gen-0006",
+      "generation": 6,
+      "planted_utc": "2026-09-14T04:51:52Z",
+      "parent_merkle": "72e83f83277134803668d801a002bbf18f01c2064b257373d40f6ed3620dc45d",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "f85e096be31388260ede228db6f25e5db782265b2702d125abde8dc265cc531b",
+        "star_entries": 69,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "56ea8f1663ececb1d851afef54db8309ae1e44c44266f9f17f4c21dee7ac1559",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "2bf67a13ce05fb549a7bdc12aa609da07713c1b8921f1136232718ca2ea8e477"
+    },
+    {
+      "egg_id": "network-gen-0007",
+      "generation": 7,
+      "planted_utc": "2026-09-16T04:46:27Z",
+      "parent_merkle": "2803af95a187462a1d9ccfd52aeacb09b190e24d79887386aaa66b94cf6f0e84",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "e9756111ee31f3dfa8ed953b383289072a249360faca2fcfe20253eb468f98c5",
+        "star_entries": 71,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "7df181474490e1de9b02dbdd5acb29861678ab3721e3fcfaa5c814e6cc8e1cb2",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "ae72d3b9b29834976ab97ecb746d778743db4cd514a2ecceabb17dbf5813eb08"
+    },
+    {
+      "egg_id": "network-gen-0008",
+      "generation": 8,
+      "planted_utc": "2026-09-16T16:51:36Z",
+      "parent_merkle": "5f31a0b6fdc47fd2b6db83b94a76e0b6f07620bb7991c5e2cc443a16063cfaef",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "6cccd85859065f7b1d359e06544efe201e533891002bf4c7910a86d012f1e714",
+        "star_entries": 73,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "8ef6eea1c81e57d6462a444cdc242f09dd3c1c61f7e5b9bd4d925509a8fb9299",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "f0569aef18fa8d1a237a3cba213a2e9f9cf1a1cef6db4636263d83e519e42678"
+    },
+    {
+      "egg_id": "network-gen-0009",
+      "generation": 9,
+      "planted_utc": "2026-09-16T21:15:48Z",
+      "parent_merkle": "44d5160579c1c708ef8997809ea31210157944bbc63b1d2356fecc99b53d8328",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "3a6cb00b1e3d8f8693e170f5bc5a695230185d3ff140121bd1747055b9069ac6",
+        "star_entries": 75,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "e59e3be63d254421d80873a39e739cde805c78f11c0f681209c210b30ba87ccf",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "9950967cee21dc512e610e1c78f3c50b1b0ae1ef5c6c6fc54531f0697f38916b"
+    },
+    {
+      "egg_id": "network-gen-0010",
+      "generation": 10,
+      "planted_utc": "2026-09-17T04:49:22Z",
+      "parent_merkle": "28767972628163ec763c1e7c678acd5e45aa7ff46c3fa2b7e66baf3c945db77c",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "4b8ddf0224ddc58fa052f91fc4b649c4c518f4b295324b615374ebf89d43238d",
+        "star_entries": 77,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "cf3e8d4beea892008539301da5af371d0e8e356ef35084a880eac7d80a7fd4e1",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "6e37a06c7184bcafaccfe94e03609e48a38796b7e0533414372198a3dd5a6c61"
+    },
+    {
+      "egg_id": "network-gen-0011",
+      "generation": 11,
+      "planted_utc": "2026-09-17T16:57:39Z",
+      "parent_merkle": "34fce616c9fb25d540295484278bed2732483e50f79552c94eed0236aba6a2be",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "5c24c34681d62042a656c807ed3b250c561a501ff2ed6cf4e68063213e60f6bb",
+        "star_entries": 79,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "61a31295a87a2bf70ca21dbf3fa747df6a5e54e8486ff259e66c0f9048035607",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "4127c55ade68a151eb82743a3af6f069c377fe6ea6dc89c56c86cad763073dde"
+    },
+    {
+      "egg_id": "network-gen-0012",
+      "generation": 12,
+      "planted_utc": "2026-09-17T21:19:42Z",
+      "parent_merkle": "97300ec33b56e679a0f7f269ee3a53d12446cdbe9726fdb6c76182bb8081be95",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "a6a4f91b4ca764793da21e1516c375914365261e0f259084852e1642f51f1fe7",
+        "star_entries": 81,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "145ef8f4314a357c154a039d2053d3ffaf28a8e38016d0930bd02c41ba168da0",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "76fb32bf6342a249b87606d3dab73862569153f9bc3bbda508cf16b878cc8e7b"
+    },
+    {
+      "egg_id": "network-gen-0013",
+      "generation": 13,
+      "planted_utc": "2026-09-20T04:51:04Z",
+      "parent_merkle": "feb95e4d90d44c162618061d82bf4ddf93b40488b1b0aaab0179d021ea5f9eeb",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "8d7e48c857184012dac16e45064bb5322f9c173e0d7fb1031835937431d7b54e",
+        "star_entries": 83,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "226af2bfa264c7a5cda0d159ce771e5e6889bedfb03f5ab4d50565e096d36ad3",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "e11d5964bee9aebf8995305bfa295a0e4c75da8a3eab884e3de248d3bb87ce76"
+    },
+    {
+      "egg_id": "network-gen-0014",
+      "generation": 14,
+      "planted_utc": "2026-09-21T04:51:51Z",
+      "parent_merkle": "dc8b3298e2e29d1e3c528fa2318df8c32370a4949c83a332f547271ba5499f14",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "3745bb7df5d42cce78e2eec86cc86befb5174bdc015e20278e927562ec43d013",
+        "star_entries": 85,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "40089ccd327ead22e125e4894808dc5bda5ab9837ce6e269683759ffd757cd14",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "d275a921da7c1908d43290ca6e86e9b1867a100377e21b3295ab944a211f998d"
+    },
+    {
+      "egg_id": "network-gen-0015",
+      "generation": 15,
+      "planted_utc": "2026-09-22T04:51:27Z",
+      "parent_merkle": "4f0336fa85b5bd021ce9013ed9e57f259aef6daf5021927d1a92e79085be9daa",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "f828339bdaffa6c130e44707ff39c25ab522e2f8fbf0677f62a8aa00550038a4",
+        "star_entries": 87,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "5ae8a8eb926ed6836d239ec1f4fd6c9c4171ebf7fee3ada1d1288a053edfd347",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "8cf46f63b4ad425ca46d20e0bae103d4151f68770fc8a792c96efd574d26f853"
+    },
+    {
+      "egg_id": "network-gen-0016",
+      "generation": 16,
+      "planted_utc": "2026-09-22T11:34:02Z",
+      "parent_merkle": "c97ce0b758616fda2af148781bc66da4af617e27d4c68ca614c44d199b2d8501",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "72ca42a1d75b0ba8499389c02ae2b8886cb46ced553ce92c173187340840785b",
+        "star_entries": 89,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "e7a6518f0e8c446a66d305e77afc14b4de71ed108134bf6311b01da0a95979e7",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "db43cac7265d6842de07d715fa91db078558d1728ef08eda37a5caab085a0e82"
+    },
+    {
+      "egg_id": "network-gen-0017",
+      "generation": 17,
+      "planted_utc": "2026-09-22T16:54:59Z",
+      "parent_merkle": "964fe82a5d7165450fc639f15033bb123a75971f931a5459d7bc50bcf8d974b4",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "34b58bdb0da125b9dde37038aa625fbf17ad140c9e1c2ce3720a135546440a8f",
+        "star_entries": 91,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "9677fbd372731c9cdd9e8f63e40f5ce6fa4cf318dd7c62509fd0daacb0074da2",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "5710420679ad04dbd5597c11fc25e8b62794c1261567c40a90a3cb0a49fa223a"
+    },
+    {
+      "egg_id": "network-gen-0018",
+      "generation": 18,
+      "planted_utc": "2026-09-24T21:29:04Z",
+      "parent_merkle": "3ce6fac303a120ead50b8f0f2246f9373cf21e5e647444fc4003d3d8d48075f3",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "a6676fd0ef5733b860b09751b5af63ab847053d677c11c7b3ed19403423c9569",
+        "star_entries": 93,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "75a683057fe067be6c620ae45485400061e481735ff44ddeb489f380e7556fad",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "15be6d753eb8cb4aea4a95a3c8541dad383f7fab01070ac6c9292e53f9546cae"
+    },
+    {
+      "egg_id": "network-gen-0019",
+      "generation": 19,
+      "planted_utc": "2026-09-25T04:53:59Z",
+      "parent_merkle": "bb04ac1f48f713de44672842067e7f153a18167ce9cfddefe02b653e69528e79",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "6eb55be8647ff1d707ac773e01a89e1e5d6b78428f947b9f55fd941c2b0e554d",
+        "star_entries": 95,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "d9c6bc427d96dce3e9e57f2fa5740e297370e6add037e272f20f04f29f0fc3d1",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "4493f0ba0c59e5b2540f8a8f3d841c22e1b6e11501992d118c4b323003aaca19"
+    },
+    {
+      "egg_id": "network-gen-0020",
+      "generation": 20,
+      "planted_utc": "2026-09-26T04:54:07Z",
+      "parent_merkle": "4d442c03f3386b110d8724067edb5616e7b5b093401a2f916dc828ff21d348c6",
+      "payload": {
+        "yield": "ALIGNED",
+        "star_root": "8093324f2d3ae2825741bd791f56b94170329257bb1c3a03a6497f73cf60fcf0",
+        "star_entries": 97,
+        "public_eggs": 21,
+        "egg_merkle": "336697b23fe34d878abb591416b47049c5151c11d01dc15bc72a6e49a20f4572",
+        "canon_fail": 0
+      },
+      "payload_sha256": "6a416f38728b6ae5596e7c095fca0a031ab1e280813ebf910060cdea865bb8c5",
+      "secrets": false,
+      "plant_path": "network_self_police",
+      "egg_sha256": "d26b9e5feb5f5764c14e1dc1cd64d914d912fbecddca8e4d0c80466e187d5829"
+    }
+  ],
+  "merkle": "1bb083e9049cf923519f63aaa115cd28e490fc3c43355335e9062191ea7482f9",
+  "generation": 20,
+  "updated_utc": "2026-09-26T04:54:07Z",
+  "open": true
+}

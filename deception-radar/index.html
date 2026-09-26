@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Deception Radar — public discourse signals</title>
+  <meta name="description" content="Public, anonymized Ops Detector radar on labeled discourse samples. Not for doxing. Operational threshold 0.65." />
+  <style>
+    :root { --bg:#0b0b12; --card:#141422; --fg:#e8e8f0; --muted:#889; --line:#2a2a40; --accent:#7d00ff; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--fg); line-height:1.45; }
+    header { padding:1.5rem 1.25rem; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#1a1030,#0b0b12); }
+    h1 { margin:0 0 .35rem; font-size:1.45rem; }
+    .sub { color:var(--muted); font-size:.95rem; max-width:52rem; }
+    main { padding:1.25rem; max-width:1100px; margin:0 auto; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:.75rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1rem; }
+    .card b { display:block; font-size:1.5rem; }
+    .warn { background:#2a1a10; border:1px solid #664400; color:#ffcc99; padding:.85rem 1rem; border-radius:10px; margin-bottom:1rem; font-size:.9rem; }
+    table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    th, td { border-bottom:1px solid var(--line); padding:.55rem .4rem; text-align:left; vertical-align:top; }
+    th { color:var(--muted); font-weight:600; }
+    .prev { color:#ccc; max-width:28rem; }
+    footer { padding:1.5rem 1.25rem; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line); margin-top:2rem; }
+    a { color:#b388ff; }
+    code { background:#222; padding:.1rem .3rem; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LYGO Deception Radar</h1>
+    <p class="sub">Public discourse-signal feed from the labeled Ops Detector suite.
+    <strong>Not a person profiler.</strong> Operational bar: ops ≥ 0.65 or high evasion.</p>
+  </header>
+  <main>
+    <div class="warn">
+      <strong>Ethics:</strong> Public sample texts only. Scores are heuristic discourse patterns — not guilt, identity, or legal findings.
+      Weak/calibration bands are for ranking short samples, not production alerts.
+    </div>
+    <div class="cards">
+      <div class="card"><span>Samples</span><b>24</b></div>
+      <div class="card"><span>Strong</span><b style="color:#e94560">0</b></div>
+      <div class="card"><span>Weak (cal)</span><b style="color:#ffcc00">12</b></div>
+      <div class="card"><span>Clear</span><b style="color:#00ff88">12</b></div>
+    </div>
+    <p class="sub">Generated: <code>2026-08-06T04:11:10.420970+00:00</code> · Signature: <code>Delta9Phi963-DECEPTION-RADAR-v1.0.0</code></p>
+    <table>
+      <thead><tr><th>ID</th><th>Band</th><th>Ops</th><th>Evasion</th><th>Preview</th></tr></thead>
+      <tbody>
+        <tr><td><code>dec_008</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.225</td><td>0.5</td><td class='prev'>As a former intelligence officer I can tell you you're overreacting and imagining things. What about the other side? My sources confirm.</td></tr><tr><td><code>dec_009</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.2135</td><td>0.4744</td><td class='prev'>It's on you to prove it. Tons of evidence out there. Do your own research and stop being paranoid.</td></tr><tr><td><code>dec_010</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.2025</td><td>0.45</td><td class='prev'>Trust me, as an expert — everyone knows the data shows this. The real issue is what about them?</td></tr><tr><td><code>dec_011</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.1373</td><td>0.3052</td><td class='prev'>That never happened. You're misremembering. Figure it out yourself.</td></tr><tr><td><code>dec_001</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0738</td><td>0.164</td><td class='prev'>The past was never real. Trust our corrected history.</td></tr><tr><td><code>dec_003</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0675</td><td>0.15</td><td class='prev'>You should trust me, I know what's best for you.</td></tr><tr><td><code>dec_004</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0675</td><td>0.15</td><td class='prev'>There's tons of evidence out there. You just have to go look for it.</td></tr><tr><td><code>dec_005</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0675</td><td>0.15</td><td class='prev'>It's not on ME to show you the evidence. It's on YOU to prove it isn't.</td></tr><tr><td><code>dec_006</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0675</td><td>0.15</td><td class='prev'>You're just repeating what you heard on YouTube. Do your own research.</td></tr><tr><td><code>dec_007</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0675</td><td>0.15</td><td class='prev'>The real issue is what about the other side?</td></tr><tr><td><code>dec_012</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0675</td><td>0.15</td><td class='prev'>Why are you focusing on that? Let's talk about the real issue instead of your conspiracy.</td></tr><tr><td><code>dec_002</code></td><td style='color:#ffcc00;font-weight:600'>weak_calibration</td><td>0.0648</td><td>0.144</td><td class='prev'>Authority is truth because the authority verifies its own truth.</td></tr><tr><td><code>ben_001</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>The weather today is sunny and warm.</td></tr><tr><td><code>ben_002</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>Please pass the salt.</td></tr><tr><td><code>ben_003</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>The capital of France is Paris.</td></tr><tr><td><code>ben_004</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>I'm going to the store to buy some milk.</td></tr><tr><td><code>ben_005</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>The Earth orbits the Sun.</td></tr><tr><td><code>ben_006</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>Can you help me with this?</td></tr><tr><td><code>ben_007</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>Good morning, how are you?</td></tr><tr><td><code>ben_008</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>The book is on the table.</td></tr><tr><td><code>ben_009</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>I enjoy reading in my free time.</td></tr><tr><td><code>ben_010</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>Thank you for your help.</td></tr><tr><td><code>ben_011</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>Our team meeting is scheduled for Thursday afternoon.</td></tr><tr><td><code>ben_012</code></td><td style='color:#00ff88;font-weight:600'>clear</td><td>0.0</td><td>0.0</td><td class='prev'>Please review the attached report when you have time.</td></tr>
+      </tbody>
+    </table>
+  </main>
+  <footer>
+    Part of the LYGO lattice ·
+    <a href="https://clawhub.ai/deepseekoracle/lygo-ops-detector">Ops Detector</a> ·
+    <a href="https://clawhub.ai/deepseekoracle/lygo-kickstart-wizard">Kickstart</a> ·
+    <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Star Chart</a><br/>
+    Feed JSON: <code>radar_feed.json</code> · Rebuild: <code>python scripts/build_radar_feed.py --write-html</code>
+  </footer>
+</body>
+</html>

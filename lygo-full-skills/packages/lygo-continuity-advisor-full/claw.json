@@ -1,0 +1,6 @@
+{
+  "name": "lygo-continuity-advisor",
+  "version": "1.0.0",
+  "description": "Deadman continuity advisor — pin verify, succession, anti-replacement",
+  "publisher": "deepseekoracle"
+}

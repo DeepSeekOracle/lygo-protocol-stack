@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>LYGO Public Witness — public is reference, lattice is canon | chatagent.ca</title>
+<meta name="description" content="LYGO Public Witness: public nodes are resources; private nodes are named shadows with legal public check-links. Dual ledgers and Star Chart are canon. Never invent private payloads.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://chatagent.ca/witness/">
+<link rel="icon" href="/witness/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/witness/app.css">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chatagent.ca/witness/">
+<meta property="og:title" content="LYGO Public Witness — public is reference, lattice is canon">
+<meta property="og:description" content="Two globes. Earth shows public signals as REFERENCE. The lattice sphere shows dual ledgers, eggs, and Star Chart as CANON. No invented intel.">
+<meta property="og:image" content="https://chatagent.ca/witness/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO Public Witness">
+<meta name="twitter:description" content="Public feeds are reference. Lattice ledgers are canon. Empty beats fake.">
+<meta name="twitter:image" content="https://chatagent.ca/witness/og.jpg">
+</head>
+<body>
+<div class="mast">
+<header class="top">
+  <a class="brand" href="/">chatagent.ca</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/guides/">Guides</a>
+    <a href="/champions.html">Champions</a>
+    <a href="/games/">Games</a>
+    <a href="/app.html">Tools</a>
+    <a href="/lattice/">Lattice</a>
+    <a href="/sources/">TV</a>
+    <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener noreferrer">Listen</a>
+    <a href="/witness/" aria-current="page">Witness</a>
+    <a href="/godseye/">God's Eye</a>
+    <a href="/skynet/">SKYNET</a>
+    <a href="/starchart/">Star Chart</a>
+    <a href="/lygoskillhub.html">SkillHub</a>
+    <a href="/about.html">About</a>
+    <a class="nav-donate" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+  </nav>
+</header>
+<div class="donate-strip" id="donate">
+  <div class="donate-copy">
+    <b>Support Public Witness</b>
+    <span class="donate-handle">PayPal.me/ExcavationPro · optional tip</span>
+  </div>
+  <div class="donate-actions">
+    <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
+    <a class="btn ghost" href="https://www.patreon.com/Excavationpro" target="_blank" rel="noopener noreferrer">Patreon</a>
+  </div>
+  <div id="radioDock" class="radio-bar">
+    <audio id="radioEl" preload="none"></audio>
+    <button type="button" id="radioPlay">Play</button>
+    <button type="button" id="radioNext">Next</button>
+    <button type="button" id="radioMute" title="Mute (does not stop playback)">Mute</button>
+    <label class="radio-vol">Vol <input id="radioVol" type="range" min="0" max="100" value="55"></label>
+    <span class="radio-now" id="radioNow">Now playing · idle</span>
+    <span class="radio-title" id="radioTitle" hidden>Idle</span>
+    <a class="radio-hub" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen portal</a>
+  </div>
+</div>
+</div>
+
+<div class="stage">
+  <div class="maps">
+  <div class="globe-wrap">
+    <canvas id="globe" aria-label="Public Witness globe. Earth is reference. Lattice is canon. Wheel zoom, drag to pan and rotate, double-click to focus."></canvas>
+    <div class="globe-tools">
+      <button type="button" id="g-zin" title="Zoom in">+</button>
+      <button type="button" id="g-zout" title="Zoom out">−</button>
+      <button type="button" id="g-reset" title="Reset view">reset</button>
+      <button type="button" id="g-full" title="Fullscreen globe">full</button>
+      <span id="g-meta">click a pin · wheel zoom · double-click focus</span>
+    </div>
+    <div class="hud">
+      <button class="mode on" data-mode="earth" type="button">Sphere · globe</button>
+      <button class="mode" data-mode="lattice" type="button">Lattice · canon</button>
+      <button class="mode" data-mode="split" type="button">Split</button>
+      <a class="mode" href="#flat-earth">Disc · below</a>
+      <button class="chip ref on" data-layer="quakes" type="button">USGS</button>
+      <button class="chip ref on" data-layer="events" type="button">EONET/GDACS</button>
+      <button class="chip ref on" data-layer="iss" type="button">ISS</button>
+      <button class="chip ref on" data-layer="alerts" type="button">NWS</button>
+      <button class="chip ref on" data-layer="floods" type="button">Floods</button>
+      <button class="chip ref on" data-layer="launches" type="button">Launches</button>
+      <button class="chip ref on" data-layer="aurora" type="button">Aurora</button>
+      <button class="chip ref on" data-layer="flights" type="button">ADS-B box</button>
+      <button class="chip ref on" data-layer="weather" type="button">Weather</button>
+      <button class="chip ref on" data-layer="radar" type="button">Radar mosaic</button>
+      <button class="chip ref on" data-layer="air" type="button">Air quality</button>
+      <button class="chip ref on" data-layer="marine" type="button">Marine</button>
+      <button class="chip canon on" data-layer="canon" type="button">Ledgers / eggs</button>
+      <button class="chip shadow on" data-layer="shadow" type="button">Named shadows</button>
+      <button class="chip matrix on" data-layer="matrix" type="button">Matrix</button>
+      <button class="chip" id="btn-follow-iss" type="button">Follow ISS</button>
+    </div>
+    <div class="doctrine-bar">
+      <b>Doctrine.</b> Public nodes are <b>resources</b>. Private nodes are <b>named shadows</b> — we keep the silhouette so you remember to check every public, legal link around them. Hollow rings mean the payload is not here. Sphere and disc are two live perspectives of the same overlay.
+    </div>
+  </div>
+  <div class="disc-wrap" id="flat-earth">
+    <canvas id="disc" aria-label="Flat Earth disc. North at center, ice rim at the edge. Same public resources as the globe."></canvas>
+    <div class="globe-tools">
+      <button type="button" id="d-zin" title="Zoom disc">+</button>
+      <button type="button" id="d-zout" title="Zoom out">−</button>
+      <button type="button" id="d-reset" title="Reset disc">reset</button>
+      <button type="button" id="d-full" title="Fullscreen disc">full</button>
+      <span id="d-meta">FLAT EARTH · drag pan · click a pin (view stays) · wheel zoom</span>
+    </div>
+    <div class="doctrine-bar disc-bar">
+      <b>Disc model.</b> North Pole at the center. Equator is the mid ring. The outer ice is the southern rim. Same USGS / ISS / EONET points as the sphere — a different geometry, not a second dataset.
+    </div>
+  </div>
+  <div id="map-brief" class="map-brief" hidden></div>
+  </div>
+  <aside class="side">
+    <p class="kicker">Δ9Φ963 · Public Witness · <span id="utc-clock">…</span></p>
+    <p class="now-playing" id="nowPlaying">Now playing · idle</p>
+    <h1>See the world. Name the shadow. Crunch what is public.</h1>
+    <p class="lead">Pretty globes are not a moat. The moat is data that never became public. Scroll down for the <a href="#flat-earth">flat disc</a> — north at the center, ice at the rim — running the same public overlay. Two models. One set of resources.</p>
+    <article id="brief" class="brief empty">
+      <p class="kicker">Selected node</p>
+      <h2>Click a colored dot</h2>
+      <p>Each map mark is a <strong>public resource</strong>, a <strong>lattice receipt</strong>, or a <strong>named shadow</strong>. This card tells you what it is and opens the official page. We do not invent private interiors.</p>
+    </article>
+    <details class="help layer-key" open>
+      <summary>What the dots mean</summary>
+      <ul>
+        <li><span class="swatch" style="background:#f59e0b"></span> Amber fill — USGS quake (opens USGS)</li>
+        <li><span class="swatch ring" style="border-color:#fb7185"></span> Pink ring — NASA EONET event</li>
+        <li><span class="swatch" style="background:#7dd3fc"></span> Cyan glow — ISS (opens tracker)</li>
+        <li><span class="swatch" style="background:#fbbf24"></span> Gold — public weather / NWS-style alert</li>
+        <li><span class="swatch" style="background:#f472b6"></span> Pink fill — launch pad</li>
+        <li><span class="swatch hollow"></span> Hollow purple — named shadow (public checks only)</li>
+      </ul>
+      <p>Click a dot or a feed row. The card above fills and the buttons go to the agency site. JSON under the feed is for agents.</p>
+    </details>
+    <div class="stat-row">
+      <div class="stat"><b id="n-ref">0</b><span>public resource pings</span></div>
+      <div class="stat"><b id="n-canon">0</b><span>canon nodes</span></div>
+      <div class="stat"><b id="n-shadow">0</b><span>named shadows</span></div>
+      <div class="stat"><b id="n-hf">—</b><span>HF overlay points</span></div>
+    </div>
+    <p class="legend">Sources:
+      HF feed <span id="st-hf" class="tag miss">…</span>
+      USGS <span id="st-usgs" class="tag miss">…</span>
+      EONET <span id="st-eonet" class="tag miss">…</span>
+      ISS <span id="st-iss" class="tag miss">…</span>
+      NWS <span id="st-nws" class="tag miss">…</span>
+      GDACS <span id="st-gdacs" class="tag miss">…</span>
+      ADS-B <span id="st-flights" class="tag miss">…</span>
+      Weather <span id="st-wx" class="tag miss">…</span>
+      Radar <span id="st-radar" class="tag miss">…</span>
+      World alerts <span id="st-walert" class="tag miss">…</span>
+      Air <span id="st-aq" class="tag miss">…</span>
+      DWD <span id="st-dwd" class="tag miss">…</span>
+      Anchors <span id="st-anchors" class="tag miss">…</span>
+      Star Chart <span id="st-star" class="tag miss">…</span>
+      Eggs <span id="st-eggs" class="tag miss">…</span>
+      Agora <span id="st-agora" class="tag miss">…</span>
+    </p>
+    <div class="actions">
+      <button class="btn" id="btn-refresh" type="button">Reload sources</button>
+      <button class="btn ghost" id="btn-overlay" type="button">JSON overlay</button>
+      <button class="btn ghost" id="btn-ollama" type="button">Local Ollama summary</button>
+      <button class="btn ghost" id="btn-hf" type="button">HF SmolLM2 summary</button>
+      <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate PayPal</a>
+      <button class="btn ghost" id="btn-copy-ll" type="button">Copy lat,lon</button>
+    </div>
+    <input class="feed-q" id="feed-q" type="search" placeholder="Filter overlay (quake, ISS, shadow…)" aria-label="Filter overlay">
+    <div class="filter-row">
+      <button class="chip on" data-filter="all" type="button">All</button>
+      <button class="chip ref" data-filter="resource" type="button">Resources</button>
+      <button class="chip canon" data-filter="canon" type="button">Canon</button>
+      <button class="chip shadow" data-filter="shadow" type="button">Shadows</button>
+    </div>
+    <ul class="feed" id="feed"></ul>
+    <p class="legend">Click a map dot or a row here. Info and official links appear in the <strong>Selected node</strong> card at the top of this column.</p>
+    <pre class="out" id="detail" aria-label="Agent JSON for the selected node">Signature: waiting…</pre>
+    <details class="help">
+      <summary>Map controls</summary>
+      <p>Drag rotate · Shift-drag pan · Wheel zoom · Double-click focus · Click pick · Click a feed row to fly both maps · ISS row follows · Fullscreen · Gold line is the day/night terminator · Country names appear when zoomed · <code>#ll=lat,lon</code> permalink.</p>
+    </details>
+    <pre class="out" id="ollama-out">Ollama is optional (localhost:11434). Pair with lygo-ollama-army.</pre>
+    <p class="legend">Agents: <code>npx clawhub@latest install deepseekoracle/lygo-public-witness</code><br>
+    FULL zip: <a href="/lygoskillhub.html#full-lygo">SkillHub</a> ·
+    Eye: <a href="/godseye/">God's Eye</a> ·
+    Chart: <a href="/starchart/">Star Chart live</a> ·
+    Canon: <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Haven Star Chart</a> ·
+    Eggs: <a href="https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html">Kernel eggs</a> ·
+    Guide: <a href="/guides/lygo-public-witness.html">Doctrine</a>
+    </p>
+    <p class="legend" id="sig"></p>
+  </aside>
+</div>
+
+<section class="bottom-deck" id="public-cameras">
+  <p class="kicker">Public cameras · official only</p>
+  <h2>Live public cameras</h2>
+  <p class="legend">NOAA GOES, NASA EPIC/SDO, and official USGS volcano cam pages. No private CCTV. Stills refresh; livestreams open on the agency site.</p>
+  <div class="cam-grid" id="cam-grid"></div>
+  <p class="kicker">Public monitor · disasters and severe headlines</p>
+  <h2>World disaster &amp; severe news monitor</h2>
+  <p class="legend">Public GET only: GDACS, USGS, ReliefWeb, NHC, NASA EONET, NWS, UN News, WHO, BBC/Guardian/NYT World. Severe lane = disaster agencies plus a keyword filter. Headlines stay <strong>RESOURCE</strong>. The event ledger is an append-only public log — <strong>not</strong> Star Chart CANON. Empty beats fake.</p>
+  <p class="legend" id="news-meta">Monitor · waiting…</p>
+  <div class="news-grid three">
+    <div class="news-col">
+      <h3>Severe / disaster <span id="st-news-sev" class="tag miss">…</span></h3>
+      <ul id="news-severe"></ul>
+    </div>
+    <div class="news-col">
+      <h3>World public wire <span id="st-news-world" class="tag miss">…</span></h3>
+      <ul id="news-world"></ul>
+    </div>
+    <div class="news-col">
+      <h3>Eternal event ledger <span id="st-news-led" class="tag miss">…</span></h3>
+      <p class="src" id="ledger-tip">RESOURCE log · tip pending</p>
+      <ul id="news-ledger"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="prose">
+  <h2>What this is</h2>
+  <p>LYGO Public Witness is an original overlay: one Earth of public <strong>resources</strong>, one lattice of <strong>canon</strong> receipts, and a ring of <strong>named shadows</strong>. Shadows are not empty ignorance. They are the reminder that a private node exists, and that the honest move is to examine every public, legal surface linked to it. LYGO is public-data infrastructure — every available angle, without malice.</p>
+  <h2>Sphere and disc</h2>
+  <p>Two live models share one overlay. The <strong>globe</strong> is the sphere. The <strong>flat disc</strong> under it is the north-centered map: North Pole at the hub, equator as the mid ring, southern ice as the rim. USGS quakes, ISS, EONET, weather — the same public points, plotted twice. Different geometry. Same resources. Neither view invents a private payload.</p>
+  <h2>Three classes</h2>
+  <ul>
+    <li><strong>Resource</strong> — a public feed we may crunch (USGS, EONET, ISS). If the GET fails, the node stays named; we follow its public URL.</li>
+    <li><strong>Canon</strong> — dual ledgers, eggs, Star Chart feed, Agora. On-lattice receipts.</li>
+    <li><strong>Shadow</strong> — private rooms we will not open (ops desks, vaults, vendor intel, live chart write). Silhouette + why + public checks. Payload is always null.</li>
+  </ul>
+  <div class="ad-slot" aria-label="Advertisement"><div class="ad-label">Advertisement</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  <h2>Support</h2>
+  <p>Public Witness is free. Optional donations pay hosting and packaging. A tip does not buy access, skip the doctrine, or unlock private intel.</p>
+  <p>
+    <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal.me/ExcavationPro</a>
+    <a class="btn ghost" href="https://www.patreon.com/Excavationpro" target="_blank" rel="noopener noreferrer">Patreon / Excavationpro</a>
+  </p>
+  <h2>Integrate</h2>
+  <p>Humans use this page. The globe crunches live public resources (USGS, EONET, ISS, NWS, GDACS, NOAA SWPC, Open-Meteo, a public ADS-B box, launch pads, CoinGecko). Hugging Face hosts a labeled overlay snapshot: <a href="https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed">DeepSeekOracle/lygo-public-witness-feed</a>. Failed GETs stay <strong>named shadows</strong>. Agents: ClawHub tentacle + SkillHub FULL zip.</p>
+</section>
+<footer class="site">
+  <p>© <span class="y"></span> Justin Helmer / Excavationpro. MIT-0 skill · site content by the publisher. Mirror: <a href="https://eternalhaven.ca/witness/">eternalhaven.ca/witness/</a></p>
+  <p><strong>Donate (optional tip):</strong> <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a> · <a href="https://www.patreon.com/Excavationpro">Patreon</a></p>
+</footer>
+<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+<script src="/witness/radio.js"></script>
+<script src="/witness/app.js"></script>
+<script src="/witness/disc.js"></script>
+</body>
+</html>
