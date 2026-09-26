@@ -23,14 +23,14 @@
     {
       "slug": "lygo-tv",
       "name": "LYGO TV",
-      "summary": "Free online TV player, plus the drop-in player code: point people at https://chatagent.ca/sources/, or paste three lines to run the same player on any site \u2014 Rumble room first, ~12,000 channels pulled live from the LYGO catalog. Package fetches nothing itself.",
+      "summary": "Free online TV player, plus the drop-in player code: point people at https://chatagent.ca/sources/, or paste three lines to run the same player on any site \u2014 Rumble room first, ~12,000 channels from the public LYGO catalog. Package scripts touch no network; the embed runs in visitors' browsers with its origins and SRI hashes declared.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-tv",
       "mirror": "mirrors/lygo-tv",
       "published": true,
       "pending_publication": false,
       "downloads": 178,
-      "version": "1.3.0",
-      "notes": "Pointer + injectable player (embed/). v1.3.0 published 2026-09-26; verified by installing the slug from the registry (returns 1.3.0). Does not fetch streams."
+      "version": "1.3.1",
+      "notes": "Pointer + injectable player (embed/). v1.3.1 answers the ClawHub security audit: catalog URLs validated, hls.js SRI-pinned, install commands pinned, embed discloses every origin it contacts. Audit outcome moved Review -> Pass on 2026-09-26; verified by installing the slug from the registry."
     },
     {
       "slug": "lygo-forkling",
