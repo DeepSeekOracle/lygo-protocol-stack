@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="supporter/download-gate.css" />
 <meta name="theme-color" content="#0a0a12" />
 <meta name="google-adsense-account" content="ca-pub-0646320966060599" />
 <meta property="og:type" content="website" />
@@ -243,6 +244,21 @@ footer.site { margin-top:28px; padding-top:16px; border-top:1px solid var(--line
     </div>
 
     <p class="lead">The alpha is <strong>build 1.5.6 · build-line 2026-09-25</strong> · signature <code>Δ9Φ963-LYGO-LLM-CONSOLE-v1</code>. It was sealed to the canon vault — <code>2026-09-25_build-1.5.6_PC_LOCAL</code> (1,963 files) and <code>2026-09-25_build-1.5.6_USB_CLAW</code> (1,010 files). It was then <strong>install-audited against the seal</strong>: <strong>PC FULL</strong> — 1,963 payload files, 1,384 excluded by the recipe, 0 missing, 0 changed, 598 files / 18.45 GB installed; <strong>USB FULL</strong> — 1,010 payload, 149 excluded, 0 missing, 0 changed, 878 files / 10.18 GB installed. The audited 1.5.6 sets boot reporting <strong>build v1.5.6</strong>.</p>
+
+    <div class="gate-box" id="supporter-gate" style="border-color:rgba(212,175,55,.55); background:rgba(212,175,55,.06)">
+      <h3 style="color:var(--gold)">🔒 Supporter downloads — the buttons below ask for the member code</h3>
+      <p><strong>How it works.</strong> The installer buttons and the multi-file sets unlock with <strong>this month's code</strong> from the <strong>Patreon member section</strong>. One code unlocks every button on this page, in this browser. The code rotates monthly — each one runs to the 5th of the following month — so a shared code does not serve everyone forever.</p>
+      <p><strong>Everything else stays open.</strong> The ClawHub skills, every install note, all the SHA-256 values and the rest of this page need no code at all. The gate is on the downloads only, and it is what funds the console work.</p>
+      <p><strong>Honest terms.</strong> The code is verified in your browser, so this is a thank-you gate rather than a lock, and the build files are also public on Hugging Face. The plaintext code is never stored — this browser remembers only the month it unlocked.</p>
+      <div class="actions">
+        <a class="primary" href="https://www.patreon.com/Excavationpro/posts/lygo-supporter-170485961" target="_blank" rel="noopener">Get this month's code on Patreon →</a>
+        <a class="primary" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">Support with PayPal →</a>
+        <button type="button" data-lyg-gate-open>I have a code</button>
+        <button type="button" data-lyg-gate-relock hidden>Lock again</button>
+      </div>
+      <p class="meta"><span class="pill dl" data-lyg-gate-chip hidden>supporter unlocked in this browser</span></p>
+      <p class="meta" data-lyg-gate-state>Checking this browser…</p>
+    </div>
 
       <article class="ch" style="border-color:rgba(0,229,255,.42)">
         <h2>PC LOCAL · light · ALPHA 1.5.6 · 1.03 GiB</h2>
@@ -726,5 +742,6 @@ footer.site { margin-top:28px; padding-top:16px; border-top:1px solid var(--line
   }
 })();
 </script>
+<script src="supporter/download-gate.js" defer></script>
 </body>
 </html>
