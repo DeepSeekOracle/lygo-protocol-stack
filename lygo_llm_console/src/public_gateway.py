@@ -336,11 +336,13 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
             # Chrome's Private Network Access: a page served from a PUBLIC origin (chatagent.ca)
-            # fetching a LOCAL one (http://127.0.0.1:9642) is a public -> private request, and Chrome
+            # fetching a LOCAL one (the loopback origin of this kit's own console port) is a
+            # public -> private request, and Chrome
             # refuses it unless the preflight says so in so many words. Without this header the whole
             # "use the web portal to drive your own engine" path dies as a bare `Failed to fetch`
             # with no CORS message anywhere - MEASURED 2026-09-24, page https://chatagent.ca/portal/,
-            # fetch http://127.0.0.1:9642/api/health, while the same request from curl answered 200.
+            # fetch <the console's loopback origin>/api/health, while the same request from curl
+            # answered 200. The port itself is written down in one place, paths.py.
             self.send_header("Access-Control-Allow-Private-Network", "true")
         self.end_headers()
         self.wfile.write(body)
@@ -407,34 +409,51 @@ class Handler(BaseHTTPRequestHandler):
         ctype = {".png": "image/png", ".webp": "image/webp"}.get(p.suffix.lower(), "image/jpeg")
         self._send(200, p.read_bytes(), ctype)
 
+    def _drop_body(self, declared: int) -> None:
+        """Read and discard a body we are about to refuse.
+
+        MEASURED 2026-09-25: a refusal that never read the body reset the caller (WinError 10053).
+        """
+        if declared < 0:
+            self.close_connection = True
+            return
+        if declared > 16_000:
+            self.close_connection = True
+        if declared > 0:
+            drain_body(self, declared)
+
     def _post_image(self) -> None:
         """Start one render. The answer is a job handle, because a picture can take minutes.
 
-        MEASURED 2026-09-23 on the steward's box: 12.5 s when the card is free, 272-300 s on the CPU
-        route the limb picks while the chat model holds the card. A five-minute HTTP request dies in
-        any proxy, so the caller gets a handle and polls `GET /api/image?job=`.
+        MEASURED 2026-09-23: 12.5 s on a free card, 272-300 s on the CPU route, so the caller polls
+        `GET /api/image?job=`.
         """
+        declared = (self.headers.get("Content-Length") or "").strip()
+        try:
+            n = int(declared)
+        except ValueError:
+            n = -1
         origin = self._origin()
         if origin and not _cors_ok(origin):
+            self._drop_body(n)
             self._json(403, {"error": "origin"})
             return
         if not IMAGE_ENABLED:
+            self._drop_body(n)
             self._json(503, {"error": "image_off",
                              "hint": "the operator turned the picture route off (LYGO_PUBLIC_IMAGE=0)"})
             return
         ip = (self.client_address or ("", 0))[0]
         if not _rate_image(ip):
+            self._drop_body(n)
             self._json(429, {"error": "rate_limited",
                              "hint": "%d picture(s) per %d s from one address" % (IMAGE_MAX_REQ, IMAGE_WINDOW)})
             return
-        declared = (self.headers.get("Content-Length") or "0").strip()
-        try:
-            n = int(declared)
-        except ValueError:
+        if n < 0:
             self.close_connection = True
             self._json(400, {"error": "bad_request", "detail": "Content-Length: " + declared[:32]})
             return
-        if n < 0 or n > 16_000:
+        if n > 16_000:
             drain_body(self, n)
             self.close_connection = True
             self._json(413, {"error": "too_large", "hint": "a prompt, nothing else"})

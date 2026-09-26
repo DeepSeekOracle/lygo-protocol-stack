@@ -1,7 +1,7 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-08-22T13:02:52.553934+00:00",
+  "generated_at": "2026-09-22T15:05:56.422501+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
@@ -13,7 +13,7 @@
     "total_stream_gb": 41.613,
     "remote_streams": 10762,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 10858,
+    "playlist_tracks": 10892,
     "last_ingest": {
       "utc": "2026-07-28T15:37:40.802878+00:00",
       "added_or_updated": 12,
@@ -145664,6 +145664,614 @@
       "artist": "Excavationpro",
       "moniker": "",
       "added_utc": "2026-08-22T12:44:11.809246+00:00"
+    },
+    {
+      "sha256": "5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3",
+      "title": "Bending The Silence",
+      "aliases": [
+        "Bending The Silence",
+        "Bending_The_Silence"
+      ],
+      "isrcs": [],
+      "size": 4010961,
+      "stream_file": "5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\5d\\5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/5d/5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3.mp3",
+      "hf_path": "stream/5d/5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:16.159683+00:00"
+    },
+    {
+      "sha256": "134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b",
+      "title": "Black Goo Inside",
+      "aliases": [
+        "Black Goo Inside",
+        "Black_Goo_Inside"
+      ],
+      "isrcs": [],
+      "size": 3953909,
+      "stream_file": "134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\13\\134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/13/134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b.mp3",
+      "hf_path": "stream/13/134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:16.318061+00:00"
+    },
+    {
+      "sha256": "43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9",
+      "title": "Heavy Kind of Quiet",
+      "aliases": [
+        "Heavy Kind of Quiet",
+        "Heavy_Kind_of_Quiet"
+      ],
+      "isrcs": [],
+      "size": 3935728,
+      "stream_file": "43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\43\\43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43/43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9.mp3",
+      "hf_path": "stream/43/43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:16.542373+00:00"
+    },
+    {
+      "sha256": "b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946",
+      "title": "Puzzle Picture",
+      "aliases": [
+        "Puzzle Picture",
+        "Puzzle_Picture"
+      ],
+      "isrcs": [],
+      "size": 3864257,
+      "stream_file": "b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b5\\b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b5/b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946.mp3",
+      "hf_path": "stream/b5/b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:16.690861+00:00"
+    },
+    {
+      "sha256": "80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6",
+      "title": "Standing in the Doorway",
+      "aliases": [
+        "Standing in the Doorway",
+        "Standing_in_the_Doorway"
+      ],
+      "isrcs": [],
+      "size": 3842941,
+      "stream_file": "80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\80\\80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/80/80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6.mp3",
+      "hf_path": "stream/80/80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:16.860140+00:00"
+    },
+    {
+      "sha256": "f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e",
+      "title": "Fractured Puzzle",
+      "aliases": [
+        "Fractured Puzzle",
+        "Fractured_Puzzle"
+      ],
+      "isrcs": [],
+      "size": 3216280,
+      "stream_file": "f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f2\\f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f2/f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e.mp3",
+      "hf_path": "stream/f2/f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:18.737190+00:00"
+    },
+    {
+      "sha256": "e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9",
+      "title": "Frost Inside My Veins",
+      "aliases": [
+        "Frost Inside My Veins",
+        "Frost_Inside_My_Veins"
+      ],
+      "isrcs": [],
+      "size": 4253586,
+      "stream_file": "e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e4\\e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e4/e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9.mp3",
+      "hf_path": "stream/e4/e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:42.934699+00:00"
+    },
+    {
+      "sha256": "9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d",
+      "title": "Hard Won Breath",
+      "aliases": [
+        "Hard Won Breath",
+        "Hard_Won_Breath"
+      ],
+      "isrcs": [],
+      "size": 4273648,
+      "stream_file": "9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\9d\\9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9d/9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d.mp3",
+      "hf_path": "stream/9d/9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:43.137304+00:00"
+    },
+    {
+      "sha256": "cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa",
+      "title": "Just Sit Here",
+      "aliases": [
+        "Just Sit Here",
+        "Just_Sit_Here"
+      ],
+      "isrcs": [],
+      "size": 3994033,
+      "stream_file": "cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\cb\\cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cb/cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa.mp3",
+      "hf_path": "stream/cb/cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:43.335045+00:00"
+    },
+    {
+      "sha256": "05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15",
+      "title": "Missed Call",
+      "aliases": [
+        "Missed Call",
+        "Missed_Call"
+      ],
+      "isrcs": [],
+      "size": 3994033,
+      "stream_file": "05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\05\\05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/05/05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15.mp3",
+      "hf_path": "stream/05/05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:43.514974+00:00"
+    },
+    {
+      "sha256": "e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837",
+      "title": "Savage Peace",
+      "aliases": [
+        "Savage Peace",
+        "Savage_Peace"
+      ],
+      "isrcs": [],
+      "size": 4272394,
+      "stream_file": "e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e7\\e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e7/e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837.mp3",
+      "hf_path": "stream/e7/e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:43.706518+00:00"
+    },
+    {
+      "sha256": "7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489",
+      "title": "Stranger With Your Name",
+      "aliases": [
+        "Stranger With Your Name",
+        "Stranger_With_Your_Name"
+      ],
+      "isrcs": [],
+      "size": 2867424,
+      "stream_file": "7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\7b\\7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/7b/7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489.mp3",
+      "hf_path": "stream/7b/7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:43.854429+00:00"
+    },
+    {
+      "sha256": "661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515",
+      "title": "The Myth Of The Morning",
+      "aliases": [
+        "The Myth Of The Morning",
+        "The_Myth_Of_The_Morning"
+      ],
+      "isrcs": [],
+      "size": 3978360,
+      "stream_file": "661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\66\\661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/66/661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515.mp3",
+      "hf_path": "stream/66/661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:44.068677+00:00"
+    },
+    {
+      "sha256": "5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910",
+      "title": "Still Here For Now",
+      "aliases": [
+        "Still Here For Now",
+        "Still_Here_For_Now"
+      ],
+      "isrcs": [],
+      "size": 3557439,
+      "stream_file": "5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\51\\5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/51/5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910.mp3",
+      "hf_path": "stream/51/5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T14:59:45.674249+00:00"
+    },
+    {
+      "sha256": "e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1",
+      "title": "Serrated Throttle",
+      "aliases": [
+        "Serrated Throttle",
+        "Serrated_Throttle"
+      ],
+      "isrcs": [],
+      "size": 4243556,
+      "stream_file": "e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e1\\e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e1/e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1.mp3",
+      "hf_path": "stream/e1/e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1.mp3",
+      "album": "Beatstars",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:11.161040+00:00"
+    },
+    {
+      "sha256": "f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1",
+      "title": "BONES Bones Can Still Walk",
+      "aliases": [
+        "BONES Bones Can Still Walk",
+        "BONES_Bones_Can_Still_Walk"
+      ],
+      "isrcs": [],
+      "size": 4081177,
+      "stream_file": "f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f6\\f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f6/f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1.mp3",
+      "hf_path": "stream/f6/f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:19.279477+00:00"
+    },
+    {
+      "sha256": "fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16",
+      "title": "GAVE YOU MY ALL Keys To Every Room",
+      "aliases": [
+        "GAVE YOU MY ALL Keys To Every Room",
+        "GAVE_YOU_MY_ALL_Keys_To_Every_Room"
+      ],
+      "isrcs": [],
+      "size": 3515678,
+      "stream_file": "fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\fc\\fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fc/fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16.mp3",
+      "hf_path": "stream/fc/fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:19.293794+00:00"
+    },
+    {
+      "sha256": "a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e",
+      "title": "SORRY YOUR FAVORITE WORD Words Without Meat",
+      "aliases": [
+        "SORRY YOUR FAVORITE WORD Words Without Meat",
+        "SORRY_YOUR_FAVORITE_WORD_Words_Without_Meat"
+      ],
+      "isrcs": [],
+      "size": 4264243,
+      "stream_file": "a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\a6\\a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a6/a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e.mp3",
+      "hf_path": "stream/a6/a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:19.303463+00:00"
+    },
+    {
+      "sha256": "6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a",
+      "title": "THE LAST WORD Packing The Wreckage",
+      "aliases": [
+        "THE LAST WORD Packing The Wreckage",
+        "THE_LAST_WORD_Packing_The_Wreckage"
+      ],
+      "isrcs": [],
+      "size": 3974597,
+      "stream_file": "6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\6c\\6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6c/6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a.mp3",
+      "hf_path": "stream/6c/6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:19.311896+00:00"
+    },
+    {
+      "sha256": "90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e",
+      "title": "These Are My Bones",
+      "aliases": [
+        "These Are My Bones",
+        "These_Are_My_Bones"
+      ],
+      "isrcs": [],
+      "size": 4397781,
+      "stream_file": "90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\90\\90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90/90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e.mp3",
+      "hf_path": "stream/90/90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:19.320608+00:00"
+    },
+    {
+      "sha256": "1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e",
+      "title": "UNDER THE LIGHTS Paper Cage",
+      "aliases": [
+        "UNDER THE LIGHTS Paper Cage",
+        "UNDER_THE_LIGHTS_Paper_Cage"
+      ],
+      "isrcs": [],
+      "size": 3656112,
+      "stream_file": "1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\1b\\1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1b/1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e.mp3",
+      "hf_path": "stream/1b/1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:00:19.329841+00:00"
+    },
+    {
+      "sha256": "cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62",
+      "title": "Alonest Place",
+      "aliases": [
+        "Alonest Place",
+        "Alonest_Place"
+      ],
+      "isrcs": [],
+      "size": 2753948,
+      "stream_file": "cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\cb\\cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cb/cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62.mp3",
+      "hf_path": "stream/cb/cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:10.940950+00:00"
+    },
+    {
+      "sha256": "8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7",
+      "title": "Nothing Left To Mend",
+      "aliases": [
+        "Nothing Left To Mend",
+        "Nothing_Left_To_Mend"
+      ],
+      "isrcs": [],
+      "size": 4114405,
+      "stream_file": "8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\8e\\8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8e/8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7.mp3",
+      "hf_path": "stream/8e/8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:11.023826+00:00"
+    },
+    {
+      "sha256": "e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7",
+      "title": "Storm’s Warmth",
+      "aliases": [
+        "Storm’s Warmth",
+        "Storm’s_Warmth"
+      ],
+      "isrcs": [],
+      "size": 3977106,
+      "stream_file": "e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e7\\e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e7/e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7.mp3",
+      "hf_path": "stream/e7/e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:11.157621+00:00"
+    },
+    {
+      "sha256": "859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583",
+      "title": "Alone in this Place",
+      "aliases": [
+        "Alone in this Place"
+      ],
+      "isrcs": [],
+      "size": 2291022,
+      "stream_file": "859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\85\\859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/85/859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583.mp3",
+      "hf_path": "stream/85/859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:12.159335+00:00"
+    },
+    {
+      "sha256": "38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9",
+      "title": "Warm Storms",
+      "aliases": [
+        "Warm Storms"
+      ],
+      "isrcs": [],
+      "size": 3310320,
+      "stream_file": "38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\38\\38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/38/38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9.mp3",
+      "hf_path": "stream/38/38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9.mp3",
+      "album": "Alonest Place",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:13.642272+00:00"
+    },
+    {
+      "sha256": "87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32",
+      "title": "Frozen Roads",
+      "aliases": [
+        "Frozen Roads",
+        "Frozen_Roads"
+      ],
+      "isrcs": [],
+      "size": 3957671,
+      "stream_file": "87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\87\\87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87/87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32.mp3",
+      "hf_path": "stream/87/87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:31.636051+00:00"
+    },
+    {
+      "sha256": "69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de",
+      "title": "Ghosts From the Moon",
+      "aliases": [
+        "Ghosts From the Moon"
+      ],
+      "isrcs": [],
+      "size": 3893096,
+      "stream_file": "69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\69\\69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/69/69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de.mp3",
+      "hf_path": "stream/69/69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:31.760214+00:00"
+    },
+    {
+      "sha256": "dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4",
+      "title": "Nobody Will Notice",
+      "aliases": [
+        "Nobody Will Notice",
+        "Nobody_Will_Notice"
+      ],
+      "isrcs": [],
+      "size": 3967075,
+      "stream_file": "dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\dc\\dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dc/dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4.mp3",
+      "hf_path": "stream/dc/dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:31.930555+00:00"
+    },
+    {
+      "sha256": "3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e",
+      "title": "Where I Keep The Cold",
+      "aliases": [
+        "Where I Keep The Cold",
+        "Where_I_Keep_The_Cold"
+      ],
+      "isrcs": [],
+      "size": 3864257,
+      "stream_file": "3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\3a\\3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3a/3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e.mp3",
+      "hf_path": "stream/3a/3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e.mp3",
+      "album": "Fake Sun",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:32.134476+00:00"
+    },
+    {
+      "sha256": "dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a",
+      "title": "Broom That Never Sweeps",
+      "aliases": [
+        "Broom That Never Sweeps",
+        "Broom_That_Never_Sweeps"
+      ],
+      "isrcs": [],
+      "size": 3876795,
+      "stream_file": "dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\dc\\dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dc/dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a.mp3",
+      "hf_path": "stream/dc/dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:46.666263+00:00"
+    },
+    {
+      "sha256": "d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3",
+      "title": "NOTHING LEFT TO SAY Prison Made of Air",
+      "aliases": [
+        "NOTHING LEFT TO SAY Prison Made of Air",
+        "NOTHING LEFT TO SAY Prison_Made_of_Air"
+      ],
+      "isrcs": [],
+      "size": 3890587,
+      "stream_file": "d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\d5\\d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d5/d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3.mp3",
+      "hf_path": "stream/d5/d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:46.674624+00:00"
+    },
+    {
+      "sha256": "b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf",
+      "title": "OUR WORDS MEAN NOTHING Hollow Phrases",
+      "aliases": [
+        "OUR WORDS MEAN NOTHING Hollow Phrases",
+        "OUR WORDS MEAN NOTHING Hollow_Phrases"
+      ],
+      "isrcs": [],
+      "size": 3791531,
+      "stream_file": "b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b6\\b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b6/b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf.mp3",
+      "hf_path": "stream/b6/b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:46.707618+00:00"
+    },
+    {
+      "sha256": "5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d",
+      "title": "Real Ones feat Justin Helmer",
+      "aliases": [
+        "Real Ones feat Justin Helmer"
+      ],
+      "isrcs": [],
+      "size": 3251767,
+      "stream_file": "5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\58\\5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/58/5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d.mp3",
+      "hf_path": "stream/58/5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d.mp3",
+      "album": "September Blues",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-09-22T15:05:46.733353+00:00"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",

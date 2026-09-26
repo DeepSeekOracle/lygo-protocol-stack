@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import threading
 import time
 import zipfile
@@ -434,7 +435,16 @@ def _highlights(recs: list[dict[str, Any]], n: int = 6) -> list[str]:
 
 def _write_rollup(st: dict[str, Any], covered: list[dict[str, Any]]) -> dict[str, Any]:
     sid = st["session_id"]
-    n = len(st.get("rollups") or []) + 1
+    # Monotonic per session: consolidation moves superseded files to the archive, so counting the
+    # state list alone would hand out a number that a previously-moved file already had.
+    n = 0
+    for path in st.get("rollups") or []:
+        m = re.search(r"-(\d+)\.json$", str(path))
+        if m:
+            n = max(n, int(m.group(1)))
+    if not n:
+        n = len(st.get("rollups") or [])
+    n += 1
     text = digest_block(covered)
     first, last = covered[0], covered[-1]
     obj = {
@@ -552,16 +562,66 @@ def system_reserve() -> int:
 
 
 def live_ctx() -> int:
-    """The context the engine will actually run: model-native, clamped by config ctx_max."""
+    """The context the engine will actually run: chat-model native, clamped by config ctx_max.
+
+    An embedding record (nomic 2,048) must never size the chat turn: that is how a ~10k
+    photo request was billed against a 2k window and came back empty.
+    """
     try:
         from engine import clamp_ctx
         from paths import console_limits
 
         lim = console_limits()
-        rec = _selected_record()
-        return int(clamp_ctx((rec or {}).get("ctx"), lim.get("ctx_max")))
+        rec = _chat_window_record(_selected_record())
+        return int(
+            clamp_ctx(
+                (rec or {}).get("ctx"),
+                lim.get("ctx_max"),
+                architecture=(rec or {}).get("architecture"),
+                kind=(rec or {}).get("kind"),
+                model_id=(rec or {}).get("id"),
+            )
+        )
     except Exception:  # noqa: BLE001
-        return 8192
+        try:
+            from paths import console_limits as _lim
+
+            return int(_lim().get("ctx_max") or 32768)
+        except Exception:  # noqa: BLE001
+            return 32768
+
+
+def _chat_window_record(rec: dict[str, Any] | None) -> dict[str, Any] | None:
+    """The chat brain's record, even if the registry pin currently names an embedder."""
+    try:
+        from engine import is_embed_model
+    except Exception:  # noqa: BLE001
+        is_embed_model = lambda *a, **k: False  # noqa: E731
+    if rec and not is_embed_model(rec.get("kind"), rec.get("architecture"), rec.get("id")):
+        return rec
+    try:
+        import registry
+        from paths import console_cfg
+
+        data = registry.load() if hasattr(registry, "load") else {}
+        models = list((data or {}).get("models") or [])
+        prefer = list((console_cfg() or {}).get("prefer_ids") or [])
+        ordered: list[dict[str, Any]] = []
+        for pid in prefer:
+            hit = next((m for m in models if str(m.get("id")) == str(pid)), None)
+            if hit:
+                ordered.append(hit)
+        ordered.extend(models)
+        for m in ordered:
+            if not isinstance(m, dict):
+                continue
+            if is_embed_model(m.get("kind"), m.get("architecture"), m.get("id")):
+                continue
+            if str(m.get("kind") or "chat").lower() in ("", "chat"):
+                return m
+    except Exception:  # noqa: BLE001
+        pass
+    return rec
 
 
 def _selected_record() -> dict[str, Any] | None:
@@ -731,7 +791,7 @@ def compact(
             return {"ok": True, "folded": 0, "reason": reason, "note": "nothing in the journal yet"}
         frontier = max(0, len(recs) - keep)
         covered_upto = int(st.get("covered_upto") or 0)
-        pending = [r for r in recs[:frontier] if int(r.get("i") or 0) > covered_upto]
+        pending = _pending_to_fold(st, recs, keep)
         if not pending and not force:
             return {
                 "ok": True,
@@ -741,14 +801,30 @@ def compact(
                 "live_turns": len(recs) - frontier,
                 "note": "nothing has left the live window yet",
             }
+        # Only COMPLETE batches fold. A turn that leaves the live window one at a time used to become
+        # its own two-turn rollup: 1,660 near-duplicate files in this store, and a carry-over block
+        # that quoted 12 earlier turns where the design intends ~144. The partial tail stays pending
+        # and goes in with the next batch - it is still in the journal, and still inside the window the
+        # token budget pays for, so nothing is lost by waiting. `force` (a seal, or an explicit
+        # maintenance call) folds the tail now.
+        batch = pending if force else pending[: (len(pending) // ROLLUP_TURNS) * ROLLUP_TURNS]
+        if not batch:
+            return {
+                "ok": True,
+                "folded": 0,
+                "reason": reason,
+                "held": len(pending),
+                "covered_upto": covered_upto,
+                "live_turns": len(recs) - frontier,
+                "note": f"holding {len(pending)} turn(s) until a full batch of {ROLLUP_TURNS} is ready",
+            }
         folded: list[dict[str, Any]] = []
-        for start in range(0, len(pending), ROLLUP_TURNS):
-            chunk = pending[start : start + ROLLUP_TURNS]
+        for start in range(0, len(batch), ROLLUP_TURNS):
+            chunk = batch[start : start + ROLLUP_TURNS]
             if not chunk:
                 continue
             folded.append(_write_rollup(st, chunk))
-        if pending:
-            st["covered_upto"] = int(pending[-1].get("i") or covered_upto)
+        st["covered_upto"] = int(batch[-1].get("i") or covered_upto)
         st["compactions"] = int(st.get("compactions") or 0) + 1
         st["last_compact"] = time.time()
         st["last_compact_iso"] = iso()
@@ -763,6 +839,7 @@ def compact(
             "ok": True,
             "folded": sum(int(f.get("turns") or 0) for f in folded),
             "rollups": len(folded),
+            "held": max(0, len(pending) - len(batch)),
             "covered_upto": st["covered_upto"],
             "reason": reason,
             "live_turns": len(recs) - frontier,
@@ -770,6 +847,258 @@ def compact(
             "carry_span": [st.get("carry_from"), st.get("carry_to")],
             "carry": st.get("carry") or "",
         }
+
+
+# ------------------------------------------------------------------------------------------------
+# maintenance: consolidating what an earlier build inflated, and moving debris out of the live store
+# ------------------------------------------------------------------------------------------------
+def _rollup_files() -> dict[str, list[Path]]:
+    """Every live rollup file, grouped by session id, oldest name first."""
+    out: dict[str, list[Path]] = {}
+    if not ROLLUPS.is_dir():
+        return out
+    for p in sorted(ROLLUPS.glob("*.json")):
+        sid = p.name.rsplit("-", 1)[0]
+        out.setdefault(sid, []).append(p)
+    return out
+
+
+def _load_rollup(p: Path) -> dict[str, Any] | None:
+    obj = None
+    try:
+        raw = read_text_locked(p) or "{}"
+        obj = json.loads(raw)
+    except (OSError, json.JSONDecodeError):
+        return None
+    return obj if isinstance(obj, dict) and obj.get("digest") else None
+
+
+def _merge_rollups(sid: str, objs: list[dict[str, Any]], n: int) -> dict[str, Any]:
+    """One fatter rollup from several thin ones - lossless, because a rollup's payload is the digest
+    text of its turns. Concatenating the digests in order carries every turn line, unchanged."""
+    text = "\n".join(str(o.get("digest") or "").strip("\n") for o in objs).strip("\n")
+    highlights: list[str] = []
+    paths: list[str] = []
+    urls: list[str] = []
+    for o in objs:
+        for h in o.get("highlights") or []:
+            if h not in highlights:
+                highlights.append(str(h))
+        art = o.get("artifacts") if isinstance(o.get("artifacts"), dict) else {}
+        paths += [str(x) for x in (art.get("paths") or [])]
+        urls += [str(x) for x in (art.get("urls") or [])]
+    return {
+        "signature": BUILD_TAG, "sid": sid, "n": n, "created_iso": iso(),
+        "first_i": objs[0].get("first_i"), "last_i": objs[-1].get("last_i"),
+        "turns": sum(int(o.get("turns") or 0) for o in objs),
+        "from_iso": objs[0].get("from_iso"), "to_iso": objs[-1].get("to_iso"),
+        "chars": sum(int(o.get("chars") or 0) for o in objs),
+        "tokens": sum(int(o.get("tokens") or 0) for o in objs),
+        "sha256": digest_of(text), "digest": text, "highlights": highlights[:8],
+        "artifacts": {"paths": sorted(set(paths))[:12], "urls": sorted(set(urls))[:12]},
+        "consolidated_from": [o.get("n") for o in objs],
+        "consolidated_count": len(objs),
+    }
+
+
+def _write_rollup_pair(obj: dict[str, Any], stem: str) -> list[Path]:
+    """The .json and its readable .md twin, under one name stem."""
+    jp = ROLLUPS / (stem + ".json")
+    atomic_write_text(jp, json.dumps(obj, indent=1, ensure_ascii=False))
+    lines = [f"# rollup {obj.get('n')} · session {obj.get('sid')}",
+             f"{obj.get('from_iso')} → {obj.get('to_iso')} · {obj.get('turns')} turns", ""]
+    lines += [ln for ln in str(obj.get("digest") or "").splitlines() if ln.strip()]
+    mp = ROLLUPS / (stem + ".md")
+    atomic_write_text(mp, "\n".join(lines) + "\n")
+    return [jp, mp]
+
+
+def _archive_dir(kind: str) -> Path:
+    d = ARCHIVE / f"{kind}-{time.strftime('%Y%m%d-%H%M%S', time.localtime())}"
+    try:
+        d.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+    return d
+
+
+def consolidate_rollups(apply: bool = False, batch: int | None = None) -> dict[str, Any]:
+    """Merge thin rollups into full batches, per session; superseded files are archived, not deleted.
+
+    A build that folded on every turn left one 2-turn rollup per turn - 1,660 files in this store. The
+    only reader (`build_carry`) quotes the newest CARRY_ROLLUPS of them, so the carry-over block the
+    model actually sees covered ~12 earlier turns where the layout intends ~144, and the rest was
+    write-only. Merging is safe because a rollup's payload is just the per-turn lines.
+    """
+    size = max(2, int(batch or ROLLUP_TURNS))
+    with _LOCK:
+        st = _load_state()
+        live = str(st.get("session_id") or "")
+        report: dict[str, Any] = {
+            "ok": True, "apply": bool(apply), "batch": size, "sessions": [], "files_in": 0,
+            "files_out": 0, "rollups_in": 0, "rollups_out": 0, "bytes_in": 0, "bytes_out": 0,
+            "archived_to": None, "thin_already": [], "skipped": [],
+        }
+        plan: list[tuple[str, list[Path], list[dict[str, Any]], list[str]]] = []
+        for sid, files in sorted(_rollup_files().items()):
+            objs = [(p, _load_rollup(p)) for p in files]
+            good = [(p, o) for p, o in objs if o]
+            if len(good) <= 1:
+                report["thin_already"].append(sid)
+                continue
+            bad = [str(p.name) for p, o in objs if not o]
+            if bad:
+                report["skipped"] += bad
+            # Only THIN rollups are packed, and only into each other: a rollup that is already a
+            # full batch passes through untouched, so running this twice cannot fuse the fat ones
+            # into one blob (which the 1400-char carry cap would then truncate - worse than the
+            # inflation it was meant to fix).
+            thin = [(p, o) for p, o in good if int(o.get("turns") or 0) < size]
+            if len(thin) < 2:
+                report["thin_already"].append(sid)
+                continue
+            merged: list[dict[str, Any]] = []
+            cur: list[dict[str, Any]] = []
+            have = 0
+
+            def flush() -> None:
+                nonlocal cur, have
+                if len(cur) > 1:
+                    merged.append(_merge_rollups(sid, cur, len(merged) + 1))
+                elif cur:
+                    merged.append(cur[0])
+                cur, have = [], 0
+
+            for _p, o in good:
+                t = int(o.get("turns") or 0)
+                if t >= size:
+                    flush()
+                    merged.append(o)
+                    continue
+                if cur and have + t > size:
+                    flush()
+                cur.append(o)
+                have += t
+                if have >= size:
+                    flush()
+            flush()
+            if len(merged) >= len(good):
+                report["thin_already"].append(sid)
+                continue
+            plan.append((sid, [p for p, _ in good], merged, bad))
+
+        for sid, old_files, merged, _bad in plan:
+            report["files_in"] += len(old_files)
+            report["rollups_in"] += len(old_files)
+            report["bytes_in"] += sum(p.stat().st_size for p in old_files if p.is_file())
+            report["files_out"] += len(merged) * 2
+            report["rollups_out"] += len(merged)
+            report["bytes_out"] += len(json.dumps(merged, ensure_ascii=False).encode("utf-8"))
+            report["sessions"].append({"sid": sid, "files": len(old_files), "rollups": len(old_files),
+                                       "merged": len(merged),
+                                       "turns": sum(int(m.get("turns") or 0) for m in merged)})
+        if not apply:
+            report["note"] = "dry run: nothing written, nothing moved"
+            report["needs_consolidation"] = len(plan)
+            return report
+
+        archived = _archive_dir("rollup-consolidation")
+        moved: list[dict[str, Any]] = []
+        report["archived_to"] = str(archived)
+        for sid, old_files, merged, _bad in plan:
+            fresh: list[str] = []
+            for i, obj in enumerate(merged, start=1):
+                stem = f"{sid}-c{i:04d}"
+                paths = _write_rollup_pair(obj, stem)
+                fresh.append(str(paths[0]))
+            for p in old_files:
+                twin = p.with_suffix(".md")
+                for f in (p, twin):
+                    if f.is_file():
+                        try:
+                            dest = archived / f.name
+                            shutil.move(str(f), str(dest))
+                            moved.append({"from": str(f), "to": str(dest)})
+                        except (OSError, shutil.Error):
+                            pass
+            if sid == live:
+                st["rollups"] = fresh
+                st["carry"] = build_carry_locked(st)
+        if moved:
+            try:
+                atomic_write_text(archived / "index.json",
+                                  json.dumps({"moved": moved, "at": iso(), "batch": size}, indent=1))
+            except OSError:
+                pass
+        st["consolidated_at"] = iso()
+        st["consolidated_rollups"] = report["rollups_out"]
+        _write_state(st)
+        report["carry_chars"] = len(str(st.get("carry") or ""))
+        report["carry_rollups_quoted"] = min(CARRY_ROLLUPS, report["rollups_out"])
+        return report
+
+
+def tidy_store(apply: bool = False) -> dict[str, Any]:
+    """Move debris out of the live session store: journals that hold nothing but test turns, and
+    legacy backups that have already been filed. Nothing is deleted - everything lands in save/archive
+    with an index, which is the same rule the vault follows."""
+    with _LOCK:
+        out: dict[str, Any] = {"ok": True, "apply": bool(apply), "test_journals": [],
+                               "legacy_filed": [], "kept": [], "archived_to": None, "bytes": 0}
+        for path in sorted(Path(SESSIONS).glob("journal-*.jsonl")):
+            sid = path.name[len("journal-"):-len(".jsonl")]
+            recs = _read_lines(path)
+            if not recs:
+                out["kept"].append(path.name)
+                continue
+            turns = [r for r in recs if r.get("role") in ("user", "assistant")]
+            if turns and all(_is_test_record(r) for r in turns):
+                out["test_journals"].append({"name": path.name, "turns": len(turns),
+                                             "bytes": path.stat().st_size})
+            else:
+                out["kept"].append(path.name)
+        filed = set()
+        try:
+            import sessions as _sess  # local import: sessions imports this module
+
+            filed = {str(r.get("sid")) for r in _sess._catalog_lines()}
+        except Exception:  # noqa: BLE001
+            filed = set()
+        for path in sorted(Path(SESSIONS).glob("session-*.json")):
+            try:
+                stamp = int(float(path.stem.split("-")[-1]))
+            except (ValueError, IndexError):
+                continue
+            if f"legacy-{stamp}" in filed:
+                out["legacy_filed"].append({"name": path.name, "bytes": path.stat().st_size})
+        out["bytes"] = sum(int(x.get("bytes") or 0) for x in out["test_journals"] + out["legacy_filed"])
+        if not apply:
+            out["note"] = "dry run: nothing moved"
+            return out
+        archived = _archive_dir("session-store-tidy")
+        out["archived_to"] = str(archived)
+        moved: list[dict[str, Any]] = []
+        for item in out["test_journals"] + out["legacy_filed"]:
+            src = Path(SESSIONS) / item["name"]
+            for f in [src] + list(ROLLUPS.glob(src.stem.split("journal-")[-1] + "-*")):
+                if f.is_file():
+                    try:
+                        dest = archived / f.name
+                        shutil.move(str(f), str(dest))
+                        moved.append({"from": str(f), "to": str(dest), "bytes": f.stat().st_size if f.exists() else 0})
+                    except (OSError, shutil.Error):
+                        pass
+        try:
+            atomic_write_text(archived / "index.json", json.dumps({"moved": moved, "at": iso()}, indent=1))
+        except OSError:
+            pass
+        out["moved"] = len(moved)
+        return out
+
+
+def _is_test_record(rec: dict[str, Any]) -> bool:
+    meta = rec.get("meta") if isinstance(rec.get("meta"), dict) else {}
+    return str(meta.get("receipt") or rec.get("receipt") or "") == "test-receipt"
 
 
 def build_carry_locked(st: dict[str, Any]) -> str:
@@ -828,17 +1157,79 @@ def _sent_from_journal(recs: list[dict[str, Any]], budget: dict[str, Any]) -> in
     return used or max(0, int(recs[-1].get("tokens") or 0))
 
 
+def _pending_to_fold(
+    st: dict[str, Any],
+    recs: list[dict[str, Any]],
+    keep: int | None = None,
+) -> list[dict[str, Any]]:
+    """Journal turns that have left the live keep window and are not yet in a rollup."""
+    keep_n = max(2, int(keep if keep is not None else LIVE_KEEP_TURNS))
+    frontier = max(0, len(recs) - keep_n)
+    covered_upto = int(st.get("covered_upto") or 0)
+    return [r for r in recs[:frontier] if int(r.get("i") or 0) > covered_upto]
+
+
+def compact_is_due(
+    messages: list[dict[str, Any]] | None = None,
+    ctx: int | None = None,
+) -> dict[str, Any]:
+    """Whether this turn should fold the journal. Uses the record, not only the HTTP payload.
+
+    The portal sends at most 60 messages. Gating auto-compact on that payload alone left a long
+    journal unfolded until someone pressed the stamp button. A fold is due when anything has left
+    the live keep window AND (the request is near the budget, the pending turns fill a rollup, or
+    the journal itself is near the budget).
+    """
+    budget = window_budget(ctx)
+    used_req = history_tokens(messages) if messages is not None else 0
+    st = _load_state()
+    recs = _read_lines(journal_path(st.get("session_id")))
+    pending = _pending_to_fold(st, recs)
+    journal_tokens = sum(max(0, int(r.get("tokens") or 0)) for r in recs)
+    pending_tokens = sum(max(0, int(r.get("tokens") or 0)) for r in pending)
+    used = max(used_req, journal_tokens)
+    cap = int(budget["compact_at"])
+    due = bool(pending) and (
+        used_req >= cap
+        or pending_tokens >= cap
+        or journal_tokens >= cap
+        or len(pending) >= ROLLUP_TURNS
+    )
+    return {
+        "due": due,
+        "used": used,
+        "used_request": used_req,
+        "journal_tokens": journal_tokens,
+        "pending_turns": len(pending),
+        "pending_tokens": pending_tokens,
+        "compact_at": cap,
+        "history_tokens": int(budget["history_tokens"]),
+    }
+
+
 def maybe_auto_compact(messages: list[dict[str, Any]], ctx: int | None = None) -> dict[str, Any]:
     """Compact before a turn when the live window is nearly full. Cheap, never raises."""
     try:
-        used = history_tokens(messages)
-        budget = window_budget(ctx)
-        if used < budget["compact_at"]:
-            return {"ok": True, "compacted": False, "used": used, "compact_at": budget["compact_at"]}
+        decision = compact_is_due(messages, ctx)
+        if not decision["due"]:
+            return {
+                "ok": True,
+                "compacted": False,
+                "used": decision["used"],
+                "compact_at": decision["compact_at"],
+                "pending_turns": decision["pending_turns"],
+            }
         res = compact(reason="auto")
         res["compacted"] = bool(res.get("folded"))
-        res["used"] = used
-        res["compact_at"] = budget["compact_at"]
+        res["used"] = decision["used"]
+        res["compact_at"] = decision["compact_at"]
+        res["pending_turns"] = decision["pending_turns"]
+        if res.get("compacted"):
+            print(
+                "[compact] auto folded=%s pending=%s used=%s compact_at=%s"
+                % (res.get("folded"), decision["pending_turns"], decision["used"], decision["compact_at"]),
+                flush=True,
+            )
         return res
     except Exception as e:  # noqa: BLE001 - never let this cost a turn
         return {"ok": False, "compacted": False, "error": f"{type(e).__name__}: {e}"}
@@ -1351,7 +1742,9 @@ def status(ctx: int | None = None, messages: list[dict[str, Any]] | None = None)
                 "journal_pct": round(100.0 * journal_tokens / max(1, budget["history_tokens"]), 1),
                 "used_pct": pct,
                 "auto_compact_pct": int(AUTO_COMPACT_AT * 100),
-                "will_compact_next_turn": live_tokens >= budget["compact_at"],
+                "will_compact_next_turn": bool(
+                    compact_is_due(messages, ctx).get("due")
+                ),
                 "model": rec.get("id"),
                 "model_ctx_native": rec.get("ctx"),
                 "kv_mib_estimate": _kv_mib(rec, budget["ctx"]),

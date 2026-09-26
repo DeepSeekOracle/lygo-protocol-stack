@@ -83,6 +83,13 @@ CORE_NAMES = {
     # image_generate failing outright, and it would spend budget the cap exists to protect.
     "image_generate",
     "sound_speak",
+    # The third making limb. Pictures and voice were wired and a song was not: the console could draw
+    # a picture and speak a sentence, and an operator who asked for a song got prose about one. The
+    # engine is a local model reached by path (nothing cloud, nothing listening afterwards), and a
+    # song is a capability in exactly the sense the cap protects - so it takes a slot. Counted with
+    # the schema cap in tests/test_tool_battery.py: 39 of 40, and the schema stays under its char
+    # budget because the description above is written for a small model's eyes, once.
+    "music_generate",
     "steward_map",
     "self_check",
     "whoami",

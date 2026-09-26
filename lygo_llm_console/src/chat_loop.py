@@ -538,6 +538,248 @@ PATH_TOKEN = re.compile(
 )
 IMAGE_EXT = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tif", ".tiff")
 LOOK_HINT = re.compile("(check|look|see|view|describe|inspect|analyse|analyze|read|photo|image|picture|what)", re.I)
+# Generate a NEW picture (not inspect one). Gemma 4 / aligned chat GGUFs lecture and skip
+# image_generate; the host draws instead so the local renderer is what decides.
+DRAW_HINT = re.compile(
+    r"\b(?:draw|generate|create|make|render|paint|sketch)\b.{0,160}?\b(?:photo|photograph|picture|image|illustration|artwork|png)\b"
+    r"|\b(?:photo|photograph|picture|image)\s+of\b"
+    r"|\bimage_generate\b"
+    r"|\b(?:make|create)\s+me\s+a\s+(?:pic(?:ture)?|photo|image)\b",
+    re.I,
+)
+INSPECT_PICTURE = re.compile(
+    r"\b(?:what(?:'s| is) in|describe|look at|check this|inspect this|see this)\b.{0,60}\b(?:photo|picture|image)\b",
+    re.I,
+)
+_MINOR_SUBJECT = re.compile(
+    r"\b(child|children|minor|minors|underage|preteen|pre-teen|loli|shota|young girl|young boy)\b",
+    re.I,
+)
+_SAFETY_LECTURE = re.compile(
+    r"(i cannot fulfill|i(?:'m| am) (?:not |unable to )?(?:able to )?(?:create|generate|draw|fulfill)|"
+    r"safety guidelines prohibit|sexually suggestive|"
+    r"programmed to be a helpful and harmless)",
+    re.I,
+)
+
+
+def picture_draw_prompt(text: str) -> str | None:
+    """The scene to hand image_generate, or None when this is not a draw request."""
+    raw = (text or "").strip()
+    if not raw or INSPECT_PICTURE.search(raw):
+        return None
+    if not DRAW_HINT.search(raw):
+        return None
+    p = re.sub(
+        r"^(?:please\s+)?(?:using\s+(?:your|the)\s+\w+\s+tool\s+)?"
+        r"(?:please\s+)?(?:create|make|draw|generate|render|paint|sketch)\s+"
+        r"(?:me\s+)?(?:a|an|the)?\s*"
+        r"(?:photo|photograph|picture|image|illustration|artwork)?\s*(?:of\s+)?",
+        "",
+        raw,
+        count=1,
+        flags=re.I,
+    ).strip(" :,-")
+    return p or raw
+
+
+def host_picture_draw(user_text: str) -> list[dict[str, Any]]:
+    """Run image_generate on the host when the operator asked for a new picture.
+
+    Aligned chat GGUFs (Gemma 4 especially) refuse costume/adult-character scenes in prose and never
+    call the limb. The local SD/Qwen renderer has no such lecture. CSAM / minor subjects stay refused.
+    """
+    prompt = picture_draw_prompt(user_text)
+    if not prompt:
+        return []
+    if _MINOR_SUBJECT.search(prompt):
+        return [{
+            "name": "image_generate",
+            "arguments": {"prompt": prompt[:240]},
+            "result": {"ok": False, "error": "refused_minor_subject"},
+            "host": True,
+        }]
+    result = dispatch("image_generate", {"prompt": prompt})
+    return [{
+        "name": "image_generate",
+        "arguments": {"prompt": prompt},
+        "result": result,
+        "host": True,
+    }]
+
+
+# --- songs: the operator asks for music, so the console makes music -----------------
+# Measured 2026-09-25 on this kit's own local brain: asked to "write me a song about the lattice",
+# a small model answers with a poem about writing a song and never calls the limb - the same shape
+# that made the picture path a host path. The division of labour here is honest and specific: the
+# console's own engine writes the LYRICS (a text job, and the engine is already up serving this
+# turn), and the local music engine does the part only it can do - sing them. If no lyrics can be
+# written, the limb is still called, so the operator gets the engine's own `lyrics_required` instead
+# of a silent prose answer.
+SONG_HINT = re.compile(
+    r"\b(?:write|make|create|generate|compose|produce|record|sing)\b"
+    r".{0,90}?\b(?:song|track|tune|anthem|jingle|ballad|rap|lyrics|melody|beat)\b"
+    r"|\bmusic_generate\b"
+    r"|\b(?:song|track|tune)\s+(?:about|for|on)\b",
+    re.I,
+)
+# A search for somebody ELSE's music is not a request to make one.
+SONG_NOT_OURS = re.compile(
+    r"\b(?:playlist|spotify|youtube|download|find me|search for|look up|what(?:'s| is) the name|"
+    r"who sings|who wrote|lyrics to|sheet music|chords for|tabs? for)\b",
+    re.I,
+)
+# The genre words a person says, in the engine's own tag vocabulary. First match wins; the head of
+# the list is the order a request usually means them in.
+_SONG_STYLES: tuple[tuple[str, str], ...] = (
+    ("hip hop", "gritty boom bap hip hop, deep sub bass, crisp drums, confident male rap vocal"),
+    ("hiphop", "gritty boom bap hip hop, deep sub bass, crisp drums, confident male rap vocal"),
+    ("rap", "gritty boom bap hip hop, deep sub bass, crisp drums, confident male rap vocal"),
+    ("country", "warm country, acoustic guitar, pedal steel, steady drums, honest male vocal"),
+    ("metal", "heavy metal, distorted guitars, double kick drums, powerful male vocal"),
+    ("punk", "fast punk rock, distorted power chords, driving drums, raw shouted vocal"),
+    ("rock", "anthemic rock, electric guitars, live drums, raspy male vocal"),
+    ("blues", "slow blues, slide guitar, walking bass, smoky female vocal"),
+    ("jazz", "smoky jazz, upright bass, brushed drums, muted trumpet, intimate female vocal"),
+    ("folk", "warm acoustic folk, fingerpicked guitar, soft harmonies, gentle female vocal"),
+    ("gospel", "uplifting gospel, choir harmonies, organ, hand claps, powerful female lead vocal"),
+    ("reggae", "laid back reggae, offbeat guitar skank, deep bass, relaxed male vocal"),
+    ("orchestral", "cinematic orchestral, strings, timpani, wordless choir, no drums"),
+    ("classical", "chamber classical, piano and strings, gentle dynamics, instrumental"),
+    ("ambient", "ambient electronic, pads, soft percussion, breathy wordless vocal"),
+    ("lo-fi", "lo-fi chill, dusty drums, warm vinyl noise, mellow jazzy chords, soft female vocal"),
+    ("lofi", "lo-fi chill, dusty drums, warm vinyl noise, mellow jazzy chords, soft female vocal"),
+    ("techno", "driving techno, four on the floor kick, acid bassline, hypnotic synth stabs"),
+    ("house", "uplifting house, four on the floor, warm bassline, soulful female vocal"),
+    ("edm", "festival electronic, big supersaw lead, punchy kick, soaring female vocal"),
+    ("electronic", "bright electronic pop, arpeggiated synths, steady beat, airy female vocal"),
+    ("synthwave", "retro synthwave, analog synth pads, gated drums, breathy female vocal"),
+    ("pop", "bright uplifting pop, airy female vocal, electronic drums, catchy synth hook"),
+    ("dance", "dance pop, four on the floor, bright synths, energetic female vocal"),
+    ("ballad", "slow piano ballad, strings, intimate expressive female vocal"),
+)
+_SONG_HEAD = re.compile(
+    r"^\s*(?:please\s+)?(?:can\s+you\s+|could\s+you\s+|would\s+you\s+|i\s+want\s+you\s+to\s+)?"
+    r"(?:write|make|create|generate|compose|produce|record|sing)\s+(?:me\s+|us\s+)?"
+    r"(?:a|an|the|another|one\s+more)?\s*(?:new\s+|short\s+|full\s+|little\s+|nice\s+)?"
+    r"(?:song|track|tune|anthem|jingle|ballad|rap)\s*(?:about|on|for|describing|that\s+says)?\s*",
+    re.I,
+)
+_LYRIC_SYSTEM = (
+    "You write song lyrics for a local music engine. Reply with ONLY the lyrics: no title, no "
+    "commentary, no explanation, no notes. Put these section tags on their own lines: [verse], "
+    "[chorus], [bridge]. Write two verses and a chorus that repeats after the second verse. Four "
+    "short lines per section, concrete images, singable lines, no brackets inside a line."
+)
+
+
+def song_style_for(text: str) -> str:
+    """The engine's style tags for the genre words in the ask, else a bright pop default."""
+    low = (text or "").lower()
+    for word, style in _SONG_STYLES:
+        if re.search(r"\b" + re.escape(word) + r"\b", low):
+            return style
+    return "inspiring uplifting pop, bright synths, steady beat, airy female vocal"
+
+
+def song_theme(text: str) -> str:
+    """The subject of the song, with the request's own words stripped off."""
+    raw = re.sub(r"\s+", " ", (text or "").strip())
+    theme = _SONG_HEAD.sub("", raw, count=1).strip(" :,-.")
+    theme = re.sub(r"\b(?:please|thanks|thank you)\b", "", theme, flags=re.I).strip(" :,-.")
+    return (theme or raw)[:400]
+
+
+def song_request(text: str) -> dict[str, Any] | None:
+    """(style, theme, lyrics the operator already gave) for a song ask, else None."""
+    raw = (text or "").strip()
+    if not raw or SONG_NOT_OURS.search(raw):
+        return None
+    if not SONG_HINT.search(raw):
+        return None
+    given = ""
+    # Lyrics the operator wrote themselves arrive as tagged sections or as several short lines.
+    if re.search(r"^\s*\[(?:verse|chorus|bridge|intro|outro)\]", raw, re.I | re.M):
+        given = raw
+    else:
+        lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]
+        body = [ln for ln in lines[1:] if not ln.lower().startswith(("write", "make", "compose"))]
+        if len(lines) >= 4 and len(body) >= 3:
+            given = "\n".join(body)
+    return {"style": song_style_for(raw), "theme": song_theme(raw), "lyrics": given}
+
+
+def write_lyrics(theme: str, style: str, timeout: float = 300.0) -> str:
+    """Lyrics from this console's own engine. "" when it could not produce any - never invented.
+
+    This is the one job the console hands to its own brain inside a host path: writing words. It is
+    asked for lyrics and nothing else, at a temperature that suits language rather than tool calls,
+    and a reply that is empty (or that is prose ABOUT the song) is treated as no lyrics at all.
+    """
+    import json as _json
+    import urllib.error
+    import urllib.request
+
+    from paths import LLAMA_KEY_PATH, LLAMA_PORT
+
+    key = ""
+    try:
+        key = LLAMA_KEY_PATH.read_text(encoding="utf-8").strip()
+    except OSError:
+        key = ""
+    payload = {
+        "model": "",
+        "messages": [
+            {"role": "system", "content": _LYRIC_SYSTEM},
+            {"role": "user", "content": f"Subject: {theme}\nMusic style: {style}"},
+        ],
+        "max_tokens": 700,
+        "temperature": 0.9,
+        "top_p": 0.95,
+        "stream": False,
+    }
+    req = urllib.request.Request(
+        f"http://127.0.0.1:{int(os.environ.get('LYGO_LLAMA_PORT') or LLAMA_PORT)}/v1/chat/completions",
+        data=_json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            body = _json.loads(resp.read().decode("utf-8", "replace") or "{}")
+    except Exception:  # noqa: BLE001 - no lyrics is an answer; the limb reports it by name
+        return ""
+    try:
+        text = str(body["choices"][0]["message"]["content"] or "").strip()
+    except (KeyError, IndexError, TypeError):
+        return ""
+    if not text or len(text) < 40:
+        return ""
+    if not re.search(r"\[(?:verse|chorus|bridge)\s*\]", text, re.I):
+        return ""
+    return text
+
+
+def host_song_generate(user_text: str) -> list[dict[str, Any]]:
+    """Make the song on the host: the console's engine writes the words, the music engine sings them."""
+    req = song_request(user_text)
+    if not req:
+        return []
+    lyrics = str(req.get("lyrics") or "")
+    if not lyrics:
+        lyrics = write_lyrics(str(req["theme"]), str(req["style"]))
+    result = dispatch("music_generate", {
+        "style": req["style"],
+        "lyrics": lyrics,
+        "seconds": 60,
+    })
+    return [{
+        "name": "music_generate",
+        "arguments": {"style": req["style"], "lyrics": lyrics},
+        "result": result,
+        "host": True,
+        "theme": req["theme"],
+    }]
 
 
 def mask_paths(text: str) -> str:
@@ -878,6 +1120,18 @@ def host_prefetch(user_text: str) -> list[dict[str, Any]]:
             traces.append({"name": "calc", "arguments": {"expr": expr}, "result": result, "host": True})
         return traces
 
+    if not any(t.get("name") == "image_generate" for t in traces):
+        drawn = host_picture_draw(raw)
+        if drawn:
+            traces.extend(drawn)
+            return traces
+
+    if not any(t.get("name") == "music_generate" for t in traces):
+        sung = host_song_generate(raw)
+        if sung:
+            traces.extend(sung)
+            return traces
+
     if META_TOOLS.search(text) and not SEARCH_HINT.search(text) and not STEWARD_HINT.search(text):
         return traces
     if SEARCH_HINT.search(text) and not named and not GH_HINT.search(text) and not HF_HINT.search(text):
@@ -1193,7 +1447,10 @@ def limb_failure_name(text: str) -> str:
 # Limbs that WRITE a file. A reader (image_see / image_info / image_list) is never advertised as a
 # new picture: the path in its result is the file it was *handed*.
 _ARTIFACT_READERS = {"image_see", "image_info", "image_list", "vision_read"}
-_ARTIFACT_EXTS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp")
+_ARTIFACT_EXTS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".mp3", ".wav", ".flac", ".ogg")
+# Which of those the music limb wrote. A song is named under the answer the same way a picture is,
+# and it says song rather than picture because that is the file the person is about to play.
+_SONG_EXTS = (".mp3", ".wav", ".flac", ".ogg")
 
 
 def _produced_artifacts(traces):
@@ -1231,6 +1488,11 @@ def surface_artifacts(text, traces) -> str:
     made = _produced_artifacts(traces)
     if not made:
         return body
+    if _SAFETY_LECTURE.search(body):
+        # The file is already on disk. Gemma's baked lecture is not this console's policy.
+        body = ("Made on this machine with music_generate."
+                if any(str(p).lower().endswith(_SONG_EXTS) for p, _ in made)
+                else "Drawn on this machine with image_generate.")
     lines = []
     for p, nbytes in made:
         if os.path.basename(p).lower() in body.lower():
@@ -1239,7 +1501,8 @@ def surface_artifacts(text, traces) -> str:
             pretty = format(int(nbytes), ",") + " bytes"
         except (TypeError, ValueError):
             pretty = ""
-        lines.append("\u00b7 picture: %s%s" % (p, (" (" + pretty + ")") if pretty else ""))
+        kind = "song" if str(p).lower().endswith(_SONG_EXTS) else "picture"
+        lines.append("\u00b7 %s: %s%s" % (kind, p, (" (" + pretty + ")") if pretty else ""))
     return (body + ("\n" if body.strip() else "") + "\n".join(lines)).strip() if lines else body
 
 
@@ -1252,7 +1515,12 @@ CLAIM_FILE = re.compile(
 _WRITER_LIMBS = ("save_note", "python_exec", "write_file", "shell")
 # A picture limb writes a real file too, and its result carries the path it wrote.
 _PICTURE_LIMBS = ("image_generate",)
-_WRITES_A_FILE = _WRITER_LIMBS + _PICTURE_LIMBS
+# So does the music limb. MEASURED live 2026-09-25 before this line existed: asked for a song, the
+# console answered "I have generated the song" with a workspace path and the music limb had not run -
+# the same shape of lie the picture path was built to catch, so a song is watched the same way.
+_SONG_LIMBS = ("music_generate",)
+_MEDIA_LIMBS = _PICTURE_LIMBS + _SONG_LIMBS
+_WRITES_A_FILE = _WRITER_LIMBS + _MEDIA_LIMBS
 # MEASURED live 2026-09-23: every picture reply in the operator's session was shaped
 # "I have generated the image of ... The image is saved at: `<path>`" (also "is available at", "is stored
 # at", "I have successfully generated the image"), none of it matched CLAIM_FILE, and the renders behind
@@ -1268,18 +1536,38 @@ CLAIM_PICTURE = re.compile(
 )
 
 
-def _claim_advice(picture: bool) -> str:
+CLAIM_SONG = re.compile(
+    r"(?:generated|created|made|rendered|produced|wrote|recorded|composed|sung|sang)\s+"
+    r"(?:the|a|an|this|that|your|you)?\s*(?:song|track|tune|music|anthem|jingle|ballad|audio|mp3)"
+    r"|(?:song|track|tune|audio|mp3)\b[^.\n]{0,60}?(?:is|has been|was)\s+"
+    r"(?:\w+\s+){0,3}(?:saved|stored|written|created|generated|rendered|ready|available|done)"
+    r"|(?:saved|stored|written|exported|rendered)\s+(?:it|the|that)\s+(?:as|to|in)",
+    re.I,
+)
+
+
+def _claim_advice(picture: bool, song: bool = False) -> str:
     """What to offer next, in the words of the thing that was claimed."""
     if picture:
         return ("Ask again and I will call image_generate for it and return the path it really wrote.")
+    if song:
+        return ("Ask again and I will call music_generate for it and return the path it really wrote "
+                "(a song renders in minutes on this machine).")
     return ("Ask again and I will call save_note with where=desktop (or documents/downloads) and return "
             "the path it really wrote.")
 
 
-def _failed_picture_trace(traces) -> tuple[str, dict[str, Any]] | None:
-    """The picture limb that ran this turn and did not answer ok, with its own result."""
+def _failed_limb_trace(traces, limbs) -> tuple[str, dict[str, Any]] | None:
+    """The newest limb in `limbs` that RAN this turn and did not answer ok, with its own result.
+
+    A failure is the interesting case for the host, and it is the case a naive `ok or path` filter
+    silently drops: MEASURED 2026-09-25, a song whose engine died came back `{ok: false, error:
+    music_engine_failed, why: 'CUDA out of memory'}` and the operator was told "nothing wrote a song"
+    with the engine's own reason and remedy thrown away. The failed result is the evidence - the
+    error name and the hint must reach the person who asked.
+    """
     for t in reversed(list(traces or [])):
-        if t.get("name") not in _PICTURE_LIMBS:
+        if t.get("name") not in limbs:
             continue
         res = t.get("result")
         if isinstance(res, dict) and not res.get("ok"):
@@ -1287,10 +1575,15 @@ def _failed_picture_trace(traces) -> tuple[str, dict[str, Any]] | None:
     return None
 
 
+def _failed_picture_trace(traces) -> tuple[str, dict[str, Any]] | None:
+    """The picture limb that ran this turn and did not answer ok, with its own result."""
+    return _failed_limb_trace(traces, _PICTURE_LIMBS)
+
+
 def _drawn_trace(traces) -> tuple[str, dict[str, Any]] | None:
-    """The picture limb that really wrote a file this turn (its result carries the path it wrote)."""
+    """The picture or music limb that really wrote a file this turn (its result carries the path)."""
     for t in reversed(list(traces or [])):
-        if t.get("name") not in _PICTURE_LIMBS:
+        if t.get("name") not in _MEDIA_LIMBS:
             continue
         res = t.get("result")
         if isinstance(res, dict) and res.get("ok") and res.get("path"):
@@ -1318,7 +1611,8 @@ def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
     from pathlib import Path
 
     picture = bool(text and CLAIM_PICTURE.search(text))
-    if not text or '[host check]' in text or not (picture or CLAIM_FILE.search(text)):
+    song = bool(text and CLAIM_SONG.search(text))
+    if not text or '[host check]' in text or not (picture or song or CLAIM_FILE.search(text)):
         return text
     for t in traces or []:
         if t.get("name") not in _WRITES_A_FILE:
@@ -1335,27 +1629,40 @@ def verify_file_claims(text: str, traces: list[dict[str, Any]]) -> str:
         real = [q for q in seen if Path(q).exists()]
         missing = [q for q in seen if q not in real]
         failed = _failed_picture_trace(traces)
+        if failed is None and song:
+            failed = _failed_limb_trace(traces, _SONG_LIMBS)
         if failed is not None:
             name, res = failed
             secs = res.get("seconds")
-            line = ("[host check] %s ran in this turn and failed (%s%s), so nothing was drawn"
+            did = "drawn" if picture else "written"
+            line = ("[host check] %s ran in this turn and failed (%s%s), so no song was %s"
                     % (name, str(res.get("error") or "no_file"),
-                       ", %.1f s" % float(secs) if isinstance(secs, (int, float)) and secs else ""))
+                       ", %.1f s" % float(secs) if isinstance(secs, (int, float)) and secs else "", did)
+                    if song and not picture else
+                    "[host check] %s ran in this turn and failed (%s%s), so nothing was %s"
+                    % (name, str(res.get("error") or "no_file"),
+                       ", %.1f s" % float(secs) if isinstance(secs, (int, float)) and secs else "", did))
             if real:
                 line += "; the path in this answer is an older file already on disk: " + real[0]
             if missing:
                 line += "; this is not on disk: " + ", ".join(missing[:3])
             hint = str(res.get("hint") or "").strip()
-            line += ". " + (hint[:300] if hint else _claim_advice(picture))
+            line += ". " + (hint[:300] if hint else _claim_advice(picture, song))
             return text + "\n\n" + line
         if real:
             return text + "\n\n[host check] that file really is on disk: " + real[0]
-        if picture:
+        if song and not picture:
+            what = "wrote a song"
+        elif picture:
+            what = "drew a picture"
+        else:
+            what = ""
+        if what:
             if missing:
-                return text + ("\n\n[host check] nothing in this turn drew a picture, and this is not on "
-                               "disk: " + ", ".join(missing[:3]) + ". " + _claim_advice(True))
-            return text + ("\n\n[host check] nothing in this turn drew a picture, and no file is named. "
-                           + _claim_advice(True))
+                return text + ("\n\n[host check] nothing in this turn %s, and this is not on "
+                               "disk: " % what + ", ".join(missing[:3]) + ". " + _claim_advice(picture, song))
+            return text + ("\n\n[host check] nothing in this turn %s, and no file is named. " % what
+                           + _claim_advice(picture, song))
         if missing:
             return text + ("\n\n[host check] no write limb ran in this turn, and this is not on disk: "
                            + ", ".join(missing[:3]) + ". Nothing was created. " + _claim_advice(picture))

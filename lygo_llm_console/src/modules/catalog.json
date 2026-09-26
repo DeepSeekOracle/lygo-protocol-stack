@@ -9,6 +9,9 @@
     { "id": "lygo.envwatch", "order": 40, "enabled": true },
     { "id": "lygo.meminfo", "order": 50, "enabled": true },
     { "id": "lygo.guardwatch", "order": 55, "enabled": true },
-    { "id": "lygo.notepad", "order": 60, "enabled": true }
+    { "id": "lygo.notepad", "order": 60, "enabled": true },
+    { "id": "lygo.musicinfo", "order": 70, "enabled": true },
+    { "id": "lygo.musicwatch", "order": 75, "enabled": true },
+    { "id": "lygo.musicctrl", "order": 80, "enabled": true }
   ]
 }

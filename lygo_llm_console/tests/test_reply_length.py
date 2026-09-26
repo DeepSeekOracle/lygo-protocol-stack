@@ -162,6 +162,7 @@ class TheEngineCanReachTheCapTests(unittest.TestCase):
         shipped = json.loads((ROOT / "config" / "console.json").read_text(encoding="utf-8"))
         cap = shipped["max_tokens"]
         ctx_max = shipped["ctx_max"]
+        self.assertGreaterEqual(ctx_max, 32768, "defect 126: a 2k/16k window emptied ~10k photo turns")
         self.assertLess(cap, ctx_max, "a reply longer than the whole window can never be generated")
         budget = compaction.window_budget(ctx=ctx_max, answer_tokens=cap)
         self.assertGreater(budget["history_tokens"], 4096,

@@ -16,6 +16,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 KIT = Path(__file__).resolve().parents[1]
 SRC = KIT / "src"
@@ -103,6 +104,48 @@ class ConfigLimitsTest(unittest.TestCase):
         self.assertEqual(4, engine.clamp_threads(4))
         self.assertEqual(4, engine.clamp_threads(None))
         self.assertEqual(2, engine.clamp_threads(1))
+
+    def test_a_chat_brain_with_a_tiny_native_window_is_raised_to_ctx_default(self):
+        """Defect 126: nomic/2048 as the chat window emptied a ~10k photo turn."""
+        paths._CFG_CACHE = {"ctx_default": 32768, "ctx_max": 32768}
+        self.assertEqual(
+            32768,
+            engine.clamp_ctx(2048, architecture="qwen35", kind="chat", model_id="MiMo V2.6 Distill Qwen 9B"),
+        )
+        self.assertEqual(32768, engine.clamp_ctx(8192, kind="chat"))
+        self.assertEqual(
+            2048,
+            engine.clamp_ctx(2048, architecture="nomic-bert", kind="embed", model_id="nomic-embed-text:latest"),
+        )
+        self.assertEqual(32768, engine.clamp_ctx(262144, architecture="qwen35", kind="chat"))
+
+    def test_live_ctx_does_not_use_an_embedder_pin(self):
+        """The chat turn window is the chat brain, even when registry.selected is nomic."""
+        import compaction
+
+        embed = {
+            "id": "nomic-embed-text:latest",
+            "kind": "embed",
+            "architecture": "nomic-bert",
+            "ctx": 2048,
+        }
+        chat = {
+            "id": "MiMo V2.6 Distill Qwen 9B",
+            "kind": "chat",
+            "architecture": "qwen35",
+            "ctx": 262144,
+        }
+        paths._CFG_CACHE = {"ctx_default": 32768, "ctx_max": 32768}
+
+        class _Reg:
+            @staticmethod
+            def load():
+                return {"selected": embed["id"], "models": [embed, chat]}
+
+        with patch.object(compaction, "_selected_record", return_value=embed), patch.dict(
+            sys.modules, {"registry": _Reg}
+        ):
+            self.assertEqual(32768, compaction.live_ctx())
 
 
 class RegistryPortabilityTest(unittest.TestCase):

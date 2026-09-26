@@ -89,6 +89,25 @@ def slugify(text: str, n: int = SLUG_LEN) -> str:
     return out or "session"
 
 
+TEST_RECEIPT = "test-receipt"
+
+
+def is_test_turn(rec: dict[str, Any]) -> bool:
+    """True for a turn the test suite wrote into the live store.
+
+    `SAVE` is a fixed path, so a test run that does not redirect it appends its own turns to the same
+    journal the operator is talking in - "hi" / "Hello there." under `meta.receipt: test-receipt`.
+    Those turns belong in the journal (nothing is ever deleted) but they must never reach the vault's
+    transcript, or a filed session reads as a conversation with a test harness.
+    """
+    if str(rec.get("role")) == "system":
+        return False
+    meta = rec.get("meta") if isinstance(rec.get("meta"), dict) else {}
+    if str(meta.get("receipt") or "") == TEST_RECEIPT:
+        return True
+    return str(rec.get("receipt") or "") == TEST_RECEIPT
+
+
 def title_from(recs: list[dict[str, Any]], fallback: str = "session") -> str:
     """A title the operator will recognise: the opening of the first thing they said."""
     for rec in recs or []:
@@ -314,7 +333,18 @@ def vault_session(
         recs = compaction.read_journal(sid)
         if not recs:
             return {"ok": False, "error": "empty_session", "sid": sid}
+        # The suite writes into this same store, so a filed session used to read as a conversation
+        # with a test harness. Filtering is on the FILED COPY only; the journal keeps every turn.
+        kept = [r for r in recs if not is_test_turn(r)]
+        test_turns = len(recs) - len(kept)
+        if not kept:
+            return {"ok": False, "error": "test_only_session", "sid": sid, "turns": len(recs)}
+        recs = kept
         when = float(recs[0].get("ts") or time.time())
+        # A journal from a tool that stamped ts=1 would file the session into 1969/12-December. Any
+        # stamp before this console existed is a broken record; the file date is the honest answer.
+        if when < 946684800:  # 2000-01-01
+            when = time.time()
         title = (title or "").strip() or title_from(recs)
         tags = [str(t).strip() for t in (tags or []) if str(t).strip()]
         folder = session_dir(sid, when, title)
@@ -341,6 +371,7 @@ def vault_session(
             "chars": sum(int(r.get("chars") or 0) for r in recs),
             "roles": {"user": sum(1 for r in recs if r.get("role") == "user"),
                       "assistant": sum(1 for r in recs if r.get("role") == "assistant")},
+            "test_turns_dropped": test_turns,
             "first_turn": _as_text(recs[0].get("content"))[:400],
             "folder": str(folder),
         }
@@ -362,7 +393,7 @@ def vault_session(
         return {"ok": bool(zipped.get("ok")), "sid": sid, "title": title, "turns": len(recs),
                 "folder": str(folder), "zip": zipped.get("zip"), "zip_bytes": zipped.get("zip_bytes"),
                 "tags": tags, "reason": reason, "verified": bool(zipped.get("ok")),
-                "error": zipped.get("error")}
+                "test_turns_dropped": test_turns, "error": zipped.get("error")}
 
 
 def vault_live(reason: str = "new_session", title: str | None = None) -> dict[str, Any]:
@@ -402,6 +433,7 @@ def adopt(limit: int = 300) -> dict[str, Any]:
     live = str(compaction._load_state().get("session_id") or "")
     adopted: list[dict[str, Any]] = []
     skipped: list[str] = []
+    tests: list[str] = []  # journals that hold nothing but the suite's own turns
 
     sessions_dir = Path(compaction.SESSIONS)
     for path in sorted(sessions_dir.glob("journal-*.jsonl")):
@@ -409,6 +441,9 @@ def adopt(limit: int = 300) -> dict[str, Any]:
         if sid == live or sid in filed:
             continue
         res = vault_session(sid=sid, reason="adopt", source="journal")
+        if res.get("error") == "test_only_session":
+            tests.append(sid)
+            continue
         (adopted if res.get("ok") else skipped).append(res.get("sid") or sid)
 
     for path in sorted(sessions_dir.glob(LEGACY_GLOB))[: max(1, int(limit))]:
@@ -433,7 +468,7 @@ def adopt(limit: int = 300) -> dict[str, Any]:
         (adopted if res.get("ok") else skipped).append(res.get("sid") or res.get("error") or path.name)
 
     return {"ok": True, "adopted": adopted, "count": len(adopted), "skipped": skipped,
-            "vault": str(vault_root())}
+            "test_only": tests, "test_only_count": len(tests), "vault": str(vault_root())}
 
 
 def _vault_legacy(path: Path, sid: str, msgs: list[Any], stamp: float) -> dict[str, Any]:

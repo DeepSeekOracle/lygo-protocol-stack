@@ -28,6 +28,7 @@ Design notes that are load-bearing:
 """
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 import time
@@ -39,6 +40,38 @@ from paths import KIT_ROOT, WORKSPACE, console_cfg
 
 # Checkpoint families that are distilled: few steps, low guidance. Prefix match on the file name.
 TURBO_HINTS = ("turbo", "schnell", "lightning", "lcm", "dmd", "hyper")
+
+# When the caller leaves negative empty: stop the usual clone/morph artifacts on a one-person scene.
+# Short on purpose - a long negative fights the prompt on distilled checkpoints.
+STABILITY_NEGATIVE = (
+    "duplicate, twins, cloned face, extra person, extra heads, extra arms, extra hands, "
+    "third arm, extra legs, extra limbs, fused, morphing, deformed, extra fingers, "
+    "mutated hands, poorly drawn hands, split face"
+)
+_GROUP_SCENE = re.compile(
+    r"\b(two people|two women|two men|three|four|couple|pair|group|crowd|twins|both|together|duo)\b",
+    re.I,
+)
+_ONE_PERSON = re.compile(
+    r"\b(woman|man|girl|guy|lady|person|character|model|her|him|she|he)\b", re.I
+)
+_ALREADY_SOLO = re.compile(r"\b(single subject|one person|solo|one woman|one man)\b", re.I)
+
+
+def stabilize_prompt(prompt: str) -> str:
+    """A one-person scene gets a single-subject cue so the renderer does not clone the figure."""
+    p = (prompt or "").strip()
+    if not p or _GROUP_SCENE.search(p) or _ALREADY_SOLO.search(p):
+        return p
+    if _ONE_PERSON.search(p):
+        return p + ", single subject, one person, two arms, two hands, coherent anatomy"
+    return p
+
+
+def stabilize_negative(negative: str) -> str:
+    """Keep an explicit negative; fill the empty one with anti-clone/morph terms."""
+    n = (negative or "").strip()
+    return n if n else STABILITY_NEGATIVE
 
 
 def _cfg() -> dict[str, Any]:
@@ -188,6 +221,19 @@ def image_recipe(name: str) -> dict[str, Any] | None:
     return None
 
 
+def _character_recipe() -> dict[str, Any] | None:
+    """The ready flow model for a one-person scene.
+
+    MEASURED on gen-20260925-000614.png (SDXL-Turbo, 4 steps, 1024): one steampunk woman with a
+    third arm fused into the costume. Turbo is the fast default for objects; a person needs the
+    declared Qwen-Image path when its weights are on disk. Still opt-in as the kit default.
+    """
+    rec = image_recipe("qwen-image-2.1")
+    if rec and rec.get("ready"):
+        return rec
+    return None
+
+
 def _align(value: int, step: int) -> int:
     """Engine dimensions must be a multiple of the architecture's own tile. 32 for flow models."""
     step = max(8, int(step or 64))
@@ -232,6 +278,8 @@ def _image_from_recipe(
     h = _align(_inum(height, d_size) or d_size, align)
     st = _inum(steps, d_steps) or d_steps
     cf = _fnum(cfg_scale, d_cfg) or d_cfg
+    prompt = stabilize_prompt(prompt)
+    negative = stabilize_negative(negative)
     dest = _out_dir("image") / _stamp("gen", ".png")
     to = int(timeout or _cfg().get("image_timeout_s") or 900)
 
@@ -241,8 +289,8 @@ def _image_from_recipe(
             argv += [flag, paths[key]]
     argv += ["-p", prompt, "-o", str(dest), "-W", str(w), "-H", str(h),
              "--steps", str(st), "--cfg-scale", str(cf)]
-    if negative.strip():
-        argv += ["-n", negative.strip()]
+    if negative:
+        argv += ["-n", negative]
     # Declared per model, not baked in: a new architecture's flags belong to its config entry.
     argv += [str(a) for a in (recipe.get("extra") or [])]
     try:
@@ -296,6 +344,34 @@ def _out_dir(kind: str) -> Path:
     d = WORKSPACE / ("images" if kind == "image" else "audio")
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+MEDIA_IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp"}
+MEDIA_IMAGE_TYPES = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".gif": "image/gif",
+    ".webp": "image/webp",
+    ".bmp": "image/bmp",
+}
+
+
+def workspace_image_path(name: str) -> Path | None:
+    """A file inside workspace/images, or None. Basename only — no path traversal."""
+    base = Path(str(name or "").strip()).name
+    if not base or base in {".", ".."}:
+        return None
+    ext = Path(base).suffix.lower()
+    if ext not in MEDIA_IMAGE_EXTS:
+        return None
+    root = _out_dir("image").resolve()
+    p = (root / base).resolve()
+    try:
+        p.relative_to(root)
+    except ValueError:
+        return None
+    return p if p.is_file() else None
 
 
 def _stamp(prefix: str, ext: str) -> str:
@@ -409,9 +485,14 @@ def image_generate(
     p = (prompt or "").strip()
     if not p:
         return {"ok": False, "error": "empty_prompt"}
+    person = bool(_ONE_PERSON.search(p) and not _GROUP_SCENE.search(p))
+    p = stabilize_prompt(p)
+    negative = stabilize_negative(negative)
     # A declared multi-weight model is chosen by id; anything else is a checkpoint path, which is the
     # single-weight shape below. `cpu` forces the classic path, since a declared engine is its own build.
     recipe = None if cpu else image_recipe(model)
+    if recipe is None and not cpu and not str(model or "").strip() and person:
+        recipe = _character_recipe()
     if recipe is not None:
         return _image_from_recipe(recipe, p, negative, width, height, steps, cfg_scale, timeout)
     # Which route is actually open? Asked BEFORE an engine is spawned, from live readings, so a card the
@@ -448,8 +529,8 @@ def image_generate(
 
     argv = [str(exe), "-m", str(mp), "-p", p, "-o", str(dest),
             "-W", str(w), "-H", str(h), "--steps", str(st), "--cfg-scale", str(cf)]
-    if negative.strip():
-        argv += ["-n", negative.strip()]
+    if negative:
+        argv += ["-n", negative]
     # MEASURED on this host 2026-09-23, SDXL-Turbo at 1024x1024: on the CPU build the untitled VAE decode
     # died mid-pass (exit 3221225786, its log ending at "decoding 1 latents"), wrote no file, and the limb
     # answered `image_failed` after 183.4 s. The SAME argv plus --vae-tiling decoded the latent in 49 tiles

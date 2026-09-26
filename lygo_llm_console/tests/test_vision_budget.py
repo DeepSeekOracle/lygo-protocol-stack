@@ -212,6 +212,28 @@ class TheRequestCanNeverBeOverTheWindowTests(unittest.TestCase):
         self.assertTrue(plan["over"], "this turn cannot fit any window this size")
         self.assertTrue(plan["note"], "the operator must be told why, in words")
 
+    def test_long_history_is_trimmed_instead_of_refused(self):
+        """Defect 126: a ~10k conversation against a small window must still generate."""
+        msgs = []
+        for n in range(40):
+            msgs.append({"role": "user", "content": f"turn {n} " + ("hello " * 80)})
+            msgs.append({"role": "assistant", "content": f"ok {n} " + ("yes " * 80)})
+        msgs.append({"role": "user", "content": "look at this newest question about the photo"})
+        plan = vision.fit_turn(msgs, window=2048, system_tokens=400, reserve=200)
+        self.assertFalse(plan["over"], "history that outgrew the window must be trimmed, not refused")
+        self.assertGreater(plan.get("trimmed") or 0, 0)
+        text = json.dumps(plan["messages"])
+        self.assertIn("newest question", text)
+        est = vision.est_prompt_tokens(plan["messages"], system_tokens=400) + 200
+        self.assertLessEqual(est, 2048)
+
+    def test_a_ten_k_turn_fits_the_raised_window(self):
+        """The operator's live failure: ~9,972 tokens against 2,048. 32,768 holds it."""
+        msgs = [{"role": "user", "content": "x" * int(5500 * 3.6)}]
+        plan = vision.fit_turn(msgs, window=32768, system_tokens=4400, reserve=4096)
+        self.assertFalse(plan["over"], "identity plus a 5.5k turn must fit the raised 32k window")
+        self.assertLessEqual(plan["used_tokens"], 32768)
+
     def test_the_estate_is_bounded_whatever_is_thrown_at_it(self):
         cases = [
             [{"role": "user", "content": [{"type": "text", "text": "a"}, image_part(4096)]}],

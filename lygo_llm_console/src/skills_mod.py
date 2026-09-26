@@ -489,7 +489,14 @@ def add_root(path: str) -> dict[str, Any]:
     return {"ok": True, "extra_dirs": dirs, "added": s}
 
 
-def prompt_catalog(cap: int = 1500) -> str:
+def prompt_catalog(cap: int = 1000) -> str:
+    """The ENABLED SKILLS block, held to `cap` chars.
+
+    The cap is a hard budget, not a hint: this block is one section of the identity block, which
+    must stay under 16,500 chars to leave room for history and the answer in an 8192-token window.
+    MEASURED 2026-09-25: at cap=1500 a FRESH store (every \u03949 seat enabled at once) composed
+    16,561 - over the ceiling - while a used store fitted. Lowering the cap covers the fresh
+    install, which is the case that ships on the USB stick."""
     rows = [r for r in catalog() if r.get("enabled")]
     if not rows:
         return (
@@ -502,13 +509,31 @@ def prompt_catalog(cap: int = 1500) -> str:
         "Call skill_read before following a skill. Do not invent skill bodies."
     ]
     used = len(lines[0])
+    # Δ9 seating rows all end with the same sentence. Said once instead of eleven times it gives the
+    # identity block back ~430 chars of the budget that keeps it inside the model's window - and the
+    # case that used to overrun that budget was a FRESH store, where every seat is enabled at once.
+    SHARED = "Enable to align the agent with this seat."
+    shared_seen = 0
+    body: list[str] = []
     for r in rows:
-        line = f"- {r['slug']}: {r.get('description') or ''}"
+        desc = (r.get("description") or "").strip()
+        if SHARED in desc:
+            shared_seen += 1
+            desc = " ".join(desc.replace(SHARED, "").split())
+        line = f"- {r['slug']}: {desc}"
         if used + len(line) + 1 > cap:
-            lines.append(f"- … {len(rows)} enabled; skill_list for the rest")
+            body.append(f"- … {len(rows)} enabled; skill_list for the rest")
             break
-        lines.append(line)
+        body.append(line)
         used += len(line) + 1
+    lines.extend(body)
+    if shared_seen >= 2:
+        lines.append(
+            "- A \u03949 Council seat above reads: " + SHARED
+            + " The other seats are off until the operator enables them."
+            if shared_seen == len(rows)
+            else "- Some rows above end with \"" + SHARED + "\" (seat alignment)."
+        )
     return "\n".join(lines)
 
 

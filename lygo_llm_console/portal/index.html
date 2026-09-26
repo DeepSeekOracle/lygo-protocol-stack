@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LYGO Local Agent Console</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230c0a08'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23e0b36a' stroke-width='4'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/static/style.css?v=20260920envwatch3">
+<link rel="stylesheet" href="/static/style.css?v=20260925sheet6">
 <script>window.LYGO_TOKEN = /*LYGO_TOKEN*/;</script>
 <!-- Behaviour patch classes (status line, trace pane, error bubbles, empty state, brand stamp).
      Same tokens as style.css; small enough to fold into style.css later. -->
@@ -66,47 +66,11 @@
     <div class="sub">Local console for this machine — chat with the on-board engine, run its limbs, keep SOUL / IDENTITY / MEMORY next to it.</div>
     <details class="about">
       <summary>About / Help</summary>
-      <p>Studio local console · Scan and Boot in this header · Wikipedia search · SOUL.md / IDENTITY.md / MEMORY.md · Justin Helmer / Lightfather</p>
-      <p>First run: press <b>Scan drives</b>, pick a model and press <b>Boot LLM</b> — the health box on the right says <b>engine=ready</b> when the local brain can answer. Nothing here needs the internet unless you press the API brain or a web limb.</p>
+      <p>Studio local console · Scan and Boot in the controls bar under the chat box · Wikipedia search · SOUL.md / IDENTITY.md / MEMORY.md · Justin Helmer / Lightfather</p>
+      <p>First run: press <b>Scan drives</b>, pick a model and press <b>Boot LLM</b> — the health box in that bar says <b>engine=ready</b> when the local brain can answer. Nothing here needs the internet unless you press the API brain or a web limb.</p>
     </details>
     <div class="syslabel" id="syslabel" title="One console, three systems: stand-alone USB agent (everything onboard the stick, plug and play, mobile) · admin console on a PC (the build that becomes the public version) · online API-only web portal (already built)">SYSTEM: /*LYGO_SYSTEM*/ — USB LOCAL (stick, stand-alone) · PC LOCAL (this PC, admin console) · WEB PORTAL (API ONLY, online — already built)</div>
-    <div class="modelbar">
-      <button type="button" id="scan">Scan drives</button>
-      <select id="models" title="Available GGUF models (own vault)"></select>
-      <button type="button" id="select">Boot LLM</button>
-      <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
-    </div>
-    <div class="brainbar" id="brainbar">
-      <span class="brain-title">Brain</span>
-      <div class="seg" role="group" aria-label="Brain switch">
-        <button type="button" id="brain-local" class="seg-btn on" aria-pressed="true" title="Local GGUF engine on this PC — the default, always complete">LOCAL<i>default</i></button>
-        <button type="button" id="brain-api" class="seg-btn" aria-pressed="false" title="Add key first: paste your API key in the row below, press Save key, then press API.">API<i>cloud</i></button>
-      </div>
-      <span id="brain-status" class="brain-status" aria-live="polite">LOCAL · engine</span>
-      <button type="button" id="brain-boot" class="mini">Boot local</button>
-      <button type="button" id="server-boot" class="mini boot-server" title="Boot the console server itself — for when this page says health failed, or the window was closed. Runs LYGO_LLM_CONSOLE.bat through the doorbell.">Boot server</button>
-      <button type="button" id="brain-newchat" class="mini" title="Clear the conversation and keep the active brain">New chat</button>
-    </div>
-    <div class="modelbar apibar">
-      <span id="api-status" class="api-status" aria-live="polite">API: off (local default)</span>
-      <select id="api-provider" title="Cloud API (same full limbs as local)">
-        <option value="deepseek" selected>DeepSeek API</option>
-        <option value="gemini">Gemini</option>
-        <option value="groq">Groq</option>
-        <option value="openai">OpenAI</option>
-        <option value="xai">xAI Grok</option>
-        <option value="openrouter">OpenRouter</option>
-        <option value="nvidia">NVIDIA NIM</option>
-        <option value="custom">Custom URL</option>
-      </select>
-      <input id="api-key" type="password" placeholder="paste key then Save key" autocomplete="off">
-      <input id="api-model" type="text" placeholder="model id" value="deepseek-chat" autocomplete="off">
-      <input id="api-url" type="text" placeholder="custom chat URL" hidden autocomplete="off">
-      <button type="button" id="api-connect">Save key</button>
-      <button type="button" id="api-off" class="mini" title="Back to the local engine">API off</button>
-    </div>
   </div>
-  <div id="health" class="health">probing…</div>
 </header>
 <section id="world" class="world" aria-label="World time and weather">
   <div class="world-now">
@@ -199,7 +163,7 @@
       <div id="empty-state" class="empty-state">
         <h3>Start here</h3>
         <ol>
-          <li><b>Scan drives</b> — press it in the header. It finds the GGUF models in this machine's vault and on any stick that is plugged in.</li>
+          <li><b>Scan drives</b> — press it in the controls bar under the chat box. It finds the GGUF models in this machine's vault and on any stick that is plugged in.</li>
           <li><b>Boot LLM</b> — pick a model in the drop-down next to it, press <b>Boot LLM</b>, and wait for <b>engine=ready</b> in the health box. First load can take a minute.</li>
         </ol>
         <p>Then just ask. Two examples:</p>
@@ -259,6 +223,107 @@
     </p>
   </aside>
 </main>
+<!-- The Song studio is a BAND of its own, not a panel in the aside: under the chat box, above
+     the module strip, wide enough that the lyric sheet and the song list are both usable. -->
+<section class="songstudio" id="ms-studio" aria-label="Song studio">
+  <h2>Song studio</h2>
+  <div class="np-bar">
+    <select id="ms-engine" title="Render engine. An engine that is not installed on this machine is still listed, but greyed out, with the reason in its label."></select>
+    <button type="button" id="ms-refresh" title="Ask the server for the current job and the folder of finished songs">Refresh</button>
+  </div>
+  <input id="ms-style" type="text" list="ms-style-presets" placeholder="Style — genre, mood, instruments, vocal character (e.g. folk ballad, warm male vocal, acoustic guitar)" maxlength="400" autocomplete="off">
+  <datalist id="ms-style-presets">
+    <option value="folk ballad, warm male vocal, acoustic guitar, brushed drums, close mic"></option>
+    <option value="indie pop, bright female lead, jangly guitars, upbeat, radio mix"></option>
+    <option value="lo-fi hip hop, dusty drums, vinyl crackle, mellow, instrumental"></option>
+    <option value="dark synthwave, analog bass, gated reverb drums, nocturnal, cinematic"></option>
+    <option value="cinematic orchestral, strings and horns, epic slow build"></option>
+    <option value="country, slide guitar, honest male vocal, mid tempo, live band"></option>
+    <option value="gospel choir, hammond organ, uplifting, big room reverb"></option>
+    <option value="synth pop, female lead, 80s drum machine, chorused guitar"></option>
+    <option value="heavy metal, palm-muted riffs, double kick, shouted vocal"></option>
+    <option value="ambient, no drums, pads and piano, spacious, instrumental"></option>
+  </datalist>
+  <div class="ms-quick ms-sheetbar">
+    <span class="ms-quick-label">lyric sheet</span>
+    <button type="button" class="ms-mini" id="ms-template" title="Put the engine's own fill-in template back in the box. Lines starting with # are read by the console and never sung, so ARTIST / STYLE / BEAT notes can live in the same sheet as the words.">template</button>
+    <button type="button" class="ms-mini" id="ms-convert" title="Re-cut a sheet written in another shape: [VERSE 1] folds onto [verse] (the engine only ever sees a one-word tag, so a numbered verse would otherwise render as an unknown section), and ARTIST: / ALBUM: / BEAT: lines become comments the singer never sings. A STYLE: line is lifted into the style box for you.">make it singable</button>
+    <button type="button" class="ms-mini" id="ms-check" title="What is wrong with this sheet before a render is spent on it: no words, no sections, header lines that would be sung, more sections than the engine sings.">check</button>
+    <button type="button" class="ms-mini" id="ms-restore" title="Put back the sheet that was in the box before the last change — the template, a conversion or the agent's draft all replace it, so this is the way back">restore</button>
+    <button type="button" class="ms-mini" id="ms-clear" title="Empty the lyric box and start from nothing">clear</button>
+    <button type="button" class="ms-mini" id="ms-write" title="The agent writes the song into this box, in the exact shape the engine sings. Whatever you have typed in the composer is the brief; with an empty composer it invents one. The draft is checked before you see it.">agent writes it</button>
+    <button type="button" class="ms-mini" id="ms-surprise" title="Take a style at random from the engine's own tag vocabulary, then have the agent write the song for that style">surprise me</button>
+    <span id="ms-sheetmsg" class="hint ms-est" aria-live="polite"></span>
+  </div>
+
+  <textarea id="ms-lyrics" placeholder="Lyrics — the words to sing, one line each, with section tags on their own lines:&#10;[verse]&#10;a line of the song&#10;[chorus]&#10;the part that comes back&#10;The engine sings exactly what it is given, and it sings ONE SECTION AT A TIME — each [tag] section is a section of the song. Untagged, it groups your stanzas for you. Leave a blank line for an instrumental break." spellcheck="true"></textarea>
+  <div class="ms-nums">
+    <label title="Sections to sing — one per part of your words. Leave it EMPTY and the lyric sheet decides: every [tag] section (or every stanza, if you left them untagged) becomes one section of song. The engine's own limit is 10. On this machine a section costs minutes to hours, so a six-section song is a long job — that is what the second engine is for.">sections
+      <input id="ms-segments" type="number" min="0" max="10" step="1" value="" placeholder="from the words">
+    </label>
+    <label title="0 = let the engine pick a seed. Any other number reproduces the same take.">seed
+      <input id="ms-seed" type="number" min="0" step="1" value="0">
+    </label>
+    <label title="Token budget PER SECTION — the engine's own rate is 1000 tokens to about 10 s of audio, so its default of 3000 is about 30 s per section and the sections add up. MEASURED here: one 1500-token section took 3850 s (64 min) of compute at profile 3 on the 8 GB card.">max tokens
+      <input id="ms-tokens" type="number" min="1" step="1" value="3000">
+    </label>
+    <div class="ms-quick" id="ms-quick">
+      <span class="ms-quick-label">length</span>
+      <button type="button" class="ms-mini" data-ms-seg="1" data-ms-tok="3000" title="One section of about 30 s — the cheap way to hear whether the words sing before you commit the card to hours">~30 s</button>
+      <button type="button" class="ms-mini" data-ms-seg="2" data-ms-tok="3000" title="Two sections, about a minute">~60 s</button>
+      <button type="button" class="ms-mini" data-ms-seg="4" data-ms-tok="3000" title="Four sections, about two minutes">~2 min</button>
+      <button type="button" class="ms-mini" data-ms-seg="" data-ms-tok="3000" title="Clear the section count and let the lyric sheet decide: one section per [tag], or per stanza if you left them untagged">from the words</button>
+      <button type="button" class="ms-mini" id="ms-dice" title="Pick a random seed, so the next take is a different one">seed die</button>
+      <span id="ms-est" class="hint ms-est" aria-live="polite"></span>
+    </div>
+  </div>
+  <div class="np-foot">
+    <button type="button" id="ms-go">Generate</button>
+    <button type="button" id="ms-cancel" disabled title="Ask the engine to stop at its next checkpoint">Cancel</button>
+    <span id="ms-status" class="hint" aria-live="polite">studio · asking the server…</span>
+  </div>
+  <div id="ms-songs" class="ms-songs"></div>
+</section>
+<section id="controls-strip" class="controls-strip" aria-label="Console controls">
+  <div class="ctrl-bars">
+    <div class="modelbar">
+      <button type="button" id="scan">Scan drives</button>
+      <select id="models" title="Available GGUF models (own vault)"></select>
+      <button type="button" id="select">Boot LLM</button>
+      <label class="chk"><input type="checkbox" id="tools" checked> Agent limbs</label>
+    </div>
+    <div class="brainbar" id="brainbar">
+      <span class="brain-title">Brain</span>
+      <div class="seg" role="group" aria-label="Brain switch">
+        <button type="button" id="brain-local" class="seg-btn on" aria-pressed="true" title="Local GGUF engine on this PC — the default, always complete">LOCAL<i>default</i></button>
+        <button type="button" id="brain-api" class="seg-btn" aria-pressed="false" title="Add key first: paste your API key in the row below, press Save key, then press API.">API<i>cloud</i></button>
+      </div>
+      <span id="brain-status" class="brain-status" aria-live="polite">LOCAL · engine</span>
+      <button type="button" id="brain-boot" class="mini">Boot local</button>
+      <button type="button" id="server-boot" class="mini boot-server" title="Boot the console server itself — for when this page says health failed, or the window was closed. Runs LYGO_LLM_CONSOLE.bat through the doorbell.">Boot server</button>
+      <button type="button" id="brain-newchat" class="mini" title="Clear the conversation and keep the active brain">New chat</button>
+    </div>
+    <div class="modelbar apibar">
+      <span id="api-status" class="api-status" aria-live="polite">API: off (local default)</span>
+      <select id="api-provider" title="Cloud API (same full limbs as local)">
+        <option value="deepseek" selected>DeepSeek API</option>
+        <option value="gemini">Gemini</option>
+        <option value="groq">Groq</option>
+        <option value="openai">OpenAI</option>
+        <option value="xai">xAI Grok</option>
+        <option value="openrouter">OpenRouter</option>
+        <option value="nvidia">NVIDIA NIM</option>
+        <option value="custom">Custom URL</option>
+      </select>
+      <input id="api-key" type="password" placeholder="paste key then Save key" autocomplete="off">
+      <input id="api-model" type="text" placeholder="model id" value="deepseek-chat" autocomplete="off">
+      <input id="api-url" type="text" placeholder="custom chat URL" hidden autocomplete="off">
+      <button type="button" id="api-connect">Save key</button>
+      <button type="button" id="api-off" class="mini" title="Back to the local engine">API off</button>
+    </div>
+  </div>
+  <div id="health" class="health">probing…</div>
+</section>
 </div>
 <section id="modules-dock" class="modules-dock" hidden aria-label="Modules">
   <div class="modules-head">
@@ -291,7 +356,7 @@
   <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/TRADEMARKS.md" target="_blank" rel="noopener">Brand policy</a> ·
   <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/lygo_llm_console/SUCCESSION.md" target="_blank" rel="noopener">Stewardship</a> ·
   licence files also sit in this kit's folder.</p>
-<script src="/static/app.js?v=20260920envwatch2"></script>
+<script src="/static/app.js?v=20260925sheet6"></script>
 <script src="/static/radio.js?v=20260916m"></script>
 </body>
 </html>

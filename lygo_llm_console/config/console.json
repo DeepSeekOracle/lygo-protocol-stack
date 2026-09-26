@@ -32,6 +32,11 @@
    "piper_voice": "Full path to a piper voice (.onnx; its .onnx.json sits beside it). Empty = the first *.onnx under <media_root>/models/voices. espeak-ng-data must sit beside piper.exe - piper cannot phonemise without it.",
    "image_timeout_s": "How long one picture may render before the limb gives up and names the timeout. Generous on purpose: a first run also loads a multi-gigabyte checkpoint. Lower it on a faster card, raise it on a slower one.",
    "sound_timeout_s": "How long one spoken clip may take. A local voice renders faster than real time (measured 0.4 s for 3.1 s of speech), so this is a guard, not a budget.",
+   "music_engine": "Which declared music engine renders a song. 'yue' is the engine this build drives first (YuE / YuEGP: lyrics + style tags in, a sung stereo track out, on this machine). A declared engine that is NOT installed is never silently swapped in - the limb refuses by name and media_status names every engine this machine has.",
+   "music_root": "Where THIS machine keeps music engines and their weights. Empty = <media_root>/music. The resolution order is printed by music_tools (and by the Song making card) so 'no engine found' is a claim about a named search, not a feeling.",
+   "yue_root": "The YuE app folder - the one holding inference/gradio_server.py. Empty = <music_root>/tools/yue, then the standard installed app folder, then a bounded scan. Set this when the engine lives somewhere the console would not look on its own.",
+   "music_timeout_s": "How long one song may render before the limb gives up and names the timeout. Generous on purpose: the first run also loads a ~20 GB model, and a song is minutes of generation on an 8 GB card. Lower it on a bigger card.",
+   "music_profile": "0 = choose the engine profile from the live card reading (a free card gets the fast quantized profile, a card the chat model holds gets the offload profile). 1..5 force the engine's own profile numbers for a machine whose card this build cannot measure.",
    "scan_roots": "Folders this build scans for weights. 1.3.1: './models' is carried so an INSTALLED copy finds the weights fetch_models.py places beside it (the installers put them in <install>/models); the vault path still wins on the studio PC."
   }
  },
@@ -40,8 +45,8 @@
  "llama_port": 11441,
  "embed_port": 11442,
  "colibri_port": 11443,
- "ctx_default": 16384,
- "ctx_max": 16384,
+ "ctx_default": 32768,
+ "ctx_max": 32768,
  "ngl": "auto",
  "threads": "auto",
  "max_tokens": 4096,
@@ -62,7 +67,7 @@
    "diffusion_model": "models/qwen-image-2.1/qwen_image_2.1-Q4_K.gguf",
    "vae": "models/qwen-image-2.1/qwen_image_2.1_vae_bf16.safetensors",
    "llm": "models/qwen-image-2.1/Qwen3VL-8B-Instruct-Q4_K_M.gguf",
-   "steps": 20,
+   "steps": 28,
    "cfg_scale": 2.5,
    "size": 1024,
    "align": 32,
@@ -97,11 +102,20 @@
  "piper_voice": "",
  "image_timeout_s": 900,
  "sound_timeout_s": 180,
+ "music_engine": "yue",
+ "music_root": "",
+ "yue_root": "",
+ "music_timeout_s": 3600,
+ "music_profile": 0,
  "prefer_ids": [
   "qwen2.5-coder:7b",
-  "qwen2.5-coder:14b",
-  "gemma4-12b"
+  "Huihui Gemma 4 12B It Qat Q4_0 Unquantized Abliterated",
+  "Mimo v2.6 9b Bf16",
+  "gemma-4-12B-it-qat-UD-Q4_K_XL",
+  "MiMo V2.6 Distill Qwen 9B",
+  "gemma4-12b",
+  "qwen2.5-coder:14b"
  ],
- "brain_note": "prefer_ids = coder first on this copy (one brain to reason about, fastest boot); gemma4 is the image/deep-conversation route when you switch to it.",
- "tuning_note": "Tuned for the coder 2026-09-22: 8192 ctx (multi-turn talk + tool readouts fit; the 7B q8 KV costs ~0.5 GB), 4096 max tokens so a real answer or a code block is never cut off mid-way."
+ "brain_note": "prefer_ids = coder first (tools). Vision testing: Huihui Gemma 4 12B QAT abliterated Q4_K + F32 mmproj, then BoldingBuilds MiMo 9B Abliterated Q4_K_M + bf16 mmproj. Stock QAT XL and bartowski MiMo stay as fallbacks. Pick a chat GGUF, never nomic-embed.",
+ "tuning_note": "Tuned 2026-09-24: ctx 32768. Abliterated GGUFs installed for local image-gen testing (refusal direction projected out of language weights; mmproj unchanged). Huihui Gemma 4 QAT abliterated Q4_K 7.38 GB; MiMo Abliterated Q4_K_M 5.24 GiB. Host still draws on a picture ask. Child/CSAM subjects stay refused."
 }

@@ -303,6 +303,7 @@ def image_see(path: str, prompt: str | None = None, timeout: int = 180) -> dict[
             mmap=mmap,
             flash_attn=flash_attn,
             kv_type=kv_type,
+            ctx_max=8192,
             # A projector is processed with NON-CAUSAL attention, which requires n_ubatch >= the whole
             # image-token batch. The text defaults are too small and llama.cpp dies with
             # "non-causal attention requires n_ubatch >= n_tokens" (llama-context.cpp assert) - measured

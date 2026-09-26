@@ -358,6 +358,27 @@ class PictureRouteTests(unittest.TestCase):
         self.assertGreaterEqual(body.get("elapsed", 0), 29)
         self.assertEqual(self.renders, [])
 
+    def test_a_refusal_reads_the_body_it_is_refusing(self):
+        """A refusal that leaves the body unread resets the caller (WinError 10053, measured 2026-09-25).
+
+        It showed up once in a full run and never alone (the pictures-off test passes 3/3 by itself), so
+        the pin is on the rule: whatever this route answers, it reads what the caller sent first.
+        """
+        seen = []
+        real = public_gateway.drain_body
+        public_gateway.drain_body = lambda handler, declared: (seen.append(int(declared)),
+                                                               real(handler, declared))[1]
+        was = public_gateway.IMAGE_ENABLED
+        public_gateway.IMAGE_ENABLED = False
+        try:
+            body = json.dumps({"prompt": "a cat"}).encode()
+            st, _, _ = self._req("POST", "/api/image", body, {"Content-Type": "application/json"})
+        finally:
+            public_gateway.IMAGE_ENABLED = was
+            public_gateway.drain_body = real
+        self.assertEqual(st, 503)
+        self.assertEqual(seen, [len(body)], "the refusal must read the body before it answers")
+
     def test_the_operator_can_turn_pictures_off(self):
         public_gateway.IMAGE_ENABLED = False
         try:

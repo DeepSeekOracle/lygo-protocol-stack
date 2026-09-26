@@ -13,7 +13,11 @@ PORTAL = KIT_ROOT / "portal"
 CONFIG = KIT_ROOT / "config"
 ENGINE_DIR = KIT_ROOT / "engine"
 DATA = KIT_ROOT / "data"
-SAVE = KIT_ROOT / "save"
+# The session store is the one directory a SECOND process must never share with the console in use:
+# a probe run or a test suite writing here is how "hi / Hello there." turns and test receipts ended up
+# inside a real journal. LYGO_SAVE_DIR points this copy somewhere else; unset it and nothing changes.
+_save_override = os.environ.get("LYGO_SAVE_DIR", "").strip()
+SAVE = Path(_save_override).expanduser() if _save_override else KIT_ROOT / "save"
 WORKSPACE = KIT_ROOT / "workspace"
 RECEIPTS = SAVE / "receipts"
 MYCELIUM = SAVE / "mycelium"

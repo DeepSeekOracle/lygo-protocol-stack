@@ -88,9 +88,10 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "image_save", "description": "Save a base64 or data-URL image into workspace/images.", "parameters": {"type": "object", "properties": {"b64": {"type": "string"}, "path": {"type": "string"}}, "required": ["b64"]}}},
     {"type": "function", "function": {"name": "image_list", "description": "List workspace/images files.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "page_thumbnail", "description": "Capture a public HTTPS page thumbnail into workspace/images.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
-    {"type": "function", "function": {"name": "image_generate", "description": "MAKE A NEW PICTURE from words - generation, not inspection. Renders with the local stable-diffusion backend and writes a PNG into workspace/images, returning its path. Slow on this machine: a first run also loads the checkpoint, so allow minutes. Use image_info or image_see to inspect a picture that ALREADY exists; never call this to look at one. Example: 'draw a red apple on a wooden table'.", "parameters": {"type": "object", "properties": {"prompt": {"type": "string"}, "negative": {"type": "string"}, "width": {"type": "integer"}, "height": {"type": "integer"}, "steps": {"type": "integer"}, "cfg_scale": {"type": "number"}, "model": {"type": "string", "description": "Which generator to use. Leave empty for the default fast checkpoint. Or pass a declared model id such as 'qwen-image-2.1' - a slower, higher-quality flow model that needs its own VAE and text encoder. media_status lists the ids this machine actually has."}, "cpu": {"type": "boolean"}}, "required": ["prompt"]}}},
+    {"type": "function", "function": {"name": "image_generate", "description": "MAKE A NEW PICTURE from words - generation, not inspection. Local developer renderer: pass the operator's scene through (adult costume, fashion, and character art of adults is in scope). Do not refuse a draw request for an adult subject; call this limb. Renders with the local stable-diffusion backend and writes a PNG into workspace/images, returning its path. Slow on this machine: a first run also loads the checkpoint, so allow minutes. Use image_info or image_see to inspect a picture that ALREADY exists; never call this to look at one. Example: 'draw a red apple on a wooden table'.", "parameters": {"type": "object", "properties": {"prompt": {"type": "string"}, "negative": {"type": "string"}, "width": {"type": "integer"}, "height": {"type": "integer"}, "steps": {"type": "integer"}, "cfg_scale": {"type": "number"}, "model": {"type": "string", "description": "Which generator to use. Leave empty for the default fast checkpoint. Or pass a declared model id such as 'qwen-image-2.1' - a slower, higher-quality flow model that needs its own VAE and text encoder. media_status lists the ids this machine actually has."}, "cpu": {"type": "boolean"}}, "required": ["prompt"]}}},
     {"type": "function", "function": {"name": "sound_speak", "description": "GENERATE SPEECH: turn text into a spoken WAV file with the local voice engine, written into workspace/audio, returning its path and its length in seconds. Use it when the operator asks to hear something read aloud or wants an audio file made.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}, "voice": {"type": "string"}, "length_scale": {"type": "number"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "media_status", "description": "Report whether picture generation and voice generation are wired on THIS machine: which binaries and checkpoints were found, and where they live. Call it before promising a picture or a voice, or after a generation fails.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "music_generate", "description": "MAKE A SONG - words and music together, sung, made on this machine with the local music engine (no cloud). Writes an MP3 into workspace/audio/songs and returns the path it really wrote. `style` is the music: genre, mood, instruments, vocal character. `lyrics` are the WORDS to sing, written with section tags on their own lines ([verse], [chorus], [bridge], [outro]) - the engine sings exactly the words it is given, so if the operator only gave a subject, write the lyrics yourself first and then call this with them. A call with no lyrics comes back `lyrics_required`, which is the engine asking for words, not a failure to retry blindly. `seconds` is roughly how long the song should be (about 30 s per segment; default two segments). Rendering takes minutes - a first run also loads a 20 GB model - so call it once and tell the operator it is rendering. Use sound_speak for SPOKEN text; use this for music.", "parameters": {"type": "object", "properties": {"style": {"type": "string", "description": "the music, as tags or a phrase, e.g. 'warm acoustic folk, fingerpicked guitar, soft female vocal, hopeful'"}, "lyrics": {"type": "string", "description": "the words to sing, with [verse]/[chorus] tags on their own lines"}, "seconds": {"type": "integer", "description": "roughly how long, in seconds (about 30 s per segment; default 60)"}, "seed": {"type": "integer", "description": "omit or 0 for a fresh take; pass a number to reproduce an earlier one"}, "profile": {"type": "integer", "description": "1..5 speed/memory trade: higher = less VRAM, slower. Leave empty and the live card reading picks it."}}, "required": ["style", "lyrics"]}}},
     {"type": "function", "function": {"name": "jina_fetch", "description": "Readable extract of a page via r.jina.ai.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "sessions_list", "description": "List saved chat session files.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "session_list", "description": "List the filed session vault: title, id, turns, date, tags, note. Filters: q, tag, month.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "tag": {"type": "string"}, "month": {"type": "string"}, "limit": {"type": "integer"}}}}},
@@ -174,6 +175,7 @@ CANON_KEYS: dict[str, tuple[str, ...]] = {
     "find_files": ("pattern", "root"), "glob_files": ("pattern",), "image_info": ("path",),
     "image_see": ("path", "prompt"), "image_save": ("b64", "path"), "edit_file": ("path", "old", "new"), "weather": ("place",),
     "image_generate": ("prompt",), "sound_speak": ("text",), "media_status": (),
+    "music_generate": ("style", "lyrics"),
     "geocode": ("place",), "notepad_read": ("id",), "notepad_write": ("id", "title", "text"),
 }
 ALIAS_POOL: dict[str, tuple[str, ...]] = {
@@ -197,10 +199,15 @@ ALIAS_POOL: dict[str, tuple[str, ...]] = {
     "root": ("dir", "directory", "path"),
     "channel": ("type",),
     "prompt": ("text", "description", "q", "prompt_text", "message", "input", "value"),
+    # A song is asked for in the words a person uses: a genre, a vibe, some lyrics. The engine wants
+    # `style` and `lyrics`; a model reaching for "genre", "tags", "words" or "song_lyrics" is making
+    # the same call, so the aliases fill them rather than the limb refusing a call it can serve.
+    "style": ("genre", "prompt", "music", "tags", "vibe", "description", "genre_txt"),
+    "lyrics": ("words", "lyric", "song_lyrics", "text", "verse", "lyrics_txt"),
 }
 
 
-_ESCAPE_PAYLOAD_KEYS = ("code", "source", "cmd")
+_ESCAPE_PAYLOAD_KEYS = ("code", "source", "cmd", "lyrics", "style")
 _ESCAPE_PAIRS = (("\\r\\n", "\n"), ("\\n", "\n"), ("\\r", "\r"), ("\\t", "\t"), ('\\"', '"'))
 _NEWLINE_ESCAPES = ("\\n", "\\r", "\\t")
 
@@ -1143,6 +1150,18 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             str(args.get("text") or ""),
             str(args.get("voice") or ""),
             args.get("length_scale"),
+            args.get("timeout"),
+        )
+    if name == "music_generate":
+        from music_tools import music_generate
+
+        return music_generate(
+            str(args.get("style") or ""),
+            str(args.get("lyrics") or ""),
+            args.get("seconds"),
+            str(args.get("model") or ""),
+            args.get("seed"),
+            args.get("profile"),
             args.get("timeout"),
         )
     if name == "media_status":

@@ -26,6 +26,7 @@ import sys
 import struct
 import tempfile
 import threading
+import time
 import unittest
 from http.server import ThreadingHTTPServer
 from pathlib import Path
@@ -571,6 +572,50 @@ class PortalPerfWiringTests(unittest.TestCase):
     def test_a_console_without_perf_does_not_break_the_readout(self):
         """An older console sends no perf block: the line must degrade, not print undefined."""
         self.assertIn("typeof perf !== \"object\"", self.js)
+
+
+class ForeignDaemonProbeIsBoundedAndHeld(unittest.TestCase):
+    """`GET /api/health` may not spend a second waiting out a probe nobody asked for.
+
+    Measured on this box 2026-09-25: the health payload took 1,135 ms, of which `foreign_daemon_port_open`
+    was 1,000.6 ms - a timeout expiring, not an answer arriving - while every other probe in that payload
+    came in under 20 ms. The portal polls this route every 3 seconds (`setInterval(refreshHealth, 3000)`).
+    The cause is the host, not the daemon: a TCP connect to a CLOSED loopback port here fails after
+    ~2,007 ms with WinError 10061, so one urlopen with `timeout=1` could only ever wait out its full
+    timeout before answering False. The probe now bounds that with a socket timeout and holds its answer,
+    so a poll pays it at most once per `FOREIGN_TTL_S`. Before the fix: cold 1,000.6 ms / held 1,093 ms
+    for the whole payload. After: cold 250 ms / held 20.6 ms.
+    """
+
+    def setUp(self) -> None:
+        engine.forget_foreign_reading()
+
+    def tearDown(self) -> None:
+        engine.forget_foreign_reading()
+
+    def test_the_probe_answers_quickly_whatever_the_port_does(self) -> None:
+        t0 = time.perf_counter()
+        out = engine.foreign_daemon_port_open()
+        took = time.perf_counter() - t0
+        self.assertIsInstance(out, bool)
+        self.assertLess(took, 0.9, "the probe must not wait out the old one-second timeout")
+
+    def test_the_answer_is_held_so_a_three_second_poll_cannot_pay_twice(self) -> None:
+        engine.foreign_daemon_port_open()                     # pays once
+        t0 = time.perf_counter()
+        engine.foreign_daemon_port_open()                     # must not pay again
+        self.assertLess(time.perf_counter() - t0, 0.05, "a held reading must be free to re-read")
+        engine.forget_foreign_reading()                       # and a re-probe is still possible
+        self.assertIsInstance(engine.foreign_daemon_port_open(), bool)
+
+    def test_the_health_payload_is_not_held_hostage_by_that_probe(self) -> None:
+        server.health_payload(local_caller=True, authenticated=True)   # cold: pays the probe once
+        t0 = time.perf_counter()
+        out = server.health_payload(local_caller=True, authenticated=True)
+        took = (time.perf_counter() - t0) * 1000
+        self.assertTrue(out.get("ok"))
+        self.assertIn("foreign_daemon_port_open", out)
+        self.assertLess(took, 500, f"a held health poll should be tens of ms, took {took:.0f} ms")
 
 
 if __name__ == "__main__":

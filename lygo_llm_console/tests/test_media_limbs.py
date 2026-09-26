@@ -133,6 +133,52 @@ class CoercionTests(unittest.TestCase):
         self.assertEqual(mt._fnum(None, 7.0), 7.0)
 
 
+class CharacterStabilityTests(unittest.TestCase):
+    """One-person scenes were cloning and morphing with an empty negative."""
+
+    def test_a_one_person_prompt_gets_a_single_subject_cue(self):
+        out = mt.stabilize_prompt("a woman in a bunny suit, cute")
+        self.assertIn("single subject", out.lower())
+        self.assertIn("two arms", out.lower())
+        self.assertIn("bunny", out.lower())
+
+    def test_a_group_prompt_is_left_alone(self):
+        p = "a couple standing together in a park"
+        self.assertEqual(mt.stabilize_prompt(p), p)
+
+    def test_an_empty_negative_fills_anti_clone_terms(self):
+        n = mt.stabilize_negative("")
+        self.assertIn("duplicate", n)
+        self.assertIn("morphing", n)
+        self.assertIn("extra limbs", n)
+
+    def test_an_explicit_negative_is_kept(self):
+        self.assertEqual(mt.stabilize_negative("blurry"), "blurry")
+
+    def test_a_person_prompt_uses_qwen_when_that_recipe_is_ready(self):
+        rec = {
+            "id": "qwen-image-2.1", "ready": True, "missing": [],
+            "paths": {"diffusion_model": "x.gguf"},
+        }
+        with mock.patch.object(mt, "image_recipe", side_effect=lambda n: rec if n == "qwen-image-2.1" else None):
+            with mock.patch.object(mt, "_image_from_recipe",
+                                   return_value={"ok": True, "model": "qwen-image-2.1", "path": "x"}) as run:
+                r = mt.image_generate("a woman in a steampunk corset")
+        self.assertTrue(r["ok"])
+        self.assertEqual(run.call_args[0][0]["id"], "qwen-image-2.1")
+
+    def test_an_object_prompt_does_not_take_the_character_recipe(self):
+        rec = {"id": "qwen-image-2.1", "ready": True, "missing": [], "paths": {"diffusion_model": "x.gguf"}}
+        with mock.patch.object(mt, "image_recipe", side_effect=lambda n: rec if n == "qwen-image-2.1" else None):
+            with mock.patch.object(mt, "_image_from_recipe") as run:
+                with mock.patch.object(mt, "sd_exe", return_value=None), mock.patch.object(
+                    mt, "sd_cpu_exe", return_value=None
+                ):
+                    r = mt.image_generate("a red apple on a wooden table")
+        self.assertFalse(run.called)
+        self.assertEqual(r.get("error"), "no_image_engine")
+
+
 class CheckpointDefaultsTests(unittest.TestCase):
     """The distilled-checkpoint rule: few steps, low guidance."""
 

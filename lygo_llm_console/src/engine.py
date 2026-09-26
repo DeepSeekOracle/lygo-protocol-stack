@@ -367,11 +367,45 @@ def stop_port(port: int) -> None:
         stop_runner(r)
 
 
-def clamp_ctx(ctx: int | None, ctx_max: int | None = None) -> int:
-    """Context window: model-native (else the config default), capped by the config ctx_max."""
+EMBED_KINDS = frozenset({"embed", "embedding"})
+EMBED_ARCH = frozenset({"bert", "nomic-bert", "jina-bert"})
+
+
+def is_embed_model(kind: object = None, architecture: object = None, model_id: object = None) -> bool:
+    """True for embedding GGUFs (nomic/bert). Their native 2k window must not become the chat cap."""
+    k = str(kind or "").strip().lower()
+    a = str(architecture or "").strip().lower()
+    mid = str(model_id or "").strip().lower()
+    if k in EMBED_KINDS or a in EMBED_ARCH:
+        return True
+    blob = f"{k} {a} {mid}"
+    return "embed" in blob
+
+
+def clamp_ctx(
+    ctx: int | None,
+    ctx_max: int | None = None,
+    *,
+    architecture: str | None = None,
+    kind: str | None = None,
+    model_id: str | None = None,
+) -> int:
+    """Context window: model-native (else the config default), capped by the config ctx_max.
+
+    Chat brains never launch below ctx_default. A 2,048-token embedder header, a truncated
+    GGUF, or nomic selected as the chat brain was how a ~10k photo turn came back empty.
+    Embedding models keep their native window. ctx_max still wins.
+    """
     lim = console_limits()
     cap = max(512, int(ctx_max if ctx_max is not None else lim["ctx_max"]))
-    return max(512, min(int(ctx or lim["ctx_default"]), cap))
+    default = max(512, int(lim["ctx_default"]))
+    native = int(ctx) if ctx else 0
+    if is_embed_model(kind, architecture, model_id):
+        return max(512, min(native or default, cap))
+    wanted = native or default
+    if wanted < default:
+        wanted = default
+    return max(512, min(wanted, cap))
 
 
 def clamp_threads(threads: int | None) -> int:
@@ -412,6 +446,7 @@ def spawn_runner(
     ubatch: int = 0,
     skip_ram_gate: bool = False,
     ctx_max: int | None = None,
+    architecture: str | None = None,
 ) -> Runner:
     exe = resolve_binary()
     if exe is None:
@@ -429,7 +464,7 @@ def spawn_runner(
         raise MemoryError(
             json.dumps({"brain": "ram_refused", "avail": available_ram_bytes(), "need": model_bytes + 2 * 1024**3})
         )
-    ctx = clamp_ctx(ctx, ctx_max)
+    ctx = clamp_ctx(ctx, ctx_max, architecture=architecture, kind=kind, model_id=alias)
     ngl = int(ngl or 0)
     nth = clamp_threads(threads)
     ensure_dirs()
@@ -532,7 +567,7 @@ def spawn_runner(
             while time.time() < deadline:
                 if proc.poll() is not None:
                     raise RuntimeError(f"llama-server exited {proc.returncode}")
-                if _health(port, api_key):
+                if _health(port, api_key, timeout=0.5):
                     return runner
                 time.sleep(3)
             raise TimeoutError("timeout")
@@ -552,11 +587,19 @@ def spawn_runner(
             raise
 
 
-def _health(port: int, api_key: str) -> bool:
+def _health(port: int, api_key: str, timeout: float = 2.0) -> bool:
+    """Is this engine answering? /health first, then /v1/models.
+
+    MEASURED 2026-09-25: with the port closed, each attempt waits out its whole budget (a connect to a
+    closed loopback port on this box fails only after ~2,007 ms), so the default pair cost 4,161 ms and
+    the boot-wait loop spent 7,004 ms per iteration (4,161 here, 3,000 sleeping). A caller that polls
+    passes less: readiness is then noticed sooner. The default stays patient for the one caller that must
+    not mistake a busy engine for a dead one (the runner reuse check).
+    """
     url = f"http://127.0.0.1:{port}/health"
     try:
         req = urllib.request.Request(url, headers={"Authorization": f"Bearer {api_key}"})
-        with urllib.request.urlopen(req, timeout=2) as resp:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             return 200 <= resp.status < 300
     except Exception:
         pass
@@ -565,7 +608,7 @@ def _health(port: int, api_key: str) -> bool:
             f"http://127.0.0.1:{port}/v1/models",
             headers={"Authorization": f"Bearer {api_key}"},
         )
-        with urllib.request.urlopen(req, timeout=2) as resp:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
             return 200 <= resp.status < 300
     except Exception:
         return False
@@ -596,12 +639,65 @@ def _write_pids() -> None:
         _log_note(f"pid file write failed ({type(exc).__name__})")
 
 
-def foreign_daemon_port_open() -> bool:
+FOREIGN_TTL_S = 20.0
+_FOREIGN_READING: dict[str, Any] = {"at": 0.0, "open": False}
+
+
+def _loopback_accepts(port: int, timeout_s: float = 0.25) -> bool:
+    """Can a TCP connection be opened on a loopback port, right now?
+
+    A connect to a port that is NOT listening does not fail instantly on this box: measured 2,007 ms
+    before WinError 10061 (a filtering driver holds the refusal). A socket timeout bounds that instead
+    of stalling on it.
+    """
+    import socket
+
+    s = socket.socket()
+    s.settimeout(timeout_s)
     try:
-        urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=1)
+        s.connect(("127.0.0.1", int(port)))
         return True
-    except Exception:
+    except OSError:
         return False
+    finally:
+        try:
+            s.close()
+        except OSError:
+            pass
+
+
+def foreign_daemon_port_open() -> bool:
+    """Is a legacy single-port daemon answering on its default port?
+
+    This probe is one line of `GET /api/health`, which the page polls every 3 seconds - and measured on
+    this box it was THE WHOLE cost of that route: the health payload took 1,135 ms of which this call was
+    1,000.6 ms (a timeout expiring, not an answer arriving), while every other probe in the payload came
+    in under 20 ms. The cause is the host, not the daemon: a connect to a CLOSED loopback port here fails
+    after ~2,007 ms with WinError 10061, so the old shape - a single urlopen with `timeout=1` - could only
+    ever wait out its full timeout before answering False. Two changes, both invisible to callers: a TCP
+    connect bounds the "nothing is listening" case at a quarter of a second (a daemon that cannot accept a
+    connection almost instantly on loopback is not one an operator can use), and the answer is held for
+    FOREIGN_TTL_S so a 3-second poll cannot pay for it again. When the port IS open the HTTP answer still
+    decides, so a listening socket that is not this daemon still reads as closed.
+    """
+    now = time.monotonic()
+    if now - float(_FOREIGN_READING.get("at") or 0.0) < FOREIGN_TTL_S:
+        return bool(_FOREIGN_READING.get("open"))
+    open_ = False
+    if _loopback_accepts(11434):
+        try:
+            with urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=1) as resp:
+                open_ = 200 <= int(getattr(resp, "status", 200)) < 400
+        except Exception:  # noqa: BLE001 - any failure at all means "not answering"
+            open_ = False
+    _FOREIGN_READING["at"] = now
+    _FOREIGN_READING["open"] = open_
+    return open_
+
+
+def forget_foreign_reading() -> None:
+    """Drop the held reading, so the next call probes again. Nothing in a poll needs this."""
+    _FOREIGN_READING["at"] = 0.0
 
 
 def runner_for(port: int) -> Runner | None:

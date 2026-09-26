@@ -368,16 +368,16 @@ def fit_turn(
     """Fit one turn into `window`, newest picture first and conversation last.
 
     Order of sacrifice, cheapest first: the OLDEST pictures go before the newest one is touched, and
-    a picture is only ever shrunk when it would not fit at its current size. Text and the roles of
-    every message are preserved - a photo is replaced by `[image: ...]`, never by nothing, so the
-    model still knows a picture was shown and the operator still sees their own words.
+    a picture is only ever shrunk when it would not fit at its current size. Then oldest messages
+    drop until the newest turn fits. Text and the roles of kept messages are preserved - a photo is
+    replaced by `[image: ...]`, never by nothing, so the model still knows a picture was shown.
 
     Returns:
       messages - what to send
-      changed  - anything was shed or shrunk
-      over     - even after everything, this turn does not fit; DO NOT SEND IT
+      changed  - anything was shed, shrunk, or trimmed
+      over     - even the newest message alone does not fit; DO NOT SEND IT
       note     - plain words for the operator, empty when there is nothing to say
-      shed / shrunk / bytes - what happened, for the receipt
+      shed / shrunk / trimmed / bytes - what happened, for the receipt
     """
     msgs: list[dict] = [dict(m) for m in (messages or []) if isinstance(m, dict)]
     room = max(1, int(window) - int(system_tokens or 0) - int(reserve or 0))
@@ -434,6 +434,13 @@ def fit_turn(
                 break
 
     used = est_prompt_tokens(msgs, system_tokens) + int(reserve or 0)
+    trimmed = 0
+    # 3. drop oldest conversation until the newest turn fits. Refuse only when that one
+    #    message (plus identity/reserve) cannot fit any window this size.
+    while used > int(window) and len(msgs) > 1:
+        msgs = msgs[1:]
+        trimmed += 1
+        used = est_prompt_tokens(msgs, system_tokens) + int(reserve or 0)
     over = used > int(window)
     note = ""
     if over:
@@ -444,6 +451,9 @@ def fit_turn(
     elif shrunk and shrunk_from and shrunk_to:
         note = ("The attached picture was resized from %dx%d to %dx%d to fit this model's window."
                 % (shrunk_from[0], shrunk_from[1], shrunk_to[0], shrunk_to[1]))
-    return {"messages": msgs, "changed": bool(shed or shrunk), "over": over, "note": note,
-            "shed": shed, "shrunk": shrunk, "used_tokens": used, "window": int(window),
+    elif trimmed:
+        note = ("Older turns were dropped from this request so it would fit this model's window "
+                "(%s of %s tokens)." % ("{:,}".format(used), "{:,}".format(int(window))))
+    return {"messages": msgs, "changed": bool(shed or shrunk or trimmed), "over": over, "note": note,
+            "shed": shed, "shrunk": shrunk, "trimmed": trimmed, "used_tokens": used, "window": int(window),
             "from": shrunk_from, "to": shrunk_to}

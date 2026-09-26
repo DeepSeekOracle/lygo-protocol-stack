@@ -134,18 +134,18 @@
   "files": [
     {
       "path": "src/sessions.py",
-      "sha256_16": "b7e03e1926d63e4c",
-      "bytes": 38517
+      "sha256_16": "cabcca8f5817e086",
+      "bytes": 40343
     },
     {
       "path": "src/compaction.py",
-      "sha256_16": "3c90c1989cd23e4e",
-      "bytes": 62282
+      "sha256_16": "7da2ad643a9a1455",
+      "bytes": 79775
     },
     {
       "path": "src/server.py",
-      "sha256_16": "9d60f30d4e249cb6",
-      "bytes": 151497
+      "sha256_16": "6699ec7f88921d59",
+      "bytes": 154869
     },
     {
       "path": "src/continuity.py",
@@ -154,23 +154,23 @@
     },
     {
       "path": "src/limbs.py",
-      "sha256_16": "1271dbbe2357f81d",
-      "bytes": 87844
+      "sha256_16": "42a4abf51636a25a",
+      "bytes": 90673
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "34ef90e33a2f707f",
-      "bytes": 70029
+      "sha256_16": "2c8c72809a963885",
+      "bytes": 84860
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "b099e26760d50561",
-      "bytes": 108109
+      "sha256_16": "c7b6ac2e79664894",
+      "bytes": 152609
     },
     {
       "path": "portal/index.html",
-      "sha256_16": "a3ce16a650f97c1d",
-      "bytes": 20516
+      "sha256_16": "79a27f98fb08aa50",
+      "bytes": 27348
     },
     {
       "path": "tests/test_sessions.py",
@@ -188,9 +188,13 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-24T12:09:34-06:00",
-  "rebrand_refresh_note": "1.3.2: the CPU picture engine (stable-diffusion.cpp) travels inside the package with the fetcher for its checkpoint, and media_root() falls back to the kit root when the machine has no media root of its own",
+  "rebrand_refresh_iso": "2026-09-25T17:45:33-06:00",
+  "rebrand_refresh_note": "1.5.3: the lyric sheet speaks the engine's language - the exact YuE-shaped sheet is the box's default, # comments are read but never sung, [VERSE 1] folds onto [verse], check/convert cost nothing, and the agent writes the whole song into the box",
   "rebrand_refresh_files": [
-    "portal/app.js"
+    "src/sessions.py",
+    "src/compaction.py",
+    "src/server.py",
+    "portal/app.js",
+    "portal/index.html"
   ]
 }

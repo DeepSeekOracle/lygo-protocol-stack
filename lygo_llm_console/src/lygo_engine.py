@@ -160,7 +160,13 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
     # The engine clamps a model's native context to ctx_max before it launches, so the cache has
     # to be sized at that same window. Sizing it at the native 32k while the engine runs 16k
     # over-charged the plan by 2x, which is how a GPU that would have fit gets demoted.
-    ctx_planned = clamp_ctx(rec.get("ctx"), lim["ctx_max"])
+    ctx_planned = clamp_ctx(
+        rec.get("ctx"),
+        lim["ctx_max"],
+        architecture=rec.get("architecture"),
+        kind=rec.get("kind"),
+        model_id=rec.get("id"),
+    )
     dims: dict[str, Any] = {}
     try:
         if model_path.is_file():
@@ -352,7 +358,13 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any],
 
         mm = _mmproj_for(rec)
         lim = console_limits()
-        ctx = int(rec.get("ctx") or lim["ctx_default"])
+        ctx = clamp_ctx(
+            rec.get("ctx"),
+            lim["ctx_max"],
+            architecture=rec.get("architecture"),
+            kind=rec.get("kind") or "chat",
+            model_id=rec.get("id"),
+        )
         # The plan decides the offload. The record's n_gpu_layers is a *record of what ran*, not an
         # instruction: our own scan writes 0 for every model it finds, so trusting it here pinned the
         # machine to CPU and the adaptive plan never reached the argv - /api/health reported ngl 79
@@ -388,6 +400,7 @@ def boot(rec: dict[str, Any], *, api_key: str, state: dict[str, Any],
                     ubatch=int(lp.get("ubatch") or 0),
                     skip_ram_gate=True,
                     ctx_max=lim["ctx_max"],
+                    architecture=rec.get("architecture"),
                 )
             except (RuntimeError, TimeoutError, OSError) as exc:
                 if not queue and tuned_flags and not conservative:

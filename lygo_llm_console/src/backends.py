@@ -443,7 +443,13 @@ def remember_backend(host: str, name: str, **fields: Any) -> dict[str, Any]:
 
 # ---------------------------------------------------------------- self-test
 
-def _health_ok(port: int, timeout: float = 2.0) -> bool:
+def _health_ok(port: int, timeout: float = 0.75) -> bool:
+    """Did this self-test engine answer?
+
+    MEASURED 2026-09-25: the caller is a wait loop (poll, then sleep 1 s), so a per-attempt budget only
+    has to cover a loopback /health answer - at 2.0 s a closed port cost that loop 2,000 ms per
+    iteration. How long the loop waits in total is still its own `timeout`.
+    """
     try:
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=timeout) as r:
             return int(getattr(r, "status", 0) or 0) == 200

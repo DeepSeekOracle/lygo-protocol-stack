@@ -122,3 +122,8 @@ data/pure_data/_skill_smoke/
 # Literal backup copies of docs (kept on disk, not tracked)
 *.pre_docs*
 *.bak-2*
+# Local-only: the console's own API keys and local backups must never be published.
+# defect 124/125 - the installer seal excludes config/api.json on purpose; git must too.
+lygo_llm_console/config/api.json
+config/api.json
+.backups/

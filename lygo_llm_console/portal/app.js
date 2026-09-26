@@ -2,7 +2,7 @@
   /* One product name, one build stamp. The header, the document title and every status line read
      from here, so the console cannot drift back into three names and no version in the UI. */
   const LYGO_PRODUCT = "LYGO Local Agent Console";
-  const LYGO_BUILD = "1.3.2";
+  const LYGO_BUILD = "1.5.3";
   const BUILD_STAMP = "build " + LYGO_BUILD;
   /* The build stamp the console actually serves (/api/health), so a release bump cannot disagree with
      the header. Declared up HERE, above its first use, because paintBrand() reads it and paintBrand()
@@ -828,11 +828,93 @@ document.addEventListener("click", (e) => {
       models.appendChild(o);
     });
   }
+  function pictureNames(text) {
+    const s = String(text || "");
+    const out = [];
+    const seen = {};
+    const add = function (n) {
+      const name = String(n || "").split(/[\\/]/).pop();
+      if (!name || seen[name]) return;
+      seen[name] = 1;
+      out.push(name);
+    };
+    let m;
+    const inFolder = /workspace[\\/]+images[\\/]+([A-Za-z0-9._-]+\.(?:png|jpe?g|gif|webp|bmp))/gi;
+    while ((m = inFolder.exec(s))) add(m[1]);
+    const stamped = /\b(gen-\d{8}-\d{6}\.(?:png|jpe?g|gif|webp|bmp))\b/gi;
+    while ((m = stamped.exec(s))) add(m[1]);
+    return out.slice(0, 6);
+  }
+  function mediaSrc(name) {
+    return "/api/media/image/" + encodeURIComponent(name);
+  }
+  function bubbleTextEl(el) {
+    if (!el) return null;
+    return el.querySelector(".bubble-text") || el;
+  }
+  function getBubbleText(el) {
+    const t = el && el.querySelector(".bubble-text");
+    return t ? (t.textContent || "") : ((el && el.textContent) || "");
+  }
+  function setBubbleText(el, s) {
+    if (!el) return;
+    let t = el.querySelector(".bubble-text");
+    if (!t) {
+      t = document.createElement("div");
+      t.className = "bubble-text";
+      el.insertBefore(t, el.firstChild);
+    }
+    t.textContent = s == null ? "" : String(s);
+  }
+  function paintBubbleLinks(el, text) {
+    const t = bubbleTextEl(el);
+    if (!t) return;
+    const src = text == null ? "" : String(text);
+    const re = /((?:[A-Za-z]:[\\/][^\n`"'<>]*?[\\/])?workspace[\\/]+images[\\/]+[A-Za-z0-9._-]+\.(?:png|jpe?g|gif|webp|bmp)|\bgen-\d{8}-\d{6}\.(?:png|jpe?g|gif|webp|bmp)\b)/gi;
+    t.textContent = "";
+    let last = 0, m;
+    while ((m = re.exec(src))) {
+      if (m.index > last) t.appendChild(document.createTextNode(src.slice(last, m.index)));
+      const name = m[0].split(/[\\/]/).pop();
+      const a = document.createElement("a");
+      a.className = "bubble-pic-link";
+      a.href = mediaSrc(name);
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = m[0];
+      t.appendChild(a);
+      last = m.index + m[0].length;
+    }
+    if (last < src.length) t.appendChild(document.createTextNode(src.slice(last)));
+    if (!t.childNodes.length) t.textContent = src;
+  }
+  function finishBubblePictures(el) {
+    if (!el) return;
+    const text = getBubbleText(el);
+    paintBubbleLinks(el, text);
+    el.querySelectorAll(".bubble-pic").forEach(function (n) { n.parentNode.removeChild(n); });
+    pictureNames(text).forEach(function (name) {
+      const wrap = document.createElement("a");
+      wrap.className = "bubble-pic";
+      wrap.href = mediaSrc(name);
+      wrap.target = "_blank";
+      wrap.rel = "noopener";
+      wrap.title = "Open " + name;
+      const im = document.createElement("img");
+      im.className = "bubble-img gen";
+      im.src = mediaSrc(name);
+      im.alt = name;
+      wrap.appendChild(im);
+      el.appendChild(wrap);
+    });
+    if (log) log.scrollTop = log.scrollHeight;
+  }
   function bubble(role, text, images) {
     const d = document.createElement("div");
     d.className = "bubble " + role;
     const t = document.createElement("div");
-    t.textContent = text;
+    t.className = "bubble-text";
+    t.textContent = text || "";
     d.appendChild(t);
     (images || []).forEach(function (src) {
       const im = document.createElement("img");
@@ -841,6 +923,7 @@ document.addEventListener("click", (e) => {
       im.alt = "attached photo";
       d.appendChild(im);
     });
+    if (role === "assistant") finishBubblePictures(d);
     log.appendChild(d);
     if (emptyState) emptyState.hidden = true;
     log.scrollTop = log.scrollHeight;
@@ -1186,7 +1269,8 @@ document.addEventListener("click", (e) => {
   function failBubble(b, text) {
     if (b) {
       b.classList.add("failed");
-      b.textContent = (b.textContent || "").trim() ? b.textContent + "\n\n⚠ " + text : "⚠ " + text;
+      const cur = getBubbleText(b).trim();
+      setBubbleText(b, cur ? cur + "\n\n⚠ " + text : "⚠ " + text);
     }
     setStatus(text, true);
     if (msg) msg.focus();
@@ -1249,7 +1333,7 @@ document.addEventListener("click", (e) => {
     };
     const say = function (delta) {
       if (!delta) return;
-      b.textContent += delta;
+      setBubbleText(b, getBubbleText(b) + delta);
       log.scrollTop = log.scrollHeight;
     };
     try {
@@ -1298,7 +1382,7 @@ document.addEventListener("click", (e) => {
             if (evn.delta) say(evn.delta);
             /* The turn streamed and the finished text differs from what arrived as deltas
                (sanitised echo, or the output-window gate): this frame is the authoritative one. */
-            if (evn.replace) b.textContent = evn.replace;
+            if (evn.replace) setBubbleText(b, evn.replace);
             if (evn.traces) renderTraces(evn.traces);
             if (evn.type === "brain") markBrain(b, evn);
             if (evn.error) failBubble(b, "engine error — " + evn.error);
@@ -1310,7 +1394,9 @@ document.addEventListener("click", (e) => {
                 b.title = "gen " + evn.perf.gen_tok_s + " tok/s · prefill " + Math.round(evn.perf.prompt_tok_s || 0) + " tok/s";
               }
               done = true;
-              if (b.textContent) chatHistory.push({ role: "assistant", content: b.textContent });
+              const doneText = getBubbleText(b);
+              if (doneText) chatHistory.push({ role: "assistant", content: doneText });
+              finishBubblePictures(b);
             }
           } catch (_) {
             /* A malformed event used to vanish silently and the answer just stopped mid-sentence. */
@@ -1332,11 +1418,12 @@ document.addEventListener("click", (e) => {
         if (j.error && !j.text) {
           failBubble(b, "engine error — " + j.error);
         } else {
-          b.textContent = j.text || "";
+          setBubbleText(b, j.text || "");
           markBrain(b, j);
           notePerf(j.perf);
           refreshRecord(); /* the turn just changed the record */
           if (j.text) chatHistory.push({ role: "assistant", content: j.text });
+          finishBubblePictures(b);
         }
         if (j.traces) renderTraces(j.traces);
       }
@@ -1344,12 +1431,12 @@ document.addEventListener("click", (e) => {
       stopped = !!ctl.__stopped;
       if (stopped && !timedOut) {
         b.classList.add("stopped");
-        b.textContent += "\n[stopped by user]";
+        setBubbleText(b, getBubbleText(b) + "\n[stopped by user]");
       } else if (timedOut) {
         b.classList.add("failed");
-        b.textContent += "\n⚠ no output for " + Math.round(idleWindowMs() / 1000) +
+        setBubbleText(b, getBubbleText(b) + "\n⚠ no output for " + Math.round(idleWindowMs() / 1000) +
           "s, so this answer was stopped. Check the health box: if the brain reads ready, ask again — the " +
-          "first turn after a boot pays for the engine reading its context, and the console primes that for you.";
+          "first turn after a boot pays for the engine reading its context, and the console primes that for you.");
         setStatus("engine silent for " + Math.round(idleWindowMs() / 1000) + "s — stopped", true);
       } else if (e && e.name === "AbortError") {
         b.classList.add("stopped");
@@ -1357,7 +1444,7 @@ document.addEventListener("click", (e) => {
         failBubble(b, "chat request failed — " + ((e && e.message) ? e.message : e) +
           " · is the console window still running? (answers are kept in the transcript)");
       }
-      const partial = (b.textContent || "").replace(/\[stopped by user\]/g, "").replace(/⚠[^\n]*/g, "").trim();
+      const partial = getBubbleText(b).replace(/\[stopped by user\]/g, "").replace(/⚠[^\n]*/g, "").trim();
       if (!done && partial && (stopped || timedOut)) {
         chatHistory.push({ role: "assistant", content: partial + " [answer was cut short]" });
       }
@@ -1366,16 +1453,17 @@ document.addEventListener("click", (e) => {
       if (capTimer) clearTimeout(capTimer);
       if (parseFails) {
         b.classList.add("failed");
-        b.textContent += "\n⚠ stream error — " + parseFails + " malformed event(s) skipped, so this answer may be incomplete.";
+        setBubbleText(b, getBubbleText(b) + "\n⚠ stream error — " + parseFails + " malformed event(s) skipped, so this answer may be incomplete.");
         setStatus("stream error — " + parseFails + " malformed event(s) from the engine", true);
       }
       b.classList.remove("streaming");
-      if (!(b.textContent || "").trim() && !b.classList.contains("failed") && !b.classList.contains("stopped")) {
+      if (!getBubbleText(b).trim() && !b.classList.contains("failed") && !b.classList.contains("stopped")) {
         /* The old failure mode: an empty bubble and a rejection in the console. */
         b.classList.add("failed");
-        b.textContent = "⚠ the engine sent no text for this turn — press Boot LLM (health box says engine=ready when it is up) and ask again.";
+        setBubbleText(b, "⚠ the engine sent no text for this turn — press Boot LLM (health box says engine=ready when it is up) and ask again.");
         setStatus("engine returned no text for this turn", true);
       }
+      if (getBubbleText(b).trim() && !b.classList.contains("failed")) finishBubblePictures(b);
       activeAbort = null;
       setSending(false);
       chatHistory = pruneHistory(chatHistory);
@@ -2024,6 +2112,858 @@ document.addEventListener("click", (e) => {
       msg.focus();
     };
   }
+
+  /* ---- Song studio --------------------------------------------------------
+     The third making limb, beside pictures and voice. `music_generate` can now
+     render a whole song - vocals and accompaniment together - with the local
+     engine, and this block is the operator's handle on it from inside the page.
+
+     It is deliberately a THIN client. The server owns the render, the job it is
+     on and the folder of finished songs; this block posts the operator's intent
+     and paints what GET /api/music says. Nothing here invents a filename, a
+     duration or a seed - if the server does not report a fact, the panel does not
+     show one. That is the rule worth being stubborn about, because a render takes
+     MINUTES on this machine and a single ~30 s segment can run tens of minutes: a
+     cheerful fake "done" would be worse than no panel at all, since the operator
+     would sit waiting on a song that was never written.
+
+     Shape copied from the notepad block above, so the two panels behave alike:
+     fetch() with headers() and cache:"no-store", the ids held in local consts,
+     one tiny msSet() for the status line. Two things are new here, and both come
+     from the job being long-lived:
+
+       * a POLL. start() puts a 3000 ms timer on GET /api/music, and that timer -
+         not the button, not the POST response - is the only thing allowed to
+         declare the render over, and only once the server's own job.state has
+         left "running". Cancel exists for the same reason: a long render has to
+         be abandonable.
+       * a SIGNATURE. Rebuilding the song list on every tick would tear down and
+         recreate the <audio> elements, so playback would restart every 3 s. Each
+         renderer therefore runs only when the data behind it really changed. */
+  (function songStudio() {
+    const msRoot = document.getElementById("ms-studio");
+    if (!msRoot) return;
+    const msEngine = document.getElementById("ms-engine");
+    const msRefBtn = document.getElementById("ms-refresh");
+    const msStyleEl = document.getElementById("ms-style");
+    const msLyricsEl = document.getElementById("ms-lyrics");
+    const msSegEl = document.getElementById("ms-segments");
+    const msSeedEl = document.getElementById("ms-seed");
+    const msTokEl = document.getElementById("ms-tokens");
+    const msGo = document.getElementById("ms-go");
+    const msCancel = document.getElementById("ms-cancel");
+    const msStatus = document.getElementById("ms-status");
+    const msSongsEl = document.getElementById("ms-songs");
+    const msTemplateBtn = document.getElementById("ms-template");
+    const msConvertBtn = document.getElementById("ms-convert");
+    const msCheckBtn = document.getElementById("ms-check");
+    const msClearBtn = document.getElementById("ms-clear");
+    const msWriteBtn = document.getElementById("ms-write");
+    const msSurpriseBtn = document.getElementById("ms-surprise");
+    const msRestoreBtn = document.getElementById("ms-restore");
+    const msSheetMsgEl = document.getElementById("ms-sheetmsg");
+    const msStylePresets = document.getElementById("ms-style-presets");
+
+    let msPoll = null;        // the 3000 ms handle, alive only while a render is out there
+    let msBusy = false;       // a control POST (start/cancel/engine) is in flight
+    let msApplied = false;    // the server's defaults have been applied once already
+    let msEngineSig = null;   // what the engine select was last built from (null = never built)
+    let msSongSig = null;     // what the song list was last built from (null = never built)
+    let msSongsLast = [];     // the last song list the server reported (msPaintJob checks a name against it)
+    let msRouteLast = null;   // the last card reading the server sent (the "will it fit" line)
+
+    function msSet(text, warn) {
+      if (!msStatus) return;
+      msStatus.textContent = text;
+      msStatus.classList.toggle("warn", !!warn);
+    }
+
+    /* A refusal is only useful with the remedy it came with. The server sends `hint` with every named
+       refusal (and a p0 refusal sends `gate.reason`), so the panel says what to DO rather than only
+       which code came back - `could not start: lyrics_required` is not an instruction. */
+    function msWhy(j, http) {
+      const code = (j && j.error) || ("HTTP " + http);
+      const why = (j && (j.hint || (j.gate && j.gate.reason) || j.why)) || "";
+      return why ? code + " — " + why : code;
+    }
+
+    /* "Will it even fit?" is the question an 8 GB box makes the operator ask before every render, and
+       the server answers it on every poll (`route`: the profile chosen, the VRAM it read, and who is
+       holding the card). Painting it is the whole point of paying for that reading. */
+    function msRouteLine() {
+      const r = msRouteLast;
+      if (!r || !r.route) return "";
+      /* The server's own sentence, not a second phrasing of the same numbers: `why` is what the strip
+         card says too, and two copies of one rule drift apart the moment either changes. */
+      return " · the card: " + r.route + (r.why ? " — " + r.why : "");
+    }
+
+    /* Songs ride the kernel's OWN media route, the identical mechanism pictures
+       already use (mediaSrc above): /api/media/audio/<name>. The module exposes
+       only GET/POST /api/music, so the module has no audio route of its own to
+       call - the kernel serves the bytes.
+       The names are file names off disk, so always encode them. */
+    function msAudioSrc(name) {
+      return "/api/media/audio/" + encodeURIComponent(String(name || ""));
+    }
+
+    /* Seconds as a person reads them: 95 -> 1:35, 3850 -> 1:04:10. A full song on this machine is
+       HOURS, so the clock has to be able to say an hour without sounding like a fault. */
+    function msClock(s) {
+      const n = Math.max(0, Math.round(Number(s) || 0));
+      const h = Math.floor(n / 3600), m = Math.floor((n % 3600) / 60), sec = n % 60;
+      const two = (x) => (x < 10 ? "0" + x : String(x));
+      return h ? h + ":" + two(m) + ":" + two(sec) : m + ":" + two(sec);
+    }
+
+    function msNum(el, fallback) {
+      const n = parseInt((el && el.value) || "", 10);
+      return isFinite(n) ? n : fallback;
+    }
+
+    /* The engine choices are the server's list, verbatim. An engine that is not
+       installed here is still SHOWN - disabled, with its own state and note in the
+       label - because hiding it would make the panel lie about what this build can
+       do the moment the weights land. */
+    /* The rows the dropdown was built from. The estimate line needs them: a declared-but-unwired
+       engine has no honest cost, and quoting the usable engine's rate for it would be this page
+       inventing a number for a render the server is going to refuse. */
+    let msEngineRows = [];
+
+    function msEngineRow(id) {
+      for (let i = 0; i < msEngineRows.length; i++) if (msEngineRows[i].id === id) return msEngineRows[i];
+      return null;
+    }
+
+    function msFillEngines(engines, current) {
+      if (!msEngine) return;
+      const list = engines || [];
+      msEngineRows = list;
+      msEngine.innerHTML = "";
+      if (!list.length) {
+        const o = document.createElement("option");
+        o.value = "";
+        o.textContent = "no song engine declared on this console";
+        msEngine.appendChild(o);
+        msEngine.disabled = true;
+        return;
+      }
+      msEngine.disabled = false;
+      list.forEach((e) => {
+        const o = document.createElement("option");
+        o.value = e.id;
+        const missing = e.state && e.state !== "installed";
+        /* MEASURED 2026-09-25: this read "Stable Audio — declared (declared, not usable yet: …)"
+           because the server's note already opens with the state word. Say it once. */
+        let suffix = "";
+        if (missing) {
+          const note = String(e.note || "").trim();
+          const stateWord = String(e.state || "").toLowerCase();
+          suffix = note && note.toLowerCase().indexOf(stateWord) === 0
+            ? " (" + note + ")"
+            : " — " + e.state + (note ? " (" + note + ")" : "");
+        }
+        o.textContent = (e.label || e.id) + suffix;
+        if (e.note) o.title = e.note;
+        if (missing) o.disabled = true;
+        if (e.id === current) o.selected = true;
+        msEngine.appendChild(o);
+      });
+      const usable = [].some.call(msEngine.options, (o) => o.value === current && !o.disabled);
+      if (usable) msEngine.value = current;
+    }
+
+    /* The server's defaults land ONCE, on the first good GET, and never again:
+       after that the boxes belong to the operator, and a poll that re-filled them
+       would wipe a half-typed lyric sheet out from under the render. */
+    function msApplyDefaults(d) {
+      if (msApplied || !d) return;
+      msApplied = true;
+      if (msStyleEl && !msStyleEl.value && d.style != null) msStyleEl.value = d.style;
+      /* The section count starts EMPTY, and 0 means "one section per part of the words": writing the
+         server's 0 into the box would read as a demand for no sections at all, and a 1 there caps
+         every song at a single section (measured: 15 s of audio). The lyric sheet decides unless the
+         operator says otherwise. */
+      if (msSegEl && Number(d.segments) > 0) msSegEl.value = d.segments;
+      if (msSeedEl && d.seed != null) msSeedEl.value = d.seed;
+      if (msTokEl && d.max_new_tokens != null) msTokEl.value = d.max_new_tokens;
+    }
+
+    /* Only the facts the server actually reported, in that order. */
+    function msSongLine(s) {
+      const bits = [];
+      if (s.seconds != null && s.seconds !== "") bits.push("duration " + msClock(s.seconds));
+      if (s.sections) bits.push(s.sections + (Number(s.sections) === 1 ? " section" : " sections"));
+      if (s.engine) bits.push("engine " + s.engine);
+      if (s.seed != null) bits.push("seed " + s.seed);
+      if (s.bytes) bits.push(Math.round(Number(s.bytes) / 1024) + " KB");
+      if (s.style) bits.push("style: " + s.style);
+      return bits.length ? bits.join(" · ") : "the server reported no other facts for this song";
+    }
+
+    /* Newest first. Song names are date-stamped on disk (20260925-1239_song.mp3),
+       so a descending name sort is newest-first even if the folder listing the
+       server read came back in some other order. A name with no stamp still sorts
+       stably - it just sorts by its own text. The signatures above start at null
+       rather than "", so an EMPTY list still renders: a blank panel where the
+       explanation belongs is the failure mode this avoids. */
+    function msRenderSongs(songs) {
+      if (!msSongsEl) return;
+      const list = (songs || []).slice().sort((a, b) => String(b.name || "").localeCompare(String(a.name || "")));
+      msSongsEl.innerHTML = "";
+      /* A count line, because "the list" with no number in it is how an operator cannot tell a render
+         that never landed from one that landed two screens down. */
+      const head = document.createElement("div");
+      head.className = "ms-songs-head";
+      head.textContent = list.length
+        ? list.length + (list.length === 1 ? " take" : " takes") + " · newest first"
+        : "no takes yet";
+      msSongsEl.appendChild(head);
+      if (!list.length) {
+        const p = document.createElement("p");
+        p.className = "ms-empty";
+        p.textContent = "No songs rendered on this console yet. Write a style and some lyrics above, press Generate, and the first finished take lands here — with its player, its real duration and the seed that made it.";
+        msSongsEl.appendChild(p);
+        return;
+      }
+      list.forEach((s) => {
+        const row = document.createElement("div");
+        row.className = "ms-song";
+        let au = null;
+        if (s.name) {
+          /* The <audio> element IS the player; the button only drives it. A native control bar on
+             every row is ~54px of band height, which is why one take filled the whole list. */
+          au = document.createElement("audio");
+          au.preload = "none";
+          au.src = msAudioSrc(s.name);
+          row.appendChild(au);
+          const play = document.createElement("button");
+          play.type = "button";
+          play.className = "ms-song-play";
+          play.textContent = "play";
+          play.title = "Play " + s.name;
+          /* `.onclick` / `.onpause` and `classList.toggle(cls, bool)` are the studio's own convention, not a
+             preference: its node harness (tests/js/music_studio_panel.js) runs this block against a stub DOM
+             whose elements carry values but no listener registration, no querySelectorAll, and a classList
+             with only `toggle`. Same behaviour on the page; the harness stays honest. */
+          play.onclick = () => {
+            if (au.paused) {
+              msOnlyOne(au);
+              if (au.play) { const p = au.play(); if (p && p.catch) p.catch(() => {}); }
+            } else if (au.pause) au.pause();
+          };
+          au.onplay = () => { play.textContent = "stop"; row.classList.toggle("playing", true); };
+          const off = () => { play.textContent = "play"; row.classList.toggle("playing", false); };
+          au.onpause = off;
+          au.onended = off;
+          row.appendChild(play);
+        }
+        const main = document.createElement("div");
+        main.className = "ms-song-main";
+        const nm = document.createElement("span");
+        nm.className = "ms-song-name";
+        nm.textContent = s.name || "(song without a name)";
+        nm.title = s.name || "";
+        const meta = document.createElement("div");
+        meta.className = "ms-song-meta";
+        meta.textContent = [s.when, msSongLine(s)].filter(Boolean).join(" · ");
+        main.appendChild(nm);
+        main.appendChild(meta);
+        row.appendChild(main);
+        if (s.name) {
+          const get = document.createElement("a");
+          get.className = "ms-song-get";
+          get.href = msAudioSrc(s.name);
+          get.download = "";   /* the property, not setAttribute: the harness's stub elements carry values only */
+          get.textContent = "get";
+          get.title = "Download this take";
+          row.appendChild(get);
+        }
+        /* "Make another one like that": this take's own style and seed go back in the boxes. Offered
+           only when the server actually reported them - a button that fills nothing is a lie. */
+        if (s.name && (s.style || s.seed != null)) {
+          const again = document.createElement("button");
+          again.type = "button";
+          again.className = "ms-song-again";
+          again.textContent = "again";
+          again.title = "Put this take's style and seed back in the boxes above";
+          again.onclick = () => {
+            if (s.style && msStyleEl) msStyleEl.value = s.style;
+            if (s.seed != null && msSeedEl) msSeedEl.value = s.seed;
+            msSet("this take's style" + (s.seed != null ? " and seed " + s.seed : "") + " are back in the boxes above");
+          };
+          row.appendChild(again);
+        }
+        msSongsEl.appendChild(row);
+      });
+    }
+
+    /* One take at a time: two rows singing over each other is not a feature. */
+    function msOnlyOne(keep) {
+      if (!msSongsEl || !msSongsEl.querySelectorAll) return;   // the node harness's fake elements have no querySelectorAll
+      [].forEach.call(msSongsEl.querySelectorAll("audio"), (a) => { if (a !== keep) a.pause(); });
+    }
+
+    /* ------------------------------------------------------------------ the quick picks
+       The boxes above are the ENGINE'S contract - tokens per section - which is precise and useless
+       to a songwriter: nobody wants to work out that 3000 tokens is about 30 s of song before they
+       can hear their own words. These buttons write those same boxes, and the line under them says
+       what the current words and numbers will BECOME: how many sections, how much song, and what
+       that costs on the engine selected right now (MEASURED 2026-09-25: one 1500-token section took
+       3850 s at profile 3 on this 8 GB card; the other engine renders a whole song in minutes). */
+    (function msQuick() {
+      const quick = document.getElementById("ms-quick");
+      const est = document.getElementById("ms-est");
+      const dice = document.getElementById("ms-dice");
+      if (!quick || !est) return;
+      function msSections() {
+        const asked = msNum(msSegEl, 0);
+        if (asked > 0) return asked;
+        const words = (msLyricsEl && msLyricsEl.value) || "";
+        const tags = (words.match(/^[ \t]*\[[^\]]+\][ \t]*$/gm) || []).length;
+        const paras = words.split(/\n[ \t]*\n/).filter((t) => t.trim().length).length;
+        return tags || paras || 0;
+      }
+      /* "~" everywhere: this is the panel's own arithmetic from the engine's documented rate, not a
+         promise the server made. */
+      function msSay() {
+        const secs = msSections();
+        const tok = msNum(msTokEl, 3000) || 3000;
+        const per = Math.max(1, Math.round(tok / 100));   // the engine's own rate: 1000 tokens ~ 10 s
+        if (!secs) { est.textContent = "no sections in the sheet yet — write the words, or press template"; return; }
+        const eng = (msEngine && msEngine.value) || "";
+        const row = msEngineRow(eng);
+        /* The cost belongs to the engine that can actually render. MEASURED 2026-09-25: with
+           `stable_audio` selected the line quoted the OTHER engine's profile-3 rate - hours on this
+           card - for an engine this build has no adapter for and no weights of. A number is a claim. */
+        if (row && (row.state !== "installed" || row.wired === false)) {
+          est.textContent = secs + (secs === 1 ? " section" : " sections") + " · " + (row.label || eng)
+            + " cannot render on this build — " + (row.note || "it is not installed, or this build has no adapter for it");
+          return;
+        }
+        const fast = eng === "acestep" || eng === "ace_step" || !!(row && row.adapter === "acestep");
+        let cost;
+        if (fast) {
+          cost = "this engine renders a whole song in a minute or two";
+        } else {
+          const mins = Math.round(secs * tok * 2.567 / 60);
+          cost = "~" + (mins >= 90 ? (Math.round(mins / 6) / 10) + " h" : mins + " min") + " on this card at profile 3";
+        }
+        est.textContent = secs + (secs === 1 ? " section" : " sections") + " -> ~" + msClock(secs * per) + " of song · " + cost;
+      }
+      quick.onclick = (ev) => {
+        const b = ev.target && ev.target.closest ? ev.target.closest("button[data-ms-seg]") : null;
+        if (!b) return;
+        if (msSegEl) msSegEl.value = b.getAttribute("data-ms-seg");
+        if (msTokEl) msTokEl.value = b.getAttribute("data-ms-tok");
+        msSay();
+      };
+      if (dice) dice.onclick = () => {
+        if (msSeedEl) msSeedEl.value = Math.floor(Math.random() * 999999999);
+        msSay();
+      };
+      /* addEventListener, not `el.onchange = msSay`. MEASURED 2026-09-25: the engine-switch handler
+         further down assigns msEngine.onchange itself, silently REPLACING this one - so switching
+         engines left the cost line describing the engine that was selected before, which is how the
+         studio came to quote hours on this card for an engine this build cannot even drive. A
+         listener cannot be overwritten by a later assignment the way a property can. */
+      [msStyleEl, msLyricsEl, msSegEl, msTokEl, msSeedEl, msEngine].forEach((el) => {
+        if (!el || !el.addEventListener) return;
+        el.addEventListener("input", msSay);
+        el.addEventListener("change", msSay);
+      });
+      msSay();
+    })();
+
+    /* The single place that decides what "the job" looks like, so the button
+       states, the status line and the poll can never disagree. Running is the only
+       state that keeps the poll alive; every other state stops it, and failed or
+       cancelled shows the server's status string VERBATIM - a paraphrase here is
+       how an operator ends up debugging the wrong thing. */
+    function msPaintJob(job) {
+      const j = job || {};
+      const running = j.state === "running";
+      if (msGo) msGo.disabled = running || msBusy;
+      if (msCancel) msCancel.disabled = !running;
+      if (running) {
+        /* The plan first, then the engine's OWN position in it. A full song here is hours, so
+           "rendering" with no position cannot be told from a render that hung: the server reads
+           `section 3 of 6` out of the engine's own log and hands it over as j.progress. */
+        const plan = (typeof j.sections === "number" && j.sections > 0)
+          ? j.sections + (j.sections === 1 ? " section" : " sections")
+            + (j.planned_audio_seconds ? " (~" + msClock(j.planned_audio_seconds) + " of song)" : "")
+            + " · "
+          : "";
+        const pos = (j.progress && j.progress.text) ? j.progress.text : (j.status || "working");
+        msSet(plan + pos + " · this takes as long as it takes; leaving the window open is safe"
+              + (typeof j.elapsed_s === "number" ? ", elapsed " + msClock(j.elapsed_s) : ""));
+        return true;
+      }
+      if (!j.state || j.state === "none") {
+        msSet((j.status || "idle — write a style and some lyrics, then press Generate") + msRouteLine());
+        return false;
+      }
+      if (j.state === "done") {
+        /* The wire carries the song as a PATH (a string): the job record and the playlist both hold a
+           path, and the file on disk is the claim. The object shape is still accepted so a record that
+           ever carries one is not read as "no song" - but what the server really sends is the path, and
+           reading it as an object told the operator "nothing here is claimed as finished" over a song
+           that had just been written. */
+        const raw = j.song;
+        const path = typeof raw === "string" ? raw : ((raw && raw.path) || "");
+        const name = path ? path.split(/[\\/]/).pop() : ((raw && raw.name) || "");
+        const rec = name ? msSongsLast.find((s) => (path && s.path === path) || s.name === name) : null;
+        const secs = (rec && rec.seconds) || (raw && raw.seconds) || 0;
+        if (rec) msSet("finished · " + name + (secs ? " · " + secs + "s" : "") + " — it is in the list below" + msRouteLine());
+        else if (name) msSet("the job says done and names " + name + ", but that song is not in the list yet — press Refresh", true);
+        else msSet("the job says done but names no song, so nothing here is claimed as finished — press Refresh to ask again", true);
+        return false;
+      }
+      msSet(j.status || (j.state + " — the engine reported no detail"), true);
+      return false;
+    }
+
+    /* One GET, painted. Each renderer is skipped unless its own input changed,
+       which is what stops the poll from restarting the operator's playback every
+       3 s. msSongsLast is set before msPaintJob because the "done" wording checks
+       the finished name against that very list. */
+    async function msLoad() {
+      let r;
+      let j;
+      try {
+        r = await fetch("/api/music", { headers: headers(), cache: "no-store" });
+        j = await r.json().catch(() => ({}));
+      } catch (e) {
+        msSet("studio: GET /api/music failed — " + ((e && e.message) || e), true);
+        return null;
+      }
+      if (!r.ok || j.ok === false) {
+        msSet("studio: the server refused /api/music — " + msWhy(j, r.status), true);
+        return null;
+      }
+      const engines = j.engines || [];
+      msRouteLast = j.route || null;   // painted with the job: the "will it fit" line before Generate
+      const engSig = engines.map((e) => e.id + ":" + e.state).join(",") + "|" + (j.engine || "");
+      if (engSig !== msEngineSig) {
+        msEngineSig = engSig;
+        msFillEngines(engines, j.engine);
+      }
+      msApplyDefaults(j.defaults);
+      msApplySheet(j);
+      const songs = j.songs || [];
+      const songSig = songs.map((s) => s.name + ":" + s.bytes + ":" + (s.when || "")).join(",");
+      if (songSig !== msSongSig) {
+        msSongSig = songSig;
+        msSongsLast = songs;
+        msRenderSongs(songs);
+      }
+      if (!engines.length) {
+        if (msGo) msGo.disabled = true;
+        if (msCancel) msCancel.disabled = true;
+        msSet("no song engine is declared on this console — the studio has nothing to render with, so it stays idle", true);
+      } else {
+        msPaintJob(j.job);
+      }
+      return j;
+    }
+
+    /* Every write goes through here, so a refused request can never be silent:
+       the contract's error string goes into the status line, verbatim. */
+    async function msPost(body) {
+      const r = await fetch("/api/music", {
+        method: "POST",
+        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+        body: JSON.stringify(body),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || j.ok === false) throw new Error(msWhy(j, r.status));
+      return j;
+    }
+
+    /* ---- the lyric sheet ---------------------------------------------------------------
+       The template, the tag vocabulary and every rule the writer is given come from the
+       server (GET /api/music -> `sheet`), so this page holds no second copy of the engine's
+       contract that could drift from the one the render actually uses. */
+    let msSheet = null;
+    let msVocabDone = false;
+    let msSheetUndo = "";
+
+    /* Every replacement of the sheet keeps the previous one, so "restore" is always the way back.
+       Deliberately not confirm(): a native dialog blocks the whole page, and this console is a page
+       the operator leaves running. */
+    /* Setting .value in code fires no event, so everything that listens to the sheet - the estimate
+       line above all - would keep describing the sheet that USED to be in the box. MEASURED
+       2026-09-25: with the engine's template sitting in the box the line still said "no sections yet
+       - write the words below", because the prefill never announced itself. */
+    function msSheetChanged() {
+      if (!msLyricsEl || !msLyricsEl.dispatchEvent) return;
+      try {
+        msLyricsEl.dispatchEvent(new Event("input", { bubbles: true }));
+      } catch (e) {
+        const ev = document.createEvent("Event");
+        ev.initEvent("input", true, false);
+        msLyricsEl.dispatchEvent(ev);
+      }
+    }
+
+    function msSheetPut(text, note) {
+      if (!msLyricsEl) return;
+      msSheetUndo = msLyricsEl.value || "";
+      msLyricsEl.value = text;
+      msSheetChanged();
+      if (note) msSheetSay(note + (msSheetUndo.trim() ? " · restore puts back what was there" : ""));
+    }
+
+    function msSheetSay(text, bad) {
+      if (!msSheetMsgEl) return;
+      msSheetMsgEl.textContent = text || "";
+      msSheetMsgEl.title = text || "";
+      msSheetMsgEl.classList.toggle("bad", !!bad);
+    }
+
+    function msApplySheet(j) {
+      const s = j && j.sheet;
+      if (!s || s.error) return;
+      msSheet = s;
+      if (msLyricsEl && !msLyricsEl.value.trim()) {
+        msLyricsEl.value = s.template || "";
+        msSheetChanged();
+      }
+      if (!msVocabDone && msStylePresets && s.vocab) {
+        msVocabDone = true;
+        const seen = {};
+        const put = (tag) => {
+          const t = String(tag || "").trim();
+          if (!t || seen[t.toLowerCase()]) return;
+          seen[t.toLowerCase()] = 1;
+          const o = document.createElement("option");
+          o.value = t;
+          msStylePresets.appendChild(o);
+        };
+        /* Genre first, then the character words: this datalist is the engine's own 200-tag
+           vocabulary, so a style written from it is one the model was trained to follow. */
+        (s.vocab.genre || []).forEach(put);
+        (s.vocab.mood || []).slice(0, 60).forEach(put);
+        (s.vocab.timbre || []).slice(0, 60).forEach(put);
+        (s.vocab.instrument || []).slice(0, 40).forEach(put);
+        (s.vocab.gender || []).slice(0, 12).forEach(put);
+      }
+    }
+
+    function msSheetSections() {
+      const max = (msSheet && msSheet.max_sections) || 10;
+      const text = (msLyricsEl && msLyricsEl.value) || "";
+      const tags = text.match(/^\s*\[\w+\]\s*$/gm) || [];
+      const n = tags.length || (text.trim() ? 6 : 6);
+      return Math.max(2, Math.min(max, n));
+    }
+
+    function msPickStyle() {
+      const v = (msSheet && msSheet.vocab) || {};
+      const pick = (axis) => {
+        const list = v[axis] || [];
+        return list.length ? list[Math.floor(Math.random() * list.length)] : "";
+      };
+      const bits = [pick("genre"), pick("genre"), pick("mood"), pick("instrument"), pick("timbre")];
+      return bits.filter(Boolean).join(", ");
+    }
+
+    function msInstruction(idea) {
+      if (!msSheet || !msSheet.format) return "";
+      const genre = (msStyleEl && msStyleEl.value.trim()) || msPickStyle();
+      if (msStyleEl && !msStyleEl.value.trim()) msStyleEl.value = genre;
+      const brief = String(idea || "").trim() || msSheet.brief_fallback || "";
+      return msSheet.format
+        .replace("{genre}", genre)
+        .replace("{language}", "English")
+        .replace("{sections}", String(msSheetSections()))
+        .replace("{idea}", brief);
+    }
+
+    /* The server's own text, cut down to the sheet: fences, a title line and any sign-off the
+       agent added are not words to sing, and the engine would sing them. */
+    function msCutSheet(text) {
+      let t = String(text || "").replace(/\r\n/g, "\n").replace(/```[a-zA-Z]*/g, "");
+      const first = t.search(/^\s*\[[\w ]+\]\s*$/m);
+      if (first < 0) return "";
+      t = t.slice(first);
+      const stop = t.search(/^\s*(note|notes|explanation|i hope|hope this|let me know|here'?s|this song|the song)\b[^\n]*$/im);
+      if (stop > 0) t = t.slice(0, stop);
+      /* the trailing newline is load-bearing: the engine's splitter only ends a section on a
+         newline, so a sheet whose last tag sits flush against the end loses that section */
+      return t.replace(/\n{3,}/g, "\n\n").trim() + "\n";
+    }
+
+    /* One turn, off to the side: the draft is not a conversation, so it does not go through
+       chatHistory — but it IS the operator's own selected brain, local or API, that writes it. */
+    async function msAskAgent(instruction) {
+      const useApi = (typeof brainMode !== "undefined") && brainMode === "api";
+      const r = await fetch("/api/chat", {
+        method: "POST",
+        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+        body: JSON.stringify({ messages: [{ role: "user", content: instruction }], tools: false, stream: false, use_api: useApi }),
+      });
+      if (!r.ok) {
+        const j = await r.json().catch(() => ({}));
+        throw new Error(msWhy(j, r.status));
+      }
+      const ctype = r.headers.get("content-type") || "";
+      if (ctype.includes("event-stream") && r.body && r.body.getReader) {
+        const reader = r.body.getReader();
+        const dec = new TextDecoder();
+        let buf = "";
+        let out = "";
+        for (;;) {
+          const step = await reader.read();
+          if (step.done) break;
+          buf += dec.decode(step.value, { stream: true });
+          const lines = buf.split("\n");
+          buf = lines.pop();
+          for (const raw of lines) {
+            const line = raw.replace(/^data:\s*/, "").trim();
+            if (!line) continue;
+            try {
+              const evn = JSON.parse(line);
+              if (evn.delta) out += evn.delta;
+              if (evn.replace) out = evn.replace;
+              if (evn.error) throw new Error(evn.error);
+            } catch (e) {
+              if (e instanceof Error && e.message && !/JSON/.test(e.message)) throw e;
+            }
+          }
+        }
+        return out;
+      }
+      const j = await r.json().catch(() => ({}));
+      const msg = j.choices && j.choices[0] && j.choices[0].message;
+      return String((msg && msg.content) || j.content || j.text || j.reply || "").trim();
+    }
+
+    async function msWriteSong(idea, label) {
+      if (!msSheet || !msSheet.format) {
+        msSheetSay("the sheet has not loaded yet — press Refresh, then try again", true);
+        return;
+      }
+      msSheetSay(label + ": the agent is writing — with a local brain this takes a moment…");
+      let text;
+      try {
+        text = await msAskAgent(msInstruction(idea));
+      } catch (e) {
+        msSheetSay(label + " failed: " + ((e && e.message) || e), true);
+        return;
+      }
+      const sheet = msCutSheet(text);
+      if (!sheet) {
+        msSheetSay(label + ": the agent replied without a single [verse]/[chorus] tag, so nothing was put in the box — the turn is in the conversation to read", true);
+        return;
+      }
+      if (msLyricsEl) {
+        msSheetUndo = msLyricsEl.value || "";
+        msLyricsEl.value = sheet;
+        msSheetChanged();
+      }
+      let chk = {};
+      try {
+        chk = (await msPost({ action: "check", lyrics: sheet })).check || {};
+      } catch (e) {
+        msSheetSay(label + ": written, but the server would not check it — " + ((e && e.message) || e), true);
+        return;
+      }
+      if (chk.style && msStyleEl && !msStyleEl.value.trim()) msStyleEl.value = chk.style;
+      const probs = chk.problems || [];
+      msSheetSay(label + ": " + (probs.length
+        ? "written, but check says — " + probs.join(" · ")
+        : "written and clean: " + (chk.sections || 0) + " sections (" + (chk.tags || []).join(" ") + ")"),
+        !!probs.length);
+    }
+
+    if (msTemplateBtn) {
+      msTemplateBtn.onclick = () => {
+        if (!msSheet || !msSheet.template) { msSheetSay("the sheet has not loaded yet — press Refresh", true); return; }
+        msSheetPut(msSheet.template, "the engine's template is in the box — fill it in, or press clear");
+      };
+    }
+    if (msClearBtn) {
+      msClearBtn.onclick = () => {
+        msSheetPut("", "empty — the template button puts the fill-in sheet back");
+      };
+    }
+    if (msConvertBtn) {
+      msConvertBtn.onclick = async () => {
+        if (!msLyricsEl || !msLyricsEl.value.trim()) { msSheetSay("there is nothing in the box to convert", true); return; }
+        msSheetSay("re-cutting the sheet…");
+        let out;
+        try {
+          out = (await msPost({ action: "convert", lyrics: msLyricsEl.value })).convert || {};
+        } catch (e) {
+          msSheetSay("convert refused: " + ((e && e.message) || e), true);
+          return;
+        }
+        const lifted = !!(out.style && msStyleEl && !msStyleEl.value.trim());
+        if (lifted) msStyleEl.value = out.style;
+        msSheetPut(out.text || "", "re-cut: " + (out.sections || 0) + " sections (" + (out.tags || []).join(" ") + ")"
+          + (out.headers_moved ? ", " + out.headers_moved + " header line(s) moved to # comments so they are read and not sung" : "")
+          + (lifted ? " · STYLE lifted into the style box"
+                    : (out.style ? " · STYLE found in the sheet (" + out.style + ") but the style box already has one" : "")));
+      };
+    }
+    if (msCheckBtn) {
+      msCheckBtn.onclick = async () => {
+        if (!msLyricsEl) return;
+        msSheetSay("checking…");
+        let out;
+        try {
+          out = (await msPost({ action: "check", lyrics: msLyricsEl.value })).check || {};
+        } catch (e) {
+          msSheetSay("check refused: " + ((e && e.message) || e), true);
+          return;
+        }
+        const probs = out.problems || [];
+        msSheetSay(probs.length
+          ? "check: " + probs.join(" · ")
+          : "check: singable — " + (out.sections || 0) + " sections (" + (out.tags || []).join(" ") + ")"
+            + (out.would_fix && out.would_fix.length ? " · make it singable would fix: " + out.would_fix.join(", ") : ""),
+          !!probs.length);
+      };
+    }
+    if (msWriteBtn) {
+      msWriteBtn.onclick = () => {
+        const box = document.getElementById("msg");   // the composer: what you typed is the brief
+        const idea = (box && box.value && box.value.trim()) || "";
+        msWriteSong(idea, idea ? "from your brief" : "invented (the composer was empty)");
+      };
+    }
+    if (msRestoreBtn) {
+      msRestoreBtn.onclick = () => {
+        if (!msSheetUndo.trim()) { msSheetSay("there is no earlier sheet to put back yet", true); return; }
+        const now = (msLyricsEl && msLyricsEl.value) || "";
+        if (msLyricsEl) msLyricsEl.value = msSheetUndo;
+        msSheetUndo = now;
+        msSheetChanged();
+        msSheetSay("put back the previous sheet (pressing restore again swaps them)");
+      };
+    }
+    if (msSurpriseBtn) {
+      msSurpriseBtn.onclick = () => {
+        if (!msSheet || !msSheet.vocab) { msSheetSay("the vocabulary has not loaded yet — press Refresh", true); return; }
+        const style = msPickStyle();
+        if (msStyleEl) msStyleEl.value = style;
+        msWriteSong("", "random");
+      };
+    }
+
+    function msStopPoll() {
+      if (msPoll) {
+        clearInterval(msPoll);
+        msPoll = null;
+      }
+    }
+
+    function msStartPoll() {
+      msStopPoll();
+      msPoll = setInterval(async () => {
+        const j = await msLoad();
+        /* A failed tick keeps the timer: the render is still out there and the
+           next tick may well reach the server. Only the SERVER's own job state
+           ends the watch - never a timeout of our own invention. */
+        if (!j) return;
+        if (j.job && j.job.state === "running") return;
+        msStopPoll();
+      }, 3000);
+    }
+
+    if (msGo) {
+      msGo.onclick = async () => {
+        msBusy = true;
+        msGo.disabled = true;
+        msSet("asking the engine to start — this one takes minutes");
+        let j;
+        try {
+          j = await msPost({
+            action: "start",
+            style: msStyleEl ? msStyleEl.value.trim() : "",
+            lyrics: msLyricsEl ? msLyricsEl.value : "",
+            engine: msEngine ? msEngine.value : "",
+            /* `segments: 0` is the studio's way of saying "one section per part of the words" - the
+               server reads the lyric sheet and sings exactly its sections. Sending the field's value
+               when it is blank used to send a 1, which capped every song at a single section. */
+            segments: msNum(msSegEl, 0),
+            seed: msNum(msSeedEl, 0),
+            max_new_tokens: msNum(msTokEl, 3000),
+          });
+        } catch (e) {
+          msBusy = false;
+          msGo.disabled = false;
+          msSet("could not start: " + ((e && e.message) || e), true);
+          return;
+        }
+        msBusy = false;
+        msPaintJob(j.job);
+        /* Watch from here on, whatever the POST said: if the job is already over
+           the first tick closes the watch, and while it is running the timer is
+           the only thing that will ever tell us how it went. */
+        msStartPoll();
+      };
+    }
+
+    if (msCancel) {
+      msCancel.onclick = async () => {
+        msCancel.disabled = true;
+        msSet("asking the engine to stop — it stops at its next checkpoint, so give it a moment");
+        let j;
+        try {
+          j = await msPost({ action: "cancel" });
+        } catch (e) {
+          msSet("cancel failed: " + ((e && e.message) || e), true);
+          msCancel.disabled = false;
+          return;
+        }
+        msPaintJob(j.job);
+        /* Keep watching: "cancel asked for" is not "cancelled". The engine still
+           has to reach a checkpoint, and the server's next job.state is the truth. */
+        msStartPoll();
+      };
+    }
+
+    if (msRefBtn) {
+      msRefBtn.onclick = async () => {
+        msSet("asking the server…");
+        const j = await msLoad();
+        /* A one-off look. Nothing running means nothing to watch, so the timer
+           goes away rather than living on; a running render means the operator
+           just re-armed the watch. */
+        if (j && (!j.job || j.job.state !== "running")) msStopPoll();
+      };
+    }
+
+    if (msEngine) {
+      msEngine.onchange = async () => {
+        const want = msEngine.value;
+        if (!want) return;
+        msSet("switching engine to " + want + "…");
+        let j;
+        try {
+          j = await msPost({ action: "engine", engine: want });
+        } catch (e) {
+          msSet("engine switch failed: " + ((e && e.message) || e), true);
+          msEngineSig = null;   // force the box back to whatever the server still says
+          await msLoad();
+          return;
+        }
+        msSet("engine · " + (j.engine || want));
+        msEngineSig = null;     // re-read the list so the box shows the server's own choice
+        msLoad();
+      };
+    }
+
+    /* On load, ask once; the poll only starts if a render is ALREADY running
+       (started from a previous window, or by the agent). Otherwise the studio
+       waits quietly for the operator to press Generate. */
+    (async function msInit() {
+      const j = await msLoad();
+      if (j && j.job && j.job.state === "running") msStartPoll();
+    })();
+  })();
 
   (async function start() {
     await refreshHealth();

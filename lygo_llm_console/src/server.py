@@ -118,9 +118,9 @@ except Exception as _compact_err:  # noqa: BLE001  (a broken record module, not 
         try:
             from paths import console_limits
 
-            return int(console_limits().get("ctx_max") or 8192)
+            return int(console_limits().get("ctx_max") or 32768)
         except Exception:  # noqa: BLE001
-            return 8192
+            return 32768
 
     def carry_over(cap: int = 0) -> str:  # noqa: D103
         return ""
@@ -453,7 +453,7 @@ def local_system_message(brain: str = "local") -> dict[str, Any]:
     # with_clock=False: the clock is volatile and now rides the NEWEST message instead (see
     # local_tail + continuity.volatile_tail). Inside this block it sat in front of the history and
     # invalidated the prompt cache for the whole turn, every turn.
-    return {"role": "system", "content": compose_system(brain, with_clock=False)}
+    return {"role": "system", "content": compose_system(brain, carry=True, with_clock=False)}
 
 
 def prefix_prime_payload(model: str) -> dict[str, Any]:
@@ -1060,6 +1060,37 @@ class Handler(BaseHTTPRequestHandler):
                 ctype = "text/css"
             elif name.endswith(".js"):
                 ctype = "application/javascript"
+            self._send(200, fp.read_bytes(), ctype)
+            return
+        if path.startswith("/api/media/image/"):
+            # Chat bubbles show generated PNGs. Only workspace/images, basename only.
+            name = path[len("/api/media/image/") :]
+            from media_tools import MEDIA_IMAGE_TYPES, workspace_image_path
+
+            fp = workspace_image_path(name)
+            if fp is None:
+                self._json(404, {"error": "missing"})
+                return
+            ctype = MEDIA_IMAGE_TYPES.get(fp.suffix.lower()) or "application/octet-stream"
+            self._send(200, fp.read_bytes(), ctype)
+            return
+        if path.startswith("/api/media/audio/"):
+            # The song studio's players. Same rule as the pictures: workspace/songs, basename only.
+            # A rendered song can take tens of minutes, so a browser reload must not be able to ask
+            # this console to render anything - it only ever reads a file that is already on disk.
+            # The name arrives percent-encoded (a browser encodes a space as %20), so it is decoded
+            # here, at the HTTP layer that owns the encoding. Decoding first also keeps the traversal
+            # refusal honest: "%2e%2e%2f" becomes "../" and is then refused by name, not joined.
+            from urllib.parse import unquote
+
+            name = unquote(path[len("/api/media/audio/") :])
+            from music_tools import MEDIA_AUDIO_TYPES, workspace_song_path
+
+            fp = workspace_song_path(name)
+            if fp is None:
+                self._json(404, {"error": "missing"})
+                return
+            ctype = MEDIA_AUDIO_TYPES.get(fp.suffix.lower()) or "application/octet-stream"
             self._send(200, fp.read_bytes(), ctype)
             return
         if path == "/api/world":
@@ -1967,6 +1998,10 @@ class Handler(BaseHTTPRequestHandler):
         # three are deterministic and bounded - a compaction must never be why a turn stalls.
         _ctx = live_ctx()
         pre_note = safe_pre_turn(messages, _ctx)
+        _auto = (pre_note or {}).get("auto") if isinstance(pre_note, dict) else None
+        if isinstance(_auto, dict) and _auto.get("compacted"):
+            print("[compact] " + json.dumps({k: _auto.get(k) for k in
+                  ("folded", "used", "compact_at", "pending_turns", "reason")}, default=str), flush=True)
         kept, dropped, trim_info = trim_messages(messages, _ctx)
         # Journal the operator's own turn BEFORE generating, so a crash or a stopped answer still
         # leaves the question in the record of truth.
@@ -2100,7 +2135,8 @@ class Handler(BaseHTTPRequestHandler):
             if _plan["changed"]:
                 msgs = [msgs[0]] + _plan["messages"]
             _vision_info = {"used": _plan["used_tokens"], "window": _plan["window"],
-                            "shed": _plan["shed"], "shrunk": _plan["shrunk"], "over": _plan["over"]}
+                            "shed": _plan["shed"], "shrunk": _plan["shrunk"],
+                            "trimmed": _plan.get("trimmed") or 0, "over": _plan["over"]}
             if _plan["changed"] or _plan["over"]:
                 print("[vision] " + json.dumps(_vision_info, default=str))
             if _plan["over"]:
@@ -2785,6 +2821,26 @@ def install_console_log() -> str:
         return ""
 
 
+def _vault_catchup() -> None:
+    """File any session the vault has not seen yet, on the way up.
+
+    The vault only filed on an explicit action - New session, or a button in its pane - so a session
+    that ended when the window closed, or a whole day of them, sat unfiled until someone pressed
+    something. That is the "it should update per session" this answers: a cheap, deterministic
+    catch-up at boot, in its own thread, printing one line about what it did.
+    """
+    try:
+        import sessions as _sess
+
+        out = _sess.safe_adopt()
+        filed = int(out.get("count") or 0)
+        tests = int(out.get("test_only_count") or 0)
+        print(f"[vault] catch-up: filed {filed} session(s)"
+              + (f", skipped {tests} test-only journal(s)" if tests else ""), file=sys.stderr)
+    except Exception as e:  # noqa: BLE001 - a catch-up may never stop the console coming up
+        print(f"[vault] catch-up skipped: {type(e).__name__}: {e}", file=sys.stderr)
+
+
 def main() -> int:
     _log = install_console_log()
     global TOKEN, LLAMA_KEY, BIND, AUTH_REQUIRED, MOCK_ONLY
@@ -2823,6 +2879,9 @@ def main() -> int:
               f"events={_ret.get('events')} todos={_ret.get('todos')}", file=sys.stderr)
     except Exception as _ret_e:  # noqa: BLE001 - retention must not block boot
         print(f"[stick] retention prune skipped: {_ret_e}", file=sys.stderr)
+    # The session vault catches up with anything it has not filed yet, in a thread: a big store takes
+    # seconds to zip, and the console must not wait for it to start serving.
+    threading.Thread(target=_vault_catchup, daemon=True, name="lygo-vault-catchup").start()
     try:
         from install import ensure_layout, seed_identity
 

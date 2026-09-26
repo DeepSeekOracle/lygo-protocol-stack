@@ -16,14 +16,14 @@ $env:OLLAMA_HOST = $hostAddr
 
 $root = Split-Path $PSScriptRoot -Parent
 if (-not $env:OLLAMA_MODELS) {
-    $productModels = Join-Path $root "product\models\ollama"
-    $usbModels = Join-Path $root "models\ollama"
-    if (Test-Path (Join-Path $productModels "blobs")) {
-        $env:OLLAMA_MODELS = $productModels
-    } else {
-        $env:OLLAMA_MODELS = $productModels
-        New-Item -ItemType Directory -Force -Path $productModels | Out-Null
+    # The CAS is named for what it is. Prefer the current name, then the old spelling.
+    $productModels = Join-Path $root "product\models\cas"
+    $legacyModels  = Join-Path $root "product\models\ollama"
+    $altModels     = Join-Path $root "models\cas"
+    foreach ($cand in @($productModels, $legacyModels, $altModels)) {
+        if (Test-Path (Join-Path $cand "blobs")) { $env:OLLAMA_MODELS = $cand; break }
     }
+    if (-not $env:OLLAMA_MODELS) { $env:OLLAMA_MODELS = $productModels }
 }
 
 function Test-OllamaReady {

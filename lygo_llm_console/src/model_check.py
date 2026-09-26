@@ -131,16 +131,25 @@ def _post(url: str, payload: dict[str, Any], key: str, timeout: float) -> tuple[
 
 
 def _wait_health(port: int, timeout_s: float) -> tuple[bool, float]:
-    """llama-server's own /health. True once it answers, with how long it took."""
+    """llama-server's own /health. True once it answers, with how long it took.
+
+    MEASURED 2026-09-25: `_wait_health(port, 0.1)` took 3,005 ms - a 30x overrun of its own budget -
+    because each attempt used a flat `timeout=3` and the budget was checked only between attempts. An
+    attempt is now bounded by what is left of the budget, and a port that answers without being ready
+    (a non-200) no longer spins without sleeping.
+    """
     t0 = time.time()
-    while time.time() - t0 < timeout_s:
+    while True:
+        left = timeout_s - (time.time() - t0)
+        if left <= 0:
+            return False, time.time() - t0
         try:
-            with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=3) as r:
+            with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=min(1.0, left)) as r:
                 if r.status == 200:
                     return True, time.time() - t0
         except Exception:
-            time.sleep(1.0)
-    return False, time.time() - t0
+            pass
+        time.sleep(min(1.0, max(0.0, timeout_s - (time.time() - t0))))
 
 
 def _log_tail(port: int, lines: int = 6) -> str:

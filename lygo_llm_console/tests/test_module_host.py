@@ -232,10 +232,16 @@ class HostLoadTests(unittest.TestCase):
         self.assertTrue(self.host.routes[("GET", "/api/notepad")]["legacy"])
 
     def test_limbs_are_declared_by_the_notepad_module(self) -> None:
+        # The shipped set is the notepad's three plus the song limb the studio's card declares
+        # (`lygo.musicctrl` manifest `limbs`). The host lists every limb the build declares, so this
+        # list grows with the build - what the test is really pinning is that each one is listed with
+        # the effect it declared, and that no limb is listed twice.
         self.assertEqual(
-            sorted(self.host.limbs), ["notepad_list", "notepad_read", "notepad_write"]
+            sorted(self.host.limbs),
+            ["music_generate", "notepad_list", "notepad_read", "notepad_write"],
         )
         self.assertEqual(self.host.limbs["notepad_write"]["effect"], "write")
+        self.assertEqual(self.host.limbs["music_generate"]["effect"], "write")
 
     def test_health_functions_answer(self) -> None:
         for mid in ("lygo.health", "lygo.world", "lygo.notepad"):

@@ -295,6 +295,9 @@ class ShellRouteTest(unittest.TestCase):
     def test_remote_still_refused_on_a_data_route(self):
         self.assertEqual(call("/api/receipts", source=REMOTE)[0], 401)
 
+    def test_generated_pictures_are_not_a_public_folder(self):
+        self.assertEqual(call("/api/media/image/gen-20260925-000614.png", source=REMOTE)[0], 401)
+
 
 if __name__ == "__main__":
     unittest.main()

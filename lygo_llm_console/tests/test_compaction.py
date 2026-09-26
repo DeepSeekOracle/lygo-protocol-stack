@@ -170,7 +170,12 @@ class CompactionCase(unittest.TestCase):
         self.fill(30)
         res = C.compact(reason="test")
         self.assertTrue(res["ok"])
-        self.assertEqual(res["folded"], 30 - C.LIVE_KEEP_TURNS)
+        # Only COMPLETE batches fold; a partial tail waits, still in the journal and still inside the
+        # window the token budget pays for. Folding whatever happened to expire is what left 1,660
+        # two-turn rollups in the real store and a carry-over block that quoted 12 earlier turns.
+        left = 30 - C.LIVE_KEEP_TURNS
+        self.assertEqual(res["folded"], (left // C.ROLLUP_TURNS) * C.ROLLUP_TURNS)
+        self.assertEqual(res["held"], left % C.ROLLUP_TURNS)
         self.assertEqual(res["live_turns"], C.LIVE_KEEP_TURNS)
         self.assertTrue(list(C.ROLLUPS.glob("*.json")))
         self.assertTrue(list(C.ROLLUPS.glob("*.md")))
@@ -184,8 +189,57 @@ class CompactionCase(unittest.TestCase):
         first = C.compact(reason="one")
         second = C.compact(reason="two")
         self.assertEqual(second["folded"], 0)
-        self.assertIn("nothing has left the live window", second.get("note", ""))
+        note = str(second.get("note") or "")
+        self.assertTrue("nothing has left the live window" in note or "holding" in note, note)
         self.assertEqual(first["covered_upto"], second["covered_upto"])
+
+    def test_a_turn_expiring_alone_never_becomes_its_own_rollup(self):
+        """The guard for the 1,660-file store: EVERY rollup a fold writes is a full batch, and the
+        turns that expire without completing one are held. A page of two-turn digests is what made
+        the store unreadable and starved the carry-over block down to 12 earlier turns."""
+        total = 0
+        for n in (5, 6, 7, 8, 9, 5, 4, 3):
+            self.fill(n)
+            total += n
+            res = C.compact(reason=f"after {total} turns")
+            # The invariant: a fold writes full batches only. Whatever expired but does not complete
+            # a batch is HELD - it stays in the journal, inside the window the budget pays for.
+            self.assertEqual(res["folded"] % C.ROLLUP_TURNS, 0, res)
+            self.assertLess(res["held"], C.ROLLUP_TURNS, res)
+            # everything that has left the window is either folded already or held - nothing else
+            self.assertEqual(res["covered_upto"] + res["held"], total - res["live_turns"], res)
+            for f in C.ROLLUPS.glob("*.json"):
+                self.assertEqual(json.loads(f.read_text(encoding="utf-8"))["turns"], C.ROLLUP_TURNS,
+                                 f"{f.name} is a partial rollup")
+        files = sorted(C.ROLLUPS.glob("*.json"))
+        self.assertTrue(files, "a store this long must have folded something")
+        self.assertGreaterEqual(len(files), 5)
+
+    def test_consolidating_thin_rollups_is_lossless_and_idempotent(self):
+        """Repair path for a store an earlier build inflated: merge thin rollups, lose no turn line,
+        and a second run must be a no-op (never fuse the fat ones into one blob)."""
+        self.fill(48)
+        st = C._load_state()
+        st["rollups"] = []
+        C._write_state(st)
+        thin = []
+        recs = C.read_journal()
+        for i in range(1, 13):                       # twelve 2-turn rollups, as the old build wrote
+            thin.append(C._write_rollup(st, recs[(i - 1) * 2: i * 2]))
+        st["covered_upto"] = 24
+        C._write_state(st)
+        before = [ln for o in thin for ln in str(o["digest"]).splitlines() if ln.strip()]
+        rep = C.consolidate_rollups(apply=True)
+        self.assertTrue(rep["ok"], rep)
+        after = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(C.ROLLUPS.glob("*.json"))]
+        self.assertLess(len(after), len(thin))
+        merged = [ln for o in after for ln in str(o["digest"]).splitlines() if ln.strip()]
+        for ln in before:
+            self.assertIn(ln, merged)                # every turn line survived the merge
+        self.assertEqual(sum(int(o["turns"]) for o in after), sum(int(o["turns"]) for o in thin))
+        again = C.consolidate_rollups(apply=True)
+        self.assertEqual(again["rollups_in"], 0, again)
+        self.assertEqual(again["needs_consolidation"] if "needs_consolidation" in again else 0, 0)
 
     def test_carry_over_names_what_was_compacted(self):
         self.fill(30, text="we agreed the {i} plan for the stick")
@@ -221,6 +275,21 @@ class CompactionCase(unittest.TestCase):
         fill_turns(20)
         loud = C.maybe_auto_compact(big, ctx=8192)
         self.assertTrue(loud["compacted"])
+
+    def test_auto_compact_folds_when_a_rollup_is_due_without_a_huge_request(self):
+        """The portal sends at most 60 messages; the journal is the record that must fold itself."""
+        self.fill(12)  # keep=4 in this case, rollup=6 → 8 pending turns, a fold is due
+        out = C.maybe_auto_compact([{"role": "user", "content": "hello"}], ctx=32768)
+        self.assertTrue(out["compacted"], out)
+        self.assertGreater(int(out.get("folded") or 0), 0)
+        self.assertIn("EARLIER CONVERSATION", C.carry_over())
+
+    def test_auto_compact_sees_journal_tokens_not_just_the_http_payload(self):
+        for i in range(10):
+            C.record("user", ("topic-%s " % i) + ("w" * 3000))
+            C.record("assistant", ("reply-%s " % i) + ("y" * 3000))
+        out = C.maybe_auto_compact([{"role": "user", "content": "hi"}], ctx=8192)
+        self.assertTrue(out["compacted"], out)
 
     def test_auto_compact_never_raises(self):
         saved = C.window_budget
@@ -448,6 +517,15 @@ class WiringCase(CompactionCase):
         self.assertIn("EARLIER CONVERSATION", with_carry)
         self.assertLessEqual(len(C.carry_over()), C.CARRY_CAP + 64)
         self.assertLessEqual(len(with_carry), continuity.PROMPT_CEILING_TOTAL)
+
+    def test_the_live_system_message_opts_into_the_digest(self):
+        """A local turn must actually read the digest, or auto-compact files history the model never sees."""
+        import server
+
+        self.fill(20)
+        C.compact(reason="test")
+        txt = str(server.local_system_message("local").get("content") or "")
+        self.assertIn("EARLIER CONVERSATION", txt)
 
     def test_a_console_failure_never_becomes_a_prompt_error(self):
         """compose_system must degrade, never raise, when the record is unreadable."""
