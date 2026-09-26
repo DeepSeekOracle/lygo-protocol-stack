@@ -23,14 +23,14 @@
     {
       "slug": "lygo-tv",
       "name": "LYGO TV",
-      "summary": "Pointer to the free online TV player at https://chatagent.ca/sources/. Pick a list, click a channel, watch. No login. Local map only — scripts print URLs, no network.",
+      "summary": "Free online TV player, plus the drop-in player code: point people at https://chatagent.ca/sources/, or paste three lines to run the same player on any site \u2014 Rumble room first, ~12,000 channels pulled live from the LYGO catalog. Package fetches nothing itself.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-tv",
       "mirror": "mirrors/lygo-tv",
-      "published": false,
-      "pending_publication": true,
+      "published": true,
+      "pending_publication": false,
       "downloads": 0,
-      "version": "1.0.0",
-      "notes": "Pointer tentacle 2026-08-31. Does not fetch streams."
+      "version": "1.3.0",
+      "notes": "Pointer + injectable player (embed/). v1.3.0 published 2026-09-26; verified by installing the slug from the registry (returns 1.3.0). Does not fetch streams."
     },
     {
       "slug": "lygo-forkling",
