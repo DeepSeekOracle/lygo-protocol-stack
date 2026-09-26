@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LYGO SkillHub — Public catalog + FULL download portal</title>
-<meta name="description" content="LYGO SkillHub on chatagent.ca: labeled ClawHub public tentacles, and a gated FULL engineer download portal with SHA-256, install instructions, and disclaimers. Steward: Justin Helmer / Excavationpro." />
+<meta name="description" content="LYGO SkillHub on chatagent.ca: the full catalog of public ClawHub skills published as deepseekoracle, plus the supporter-gated download portal for the FULL engineer packages — console installers, multi-file build sets and RAW limbs, every file with a SHA-256 and install notes that match what shipped. Steward: Justin Helmer / Excavationpro (Lightfather)." />
 <meta name="author" content="Justin Helmer / Excavationpro / Lightfather" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <link rel="canonical" href="https://chatagent.ca/lygoskillhub.html" />
@@ -16,7 +16,7 @@
 <meta name="google-adsense-account" content="ca-pub-0646320966060599" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="LYGO SkillHub — catalog + FULL download portal" />
-<meta property="og:description" content="Public ClawHub tentacles and gated FULL engineer zips with hash verify and install map." />
+<meta property="og:description" content="Two channels, one rule: what you can read is free, what you install is labeled. The public ClawHub catalog, and the supporter download portal for the FULL engineer packages — hash-verified, with install notes and the lattice wiring written down." />
 <meta property="og:url" content="https://chatagent.ca/lygoskillhub.html" />
 <meta property="og:image" content="https://chatagent.ca/assets/og-home.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -151,6 +151,26 @@ footer.site { margin-top:28px; padding-top:16px; border-top:1px solid var(--line
   border:1px solid rgba(212,175,55,.45); background:rgba(212,175,55,.12); color:var(--gold);
 }
 .links { display:flex; flex-wrap:wrap; gap:.5rem 1rem; font-size:.8rem; margin:.8rem 0 0; }
+/* A written header: the wall of pills became four labelled groups, and only the brand row stays
+   sticky — a tall sticky header would eat the viewport on a long catalog page. */
+header.top { position:relative; padding:16px 0 6px; }
+.brandrow { position:sticky; top:0; z-index:30; padding:8px 0 10px; margin-bottom:10px;
+  background:linear-gradient(180deg, rgba(7,7,15,.98) 72%, rgba(7,7,15,.84));
+  backdrop-filter:blur(10px); border-bottom:1px solid rgba(0,229,255,.10); }
+.lede { color:var(--text); opacity:.94; font-size:1rem; line-height:1.65; max-width:82ch; margin:.5rem 0 0; }
+.lede strong { color:var(--gold); font-weight:600; }
+.lede code { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.86em; color:#cfd8ff;
+  background:rgba(0,229,255,.07); border:1px solid rgba(0,229,255,.18); border-radius:6px; padding:.05em .35em; }
+.gate-line { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.03em;
+  color:var(--muted); margin:.75rem 0 0; }
+.gate-line:empty { display:none; }
+.heronav { display:grid; grid-template-columns:repeat(auto-fit,minmax(232px,1fr)); gap:10px; margin:14px 0 0; }
+.navgroup { background:rgba(0,0,0,.24); border:1px solid var(--line); border-radius:12px; padding:10px 12px 12px; }
+.navlabel { display:block; font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.6rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin:0 0 .5rem; }
+.navgroup .nav { margin-top:0; }
+/* a bare <code> holding a 64-char hash ran 120px past the viewport on desktop */
+code { overflow-wrap:anywhere; }
 </style>
 </head>
 <body>
@@ -167,21 +187,62 @@ footer.site { margin-top:28px; padding-top:16px; border-top:1px solid var(--line
         <a href="https://chatagent.ca/portal/">LLM Portal</a>
       </nav>
     </div>
-    <p class="sub">Two honest channels. <strong>Public tentacles</strong> live on ClawHub (SkillSpector-reviewed, often safety-trimmed). <strong>FULL engineer zips</strong> live only on this download portal — behind a disclaimer gate, with SHA-256, install steps, and lattice wiring. Steward: Justin Helmer / Excavationpro (Lightfather).</p>
-    <nav class="nav" aria-label="Lattice">
-      <a class="hot" href="#builds">V1 installers (EXE)</a>
-      <a class="hot" href="#full-lygo">FULL download portal</a>
-      <a href="https://chatagent.ca/portal/">Free LLM portal</a>
-      <a href="#lygo-llm-kernel">LLM Console kernel</a>
-      <a href="#catalog">Public catalog</a>
-      <a href="https://clawhub.ai/deepseekoracle" target="_blank" rel="noopener">ClawHub @deepseekoracle</a>
-      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/">Agent Agora</a>
-      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Star Chart</a>
-      <a href="https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html">Kernel eggs</a>
-      <a href="https://chatagent.ca/lygo-continuum.html">Continuum</a>
-      <a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine">Resonance Engine</a>
-    </nav>
-  </div>
+        <p class="kicker">Public catalog &middot; supporter download portal &middot; &Delta;9&Phi;963</p>
+
+    <p class="lede">Two channels, one rule: <strong>what you can read is free, and what you install is labeled</strong>.
+      Every <strong>public tentacle</strong> &mdash; the ClawHub skills published as <code>deepseekoracle</code> &mdash; installs in a
+      single command, is SkillSpector-reviewed, and is often safety-trimmed for strangers. The
+      <strong>FULL engineer packages</strong> &mdash; the console installers, the multi-file build sets, the RAW limbs &mdash; live here
+      behind the supporter code, each file with its own SHA-256, install notes that match what actually shipped, and the
+      lattice wiring written down instead of implied. The code is checked in your browser, rotates monthly, and only
+      asks for the downloads: every guide, catalog entry, hash list and install note on this page stays open to anyone.
+      Supporting the work is optional, buys no rights, and is never a condition of reading. Steward: Justin Helmer /
+      Excavationpro (Lightfather).</p>
+
+    <p class="gate-line" data-lyg-gate-state></p>
+
+    <div class="heronav">
+      <div class="navgroup">
+        <span class="navlabel">Start here</span>
+        <nav class="nav" aria-label="Start here">
+          <a class="hot" href="#builds">V1 installers (EXE)</a>
+          <a class="hot" href="#full-lygo">FULL download portal</a>
+          <a href="#catalog">Public catalog</a>
+          <a href="#lygo-llm-kernel">LLM Console kernel</a>
+          <a href="https://chatagent.ca/portal/">Free LLM portal</a>
+        </nav>
+      </div>
+      <div class="navgroup">
+        <span class="navlabel">The vault</span>
+        <nav class="nav" aria-label="The vault">
+          <a href="https://huggingface.co/DeepSeekOracle/lygo-console-builds">Build vault (Hugging Face)</a>
+          <a href="https://huggingface.co/DeepSeekOracle/lygo-console-models">Model vault (Hugging Face)</a>
+          <a href="https://clawhub.ai/deepseekoracle" target="_blank" rel="noopener">ClawHub @deepseekoracle</a>
+          <a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" target="_blank" rel="noopener">Resonance Engine (Space)</a>
+          <a href="https://chatagent.ca/portal/image-engine.html">Image engine + docs</a>
+        </nav>
+      </div>
+      <div class="navgroup">
+        <span class="navlabel">The lattice</span>
+        <nav class="nav" aria-label="The lattice">
+          <a href="https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/">Agent Agora</a>
+          <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Star Chart</a>
+          <a href="https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html">Kernel eggs</a>
+          <a href="https://chatagent.ca/lygo-continuum.html">Continuum</a>
+          <a href="https://chatagent.ca/games/">Games</a>
+        </nav>
+      </div>
+      <div class="navgroup">
+        <span class="navlabel">Source &amp; support</span>
+        <nav class="nav" aria-label="Source and support">
+          <a href="https://github.com/DeepSeekOracle/chatagent" target="_blank" rel="noopener">Source (GitHub)</a>
+          <a href="https://www.patreon.com/Excavationpro/posts/lygo-supporter-170485961" target="_blank" rel="noopener">Patreon &mdash; this month&rsquo;s code</a>
+          <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal &mdash; tip (optional)</a>
+          <a href="https://chatagent.ca/guides/">Guides</a>
+          <a href="https://chatagent.ca/witness/">Public witness</a>
+        </nav>
+      </div>
+    </div>
 </header>
 
 <main class="wrap">
