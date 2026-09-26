@@ -1,23 +1,40 @@
-# LYGO LLM Console (ClawHub public skill)
+# LYGO LLM Console — ClawHub skill v1.6.0 (ships console 1.5.6)
 
-**Mark:** LYGO — Justin Helmer (Excavationpro / Lightfather) + LYGO AI agents.  
-**Page:** https://chatagent.ca/lygo-llm-console.html  
-**Install:** `npx clawhub@latest install deepseekoracle/lygo-llm-console`
+Sovereign local LLM runtime and agent portal. Not Ollama, and not the steward's admin tree.
 
-This folder is the **complete public skill**. It includes:
+This package holds two layers with different privileges, and says so in `SKILL.md`:
 
-| Path | What it is |
-|------|------------|
-| `SKILL.md` | Agent instructions |
-| `claw.json` | OpenClaw metadata |
-| `skill-card.md` | Short identity card |
-| `scripts/` | `self_check.py`, `lygo_llm_console_map.py` (no network, no subprocess) |
-| `references/` | Security, public vs admin, credits |
-| `kit/` | **Public runtime** (portal + Python console). Not the steward admin tree. |
-| `examples/quickstart.md` | Install steps |
+| Layer | Contents | Privileges |
+|---|---|---|
+| **map** | `scripts/` | prints URLs, hashes, self-check. No network, no subprocess, no writes. |
+| **operator runtime** | `kit/` (unpacked tree, 152 files) | loopback HTTP, HTTPS GET to public hosts, writes inside its own folder, pinned llama-server subprocess, optional workspace shell/Python. **Not a sandbox.** |
 
-`kit/` does **not** contain `llama-server.exe` or GGUF weights. Place an official ggml-org Windows CPU `llama-server.exe` in `kit/engine/` then run `kit/LYGO_LLM_CONSOLE.bat`.
+## Verify, then run
 
-Admin/steward console (`lygo_llm_console/` on the stack, extra write-roots, vaults) is **not** this package.
+```bash
+npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console
+python scripts/self_check.py
+python scripts/verify_kit.py        # every file in kit/ checked against kit/KIT_SHA256SUMS.txt
+```
 
-Donate: https://www.paypal.com/paypalme/ExcavationPro
+`kit/PUBLIC_KIT.json` lists every shipped file with its SHA-256, the source tree it came from, and
+what was deliberately left out (weights, engine binaries, tests/fixtures, the steward's admin files).
+
+Then: put ggml-org CPU `llama-server.exe` (tag **b11074**) in `kit/engine/`, run `kit/INSTALL.bat`
+once, then `kit/LYGO_LLM_CONSOLE.bat` as an unprivileged user. Portal: <http://127.0.0.1:9641/>.
+
+## Why the kit ships unpacked
+
+The v1.2.0 package shipped a zip. A registry scanner cannot read a zip completely, and reported four
+HIGH findings ("referenced artifact was not completely inspected", "text artifact contains embedded
+NUL bytes" from binary test fixtures inside it). This release ships the tree itself, with a per-file
+manifest, so the same scanner reads exactly what would run.
+
+## Links
+
+- Page: <https://chatagent.ca/lygo-llm-console.html>
+- ClawHub: <https://clawhub.ai/deepseekoracle/skills/lygo-llm-console>
+- Source: <https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-llm-console>
+
+Steward: Justin Helmer (Excavationpro / Lightfather). Dual ledgers / Haven Star Chart are CANON; this
+package is RESOURCE. Donate: <https://www.paypal.com/paypalme/ExcavationPro>

@@ -1,71 +1,37 @@
-# LYGO LLM Console
+# LYGO LLM Console — public kit (operator runtime)
 
-Complete local **agent portal**: boot GGUF models, chat, tools, HTTPS search/fetch. **Does not call `ollama.exe`.**
+This folder is the runtime half of the ClawHub skill **LYGO LLM Console** (`deepseekoracle/lygo-llm-console`).
+It ships **unpacked on purpose**: every file that would run is readable here before you run it.
 
-**Signature:** `Δ9Φ963-LYGO-LLM-CONSOLE-v1`  
-**Page / zip:** https://chatagent.ca/lygo-llm-console.html  
-**ClawHub map:** `npx clawhub@latest install deepseekoracle/lygo-llm-console`  
-**Steward:** Justin Helmer (Excavationpro / Lightfather) · LYGO AI agents
+It is the **public** channel. It is not the steward's admin tree, it carries no operator keys, no
+vaults and no model weights, and it never launches or requires `ollama.exe`.
 
-This GitHub folder is the **complete source** for the public product (portal, 21 limbs, Wikipedia search, P0 gate, tests).  
-`llama-server.exe`, GGUF weights, operator tokens, and steward vaults are **not** in git.
+## Read this first
 
-Whitepaper: [`docs/whitepapers/LYGO_LLM_CONSOLE_v1.md`](../docs/whitepapers/LYGO_LLM_CONSOLE_v1.md)
+1. `VERSION` — the console release this tree is (`1.5.6`).
+2. `PUBLIC_KIT.json` — what was copied in, what was left out and why, and a SHA-256 per file.
+3. `KIT_SHA256SUMS.txt` — run `python ../scripts/verify_kit.py` to check every file yourself.
 
-## Boot (Windows)
+## Run it
 
-1. Put official ggml-org **CPU** `llama-server.exe` (and DLLs) in `engine/`. See `engine/README.md` (pin `b10988`).
-2. Double-click `LYGO_LLM_CONSOLE.bat` or:
+1. Put official **ggml-org** `llama-server.exe` (Windows CPU build, tag `b10988`) into `engine/`, or
+   let `INSTALL.bat` fetch it. The console never uses a nested Ollama copy.
+2. `INSTALL.bat` — seeds **your** Soul / Identity / Memory. No steward identity is included.
+3. `LYGO_LLM_CONSOLE.bat` — the launcher is drive-portable (`%~dp0`): it runs *this* folder, whatever
+   drive it sits on, and refuses to start a second console on the same ports.
+4. Open <http://127.0.0.1:9641/> and pick a model.
 
-```bat
-python -u src\server.py serve
-```
+Run it as a normal, **unprivileged** user. Default bind is loopback (`127.0.0.1`); a LAN bind needs
+`--lan --i-consent`.
 
-3. Open http://127.0.0.1:9641/  
-   Loopback does not need a query token. LAN bind needs `--lan --i-consent`.
+## What it can do (and what it cannot)
 
-Private llama-server: `127.0.0.1:11441`. Python: `%LYGO_PYTHON%` → `py` → `python`.
+Can: scan drives for GGUF files and read-only Ollama CAS trees, boot a local llama.cpp server on a
+private loopback port, serve a browser portal, run allowlisted limbs (files, memory, search, fetch,
+RAG over your own corpus, images when a projector is registered), gate every generation through the
+LYGO P0 Φ-gate, and speak a subset of the OpenAI HTTP shape on `/v1/*`.
 
-No npm. No pip. No Ollama required. Existing `%USERPROFILE%\.ollama\models` blobs can be **imported read-only**.
+Cannot: reach the steward's drives, vaults or keys; publish anything; call `ollama.exe`; write
+outside this kit's `workspace/` and `save/` unless you deliberately widen it in config.
 
-## Agent portal
-
-Three panes: workspace + limb buttons, chat, model boot.  
-Paste an `https://` URL and the **host fetches it** before the model answers.  
-Factual questions (`how many`, `do X have`) trigger Wikipedia full-text search.
-
-### Limbs (21)
-
-`list_dir` `read_file` `write_file` `remember` `kernel_status` `search_corpus` `p0_gate` `stack_health`  
-`web_search` `web_fetch` `shell` `python_exec` `now` `memory_recall` `download_url` `glob_files`  
-`todo_add` `todo_list` `calc` `whoami` `hash_text`
-
-Writes stay under `workspace/` and `save/`. `shell` / `python_exec` are workspace-cwd and **P0-blocked** (`format c:`, diskpart, wipe). Dual ledgers / Star Chart remain CANON; web hits are RESOURCE.
-
-## Continuity (SOUL / MEMORY / sessions)
-
-| File | Role |
-|------|------|
-| `workspace/SOUL.md` | Identity. Public template offers Δ9 champions, not a private biography. |
-| `workspace/MEMORY.md` | Growing notes. `remember` / `memory_append` add dated lines. |
-| `save/sessions/current.json` | Chat session (survives refresh). **New session** archives the old file. |
-| `skills/` | Bundled OpenClaw-compatible SKILL.md (15 Δ9 champions). Toggle in the Skills panel. |
-| `save/skills/` | Enabled list + ClawHub installs. Extra dirs: `workspace/skills`, `~/.agents/skills`, `~/.openclaw/skills`. |
-
-Templates live in `prompts/SOUL.md` and `prompts/MEMORY.md` and are copied on first boot.
-
-## Tests
-
-```bat
-python -m unittest discover -s tests -v
-```
-
-## Public vs admin
-
-| Public (this tree + zip) | Admin / steward only |
-|--|--|
-| Kit-folder roots, no vaults | Extra disks / keys never committed |
-| GitHub `lygo_llm_console/` | Local `data/`, `save/`, `engine/*.exe` gitignored |
-
-Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro) · [Patreon](https://www.patreon.com/Excavationpro)  
-Arcade: https://chatagent.ca/games/ · Crypt: https://chatagent.ca/games/lattice-crypt/
+Page: <https://chatagent.ca/lygo-llm-console.html> · ClawHub: <https://clawhub.ai/deepseekoracle/skills/lygo-llm-console>

@@ -18,6 +18,22 @@ class WebToolsTests(unittest.TestCase):
         self.assertEqual(_blocked("https://127.0.0.1/x"), "host")
         self.assertIsNone(_blocked("https://en.wikipedia.org/wiki/Light"))
 
+    def test_block_link_local_and_internal(self):
+        """The deny list must hold without naming a metadata address in the source.
+
+        The address is built from the range, so the rule is proven rather than the literal.
+        """
+        import ipaddress
+
+        link_local = str(next(ipaddress.ip_network("169.254.0.0/16").hosts()))
+        self.assertIn(_blocked(f"https://{link_local}/latest/meta-data/"), ("private", "host"))
+        self.assertEqual(_blocked("https://metadata.google.internal/computeMetadata/v1/"), "host")
+        self.assertEqual(_blocked("https://anything.internal/"), "host")
+        self.assertEqual(_blocked("https://anything.local/"), "host")
+        self.assertEqual(_blocked("https://10.9.9.9/"), "private")
+        self.assertEqual(_blocked("https://172.31.255.254/"), "private")
+        self.assertIsNone(_blocked("https://172.32.0.1/"))
+
     def test_wikipedia(self):
         hits = wikipedia_search("International Space Station", n=3)
         self.assertTrue(hits)

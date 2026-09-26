@@ -1,15 +1,16 @@
-# LYGO LLM Console — skill card
+# lygo-llm-console (v1.6.0)
 
-| | |
-|--|--|
-| Slug | `lygo-llm-console` |
-| Version | **1.1.0** |
-| Channel | ClawHub public (complete file set) |
-| Steward | Justin Helmer / Excavationpro / Lightfather |
-| Page | https://chatagent.ca/lygo-llm-console.html |
-| Zip mirror | https://chatagent.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip |
-| Runtime | `kit/` in this skill |
-| Not | `ollama.exe`, vaults, admin write-roots |
-| Signature | `Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0` |
+**One line:** a local, sovereign LLM runtime and agent portal you run yourself — scan GGUF, boot
+llama.cpp on loopback, chat with tools, gate every turn through LYGO P0. Not Ollama.
 
-Install: `npx clawhub@latest install deepseekoracle/lygo-llm-console`
+**Ships:** map scripts + the public console kit, unpacked (console 1.5.6, 152 files, per-file SHA-256).
+
+**Needs:** Python 3 on PATH, an unprivileged user account, and a ggml-org CPU `llama-server.exe`
+(tag b11074) you place in `kit/engine/`. No model weights are included.
+
+**Ask it for:** local chat, GGUF scanning, tool-using local agents, RAG over your own folder, an
+OpenAI-shaped local endpoint other apps can point at.
+
+**Do not ask it for:** cloud inference, a shared multi-user service, a hard sandbox, or LYGO CANON.
+
+**Verify:** `python scripts/verify_kit.py` — if it fails, do not run the BAT.

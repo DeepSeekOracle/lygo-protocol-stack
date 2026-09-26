@@ -15,6 +15,17 @@ Enabled skills inject **name + description only**. Full `SKILL.md` is loaded wit
 
 This console **does not execute** skill `.exe` / `.bat` / scripts. Instructions only.
 
+## SkillHub (wired)
+
+Page: https://chatagent.ca/lygoskillhub.html
+
+| Channel | Catalog | Install |
+|---------|---------|---------|
+| Public tentacle | `data/lygoskillhub_catalog.json` | ClawHub zip → `save/skills/installed/` |
+| FULL engineer | `data/lygo-full-skills/catalog.json` | dist zip **SHA-256 checked** then unpack. Live Star Chart / git push still need human consent. |
+
+Tools: `skillhub_list` · `skillhub_install` (`full=true` for Channel B).
+
 ## ClawHub
 
 Search: `GET https://clawhub.ai/api/v1/search`  

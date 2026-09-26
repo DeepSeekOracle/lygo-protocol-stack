@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from paths import SAVE, ensure_dirs
+from atomicio import atomic_write_text, read_text
 from p0_hook import gate_prompt
 
 NOTEPAD_ROOT = SAVE / "notepad"
@@ -24,7 +25,7 @@ def ensure() -> None:
     NOTEPAD_ROOT.mkdir(parents=True, exist_ok=True)
     NOTES_DIR.mkdir(parents=True, exist_ok=True)
     if not (NOTES_DIR / f"{SCRATCH_ID}.txt").is_file():
-        (NOTES_DIR / f"{SCRATCH_ID}.txt").write_text("", encoding="utf-8")
+        atomic_write_text(NOTES_DIR / f"{SCRATCH_ID}.txt", "")
     _rebuild_index()
 
 
@@ -40,7 +41,7 @@ def _load_index() -> list[dict[str, Any]]:
     if not INDEX_PATH.is_file():
         return []
     try:
-        data = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
+        data = json.loads(read_text(INDEX_PATH))
     except (OSError, json.JSONDecodeError):
         return []
     notes = data.get("notes") if isinstance(data, dict) else data
@@ -50,10 +51,16 @@ def _load_index() -> list[dict[str, Any]]:
 
 
 def _save_index(notes: list[dict[str, Any]]) -> None:
+    if INDEX_PATH.is_file():
+        try:
+            current = json.loads(read_text(INDEX_PATH))
+        except (OSError, json.JSONDecodeError):
+            current = None
+        if isinstance(current, dict) and current.get("notes") == notes:
+            return  # unchanged: rewriting on every list request made readers collide with
+            # the swap (WinError 5/32) on a stick, and bumped `updated` for no reason
     payload = {"updated": time.time(), "notes": notes}
-    tmp = INDEX_PATH.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    tmp.replace(INDEX_PATH)
+    atomic_write_text(INDEX_PATH, json.dumps(payload, indent=2))
 
 
 def _rebuild_index() -> list[dict[str, Any]]:
@@ -94,7 +101,7 @@ def read_note(nid: str) -> dict[str, Any]:
     p = _note_path(nid)
     if not p.is_file():
         return {"ok": False, "error": "missing", "id": nid}
-    text = p.read_text(encoding="utf-8", errors="replace")
+    text = read_text(p, errors="replace")
     title = nid
     for n in _load_index():
         if n.get("id") == nid:
@@ -121,7 +128,7 @@ def write_note(nid: str | None, title: str, text: str) -> dict[str, Any]:
         return {"ok": False, "error": "too_many", "max": MAX_NOTES}
     title = (title or "").strip()[:120] or ("Scratch" if nid == SCRATCH_ID else nid)
     p = _note_path(nid)
-    p.write_text(body, encoding="utf-8")
+    atomic_write_text(p, body)  # note bodies are the most valuable content on the stick: never torn
     st = p.stat()
     found = False
     out: list[dict[str, Any]] = []
@@ -142,7 +149,7 @@ def delete_note(nid: str) -> dict[str, Any]:
     nid = (nid or "").strip()
     if nid == SCRATCH_ID:
         p = _note_path(SCRATCH_ID)
-        p.write_text("", encoding="utf-8")
+        atomic_write_text(p, "")
         return write_note(SCRATCH_ID, "Scratch", "")
     if not _ok_id(nid):
         return {"ok": False, "error": "bad_id"}

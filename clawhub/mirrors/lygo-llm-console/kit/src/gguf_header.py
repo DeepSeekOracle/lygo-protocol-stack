@@ -87,6 +87,19 @@ def _skip_value(c: Cursor, typ: int) -> Any:
     raise Truncated()
 
 
+# Metadata a VRAM plan needs: architecture dimensions drive the KV cache size, and the KV
+# cache is what decides between a full GPU offload and a partial one.
+DIM_SUFFIXES = (
+    ".context_length",
+    ".block_count",
+    ".attention.head_count",
+    ".attention.head_count_kv",
+    ".attention.key_length",
+    ".attention.value_length",
+    ".embedding_length",
+)
+
+
 def parse_gguf_header(path: Path | str) -> dict[str, Any]:
     p = Path(path)
     with p.open("rb") as f:
@@ -120,14 +133,20 @@ def parse_gguf_header(path: Path | str) -> dict[str, Any]:
             key = c.string()
             typ = c.u32()
             val = _skip_value(c, typ)
-            if key in {"general.name", "general.architecture", "general.file_type"} or key.endswith(
-                ".context_length"
+            if (
+                key in {"general.name", "general.architecture", "general.file_type"}
+                or key.endswith(DIM_SUFFIXES)
             ):
                 found[key] = val
+            # Stop once the header has said everything a VRAM plan needs. Stopping at
+            # context_length alone was not enough: converters write the attention.head_count*
+            # keys AFTER it, so the KV cache size stayed unknown and every model was planned
+            # against a flat allowance instead of its real cache.
             if (
                 "general.name" in found
                 and "general.architecture" in found
                 and any(k.endswith(".context_length") for k in found)
+                and any(k.endswith(".attention.head_count_kv") for k in found)
             ):
                 break
     except Truncated:

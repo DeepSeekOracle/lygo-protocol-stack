@@ -1,15 +1,24 @@
 {
   "name": "lygo-llm-console",
   "displayName": "LYGO LLM Console",
-  "version": "1.1.0",
-  "description": "LYGO agent portal: local GGUF runtime, 21 limbs, Wikipedia search, URL fetch. Not Ollama. Admin tree is a separate channel.",
+  "version": "1.6.0",
+  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.6). Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes inside its own folder, pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
   "slug": "lygo-llm-console",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://chatagent.ca/lygo-llm-console.html",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
-  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0",
+  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.6.0",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "console_release": "1.5.6",
+  "kit": "kit/",
+  "kit_ship_form": "unpacked tree (deliberately not an archive, so every shipped file is inspectable)",
+  "kit_files": 152,
+  "kit_bytes": 2162433,
+  "kit_sha256sums": "7b1188ca0a9c1fd81a34a53042506026efde944ba4d7b5f88bfcf225e6f8db8e",
+  "kit_manifest": "kit/PUBLIC_KIT.json",
+  "llama_cpu_tag": "b11074",
+  "clawhub_cli_pin": "clawhub@0.23.3",
   "tags": [
     "latest",
     "lygo",
@@ -17,10 +26,9 @@
     "console",
     "local",
     "gguf",
-    "llama.cpp",
-    "openclaw",
-    "dual-channel",
-    "delta9"
+    "llama-cpp",
+    "agent-portal",
+    "openclaw"
   ],
   "entry": "SKILL.md",
   "scripts": {
@@ -28,10 +36,11 @@
     "plain": "scripts/lygo_llm_console_map.py plain",
     "urls": "scripts/lygo_llm_console_map.py urls",
     "demo": "scripts/lygo_llm_console_map.py demo",
-    "self_check": "scripts/self_check.py"
+    "self_check": "scripts/self_check.py",
+    "verify_kit": "scripts/verify_kit.py"
   },
   "openclaw": {
-    "emoji": "🜂",
+    "emoji": "L",
     "homepage": "https://chatagent.ca/lygo-llm-console.html",
     "requires": {
       "anyBins": ["python", "python3"]
@@ -39,22 +48,34 @@
     "os": ["windows", "macos", "linux"]
   },
   "permissions": {
-    "network": false,
-    "subprocess": false,
-    "shell": false,
-    "filesystem": {
-      "read": "skill only",
-      "write": false
+    "map_scripts": {
+      "network": false,
+      "subprocess": false,
+      "shell": false,
+      "filesystem": { "read": "skill only", "write": false }
+    },
+    "operator_runtime_kit": {
+      "network": "https GET to public hosts; loopback, RFC1918, link-local and .internal refused",
+      "listen": "127.0.0.1:9641 portal and 127.0.0.1:11441 engine by default",
+      "subprocess": "pinned llama-server.exe from engine/; local python -c and cmd.exe /c without metacharacters",
+      "shell": "workspace cwd, P0 gate refuses OS wipe and credential reads; NOT a filesystem sandbox",
+      "filesystem": { "write": "kit workspace/ and save/ only", "extra_roots": "operator-declared scan_roots or consent prompts" },
+      "lan_bind": "requires --lan --i-consent"
     },
     "publish": false
   },
   "security": {
     "local_first": true,
     "no_auto_publish": true,
-    "no_subprocess": true,
-    "no_network": true,
-    "public_tentacle": true,
+    "no_autoupdate": true,
+    "no_telemetry": true,
+    "kit_shipped_unpacked": true,
+    "kit_verified_per_file": true,
+    "clawhub_cli_pinned": "0.23.3",
     "admin_not_included": true,
-    "version": "1.1.0"
+    "steward_paths_removed_at_build": true,
+    "unprivileged_user": true,
+    "canonical_source": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-llm-console",
+    "version": "1.6.0"
   }
 }

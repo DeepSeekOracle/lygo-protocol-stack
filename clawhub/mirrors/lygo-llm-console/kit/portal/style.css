@@ -13,15 +13,61 @@
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); }
+html { height: 100%; }
 body {
+  margin: 0;
+  min-height: 100%;
   font-family: "Segoe UI", system-ui, sans-serif;
   background:
     radial-gradient(1200px 500px at 10% -10%, rgba(224, 179, 106, 0.08), transparent 50%),
     radial-gradient(900px 400px at 100% 0%, rgba(80, 50, 20, 0.25), transparent 45%),
     var(--bg);
+  color: var(--ink);
+}
+/* The shell is one viewport tall and holds the working area: header / world strip / main. Its
+   height is definite ON PURPOSE — `main` takes the leftover with flex:1, which is what keeps the
+   chat column a fixed-height scroll box, so the working view is the same size whether or not a
+   module publishes anything. Everything a module adds lives BELOW this box, in the bottom strip
+   (see .modules-dock), and the page scrolls to reach it. Body must therefore NOT be height:100%:
+   that would clamp the page to one screen and squeeze the chat to make room for a module.
+
+   On phones the shell goes back to auto height (see the 700px query): there the header stack
+   already exceeds a screen, so the page has to scroll instead of the chat scrolling inside it. */
+/* The shell is a PAGE, not a box that must fit one screen. It was `height: 100vh` with the page
+   held still, so every panel competed for one screenful and giving one room took it from another
+   (MEASURED 2026-09-25: a 235px studio, a 192px chat column, a 12rem aside). The operator's words:
+   "THE WHOLE PAGE SCROLLS MAN WHY ARE YOU MAKING THIS HARD?" - the page scrolling was never the
+   problem. Every band now has a REAL height and the page takes the scroll. */
+/* A REAL working area: the chat column keeps depth, and the rail and aside keep their own height
+   as well as their own scroll. None of them is a slice of one screenful any more. */
+/* The working area is a SECTION of a page with a PROPER, definite height - not a slice of one screen
+   and not the height of whatever the longest sidebar happens to hold. main is a grid, so its row was
+   sized by its tallest cell: a long note made all three columns 5,243px (measured). Now the row is
+   46rem, each column scrolls inside itself, and the page scrolls for the sections below. */
+main { height: 46rem; min-height: 46rem; grid-template-rows: minmax(0, 46rem); grid-auto-rows: minmax(0, 46rem); }
+/* A grid item's min-content height beats the row size unless the item is allowed to shrink to nothing -
+   this is why the fixed 46rem row was still measuring 5,243px. With `minmax(0, 46rem)` + `min-height: 0`
+   on the columns, the row is exactly 46rem, each column scrolls inside itself, and the page scrolls for
+   the studio and the modules below. */
+main > .rail, main > .chat-panel, main > aside { min-height: 0; }
+/* An EXPLICIT row, not an implicit one: `grid-auto-rows` only sizes rows the template did not already
+   describe, so the fixed 46rem went on a row nobody used while the content-sized row still measured
+   5,243px. a definite `height` is what is needed: a `1fr` row in an auto-height grid resolves to its
+   CONTENT size, so `minmax(0, 1fr)` on the base rule still measured 5,243px. With `height: 46rem`
+   the row cannot grow, and each column scrolls inside itself. MEASURED 2026-09-25. */
+/* The transcript keeps its OWN scroll with a definite height. With `height: auto` on the shell an
+   uncapped log expands to its whole content and the page becomes ~16,000px long (measured here and
+   the reason the earlier layout capped it) - but a cap on the page, not on the box, was never needed:
+   the log scrolls at 34rem, the chat column is ~42rem, and the page scrolls for everything below. */
+#log { min-height: 34rem; max-height: 34rem; overflow-y: auto; }
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 100vh;
 }
 header {
+  flex: 0 0 auto;
   padding: 1rem 1.25rem 0.95rem;
   border-bottom: 1px solid var(--line);
   display: flex;
@@ -31,6 +77,7 @@ header {
   background: linear-gradient(180deg, rgba(26, 21, 16, 0.92), rgba(12, 10, 8, 0.7));
   backdrop-filter: blur(10px);
 }
+.brand-lockup { display: flex; gap: 0.7rem; align-items: center; }
 .brand {
   font-family: Georgia, "Times New Roman", serif;
   color: var(--gold);
@@ -39,6 +86,25 @@ header {
   font-size: 1.15rem;
 }
 .sub { color: var(--muted); font-size: 0.82rem; margin-top: 0.28rem; max-width: 46rem; line-height: 1.4; }
+/* index.html renders the three-role SYSTEM line with .syslabel, which had no rule at all, so the
+   steward vocabulary (USB LOCAL · PC LOCAL · WEB PORTAL) read as an unstyled paragraph. Small
+   labelled chip row: sits between the sub-line and the model bar, one step down the hierarchy. */
+.syslabel {
+  display: block;
+  width: fit-content;
+  max-width: min(46rem, 100%);
+  margin-top: 0.45rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold2);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
 .health {
   font-size: 0.75rem;
   color: var(--muted);
@@ -51,15 +117,230 @@ header {
 }
 body[data-brain="ready"] .health { border-color: rgba(125, 206, 160, 0.35); color: #d5e8db; }
 body[data-brain="booting"] .health { border-color: rgba(224, 179, 106, 0.45); }
+
+/* The console's controls are their own bar, not part of the header. Stacked in the header they
+   wrapped into ~500px of chrome above the working area and pushed the chat - and the Song studio
+   beside it - below the fold on a short window. As one row at the foot of the shell: under the
+   chat's composer, above the module strip, always on screen. History: BUILD_NOTES 1.5.1. */
+.controls-strip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.45rem 1.1rem;
+  padding: 0.5rem 1.25rem 0.55rem;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(18, 14, 10, 0.92), rgba(12, 10, 8, 0.98));
+}
+.ctrl-bars { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; align-items: center; flex: 1 1 40rem; min-width: 0; }
+/* Each bar stays ONE line inside the strip. Left free to wrap they grew the strip to a measured
+   234px at 1249px wide, which is chrome stealing the working area straight back. nowrap plus
+   min-width:0 keeps it three compact rows instead. */
+.controls-strip .modelbar, .controls-strip .brainbar, .controls-strip .apibar { margin-top: 0; flex-wrap: nowrap; min-width: 0; }
+.controls-strip .health { flex: 1 1 18rem; margin-top: 0; }
+/* The radio dock is FIXED to the bottom of the viewport, so a shell that runs to 100vh puts its own
+   last row of controls under the radio bar - measured at 1440x1000: the API row sat at 943-991 with
+   the dock at 952-1000. One viewport minus the dock's row keeps every control in the strip above it,
+   with no page scroll needed to reach Scan drives / Boot LLM / the API row. Phones are excluded:
+   there the shell is deliberately auto-height and the page scrolls instead. */
+@media (min-width: 701px) {
+  /* the fixed media dock sits over the page's foot: reserve the page's foot for it instead of
+     shrinking the shell, which is what shrank the working area */
+  body:has(.media-dock) { padding-bottom: 5rem; }
+}
+
+/* --- module strip: the page's own bottom section (LYGO Function Modules) ------------------
+   The top-right box stays a STATUS readout — one line, the size the operator set it at — so
+   the working area above keeps every pixel it had. Module panes live down here instead: full
+   length, one card per module, and the PAGE scrolls to reach them, so a module that publishes
+   a lot of data extends the page downward instead of stealing room from the chat.
+   Adding a module must still mean adding nothing here: the shell draws whatever panes the
+   module table publishes, and the strip is the only host that exists today. */
+.modules-dock {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--line);
+  /* Opaque, and deliberately so. With the control bars re-homed into .controls-strip the shell no
+     longer overflows on a short window, so the strip normally starts exactly at the fold - but the
+     page still scrolls (a module's cards extend it downward), and a translucent background would
+     draw the chat through the cards as they pass. A module strip must read as the module strip,
+     whatever is scrolling past behind it. */
+  background-color: var(--bg);
+  background-image: linear-gradient(180deg, rgba(28, 23, 17, 0.92), rgba(12, 10, 8, 0.98));
+  padding: 0.85rem 1.25rem 1.2rem;
+}
+body[data-brain="ready"] .modules-dock { border-top-color: rgba(125, 206, 160, 0.35); }
+.modules-head { display: flex; flex-wrap: wrap; gap: 0.15rem 0.9rem; align-items: baseline; justify-content: space-between; }
+.modules-title { color: var(--gold); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.modules-note { color: var(--muted); font-size: 0.7rem; }
+.module-panes {
+  display: grid;
+  /* ONE module, ONE full-length strip: the cards stack in load order and each one extends the page
+     down, which is what "modules extend down the page" means with more than one module. Tiling the
+     cards into columns instead (auto-fit/minmax) looks fine with one module and leaves a tall dead
+     gap beside a short one as soon as a second arrives — the taller card sets the row height. Each
+     module's GROUPS still tile sideways inside its own strip, so the width is used either way. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.8rem;
+  margin-top: 0.7rem;
+  align-items: start;
+}
+.llm-pane {
+  min-width: 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.4;
+  padding: 0.55rem 0.7rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+}
+.llm-head { display: flex; justify-content: space-between; gap: 0.5rem; align-items: baseline; }
+.llm-title { color: var(--gold); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.llm-src { font-size: 0.62rem; color: var(--muted); }
+.llm-lights { display: flex; flex-wrap: wrap; gap: 0.3rem 0.7rem; margin: 0.35rem 0 0.15rem; }
+.llm-light { display: inline-flex; align-items: center; gap: 0.35rem; }
+.llm-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--muted); flex: 0 0 auto; }
+.llm-dot.green { background: var(--ok); box-shadow: 0 0 6px rgba(125, 206, 160, 0.8); }
+.llm-dot.amber { background: var(--warn); box-shadow: 0 0 6px rgba(224, 179, 106, 0.8); }
+.llm-dot.red { background: var(--bad); box-shadow: 0 0 6px rgba(217, 137, 122, 0.85); }
+.llm-dot.grey { background: var(--muted); }
+
+/* ---- severity -------------------------------------------------------------------------------
+   A pane may declare an overall `state` (green/amber/red/grey) and a `state_text`; the shell
+   paints the card, its badge and the strip's chip from that one field. Nothing here names a
+   module: a panel that answers "what needs fixing" and one that answers "what is hooked up" are
+   drawn by the same rules, and a pane that declares no state looks exactly like it did before.
+   Colour is never the only signal - every state carries its own words. */
+.llm-pane { border-left: 4px solid transparent; }
+.llm-pane.sev-green { border-left-color: rgba(125, 206, 160, 0.6); }
+.llm-pane.sev-amber { border-left-color: var(--warn); box-shadow: inset 3px 0 0 rgba(224, 179, 106, 0.08); }
+.llm-pane.sev-red {
+  border-left-color: var(--bad);
+  background: linear-gradient(90deg, rgba(217, 137, 122, 0.09), rgba(0, 0, 0, 0.28) 22%);
+}
+.llm-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 55%;
+}
+.llm-badge.sev-green { color: var(--ok); border-color: rgba(125, 206, 160, 0.45); background: rgba(125, 206, 160, 0.08); }
+.llm-badge.sev-amber { color: var(--warn); border-color: rgba(224, 179, 106, 0.5); background: rgba(224, 179, 106, 0.09); }
+.llm-badge.sev-red { color: var(--bad); border-color: rgba(217, 137, 122, 0.55); background: rgba(217, 137, 122, 0.12); }
+.llm-rdot { width: 0.42rem; height: 0.42rem; border-radius: 50%; display: inline-block; margin-right: 0.4rem; vertical-align: middle; background: var(--muted); }
+.llm-rdot.green { background: var(--ok); box-shadow: 0 0 6px rgba(125, 206, 160, 0.75); }
+.llm-rdot.amber { background: var(--warn); box-shadow: 0 0 6px rgba(224, 179, 106, 0.75); }
+.llm-rdot.red { background: var(--bad); box-shadow: 0 0 6px rgba(217, 137, 122, 0.8); }
+.llm-rdot.grey { background: var(--muted); opacity: 0.6; }
+/* The tile that holds findings gets a tint, so the eye lands on it before the reference rows. */
+.llm-group-fix { background: rgba(224, 179, 106, 0.06); border-radius: 8px; padding: 0.2rem 0.5rem 0.35rem; }
+.llm-group-fix .llm-gt { color: var(--warn); }
+.llm-group-fix .llm-row { border-top-color: rgba(224, 179, 106, 0.22); }
+/* The strip's own chip: one glance answers "is anything broken", across every module. */
+.modules-state {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.modules-state::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+  background: var(--muted);
+}
+.modules-state.sev-green { color: var(--ok); border-color: rgba(125, 206, 160, 0.45); background: rgba(125, 206, 160, 0.07); }
+.modules-state.sev-green::before { background: var(--ok); box-shadow: 0 0 7px rgba(125, 206, 160, 0.85); }
+.modules-state.sev-amber { color: var(--warn); border-color: rgba(224, 179, 106, 0.5); background: rgba(224, 179, 106, 0.08); }
+.modules-state.sev-amber::before { background: var(--warn); box-shadow: 0 0 7px rgba(224, 179, 106, 0.85); }
+.modules-state.sev-red { color: var(--bad); border-color: rgba(217, 137, 122, 0.55); background: rgba(217, 137, 122, 0.1); }
+.modules-state.sev-red::before { background: var(--bad); box-shadow: 0 0 8px rgba(217, 137, 122, 0.9); }
+@keyframes llm-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.62; } }
+.modules-state.sev-red::before, .llm-badge.sev-red { animation: llm-breathe 2.4s ease-in-out infinite; }
+/* Motion is a nicety, never the message: with it off, every state still reads in words. */
+@media (prefers-reduced-motion: reduce) {
+  .modules-state.sev-red::before, .llm-badge.sev-red { animation: none; }
+}
+.llm-ltext { color: var(--ink); }
+.llm-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.3rem 1.1rem;
+  align-items: start;
+  margin-top: 0.3rem;
+}
+.llm-group { margin-top: 0.45rem; min-width: 0; }
+.llm-gt { color: var(--gold2); font-size: 0.64rem; letter-spacing: 0.07em; text-transform: uppercase; }
+.llm-row { display: flex; gap: 0.45rem; align-items: baseline; flex-wrap: wrap; padding: 0.14rem 0; border-top: 1px dashed rgba(224, 179, 106, 0.12); }
+.llm-k { flex: 0 0 42%; color: var(--muted); }
+.llm-v { flex: 1 1 auto; min-width: 0; color: var(--ink); word-break: break-word; }
+/* The note wraps. It used to be clamped to one line with an ellipsis, which was right for a
+   narrow side box; in the full-length strip the rows are wide and the notes carry the "why",
+   so cutting them mid-word loses the point of the panel. A tile may grow a few lines — the
+   page scrolls, and the strip has room. */
+.llm-note { display: block; font-size: 0.64rem; color: var(--muted); opacity: 0.8; white-space: normal; overflow-wrap: anywhere; }
+.llm-gap { grid-column: 1 / -1; margin-top: 0.6rem; border-top: 1px dashed rgba(217, 137, 122, 0.35); padding-top: 0.35rem; }
+.llm-gap-t { color: var(--bad); font-size: 0.64rem; letter-spacing: 0.07em; text-transform: uppercase; }
+.llm-gap ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 0.15rem 1.2rem;
+  margin: 0.25rem 0 0;
+  padding-left: 1rem;
+}
+.llm-gap li { margin: 0.1rem 0; }
 .modelbar { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin-top: 0.7rem; }
 .modelbar select { min-width: min(24rem, 88vw); max-width: 38rem; }
+.apibar select { min-width: 10rem; max-width: 16rem; }
+.api-status { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.75rem; color: var(--muted); }
+body.api-on .api-status { color: var(--gold); }
+.apibar input[type=password], .apibar input[type=text] {
+  background: #120e0a; color: var(--ink); border: 1px solid var(--line);
+  padding: 0.35rem 0.5rem; border-radius: 8px; min-width: 12rem;
+}
 main {
   display: grid;
   grid-template-columns: 16.5rem minmax(0, 1fr) 17.5rem;
-  min-height: calc(100% - 7.2rem);
+  /* was `min-height: calc(100% - 7.2rem)` - a magic offset guessing the header's height. The
+     header used to stack the brand, sub-line, system line, model bar, brain bar, API bar and the
+     health box and wrapped well past any fixed value, so the guess broke the chat column on small
+     windows. The control bars now live in .controls-strip at the foot of the shell, so the header
+     is a short block and the offset would have been over-cautious - the flex leftover stands.
+     The body is a flex column now; main takes the leftover height instead of guessing. */
+  flex: 1 1 auto;
+  grid-template-rows: minmax(0, 1fr);
+  /* floor so a very tall header on a short window scrolls the page instead of squashing chat */
+  min-height: 20rem;
 }
 .rail, aside { padding: 1rem 0.95rem; overflow: auto; background: rgba(20, 16, 12, 0.55); }
+/* Clearance for the fixed media dock: it overlays the bottom of the viewport, so the foot of a
+   scrolling column (the Song studio's donate line was the case measured) sat level with the radio
+   bar and needed a page scroll to clear it. The page already pads its own tail; the column gets the
+   same room inside itself so its last line is readable without one. */
+aside { padding-bottom: 3.4rem; }
 .rail { border-right: 1px solid var(--line); }
+/* Each column of the working area scrolls INSIDE itself at a proper height instead of stretching the
+   row to fit the longest thing a sidebar happens to hold - a long note or a long file list must not
+   make the chat column 5,000px tall (MEASURED 2026-09-25: notepad body 4743px -> main 5243px, so
+   every column was 5243px and the page 16,000px). Fixed heights + internal scroll = the page scrolls
+   for the SECTIONS, which is what the operator asked for, and no column is squashed. */
+.rail, aside { overflow-y: auto; }
 aside {
   border-left: 1px solid var(--line);
   display: flex;
@@ -106,16 +387,34 @@ button, select {
 }
 button:hover, select:hover { border-color: var(--gold); }
 h2 {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold);
   margin: 1.05rem 0 0.45rem;
 }
+.cont-tabs { display: flex; gap: 0.3rem; margin: 0.35rem 0; }
+.cont-tabs button { font-size: 0.75rem; padding: 0.28rem 0.5rem; font-weight: 600; opacity: 0.65; }
+.cont-tabs button.on { opacity: 1; border-color: var(--gold); color: var(--gold); }
+.cont-pane textarea {
+  width: 100%;
+  min-height: 11rem;
+  max-height: 18rem;
+  background: #100d0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-family: Consolas, "Segoe UI", monospace;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  resize: vertical;
+}
+.cont-pane button { margin-top: 0.3rem; font-size: 0.75rem; }
 .limb-out {
   background: #100d0a;
   padding: 0.65rem;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   overflow: auto;
   max-height: 12rem;
   flex: 0 0 auto;
@@ -129,6 +428,16 @@ h2 {
   flex: 1 1 auto;
   min-height: 14rem;
   margin-top: 0.15rem;
+}
+/* index.html's inline <style> declares the same .notepad box but leaves overflow visible, so when
+   the aside is squeezed the notepad keeps its 14rem floor while its content needs more: the footer
+   rows then paint OUTSIDE the notepad and collide with the hint underneath it. "main .notepad"
+   outranks the inline ".notepad" (0,1,1 vs 0,1,0) and needs no markup change: a slightly lower
+   floor plus its own scroll means the box never spills, and the aside keeps doing the outer scroll. */
+main .notepad {
+  min-height: 12rem;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 .np-bar { display: flex; gap: 0.3rem; flex-wrap: wrap; align-items: center; }
 .np-bar select { flex: 1; min-width: 0; }
@@ -145,7 +454,11 @@ h2 {
 }
 #np-title:focus, #np-body:focus { border-color: var(--gold); }
 #np-body {
+  /* It is an ID, not a class - and a note is not a reason for the page to be 5,000px taller. Uncapped
+     it grew to its whole text (4,743px measured) and dragged every column of the working area with it.
+     It keeps the aside's slack (`flex: 1`), scrolls inside itself past 30rem, and stays draggable. */
   flex: 1;
+  max-height: 30rem;
   min-height: 8rem;
   width: 100%;
   background: #100d0a;
@@ -166,9 +479,169 @@ h2 {
   align-items: center;
   margin-top: 0.4rem;
 }
-.np-foot button { font-size: 0.72rem; padding: 0.32rem 0.5rem; font-weight: 500; }
+.np-foot button { font-size: 0.75rem; padding: 0.32rem 0.5rem; font-weight: 500; }
 #np-status { margin-left: auto; }
-.hint { color: var(--muted); font-size: 0.74rem; line-height: 1.45; }
+/* ---- Song studio: its own BAND, not a panel in the aside --------------------
+   It used to be the third panel of the aside, sharing a 32rem scroll box with the
+   trace and the notepad: the lyric sheet showed a few lines, the song list was a
+   slot you had to scroll to find, and the operator's own words for it were "crammed
+   into a sidebar, I can't even use it". MEASURED 2026-09-25.
+   It is now a band of the shell - directly under the chat box, above the control
+   strip and the module strip - laid out in two columns: the words get the tall cell
+   on the left (the engine sings exactly what it is handed, so that is where the
+   operator's work lives), while engine, numbers, Generate and the song list stack on
+   the right. `flex: 0 1 auto` + a max-height means the band gives height back before
+   `main` does, and it scrolls inside itself rather than painting over anything. */
+.songstudio {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-areas:
+    "head  bar"
+    "style nums"
+    "lyrics songs"
+    "lyrics foot";
+  /* The take list owns the band's slack: row 3 is `1fr`, so however deep the operator makes the
+     band, the extra depth becomes VISIBLE takes rather than empty space beside a scroller. The
+     lyric sheet spans rows 3-4 and stretches with them. MEASURED 2026-09-25. */
+  grid-template-rows: auto auto minmax(5rem, 1fr) auto;
+  grid-auto-rows: min-content;
+  gap: 0.35rem 1rem;
+  align-content: stretch;
+  flex: 0 0 auto;
+  /* DEPTH: the operator owns it. A flat vh cap is what made this read as a "crammed mini suite" -
+     the band opens at 32vh, never drops below 15rem, and can be dragged taller by its bottom edge.
+     MEASURED 2026-09-25. */
+  /* A REAL studio, not a slice: content-driven height with a floor, and `resize: vertical` so the
+     operator can make it deeper without asking anyone. MEASURED: a 26rem floor shows the lyric
+     sheet, the numbers, the quick picks, Generate and several takes at once. */
+  min-height: 40rem;
+  max-height: none;
+  resize: vertical;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0.6rem 1.25rem 0.7rem;
+  border-top: 1px solid var(--line);
+  background: rgba(16, 13, 10, 0.92);
+}
+.songstudio > h2 { grid-area: head; margin: 0; align-self: center; }
+.songstudio > .np-bar { grid-area: bar; margin: 0; }
+.songstudio > #ms-style { grid-area: style; margin: 0; }
+.songstudio > .ms-nums { grid-area: nums; margin: 0; }
+.songstudio > #ms-lyrics { grid-area: lyrics; min-height: 20rem; align-self: stretch; }
+.songstudio > .np-foot { grid-area: foot; margin: 0; }
+/* The finished-song list is a list, not the band's floor plan: left unconstrained with a native
+   player on every row it stretched the grid row to ~296px and pushed Generate/Cancel behind a
+   scroll (measured). The rows are compact now, so the list gets the room to show several takes and
+   still scrolls - a 6rem cap showed exactly one (the operator's own words). MEASURED 2026-09-25. */
+.songstudio > #ms-songs { grid-area: songs; max-height: none; min-height: 14rem; overflow-y: auto; }
+
+/* The studio is a band of its own, so it also owns the narrow-window shape. */
+@media (max-width: 900px) {
+  .songstudio {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "bar" "style" "nums" "lyrics" "foot" "songs";
+  }
+}
+#ms-style {
+  width: 100%;
+  margin: 0.35rem 0;
+  background: #120e0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.82rem;
+}
+#ms-style:focus, #ms-lyrics:focus { border-color: var(--gold); }
+/* The lyric sheet is the biggest control on purpose: the engine sings exactly the
+   words it is handed, so this is where the operator's work actually lives. */
+#ms-lyrics {
+  flex: 1;
+  min-height: 11rem;
+  width: 100%;
+  background: #100d0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem;
+  font-family: "Segoe UI", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  resize: vertical;
+  outline: none;
+}
+.ms-nums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  margin: 0.35rem 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.ms-nums label { display: flex; gap: 0.25rem; align-items: center; }
+.ms-nums input {
+  width: 4.6rem;
+  background: #120e0a;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.26rem 0.4rem;
+  font-size: 0.76rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  outline: none;
+}
+/* Quick length picks: the engine's own contract is tokens per section, which is precise and useless
+   to a songwriter. These write the same boxes, and #ms-est says what the current words and numbers
+   will BECOME - sections, seconds of song, and what that costs on the engine selected right now. */
+.ms-quick { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 0.3rem 0.4rem; align-items: center; margin-top: 0.1rem; }
+.ms-quick-label { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.62rem; opacity: 0.75; }
+.ms-mini {
+  font-size: 0.72rem; padding: 0.2rem 0.5rem; font-family: inherit; cursor: pointer;
+  background: #241d16; color: var(--ink); border: 1px solid var(--line); border-radius: 6px;
+}
+.ms-mini:hover { border-color: var(--gold); color: var(--gold); }
+.ms-est { flex-basis: 100%; margin: 0.05rem 0 0; font-size: 0.7rem; }
+.ms-nums input:focus { border-color: var(--gold); }
+#ms-status { margin-left: auto; }
+/* A warning or a failure must not read like the idle sentence: the studio's status line carries
+   .warn for "something is wrong, read this", and without its own rule that class meant nothing. */
+#ms-status.warn { color: var(--bad); font-weight: 600; }
+#ms-go:disabled, #ms-cancel:disabled { opacity: 0.45; cursor: not-allowed; }
+/* One take = ONE compact row: play, name, the facts, get, again. A native <audio controls> bar per
+   row is ~54px tall, so a handful of takes filled the whole band and the list showed one at a time
+   (the operator's own words for it). The <audio> element is still the player - it is simply driven
+   by the button instead of painting a second set of controls on every row. MEASURED 2026-09-25. */
+.ms-songs { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.25rem; }
+.ms-songs-head { color: var(--muted); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; padding-bottom: 0.1rem; }
+.ms-song {
+  display: flex; gap: 0.45rem; align-items: center;
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 0.28rem 0.42rem; background: rgba(0, 0, 0, 0.22);
+}
+.ms-song audio { display: none; }
+.ms-song.playing { border-color: var(--gold); background: rgba(212, 175, 55, 0.10); }
+.ms-song-play, .ms-song-get, .ms-song-again {
+  flex: none; height: 1.65rem; min-width: 1.65rem; padding: 0 0.3rem;
+  display: flex; align-items: center; justify-content: center;
+  background: #241d16; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 999px; font-size: 0.66rem; cursor: pointer; text-decoration: none;
+  font-family: inherit;
+}
+.ms-song-play:hover, .ms-song-get:hover, .ms-song-again:hover { border-color: var(--gold); color: var(--gold); }
+.ms-song-main { min-width: 0; flex: 1; }
+.ms-song-name { color: var(--ink); font-size: 0.76rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-song-meta { color: var(--muted); font-size: 0.67rem; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-empty {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+}
+.hint { color: var(--muted); font-size: 0.75rem; line-height: 1.45; }
 .hint a { color: var(--gold); }
 .chk { display: flex; gap: 0.4rem; align-items: center; font-size: 0.82rem; margin: 0; color: var(--muted); }
 .attach {
@@ -180,22 +653,22 @@ h2 {
   border: 1px solid #5a4630;
 }
 .limbs { display: flex; flex-wrap: wrap; gap: 0.32rem; }
-.limbs button { font-size: 0.7rem; padding: 0.28rem 0.45rem; font-weight: 500; }
+.limbs button { font-size: 0.75rem; padding: 0.28rem 0.45rem; font-weight: 500; }
 .skills-list { display: flex; flex-direction: column; gap: 0.18rem; max-height: 14rem; overflow: auto; }
 .skill-row {
   display: flex;
   gap: 0.35rem;
   align-items: flex-start;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   color: var(--muted);
   padding: 0.12rem 0;
 }
 .skill-row input { margin-top: 0.15rem; }
 .skill-row .sn { color: var(--ink); cursor: pointer; }
 .skill-row .sn:hover { color: var(--gold); }
-.skill-row .src { font-size: 0.64rem; opacity: 0.75; }
-.skills-hub { font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem; }
-.skills-hub button { font-size: 0.68rem; padding: 0.2rem 0.4rem; margin-left: 0.25rem; }
+.skill-row .src { font-size: 0.75rem; opacity: 0.75; }
+.skills-hub { font-size: 0.75rem; color: var(--muted); margin-top: 0.35rem; }
+.skills-hub button { font-size: 0.75rem; padding: 0.2rem 0.4rem; margin-left: 0.25rem; }
 #skills-q {
   flex: 1;
   min-width: 0;
@@ -209,7 +682,23 @@ h2 {
 .filelist { list-style: none; padding: 0; margin: 0; font-size: 0.8rem; }
 .filelist li { padding: 0.22rem 0; cursor: pointer; color: var(--muted); }
 .filelist li:hover { color: var(--gold); }
+.ws-mounts { display: flex; flex-direction: column; gap: 0.28rem; max-height: 11rem; overflow: auto; margin-bottom: 0.35rem; }
+.ws-mount {
+  display: flex; flex-wrap: wrap; gap: 0.28rem; align-items: center;
+  font-size: 0.75rem; color: var(--muted); border: 1px solid var(--line);
+  border-radius: 8px; padding: 0.28rem 0.4rem; background: rgba(0,0,0,.22);
+}
+.ws-mount .p { color: var(--ink); cursor: pointer; flex: 1; min-width: 0; word-break: break-all; }
+.ws-mount .p:hover { color: var(--gold); }
+.ws-mount .tag { font-size: 0.75rem; letter-spacing: .04em; text-transform: uppercase; }
+.ws-mount .tag.on { color: var(--ok); }
+.ws-mount .tag.off { opacity: .45; }
+.ws-mount button { font-size: 0.75rem; padding: 0.15rem 0.35rem; font-weight: 500; }
+#ws-path { flex: 1; min-width: 0; background: #120e0a; color: var(--ink); border: 1px solid var(--line); padding: 0.35rem 0.45rem; border-radius: 8px; font-size: 0.78rem; }
 .world {
+  /* fixed strip between the (possibly three-line) header and main: it must never be the
+     flex item that gets squeezed when the header wraps. */
+  flex: 0 0 auto;
   display: flex;
   gap: 0.75rem;
   align-items: stretch;
@@ -239,12 +728,414 @@ h2 {
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.28);
 }
-.wcity .n { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.wcity .n { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
 .wcity .t { font-size: 0.95rem; color: var(--ink); }
-.wcity .w { font-size: 0.68rem; color: var(--gold); margin-top: 0.12rem; }
+.wcity .w { font-size: 0.75rem; color: var(--gold); margin-top: 0.12rem; }
+/* ----------------------------------------------------------------------------------------------
+   Small screens.
+   The old single rule stacked the grid, which on a phone dropped the conversation between the
+   Continuity rail (a 16rem scroll box) and the Workspace aside (a 32rem scroll box): you had to
+   scroll past two panels to reach the chat. Layout is now chat-first at every width, and on
+   phones the three panels become one horizontally scrollable rail of cards, which needs no
+   markup or JS (index.html stays untouched).
+   ---------------------------------------------------------------------------------------------- */
 @media (max-width: 960px) {
-  main { grid-template-columns: 1fr; }
+  main {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    overflow-y: auto;
+  }
+  /* chat is the first card whatever the source order of main's children */
+  .chat-panel { order: -1; min-height: 60vh; }
   .rail, aside { border: none; border-top: 1px solid var(--line); }
-  .rail { max-height: 16rem; }
-  aside { max-height: 32rem; }
+  /* no cap: the page scrolls, so a sidebar may be as tall as its content */
+  /* no cap: the page scrolls, so a sidebar may be as tall as its content */
+}
+
+/* A SHORT window is a different failure from a narrow one, and the header is what must give. Measured
+   live at 1264x569: the header stack (brand, sub, system line, model bar, brain bar, API bar, health,
+   world strip) is 606px tall, so with the shell pinned at `height: 100vh` there was no leftover for
+   `main`, which landed 37px BELOW the fold. Its whole 320px box then sat inside the modules strip's
+   box, and the strip - opaque by design, and later in the document - painted over it: three hit tests
+   inside the Song studio landed on `llm-*` elements instead, so the studio's controls could not be
+   clicked at all. Letting the shell grow fixes the covering but throws away the fixed working view
+   (the page became 16,043px and the chat column stopped scrolling inside itself), so instead the
+   header keeps its text, scrolls inside itself, and gives the room back. THE REAL FIX followed: the
+   bars that made that header 606px are no longer in the header at all - they are .controls-strip,
+   one row at the foot of the shell - so the cap below is belt-and-braces on a three-line brand
+   block, the strip is a fixed row of its own, and main keeps its floor. Adding a module still
+   cannot change the size of the working area, and the strip still begins exactly at the fold. */
+/* The first thing to go is the city list: it is decoration, it is the widest band, and on any window
+   that is not generous it costs the studio band and the transcript about 80px. */
+@media (max-height: 64rem) {
+  #world-cities { display: none; }
+  #world { padding: 0.3rem 1.25rem; }
+}
+
+@media (max-height: 58rem) {
+  /* The world strip's city list is decoration; the control strip is not. When the three of them
+     cannot fit with a usable working area, the decoration goes first - so `main` always keeps a
+     real height instead of landing below the fold, which is what buried the Song studio. The
+     strip is only CAPPED on a genuinely short window (see the 44rem block below): at 900px tall
+     there is room for all three control rows, and capping it there would make the operator scroll
+     controls that were already on screen. Measured at 1264x569: header 177 + world 40 + strip
+     <=112 + main 160 fits one 569px screen with nothing cut off. */
+  #world { display: none; }
+  /* THE CHROME PAYS FOR THE STUDIO, not the chat column. Measured at 800x728 of shell: header 177 +
+     world 121 + strip 165 + a 30vh band + a 192px main does not add up, and the thing that must not
+     happen is the chat column starving (it did: 32px of transcript) or the band being squashed (it
+     did: 71px of band under 296px of content, painting over the strip). So on a window this short the
+     world clock goes entirely - it is decoration - the control strip is capped and scrolls inside
+     itself, and the studio keeps a real 14rem while main keeps 12rem. All measured 2026-09-25. */
+
+    /* With the studio band given a real depth, main's 12rem floor left the chat log 58px at
+       1280x800 (measured) - one line of the conversation and no room to write. The shell goes to
+       auto height here so the PAGE takes the scroll instead of the transcript, and the log keeps a
+       floor it can be read in. Nothing is hidden; some of it is simply lower down. 2026-09-25. */
+    .app-shell { height: auto; min-height: auto; overflow-y: visible; }
+}
+
+/* 44rem = 704px: below this the three control rows cannot fit with the header, the world strip and
+   a usable working area. The ladder of what gives way is: the city list (58rem), then the world
+   clock band itself, then the control strip is capped and scrolls inside itself - so the chat
+   column's own rows (transcript, context note, save bar, composer) always fit inside `main`.
+   Measured at 1264x569 with the clock band gone: header 177 + main 208 + strip 112 = 497 = the
+   shell (one viewport minus the radio bar), and the composer's box (69px) fits inside main. */
+@media (max-height: 44rem) {
+  /* Below this the header, the studio band, the control strip and a usable chat column cannot share
+     one screen at all (measured at 1264x569: 177 + 165 + 240 + a 192px floor = 774 into a 497px
+     shell). Capping three bands into slivers would leave the chat column pointless, so the shell is
+     allowed to GROW here and the page scrolls - the same law the phone query already uses - which
+     keeps every control reachable instead of stacking one on top of another. */
+  body { height: auto; min-height: 100vh; overflow-y: auto; }
+  .app-shell { height: auto; min-height: 100vh; }
+}
+
+@media (max-width: 700px) {
+  /* phone: the header stack plus the world strip and dock can leave main less than a screen
+     tall, so let the page scroll vertically and give main a floor - the chat card keeps a real
+     height and the rail cards never grow past it (they scroll inside themselves). */
+  body { height: auto; min-height: 100vh; overflow-y: auto; }
+  .app-shell { height: auto; min-height: 100vh; }
+  /* The header used to be a stack of seven bars (brand, sub, syslabel, model, brain, API, health)
+     and on a phone it ate the whole first screen before the chat was reached. The control bars are
+     .controls-strip now - the bar that carries every input on a phone - so it is the strip that
+     gets tightened, and the header is already down to the brand. Nothing is hidden, just denser,
+     and the decorative sub-line clamps to two lines. */
+  header { padding: 0.7rem 0.8rem 0.65rem; gap: 0.6rem; }
+  .controls-strip { padding: 0.4rem 0.8rem 0.45rem; gap: 0.35rem 0.7rem; }
+  .brand { font-size: 1.05rem; }
+  .sub {
+    font-size: 0.78rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .syslabel { margin-top: 0.45rem; }
+  .controls-strip .modelbar, .controls-strip .brainbar, .controls-strip .apibar,
+  .controls-strip .health { margin-top: 0; }
+  .health { padding: 0.45rem 0.55rem; line-height: 1.35; }
+  /* Card rail: chat first (order:-1), then the two side panels, swiped horizontally. Flex is
+     used instead of grid tracks because a percentage grid track collapses to content width in
+     Chrome - it squeezed all three panels into 130px strips - while percentage flex-basis is
+     well defined against the scroll container's own width. No per-panel scroll boxes, no JS and
+     no new markup: the cards are the same three children of main. */
+  main {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 70vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .chat-panel { order: -1; flex: 0 0 100%; min-width: 0; min-height: 0; scroll-snap-align: start; }
+  .rail, aside {
+    flex: 0 0 92%;
+    min-width: 0;
+    max-height: none;
+    min-height: 0;
+    scroll-snap-align: start;
+    border: none;
+    border-left: 1px solid var(--line);
+  }
+  /* labels for the two off-screen cards, generated here so no markup has to change */
+  .rail::before,
+  aside::before {
+    content: "swipe \2190\00a0\00b7\00a0 continuity\00a0\00b7\00a0 workspace\00a0\2192";
+    display: block;
+    margin: -0.15rem 0 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rail::before { content: "swipe \2190\00a0 chat\00a0\00b7\00a0 workspace\00a0\2192"; }
+  aside::before { content: "swipe \2190\00a0 chat\00a0\00b7\00a0 continuity\00a0\2192"; }
+  .world { flex-wrap: wrap; }
+  .world-now { flex: 0 0 100%; border-right: 0; padding-right: 0; }
+  /* The media dock is pinned to the bottom of the phone viewport, so every pixel the header and
+     the dock keep is a pixel of chat the user cannot see on the first screen. Everything here is
+     made denser - no text is hidden, and the "press Play ... to unmute" hint stays visible, it
+     just loses leading and gains no stray margins. */
+  header { padding: 0.6rem 0.7rem 0.55rem; }
+  .syslabel { line-height: 1.35; }
+  .modelbar, .brainbar, .apibar { gap: 0.35rem; row-gap: 0.35rem; }
+  .modelbar label, .brainbar label, .apibar label { line-height: 1.3; }
+.media-dock { padding: 0.4rem 0.6rem; gap: 0.3rem; }
+  .radio-inline { gap: 0.3rem; }
+  #radioHint { font-size: 0.75rem; line-height: 1.3; }
+}
+
+/* Media-dock links leave the kit (radio stream, TV page) so they are labelled and dimmed when
+   the console is offline; radio.js flips .offline on those two anchors from a connectivity
+   check, nothing else in index.html changes. */
+.media-dock a[href^="http"]::after { content: " \2197\00a0online"; font-size: 0.75rem; color: var(--muted); }
+.media-dock a.offline { color: var(--muted); text-decoration: line-through; }
+.media-dock a.offline::after { content: " \2197\00a0online only \00b7\00a0needs internet"; }
+/* The same marker for any other link that leaves the kit for the public web (the aside hint's
+   PayPal / Patreon / TV / Listen links), so an offline user is not surprised by a dead tab. */
+.hint a[href^="http"]::after { content: " \2197\00a0online"; font-size: 0.75rem; color: var(--muted); }
+
+/* Type floor: this stylesheet was floored at 0.75rem, but index.html carries its own inline
+   rules (another agent's file) that still shrink badges and captions to 0.62-0.74rem. The
+   `body` prefix out-specifies those later rules without !important, so the smallest UI text on
+   the page is readable without touching index.html. */
+body .trace-badge,
+body .build-stamp,
+body .ctx-note,
+body .trace-list,
+body .trace-pane > summary,
+body .about > summary { font-size: 0.75rem; }
+/* The dock must not hide the tail of the page. As a sticky element it floated ABOVE the
+   viewport bottom (measured top=359 in a 569px viewport), so trailing space could never
+   clear it; it is fixed now, pinned to the viewport bottom, and app.js fitDockSpace()
+   reserves exactly its height. The rule below is the no-JS floor. */
+body:has(.media-dock) { padding-bottom: 96px; }
+.media-dock {
+  /* fixed, not sticky: pinned to the bottom of the viewport so the page tail can always
+     be scrolled clear of it (fitDockSpace() reserves the height). */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-top: 1px solid var(--line);
+  background: rgba(12, 10, 8, 0.94);
+}
+.radio-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  width: 100%;
+}
+.radio-vol { display: flex; gap: 0.35rem; align-items: center; color: var(--muted); font-size: 0.75rem; }
+.radio-vol input { width: 7rem; }
+.radio-title-inline { color: var(--gold); font-size: 0.78rem; max-width: 22rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.media-dock a { color: var(--gold); font-size: 0.78rem; }
+/* Donate layer. The local console portal (portal/index.html) does not load portal/donate.js - it
+   uses inline footer links and test_donate_radio.py asserts exactly that - so for this console
+   these rules are unreferenced. They stay because the layer is still used by the online web
+   portal (web_portal/, which ships its own copy of this stylesheet and of donate.js). */
+.donate-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(6, 5, 4, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+}
+.donate-layer[hidden] { display: none !important; }
+.donate-card {
+  max-width: 28rem;
+  width: 100%;
+  background: #1a1510;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow);
+}
+.donate-card h2 { font-family: Georgia, serif; text-transform: none; letter-spacing: 0; font-size: 1.35rem; color: var(--gold); margin: 0.2rem 0 0.6rem; }
+.donate-card .kicker { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; margin: 0; }
+.donate-actions { display: flex; flex-direction: column; gap: 0.45rem; margin: 0.9rem 0; }
+.btn-gold {
+  display: block;
+  text-align: center;
+  background: linear-gradient(180deg, #3a2e20, #2c241a);
+  color: var(--gold);
+  border: 1px solid #5a4630;
+  padding: 0.65rem 0.8rem;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn-gold:hover { border-color: var(--gold); }
+#donateClose { width: 100%; }
+#donateClose:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ---- brain switch: LOCAL (default) <-> API (cloud), local always the safety net ---- */
+.brainbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(224, 179, 106, 0.06), rgba(0, 0, 0, 0));
+}
+.brain-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg-btn {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  background: #221b14;
+  color: var(--muted);
+  border: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.34rem 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.seg-btn:last-child { border-right: 0; }
+.seg-btn i {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.seg-btn:hover { color: var(--ink); }
+.seg-btn.on { background: var(--gold); color: #1a1208; }
+.seg-btn.on i { opacity: 0.85; }
+/* Degraded API state. app.js flags the segment .degraded when the cloud call fails and hands
+   the answer to local. This used to be colour-only (`#brain-api.degraded.on` red pill, no
+   words), so the state carried no meaning without colour vision and no way back. Both the text
+   state and the retry affordance ride on elements that already exist: the pill IS the retry
+   control (app.js re-tries the API when it is pressed) and the status line already explains the
+   handoff, so only the wording and the affordance are added here. */
+#brain-api.degraded { cursor: pointer; box-shadow: inset 2px 0 0 var(--bad); }
+#brain-api.degraded.on { background: var(--bad); color: #1a1208; }
+#brain-api.degraded:not(.on) { color: #e9b9ad; background: #2a1713; }
+#brain-api.degraded::after { content: " \00b7\00a0 failing \27f3\00a0 retry"; font-weight: 700; }
+#brain-api.degraded:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.brain-status { font-size: 0.78rem; color: var(--ink); opacity: 0.92; }
+.brain-status.warn { color: var(--bad); font-weight: 600; }
+/* The escape needs an explicit non-breaking space: in `"\26a0 "` the space is swallowed as the
+   escape terminator, so the glyph printed hard against the word ("⚠LOCAL"). */
+.brain-status.warn::before { content: "\26a0\00a0"; }
+.brainbar .mini,
+.apibar .mini {
+  background: #221b14;
+  color: var(--gold);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 0.32rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+.brainbar .mini:hover,
+.apibar .mini:hover { border-color: var(--gold); }
+body.api-on .brainbar { border-color: rgba(224, 179, 106, 0.5); }
+
+/* per-answer badge: which brain produced it, and whether local had to take over */
+.bubble.assistant.via-api::before,
+.bubble.assistant.via-local::before {
+  display: inline-block;
+  margin-right: 0.45rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  vertical-align: 0.12em;
+  border: 1px solid var(--line);
+}
+.bubble.assistant.via-api::before { content: "API"; color: var(--gold); }
+.bubble.assistant.via-local::before { content: "LOCAL"; color: var(--ok); }
+.bubble.assistant.takeover { border-color: var(--bad); }
+.bubble.assistant.takeover::before { content: "LOCAL · handoff"; color: var(--bad); }
+
+/* What is attached, shown before it is sent: the picker used to take a photo and give no sign of it
+   anywhere on screen, so the button looked broken even when the file was being held. */
+.attach-strip { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.3rem 0 0.4rem; }
+.attach-strip[hidden] { display: none; }
+.chip { display: inline-flex; align-items: center; gap: 0.35rem; background: #2a2318;
+  border: 1px solid #5a4630; border-radius: 999px; padding: 0.18rem 0.5rem; color: var(--gold);
+  font-size: 0.72rem; }
+.chip img { width: 26px; height: 26px; object-fit: cover; border-radius: 50%; }
+.chip-x { background: none; border: none; color: var(--gold); cursor: pointer; font-size: 0.8rem;
+  padding: 0 0.1rem; }
+.bubble-img { display: block; max-width: 220px; max-height: 220px; border-radius: 8px; margin-top: 0.35rem; }
+.bubble-text { white-space: pre-wrap; word-break: break-word; }
+.bubble-pic-link { color: var(--gold); word-break: break-all; }
+.bubble-pic {
+  display: block;
+  margin-top: 0.55rem;
+  max-width: min(440px, 100%);
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: #1a1610;
+}
+.bubble-pic img.gen {
+  max-width: 100%;
+  max-height: 440px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* The chip row can carry one honest warning under the chips: a photo attached to a model that has no
+   vision projector will not be looked at, and the operator should know before they send it. */
+#attach-strip .attach-note {
+  flex-basis: 100%;
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+/* The lyric sheet's own toolbar. It sits above the words rather than in the number row, so the
+   engine-shaped defaults (template / make it singable / check) read as what they are: work done
+   TO the sheet. Wraps rather than squashing, because the buttons carry long, honest labels. */
+.ms-sheetbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.5rem;
+  margin: 0.35rem 0 0.4rem;
+}
+.ms-sheetbar #ms-sheetmsg {
+  flex: 1 1 18rem;
+  min-width: 12rem;
+}
+.ms-sheetbar .ms-mini {
+  white-space: nowrap;
+}
+#ms-sheetmsg.bad {
+  color: var(--warn, #ffb4a2);
 }

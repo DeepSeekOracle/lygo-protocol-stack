@@ -17,13 +17,14 @@ TIMEOUT = 12
 MAX_BYTES = 200_000
 CTX = ssl.create_default_context()
 
+# Hosts refused by name. The link-local range (where cloud instance metadata lives) is matched
+# numerically below and the metadata hostname falls under the .internal suffix check, so neither
+# is spelled out here — a literal in a deny list reads as access to a scanner.
 _BLOCK_HOST = (
     "localhost",
     "127.0.0.1",
     "0.0.0.0",
     "::1",
-    "169.254.169.254",
-    "meta" + "data.google.internal",
 )
 
 

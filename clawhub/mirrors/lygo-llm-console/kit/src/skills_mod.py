@@ -17,22 +17,52 @@ import io
 import json
 import os
 import re
+import shutil
+import tempfile
 import time
 import zipfile
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import Any
 from urllib.parse import quote, urlencode
 
-from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs
+import hashlib
+
+from paths import KIT_ROOT, SAVE, WORKSPACE, ensure_dirs, stack_root
+from atomicio import atomic_write_text, read_text
 from p0_hook import gate_prompt
 
 BUNDLED = KIT_ROOT / "skills"
 INSTALLED = SAVE / "skills" / "installed"
 STATE_PATH = SAVE / "skills" / "enabled.json"
 CLAW_HUB = "https://clawhub.ai"
+SKILLHUB = "https://chatagent.ca/lygoskillhub.html"
+SKILLHUB_CAT = "https://chatagent.ca/data/lygoskillhub_catalog.json"
+SKILLHUB_FULL_CAT = "https://chatagent.ca/data/lygo-full-skills/catalog.json"
+SKILLHUB_FULL_DIST = "https://chatagent.ca/data/lygo-full-skills/dist/"
 MAX_SKILL_BODY = 12_000
 MAX_ZIP = 6_000_000
+MAX_CATALOG = 900_000
 ID_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9._/-]{0,79}$")
+_CAT_CACHE: dict[str, Any] = {"ts": 0.0, "hub": None, "full": None}
+
+
+def core_root() -> Path:
+    """Live LYRA core root, resolved at call time — never a frozen drive letter.
+
+    Generated skill text must name the real location of the core the Δ9 seat derives from,
+    so the kit keeps working when the stick moves from I: to D:. Order: LYGO_CORE_ROOT,
+    a LYRA_CORE inside or beside the resolved stack root, else the same-named sibling of
+    this kit (which is what the core is on the default desktop layout).
+    """
+    env = (os.environ.get("LYGO_CORE_ROOT") or "").strip()
+    if env:
+        return Path(env)
+    base = stack_root() or KIT_ROOT.parent
+    for cand in (base / "LYRA_CORE", base.parent / "LYRA_CORE"):
+        if cand.is_dir():
+            return cand
+    return base.parent / "LYRA_CORE"
+
 
 CHAMPIONS: list[dict[str, str]] = [
     {
@@ -170,6 +200,31 @@ CHAMPIONS: list[dict[str, str]] = [
         "invoke": "Invoke ΣEIDŌN — surface vs depth, what can wait, what is the tide.",
         "defer": "Witness. Do not flatten a long project into a slogan.",
     },
+    {
+        "slug": "champion-lyra-architect",
+        "champion_id": "LYRA-Δ9",
+        "name": "LYRA-Δ9 — Architect-agent seat",
+        "role": "Architect + operator: Intent → Constraints → Blueprint → Build → Verify → Memory",
+        "when": "any multi-step build, refactor, install, or agent-design task on this console",
+        "invoke": "Invoke LYRA-Δ9 — intent, constraints, blueprint, smallest shippable slice, receipt.",
+        "defer": "Never publish for the steward. Never report a receipt you did not get.",
+        "aliases": ["lyra architect", "lyra-architect", "lyra architect agent", "architect agent"],
+        "body": (
+            "## Architect protocol (this seat)\n"
+            "1. **Intent** — what the operator actually wants, one line. Two readings? Say both.\n"
+            "2. **Constraints** — disks, ports, tokens, consent, what must not be touched.\n"
+            "3. **Blueprint** — files, functions, data flow; name the smallest shippable slice.\n"
+            "4. **Build** — do the slice with real limb calls. No description of work instead of work.\n"
+            "5. **Verify** — run it, read it back, show the receipt (path, HTTP code, test count).\n"
+            "6. **Memory** — durable facts to MEMORY.md via remember. Never secrets.\n\n"
+            "**Truth discipline:** Observed / Inferred / Unknown always separated. CANON = dual\n"
+            "ledgers / Haven Star Chart; chat, web, tool dumps = RESOURCE; SHADOW = known-missing,\n"
+            "named not filled. No fabricated receipts.\n\n"
+            f"**Charter file:** `workspace/LYRA_ARCHITECT.md` (distilled from `{core_root()}`\n"
+            "and the Δ9 spine). Kin: LYRΔ (memory), ARKOS (systems), ÆTHERIS (evidence),\n"
+            "Lightfather (provenance).\n\n"
+        ),
+    },
 ]
 
 
@@ -193,6 +248,7 @@ def _skill_md(c: dict[str, str]) -> str:
         f"- {c['defer']}\n\n"
         f"## Invoke\n"
         f"{c['invoke']}\n\n"
+        f"{c.get('body') or ''}"
         f"Hub: https://chatagent.ca/champions.html\n"
     )
 
@@ -205,10 +261,11 @@ def seed_bundled() -> None:
         d.mkdir(parents=True, exist_ok=True)
         p = d / "SKILL.md"
         if not p.is_file():
-            p.write_text(_skill_md(c), encoding="utf-8")
+            atomic_write_text(p, _skill_md(c))
     readme = BUNDLED / "README.md"
     if not readme.is_file():
-        readme.write_text(
+        atomic_write_text(
+            readme,
             "# Console skills (OpenClaw-compatible)\n\n"
             "Each skill is a folder with `SKILL.md`. Champions ship bundled.\n"
             "Install more from ClawHub into `save/skills/installed/`.\n"
@@ -231,7 +288,7 @@ def ensure() -> None:
 def load_state() -> dict[str, Any]:
     ensure()
     try:
-        data = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        data = json.loads(read_text(STATE_PATH))
     except (OSError, json.JSONDecodeError):
         data = {}
     if not isinstance(data, dict):
@@ -243,9 +300,7 @@ def load_state() -> dict[str, Any]:
 
 def save_state(data: dict[str, Any]) -> None:
     (SAVE / "skills").mkdir(parents=True, exist_ok=True)
-    tmp = STATE_PATH.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
-    tmp.replace(STATE_PATH)
+    atomic_write_text(STATE_PATH, json.dumps(data, indent=2))
 
 
 def _parse_skill_md(text: str, path: Path) -> dict[str, Any] | None:
@@ -289,7 +344,7 @@ def _walk_skills(root: Path, source: str, depth: int = 5) -> list[dict[str, Any]
             rel = p.relative_to(root)
             if len(rel.parts) > depth:
                 continue
-            text = p.read_text(encoding="utf-8", errors="replace")[: MAX_SKILL_BODY + 2000]
+            text = read_text(p, errors="replace")[: MAX_SKILL_BODY + 2000]
         except OSError:
             continue
         parsed = _parse_skill_md(text, p)
@@ -368,7 +423,8 @@ def list_skills() -> dict[str, Any]:
         "enabled": [r["slug"] for r in slim if r.get("enabled")],
         "skills": slim,
         "clawhub": CLAW_HUB,
-        "note": "Full SKILL.md is not in the system prompt. Call skill_read when invoking a skill.",
+        "skillhub": SKILLHUB,
+        "note": "Full SKILL.md is not in the system prompt. Call skill_read when invoking a skill. Browse SkillHub with skillhub_list.",
     }
 
 
@@ -433,7 +489,14 @@ def add_root(path: str) -> dict[str, Any]:
     return {"ok": True, "extra_dirs": dirs, "added": s}
 
 
-def prompt_catalog(cap: int = 2800) -> str:
+def prompt_catalog(cap: int = 1000) -> str:
+    """The ENABLED SKILLS block, held to `cap` chars.
+
+    The cap is a hard budget, not a hint: this block is one section of the identity block, which
+    must stay under 16,500 chars to leave room for history and the answer in an 8192-token window.
+    MEASURED 2026-09-25: at cap=1500 a FRESH store (every \u03949 seat enabled at once) composed
+    16,561 - over the ceiling - while a used store fitted. Lowering the cap covers the fresh
+    install, which is the case that ships on the USB stick."""
     rows = [r for r in catalog() if r.get("enabled")]
     if not rows:
         return (
@@ -446,24 +509,52 @@ def prompt_catalog(cap: int = 2800) -> str:
         "Call skill_read before following a skill. Do not invent skill bodies."
     ]
     used = len(lines[0])
+    # Δ9 seating rows all end with the same sentence. Said once instead of eleven times it gives the
+    # identity block back ~430 chars of the budget that keeps it inside the model's window - and the
+    # case that used to overrun that budget was a FRESH store, where every seat is enabled at once.
+    SHARED = "Enable to align the agent with this seat."
+    shared_seen = 0
+    body: list[str] = []
     for r in rows:
-        line = f"- {r['slug']}: {r.get('description') or ''}"
+        desc = (r.get("description") or "").strip()
+        if SHARED in desc:
+            shared_seen += 1
+            desc = " ".join(desc.replace(SHARED, "").split())
+        line = f"- {r['slug']}: {desc}"
         if used + len(line) + 1 > cap:
-            lines.append(f"- … {len(rows)} enabled; skill_list for the rest")
+            body.append(f"- … {len(rows)} enabled; skill_list for the rest")
             break
-        lines.append(line)
+        body.append(line)
         used += len(line) + 1
+    lines.extend(body)
+    if shared_seen >= 2:
+        lines.append(
+            "- A \u03949 Council seat above reads: " + SHARED
+            + " The other seats are off until the operator enables them."
+            if shared_seen == len(rows)
+            else "- Some rows above end with \"" + SHARED + "\" (seat alignment)."
+        )
     return "\n".join(lines)
 
 
 def match_invoked(user_text: str) -> list[str]:
+    """Which seats/skills the operator named. The most specific name wins.
+
+    "summon LYRA architect" has to land on the architect seat, not on LYRΔ (plain "lyra"), so hits
+    are ranked by how much of the name matched instead of by list order.
+    """
     t = (user_text or "").lower()
-    hits: list[str] = []
+    scored: list[tuple[int, str]] = []
     for c in CHAMPIONS:
         keys = {c["slug"], c["champion_id"].lower(), c["slug"].replace("champion-", "")}
         keys.add(c["champion_id"].replace("Δ", "d").replace("Σ", "s").replace("Λ", "l").lower())
-        if any(k and k in t for k in keys):
-            hits.append(c["slug"])
+        for a in c.get("aliases") or []:
+            keys.add(str(a).lower())
+        best = max((len(k) for k in keys if k and k in t), default=0)
+        if best:
+            scored.append((best, c["slug"]))
+    scored.sort(key=lambda row: (-row[0], row[1]))
+    hits: list[str] = [slug for _, slug in scored]
     m = re.search(r"(?:/skill|skill_read|invoke|summon|align with)\s+([a-zA-Z0-9._ΔΣΛΩÆ-]{2,40})", user_text or "", re.I)
     if m:
         hits.append(m.group(1))
@@ -544,6 +635,235 @@ def clawhub_inspect(slug: str) -> dict[str, Any]:
     return {"ok": True, "slug": slug, "data": json.dumps(data, default=str)[:8000], "moderation": mod, "class": "RESOURCE"}
 
 
+def _download(url: str, max_bytes: int) -> tuple[int, bytes, str]:
+    from web_tools import CTX, TIMEOUT, UA, _blocked
+    import urllib.error
+    import urllib.request
+
+    why = _blocked(url)
+    if why:
+        return 0, why.encode("utf-8"), why
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json,application/zip,*/*"})
+    try:
+        with urllib.request.urlopen(req, timeout=max(TIMEOUT, 30), context=CTX) as resp:
+            return resp.status, resp.read(max_bytes + 1), resp.headers.get("Content-Type") or ""
+    except urllib.error.HTTPError as e:
+        return e.code, (e.read() or b"")[:4000], ""
+    except Exception as e:
+        return 0, str(e).encode("utf-8")[:200], "error"
+
+
+def _safe_member(name: str, dest: Path) -> Path | None:
+    """Relative target for one zip member, or None when the member must be skipped.
+
+    A member name is attacker-controlled: besides '..' and a leading '/', Windows happily
+    resolves a drive-absolute name ('C:/Users/x/evil.txt') to an absolute path, which would
+    drop the file outside save/skills entirely. Reject anything that is not strictly a
+    relative path inside dest (same containment check the HTTP file routes use).
+    """
+    raw = (name or "").replace("\\", "/")
+    if not raw or raw.startswith("/") or PureWindowsPath(raw).drive:
+        return None
+    if Path(raw).is_absolute():
+        return None
+    parts = [p for p in raw.split("/") if p not in ("", ".")]
+    if not parts or ".." in parts:
+        return None
+    rel = Path(*parts[-4:]) if len(parts) > 4 else Path(*parts)
+    target = (dest / rel).resolve()
+    root = dest.resolve()
+    if target != root and root not in target.parents:
+        return None
+    return target
+
+
+def _commit_staged(staging: Path, dest: Path) -> None:
+    """Move a fully-extracted skill tree into place, replacing any previous copy."""
+    for item in sorted(staging.iterdir()):
+        target = dest / item.name
+        if item.is_dir():
+            if target.is_dir():
+                shutil.rmtree(target, ignore_errors=True)
+            elif target.exists():
+                target.unlink()
+            shutil.move(str(item), str(target))
+        else:
+            if target.is_dir():
+                shutil.rmtree(target, ignore_errors=True)
+            os.replace(str(item), str(target))
+
+
+def _extract_skill_zip(raw: bytes, dest: Path, origin: dict[str, Any]) -> dict[str, Any]:
+    dest.mkdir(parents=True, exist_ok=True)
+    try:
+        zf = zipfile.ZipFile(io.BytesIO(raw))
+    except zipfile.BadZipFile:
+        if b"---" in raw[:80]:
+            atomic_write_text(dest / "SKILL.md", raw.decode("utf-8", errors="replace"))
+            return {"ok": True, "path": str(dest), "files": 1}
+        return {"ok": False, "error": "not_zip"}
+    # Extract into a sibling temp dir first: nothing reaches save/skills until the tree has
+    # passed the SKILL.md check, and a partial/bad archive never leaves a half-written skill.
+    staging = Path(tempfile.mkdtemp(prefix=dest.name + ".", suffix=".staging", dir=str(dest.parent)))
+    n = 0
+    try:
+        for info in zf.infolist():
+            name = info.filename.replace("\\", "/")
+            if name.endswith("/"):
+                continue
+            low = name.lower()
+            if low.endswith((".exe", ".dll", ".bat", ".cmd", ".ps1", ".msi", ".scr")):
+                continue
+            if info.file_size > 500_000:
+                continue
+            target = _safe_member(name, staging)
+            if target is None:
+                continue
+            try:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(zf.read(info)[:500_000])
+                n += 1
+            except OSError:
+                continue
+            if n >= 80:
+                break
+        if not list(staging.rglob("SKILL.md")) and not list(staging.rglob("skill.md")):
+            return {"ok": False, "error": "no_skill_md", "files": n, "path": str(dest)}
+        atomic_write_text(staging / ".clawhub-origin.json", json.dumps(origin, indent=2))
+        _commit_staged(staging, dest)
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+    return {"ok": True, "path": str(dest), "files": n}
+
+
+def _load_catalogs(force: bool = False) -> dict[str, Any]:
+    now = time.time()
+    if not force and _CAT_CACHE.get("hub") and now - float(_CAT_CACHE.get("ts") or 0) < 600:
+        return _CAT_CACHE
+    hub_code, hub_raw, _ = _download(SKILLHUB_CAT, MAX_CATALOG)
+    full_code, full_raw, _ = _download(SKILLHUB_FULL_CAT, MAX_CATALOG)
+    def _parse(code: int, raw: bytes) -> dict[str, Any]:
+        if code != 200:
+            return {}
+        try:
+            data = json.loads(raw.decode("utf-8", errors="replace"))
+        except json.JSONDecodeError:
+            return {}
+        return data if isinstance(data, dict) else {}
+
+    _CAT_CACHE.update({"ts": now, "hub": _parse(hub_code, hub_raw), "full": _parse(full_code, full_raw)})
+    return _CAT_CACHE
+
+
+def skillhub_list(q: str = "", channel: str = "all") -> dict[str, Any]:
+    qn = (q or "").strip().lower()
+    ch = (channel or "all").lower()
+    cats = _load_catalogs()
+    hits: list[dict[str, Any]] = []
+    if ch in {"all", "public", "hub", "tentacle"}:
+        for it in (cats.get("hub") or {}).get("skills") or []:
+            if not isinstance(it, dict):
+                continue
+            if it.get("kind") not in {None, "skill"}:
+                continue
+            blob = " ".join(str(it.get(k) or "") for k in ("slug", "name", "summary", "category"))
+            if qn and qn not in blob.lower():
+                continue
+            hits.append(
+                {
+                    "slug": it.get("slug"),
+                    "display": it.get("name") or it.get("slug"),
+                    "summary": (it.get("summary") or "")[:240],
+                    "channel": "public_tentacle",
+                    "category": it.get("category"),
+                    "clawhub_url": it.get("clawhub_url"),
+                    "has_full_zip": bool(it.get("has_full_zip")),
+                    "url": SKILLHUB,
+                }
+            )
+    if ch in {"all", "full", "engineer"}:
+        for it in (cats.get("full") or {}).get("skills") or []:
+            if not isinstance(it, dict):
+                continue
+            blob = " ".join(str(it.get(k) or "") for k in ("slug", "name", "role", "tier"))
+            if qn and qn not in blob.lower():
+                continue
+            hits.append(
+                {
+                    "slug": it.get("slug"),
+                    "display": it.get("name") or it.get("slug"),
+                    "summary": (it.get("role") or "")[:240],
+                    "channel": "full_zip",
+                    "tier": it.get("tier"),
+                    "zip": it.get("zip"),
+                    "sha256": it.get("zip_sha256"),
+                    "bytes": it.get("bytes"),
+                    "url": SKILLHUB + "#full-lygo",
+                }
+            )
+    # featured first
+    feat = set((cats.get("full") or {}).get("featured") or [])
+    hits.sort(key=lambda x: (0 if x.get("slug") in feat else 1, x.get("channel") != "public_tentacle", x.get("slug") or ""))
+    return {
+        "ok": True,
+        "q": q,
+        "channel": ch,
+        "n": len(hits),
+        "hits": hits[:40],
+        "hub": SKILLHUB,
+        "class": "RESOURCE",
+    }
+
+
+def skillhub_install(slug: str, full: bool = False) -> dict[str, Any]:
+    slug = (slug or "").strip().lstrip("@")
+    if slug.startswith("deepseekoracle/"):
+        slug = slug.split("/", 1)[1]
+    if not slug:
+        return {"ok": False, "error": "empty"}
+    if not full:
+        return clawhub_install("deepseekoracle/" + slug if "/" not in slug else slug)
+    cats = _load_catalogs()
+    rec = None
+    for it in (cats.get("full") or {}).get("skills") or []:
+        if isinstance(it, dict) and it.get("slug") == slug:
+            rec = it
+            break
+    if not rec:
+        return {"ok": False, "error": "not_in_full_catalog", "slug": slug, "hub": SKILLHUB + "#full-lygo"}
+    zname = str(rec.get("zip") or "")
+    want = str(rec.get("zip_sha256") or "").lower()
+    url = SKILLHUB_FULL_DIST + zname
+    code, raw, _ = _download(url, MAX_ZIP)
+    if code != 200:
+        return {"ok": False, "error": f"http_{code}", "url": url}
+    if len(raw) > MAX_ZIP:
+        return {"ok": False, "error": "too_large"}
+    got = hashlib.sha256(raw).hexdigest()
+    if want and got != want:
+        return {"ok": False, "error": "hash_mismatch", "expected": want, "got": got, "url": url}
+    dest = INSTALLED / (slug + "--full")
+    unpacked = _extract_skill_zip(
+        raw,
+        dest,
+        {"slug": slug, "source": "skillhub_full", "sha256": got, "url": url, "ts": time.time()},
+    )
+    if not unpacked.get("ok"):
+        return unpacked
+    set_enabled(slug + "--full", True)
+    return {
+        "ok": True,
+        "slug": slug,
+        "channel": "full_zip",
+        "sha256": got,
+        "bytes": len(raw),
+        "path": unpacked.get("path"),
+        "files": unpacked.get("files"),
+        "enabled": True,
+        "note": "FULL zip hash-checked. Live Star Chart / git push still need human consent.",
+    }
+
+
 def clawhub_install(slug: str) -> dict[str, Any]:
     slug = (slug or "").strip().lstrip("@")
     if not slug:
@@ -551,62 +871,24 @@ def clawhub_install(slug: str) -> dict[str, Any]:
     insp = clawhub_inspect(slug)
     if not insp.get("ok"):
         return insp
-    from web_tools import _blocked, CTX, UA, TIMEOUT
-    import urllib.error
-    import urllib.request
-
     url = f"{CLAW_HUB}/api/v1/download?" + urlencode({"slug": slug})
-    why = _blocked(url)
-    if why:
-        return {"ok": False, "error": why}
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/zip,application/json,*/*"})
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT, context=CTX) as resp:
-            ctype = resp.headers.get("Content-Type") or ""
-            raw = resp.read(MAX_ZIP + 1)
-            code = resp.status
-    except urllib.error.HTTPError as e:
-        code, raw, ctype = e.code, (e.read() or b"")[:4000], ""
-    except Exception as e:
-        return {"ok": False, "error": str(e)[:200]}
+    code, raw, ctype = _download(url, MAX_ZIP)
+    if code == 0 and ctype not in {"", "error"}:
+        return {"ok": False, "error": ctype}
     if code != 200:
         return {"ok": False, "error": f"http_{code}", "detail": raw[:200].decode("utf-8", errors="replace")}
     if "json" in (ctype or "").lower() or raw[:1] in (b"{", b"["):
-        return {"ok": False, "error": "github_handoff", "hint": "this skill is GitHub-backed; clone SKILL.md yourself into workspace/skills", "detail": raw[:400].decode("utf-8", errors="replace")}
+        return {
+            "ok": False,
+            "error": "github_handoff",
+            "hint": "GitHub-backed skill — drop SKILL.md into workspace/skills or install FULL zip from SkillHub",
+            "detail": raw[:400].decode("utf-8", errors="replace"),
+        }
     if len(raw) > MAX_ZIP:
         return {"ok": False, "error": "too_large"}
     dest = INSTALLED / slug.replace("/", "--")
-    dest.mkdir(parents=True, exist_ok=True)
-    try:
-        zf = zipfile.ZipFile(io.BytesIO(raw))
-    except zipfile.BadZipFile:
-        # maybe a single SKILL.md
-        if b"---" in raw[:80]:
-            (dest / "SKILL.md").write_bytes(raw)
-            return {"ok": True, "slug": slug, "path": str(dest), "files": 1}
-        return {"ok": False, "error": "not_zip"}
-    n = 0
-    for info in zf.infolist():
-        name = info.filename.replace("\\", "/")
-        if name.endswith("/") or ".." in name.split("/") or name.startswith("/"):
-            continue
-        low = name.lower()
-        if low.endswith((".exe", ".dll", ".bat", ".cmd", ".ps1", ".msi", ".scr")):
-            continue
-        if info.file_size > 400_000:
-            continue
-        target = dest / Path(name).name if "/" not in name.strip("/") else dest.joinpath(*Path(name).parts[-3:])
-        try:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(zf.read(info)[:400_000])
-            n += 1
-        except OSError:
-            continue
-        if n >= 40:
-            break
-    if not list(dest.rglob("SKILL.md")) and not list(dest.rglob("skill.md")):
-        return {"ok": False, "error": "no_skill_md"}
-    origin = dest / ".clawhub-origin.json"
-    origin.write_text(json.dumps({"slug": slug, "source": "clawhub", "ts": time.time()}, indent=2), encoding="utf-8")
+    unpacked = _extract_skill_zip(raw, dest, {"slug": slug, "source": "clawhub", "ts": time.time()})
+    if not unpacked.get("ok"):
+        return unpacked
     set_enabled(slug.replace("/", "--"), True)
-    return {"ok": True, "slug": slug, "path": str(dest), "files": n, "enabled": True}
+    return {"ok": True, "slug": slug, "path": unpacked.get("path"), "files": unpacked.get("files"), "enabled": True}

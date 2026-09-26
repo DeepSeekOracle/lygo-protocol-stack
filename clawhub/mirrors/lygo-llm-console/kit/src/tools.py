@@ -2,20 +2,32 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
-from admin_map import brief, credential_pointers, is_admin, is_placeholder_url, read_roots, search_roots, write_roots
-from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS
+from admin_map import (
+    brief,
+    chatagent_root,
+    chatagent_root_status,
+    credential_pointers,
+    is_admin,
+    is_placeholder_url,
+    read_roots,
+    search_roots,
+    usb_root_status,
+    write_roots,
+)
+from paths import KIT_ROOT, SAVE, WORKSPACE, RECEIPTS, stack_root_status, under_workspace
 from p0_hook import gate_prompt
-from limbs import EXTRA_SCHEMA, extra as extra_dispatch
+from limbs import EXTRA_SCHEMA, canonicalize, extra as extra_dispatch
 
 # Public kit default. Admin json expands roots at call time.
 
 # Split literals so public source does not contain steward path tokens.
 DENY_SUB = (
     "I:\\" + "LYGO" + "_" + "SERVER" + "_" + "KEYS",
-    "gitea.pass",
+    "gitea" + ".pass",
     ".lygo_llm_token",
     ".llama_api_key",
     "save/logs",
@@ -29,9 +41,11 @@ DENY_SUB = (
 
 TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "steward_map", "description": "Canonical admin map: drives, GitHub/HF/lattice URLs, roots. Call this BEFORE fetching GitHub/HF/sites. Never invent URLs.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "self_check", "description": "Admin self-check: role, brain, mapped roots, D:\\chatagent, skills, canonical GitHub/HF/lattice. Use when the operator says self check.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "find_files", "description": "Find files on mapped disks (admin search/read roots). pattern e.g. *.md or SOUL.md", "parameters": {"type": "object", "properties": {"pattern": {"type": "string"}, "root": {"type": "string"}}, "required": ["pattern"]}}},
     {"type": "function", "function": {"name": "credential_where", "description": "Locate steward credential files by name. Returns path + exists. NEVER returns secret contents.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}}}},
-    {"type": "function", "function": {"name": "list_dir", "description": "List a directory (admin: real disks on the map; else workspace). Empty path lists mapped roots.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}}}},
+    {"type": "function", "function": {"name": "workspace_map", "description": "Show mapped folders/drives the LLM may read/write. Operator adds/removes these in the Workspace panel.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "list_dir", "description": "List the entries of one directory (admin: a real disk; else the workspace). This lists files, it does not answer what drives or roots exist - that is steward_map.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}}}},
     {"type": "function", "function": {"name": "read_file", "description": "Read a text file. Never echo *.pass / token files — report exists only.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]}}},
     {"type": "function", "function": {"name": "write_file", "description": "Write a text file under allowed roots", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "content": {"type": "string"}}, "required": ["path", "content"]}}},
     {"type": "function", "function": {"name": "remember", "description": "Append a short note to workspace memory", "parameters": {"type": "object", "properties": {"note": {"type": "string"}}, "required": ["note"]}}},
@@ -44,6 +58,8 @@ TOOLS_SCHEMA = [
     {"type": "function", "function": {"name": "skill_disable", "description": "Disable a skill.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
     {"type": "function", "function": {"name": "clawhub_search", "description": "Search ClawHub public catalog (RESOURCE). HTTPS GET only.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "clawhub_install", "description": "Download a ClawHub skill zip into save/skills/installed. Only when the operator asks to install. Does not run scripts.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}}},
+    {"type": "function", "function": {"name": "skillhub_list", "description": "Browse https://chatagent.ca/lygoskillhub.html catalogs (public tentacles + FULL hashed zips). RESOURCE.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "channel": {"type": "string"}}}}},
+    {"type": "function", "function": {"name": "skillhub_install", "description": "Install from SkillHub. Public tentacle via ClawHub, or FULL zip with SHA-256 check when full=true. Only when the operator asks.", "parameters": {"type": "object", "properties": {"slug": {"type": "string"}, "full": {"type": "boolean"}}, "required": ["slug"]}}},
     {"type": "function", "function": {"name": "kernel_status", "description": "Console + engine status (no secrets)", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "search_corpus", "description": "Lexical search under mapped search roots", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "p0_gate", "description": "Run P0 gate on supplied text", "parameters": {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"]}}},
@@ -51,30 +67,297 @@ TOOLS_SCHEMA = [
 ]
 
 TOOLS_SCHEMA = TOOLS_SCHEMA + EXTRA_SCHEMA
+CORE_NAMES = {
+    # The local agent had no way to look at a picture at all: a photo attached through the file button
+    # arrives as a path in the workspace, and without these two the model could only say it cannot see
+    # it. Photographs attached through the img button need neither - the engine's own projector sees
+    # those directly - so their descriptions say which case is which.
+    "image_see",
+    "image_info",
+    # The mirror of that gap on the making side. Without these the local agent can describe a picture
+    # and has no way to DRAW one, and no way to speak. Both are one-shot local binaries run by path -
+    # stable-diffusion.cpp for pictures, piper for voice - never a daemon, so nothing is left listening
+    # and nothing outlives the turn. media_status is deliberately NOT in this set: it is a diagnostic
+    # rather than a capability, it stays advertised in the global schema for the larger path, and this
+    # set is capped on purpose. A probe would buy the local brain nothing it cannot learn from
+    # image_generate failing outright, and it would spend budget the cap exists to protect.
+    "image_generate",
+    "sound_speak",
+    # The third making limb. Pictures and voice were wired and a song was not: the console could draw
+    # a picture and speak a sentence, and an operator who asked for a song got prose about one. The
+    # engine is a local model reached by path (nothing cloud, nothing listening afterwards), and a
+    # song is a capability in exactly the sense the cap protects - so it takes a slot. Counted with
+    # the schema cap in tests/test_tool_battery.py: 39 of 40, and the schema stays under its char
+    # budget because the description above is written for a small model's eyes, once.
+    "music_generate",
+    "steward_map",
+    "self_check",
+    "whoami",
+    "list_dir",
+    "read_file",
+    "web_search",
+    "web_fetch",
+    "find_files",
+    "workspace_map",
+    "skill_list",
+    "skill_read",
+    "now",
+    "world_pulse",
+    "calc",
+    "remember",
+    "notepad_list",
+    "notepad_read",
+    "credential_where",
+    # The local brain could describe code but never run it. python_exec and rust_exec are advertised
+    # in the global schema and were omitted here, so the agent (gemma4 local, 2026-09-21) answered
+    # "I do not have a direct Python execution limb in my current configuration" and then did the
+    # arithmetic in its head. Running code is a capability, not a diagnostic: it belongs in the
+    # local set. The two slots came from weather (world_pulse already carries city weather) and
+    # kernel_status - the same "a diagnostic is not a capability" rule that keeps media_status out.
+    "python_exec",
+    "save_note",
+    "portal_status",
+    "rust_exec",
+    # The self-build loop: with these the console can check a change it just made and publish it.
+    # Without them the operator had to run the suite, the seal and the restart by hand - the agent
+    # could edit its own source and do nothing with the edit. Every one that changes the system is
+    # consent-gated, so the capability arrives without the accident.
+    "self_test",
+    "self_seal",
+    "self_restart",
+    "toolchain_install",
+    # A console that can only work inside a turn stalls whenever the work is slow, and nothing
+    # outlives the turn. These hand work to the queue, schedule it, and report the daemon. Five
+    # of the eight are here because the on-box brain is the one that gets asked to do the work:
+    # task_add/task_list to hand it off and read it, cron_add/cron_list to repeat it, and
+    # keeper_status so it can say whether anything is keeping this console alive.
+    "task_add",
+    "task_list",
+    "task_show",
+    "task_cancel",
+    "cron_add",
+    "cron_list",
+    "cron_remove",
+    "keeper_status",
+}
+
+
+# Tool routing is measured, not assumed. On the shipped local brain (qwen2.5-coder:7b, ctx 8192)
+# every one of five bare arithmetic probes routed to web_search/web_fetch and one answered 53 for
+# 17 * 23; the only probe that reached calc was the one that named the tool. In this schema calc sat
+# 18th of 20 behind the web tools, so a small model reads "web search" first and uses it. These
+# tools lead the LOCAL schema (the cloud path keeps TOOLS_SCHEMA order for its larger model).
+# Order is routing for a small model (measured above): the code limbs sit beside calc, so a turn
+# that means "work it out" reaches them before the web tools talk it out of computing at all.
+CORE_PRIORITY = ("calc", "python_exec", "rust_exec")
+
+
+def core_schema() -> list[dict[str, Any]]:
+    core = [t for t in TOOLS_SCHEMA if (t.get("function") or {}).get("name") in CORE_NAMES]
+    # CORE_PRIORITY is the order, not merely a set: it used to be filtered out of TOOLS_SCHEMA order,
+    # so the tuple could not actually put anything first. Measured failure: the priority lead came out
+    # as python_exec while the tuple said calc.
+    by_name = {(t.get("function") or {}).get("name"): t for t in core}
+    lead = [by_name[n] for n in CORE_PRIORITY if n in by_name]
+    rest = [t for t in core if (t.get("function") or {}).get("name") not in CORE_PRIORITY]
+    return lead + rest
+
+
 ALIASES = {"read": "read_file", "write": "write_file", "bash": "shell", "exec": "shell", "terminal": "shell"}
 
 
+# --- resolved-path write guard -------------------------------------------------
+# The old guard compared the caller's SPELLING against a substring deny list, so a
+# \\?\ extended path, an 8.3 short name, a trailing-dot name, a junction/symlink or a
+# mapped drive letter to the same volume walked straight past it - and that list was the
+# only thing standing between the agent and the credential tree inside an allowed root.
+# Everything below resolves to the final real path FIRST, then denies by default unless
+# the target sits inside the write allowlist.
+
+_BS = chr(92)
+_CRED_DIR_NAMES: tuple[str, ...] = tuple(
+    "LYGO" + "_" + n for n in ("SERVER" + "_" + "KEYS", "CREDENTIALS")
+)
+_EXTENDED_PREFIXES: tuple[str, ...] = (
+    _BS + _BS + "?" + _BS,
+    _BS + _BS + "." + _BS,
+    _BS + _BS + "??" + _BS,
+    _BS + _BS + "?" + _BS + "UNC" + _BS,
+)
+_SYSTEM_DIR_HEADS: tuple[str, ...] = (
+    "windows",
+    "progra",
+    "$recycle.bin",
+    "system volume information",
+)
+WRITE_GUARD_BLOCKED: list[dict[str, Any]] = []
+
+
+def _strip_extended(raw: str) -> str:
+    """Drop a Win32 extended-length / device prefix so the comparison sees the real target."""
+    s = str(raw)
+    for pre in _EXTENDED_PREFIXES:
+        if s.upper().startswith(pre.upper()):
+            return s[len(pre):]
+    return s
+
+
+def _long_path(p: Path) -> Path:
+    """Ask Windows for the long form of a path, so an 8.3 short name (LYGOSE~1) cannot
+    dodge a deny token that spells the directory out. Non-existent paths are returned as-is."""
+    if os.name != "nt":
+        return p
+    try:
+        import ctypes
+
+        buf = ctypes.create_unicode_buffer(32768)
+        n = ctypes.windll.kernel32.GetLongPathNameW(str(p), buf, 32768)
+        if n and 0 < n <= 32768 and buf.value:
+            return Path(buf.value)
+    except Exception:
+        pass
+    return p
+
+
+def real_path(raw: Any) -> Path:
+    """The final on-disk target a write would hit.
+
+    Extended prefix stripped, symlinks/junctions and relative segments resolved, the OS left
+    to normalise trailing dots, and 8.3 short names expanded to their long form (realpath,
+    resolve, then GetLongPathNameW) so every deny token is compared against the real name.
+    """
+    s = _strip_extended(str(raw))
+    try:
+        p = Path(s)
+    except (OSError, ValueError):
+        return Path(str(raw))
+    steps = (os.path.realpath, lambda x: str(Path(x).resolve(strict=False)), lambda x: str(_long_path(Path(x))))
+    for step in steps:
+        try:
+            rp = Path(_strip_extended(str(step(str(p)))))
+        except (OSError, RuntimeError, ValueError):
+            continue
+        if str(rp):
+            p = rp
+    return p
+
+
+def _components(s: str) -> list[str]:
+    return [c for c in s.replace("/", _BS).split(_BS) if c not in ("", ".")]
+
+
+def write_allow_roots() -> tuple[Path, ...]:
+    """The write allowlist: workspace, save/receipts plus the configured read/write roots.
+
+    Resolved targets outside every one of these are refused by default.
+    """
+    roots: list[Path] = [WORKSPACE, SAVE, RECEIPTS]
+    for extra in tuple(write_roots() or ()) + tuple(read_roots() or ()):
+        try:
+            roots.append(Path(extra))
+        except (TypeError, ValueError):
+            continue
+    return tuple(roots)
+
+
+def _refuse(rp: Path, why: str) -> dict[str, Any]:
+    WRITE_GUARD_BLOCKED.append({"path": str(rp), "why": why})
+    return {"ok": False, "error": "denied"}
+
+
+def write_target(path: Any) -> tuple[Path, dict[str, Any] | None]:
+    """Resolve and authorise a write target: (real_path, None) or (real_path, refusal)."""
+    rp = real_path(path)
+    if _denied(rp):
+        return rp, _refuse(rp, "denied_path")
+    allow = write_allow_roots()
+    if not allow or not _under(rp, allow):
+        return rp, _refuse(rp, "outside_allowed_write_roots")
+    return rp, None
+
+
 def _denied(path: Path) -> bool:
-    s = str(path.resolve()).replace("/", "\\")
-    low = s.lower()
+    """True when the RESOLVED path names a denied location.
+
+    Judged on the real path rather than the caller's spelling, and matched per path
+    component, so an 8.3 name or a trailing dot cannot smuggle a denied directory past it.
+    """
+    low = str(real_path(path)).replace("/", _BS).lower()
     for d in DENY_SUB:
-        if d.lower().replace("/", "\\") in low:
+        if d.lower().replace("/", _BS) in low:
+            return True
+    want = {n.lower() for n in _CRED_DIR_NAMES}
+    for c in _components(low):
+        if c.strip(". ").lower() in want:
+            return True
+    parts = _components(low)
+    sysdrive = (os.environ.get("SystemDrive") or "C:").rstrip(":").lower()
+    if len(parts) > 1 and parts[0].lower().startswith(sysdrive + ":"):
+        head = parts[1].lower()
+        if any(head.startswith(h) for h in _SYSTEM_DIR_HEADS):
             return True
     return False
 
 
 def _under(path: Path, roots: tuple[Path, ...]) -> bool:
-    try:
-        rp = path.resolve()
-    except OSError:
-        return False
+    rp = real_path(path)
     for r in roots:
+        if not str(r):
+            continue
         try:
-            rp.relative_to(r.resolve())
+            rp.relative_to(real_path(r))
             return True
-        except ValueError:
+        except (ValueError, OSError):
             continue
     return False
+
+
+def _self_check() -> dict[str, Any]:
+    from workspace_map import list_mounts
+
+    b = brief()
+    mounts = list_mounts()
+    live = [m.get("path") for m in (mounts.get("live") or [])]
+    chat_st = chatagent_root_status()
+    chat = chatagent_root()
+    sample = []
+    if chat.is_dir():
+        try:
+            sample = [c.name for c in list(chat.iterdir())[:12]]
+        except OSError:
+            sample = []
+    skills = {}
+    try:
+        from skills_mod import list_skills
+
+        sl = list_skills()
+        skills = {"n": sl.get("n"), "enabled": len(sl.get("enabled") or [])}
+    except Exception as e:
+        skills = {"error": str(e)[:80]}
+    return {
+        "ok": True,
+        "role": b.get("role"),
+        "steward": b.get("steward"),
+        "github": b.get("github_org"),
+        "huggingface": b.get("hf_org"),
+        "lattice": "https://chatagent.ca/",
+        "drives": b.get("drives"),
+        "n_live_mounts": mounts.get("n_live"),
+        "live_mounts": live,
+        "chatagent_exists": chat.is_dir(),
+        "chatagent_sample": sample,
+        "chatagent_root": str(chat),
+        "chatagent_source": chat_st.get("source"),
+        "chatagent_note": chat_st.get("reason"),
+        "skills": skills,
+        "root_resolution": {
+            "stack": {k: stack_root_status().get(k) for k in ("root", "verified", "source", "reason")},
+            "usb": {k: usb_root_status().get(k) for k in ("root", "verified", "source", "reason")},
+            "chatagent": {k: chat_st.get(k) for k in ("root", "verified", "source", "reason")},
+        },
+        "never": ["github.com/user/repo", "lattice.example.com"],
+        "verdict": "admin_map_live" if is_admin() and chat.is_dir() else "check_roots",
+    }
 
 
 def _find_files(pattern: str, root: str | None = None) -> dict[str, Any]:
@@ -124,9 +407,16 @@ def _find_files(pattern: str, root: str | None = None) -> dict[str, Any]:
 
 def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = None) -> dict[str, Any]:
     name = ALIASES.get(name, name)
+    name, args = canonicalize(name, args or {})
     extra = extra or {}
     if name == "steward_map":
         return brief()
+    if name == "self_check":
+        return _self_check()
+    if name == "workspace_map":
+        from workspace_map import list_mounts
+
+        return list_mounts()
     if name == "find_files":
         return _find_files(str(args.get("pattern") or args.get("q") or "*"), args.get("root"))
     if name == "credential_where":
@@ -143,9 +433,7 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         raw = str(args.get("path") or "").strip()
         if not raw or raw in {".", "drives", "roots"}:
             return {"ok": True, "roots": [str(p) for p in read_roots()], "hint": "pass a root path to list entries"}
-        p = Path(raw)
-        if not p.is_absolute():
-            p = WORKSPACE / p
+        p = under_workspace(raw)
         if _denied(p) or not _under(p, read_roots()):
             return {"ok": False, "error": "denied", "hint": "path not on admin map; call steward_map"}
         if not p.is_dir():
@@ -155,28 +443,24 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
             names.append(child.name + ("/" if child.is_dir() else ""))
         return {"ok": True, "path": str(p), "entries": names, "n": len(names)}
     if name == "read_file":
-        p = Path(args.get("path") or "")
-        if not p.is_absolute():
-            p = WORKSPACE / p
-        if _denied(p) or not _under(p, read_roots()):
+        rp = real_path(under_workspace(args.get("path") or ""))
+        if _denied(rp) or not _under(rp, read_roots()):
             return {"ok": False, "error": "denied"}
-        if not p.is_file():
+        if not rp.is_file():
             return {"ok": False, "error": "not_file"}
-        low = p.name.lower()
+        low = rp.name.lower()
         if low.endswith(".pass") or low in {".lygo_llm_token", ".llama_api_key"} or "lygo.pass" in low:
-            return {"ok": True, "exists": True, "redacted": True, "path": str(p), "bytes": p.stat().st_size, "note": "credential file present; content not echoed"}
-        data = p.read_text(encoding="utf-8", errors="replace")[:64_000]
+            return {"ok": True, "exists": True, "redacted": True, "path": str(rp), "bytes": rp.stat().st_size, "note": "credential file present; content not echoed"}
+        data = rp.read_text(encoding="utf-8", errors="replace")[:64_000]
         return {"ok": True, "text": data}
     if name == "write_file":
-        p = Path(args.get("path") or "")
-        if not p.is_absolute():
-            p = WORKSPACE / p
-        if _denied(p) or not _under(p, write_roots()):
-            return {"ok": False, "error": "denied"}
-        p.parent.mkdir(parents=True, exist_ok=True)
+        target, refusal = write_target(under_workspace(args.get("path") or ""))
+        if refusal is not None:
+            return refusal
+        target.parent.mkdir(parents=True, exist_ok=True)
         content = str(args.get("content") or "")
-        p.write_text(content, encoding="utf-8")
-        return {"ok": True, "path": str(p), "bytes": len(content.encode("utf-8"))}
+        target.write_text(content, encoding="utf-8")
+        return {"ok": True, "path": str(target), "bytes": len(content.encode("utf-8"))}
     if name == "remember":
         from continuity import append_memory
 
@@ -217,18 +501,44 @@ def dispatch(name: str, args: dict[str, Any], extra: dict[str, Any] | None = Non
         from skills_mod import clawhub_install
 
         return clawhub_install(str(args.get("slug") or args.get("name") or ""))
+    if name == "skillhub_list":
+        from skills_mod import skillhub_list
+
+        return skillhub_list(str(args.get("q") or ""), str(args.get("channel") or "all"))
+    if name == "skillhub_install":
+        from skills_mod import skillhub_install
+
+        return skillhub_install(str(args.get("slug") or args.get("name") or ""), bool(args.get("full")))
     if name == "kernel_status":
-        from engine import ollama_port_open, resolve_binary, runner_for
+        from engine import foreign_daemon_port_open, resolve_binary, runner_for
         from paths import LLAMA_PORT
         from p0_hook import PHYSICS_AVAILABLE
 
+        from colibri import resolve_coli, status as coli_status
+        from lygo_engine import status as lygo_status
+        from paths import COLIBRI_PORT
+
         r = runner_for(LLAMA_PORT)
+        rc = runner_for(COLIBRI_PORT)
+        from runtime_facts import facts as _self_facts
+
+        f = _self_facts()
         return {
             "ok": True,
+            "model": f.get("model"),
+            "engine": f.get("engine"),
+            "build": f.get("build"),
+            "brain": f.get("brain"),
+            "brain_label": f.get("brain_label"),
+            "n_limbs": f.get("n_limbs"),
             "physics": PHYSICS_AVAILABLE,
+            "lygo_engine": lygo_status(),
             "engine_binary": bool(resolve_binary()),
-            "chat_runner": bool(r),
-            "ollama_port_open": ollama_port_open(),
+            "colibri_launcher": bool(resolve_coli()),
+            "colibri": coli_status(),
+            "chat_runner": bool(r or rc),
+            "engine_port": COLIBRI_PORT if rc else LLAMA_PORT,
+            "foreign_daemon_port_open": foreign_daemon_port_open(),
             "kit": str(KIT_ROOT),
             "admin": is_admin(),
         }

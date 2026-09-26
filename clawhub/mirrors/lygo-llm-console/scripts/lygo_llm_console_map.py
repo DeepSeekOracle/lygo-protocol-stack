@@ -1,117 +1,125 @@
 #!/usr/bin/env python3
-"""LYGO LLM Console — public ClawHub tentacle. No network. No subprocess."""
+"""The map: what this skill is, where its parts live, and how to check them.
+
+No network. No subprocess. No writes. Prints only.
+
+    python scripts/lygo_llm_console_map.py plain   # human readable
+    python scripts/lygo_llm_console_map.py map     # JSON, full
+    python scripts/lygo_llm_console_map.py urls    # links only
+    python scripts/lygo_llm_console_map.py demo    # what to type to see it work
+"""
 from __future__ import annotations
 
-import argparse
+import hashlib
 import json
 import sys
-from datetime import datetime, timezone
-from typing import Any
+from pathlib import Path
 
-SIG = "Δ9Φ963-LYGO-LLM-CONSOLE-SKILL-v1.1.0"
-VERSION = "1.1.0"
-PAGE = "https://chatagent.ca/lygo-llm-console.html"
-ZIP_NAME = "lygo-llm-console-public.zip"
-ZIP_URL = "https://chatagent.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip"
-CLAWHUB = "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console"
-INSTALL = "npx clawhub@latest install deepseekoracle/lygo-llm-console"
-DONATE_PP = "https://www.paypal.com/paypalme/ExcavationPro"
-DONATE_PAT = "https://www.patreon.com/Excavationpro"
-ARCADE = "https://chatagent.ca/games/"
-CRYPT = "https://chatagent.ca/games/lattice-crypt/"
-WHITEPAPER = "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/whitepapers/LYGO_LLM_CONSOLE_v1.md"
-STEWARD = "Justin Helmer (Excavationpro / Lightfather)"
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+KIT = ROOT / "kit"
+
+URLS = {
+    "page": "https://chatagent.ca/lygo-llm-console.html",
+    "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
+    "source": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-llm-console",
+    "sparse_checkout": "git clone --depth 1 --filter=blob:none --sparse https://github.com/DeepSeekOracle/lygo-protocol-stack.git",
+    "donate": "https://www.paypal.com/paypalme/ExcavationPro",
+}
+
+STEPS = {
+    "install": "npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console",
+    "verify": "python scripts/verify_kit.py",
+    "self_check": "python scripts/self_check.py",
+    "seed_identity": "cd kit && python src/install.py",
+    "run_windows": "kit/INSTALL.bat then kit/LYGO_LLM_CONSOLE.bat (unprivileged user)",
+    "portal": "http://127.0.0.1:9641/",
+    "stop_windows": "kit/LYGO_LLM_CONSOLE_STOP.bat",
+    "engine": "place ggml-org CPU llama-server.exe (tag b11074) in kit/engine/",
+}
 
 
-def utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+def load(p: Path) -> dict:
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
 
 
-def map_payload() -> dict[str, Any]:
+def kit_facts() -> dict:
+    sums = KIT / "KIT_SHA256SUMS.txt"
+    man = load(KIT / "PUBLIC_KIT.json")
+    facts = {
+        "ship_form": "unpacked tree (no archive)",
+        "release": (KIT / "VERSION").read_text(encoding="utf-8").splitlines()[0].strip()
+        if (KIT / "VERSION").is_file()
+        else "unknown",
+        "manifest": "kit/PUBLIC_KIT.json",
+        "file_count": man.get("file_count"),
+        "left_out": list(man.get("not_shipped", {}).keys()) if man else [],
+    }
+    if sums.is_file():
+        facts["checksum_lines"] = len([ln for ln in sums.read_text(encoding="utf-8").splitlines() if ln.strip()])
+        facts["kit_sha256sums"] = hashlib.sha256(sums.read_bytes()).hexdigest()
+    facts["top_level"] = sorted(p.name for p in KIT.iterdir()) if KIT.is_dir() else []
+    return facts
+
+
+def payload() -> dict:
+    claw = load(ROOT / "claw.json")
     return {
-        "signature": SIG,
-        "version": VERSION,
-        "channel": "CLAWHUB_PUBLIC_TENTACLE",
-        "generated_utc": utc_now(),
-        "mark": "LYGO",
-        "steward": STEWARD,
-        "credits": {
-            "author": STEWARD,
-            "lygo_ai_agents": "LYGO protocol stack agents assembled the public kit; they do not own the mark.",
-            "inference": "ggml-org llama.cpp (separate project, operator-supplied binary)",
-            "canon": "Dual ledgers and Haven Star Chart remain CANON. This skill and page are RESOURCE.",
+        "skill": "lygo-llm-console",
+        "version": claw.get("version"),
+        "console_release": claw.get("console_release"),
+        "signature": claw.get("signature"),
+        "publisher": claw.get("publisher"),
+        "steward": claw.get("steward"),
+        "layers": {
+            "map": "scripts/ - no network, no subprocess, no writes",
+            "operator_runtime": "kit/ - loopback HTTP, HTTPS GET, kit-local writes, optional shell/Python (not a sandbox)",
         },
-        "message": "This skill maps the public LYGO LLM Console. Admin/steward trees are not included.",
-        "product": {
-            "name": "LYGO LLM Console",
-            "not": ["Ollama", "ollama.exe", "cloud LLM API"],
-            "does": [
-                "Scan GGUF and read-only Ollama CAS",
-                "Spawn ggml-org llama-server on loopback (in the zip, not this skill)",
-                "Agent portal text/tools/images",
-                "P0 Φ-gate on generations",
-                "OpenAI-shaped /v1 proxy without executing Console tools",
-            ],
-        },
-        "public": {
-            "page": PAGE,
-            "zip": ZIP_NAME,
-            "zip_url": ZIP_URL,
-            "clawhub": CLAWHUB,
-            "install": INSTALL,
-        },
-        "admin": {
-            "included": False,
-            "note": "lygo_llm_console/ on the steward stack is a separate tree. Vaults never ship in the zip.",
-        },
-        "donate": {"paypal": DONATE_PP, "patreon": DONATE_PAT},
-        "play": {"arcade": ARCADE, "crypt": CRYPT},
-        "whitepaper": WHITEPAPER,
+        "permissions": claw.get("permissions", {}),
+        "kit": kit_facts(),
+        "urls": URLS,
+        "steps": STEPS,
+        "canon": "dual ledgers / Haven Star Chart = CANON; this package = RESOURCE",
     }
 
 
-def plain() -> str:
-    m = map_payload()
-    return "\n".join(
-        [
-            "LYGO LLM Console — public map",
-            f"Steward: {STEWARD}",
-            f"Page: {PAGE}",
-            f"Zip: {ZIP_URL}",
-            f"ClawHub: {INSTALL}",
-            "Admin tree is NOT in this skill.",
-            "Ollama is not required.",
-            f"Donate: {DONATE_PP}",
-            f"Signature: {SIG}",
-        ]
-    )
+def plain(d: dict) -> str:
+    lines = [
+        "LYGO LLM Console - skill %s (ships console %s)" % (d["version"], d["console_release"]),
+        "",
+        "map layer      : scripts/ - prints only; no network, no subprocess, no writes",
+        "runtime layer  : kit/ - the public console tree, unpacked, %s files" % d["kit"].get("file_count"),
+        "kit release    : %s" % d["kit"].get("release"),
+        "checksums      : kit/KIT_SHA256SUMS.txt (%s lines)" % d["kit"].get("checksum_lines"),
+        "left out       : weights, engine binaries, tests, steward admin files (see kit/PUBLIC_KIT.json)",
+        "",
+        "verify         : python scripts/verify_kit.py",
+        "install        : %s" % STEPS["install"],
+        "run            : %s" % STEPS["run_windows"],
+        "portal         : %s" % STEPS["portal"],
+        "",
+        "Not Ollama. Not a sandbox. No steward vaults, keys or weights.",
+        "Steward: %s" % d["steward"],
+    ]
+    return "\n".join(lines)
 
 
-def urls() -> dict[str, str]:
-    return {
-        "page": PAGE,
-        "zip": ZIP_URL,
-        "clawhub": CLAWHUB,
-        "whitepaper": WHITEPAPER,
-        "paypal": DONATE_PP,
-        "patreon": DONATE_PAT,
-        "arcade": ARCADE,
-    }
-
-
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", nargs="?", default="map", choices=["map", "plain", "urls", "demo"])
-    args = ap.parse_args()
-    if args.cmd == "plain":
-        sys.stdout.write(plain() + "\n")
-        return 0
-    if args.cmd == "urls":
-        print(json.dumps(urls(), indent=2))
-        return 0
-    print(json.dumps(map_payload(), indent=2))
+def main(argv: list[str]) -> int:
+    cmd = (argv[0] if argv else "plain").lower()
+    d = payload()
+    if cmd in ("map", "json"):
+        print(json.dumps(d, indent=2))
+    elif cmd == "urls":
+        print(json.dumps(d["urls"], indent=2))
+    elif cmd == "demo":
+        print(json.dumps({"steps": STEPS, "urls": d["urls"]}, indent=2))
+    else:
+        print(plain(d))
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

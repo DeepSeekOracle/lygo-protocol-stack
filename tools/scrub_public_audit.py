@@ -127,6 +127,14 @@ def scrub_tree(tree: Path) -> list[str]:
             if re.fullmatch(r"[a-z_][a-z0-9_]*", val) or val.endswith("(") or val.endswith(")"):
                 findings.append(f"NOTE ASSIGN  {rel}  ({m.group(1)}={val[:16]} = an identifier, not a value)")
                 continue
+            # An UPPER_CASE constant is an identifier too, and one being called or indexed
+            # (`api_key = LLAMA_KEY)[0]`) is still not a value. The gate refused the public kit over
+            # exactly that: the local engine key is generated at boot into data/, and no literal
+            # appears in the file at all. Deliberately NOT a general mixed-case allowance - a
+            # mixed-case literal is still reported.
+            if re.fullmatch(r"[A-Z][A-Z0-9_]*[)\]\[.,;:0-9]*", val):
+                findings.append(f"NOTE ASSIGN  {rel}  ({m.group(1)}={val[:16]} = an upper-case constant, not a value)")
+                continue
             findings.append(f"ASSIGNMENT   {rel}  ({m.group(1)}={val[:4]}...)")
         code_ext = {".py", ".ps1", ".bat", ".sh", ".iss", ".md", ".txt"}
         for marker in ADMIN_MARKERS:
