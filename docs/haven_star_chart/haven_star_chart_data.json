@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-09-25T04:54:00.647989+00:00",
+  "generated_utc": "2026-09-26T04:54:08.003939+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1419,
-  "link_count": 3973,
+  "node_count": 1458,
+  "link_count": 4056,
   "seal_count": 334,
   "champion_count": 15,
   "lattice_count": 135,
-  "registry_sha256": "4ee7ce1782525599241b4d51710e2fc679acacd0a7e925499691214d3a86d32d",
+  "registry_sha256": "fde7360a16e5182c7c444313c651035788bbf76bdff5082570b5e24721b5345a",
   "constellations": [
     {
       "id": "primordial_core",
@@ -147,7 +147,7 @@
         "constellation_id": "music_codex",
         "angle_deg": 155,
         "fork_of": "CHAMPION_LIGHTFATHER",
-        "star_count": 845
+        "star_count": 883
       },
       {
         "id": "GALAXY_LATTICE",
@@ -360,7 +360,7 @@
         "color": "#e94560",
         "constellation_id": "lattice_growth",
         "angle_deg": 280,
-        "star_count": 17
+        "star_count": 18
       },
       {
         "id": "GALAXY_GUARDIAN_VEIL",
@@ -425,7 +425,7 @@
         "id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
         "name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "galaxy_id": "GALAXY_AGENT_GROWTH",
-        "star_count": 17,
+        "star_count": 18,
         "star_ids": [
           "NODE_AUTONOMY_G0001",
           "NODE_AUTONOMY_G0004",
@@ -459,6 +459,36 @@
         ]
       },
       {
+        "id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "name": "Album Alonest Place",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 12,
+        "star_ids": [
+          "MUSIC_ALBUM_ALONEST_PLACE",
+          "MUSIC_TRACK_5DDC87E9C544DF26",
+          "MUSIC_TRACK_134FD4FB6CE5DBF4",
+          "MUSIC_TRACK_43D2C556B069B2F1",
+          "MUSIC_TRACK_B51D53E77C873DD7",
+          "MUSIC_TRACK_80E7E607480EBA8D",
+          "MUSIC_TRACK_F20D9CA840C4B4ED",
+          "MUSIC_TRACK_CB6F6D959BA1BA69",
+          "MUSIC_TRACK_8EA8282BC21BA022",
+          "MUSIC_TRACK_E74EF008D6BBC9BD",
+          "MUSIC_TRACK_859F6C775F9969BE",
+          "MUSIC_TRACK_38C0D3C725A95BC0"
+        ]
+      },
+      {
+        "id": "NEBULA_ALBUM_BEATSTARS",
+        "name": "Album Beatstars",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 2,
+        "star_ids": [
+          "MUSIC_ALBUM_BEATSTARS",
+          "MUSIC_TRACK_E1985C132054C576"
+        ]
+      },
+      {
         "id": "NEBULA_ALBUM_BLACK_OUT",
         "name": "Album Black Out",
         "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
@@ -476,6 +506,26 @@
           "MUSIC_TRACK_AC3F1F47422940D8",
           "MUSIC_TRACK_F064C9B51EE0E2D5",
           "MUSIC_TRACK_164F8E3B812964A5"
+        ]
+      },
+      {
+        "id": "NEBULA_ALBUM_FAKE_SUN",
+        "name": "Album Fake Sun",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 13,
+        "star_ids": [
+          "MUSIC_ALBUM_FAKE_SUN",
+          "MUSIC_TRACK_E4CCDB465922BDD0",
+          "MUSIC_TRACK_9DA84BD02F94543A",
+          "MUSIC_TRACK_CB13771A3EEFE87A",
+          "MUSIC_TRACK_05541688FED6BF0D",
+          "MUSIC_TRACK_E7AF4BE3C01CB3F6",
+          "MUSIC_TRACK_7B7976B03F081D87",
+          "MUSIC_TRACK_661E3FE8849F9B59",
+          "MUSIC_TRACK_5183398FE5DE0124",
+          "MUSIC_TRACK_87103EC3B2176405",
+          "MUSIC_TRACK_69914CED23A99D03",
+          "MUSIC_TRACK_DCF94DB524064E52"
         ]
       },
       {
@@ -539,6 +589,25 @@
         "star_ids": [
           "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE",
           "MUSIC_TRACK_97A388E9DCBFE5C9"
+        ]
+      },
+      {
+        "id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "name": "Album September Blues",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 11,
+        "star_ids": [
+          "MUSIC_ALBUM_SEPTEMBER_BLUES",
+          "MUSIC_TRACK_F69EF7A70C27BB60",
+          "MUSIC_TRACK_FC6AE72CB6F2B676",
+          "MUSIC_TRACK_A6BF66E55FDB1745",
+          "MUSIC_TRACK_6CA21FA323694A37",
+          "MUSIC_TRACK_90CC9B430D1CA7B2",
+          "MUSIC_TRACK_1BFF55A941DE3206",
+          "MUSIC_TRACK_DCB357F823FD7EAB",
+          "MUSIC_TRACK_D53CB43EF07DB5E6",
+          "MUSIC_TRACK_B6ACD0A1EF5AC86F",
+          "MUSIC_TRACK_5848E3DAA5235BD9"
         ]
       },
       {
@@ -1784,6 +1853,16 @@
         ]
       },
       {
+        "id": "CLUSTER_AGENT_NODE_AUTONOMY_G0020",
+        "name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0020",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_AUTONOMY_G0020"
+        ]
+      },
+      {
         "id": "CLUSTER_ALBUM_ABYSS_CODEX",
         "name": "ALBUM ABYSS CODEX",
         "nebula_id": "NEBULA_ALBUM_ABYSS_CODEX",
@@ -1794,6 +1873,26 @@
         ]
       },
       {
+        "id": "CLUSTER_ALBUM_ALONEST_PLACE",
+        "name": "ALBUM ALONEST PLACE",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_ALONEST_PLACE"
+        ]
+      },
+      {
+        "id": "CLUSTER_ALBUM_BEATSTARS",
+        "name": "ALBUM BEATSTARS",
+        "nebula_id": "NEBULA_ALBUM_BEATSTARS",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_BEATSTARS"
+        ]
+      },
+      {
         "id": "CLUSTER_ALBUM_BLACK_OUT",
         "name": "ALBUM BLACK OUT",
         "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
@@ -1801,6 +1900,16 @@
         "star_count": 1,
         "star_ids": [
           "MUSIC_ALBUM_BLACK_OUT"
+        ]
+      },
+      {
+        "id": "CLUSTER_ALBUM_FAKE_SUN",
+        "name": "ALBUM FAKE SUN",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_FAKE_SUN"
         ]
       },
       {
@@ -1831,6 +1940,16 @@
         "star_count": 1,
         "star_ids": [
           "MUSIC_ALBUM_ROAD_TO_KNOW_WHERE"
+        ]
+      },
+      {
+        "id": "CLUSTER_ALBUM_SEPTEMBER_BLUES",
+        "name": "ALBUM SEPTEMBER BLUES",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_ALBUM_SEPTEMBER_BLUES"
         ]
       },
       {
@@ -4673,6 +4792,33 @@
         ]
       },
       {
+        "id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "name": "TRACKS ALONEST PLACE",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 11,
+        "star_ids": [
+          "MUSIC_TRACK_5DDC87E9C544DF26",
+          "MUSIC_TRACK_134FD4FB6CE5DBF4",
+          "MUSIC_TRACK_43D2C556B069B2F1",
+          "MUSIC_TRACK_B51D53E77C873DD7",
+          "MUSIC_TRACK_80E7E607480EBA8D",
+          "MUSIC_TRACK_F20D9CA840C4B4ED",
+          "MUSIC_TRACK_CB6F6D959BA1BA69",
+          "MUSIC_TRACK_8EA8282BC21BA022"
+        ]
+      },
+      {
+        "id": "CLUSTER_TRACKS_BEATSTARS",
+        "name": "TRACKS BEATSTARS",
+        "nebula_id": "NEBULA_ALBUM_BEATSTARS",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 1,
+        "star_ids": [
+          "MUSIC_TRACK_E1985C132054C576"
+        ]
+      },
+      {
         "id": "CLUSTER_TRACKS_BLACK_OUT",
         "name": "TRACKS BLACK OUT",
         "nebula_id": "NEBULA_ALBUM_BLACK_OUT",
@@ -4687,6 +4833,23 @@
           "MUSIC_TRACK_02FE019DE798229B",
           "MUSIC_TRACK_400A0E7D453D27E0",
           "MUSIC_TRACK_9EA2BD53BB84C260"
+        ]
+      },
+      {
+        "id": "CLUSTER_TRACKS_FAKE_SUN",
+        "name": "TRACKS FAKE SUN",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 12,
+        "star_ids": [
+          "MUSIC_TRACK_E4CCDB465922BDD0",
+          "MUSIC_TRACK_9DA84BD02F94543A",
+          "MUSIC_TRACK_CB13771A3EEFE87A",
+          "MUSIC_TRACK_05541688FED6BF0D",
+          "MUSIC_TRACK_E7AF4BE3C01CB3F6",
+          "MUSIC_TRACK_7B7976B03F081D87",
+          "MUSIC_TRACK_661E3FE8849F9B59",
+          "MUSIC_TRACK_5183398FE5DE0124"
         ]
       },
       {
@@ -4747,6 +4910,23 @@
         ]
       },
       {
+        "id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "name": "TRACKS SEPTEMBER BLUES",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "star_count": 10,
+        "star_ids": [
+          "MUSIC_TRACK_F69EF7A70C27BB60",
+          "MUSIC_TRACK_FC6AE72CB6F2B676",
+          "MUSIC_TRACK_A6BF66E55FDB1745",
+          "MUSIC_TRACK_6CA21FA323694A37",
+          "MUSIC_TRACK_90CC9B430D1CA7B2",
+          "MUSIC_TRACK_1BFF55A941DE3206",
+          "MUSIC_TRACK_DCB357F823FD7EAB",
+          "MUSIC_TRACK_D53CB43EF07DB5E6"
+        ]
+      },
+      {
         "id": "CLUSTER_TRACKS_THE_HOLLOW_CODEX",
         "name": "TRACKS THE HOLLOW CODEX",
         "nebula_id": "NEBULA_ALBUM_THE_HOLLOW_CODEX",
@@ -4792,8 +4972,8 @@
       }
     ],
     "galaxy_count": 24,
-    "nebula_count": 97,
-    "cluster_count": 302
+    "nebula_count": 101,
+    "cluster_count": 311
   },
   "nodes": [
     {
@@ -20977,7 +21157,7 @@
       "kind": "music_hub",
       "name": "Excavationpro Music Portal",
       "glyph": "\ud83c\udfa7",
-      "equation": "Listen(10858) \u2297 ISRC(718) \u2297 HF",
+      "equation": "Listen(10892) \u2297 ISRC(718) \u2297 HF",
       "tone": "432Hz",
       "tags": [
         "MUSIC",
@@ -21004,9 +21184,9 @@
         "steward": "Justin Helmer / Lightfather / Excavationpro",
         "origin_champion": "CHAMPION_LIGHTFATHER",
         "origin_note": "Music Codex forks from CHAMPION_LIGHTFATHER (steward node)",
-        "stream_count": 10858,
+        "stream_count": 10892,
         "unique_isrcs": 718,
-        "tagged_albums": 7,
+        "tagged_albums": 11,
         "no_album_streams": 10757,
         "live_map": true,
         "map_policy": "isrc_stars_primary"
@@ -55779,6 +55959,594 @@
       }
     },
     {
+      "id": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "music_album",
+      "name": "Alonest Place",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(11) \u00b7 ISRC=0 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "ALONEST_PLACE"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=Alonest+Place",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "Alonest Place",
+        "track_count": 11,
+        "lyrics_count": 0,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_ALBUM_ALONEST_PLACE",
+        "cluster_name": "ALBUM ALONEST PLACE",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_5DDC87E9C544DF26",
+      "kind": "music_track",
+      "name": "Bending The Silence",
+      "glyph": "\u00b7",
+      "equation": "SHA256(5ddc87e9c544\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/5d/5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=5ddc87e9c544df26"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "5ddc87e9c544df2615bec39a30e6ebbd2fa3920f8c10fb00b5e9e1a990863dd3",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_134FD4FB6CE5DBF4",
+      "kind": "music_track",
+      "name": "Black Goo Inside",
+      "glyph": "\u00b7",
+      "equation": "SHA256(134fd4fb6ce5\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/13/134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=134fd4fb6ce5dbf4"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "134fd4fb6ce5dbf4f88602f319e7be4f37280d3b5a243814368a152a66e2af3b",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_43D2C556B069B2F1",
+      "kind": "music_track",
+      "name": "Heavy Kind of Quiet",
+      "glyph": "\u00b7",
+      "equation": "SHA256(43d2c556b069\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43/43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=43d2c556b069b2f1"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "43d2c556b069b2f14a26f2c5f527519aa5e6d63f28c3fc8adafb0e09af2c0aa9",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_B51D53E77C873DD7",
+      "kind": "music_track",
+      "name": "Puzzle Picture",
+      "glyph": "\u00b7",
+      "equation": "SHA256(b51d53e77c87\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b5/b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=b51d53e77c873dd7"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "b51d53e77c873dd7190ac617d7eb2c29926089765bf28f455de9859295fd9946",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_80E7E607480EBA8D",
+      "kind": "music_track",
+      "name": "Standing in the Doorway",
+      "glyph": "\u00b7",
+      "equation": "SHA256(80e7e607480e\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/80/80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=80e7e607480eba8d"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "80e7e607480eba8dae641bad7402a15f80a76998b26656976b64b91ddac3efd6",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_F20D9CA840C4B4ED",
+      "kind": "music_track",
+      "name": "Fractured Puzzle",
+      "glyph": "\u00b7",
+      "equation": "SHA256(f20d9ca840c4\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f2/f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=f20d9ca840c4b4ed"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "f20d9ca840c4b4ededf7868d004e753f90468e7b3c14c835586bb72e33789a7e",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_CB6F6D959BA1BA69",
+      "kind": "music_track",
+      "name": "Alonest Place",
+      "glyph": "\u00b7",
+      "equation": "SHA256(cb6f6d959ba1\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cb/cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=cb6f6d959ba1ba69"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "cb6f6d959ba1ba6934e1192d71a0e07cadca8f70e6d8a0fabf56b0d30e61de62",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_8EA8282BC21BA022",
+      "kind": "music_track",
+      "name": "Nothing Left To Mend",
+      "glyph": "\u00b7",
+      "equation": "SHA256(8ea8282bc21b\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8e/8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=8ea8282bc21ba022"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "8ea8282bc21ba02231961fa4fd6c4b080a5667e5bce7b0a5b4646d7ef41b18a7",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E74EF008D6BBC9BD",
+      "kind": "music_track",
+      "name": "Storm\u2019s Warmth",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e74ef008d6bb\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e7/e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e74ef008d6bbc9bd"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e74ef008d6bbc9bdbf6e0563a7bea7c14b9e283d391a307ea70ed4c11491d2a7",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_859F6C775F9969BE",
+      "kind": "music_track",
+      "name": "Alone in this Place",
+      "glyph": "\u00b7",
+      "equation": "SHA256(859f6c775f99\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/85/859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=859f6c775f9969be"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "859f6c775f9969beac0e064241e2c8d7fb83742762d94d6b5a2597f9225aa583",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_38C0D3C725A95BC0",
+      "kind": "music_track",
+      "name": "Warm Storms",
+      "glyph": "\u00b7",
+      "equation": "SHA256(38c0d3c725a9\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_ALONEST_PLACE",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/38/38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=38c0d3c725a95bc0"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "38c0d3c725a95bc0be1e88e6f076c4fdd39dc2887bb811e48b80adfd60788fe9",
+        "album": "Alonest Place",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_ALONEST_PLACE",
+        "nebula_name": "Album Alonest Place",
+        "cluster_id": "CLUSTER_TRACKS_ALONEST_PLACE",
+        "cluster_name": "TRACKS ALONEST PLACE",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_ALBUM_BEATSTARS",
+      "kind": "music_album",
+      "name": "Beatstars",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(1) \u00b7 ISRC=0 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "BEATSTARS"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=Beatstars",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "Beatstars",
+        "track_count": 1,
+        "lyrics_count": 0,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BEATSTARS",
+        "nebula_name": "Album Beatstars",
+        "cluster_id": "CLUSTER_ALBUM_BEATSTARS",
+        "cluster_name": "ALBUM BEATSTARS",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E1985C132054C576",
+      "kind": "music_track",
+      "name": "Serrated Throttle",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e1985c132054\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_BEATSTARS",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e1/e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e1985c132054c576"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e1985c132054c5768cd1224a614c3b04e7eb652c3b6538ba321175b55e8178b1",
+        "album": "Beatstars",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_BEATSTARS",
+        "nebula_name": "Album Beatstars",
+        "cluster_id": "CLUSTER_TRACKS_BEATSTARS",
+        "cluster_name": "TRACKS BEATSTARS",
+        "star_role": "music_track"
+      }
+    },
+    {
       "id": "MUSIC_ALBUM_BLACK_OUT",
       "kind": "music_album",
       "name": "BLACK OUT",
@@ -57333,6 +58101,552 @@
       }
     },
     {
+      "id": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "music_album",
+      "name": "Fake Sun",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(12) \u00b7 ISRC=0 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "FAKE_SUN"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=Fake+Sun",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "Fake Sun",
+        "track_count": 12,
+        "lyrics_count": 0,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_ALBUM_FAKE_SUN",
+        "cluster_name": "ALBUM FAKE SUN",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E4CCDB465922BDD0",
+      "kind": "music_track",
+      "name": "Frost Inside My Veins",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e4ccdb465922\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e4/e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e4ccdb465922bdd0"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e4ccdb465922bdd0c5896169b7717e4f9ebb28d7b3f7fb6a83fbf490ede44ab9",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_9DA84BD02F94543A",
+      "kind": "music_track",
+      "name": "Hard Won Breath",
+      "glyph": "\u00b7",
+      "equation": "SHA256(9da84bd02f94\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9d/9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=9da84bd02f94543a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "9da84bd02f94543aff89959fdcedb6b74adaf82b4104c2657d787c7f3e81145d",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_CB13771A3EEFE87A",
+      "kind": "music_track",
+      "name": "Just Sit Here",
+      "glyph": "\u00b7",
+      "equation": "SHA256(cb13771a3eef\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cb/cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=cb13771a3eefe87a"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "cb13771a3eefe87a1328c5960aa6b1a8c3e5e6eeb9db492c6374e448401536fa",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_05541688FED6BF0D",
+      "kind": "music_track",
+      "name": "Missed Call",
+      "glyph": "\u00b7",
+      "equation": "SHA256(05541688fed6\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/05/05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=05541688fed6bf0d"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "05541688fed6bf0dd3a35444736e04c2f470723b64478b798c0dc445b3b83c15",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_E7AF4BE3C01CB3F6",
+      "kind": "music_track",
+      "name": "Savage Peace",
+      "glyph": "\u00b7",
+      "equation": "SHA256(e7af4be3c01c\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e7/e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=e7af4be3c01cb3f6"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "e7af4be3c01cb3f6e0df78541ddaa35c8ab46de91043c760f01063c436548837",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_7B7976B03F081D87",
+      "kind": "music_track",
+      "name": "Stranger With Your Name",
+      "glyph": "\u00b7",
+      "equation": "SHA256(7b7976b03f08\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/7b/7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=7b7976b03f081d87"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "7b7976b03f081d8782b7e30eb81bfa281b477d4420f884f33ca4d1c936c04489",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_661E3FE8849F9B59",
+      "kind": "music_track",
+      "name": "The Myth Of The Morning",
+      "glyph": "\u00b7",
+      "equation": "SHA256(661e3fe8849f\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/66/661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=661e3fe8849f9b59"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "661e3fe8849f9b59e0241a744ac3dfb18568879cda631d66d696de2ce2133515",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_5183398FE5DE0124",
+      "kind": "music_track",
+      "name": "Still Here For Now",
+      "glyph": "\u00b7",
+      "equation": "SHA256(5183398fe5de\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/51/5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=5183398fe5de0124"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "5183398fe5de0124be183de2f7603b812434f747119811f3c133743d22c03910",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_87103EC3B2176405",
+      "kind": "music_track",
+      "name": "Frozen Roads",
+      "glyph": "\u00b7",
+      "equation": "SHA256(87103ec3b217\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87/87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=87103ec3b2176405"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "87103ec3b2176405fbc12fa53d50886739c38583c5ae6aa0897b6dabdfc95a32",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_69914CED23A99D03",
+      "kind": "music_track",
+      "name": "Ghosts From the Moon",
+      "glyph": "\u00b7",
+      "equation": "SHA256(69914ced23a9\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/69/69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=69914ced23a99d03"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "69914ced23a99d0341eade50d116ed8c9a46b2b52abf71c8a3e768f29427a6de",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_DCF94DB524064E52",
+      "kind": "music_track",
+      "name": "Nobody Will Notice",
+      "glyph": "\u00b7",
+      "equation": "SHA256(dcf94db52406\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dc/dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=dcf94db524064e52"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "dcf94db524064e52f1db42c48e1a865854dc61d4b55540360675dfe114f987f4",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_3A7F7439463AFC32",
+      "kind": "music_track",
+      "name": "Where I Keep The Cold",
+      "glyph": "\u00b7",
+      "equation": "SHA256(3a7f7439463a\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_FAKE_SUN",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3a/3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=3a7f7439463afc32"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "3a7f7439463afc32612194dc16cc711d7fc02cb12bd0d38b55d8f8e22b502b6e",
+        "album": "Fake Sun",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_FAKE_SUN",
+        "nebula_name": "Album Fake Sun",
+        "cluster_id": "CLUSTER_TRACKS_FAKE_SUN",
+        "cluster_name": "TRACKS FAKE SUN",
+        "star_role": "music_track"
+      }
+    },
+    {
       "id": "MUSIC_ALBUM_JULY_30_2026",
       "kind": "music_album",
       "name": "July 30 2026",
@@ -58765,6 +60079,468 @@
       }
     },
     {
+      "id": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "music_album",
+      "name": "September Blues",
+      "glyph": "\ud83d\udcbf",
+      "equation": "Album(10) \u00b7 ISRC=0 \u00b7 lyrics=0",
+      "tone": "440Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_ALBUM",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "SEPTEMBER_BLUES"
+      ],
+      "connections": [
+        "LATTICE_EXCAVATIONPRO_MUSIC",
+        "CHAMPION_LIGHTFATHER",
+        "MUSIC_ISRC_REGISTRY"
+      ],
+      "urls": {
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=September+Blues",
+        "license": "https://eternalhaven.ca/lygo-music-license.html"
+      },
+      "layer": 3,
+      "meta": {
+        "album": "September Blues",
+        "track_count": 10,
+        "lyrics_count": 0,
+        "isrc_count": 0,
+        "artist": "Excavationpro"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_ALBUM_SEPTEMBER_BLUES",
+        "cluster_name": "ALBUM SEPTEMBER BLUES",
+        "star_role": "music_album"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_F69EF7A70C27BB60",
+      "kind": "music_track",
+      "name": "BONES Bones Can Still Walk",
+      "glyph": "\u00b7",
+      "equation": "SHA256(f69ef7a70c27\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f6/f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=f69ef7a70c27bb60"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "f69ef7a70c27bb602b438c200c6c5e204faafcb15ce05641b7465a48b053ade1",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_FC6AE72CB6F2B676",
+      "kind": "music_track",
+      "name": "GAVE YOU MY ALL Keys To Every Room",
+      "glyph": "\u00b7",
+      "equation": "SHA256(fc6ae72cb6f2\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fc/fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=fc6ae72cb6f2b676"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "fc6ae72cb6f2b676a0db28d7a85b37dc747ed0212b93602a4939e91da5b81f16",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_A6BF66E55FDB1745",
+      "kind": "music_track",
+      "name": "SORRY YOUR FAVORITE WORD Words Without Meat",
+      "glyph": "\u00b7",
+      "equation": "SHA256(a6bf66e55fdb\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a6/a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=a6bf66e55fdb1745"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "a6bf66e55fdb1745da191fb1722aa35b0b26fab0c755a49d9f509ee1b6dfdd9e",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_6CA21FA323694A37",
+      "kind": "music_track",
+      "name": "THE LAST WORD Packing The Wreckage",
+      "glyph": "\u00b7",
+      "equation": "SHA256(6ca21fa32369\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6c/6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=6ca21fa323694a37"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "6ca21fa323694a373a8bf20071385bedfc977356af6a2c0359d447aef054850a",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_90CC9B430D1CA7B2",
+      "kind": "music_track",
+      "name": "These Are My Bones",
+      "glyph": "\u00b7",
+      "equation": "SHA256(90cc9b430d1c\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90/90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=90cc9b430d1ca7b2"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "90cc9b430d1ca7b2791b8e07779743551f7fc6c14bfc22d8abe5e0f0f400cf2e",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_1BFF55A941DE3206",
+      "kind": "music_track",
+      "name": "UNDER THE LIGHTS Paper Cage",
+      "glyph": "\u00b7",
+      "equation": "SHA256(1bff55a941de\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1b/1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=1bff55a941de3206"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "1bff55a941de3206152ed8e9e4397eeb04576327e808a68f2be5fa45c89fc28e",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_DCB357F823FD7EAB",
+      "kind": "music_track",
+      "name": "Broom That Never Sweeps",
+      "glyph": "\u00b7",
+      "equation": "SHA256(dcb357f823fd\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dc/dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=dcb357f823fd7eab"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "dcb357f823fd7eabcf3c7598142b7a998b6818e9aca6de06017afb2234f1b84a",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_D53CB43EF07DB5E6",
+      "kind": "music_track",
+      "name": "NOTHING LEFT TO SAY Prison Made of Air",
+      "glyph": "\u00b7",
+      "equation": "SHA256(d53cb43ef07d\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d5/d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=d53cb43ef07db5e6"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "d53cb43ef07db5e60dbabd81e97fdb0c6a4b610ef745b7e41c1e1c6c5df0aaf3",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_B6ACD0A1EF5AC86F",
+      "kind": "music_track",
+      "name": "OUR WORDS MEAN NOTHING Hollow Phrases",
+      "glyph": "\u00b7",
+      "equation": "SHA256(b6acd0a1ef5a\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b6/b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=b6acd0a1ef5ac86f"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "b6acd0a1ef5ac86f045a50a7bbc87dae721a0e99aaa2fdcd6821bbcdc3e3eedf",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
+      "id": "MUSIC_TRACK_5848E3DAA5235BD9",
+      "kind": "music_track",
+      "name": "Real Ones feat Justin Helmer",
+      "glyph": "\u00b7",
+      "equation": "SHA256(5848e3daa523\u2026)",
+      "tone": "396Hz",
+      "tags": [
+        "MUSIC",
+        "MUSIC_TRACK",
+        "EXCAVATIONPRO",
+        "LIGHTFATHER",
+        "MUSIC_CODEX",
+        "AUDIO_ONLY"
+      ],
+      "connections": [
+        "MUSIC_ALBUM_SEPTEMBER_BLUES",
+        "LATTICE_EXCAVATIONPRO_MUSIC"
+      ],
+      "urls": {
+        "stream": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/58/5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d.mp3",
+        "live": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html?q=5848e3daa5235bd9"
+      },
+      "layer": 4,
+      "meta": {
+        "sha256": "5848e3daa5235bd970a03bcda94b44092da45d6afb8d30f531e5609c7869f89d",
+        "album": "September Blues",
+        "moniker": "",
+        "has_lyrics": false,
+        "isrcs": [],
+        "primary_isrc": ""
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_EXCAVATIONPRO_MUSIC",
+        "galaxy_name": "Excavationpro Music Codex",
+        "nebula_id": "NEBULA_ALBUM_SEPTEMBER_BLUES",
+        "nebula_name": "Album September Blues",
+        "cluster_id": "CLUSTER_TRACKS_SEPTEMBER_BLUES",
+        "cluster_name": "TRACKS SEPTEMBER BLUES",
+        "star_role": "music_track"
+      }
+    },
+    {
       "id": "MUSIC_ALBUM_THE_HOLLOW_CODEX",
       "kind": "music_album",
       "name": "THE HOLLOW CODEX",
@@ -59920,9 +61696,9 @@
     {
       "id": "MUSIC_CATALOG_CLOUD",
       "kind": "music_hub",
-      "name": "Non-ISRC Stream Cloud (9457)",
+      "name": "Non-ISRC Stream Cloud (9491)",
       "glyph": "\u2601\u266a",
-      "equation": "streams_without_ISRC=9457",
+      "equation": "streams_without_ISRC=9491",
       "tone": "174Hz",
       "tags": [
         "MUSIC",
@@ -59940,7 +61716,7 @@
       },
       "layer": 3,
       "meta": {
-        "non_isrc_count": 9457,
+        "non_isrc_count": 9491,
         "note": "Vault streams without ISRC stay in this cloud. Commercial ISRC identity stars live under MUSIC_ISRC_REGISTRY."
       },
       "cosmos": {
@@ -63801,6 +65577,44 @@
         "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0019",
         "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0019",
+        "star_role": "agent_growth"
+      }
+    },
+    {
+      "id": "NODE_AUTONOMY_G0020",
+      "kind": "node",
+      "name": "LYGO Autonomy Generation 20",
+      "equation": "\u222b(Truth\u00d7Light)df = \u03a6\u00b7963 Hz \u00b7 gen=20 \u00b7 merkle=1bb083e9049c",
+      "glyph": "\u2442",
+      "tone": "963 Hz",
+      "tags": [
+        "AUTONOMY",
+        "SELF_POLICE",
+        "NETWORK_EGG",
+        "FORK"
+      ],
+      "connections": [
+        "SEAL_000",
+        "PORTAL_STAR_CHART",
+        "CHAMPION_LYRA"
+      ],
+      "urls": {
+        "runtime": "https://chatagent.ca/agents/",
+        "eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/network_eggs.json"
+      },
+      "layer": "E",
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "68efe4b191f3123f83a68702da45df73d7db200e17e3c6c3c2c8b1a69e191405",
+        "ingested_from": "NODE_AUTONOMY_G0020.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
+        "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0020",
+        "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0020",
         "star_role": "agent_growth"
       }
     },
@@ -81022,6 +82836,156 @@
       "kind": "lattice"
     },
     {
+      "source": "MUSIC_ALBUM_ALONEST_PLACE",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_ALONEST_PLACE",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_ALONEST_PLACE",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5DDC87E9C544DF26",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5DDC87E9C544DF26",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_134FD4FB6CE5DBF4",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_134FD4FB6CE5DBF4",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_43D2C556B069B2F1",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_43D2C556B069B2F1",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B51D53E77C873DD7",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B51D53E77C873DD7",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_80E7E607480EBA8D",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_80E7E607480EBA8D",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F20D9CA840C4B4ED",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F20D9CA840C4B4ED",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_CB6F6D959BA1BA69",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_CB6F6D959BA1BA69",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_8EA8282BC21BA022",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_8EA8282BC21BA022",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E74EF008D6BBC9BD",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E74EF008D6BBC9BD",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_859F6C775F9969BE",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_859F6C775F9969BE",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_38C0D3C725A95BC0",
+      "target": "MUSIC_ALBUM_ALONEST_PLACE",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_38C0D3C725A95BC0",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_BEATSTARS",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_BEATSTARS",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_BEATSTARS",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E1985C132054C576",
+      "target": "MUSIC_ALBUM_BEATSTARS",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E1985C132054C576",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
       "source": "MUSIC_ALBUM_BLACK_OUT",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
@@ -81393,6 +83357,141 @@
     },
     {
       "source": "MUSIC_TRACK_DEB3800CE8F6F3BC",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_FAKE_SUN",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_FAKE_SUN",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_FAKE_SUN",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E4CCDB465922BDD0",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E4CCDB465922BDD0",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_9DA84BD02F94543A",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_9DA84BD02F94543A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_CB13771A3EEFE87A",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_CB13771A3EEFE87A",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_05541688FED6BF0D",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_05541688FED6BF0D",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E7AF4BE3C01CB3F6",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_E7AF4BE3C01CB3F6",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_7B7976B03F081D87",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_7B7976B03F081D87",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_661E3FE8849F9B59",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_661E3FE8849F9B59",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5183398FE5DE0124",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5183398FE5DE0124",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_87103EC3B2176405",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_87103EC3B2176405",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_69914CED23A99D03",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_69914CED23A99D03",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_DCF94DB524064E52",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_DCF94DB524064E52",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_3A7F7439463AFC32",
+      "target": "MUSIC_ALBUM_FAKE_SUN",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_3A7F7439463AFC32",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
     },
@@ -81748,6 +83847,121 @@
     },
     {
       "source": "MUSIC_TRACK_97A388E9DCBFE5C9",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "target": "CHAMPION_LIGHTFATHER",
+      "kind": "fork"
+    },
+    {
+      "source": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "target": "MUSIC_ISRC_REGISTRY",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F69EF7A70C27BB60",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_F69EF7A70C27BB60",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_FC6AE72CB6F2B676",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_FC6AE72CB6F2B676",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_A6BF66E55FDB1745",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_A6BF66E55FDB1745",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_6CA21FA323694A37",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_6CA21FA323694A37",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_90CC9B430D1CA7B2",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_90CC9B430D1CA7B2",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1BFF55A941DE3206",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_1BFF55A941DE3206",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_DCB357F823FD7EAB",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_DCB357F823FD7EAB",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D53CB43EF07DB5E6",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_D53CB43EF07DB5E6",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B6ACD0A1EF5AC86F",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_B6ACD0A1EF5AC86F",
+      "target": "LATTICE_EXCAVATIONPRO_MUSIC",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5848E3DAA5235BD9",
+      "target": "MUSIC_ALBUM_SEPTEMBER_BLUES",
+      "kind": "lattice"
+    },
+    {
+      "source": "MUSIC_TRACK_5848E3DAA5235BD9",
       "target": "LATTICE_EXCAVATIONPRO_MUSIC",
       "kind": "lattice"
     },
@@ -83912,6 +86126,21 @@
       "kind": "lattice"
     },
     {
+      "source": "NODE_AUTONOMY_G0020",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0020",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0020",
+      "target": "CHAMPION_LYRA",
+      "kind": "lattice"
+    },
+    {
       "source": "NODE_FORKLING_TEST",
       "target": "CHAMPION_LYRA",
       "kind": "lattice"
@@ -84297,8 +86526,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 76,
-      "agent_submissions_merged": 71,
+      "accepted": 77,
+      "agent_submissions_merged": 72,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -84363,6 +86592,7 @@
         "merged:NODE_AUTONOMY_G0017",
         "merged:NODE_AUTONOMY_G0018",
         "merged:NODE_AUTONOMY_G0019",
+        "merged:NODE_AUTONOMY_G0020",
         "merged:NODE_FORKLING_TEST",
         "merged:NODE_STAR_MONITOR",
         "merged:PORTAL_ANCHORS",
@@ -84376,7 +86606,7 @@
         "merged:SEAL_277",
         "merged:SEAL_278",
         "merged:SEAL_401",
-        "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
+        "music_map: +883 nodes (albums=11 tracks=852 playlist=10892)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
         "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
         "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
@@ -84389,7 +86619,7 @@
       "fork_of": "CHAMPION_LIGHTFATHER",
       "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
       "notes": [
-        "music_map: +845 nodes (albums=7 tracks=818 playlist=10858)",
+        "music_map: +883 nodes (albums=11 tracks=852 playlist=10892)",
         "lightfather_origin: linked \u2192 LATTICE_EXCAVATIONPRO_MUSIC + ISRC registry",
         "book_map: +15 nodes volumes=5 roots=5 traumacodex=True",
         "lightfather_origin: linked \u2192 book series hub + Book V + TraumaCodex"
@@ -84398,6 +86628,6 @@
     "errors": [],
     "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
     "feed_chain_valid": true,
-    "feed_entry_count": 97
+    "feed_entry_count": 99
   }
 }
