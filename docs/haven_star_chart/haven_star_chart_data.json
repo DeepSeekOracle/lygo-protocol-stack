@@ -1,13 +1,13 @@
 {
   "signature": "\u03949\u03a6963-HAVEN-STAR-CHART-v2.1",
-  "generated_utc": "2026-09-26T04:54:08.003939+00:00",
+  "generated_utc": "2026-09-26T11:21:13.631656+00:00",
   "core_anchor": "SEAL_000",
-  "node_count": 1458,
-  "link_count": 4056,
+  "node_count": 1459,
+  "link_count": 4059,
   "seal_count": 334,
   "champion_count": 15,
   "lattice_count": 135,
-  "registry_sha256": "fde7360a16e5182c7c444313c651035788bbf76bdff5082570b5e24721b5345a",
+  "registry_sha256": "040754c1f8328f2c63a1a0ce247c7406aafc5fed9c78993d868182055f4f0005",
   "constellations": [
     {
       "id": "primordial_core",
@@ -360,7 +360,7 @@
         "color": "#e94560",
         "constellation_id": "lattice_growth",
         "angle_deg": 280,
-        "star_count": 18
+        "star_count": 19
       },
       {
         "id": "GALAXY_GUARDIAN_VEIL",
@@ -425,7 +425,7 @@
         "id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
         "name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
         "galaxy_id": "GALAXY_AGENT_GROWTH",
-        "star_count": 18,
+        "star_count": 19,
         "star_ids": [
           "NODE_AUTONOMY_G0001",
           "NODE_AUTONOMY_G0004",
@@ -1860,6 +1860,16 @@
         "star_count": 1,
         "star_ids": [
           "NODE_AUTONOMY_G0020"
+        ]
+      },
+      {
+        "id": "CLUSTER_AGENT_NODE_AUTONOMY_G0021",
+        "name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0021",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "star_count": 1,
+        "star_ids": [
+          "NODE_AUTONOMY_G0021"
         ]
       },
       {
@@ -4973,7 +4983,7 @@
     ],
     "galaxy_count": 24,
     "nebula_count": 101,
-    "cluster_count": 311
+    "cluster_count": 312
   },
   "nodes": [
     {
@@ -18368,7 +18378,7 @@
     {
       "id": "LATTICE_SKILL_lygo-llm-console",
       "kind": "lattice",
-      "name": "LYGO LLM Console \u00b7 v1.0.1",
+      "name": "LYGO LLM Console \u00b7 v1.6.0",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-llm-console",
       "tone": "8787Hz",
@@ -18392,8 +18402,8 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-llm-console",
-        "version": "1.0.1",
-        "summary": "Public map to the LYGO sovereign local LLM runtime (not Ollama). Page + zip. Admin tree is a separate channel. No network, no subprocess.",
+        "version": "1.6.0",
+        "summary": "Public map scripts plus the LYGO sovereign local LLM runtime, shipped as an UNPACKED public kit (console 1.5.6, 152 files, per-file SHA-256). Not Ollama. Map layer: no network, no subprocess, no write",
         "mirror": "mirrors/lygo-llm-console",
         "downloads": 0
       },
@@ -19721,7 +19731,7 @@
     {
       "id": "LATTICE_SKILL_lygo-tv",
       "kind": "lattice",
-      "name": "LYGO TV \u00b7 v1.0.0",
+      "name": "LYGO TV \u00b7 v1.3.1",
       "glyph": "\u25c8",
       "equation": "clawhub:lygo-tv",
       "tone": "8787Hz",
@@ -19745,10 +19755,10 @@
       "layer": 3,
       "meta": {
         "slug": "lygo-tv",
-        "version": "1.0.0",
-        "summary": "Pointer to the free online TV player at https://chatagent.ca/sources/. Pick a list, click a channel, watch. No login. Local map only \u2014 scripts print URLs, no network.",
+        "version": "1.3.1",
+        "summary": "Free online TV player, plus the drop-in player code: point people at https://chatagent.ca/sources/, or paste three lines to run the same player on any site \u2014 Rumble room first, ~12,000 channels from t",
         "mirror": "mirrors/lygo-tv",
-        "downloads": 0
+        "downloads": 178
       },
       "cosmos": {
         "galaxy_id": "GALAXY_LATTICE",
@@ -65619,6 +65629,44 @@
       }
     },
     {
+      "id": "NODE_AUTONOMY_G0021",
+      "kind": "node",
+      "name": "LYGO Autonomy Generation 21",
+      "equation": "\u222b(Truth\u00d7Light)df = \u03a6\u00b7963 Hz \u00b7 gen=21 \u00b7 merkle=07222d47afa5",
+      "glyph": "\u2442",
+      "tone": "963 Hz",
+      "tags": [
+        "AUTONOMY",
+        "SELF_POLICE",
+        "NETWORK_EGG",
+        "FORK"
+      ],
+      "connections": [
+        "SEAL_000",
+        "PORTAL_STAR_CHART",
+        "CHAMPION_LYRA"
+      ],
+      "urls": {
+        "runtime": "https://chatagent.ca/agents/",
+        "eggs": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/network_eggs.json"
+      },
+      "layer": "E",
+      "meta": {
+        "source": "agent_submission",
+        "content_sha256": "3a5bb1f41651a6fde532597c57b83fe1abcb81393952cf905d4473e7ff08a74b",
+        "ingested_from": "NODE_AUTONOMY_G0021.json"
+      },
+      "cosmos": {
+        "galaxy_id": "GALAXY_AGENT_GROWTH",
+        "galaxy_name": "Agent Growth Galaxy",
+        "nebula_id": "NEBULA_AGENT_VIA_PORTAL_STAR_CHART",
+        "nebula_name": "Agent Branch \u00b7 via PORTAL_STAR_CHART",
+        "cluster_id": "CLUSTER_AGENT_NODE_AUTONOMY_G0021",
+        "cluster_name": "Agent Cluster \u00b7 NODE_AUTONOMY_G0021",
+        "star_role": "agent_growth"
+      }
+    },
+    {
       "id": "NODE_FORKLING_TEST",
       "kind": "lattice",
       "name": "Forkling (test champion limb)",
@@ -86141,6 +86189,21 @@
       "kind": "lattice"
     },
     {
+      "source": "NODE_AUTONOMY_G0021",
+      "target": "SEAL_000",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0021",
+      "target": "PORTAL_STAR_CHART",
+      "kind": "lattice"
+    },
+    {
+      "source": "NODE_AUTONOMY_G0021",
+      "target": "CHAMPION_LYRA",
+      "kind": "lattice"
+    },
+    {
       "source": "NODE_FORKLING_TEST",
       "target": "CHAMPION_LYRA",
       "kind": "lattice"
@@ -86526,8 +86589,8 @@
     "rebuild_tool": "tools/build_haven_star_chart.py",
     "submission_queue": {
       "pending": 0,
-      "accepted": 77,
-      "agent_submissions_merged": 72,
+      "accepted": 78,
+      "agent_submissions_merged": 73,
       "ingest_notes": [
         "merged:HERO_ACCORD",
         "merged:HERO_CORVATH",
@@ -86593,6 +86656,7 @@
         "merged:NODE_AUTONOMY_G0018",
         "merged:NODE_AUTONOMY_G0019",
         "merged:NODE_AUTONOMY_G0020",
+        "merged:NODE_AUTONOMY_G0021",
         "merged:NODE_FORKLING_TEST",
         "merged:NODE_STAR_MONITOR",
         "merged:PORTAL_ANCHORS",
@@ -86628,6 +86692,6 @@
     "errors": [],
     "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
     "feed_chain_valid": true,
-    "feed_entry_count": 99
+    "feed_entry_count": 101
   }
 }
