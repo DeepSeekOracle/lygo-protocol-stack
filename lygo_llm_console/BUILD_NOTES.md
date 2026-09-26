@@ -146,10 +146,17 @@ Three things this build changed on purpose:
 
 - **Output moved off `E:`.** The USB recipe wrote its setup EXE to `E:\`; that drive is at 94% (2.99 GB
   free). Both recipes now build to `D:\`.
-- **26 exclusion rules instead of 4.** The 1.3.2 recipes inherited only the conversations exclusion, so the
+- **32 exclusion rules instead of 4.** The 1.3.2 recipes inherited only the conversations exclusion, so the
   workspace's *residue* travelled inside the EXE: generated songs, generated images (182 MB), uploads
   (proof screenshots, a handoff note), rust build output (`.rcgu.o`, `six_by_seven.exe/.pdb`), raw daily
-  notes, stray probe PNGs and gauntlet HTML. Now excluded. What still travels is the console's **identity**
+  notes, stray probe PNGs and gauntlet HTML. Now excluded.
+  The root of `workspace/` needed a second sweep after the first rebuild: `memory.jsonl`, `todo.jsonl`,
+  `hello.txt`, `POEM.txt`, `chain_from_hermes.txt`, the `gauntlet_*` output and `selfbuild_probe.txt` were
+  still travelling - the inherited `workspace\memory\*.jsonl` pattern was aimed at these logs but never
+  matched `workspace\memory.jsonl`, which sits at the root, not in that folder. Root-level `*.jsonl`,
+  `*.txt`, `*.log`, `*.db`, `*.sqlite*` are excluded now; the identity set at the root (the seven `.md`
+  files, `CONTINUITY_SEED.json`, `.gitkeep`) still travels.
+ What still travels is the console's **identity**
   at the workspace root - `SOUL.md`, `IDENTITY.md`, `MEMORY.md`, `BRAIN.md`, `MAP.md`, `LINKS.md`,
   `LYRA_ARCHITECT.md` - because a console restored without them is soulless, which the seal script's own
   comment records as a caught regression.

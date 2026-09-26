@@ -61,7 +61,7 @@ ExtraDiskSpaceRequired=15000000000
 
 [Files]
 ; EXCLUDES - posted PUBLIC: no operator chat archive, no bench logs (see lygo_pc_132.iss for the why)
-Source: "{#Payload}\*"; DestDir: "{app}"; Excludes: "workspace\memory\conversations\*,workspace\memory\conversations\*\*,workspace\memory\conversations\*\*\*,workspace\memory\*.jsonl,workspace\audio\*,workspace\audio\*\*,workspace\audio\*\*\*,workspace\images\*,workspace\images\*\*,workspace\images\*\*\*,workspace\uploads\*,workspace\uploads\*\*,workspace\uploads\*\*\*,workspace\rust\*,workspace\rust\*\*,workspace\rust\*\*\*,workspace\memory\*.md,workspace\*.wav,workspace\*.mp3,workspace\*.flac,workspace\*.pdb,workspace\*.png,workspace\*.jpg,workspace\*.jpeg,workspace\*.webp,workspace\*.html"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#Payload}\*"; DestDir: "{app}"; Excludes: "workspace\memory\conversations\*,workspace\memory\conversations\*\*,workspace\memory\conversations\*\*\*,workspace\memory\*.jsonl,workspace\audio\*,workspace\audio\*\*,workspace\audio\*\*\*,workspace\images\*,workspace\images\*\*,workspace\images\*\*\*,workspace\uploads\*,workspace\uploads\*\*,workspace\uploads\*\*\*,workspace\rust\*,workspace\rust\*\*,workspace\rust\*\*\*,workspace\memory\*.md,workspace\*.wav,workspace\*.mp3,workspace\*.flac,workspace\*.pdb,workspace\*.png,workspace\*.jpg,workspace\*.jpeg,workspace\*.webp,workspace\*.html,workspace\*.jsonl,workspace\*.txt,workspace\*.log,workspace\*.db,workspace\*.sqlite,workspace\*.sqlite3"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; our own vault pointer + fetcher, into models\ - the stick's own scan root
 Source: "{#ModelPack}\models.lock.json"; DestDir: "{app}\models"; Flags: ignoreversion
