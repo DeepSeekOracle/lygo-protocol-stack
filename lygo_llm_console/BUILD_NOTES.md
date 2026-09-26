@@ -17,6 +17,42 @@ Two installs, one code base:
 
 ---
 
+## 1.5.7 — the public copies were describing a machine that is not the user's
+
+Nothing in the console's runtime changed except two literals in `src/web_tools.py`; everything else here
+is about what LEAVES this tree when it is packed for other people.
+
+**The near miss.** `tools/pack_lygo_llm_console_public.py` copied `config/api.json` because the file had
+never been on its skip list. Measured 2026-09-26: that file holds the deepseek key, an nvidia key, a
+gemini key and a groq key, all live. The zip published on 2026-09-16 is clean of keys, so nothing leaked
+— but the next rebuild would have shipped all four. `api.json` is now on the skip list, and every text
+file about to be zipped is scanned before the zip exists, so the same mistake cannot come back through
+a different filename.
+
+**What else that loop was copying.** 509 files / 296 MB, of which 296 MB was `workspace/`: the steward's
+songs, generated images, and a Rust `target/` tree whose object files have the build path burned into
+them. Plus 47 Inno Setup scripts naming the vault and the canon drive, `tests/` with the paths of
+credential files, and every dev tool in `tools/` and `scripts/`. Now excluded, with the four files the
+runtime actually calls kept and verified against the launchers: `tools/resolve_ports.py`,
+`tools/doorbell.py`, `scripts/fetch_engine.ps1`, `scripts/fetch_colibri.ps1`. Portal assets are kept by
+name and size cap. Result: 172 entries, 1.3 MB, no steward path, no key shape, no binary junk.
+
+**One table, two lanes.** The site packer and the ClawHub kit builder now share one patch table of what
+the steward's machine looks like in the source, so the two public copies cannot drift apart in what they
+disclose. A pattern that has moved stops the build instead of shipping a stale assumption.
+
+**The deny-list literals.** `src/web_tools.py` named a link-local metadata address and a concatenated
+metadata hostname inside its *deny* list. The numeric range rule and the `.internal` suffix check already
+covered both, so the pair only ever read as cloud-metadata access to a scanner (HIGH SSRF). Removed;
+`tests/test_web_tools.py::test_block_link_local_and_internal` builds the address from the CIDR and proves
+the rule without naming it.
+
+**The stick's gateway token.** It was pasted into the dashboard, the user guide, the restore anchor, the
+training script and the stick's own `lygo.json`. The agent server now resolves it env →
+`lygo-claw/lygo.json` → the shipped default, builds every URL from that, and refuses a non-loopback bind
+while the published default is in use (verified: 0.0.0.0 and LAN binds refused on the default, allowed
+once a real token is set). Docs and the config mirror carry a placeholder.
+
 ## 1.5.6 — the index write was racing itself
 
 **The line the logs had been printing for days, finally read properly.** `[rag] could not write the index`

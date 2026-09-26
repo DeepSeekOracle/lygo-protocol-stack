@@ -2,7 +2,7 @@
   /* One product name, one build stamp. The header, the document title and every status line read
      from here, so the console cannot drift back into three names and no version in the UI. */
   const LYGO_PRODUCT = "LYGO Local Agent Console";
-  const LYGO_BUILD = "1.5.6";
+  const LYGO_BUILD = "1.5.7";
   const BUILD_STAMP = "build " + LYGO_BUILD;
   /* The build stamp the console actually serves (/api/health), so a release bump cannot disagree with
      the header. Declared up HERE, above its first use, because paintBrand() reads it and paintBrand()

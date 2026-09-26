@@ -164,7 +164,7 @@
     },
     {
       "path": "portal/app.js",
-      "sha256_16": "df2e209082bf1cea",
+      "sha256_16": "db1600b3a91953af",
       "bytes": 152609
     },
     {
@@ -188,8 +188,8 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-25T21:39:40-06:00",
-  "rebrand_refresh_note": "1.5.6: the RAG index write no longer races itself (per-write temp name + a write lock); proved by reproduction at 8, 10 and 24 threads",
+  "rebrand_refresh_iso": "2026-09-26T03:44:36-06:00",
+  "rebrand_refresh_note": "1.5.7: the public copies were rebuilt around what must never leave the tree (config/api.json, the steward's workspace, the installer and test trees) and the stick's gateway token moved out of the docs",
   "rebrand_refresh_files": [
     "portal/app.js"
   ]

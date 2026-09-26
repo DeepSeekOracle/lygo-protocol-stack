@@ -1,7 +1,7 @@
 {
   "name": "LYGO LLM Local Console",
   "signature": "\u03949\u03a6963-LYGO-LLM-CONSOLE-v1",
-  "build": "v1.5.6",
+  "build": "v1.5.7",
   "status": "BETA 1 - stable working prototype",
   "generated": "2026-09-18",
   "steward": "Justin Helmer (ExcavationPro / Lightfather)",
@@ -493,8 +493,8 @@
     },
     "how_to_find_the_next_one": "run two strict suites at once; whichever test fails is writing shared state"
   },
-  "release": "1.5.6",
-  "release_tag": "build-line 2026-09-25 \u00b7 the RAG index write was racing itself, and the logs had been saying so for days: `could not write the index` appeared on 09-24 as PermissionError and 09-25 as FileNotFoundError, and the cause was one temp path per PROCESS rather than per write, in a server that answers on threads - the second writer's rename found the temp already moved, and a reader holding the destination gave the other error \u00b7 reproduced (8 threads x 25 writes: 33 FileNotFoundError + 4 PermissionError), fixed twice over - a per-write temp name and a write lock so only one writer replaces the destination while readers are never blocked - and re-verified at 24 threads with zero errors, zero complaints and no orphaned temp files \u00b7 plus the 1.5.5 carry: the installer now lays down workspace\\memory\\conversations, workspace\\notes is excluded, and the two tests that only passed on the machine that made them are fixed",
-  "rebrand_refresh_iso": "2026-09-25T21:39:39-06:00",
-  "rebrand_refresh_note": "1.5.6: the RAG index write no longer races itself (per-write temp name + a write lock); proved by reproduction at 8, 10 and 24 threads"
+  "release": "1.5.7",
+  "release_tag": "build-line 2026-09-26 \u00b7 the public copies were describing a machine that is not the user's: `tools/pack_lygo_llm_console_public.py` packed `config/api.json` (four live provider keys) because the file was never on its skip list, copied 296 MB of the steward's workspace - songs, generated images, a Rust target tree with the build path burned into every object file - plus 47 Inno Setup scripts naming the vault and the canon drive, and its final gate scanned only `src/**/*.py`, which is how `registry.py` and `server.py` kept their `U:\\` / `F:\\` model-root candidates into the download \u00b7 the packer now excludes workspace/, installer/, tests/, scripts/ and the leftovers by name, applies the same patch table the ClawHub kit builder uses (one table, two lanes, must-match or refuse), and scans every text file that is about to be zipped, refusing on a survivor \u00b7 `src/web_tools.py` lost two deny-list literals - a link-local metadata address and a concatenated metadata hostname - that the numeric range rule and the `.internal` suffix check already covered, which reads to a scanner as cloud-metadata access (HIGH SSRF); `tests/test_web_tools.py::test_block_link_local_and_internal` builds the address from the CIDR and proves the rule without naming it",
+  "rebrand_refresh_iso": "2026-09-26T03:44:35-06:00",
+  "rebrand_refresh_note": "1.5.7: the public copies were rebuilt around what must never leave the tree (config/api.json, the steward's workspace, the installer and test trees) and the stick's gateway token moved out of the docs"
 }
