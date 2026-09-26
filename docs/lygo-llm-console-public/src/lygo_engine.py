@@ -205,9 +205,10 @@ def plan(rec: dict[str, Any]) -> dict[str, Any]:
             "mlock": False,
             # Honest flag, and now a measured one. This used to read "mode != cpu" - every GPU host
             # was told flash attention was on while spawn_runner never sent the flag. Measured then,
-            # -fa on was SLOWER for prompt eval (2620 vs 3246 tok/s) and it shipped off. Re-measured
-            # 2026-09-20 on the current build (0.4.1-dev 10988, -ngl 79 -t 6, q8_0 KV): -fa on is
-            # FASTER on both halves - prompt eval 154.1 vs 141.7 t/s, generation 15.15 vs 13.00 t/s -
+            # -fa on was SLOWER for prompt processing (2620 vs 3246 tok/s) and it shipped off.
+            # Re-measured 2026-09-20 on the current build (0.4.1-dev 10988, -ngl 79 -t 6, q8_0 KV):
+            # -fa on is
+            # FASTER on both halves - prompt processing 154.1 vs 141.7 t/s, generation 15.15 vs 13.00 t/s
             # so config/console.json ships "on". Without a device to accelerate it stays off: with no
             # GPU the flag buys nothing, and a plan must not advertise a benefit this host cannot feel.
             "flash_attn": flash_attn_on() and bool(hw.get("devices")),

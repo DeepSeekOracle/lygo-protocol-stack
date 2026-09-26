@@ -1,8 +1,8 @@
 {
   "kit": "lygo-llm-console public kit (ClawHub package, unpacked)",
-  "console_release": "1.5.6",
+  "console_release": "1.5.7",
   "source_tree": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
-  "built_at": "2026-09-26T02:42:25",
+  "built_at": "2026-09-26T04:52:40",
   "packed_as_archive": false,
   "reason_unpacked": "a registry reviewer can read every file that runs; the 1.2.0 zip drew four HIGH analysis-evasion findings for being uninspectable",
   "patched_in_the_copy_only": [
@@ -90,8 +90,8 @@
       "bytes": 5007
     },
     "VERSION": {
-      "sha256": "9bea7dd621773dcd1035bfd73b0bedc9fa1d271ecee984a777f8cf843f2feae7",
-      "bytes": 928
+      "sha256": "80957fedbe917b6f05dbf6b35f2cf0acf38715bedd7621473ff978025a5af8bd",
+      "bytes": 1267
     },
     "config/console.json": {
       "sha256": "e50997a5d4a24dd66d202a224689347aa4951308505c0efc4c135688c8e61f3b",
@@ -102,7 +102,7 @@
       "bytes": 1540
     },
     "portal/app.js": {
-      "sha256": "256d0c186a7c938a34589187c26b0f8a4a8848d9a1a587066727d0de0ae917f8",
+      "sha256": "179c03e6a95c390f3fad2a706eb12ac2a655cf559d5050954f120d88e6f978f9",
       "bytes": 155931
     },
     "portal/donate.js": {
@@ -270,8 +270,8 @@
       "bytes": 7201
     },
     "src/chat_loop.py": {
-      "sha256": "38a672cf580def191bcea0444529c78c96975ef2f9bb492ffd3622310e2e5804",
-      "bytes": 86741
+      "sha256": "6a46beb62576a9e93ebebfe52b3ccbe222bfcdc20b2d9395766586a6237ef4ab",
+      "bytes": 86743
     },
     "src/cloud_api.py": {
       "sha256": "64cd52c27c4a174d4c755bff4aa238bb840cd8e7d6319a4955116b2ad8c20737",
@@ -322,8 +322,8 @@
       "bytes": 92166
     },
     "src/lygo_engine.py": {
-      "sha256": "4715cd05c298d4149919d09e937818d7d0a17f4aa9bb9e7949a117472cd77cc9",
-      "bytes": 21502
+      "sha256": "3e92988d0e6b5dee3758273ec92975d9daffb5e2aee1e8c1b765a7a75d166c8e",
+      "bytes": 21527
     },
     "src/lygo_rag.py": {
       "sha256": "9b6242c5e18874ebd550a6ae6423c15b6094cc356531e500f7304b99f5366255",
@@ -622,7 +622,7 @@
       "bytes": 590
     },
     "web_portal/portal.json": {
-      "sha256": "2769730dc7bb70ccf5b6549f12cf7efe84dd248dddd0f7400953d0111ce86365",
+      "sha256": "b33a0f25473120c56f6e4806254430bd868e87c2df7115733a214a13a2691e14",
       "bytes": 427
     },
     "web_portal/radio.js": {

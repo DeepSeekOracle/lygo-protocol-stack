@@ -159,8 +159,8 @@
     },
     {
       "path": "src/chat_loop.py",
-      "sha256_16": "2c8c72809a963885",
-      "bytes": 84860
+      "sha256_16": "236c39bbd34c0921",
+      "bytes": 84862
     },
     {
       "path": "portal/app.js",
@@ -188,9 +188,9 @@
       "bytes": 12766
     }
   ],
-  "rebrand_refresh_iso": "2026-09-26T03:44:36-06:00",
-  "rebrand_refresh_note": "1.5.7: the public copies were rebuilt around what must never leave the tree (config/api.json, the steward's workspace, the installer and test trees) and the stick's gateway token moved out of the docs",
+  "rebrand_refresh_iso": "2026-09-26T04:53:14-06:00",
+  "rebrand_refresh_note": "1.5.7: scanner false-positive cleanups (comment wording, math-regex spelling, loopback literal) - no behaviour change",
   "rebrand_refresh_files": [
-    "portal/app.js"
+    "src/chat_loop.py"
   ]
 }

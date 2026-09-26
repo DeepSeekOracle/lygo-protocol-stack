@@ -1,21 +1,21 @@
 {
   "name": "lygo-llm-console",
   "displayName": "LYGO LLM Console",
-  "version": "1.6.0",
-  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.6). Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes inside its own folder, pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
+  "version": "1.6.1",
+  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.6). Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes only inside its own folder (sessions, receipts and a RAG index are kept there on disk, nothing uploaded, removed with the folder), pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
   "slug": "lygo-llm-console",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://chatagent.ca/lygo-llm-console.html",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
-  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.6.0",
+  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.6.1",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
-  "console_release": "1.5.6",
+  "console_release": "1.5.7",
   "kit": "kit/",
   "kit_ship_form": "unpacked tree (deliberately not an archive, so every shipped file is inspectable)",
   "kit_files": 152,
-  "kit_bytes": 2162433,
-  "kit_sha256sums": "7b1188ca0a9c1fd81a34a53042506026efde944ba4d7b5f88bfcf225e6f8db8e",
+  "kit_bytes": 2124907,
+  "kit_sha256sums": "133bc09d2b8acbf7e712c53dd6b3e0fe9ba60d868fe3948c627c0aaa3db0c0f5",
   "kit_manifest": "kit/PUBLIC_KIT.json",
   "llama_cpu_tag": "b11074",
   "clawhub_cli_pin": "clawhub@0.23.3",
@@ -76,6 +76,6 @@
     "steward_paths_removed_at_build": true,
     "unprivileged_user": true,
     "canonical_source": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-llm-console",
-    "version": "1.6.0"
+    "version": "1.6.1"
   }
 }

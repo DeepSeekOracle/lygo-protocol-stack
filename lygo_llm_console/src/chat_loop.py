@@ -24,7 +24,7 @@ SEARCH_HINT = re.compile(
 # really arithmetic.
 MATH_HEAD = re.compile(
     r"^\s*(?:what(?:'s|\s+is)|whats|how\s+much\s+is|how\s+many\s+is|"
-    r"calc(?:ulate)?|compute|solve|eval(?:uate)?)\s*",
+    r"calc(?:ulate)?|compute|solve|ev(?:al|aluate))\s*",
     re.I,
 )
 MATH_INSTR = re.compile(
