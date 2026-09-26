@@ -98,9 +98,14 @@
 /* The lock mark on a gated button in the page itself. The buttons keep their own styling —
    this only appends the small mark that says a code is needed, and it comes off on unlock. */
 a.lyg-locked::after {
-  content: "\1F512";
-  margin-left: 0.4rem; font-size: 0.82em; opacity: 0.85; vertical-align: 0.06em;
+  content: "\1F512 code required";
+  display: inline-block; margin-left: 0.45rem; padding: 0.06rem 0.42rem;
+  font-family: var(--lyg-mono, ui-monospace, monospace); font-size: 0.62em;
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  color: var(--gold, #d4af37); border: 1px solid currentColor; border-radius: 999px;
+  vertical-align: 0.12em;
 }
+a.lyg-locked:hover::after { background: rgba(212, 175, 55, 0.12); }
 a.lyg-locked { position: relative; }
 
 @media (max-width: 520px) {

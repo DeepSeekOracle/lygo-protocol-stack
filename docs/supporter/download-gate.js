@@ -156,6 +156,9 @@
       }
     }
     if (ARTIFACT.test(h)) {                              // an artifact file, on our own ground
+      /* A relative path is this site's own file — the console page links its kits as
+         `data/.../kit.zip`, which no host list would ever match. */
+      if (h.charAt(0) === "/" || h.indexOf("://") === -1) return true;
       for (i = 0; i < ARTIFACT_HOSTS.length; i++) {
         if (h.indexOf(ARTIFACT_HOSTS[i]) !== -1) return true;
       }
