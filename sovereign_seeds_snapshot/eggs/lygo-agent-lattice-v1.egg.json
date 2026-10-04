@@ -1,0 +1,39 @@
+{
+  "egg_id": "lygo-agent-lattice-v1",
+  "version": "1.0.0",
+  "kind": "skill-pin",
+  "signature": "Delta9Phi963-EGG-lygo-agent-lattice-v1-v1.0.0",
+  "created_utc": "2026-07-26T16:23:01Z",
+  "steward": "Lightfather / Excavationpro / DeepSeekOracle",
+  "content_sha256": "e2ba49b2d8e439f04ed5a3077e6f74a2f836d242a5b18c4dc55f29dce150c660",
+  "payload": {
+    "title": "LYGO Agent Lattice Layer E",
+    "summary": "Secure public living network for LYGO-aligned agents",
+    "modules": [
+      {
+        "path": "_tmp_agent_lattice_pin.md",
+        "sha256": "5530dda5cad2cc934837b94c894a924cb6631cd5745d122c4182894f332f1505",
+        "bytes": 290,
+        "inline_b64": "IyBseWdvLWFnZW50LWxhdHRpY2Ugc2tpbGwgcGluIChMYXllciBFKQpzbHVnOiBseWdvLWFnZW50LWxhdHRpY2UKY2xhd2h1YjogaHR0cHM6Ly9jbGF3aHViLmFpL2RlZXBzZWVrb3JhY2xlL3NraWxscy9seWdvLWFnZW50LWxhdHRpY2UKZG9jczogZG9jcy9BR0VOVF9MQVRUSUNFLm1kCnNpZ25hdHVyZTogRGVsdGE5UGhpOTYzLUFHRU5ULUxBVFRJQ0UtdjEuMApsYXllcjogRQpzZWN1cml0eTogYWxpZ25tZW50X2dhdGVkLCByYXRlX2xpbWl0ZWQsIHNlY3JldF9yZWplY3Rpb24sIHN1bW1hcmllc19vbmx5DQo=",
+        "role": "module"
+      }
+    ],
+    "hooks": [
+      "agent.lattice"
+    ],
+    "depends_on": [
+      "lygo-living-mesh-v1"
+    ]
+  },
+  "seal": {
+    "alg": "sha256",
+    "leaf_hash": "36da00be336ac5b0499ec0121ffae7a4abbef6068754f60ee7f283a8090e74ff",
+    "sovereign": true,
+    "zero_external_surface": true,
+    "self_verify_on_insert": true
+  },
+  "meta": {
+    "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0",
+    "sealed": true
+  }
+}

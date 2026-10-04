@@ -1,0 +1,15 @@
+{
+  "signature": "\u03949\u03a6963-OPENCLAW-EGG-v1",
+  "updated_utc": 1783200397.7929578,
+  "git_head": "3d399f55dd1b",
+  "egg_count": 1,
+  "registry_merkle_root": "8f18fd4357ce13db523286c7eabe185e38133393562f32e195264c000214eefc",
+  "eggs": [
+    {
+      "egg_id": "lygo-openclaw-v10",
+      "merkle_root": "8f18fd4357ce13db523286c7eabe185e38133393562f32e195264c000214eefc",
+      "manifest_path": "data/openclaw/openclaw_egg_manifest.json"
+    }
+  ],
+  "ledger": "data/openclaw/workflow_runs.jsonl"
+}

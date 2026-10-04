@@ -1,0 +1,83 @@
+{
+  "signature": "Delta9Phi963-PUBLIC-WITNESS-CAMERAS-v1.1.1",
+  "doctrine": "Only official public cameras. Government / NASA / NOAA stills and official livestream pages. No private CCTV, no scraped doorbells, no unpaid wire video.",
+  "cameras": [
+    {
+      "id": "goes16_fd",
+      "title": "GOES-East full disk",
+      "owner": "NOAA NESDIS",
+      "kind": "still",
+      "legal": "U.S. government public domain",
+      "src": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/FD/GEOCOLOR/339x339.jpg",
+      "href": "https://www.star.nesdis.noaa.gov/goes/fulldisk.php?sat=G16",
+      "refresh_sec": 300
+    },
+    {
+      "id": "goes18_fd",
+      "title": "GOES-West full disk",
+      "owner": "NOAA NESDIS",
+      "kind": "still",
+      "legal": "U.S. government public domain",
+      "src": "https://cdn.star.nesdis.noaa.gov/GOES18/ABI/FD/GEOCOLOR/339x339.jpg",
+      "href": "https://www.star.nesdis.noaa.gov/goes/fulldisk.php?sat=G18",
+      "refresh_sec": 300
+    },
+    {
+      "id": "goes16_conus",
+      "title": "GOES-East CONUS",
+      "owner": "NOAA NESDIS",
+      "kind": "still",
+      "legal": "U.S. government public domain",
+      "src": "https://cdn.star.nesdis.noaa.gov/GOES16/ABI/CONUS/GEOCOLOR/1250x750.jpg",
+      "href": "https://www.star.nesdis.noaa.gov/goes/conus.php?sat=G16",
+      "refresh_sec": 300
+    },
+    {
+      "id": "nasa_sdo",
+      "title": "NASA SDO solar (AIA 171)",
+      "owner": "NASA SDO",
+      "kind": "still",
+      "legal": "NASA public imagery",
+      "src": "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0171.jpg",
+      "href": "https://sdo.gsfc.nasa.gov/data/",
+      "refresh_sec": 600
+    },
+    {
+      "id": "nasa_epic",
+      "title": "NASA EPIC Earth (DSCOVR)",
+      "owner": "NASA EPIC",
+      "kind": "epic",
+      "legal": "NASA public imagery",
+      "api": "https://epic.gsfc.nasa.gov/api/natural",
+      "href": "https://epic.gsfc.nasa.gov/",
+      "refresh_sec": 3600
+    },
+    {
+      "id": "usgs_hvo",
+      "title": "USGS Kīlauea webcams",
+      "owner": "USGS Hawaiian Volcano Observatory",
+      "kind": "link",
+      "legal": "Official USGS public webcams / livestreams",
+      "href": "https://www.usgs.gov/volcanoes/kilauea/webcams",
+      "note": "Open the official page for live crater cameras. We do not rehost the stream."
+    },
+    {
+      "id": "usgs_avo",
+      "title": "Alaska Volcano Observatory cams",
+      "owner": "USGS / AVO",
+      "kind": "link",
+      "legal": "Official AVO public webcams",
+      "href": "https://avo.alaska.edu/webcam/",
+      "note": "Official ash/volcano cameras."
+    },
+    {
+      "id": "nasa_live",
+      "title": "NASA Live (official)",
+      "owner": "NASA",
+      "kind": "youtube",
+      "legal": "Official NASA public livestream",
+      "embed": "https://www.youtube-nocookie.com/embed/21X5lGlDOfg",
+      "href": "https://www.youtube.com/@NASA/live"
+    }
+  ]
+}

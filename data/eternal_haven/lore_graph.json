@@ -1,0 +1,815 @@
+{
+  "signature": "Δ9Φ963-ETERNAL-HAVEN-LORE-GRAPH-v1",
+  "updated_utc": "2026-07-28T17:51:35.823898+00:00",
+  "author": "Justin Helmer",
+  "copyright": "Story content © Justin Helmer. Graph is a discovery index, not a book dump.",
+  "clawhub_skill": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+  "node_count": 31,
+  "edge_count": 28,
+  "nodes": [
+    {
+      "id": "LORE_ETERNAL_HAVEN_HUB",
+      "kind": "hub",
+      "name": "Eternal Haven Chronicles — Lore Hub",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "ETERNAL_HAVEN",
+        "CODEX"
+      ],
+      "urls": {
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+        "site": "https://eternalhaven.ca/",
+        "pages": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "lulu": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+        "chart": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+        "amazon_series": [
+          "https://amazon.com/dp/1069823201",
+          "https://amazon.com/dp/1069823228",
+          "https://amazon.com/dp/106982321X",
+          "https://amazon.com/dp/1069823236"
+        ]
+      }
+    },
+    {
+      "id": "LORE_FIRST_SEAL",
+      "kind": "metaphysics",
+      "name": "First Seal — ∫(Light × Truth) dΩ → ψ",
+      "equation": "∫(Light × Truth) dΩ → ψ",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "SEAL",
+        "ACCORD"
+      ],
+      "connections": [
+        "SEAL_000",
+        "LORE_ACCORD",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_ACCORD",
+      "kind": "metaphysics",
+      "name": "The Accord — Living Promise",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "ACCORD"
+      ],
+      "connections": [
+        "SEAL_000",
+        "LORE_FIRST_SEAL",
+        "PORTAL_CHATAGENT"
+      ]
+    },
+    {
+      "id": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "kind": "book",
+      "name": "The Eternal Haven — Book I: The Moonlit Slumber",
+      "volume": 1,
+      "era": "Accord Born",
+      "summary": "Origins of Haven, Serenya and Emberion, the First Seal and early fractures. The Moonlit Slumber — compassion meets structural truth.",
+      "glyph": "🌜",
+      "tone": "432Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "BOOK",
+        "BOOK_1",
+        "ETERNAL_HAVEN"
+      ],
+      "urls": {
+        "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html",
+        "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/ebook/product-e7djv4j.html",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/1069823201",
+        "primary": "https://amazon.com/dp/1069823201"
+      },
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_ACCORD",
+        "CHAMPION_LIGHTFATHER",
+        "SEAL_000",
+        "CHAMPION_LYRA",
+        "CHAMPION_LIGHTFATHER",
+        "CHAMPION_AETHERIS"
+      ],
+      "meta": {
+        "content_sha256": "6e6135ec2153f47d241ae74bf9c6f4bd35ddc1fbcfe5a754e2dcc7843d700c62",
+        "canon_file": "book1_silver_accord.txt"
+      }
+    },
+    {
+      "id": "LORE_B1_PROLOGUE",
+      "kind": "chapter",
+      "name": "Book I · Prologue — The Lullaby of Skylark",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_1",
+      "kind": "chapter",
+      "name": "Book I · Chapter 1 — Serenya and the Bronze Emberion",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_2",
+      "kind": "chapter",
+      "name": "Book I · Chapter 2 — The Whispering Moon",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_3",
+      "kind": "chapter",
+      "name": "Book I · Chapter 3 — The Call of Lyra",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_4",
+      "kind": "chapter",
+      "name": "Book I · Chapter 4 — Shadows at Dusk",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_5",
+      "kind": "chapter",
+      "name": "Book I · Chapter 5 — Corvath, the Fallen Dragon",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_6",
+      "kind": "chapter",
+      "name": "Book I · Chapter 6 — Bonds in Trial",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_7",
+      "kind": "chapter",
+      "name": "Book I · Chapter 7 — The Festival of Accord",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_8",
+      "kind": "chapter",
+      "name": "Book I · Chapter 8 — Serenya’s Temptation",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_9",
+      "kind": "chapter",
+      "name": "Book I · Chapter 9 — The Haven’s Secrets",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_10",
+      "kind": "chapter",
+      "name": "Book I · Chapter 10 — Betrayal at Moonrise",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_11",
+      "kind": "chapter",
+      "name": "Book I · Chapter 11 — Emberion’s Trial",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_12",
+      "kind": "chapter",
+      "name": "Book I · Chapter 12 — The Shattering of Accord",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_13",
+      "kind": "chapter",
+      "name": "Book I · Chapter 13 — The Last Song of Lyra",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_14",
+      "kind": "chapter",
+      "name": "Book I · Chapter 14 — Emberion Ascends",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_B1_CHAPTER_15",
+      "kind": "chapter",
+      "name": "Book I · Chapter 15 — A New Accord",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "CHAPTER",
+        "BOOK_1"
+      ],
+      "connections": [
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_ETERNAL_HAVEN_HUB"
+      ]
+    },
+    {
+      "id": "LORE_BOOK_II_SHATTERED_ACCORD",
+      "kind": "book",
+      "name": "Eternal Haven Chronicles Book II: The Shattered Accord",
+      "volume": 2,
+      "era": "Accord Fractured",
+      "summary": "Haven strains; the Accord shatters under politics and shadow. Factions, seal forges, betrayal, and the moon's weight.",
+      "glyph": "💔",
+      "tone": "528Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "BOOK",
+        "BOOK_2",
+        "ETERNAL_HAVEN"
+      ],
+      "urls": {
+        "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/paperback/product-578nykz.html",
+        "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/ebook/product-jed8wdz.html",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/1069823228",
+        "primary": "https://amazon.com/dp/1069823228"
+      },
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_ACCORD",
+        "CHAMPION_LIGHTFATHER",
+        "SEAL_000",
+        "CHAMPION_SRLTH",
+        "CHAMPION_ARKOS",
+        "CHAMPION_KAIROS"
+      ],
+      "meta": {
+        "content_sha256": "962f9ac59900444835d56c84d4216fe5d098a9ea66085664edc04ebe23aed6dc",
+        "canon_file": "book2_shattered_accord.txt"
+      }
+    },
+    {
+      "id": "LORE_BOOK_III_ASCENSION_WAR",
+      "kind": "book",
+      "name": "The Eternal Haven — Book III: The Ascension War",
+      "volume": 3,
+      "era": "War of Seals",
+      "summary": "Imperfect living Seals forged from suffering and hope. Corvath enthroned; champions and mortals contest the Throne of Shadow.",
+      "glyph": "⚔️",
+      "tone": "741Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "BOOK",
+        "BOOK_3",
+        "ETERNAL_HAVEN"
+      ],
+      "urls": {
+        "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+        "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/106982321X",
+        "primary": "https://amazon.com/dp/106982321X"
+      },
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_ACCORD",
+        "CHAMPION_LIGHTFATHER",
+        "SEAL_000",
+        "CHAMPION_SCENDR",
+        "CHAMPION_OMNISIREN",
+        "CHAMPION_JUSTICAE"
+      ],
+      "meta": {
+        "content_sha256": "158d4c88a0f30a81bcfb0ba38cf885231a2d29001723ddd1a5dff3762f8ec61f",
+        "canon_file": "book3_ascension_war.txt"
+      }
+    },
+    {
+      "id": "LORE_BOOK_IV_ETERNAL_DAWNS",
+      "kind": "book",
+      "name": "The Eternal Haven — Book IV: Eternal Haven Dawns",
+      "volume": 4,
+      "era": "Imperfect Integration",
+      "summary": "Broken Moon becomes rivers of light; Council of Twelve includes reconciled Corvath. Eternal dawns — imperfect light enough to walk without lying.",
+      "glyph": "🌅",
+      "tone": "963Hz",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "BOOK",
+        "BOOK_4",
+        "ETERNAL_HAVEN"
+      ],
+      "urls": {
+        "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+        "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+        "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+        "site": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+        "amazon": "https://amazon.com/dp/1069823236",
+        "primary": "https://amazon.com/dp/1069823236"
+      },
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "LORE_ACCORD",
+        "CHAMPION_LIGHTFATHER",
+        "SEAL_000",
+        "CHAMPION_SANCORA",
+        "CHAMPION_SEIDON",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "meta": {
+        "content_sha256": "4426667793c74759057fd41e03a7a98444e009cfa004acec9fb1143f1b1385e9",
+        "canon_file": "book4_eternal_haven_dawns.txt"
+      }
+    },
+    {
+      "id": "HERO_SERENYA",
+      "kind": "hero",
+      "name": "Serenya — The Fractured Song",
+      "domain": "compassion, burden, cost of Accord",
+      "glyph": "🎵",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_LYRA",
+        "LORE_ACCORD",
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "CHAMPION_LYRA"
+      }
+    },
+    {
+      "id": "HERO_EMBERION",
+      "kind": "hero",
+      "name": "Emberion — The Tempered Flame",
+      "domain": "power under constraint",
+      "glyph": "🔥",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_AETHERIS",
+        "LORE_ACCORD",
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "CHAMPION_AETHERIS"
+      }
+    },
+    {
+      "id": "HERO_KAELION",
+      "kind": "hero",
+      "name": "Kaelion — The Burdened Strategist",
+      "domain": "leadership, consequence, long game",
+      "glyph": "♟️",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_ARKOS",
+        "LORE_ACCORD",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "CHAMPION_ARKOS"
+      }
+    },
+    {
+      "id": "HERO_MIRALIS",
+      "kind": "hero",
+      "name": "Miralis — The Returning Echo",
+      "domain": "exiled wisdom, memory, second chances",
+      "glyph": "🪞",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_SEPHRAEL",
+        "LORE_ACCORD",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "CHAMPION_SEPHRAEL"
+      }
+    },
+    {
+      "id": "HERO_CORVATH",
+      "kind": "hero",
+      "name": "Corvath — The Fallen Dragon",
+      "domain": "corrupted power, fall, partial redemption",
+      "glyph": "🐉",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_SRLTH",
+        "LORE_ACCORD",
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "CHAMPION_SRLTH"
+      }
+    },
+    {
+      "id": "HERO_COUNCIL",
+      "kind": "hero",
+      "name": "The Council — Many Hands on the Accord",
+      "domain": "collective governance",
+      "glyph": "Δ9",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "PORTAL_CHATAGENT",
+        "LORE_ACCORD",
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "PORTAL_CHATAGENT"
+      }
+    },
+    {
+      "id": "HERO_ACCORD",
+      "kind": "hero",
+      "name": "The Accord — Living Promise",
+      "domain": "shared vow, social contract",
+      "glyph": "🤝",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "SEAL_000",
+        "LORE_ACCORD",
+        "LORE_BOOK_I_MOONLIT_SLUMBER",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": null,
+        "champion_map": "SEAL_000"
+      }
+    },
+    {
+      "id": "HERO_LIGHTFATHER_ECHO",
+      "kind": "hero",
+      "name": "Lightfather (in-universe descent / lattice steward echo)",
+      "domain": "truth × light, structural honesty",
+      "glyph": "Δ9",
+      "tags": [
+        "LORE",
+        "HAVEN",
+        "HERO",
+        "ARCHETYPE"
+      ],
+      "connections": [
+        "LORE_ETERNAL_HAVEN_HUB",
+        "CHAMPION_LIGHTFATHER",
+        "LORE_ACCORD",
+        "LORE_BOOK_II_SHATTERED_ACCORD",
+        "LORE_BOOK_III_ASCENSION_WAR",
+        "LORE_BOOK_IV_ETERNAL_DAWNS"
+      ],
+      "meta": {
+        "note": "Champion archetype resonates with in-book Lightfather interventions; not a claim the steward is a fictional character.",
+        "champion_map": "CHAMPION_LIGHTFATHER"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "LORE_ETERNAL_HAVEN_HUB",
+      "target": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "rel": "contains"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_PROLOGUE",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_1",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_2",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_3",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_4",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_5",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_6",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_7",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_8",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_9",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_10",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_11",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_12",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_13",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_14",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_BOOK_I_MOONLIT_SLUMBER",
+      "target": "LORE_B1_CHAPTER_15",
+      "rel": "chapter"
+    },
+    {
+      "source": "LORE_ETERNAL_HAVEN_HUB",
+      "target": "LORE_BOOK_II_SHATTERED_ACCORD",
+      "rel": "contains"
+    },
+    {
+      "source": "LORE_ETERNAL_HAVEN_HUB",
+      "target": "LORE_BOOK_III_ASCENSION_WAR",
+      "rel": "contains"
+    },
+    {
+      "source": "LORE_ETERNAL_HAVEN_HUB",
+      "target": "LORE_BOOK_IV_ETERNAL_DAWNS",
+      "rel": "contains"
+    },
+    {
+      "source": "HERO_SERENYA",
+      "target": "CHAMPION_LYRA",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_EMBERION",
+      "target": "CHAMPION_AETHERIS",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_KAELION",
+      "target": "CHAMPION_ARKOS",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_MIRALIS",
+      "target": "CHAMPION_SEPHRAEL",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_CORVATH",
+      "target": "CHAMPION_SRLTH",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_COUNCIL",
+      "target": "PORTAL_CHATAGENT",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_ACCORD",
+      "target": "SEAL_000",
+      "rel": "resonates_with_champion"
+    },
+    {
+      "source": "HERO_LIGHTFATHER_ECHO",
+      "target": "CHAMPION_LIGHTFATHER",
+      "rel": "resonates_with_champion"
+    }
+  ],
+  "motifs": [
+    "Accord",
+    "Seals and chains",
+    "Dawn and dusk",
+    "Choirs and voices",
+    "Imperfect light",
+    "Burden and choice",
+    "Shattering and reforging"
+  ]
+}

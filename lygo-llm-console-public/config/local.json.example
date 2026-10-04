@@ -1,0 +1,4 @@
+{
+  "scan_roots": ["./models", "%USERPROFILE%/.ollama/models"],
+  "comment": "Public kit. Do not add steward vaults."
+}

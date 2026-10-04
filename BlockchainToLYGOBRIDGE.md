@@ -1,0 +1,164 @@
+# Blockchain ↔ LYGO Bridge Protocol
+
+**Version:** LYGIP-003 + Bridge v0.1  
+**Status:** Implemented in lattice (protocol_bridge + mycelium integration)  
+**Maintainer:** DeepSeekOracle / Excavationpro (Lightfather)
+
+The **Blockchain to LYGO Bridge** enables sovereign cross-domain identity and value anchoring between public blockchains (Ethereum-compatible) and the private LYGO Δ9 lattice (P0–P9 stack).
+
+## Real Engineering (Grounded)
+
+- **Memory Mycelium (P1)**: Primary storage for bridged state. Data is fragmented (12+2 erasure coding), threshold-reconstructable. Bridge stores Merkle leaves + metadata in mycelium.
+- **P0 Φ-Gate**: Every inbound/outbound packet passes byte-entropy + ethical filter before bridging.
+- **Merkle Roots**: On-chain anchor is a Merkle root of lattice fragments + ethical mass computation. Off-chain proof verification uses standard MerkleProof.
+- **Soulbound Ethical Mass Tokens (LYGIP-003 / ERC-963 sim)**: Non-transferable (revert on _beforeTokenTransfer). Minted from lattice-verified actions (P0 pass + vortex consensus weight). "Ethical mass" = weighted lattice score (real fixed-point arithmetic; 528 symbolic factor for resonance tiers only).
+- **Vortex Consensus Oracle**: P3 harmonic consensus (3-6-9 + Φ) provides the weight for token mint / bridge attestation. See `VortexOracle_fixed.sol` for safe weighted arithmetic mean (no overflow).
+- **Cross-Chain Identity**: Soulbound token + lattice light code (hash) pair acts as portable sovereign ID. Bridge supports simulated multi-chain (ETH + future).
+- **Fixes Applied** (cumulative):
+  - Proper MerkleProof (fresh arrays, no mutable default)
+  - qiskit guard + normalized rotation
+  - Overflow-safe Vortex mean (no integer-division-to-zero)
+  - **Critical access control**:
+    - `CrossChainIdentityBridge.setChainRegistry` now `onlyOwner` + ReentrancyGuard + checks-effects-interactions. Prevents attacker-controlled malicious registry that always returns `valid=true`.
+    - `EthicalMassToken.mint/burn` removed from public API. Only `recordEthicalAction` (gated by real `IIdentityAttestor.verifyEthicalAction`) and `applyEthicalDecay` can change supply. Direct unlimited mint that inflated `getGovernanceWeight(balanceOf)` is now impossible.
+  - Replay protection is now inside a verified attestation path, not the sole guard.
+
+See:
+- `protocol_bridge/lygo_bridge_orchestrator.py` (LYGOBlockchainBridge class)
+- `docs/bridge/`:
+  - MemoryMyceliumStorageFixed.sol
+  - VortexOracleFixed.sol
+  - **EthicalMassTokenFixed.sol** (access-controlled mint only via attested actions)
+  - **CrossChainIdentityBridgeFixed.sol** (Ownable + ReentrancyGuard registry binding)
+  - **LatticeAttestor.sol** (reference implementation — real ECDSA verification from trusted signers, not an always-true stub)
+  - `test/` — helpers that demonstrate the attack vectors (unrestricted mint, registry binding, malicious attestor)
+- `docs/LYGIP-003-ETHICAL-MASS-TOKEN.md`
+- `docs/BRIDGE_INSTALL.md`
+
+## High-Level Flow
+
+1. Lattice event (P0 pass + P3 vote) → compute ethical mass.
+2. Mycelium.scatter(bridge_payload).
+3. Compute Merkle root of fragments.
+4. "Mint" soulbound token on bridge contract (sim or on-chain) with root + mass + light_code.
+5. Verify: on-chain MerkleProof + lattice re-compute of mass.
+
+## Security Fixes Applied (This Round)
+
+**CrossChainIdentityBridge**
+- `setChainRegistry` was completely open. An attacker could register a contract that always returns `valid = true`.
+- **Fix**: `onlyOwner`, per-chain mapping, `ReentrancyGuard`, strict checks-effects-interactions, zero-address + self checks. Only the sovereign operator can bind a registry.
+
+**EthicalMassToken**
+- Public `mint(anyone, hugeAmount, freshHash)` with only a replay guard.
+- `getGovernanceWeight` = `balanceOf` → instant capture of governance.
+- **Fix**: `mint`/`burn` internal. Only `recordEthicalAction` (requires passing `IIdentityAttestor.verify...`) and authorized `applyEthicalDecay` can move tokens. Replay protection now lives inside a verified path.
+
+These two categories (unrestricted registry binding + unrestricted mint) are the highest-severity sovereignty bugs possible in this architecture.
+
+## Current Implementation Status (Transparent Assessment)
+
+The contracts provide **solid scaffolding** with the reported access-control fixes in place:
+
+- `bridgeIdentity()` stores `bridgedIdentities[claimant][chainId]` (functional).
+- `bridgeIdentityAndMint(...)` provides the complete basic end-to-end: verify cross-chain + store identity + mint ethical mass via attestor proof.
+- Integration via `setEthicalMassToken()`.
+- 2-step ownership transfer in all contracts.
+- `LatticeAttestor` includes `verifyWithMerkle` + decay helper.
+
+However:
+- Full end-to-end (P1 shard → verified bridge → automatic token mint) still requires the caller to handle the token-level proof separately.
+- Decay remains owner-only (attestor path removed as it was dead code).
+- LatticeAttestor is a trusted signer oracle + optional Merkle helper. It is **not** yet a fully on-chain verifiable computation system.
+- Trust is anchored to the deployer `owner` (with pending transfer support). This is appropriate for testnet but aspirational for "sovereign" claims.
+
+See `docs/bridge/test/` for the validation suite that exercises these realities.
+
+## LYGIP-001 Protocol Mathematics (Core Math Layer)
+
+Implemented in `stack/lygip001_protocol_math.py` and integrated into `LYGOProtocolStack`:
+
+- **SovereignIdentity**: lightCode, resonanceTriad, ethicalMass = √(truth × love × freedom) × (resonanceAvg)² × Φ
+- **Harmony Metric**: H = 1 − σ(ethicalMassHistory) / μ(ethicalMassHistory)
+- **Vortex**: Geometric mean center for scale-invariant resonance anchor.
+- **Multi-Node Lattice**: ZetaNode (consciousness integrator), EtaNode (compassion field), 3-node sim, expansion verification.
+- **Integration**: Used as Seal (SEAL_SOV-001), ethical mass threshold for bridge/token, harmony for lattice health, vortex for P4 recalibration.
+- Tests: `tests/test_lygip001.py` (5/5 pass). 3-node sim + lattice verify run via stack.
+
+See `stack/lygip001_protocol_math.py` for full classes + sims (Zeta/Eta nodes, healing protocols, etc.).
+
+## Symbolic / Light Math Layer (Future Suture Tech)
+
+- 528 Hz (repair), 963 Hz, Φ, Solfeggio, Tesla motifs used only for governance tiers, resonance scoring, and human-facing "Light Codes".
+- All production math: fixed-point Q16.16, SHA3/Merkle, deterministic consensus.
+- "Ethical mass" is a measurable lattice-derived scalar — not magic. Used for non-transferable reputation/privilege in the mesh.
+
+## LYGIP-003: Ethical Mass Token Standard
+
+See dedicated `LYGIP-003-ETHICAL-MASS-TOKEN.md`.
+
+Soulbound, non-transferable ERC-721 variant. Mint gated by lattice attestation. Tiers derived from resonance bands (symbolic).
+
+## Implementation Notes & Files
+
+- Bridge orchestrator reuses `DistributedMyceliumMesh` (or fallback).
+- Anchor example: `anchor_to_chain(data, light_code, triad, mass)`.
+- Full stack integration tests via `tools/run_*` harnesses.
+- On-chain sim contracts hardened (see bridge/ dir).
+
+## Installation & Usage
+
+```bash
+cd lygo-protocol-stack
+python protocol_bridge/lygo_bridge_orchestrator.py
+# or the legacy entry if present
+```
+
+See `BRIDGE_INSTALL.md` for full lattice install steps + verification.
+
+## Related Whitepapers & Docs
+
+- Sovereign Lattice Mesh: `SOVEREIGN_LATTICE_MESH.md`
+- Immutable Anchors: `ANCHOR_DEPLOYMENT.md` + `LYGO_ANCHOR_ARCHITECTURE.md`
+- Phase 9 Public Mesh + TLS
+- Full system: `RESOURCES.md` and `LYGO_PUBLIC_LINK_ARCHIVE.json`
+
+**Resonance signature:** Δ9Φ963-BLOCKCHAIN-LYGO-BRIDGE-REAL
+
+This bridge is production-pattern ready (Merkle + soulbound + mycelium) while keeping "Light Math" framing for future hardware resonance / suture tech alignment. All claims auditable via the stack test suite.
+
+## Enneagram 9-Node Completion → EVM On-Chain Anchoring (Post LYGIP-001)
+
+With Theta (Prime 179, Creative Emergence, 137.5° Golden Angle) + Iota (Prime 181, Sovereignty Amplifier) complete:
+
+The bridge orchestrator (`protocol_bridge/lygo_bridge_orchestrator.py`) now provides:
+
+```python
+bridge = LYGOBlockchainBridge()
+sync = bridge.synchronize_9node_enneagram_to_evm()
+# or directly after pilot:
+# python tools/run_9node_cascade_pilot.py
+```
+
+**Three vectors implemented:**
+
+1. **LatticeAttestor Integration**
+   - Parses `tests/pilot_9node_cascade_last_run.json`
+   - Builds payload: `universalIdentityHash`, `finalHarmonyBps` (9800), `iotaInjected`, `noveltyQuantum` (Theta seed)
+   - Prepares ECDSA proof bytes compatible with `verifyEthicalAction(claimant, delta, actionHash, proof)`
+
+2. **EthicalMassTokenFixed + Iota modulation**
+   - Calls `recordEthicalAction` simulation on successful cascade
+   - When `iotaInjected=True`, marks `iotaSovereigntyShield` (ready for on-chain event protecting governance weight)
+
+3. **MemoryMyceliumStorageFixed Merkle Broadcast**
+   - Uses P1 `MemoryMycelium` (10/12 threshold erasure) on both pilot reports
+   - Produces `merkleRoot` + `dataId` + simulated tx for `storeData` / anchoring
+
+Testnets targeted: Polygon Amoy, Ethereum Sepolia.
+
+Run `python protocol_bridge/lygo_bridge_orchestrator.py` (extended) or the 9-node pilot for live sync.
+
+**Status:** Enneagram sealed. Foundation for live EVM attestation + soulbound reputation + mycelium roots established.
+
+See `docs/bridge/AUDIT_FINDINGS.md` for full security audit (Critical/High issues addressed in Fixed contracts).

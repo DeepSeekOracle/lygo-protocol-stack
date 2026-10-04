@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LYGO Continuum — Falsifiable Work Capsules</title>
+  <meta name="description" content="LYGO Continuum: seal agent 'done' as falsifiable claims. Re-verify in the browser. Detect drift. Handoff across sessions. Files never leave your machine." />
+  <meta name="theme-color" content="#0b0f14" />
+  <link rel="canonical" href="https://chatagent.ca/lygo-continuum.html" />
+  <style>
+    :root {
+      --bg: #070a0e;
+      --panel: #0f151c;
+      --panel2: #121a22;
+      --border: #1e2a36;
+      --text: #e8eef4;
+      --muted: #8b9aab;
+      --accent: #2dd4a8;
+      --accent2: #38bdf8;
+      --warn: #fbbf24;
+      --bad: #f07178;
+      --glow: rgba(45, 212, 168, 0.15);
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #12352a55, transparent),
+        radial-gradient(900px 500px at 100% 0%, #0c2a4455, transparent),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .infinity {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      font-size: 1.6rem;
+      background: linear-gradient(145deg, #153d32, #0d1f2a);
+      border: 1px solid #2dd4a844;
+      box-shadow: 0 0 24px var(--glow);
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      letter-spacing: -0.02em;
+    }
+    .tagline { color: var(--muted); margin: 0.35rem 0 0; font-size: 1.05rem; }
+    .sig {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+    .nav {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .nav a, .btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #1a4d3f, #164a62);
+      border-color: #2dd4a855;
+      color: #fff;
+    }
+    .btn:hover, .nav a:hover { border-color: var(--accent2); text-decoration: none; }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: linear-gradient(160deg, var(--panel2), var(--panel));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.15rem 1.25rem;
+      box-shadow: 0 8px 32px #0005;
+    }
+    .panel h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.05rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .panel p { margin: 0.4rem 0; color: var(--muted); font-size: 0.92rem; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0; }
+    .pill {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    .band {
+      display: inline-block;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+    }
+    .band.holds { background: #2dd4a822; color: var(--accent); }
+    .band.broken { background: #f0717822; color: var(--bad); }
+    .band.idle { background: #8b9aab22; color: var(--muted); }
+    .band.drift { background: #fbbf2422; color: var(--warn); }
+    textarea, input, select {
+      width: 100%;
+      background: #0a1016;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.65rem 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+    }
+    textarea { min-height: 180px; resize: vertical; }
+    label { display: block; font-size: 0.8rem; color: var(--muted); margin: 0.6rem 0 0.3rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+    .drop {
+      border: 1.5px dashed #2a3a4a;
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+      color: var(--muted);
+      background: #0a101680;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop.drag { border-color: var(--accent); background: #2dd4a808; }
+    .drop strong { color: var(--text); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 0.75rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.45rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 600; font-size: 0.75rem; }
+    .ok { color: var(--accent); font-weight: 700; }
+    .fail { color: var(--bad); font-weight: 700; }
+    .mono { font-family: var(--mono); font-size: 0.72rem; word-break: break-all; }
+    .status-line {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .stats { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+    .stats b { color: var(--text); }
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem 2.5rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+    .steps li {
+      counter-increment: s;
+      position: relative;
+      padding: 0.55rem 0 0.55rem 2.2rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .steps li::before {
+      content: counter(s);
+      position: absolute; left: 0; top: 0.55rem;
+      width: 1.5rem; height: 1.5rem;
+      border-radius: 50%;
+      background: #153d32;
+      color: var(--accent);
+      display: grid; place-items: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .steps li strong { color: var(--text); }
+    #toast {
+      position: fixed; bottom: 1rem; right: 1rem;
+      background: #153d32; color: var(--accent);
+      border: 1px solid #2dd4a855;
+      padding: 0.6rem 1rem; border-radius: 10px;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+      font-size: 0.85rem; z-index: 50;
+    }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="infinity" title="Continuum">∞</div>
+      <div>
+        <h1>LYGO Continuum</h1>
+        <p class="tagline">The work still holds — falsifiable capsules for agents &amp; humans.</p>
+        <div class="sig">Delta9Phi963-CONTINUUM-v1.0.0 · files never leave your machine</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="https://chatagent.ca/lygoskillhub.html">SkillHub</a>
+      <a href="https://chatagent.ca/lygoskillhub.html#full-lygo">FULL vault</a>
+      <a href="https://clawhub.ai/deepseekoracle/skills/lygo-continuum">ClawHub skill</a>
+      <a href="#verify">Verify</a>
+      <a href="#build">Build capsule</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-grid">
+      <div class="panel">
+        <h2>Why Continuum exists</h2>
+        <p>AI agents report <em>done</em>. Sessions end. Another human or model picks up the thread and has no way to know what still holds on disk.</p>
+        <p><strong style="color:var(--text)">Continuum</strong> seals work as structured, falsifiable claims (SHA-256, contains, JSON paths…). Re-verify anytime. Drift becomes visible. Handoffs become portable packs — not vibes.</p>
+        <div class="pill-row">
+          <span class="pill">file_sha256</span>
+          <span class="pill">file_contains</span>
+          <span class="pill">json_path_eq</span>
+          <span class="pill">glob_count</span>
+          <span class="pill">drift</span>
+          <span class="pill">handoff</span>
+        </div>
+        <p>Client-side only: drop files here to hash with Web Crypto. Nothing uploads.</p>
+      </div>
+      <div class="panel">
+        <h2>Agent loop</h2>
+        <ol class="steps">
+          <li><strong>Finish</strong> work on disk</li>
+          <li><strong>Seal</strong> claims with the skill CLI</li>
+          <li><strong>Exit 10?</strong> Not done — fix files or claims</li>
+          <li><strong>Handoff</strong> markdown pack → next agent</li>
+          <li><strong>Later:</strong> re-verify or detect drift here</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="panel" id="verify">
+      <h2>Verify a capsule</h2>
+      <div class="status-line">
+        <span class="band idle" id="band">IDLE</span>
+        <div class="stats" id="stats">Paste a capsule JSON below, then drop matching files.</div>
+      </div>
+      <label for="capsuleIn">Capsule JSON</label>
+      <textarea id="capsuleIn" placeholder='{"schema":"lygo.continuum.v1","id":"CONT-...","claims":[...],"root_hash":"..."}'></textarea>
+      <div class="row">
+        <button class="btn btn-primary" type="button" id="btnParse">Parse &amp; check integrity</button>
+        <button class="btn" type="button" id="btnDemo">Load demo capsule</button>
+        <button class="btn" type="button" id="btnClear">Clear</button>
+      </div>
+      <label style="margin-top:1rem">Drop files that match claim paths (basename match)</label>
+      <div class="drop" id="drop">
+        <strong>Drop files here</strong> or click to choose<br />
+        <span style="font-size:0.8rem">SHA-256 computed locally · no network</span>
+        <input type="file" id="fileIn" multiple hidden />
+      </div>
+      <div id="fileList" class="mono" style="margin-top:0.5rem;color:var(--muted)"></div>
+      <div class="row">
+        <button class="btn btn-primary" type="button" id="btnVerify">Verify claims against dropped files</button>
+        <button class="btn" type="button" id="btnCopyCard">Copy witness summary</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Kind</th><th>Path / note</th><th>Result</th><th>Detail</th></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="build">
+      <h2>Build a portable claim (text_sha256)</h2>
+      <p>For claims that travel without disk — hash inline text in the browser, then paste into a capsule.</p>
+      <label for="textIn">Text to seal</label>
+      <textarea id="textIn" style="min-height:100px" placeholder="Paste the exact statement or snippet..."></textarea>
+      <div class="row">
+        <button class="btn btn-primary" type="button" id="btnHashText">Compute text_sha256 claim</button>
+      </div>
+      <label for="claimOut">Generated claim JSON</label>
+      <textarea id="claimOut" style="min-height:90px" readonly></textarea>
+    </section>
+
+    <section class="panel">
+      <h2>CLI (local skill)</h2>
+      <pre class="mono" style="margin:0;white-space:pre-wrap;color:var(--muted)">python scripts/continuum.py demo
+python scripts/continuum.py seal --claims claims.json --task "..." --base .
+python scripts/continuum.py verify --capsule capsule.json --base .
+python scripts/continuum.py drift --capsule capsule.json
+python scripts/continuum.py handoff --capsule capsule.json --verify</pre>
+      <p style="margin-top:0.75rem">Skill: <code class="mono">lygo-continuum</code> · FULL zip on <a href="https://chatagent.ca/lygoskillhub.html#full-lygo">SkillHub #full-lygo</a></p>
+    </section>
+  </main>
+
+  <footer>
+    LYGO Continuum · Δ9Φ963 · claims over vibes · human remains the publisher ·
+    <a href="https://chatagent.ca/">chatagent.ca</a>
+  </footer>
+  <div id="toast"></div>
+
+  <script>
+  (function () {
+    const $ = (id) => document.getElementById(id);
+    let capsule = null;
+    let fileMap = new Map(); // basename -> {name, buffer, sha256}
+    let lastResults = [];
+
+    function toast(msg) {
+      const t = $("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    async function sha256Hex(buf) {
+      const hash = await crypto.subtle.digest("SHA-256", buf);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function enc(s) {
+      return new TextEncoder().encode(s);
+    }
+
+    function canonicalJson(obj) {
+      if (obj === null || typeof obj !== "object") return JSON.stringify(obj);
+      if (Array.isArray(obj)) return "[" + obj.map(canonicalJson).join(",") + "]";
+      const keys = Object.keys(obj).sort();
+      return "{" + keys.map(k => JSON.stringify(k) + ":" + canonicalJson(obj[k])).join(",") + "}";
+    }
+
+    async function rootHashOf(cap) {
+      const body = {};
+      for (const k of Object.keys(cap).sort()) {
+        if (k === "root_hash" || k === "chain" || k === "last_verify") continue;
+        body[k] = cap[k];
+      }
+      // Match Python: sort_keys on full body, exclude three fields
+      const clone = JSON.parse(JSON.stringify(cap));
+      delete clone.root_hash;
+      delete clone.chain;
+      delete clone.last_verify;
+      const s = canonicalJson(clone);
+      return sha256Hex(enc(s));
+    }
+
+    // Python json.dumps(sort_keys=True, separators=(',', ':')) is close to our canonicalJson
+    // for typical capsules (no non-finite numbers). Good enough for integrity UI.
+
+    function setBand(mode, text) {
+      const b = $("band");
+      b.className = "band " + mode;
+      b.textContent = text;
+    }
+
+    function basename(p) {
+      if (!p) return "";
+      const s = String(p).replace(/\\/g, "/");
+      const i = s.lastIndexOf("/");
+      return i >= 0 ? s.slice(i + 1) : s;
+    }
+
+    function renderFiles() {
+      if (!fileMap.size) {
+        $("fileList").textContent = "No files loaded.";
+        return;
+      }
+      const lines = [];
+      for (const [k, v] of fileMap) {
+        lines.push(k + "  " + v.sha256.slice(0, 16) + "…");
+      }
+      $("fileList").textContent = lines.join("\n");
+    }
+
+    async function ingestFiles(fileList) {
+      for (const f of fileList) {
+        const buf = await f.arrayBuffer();
+        const sha = await sha256Hex(buf);
+        const text = new TextDecoder("utf-8", { fatal: false }).decode(buf);
+        fileMap.set(f.name, { name: f.name, buffer: buf, sha256: sha, text, size: buf.byteLength });
+      }
+      renderFiles();
+      toast(fileMap.size + " file(s) ready");
+    }
+
+    function getFileForClaim(claim) {
+      const path = claim.path || claim.file;
+      if (!path) return null;
+      const base = basename(path);
+      return fileMap.get(base) || null;
+    }
+
+    function getJsonPath(data, dotted) {
+      if (!dotted) return data;
+      let cur = data;
+      for (const part of dotted.split(".")) {
+        if (cur == null) return undefined;
+        if (Array.isArray(cur)) {
+          const idx = parseInt(part, 10);
+          if (Number.isNaN(idx) || idx < 0 || idx >= cur.length) return undefined;
+          cur = cur[idx];
+        } else if (typeof cur === "object") {
+          if (!(part in cur)) return undefined;
+          cur = cur[part];
+        } else return undefined;
+      }
+      return cur;
+    }
+
+    async function evalClaim(claim) {
+      const kind = claim.kind;
+      const id = claim.id || "?";
+      const r = { id, kind, ok: false, detail: "", path: claim.path || claim.file || claim.pattern || "(inline)" };
+
+      try {
+        if (kind === "text_sha256") {
+          const text = claim.text || "";
+          const expect = (claim.expect || claim.sha256 || "").toLowerCase();
+          const got = await sha256Hex(enc(text));
+          r.ok = got === expect;
+          r.detail = r.ok ? "match" : "text hash mismatch";
+          return r;
+        }
+
+        if (kind === "glob_count_gte") {
+          r.detail = "glob requires local CLI (portal: drop individual files)";
+          r.ok = false;
+          return r;
+        }
+
+        const f = getFileForClaim(claim);
+        if (kind === "file_exists") {
+          r.ok = !!f;
+          r.detail = f ? "exists (dropped)" : "file not dropped";
+          return r;
+        }
+        if (kind === "file_missing") {
+          r.ok = !f;
+          r.detail = f ? "still present" : "absent (ok)";
+          return r;
+        }
+        if (!f) {
+          r.detail = "drop file: " + basename(claim.path || claim.file || "");
+          return r;
+        }
+
+        if (kind === "file_sha256") {
+          const expect = (claim.expect || claim.sha256 || "").toLowerCase();
+          r.ok = !!expect && f.sha256 === expect;
+          r.detail = r.ok ? "hash match" : "hash mismatch / " + f.sha256.slice(0, 12) + "…";
+          return r;
+        }
+        if (kind === "file_contains") {
+          const needle = claim.needle || claim.expect || "";
+          r.ok = !!needle && f.text.includes(needle);
+          r.detail = r.ok ? "contains" : "needle not found";
+          return r;
+        }
+        if (kind === "file_not_contains") {
+          const needle = claim.needle || claim.expect || "";
+          r.ok = !!needle && !f.text.includes(needle);
+          r.detail = r.ok ? "absent" : "needle present";
+          return r;
+        }
+        if (kind === "line_count_gte") {
+          const n = Number(claim.n != null ? claim.n : claim.expect);
+          const lines = f.text ? f.text.split(/\r?\n/).length : 0;
+          r.ok = lines >= n;
+          r.detail = lines + " >= " + n;
+          return r;
+        }
+        if (kind === "line_count_eq") {
+          const n = Number(claim.n != null ? claim.n : claim.expect);
+          const lines = f.text ? f.text.split(/\r?\n/).filter((_, i, a) => i < a.length - 1 || a[i] !== "").length : 0;
+          const lc = f.text === "" ? 0 : f.text.split(/\r?\n/).length;
+          r.ok = lc === n;
+          r.detail = lc + " == " + n;
+          return r;
+        }
+        if (kind === "bytes_gte") {
+          const n = Number(claim.n != null ? claim.n : claim.expect);
+          r.ok = f.size >= n;
+          r.detail = f.size + " >= " + n;
+          return r;
+        }
+        if (kind === "bytes_eq") {
+          const n = Number(claim.n != null ? claim.n : claim.expect);
+          r.ok = f.size === n;
+          r.detail = f.size + " == " + n;
+          return r;
+        }
+        if (kind === "json_path_eq") {
+          let data;
+          try { data = JSON.parse(f.text); } catch (e) {
+            r.detail = "invalid json";
+            return r;
+          }
+          const jpath = claim.jpath || claim.json_path || "";
+          const got = getJsonPath(data, jpath);
+          r.ok = JSON.stringify(got) === JSON.stringify(claim.expect);
+          r.detail = r.ok ? "json path match" : "mismatch";
+          return r;
+        }
+        if (kind === "regex_match" || kind === "regex_not_match") {
+          const pattern = claim.pattern || claim.expect || "";
+          if (!pattern || pattern.length > 500) {
+            r.detail = "bad pattern";
+            return r;
+          }
+          const rx = new RegExp(pattern, "m");
+          const found = rx.test(f.text);
+          if (kind === "regex_match") {
+            r.ok = found;
+            r.detail = found ? "matched" : "no match";
+          } else {
+            r.ok = !found;
+            r.detail = !found ? "no match (ok)" : "matched (fail)";
+          }
+          return r;
+        }
+        r.detail = "unknown kind";
+        return r;
+      } catch (e) {
+        r.detail = String(e.message || e);
+        return r;
+      }
+    }
+
+    function renderResults(results) {
+      lastResults = results;
+      const tb = $("rows");
+      tb.innerHTML = "";
+      let pass = 0;
+      for (const r of results) {
+        if (r.ok) pass++;
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td class='mono'>" + escapeHtml(r.id) + "</td>" +
+          "<td>" + escapeHtml(r.kind) + "</td>" +
+          "<td class='mono'>" + escapeHtml(String(r.path || "")) + "</td>" +
+          "<td class='" + (r.ok ? "ok" : "fail") + "'>" + (r.ok ? "PASS" : "FAIL") + "</td>" +
+          "<td>" + escapeHtml(r.detail || "") + "</td>";
+        tb.appendChild(tr);
+      }
+      return { pass, total: results.length };
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    async function parseCapsule() {
+      const raw = $("capsuleIn").value.trim();
+      if (!raw) {
+        toast("Paste capsule JSON first");
+        return;
+      }
+      try {
+        capsule = JSON.parse(raw);
+      } catch (e) {
+        setBand("broken", "INVALID JSON");
+        toast("Invalid JSON");
+        return;
+      }
+      const stored = capsule.root_hash || "";
+      let recomputed = "";
+      try {
+        recomputed = await rootHashOf(capsule);
+      } catch (e) {
+        recomputed = "";
+      }
+      const integrity = stored && stored === recomputed;
+      const claims = capsule.claims || [];
+      $("stats").innerHTML =
+        "<span><b>ID</b> " + escapeHtml(capsule.id || "?") + "</span>" +
+        "<span><b>claims</b> " + claims.length + "</span>" +
+        "<span><b>integrity</b> " + (integrity ? "OK" : (stored ? "MISMATCH*" : "n/a")) + "</span>" +
+        "<span class='mono'>" + escapeHtml((stored || "").slice(0, 16)) + "…</span>";
+      setBand(integrity || !stored ? "idle" : "broken", integrity ? "PARSED" : (stored ? "INTEGRITY?" : "PARSED"));
+      // Note: root hash may differ slightly if Python/JS canonicalization differs; show soft warning
+      if (stored && !integrity) {
+        $("stats").innerHTML += " <span style='color:var(--warn)'>* root_hash recompute may differ browser vs Python — claim checks still run</span>";
+      }
+      renderResults(claims.map(c => ({
+        id: c.id || "?",
+        kind: c.kind || "?",
+        path: c.path || c.file || c.pattern || "(inline)",
+        ok: false,
+        detail: "awaiting verify"
+      })));
+      toast("Capsule parsed");
+    }
+
+    async function verifyAll() {
+      if (!capsule) await parseCapsule();
+      if (!capsule) return;
+      const claims = capsule.claims || [];
+      const results = [];
+      for (const c of claims) results.push(await evalClaim(c));
+      const { pass, total } = renderResults(results);
+      const allOk = pass === total && total > 0;
+      // Drift vs sealed_results
+      let drift = 0;
+      const sealed = capsule.sealed_results || [];
+      const byId = Object.fromEntries(sealed.map(s => [s.id, s]));
+      for (const r of results) {
+        const prev = byId[r.id];
+        if (prev && Boolean(prev.ok) !== Boolean(r.ok)) drift++;
+      }
+      if (total === 0) {
+        setBand("idle", "EMPTY");
+      } else if (allOk && drift === 0) {
+        setBand("holds", "HOLDS");
+      } else if (drift > 0) {
+        setBand("drift", "DRIFT");
+      } else {
+        setBand("broken", "BROKEN");
+      }
+      $("stats").innerHTML =
+        "<span><b>pass</b> " + pass + "/" + total + "</span>" +
+        "<span><b>drift</b> " + drift + "</span>" +
+        "<span><b>id</b> " + escapeHtml(capsule.id || "?") + "</span>";
+    }
+
+    function loadDemo() {
+      const demoText = "portable witness";
+      // Precomputed sha256 of "portable witness" — will recompute claim expect for demo
+      const cap = {
+        schema: "lygo.continuum.v1",
+        version: "1.0.0",
+        signature: "Delta9Phi963-CONTINUUM-v1.0.0",
+        id: "CONT-DEMO000001",
+        created_utc: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
+        agent: "portal-demo",
+        task_summary: "Demo capsule — verify text claim + drop a file named demo.txt containing Continuum",
+        decisions: ["browser-only hash", "no upload"],
+        next_actions: ["install lygo-continuum for full disk verify"],
+        claims: [
+          {
+            id: "c1",
+            kind: "text_sha256",
+            text: demoText,
+            expect: "" // filled below
+          },
+          {
+            id: "c2",
+            kind: "file_contains",
+            path: "demo.txt",
+            needle: "Continuum"
+          },
+          {
+            id: "c3",
+            kind: "file_sha256",
+            path: "demo.txt",
+            expect: "" // filled when user drops file after we tell them content
+          }
+        ],
+        sealed_results: [],
+        sealed_ok: true,
+        meta: { portal_demo: true }
+      };
+      sha256Hex(enc(demoText)).then(async (h) => {
+        cap.claims[0].expect = h;
+        // Suggested demo file content
+        const suggested = "LYGO Continuum demo file\n";
+        const sh = await sha256Hex(enc(suggested));
+        cap.claims[2].expect = sh;
+        cap.root_hash = "portal-demo-no-py-hash";
+        $("capsuleIn").value = JSON.stringify(cap, null, 2);
+        // Also stage the demo file in memory
+        const buf = enc(suggested).buffer;
+        fileMap.set("demo.txt", {
+          name: "demo.txt",
+          buffer: buf,
+          sha256: sh,
+          text: suggested,
+          size: suggested.length
+        });
+        renderFiles();
+        capsule = cap;
+        await verifyAll();
+        toast("Demo loaded — text + demo.txt staged");
+      });
+    }
+
+    $("btnParse").onclick = () => parseCapsule();
+    $("btnVerify").onclick = () => verifyAll();
+    $("btnDemo").onclick = () => loadDemo();
+    $("btnClear").onclick = () => {
+      capsule = null;
+      fileMap.clear();
+      $("capsuleIn").value = "";
+      $("rows").innerHTML = "";
+      renderFiles();
+      setBand("idle", "IDLE");
+      $("stats").textContent = "Paste a capsule JSON below, then drop matching files.";
+    };
+
+    $("btnCopyCard").onclick = async () => {
+      if (!capsule) return toast("No capsule");
+      const pass = lastResults.filter(r => r.ok).length;
+      const total = lastResults.length;
+      const text = [
+        "LYGO Continuum witness",
+        "id: " + (capsule.id || "?"),
+        "task: " + (capsule.task_summary || ""),
+        "result: " + pass + "/" + total,
+        "root: " + (capsule.root_hash || ""),
+        "sig: Delta9Phi963-CONTINUUM-v1.0.0"
+      ].join("\n");
+      try {
+        await navigator.clipboard.writeText(text);
+        toast("Witness summary copied");
+      } catch {
+        toast("Copy failed — select manually");
+      }
+    };
+
+    $("btnHashText").onclick = async () => {
+      const text = $("textIn").value;
+      const h = await sha256Hex(enc(text));
+      const claim = {
+        id: "c_text",
+        kind: "text_sha256",
+        text,
+        expect: h
+      };
+      $("claimOut").value = JSON.stringify(claim, null, 2);
+      toast("Claim ready");
+    };
+
+    const drop = $("drop");
+    const fileIn = $("fileIn");
+    drop.addEventListener("click", () => fileIn.click());
+    drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("drag"); });
+    drop.addEventListener("dragleave", () => drop.classList.remove("drag"));
+    drop.addEventListener("drop", async (e) => {
+      e.preventDefault();
+      drop.classList.remove("drag");
+      if (e.dataTransfer && e.dataTransfer.files) await ingestFiles(e.dataTransfer.files);
+    });
+    fileIn.addEventListener("change", async () => {
+      if (fileIn.files) await ingestFiles(fileIn.files);
+      fileIn.value = "";
+    });
+
+    renderFiles();
+  })();
+  </script>
+</body>
+</html>

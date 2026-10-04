@@ -1,0 +1,19 @@
+# LYGO TV
+
+Live: https://chatagent.ca/sources/
+
+Open the page → **Channel** tab lists Excavationpro rooms: Kick, Rumble LIVE, Twitch, YouTube @justinhelmer, YouTube @excavationpro (HTTPS embeds). Other tabs: FAST / Lists / Topics / Places / Languages / Saved. Portal only — full disclaimer: https://chatagent.ca/sources/disclaimer.html . Kids / 18+ badges from list metadata; 18+ hidden until confirmed. GitHub lists do not autoplay (CORS often blocks the first stream). Keyboard: ← → next, space pause, F fullscreen, M mute, R retry, S stop, P picture-in-picture, / search.
+
+Catalog v1.11.0. Portal only. No XXX catalog. All ages / Kids / 18+ gated shelves. Channel tab is steward rooms. v1.11 adds PBS/BBC sources, Free-TV country lists, Tubi/Distro/Vizio/Rakuten/LG/Plex-all FAST (jmp2.uk-majority packs skipped), more iptv-org regions/langs/countries. Steward rules: `CATALOG.md`.
+
+- FAST: i.mjh.nz raw TV + radio, Plex FAST US, RW1986 (HTTP URLs skipped in player), Free-TV USA/UK/news/docs
+- Lists: world_ip_tv, Free-TV master + FR/DE/IT/ES, fanmingming, Brazil FTA, all iptv-org
+- Topics: iptv-org categories including kids, movies, entertainment, shop
+- Places: US/UK/CA/AU/EU/world countries + regions (Nordic + South Asia restored; they 404'd on 2026-08-31)
+- Languages: English, French, German, Italian, Dutch, Japanese, Korean, Polish + prior set
+
+Skipped: jmp2.uk proxy packs, Xtream/VOD movie packs, XXX. Player is HTTPS-only. Human remains publisher of `catalog.json`.
+
+Add a steward bouquet in `catalog.json`, commit on `DeepSeekOracle/chatagent`. Mirror: `lygo-protocol-stack/docs/free-sources/`.
+
+Donate: [PayPal.me/ExcavationPro](https://www.paypal.com/paypalme/ExcavationPro) · [Patreon](https://www.patreon.com/Excavationpro)

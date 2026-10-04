@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "id": "d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881",
+  "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881.json",
+  "service": "LYGO-Local-CA",
+  "size_bytes": 83929,
+  "timestamp": 1783365559.0499012,
+  "metadata": {
+    "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881.json",
+    "description": "lygo-protocol-stack\\docs\\seals\\LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt",
+    "all_services": [
+      {
+        "success": true,
+        "id": "d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881",
+        "url": "file:///I:/E%20Drive/lygo-protocol-stack/data/anchors/d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881.json",
+        "service": "LYGO-Local-CA",
+        "size_bytes": 83929,
+        "timestamp": 1783365559.0499012,
+        "metadata": {
+          "path": "I:\\E Drive\\lygo-protocol-stack\\data\\anchors\\d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881.json",
+          "description": "lygo-protocol-stack\\docs\\seals\\LYRA_SEAL_ARCHIVE_LEGACY_001-400.txt"
+        },
+        "error": null,
+        "content_sha256": "d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881"
+      }
+    ]
+  },
+  "error": null,
+  "content_sha256": "d74fbe2fee4d22095c757698c5f2ba776473f1f3eeb1379deea77335625dd881"
+}

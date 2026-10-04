@@ -1,0 +1,15 @@
+data/
+save/
+config/local.json
+config/admin.json
+config/api.json
+engine/*.exe
+engine/*.dll
+engine/*.so
+__pycache__/
+*.pyc
+workspace/*
+!workspace/.gitkeep
+models/*.gguf
+FIRST_RUN.txt
+save/workspace_map.json

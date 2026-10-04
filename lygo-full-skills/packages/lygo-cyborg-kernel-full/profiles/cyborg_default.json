@@ -1,0 +1,12 @@
+{
+  "profile": "cyborg_default",
+  "signature": "Delta9Phi963-CYBORG-KERNEL-v1.0.0",
+  "preferred_plugins": [
+    "@deepseekoracle/lygo-continuum",
+    "@deepseekoracle/lygo-lattice-pulse"
+  ],
+  "preferred_local_models": ["ollama-army"],
+  "done_policy": "continuum_preflight_required",
+  "publish_policy": "human_consent_only",
+  "token_budget_default": 4000
+}

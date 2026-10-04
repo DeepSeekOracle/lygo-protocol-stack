@@ -1,0 +1,6 @@
+{
+  "signature": "Delta9Phi963-PUBLIC-MODEL-MANIFEST-v1",
+  "primary": { "name": "llama3.2:1b" },
+  "fallbacks": ["qwen2.5:3b", "llama3.2:1b"],
+  "note": "Weights are NOT in this repository. Run scripts/install_public_model.ps1 after installing Ollama."
+}

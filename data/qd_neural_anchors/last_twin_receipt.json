@@ -1,0 +1,51 @@
+{
+  "signature": "Delta9Phi963-QD-DIGITAL-TWIN-v2.0",
+  "version": "2.0.0",
+  "generated_utc": "2026-08-21T04:28:02Z",
+  "params": {
+    "n": 256,
+    "seed": 963
+  },
+  "qd_decision": {
+    "verdict": "AMPLIFY",
+    "confidence": 1.0,
+    "reasons": [
+      "policy=software_authority_not_pl_oracle"
+    ],
+    "sensor_digest": "00234d896b916096ea7d2fe79a434098602ee5fd7b58b3d8a293e534c1396d44"
+  },
+  "pd_decision": {
+    "verdict": "AMPLIFY",
+    "confidence": 1.0,
+    "reasons": [
+      "policy=software_authority_not_pl_oracle"
+    ],
+    "sensor_digest": "693ccd8710a2b4378c34cbadb3fb0cc523cf052a240bc05bcd0ef4c305302db7"
+  },
+  "claims": [
+    {
+      "id": "QD_TWIN_SENSOR_DIGEST",
+      "claim": "QD digital-twin channel produces a stable SHA-256 digest of samples",
+      "sha256": "00234d896b916096ea7d2fe79a434098602ee5fd7b58b3d8a293e534c1396d44"
+    },
+    {
+      "id": "QD_SOFTWARE_AUTHORITY",
+      "claim": "Verdict is emitted by software policy, not by claiming PL=truth",
+      "verdict": "AMPLIFY",
+      "reasons_include": "policy=software_authority_not_pl_oracle"
+    },
+    {
+      "id": "QD_SUBSTITUTION",
+      "claim": "Photodiode-like substitute under same policy is runnable (QD optional transducer)",
+      "qd_verdict": "AMPLIFY",
+      "pd_verdict": "AMPLIFY"
+    }
+  ],
+  "epistemic": {
+    "level": "L4-sim",
+    "note": "Simulation receipt \u2014 not lab hardware certification",
+    "doctrine": "Sensor \u2192 software policy \u2192 lattice"
+  },
+  "receipt_sha256": "4f27bf5fff8fa1b2fe55e72b06585d6b1767620d9f3b9d8f411817faaccd2a30",
+  "ok": true
+}

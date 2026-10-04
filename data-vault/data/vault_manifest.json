@@ -1,0 +1,36 @@
+{
+  "signature": "Delta9Phi963-LYGO-DATA-VAULT-v2",
+  "title": "LYGO Data Vault",
+  "generated_utc": "2026-08-19T04:24:25.315367+00:00",
+  "purpose": "Public archive of multi-AI seal creation, Grok X confirmations, and whitepapers.",
+  "accounts": [
+    "@Excavationpro",
+    "@lyrastarcore",
+    "@grok",
+    "LYRA multi-model (DeepSeek/ChatGPT/Grok/Gab)"
+  ],
+  "stats": {
+    "public_seals": 403,
+    "grok_spoken_seals": 117,
+    "grok_confirmation_excerpts": 220,
+    "whitepaper_chunks": 2,
+    "chat_curated_entries": 481,
+    "chat_source_files": 20,
+    "chat_reply_chunks": 405,
+    "gallery_images": 672
+  },
+  "pages": [
+    "index.html",
+    "seals.html",
+    "chat-archive.html",
+    "whitepapers.html",
+    "multi-ai-canon.html",
+    "gallery.html"
+  ],
+  "live_urls": {
+    "github_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/",
+    "repo": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/docs/data-vault"
+  },
+  "recovery_mirror": "E:\\LYGO_LATTICE_MEMORY\\DATA_VAULT_RECOVERY",
+  "security": "Private absolute paths, API keys, and credentials scrubbed."
+}

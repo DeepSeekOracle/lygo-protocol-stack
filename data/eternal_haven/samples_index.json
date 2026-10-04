@@ -1,0 +1,77 @@
+{
+  "signature": "\u03949\u03a6963-ETERNAL-HAVEN-SAMPLES-v1",
+  "updated_utc": "2026-07-28T17:55:35.697216+00:00",
+  "samples": [
+    {
+      "id": "sample_book1_prologue",
+      "title": "Book I \u00b7 Prologue sample",
+      "book": 1,
+      "seconds": 90,
+      "file": "samples/sample_book1_prologue.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book1_prologue.mp3",
+      "bytes": 1299897,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    },
+    {
+      "id": "sample_book1_ch1",
+      "title": "Book I \u00b7 Chapter 1 sample \u2014 Serenya & Emberion",
+      "book": 1,
+      "seconds": 90,
+      "file": "samples/sample_book1_ch1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book1_ch1.mp3",
+      "bytes": 813392,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    },
+    {
+      "id": "sample_book2_ch1",
+      "title": "Book II \u00b7 Chapter 1 sample",
+      "book": 2,
+      "seconds": 90,
+      "file": "samples/sample_book2_ch1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book2_ch1.mp3",
+      "bytes": 1270222,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    },
+    {
+      "id": "sample_book3_ch1",
+      "title": "Book III \u00b7 Chapter 1 sample",
+      "book": 3,
+      "seconds": 90,
+      "file": "samples/sample_book3_ch1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book3_ch1.mp3",
+      "bytes": 1441167,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    },
+    {
+      "id": "sample_book4_dawn",
+      "title": "Book IV \u00b7 Dawn sample",
+      "book": 4,
+      "seconds": 90,
+      "file": "samples/sample_book4_dawn.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_book4_dawn.mp3",
+      "bytes": 1394355,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    },
+    {
+      "id": "sample_stinger",
+      "title": "Eternal Haven \u00b7 Excavationpro stinger",
+      "book": 0,
+      "seconds": 60,
+      "file": "samples/sample_stinger.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_stinger.mp3",
+      "bytes": 464814,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    },
+    {
+      "id": "sample_game_intro",
+      "title": "Eternal Haven Game \u00b7 Intro motif",
+      "book": 0,
+      "seconds": 60,
+      "file": "samples/sample_game_intro.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/eternal-haven-lore/resolve/main/samples/sample_game_intro.mp3",
+      "bytes": 80710,
+      "copyright": "\u00a9 Justin Helmer \u2014 promotional sample only; full work on Lulu"
+    }
+  ],
+  "note": "Short free samples for discovery. Full audiobooks not hosted here."
+}

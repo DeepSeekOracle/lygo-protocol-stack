@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LYGO Compass Master — Public Lattice Map</title>
+  <meta name="description" content="Interactive pyvis-style map of the LYGO protocol stack, public surfaces, and audit anchors." />
+  <meta property="og:url" content="https://deepseekoracle.github.io/lygo-protocol-stack/tools/LYGO_Compass_Master.html" />
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    :root { --bg:#0b0f14; --fg:#e8eef4; --accent:#5eb8ff; --ok:#3dd68c; --muted:#8aa0b5; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+    header { padding: 1rem 1.25rem; border-bottom: 1px solid #2a3544; }
+    h1 { margin:0; font-size: 1.25rem; color: var(--accent); }
+    .sig { color: var(--muted); font-size: 0.85rem; margin-top: 0.35rem; }
+    #wrap { display: grid; grid-template-columns: 1fr 320px; min-height: calc(100vh - 72px); }
+    #network { min-height: 480px; background: #0d1218; }
+    aside { padding: 1rem; border-left: 1px solid #2a3544; overflow-y: auto; font-size: 0.9rem; }
+    aside h2 { font-size: 1rem; color: var(--accent); margin: 0 0 0.5rem; }
+    aside a { color: var(--accent); }
+    .ok { color: var(--ok); }
+    ul.links { padding-left: 1.1rem; margin: 0.5rem 0; }
+    @media (max-width: 900px) { #wrap { grid-template-columns: 1fr; } aside { border-left: none; border-top: 1px solid #2a3544; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LYGO Compass Master</h1>
+    <p class="sig">Δ9Φ963-COMPASS-MASTER-v1.0 · Drag nodes · scroll zoom · click for detail</p>
+    <p class="sig"><a href="../index.html">← Stack index</a> · <a href="../SovereignLatticeMesh.html">SLM</a> · <a href="../BiometricEntropyHarness.html">P7 Harness</a></p>
+  </header>
+  <div id="wrap">
+    <div id="network"></div>
+    <aside>
+      <h2 id="detail-title">Lattice overview</h2>
+      <p id="detail-body">Select a node. Green = live public surface; blue = protocol layer; amber = maintainer action.</p>
+      <h2>Quick live links</h2>
+      <ul class="links">
+        <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/">Stack Pages</a></li>
+        <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html">SLM UI</a></li>
+        <li><a href="https://deepseekoracle.github.io/lygo-protocol-stack/BiometricEntropyHarness.html">Biometric harness</a></li>
+        <li><a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine">HF Space</a></li>
+        <li><a href="https://github.com/DeepSeekOracle/lygo-protocol-stack">GitHub repo</a></li>
+        <li><a href="https://clawhub.ai/deepseekoracle">ClawHub</a></li>
+      </ul>
+      <p class="sig">Archive: <code>docs/LYGO_PUBLIC_LINK_ARCHIVE.json</code></p>
+    </aside>
+  </div>
+  <script>
+    const PHI = 1.618033988749895;
+    const nodes = new vis.DataSet([
+      { id: "P0", label: "P0 Φ-gate", group: "proto", title: "Nano kernel — AMPLIFY/SOFTEN/QUARANTINE" },
+      { id: "P1", label: "P1 Mycelium", group: "proto" },
+      { id: "P2", label: "P2 Bridge", group: "proto" },
+      { id: "P3", label: "P3 Vortex 3-6-9", group: "proto" },
+      { id: "P4", label: "P4 Ascension", group: "proto" },
+      { id: "P5", label: "P5 Harmony", group: "proto" },
+      { id: "P6", label: "P6 Attest", group: "proto" },
+      { id: "P7", label: "P7 HAIP", group: "proto" },
+      { id: "SLM", label: "SLM Mesh", group: "proto" },
+      { id: "P9", label: "P9 Public TLS", group: "proto" },
+      { id: "STACK", label: "GitHub Stack", group: "live", url: "https://github.com/DeepSeekOracle/lygo-protocol-stack" },
+      { id: "PAGES", label: "GitHub Pages", group: "live", url: "https://deepseekoracle.github.io/lygo-protocol-stack/" },
+      { id: "HF_S", label: "HF Space", group: "live", url: "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" },
+      { id: "HF_D", label: "HF Dataset", group: "live", url: "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack" },
+      { id: "CLAW", label: "ClawHub", group: "live", url: "https://clawhub.ai/deepseekoracle" },
+      { id: "EXC", label: "Excavationpro", group: "live", url: "https://deepseekoracle.github.io/Excavationpro/" },
+      { id: "AUDIT", label: "Audits 60/60", group: "audit" },
+      { id: "TWIN", label: "Twin Δφ=0", group: "audit" },
+    ]);
+    const edges = new vis.DataSet([
+      { from: "P0", to: "P1" }, { from: "P1", to: "P2" }, { from: "P2", to: "P3" },
+      { from: "P3", to: "P4" }, { from: "P4", to: "P5" }, { from: "P5", to: "P6" },
+      { from: "P6", to: "P7" }, { from: "P7", to: "SLM" }, { from: "SLM", to: "P9" },
+      { from: "STACK", to: "P0" }, { from: "PAGES", to: "STACK" }, { from: "HF_S", to: "P7" },
+      { from: "HF_D", to: "STACK" }, { from: "CLAW", to: "STACK" }, { from: "EXC", to: "PAGES" },
+      { from: "AUDIT", to: "P0" }, { from: "TWIN", to: "P0" }, { from: "PAGES", to: "SLM" },
+      { from: "PAGES", to: "P7" },
+    ]);
+    const container = document.getElementById("network");
+    const data = { nodes, edges };
+    const options = {
+      physics: { stabilization: { iterations: 120 }, barnesHut: { gravitationalConstant: -3500, springLength: 140 } },
+      nodes: {
+        shape: "dot", size: 18, font: { color: "#e8eef4", size: 13 },
+        borderWidth: 2,
+      },
+      groups: {
+        proto: { color: { background: "#1e3a5f", border: "#5eb8ff" } },
+        live: { color: { background: "#14532d", border: "#3dd68c" } },
+        audit: { color: { background: "#422006", border: "#fbbf24" } },
+      },
+      edges: { color: { color: "#3d4f63" }, width: 1.5, smooth: { type: "continuous" } },
+      interaction: { hover: true, tooltipDelay: 80 },
+    };
+    const net = new vis.Network(container, data, options);
+    const detail = { title: document.getElementById("detail-title"), body: document.getElementById("detail-body") };
+    net.on("click", (p) => {
+      if (!p.nodes.length) return;
+      const id = p.nodes[0];
+      const n = nodes.get(id);
+      detail.title.textContent = n.label || id;
+      let html = n.title ? `<p>${n.title}</p>` : "";
+      if (n.url) html += `<p><a href="${n.url}" target="_blank" rel="noopener">${n.url}</a></p>`;
+      html += `<p class="sig">φ band reference: ${PHI.toFixed(6)}</p>`;
+      detail.body.innerHTML = html || "Protocol / surface node.";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* LYGO SkillHub — the supporter download gate.
+   The sibling of games/lygo-gate.css: same .lyg- prefix, same variable contract, same visual
+   language, so the site's gates read as one system. Nothing is hard-coded to a palette here —
+   every colour resolves from the --lyg-* variables below, and those default to the host page's
+   own tokens (--panel, --line, --text, --muted, --gold, --cyan, --bg), so the module takes the
+   colour of whatever page it is dropped into.
+   Everything is prefixed .lyg- and carries its own box-sizing, so it cannot inherit from — or
+   leak into — the page. Loaded by /supporter/download-gate.js. */
+
+.lyg-layer,
+.lyg-layer * { box-sizing: border-box; }
+
+.lyg-layer {
+  --lyg-panel: var(--panel, #12121f);
+  --lyg-well: rgba(0, 0, 0, 0.38);
+  --lyg-line: var(--line, #25253a);
+  --lyg-text: var(--text, #eef0f8);
+  --lyg-mute: var(--muted, #9292a8);
+  --lyg-gold: var(--gold, #d4af37);
+  --lyg-cyan: var(--cyan, #00e5ff);
+  --lyg-radius: 12px;
+  --lyg-font: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --lyg-display: Syne, Georgia, serif;
+  --lyg-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  position: fixed; inset: 0; z-index: 99999; display: none;
+  align-items: center; justify-content: center; padding: 1rem;
+  background: rgba(3, 5, 12, 0.9);
+  font-family: var(--lyg-font); color: var(--lyg-text);
+}
+.lyg-layer.lyg-open { display: flex; }
+.lyg-layer[hidden] { display: none !important; }
+
+.lyg-card {
+  position: relative; width: min(34rem, 100%); max-height: 92vh; overflow: auto;
+  background: var(--lyg-panel); border: 1px solid var(--lyg-line); border-radius: 16px;
+  padding: 1.25rem 1.3rem 1.1rem; box-shadow: 0 26px 70px rgba(0, 0, 0, 0.66);
+}
+.lyg-close {
+  position: absolute; top: 0.5rem; right: 0.6rem; width: 2rem; height: 2rem; cursor: pointer;
+  font-size: 1.15rem; line-height: 1; color: var(--lyg-mute);
+  background: transparent; border: 1px solid var(--lyg-line); border-radius: 999px;
+}
+.lyg-close:hover { color: var(--lyg-text); border-color: var(--lyg-mute); }
+
+.lyg-kicker {
+  margin: 0 0 0.5rem; font-family: var(--lyg-mono);
+  font-size: 0.62rem; letter-spacing: 0.2em; color: var(--lyg-mute); text-transform: uppercase;
+}
+.lyg-title {
+  margin: 0 0 0.6rem; font-family: var(--lyg-display); font-weight: 800;
+  font-size: clamp(1.35rem, 5.4vw, 1.85rem); line-height: 1.08; letter-spacing: 0.01em;
+  text-transform: uppercase; color: var(--lyg-gold);
+}
+.lyg-lead { margin: 0 0 0.7rem; font-size: 0.87rem; line-height: 1.5; color: var(--lyg-text); }
+.lyg-lead strong { color: var(--lyg-gold); }
+.lyg-list { margin: 0 0 0.9rem; padding-left: 1.05rem; }
+.lyg-list li { margin: 0 0 0.4rem; font-size: 0.81rem; line-height: 1.45; color: var(--lyg-mute); }
+.lyg-list strong { color: var(--lyg-cyan); }
+
+.lyg-field { margin: 0 0 0.7rem; }
+.lyg-label {
+  display: block; margin: 0 0 0.3rem; font-family: var(--lyg-mono);
+  font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lyg-mute);
+}
+.lyg-input {
+  display: block; width: 100%; font-family: var(--lyg-mono); font-size: 0.95rem;
+  letter-spacing: 0.12em; padding: 0.62rem 0.7rem; background: var(--lyg-well);
+  color: var(--lyg-text); border: 1px solid var(--lyg-line); border-radius: 10px;
+}
+.lyg-input::placeholder { color: var(--lyg-mute); letter-spacing: 0.1em; }
+.lyg-input:focus { outline: none; border-color: var(--lyg-gold); box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.22); }
+
+.lyg-actions { display: flex; flex-direction: column; gap: 0.45rem; }
+.lyg-btn {
+  display: block; width: 100%; text-align: center; text-decoration: none; cursor: pointer;
+  font-family: var(--lyg-font); font-size: 0.87rem; font-weight: 600; padding: 0.62rem 0.85rem;
+  border-radius: 10px; border: 1px solid var(--lyg-line);
+  background: transparent; color: var(--lyg-gold);
+  transition: filter 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.lyg-btn:hover { filter: brightness(1.15); border-color: var(--lyg-gold); }
+.lyg-btn-cta {
+  background: var(--lyg-gold); color: #10161d; border-color: transparent;
+  font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.82rem;
+}
+.lyg-btn-cta:hover { filter: brightness(1.08); border-color: transparent; }
+.lyg-btn-cta:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }
+.lyg-btn-door { border-style: dashed; border-color: var(--lyg-cyan); color: var(--lyg-cyan); }
+.lyg-btn-door:hover { background: rgba(0, 229, 255, 0.07); border-color: var(--lyg-cyan); }
+.lyg-btn-quiet { background: transparent; color: var(--lyg-mute); border-color: var(--lyg-line); }
+.lyg-btn-quiet:hover { color: var(--lyg-text); border-color: var(--lyg-mute); filter: none; }
+
+.lyg-msg { margin: 0.7rem 0 0; min-height: 1rem; font-size: 0.78rem; line-height: 1.45; color: var(--lyg-cyan); }
+.lyg-msg.lyg-bad { color: #ff9a9a; }
+.lyg-foot { margin: 0.6rem 0 0; font-size: 0.66rem; letter-spacing: 0.04em; color: var(--lyg-mute); }
+
+/* The lock mark on a gated button in the page itself. The buttons keep their own styling —
+   this only appends the small mark that says a code is needed, and it comes off on unlock. */
+a.lyg-locked::after {
+  content: "\1F512 code required";
+  display: inline-block; margin-left: 0.45rem; padding: 0.06rem 0.42rem;
+  font-family: var(--lyg-mono, ui-monospace, monospace); font-size: 0.62em;
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  color: var(--gold, #d4af37); border: 1px solid currentColor; border-radius: 999px;
+  vertical-align: 0.12em;
+}
+a.lyg-locked:hover::after { background: rgba(212, 175, 55, 0.12); }
+a.lyg-locked { position: relative; }
+
+@media (max-width: 520px) {
+  .lyg-card { padding: 1.05rem 1rem 1rem; }
+  .lyg-input { font-size: 0.9rem; letter-spacing: 0.08em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lyg-btn { transition: none; }
+}
+
+/* An unlocked browser says so: the badge on each button flips to "unlocked", and a slim bar keeps
+   the state and a one-press relock in view. Without this, an unlocked visitor sees plainly
+   unlocked-looking buttons and reasonably concludes the gate is missing. */
+a.lyg-open::after {
+  content: "\2713 unlocked";
+  display: inline-block; margin-left: 0.45rem; padding: 0.06rem 0.42rem;
+  font-family: var(--lyg-mono, ui-monospace, monospace); font-size: 0.62em;
+  letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  color: #7fe3a0; border: 1px solid currentColor; border-radius: 999px;
+  vertical-align: 0.12em;
+}
+#lygOpenBar.lyg-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 2147483000;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; justify-content: center;
+  padding: 0.55rem 0.9rem; font-size: 0.82rem; line-height: 1.35; text-align: center;
+  background: rgba(8, 10, 20, 0.97); color: #eef0f8;
+  border-top: 1px solid rgba(212, 175, 55, 0.55); box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+}
+#lygOpenBar a { color: var(--gold, #d4af37); }
+#lygOpenBar button {
+  padding: 0.3rem 0.7rem; font: inherit; font-size: 0.78rem; cursor: pointer;
+  color: #eef0f8; background: transparent; border: 1px solid rgba(238, 240, 248, 0.45);
+  border-radius: 999px;
+}
+#lygOpenBar button:hover { border-color: var(--gold, #d4af37); color: var(--gold, #d4af37); }
+
+/* #lygOpenBar.lyg-bar sets display:flex, which out-specifies the browser's [hidden] rule — without
+   this the bar would sit there even while locked. */
+#lygOpenBar[hidden] { display: none !important; }
