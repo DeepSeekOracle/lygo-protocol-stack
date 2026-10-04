@@ -231,8 +231,18 @@ def test_golden_vectors_still_replay():
     assert doc["vector_version"]
 
 
+@pytest.mark.skipif(
+    not P0_AVAILABLE,
+    reason="golden vectors pin the P0-gated pipeline — run from the stack root",
+)
 def test_golden_vectors_check_passes_from_a_clean_process():
-    """Determinism across processes, not just across objects in one process."""
+    """Determinism across processes, not just across objects in one process.
+
+    The fixture's anchors encode the P0 verdict inside the canonical bytes, so
+    this only holds where the P0 sibling is importable. Without it the module
+    still runs standalone (see ``test_report_never_claims_a_gate_it_did_not_run``)
+    but the anchors legitimately differ, so checking them here would be noise.
+    """
     import subprocess
     import sys as _sys
 
@@ -247,6 +257,16 @@ def test_golden_vectors_check_passes_from_a_clean_process():
     )
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert "OK" in proc.stdout
+
+
+def test_report_never_claims_a_gate_it_did_not_run():
+    """Standalone the module still runs — but it must not imply the gate ran."""
+    bridge = EnvResonanceLattice()
+    bridge.ingest(synthesize_csi(duration_s=30.0, fs_hz=100.0, breathing_bpm=0.0))
+    report = bridge.report()
+    assert report["p0_gate"] is P0_AVAILABLE
+    if not P0_AVAILABLE:
+        assert all(v in {"UNGATED", "P0_ABSENT"} for v in report["p0_verdicts"])
 
 
 # --- ingest formats --------------------------------------------------------
