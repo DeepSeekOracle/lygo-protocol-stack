@@ -123,13 +123,26 @@ python tools/build_erb_vectors.py --check
 python protocol10_env_resonance/harness/run_env_resonance_demo.py
 ```
 
-## 8. Roadmap (proposals, not commitments)
+## 8. Roadmap
+
+Shipped in this version:
+
+- **P6 hand-off.** `EnvResonanceLattice.attestation_request()` packages the claim,
+  anchor, chain state and canonical digest for a P6 badge. P6's
+  `AttestationService` badges node hardware and verifies its own badges — it does
+  not sign arbitrary payloads — so this hands over the claim rather than
+  fabricating a signature.
+- **Environment drift.** `observe_channel()` fingerprints the static channel
+  shape (per-subcarrier mean amplitude, range-normalised then quantised) and
+  reports normalised distance from the first observation: moved furniture, a new
+  object, a different room. It answers "which room", not "who is in it".
+  `DRIFT_THRESHOLD = 0.15`, calibrated against the synthetic rooms only.
+
+Open:
 
 1. Replay a real ESP32 capture; regenerate fixtures; re-tune presence thresholds.
 2. Multi-node cells: one anchor per node per window, fused into a room cell with per-node `prev` links.
-3. P6 hand-off: attest the chain head through `protocol6_quantum_attest`.
-4. RSSI/CSI drift detection: anchor the static channel fingerprint periodically and alarm on environment change (moved furniture, new object).
-5. Live loop with `window_seconds` rolling rather than batch, with the chain head persisted between sessions.
+3. Live loop with `window_seconds` rolling rather than batch, with the chain head persisted between sessions.
 
 ## 9. Honest limits
 

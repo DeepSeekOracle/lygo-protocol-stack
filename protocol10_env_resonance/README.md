@@ -103,6 +103,8 @@ cell.resonance         # {'bpm':..., 'root_frequency':...} from P8
 
 bridge.recall(0)       # P1 memory round-trip, hash-checked
 bridge.report()        # cell count, chain_valid, gate/presence tallies
+bridge.observe_channel(frames)      # room fingerprint + drift vs baseline
+bridge.attestation_request()        # claim + anchor for a P6 badge
 ```
 
 ### Live hardware (not yet exercised)
@@ -135,6 +137,8 @@ Verified by tests in this repo, on synthetic CSI with known ground truth:
 - **Determinism** — identical anchors across independent bridge instances and across process runs (`tools/build_erb_vectors.py --check`).
 - **Tamper evidence** — editing a cell's readable features, or reordering cells, fails `verify()` / `chain_valid()`.
 - **Stack integration** — P0 verdict recorded per cell, P1 recall round-trips hash-exact, P8 hand-off deterministic and in range.
+- **Environment drift** — the same room fingerprints identically across runs; a different room measures 0.44 normalised distance against a 0.15 threshold.
+- **P6 hand-off** — `attestation_request()` carries the claim, anchor, chain validity and canonical digest, without fabricating a signature P6 does not produce.
 
 ## What is not real yet
 
