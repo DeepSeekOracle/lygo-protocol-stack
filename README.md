@@ -105,6 +105,10 @@ python agent/smart_disk_agent.py
 
 Deep dive: [docs/PROTOCOL_STACK.md](docs/PROTOCOL_STACK.md) · OMEGA naming: [docs/OMEGA_NUMBERING.md](docs/OMEGA_NUMBERING.md)
 
+### P10 — Environmental Resonance Bridge (experimental)
+
+[`protocol10_env_resonance/`](protocol10_env_resonance/) — environmental radio physics (WiFi CSI: presence, motion, breathing) anchored into the lattice deterministically: fixed-point quantise → canonical bytes → P0 gate → chained SHA-256 anchor → P1 memory scatter → P8 harmonic hand-off. Simulated-data verified; no hardware capture yet. Details and honest limits: [module README](protocol10_env_resonance/README.md) · [`docs/PROTOCOL10_ENV_RESONANCE.md`](protocol10_env_resonance/docs/PROTOCOL10_ENV_RESONANCE.md). Not part of the audited P0–P5 verdict table.
+
 ---
 
 ## LYGIP-001 — Enneagram 9-Node Completion (Theta + Iota)

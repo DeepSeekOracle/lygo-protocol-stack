@@ -1,0 +1,240 @@
+{
+  "cases": [
+    {
+      "cells": [
+        {
+          "anchor": "23d167c2bf59213af0c4cf0876166d599abc83808fb0890b672b09d2a5a6c7f7",
+          "features": {
+            "breath_conf_milli": 0,
+            "breath_energy_cdb": -65,
+            "breath_rate_mbpm": 0,
+            "breath_snr_cdb": 430,
+            "frames": 3000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 806,
+            "motion_cdb": -10,
+            "presence_code": 0,
+            "rssi_mdbm": -47982,
+            "span_ms": 29990,
+            "subcarriers": 64
+          },
+          "index": 0,
+          "p0_verdict": "AMPLIFY",
+          "presence": "CLEAR",
+          "prev": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "chain_valid": true,
+      "head": "23d167c2bf59213af0c4cf0876166d599abc83808fb0890b672b09d2a5a6c7f7",
+      "id": "clear-room-30s",
+      "params": {
+        "breathing_bpm": 0.0,
+        "duration_s": 30.0,
+        "fs_hz": 100.0,
+        "motion_windows": [],
+        "seed": 963,
+        "window_seconds": 30.0
+      }
+    },
+    {
+      "cells": [
+        {
+          "anchor": "9d5c2a863dc2038dc6655a334945595f06b178aa8bcca1aac9381587b38a1df9",
+          "features": {
+            "breath_conf_milli": 10148,
+            "breath_energy_cdb": 1716,
+            "breath_rate_mbpm": 18002,
+            "breath_snr_cdb": 4812,
+            "frames": 3000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 806,
+            "motion_cdb": 216,
+            "presence_code": 3,
+            "rssi_mdbm": -47982,
+            "span_ms": 29990,
+            "subcarriers": 64
+          },
+          "index": 0,
+          "p0_verdict": "AMPLIFY",
+          "presence": "PRESENT",
+          "prev": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "chain_valid": true,
+      "head": "9d5c2a863dc2038dc6655a334945595f06b178aa8bcca1aac9381587b38a1df9",
+      "id": "still-breathing-18bpm",
+      "params": {
+        "breathing_bpm": 18.0,
+        "duration_s": 30.0,
+        "fs_hz": 100.0,
+        "motion_windows": [],
+        "seed": 963,
+        "window_seconds": 30.0
+      }
+    },
+    {
+      "cells": [
+        {
+          "anchor": "ef3c3908d48c6dc2809aafe368f8ad495045c4777bd15641eed2e2a9a1eff769",
+          "features": {
+            "breath_conf_milli": 10138,
+            "breath_energy_cdb": 1716,
+            "breath_rate_mbpm": 11996,
+            "breath_snr_cdb": 5044,
+            "frames": 3000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 891,
+            "motion_cdb": 60,
+            "presence_code": 3,
+            "rssi_mdbm": -48002,
+            "span_ms": 29990,
+            "subcarriers": 64
+          },
+          "index": 0,
+          "p0_verdict": "AMPLIFY",
+          "presence": "PRESENT",
+          "prev": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "chain_valid": true,
+      "head": "ef3c3908d48c6dc2809aafe368f8ad495045c4777bd15641eed2e2a9a1eff769",
+      "id": "still-breathing-12bpm",
+      "params": {
+        "breathing_bpm": 12.0,
+        "duration_s": 30.0,
+        "fs_hz": 100.0,
+        "motion_windows": [],
+        "seed": 4242,
+        "window_seconds": 30.0
+      }
+    },
+    {
+      "cells": [
+        {
+          "anchor": "ae7c68979275a07fc3f0c783176593bfb7eddf0512a345d0e75b05d96cea46cf",
+          "features": {
+            "breath_conf_milli": 0,
+            "breath_energy_cdb": 1654,
+            "breath_rate_mbpm": 0,
+            "breath_snr_cdb": 297,
+            "frames": 3000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 787,
+            "motion_cdb": 1659,
+            "presence_code": 2,
+            "rssi_mdbm": -47984,
+            "span_ms": 29990,
+            "subcarriers": 64
+          },
+          "index": 0,
+          "p0_verdict": "AMPLIFY",
+          "presence": "ACTIVE",
+          "prev": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "chain_valid": true,
+      "head": "ae7c68979275a07fc3f0c783176593bfb7eddf0512a345d0e75b05d96cea46cf",
+      "id": "walking-10-20s",
+      "params": {
+        "breathing_bpm": 0.0,
+        "duration_s": 30.0,
+        "fs_hz": 100.0,
+        "motion_windows": [
+          [
+            10.0,
+            20.0
+          ]
+        ],
+        "seed": 963,
+        "window_seconds": 30.0
+      }
+    },
+    {
+      "cells": [
+        {
+          "anchor": "f2e9ce14247785d950ac28609d9be83c5d926c60efd6d7a6f6fb1cfb1c72e2e1",
+          "features": {
+            "breath_conf_milli": 10137,
+            "breath_energy_cdb": 1717,
+            "breath_rate_mbpm": 15000,
+            "breath_snr_cdb": 4683,
+            "frames": 3000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 799,
+            "motion_cdb": 122,
+            "presence_code": 3,
+            "rssi_mdbm": -48005,
+            "span_ms": 29990,
+            "subcarriers": 64
+          },
+          "index": 0,
+          "p0_verdict": "AMPLIFY",
+          "presence": "PRESENT",
+          "prev": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "anchor": "c2a8b1f2b39de23cdc1407fdfb0dbbe2524bc408240264e23bd139b89019645a",
+          "features": {
+            "breath_conf_milli": 9762,
+            "breath_energy_cdb": 1719,
+            "breath_rate_mbpm": 15013,
+            "breath_snr_cdb": 2409,
+            "frames": 3000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 745,
+            "motion_cdb": 1644,
+            "presence_code": 2,
+            "rssi_mdbm": -48013,
+            "span_ms": 29990,
+            "subcarriers": 64
+          },
+          "index": 1,
+          "p0_verdict": "AMPLIFY",
+          "presence": "ACTIVE",
+          "prev": "f2e9ce14247785d950ac28609d9be83c5d926c60efd6d7a6f6fb1cfb1c72e2e1"
+        },
+        {
+          "anchor": "70e1e7f1e3b59c1f3c97241b6bc6396a049c1ce270cad7ef9309906a25c3f947",
+          "features": {
+            "breath_conf_milli": 3182,
+            "breath_energy_cdb": 1717,
+            "breath_rate_mbpm": 14896,
+            "breath_snr_cdb": 895,
+            "frames": 1000,
+            "heart_rate_mbpm": 0,
+            "heart_snr_cdb": 544,
+            "motion_cdb": 147,
+            "presence_code": 0,
+            "rssi_mdbm": -48020,
+            "span_ms": 9990,
+            "subcarriers": 64
+          },
+          "index": 2,
+          "p0_verdict": "AMPLIFY",
+          "presence": "CLEAR",
+          "prev": "c2a8b1f2b39de23cdc1407fdfb0dbbe2524bc408240264e23bd139b89019645a"
+        }
+      ],
+      "chain_valid": true,
+      "head": "70e1e7f1e3b59c1f3c97241b6bc6396a049c1ce270cad7ef9309906a25c3f947",
+      "id": "three-window-chain-70s",
+      "params": {
+        "breathing_bpm": 15.0,
+        "duration_s": 70.0,
+        "fs_hz": 100.0,
+        "motion_windows": [
+          [
+            40.0,
+            50.0
+          ]
+        ],
+        "seed": 77,
+        "window_seconds": 30.0
+      }
+    }
+  ],
+  "manifest_sha256": "f3391ec7b542a7b11342e576173581410a309148c1181ee1fecb411bcf4d98b7",
+  "node": "LYGO-ERB-VECTOR",
+  "note": "Deterministic replay of synthetic rooms. Anchors must not move without a vector bump.",
+  "vector_version": "P10.1.0-ERB"
+}

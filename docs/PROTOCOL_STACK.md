@@ -22,6 +22,34 @@ Some archives use different names for the same layers:
 
 See `docs/OMEGA_NUMBERING.md`.
 
+## P10 — Environmental Resonance Bridge (experimental)
+
+`protocol10_env_resonance/` · `P10.1.0-ERB` · not part of the audited P0–P5 verdict table
+
+Takes environmental radio physics (WiFi CSI) and anchors it into the lattice the
+same way the other protocols anchor bytes and memories: measure → fixed-point
+quantise → canonical bytes → **P0 gate** → chained SHA-256 anchor → **P1**
+scatter (recallable environmental memory) → **P8** `HarmonicGravity` (anchor
+integer → bpm/root frequency).
+
+- **Room state, not just text state:** presence, motion energy, breathing rate.
+- **Deterministic:** the same CSI window produces the same anchor across
+  processes; verified by golden vectors, not asserted.
+- **Refuses rather than invents:** a clear room publishes no breathing rate, and
+  a moving subject vetoes the vitals estimate.
+- **Simulated-data verified only** — no ESP32 has been attached yet; presence
+  thresholds must be re-tuned on real captures. See the module README for what
+  is real and what is not.
+
+```bash
+python -m pytest protocol10_env_resonance/tests/ -q
+python tools/build_erb_vectors.py --check
+python protocol10_env_resonance/harness/run_env_resonance_demo.py
+```
+
+Deep dive: [../protocol10_env_resonance/README.md](../protocol10_env_resonance/README.md) ·
+[architecture](../protocol10_env_resonance/docs/PROTOCOL10_ENV_RESONANCE.md)
+
 ## Integration entrypoint
 
 ```python

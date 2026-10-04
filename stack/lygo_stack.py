@@ -133,6 +133,7 @@ class LYGOProtocolStack:
         self._attestation = None
         self._haip = None
         self._slm = None
+        self._erb = None
 
     def _phase7(self):
         if self._haip is None:
@@ -140,6 +141,37 @@ class LYGOProtocolStack:
 
             self._haip = HAIPService()
         return self._haip
+
+    # -- P10 Environmental Resonance Bridge (experimental) -----------------
+    def _p10(self):
+        if self._erb is None:
+            from protocol10_env_resonance import EnvResonanceLattice
+
+            self._erb = EnvResonanceLattice(node_id=f"ERB-{self._sovereign_id}")
+        return self._erb
+
+    def p10_sensor(self):
+        """The P10 bridge bound to this stack instance (experimental)."""
+        return self._p10()
+
+    def p10_environment_report(self, frames=None, *, window_seconds: float = 30.0) -> dict:
+        """Ingest CSI frames and return the P10 environmental report.
+
+        ``frames`` defaults to a synthetic clear room so the call works without
+        hardware. P10 is experimental and simulated-data verified: report the
+        numbers as measurements from this run, never as field-calibrated sensing.
+        """
+        from protocol10_env_resonance import synthesize_csi
+
+        bridge = self._p10()
+        bridge.window_seconds = float(window_seconds)
+        if frames is None:
+            frames = synthesize_csi(duration_s=window_seconds, fs_hz=100.0, breathing_bpm=0.0)
+        cells = bridge.ingest(frames)
+        report = bridge.report()
+        report["cells_detail"] = [cell.to_dict() for cell in cells]
+        report["attestation_request"] = bridge.attestation_request() if cells else None
+        return report
 
     def register_biometric_device(
         self, device_type: str, device_id: str, connection_type: str = "simulated"
