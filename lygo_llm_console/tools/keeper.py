@@ -246,11 +246,30 @@ def main(argv: list[str] | None = None) -> int:
                f"-WorkingDirectory '{ROOT}' -WindowStyle Hidden"]
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
         detail = (r.stderr or r.stdout or "").strip()[:300]
-        if r.returncode != 0:
-            log_line(f"detach failed rc={r.returncode} {detail}")
-        print(json.dumps({"detached": r.returncode == 0, "code": r.returncode, "log": str(LOGDIR / "keeper.log"),
-                          "interval_s": args.interval, "detail": detail}))
-        return 0 if r.returncode == 0 else 1
+        # MEASURED 2026-10-16 (first noted 2026-09-21): Start-Process returned 0 and the keeper never
+        # existed. A launcher's exit code is not evidence that the process lives - the LOCK is. Wait for
+        # the child to take it and answer honestly when nothing comes up, or the operator is told a
+        # supervisor is running while nothing drives the crons (measured: the queue idle for weeks).
+        pid, alive = _lock_holder()
+        deadline = time.time() + 15.0
+        while time.time() < deadline:
+            pid, alive = _lock_holder()
+            if alive and pid != os.getpid():
+                break
+            time.sleep(1.0)
+        if alive and pid != os.getpid():
+            log_line(f"detached keeper alive pid={pid}")
+            print(json.dumps({"detached": True, "code": r.returncode, "keeper_pid": pid,
+                              "log": str(LOGDIR / "keeper.log"), "interval_s": args.interval,
+                              "detail": detail}))
+            return 0
+        why = ("no keeper took the lock within 15 s (Start-Process rc=%s, detail: %s)"
+               % (r.returncode, detail or "no output"))
+        log_line("detach failed: " + why)
+        print(json.dumps({"detached": False, "code": r.returncode, "keeper_pid": pid, "why": why,
+                          "log": str(LOGDIR / "keeper.log"),
+                          "hint": "run it in the foreground instead: python tools/keeper.py --interval 20"}))
+        return 1
 
     if not acquire_lock():
         pid, _ = _lock_holder()
