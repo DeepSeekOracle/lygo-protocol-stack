@@ -10,7 +10,7 @@ description: >
   reads, scans or judges the caller's project, repository or machine.
   Use for Unity, Unity 6, 6000.x, Unity MCP, the unity CLI, WebGL build, sprite, Shader Graph,
   URP vs built-in, licence-cleared assets, or /unity-2d-3d-building.
-version: 1.1.2
+version: 1.1.3
 license: MIT-0
 permissions:
   network: none - no script in this package fetches, posts or uploads anything
@@ -193,10 +193,11 @@ art, then build/serve/load/click.
 ## 9. Traps that have actually cost time
 
 Four that bite hardest, each with its fix: **the GPU is one resource** (a loaded local LLM and a Unity
-editor cannot share a small card - park the engine and wake it in a `finally`); **slow work outlives a
-tool call** (builds, imports and bulk downloads run tracked in the background, polled by artifact, never
-relaunched while live); **never `git add -A`** in a shared repo, and delete `*_BurstDebugInformation_
-DoNotShip/`; **report counted numbers**, never a download list.
+editor cannot share a small card - name what holds the card and ask the operator to park it; only on
+their word, restore it in a `finally`); **slow work outlives a tool call** (builds, imports and bulk
+downloads run tracked in the background, polled by artifact, never relaunched while live); **never
+`git add -A`** in a shared repo, and delete `*_BurstDebugInformation_DoNotShip/`; **report counted
+numbers**, never a download list.
 
 All fourteen, ordered by time actually lost, with the failure each caused: `references/traps.md`.
 
@@ -233,8 +234,8 @@ python scripts/check_skill.py           # add --json for machine-readable findin
 ```
 
 Named rules, each answering with a named boolean: no absolute local paths in the shipped text, no
-floating versions in install commands, version agreement across `SKILL.md` and `claw.json`, every
-referenced file present, licence claims limited to hosts named in
+floating versions in install commands, version agreement between this entry document and the package
+manifest, every referenced file present, licence claims limited to hosts named in
 `references/assets-and-licences.md`.
 
 ## Scope, permissions and limits
@@ -260,7 +261,7 @@ Treat every other capability as undeclared.
 ## Install
 
 ```bash
-npx clawhub@0.23.3 install deepseekoracle/unity-2d-3d-building@1.1.2   # pin BOTH sides: CLI and package
+npx clawhub@0.23.3 install deepseekoracle/unity-2d-3d-building@1.1.3   # pin BOTH sides: CLI and package
 ```
 
 Do not republish this skill unless the user asks. Do not put a local disk path, drive letter, or user

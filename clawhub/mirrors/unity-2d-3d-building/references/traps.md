@@ -9,9 +9,9 @@ card, a loaded local model left **719 MiB free of 8188 MiB VRAM** - and separate
 holding **5,232 MB loaded**, the same machine's LLM could not load at all (`brain: booting` for 15+
 minutes, turns hanging with no reply). Both directions happen.
 
-**Fix:** know what holds the card *before* starting heavy work, and park it rather than hoping:
-`nvidia-smi` for the current state, then a park -> work -> wake sequence with the wake in a `finally`
-so a failure never leaves the machine dark. If a turn hangs with no output, check the GPU before you
+**Fix:** know what holds the card *before* starting heavy work (`nvidia-smi`), and ask the operator
+before pausing anything - suspending another program is their call, not the agent's. With their
+agreement: park -> work -> wake, with the wake in a `finally` so a failure never leaves the machine dark. If a turn hangs with no output, check the GPU before you
 check your own code.
 
 ## 2. Slow work outlives the tool call that started it
