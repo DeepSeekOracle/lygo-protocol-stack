@@ -640,7 +640,13 @@ def main() -> int:
     # Our own engine is the backend. There is no daemon option: the kit never needs one, and offering
     # it is how a standalone system starts to depend on something outside itself.
     ap.add_argument("--backend", choices=("local", "openai"), default="local")
-    ap.add_argument("--openai-url", default=f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions")
+    # LYGO_PUBLIC_OPENAI_URL lets the launcher point this gateway at any OpenAI-shaped backend - the
+    # console's own free-brain adapter, for instance - without a flag or a config-key change: the
+    # .bat has no --openai-url in its argument list by design, so an env var is the one seam that
+    # works for every copy. Default stays the kit's own engine.
+    ap.add_argument("--openai-url",
+                    default=os.environ.get("LYGO_PUBLIC_OPENAI_URL")
+                    or f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions")
     ap.add_argument("--model", default=os.environ.get("LYGO_PUBLIC_MODEL") or _selected_model())
     args = ap.parse_args()
     bind = args.bind

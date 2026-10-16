@@ -74,6 +74,20 @@ def _fake_llama_chat(*args, **kwargs):
 
 
 def setUpModule() -> None:
+    # The operator's live config/api.json is MACHINE state (gitignored), and this module measures the
+    # ENGINE: with a cloud provider saved and enabled the console rightly prefers it, the mocked engine
+    # is never called, and ten tests about timings and photo fitting fail on a correct working tree.
+    # A test that measures the engine pins the brain to the engine, whatever the operator last chose.
+    import cloud_api
+
+    # server.py decides with `bool(st_cloud.get("enabled") and has_key)` from public_status(), so THAT
+    # is the seam to pin - patching cloud_api.active() looked right and changed nothing.
+    _state["cloud_mod"] = cloud_api
+    _state["cloud_status"] = cloud_api.public_status
+    _quiet = dict(cloud_api.public_status() or {})
+    _quiet.update({"enabled": False, "has_key": False, "degraded": False})
+    cloud_api.public_status = lambda: dict(_quiet)
+
     _state["auth"] = server.AUTH_REQUIRED
     server.AUTH_REQUIRED = False
     _state["spawn"] = server.maybe_spawn
@@ -89,6 +103,8 @@ def setUpModule() -> None:
 
 
 def tearDownModule() -> None:
+    _state["cloud_mod"].public_status = _state["cloud_status"]
+
     _state["httpd"].shutdown()
     _state["httpd"].server_close()
     server.AUTH_REQUIRED = _state["auth"]
