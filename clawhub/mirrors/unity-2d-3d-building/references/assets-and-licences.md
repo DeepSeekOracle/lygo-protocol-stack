@@ -1,8 +1,9 @@
 # Assets you are allowed to ship, and where to get them online
 
-There is no fetching in this package. Every host below is a public site for **the reader's own
-agent** to browse under the gate that follows; nothing here downloads, uploads, posts or reports
-anything anywhere, and no script in this package opens a socket at all.
+This page is guidance, not code. It names public hosts your own agent may fetch art from, after the
+licence gate below. No script ships with this skill, so nothing here fetches, uploads, posts or
+reports anything by itself: every download described here is a command your agent runs, under your
+own permissions.
 
 Licence first, download second. Nothing gets pulled until it is clear it can ship, because a game built
 on the wrong source cannot be published - and rewriting the art later costs more than sourcing it right.
@@ -27,7 +28,7 @@ on the wrong source cannot be published - and rewriting the art later costs more
 |---|---|---|---|
 | **Kenney** - https://kenney.nl/assets | 2D sprites, UI, icons, tilesets, small 3D kits, sound | **CC0** | PNG, plus OBJ/FBX/glTF for 3D kits |
 | **Quaternius** - https://quaternius.com | low-poly 3D characters, creatures, props, 250+ animation clips | **CC0** | FBX, OBJ, glTF, Blender |
-| **Poly Haven** - https://polyhaven.com | PBR textures, HDRIs, a few models; a real API (`https://api.polyhaven.com/files/<slug>`) | **CC0** | JPG/PNG, EXR/HDR, FBX/glTF |
+| **Poly Haven** - https://polyhaven.com | PBR textures, HDRIs, a few models; a documented file API for scripted pulls | **CC0** | JPG/PNG, EXR/HDR, FBX/glTF |
 | **KayKit** - https://kaylousberg.itch.io | stylised character + dungeon/prop packs that read well in a flat-lit scene | **CC0** | glTF, FBX |
 | **Poly Pizza** - https://poly.pizza | quick low-poly props, filtered by licence | **CC0 / CC-BY** (per model) | glTF |
 | **Sonniss GDC bundles** - https://sonniss.com/gameaudiogdc | large royalty-free sound libraries (tens of GB) | royalty-free, per bundle terms | WAV |

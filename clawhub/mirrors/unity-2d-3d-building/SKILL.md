@@ -10,8 +10,19 @@ description: >
   reads, scans or judges the caller's project, repository or machine.
   Use for Unity, Unity 6, 6000.x, Unity MCP, the unity CLI, WebGL build, sprite, Shader Graph,
   URP vs built-in, licence-cleared assets, or /unity-2d-3d-building.
-version: 1.1.1
+version: 1.1.2
 license: MIT-0
+permissions:
+  network: none - no script in this package fetches, posts or uploads anything
+  filesystem_read: own package folder only
+  filesystem_write: append references/techniques.md only, after a watched build confirms the method
+  shell: false
+  subprocess: false
+  install: false
+  publish: false
+allowed-tools:
+  - read this package's own folder
+  - run python scripts/check_skill.py
 metadata:
   openclaw:
     emoji: "🎮"
@@ -223,15 +234,16 @@ python scripts/check_skill.py           # add --json for machine-readable findin
 
 Named rules, each answering with a named boolean: no absolute local paths in the shipped text, no
 floating versions in install commands, version agreement across `SKILL.md` and `claw.json`, every
-referenced file present, licence claims limited to hosts named in `assets-and-licences.md`.
+referenced file present, licence claims limited to hosts named in
+`references/assets-and-licences.md`.
 
 ## Scope, permissions and limits
 
 What this package is allowed to do, stated here so an agent host can grant exactly this and no more:
 
-- **Reads** its own folder only (`SKILL.md`, `claw.json`, `references/*.md`, `scripts/check_skill.py`);
-  **runs** exactly one program, `python scripts/check_skill.py` (stdlib, optional `--json`). Nothing else
-  in the package is executable.
+- **Reads** its own folder only: this entry doc, `claw.json`, the eight reference pages beside it, and
+  `scripts/check_skill.py`. **Runs** exactly one program, `python scripts/check_skill.py` (stdlib,
+  optional `--json`); nothing else in the package is executable.
 - **Writes** nothing except an append to `references/techniques.md`, after a watched build confirms the
   method.
 - **Network:** none, from any packaged script (`claw.json` declares `network.https_get: false`,
@@ -248,7 +260,7 @@ Treat every other capability as undeclared.
 ## Install
 
 ```bash
-npx clawhub@0.23.3 install deepseekoracle/unity-2d-3d-building@1.1.1   # pin BOTH sides: CLI and package
+npx clawhub@0.23.3 install deepseekoracle/unity-2d-3d-building@1.1.2   # pin BOTH sides: CLI and package
 ```
 
 Do not republish this skill unless the user asks. Do not put a local disk path, drive letter, or user

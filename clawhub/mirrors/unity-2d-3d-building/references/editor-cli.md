@@ -88,4 +88,6 @@ unity build "<project>" --profile WebGL -o "<out-dir>" --no-tail --log-file "<lo
 A Unity editor needs the GPU and a large slice of RAM. A resident local LLM engine (or a diffusion /
 video renderer) on the same card will fight it and both will crawl. Measured on an 8 GB card with a
 local model loaded: **719 MiB free of 8188 MiB VRAM**. Park the other process, open Unity, do the work,
-and wake the parked process in a `finally` block so a failure does not leave the machine dark.
+and wake the parked process in a `finally` block so a failure does not leave the machine dark. This is a
+precondition for the editor run this page is about, not general host administration: park what contends
+for the card, and restore it when Unity exits.

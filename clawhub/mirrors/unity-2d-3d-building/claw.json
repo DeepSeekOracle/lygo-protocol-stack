@@ -1,7 +1,7 @@
 {
   "name": "unity-2d-3d-building",
   "displayName": "Unity 2D-3D Building",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Build, wire and ship a Unity game as an agent: install the engine, create a project from a template, drive the editor through Unity's own CLI bridge or a free MCP server, source licence-cleared CC0 assets online, and build to WebGL that you verify in a browser. Carries the Battle TV painted-broadcast style as a worked reference and a living art log.",
   "slug": "unity-2d-3d-building",
   "publisher": "deepseekoracle",
