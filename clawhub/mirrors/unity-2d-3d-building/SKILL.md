@@ -10,7 +10,7 @@ description: >
   reads, scans or judges the caller's project, repository or machine.
   Use for Unity, Unity 6, 6000.x, Unity MCP, the unity CLI, WebGL build, sprite, Shader Graph,
   URP vs built-in, licence-cleared assets, or /unity-2d-3d-building.
-version: 1.1.3
+version: 1.1.4
 license: MIT-0
 permissions:
   network: none - no script in this package fetches, posts or uploads anything
@@ -261,7 +261,7 @@ Treat every other capability as undeclared.
 ## Install
 
 ```bash
-npx clawhub@0.23.3 install deepseekoracle/unity-2d-3d-building@1.1.3   # pin BOTH sides: CLI and package
+npx clawhub@0.23.3 install deepseekoracle/unity-2d-3d-building@1.1.4   # pin BOTH sides: CLI and package
 ```
 
 Do not republish this skill unless the user asks. Do not put a local disk path, drive letter, or user
