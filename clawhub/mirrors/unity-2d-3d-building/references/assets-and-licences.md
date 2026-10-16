@@ -1,5 +1,9 @@
 # Assets you are allowed to ship, and where to get them online
 
+There is no fetching in this package. Every host below is a public site for **the reader's own
+agent** to browse under the gate that follows; nothing here downloads, uploads, posts or reports
+anything anywhere, and no script in this package opens a socket at all.
+
 Licence first, download second. Nothing gets pulled until it is clear it can ship, because a game built
 on the wrong source cannot be published - and rewriting the art later costs more than sourcing it right.
 

@@ -48,6 +48,13 @@ Risk: Long builds and bulk downloads outlive a single tool call.
 Mitigation: The guide requires tracked background execution with artifact polling, never a timeout
 wrapper, and treating arriving artifacts as the proof of success.
 
+Risk: A guide that shells out or reads beyond its own folder.
+
+Mitigation: Scope is declared rather than implied. The package runs one stdlib checker, reads only
+its own folder, fetches nothing, never installs or publishes, and says so in SKILL.md
+("Scope, permissions and limits") and in `claw.json` permissions - the self-check audits this
+package's own text, never the caller's repository.
+
 ## Reference(s):
 
 - [ClawHub skill release](https://clawhub.ai/deepseekoracle/skills/unity-2d-3d-building)
