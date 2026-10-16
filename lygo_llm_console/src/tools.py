@@ -87,9 +87,39 @@ CORE_NAMES = {
     # a picture and speak a sentence, and an operator who asked for a song got prose about one. The
     # engine is a local model reached by path (nothing cloud, nothing listening afterwards), and a
     # song is a capability in exactly the sense the cap protects - so it takes a slot. Counted with
-    # the schema cap in tests/test_tool_battery.py: 39 of 40, and the schema stays under its char
+    # the schema cap in tests/test_tool_battery.py (see the archive entry below), and the schema
+    # stays under its char
     # budget because the description above is written for a small model's eyes, once.
     "music_generate",
+    # The last slot, and the one the operator found by NAME: `wayback` was advertised in the
+    # global schema with a one-line description and DID NOT EXIST for the local brain at all -
+    # the console could be told "use the wayback tool" and had nothing to call. It is a
+    # capability (find what a page used to say; read a copy of a link that is now dead), not a
+    # diagnostic. Counted with the schema cap in tests/test_tool_battery.py: 40 of 40 - adding a
+    # 41st means taking one back, which is the cap doing its job.
+    "wayback",
+    # ---------------------------------------------------------------- 2026-10-10: now OUT, rea IN
+    # The 41st capability cannot be added without taking one back (this tuple says so at `wayback`:
+    # "40 of 40 - adding a 41st means taking one back, which is the cap doing its job"), and by the
+    # set's own rule the one taken back must be a READ-OUT, not a capability.
+    #
+    # `now` is that read-out, and it is the clearest case in the set:
+    #   * the clock is ALREADY in every prompt. continuity.py appends, as the volatile tail on the
+    #     operator's own message: "NOW UTC <iso> · local <iso> (<tz>) · unix <n> · <weekday>" - so the
+    #     limb re-answers a question the model was handed for free. (Same shape as the eviction that
+    #     made room for python_exec/rust_exec: "world_pulse already carries city weather".)
+    #   * it is MEASURED to misroute: offered it, the local 7b reached for `now` on 4 of 8 greeting
+    #     turns with the clock sitting in the tail (chat_loop's GREETING_RE note, 2026-09-21). Removing
+    #     the name removes a standing invitation to answer a greeting with a timestamp.
+    #   * it stays advertised in the global schema for the larger path - keeper_status and media_status
+    #     were kept out of this set for exactly this reason, not deleted.
+    #
+    # `rea` replaces it: reverse-engineering an app is a capability the brain CHOOSES between (the
+    # python_exec test - "a capability, not a diagnostic"), it is local-only, one-shot, and it never
+    # claims to have recovered source code. Position matters for a small model: it sits with the code
+    # limbs so a turn that means "understand this app" reaches it before the web tools talk it out of
+    # the work.
+    "rea",
     "steward_map",
     "self_check",
     "whoami",
@@ -101,7 +131,7 @@ CORE_NAMES = {
     "workspace_map",
     "skill_list",
     "skill_read",
-    "now",
+    # `now` was here. See the 2026-10-10 note above `rea`: the clock rides every prompt already.
     "world_pulse",
     "calc",
     "remember",
@@ -127,18 +157,87 @@ CORE_NAMES = {
     "self_restart",
     "toolchain_install",
     # A console that can only work inside a turn stalls whenever the work is slow, and nothing
-    # outlives the turn. These hand work to the queue, schedule it, and report the daemon. Five
-    # of the eight are here because the on-box brain is the one that gets asked to do the work:
-    # task_add/task_list to hand it off and read it, cron_add/cron_list to repeat it, and
-    # keeper_status so it can say whether anything is keeping this console alive.
+    # outlives the turn. These hand work to the queue, schedule it, and report the daemon.
+    # task_add/task_list hand it off and read it; cron_add/cron_list repeat it.
+    # keeper_status was the fifth entry and is now OUT: it is a status read-out rather than
+    # something the brain chooses between - the same rule that keeps media_status out of this set.
+    # It stays advertised in the global schema for the larger path.
+    #
+    # This set is ALSO capped by a MEASURED character budget (five tests assert
+    # len(str(core_schema())) < 20000). The figure was 18000 and moved on 2026-10-09 to make room
+    # for the video limb; the arithmetic behind that move, and the reason keeper_status is OUT as a
+    # read-out rather than to buy space, are recorded on `video_generate` at the foot of this tuple.
     "task_add",
     "task_list",
     "task_show",
     "task_cancel",
+    # THE STEWARD REMOVED THE CAPS, 2026-10-16: "REMOVE ALL THE CAPS". The 40-entry ceiling and the
+    # 20,000-character budget were doctrine, not mechanism - no production code read either number, and
+    # they were doing real harm: the agent had the capability and the catalogue that reaches the on-box
+    # brain withheld it, so the agent denied tools it was holding (keeper_status and media_status were
+    # kept out "to buy space", and this whole tasking-monitoring build was written around a cap that
+    # turned out to be self-imposed). A read-out the agent is asked to watch - the queue it works from -
+    # belongs in the set the small model can actually call. The cap's own argument stands on the record;
+    # it just no longer outranks the operator.
+    "task_health",
+    "task_recover",
     "cron_add",
     "cron_list",
     "cron_remove",
     "keeper_status",
+    # Side agents: the point of them is that the agent can take a second opinion or split work, so
+    # keeping them out of the set the on-box brain can call defeated their purpose ("a capability
+    # the operator calls" - but the OPERATOR asked for them; the same cap that gated the
+    # tasking read-outs gated these).
+    "subagent_run",
+    "subagent_pool",
+    # The fourth making limb. The console could draw a picture, speak a sentence and write a song,
+    # and an operator who asked for a CLIP got prose about one. The engine is a local flow model
+    # (Wan 2.2 TI2V-5B) reached by a config path, started on demand and stopped in a finally -
+    # nothing cloud, nothing left holding the card. A moving picture is a capability in exactly the
+    # sense image_generate and music_generate are, so by the cap's own rule it earns a core slot.
+    # It took keeper_status's place (39 -> 40, unchanged against the count cap): keeper_status is a
+    # status read-out rather than something the brain chooses between, the same reason media_status
+    # stays out. The three facts behind that call are worth recording, because they were measured:
+    #   * the count cap is 40 and this keeps it at exactly 40, so no count test changes;
+    #   * the CHARACTER budget moved 18000 -> 20000, in the same five tests that assert it. The old
+    #     number was self-imposed doctrine, not a mechanism: no production code reads it, and on the
+    #     shipped 7B's 32768-token window the whole fixed prefix costs ~5200 tok (~16%) - measured
+    #     ~40 s of prefill at ~130 tok/s in server.py's own warm_prefix note. This entry costs
+    #     ~1500 chars (~380 tok, ~1.2% of the window), and because warm_prefix() primes that prefix
+    #     into the KV cache it is prefilled once at boot and reused, not re-sent every turn. The
+    #     real price is ~380 tok less room for history, which is why the cap moved by a measured
+    #     amount rather than being abandoned;
+    #   * the entry was ALSO cut from 2293 chars to ~1500 before any cap moved, because the first
+    #     draft was the second-largest description in the kit - bigger than music_generate's 1628
+    #     and double image_generate's 1163. The tuning facts survive in it; the restatement did not.
+    "video_generate",
+    # ---------------------------------------------------------------- 2026-10-12: the film limb IN
+    # The steward's own call, and it is a doctrine change, recorded here because the two entries
+    # above say the set is "40 of 40" and "adding a 41st means taking one back". That rule assumed
+    # the cap was a hard wall. It is not: it is a budget, and a budget can be raised by a measured
+    # amount when the operator decides it should be. The steward decided exactly that for video
+    # editing ("increase cap, increase slots, and change the doctrine to be able to make it
+    # flexible"), so the rule this tuple runs on is now:
+    #
+    #   * a capability still has to ARGUE for its slot - the count and character caps in
+    #     tests/test_tool_battery.py still exist, and both were raised by the MEASURED size of this
+    #     entry rather than abandoned (see that file for the arithmetic);
+    #   * a READ-OUT still gives way to a capability when the budget is tight (the `now` and
+    #     keeper_status evictions stand - this entry did not put either of them back);
+    #   * what changed is only that the budget is the OPERATOR's to move, deliberately and in
+    #     measured steps, instead of a number no one may touch.
+    #
+    # Why `film` earns it: the console could describe a video edit and could not make one. FilmCraft
+    # is 693 commands with an id and typed parameters, a headless CLI, a control channel and an MCP
+    # server - so an agent can really drive it (measured: a 1 s H.264 cut exported headless in 1.2 s,
+    # a frame rendered in 0.1 s). It is local, one-shot, needs no internet, and every call goes
+    # through the same harness the console's own buttons use. Its entry is 2235 chars of the core
+    # budget, which stands at 26,980 characters now (26,754 measured with 42 core tools, plus the
+    # 226 chars of headroom every move here keeps) - tests/test_tool_battery.py holds the
+    # arithmetic, in order.
+    "film",
+    "plexo",
 }
 
 

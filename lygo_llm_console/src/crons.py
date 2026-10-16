@@ -21,6 +21,32 @@ DATA = ROOT / "data"
 JOBS = DATA / "crons.json"
 
 
+#: Crons every console carries, seeded ONCE by ensure_defaults(). The monitoring job is the point:
+#: the queue only ever told the truth when somebody asked it to, so the console now asks itself - and
+#: because the keeper is what runs crons, this is also the thing that makes tasking self-monitoring
+#: rather than something an operator has to remember to look at.
+DEFAULT_JOBS: tuple[dict[str, Any], ...] = (
+    {"name": "tasking-watch", "limb": "task_recover", "every": 600,
+     "note": "watch the background queue: reconcile a job whose runner died, report the queue's condition"},
+)
+
+
+def ensure_defaults() -> dict[str, Any]:
+    """Seed the crons every console should carry, without touching any job the operator made."""
+    have = {str(j.get("name") or "") for j in _load()}
+    seeded: list[dict[str, Any]] = []
+    kept: list[str] = []
+    for spec in DEFAULT_JOBS:
+        if spec["name"] in have:
+            kept.append(str(spec["name"]))
+            continue
+        got = add_job(str(spec["name"]), str(spec["limb"]), {}, every=int(spec["every"]),
+                      note=str(spec.get("note") or ""))
+        seeded.append({"name": spec["name"], "limb": spec["limb"], "every": spec["every"],
+                       "ok": bool(got.get("ok")), "error": got.get("error", "")})
+    return {"ok": True, "seeded": seeded, "already_there": kept}
+
+
 def _load() -> list[dict[str, Any]]:
     if not JOBS.is_file():
         return []

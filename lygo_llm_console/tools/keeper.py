@@ -225,6 +225,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--interval", type=float, default=DEFAULT_INTERVAL)
     ap.add_argument("--detach", action="store_true")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--ensure", action="store_true",
+                    help="start a keeper ONLY if none is alive, then report which one is running")
     ap.add_argument("--log", default="")
     args = ap.parse_args(argv)
 
@@ -235,17 +237,37 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(sweep(), ensure_ascii=False, indent=2))
         return 0
 
+    if args.ensure:
+        # The one call a launcher or another agent can make safely: idempotent, and it routes through the
+        # verified detach path below so "ensured" means a lock was actually taken, never a bare rc=0.
+        pid, alive = _lock_holder()
+        if alive and pid != os.getpid():
+            print(json.dumps({"ok": True, "started": False, "keeper_pid": pid,
+                              "why": "a keeper is already alive"}))
+            return 0
+        args.detach = True
+
     if args.detach:
         log = args.log or str(LOGDIR / "keeper.out.log")
         LOGDIR.mkdir(parents=True, exist_ok=True)
         # No -RedirectStandardOutput here: PowerShell refuses that together with -WindowStyle, and it
         # failed silently the first time. The keeper writes its own keeper.log anyway.
-        cmd = ["powershell", "-NoProfile", "-Command",
-               f"Start-Process -FilePath '{sys.executable}' "
-               f"-ArgumentList '{Path(__file__).resolve()}','--interval','{args.interval}' "
-               f"-WorkingDirectory '{ROOT}' -WindowStyle Hidden"]
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-        detail = (r.stderr or r.stdout or "").strip()[:300]
+        # MEASURED 2026-10-16: the PowerShell Start-Process route returns rc=0 and the child does not
+        # survive, and it keeps the reason to itself (that was the 2026-09-21 mystery, still true today).
+        # Launch the keeper the way this tree already launches long-lived processes instead: a native
+        # detached process with its OUTPUT ATTACHED, so a crash on the way up leaves a traceback in
+        # save/logs/keeper.out.log rather than silence.
+        out_log = LOGDIR / "keeper.out.log"
+        flags = 0
+        if hasattr(subprocess, "DETACHED_PROCESS"):
+            flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
+        with out_log.open("ab") as fh:
+            child = subprocess.Popen(
+                [sys.executable, str(Path(__file__).resolve()), "--interval", str(args.interval)],
+                cwd=str(ROOT), stdin=subprocess.DEVNULL, stdout=fh, stderr=subprocess.STDOUT,
+                creationflags=flags, close_fds=True)
+        r = subprocess.CompletedProcess(args=[], returncode=0, stdout="", stderr="")
+        detail = f"launched detached, pid {child.pid}, log {out_log}"
         # MEASURED 2026-10-16 (first noted 2026-09-21): Start-Process returned 0 and the keeper never
         # existed. A launcher's exit code is not evidence that the process lives - the LOCK is. Wait for
         # the child to take it and answer honestly when nothing comes up, or the operator is told a
@@ -275,6 +297,17 @@ def main(argv: list[str] | None = None) -> int:
         pid, _ = _lock_holder()
         print(f"a keeper is already running (pid {pid})", file=sys.stderr)
         return 3
+
+    # Seed the crons every console carries, now that this process is the one that will run them. Losing
+    # this must never cost the supervisor its job, so it cannot raise.
+    try:
+        import crons
+
+        seeded = crons.ensure_defaults()
+        if seeded.get("seeded"):
+            log_line(f"seeded default crons: {[s['name'] for s in seeded['seeded']]}")
+    except Exception as exc:
+        log_line(f"seeding default crons failed: {exc}")
     log_line(f"keeper up: interval={args.interval}s console={console_port()}")
     state = load_state()
     state["interval_s"] = args.interval

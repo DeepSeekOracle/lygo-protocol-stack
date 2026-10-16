@@ -79,7 +79,7 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "weather", "description": "Current weather via wttr.in (RESOURCE).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
     {"type": "function", "function": {"name": "geocode", "description": "Place name to lat/lon (Nominatim).", "parameters": {"type": "object", "properties": {"place": {"type": "string"}}, "required": ["place"]}}},
     {"type": "function", "function": {"name": "http_json", "description": "HTTPS GET JSON from a public URL.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
-    {"type": "function", "function": {"name": "wayback", "description": "Internet Archive availability for a URL.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "wayback", "description": "INTERNET ARCHIVE (Wayback Machine): what a page used to say, and which captures exist. action: 'available' (default: is it archived, closest snapshot); 'closest' (the capture nearest a date); 'captures' (the dated list of one URL or a whole site); 'site' (which pages of a site are archived); 'find' (a word in a site's archived URLs; needs word); 'read' (fetch the ARCHIVED copy as TEXT: use this for a dead link or a 404); 'link' (build the snapshot URL); 'timemap' (the whole history as memento rows). url required (URL or domain). timestamp/from/to are DIGITS (2010, 20100501); a timestamp picks the closest capture. match=exact|prefix|host|domain. RESOURCE, never CANON. The index is slow: report the seconds.", "parameters": {"type": "object", "properties": {"url": {"type": "string", "description": "the page or domain"}, "action": {"type": "string", "description": "available|closest|captures|site|find|read|link"}, "timestamp": {"type": "string", "description": "digits, e.g. 20230501"}, "from": {"type": "string", "description": "earliest capture, digits"}, "to": {"type": "string", "description": "latest capture, digits"}, "limit": {"type": "integer", "description": "rows, default 40, max 250"}, "match": {"type": "string", "description": "exact|prefix|host|domain"}, "filter": {"type": "string", "description": "a CDX filter, e.g. statuscode:200"}, "word": {"type": "string", "description": "for find: a word in the archived URL"}, "raw": {"type": "boolean", "description": "for read: no archive banner"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "arxiv_search", "description": "Search arXiv papers.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "hn_search", "description": "Hacker News Algolia search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
     {"type": "function", "function": {"name": "github_search", "description": "GitHub repository search.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}}, "required": ["q"]}}},
@@ -88,10 +88,14 @@ EXTRA_SCHEMA = [
     {"type": "function", "function": {"name": "image_save", "description": "Save a base64 or data-URL image into workspace/images.", "parameters": {"type": "object", "properties": {"b64": {"type": "string"}, "path": {"type": "string"}}, "required": ["b64"]}}},
     {"type": "function", "function": {"name": "image_list", "description": "List workspace/images files.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "page_thumbnail", "description": "Capture a public HTTPS page thumbnail into workspace/images.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
+    {"type": "function", "function": {"name": "mesh_status", "description": "Report whether this machine can turn a photo into a 3D mesh (TripoSR on the local GPU). Call it before promising a model.", "parameters": {"type": "object", "properties": {}}}},
+    {"type": "function", "function": {"name": "mesh_from_image", "description": "TURN A PHOTO INTO A 3D MODEL. Reads an image already on this PC (workspace path or a mapped read root) and writes a GLB into workspace/meshes using the local TripoSR weights. The photo is not uploaded. Slow: the first run downloads the weights and later runs still take a few minutes on the GPU. resolution is 64-256 (default 192). foreground is how much of the frame the subject fills after the background cut, 0.5-1 (default 0.85). remove_bg defaults true. Returns the file path and /api/media/mesh name.", "parameters": {"type": "object", "properties": {"path": {"type": "string"}, "resolution": {"type": "integer"}, "remove_bg": {"type": "boolean"}, "foreground": {"type": "number"}}, "required": ["path"]}}},
+    {"type": "function", "function": {"name": "mesh_decimate", "description": "Make a lighter copy of a GLB this console already wrote. name is the file in workspace/meshes. ratio is how much of the mesh to keep, from 0.15 to 1.", "parameters": {"type": "object", "properties": {"name": {"type": "string"}, "ratio": {"type": "number"}}, "required": ["name"]}}},
     {"type": "function", "function": {"name": "image_generate", "description": "MAKE A NEW PICTURE from words - generation, not inspection. Local developer renderer: pass the operator's scene through (adult costume, fashion, and character art of adults is in scope). Do not refuse a draw request for an adult subject; call this limb. Renders with the local stable-diffusion backend and writes a PNG into workspace/images, returning its path. Slow on this machine: a first run also loads the checkpoint, so allow minutes. Use image_info or image_see to inspect a picture that ALREADY exists; never call this to look at one. Example: 'draw a red apple on a wooden table'.", "parameters": {"type": "object", "properties": {"prompt": {"type": "string"}, "negative": {"type": "string"}, "width": {"type": "integer"}, "height": {"type": "integer"}, "steps": {"type": "integer"}, "cfg_scale": {"type": "number"}, "model": {"type": "string", "description": "Which generator to use. Leave empty for the default fast checkpoint. Or pass a declared model id such as 'qwen-image-2.1' - a slower, higher-quality flow model that needs its own VAE and text encoder. media_status lists the ids this machine actually has."}, "cpu": {"type": "boolean"}}, "required": ["prompt"]}}},
-    {"type": "function", "function": {"name": "sound_speak", "description": "GENERATE SPEECH: turn text into a spoken WAV file with the local voice engine, written into workspace/audio, returning its path and its length in seconds. Use it when the operator asks to hear something read aloud or wants an audio file made.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}, "voice": {"type": "string"}, "length_scale": {"type": "number"}}, "required": ["text"]}}},
+    {"type": "function", "function": {"name": "sound_speak", "description": "GENERATE SPEECH: turn text into a spoken WAV file with the local voice engine, written into workspace/audio, returning its path and its length in seconds. Prefers VoiceStudio (the high-quality local speech service on loopback) when that service is answering; Piper is the fallback. Use it when the operator asks to hear something read aloud or wants an audio file made.", "parameters": {"type": "object", "properties": {"text": {"type": "string"}, "voice": {"type": "string", "description": "VoiceStudio voice id, or a Piper .onnx path"}, "length_scale": {"type": "number"}}, "required": ["text"]}}},
     {"type": "function", "function": {"name": "media_status", "description": "Report whether picture generation and voice generation are wired on THIS machine: which binaries and checkpoints were found, and where they live. Call it before promising a picture or a voice, or after a generation fails.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "music_generate", "description": "MAKE A SONG - words and music together, sung, made on this machine with the local music engine (no cloud). Writes an MP3 into workspace/audio/songs and returns the path it really wrote. `style` is the music: genre, mood, instruments, vocal character. `lyrics` are the WORDS to sing, written with section tags on their own lines ([verse], [chorus], [bridge], [outro]) - the engine sings exactly the words it is given, so if the operator only gave a subject, write the lyrics yourself first and then call this with them. A call with no lyrics comes back `lyrics_required`, which is the engine asking for words, not a failure to retry blindly. `seconds` is roughly how long the song should be (about 30 s per segment; default two segments). Rendering takes minutes - a first run also loads a 20 GB model - so call it once and tell the operator it is rendering. Use sound_speak for SPOKEN text; use this for music.", "parameters": {"type": "object", "properties": {"style": {"type": "string", "description": "the music, as tags or a phrase, e.g. 'warm acoustic folk, fingerpicked guitar, soft female vocal, hopeful'"}, "lyrics": {"type": "string", "description": "the words to sing, with [verse]/[chorus] tags on their own lines"}, "seconds": {"type": "integer", "description": "roughly how long, in seconds (about 30 s per segment; default 60)"}, "seed": {"type": "integer", "description": "omit or 0 for a fresh take; pass a number to reproduce an earlier one"}, "profile": {"type": "integer", "description": "1..5 speed/memory trade: higher = less VRAM, slower. Leave empty and the live card reading picks it."}}, "required": ["style", "lyrics"]}}},
+    {"type": "function", "function": {"name": "video_generate", "description": "MAKE A SHORT VIDEO CLIP - a few seconds of moving picture, made on this machine with the local video engine (no cloud). Writes an MP4 into workspace/video and returns the path it really wrote. `prompt` must carry the SCENE AND THE CAMERA in one sentence: subject, action, place, light, and the camera move ('slow push in', 'tracking shot') - the engine invents no shot for you, so a bare subject gives a weak clip. LENGTH IS THE QUALITY LEVER, MEASURED HERE: 2 s (49 frames) suits a large slow subject, but anything moving needs 4-5 s (97-121 frames) - the same prompt had no readable subject at 2 s and a clear one at 4 s, for only ~8 s more render. A call takes minutes and the first one loads ~12 GB of weights, so call it once and tell the operator it is rendering. Do NOT choose a model - the console renders with wan22-5b (20 steps), the best this box has; the faster turbo build is measurably worse and is not offered to you. Use image_generate for a still picture, music_generate for a song, sound_speak for speech - use this only for a moving picture.", "parameters": {"type": "object", "properties": {"prompt": {"type": "string", "description": "the scene AND the camera move, e.g. 'a red fox trotting through a snowy pine forest at dusk, slow tracking shot, cinematic'"}, "seconds": {"type": "integer", "description": "clip length in seconds; 2 for a large slow subject, 4-5 when anything moves (2 can lose a small moving subject); ceiling 5. If the operator names a length, use EXACTLY that, even when you think a longer clip would look better - an explicit instruction outranks your judgement of the shot, and a 1 s clip is a legitimate request."}, "seed": {"type": "integer", "description": "omit or 0 for a fresh take; a number reproduces an earlier one"}, "width": {"type": "integer", "description": "704 is the ceiling on an 8 GB card"}, "height": {"type": "integer", "description": "480 is the ceiling on an 8 GB card"}}, "required": ["prompt"]}}},
     {"type": "function", "function": {"name": "jina_fetch", "description": "Readable extract of a page via r.jina.ai.", "parameters": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}},
     {"type": "function", "function": {"name": "sessions_list", "description": "List saved chat session files.", "parameters": {"type": "object", "properties": {}}}},
     {"type": "function", "function": {"name": "session_list", "description": "List the filed session vault: title, id, turns, date, tags, note. Filters: q, tag, month.", "parameters": {"type": "object", "properties": {"q": {"type": "string"}, "tag": {"type": "string"}, "month": {"type": "string"}, "limit": {"type": "integer"}}}}},
@@ -117,10 +121,45 @@ EXTRA_SCHEMA = [
         {"type": "function", "function": {"name": "task_list", "description": "Read the background queue: queued, running, done, failed, stalled counts and the recent tasks.", "parameters": {"type": "object", "properties": {"limit": {"type": "integer"}, "state": {"type": "string", "description": "queued | running | done | failed | stalled | cancelled"}}, "required": []}}},
         {"type": "function", "function": {"name": "task_show", "description": "Read one background task in full: its result, how long it ran, what it was for.", "parameters": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}}},
         {"type": "function", "function": {"name": "task_cancel", "description": "Cancel a background task that has not started yet.", "parameters": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}}},
+        {"type": "function", "function": {"name": "task_recover", "description": "WATCHDOG for the background queue: write the truth about jobs whose runner died (a job whose process exited used to read `stalled` for ever and was never retried), put a cron's missed run back on the queue once, and report the queue's condition. Safe to call any time.", "parameters": {"type": "object", "properties": {}}}},
         {"type": "function", "function": {"name": "cron_add", "description": "SCHEDULE RECURRING WORK: run a limb every N seconds or daily at a time. The keeper daemon runs it, so it happens without anyone asking again.", "parameters": {"type": "object", "properties": {"name": {"type": "string"}, "limb": {"type": "string", "description": "the limb to run, e.g. self_test"}, "args": {"type": "object"}, "every": {"type": "integer", "description": "seconds between runs"}, "at": {"type": "string", "description": "daily time HH:MM, 24-hour"}, "note": {"type": "string"}}, "required": ["name", "limb"]}}},
         {"type": "function", "function": {"name": "cron_list", "description": "List the scheduled jobs: when each is next due, how often it has run, and how the last run went.", "parameters": {"type": "object", "properties": {}}}},
         {"type": "function", "function": {"name": "cron_remove", "description": "Delete a scheduled job by name.", "parameters": {"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}}},
         {"type": "function", "function": {"name": "keeper_status", "description": "Report the keeper daemon: is it alive, is the console up, is the doorbell up, what has it restarted lately.", "parameters": {"type": "object", "properties": {}}}},
+        {"type": "function", "function": {"name": "task_health", "description": "Read the background queue's CONDITION: what is queued, running, stalled or interrupted, how long the oldest stopped job has been stuck, and whether a worker is alive. Use when asked whether tasking is healthy, before scheduling more work, or when a job never came back.", "parameters": {"type": "object", "properties": {}}}},
+        # ------------------------------------------------------------ reverse engineering
+        # REA (rea-agents, MIT) inspects an app WITHOUT its source and returns evidence for each
+        # claim; it never claims to have recovered source code. It is an EXTERNAL CLI resolved by name
+        # (config rea_bin, then PATH, then npm's own %APPDATA%\npm shim - never a hardcoded drive
+        # letter, because this kit is also copied to a stick), and it is ONE-SHOT: _run_capture kills
+        # the whole process tree on timeout, so nothing is left listening and no orphan holds a file.
+        # doctor and capabilities need no engine at all; analyzing a NATIVE binary needs an external
+        # Hopper/Ghidra/IDA while JavaScript, Electron and web analysis need none - the limb reports
+        # WHICH case it is rather than collapsing both into one verdict.
+        # Kept OUT of CORE_NAMES, measured 2026-10-10: the core set was already at exactly its
+        # 40-entry ceiling and at 19,977 of 20,000 characters, and the tree's own rule is that a new
+        # core entry must first argue for the slot (the video limb's note: "the headroom left is
+        # deliberately thin so the next capability still has to argue for itself"). So this is
+        # advertised in the extended schema the larger path reads, and the core-slot decision is left
+        # to the operator rather than taken here.
+        {"type": "function", "function": {"name": "rea", "description": "Reverse-engineer an app WITHOUT its source, locally, and get evidence for every claim. action=doctor (what is ready here), capabilities (what it can inspect), analyze (overview of an app, bundle or URL) or decompile (read one part as code). Give action and path. Native binaries need an external engine (Hopper, Ghidra or IDA); JavaScript, Electron and web analysis need none - doctor names which. It reports what it could NOT determine and never claims to have recovered source code: treat the result as behaviour, not intent.", "parameters": {"type": "object", "properties": {"action": {"type": "string", "description": "doctor, capabilities, analyze or decompile"}, "path": {"type": "string", "description": "app, bundle or binary path, or a URL for a web bundle; for decompile also an address or procedure name"}}, "required": ["action"]}}},
+    # Why `plexo` earns a core slot (2026-10-12, from the same reviewed budget the video entry
+    # moved): the console could already pull a file one connection at a time (`download_url`), and a
+    # multi-GB model or installer is the case where that cost is measured in hours. This limb is both
+    # halves of one capability - LYGO's own parallel-range engine, and the bridge to the operator's
+    # Plexo install, whose multi-network hand-off (Wi-Fi plus a tethered phone on ONE download) is a
+    # thing this kit cannot do at all. Its entry is 2280 chars of the core budget - and that budget
+    # moved by exactly this measurement (22974 -> 25256), recorded in tests/test_tool_battery.py.
+    {"type": "function", "function": {"name": "plexo", "description": "Download files FAST and in parallel, and hand a download to the operator's own Plexo. action=fetch (download here with LYGO's own engine: blocks on several connections at once, resumed from a progress record, refusals by name - give url plus name, streams 4|8|16|32, urls (more urls holding the SAME file: every source is probed and they must agree on size and ETag, then the blocks are spread over all of them at once), bind (the local addresses the streams leave by, one per stream, so two network adapters carry one file at the same time; action=adapters lists what this machine holds), limit_mbps (a whole-job speed ceiling), out (a path outside workspace/downloads needs consent=true)); adapters (the network paths this machine has, and with check=true it asks each one its own public address to say whether they are really separate paths or one router behind two cables); jobs (what is running now, with bytes, percent and MB/s); job (one job by id); wait (poll one job for seconds); cancel (stop one, keeping what arrived), cancel_all (stop every download here); probe (does this server do ranges, how big is the file, its ETag); verify (read a downloaded file back); hand_off (give the url to Plexo so its multi-network setup downloads it - needs consent=true, it starts a download on the operator's connection); bridge (is Plexo answering on 19288-19290); open (start Plexo; refuses by name when it is not installed); stop (only the Plexo this console started); pin (the pinned Plexo release); credit (who wrote what, under which licence); doctor (what is ready here).", "parameters": {"type": "object", "properties": {"action": {"type": "string", "description": "status, jobs, job, wait, cancel, cancel_all, fetch, probe, adapters, verify, hand_off, bridge, open, stop, pin, credit, doctor"}, "url": {"type": "string", "description": "the http(s) or magnet link to download or hand over"}, "name": {"type": "string", "description": "the file name to save as (defaults to the server's own)"}, "out": {"type": "string", "description": "where to put it: a bare name lands in workspace/downloads; anything outside that folder needs consent=true"}, "streams": {"type": "number", "description": "parallel connections for fetch: 4, 8, 16 or 32 (8 is default)"}, "urls": {"type": "array", "description": "for fetch: other urls holding the SAME file (mirrors of it). Each is probed first and they must agree on total size and ETag, or the fetch REFUSES rather than stitching two versions of a file together"}, "bind": {"type": "array", "description": "for fetch: the local addresses the streams leave by, one per stream, cycled - e.g. [\"192.168.1.40\", \"192.168.42.129\"] for Wi-Fi plus a phone tether, which is how two adapters carry one file at once. plexo action=adapters lists the addresses this machine actually holds"}, "limit_mbps": {"type": "number", "description": "for fetch: a whole-job speed ceiling in MB/s; omit or 0 for no ceiling"}, "check": {"type": "boolean", "description": "for adapters: true asks each path its own public address (one small request per adapter to a public service, which would see this machine's public address)"}, "job": {"type": "string", "description": "a job id from fetch or jobs, for job, wait and cancel"}, "seconds": {"type": "number", "description": "how long wait may poll, in seconds"}, "path": {"type": "string", "description": "the file to read back with verify"}, "consent": {"type": "boolean", "description": "true only when the operator has said yes: required by hand_off, and by fetch writing outside workspace/downloads"}, "resume": {"type": "boolean", "description": "for fetch: continue a part-downloaded file (default true)"}}, "required": ["action"]}}},
+    {"type": "function", "function": {"name": "film", "description": "Edit, inspect and render VIDEO with FilmCraft - the open-source Premiere-style editor that ships inside this kit and needs no internet. action=status (what is installed and what is running), open (start the desktop editor), web (serve the built-in browser editor, answers with its URL), inspect (a project tree or sequence as JSON), commands (find one of its 693 commands by words), describe (one command's parameters), run (run commands: steps=[{id,params}]), export (render the sequence to a file), render (one PNG frame), presets (the export presets here), doctor (what is missing and the one script that fetches it). Everything runs headless on this machine; nothing is uploaded. A project outside this kit's own workspace/film needs consent=true, for reading or writing.", "parameters": {"type": "object", "properties": {"action": {"type": "string", "description": "status, open, boot, stop, web, web_stop, editor, inspect, commands, describe, run, export, render, presets, doctor"}, "project": {"type": "string", "description": "project to act on: a name inside workspace/film/projects, or an absolute .fcproj path"}, "out": {"type": "string", "description": "output name for export or render - a bare name lands in workspace/film"}, "command": {"type": "string", "description": "one command id for describe, e.g. timeline.razor"}, "query": {"type": "string", "description": "words to find commands by (id, label, menu or shortcut)"}, "steps": {"type": "array", "description": "for run: a list of {id, params}"}, "preset": {"type": "string", "description": "an export preset name, e.g. Match Source - Adaptive High Bitrate"}, "seconds": {"type": "number", "description": "for render: the program time to take one frame at"}, "method": {"type": "string", "description": "for editor: a control-channel method of the running editor, e.g. engine.commands"}, "save": {"type": "boolean", "description": "for run: write the project back when the commands are done"}, "consent": {"type": "boolean", "description": "true only when the operator has said yes: a project or output file outside this kit's own workspace/film is refused without it"}}, "required": ["action"]}}},
+    # Why the side-agent pair earns a slot (2026-10-15, from the same reviewed core budget as plexo):
+    # OpenCode's free model pool is real, tool-capable, and needs no key and no account - proven live, it
+    # wrote a file through its own tool loop - but it is CLIENT-LOCKED (a plain call to the same endpoint
+    # answers 403 FreeTierError: "can only be used from within OpenCode"), so driving that CLI is the only
+    # route to it, and its limit is MASKED as an opaque server error. That is why the probe ships in the
+    # same breath as the runner: on a free engine, a dead pool and a broken task look identical.
+    {"type": "function", "function": {"name": "subagent_run", "description": "Hand a side task to an EXTERNAL agent that runs on its own in a folder and reports back what it did: its answer, the tools it used, and where it worked. Free by default (OpenCode's free pool - no key, no account) and metered, so use it for side work: a second opinion, a look at a file, a small job. Never hand it private operator context. read_only defaults true, which denies edit, bash and webfetch; pass read_only=false only when the side task must change files in that folder. Give task, and optionally engine, dir, read_only, timeout.", "parameters": {"type": "object", "properties": {"task": {"type": "string", "description": "the side task, stated plainly"}, "engine": {"type": "string", "description": "which side engine, e.g. opencode/deepseek-v4.1-flash-free (default) or an id from subagent_pool"}, "dir": {"type": "string", "description": "folder under the workspace for it to work in; a fresh timestamped folder is used when omitted"}, "read_only": {"type": "boolean", "description": "true (default) denies edit, bash and webfetch"}, "consent": {"type": "boolean", "description": "only for a dir outside the workspace: a side agent runs where it is put"}, "timeout": {"type": "integer", "description": "seconds, 30-900, default 300"}}, "required": ["task"]}}},
+    {"type": "function", "function": {"name": "subagent_pool", "description": "Which side engines are on the roster, and - with probe=true - which ones are answering right now. Call it before scheduling side work on a free model: an exhausted free cap, a rate limit and a retired model id all look identical from outside (an opaque server error), so a dead engine otherwise reads as a broken task.", "parameters": {"type": "object", "properties": {"probe": {"type": "boolean", "description": "ask each engine for one token - one request each, so it spends a little of the free cap"}, "engines": {"type": "string", "description": "comma-separated ids to probe instead of the whole free tier"}, "timeout": {"type": "integer", "description": "seconds per probe, 30-240, default 90"}}}}},
 ]
 
 
@@ -160,7 +199,10 @@ def _safe_arith(expr: str) -> float | int:
 # says "q") and got http_400. Same limb, same intent, unusable key. Fill the canonical key from the
 # aliases before any branch reads args, so a limb fails only when the *value* is actually missing.
 CANON_KEYS: dict[str, tuple[str, ...]] = {
-    "web_search": ("q",), "web_fetch": ("url",), "jina_fetch": ("url",), "wayback": ("url",),
+    "web_search": ("q",), "web_fetch": ("url",), "jina_fetch": ("url",),
+    # The archive limb grew its own vocabulary with the module build: a small model reaches for
+    # "mode", "date", "since" or "word" where the schema says action/timestamp/from/word.
+    "wayback": ("url", "action", "timestamp", "from", "to", "limit", "match", "filter", "word"),
     "http_json": ("url",), "page_thumbnail": ("url",), "download_url": ("url", "path"),
     "arxiv_search": ("q",), "hn_search": ("q",), "github_search": ("q",), "search_corpus": ("q",),
     "memory_recall": ("q",), "clawhub_search": ("q",), "credential_where": ("q",),
@@ -170,17 +212,41 @@ CANON_KEYS: dict[str, tuple[str, ...]] = {
     "skillhub_list": ("q", "channel"), "clawhub_install": ("slug",), "skillhub_install": ("slug", "full"),
     "skill_read": ("slug",), "skill_enable": ("slug",), "skill_disable": ("slug",),
     "shell": ("cmd",), "python_exec": ("code",), "rust_exec": ("code", "source"), "calc": ("expr",), "hash_text": ("text",),
+    # A small model reaches for "target"/"file"/"url" where this limb's canonical key is path;
+    # ALIAS_POOL["path"] already carries target/file/filepath/filename/dest/destination/dir, so the
+    # one canonical key covers all of them without inventing an alias pool entry.
+    "rea": ("action", "path"),
+    # The film limb's canonical keys. `project` and `out` are separate from `path` on purpose: a
+    # media-editing turn usually names BOTH the project it reads and the file it writes, and one
+    # `path` key would silently drop whichever came second.
+    "film": ("action", "project", "out", "command", "query", "steps", "preset", "seconds", "method", "save"),
+    # The `plexo` limb's canonical keys. NO ALIAS for `consent`, deliberately: a consent word that a
+    # stray synonym could fill is not a consent. `url` and `path` are separate for the same reason the
+    # film limb splits `project` from `out` - a download turn names the link it reads and the file it
+    # writes, and one key would silently drop whichever came second.
+    "plexo": ("action", "url", "name", "out", "streams", "job", "seconds", "path", "consent", "resume",
+              "urls", "bind", "limit_mbps", "check"),
     "p0_gate": ("text",), "remember": ("note",), "memory_append": ("note",), "todo_add": ("item",),
     "read_file": ("path",), "write_file": ("path", "content"), "list_dir": ("path",),
     "find_files": ("pattern", "root"), "glob_files": ("pattern",), "image_info": ("path",),
     "image_see": ("path", "prompt"), "image_save": ("b64", "path"), "edit_file": ("path", "old", "new"), "weather": ("place",),
     "image_generate": ("prompt",), "sound_speak": ("text",), "media_status": (),
+    "mesh_status": (), "mesh_from_image": ("path",), "mesh_decimate": ("name",),
+    "subagent_run": ("task", "engine", "dir", "read_only", "timeout", "consent"),
+    "subagent_pool": ("probe", "engines", "timeout"),
     "music_generate": ("style", "lyrics"),
+    "video_generate": ("prompt",),
     "geocode": ("place",), "notepad_read": ("id",), "notepad_write": ("id", "title", "text"),
 }
 ALIAS_POOL: dict[str, tuple[str, ...]] = {
     "q": ("query", "term", "terms", "search", "search_query", "keywords", "question", "input", "text", "value"),
     "url": ("link", "uri", "address", "site", "page", "href"),
+    # The `plexo` limb's own keys. `url` already has its pool entry above; these fill the rest, and
+    # `consent` is absent on purpose (see the note beside its canonical keys).
+    "out": ("output", "dest", "destination", "target", "save_as"),
+    "streams": ("connections", "parallel", "threads", "stream"),
+    "job": ("job_id", "jid", "task"),
+    "seconds": ("wait_s", "timeout", "secs", "wait"),
     "slug": ("skill", "skill_name", "name", "key"),
     "cmd": ("command", "shell_command", "line", "script", "run"),
     "code": ("value", "src", "source", "snippet", "script", "python", "body"),
@@ -204,6 +270,27 @@ ALIAS_POOL: dict[str, tuple[str, ...]] = {
     # the same call, so the aliases fill them rather than the limb refusing a call it can serve.
     "style": ("genre", "prompt", "music", "tags", "vibe", "description", "genre_txt"),
     "lyrics": ("words", "lyric", "song_lyrics", "text", "verse", "lyrics_txt"),
+    # The archive limb's arguments, in the words a model reaches for. Only used to FILL an empty
+    # canonical key: a value that was actually given is never overwritten.
+    "action": ("mode", "op", "operation", "operation_type", "kind", "do", "what"),
+    "timestamp": ("date", "when", "as_of", "asof", "at", "time", "snapshot_date", "snapshot"),
+    "from": ("start", "start_date", "since", "after", "earliest"),
+    "to": ("end", "end_date", "until", "before", "latest"),
+    "limit": ("max", "count", "n", "rows", "page_size", "how_many"),
+    "match": ("matchtype", "match_type", "scope", "how_much", "cover"),
+    "filter": ("filters", "only", "where", "include"),
+    "word": ("phrase", "keyword", "keywords", "term", "contains", "search_word"),
+    # The film limb's own argument names, in the words a model reaches for. `project`/`out` are the
+    # pair that matters: a small model says "file" or "path" for either of them, and the limb would
+    # otherwise write its render over the project it was asked to read.
+    "project": ("project_path", "project_file", "fcproj", "timeline", "sequence_file"),
+    "out": ("output", "outfile", "output_file", "dest", "destination", "render_to", "save_as"),
+    "command": ("command_id", "cmd", "cmd_id", "which_command", "operation"),
+    "steps": ("commands", "script", "batch", "sequence_of_commands"),
+    # `q` is the canonical key for the search limbs, so a film turn that says "q" would never reach
+    # the film limb's `query`. Only used to FILL an empty canonical key, so nothing a caller gave is
+    # ever overwritten.
+    "query": ("q", "search", "filter", "term", "keywords", "words", "text", "about"),
 }
 
 
@@ -246,6 +333,11 @@ def repair_escapes(value: str) -> str:
     return out.replace(sentinel, "\\")
 
 
+#: A bare host (optionally with a path) - a value, not prose. Used only for the archive limb,
+#: whose documented target may be a domain with no scheme.
+_HOSTLIKE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]*\.[A-Za-z]{2,}(?:[/?#]\S*)?$")
+
+
 def canonicalize(name: str, args: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     """Fill a limb's canonical argument names from the aliases a small model reaches for."""
     keys = CANON_KEYS.get(name)
@@ -265,7 +357,12 @@ def canonicalize(name: str, args: dict[str, Any]) -> tuple[str, dict[str, Any]]:
             val = out.get(alt)
             if isinstance(val, str) and val.strip():
                 if key == "url" and not val.strip().lower().startswith("http"):
-                    continue
+                    # The http rule exists to stop PROSE being read as an address (a model
+                    # filling "url" with a sentence). The archive is the one door whose
+                    # documented target is also a bare host - the harness synthesises the
+                    # https:// itself, and "site": "chatagent.ca" is an address, not prose.
+                    if name != "wayback" or not _HOSTLIKE_RE.match(val.strip()):
+                        continue
                 out[key] = val.strip()
                 taken.add(alt)
                 break
@@ -558,6 +655,110 @@ def _rust_host(rustc: str = "") -> str:
 def _rust_linker_ok() -> bool:
     """Can rustc actually link here? Measured, not guessed."""
     return bool(_rust_probe().get("can_run"))
+
+
+# --- the Internet Archive limb (Δ9Φ963-LYGO-WAYBACK-HARNESS-v1) ---------------------------------
+# THE VOCABULARY IS A MODEL'S, THE RULES ARE THE HARNESS'S. A small model asks for "snapshots",
+# "history", "the old page" or "is it archived" long before it asks for an action name, and a limb
+# that refuses a call it can serve teaches nothing. Every alias below lands on one of the doors in
+# src/wayback.py, and the harness keeps the honesty rules: which timestamp format is accepted, what
+# each door costs, what "closest" is allowed to mean, and which answers are conclusions.
+_WAYBACK_ACTIONS: dict[str, str] = {
+    "available": "available", "availability": "available", "is": "available", "archived": "available",
+    "check": "available", "exists": "available", "have": "available", "any": "available",
+    "closest": "closest", "nearest": "closest", "as_of": "closest", "asof": "closest",
+    "captures": "captures", "list": "captures", "snapshots": "captures", "history": "captures",
+    "dates": "captures", "all": "captures", "when": "captures",
+    "site": "site", "urls": "site", "inventory": "site", "map": "site", "everything": "site",
+    "find": "find", "search": "find", "grep": "find", "matching": "find",
+    "timemap": "timemap", "memento": "timemap", "links": "timemap", "timeline": "timemap",
+    "read": "read", "fetch": "read", "text": "read", "see": "read", "open": "read", "old": "read",
+    "quote": "read", "snapshot": "read", "get": "read",
+    "link": "link", "url": "link", "build": "link",
+    "pages": "pages", "count": "pages",
+    "live": "live", "alive": "live", "dead": "live", "rot": "live",
+}
+_WAYBACK_ACTIONS_HELP = ("available (is it archived and which capture is closest), closest (the "
+                         "capture nearest a date), captures (the dated list for one URL or a whole "
+                         "site), site (which pages of a site are archived), find (a word inside a "
+                         "site's archived URLs), timemap (the whole history as memento rows), read "
+                         "(the archived copy as TEXT - for a dead link or a 404), link (build the "
+                         "snapshot URL), pages (how many pages of index rows exist), live (is the "
+                         "URL answering on the live web right now)")
+#: What a small model may read in one call. The full rows stay in the harness answer; this is the
+#: shaping, and it SAYS it shaped, because a silent cut reads as "that is all there was".
+_WAYBACK_MODEL_ROWS = 12
+_WAYBACK_MODEL_CHARS = 6000
+
+
+def _wayback_for_model(out: dict[str, Any]) -> dict[str, Any]:
+    """Cap rows and text for the local brain, and report the cap instead of hiding it."""
+    if not isinstance(out, dict):
+        return {"ok": False, "error": "wayback_bad_answer"}
+    shaped = dict(out)
+    rows = shaped.get("rows")
+    if isinstance(rows, list) and len(rows) > _WAYBACK_MODEL_ROWS:
+        shaped["rows"] = rows[:_WAYBACK_MODEL_ROWS]
+        shaped["rows_shown"] = _WAYBACK_MODEL_ROWS
+        shaped["rows_note"] = (f"showing the first {_WAYBACK_MODEL_ROWS} of {len(rows)} rows; "
+                               f"narrow with from/to, match or a filter, or read it in the panel")
+    text = shaped.get("text")
+    if isinstance(text, str) and len(text) > _WAYBACK_MODEL_CHARS:
+        shaped["text"] = text[:_WAYBACK_MODEL_CHARS]
+        shaped["text_note"] = f"cut at {_WAYBACK_MODEL_CHARS} of {len(text)} characters"
+    return shaped
+
+
+def _wayback_limb(wb: Any, args: dict[str, Any]) -> dict[str, Any]:
+    """Intent -> the door in src/wayback.py, then a shape the local brain can read."""
+    action = str(args.get("action") or args.get("mode") or "available").strip().lower()
+    action = action.replace("-", "_").replace(" ", "_")
+    action = _WAYBACK_ACTIONS.get(action, action)
+    url = str(args.get("url") or "").strip()
+    ts = str(args.get("timestamp") or args.get("date") or "").strip()
+    frm = str(args.get("from") or args.get("from_") or "").strip()
+    to = str(args.get("to") or "").strip()
+    limit = args.get("limit") or 40
+    match = str(args.get("match") or "").strip()
+    filt = args.get("filter") or ""
+    word = str(args.get("word") or args.get("phrase") or "").strip()
+    raw = bool(args.get("raw"))
+    try:
+        chars = int(args.get("chars") or _WAYBACK_MODEL_CHARS)
+    except (TypeError, ValueError):
+        chars = _WAYBACK_MODEL_CHARS
+    try:
+        if action == "available":
+            out = wb.available(url, ts)
+        elif action == "closest":
+            out = wb.closest(url, ts)
+        elif action == "captures":
+            out = wb.captures(url, limit=limit, match=match, filter=filt, from_=frm, to=to)
+        elif action == "site":
+            out = wb.inventory(url, limit=limit, filter=filt)
+        elif action == "find":
+            out = wb.find(url, word, limit=limit)
+        elif action == "timemap":
+            out = wb.timemap(url, limit=limit, from_=frm, to=to)
+        elif action == "read":
+            out = wb.read(url, ts, raw=raw, chars=max(500, min(chars, _WAYBACK_MODEL_CHARS)))
+        elif action == "link":
+            out = wb.link(ts or "2", url, raw=raw)
+        elif action == "pages":
+            out = wb.pages(url, match=match)
+        elif action == "live":
+            out = wb.live_status(url)
+        else:
+            return {"ok": False, "error": "unknown_action", "action": action,
+                    "class": "RESOURCE",
+                    "why": f"{action!r} is not one of the archive actions",
+                    "actions": list(dict.fromkeys(_WAYBACK_ACTIONS.values())),
+                    "hint": _WAYBACK_ACTIONS_HELP}
+    except Exception as exc:  # noqa: BLE001 - a limb that raises takes the turn down with it
+        return {"ok": False, "error": "wayback_client_error", "class": "RESOURCE",
+                "why": f"{type(exc).__name__}: {str(exc)[:160]}",
+                "hint": "the archive harness refused the call before it reached the network"}
+    return _wayback_for_model(out)
 
 
 def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
@@ -1050,14 +1251,13 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         blob = json.dumps(data, default=str)
         return {"ok": True, "data": blob[:12000]}
     if name == "wayback":
-        from web_tools import _blocked, _json_get
+        # Δ9Φ963-LYGO-WAYBACK-HARNESS-v1 - the Internet Archive. The harness (src/wayback.py) owns
+        # the rules: which doors exist, what each costs, what is refused, and which door is allowed
+        # to answer "which capture is closest to this date". This branch maps an INTENT onto a door,
+        # so a small model never has to know an endpoint or a CDX parameter.
+        import wayback as wb
 
-        url = str(args.get("url") or "")
-        why = _blocked(url)
-        if why:
-            return {"ok": False, "error": why}
-        data = _json_get("https://archive.org/wayback/available?url=" + urllib.parse.quote(url, safe=""))
-        return {"ok": True, "data": data, "class": "RESOURCE"}
+        return _wayback_limb(wb, args)
     if name == "arxiv_search":
         from web_tools import _get
         import xml.etree.ElementTree as ET
@@ -1129,20 +1329,96 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         from image_tools import page_thumbnail
 
         return page_thumbnail(str(args.get("url") or ""))
-    if name == "image_generate":
-        from media_tools import image_generate
+    if name == "subagent_run":
+        from delegate_tools import subagent_run
 
-        return image_generate(
-            str(args.get("prompt") or ""),
-            str(args.get("negative") or ""),
-            args.get("width"),
-            args.get("height"),
-            args.get("steps"),
-            args.get("cfg_scale"),
-            str(args.get("model") or ""),
-            bool(args.get("cpu")),
-            args.get("timeout"),
+        return subagent_run(
+            task=str(args.get("task") or args.get("prompt") or ""),
+            engine=str(args.get("engine") or ""),
+            dir=str(args.get("dir") or ""),
+            timeout=int(args.get("timeout") or 300),
+            read_only=bool(args.get("read_only", True)),
+            consent=bool(args.get("consent") or False),
         )
+    if name == "subagent_pool":
+        from delegate_tools import subagent_pool
+
+        return subagent_pool(
+            probe=bool(args.get("probe") or False),
+            engines=str(args.get("engines") or ""),
+            timeout=int(args.get("timeout") or 90),
+        )
+    if name == "mesh_status":
+        from mesh_tools import mesh_status
+
+        return mesh_status()
+    if name == "mesh_from_image":
+        from mesh_tools import mesh_from_image
+
+        return mesh_from_image(
+            str(args.get("path") or ""),
+            args.get("resolution"),
+            args.get("remove_bg", True),
+            args.get("timeout"),
+            args.get("foreground"),
+        )
+    if name == "mesh_decimate":
+        from mesh_tools import mesh_decimate
+
+        return mesh_decimate(str(args.get("name") or ""), args.get("ratio"), args.get("timeout"))
+    if name == "image_generate":
+        from media_tools import image_generate, sd_model
+
+        import render_swap
+
+        def _draw(model_override=None):
+            model = str(args.get("model") or "")
+            if model_override is not None and not model:
+                model = str(model_override)
+            return image_generate(
+                str(args.get("prompt") or ""),
+                str(args.get("negative") or ""),
+                args.get("width"),
+                args.get("height"),
+                args.get("steps"),
+                args.get("cfg_scale"),
+                model,
+                bool(args.get("cpu")),
+                args.get("timeout"),
+            )
+
+        if bool(args.get("cpu")):
+            return _draw()          # the operator asked for the CPU: leave the brain alone
+        # A render is minutes on the CPU and seconds on the card, and the card is only busy
+        # because the chat model is sitting on it. Borrow it, then hand it straight back.
+        #
+        # QUALITY FIRST - the operator's explicit call. Render the DECLARED checkpoint; when the
+        # card cannot hold its weights, the render goes to the CPU and takes minutes, and that
+        # is the accepted cost. Substituting a smaller checkpoint to buy seconds silently halves
+        # the resolution, which is a worse outcome than waiting. Set
+        # config/console.json "image_prefer": "speed" to take the faster path instead.
+        if render_swap.prefer_speed():
+            # Ask for the SMALLEST declared checkpoint's worth of room, then take the largest
+            # the freed card can hold - parking against a size the card can never reach fails
+            # its own test, restores the brain, and leaves every render on the CPU.
+            _cands = render_swap.checkpoints()
+            _need = render_swap.need_for(_cands[0]) if _cands else render_swap.need_for(sd_model())
+            with render_swap.borrowed_card(_need):
+                return _draw(render_swap.best_checkpoint(sd_model()))
+        # Size the park from the checkpoint this render will ACTUALLY open. Quality mode used to
+        # size it from the default, so a request naming a bigger file could be told the machine was
+        # already free and then be handed to the CPU anyway.
+        _want = None
+        try:
+            from pathlib import Path as _P
+            _m = str(args.get("model") or "").strip()
+            if _m:
+                _cand = _P(_m)
+                _want = _cand if _cand.is_file() else None
+        except Exception:
+            _want = None
+        with render_swap.borrowed_card(render_swap.need_for(_want or sd_model())):
+            return _draw()
     if name == "sound_speak":
         from media_tools import sound_speak
 
@@ -1164,6 +1440,62 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
             args.get("profile"),
             args.get("timeout"),
         )
+    if name == "video_generate":
+        from video_harness import render as render_clip, weights_state
+
+        import render_swap
+
+        # `seconds` is what the operator thinks in; the engine wants a frame count, and the
+        # recipe snaps it to a legal 4n+1 value. 24 fps is the recipe's own rate.
+        length = args.get("length") or 0
+        if not length and args.get("seconds"):
+            try:
+                length = int(round(float(args["seconds"]) * 24))
+            except (TypeError, ValueError):
+                length = 0
+
+        def _clip():
+            return render_clip(
+                str(args.get("model") or ""),
+                prompt=str(args.get("prompt") or ""),
+                width=args.get("width") or 0,
+                height=args.get("height") or 0,
+                length=length,
+                steps=args.get("steps") or 0,
+                seed=args.get("seed") or 0,
+                timeout_s=args.get("timeout"),
+            )
+
+        # A clip needs BOTH resources: ~13.5 GB of weights in RAM and its unet resident on the
+        # card. A "shrink the chat model" park frees RAM but leaves a small model ON the card, and
+        # MEASURED 2026-10-10 that stole enough VRAM to push ComfyUI into CPU offload - a clip that
+        # takes 4.5 min was still running at 13+ with the card 770 MiB short. So pass the recipe's
+        # resident need as well: `_room_now` then tests the card too, and the shrink (which only
+        # helps RAM) correctly falls through to the stop, which frees everything.
+        try:
+            from video_harness import MODELS as _VMODELS
+            from video_harness import weights_state as _wstate
+            # The engine resolves an empty id to the FIRST recipe; do the same, or the floor
+            # silently computes to 0 and the render never parks.
+            _mid = str(args.get("model") or "").strip() or next(iter(_VMODELS))
+            _recipe = _VMODELS.get(_mid) or {}
+            # NOT `_ws`: that name is a module-level helper in this file and `extra()` calls it
+            # (save_note, download_url, ...). Assigning it here made it LOCAL for the whole of
+            # extra(), so every earlier `_ws(...)` call in this function raised UnboundLocalError
+            # and save_note stopped working entirely (measured 2026-10-10: 6 suite errors).
+            _weights = _wstate(_mid)
+            _sizes = [int(f.get("bytes") or 0) // (1024 * 1024)
+                      for f in (_weights.get("files") or [])]
+            _vram_need = int(_recipe.get("vram_mib") or 0)
+        except Exception as exc:
+            _sizes, _vram_need = [], 0
+            # A floor of 0 with no log is the "decline: room already" trap: the park is skipped and
+            # the render fights the chat model for memory with nothing recorded. Log the failure.
+            render_swap._dbg("video park: weight lookup failed (%s) - floor computed as 0"
+                             % (type(exc).__name__,))
+        _ram_floor = render_swap.need_ram_for(_sizes)
+        with render_swap.borrowed_card(_vram_need, _ram_floor):
+            return _clip()
     if name == "media_status":
         from media_tools import media_status
 
@@ -1286,6 +1618,14 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         import tasking
 
         return tasking.cancel(str(args.get("id") or ""))
+    if name == "task_health":
+        import tasking
+
+        return tasking.health()
+    if name == "task_recover":
+        import tasking
+
+        return tasking.watch()
     if name == "cron_add":
         import crons
 
@@ -1302,6 +1642,23 @@ def extra(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
         return crons.remove_job(str(args.get("name") or ""))
     if name == "keeper_status":
         return _keeper_status()
+    if name == "rea":
+        return _rea(str(args.get("action") or args.get("op") or "doctor").strip().lower(),
+                    str(args.get("path") or "").strip())
+    if name == "plexo":
+        # The download harness: LYGO's own parallel-range engine and the bridge to the
+        # operator's Plexo. One action per call, a dict back, nothing raised, and the same
+        # file the console's own buttons call - so a button and the agent cannot disagree.
+        import plexo_tools
+
+        return plexo_tools.plexo_limb(args)
+    if name == "film":
+        # FilmCraft's harness. One action per call, a dict back, nothing raised - and every call
+        # goes through the same file the console's own buttons use, so the button and the agent can
+        # never disagree about what happened.
+        import film_tools
+
+        return film_tools.film_limb(args)
     return None
 
 
@@ -1491,3 +1848,95 @@ def _keeper_status() -> dict[str, Any]:
             "sweeps": state.get("sweeps"), "last_ring": state.get("last_ring"), "actions": state.get("actions"),
             "interval_s": st.get("interval_s"), "log": st.get("log"),
             "hint": "start it with: python tools/keeper.py --detach"}
+
+
+def _rea_bin() -> str | None:
+    """Where the REA CLI is: config first, then PATH, then npm's own shim directory.
+
+    Resolved by NAME, never by a hardcoded drive letter or user path - this kit is copied to a USB
+    stick and to the web edition, and a path that exists on this box does not exist there. The npm
+    fallback is %APPDATA%-relative, so it travels with the USER instead of naming a drive. The
+    config door is `rea_bin` in config/console.json, or in config/local.json which wins over it.
+    """
+    try:
+        from paths import console_cfg
+
+        pinned = str((console_cfg() or {}).get("rea_bin") or "").strip()
+    except Exception:                                    # a config that cannot be read is not a crash
+        pinned = ""
+    if pinned and Path(pinned).is_file():
+        return str(Path(pinned))
+    names = ("rea.cmd", "rea.exe", "rea")
+    for folder in (os.environ.get("PATH") or "").split(os.pathsep):
+        if not folder:
+            continue
+        for n in names:
+            cand = Path(folder) / n
+            if cand.is_file():
+                return str(cand)
+    appdata = os.environ.get("APPDATA")
+    if appdata:
+        for n in names:
+            cand = Path(appdata) / "npm" / n
+            if cand.is_file():
+                return str(cand)
+    return None
+
+
+def _rea(action: str, target: str) -> dict[str, Any]:
+    """Run one REA action as a one-shot external service.
+
+    One-shot ON PURPOSE: `_run_capture` kills the whole process TREE on timeout, so nothing is left
+    listening and no orphan is left holding a file - the law for any limb whose engine is an external
+    process. Output is bounded because REA's own envelopes can run to megabytes, and a limb that
+    floods the window costs more than the answer is worth.
+    """
+    exe = _rea_bin()
+    if not exe:
+        return {"ok": False, "error": "rea_missing",
+                "hint": "npm install --global rea-agents, or set rea_bin in config/local.json"}
+    if action in ("doctor", "capabilities"):
+        argv = [exe, action, "--format", "json"]
+    elif action in ("analyze", "decompile"):
+        if not target:
+            return {"ok": False, "error": "target_required", "action": action,
+                    "hint": f"give path: the app, bundle or binary to {action}"}
+        argv = [exe, action, target, "--format", "json"]
+    else:
+        return {"ok": False, "error": "unknown_action", "action": action,
+                "hint": "action is doctor, capabilities, analyze or decompile"}
+    try:
+        code, out, err, timed_out = _run_capture(argv, timeout=900, cwd=str(WORKSPACE), env=_tool_env())
+    except OSError as exc:
+        return {"ok": False, "error": f"spawn_failed:{type(exc).__name__}", "detail": str(exc)[:200]}
+    if timed_out:
+        return {"ok": False, "error": "timeout", "action": action,
+                "hint": "the analysis did not finish within 900s"}
+    # A NON-ZERO EXIT IS NOT ALWAYS A FAILED LIMB. `rea doctor` deliberately exits non-zero when the
+    # environment is not fully healthy - that IS its answer, not an error, and reading the status code
+    # alone reported a working tool as broken (measured on the first live call, 2026-10-10: doctor
+    # exited 1 while carrying a complete, useful report). So the verdict is read OUT of the report. A
+    # payload too large to hand back is truncated and SAID to be truncated rather than silently cut.
+    payload: Any = None
+    try:
+        payload = json.loads(out.strip())
+    except Exception:
+        payload = None
+    if action == "doctor" and isinstance(payload, dict):
+        return {"ok": True, "action": action, "bin": exe, "code": code,
+                "healthy": payload.get("healthy"),
+                "environment_healthy": payload.get("environment_healthy"),
+                "checks": payload.get("scope_checks") or payload.get("checks"),
+                "note": "a non-zero exit from doctor means the environment is not FULLY healthy, not "
+                        "that the call failed. Native-binary analysis needs an external engine "
+                        "(Hopper, Ghidra or IDA); JavaScript, Electron and web analysis need none."}
+    if isinstance(payload, (dict, list)):
+        blob = json.dumps(payload)
+        if len(blob) <= 12000:
+            return {"ok": code == 0, "action": action, "code": code, "bin": exe, "result": payload}
+        return {"ok": code == 0, "action": action, "code": code, "bin": exe, "result": payload,
+                "truncated": True, "bytes_available": len(blob),
+                "hint": f"the report is {len(blob)} chars; narrow it with a more specific path or read "
+                        "the full envelope with rea's own --filter-output"}
+    return {"ok": code == 0, "action": action, "code": code, "bin": exe,
+            "stdout": out[-12000:], "stderr": err[-2000:]}

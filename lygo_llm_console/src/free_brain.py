@@ -53,6 +53,14 @@ ARGV_PROMPT_CHARS = 7000
 #: Past the argv ceiling the prompt is handed over as a FILE and the argv carries one short sentence
 #: naming it - measured working at 17,783 characters: exit 0 in 12.0 s, the CLI's own `read` tool, the
 #: answer exactly as asked. Past this we refuse BY NAME instead of burning a request on a lost cause.
+# 0 = no ceiling, kept as an idiom so an operator can disarm this with one number.
+# KEPT, and NOT because doctrine: this is the point past which the CLI was MEASURED to answer with
+# nothing - exit 0, no text, 0.06 s (an 18,168-character prompt did exactly that). The steward removed
+# the DOCTRINE caps on 2026-10-16 ("REMOVE ALL THE CAPS") - the core-slot count, the schema character
+# budget, the rule that kept tasking read-outs and side agents out of the on-box brain - and those are
+# gone. This number is different in kind: underneath it the prompt still goes through as a FILE (measured
+# good at 17,783 chars), and past it the honest move is to refuse BY NAME rather than hand back the
+# silent empty answer that looks exactly like a clogged turn.
 MAX_PROMPT_CHARS = 120000
 MAX_TOKENS_NOTE = ("the free CLI answers in one shot; max_tokens is advisory here and is not "
                    "truncating anything - the answer comes back whole or not at all")
@@ -282,7 +290,7 @@ class _Handler(BaseHTTPRequestHandler):
             self._send(400, {"error": {"message": "no model: the switch names one when it is turned on",
                                        "type": "lygo_free_brain_400"}})
             return
-        if len(prompt) > MAX_PROMPT_CHARS:
+        if MAX_PROMPT_CHARS and len(prompt) > MAX_PROMPT_CHARS:
             why = ("prompt_too_long: %d characters of prompt; this route refuses past %d rather than "
                    "spend a free request on a turn that cannot fit. Nothing was sent."
                    % (len(prompt), MAX_PROMPT_CHARS))

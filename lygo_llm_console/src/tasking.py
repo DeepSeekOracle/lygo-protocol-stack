@@ -34,7 +34,12 @@ STALL_AFTER = 90.0          # seconds without a heartbeat while running -> stall
 DEFAULT_DEADLINE = 900.0    # seconds a task may run before it is called stalled
 MAX_ROWS = 4000
 
-_lock = threading.Lock()
+# RE-ENTRANT, deliberately. MEASURED 2026-10-16: the watchdog (reconcile) holds this lock and then
+# appends, and _append() takes the same lock - a self-deadlock that froze `task_recover` past 240 s, so
+# the queue's own health check was the one thing that could never answer. A plain Lock was fine only
+# while nothing under it ever wrote. RLock keeps the single-writer guarantee AND lets a compound
+# operation (read, decide, append) be one atomic step instead of a deadlock.
+_lock = threading.RLock()
 _worker: "Worker | None" = None
 
 
@@ -184,6 +189,61 @@ def _run_one(task: dict[str, Any]) -> dict[str, Any]:
     return row
 
 
+# --------------------------------------------------------------------------- reconciliation
+#: A running job with no heartbeat for this long whose runner is gone is not "slow", it is abandoned.
+INTERRUPT_AFTER = STALL_AFTER
+#: A job is put back ONCE. A job that keeps dying is a finding for the operator, not a loop.
+RECOVER_LIMIT = 1
+
+
+def reconcile(reason: str = "no heartbeat; the process running it is gone") -> dict[str, Any]:
+    """Write the truth about a job whose runner died, so a queue cannot look busy for ever.
+
+    State was only ever DERIVED on read: fold() calls a heartbeat-less `running` row `stalled` and the
+    record itself still said running, so nothing could retry it and nothing could tell it apart from a
+    job that was genuinely working. MEASURED 2026-10-16: a cron queued its job inside a sweep process,
+    the job started, the process exited mid-job - `task_list` reported `stalled` for ever afterwards and
+    the scheduled run was simply a hole. A `cron:` job is repeat work the operator already asked for, so
+    it goes back on the queue once; anything else is recorded `interrupted` and left alone.
+    """
+    found: list[dict[str, Any]] = []
+    with _lock:
+        for t in fold():
+            if t.get("state") != "stalled":
+                continue
+            attempts = int(t.get("recovered") or 0)
+            back = attempts < RECOVER_LIMIT and str(t.get("origin") or "").startswith("cron:")
+            row = {"id": t["id"], "event": "interrupt", "t": _now(), "when": _stamp(),
+                   "state": "queued" if back else "interrupted", "reason": reason,
+                   "target": t.get("target"), "recovered": attempts + 1 if back else attempts,
+                   "beat": _now(), "started": 0.0, "beats": 0}
+            _append(row)
+            found.append({"id": t["id"], "target": t.get("target"), "state": row["state"],
+                          "age_s": t.get("age_s"), "requeued": back, "recovered": row["recovered"]})
+    return {"ok": True, "reason": reason, "abandoned": len(found), "tasks": found}
+
+
+def health() -> dict[str, Any]:
+    """The queue's own condition: what is waiting, what stopped moving, and whether a worker is alive."""
+    tasks = fold()
+    counts: dict[str, int] = {}
+    for t in tasks:
+        counts[str(t.get("state"))] = counts.get(str(t.get("state")), 0) + 1
+    stuck = [t for t in tasks if t.get("state") in ("stalled", "interrupted")]
+    return {"counts": counts, "stalled": len(stuck), "queued": int(counts.get("queued") or 0),
+            "oldest_stalled_s": round(max((float(t.get("age_s") or 0) for t in stuck), default=0.0), 1),
+            "stalled_ids": [t.get("id") for t in stuck][:5], "worker": worker_state()}
+
+
+def watch() -> dict[str, Any]:
+    """The tasking watchdog: reconcile the record first, then report what the queue looks like."""
+    got = reconcile(reason="watchdog: no heartbeat, runner gone")
+    return {"ok": True, "abandoned": got.get("abandoned"), "reconciled": got.get("tasks"),
+            "health": health(),
+            "note": ("every job is accounted for" if not got.get("abandoned")
+                     else f"{got.get('abandoned')} abandoned job(s) reconciled")}
+
+
 class Worker(threading.Thread):
     """One daemon thread draining the queue. Started on demand, never blocks a turn."""
 
@@ -212,6 +272,9 @@ class Worker(threading.Thread):
 def start_worker(poll_s: float = 1.0) -> dict[str, Any]:
     global _worker
     if _worker is None or not _worker.is_alive():
+        # A fresh worker is the first thing in the process that can tell an abandoned job from a working
+        # one, so reconcile before draining rather than letting a dead job's row ride along for ever.
+        reconcile(reason="worker start: no heartbeat, runner gone")
         _worker = Worker(poll_s=poll_s)
         _worker.start()
     return worker_state()
@@ -230,6 +293,6 @@ def status() -> dict[str, Any]:
     for t in tasks:
         counts[str(t.get("state"))] = counts.get(str(t.get("state")), 0) + 1
     running = [t for t in tasks if t.get("state") == "running"]
-    return {"ok": True, "counts": counts, "worker": worker_state(),
+    return {"ok": True, "health": health(), "counts": counts, "worker": worker_state(),
             "running": [{k: r.get(k) for k in ("id", "target", "age_s")} for r in running][:5],
             "stalled": counts.get("stalled", 0), "stall_after_s": STALL_AFTER, "log": str(LOG)}
