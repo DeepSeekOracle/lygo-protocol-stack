@@ -26,6 +26,7 @@ from __future__ import annotations
 import ast
 import importlib.util
 import json
+import os
 import sys
 import tempfile
 import threading
@@ -173,6 +174,22 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(out["error"], "unknown_engine")
 
 
+#: `music_tools` proves the songs folder is WRITABLE by creating and unlinking a `.write-probe` FILE
+#: inside it. A render leaves a timestamped run DIRECTORY, so this transient probe is not evidence that
+#: anything rendered - but it is visible to the glob below whenever a writability check runs at the same
+#: moment. Measured 2026-10-16: a keeper cron's self_check ran during a suite run and turned this guard
+#: red on a tree where nothing had rendered. Excluded by name so the guard keeps its full power over
+#: real run folders.
+TRANSIENT_PROBE = ".write-probe"
+
+
+def _run_folders(songs_dir) -> set:
+    """What is in the songs folder, minus the writability probe's own transient file."""
+    if not songs_dir.is_dir():
+        return set()
+    return {p.name for p in songs_dir.glob("*") if p.name != TRANSIENT_PROBE}
+
+
 class JobTests(unittest.TestCase):
     """The runner: one job at a time, a record on disk, and a named failure preserved."""
 
@@ -189,7 +206,7 @@ class JobTests(unittest.TestCase):
         self.real_limb = None
         #: Every run folder that exists before this test. A test that ever reached the REAL limb
         #: would leave a new one behind - so this is the guard that says whether the fake was used.
-        self.runs_before = {p.name for p in music_tools.SONGS_DIR.glob("*")} if music_tools.SONGS_DIR.is_dir() else set()
+        self.runs_before = _run_folders(music_tools.SONGS_DIR)
 
     def tearDown(self) -> None:
         self.release.set()
@@ -199,7 +216,7 @@ class JobTests(unittest.TestCase):
         self.tmp.cleanup()
         import music_tools
 
-        after = {p.name for p in music_tools.SONGS_DIR.glob("*")} if music_tools.SONGS_DIR.is_dir() else set()
+        after = _run_folders(music_tools.SONGS_DIR)
         self.assertEqual(after, self.runs_before,
                          "a test reached the real renderer and left a run folder behind")
 
@@ -244,7 +261,10 @@ class JobTests(unittest.TestCase):
         job = self._wait("done")
         self.assertEqual(job["state"], "done", job)
         self.assertEqual(job["song"], "I:/x/audio/songs/run/a_song.mp3")
-        self.assertEqual(job["engine"], "yue")
+        # The engine the studio actually CHOSE, not a hardcoded "yue". This machine's pick is
+        # ace_step, so the literal was asserting which engine the machine is configured with rather
+        # than the thing the test is about: that the record names the engine the render used.
+        self.assertEqual(job["engine"], self.mj.chosen_engine())
         self.assertEqual(job["seed"], 963)
         files = list(Path(self.tmp.name).glob("*.json"))
         self.assertEqual(len(files), 1, "one job, one record")
@@ -400,6 +420,158 @@ class MediaAndPanelTests(unittest.TestCase):
         self.assertIn("Song studio", html)
         self.assertIn("/api/music", js, "the panel is not wired to the studio route")
         self.assertIn("/api/media/audio/", js, "the panel does not play songs through the kernel route")
+
+class Utf8EnvTests(unittest.TestCase):
+    """The environment a song engine's CLI is given - the fix for the render that died on an emoji.
+
+    MEASURED 2026-09-26: three ACE-Step runs on this machine exited 1 about 40 s into model load with
+    `'charmap' codec can't encode character '\u2705'`. The engine's 5 Hz LM logs a checkmark; the CLI
+    prints it to a stdout the console REDIRECTS TO A FILE, and a redirected Python stdout takes its
+    encoding from the LOCALE (cp1252 on Windows), not from the terminal. Nothing was wrong with the
+    render - it never started. The YuE path had always set PYTHONIOENCODING because its server needed
+    it; the ACE path passed no env at all. These tests are the guard on that asymmetry.
+    """
+
+    def setUp(self) -> None:
+        import music_tools
+
+        self.mt = music_tools
+
+    def test_the_helper_sets_all_three_variables(self) -> None:
+        env = self.mt._utf8_env()
+        self.assertEqual(env["PYTHONUTF8"], "1")
+        self.assertEqual(env["PYTHONIOENCODING"], "utf-8")
+        self.assertEqual(env["PYTHONUNBUFFERED"], "1")
+
+    def test_the_helper_keeps_the_rest_of_the_environment(self) -> None:
+        os.environ["LYGO_MUSIC_TEST_MARKER"] = "kept"
+        try:
+            self.assertEqual(self.mt._utf8_env().get("LYGO_MUSIC_TEST_MARKER"), "kept")
+        finally:
+            os.environ.pop("LYGO_MUSIC_TEST_MARKER", None)
+
+    def test_an_emoji_survives_a_cp1252_stream_with_the_helper_applied(self) -> None:
+        """The exact failure, reproduced: cp1252 dies on the engine's own status message."""
+        import io
+
+        msg = "\u2705 5Hz LM initialized successfully"
+        with self.assertRaises(UnicodeEncodeError):
+            msg.encode("cp1252")                      # the old behaviour, and what killed the runs
+        self.assertEqual(msg.encode("utf-8").decode("utf-8"), msg)
+
+    def test_both_engines_are_given_its_variables(self) -> None:
+        """ACE passed no env before this; YuE set them inline. Both must end up with the same rule."""
+        src = (ROOT / "src" / "music_tools.py").read_text(encoding="utf-8")
+        self.assertIn("env=_utf8_env()", src, "the ACE child is not being given the UTF-8 env")
+        self.assertIn('"PYTHONIOENCODING": "utf-8",\n        "PYTHONUTF8": "1",', src,
+                      "the YuE engine env lost its UTF-8 settings")
+
+    def test_the_engine_cli_forces_its_own_streams_too(self) -> None:
+        """Belt and braces: the CLI must not depend on the launcher having been kind."""
+        cli = Path("C:/pinokio/api/acestep.git/app/render_cli.py")
+        if not cli.is_file():
+            self.skipTest("the ACE-Step app is not installed on this machine")
+        text = cli.read_text(encoding="utf-8", errors="replace")
+        self.assertIn("force_utf8_streams", text)
+        self.assertIn('errors="replace"', text,
+                      "the CLI must degrade a message it cannot encode, never die on it")
+
+
+class TitleTests(unittest.TestCase):
+    """A take can be named, and naming is never a reason a render fails."""
+
+    def setUp(self) -> None:
+        import music_jobs
+        import music_tools
+
+        self.mj = music_jobs
+        self.mt = music_tools
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        self.real_songs = music_tools.SONGS_DIR
+        run = self.root / "20260926-120000_song_pop"
+        run.mkdir(parents=True)
+        (run / "20260926-120000_song_pop.mp3").write_bytes(b"ID3" + b"\x00" * 400)
+        (run / "20260926-120000_song_pop.json").write_text(
+            json.dumps({"engine": "ace_step", "style": "pop", "audio_seconds": 12}), encoding="utf-8")
+        music_tools.SONGS_DIR = self.root
+
+    def tearDown(self) -> None:
+        self.mt.SONGS_DIR = self.real_songs
+        self.tmp.cleanup()
+
+    def _sidecar(self) -> dict:
+        return json.loads((self.root / "20260926-120000_song_pop" / "20260926-120000_song_pop.json")
+                          .read_text(encoding="utf-8"))
+
+    def test_the_song_list_reports_a_title_and_never_invents_one(self) -> None:
+        rows = self.mj.songs()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["title"], "", "an unnamed take reports no title rather than a guess")
+        self.assertTrue(rows[0]["name"], "the file name is always the fact that is on disk")
+
+    def test_a_take_can_be_named_afterwards_without_rendering_it_again(self) -> None:
+        out = self.mj.retitle("20260926-120000_song_pop.mp3", "Bridge Check One")
+        self.assertTrue(out["ok"], out)
+        self.assertEqual(self._sidecar()["title"], "Bridge Check One")
+        self.assertEqual(self.mj.songs()[0]["title"], "Bridge Check One")
+
+    def test_naming_never_renames_the_audio_a_link_already_points_at(self) -> None:
+        audio = self.root / "20260926-120000_song_pop" / "20260926-120000_song_pop.mp3"
+        before = audio.read_bytes()
+        self.mj.retitle(audio.name, "Something Else Entirely")
+        self.assertTrue(audio.is_file(), "the file the browser already holds must not move")
+        self.assertEqual(audio.read_bytes(), before)
+        self.assertIsNotNone(self.mj.song_file(audio.name), "the take must still resolve by its name")
+
+    def test_a_title_can_be_cleared_and_the_file_name_returns(self) -> None:
+        self.mj.retitle("20260926-120000_song_pop.mp3", "Temporary")
+        cleared = self.mj.retitle("20260926-120000_song_pop.mp3", "")
+        self.assertTrue(cleared["ok"])
+        self.assertNotIn("title", self._sidecar())
+        self.assertEqual(self.mj.songs()[0]["title"], "")
+
+    def test_a_take_that_is_not_there_is_refused_by_name(self) -> None:
+        out = self.mj.retitle("no-such-take.mp3", "Whatever")
+        self.assertFalse(out["ok"])
+        self.assertEqual(out["error"], "no_such_song")
+
+    def test_a_title_cannot_be_used_to_walk_out_of_the_songs_tree(self) -> None:
+        out = self.mj.retitle("../../etc/passwd", "no")
+        self.assertFalse(out["ok"], "a traversal attempt must be refused, not resolved")
+
+    def test_a_render_may_be_started_with_a_title_or_without_one(self) -> None:
+        import inspect
+
+        sig = inspect.signature(self.mj.start)
+        self.assertIn("title", sig.parameters)
+        self.assertEqual(sig.parameters["title"].default, "",
+                         "a blank title must be the default: a render never fails for want of a name")
+        self.assertIn("title", inspect.signature(self.mt.music_generate).parameters)
+
+    def test_the_route_knows_the_action_and_refuses_a_stranger(self) -> None:
+        ctrl = _load(MID)
+        self.assertIn("retitle", ctrl.ACTIONS)
+        req = FakeReq({"action": "title it please"})
+        ctrl.control(None, req)
+        self.assertEqual(req.status, 400)
+        self.assertEqual(req.payload["error"], "unknown_action")
+
+
+class FakeReq:
+    """A request, as a module handler sees it. Used by the route test above."""
+
+    def __init__(self, body: dict) -> None:
+        self._body = dict(body or {})
+        self.status: int | None = None
+        self.payload: dict | None = None
+
+    def body(self, limit: int = 0) -> dict:
+        return dict(self._body)
+
+    def json(self, code: int, payload: object) -> None:
+        self.status = code
+        self.payload = payload if isinstance(payload, dict) else {"value": payload}
 
 
 if __name__ == "__main__":
