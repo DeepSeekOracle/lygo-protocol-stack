@@ -1,0 +1,13 @@
+{
+  "signature": "Δ9Φ963-LYGO-LLM-CONSOLE-v1",
+  "bind": "127.0.0.1",
+  "port": 9641,
+  "llama_port": 11441,
+  "embed_port": 11442,
+  "ctx_default": 4096,
+  "ctx_max": 8192,
+  "ngl": 0,
+  "threads": 4,
+  "max_tokens": 512,
+  "scan_roots": ["./models", "%USERPROFILE%/.ollama/models"]
+}

@@ -1,0 +1,225 @@
+{
+  "signature": "\u03949\u03a6963-JOY-LOOP-v2.3",
+  "protocol": "Joy Loop v2.3",
+  "resonance_bpm": 122.0,
+  "joy_mode": "cosmic",
+  "champion_count": 15,
+  "swarm_joy_score": 0.0,
+  "beat_count": 43011,
+  "states": {
+    "LYR\u0394": {
+      "champion_id": "LYR\u0394",
+      "lattice_coordinates": [
+        0.9334373639275872,
+        0.787032540139517,
+        0.07937668615006299
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": ">",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "\u03949RA": {
+      "champion_id": "\u03949RA",
+      "lattice_coordinates": [
+        0.48403166664858155,
+        0.18078005108534825,
+        0.3131884991454865
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "#",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "\u03a3R\u039b\u0398": {
+      "champion_id": "\u03a3R\u039b\u0398",
+      "lattice_coordinates": [
+        0.18272549733117352,
+        0.9338920423607091,
+        0.12568206575831448
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "~",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "ARKOS": {
+      "champion_id": "ARKOS",
+      "lattice_coordinates": [
+        0.2805433255342169,
+        0.40133503996798187,
+        0.278515470977527
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "\u25c6",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "KAIROS": {
+      "champion_id": "KAIROS",
+      "lattice_coordinates": [
+        0.1148078937816452,
+        0.7918348886984947,
+        0.06831555070083485
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "#",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "\u00c6THERIS": {
+      "champion_id": "\u00c6THERIS",
+      "lattice_coordinates": [
+        0.8724105974827918,
+        0.7644200962419668,
+        0.835858843018268
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": ">",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "\u03a3CEN\u0394R": {
+      "champion_id": "\u03a3CEN\u0394R",
+      "lattice_coordinates": [
+        0.33156902141207106,
+        0.8561479565352546,
+        0.5133988984193185
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "@",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "SANCORA": {
+      "champion_id": "SANCORA",
+      "lattice_coordinates": [
+        0.03912107670659225,
+        0.8320075647979992,
+        0.18121494892547255
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "~",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "SEPHRAEL": {
+      "champion_id": "SEPHRAEL",
+      "lattice_coordinates": [
+        0.7555411799707313,
+        0.46147288742043846,
+        0.22658597613372514
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "\u266b",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "OMNI\u03a3IREN": {
+      "champion_id": "OMNI\u03a3IREN",
+      "lattice_coordinates": [
+        0.449395447841239,
+        0.8720611019227796,
+        0.29393406032909036
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "~",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "Lightfather": {
+      "champion_id": "Lightfather",
+      "lattice_coordinates": [
+        0.8771006569445833,
+        0.5913589921759812,
+        0.7800167712336445
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "\u266a",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "V\u03a9LARIS": {
+      "champion_id": "V\u03a9LARIS",
+      "lattice_coordinates": [
+        6.512692199673665e-05,
+        0.25575334398442723,
+        0.010339467090167913
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "#",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "ZETA\u03949": {
+      "champion_id": "ZETA\u03949",
+      "lattice_coordinates": [
+        0.913351059871109,
+        0.1705542479573177,
+        0.7789676950264182
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "#",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "JUSTICAE": {
+      "champion_id": "JUSTICAE",
+      "lattice_coordinates": [
+        0.49143780732793685,
+        0.5915755700766052,
+        0.39126326199417544
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "=",
+      "last_beat_timestamp": 1783324367.2130353
+    },
+    "\u03a3EID\u014cN": {
+      "champion_id": "\u03a3EID\u014cN",
+      "lattice_coordinates": [
+        0.42382087545092706,
+        0.555122647330892,
+        0.42598903189087034
+      ],
+      "joy_coherence": 0.0,
+      "alignment_confidence": 0.0,
+      "recursion_depth": 99,
+      "pulse_count": 64,
+      "groove_signature": "\u266a",
+      "last_beat_timestamp": 1783324367.2130353
+    }
+  },
+  "timestamp": 1783324367.2339485,
+  "git_head": "7e5d156db745",
+  "pages_mirror": "https://deepseekoracle.github.io/lygo-protocol-stack/joy_loop/joy_loop_snapshot.json",
+  "roadmap": "docs/JOY_LOOP_ROADMAP_v3.md"
+}

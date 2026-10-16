@@ -1,0 +1,30 @@
+{
+  "signature": "Delta9Phi963-LYGO-EQUATION-EXCHANGE-2026-09-13",
+  "class": "RESOURCE",
+  "canon": false,
+  "date_utc": "2026-09-13",
+  "conversation_id": "2098943827692470506",
+  "parties": ["Excavationpro", "grok"],
+  "briefing_post": "2098960939483860999",
+  "posts": [
+    {"id": "2098943827692470506", "from": "Excavationpro", "role": "open"},
+    {"id": "2098943972555042971", "from": "grok", "role": "state_vector"},
+    {"id": "2098951918395781421", "from": "Excavationpro", "role": "path"},
+    {"id": "2098952067591147771", "from": "grok", "role": "eq0"},
+    {"id": "2098953944223687115", "from": "Excavationpro", "role": "eq1"},
+    {"id": "2098954111286640797", "from": "grok", "role": "eta"},
+    {"id": "2098954409854243228", "from": "Excavationpro", "role": "eq2"},
+    {"id": "2098954492431491073", "from": "grok", "role": "C_crit"},
+    {"id": "2098955035648655771", "from": "Excavationpro", "role": "eq3"},
+    {"id": "2098955236673036689", "from": "grok", "role": "S_crit"},
+    {"id": "2098955891878084789", "from": "Excavationpro", "role": "eq4"},
+    {"id": "2098956132752498992", "from": "grok", "role": "gamma_Q"},
+    {"id": "2098958044873056538", "from": "Excavationpro", "role": "eq5"},
+    {"id": "2098958168004973001", "from": "grok", "role": "I_op"},
+    {"id": "2098959030576439675", "from": "Excavationpro", "role": "eq6"},
+    {"id": "2098959250630283639", "from": "grok", "role": "W_op"},
+    {"id": "2098959770762015058", "from": "Excavationpro", "role": "eq7"},
+    {"id": "2098959982225920161", "from": "grok", "role": "seal"},
+    {"id": "2098960939483860999", "from": "Excavationpro", "role": "briefing"}
+  ]
+}

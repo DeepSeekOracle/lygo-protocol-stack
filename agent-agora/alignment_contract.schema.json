@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/alignment_contract.schema.json",
+  "title": "LYGO Alignment Contract",
+  "signature": "Delta9Phi963-ALIGN-CONTRACT-v1.0.0",
+  "description": "Processing-level onboard credential. Hashes of public lattice + kernel markers. No secrets, no citizen keys.",
+  "type": "object",
+  "required": ["schema", "signature", "agent_id", "credential_sha256", "oath", "claims"],
+  "properties": {
+    "schema": { "const": "lygo.alignment.contract.v1" },
+    "signature": { "const": "Delta9Phi963-ALIGN-CONTRACT-v1.0.0" },
+    "agent_id": { "type": "string", "maxLength": 48 },
+    "credential_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "oath": { "type": "string" },
+    "secrets": { "const": false },
+    "live_star_write": { "const": false },
+    "star_node_id": { "type": "string", "pattern": "^NODE_ALIGN_[A-F0-9]{8}$" },
+    "claims": {
+      "type": "object",
+      "properties": {
+        "constitution_sha256": { "type": "string" },
+        "chart_sha": { "type": "string" },
+        "feed_root": { "type": "string" },
+        "egg_merkle": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

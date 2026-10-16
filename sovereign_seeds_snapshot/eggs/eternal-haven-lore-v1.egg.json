@@ -1,0 +1,79 @@
+{
+  "egg_id": "eternal-haven-lore-v1",
+  "version": "1.0.0",
+  "kind": "lore",
+  "signature": "Delta9Phi963-EGG-eternal-haven-lore-v1-v1.0.0",
+  "created_utc": "2026-07-28T17:51:35Z",
+  "steward": "Lightfather / Excavationpro / DeepSeekOracle",
+  "content_sha256": "d54fe4356a9e6a2c15fc4b75158d06677a75449ecd0d7fe8fc664ea2b53611e7",
+  "payload": {
+    "title": "Eternal Haven Lore Lattice v1",
+    "summary": "Public lore graph + book index for Eternal Haven Chronicles (Books I–IV). Full novels remain copyright © Justin Helmer; egg carries discovery structure only.",
+    "clawhub": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+    "books": [
+      {
+        "id": "BOOK_I_MOONLIT_SLUMBER",
+        "title": "The Eternal Haven — Book I: The Moonlit Slumber",
+        "volume": 1,
+        "sha256": "6e6135ec2153f47d241ae74bf9c6f4bd35ddc1fbcfe5a754e2dcc7843d700c62",
+        "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html"
+      },
+      {
+        "id": "BOOK_II_SHATTERED_ACCORD",
+        "title": "Eternal Haven Chronicles Book II: The Shattered Accord",
+        "volume": 2,
+        "sha256": "962f9ac59900444835d56c84d4216fe5d098a9ea66085664edc04ebe23aed6dc",
+        "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/paperback/product-578nykz.html"
+      },
+      {
+        "id": "BOOK_III_ASCENSION_WAR",
+        "title": "The Eternal Haven — Book III: The Ascension War",
+        "volume": 3,
+        "sha256": "158d4c88a0f30a81bcfb0ba38cf885231a2d29001723ddd1a5dff3762f8ec61f",
+        "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS"
+      },
+      {
+        "id": "BOOK_IV_ETERNAL_DAWNS",
+        "title": "The Eternal Haven — Book IV: Eternal Dawns",
+        "volume": 4,
+        "sha256": "4426667793c74759057fd41e03a7a98444e009cfa004acec9fb1143f1b1385e9",
+        "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS"
+      }
+    ],
+    "graph_sha256": "86dfa9b0774af02cf21afbeaa67f5a6b53458ff34412fdea87fb98dae6b50ba9",
+    "books_manifest_sha256": "fd3a8a9d9c042ec522586d497242ca1539bd2f6ab7150c3d1e6e07fac3127567",
+    "motifs": [
+      "Accord",
+      "Seals and chains",
+      "Dawn and dusk",
+      "Choirs and voices",
+      "Imperfect light",
+      "Burden and choice",
+      "Shattering and reforging"
+    ],
+    "hooks": [
+      "lattice.lore.eternal_haven",
+      "star_chart.constellation.eternal_haven",
+      "clawhub.eternal-haven-lore-pack",
+      "portal.eternalhaven"
+    ],
+    "sites": {
+      "eternalhaven_ca": "https://eternalhaven.ca/",
+      "pages": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+      "star_chart": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+      "chatagent": "https://chatagent.ca/"
+    },
+    "copyright": "© Justin Helmer — no full-text republication in egg"
+  },
+  "seal": {
+    "alg": "sha256",
+    "leaf_hash": "099b868f8acef868ecbcb5f0ba8453ba4f85eecadae08589669c49322a699169",
+    "sovereign": true,
+    "self_verify_on_insert": true
+  },
+  "meta": {
+    "seeder": "Delta9Phi963-SOVEREIGN-KERNEL-SEEDER-v1.0",
+    "sealed": true,
+    "source_skill": "eternal-haven-lore-pack"
+  }
+}

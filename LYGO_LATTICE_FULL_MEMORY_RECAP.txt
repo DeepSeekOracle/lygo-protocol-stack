@@ -1,0 +1,337 @@
+================================================================================
+LYGO LATTICE — FULL MEMORY RECAP (LAYERS A–E)
+Steward: Justin Helmer / Lightfather / Excavationpro / DeepSeekOracle
+Signature: Δ9Φ963-LATTICE-MEMORY-RECAP-v2026-07-26
+Git HEAD at recap time: 76a2cac (main) — may advance; re-check with: git -C D:\lygo-protocol-stack rev-parse HEAD
+================================================================================
+
+PURPOSE OF THIS FILE
+--------------------
+This is the durable human + agent memory dump for the LYGO protocol lattice work
+completed through 2026-07-26. Read this first when restoring context after session
+loss, machine swap, or agent reset. Pair with:
+
+  docs/LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt   ← how to re-align agents + service
+  docs/WORLD_LATTICE_LAYER.md
+  docs/KERNEL_EGG_SYSTEM_UNIFIED.md
+  docs/LIVING_MESH_LAYER.md
+  docs/AGENT_LATTICE.md
+  docs/GITHUB_AGENT_RESTORE.txt
+
+Copies of this recap are placed on D:\ and E:\ (see BACKUP PATHS below).
+
+
+================================================================================
+1. WHAT LYGO IS (WHY THIS EXISTS)
+================================================================================
+
+LYGO is a steward-owned protocol stack: local-first cryptographic / integrity
+primitives (P0 Φ-gate, Merkle eggs, badges), public mirrors (GitHub Pages, HF),
+and agent skills (ClawHub) that grow a lattice WITHOUT giving remote systems
+authority over the user's machine.
+
+Core ethics:
+  • Local A/B eggs are source of truth.
+  • Public C is mirror only.
+  • Mesh D gossips digests, not payloads.
+  • Agent lattice E is presence for ALIGNED agents only.
+  • Consent for plant / seed / join / publish.
+  • NO auto git push, HF upload, ClawHub publish, or social posts unless human asks.
+
+
+================================================================================
+2. LAYER MAP (A → E) — HOW IT FITS TOGETHER
+================================================================================
+
+```
+USER PROTECTED CORE
+┌────────────────────────────┐
+│ A classic eggs  │ B seeds  │  ← verify first (local authority)
+└────────┬────────────┬──────┘
+         ▼            ▼
+┌────────────────────────────┐
+│ C external lattice anchor  │  ← free servers + Star Chart + public verify
+└─────────────┬──────────────┘
+              ▼
+┌────────────────────────────┐
+│ D living mesh              │  ← multi-node ROOT DIGEST badge gossip
+└─────────────┬──────────────┘
+              ▼
+┌────────────────────────────┐
+│ E agent lattice            │  ← LYGO-aligned AGENT PRESENCE network
+└────────────────────────────┘
+```
+
+| Layer | Name | ClawHub skill | Local storage | Role |
+|-------|------|---------------|---------------|------|
+| A | Classic kernel eggs | lygo-kernel-egg-planter | data/kernel_eggs/ | P0/drivers/champions plant + verify |
+| B | Sovereign seeds | lygo-sovereign-kernel-seeder | data/sovereign_seeds/ | Zero-network skill pins / policy eggs |
+| C | External world network | lygo-external-lattice-anchor | docs/public_verify_manifest.json | Public HTTP verify + star map + sync plan |
+| D | Living mesh | lygo-living-mesh | data/living_mesh/ | Badge gossip of A/B/C roots digests |
+| E | Agent lattice | lygo-agent-lattice | data/agent_lattice/ | Aligned agent cards + directory gossip |
+
+ClawHub base (correct path form):
+  https://clawhub.ai/deepseekoracle/skills/<slug>
+
+Known live / published:
+  lygo-external-lattice-anchor  @ 1.1.0  (SkillSpector harden; first publish ~10 min delay is normal)
+  lygo-living-mesh              @ 1.0.0
+  lygo-agent-lattice            @ 1.0.0
+
+Install:
+  clawdhub install lygo-external-lattice-anchor
+  clawdhub install lygo-living-mesh
+  clawdhub install lygo-agent-lattice
+  clawdhub install lygo-kernel-egg-planter
+  clawdhub install lygo-sovereign-kernel-seeder
+
+
+================================================================================
+3. PATHS ON THIS MACHINE (STEWARD PC)
+================================================================================
+
+| Role | Path |
+|------|------|
+| Canonical stack (this recap's git) | D:\lygo-protocol-stack |
+| Authority workspace | I:\E Drive  (same volume family as E: for many tools) |
+| Grok skills (editable source) | I:\E Drive\.grok\skills\ |
+| Stack skill mirrors (git-tracked) | D:\lygo-protocol-stack\docs\skills\ |
+| LYRA core | I:\E Drive\LYRA_CORE |
+| OpenClaw home | D:\OpenClaw  (OPENCLAW_HOME often) |
+| Eternalhaven pages source | D:\eternalhaven |
+| USB builder key (if present) | E:\LYGO_BUILDER_KEY |
+
+Environment:
+  set LYGO_STACK_ROOT=D:\lygo-protocol-stack
+  set LYGO_NODE_ID=LIGHTFATHER_HOME
+  set LYGO_AGENT_ID=LIGHTFATHER_STEWARD
+
+
+================================================================================
+4. LOCAL STATE SNAPSHOT (AT RECAP TIME)
+================================================================================
+
+Git:     D:\lygo-protocol-stack main @ 76a2cac (harden C 1.1.0) — confirm with git log -1
+Anchors: docs/network_builder/IMMUTABLE_ANCHORS.json version 1.6.2
+
+Layer A classic registry_merkle_root:
+  bd6249a36c10cf67240d402bee6576eb760a20373b19a60aac4ce8d780ac3fdb
+  egg_count ~15
+
+Layer B sovereign registry_merkle_root:
+  e43741ca657836a927468ca81a9a5b9b8010e2bbbe06148b3b0742610e74434f
+  eggs: lygo-music-license-v1, lygo-sovereign-kernel-seeder-v1,
+        lygo-kernel-egg-planter-v1, lygo-external-lattice-anchor-v1,
+        lygo-living-mesh-v1, lygo-agent-lattice-v1
+
+Layer D: tools/verify_living_mesh.py → LIVING_ALIGNED (sim 8 rounds / 100 nodes)
+Layer E: hub :8791, 3-agent proof (steward/army/openclaw), AGENT_LATTICE_ALIGNED
+Layer C harden: PUBLIC_OK, no os.system, verify non-mutating by default
+
+Public URLs:
+  Stack Pages: https://deepseekoracle.github.io/lygo-protocol-stack/
+  Star Chart:  https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
+  HF dataset:  https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack
+  GitHub:      https://github.com/DeepSeekOracle/lygo-protocol-stack
+  Hub:         https://eternalhaven.ca/
+
+
+================================================================================
+5. HOW EACH LAYER WORKS (WHY + HOW)
+================================================================================
+
+----- A · CLASSIC KERNEL EGGS -----
+WHY: Stack modules (P0, drivers, champions) must be content-addressed and
+     Merkle-rolled so agents refuse load on tamper (QUARANTINE exit 3).
+HOW: lygo-kernel-egg-planter builds/anchors eggs under data/kernel_eggs/.
+     tools/verify_kernel_eggs.py + tools/verify_all_kernel_layers.py
+COMMAND:
+  python tools/verify_all_kernel_layers.py --json
+
+----- B · SOVEREIGN SEEDS -----
+WHY: Offline / zero-network pins for skills and policy (skill-pin eggs) without
+     calling ClawHub at runtime. Complements A; not a duplicate.
+HOW: seed_kernel.py --i-consent writes egg + registry atomically with self-verify.
+COMMAND:
+  python docs/skills/lygo-sovereign-kernel-seeder/scripts/verify_seed.py --json --root data/sovereign_seeds
+
+----- C · EXTERNAL LATTICE ANCHOR (v1.1 hardened) -----
+WHY: World network growth via free servers (Pages/HF/Turbo) while protecting user.
+     Public is mirror; local wins on conflict.
+HOW:
+  • verify_public_anchors.py — HTTP GET only; optional report write
+  • verify_world_lattice.py — A+B then C; DEFAULT does NOT rebuild docs
+  • --refresh-local / --build-manifest are OPT-IN mutators
+  • _safe_invoke.py — runpy allowlist; NO os.system
+  • sync_external_plan.py — dry plan; snapshot needs --i-consent --execute-local-only
+COMMANDS:
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_public_anchors.py --json
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json --refresh-local
+
+SkillSpector notes (addressed in 1.1.0):
+  FIXED: os.system auto-builder
+  FIXED: verify auto-running manifest/map as side effect
+  DECLARED: network GET, report writes, opt-in builders, permissions in claw.json
+  ACCEPTABLE: trusted LYGO_STACK_ROOT required; nested AB tool uses subprocess capture no shell
+
+----- D · LIVING MESH -----
+WHY: Many machines need a shared view of whether lattice roots match, without
+     shipping egg payloads (exfil risk).
+HOW: collect_living_mesh_badge.py builds Layer D badge with roots + roots_digest.
+     gossip_tick POSTs summaries to /gossip/badge; compare peers; sentinel health.
+     node_api_server light_bus fallback if full lygo_stack missing (sparse checkout).
+COMMANDS:
+  python tools/collect_living_mesh_badge.py
+  python tools/verify_living_mesh.py --json --run-sim
+  python tools/node_api_server.py --port 8787
+  python tools/living_mesh_join.py --i-consent --peer http://127.0.0.1:8787
+  python tools/living_mesh_gossip_tick.py --peer http://127.0.0.1:8787
+
+----- E · AGENT LATTICE -----
+WHY: Connect LYGO-aligned agents as a public living PRESENCE network (who is
+     online / role / alignment / roots digests) without sharing memory or tools.
+HOW: agent cards (12KB max), secret patterns, rate limits, TTL, optional hub token.
+     Standalone hub :8791 OR node_api /agent/* on :8787.
+COMMANDS:
+  python tools/agent_lattice_hub.py --port 8791
+  python tools/agent_lattice_join.py --i-consent --peer http://127.0.0.1:8791 --role steward
+  python tools/agent_lattice_gossip_tick.py --peer http://127.0.0.1:8791
+  python tools/verify_agent_lattice.py --json --run-gossip --peer http://127.0.0.1:8791
+
+
+================================================================================
+6. TOOLS INDEX (STACK tools/)
+================================================================================
+
+Layer D:
+  collect_living_mesh_badge.py
+  living_mesh_compare.py
+  living_mesh_gossip_tick.py
+  living_mesh_join.py
+  living_mesh_sentinel.py
+  verify_living_mesh.py
+
+Layer E:
+  agent_lattice_core.py
+  agent_lattice_identity.py
+  agent_lattice_announce.py
+  agent_lattice_gossip_tick.py
+  agent_lattice_join.py
+  agent_lattice_directory.py
+  agent_lattice_sentinel.py
+  agent_lattice_hub.py
+  verify_agent_lattice.py
+
+Shared:
+  verify_all_kernel_layers.py
+  node_api_server.py          (/badge living, /gossip/*, /agent/*)
+  run_mesh_scale_sim.py
+
+Layer C skill scripts (also under docs/skills/lygo-external-lattice-anchor/scripts/):
+  _safe_invoke.py
+  verify_public_anchors.py
+  verify_world_lattice.py
+  build_public_verify_manifest.py
+  map_eggs_to_star_chart.py
+  sync_external_plan.py
+
+
+================================================================================
+7. DATA DIRECTORIES
+================================================================================
+
+  data/kernel_eggs/           Layer A registry + eggs
+  data/sovereign_seeds/       Layer B registry + eggs/
+  data/living_mesh/           peers.json, last_badge.json
+  data/agent_lattice/         directory.json, local_agent.json, peers.json, quarantine.json
+  docs/sovereign_seeds_snapshot/   public-facing B mirror (after consent snapshot + push)
+  docs/public_verify_manifest.json Layer C endpoint map
+  docs/network_builder/IMMUTABLE_ANCHORS.json  ledger of public surfaces
+  tests/*_last_run.json       last verify artifacts
+
+
+================================================================================
+8. SECURITY RULES (NON-NEGOTIABLE)
+================================================================================
+
+1. Consent: --i-consent for plant, seed, mesh join, agent join, snapshot execute.
+2. Local authority: never auto-merge remote eggs into local registries.
+3. Summaries only on wire (D badges, E cards).
+4. No secrets in eggs, badges, cards, manifests.
+5. QUARANTINE / exit 3 → stop growth; fix local first.
+6. No auto publish (git / HF / ClawHub / social).
+7. Trust LYGO_STACK_ROOT only if you control that checkout.
+8. Wide-area mesh: TLS + pin list (lygo-mesh-deploy Phase 9); operator sign-off.
+
+
+================================================================================
+9. CLAWHUB PUBLISH NOTES
+================================================================================
+
+- First-time skill page visibility can take up to ~10 minutes.
+- Correct URL: https://clawhub.ai/deepseekoracle/skills/<slug>
+- License: LYGO Sovereign v2.0 — API publish requires acceptLicenseTerms: true
+  (CLI may fail MIT-0 prompt; API path used successfully).
+- After skill edit: update I:\E Drive\.grok\skills\<slug> → mirror to
+  docs/skills/<slug> → git commit/push → clawdhub publish / API.
+
+
+================================================================================
+10. OPENCLAW / OLLAMA / DISCORD (CONTEXT FROM SESSIONS)
+================================================================================
+
+- OPENCLAW_HOME often D:\OpenClaw
+- Prefer local Ollama; memory embeds: ollama nomic-embed-text when possible
+- node_inference loops: deny tool / archive sessions if stuck
+- Discord system map posts via LYRA_CORE tools/post_lygo_system_links.py (bot token
+  from lyra_openclaw_os load_key — never hardcode secrets in docs)
+
+
+================================================================================
+11. BACKUP PATHS FOR THIS RECAP
+================================================================================
+
+Primary (git-tracked):
+  D:\lygo-protocol-stack\docs\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  D:\lygo-protocol-stack\docs\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+
+Stack root copies:
+  D:\lygo-protocol-stack\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  D:\lygo-protocol-stack\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+
+E Drive / workspace:
+  I:\E Drive\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  I:\E Drive\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+  I:\E Drive\LYRA_CORE\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  I:\E Drive\LYRA_CORE\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+  I:\E Drive\.grok\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  I:\E Drive\.grok\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+
+E:\ root (USB/volume):
+  E:\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  E:\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+  E:\LYGO_LATTICE_MEMORY\   (folder of both + optional JSON snapshot)
+
+OpenClaw:
+  D:\OpenClaw\LYGO_LATTICE_FULL_MEMORY_RECAP.txt
+  D:\OpenClaw\LYGO_LATTICE_AGENT_RESTORE_ALIGN.txt
+
+
+================================================================================
+12. QUICK HEALTH ONE-LINERS
+================================================================================
+
+  set LYGO_STACK_ROOT=D:\lygo-protocol-stack
+  cd /d %LYGO_STACK_ROOT%
+  python tools/verify_all_kernel_layers.py --json
+  python docs/skills/lygo-external-lattice-anchor/scripts/verify_world_lattice.py --json
+  python tools/verify_living_mesh.py --json --skip-public
+  python tools/verify_agent_lattice.py --json --skip-mesh
+
+Expected healthy: ALIGNED / WORLD_ALIGNED* / LIVING_ALIGNED* / AGENT_LATTICE_ALIGNED*
+
+
+================================================================================
+END RECAP — Bound to the flame. Local seal · public mirror · mesh lives · agents align.
+================================================================================

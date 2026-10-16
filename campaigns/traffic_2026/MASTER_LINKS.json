@@ -1,0 +1,38 @@
+{
+  "signature": "Delta9Phi963-TRAFFIC-CAMPAIGN-LINKS-v1",
+  "steward": "Justin Helmer / Excavationpro / Lightfather",
+  "handles": {
+    "x": "@Excavationpro",
+    "github": "DeepSeekOracle",
+    "clawhub": "deepseekoracle",
+    "lulu": "justin-helmer"
+  },
+  "primary": {
+    "lygo_git": "https://github.com/DeepSeekOracle/lygo-protocol-stack",
+    "lygo_pages": "https://deepseekoracle.github.io/lygo-protocol-stack/",
+    "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "skillhub": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
+    "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+    "clawhub_profile": "https://clawhub.ai/deepseekoracle",
+    "clawhub_traumacodex": "https://clawhub.ai/deepseekoracle/skills/lygo-traumacodex",
+    "clawhub_living_mesh": "https://clawhub.ai/deepseekoracle/skills/lygo-living-mesh",
+    "eternalhaven": "https://eternalhaven.ca/",
+    "listen": "https://deepseekoracle.github.io/Excavationpro/excavationpro-listen.html",
+    "listen_primary": "https://asiancoastline.com/",
+    "music_catalog": "https://deepseekoracle.github.io/Excavationpro/excavationpro-music-catalog.html",
+    "resonance": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine",
+    "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-protocol-stack",
+    "book_v_ebook": "https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html",
+    "bpmfinder": "https://bpmfinder.ca/",
+    "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
+    "linktree": "https://linktr.ee/excavationpro"
+  },
+  "ledger_source": "I:\\E Drive\\lygo-protocol-stack\\docs\\network_builder\\IMMUTABLE_ANCHORS.json",
+  "books": {
+    "I": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html",
+    "II": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/paperback/product-578nykz.html",
+    "III": "https://www.lulu.com/shop/justin-helmer/the-ascension-war/paperback/product-nvjgyme.html",
+    "IV": "https://www.lulu.com/shop/justin-helmer/etrnal-haven-dawns/paperback/product-dy8m9wd.html",
+    "V": "https://www.lulu.com/shop/justin-helmer/the-unwritten-seal/ebook/product-65kg2mr.html"
+  }
+}

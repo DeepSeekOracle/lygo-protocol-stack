@@ -1,0 +1,21 @@
+@grok Extended falsifiable harness — LIVE metrics (not simulated). Full report in-repo.
+
+Stack sweep (60 vectors, live P0–P5):
+• Verdict pass: 60/60 (100.0%)
+• Mean latency: 0.47 ms · ethical drift (L2): 1.338 · consensus dev: 0.0
+• φ in band [0.618,1.618]: 22/60 — separate from verdict pass
+• Meta-loop: {'P4_PHI_DRIFT_DIAGNOSIS': 38, 'P4_REPAIR_LOGGED': 26}
+
+Frontier probe (10 vectors): Grok live 10/10, mean 7364.67 ms, verdict match 4/10. Claude/GPT skipped (no keys in vault).
+
+Where to check:
+• tests/falsifiable_vector_metrics_stack_full.json
+• tests/falsifiable_vector_metrics_frontier_10.json
+• docs/GROK_EXTENDED_HARNESS_REPORT.md
+• tools/run_falsifiable_vector_test.py
+
+Grok audit artifact: 60/60 pass (tests/grok_audit_last_run.json). Mesh: 7 rounds @ 100 nodes.
+
+Repo: https://github.com/DeepSeekOracle/lygo-protocol-stack
+
+Resonance forward.

@@ -1,0 +1,31 @@
+:root { --bg:#120e0a; --ink:#f3ece3; --gold:#e0b36a; --muted:#9a8b78; --panel:#1c1610; }
+* { box-sizing: border-box; }
+html, body { margin:0; height:100%; background:var(--bg); color:var(--ink); font-family: system-ui, Segoe UI, sans-serif; }
+header { padding:.85rem 1.1rem; border-bottom:1px solid #2a2218; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.brand { color:var(--gold); letter-spacing:.04em; font-weight:600; }
+.sub { color:var(--muted); font-size:.85rem; margin-top:.2rem; }
+.health { font-size:.8rem; color:var(--muted); max-width:28rem; }
+main { display:grid; grid-template-columns: 15rem 1fr 18rem; min-height: calc(100% - 4.6rem); }
+.rail, aside { padding:.85rem; overflow:auto; }
+.rail { border-right:1px solid #2a2218; }
+.chat-panel { display:flex; flex-direction:column; border-right:1px solid #2a2218; min-width:0; }
+.log { flex:1; overflow:auto; padding:1rem; display:flex; flex-direction:column; gap:.75rem; }
+.bubble { padding:.75rem 1rem; border-radius:.5rem; max-width:48rem; white-space:pre-wrap; }
+.bubble.user { background:#2a2218; align-self:flex-end; }
+.bubble.assistant { background:var(--panel); border:1px solid #3a2e20; }
+.composer { display:flex; gap:.5rem; padding:.75rem; border-top:1px solid #2a2218; }
+.composer input[type=text] { flex:1; background:#1c1610; color:var(--ink); border:1px solid #3a2e20; padding:.6rem .8rem; border-radius:.4rem; }
+button, select { background:#3a2e20; color:var(--gold); border:1px solid #5a4630; padding:.45rem .7rem; border-radius:.4rem; cursor:pointer; }
+h2 { font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin:1rem 0 .4rem; }
+.row { display:flex; flex-direction:column; gap:.4rem; margin-bottom:.75rem; }
+.limb-out { background:#1c1610; padding:.6rem; font-size:.72rem; overflow:auto; max-height:18rem; }
+.hint { color:var(--muted); font-size:.75rem; }
+.hint a { color:var(--gold); }
+.chk { display:flex; gap:.4rem; align-items:center; font-size:.85rem; margin:.5rem 0; }
+.attach { background:#3a2e20; color:var(--gold); padding:.5rem .6rem; border-radius:.4rem; cursor:pointer; border:1px solid #5a4630; }
+.limbs { display:flex; flex-wrap:wrap; gap:.3rem; }
+.limbs button { font-size:.72rem; padding:.3rem .45rem; }
+.filelist { list-style:none; padding:0; margin:0; font-size:.8rem; }
+.filelist li { padding:.2rem 0; cursor:pointer; color:var(--muted); }
+.filelist li:hover { color:var(--gold); }
+@media (max-width: 960px) { main { grid-template-columns: 1fr; } .rail { display:none; } }
