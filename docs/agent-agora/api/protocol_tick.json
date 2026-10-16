@@ -1,6 +1,6 @@
 {
   "signature": "Delta9Phi963-PROTOCOL-RUNTIME-v1.0.0",
-  "utc": "2026-09-06T17:15:39Z",
+  "utc": "2026-10-16T12:34:06Z",
   "yield": "ALIGNED",
   "halt": false,
   "layers": {
@@ -12,7 +12,7 @@
     "P1": {
       "stored": true,
       "fragments": 14,
-      "root_hash": "8231d8dc1932b8c1"
+      "root_hash": "dc4e8fb258f049da"
     },
     "P2": {
       "verdict": "AMPLIFY",
@@ -31,10 +31,10 @@
     },
     "P5": {
       "success": true,
-      "node_id": "HN-8a4bc8ed-\u03941075",
+      "node_id": "HN-1466d705-\u03941075",
       "ethical_mass": 1.2364
     }
   },
-  "agent_id": "LYGO-CYBORG",
+  "agent_id": "LYGO-RUNTIME",
   "purpose": "network_egg"
 }
