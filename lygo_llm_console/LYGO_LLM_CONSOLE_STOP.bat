@@ -39,6 +39,11 @@ if not defined LYGO_PYTHON (
   )
 )
 for /f "usebackq tokens=1,* delims==" %%A in (`%LYGO_PYTHON% -u "%ROOT%tools\resolve_ports.py" 2^>nul`) do if not "%%A"=="" set "LYGO_P_%%A=%%B"
+
+rem --- stop the KEEPER first. It is a supervisor whose whole job is to bring the console back, so a
+rem     stop that leaves it running is a stop that undoes itself a few sweeps later. It answers whether
+rem     it actually went instead of assuming.
+"%LYGO_PYTHON%" -u "%ROOT%tools\keeper.py" --stop
 if not defined LYGO_P_console echo  [warn] port set could not be resolved - try: "%LYGO_PYTHON%" "%ROOT%tools\resolve_ports.py"
 set "LYGO_CONSOLE_PORT=%LYGO_P_console%"
 set "LYGO_LLAMA_PORT=%LYGO_P_llama%"

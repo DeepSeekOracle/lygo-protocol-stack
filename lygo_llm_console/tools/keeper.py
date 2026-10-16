@@ -219,17 +219,56 @@ def acquire_lock() -> bool:
     return True
 
 
+def _wait_for_port(port: int, timeout: float = 180.0) -> bool:
+    """True once something answers on 127.0.0.1:port. MEASURED 2026-10-16: a keeper started at the same
+    moment as the console sees console_up=False for its first sweeps and rings the doorbell, which is how
+    a boot could race itself into a second copy. Waiting for the port removes the race instead of tuning
+    it."""
+    import socket
+
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        try:
+            with socket.create_connection(("127.0.0.1", int(port)), timeout=2):
+                return True
+        except Exception:
+            time.sleep(2.0)
+    return False
+
+
+def stop() -> dict[str, Any]:
+    """Stop the keeper that holds the lock, and verify it went rather than assuming."""
+    pid, alive = _lock_holder()
+    if not (pid and alive):
+        return {"ok": True, "stopped": False,
+                "why": f"no keeper alive (the lock names pid {pid or 'nothing'})"}
+    try:
+        subprocess.run(["taskkill", "/F", "/PID", str(pid)], capture_output=True, text=True, timeout=60)
+    except Exception as exc:
+        return {"ok": False, "stopped": False, "keeper_pid": pid, "why": f"taskkill failed: {exc}"}
+    gone = not _lock_holder()[1]
+    return {"ok": True, "stopped": gone, "keeper_pid": pid,
+            "why": "" if gone else "the keeper still answers after taskkill"}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Keep the LYGO console alive and its cron schedule running")
     ap.add_argument("--once", action="store_true", help="one sweep, print the JSON, exit")
     ap.add_argument("--interval", type=float, default=DEFAULT_INTERVAL)
     ap.add_argument("--detach", action="store_true")
     ap.add_argument("--status", action="store_true")
+    ap.add_argument("--stop", action="store_true",
+                    help="stop the keeper that holds the lock, and say whether it actually went")
+    ap.add_argument("--wait-port", type=int, default=0,
+                    help="wait for this port to answer before the first sweep (a booting console is not a dead one)")
     ap.add_argument("--ensure", action="store_true",
                     help="start a keeper ONLY if none is alive, then report which one is running")
     ap.add_argument("--log", default="")
     args = ap.parse_args(argv)
 
+    if args.stop:
+        print(json.dumps(stop(), ensure_ascii=False))
+        return 0
     if args.status:
         print(json.dumps(status(), ensure_ascii=False, indent=2))
         return 0
@@ -240,6 +279,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.ensure:
         # The one call a launcher or another agent can make safely: idempotent, and it routes through the
         # verified detach path below so "ensured" means a lock was actually taken, never a bare rc=0.
+        if args.wait_port:
+            t0 = time.time()
+            up = _wait_for_port(int(args.wait_port))
+            log_line(f"ensure: console port {args.wait_port} "
+                     f"{'answered' if up else 'never answered'} after {round(time.time() - t0, 1)}s")
         pid, alive = _lock_holder()
         if alive and pid != os.getpid():
             print(json.dumps({"ok": True, "started": False, "keeper_pid": pid,

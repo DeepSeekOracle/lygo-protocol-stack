@@ -47,7 +47,7 @@ if not "%ROOT:~-1%"=="\" set "ROOT=%ROOT%\"
 cd /d "%ROOT%"
 set "LYGO_KIT_ROOT=%ROOT%"
 echo.
-echo  LYGO Agent Portal — local console
+echo  LYGO Agent Portal - local console
 echo  %CD%
 echo.
 if not exist "%ROOT%workspace\SOUL.md" (
@@ -163,6 +163,16 @@ rem --- the doorbell: the page's own "Boot server" button needs something alive 
 rem     window is not. It exits at once if one is already listening, and touches nothing else.
 if not defined LYGO_NO_DOORBELL (
   start "LYGO doorbell" /min "%LYGO_PYTHON%" -u "%ROOT%tools\doorbell.py" --detach
+)
+
+rem --- the KEEPER, the supervisor that runs the crons. Without it the console still answers and then
+rem     quietly stops doing anything scheduled - measured 2026-10-16: the keeper had been dead since
+rem     Sep 22, so its monitoring crons never fired and the tasking queue sat idle for weeks while the
+rem     console reported itself ready. `--ensure` starts one ONLY if none is alive and proves it by the
+rem     lock, so booting twice can never leave two supervisors; `--wait-port` stops its first sweep from
+rem     mistaking a console that is still booting for a dead one and starting a second copy.
+if defined LYGO_P_console (
+  start "LYGO keeper" /min "%LYGO_PYTHON%" -u "%ROOT%tools\keeper.py" --wait-port %LYGO_P_console% --ensure
 )
 
 "%LYGO_PYTHON%" -u "%ROOT%src\server.py" serve %LYGO_PORTARG%
