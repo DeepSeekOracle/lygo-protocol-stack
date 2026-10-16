@@ -1,6 +1,6 @@
 # Pages update queue (from GIT Lattice Overview)
 
-Generated: 2026-09-24T23:39:38.561951+00:00
+Generated: 2026-10-16T12:29:42.565328+00:00
 
 ## [P0] `docs/index.html`
 - Why: Add deadman, continuum, lattice finder, overview memory file; PDW still says Phase A

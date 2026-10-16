@@ -1,8 +1,8 @@
 # GIT Lattice Overview — LYGO Protocol Stack
 
 **Signature:** `Delta9Phi963-GIT-LATTICE-OVERVIEW-v1`  
-**Generated:** 2026-09-24T23:39:38.561951+00:00  
-**Git:** `20a00b2` — Seed lattice: un-stale the Agora pulse and the Git Lattice Overview (2026-09-24T17:39:24-06:00)  
+**Generated:** 2026-10-16T12:29:42.565328+00:00  
+**Git:** `b20d358` — Merge remote-tracking branch 'origin/main' into lattice-rebalance-2026-10-16 (2026-10-16T06:29:26-06:00)  
 **Repo:** https://github.com/DeepSeekOracle/lygo-protocol-stack  
 **Pages:** https://deepseekoracle.github.io/lygo-protocol-stack/
 
@@ -43,7 +43,7 @@ Agents: prefer this file over older July `AGENT_MEMORY_SNAPSHOT.json`.
 - Path: `docs/HavenStarChart.html`
 - URL: https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html
 - Role: Living constellation / agent map
-- Chart nodes: 1418
+- Chart nodes: 1460
 
 ### Data Vault (`data_vault`)
 - Status: **live**
