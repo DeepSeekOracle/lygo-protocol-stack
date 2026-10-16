@@ -2,7 +2,7 @@
   /* One product name, one build stamp. The header, the document title and every status line read
      from here, so the console cannot drift back into three names and no version in the UI. */
   const LYGO_PRODUCT = "LYGO Local Agent Console";
-  const LYGO_BUILD = "1.5.7";
+  const LYGO_BUILD = "1.7.0";
   const BUILD_STAMP = "build " + LYGO_BUILD;
   /* The build stamp the console actually serves (/api/health), so a release bump cannot disagree with
      the header. Declared up HERE, above its first use, because paintBrand() reads it and paintBrand()
@@ -217,7 +217,16 @@
      first token. 60 s was therefore normal, not death, and it stopped answers that were about to
      arrive. The console primes that prefix right after a boot (server.py warm_prefix), so the first
      ask is usually fast - but a big history or a cold cache can still exceed a minute. */
-  const STREAM_IDLE_MS = 60000;          /* cloud: an API that says nothing for a minute is gone */
+  /* MEASURED 2026-10-16: "an API that says nothing for a minute is gone" was wrong for the console's own
+     cloud route. The free brain runs the whole turn inside one CLI call, and the shim's own ring recorded
+     20.3 s, 22.3 s, 24.5 s, 239.8 s for real turns - so 60 s stopped answers that were seconds from
+     arriving, exactly as the steward reported ("no output for 60s, so this answer was stopped"). The
+     floor now clears the measured worst case, and a turn that has already shown limb work gets the
+     long window below, because a render is minutes by nature. */
+  const STREAM_IDLE_MS = 300000;         /* cloud/proxy: one CLI call can legitimately take minutes */
+  /* A limb round is silent for as long as the limb runs: a video render, the kit's own test suite, a
+     download. Once the turn has shown a trace, silence is WORK, not death. */
+  const STREAM_IDLE_TOOL_MS = 1800000;   /* 30 min ceiling for a turn with limb work in flight */
   /* Local: prefill, and then — until the engine is streamed token-by-token into the page — the WHOLE
      reply arrives in one burst at the end, so this window has to cover the entire generation rather
      than just the first token. At the shipped 7B's measured ~10 tok/s a 4096-token answer is ~7
@@ -228,12 +237,17 @@
   const MS_PER_TOKEN_WORST = 250;        /* 4 tok/s — pessimistic on purpose, it only sets a ceiling */
   /* Set once per turn, before the request goes out: a local turn prefills before it streams anything. */
   let streamIsApi = false;
+  let limbInFlight = false;   /* set when a trace arrives: silence after that is the limb working */
   function idleWindowMs() {
+    if (limbInFlight) return STREAM_IDLE_TOOL_MS;
     if (streamIsApi) return STREAM_IDLE_MS;
     return Math.max(STREAM_IDLE_LOCAL_MS, MAX_TOKENS * MS_PER_TOKEN_WORST + 120000);
   }
-  function capWindowMs() { return Math.max(600000, MAX_TOKENS * MS_PER_TOKEN_WORST + 240000); }
-  const STREAM_CAP_MS = 600000;  /* floor for the hard ceiling on one answer; see capWindowMs() */
+  /* The hard ceiling on one answer. A limb round can outlast an answer by a lot (a render is minutes,
+     and its own job then continues in the queue), so this floor covers one - it exists to stop a turn
+     that will never end, not to cut a turn that is working. */
+  function capWindowMs() { return Math.max(2400000, MAX_TOKENS * MS_PER_TOKEN_WORST + 240000); }
+  const STREAM_CAP_MS = 2400000;  /* floor for the hard ceiling on one answer; see capWindowMs() */
 
   /* ---- footer status: its own element, so a trace dump can never erase it -------------- */
   let stickyStatus = "";
@@ -1327,6 +1341,7 @@ document.addEventListener("click", (e) => {
     activeAbort = ctl;
     setSending(true);
     let idleTimer = null, capTimer = null, timedOut = false, stopped = false, parseFails = 0, done = false;
+    limbInFlight = false;   /* per turn: the window only grows for limb work THIS turn showed */
     const arm = function () {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(function () { timedOut = true; try { ctl.abort(); } catch (_) {} }, idleWindowMs());
@@ -1383,7 +1398,7 @@ document.addEventListener("click", (e) => {
             /* The turn streamed and the finished text differs from what arrived as deltas
                (sanitised echo, or the output-window gate): this frame is the authoritative one. */
             if (evn.replace) setBubbleText(b, evn.replace);
-            if (evn.traces) renderTraces(evn.traces);
+            if (evn.traces) { limbInFlight = true; arm(); renderTraces(evn.traces); }
             if (evn.type === "brain") markBrain(b, evn);
             if (evn.error) failBubble(b, "engine error — " + evn.error);
             if (evn.type === "done") {
@@ -2315,9 +2330,31 @@ document.addEventListener("click", (e) => {
          that never landed from one that landed two screens down. */
       const head = document.createElement("div");
       head.className = "ms-songs-head";
+      /* The count stays the head element's OWN textContent, not a child span's: the studio's node
+         harness reads songHead().textContent directly (tests/js/music_studio_panel.js asserts "2
+         takes" / "no takes yet"), and a stub DOM does not aggregate a parent's text from its
+         children the way a browser does. So the text is set FIRST and the button appended after -
+         setting textContent on a real element wipes its children, which would remove the button. */
       head.textContent = list.length
         ? list.length + (list.length === 1 ? " take" : " takes") + " · newest first"
         : "no takes yet";
+      /* An explicit refresh, next to the count.
+         The poll below already re-reads GET /api/music every 3 s and repaints only when the list's
+         own signature changes, so a take that landed while the page was open DOES arrive on its own.
+         What the poll cannot cover is the operator's own filesystem: a take they moved or deleted in
+         Explorer, or a render that finished while this tab was asleep, changes nothing the poll
+         notices until it happens to look. Pressing this drops the signature to null and re-reads at
+         once, so "show me what is in the folder NOW" is one click and never a wait. */
+      const re = document.createElement("button");
+      re.type = "button";
+      re.className = "ms-songs-refresh";
+      re.textContent = "refresh";
+      re.title = "Re-read the songs folder now (the list also refreshes itself every few seconds)";
+      re.onclick = () => {
+        msSongSig = null;
+        msLoad().catch(() => {});
+      };
+      head.appendChild(re);
       msSongsEl.appendChild(head);
       if (!list.length) {
         const p = document.createElement("p");
@@ -2362,13 +2399,34 @@ document.addEventListener("click", (e) => {
         main.className = "ms-song-main";
         const nm = document.createElement("span");
         nm.className = "ms-song-name";
-        nm.textContent = s.name || "(song without a name)";
-        nm.title = s.name || "";
+        /* A title is what the operator called the take; the file name is what is really on disk.
+           Both are shown, because they answer different questions and either one alone has misled
+           someone: a title with no file name hides what to look for on disk, and a stamped file name
+           with no title is the thing this row used to be. */
+        nm.textContent = s.title || s.name || "(song without a name)";
+        nm.title = s.title ? s.title + "  ·  " + s.name : (s.name || "");
         const meta = document.createElement("div");
         meta.className = "ms-song-meta";
         meta.textContent = [s.when, msSongLine(s)].filter(Boolean).join(" · ");
         main.appendChild(nm);
         main.appendChild(meta);
+        if (s.name) {
+          /* Name a take after the fact. The audio is never re-rendered and never renamed on disk -
+             the title is written into the take's own sidecar - so this costs nothing and cannot
+             break a link the operator already has. Blank clears the title and the file name returns. */
+          const rn = document.createElement("input");
+          rn.type = "text";
+          rn.className = "ms-song-title";
+          rn.value = s.title || "";
+          rn.placeholder = "name this take";
+          rn.title = "Name this take. Blank clears the name and it is listed by its file name again.";
+          rn.onchange = () => {
+            msPost({ action: "retitle", name: s.name, title: rn.value })
+              .then(() => { msSongSig = null; return msLoad(); })
+              .catch((e) => msSet("studio: " + ((e && e.message) || e), true));
+          };
+          main.appendChild(rn);
+        }
         row.appendChild(main);
         if (s.name) {
           const get = document.createElement("a");
@@ -3084,6 +3142,18 @@ document.addEventListener("click", (e) => {
     return "";
   }
 
+  /* The route a pane's OWN buttons post to: the module declares it in its manifest (POST /api/...),
+     and if it declares none the pane's read route is used - a module that publishes buttons and
+     cannot answer them fails loudly rather than silently. */
+  function panePostRoute(mod) {
+    const routes = (mod && mod.routes) || [];
+    for (let i = 0; i < routes.length; i++) {
+      const bits = String(routes[i]).trim().split(/\s+/);
+      if (bits.length > 1 && bits[0].toUpperCase() === "POST") return bits[1];
+    }
+    return paneRoute(mod);
+  }
+
   function paneEl(tag, cls, text) {
     const n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -3220,7 +3290,66 @@ document.addEventListener("click", (e) => {
       card.appendChild(box);
     }
 
+    /* A module may publish a small strip of its OWN actions: [{action, label, title}]. The shell
+       knows nothing about what any of them do - it posts {action} to the pane's own POST route,
+       opens a `url` the answer names in a new tab, and shows the module's own `why` under the
+       buttons. This is the seam that lets a module put a button on the console without the shell
+       naming a single module. A module that publishes nothing gets no strip. */
+    const acts = payload.actions || [];
+    if (acts.length) {
+      const bar = paneEl("div", "llm-actions");
+      acts.forEach((a) => {
+        const b = paneEl("button", "llm-act", a.label || a.action);
+        b.type = "button";
+        if (a.title) b.title = a.title;
+        b.addEventListener("click", () => paneActSend(meta, a, b, bar));
+        bar.appendChild(b);
+      });
+      bar.appendChild(paneEl("span", "llm-act-said"));
+      card.dataset.paneRoute = meta.post || meta.route || "";
+      card.appendChild(bar);
+    }
+
     (host || paneHost).appendChild(card);
+  }
+
+  /* A pane button posts its action to the pane's own route and shows the module's own answer. The
+     reply is an ANSWER, not a promise: a `url` it names is opened in a new tab, its `why` is shown
+     under the buttons until the next refresh, and a refusal is shown too - a button that fails
+     silently is worse than no button. One click is one action: the button disables itself for the
+     duration so a double-click cannot start an editor twice. */
+  async function paneActSend(meta, act, button, bar) {
+    const route = meta.post || meta.route;
+    const said = bar.querySelector(".llm-act-said");
+    button.disabled = true;
+    if (said) {
+      said.classList.remove("llm-act-bad");
+      said.textContent = (act.label || act.action) + "…";
+    }
+    try {
+      const r = await fetch(route, {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ action: act.action }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (data && data.url) {
+        const w = window.open(data.url, "_blank", "noopener");
+        if (!w && said) said.textContent = "the browser blocked the new tab — open " + data.url;
+      }
+      if (said) {
+        said.textContent = (data && (data.why || data.state_text || data.error)) ||
+          (r.ok ? "done" : "refused with no reason given");
+        said.classList.toggle("llm-act-bad", !r.ok || data.ok === false);
+      }
+    } catch (e) {
+      if (said) {
+        said.textContent = "no answer: " + String((e && e.message) || e);
+        said.classList.add("llm-act-bad");
+      }
+    }
+    button.disabled = false;
+    paneRefresh();
   }
 
   async function paneRefresh() {
@@ -3236,7 +3365,7 @@ document.addEventListener("click", (e) => {
         const panes = m.panes || [];
         for (let i = 0; i < panes.length; i++) {
           const pid = typeof panes[i] === "string" ? panes[i] : (panes[i] && panes[i].id) || "";
-          if (pid.indexOf("dock.") === 0) wanted.push({ id: pid, route: route, title: m.title || m.id });
+          if (pid.indexOf("dock.") === 0) wanted.push({ id: pid, route: route, post: panePostRoute(m), title: m.title || m.id });
         }
       });
       if (!wanted.length) { if (paneDock) paneDock.hidden = true; return; }
@@ -3295,6 +3424,244 @@ document.addEventListener("click", (e) => {
   if (paneHost && paneDock) {
     paneRefresh();
     setInterval(paneRefresh, PANE_REFRESH_MS);
+  }
+
+  /* VoiceStudio sits under the module cards. The app itself stays a separate install.
+     This block only starts that service and asks it to speak. */
+  const vsStatus = document.getElementById("vs-status");
+  const vsState = document.getElementById("vs-state");
+  const vsText = document.getElementById("vs-text");
+  const vsEngine = document.getElementById("vs-engine");
+  const vsVoice = document.getElementById("vs-voice");
+  const vsAudio = document.getElementById("vs-audio");
+  const vsClip = document.getElementById("vs-clip");
+  const vsStart = document.getElementById("vs-start");
+  const vsStop = document.getElementById("vs-stop");
+  const vsSpeak = document.getElementById("vs-speak");
+
+  function vsSet(text, bad) {
+    if (!vsStatus) return;
+    vsStatus.textContent = text || "";
+    vsStatus.className = bad ? "hint warn" : "hint";
+  }
+
+  function vsFill(select, items, current) {
+    if (!select) return;
+    const chosen = select.value || current || "";
+    const next = [""].concat(items.filter(Boolean));
+    const same = next.join("\n") === Array.from(select.options).map((o) => o.value).join("\n");
+    if (!same) {
+      select.replaceChildren();
+      next.forEach((id) => {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = id || "service default";
+        select.appendChild(opt);
+      });
+    }
+    if (chosen && Array.from(select.options).some((o) => o.value === chosen)) select.value = chosen;
+  }
+
+  function vsPlay(card) {
+    if (!vsAudio) return;
+    const url = card && card.clip_data_url;
+    if (!url) {
+      vsAudio.hidden = true;
+      vsAudio.removeAttribute("src");
+      return;
+    }
+    if (vsAudio.getAttribute("data-clip") === url) {
+      vsAudio.hidden = false;
+      return;
+    }
+    vsAudio.hidden = false;
+    vsAudio.setAttribute("data-clip", url);
+    vsAudio.src = url;
+  }
+
+  async function vsRefresh() {
+    if (!vsStatus) return;
+    try {
+      const r = await fetch("/api/voice", { headers: headers(), cache: "no-store" });
+      if (!r.ok) { vsSet("VoiceStudio route answered " + r.status, true); return; }
+      const st = await r.json();
+      const up = !!(st.service && st.service.up);
+      const installed = !!(st.install && st.install.present);
+      if (vsState) {
+        vsState.hidden = false;
+        vsState.className = "modules-state sev-" + (up ? "green" : (installed ? "amber" : "red"));
+        vsState.textContent = up ? "service up" : (installed ? "installed, service down" : "not installed");
+      }
+      const models = (st.service && st.service.models) || [];
+      const voices = (st.voices || []).map((v) => (typeof v === "string" ? v : (v.id || v.name || ""))).filter(Boolean);
+      const saved = st.state || {};
+      vsFill(vsEngine, models, saved.engine || "");
+      vsFill(vsVoice, voices, saved.voice || "");
+      const where = st.service && st.service.base ? st.service.base : "127.0.0.1:3900";
+      vsSet(up ? "VoiceStudio is answering at " + where : (installed ? "Installed. Start the service to speak." : "VoiceStudio is not installed on this machine."), !up);
+      const card = st.card || {};
+      if (vsClip) vsClip.textContent = card.clip ? "Last clip: " + card.clip : "";
+      if (card.clip_data_url) vsPlay(card);
+    } catch (e) {
+      vsSet("The console voice route is not answering.", true);
+    }
+  }
+
+  async function vsPost(body) {
+    const r = await fetch("/api/voice", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify(body),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || data.ok === false) {
+      vsSet(data.why || data.error || ("VoiceStudio answered " + r.status), true);
+      return data;
+    }
+    return data;
+  }
+
+  if (vsStart) vsStart.addEventListener("click", async () => {
+    vsSet("Starting VoiceStudio. The first start can take a few minutes while models load.", false);
+    await vsPost({ action: "start", wait: false });
+    setTimeout(vsRefresh, 1500);
+  });
+  if (vsStop) vsStop.addEventListener("click", async () => {
+    await vsPost({ action: "stop" });
+    vsRefresh();
+  });
+  if (vsSpeak) vsSpeak.addEventListener("click", async () => {
+    const text = (vsText && vsText.value || "").trim();
+    if (!text) { vsSet("Type something for VoiceStudio to say.", true); return; }
+    vsSet("Speaking…", false);
+    if (vsEngine && vsEngine.value || vsVoice && vsVoice.value) {
+      await vsPost({ action: "voice", engine: vsEngine ? vsEngine.value : "", voice: vsVoice ? vsVoice.value : "" });
+    }
+    const spoken = await vsPost({
+      action: "speak",
+      text: text,
+      engine: vsEngine ? vsEngine.value : "",
+      voice: vsVoice ? vsVoice.value : "",
+    });
+    if (spoken && spoken.ok) {
+      vsSet("Clip written. " + (spoken.bytes || 0) + " bytes.", false);
+      vsPlay(spoken.card || {});
+      if (vsClip && spoken.path) vsClip.textContent = spoken.path;
+    }
+    vsRefresh();
+  });
+  if (vsStatus) {
+    vsRefresh();
+    setInterval(vsRefresh, 15000);
+  }
+
+  /* Photo to mesh. The server owns the GPU job. This block only posts a workspace
+     path and shows the GLB the server says it wrote. */
+  const meshStatus = document.getElementById("mesh-status");
+  const meshHint = document.getElementById("mesh-hint");
+  const meshGo = document.getElementById("mesh-go");
+  const meshFile = document.getElementById("mesh-file");
+  const meshView = document.getElementById("mesh-view");
+  const meshDownload = document.getElementById("mesh-download");
+  const meshLighter = document.getElementById("mesh-lighter");
+  let meshName = "";
+  function meshSet(text, bad) {
+    if (!meshStatus) return;
+    meshStatus.textContent = text;
+    meshStatus.className = bad ? "hint warn" : "hint";
+  }
+  function meshShow(j) {
+    if (!j || !j.url || !meshView) return;
+    meshName = j.name || "";
+    const src = j.url + "?t=" + Date.now();
+    meshView.setAttribute("src", src);
+    if (meshDownload) {
+      meshDownload.hidden = false;
+      meshDownload.href = src;
+      meshDownload.setAttribute("download", meshName || "mesh.glb");
+    }
+    if (meshLighter) meshLighter.disabled = false;
+    const faces = j.faces ? " · " + j.faces + " faces" : "";
+    meshSet("mesh ready" + faces + (j.bytes ? " · " + j.bytes + " bytes" : ""), false);
+  }
+  function meshRefresh() {
+    fetch("/api/mesh", { headers: headers(), cache: "no-store" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (meshHint && j && j.hint) meshHint.textContent = j.hint;
+        if (j && j.ready) meshSet("mesh · TripoSR is on this machine. Pick a photo.", false);
+        else meshSet("mesh · " + ((j && j.hint) || "the local builder is not installed"), true);
+      })
+      .catch(() => meshSet("mesh · the desk did not answer", true));
+  }
+  if (meshGo && meshFile) {
+    meshGo.onclick = () => {
+      const f = meshFile.files && meshFile.files[0];
+      if (!f) { meshSet("pick a photo first", true); return; }
+      meshGo.disabled = true;
+      meshSet("saving the photo on this desk…", false);
+      fetch("/api/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/octet-stream",
+          "X-Lygo-Filename": encodeURIComponent(f.name),
+          "X-LYGO-LLM-Token": token()
+        },
+        body: f
+      })
+        .then((r) => r.json())
+        .then((up) => {
+          if (!up || !up.path) throw new Error((up && up.error) || "upload failed");
+          meshSet("building the mesh on the GPU. The first one also fetches the weights.", false);
+          const resEl = document.getElementById("mesh-res");
+          const cutEl = document.getElementById("mesh-cut");
+          const fitEl = document.getElementById("mesh-fit");
+          return fetch("/api/mesh", {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify({
+              action: "generate",
+              path: up.path,
+              resolution: resEl ? Number(resEl.value) : 192,
+              remove_bg: !(cutEl && !cutEl.checked),
+              foreground: fitEl ? Number(fitEl.value) : 0.85
+            })
+          });
+        })
+        .then((r) => r.json())
+        .then((j) => {
+          if (!j || !j.ok) {
+            meshSet("mesh failed — " + ((j && (j.detail || j.error)) || "no result"), true);
+            return;
+          }
+          meshShow(j);
+        })
+        .catch((err) => meshSet("mesh failed — " + (err && err.message ? err.message : "request"), true))
+        .then(() => { meshGo.disabled = false; });
+    };
+    meshRefresh();
+  }
+  if (meshLighter) {
+    meshLighter.onclick = () => {
+      if (!meshName) return;
+      meshLighter.disabled = true;
+      meshSet("making a lighter copy…", false);
+      fetch("/api/mesh", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ action: "decimate", name: meshName, ratio: 0.45 })
+      })
+        .then((r) => r.json())
+        .then((j) => {
+          if (!j || !j.ok) {
+            meshSet("lighter copy failed — " + ((j && (j.error || j.detail)) || "no result"), true);
+            meshLighter.disabled = false;
+            return;
+          }
+          meshShow(j);
+        })
+        .catch(() => { meshSet("lighter copy failed", true); meshLighter.disabled = false; });
+    };
   }
 })();
 

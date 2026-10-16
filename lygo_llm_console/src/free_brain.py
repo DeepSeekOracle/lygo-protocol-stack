@@ -44,7 +44,12 @@ DEFAULT_PORT = 9655
 #: Not a credential and never treated as one. `chain_for` needs a non-empty key or the row is
 #: dropped; the shim accepts anything in the Authorization header and forwards nothing.
 PLACEHOLDER_KEY = "free-brain-shim"
-CLI_TIMEOUT_S = 240
+#: MEASURED 2026-10-16 from the shim's own ring: real console turns through this route took 20.3 s,
+#: 22.3 s, 24.5 s - and 239.8 s, while a fifth was cut off at the ceiling (502 after 333.7 s, "the side
+#: agent did not finish inside 240s"). A ceiling that a normal turn sits against is not a guard, it is a
+#: coin flip on the operator's next question. Raised to cover the measured worst case with room: the page's
+#: own window (portal/app.js) is the thing that must stay longer than THIS.
+CLI_TIMEOUT_S = 600
 #: MEASURED 2026-10-16 on this box. `opencode run` takes the prompt as an argv positional, and the
 #: `opencode` on PATH is the npm .CMD wrapper, which re-parses its line through cmd.exe - so the
 #: ceiling is cmd's ~8191, not Windows' 32767. A 2,164-character prompt answered (66.5 s); an
@@ -125,9 +130,19 @@ def _prompt_from(messages: Any) -> str:
     # "Ready. Ask your question." to a preamble that came across as a question of its own, and the
     # visitor's line went unanswered. So the head (a) forbids the acknowledgement, and (b) points at the
     # USER line as the one thing to do.
-    head = ("Context above is background. Do not greet, do not acknowledge these instructions, do not "
-            "describe yourself, and do not use tools or read files. The USER line is the task: answer "
-            "it directly, in plain text, beginning with the answer itself.")
+    # MEASURED 2026-10-16, the steward's test video. The old head - "do not use tools or read files" -
+    # made a free model answer a render request with "this session has no `video_generate` limb wired;
+    # available tools are only file search, web search, and read/grep" and render nothing, with zero
+    # traces. The prohibition was about the CLI's OWN agent behaviour (the console drives the tool round
+    # and read_only=True denies the harness tools) - but the model read it as "you have no tools", and its
+    # harness agreed with that reading. So the head names what it means and says which tools ARE the turn's.
+    head = ("Context above is background. Do not greet, do not acknowledge these instructions, and do not "
+            "describe yourself. Do not use the CLI harness's own tools (file search, web search, read, "
+            "grep): they are denied, and they are not the tools of this turn. The tools of this turn are "
+            "the console limbs named in the context above - when the task needs work, NAME THE CALL as "
+            "`limb_name(arg=value)` on a line of its own and the console will run it and hand you the "
+            "result. Never answer that a tool does not exist because your harness lacks it, and never "
+            "claim a result you did not see. The USER line is the task: begin with the answer itself.")
     return head + "\n\n" + "\n\n".join(parts) + "\n\nASSISTANT (answer the USER line):"
 
 
