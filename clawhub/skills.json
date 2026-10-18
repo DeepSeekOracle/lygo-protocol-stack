@@ -11,12 +11,12 @@
     {
       "slug": "packet-audit",
       "name": "Packet Audit",
-      "summary": "Use when documents must pass an authority first time - visa, rental, mortgage, insurance, benefits, licensing. Checks a folder for missing, expired, or mutually inconsistent documents with page citations, plus a SHA-256 manifest. Three bundled profiles, offline and deterministic, no model calls. Not legal advice, not eligibility, not OCR.",
+      "summary": "Use when documents must pass an authority first time - visa, rental, mortgage, insurance, benefits, licensing. Checks a folder for missing, expired, or mutually inconsistent documents with page citations, plus a SHA-256 manifest. Three bundled profiles, offline and deterministic, no model calls, reads PDFs with no extra install. Not legal advice, not eligibility, not OCR.",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/packet-audit",
       "mirror": "mirrors/packet-audit",
       "published": true,
       "downloads": 0,
-      "version": "1.0.0"
+      "version": "1.1.0"
     },
     {
       "slug": "lygo-llm-console",
