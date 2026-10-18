@@ -50,7 +50,7 @@ those rules, made deterministic.
 ## Install
 
 ```bash
-npx --yes clawhub@0.23.3 install deepseekoracle/packet-audit@1.0.0
+npx --yes clawhub@0.23.3 install deepseekoracle/packet-audit@1.1.1
 ```
 
 ## Use

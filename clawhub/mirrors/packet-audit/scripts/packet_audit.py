@@ -33,7 +33,7 @@ except ImportError:  # pragma: no cover - the script path
     import pdftext  # type: ignore
 
 SCHEMA = "packet-audit/report/1"
-TOOL_VERSION = "1.1.0"
+TOOL_VERSION = "1.1.1"
 SEVERITY_ORDER = {"error": 0, "warning": 1, "info": 2}
 TEXT_EXTS = {".txt", ".md", ".csv", ".json", ".log", ".tsv"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".gif", ".heic", ".webp"}

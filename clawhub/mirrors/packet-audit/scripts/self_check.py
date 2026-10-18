@@ -117,19 +117,31 @@ def rule_no_absolute_paths() -> None:
 
 
 def rule_no_floating_versions() -> None:
-    # read the current version instead of hardcoding it: a pinned literal here keeps passing
-    # while the package moves on, which is how a floating install survives a release
+    # The version lives in the frontmatter's `metadata` dict, so read it from there: the old
+    # hardcoded "1.0.0" kept passing after the package moved to 1.1.0 and the shipped docs
+    # went on telling readers to install the previous release. If the version cannot be read,
+    # the rule fails rather than skipping the check.
     head, _body = frontmatter(SKILL.read_text(encoding="utf-8"))
-    current = re.escape(str(head.get("version", "")))
+    current = str((head.get("meta") or {}).get("version", "")).strip()
+    if not current:
+        record("RC5 install commands are pinned", False, "no version in SKILL.md metadata")
+        return
+    # Only install commands are checked. A changelog entry recording an old release as prose is
+    # history, not an instruction, and flagging it would push the author to rewrite the record.
     offenders = []
     for path in sorted(ROOT.rglob("*.md")):
-        text = path.read_text(encoding="utf-8")
-        if "clawhub@latest" in text:
-            offenders.append(f"{path.name}: clawhub@latest")
-        if current and re.search(rf"packet-audit@(?!{current}\S*)\S+", text):
-            offenders.append(f"{path.name}: unpinned packet-audit install")
+        for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            low = line.lower()
+            if "clawhub" not in low or "install" not in low:
+                continue
+            if "clawhub@latest" in low:
+                offenders.append(f"{path.name}:{number}: clawhub@latest")
+            for pinned in re.findall(r"packet-audit@([0-9][0-9A-Za-z.\-]*)", line):
+                if pinned != current:
+                    offenders.append(
+                        f"{path.name}:{number}: pins packet-audit@{pinned}, current is {current}")
     record("RC5 install commands are pinned", not offenders,
-           ", ".join(offenders) if offenders else "pinned")
+           "; ".join(sorted(set(offenders))) if offenders else f"pinned at {current}")
 
 
 def rule_compiles() -> None:

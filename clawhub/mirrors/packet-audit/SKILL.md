@@ -1,7 +1,7 @@
 ---
 name: packet-audit
 description: "Use when documents must be submitted to an authority and pass first time — visa, rental, mortgage, benefits, insurance, grant, licensing — to check the folder for missing, expired, or mutually inconsistent documents with page-level citations. Offline, deterministic, no model calls. Not legal advice, not an eligibility decision, not OCR."
-metadata: {"version": "1.1.0", "license": "MIT-0", "offline": true, "entrypoints": ["scripts/packet_audit.py", "scripts/self_check.py"]}
+metadata: {"version": "1.1.1", "license": "MIT-0", "offline": true, "entrypoints": ["scripts/packet_audit.py", "scripts/self_check.py"]}
 ---
 
 # Packet Audit
@@ -41,7 +41,7 @@ file, and a JSON manifest of the exact packet that was checked.
 ## Quickstart
 
 ```bash
-npx --yes clawhub@0.23.3 install deepseekoracle/packet-audit@1.0.0
+npx --yes clawhub@0.23.3 install deepseekoracle/packet-audit@1.1.1
 ```
 
 ```bash

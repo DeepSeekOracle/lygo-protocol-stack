@@ -1,3 +1,14 @@
+## v1.1.1 — 2026-10-18
+
+The 1.1.0 release shipped install commands that still pinned `packet-audit@1.0.0`, and the
+self-check rule meant to catch that had been reading a version key the frontmatter does not
+have, so it passed while the docs named the previous release. Both fixed:
+
+- `references`/`SKILL.md`/`README.md` install lines pin the current version.
+- `RC5` reads `metadata.version` (the same place `RC1` reads it), fails loudly when the version
+  cannot be read, and names the stale pin and the expected version instead of a generic
+  "unpinned" line.
+
 ## v1.1.0 — 2026-10-17
 
 PDF reading without a dependency, measured against two reference extractors.
