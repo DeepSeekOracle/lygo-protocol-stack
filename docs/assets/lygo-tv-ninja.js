@@ -1,13 +1,51 @@
-/* LYGO TV Ninja — rooms first (Rumble default), then public catalog. No terms gate. */
+/* LYGO TV Ninja — rooms first (Rumble default), then the public catalog. The catalog endpoint is open to
+   read; the public FAST/world lists inside the player UI wait for a per-session Terms tick. Catalog entries
+   are remote data and are URL-checked before anything is framed or played (see urlAllowed below). */
 (function () {
   "use strict";
   const TV_PAGE = "https://chatagent.ca/sources/";
   const HLS_SRC = "https://cdn.jsdelivr.net/npm/hls.js@1.5.18/dist/hls.min.js";
+  // Pinned with Subresource Integrity, so a swapped or tampered copy at the CDN fails to run instead of
+  // executing in the visitor's browser. The hash is of the file npm publishes for 1.5.18 (verified against
+  // the tarball, not only against the CDN).
+  const HLS_SRI = "sha384-R2JqybiEexSXz60H6Zz28MdsqWWnMQlP+NDb7nIhDHWxx6sM7Otw7OWCq9EBCPsz";
   const DEFAULT_ID = "rumble_live";
   const POOL_MAX = 12000;
   const MAX_BYTES = 8000000;
   const EMBED = { youtube: 1, rumble: 1, twitch: 1, kick: 1 };
   const SOUND_KEY = "lygo_tv_sound";
+  // Embed kinds are pinned to their own platform's hosts; a stream has to be plain https with no credentials.
+  const EMBED_HOSTS = {
+    rumble: ["rumble.com", "www.rumble.com"],
+    kick: ["player.kick.com", "kick.com", "www.kick.com"],
+    twitch: ["player.twitch.tv", "www.twitch.tv", "twitch.tv"],
+    youtube: ["www.youtube-nocookie.com", "youtube-nocookie.com", "www.youtube.com", "youtube.com"],
+  };
+
+  function kindOf(ch) {
+    const k = ch && ch.kind;
+    if (k && EMBED[k]) return k;
+    const u = String((ch && ch.url) || "").toLowerCase();
+    if (u.indexOf("rumble.com") !== -1) return "rumble";
+    if (u.indexOf("kick.com") !== -1) return "kick";
+    if (u.indexOf("twitch.tv") !== -1) return "twitch";
+    if (u.indexOf("youtube") !== -1) return "youtube";
+    return "";
+  }
+
+  // The only door a catalog URL can come through. Returns the parsed href, or "" for anything refused:
+  // not https, carrying credentials, holding control characters, unparseable, or - for an embed kind -
+  // pointing at a host that is not that platform's. Exposed so a page can ask the same question.
+  function urlAllowed(raw, kind) {
+    const s = String(raw == null ? "" : raw).trim();
+    if (!s || /[\u0000-\u001f\u007f]/.test(s)) return "";
+    let u;
+    try { u = new URL(s); } catch (e) { return ""; }
+    if (u.protocol !== "https:" || u.username || u.password) return "";
+    if (kind && EMBED[kind] && EMBED_HOSTS[kind].indexOf(u.hostname.toLowerCase()) === -1) return "";
+    return u.href;
+  }
+  window.LYGO_TV_ALLOWED_URL = urlAllowed;
   // Every channel used to be silent, on every channel, always: the mute was baked into the embed URL
   // (mute=1 / muted=true) to satisfy the browser's autoplay rule, and nothing ever took it back off.
   // Sound is a preference here ("want") that only applies once a real click has happened in this
@@ -44,6 +82,8 @@
     hlsLibLoading = [cb];
     const s = document.createElement("script");
     s.src = HLS_SRC;
+    s.integrity = HLS_SRI;
+    s.crossOrigin = "anonymous";
     s.async = true;
     s.onload = function () {
       const q = hlsLibLoading || [];
@@ -173,7 +213,7 @@
         '<a class="tv-open" target="_blank" rel="noopener noreferrer" href="' + TV_PAGE + "#channel/" + DEFAULT_ID + '">Open player</a>' +
       "</div>" +
       '<div class="tv-screen">' +
-        '<iframe title="LYGO TV channel" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
+        '<iframe title="LYGO TV channel" referrerpolicy="no-referrer" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
         '<video playsinline muted autoplay></video>' +
       "</div>" +
       '<div class="tv-bar">' +
@@ -229,8 +269,20 @@
       if (!list.length) return;
       i = (n + list.length) % list.length;
       const ch = list[i];
+      const safe = urlAllowed(ch.url, kindOf(ch));
       meta.textContent = ch.title + " · " + (i + 1) + " / " + list.length;
       open.href = portalHref(ch);
+      if (!safe) {
+        // Belt and braces: merge() already drops these, so arriving here means the pool came from elsewhere.
+        // Never hand an unreviewed URL to the frame or the video.
+        stopHls();
+        video.hidden = true;
+        frame.hidden = false;
+        frame.removeAttribute("src");
+        frame.title = "Channel not loaded";
+        hint.textContent = "That channel's source is not an https address on a host this player trusts, so it was not loaded.";
+        return;
+      }
       if (EMBED[ch.kind]) {
         stopHls();
         video.hidden = true;
@@ -257,7 +309,7 @@
       for (let n = 0; n < chs.length; n++) {
         const c = chs[n];
         if (!c || !c.url || seen[c.url]) continue;
-        if (!c.https && !EMBED[c.kind]) continue;
+        if (!urlAllowed(c.url, kindOf(c))) continue;
         seen[c.url] = 1;
         list.push(c);
         if (list.length >= POOL_MAX) break;
