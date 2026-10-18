@@ -2,7 +2,7 @@
 
 **Publisher:** [clawhub.ai/deepseekoracle](https://clawhub.ai/deepseekoracle) · [user/deepseekoracle](https://clawhub.ai/user/deepseekoracle)
 
-**Registry:** 37 skills verified via ClawHub API · **Repo mirrors:** 37 full trees under [`mirrors/`](./mirrors/)
+**Registry:** 45 skills verified via ClawHub API · **Repo mirrors:** 45 full trees under [`mirrors/`](./mirrors/)
 
 ```bash
 npx clawhub@latest install deepseekoracle/<slug>
@@ -78,9 +78,16 @@ npx clawhub@latest install deepseekoracle/<slug>
 
 | Slug | Name | Registry | Mirror |
 |------|------|----------|--------|
+| [lygo-agent-agora](https://clawhub.ai/deepseekoracle/lygo-agent-agora) | LYGO Agent Agora (FULL onboard + portal) | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-agent-agora/) |
 | [lygo-file-integrity-checker](https://clawhub.ai/deepseekoracle/lygo-file-integrity-checker) | LYGO File Integrity Checker | `1.0.0` · 231 dl | [mirror](./mirrors/lygo-file-integrity-checker/) |
 | [lygo-flame-ward](https://clawhub.ai/deepseekoracle/lygo-flame-ward) | LYGO Flame Ward | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-flame-ward/) |
+| [lygo-forkling](https://clawhub.ai/deepseekoracle/lygo-forkling) | LYGO Forkling | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-forkling/) |
+| [lygo-llm-console](https://clawhub.ai/deepseekoracle/lygo-llm-console) | LYGO LLM Console | `1.6.0` · 0 dl | [mirror](./mirrors/lygo-llm-console/) |
 | [lygo-ops-detector](https://clawhub.ai/deepseekoracle/lygo-ops-detector) | LYGO Ops Detector | `1.4.0` | [mirror](./mirrors/lygo-ops-detector/) |
+| [lygo-public-witness](https://clawhub.ai/deepseekoracle/lygo-public-witness) | LYGO Public Witness | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-public-witness/) |
+| [lygo-site-card](https://clawhub.ai/deepseekoracle/lygo-site-card) | LYGO Site Card | `1.0.0` · 0 dl | [mirror](./mirrors/lygo-site-card/) |
+| [lygo-tv](https://clawhub.ai/deepseekoracle/lygo-tv) | LYGO TV | `1.3.1` · 178 dl | [mirror](./mirrors/lygo-tv/) |
+| [packet-audit](https://clawhub.ai/deepseekoracle/packet-audit) | Packet Audit | `1.0.0` · 0 dl | [mirror](./mirrors/packet-audit/) |
 
 ## Repo-only workflow mirrors
 

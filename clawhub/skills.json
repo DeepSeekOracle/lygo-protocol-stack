@@ -5,9 +5,19 @@
     "https://clawhub.ai/user/deepseekoracle"
   ],
   "install_template": "npx clawhub@latest install deepseekoracle/{slug}",
-  "count_published": 42,
-  "count_mirrored": 44,
+  "count_published": 45,
+  "count_mirrored": 45,
   "skills": [
+    {
+      "slug": "packet-audit",
+      "name": "Packet Audit",
+      "summary": "Use when documents must pass an authority first time - visa, rental, mortgage, insurance, benefits, licensing. Checks a folder for missing, expired, or mutually inconsistent documents with page citations, plus a SHA-256 manifest. Three bundled profiles, offline and deterministic, no model calls. Not legal advice, not eligibility, not OCR.",
+      "clawhub_url": "https://clawhub.ai/deepseekoracle/packet-audit",
+      "mirror": "mirrors/packet-audit",
+      "published": true,
+      "downloads": 0,
+      "version": "1.0.0"
+    },
     {
       "slug": "lygo-llm-console",
       "name": "LYGO LLM Console",
@@ -506,6 +516,7 @@
     "lygo-network-builder": "existing",
     "lygo-haven-star-chart": "existing",
     "lyra-brain": "grok",
-    "lyra-openclaw": "grok"
+    "lyra-openclaw": "grok",
+    "packet-audit": "hermes:clawhub-publish"
   }
 }
