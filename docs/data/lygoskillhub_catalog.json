@@ -29,9 +29,9 @@
     "plugins": 1,
     "downloads": 20,
     "surfaces": 18,
-    "clawhub_skills_indexed": 91,
+    "clawhub_skills_indexed": 92,
     "local_only_skills": 0,
-    "clawhub_profile_skills_listed": 91,
+    "clawhub_profile_skills_listed": 92,
     "stack_skills_json": 45,
     "item_count": 4
   },
@@ -2189,5 +2189,5 @@
     }
   ],
   "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only. catalog_sha256 is the SHA-256 of this JSON text with the catalog_sha256 value itself emptied (a text cannot contain its own digest); the page shows its first 16 characters.",
-  "catalog_sha256": "d0f8476fb71a1051dcb4db2e431c91acd54cf97c3ee8ff3f1a8fdb104e492bc7"
+  "catalog_sha256": "8fd9ac7a9773ad7b00cb07202bb75e4cc7ab8c45d67b7653facf39a707bc341f"
 }
