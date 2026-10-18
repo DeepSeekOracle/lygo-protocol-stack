@@ -2,7 +2,7 @@
   "name": "lygo-llm-console",
   "displayName": "LYGO LLM Console",
   "version": "1.6.1",
-  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.6). Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes only inside its own folder (sessions, receipts and a RAG index are kept there on disk, nothing uploaded, removed with the folder), pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
+  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.7). Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes only inside its own folder (sessions, receipts and a RAG index are kept there on disk, nothing uploaded, removed with the folder), pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
   "slug": "lygo-llm-console",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
@@ -14,8 +14,8 @@
   "kit": "kit/",
   "kit_ship_form": "unpacked tree (deliberately not an archive, so every shipped file is inspectable)",
   "kit_files": 152,
-  "kit_bytes": 2124907,
-  "kit_sha256sums": "133bc09d2b8acbf7e712c53dd6b3e0fe9ba60d868fe3948c627c0aaa3db0c0f5",
+  "kit_bytes": 2081635,
+  "kit_sha256sums": "bcd3dfc6b8f8bcb764f55226f430b1dd1030e828a8162a1b2c3d9be4b97f2fb6",
   "kit_manifest": "kit/PUBLIC_KIT.json",
   "llama_cpu_tag": "b11074",
   "clawhub_cli_pin": "clawhub@0.23.3",
@@ -37,7 +37,8 @@
     "urls": "scripts/lygo_llm_console_map.py urls",
     "demo": "scripts/lygo_llm_console_map.py demo",
     "self_check": "scripts/self_check.py",
-    "verify_kit": "scripts/verify_kit.py"
+    "verify_kit": "scripts/verify_kit.py",
+    "build_kit_manifest": "scripts/build_kit_manifest.py"
   },
   "openclaw": {
     "emoji": "L",

@@ -8,7 +8,7 @@ vaults and no model weights, and it never launches or requires `ollama.exe`.
 
 ## Read this first
 
-1. `VERSION` — the console release this tree is (`1.5.6`).
+1. `VERSION` — the console release this tree is (`1.5.7`).
 2. `PUBLIC_KIT.json` — what was copied in, what was left out and why, and a SHA-256 per file.
 3. `KIT_SHA256SUMS.txt` — run `python ../scripts/verify_kit.py` to check every file yourself.
 

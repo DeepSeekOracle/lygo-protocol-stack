@@ -1,4 +1,4 @@
-# LYGO LLM Console — ClawHub skill v1.6.0 (ships console 1.5.6)
+# LYGO LLM Console — ClawHub skill v1.6.1 (ships console 1.5.7)
 
 Sovereign local LLM runtime and agent portal. Not Ollama, and not the steward's admin tree.
 

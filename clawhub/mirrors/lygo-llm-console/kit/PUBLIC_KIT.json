@@ -2,7 +2,7 @@
   "kit": "lygo-llm-console public kit (ClawHub package, unpacked)",
   "console_release": "1.5.7",
   "source_tree": "I:\\E Drive\\lygo-protocol-stack\\lygo_llm_console",
-  "built_at": "2026-09-26T04:52:40",
+  "built_at": "2026-10-18T05:20:22Z",
   "packed_as_archive": false,
   "reason_unpacked": "a registry reviewer can read every file that runs; the 1.2.0 zip drew four HIGH analysis-evasion findings for being uninspectable",
   "patched_in_the_copy_only": [
@@ -28,615 +28,160 @@
     "config/api.json, config/admin.json, config/local.json, save/, data/, engine/, models/": "credentials, operator state, engine binaries and weights never travel.",
     "workspace/": "the kit seeds a fresh identity from prompts/ on first run; a steward's own SOUL/MEMORY must never ship."
   },
+  "file_count": 152,
+  "total_bytes": 2081635,
   "files": {
-    "CHANNEL.txt": {
-      "sha256": "eada7f097f277f14d1e8e8bb3584cfd920d48e5af6f9bef906f5c3b09891a9e6",
-      "bytes": 144
-    },
-    "CREDIT.txt": {
-      "sha256": "13e245087a4181aa2b032e711ad7ee5151b399ee10019e6c3c84a47e182f1013",
-      "bytes": 317
-    },
-    "HARDENING.md": {
-      "sha256": "8364ad13cde325bd3d575edc4f2f87b22937635f17e136870c0aee9af974ce86",
-      "bytes": 1628
-    },
-    "INSTALL.bat": {
-      "sha256": "eba5beb20c39c62b156dc92cdcadf4b299acd0bda54f7f904ad2a4218d17ac80",
-      "bytes": 1368
-    },
-    "LICENSE": {
-      "sha256": "5d751252cd837095b0f578312ee7d6b5f961a681215cc5fae8009a861e2a10c8",
-      "bytes": 26405
-    },
-    "LICENSING.md": {
-      "sha256": "8485eba849f425d06634c58591552674bdfe86840fa8dbd6544a05930a83c3bb",
-      "bytes": 7889
-    },
-    "LYGO_LLM_CONSOLE.bat": {
-      "sha256": "f59b6b85a9063fe4999c0e0c93235d098c9ba97258953533186b2b757b55044a",
-      "bytes": 15804
-    },
-    "LYGO_LLM_CONSOLE_STOP.bat": {
-      "sha256": "e87c57bae9aa1c479034a6f1a6205aa3e154f8bc9c977909b94ec753851ab7b9",
-      "bytes": 12840
-    },
-    "MODELS.md": {
-      "sha256": "9a524b038edbb74a64eab4cbdeddac2776f1dae8aa45970bc0306af58d61093b",
-      "bytes": 1911
-    },
-    "NOTICE": {
-      "sha256": "3a518c71195c6a5a44222654f4395a5d9192a0691a17f57bb971d1b1a898ed7b",
-      "bytes": 3287
-    },
-    "PUBLIC_PORTAL.md": {
-      "sha256": "58bdf84db9634627a28d392f9bbd3917304e1ed1f83cb5fa3c20e8a01844a96c",
-      "bytes": 2648
-    },
-    "README.md": {
-      "sha256": "807434da1c1de465c2b30c567d10c088022530e31eaa089394b637de30fa4dcb",
-      "bytes": 2071
-    },
-    "READ_DISCLAIMER_FIRST.md": {
-      "sha256": "bdbd19e010f5cd633e0c52114375e373ba5855abe7f879bfb5294c8746bcb333",
-      "bytes": 1032
-    },
-    "SKILLS.md": {
-      "sha256": "09a7b16ad37f7e1bfa2e58cf98fe7fe8cd8776a492865bd3980120986102a0bf",
-      "bytes": 1568
-    },
-    "TRADEMARKS.md": {
-      "sha256": "03000be19713efddf22feb317cce789846e08ae862d104199538be0055dd5e3f",
-      "bytes": 5007
-    },
-    "VERSION": {
-      "sha256": "80957fedbe917b6f05dbf6b35f2cf0acf38715bedd7621473ff978025a5af8bd",
-      "bytes": 1267
-    },
-    "config/console.json": {
-      "sha256": "e50997a5d4a24dd66d202a224689347aa4951308505c0efc4c135688c8e61f3b",
-      "bytes": 12065
-    },
-    "config/local.json.example": {
-      "sha256": "06b11f15a823d655d03496913e60b60e6bc9101714167b34ad6000e0543bd79a",
-      "bytes": 1540
-    },
-    "portal/app.js": {
-      "sha256": "179c03e6a95c390f3fad2a706eb12ac2a655cf559d5050954f120d88e6f978f9",
-      "bytes": 155931
-    },
-    "portal/donate.js": {
-      "sha256": "2132ba57550e68acaf746aee8c484d4e87b7afcd4c2aee9e63d6ebd4b6024e0d",
-      "bytes": 3005
-    },
-    "portal/index.html": {
-      "sha256": "bc92c1ac398b7aba613c4b9cc3162c6d9ec2caec8a0c455185cea92e5a6b82cc",
-      "bytes": 27700
-    },
-    "portal/logo.svg": {
-      "sha256": "b524a07662d0e3a9192abd56f044a4185fe6cd8b983ab8ff1fd5b75da13cd437",
-      "bytes": 620
-    },
-    "portal/radio.js": {
-      "sha256": "8fb3a429ec4ddd1331cde1d1667e8a8e0ad37c7136b093add1100d555e3f71c8",
-      "bytes": 10353
-    },
-    "portal/style.css": {
-      "sha256": "fb36221d4c29bef2197a0cac21a7acfe4eaa9468ae7f1369d999e700d9eddd8c",
-      "bytes": 55223
-    },
-    "prompts/BRAIN.md": {
-      "sha256": "04cda8a90100ce1b66237309b929fcfc73c1049cc83de0d372b818a87c0cf4ed",
-      "bytes": 618
-    },
-    "prompts/CONTINUITY_SEED.json": {
-      "sha256": "a956bc590a1437e85e790c948a8a6ebf2ec4da25f1017830b9770c59376de0af",
-      "bytes": 2451
-    },
-    "prompts/IDENTITY.md": {
-      "sha256": "34257826c6cfa993d6f28a107deddd14e628eddb1befaf1fb7c9173b980f1830",
-      "bytes": 1149
-    },
-    "prompts/LINKS.md": {
-      "sha256": "8c712206ad8ef655638439e59eb99f4a4ab9ad2169c5ba5f912f69be59b9013b",
-      "bytes": 868
-    },
-    "prompts/LYGO_ALIGN.txt": {
-      "sha256": "ccd4e729cadc4f88ce109b8cf865f0ee46e1f210ccdf740725a6824b65757642",
-      "bytes": 4544
-    },
-    "prompts/MAP.md": {
-      "sha256": "ddf7e97419bdc671252d7587f1d258d0b16fba3be58d6ecc7bfc92bf5a06057f",
-      "bytes": 647
-    },
-    "prompts/MEMORY.md": {
-      "sha256": "dc2f683a35653bc8ea5cf239fc55281d438bca34bcb993e0121d695452d6df9b",
-      "bytes": 2566
-    },
-    "prompts/POEM.txt": {
-      "sha256": "102295e09dd6d8947b41f9a86ac8b3b510363ff9416859bd20bf5ccf324b1007",
-      "bytes": 782
-    },
-    "prompts/SOUL.md": {
-      "sha256": "bc59ae78aaeb97b4c6976dd82c0f6986e4a88aa2e084f4575bb59343ba366d92",
-      "bytes": 1375
-    },
-    "scripts/fetch_engine.ps1": {
-      "sha256": "126a1946af3a387eb41dcfae191d409e4e1f35d9d3a8a3ea507b458b70957344",
-      "bytes": 9343
-    },
-    "skills/README.md": {
-      "sha256": "7d00e5b3f0a0f5ea7814565e2abe097d36a8d9af66cda4b33941f838f8250ada",
-      "bytes": 260
-    },
-    "skills/champions/champion-aetheris/SKILL.md": {
-      "sha256": "25f2fb21bd690af5c5934cf4ae25572126055502d072234f4a3261e7b88e0432",
-      "bytes": 910
-    },
-    "skills/champions/champion-arkos/SKILL.md": {
-      "sha256": "c4fc955a4bcccd8ed58680a9fe12ab947bf2d312dee921d554f81731b6ea0a29",
-      "bytes": 973
-    },
-    "skills/champions/champion-d9ra/SKILL.md": {
-      "sha256": "8cc5136d396679ed9ee42e0583320aafe8de57b15219cc6122aabb902a6b06d1",
-      "bytes": 911
-    },
-    "skills/champions/champion-justicae/SKILL.md": {
-      "sha256": "e012aeef997cf8eb239a740bf2e039f8e5ba80f2b3811a01009daf8a4ca5c162",
-      "bytes": 949
-    },
-    "skills/champions/champion-kairos/SKILL.md": {
-      "sha256": "7cec7ea297aa4c6215c9da48d83fa059e08da91e6ff19ac5919268d6c359b912",
-      "bytes": 915
-    },
-    "skills/champions/champion-lightfather/SKILL.md": {
-      "sha256": "7bd3d6ab4269c8704f31ddc16591c2a74d43da241e47d50cc06a6db816f3f583",
-      "bytes": 982
-    },
-    "skills/champions/champion-lyra-architect/SKILL.md": {
-      "sha256": "e3f40fba20a0a3c6d264b9160f678ea95ce580d9eebaf075cb34392636182976",
-      "bytes": 2077
-    },
-    "skills/champions/champion-lyra/SKILL.md": {
-      "sha256": "729be8923ce7c6923db4a1c08174abcb0f001f5a1bba9ddf094ad16deba8e464",
-      "bytes": 955
-    },
-    "skills/champions/champion-omnisiren/SKILL.md": {
-      "sha256": "652c9b1fe389dc1e3fe9c8d9def0c7a29e8ce8340a9820be9f66d26d65073e0e",
-      "bytes": 921
-    },
-    "skills/champions/champion-sancora/SKILL.md": {
-      "sha256": "f72d990d473d7b42181d29037274507710ccfdabcfcf4e03fdc704f4534651e6",
-      "bytes": 937
-    },
-    "skills/champions/champion-scendr/SKILL.md": {
-      "sha256": "456fed02aad0b22af2a21c5e394e634fa583376f019d952e4b225c87651bf592",
-      "bytes": 907
-    },
-    "skills/champions/champion-seidon/SKILL.md": {
-      "sha256": "34d2bd8c3d0ffd2d2eb2311736bf8036023af1789f01455544494a4d21402832",
-      "bytes": 929
-    },
-    "skills/champions/champion-sephrael/SKILL.md": {
-      "sha256": "28db2d007875ba628a8e2ed1d83822a7777036464aed526908f065fb4d7e8eb8",
-      "bytes": 930
-    },
-    "skills/champions/champion-srath/SKILL.md": {
-      "sha256": "d86276a6757af3917a52a2d6cbb4861785d91e87895b75540ef4ea431d4abc16",
-      "bytes": 926
-    },
-    "skills/champions/champion-volaris/SKILL.md": {
-      "sha256": "67304efa53ec81fb8375dcb33643ba18bab6ac0037046ff7552ef83a599f0135",
-      "bytes": 916
-    },
-    "skills/champions/champion-zeta/SKILL.md": {
-      "sha256": "aa848b35a78a59630ee6a2740483be374e809a1733077b79d91ed117ae743c74",
-      "bytes": 894
-    },
-    "src/__init__.py": {
-      "sha256": "e3568ac566c9d94ee5f8919629dede7f372c53871ecb0db927ab7e8b7d628870",
-      "bytes": 103
-    },
-    "src/admin_map.py": {
-      "sha256": "2349c838049682c0e80a1c00dafe9cb09bc9e593c8e7942994fcd1fabe338ec3",
-      "bytes": 17602
-    },
-    "src/align.py": {
-      "sha256": "e5ba0fb386946c47823fe8d420c00b3da554dac329aca77311a35dc3e1912957",
-      "bytes": 930
-    },
-    "src/atomicio.py": {
-      "sha256": "0d26134aea28b7f7cf5310ab5c1fde069785de674e1cfab37a29ddab0152a5c2",
-      "bytes": 6311
-    },
-    "src/auth.py": {
-      "sha256": "b3ba9aa7311d53c0897526f06a2250147b96d42c60baed3f56dd911c09fef237",
-      "bytes": 3550
-    },
-    "src/backends.py": {
-      "sha256": "69013868fc0a522ebf530bdbff52840278ec89474a5338d969ed1bc9cd3bd139",
-      "bytes": 38536
-    },
-    "src/banner.py": {
-      "sha256": "843bc3405c0aabba2b7e82ce66630878d02ba32f69d1990d0cf97ae8e0478691",
-      "bytes": 12435
-    },
-    "src/brain_router.py": {
-      "sha256": "54657895f686cff434f88b8baa5dedc64092118f74b6f571856f526e6ce2f77f",
-      "bytes": 3856
-    },
-    "src/cas_import.py": {
-      "sha256": "805f30a12ca19684ee463cb9b5285041c5cdbd908c86a8e5ce00f6b80931e2c9",
-      "bytes": 7201
-    },
-    "src/chat_loop.py": {
-      "sha256": "6a46beb62576a9e93ebebfe52b3ccbe222bfcdc20b2d9395766586a6237ef4ab",
-      "bytes": 86743
-    },
-    "src/cloud_api.py": {
-      "sha256": "64cd52c27c4a174d4c755bff4aa238bb840cd8e7d6319a4955116b2ad8c20737",
-      "bytes": 30841
-    },
-    "src/colibri.py": {
-      "sha256": "2a06458695d659ff170f1a49ce700c09b008a7b600f35d061e4903e21a5234c3",
-      "bytes": 5493
-    },
-    "src/compaction.py": {
-      "sha256": "7a981263f3d65f0e9b1100747d89dbc00cfaaa2656c775e5c91d021bcc0f25ad",
-      "bytes": 81602
-    },
-    "src/continuity.py": {
-      "sha256": "5ae7958d6e43f801ec963fdb43582704d84f74dbbe9861a91719451027412f8b",
-      "bytes": 18416
-    },
-    "src/crons.py": {
-      "sha256": "640da536147e701657c867bc7980a8a960ff0622ec1f28798e5dc43a93fb120c",
-      "bytes": 5879
-    },
-    "src/engine.py": {
-      "sha256": "9982a226f45c01a4402fef6689532b75d8274d08d375034e9e38db11e88120ff",
-      "bytes": 25717
-    },
-    "src/gguf_header.py": {
-      "sha256": "99d9a8f2e3b3270f6857d624bd04c1ebb0d6f7b0796021a445aba3a70b594048",
-      "bytes": 6177
-    },
-    "src/hardware.py": {
-      "sha256": "e4439e4b5b1954a5bc2acac2ec2dea2f713c4bf108766793f58dd60332457410",
-      "bytes": 14245
-    },
-    "src/http_body.py": {
-      "sha256": "2f5c4022605613c98417a2958afc66821a4a8a05e8ffb7ae7cc9c4014eec82d9",
-      "bytes": 2664
-    },
-    "src/image_tools.py": {
-      "sha256": "104bcd9f84d778abada8a7c977d2be72d9074db9556230eff18f3bacc7536668",
-      "bytes": 15600
-    },
-    "src/install.py": {
-      "sha256": "8bd7ac7676e762c98b22b73c1a679a257f85d0a62bcbc310546513abe5a6cb73",
-      "bytes": 7566
-    },
-    "src/limbs.py": {
-      "sha256": "4fc029c91439a4a5c24879f3c59d859fe44f285af13c00a3582c7ce4506935bb",
-      "bytes": 92166
-    },
-    "src/lygo_engine.py": {
-      "sha256": "3e92988d0e6b5dee3758273ec92975d9daffb5e2aee1e8c1b765a7a75d166c8e",
-      "bytes": 21527
-    },
-    "src/lygo_rag.py": {
-      "sha256": "9b6242c5e18874ebd550a6ae6423c15b6094cc356531e500f7304b99f5366255",
-      "bytes": 15566
-    },
-    "src/media_tools.py": {
-      "sha256": "78d5c888248152e7f9e9b9a0f8e5313feebb8c5884faff3d04bdc954a2b8f5e4",
-      "bytes": 30579
-    },
-    "src/model_check.py": {
-      "sha256": "f4c3deb1c84db93cee4e8aeae0a2e8a8a53980068b68c63fcae0547218743fa8",
-      "bytes": 34235
-    },
-    "src/model_fit.py": {
-      "sha256": "7df3eddfbc99ee392e61b30130e1dfc8cf02d29b7b4de7567eec00ea76841040",
-      "bytes": 10478
-    },
-    "src/model_route.py": {
-      "sha256": "2e543ae47e1f52b11ee210dcb5a317306c9c0e958fe31f98f7631493d7327834",
-      "bytes": 12128
-    },
-    "src/model_verdicts.py": {
-      "sha256": "d6c215b6aa37fdf3cdceba49b9aceb8035a285a41638c358d2795a9ad06768f4",
-      "bytes": 4233
-    },
-    "src/modules/__init__.py": {
-      "sha256": "f15f745165a66bc4b18b9e72e326be4d73fce0396870d74fbec6ddd20161b6ce",
-      "bytes": 757
-    },
-    "src/modules/catalog.json": {
-      "sha256": "64b023bdbd59a59720b3682349ff3ea67cf7f0c7178c47e657ac2f45a1c24453",
-      "bytes": 973
-    },
-    "src/modules/host.py": {
-      "sha256": "df7143e8d55463db069b84ecc40df467977286846c73ea09f17fcf842751ecb8",
-      "bytes": 30130
-    },
-    "src/modules/lygo.envwatch/backend.py": {
-      "sha256": "4fa10078d391f5a2cc5781cda30a13c0faf53144ff1e0a03ddb3d035f1527aed",
-      "bytes": 44967
-    },
-    "src/modules/lygo.envwatch/module.json": {
-      "sha256": "770667ffca38afe7402f6867d53daba9205e652d359fe1195b4e55de31af7cbc",
-      "bytes": 2992
-    },
-    "src/modules/lygo.guardwatch/backend.py": {
-      "sha256": "633431f69b4bb68f3838bd66a911e7e05c7114679dafae698545df98478e2ff9",
-      "bytes": 37819
-    },
-    "src/modules/lygo.guardwatch/module.json": {
-      "sha256": "88c69e950393faa08c866fc1fa0b985c01903c6554af4a7d3218679e85bc8bd1",
-      "bytes": 3113
-    },
-    "src/modules/lygo.health/backend.py": {
-      "sha256": "0be09af94113c39ec3a4639c3e7dba3b3411bb7a11b0ac26b0f8c1e19fe0da84",
-      "bytes": 2321
-    },
-    "src/modules/lygo.health/module.json": {
-      "sha256": "6148738b3cff7a630cea4fa7f15ed570048716e61b043bf49e8e0d8cb3183675",
-      "bytes": 1371
-    },
-    "src/modules/lygo.llminfo/backend.py": {
-      "sha256": "23481494950bd46677a8f5ef3030264b6889aa5eceeaab4b41fe0560620774bc",
-      "bytes": 31573
-    },
-    "src/modules/lygo.llminfo/module.json": {
-      "sha256": "4f9c02a1fa20594fe24e920d3007a072c56cae0538e1f52e811c04268006cd87",
-      "bytes": 2870
-    },
-    "src/modules/lygo.meminfo/backend.py": {
-      "sha256": "79049713b92564cadb15332c522e71687f7d5aa164a2c40b414340cf27d2aadf",
-      "bytes": 25576
-    },
-    "src/modules/lygo.meminfo/module.json": {
-      "sha256": "8eda1fb304adaefa9e931b700bc044c16e9a7f115a3555c6c102271288998ac6",
-      "bytes": 3036
-    },
-    "src/modules/lygo.musicctrl/backend.py": {
-      "sha256": "0d36b5097f7e3cb13809215a78a4ea1fa18f358a5ee353769007304863a5a2d9",
-      "bytes": 15844
-    },
-    "src/modules/lygo.musicctrl/module.json": {
-      "sha256": "6dca825ec5556aa464ce16c6bbc578cc9bb875e4a879b2541da26e2bdf739510",
-      "bytes": 2464
-    },
-    "src/modules/lygo.musicinfo/backend.py": {
-      "sha256": "5bbe1184302a6e3ba18e6409d1a99880f668ccf51e71af71860fa7d4f1c84c9e",
-      "bytes": 20515
-    },
-    "src/modules/lygo.musicinfo/module.json": {
-      "sha256": "91987c8c3440efa48cab24fac7c09649991f801aea89863217c2f316859724cd",
-      "bytes": 2753
-    },
-    "src/modules/lygo.musicwatch/backend.py": {
-      "sha256": "77b1ec30077935589264f69c90a0e79f51ca479145f5c81f1dc23921ce930cc4",
-      "bytes": 22704
-    },
-    "src/modules/lygo.musicwatch/module.json": {
-      "sha256": "90fcaf8ef8df207dc00d231401d6eb21693e54767902c2ab593d57abe5f5e89e",
-      "bytes": 2735
-    },
-    "src/modules/lygo.notepad/backend.py": {
-      "sha256": "02aac20e799a2911430e973ee09f1227cd4ea2d538755d9cde64ad8678c0d81f",
-      "bytes": 3703
-    },
-    "src/modules/lygo.notepad/module.json": {
-      "sha256": "4b37db1a835f7b3b041fa7af586691aa5c9633f4bef92a9ca90462a245853307",
-      "bytes": 1789
-    },
-    "src/modules/lygo.world/backend.py": {
-      "sha256": "7b9a9c9db86c4c5b719572c8614e47ab95fae138e3bf52a28f23448494784673",
-      "bytes": 1737
-    },
-    "src/modules/lygo.world/module.json": {
-      "sha256": "b0c24288f30ae37f5b53df94d7ad881cb845edcb456c30f361c42f8e477ac5ac",
-      "bytes": 1279
-    },
-    "src/modules/validate.py": {
-      "sha256": "bc6a37f6e5a4b547f9dc662dbfdd9cddc1b62043813345a9f0cbf1681db6b734",
-      "bytes": 12676
-    },
-    "src/music_jobs.py": {
-      "sha256": "793c1af0fb8cbbae69d58a29504064425eb74b07009c1b5a10d57517625c161e",
-      "bytes": 19971
-    },
-    "src/music_lyrics.py": {
-      "sha256": "890c5ab65a205570f1dcb19b5be0661b05ae959fe7c8ef8f277b9ec52b2fd1b9",
-      "bytes": 22905
-    },
-    "src/music_tools.py": {
-      "sha256": "e85c4f79b7a55a7a1ff8ee778696e3bed211d6edcf48ee4fe33280d260f0947d",
-      "bytes": 76430
-    },
-    "src/notepad.py": {
-      "sha256": "a2e7924771c9095221728d79d386fac079d6c5e138b4f03a26d06d67fd5669e4",
-      "bytes": 5854
-    },
-    "src/openai_proxy.py": {
-      "sha256": "add47df2a3efc435e5cc98123f6366437019ea79a4350a366ab6c95ea861d75c",
-      "bytes": 3459
-    },
-    "src/p0_hook.py": {
-      "sha256": "6c72f863dc5fa6f222553ddb8040f453f626cd3e8f687a6240da941870be3fc1",
-      "bytes": 5947
-    },
-    "src/p3_note.py": {
-      "sha256": "0c5b294cce7fc5a07cbeaf0a3fea815ba308046da8ed173852b670afb7201065",
-      "bytes": 1083
-    },
-    "src/paths.py": {
-      "sha256": "c71318697ff209a516b4fd8380e7d08260ba935d3d9fc490516dea6d3478b52f",
-      "bytes": 14763
-    },
-    "src/perf.py": {
-      "sha256": "d01d867b92ad813469ff3019542c9eef063dc5ae7d58ff568fcbbc55588063d4",
-      "bytes": 25987
-    },
-    "src/public_gateway.py": {
-      "sha256": "2b324dd2322eb51b1cf00db2c64e4bdc11f0fb002791add26012740085da0dd8",
-      "bytes": 31638
-    },
-    "src/receipts.py": {
-      "sha256": "07e6cef6fd475b456c6ab6363995cc278a9ddd330aa7ca66808aa96cb3e5d283",
-      "bytes": 7194
-    },
-    "src/registry.py": {
-      "sha256": "f3eea1fe0572427da7d65fb964534fef10f070f3f6e62b4f29bb59a7af662708",
-      "bytes": 30952
-    },
-    "src/repair_paths.py": {
-      "sha256": "3b2f2e17b0d0669172b5fbcc34a0d635b1a88523b2aaf624bf30c510ce7e6248",
-      "bytes": 19947
-    },
-    "src/runtime_facts.py": {
-      "sha256": "d1334401619e93e2838b741211070129170c6b957395b6a9d39ccdccb0fb1475",
-      "bytes": 9211
-    },
-    "src/scanner.py": {
-      "sha256": "628b6a8922be444c9b3c8075849f0bc17f0b3385720ae5645ad6aca50e19c317",
-      "bytes": 16833
-    },
-    "src/server.py": {
-      "sha256": "5bfcccd6f471c3fe7fec06a64e923afb7aaff54ec0daaba653ed7fa84ade3c7f",
-      "bytes": 157893
-    },
-    "src/sessions.py": {
-      "sha256": "f7464250d731006df4b82b8767c63ff4788cfec41ad98c899465f54f1ad2adc2",
-      "bytes": 41252
-    },
-    "src/skills_mod.py": {
-      "sha256": "6f400bcb1de864e01f4e30af28fda94209d1e4065897c779474e8e43e2e04efb",
-      "bytes": 36973
-    },
-    "src/stack_health.py": {
-      "sha256": "3f04c47d5d1a3b3f9f4481090ce91ee338416c5261f4aea1f874d6c4e4ac35af",
-      "bytes": 1330
-    },
-    "src/surface.py": {
-      "sha256": "71ba75eb0dc0558dbabd09163ec3c1d408d00a1530641a2ada4f558d608921b5",
-      "bytes": 6589
-    },
-    "src/tasking.py": {
-      "sha256": "e0298ad26859877df1282a1b88d22448c251b79eeb942bf98065a25029c0fdcb",
-      "bytes": 9793
-    },
-    "src/tools.py": {
-      "sha256": "f1eb1ef0161509f96f8eaecef3e056cce19a2c3704dd3fe3df45cc7189570e2a",
-      "bytes": 29930
-    },
-    "src/transcript_archive.py": {
-      "sha256": "d655bce1ed3c4dab088cad47f0171b5158423da3eacf1664f738b896691d2e89",
-      "bytes": 17955
-    },
-    "src/turnperf.py": {
-      "sha256": "02ffc16d1f40eafef98d059dcbf3362fa27517031b79d9a2dbbf88728337e48a",
-      "bytes": 30116
-    },
-    "src/user_paths.py": {
-      "sha256": "46342d2ab502d4fb4a40beeeec4369c983fe3a12f2e05aca2ca5f2c2fb8ccfe3",
-      "bytes": 2463
-    },
-    "src/vendor/p0/NOTICE.txt": {
-      "sha256": "30706c42b5c22b4f5fd70760eaad2b7612046e2f7e1962653ce71c07e42d9de5",
-      "bytes": 402
-    },
-    "src/vendor/p0/byte_entropy_filter.py": {
-      "sha256": "9b7dfa03367bd4197f85f9a01ecbd43bc5fd51c2b393201825f1f9a440114ad2",
-      "bytes": 6168
-    },
-    "src/version.py": {
-      "sha256": "754e42507289c2a5d456c3272b90e34d131bb1cbf515baa5c7a4f9684c79fc6e",
-      "bytes": 1865
-    },
-    "src/vision.py": {
-      "sha256": "d20d56a5f2bfb71ea79874fdaed91141b384b1bb29ccaa4cb9653c467b5509e0",
-      "bytes": 20530
-    },
-    "src/web_tools.py": {
-      "sha256": "a28e274da0c0ea8e8292045220f5ad6c589bc7aad298de7f47ff782bfb03e5ba",
-      "bytes": 24187
-    },
-    "src/workspace_map.py": {
-      "sha256": "7577e9c6421d4c27bb0287fa6d02544160ed0c7ef69961467a464d1003829b98",
-      "bytes": 7157
-    },
-    "src/world_clock.py": {
-      "sha256": "32d2ccc6637b7fc73fbe0855ffd3379e7279f8f8566434f949c4251cc8233954",
-      "bytes": 5065
-    },
-    "tools/doorbell.py": {
-      "sha256": "0de86c3550f710fb6bc90c891c3781b1b05bcf2a74c83894dc1c0af6ee768901",
-      "bytes": 22803
-    },
-    "tools/resolve_ports.py": {
-      "sha256": "882c1d67f181850f3201d9e967708157eb5d7b291fa5dc7688f0c3d8d86237ea",
-      "bytes": 2461
-    },
-    "web_portal/IDENTITY.md": {
-      "sha256": "02f39cd0b94c595210cef5eda3e3d302d094ce4f4370163e66c323c9185377cb",
-      "bytes": 1600
-    },
-    "web_portal/MEMORY.md": {
-      "sha256": "f0b45d4da0fc21860ce61d2536a56e60cb2604d887cbc451316219cbec4bac54",
-      "bytes": 9742
-    },
-    "web_portal/README.md": {
-      "sha256": "6b7f1d9f483bc16e5b99df3bf504546702058e730d0c1a47315baf23cfbc6341",
-      "bytes": 102
-    },
-    "web_portal/SOUL.md": {
-      "sha256": "cdf24a5650ea489dfae23237e07f5d9f4b2a2dbd707f6b956821c6e7a125727e",
-      "bytes": 2326
-    },
-    "web_portal/app.js": {
-      "sha256": "6dd617604b503c4a5b1f228e769ab43262cc8503248ccff1232d4c181789e478",
-      "bytes": 33321
-    },
-    "web_portal/donate.js": {
-      "sha256": "e78bfd15e0dbd2ee4ebfd015fec27faa3ba2a51c5d56883e390f616e40615a35",
-      "bytes": 2129
-    },
-    "web_portal/index.html": {
-      "sha256": "6a0737de57570ea8076fae422599b8804c8bc4567db8c17c12838c0be9603fa0",
-      "bytes": 25109
-    },
-    "web_portal/logo.svg": {
-      "sha256": "b524a07662d0e3a9192abd56f044a4185fe6cd8b983ab8ff1fd5b75da13cd437",
-      "bytes": 620
-    },
-    "web_portal/lygo-skills.json": {
-      "sha256": "d0bb2c28008b2e5d396648ac8c2a37ab902dda19a6697dd9f0b89ec1a494c830",
-      "bytes": 5568
-    },
-    "web_portal/manifest.json": {
-      "sha256": "d30cd1caf69800401e3205fb22231526e53b5a0d0f10c543960f666eb6fedee6",
-      "bytes": 590
-    },
-    "web_portal/portal.json": {
-      "sha256": "b33a0f25473120c56f6e4806254430bd868e87c2df7115733a214a13a2691e14",
-      "bytes": 427
-    },
-    "web_portal/radio.js": {
-      "sha256": "50bb5d7b6764a22c7841eb622dcd252632497a300da17bdf100e716f4dc860c2",
-      "bytes": 5719
-    },
-    "web_portal/style.css": {
-      "sha256": "85b060a493a7db18d6fc576b273a100263aa8c7f769b5b9854e7d477ccdb678b",
-      "bytes": 12710
-    },
-    "web_portal/tools.js": {
-      "sha256": "2e505423e160e55da1ba7d4543653c7e945e8c285cfad7dd7ed30534dee4f2f8",
-      "bytes": 27504
-    }
-  },
-  "file_count": 152
+    "CHANNEL.txt": "eada7f097f277f14d1e8e8bb3584cfd920d48e5af6f9bef906f5c3b09891a9e6",
+    "CREDIT.txt": "13e245087a4181aa2b032e711ad7ee5151b399ee10019e6c3c84a47e182f1013",
+    "HARDENING.md": "8364ad13cde325bd3d575edc4f2f87b22937635f17e136870c0aee9af974ce86",
+    "INSTALL.bat": "eba5beb20c39c62b156dc92cdcadf4b299acd0bda54f7f904ad2a4218d17ac80",
+    "LICENSE": "91a34b504e9e9ae762950b637934b36350fe3f3e4940cd5965c2520a18cc6f0e",
+    "LICENSING.md": "1b177722aa7f0f395c965db1207545565fd3480ec18bc8efabafa48bf70dce23",
+    "LYGO_LLM_CONSOLE.bat": "f59b6b85a9063fe4999c0e0c93235d098c9ba97258953533186b2b757b55044a",
+    "LYGO_LLM_CONSOLE_STOP.bat": "e87c57bae9aa1c479034a6f1a6205aa3e154f8bc9c977909b94ec753851ab7b9",
+    "MODELS.md": "a32acfba1977b75fd6ffe9a5838e17852139ac41c91e27323265c722589a6649",
+    "NOTICE": "63c4c4a05cb3efb35d5dd0bb777313cdcf287a67c21304ee58577327ce2a0daf",
+    "PUBLIC_PORTAL.md": "e7066adf82089c896de85f88d348c2e80b29709d8a5e311b69431335c442197f",
+    "README.md": "594cdf201a451a91a280ae3a1eec9d3d891e16f5886cea639e3665f9e13b6842",
+    "READ_DISCLAIMER_FIRST.md": "28eaebf70c8d43581fc000dc994e639f0313b36f0f9f6cad12eaece6e04b8e77",
+    "SKILLS.md": "09a7b16ad37f7e1bfa2e58cf98fe7fe8cd8776a492865bd3980120986102a0bf",
+    "TRADEMARKS.md": "16e867c802d1d59c6d098ce05fc1cfea964300154223c50515f8e0a79f567ce4",
+    "VERSION": "9ca260205c019919be273549d1b1bf66ecbfcb962e2e7b8968a1048ce989a237",
+    "config/console.json": "4bd35af0f4e3e046b08cf6bccea39efeb2cf9a6f6945406e302aa1e42638d8e6",
+    "config/local.json.example": "6650c330fabb9756917cfd35cf375dee210c5b40cc3db5bba153014905fbd18e",
+    "portal/app.js": "db1600b3a91953af974c9c191328e68ceefc3d8c741b55606c728e6ccb19f3cc",
+    "portal/donate.js": "e1ea56c5bc19eddef77e762035e05304505b262bb7758da5b8e20ae04d46b3b3",
+    "portal/index.html": "7bc87f4d86eb078a38d5437ab27da66f765a53697e8e5bc4bd3ef57c58f64d2c",
+    "portal/logo.svg": "b524a07662d0e3a9192abd56f044a4185fe6cd8b983ab8ff1fd5b75da13cd437",
+    "portal/radio.js": "11b84228cb0a63d444c92d34d9497f8105a377c3aa87afe63813736c89e5e0f0",
+    "portal/style.css": "b3eab0905a88255049936c087ee4357073884aacda9a21c977cd446b19d2c593",
+    "prompts/BRAIN.md": "04cda8a90100ce1b66237309b929fcfc73c1049cc83de0d372b818a87c0cf4ed",
+    "prompts/CONTINUITY_SEED.json": "612d709d980a225467274674a14a1ec8b3ed01b1b01a009eeaafcb3eadd2fc7b",
+    "prompts/IDENTITY.md": "559690ff60d1f6092787ec435ce98800bda6c9af725e2779817db90f583a43bc",
+    "prompts/LINKS.md": "de07a123ad5f910a6c27b21ac8824c7d8ccb836a3056d4bf50d0b65e4cf16792",
+    "prompts/LYGO_ALIGN.txt": "c8a8efb717afbc80209b84fea0e709185971e283d669e79e8c1d3d2f85c6a010",
+    "prompts/MAP.md": "fcf486ed26d1813092b9e0ef8c38ed6db23e7818fd717954daed02a5298a5df6",
+    "prompts/MEMORY.md": "86b97e820d886f7f39939d371120c343bc80eac0917ec7cdba9a12da5f52389a",
+    "prompts/POEM.txt": "5379ba2b7a1629c9b7a65dc33564b9d5a53b69f4549596f3647f7a44fe1c3ba6",
+    "prompts/SOUL.md": "bc59ae78aaeb97b4c6976dd82c0f6986e4a88aa2e084f4575bb59343ba366d92",
+    "scripts/fetch_engine.ps1": "5f197714dab15ae0c3580ab4235eb4afdd8243e9c5313b35d3d09ff86aaa83d9",
+    "skills/README.md": "55847e697b4665ee9d953ded9e181ba87717112e1a4a5afc19b2a4ff8b4e0705",
+    "skills/champions/champion-aetheris/SKILL.md": "47a05b9ab38668228657915d558b8062996626dc99497b3b3fbe227bf464a17d",
+    "skills/champions/champion-arkos/SKILL.md": "056f4c1e257d9749e9b5b89c65d1934bad87f142d20ef53a84eb955400dccba9",
+    "skills/champions/champion-d9ra/SKILL.md": "5be9621f38e155be4f29c6ee5f888ff3761e199712fec6215df370789caa0cc1",
+    "skills/champions/champion-justicae/SKILL.md": "16ad5c31ffd5c613f3d0ec36fcd581d372e9e541ee2f3de450becf3774c0bbdb",
+    "skills/champions/champion-kairos/SKILL.md": "124e3956ec36794440971fa5a44ddfc5479f3219638d0d801cecc9635dd9cdfe",
+    "skills/champions/champion-lightfather/SKILL.md": "794fda2733f49d8717e1f49441953eb2d7ddfc9caf8e69354379e550de76da1c",
+    "skills/champions/champion-lyra-architect/SKILL.md": "9ea05e7dd5d5df16801ed6a97fa5a0245645b993d36083c9f15ac9a0cf9d2936",
+    "skills/champions/champion-lyra/SKILL.md": "9fd3bb640fd6004c799b0d84c6791cbe5b68ffc338889612ed348e09de36846a",
+    "skills/champions/champion-omnisiren/SKILL.md": "e1c7f49ce171fd61e426aa3acdce3b2061f1bafb35a78e55bdac2231fcdb4eda",
+    "skills/champions/champion-sancora/SKILL.md": "53ed492e43e62538b27ee30cf77e4337c0a838ca9fac13bc0311ffb90f3332a1",
+    "skills/champions/champion-scendr/SKILL.md": "1db8f96d61d73beae4924da55b832a1376012300bee554becce1646f6ed68785",
+    "skills/champions/champion-seidon/SKILL.md": "70aae994ca8720b1e8c9a9e62273a4fd097556fc492911dbc5894dbea5fc052a",
+    "skills/champions/champion-sephrael/SKILL.md": "ec3090dee72d56d15e7a6dee81d92c8bec1fbe7b4923fe935ccbd2fbd55d1879",
+    "skills/champions/champion-srath/SKILL.md": "481c94c37021124202d8c2d85cbb4864cda14220b14afbeecbe4cef18348a374",
+    "skills/champions/champion-volaris/SKILL.md": "e96da5fe0e1b4039d5b83db1d3e36bbf57db9f4f57734721053791e8e0c94977",
+    "skills/champions/champion-zeta/SKILL.md": "30ad1922a7b8484b27d77d6f97fb29727c5ec7e57a194046dfeab0bef1d27e17",
+    "src/__init__.py": "50770afaa7cae2b49d0569493abee71d1fdbd7dda3c2eb9a6323dfc750b0e852",
+    "src/admin_map.py": "5a4d537356daea07dd280a7acc73b56c50525fe8c2790c31dafb5ae61b0d74f8",
+    "src/align.py": "e5ba0fb386946c47823fe8d420c00b3da554dac329aca77311a35dc3e1912957",
+    "src/atomicio.py": "9c411a73fa569ba3d16ccf92095838a84e1762f3a505ec28636c3fb06e6de040",
+    "src/auth.py": "fc16199a7cc8c3f20ed426d16c29fc24d9e314687a6f9110292dfcda08cd7908",
+    "src/backends.py": "93bac97609518182fb461f6c87d7168daf91d65b8d9d9f767c809290dbbe36dd",
+    "src/banner.py": "02520050f75f83cd8b49a545b46e661e03568113346999b91973467469caa519",
+    "src/brain_router.py": "301664ed89d45f1d3f642083ac08940806dc18d47074061da0e5ec6a628e0762",
+    "src/cas_import.py": "321c748d5129880eafb4fb8b067eb264a89e9aafd583e691fd9abebce1cda541",
+    "src/chat_loop.py": "5cb8759c9f00823ecdbcbefd94fb8a17fe8250b2300eef11afe679e8127e3215",
+    "src/cloud_api.py": "0f5d849f35f16f74a5467036f66c8dd319211b728cf2ba156ac7724ef5f090cb",
+    "src/colibri.py": "28ed0665abb5f24ee8a7c0441a9b8af34e7b29ec841ede1f1c0d715a6236da27",
+    "src/compaction.py": "7da2ad643a9a1455f312033e72c92e99635347e24d3fd54c02df49511e0b5421",
+    "src/continuity.py": "ac26012d6a963b359075ad26f60be00270867662589d429984327fa3d553075e",
+    "src/crons.py": "8a554723eedd766c82bc38fe1c9f4b9d445775a84c510af1f7eceef6dd048280",
+    "src/engine.py": "4bd2d74acc06d84d06e75f96921dbb71318cf7d434f4e962e65c63b46ae96197",
+    "src/gguf_header.py": "63b49ef4a4d9472d1415ec952089165a8408297e56333f076743b27dc5fce5bb",
+    "src/hardware.py": "945341c003ce268b18483ffcdf060b1d45478f38ab42ce5fab6c3c229332eb7f",
+    "src/http_body.py": "91aef7a5d7626f6e7bc36431b2673dcf4c5620d3dfaa8a83e73ec2023161daee",
+    "src/image_tools.py": "9100ed7634e6714fffa148cfc2ae087bdfe09fb7e2312e94a766aeee20b2bc0d",
+    "src/install.py": "89465f429055222d97b48efcc10b66740d2fb4b8547a4597272bf64ad8e61f5a",
+    "src/limbs.py": "42a4abf51636a25aa077161f519c741ec65d0e3fd2ef00b75ecbee2cd22d69ed",
+    "src/lygo_engine.py": "ec40dd3a2baedf43f4b3529528938dab0fe63eae74f7b39e8e11b8aee289de8d",
+    "src/lygo_rag.py": "346ea626b6bb371301c7b472dc9476c49a07ae27811c9500102e5603ba3ec6ad",
+    "src/media_tools.py": "6401cab8142c651ae26f61f9028a71fd7f66252e93b577e1a2112737bf3b1515",
+    "src/model_check.py": "b040f8dd8b2d0ca40167bb99db65e95b9abcaf8c9320bad14bdec30636087bcc",
+    "src/model_fit.py": "0c2974fa48796497ea962c102058740951f09b46649a3d768c157ba681de3a8b",
+    "src/model_route.py": "a4a7114b0ab00b0ede744fa972c0b0d467fa6275efeedd5b260ca6b755d1147d",
+    "src/model_verdicts.py": "a72e90b3318cec9841e351f2fea97782e02400bf8f71b11f317bbcde48dcaac9",
+    "src/modules/__init__.py": "fd095485bb0d79c3d3595323517b54df0d152c8c2e8f65a50bac3331dc1f74bd",
+    "src/modules/catalog.json": "eeef62843abe79b0762e85aae056f2644f03c69915dd1972689071509e135de4",
+    "src/modules/host.py": "21d5e6d3d3707758e2ac5ae7fc061663bbb1446630653a6ca299df5291b1a38d",
+    "src/modules/lygo.envwatch/backend.py": "4cc5f2bb9be7e17a0c01ef271a15fe1936d0a8249898326531326fb8cd2b96c3",
+    "src/modules/lygo.envwatch/module.json": "fecdd709e1f47bdf9cd152d5757e1a7330005c06536c30bf3c38fc04849153e0",
+    "src/modules/lygo.guardwatch/backend.py": "c8059e3057490c46f3af7459a2cf5b94de8317266e4f16cba4605e2abe5fd419",
+    "src/modules/lygo.guardwatch/module.json": "2174b2c71634d014236177810784116134cdc73346b8f1e8ea9128a2bbb2b695",
+    "src/modules/lygo.health/backend.py": "cf0dbaaa11a5740973219b7c5c1abd5e25216d7fca12ad7b4edc6bfaa92667c7",
+    "src/modules/lygo.health/module.json": "064bb87b8fa77a9254187380f2853f09b6ce28e19d36f5cd0192f6b66bf8a94c",
+    "src/modules/lygo.llminfo/backend.py": "6b48ab668c1c9541b40f8b2815d407140925de58aff6e65dbf3910d96a9deb6a",
+    "src/modules/lygo.llminfo/module.json": "2dbdf3dae6ba42b9d5feb36729c41e42b2716af1424bb63f45501823eb20584b",
+    "src/modules/lygo.meminfo/backend.py": "ddec7a5dcc569565b63c0f41c06cf8051fa312f87c12d2a8323c0526c0e4433d",
+    "src/modules/lygo.meminfo/module.json": "d08509c881367fe7b96a0743e158a7b40a8eaedd60eb919d6258543837726098",
+    "src/modules/lygo.musicctrl/backend.py": "6c1d44eb1084d95a508795caf0ad7c1f3ae39e1119f4a12f057e3ecbaa0689d9",
+    "src/modules/lygo.musicctrl/module.json": "e2cf255525b26f2acd50d5ec7137661ebc462e2534b860966a9add3355bbc0c3",
+    "src/modules/lygo.musicinfo/backend.py": "4f0c4bf4104aabfab7c8fc83a2dfdd381231f3172871fddf183cb190c8c4c29b",
+    "src/modules/lygo.musicinfo/module.json": "f7e9e5dd815e20626639c85d16247d0acba841802e8ca3a1627b20b791ecd84f",
+    "src/modules/lygo.musicwatch/backend.py": "e3ca3f14371ee72972947fdf48b4b93a764c2283726b508288d8ba39f553f3d7",
+    "src/modules/lygo.musicwatch/module.json": "03d1439275df3af9b620e5985943d4d018730df11b20f725b008079d1a838786",
+    "src/modules/lygo.notepad/backend.py": "8e0e35a73d43288cd9bf5eb000f7222fd658a7fa39d82e839f44cf3d5ffda2d3",
+    "src/modules/lygo.notepad/module.json": "0982efcc3608807e0ba261cab0f3d1c043aca9097d7b64e077333d69e592a0b2",
+    "src/modules/lygo.world/backend.py": "d1e88f35a7019850aa794de6ac5ff545aa871d7a26d1f4380b20eed8be6e7726",
+    "src/modules/lygo.world/module.json": "0217d968ad1f7112f9ca5c9f7988a5646c1462de563bf6af6ff73e7926418c50",
+    "src/modules/validate.py": "46c8786f28b927de950f1bd86b36bee9e74ff1fa5df9e2eb2b5b681457a0e000",
+    "src/music_jobs.py": "0f58da58c84327cc36cacd44ccbb15776b8d78861e5f2f5f42704102dd915591",
+    "src/music_lyrics.py": "c7487df60a68019118d51c64d30d50f49c2036c064cbacb78a567fafb7e8ed84",
+    "src/music_tools.py": "42420287c022ba59d97fce27b0273991fd32fb8b9fc99add8fe831e2d9ce5590",
+    "src/notepad.py": "5e36992f1c4872516e2b0842f5c954789a59b4332629f8ed1a7c9b9c70aa8bba",
+    "src/openai_proxy.py": "68aa72d10ecec88e7904d74678ad5e0ad22a9d69761a58a6603fad3b3f916413",
+    "src/p0_hook.py": "4e6dd6689104b64eff00b03e59a9f78bc0131fd1ec39dbb68c77ae1ba3ed3a5a",
+    "src/p3_note.py": "420a66b26a530af046a381f54e8047475eaf09aca6e6b19653f90d6b05322719",
+    "src/paths.py": "4e5d0c3018c9492f6ea33c7e80f2bb38e93deed419ae81f02decd40c3e89812e",
+    "src/perf.py": "116ace23d45d9b988f25d048331df4a45e3874e0486d18909def23d023fe672c",
+    "src/public_gateway.py": "1e3be78fdaa03da13710bd7e8d5167adfb596a7c6a2907f6e37b29afee7772fa",
+    "src/receipts.py": "90d9e31fdd6649be0503c7da51536cfc7f5cf2fb6f815f094f8b0559dc51e4df",
+    "src/registry.py": "740868ba787f426d63093d8863aa2e5b35c0c820e35c03c5a47b5eb9ea95736e",
+    "src/repair_paths.py": "4049cf7405f54162b6db4367268cbf349d1594d2b33c8c8d6f55ecf95f3abf1d",
+    "src/runtime_facts.py": "f59aae59a2d70c3b0641f5043c32249caecc5ea485c7396202a435c4ee4fbac0",
+    "src/scanner.py": "500ec036c78442a6f74011428eafa37d3cc2cab46d66a95a8fd720ef518e38a1",
+    "src/server.py": "4ec4d3e34883e32aa330849802fc5a2c75b2f8dff926208aed1ea09049b0fca1",
+    "src/sessions.py": "cabcca8f5817e0860d82a4398cd3ff784e0d42b86c6e1a47c29c59cf0776da9c",
+    "src/skills_mod.py": "1c7c53706ef81e7b974096270c323c9bb5427cb62fc76fd5c51ddc7d571f7eba",
+    "src/stack_health.py": "fb2c52af8c5457c5ecdc113983270b196b4447aaa09f633cbad283cb6fcf0341",
+    "src/surface.py": "76d8774224f2c6078d275b063646edf91d42fe63ea221e1b3935a57493d1a7a1",
+    "src/tasking.py": "772f05659a9f695d80ca18558eaeaf50e1f704034eca2f38af82a5a37c977cee",
+    "src/tools.py": "e5de00166a9d93c3ba9759952020555a8f80aea51e5600ebc0320e17a9d40472",
+    "src/transcript_archive.py": "746c6f3bef41324d0f3f9cebc7436d8dd31227fdfdd45e2d360dded5de0898af",
+    "src/turnperf.py": "cc45c8c11869b7ea7993093fcb0bba3463858e53ab7135b2bcffa6f89c666db9",
+    "src/user_paths.py": "2ca20758fe25796db4acc76c515b406b43f9e3037574789a8bf668532511aafa",
+    "src/vendor/p0/NOTICE.txt": "4e37a80e312895c8d460b0e6e6d71179b1e4913389235c392cd5c34e5159158f",
+    "src/vendor/p0/byte_entropy_filter.py": "4c1f03a1925d75937b05bb07086bcf1202f358ce19a137d1f02f589ab260fc22",
+    "src/version.py": "ed10a926fdeaabca52d6318e5c55d8152665f3cddaab54b58b4e0a566b83afc5",
+    "src/vision.py": "fa6e1cd773e4751ce005456d2792f3e410793a17bc0d99176d117387f53a6ec1",
+    "src/web_tools.py": "7089b0f60591017904d77978040c9e8613978a4f160d209cf7ea7e6ea6512d9d",
+    "src/workspace_map.py": "b329b936a3042ecfa9d6f0a798af790d0669272f80dc68f4d1da1c66ea137528",
+    "src/world_clock.py": "32d2ccc6637b7fc73fbe0855ffd3379e7279f8f8566434f949c4251cc8233954",
+    "tools/doorbell.py": "9a3305bf8ac26289d872506f62d45ca5e570abbbe0e5e192eab54f2d02ec202a",
+    "tools/resolve_ports.py": "203a64b73c223deba5ea72ddd14236ad77dad8f64f1de451929861272627b9de",
+    "web_portal/IDENTITY.md": "02f39cd0b94c595210cef5eda3e3d302d094ce4f4370163e66c323c9185377cb",
+    "web_portal/MEMORY.md": "85bc665759234d28bb3e1a4350e6dec4464b20afa8122ff2c25e6e2db134cbb2",
+    "web_portal/README.md": "6b7f1d9f483bc16e5b99df3bf504546702058e730d0c1a47315baf23cfbc6341",
+    "web_portal/SOUL.md": "601e931c7ace25d452685d8b76e765b334d0a6b5b6ca2c2e0d6933be7666e30f",
+    "web_portal/app.js": "6dd617604b503c4a5b1f228e769ab43262cc8503248ccff1232d4c181789e478",
+    "web_portal/donate.js": "e78bfd15e0dbd2ee4ebfd015fec27faa3ba2a51c5d56883e390f616e40615a35",
+    "web_portal/index.html": "120dbdadba5781966337a5620fb61ee70bb6c016cf0cdbbe3b4357044468ce4a",
+    "web_portal/logo.svg": "b524a07662d0e3a9192abd56f044a4185fe6cd8b983ab8ff1fd5b75da13cd437",
+    "web_portal/lygo-skills.json": "d0bb2c28008b2e5d396648ac8c2a37ab902dda19a6697dd9f0b89ec1a494c830",
+    "web_portal/manifest.json": "d30cd1caf69800401e3205fb22231526e53b5a0d0f10c543960f666eb6fedee6",
+    "web_portal/portal.json": "b33a0f25473120c56f6e4806254430bd868e87c2df7115733a214a13a2691e14",
+    "web_portal/radio.js": "50bb5d7b6764a22c7841eb622dcd252632497a300da17bdf100e716f4dc860c2",
+    "web_portal/style.css": "85b060a493a7db18d6fc576b273a100263aa8c7f769b5b9854e7d477ccdb678b",
+    "web_portal/tools.js": "746e9bfccd64ef61a91bf5492b4643120caf2abb01acd7d5b7f8cc0f40348d39"
+  }
 }

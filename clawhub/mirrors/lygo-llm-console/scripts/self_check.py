@@ -13,6 +13,8 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
 ROOT = HERE.parent
 CLAW = ROOT / "claw.json"
 KIT = ROOT / "kit"
@@ -84,8 +86,27 @@ def main() -> int:
         out["ok"] = False
         out["checks"].append("kit/PUBLIC_KIT.json missing")
 
+    # A manifest that hashes an older kit is worse than no manifest: verify_kit then fails on
+    # every edited file, and the published digests describe a release that no longer exists.
+    # 1.6.1 did exactly that, so the freshness of both artifacts is now a gate, not a habit.
+    try:
+        import build_kit_manifest as builder
+        problems = builder.stale(builder.payload())
+    except Exception as exc:  # noqa: BLE001 - a gate that cannot run must not pass
+        problems = [f"manifest freshness could not be checked: {exc}"]
+    out["checks"].append("kit manifest matches the kit: " + ("yes" if not problems else "; ".join(problems)))
+    if problems:
+        out["ok"] = False
+
+    # The kit's own VERSION is the release the tree claims to be; claw.json must agree with it,
+    # otherwise the package advertises one console and ships another.
     if (KIT / "VERSION").is_file():
-        out["checks"].append(f"kit release: {(KIT / 'VERSION').read_text(encoding='utf-8').splitlines()[0].strip()}")
+        kit_version = (KIT / "VERSION").read_text(encoding="utf-8").splitlines()[0].strip()
+        declared = meta.get("console_release")
+        out["checks"].append(f"kit release: {kit_version}")
+        out["checks"].append(f"claw.json console_release matches kit/VERSION: {declared == kit_version}")
+        if declared != kit_version:
+            out["ok"] = False
     out["version"] = meta.get("version")
     out["console_release"] = meta.get("console_release")
     out["verify_with"] = "python scripts/verify_kit.py"

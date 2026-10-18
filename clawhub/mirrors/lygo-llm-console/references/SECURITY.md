@@ -1,6 +1,17 @@
-# Security notes — lygo-llm-console v1.6.0
+# Security notes — lygo-llm-console v1.6.1
 
-## What changed in this release, and why
+## Answers to the 1.6.0 scan report (this release)
+
+`references/WHAT_CHANGED_1_6_1.md` walks the 1.6.0 scan item by item and says, for each one,
+whether the package changed or deliberately did not. Two items are answered with a refusal rather
+than a fix, and both are product decisions rather than defects:
+
+- **BYO-key cloud POST** (`chat_loop.py`): the key comes from the environment and goes to the
+  endpoint the operator configured. Moving where that key is read from is an operator decision.
+- **`LYGO_HOST_PREFETCH` default on**: the prefetch is gated and its output is labelled as
+  RESOURCE text, but the default is open. Turning it off by default is a product decision.
+
+## What 1.6.0 changed, and why
 
 Findings from the v1.2.0 scan, and what 1.6.0 does about them:
 
