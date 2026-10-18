@@ -1,3 +1,23 @@
+## v1.1.0 — 2026-10-17
+
+PDF reading without a dependency, measured against two reference extractors.
+
+- `scripts/pdftext.py`: standard-library PDF text extraction (objects and `/ObjStm` streams,
+  `FlateDecode`/`ASCIIHexDecode`/`ASCII85Decode`, page order from the page tree, `Tj`/`TJ`/`'`/`"`
+  with per-font `/ToUnicode` CMaps, and word gaps reconstructed from `/Widths`). Encrypted
+  files, scans and malformed files raise a named reason the report prints verbatim.
+- PDFs are now read by default instead of only when `pypdf` happened to be installed, so the
+  same packet gets the same audit on every machine. `pypdf` remains a fallback.
+- Word-level validation against `pdftotext` on real documents: 0.94–1.00 recall, 0.92–1.00
+  precision across a two-column research paper, tax forms, contracts and a 53-page book.
+  A glyph-positioned page ("TD Canada Trust" written one `Td` per character) went from
+  0.24 recall and 0.06 precision to 0.99/0.97.
+- 14 new fixtures in `tests/test_pdftext.py` (page-tree order, object streams, ToUnicode,
+  glyph-per-`Td` spacing, encrypted, image-only, non-PDF, packet-level PDF checks) and a
+  guard that the reader imports only the standard library. 40 tests total.
+- A PDF that cannot be read is a cited `PA-R01` warning carrying the exact reason, so an
+  encrypted or scanned document can never be mistaken for a clean one.
+
 ## v1.0.0 — 2026-10-17
 
 First release.

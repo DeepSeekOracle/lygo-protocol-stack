@@ -40,7 +40,8 @@ those rules, made deterministic.
   windows, and which document is authoritative for each cross-check. Adding a packet type
   does not touch the engine.
 - **Offline.** No network imports, no subprocess, no model calls, no package installs at
-  runtime. `pypdf` is used only if it is already present.
+  runtime, and no third-party package is needed to read a PDF. `pypdf` is used only as a
+  fallback when it is already present.
 - **Honest about the unreadable.** Images and image-only PDFs are reported, never guessed at.
   A text dump beside the file (`<name>.pdf.txt`) is used and disclosed as a sidecar.
 - **Deterministic.** Sorted traversal, `--now` for a pinned timestamp, normalized comparison
@@ -75,8 +76,8 @@ so the tests cannot drift from the documents they check.
 
 ## Limits
 
-No OCR, no legal or eligibility advice, no forgery detection, and PDF text only when `pypdf`
-is already installed. `references/limits.md` lists the rest, and each bundled profile carries
+No OCR, no legal or eligibility advice, no forgery detection, and no PDF text without a
+real text layer (a scan is reported, not read). `references/limits.md` lists the rest, and each bundled profile carries
 a `review_note` telling the user what to confirm with the authority.
 
 ## License

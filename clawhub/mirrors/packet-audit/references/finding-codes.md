@@ -86,8 +86,10 @@ profile's pattern list.
 The file exists but no text was extracted. Reasons the engine reports verbatim:
 
 - `image: needs OCR, which this skill does not perform`
-- `pdf text extraction unavailable (pypdf not installed)`
+- `pdf is encrypted; its text cannot be read without the password`
 - `pdf has no extractable text layer (scan or image-only)`
+- `not a PDF file (no %PDF header)`
+- `pdf structure could not be parsed (no objects found)`
 - `unsupported file type`
 
 The audit does not guess. An unreadable required document is a warning, and the verdict

@@ -117,12 +117,16 @@ def rule_no_absolute_paths() -> None:
 
 
 def rule_no_floating_versions() -> None:
+    # read the current version instead of hardcoding it: a pinned literal here keeps passing
+    # while the package moves on, which is how a floating install survives a release
+    head, _body = frontmatter(SKILL.read_text(encoding="utf-8"))
+    current = re.escape(str(head.get("version", "")))
     offenders = []
     for path in sorted(ROOT.rglob("*.md")):
         text = path.read_text(encoding="utf-8")
         if "clawhub@latest" in text:
             offenders.append(f"{path.name}: clawhub@latest")
-        if re.search(r"packet-audit@(?!1\.0\.0)\S*", text):
+        if current and re.search(rf"packet-audit@(?!{current}\S*)\S+", text):
             offenders.append(f"{path.name}: unpinned packet-audit install")
     record("RC5 install commands are pinned", not offenders,
            ", ".join(offenders) if offenders else "pinned")
@@ -157,13 +161,14 @@ def rule_no_html_comments() -> None:
 
 
 def rule_tests() -> None:
-    path = ROOT / "tests" / "test_packet_audit.py"
-    if not path.is_file():
-        record("RC9 the test suite is present and non-trivial", False, "tests/test_packet_audit.py missing")
+    suites = sorted((ROOT / "tests").glob("test_*.py"))
+    if not suites:
+        record("RC9 the test suite is present and non-trivial", False, "no tests/test_*.py")
         return
-    count = len(re.findall(r"^\s+def test_", path.read_text(encoding="utf-8"), re.M))
+    count = sum(len(re.findall(r"^\s+def test_", p.read_text(encoding="utf-8"), re.M))
+                for p in suites)
     record("RC9 the test suite is present and non-trivial", count >= 15,
-           f"{count} test method(s)")
+           f"{count} test method(s) in {len(suites)} suite(s)")
 
 
 def rule_scope() -> None:

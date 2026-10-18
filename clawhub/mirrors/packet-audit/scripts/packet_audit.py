@@ -5,10 +5,10 @@ Reads a folder of documents, classifies each one against a packet profile,
 extracts the fields that must agree across the packet, and reports every
 mismatch, missing document, and expired credential with file citations.
 
-Offline by design: no network, no model calls, no subprocess. The only
-optional dependency is a PDF text extractor (pypdf) that may already be
-installed; when it is absent, PDFs are reported as unreadable rather than
-guessed at.
+Offline by design: no network, no model calls, no subprocess, no third-party
+imports. PDFs are read by the bundled stdlib extractor (scripts/pdftext.py);
+`pypdf` is used only as a fallback when it already happens to be installed.
+A PDF whose text cannot be read is reported with the reason, never guessed at.
 
 Exit codes: 0 clean, 1 warnings, 2 blocking findings, 3 usage/input error.
 """
@@ -27,8 +27,13 @@ import unicodedata
 import zipfile
 from pathlib import Path
 
+try:  # sibling module when run as a script, package import when imported
+    from . import pdftext  # type: ignore
+except ImportError:  # pragma: no cover - the script path
+    import pdftext  # type: ignore
+
 SCHEMA = "packet-audit/report/1"
-TOOL_VERSION = "1.0.0"
+TOOL_VERSION = "1.1.0"
 SEVERITY_ORDER = {"error": 0, "warning": 1, "info": 2}
 TEXT_EXTS = {".txt", ".md", ".csv", ".json", ".log", ".tsv"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".gif", ".heic", ".webp"}
@@ -103,21 +108,34 @@ def docx_pages(path: Path) -> list[str]:
 
 
 def pdf_pages(path: Path) -> list[str]:
-    """Extract per-page text with pypdf when it is already installed."""
+    """Extract per-page text: bundled stdlib reader first, pypdf only as a fallback.
+
+    Doing this without a third-party import matters for an audit: a PDF that reads or does
+    not read depending on what happens to be installed is an audit that checks different
+    things on different machines.
+    """
+    reasons: list[str] = []
+    try:
+        return [clean_text(page) for page in pdftext.extract_pages(path)]
+    except Exception as exc:  # noqa: BLE001 - fall through to pypdf, keep the reason
+        reasons.append(str(exc))
     try:
         from pypdf import PdfReader  # type: ignore
-    except Exception as exc:  # noqa: BLE001 - any import failure means "unavailable"
-        raise RuntimeError("pdf text extraction unavailable (pypdf not installed)") from exc
-    reader = PdfReader(str(path))
-    pages = []
-    for page in reader.pages:
-        try:
-            pages.append(clean_text(page.extract_text() or ""))
-        except Exception:  # noqa: BLE001 - one bad page must not abort the audit
-            pages.append("")
-    if not any(p.strip() for p in pages):
-        raise RuntimeError("pdf has no extractable text layer (scan or image-only)")
-    return pages
+    except Exception:  # noqa: BLE001 - any import failure means "not available"
+        raise RuntimeError(reasons[0] + "; pypdf not installed either") from None
+    try:
+        reader = PdfReader(str(path))
+        pages = []
+        for page in reader.pages:
+            try:
+                pages.append(clean_text(page.extract_text() or ""))
+            except Exception:  # noqa: BLE001 - one bad page must not abort the audit
+                pages.append("")
+        if not any(p.strip() for p in pages):
+            raise RuntimeError("pdf has no extractable text layer (scan or image-only)")
+        return pages
+    except Exception as exc:  # noqa: BLE001
+        raise RuntimeError(f"{reasons[0]}; pypdf: {exc}") from None
 
 
 def extract(path: Path, ext: str) -> tuple[list[str] | None, str]:
@@ -682,11 +700,11 @@ def render_markdown(report: dict) -> str:
         actions.append(f"- **{item['code']}** {item['title']}: {item['detail']}")
     lines += actions or ["Nothing to fix before submitting."]
     lines += ["", "## Limits", "",
-              "Text is extracted from .txt/.md/.csv and .docx with the standard library. PDFs need "
-              "`pypdf` present in the environment (or a sibling `<name>.pdf.txt` text dump); "
-              "otherwise they are reported as unreadable, never guessed at. Scans and photos "
-              "are always reported as unreadable. Always confirm the authority's own checklist "
-              "before submitting.", ""]
+              "Text is extracted from .txt/.md/.csv, .docx and .pdf with the standard library; "
+              "PDFs fall back to `pypdf` only when it is already installed, and a sibling "
+              "`<name>.pdf.txt` text dump is used when present. Encrypted and image-only "
+              "PDFs, scans and photos are reported with the reason, never guessed at. "
+              "Always confirm the authority's own checklist before submitting.", ""]
     return "\n".join(lines)
 
 

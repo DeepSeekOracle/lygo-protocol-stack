@@ -15,11 +15,21 @@ Workaround that stays inside the skill's honesty rules: put a text dump beside t
 records `extraction: sidecar` in the inventory, so the report shows that the text came from a
 sidecar rather than from the file itself.
 
-## Not PDF by default
+## PDF: text layer only
 
-PDF text extraction needs `pypdf` present in the environment. The skill never installs it and
-never fetches anything. Without it, PDFs are reported as unreadable with that exact reason.
-With it, per-page text is extracted and findings cite `p1`, `p2`, and so on.
+PDF text is read by the bundled `scripts/pdftext.py`: standard library only (objects and
+object streams, Flate/ASCIIHex/ASCII85 filters, the page tree, `Tj`/`TJ` with per-font
+`/ToUnicode` maps and `/Widths`-based word gaps). Findings cite `p1`, `p2`, and so on.
+What it will not do:
+
+- OCR an image-only or scanned PDF, or read text baked into a picture: reported as
+  `pdf has no extractable text layer (scan or image-only)`.
+- Decrypt an encrypted PDF: reported as `pdf is encrypted; its text cannot be read without
+  the password`.
+- Render or reflow: two-column pages can interleave, and words are reconstructed from
+  positioning, so a word split by an unusual kerning jump may come back as two.
+
+`pypdf`, when it is already installed, is tried only after the bundled reader fails.
 
 ## Not comprehension
 

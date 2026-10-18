@@ -1,7 +1,7 @@
 ---
 name: packet-audit
 description: "Use when documents must be submitted to an authority and pass first time — visa, rental, mortgage, benefits, insurance, grant, licensing — to check the folder for missing, expired, or mutually inconsistent documents with page-level citations. Offline, deterministic, no model calls. Not legal advice, not an eligibility decision, not OCR."
-metadata: {"version": "1.0.0", "license": "MIT-0", "offline": true, "entrypoints": ["scripts/packet_audit.py", "scripts/self_check.py"]}
+metadata: {"version": "1.1.0", "license": "MIT-0", "offline": true, "entrypoints": ["scripts/packet_audit.py", "scripts/self_check.py"]}
 ---
 
 # Packet Audit
@@ -98,14 +98,15 @@ like in the report and how to act on it.
 - **Filesystem, write:** only `--out` (default `<folder>/.packet-audit`).
 - **Network:** none. No upload, no telemetry, no model call, no package install at runtime.
 - **Subprocess:** none.
-- **Environment:** none required. `pypdf` is used only if it is already importable; the
-  skill never installs it and never fetches anything to read a PDF.
+- **Environment:** none required, and no third-party import is needed to read a PDF: the
+  bundled `scripts/pdftext.py` is standard library only. `pypdf` is used only as a fallback
+  when it is already importable; the skill never installs or fetches anything.
 
 ## Limits and non-claims
 
-Text comes from `.txt`, `.md`, `.csv`, `.json` and `.docx` with the standard library, and
-from `.pdf` only when `pypdf` is already installed (or a sibling `<name>.pdf.txt` text dump
-exists). Everything else is reported as unreadable. Classification and field extraction are
+Text comes from `.txt`, `.md`, `.csv`, `.json`, `.docx` and `.pdf` with the standard library
+(a sibling `<name>.pdf.txt` text dump is used when one exists). A PDF needs a text layer:
+encrypted files and scans are reported with that reason, never guessed at. Classification and field extraction are
 pattern-based heuristics, not comprehension: a document that hides a value inside prose or
 inside a table image will come back as `PA-F01`, not as a wrong value. Confirm the
 authority's own checklist before submitting — the bundled profiles are starting points, and
