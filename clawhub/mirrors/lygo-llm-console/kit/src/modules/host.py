@@ -519,10 +519,39 @@ class ModuleHost:
         return ("", "", None)
 
     def _import_adapter(self, mid: str, path: Path) -> Any:
+        """Load one module's adapter, confined to the modules directory this host was given.
+
+        The adapter is code execution by design - a workspace limb is a plugin - so the containment
+        is about *which* file gets to be that code, not about pretending it is not code:
+
+        - the path is resolved (symlinks followed) and must sit inside `self.modules_dir`, so a
+          `catalog.json` entry cannot point at `../../save/uploads/x.py` or at a symlink that
+          leaves the kit;
+        - it must be a regular file, not a FIFO or a device;
+        - the resolved path and its sha256 are logged before the load, so a refusal or a crash has
+          a name attached to what ran.
+
+        Anything that fails those checks raises, and the caller degrades that one module only.
+        """
         name = "lygo_mod_" + mid.replace(".", "_").replace("-", "_")
-        spec = importlib.util.spec_from_file_location(name, path)
+        root = Path(self.modules_dir).resolve()
+        try:
+            resolved = Path(path).resolve(strict=True)
+        except OSError as exc:
+            raise ImportError(f"{mid}: adapter path does not resolve ({exc})") from None
+        if not resolved.is_file():
+            raise ImportError(f"{mid}: adapter is not a regular file: {resolved}")
+        if root != resolved and root not in resolved.parents:
+            raise ImportError(
+                f"{mid}: adapter resolves outside the modules directory ({resolved})")
+        try:
+            digest = hashlib.sha256(resolved.read_bytes()).hexdigest()
+        except OSError as exc:
+            raise ImportError(f"{mid}: adapter unreadable ({exc})") from None
+        self.note(f"load {mid}: {resolved.relative_to(root).as_posix()} sha256 {digest}")
+        spec = importlib.util.spec_from_file_location(name, resolved)
         if spec is None or spec.loader is None:
-            raise ImportError(f"cannot load {path.name}")
+            raise ImportError(f"cannot load {resolved.name}")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         return module

@@ -1,6 +1,18 @@
-# Security notes — lygo-llm-console v1.6.1
+# Security notes — lygo-llm-console v1.6.2
 
-## Answers to the 1.6.0 scan report (this release)
+## The three findings that are now closed
+
+`references/WHAT_CHANGED_1_6_2.md` carries the detail and the cost of each. In one line each:
+
+- **URL prefetch is off by default.** `LYGO_HOST_PREFETCH=1` is the documented opt-in. A pasted
+  link is text the model may choose to fetch through a tool, not a page that fetches itself into a
+  context that also holds a shell.
+- **The local lyrics limb takes its port from `paths.LLAMA_PORT`**, the range-checked int, instead
+  of re-reading the environment into a request URL.
+- **A limb adapter is confined to `src/modules/`** — resolved, symlink-checked, regular file only,
+  path and SHA-256 recorded before the load.
+
+## Answers to the 1.6.0 scan report (1.6.1)
 
 `references/WHAT_CHANGED_1_6_1.md` walks the 1.6.0 scan item by item and says, for each one,
 whether the package changed or deliberately did not. Two items are answered with a refusal rather

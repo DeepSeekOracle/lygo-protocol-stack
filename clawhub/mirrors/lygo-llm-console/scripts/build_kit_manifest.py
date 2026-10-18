@@ -33,6 +33,21 @@ MANIFEST = KIT / "PUBLIC_KIT.json"
 # generated, so a manifest cannot describe them without changing itself
 GENERATED = {"KIT_SHA256SUMS.txt", "PUBLIC_KIT.json"}
 
+# Never shipped: byte-code caches and OS litter appear the moment anyone runs the kit's own Python
+# (importing a limb writes __pycache__ beside it), and hashing them into the manifest would mean the
+# package changes every time a user simply starts the console.
+IGNORED_DIRS = {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+IGNORED_SUFFIXES = {".pyc", ".pyo"}
+IGNORED_NAMES = {".DS_Store", "Thumbs.db", "desktop.ini"}
+
+
+def _ignored(rel: str) -> bool:
+    parts = rel.split("/")
+    if any(part in IGNORED_DIRS for part in parts[:-1]):
+        return True
+    name = parts[-1]
+    return name in IGNORED_NAMES or any(name.endswith(s) for s in IGNORED_SUFFIXES)
+
 
 def payload() -> dict[str, str]:
     """Kit-relative posix path -> sha256, for every shipped file, sorted."""
@@ -41,7 +56,7 @@ def payload() -> dict[str, str]:
         if not path.is_file():
             continue
         rel = path.relative_to(KIT).as_posix()
-        if rel in GENERATED:
+        if rel in GENERATED or _ignored(rel):
             continue
         out[rel] = hashlib.sha256(path.read_bytes()).hexdigest()
     return out

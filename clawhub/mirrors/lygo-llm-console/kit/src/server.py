@@ -225,9 +225,12 @@ DRAIN_CAP = http_body.CAP
 DRAIN_TIMEOUT = http_body.TIMEOUT
 DRAIN_CHUNK = http_body.CHUNK
 
-# host_prefetch fetches URLs out of the user's text before the model answers. On by default, but
-# switchable: a fetched page is untrusted input landing beside the shell and python limbs.
-HOST_PREFETCH = os.environ.get("LYGO_HOST_PREFETCH", "1").strip().lower() not in ("0", "false", "no")
+# host_prefetch fetches URLs out of the user's text and puts the fetched page in the same context
+# as the shell and python limbs: indirect prompt injection by construction, because whoever writes
+# the page decides what the agent reads. OFF unless the operator opts in with LYGO_HOST_PREFETCH=1.
+# A pasted link is still text the model can read and fetch deliberately, through a tool and the P0
+# gate; what it no longer does is fetch itself on the agent's behalf.
+HOST_PREFETCH = os.environ.get("LYGO_HOST_PREFETCH", "0").strip().lower() in ("1", "true", "yes", "on")
 
 
 # A browser that goes away mid-answer is not a server fault: these are the socket errors from
@@ -2211,8 +2214,9 @@ class Handler(BaseHTTPRequestHandler):
         if use_tools and last_user and HOST_PREFETCH:
             # host_prefetch pulls URLs out of the user's text and fetches them before the model
             # answers, so a pasted or forwarded link becomes untrusted content in the same context
-            # as the shell and python limbs. On by default - it is how the small local models get
-            # live context - but the operator can switch it off with LYGO_HOST_PREFETCH=0.
+            # as the shell and python limbs. Off unless the operator opted in with
+            # LYGO_HOST_PREFETCH=1: live context for a small local model is worth having, but not
+            # worth taking from whoever chose the link without being asked.
             pre = host_prefetch(last_user)
             if pre:
                 traces.extend(pre)

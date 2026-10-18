@@ -1,21 +1,21 @@
 {
   "name": "lygo-llm-console",
   "displayName": "LYGO LLM Console",
-  "version": "1.6.1",
-  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.7). Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes only inside its own folder (sessions, receipts and a RAG index are kept there on disk, nothing uploaded, removed with the folder), pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
+  "version": "1.6.2",
+  "description": "Sovereign local LLM runtime and agent portal, shipped as an unpacked public kit (console 1.5.8). URL prefetch is off unless you set LYGO_HOST_PREFETCH=1. Map scripts: no network/subprocess/writes. Operator runtime: loopback HTTP, HTTPS GET to public hosts, writes only inside its own folder (sessions, receipts and a RAG index are kept there on disk, nothing uploaded, removed with the folder), pinned llama-server subprocess, optional workspace shell/Python (not a sandbox). Not Ollama. No steward vaults, keys or weights.",
   "slug": "lygo-llm-console",
   "publisher": "deepseekoracle",
   "license": "MIT-0",
   "homepage": "https://chatagent.ca/lygo-llm-console.html",
   "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-llm-console",
-  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.6.1",
+  "signature": "LYGO-LLM-CONSOLE-SKILL-v1.6.2",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
-  "console_release": "1.5.7",
+  "console_release": "1.5.8",
   "kit": "kit/",
   "kit_ship_form": "unpacked tree (deliberately not an archive, so every shipped file is inspectable)",
   "kit_files": 152,
-  "kit_bytes": 2081635,
-  "kit_sha256sums": "bcd3dfc6b8f8bcb764f55226f430b1dd1030e828a8162a1b2c3d9be4b97f2fb6",
+  "kit_bytes": 2083790,
+  "kit_sha256sums": "fd0ebec3b06b96869372656f36ff2ff846d6b18118677641da893f37138629ee",
   "kit_manifest": "kit/PUBLIC_KIT.json",
   "llama_cpu_tag": "b11074",
   "clawhub_cli_pin": "clawhub@0.23.3",
@@ -77,6 +77,6 @@
     "steward_paths_removed_at_build": true,
     "unprivileged_user": true,
     "canonical_source": "https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/clawhub/mirrors/lygo-llm-console",
-    "version": "1.6.1"
+    "version": "1.6.2"
   }
 }

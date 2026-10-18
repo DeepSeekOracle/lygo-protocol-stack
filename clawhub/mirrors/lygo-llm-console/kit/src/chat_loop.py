@@ -739,7 +739,10 @@ def write_lyrics(theme: str, style: str, timeout: float = 300.0) -> str:
         "stream": False,
     }
     req = urllib.request.Request(
-        f"http://127.0.0.1:{int(os.environ.get('LYGO_LLAMA_PORT') or LLAMA_PORT)}/v1/chat/completions",
+        # LLAMA_PORT is already the validated value from paths._port_from_env: an int in 1..65535,
+        # with a junk LYGO_LLAMA_PORT falling back to the default. Re-reading the environment here
+        # would undo that check and put an ambient string straight into a request URL.
+        f"http://127.0.0.1:{LLAMA_PORT}/v1/chat/completions",
         data=_json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
         method="POST",

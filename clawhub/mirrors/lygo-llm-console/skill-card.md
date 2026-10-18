@@ -1,9 +1,9 @@
-# lygo-llm-console (v1.6.1)
+# lygo-llm-console (v1.6.2)
 
 **One line:** a local, sovereign LLM runtime and agent portal you run yourself — scan GGUF, boot
 llama.cpp on loopback, chat with tools, gate every turn through LYGO P0. Not Ollama.
 
-**Ships:** map scripts + the public console kit, unpacked (console 1.5.7, 152 files, per-file SHA-256).
+**Ships:** map scripts + the public console kit, unpacked (console 1.5.8, 152 files, per-file SHA-256).
 
 **Needs:** Python 3 on PATH, an unprivileged user account, and a ggml-org CPU `llama-server.exe`
 (tag b11074) you place in `kit/engine/`. No model weights are included.
