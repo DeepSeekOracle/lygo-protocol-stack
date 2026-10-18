@@ -4,6 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <link rel="icon" type="image/svg+xml" href="assets/haven-star-favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/haven-star-favicon.svg" />
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      functionality_storage: 'granted',
+      personalization_storage: 'denied',
+      wait_for_update: 500
+    });
+  </script>
   <!-- Google AdSense (eternalhaven.ca / mirrored pages) -->
   <meta name="google-adsense-account" content="ca-pub-0646320966060599" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
@@ -992,6 +1007,29 @@
       font-weight: 600;
     }
     .crypto-links a.trade:hover { background: rgba(255, 0, 122, 0.12); }
+
+    /* Mobile chart: base rules above override the earlier media query, so this must come last. */
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; height: auto; min-height: 0; }
+      #starmap-wrap, #starmap { min-height: 62vh; height: 62vh; }
+    }
+    .ad-consent {
+      position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%);
+      z-index: 10000; width: min(680px, calc(100vw - 24px));
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 12px 14px; border: 1px solid rgba(0,240,255,.4);
+      border-radius: 8px; background: #0b0b16f2; color: #dbe7f3;
+      box-shadow: 0 12px 40px #000a; font-size: .78rem; line-height: 1.45;
+    }
+    .ad-consent[hidden] { display: none; }
+    .ad-consent p { margin: 0; flex: 1 1 260px; }
+    .ad-consent a { color: var(--cyan); }
+    .ad-consent button {
+      border: 1px solid rgba(0,240,255,.55); background: #071018; color: var(--cyan);
+      padding: 7px 12px; border-radius: 4px; cursor: pointer; font: inherit;
+    }
+    .ad-consent button.accept { background: var(--gold); color: #1a1200; border-color: var(--gold); font-weight: 700; }
+    .ad-consent button:hover { filter: brightness(1.12); }
   </style>
 </head>
 <body>
@@ -1168,20 +1206,7 @@
       </p>
     </aside>
   </main>
-  <div class="ad-slot" id="chartAdSlot" aria-label="Advertisement">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-0646320966060599"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-      window.setTimeout(function () {
-        var slot = document.getElementById("chartAdSlot");
-        if (slot && !slot.querySelector("iframe")) slot.hidden = true;
-      }, 2500);
-    </script>
-  </div>
+  <!-- Auto ads fill responsive placements after consent; no slotless manual unit. -->
   <footer class="live-feed">
     <h2>Immutable Lattice Feed</h2>
     <p class="feed-meta" id="feedMeta">Append-only hash chain — agent submissions, accept / reject / pending.</p>
@@ -1378,5 +1403,40 @@
         if (a) a.textContent = d.accepted ?? 0;
       }).catch(() => {});
   </script>
+
+<div class="ad-consent" id="adConsent" role="dialog" aria-label="Advertising privacy choices" hidden>
+  <p>Google AdSense may use cookies to serve ads. You can accept or decline. The star chart stays free. <a href="https://eternalhaven.ca/privacy.html" rel="noopener">Privacy</a>.</p>
+  <button type="button" class="accept" id="adAccept">Accept ads</button>
+  <button type="button" id="adDecline">Decline</button>
+</div>
+<script>
+(function () {
+  var KEY = 'lygo_haven_chart_ads_v1';
+  var box = document.getElementById('adConsent');
+  if (!box) return;
+  var choice = null;
+  try { choice = localStorage.getItem(KEY); } catch (e) {}
+  function update(granted) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        ad_storage: granted ? 'granted' : 'denied',
+        ad_user_data: granted ? 'granted' : 'denied',
+        ad_personalization: granted ? 'granted' : 'denied',
+        analytics_storage: 'denied'
+      });
+    }
+  }
+  function close(granted) {
+    try { localStorage.setItem(KEY, granted ? 'granted' : 'denied'); } catch (e) {}
+    update(granted);
+    box.hidden = true;
+  }
+  if (choice === 'granted' || choice === 'denied') { update(choice === 'granted'); return; }
+  box.hidden = false;
+  document.getElementById('adAccept').addEventListener('click', function () { close(true); });
+  document.getElementById('adDecline').addEventListener('click', function () { close(false); });
+})();
+</script>
+
 </body>
 </html>
