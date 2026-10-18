@@ -830,18 +830,54 @@ class Handler(BaseHTTPRequestHandler):
             return True
         return False
 
+    def _host_ok(self) -> bool:
+        """Refuse a request whose Host header is not this machine, on a loopback-bound console.
+
+        Loopback is not a boundary a browser respects: a page on any site can point a name at
+        127.0.0.1 and talk to whatever answers there (DNS rebinding). The socket address cannot
+        tell that apart from a local client, so the Host header has to agree as well. A reverse
+        proxy rewrites Host on purpose, so that case stays opt-in via LYGO_TRUSTED_PROXY.
+        """
+        host = (self.headers.get("Host") or "").strip()
+        if not host:
+            return True
+        if os.environ.get("LYGO_TRUSTED_PROXY", "").strip().lower() in ("1", "true", "yes"):
+            return True
+        name = host.split(":")[0].strip("[]").lower()
+        if name in ("127.0.0.1", "localhost", "::1"):
+            return True
+        # Only a LAN bind is legitimately addressed by something other than a loopback name, and
+        # only when the request did not arrive on the loopback socket.
+        return (not self._loopback()) and BIND not in ("127.0.0.1", "localhost", "::1")
+
     def _auth(self) -> bool:
+        """Who may do what.
+
+        A mutation is not authorised by having arrived on loopback. Every page the operator visits
+        can POST to 127.0.0.1:9641, so an unauthenticated loopback POST is a write that any website
+        can ask for - and `/api/limb` reaches shell and python. Mutating methods therefore need the
+        token on loopback too: the portal is handed it at load (window.LYGO_TOKEN plus a
+        SameSite=Strict cookie) and local scripts can read data/token, which is 0600.
+
+        Reads stay open on loopback so the health bar and the shell keep working, and the public
+        paths stay open everywhere so a remote operator can reach the page that asks for the token.
+        """
+        if not self._host_ok():
+            return False
+        mutating = (self.command or "").upper() in ("POST", "PUT", "PATCH", "DELETE")
+        token_ok = check(token_from_request(self._headers_map(), self._query()), TOKEN)
         if not AUTH_REQUIRED:
-            return True
+            # single-user console, loopback bind: reads open, writes token-gated
+            return token_ok if mutating else True
         if self._loopback():
-            return True
+            return token_ok if mutating else True
         path = urlparse(self.path).path
         # The portal shell and the health bar stay reachable without a token - that is how a
         # remote operator gets in. Everything else needs one, and the shell hands the token out
         # only to a loopback caller (see _dispatch_GET).
         if path in ("/", "/api/health", "/api/world") or path.startswith("/static/"):
             return True
-        return check(token_from_request(self._headers_map(), self._query()), TOKEN)
+        return token_ok
 
     def _send(self, code: int, body: bytes, ctype: str = "application/json", extra: dict[str, str] | None = None) -> None:
         self.send_response(code)
@@ -2377,7 +2413,7 @@ class Handler(BaseHTTPRequestHandler):
             cur_msg = msg_obj
             cur_text = assistant
             for _step in range(1 if host_did_tools else 4):
-                batch = run_tools_round(cur_text, cur_msg)
+                batch = run_tools_round(cur_text, cur_msg, traces)
                 if not batch:
                     break
                 traces.extend(batch)
@@ -2445,7 +2481,7 @@ class Handler(BaseHTTPRequestHandler):
                 note_timings(parsed_f)
                 msgf = ((parsed_f.get("choices") or [{}])[0].get("message") or {})
                 textf = str(msgf.get("content") or "")
-                forced = run_tools_round(textf, msgf)
+                forced = run_tools_round(textf, msgf, traces)
                 got_named = [t for t in forced if t.get("name") == want]
                 if got_named:
                     traces.extend(forced)

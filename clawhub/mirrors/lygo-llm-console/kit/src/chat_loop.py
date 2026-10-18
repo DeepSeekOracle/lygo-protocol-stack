@@ -1861,11 +1861,53 @@ def trim_history(messages: list[dict[str, Any]], budget: int = HISTORY_CHARS) ->
     return out
 
 
-def run_tools_round(assistant_text: str, message: dict[str, Any] | None = None) -> list[dict[str, Any]]:
+# Limbs that execute something on this machine. A model turn whose context contains text fetched
+# from the web may be reading instructions written by whoever wrote that page, so these are not
+# dispatched automatically on such a turn: the call is recorded as refused, with the reason, and
+# the operator can make it again deliberately. This is the difference between "the agent can run
+# code" (the product) and "a stranger can run code by writing a paragraph" (the vulnerability).
+EXEC_LIMBS = frozenset({"shell", "python_exec", "rust_exec", "cargo"})
+
+WEB_TRACE_LIMBS = frozenset({"web_fetch", "web_search", "http_json", "download_url", "wayback", "read_url"})
+
+
+def turn_is_web_tainted(traces: list[dict[str, Any]]) -> bool:
+    """Did anything in this turn's context come from the open web?"""
+    for trace in traces or []:
+        if not isinstance(trace, dict):
+            continue
+        if str(trace.get("name") or "") in WEB_TRACE_LIMBS:
+            return True
+        # a refused or failed fetch still put the URL in front of the model
+        if str(trace.get("name") or "").startswith(("web_", "http_", "download_")):
+            return True
+    return False
+
+
+def run_tools_round(assistant_text: str, message: dict[str, Any] | None = None,
+                    traces_so_far: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+    tainted = (turn_is_web_tainted(traces_so_far or [])
+               and os.environ.get("LYGO_WEB_TAINT_EXEC", "").strip().lower()
+               not in ("1", "true", "yes", "on"))
     calls = extract_tool_calls(message or {}, assistant_text or "")
     traces = []
     for spec in calls[:4]:
         name, args = spec["name"], spec.get("arguments") or {}
+        if tainted and name in EXEC_LIMBS:
+            traces.append({
+                "name": name,
+                "arguments": args,
+                "result": (
+                    f"REFUSED ({name}): this turn contains text fetched from the web, so a local "
+                    f"execution limb is not dispatched automatically - whoever wrote that page "
+                    f"would be choosing what runs on this machine. Read the fetched content, decide, "
+                    f"and ask again in a new turn (or raise LYGO_WEB_TAINT_EXEC=1 to accept the risk "
+                    f"for this install)."
+                ),
+                "refused": True,
+                "reason": "web_tainted_turn",
+            })
+            continue
         # A small model will still aim arithmetic at the web tools. The query says what it is, so
         # route it to calc rather than let a search page stand in for a sum.
         q = args.get("q") or args.get("url") or ""

@@ -185,7 +185,9 @@
     setStatus("saving " + f.name + " where the agent can open it…", false);
     fetch("/api/upload", {
       method: "POST",
-      headers: { "Content-Type": "application/octet-stream", "X-Lygo-Filename": encodeURIComponent(f.name) },
+      // 1.6.3: loopback POSTs need the token like any other mutation - dropping it here made the
+      // upload answer 401 the moment the console stopped trusting "it came from 127.0.0.1".
+      headers: { "Content-Type": "application/octet-stream", "X-Lygo-Filename": encodeURIComponent(f.name), "X-LYGO-LLM-Token": token() },
       body: f,
     })
       .then(function (r) { return r.json(); })
