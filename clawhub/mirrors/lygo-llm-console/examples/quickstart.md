@@ -1,23 +1,18 @@
 # Quickstart
 
+This is a pointer skill, not the console runtime.
+
 ```bash
 npx --yes clawhub@0.23.3 install deepseekoracle/lygo-llm-console
-cd lygo-llm-console
-python scripts/self_check.py
-python scripts/verify_kit.py
 ```
 
-Verification checks every file in `kit/` against `kit/KIT_SHA256SUMS.txt` (152 lines) and confirms the
-count in `kit/PUBLIC_KIT.json`. If it fails, stop.
+Download console **1.7.0** from the official Builds card:
 
-```bash
-# 1. engine: ggml-org CPU llama-server, tag b11074, into kit/engine/
-#    (or run kit/INSTALL.bat and let it fetch)
-# 2. seed your own identity (writes only inside kit/)
-cd kit && python src/install.py
+- https://chatagent.ca/lygoskillhub.html#builds
+- PC SETUP.exe: https://huggingface.co/DeepSeekOracle/lygo-console-builds/resolve/console-v1.7.0/LYGO_LLM_CONSOLE_1.7.0_PC_SETUP.exe
+- USB SETUP.exe: https://huggingface.co/DeepSeekOracle/lygo-console-builds/resolve/console-v1.7.0/LYGO_LLM_CONSOLE_1.7.0_USB_SETUP.exe
+- Online API portal: https://chatagent.ca/portal/
+- Source: https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_llm_console
 
-# 3. start it as an unprivileged user, then open http://127.0.0.1:9641/
-```
-
-On Windows: `kit/INSTALL.bat`, then `kit/LYGO_LLM_CONSOLE.bat`. Stop it with
-`kit/LYGO_LLM_CONSOLE_STOP.bat`, which frees only ports held by the console's own processes.
+Verify the published SHA-256 before opening any installer. Run the console as an
+unprivileged user. No runtime is bundled in this skill.
