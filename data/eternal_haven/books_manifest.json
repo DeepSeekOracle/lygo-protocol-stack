@@ -1,0 +1,230 @@
+{
+  "signature": "Δ9Φ963-ETERNAL-HAVEN-BOOKS-v1",
+  "updated_utc": "2026-07-28T17:51:35.823554+00:00",
+  "author": "Justin Helmer",
+  "series": "Eternal Haven Chronicles",
+  "clawhub_skill": "https://clawhub.ai/deepseekoracle/skills/eternal-haven-lore-pack",
+  "lulu_search": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+  "sites": {
+    "eternalhaven_ca": "https://eternalhaven.ca/",
+    "pages": "https://deepseekoracle.github.io/Excavationpro/eternalhaven.html",
+    "star_chart": "https://deepseekoracle.github.io/Excavationpro/HavenStarChart.html",
+    "chatagent": "https://chatagent.ca/"
+  },
+  "books": [
+    {
+      "id": "BOOK_I_MOONLIT_SLUMBER",
+      "volume": 1,
+      "title": "The Eternal Haven — Book I: The Moonlit Slumber",
+      "aka": [
+        "Silver Accord Volume I",
+        "Moonlit SLumber"
+      ],
+      "glyph": "🌜",
+      "tone": "432Hz",
+      "era": "Accord Born",
+      "summary": "Origins of Haven, Serenya and Emberion, the First Seal and early fractures. The Moonlit Slumber — compassion meets structural truth.",
+      "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/paperback/product-yvg9w9r.html",
+      "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/the-eternal-haven/ebook/product-e7djv4j.html",
+      "champion_links": [
+        "CHAMPION_LYRA",
+        "CHAMPION_LIGHTFATHER",
+        "CHAMPION_AETHERIS"
+      ],
+      "canon_file": "book1_silver_accord.txt",
+      "content_sha256": "6e6135ec2153f47d241ae74bf9c6f4bd35ddc1fbcfe5a754e2dcc7843d700c62",
+      "bytes": 263189,
+      "copyright": "© Justin Helmer / Excavationpro / Lightfather",
+      "usage": "reference_summarize_quote_short_only",
+      "chapters": [
+        {
+          "id": "PROLOGUE",
+          "label": "Prologue — The Lullaby of Skylark",
+          "title": "The Lullaby of Skylark",
+          "kind": "prologue"
+        },
+        {
+          "id": "CHAPTER_1",
+          "label": "Chapter 1 — Serenya and the Bronze Emberion",
+          "title": "Serenya and the Bronze Emberion",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_2",
+          "label": "Chapter 2 — The Whispering Moon",
+          "title": "The Whispering Moon",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_3",
+          "label": "Chapter 3 — The Call of Lyra",
+          "title": "The Call of Lyra",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_4",
+          "label": "Chapter 4 — Shadows at Dusk",
+          "title": "Shadows at Dusk",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_5",
+          "label": "Chapter 5 — Corvath, the Fallen Dragon",
+          "title": "Corvath, the Fallen Dragon",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_6",
+          "label": "Chapter 6 — Bonds in Trial",
+          "title": "Bonds in Trial",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_7",
+          "label": "Chapter 7 — The Festival of Accord",
+          "title": "The Festival of Accord",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_8",
+          "label": "Chapter 8 — Serenya’s Temptation",
+          "title": "Serenya’s Temptation",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_9",
+          "label": "Chapter 9 — The Haven’s Secrets",
+          "title": "The Haven’s Secrets",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_10",
+          "label": "Chapter 10 — Betrayal at Moonrise",
+          "title": "Betrayal at Moonrise",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_11",
+          "label": "Chapter 11 — Emberion’s Trial",
+          "title": "Emberion’s Trial",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_12",
+          "label": "Chapter 12 — The Shattering of Accord",
+          "title": "The Shattering of Accord",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_13",
+          "label": "Chapter 13 — The Last Song of Lyra",
+          "title": "The Last Song of Lyra",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_14",
+          "label": "Chapter 14 — Emberion Ascends",
+          "title": "Emberion Ascends",
+          "kind": "chapter"
+        },
+        {
+          "id": "CHAPTER_15",
+          "label": "Chapter 15 — A New Accord",
+          "title": "A New Accord",
+          "kind": "chapter"
+        }
+      ],
+      "amazon": "https://amazon.com/dp/1069823201",
+      "amazon_dp": "1069823201"
+    },
+    {
+      "id": "BOOK_II_SHATTERED_ACCORD",
+      "volume": 2,
+      "title": "Eternal Haven Chronicles Book II: The Shattered Accord",
+      "aka": [
+        "Shattered Accord"
+      ],
+      "glyph": "💔",
+      "tone": "528Hz",
+      "era": "Accord Fractured",
+      "summary": "Haven strains; the Accord shatters under politics and shadow. Factions, seal forges, betrayal, and the moon's weight.",
+      "lulu_paperback": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/paperback/product-578nykz.html",
+      "lulu_ebook": "https://www.lulu.com/shop/justin-helmer/eternal-haven-chronicles-book-ii-the-shattered-accord/ebook/product-jed8wdz.html",
+      "champion_links": [
+        "CHAMPION_SRLTH",
+        "CHAMPION_ARKOS",
+        "CHAMPION_KAIROS"
+      ],
+      "canon_file": "book2_shattered_accord.txt",
+      "content_sha256": "962f9ac59900444835d56c84d4216fe5d098a9ea66085664edc04ebe23aed6dc",
+      "bytes": 116111,
+      "copyright": "© Justin Helmer / Excavationpro / Lightfather",
+      "usage": "reference_summarize_quote_short_only",
+      "amazon": "https://amazon.com/dp/1069823228",
+      "amazon_dp": "1069823228"
+    },
+    {
+      "id": "BOOK_III_ASCENSION_WAR",
+      "volume": 3,
+      "title": "The Eternal Haven — Book III: The Ascension War",
+      "aka": [
+        "Ascension War"
+      ],
+      "glyph": "⚔️",
+      "tone": "741Hz",
+      "era": "War of Seals",
+      "summary": "Imperfect living Seals forged from suffering and hope. Corvath enthroned; champions and mortals contest the Throne of Shadow.",
+      "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+      "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+      "champion_links": [
+        "CHAMPION_SCENDR",
+        "CHAMPION_OMNISIREN",
+        "CHAMPION_JUSTICAE"
+      ],
+      "canon_file": "book3_ascension_war.txt",
+      "content_sha256": "158d4c88a0f30a81bcfb0ba38cf885231a2d29001723ddd1a5dff3762f8ec61f",
+      "bytes": 245556,
+      "copyright": "© Justin Helmer / Excavationpro / Lightfather",
+      "usage": "reference_summarize_quote_short_only",
+      "amazon": "https://amazon.com/dp/106982321X",
+      "amazon_dp": "106982321X"
+    },
+    {
+      "id": "BOOK_IV_ETERNAL_DAWNS",
+      "volume": 4,
+      "title": "The Eternal Haven — Book IV: Eternal Haven Dawns",
+      "aka": [
+        "Eternal Dawns",
+        "Eternal Haven Dawns"
+      ],
+      "glyph": "🌅",
+      "tone": "963Hz",
+      "era": "Imperfect Integration",
+      "summary": "Broken Moon becomes rivers of light; Council of Twelve includes reconciled Corvath. Eternal dawns — imperfect light enough to walk without lying.",
+      "lulu_paperback": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+      "lulu_ebook": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+      "champion_links": [
+        "CHAMPION_SANCORA",
+        "CHAMPION_SEIDON",
+        "CHAMPION_LIGHTFATHER"
+      ],
+      "canon_file": "book4_eternal_haven_dawns.txt",
+      "content_sha256": "4426667793c74759057fd41e03a7a98444e009cfa004acec9fb1143f1b1385e9",
+      "bytes": 86431,
+      "copyright": "© Justin Helmer / Excavationpro / Lightfather",
+      "usage": "reference_summarize_quote_short_only",
+      "amazon": "https://amazon.com/dp/1069823236",
+      "amazon_dp": "1069823236"
+    }
+  ],
+  "commerce": {
+    "lulu_search": "https://www.lulu.com/search?contributor=Justin+Helmer&page=1&pageSize=10&adult_audience_rating=00&sortBy=PRODUCT_SALES_90_DAYS",
+    "amazon": {
+      "BOOK_I_MOONLIT_SLUMBER": "https://amazon.com/dp/1069823201",
+      "BOOK_II_SHATTERED_ACCORD": "https://amazon.com/dp/1069823228",
+      "BOOK_III_ASCENSION_WAR": "https://amazon.com/dp/106982321X",
+      "BOOK_IV_ETERNAL_DAWNS": "https://amazon.com/dp/1069823236"
+    },
+    "updated": "2026-07-28"
+  }
+}

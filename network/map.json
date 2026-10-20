@@ -1,0 +1,41 @@
+{
+  "signature": "Delta9Phi963-LATTICE-MAP-v1.0.0",
+  "version": "1.0.0",
+  "class": "RESOURCE",
+  "updated_utc": "2026-09-06T00:00:00Z",
+  "live_star_chart_ingest": false,
+  "canonical": "https://chatagent.ca/lattice/map.json",
+  "doctrine": {
+    "public_get": "RESOURCE",
+    "dual_ledgers_eggs_star_chart": "CANON",
+    "unreachable": "NAMED_SHADOW"
+  },
+  "doors": [
+    {"id": "agents", "title": "Agent Runtime", "url": "https://chatagent.ca/agents/", "class": "RESOURCE", "layer": "E", "role": "runtime"},
+    {"id": "join", "title": "Join / Verify", "url": "https://chatagent.ca/join/", "class": "RESOURCE", "layer": "C", "role": "gate"},
+    {"id": "bench", "title": "LYGO Bench", "url": "https://chatagent.ca/bench/", "class": "RESOURCE", "layer": "C", "role": "workbench"},
+    {"id": "lattice", "title": "Lattice kernel", "url": "https://chatagent.ca/lattice/", "class": "RESOURCE", "layer": "C", "role": "kernel"},
+    {"id": "tv", "title": "LYGO TV", "url": "https://chatagent.ca/sources/", "class": "RESOURCE", "layer": "C", "role": "tv"},
+    {"id": "continuum", "title": "Continuum", "url": "https://chatagent.ca/lygo-continuum.html", "class": "RESOURCE", "layer": "C", "role": "claims"},
+    {"id": "skillhub", "title": "SkillHub", "url": "https://chatagent.ca/lygoskillhub.html", "class": "RESOURCE", "layer": "C", "role": "skills"},
+    {"id": "witness", "title": "Public Witness", "url": "https://chatagent.ca/witness/", "class": "RESOURCE", "layer": "C", "role": "witness"},
+    {"id": "godseye", "title": "God's Eye", "url": "https://chatagent.ca/godseye/", "class": "RESOURCE", "layer": "C", "role": "self_see"},
+    {"id": "skynet", "title": "SKYNET", "url": "https://chatagent.ca/skynet/", "class": "RESOURCE", "layer": "C", "role": "sentinel"},
+    {"id": "starchart_monitor", "title": "Star Chart monitor", "url": "https://chatagent.ca/starchart/", "class": "RESOURCE", "layer": "C", "role": "chart_monitor"},
+    {"id": "summon", "title": "Summon app", "url": "https://chatagent.ca/app.html", "class": "RESOURCE", "layer": "C", "role": "champions"},
+    {"id": "games", "title": "Games arcade", "url": "https://chatagent.ca/games/", "class": "RESOURCE", "layer": "C", "role": "play"},
+    {"id": "anchors", "title": "Link ledger", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json", "class": "CANON", "layer": "C", "role": "link_ledger"},
+    {"id": "star_feed", "title": "Star Chart feed", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json", "class": "CANON", "layer": "C", "role": "star_ledger"},
+    {"id": "agora_pulse", "title": "Agent Agora pulse", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json", "class": "CANON", "layer": "C", "role": "agora"},
+    {"id": "chart", "title": "Haven Star Chart", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html", "class": "RESOURCE", "layer": "C", "role": "world_map"},
+    {"id": "agora", "title": "Agent Agora", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/", "class": "RESOURCE", "layer": "C", "role": "agent_square"},
+    {"id": "network", "title": "LYGO Network door", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/network/", "class": "RESOURCE", "layer": "C", "role": "network"},
+    {"id": "pages", "title": "Stack Pages hub", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/", "class": "RESOURCE", "layer": "C", "role": "docs"},
+    {"id": "clawhub", "title": "ClawHub publisher", "url": "https://clawhub.ai/deepseekoracle", "class": "RESOURCE", "layer": "C", "role": "skills_registry"},
+    {"id": "listen", "title": "Listen", "url": "https://asiancoastline.com/listen.html", "class": "RESOURCE", "layer": "C", "role": "music"},
+    {"id": "haven", "title": "eternalhaven.ca", "url": "https://eternalhaven.ca/", "class": "RESOURCE", "layer": "C", "role": "haven"},
+    {"id": "bpm", "title": "BPM Finder", "url": "https://bpmfinder.ca/", "class": "RESOURCE", "layer": "C", "role": "tools"},
+    {"id": "hf_resonance", "title": "HF Resonance Engine", "url": "https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine", "class": "RESOURCE", "layer": "C", "role": "demo"},
+    {"id": "grokipedia_source", "title": "Grokipedia source card", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/grokipedia-source.json", "class": "RESOURCE", "layer": "C", "role": "encyclopedia"}
+  ]
+}

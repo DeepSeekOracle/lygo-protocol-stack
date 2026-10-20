@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+engine/*.exe
+engine/*.dll
+kit/engine/*.exe
+kit/engine/*.dll
+kit/data/
+kit/save/logs/
+kit/save/registry.json

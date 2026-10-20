@@ -1,0 +1,5 @@
+# Never commit model weights
+blobs/
+manifests/
+*.bin
+*.gguf

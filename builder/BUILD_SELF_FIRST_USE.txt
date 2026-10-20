@@ -1,0 +1,45 @@
+================================================================================
+LYGO USB Champion v1.0 GENERIC — build yourself (first use or anytime)
+================================================================================
+Pairs with LYGO-Claw 1.0: https://github.com/DeepSeekOracle/lygo-claw
+
+YOU HAVE (in this zip)
+  - Signed lygo_core, P0 gate, Hermes audit, BUILDR daemon :9630
+  - Lightfather champion + council egg JSON (verify-before-boot)
+  - USB_CHAMPIONS_CORE wiring (Guardian / Ethical Chip canon links)
+  - Tray, autostart (opt-in), verify scripts — NO portable Ollama, NO model weights
+
+OPTION A — Use Ollama already on your PC (recommended)
+  1. Install https://ollama.com if needed
+  2. launchers\CHECK_SYSTEM.bat
+  3. In a terminal: ollama pull qwen2.5:3b   (or llama3.2:1b for lighter RAM)
+  4. launchers\LYGO_One_Boot_AI.bat
+
+OPTION B — Let your AI assistant finish setup (paste this file to the bot)
+  "You are helping finish LYGO USB Champion v1.0 on Windows. Root folder is
+   the USB path (e.g. E:\LYGO_USB_CHAMPION_V1). Steps:
+   1) python --version must be 3.11+
+   2) Run launchers\CHECK_SYSTEM.bat
+   3) Ensure Ollama serves 127.0.0.1:11434; if missing, guide user to install
+      from ollama.com, then run: ollama pull qwen2.5:3b
+   4) Optional full stack on stick: scripts\ensure_ollama_serve.ps1
+   5) Verify: python scripts\verify_standalone_usb.py
+   6) Council: python scripts\usb_champions_core.py --verify-all
+   7) Daemon (optional): launchers\LYGO_Daemon_Tray.bat
+   8) LYGO-Claw: pip install from github.com/DeepSeekOracle/lygo-claw then
+      lygo-claw usb-health and lygo-claw sovereign-loop
+   Do not copy _builder_vault or signing keys. Local Ollama only."
+
+OPTION C — Copy weights onto USB later (offline stick)
+  1. Online once on a PC with Ollama: scripts\hydrate_usb_models.ps1
+     (pulls model into product\models\ollama on the USB tree)
+  2. Optional portable runtime: scripts\bundle_ollama_to_usb.ps1
+     (only if user consents — large download)
+
+VERIFY HEALTH
+  launchers\LYGO_Verify_Phase2.bat
+  python verify_bootstrap.py --edition PUBLIC_V1_GENERIC --phase2
+
+ClawHub persona (full advisor): npx clawhub@latest install deepseekoracle/lygo-champion-lightfather
+
+================================================================================

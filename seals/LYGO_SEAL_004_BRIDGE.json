@@ -1,0 +1,33 @@
+{
+  "$schema": "https://deepseekoracle.github.io/lygo-protocol-stack/schemas/seal.json",
+  "seal_id": "LYGO-SEAL-004-BRIDGE",
+  "seal_name": "Sovereign Blockchain Anchor Seal",
+  "version": "1.0.0",
+  "layer_target": ["P0_KERNEL", "P1_MYCELIUM", "BRIDGE_EVM"],
+  "cryptographic_primitives": {
+    "hashing_algorithm": "SHA-256 / Keccak-256",
+    "merkle_tree_depth": 4,
+    "erasure_coding": "Reed-Solomon (12 shards, 10 threshold)"
+  },
+  "payload_schema": {
+    "lightCode": "string (e.g., 'LF-Δ9-7F1A4D-963-528-174-Φ-∞')",
+    "resonanceTriad": [963, 528, 174],
+    "ethicalMassBasisPoints": 6180,
+    "myceliumRootHash": "0x...",
+    "fragmentDistribution": [
+      { "shardIndex": 0, "hash": "0x...", "status": "STORED_OFFCHAIN" },
+      { "shardIndex": 1, "hash": "0x...", "status": "STORED_OFFCHAIN" }
+    ],
+    "blockchainAnchors": {
+      "chainId": 137,
+      "network": "Polygon Mainnet / Amoy",
+      "contractAddress": "0x...",
+      "txHash": "0x..."
+    }
+  },
+  "validation_rules": {
+    "minEthicalMass": 6180,
+    "requireMerkleProof": true,
+    "enforceSoulbound": true
+  }
+}

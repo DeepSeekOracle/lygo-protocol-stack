@@ -1,0 +1,161 @@
+================================================================================
+LYGO BUILDR USB — FULL BUILDERS BLUEPRINT (how Grok built the stick)
+================================================================================
+CANONICAL NARRATIVE (no drift): docs\LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md
+Signature: D9Phi963-BUILDR-USB-BUILDERS-v1
+Steward: Justin Helmer / Lightfather / Excavationpro
+Authority workspace: I:\E Drive
+Portable root (this stick): E:\LYGO_BUILDER_KEY
+Dev overlay (edit here, sync to E:): I:\E Drive\LYGO_BUILDR_USB
+Stack packer: I:\E Drive\lygo-protocol-stack\tools\build_lygo_builder_key.py
+Date documented: 2026-07-05
+
+--------------------------------------------------------------------------------
+0. PURPOSE
+--------------------------------------------------------------------------------
+32GB USB = offline LYGO kit + optional Gumroad PUBLIC_SKU + USB supervisor for
+host agents. Two editions: GROK_BUILDR (builder, has vault) vs PUBLIC_SKU (retail).
+
+--------------------------------------------------------------------------------
+1. PHASES COMPLETED
+--------------------------------------------------------------------------------
+Phase 1 — Unpacked builder tree on exFAT (stack, skills, army, verify, hermes)
+Phase 2 — Signed read-only core (lygo_core.tar.gz + HMAC), mnt_core/, data/,
+          supervisor HTTP 127.0.0.1:9630 (/Supervise, /health, /AnchorAudit)
+Phase 3 — PUBLIC_SKU export scripts (4 champions) -> I:\E Drive\LYGO_BUILDR_EXPORTS
+Standalone — qwen2.5:3b weights on product/models/ollama (~3 GB)
+One-boot — Ollama runtime bundled product/runtime/ollama (~5.1 GB)
+
+--------------------------------------------------------------------------------
+2. DIRECTORY MAP (E:\LYGO_BUILDER_KEY)
+--------------------------------------------------------------------------------
+GROK_BUILDR_BOOT.md          AI read-first (builder identity)
+README_BUILDR_USB_BLUEPRINT.md   Markdown master plan
+FULL_BUILDR_USB_BUILDERS_BLUEPRINT.txt   THIS FILE
+BUILDER_MANIFEST.json        Pack state, phase, github heads
+verify_bootstrap.py          Phase 1+2 gate
+hermes/lygo_hermes_audit.py  Hash-chained audit
+phase2/                      build_lygo_core_image, mount_core, signing, daemon_supervisor
+images/                      lygo_core.tar.gz, .sha256, .sig (key in _builder_vault)
+mnt_core/                    Verified extract of signed core (31 files)
+data/                        hermes_audit, mycelium, user_data, certs
+product/models/ollama/       SOVEREIGN_FAST brain (blobs + manifests)
+product/runtime/ollama/      Portable ollama.exe + lib (~5 GB)
+product/champions/           Lightfather, LYRA, Sancora, HermesSentinel
+stack/lygo-protocol-stack/   Full portable stack copy
+_builder_vault/              core_signing.key — NEVER export PUBLIC_SKU
+launchers/                   See section 4
+scripts/                     See section 5
+
+--------------------------------------------------------------------------------
+3. BUILD ORDER (reproduce from scratch)
+--------------------------------------------------------------------------------
+A. Full pack (wipes E:\LYGO_BUILDER_KEY — use with care):
+   cd I:\E Drive\lygo-protocol-stack
+   python tools\build_lygo_builder_key.py --out E:\LYGO_BUILDER_KEY
+   (overlay_buildr_usb merges I:\E Drive\LYGO_BUILDR_USB)
+
+B. Incremental overlay (preferred after first pack):
+   I:\E Drive\LYGO_BUILDR_USB\scripts\sync_overlay_to_builder_key.ps1
+
+C. Phase 2 production image:
+   E:\LYGO_BUILDER_KEY\scripts\build_phase2_complete.ps1
+   OR launchers\LYGO_Phase2_Build.bat
+
+D. Standalone model on stick (online once):
+   scripts\bundle_ollama_to_usb.ps1   # copy host Ollama to product/runtime/ollama
+   scripts\hydrate_usb_models.ps1     # pull qwen2.5:3b + robocopy blobs to USB
+
+E. Phase 3 retail trees:
+   scripts\build_phase3_all_skus.ps1  -> I:\E Drive\LYGO_BUILDR_EXPORTS\
+
+--------------------------------------------------------------------------------
+4. LAUNCHERS
+--------------------------------------------------------------------------------
+LYGO_One_Boot_AI.bat         Portable Ollama + USB model + chat (public-friendly)
+LYGO_Standalone_AI.bat       Host or USB ollama + USB model
+LYGO_Phase2_Build.bat        Rebuild signed core
+LYGO_Verify_Phase2.bat       verify_bootstrap.py --phase2
+LYGO_Supervisor_Daemon.bat   phase2 daemon_supervisor.py :9630
+LYGO_Export_Public_SKU.bat   Interactive export_public_sku.ps1
+LYGO_BUILDR_USB.bat          bootstrap_env
+LYGO_Idle_Guardian.bat       Army idle housekeeping
+LYGO_Verify_Boot.bat         Phase 1 verify
+
+--------------------------------------------------------------------------------
+5. KEY SCRIPTS
+--------------------------------------------------------------------------------
+bootstrap_env.ps1            LYGO_* roots, OLLAMA_MODELS=product/models/ollama
+resolve_ollama.ps1           USB portable ollama.exe first, else PATH
+ensure_ollama_serve.ps1      Restart serve with OLLAMA_MODELS on USB
+bundle_ollama_to_usb.ps1     Robocopy %LOCALAPPDATA%\Programs\Ollama -> stick
+hydrate_usb_models.ps1       Pull + sync blobs to USB
+verify_standalone_usb.py     weights_on_usb + portable_ollama_on_usb
+stamp_builder_manifest_phase2.py
+export_public_sku.ps1 / verify_public_sku.py / build_phase3_all_skus.ps1
+sync_overlay_to_builder_key.ps1
+refresh_builder_usb_from_workspace.ps1  # full repack + overlay
+
+--------------------------------------------------------------------------------
+6. MODEL DESIGN (SOVEREIGN_FAST)
+--------------------------------------------------------------------------------
+Primary: qwen2.5:3b (~2 GB) — best speed/quality for 32GB stick
+Optional SPEED profile: qwen2.5:1.5b via hydrate -Profile SPEED
+Doc: product/models/STANDALONE_MODEL_DESIGN.md, MODEL_MANIFEST.json v2
+
+Windows quirk: Ollama daemon must start with OLLAMA_MODELS set; hydrate robocopies
+from %USERPROFILE%\.ollama\models if daemon wrote to host first.
+
+--------------------------------------------------------------------------------
+7. PHASE 2 CRYPTO (Windows)
+--------------------------------------------------------------------------------
+_signing key: _builder_vault/core_signing.key (HMAC-SHA256)
+build_lygo_core_image.py packs 31 core files -> images/lygo_core.tar.gz
+mount_core.py: verify sha256 + sig, extract mnt_core/, per-file manifest hashes
+Linux optional: phase2/LUKS_LINUX.md (squashfs/LUKS track not done on Windows)
+
+--------------------------------------------------------------------------------
+8. SUPERVISOR API (USB guardian)
+--------------------------------------------------------------------------------
+GET  /health
+GET  /GetTrainingSignal
+POST /Supervise  {"agent_id","tool_call":{"name","args"}}
+POST /AnchorAudit
+P0 sample via byte_entropy_filter in mnt_core or stack
+
+--------------------------------------------------------------------------------
+9. GIT / STACK (not on PUBLIC_SKU)
+--------------------------------------------------------------------------------
+Commits pushed to lygo-protocol-stack (examples):
+  e29161f Phase 2 signed core
+  a100d9b Phase 2 completion gate
+  ba5b693 Phase 3 PUBLIC_SKU tools
+  d132a6f Standalone docs
+Packer: tools/build_lygo_builder_key.py sets edition GROK_BUILDR, phase 2 if core exists
+Repo mirrors: tools/buildr_usb_phase2/, buildr_usb_phase3/
+
+--------------------------------------------------------------------------------
+10. VERIFY GATES
+--------------------------------------------------------------------------------
+python verify_bootstrap.py --edition GROK_BUILDR --phase2  -> all_ok
+python scripts\verify_standalone_usb.py                   -> ok + weights + portable
+python scripts\verify_public_sku.py <export_dir>          -> no secrets
+
+--------------------------------------------------------------------------------
+11. SECURITY
+--------------------------------------------------------------------------------
+No API keys, .env, wallets on stick body or PUBLIC_SKU
+_builder_vault never in Gumroad zip
+Hermes may contain paths — scrub before sharing
+Git push only from home workspace with steward consent
+
+--------------------------------------------------------------------------------
+12. NEXT PROJECT (handoff)
+--------------------------------------------------------------------------------
+LYGO-Claw: production repo I:\E Drive\lygo-claw — sovereign fork/enhancement of
+OpenClaw per Biophase7 LYGO-Claw.txt; USB champions sync to lygo-claw; P0/Hermes/
+USB supervisor bridge. See lygo-claw README and docs/LYGO_INTEGRATION.md.
+
+================================================================================
+END BUILDERS BLUEPRINT — bound to the flame, verify then act.
+================================================================================

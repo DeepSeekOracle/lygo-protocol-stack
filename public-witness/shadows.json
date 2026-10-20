@@ -1,0 +1,227 @@
+{
+  "signature": "Delta9Phi963-PUBLIC-WITNESS-SHADOW-v1.0.1",
+  "doctrine": "Name the shadow. Never steal its payload. Public nodes are resources. Private nodes are reminders to legally check the public links around them. LYGO crunches public data into usable infrastructure from every honest angle — not malice.",
+  "nodes": [
+    {
+      "id": "resource_usgs",
+      "label": "USGS earthquake feed",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 38.9,
+      "lon": -77.0,
+      "why": "Public seismic catalog. If the GET fails, the node still exists — check the public URL.",
+      "public_checks": [
+        { "label": "USGS all-day GeoJSON", "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson" }
+      ]
+    },
+    {
+      "id": "resource_eonet",
+      "label": "NASA EONET events",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 38.88,
+      "lon": -77.01,
+      "why": "Public natural-event index. Unreachable ≠ invented fires.",
+      "public_checks": [
+        { "label": "EONET v3 open events", "url": "https://eonet.gsfc.nasa.gov/api/v3/events?status=open" }
+      ]
+    },
+    {
+      "id": "resource_nws",
+      "label": "NWS active alerts",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 39.0,
+      "lon": -98.0,
+      "why": "US public weather alerts. If the GET fails, the NWS node still exists.",
+      "public_checks": [
+        { "label": "NWS active alerts", "url": "https://api.weather.gov/alerts/active?status=actual" }
+      ]
+    },
+    {
+      "id": "resource_gdacs",
+      "label": "GDACS disaster events",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 50.8,
+      "lon": 4.3,
+      "why": "EU/UN public disaster awareness. Named even when quiet.",
+      "public_checks": [
+        { "label": "GDACS events", "url": "https://www.gdacs.org/" }
+      ]
+    },
+    {
+      "id": "resource_rainviewer",
+      "label": "RainViewer public radar mosaic",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 20,
+      "lon": 0,
+      "why": "1200+ public radars, 5-minute mosaic. Educational/personal use. Not a classified NEXRAD interior.",
+      "public_checks": [
+        { "label": "RainViewer weather-maps.json", "url": "https://api.rainviewer.com/public/weather-maps.json" }
+      ]
+    },
+    {
+      "id": "resource_world_alerts",
+      "label": "Global public weather alerts",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 48,
+      "lon": 10,
+      "why": "LibreWXR aggregates public WMO/CAP-style alerts. Polygons are public. Internal forecast desks stay shadow.",
+      "public_checks": [
+        { "label": "LibreWXR alerts", "url": "https://api.librewxr.net/v2/alerts" },
+        { "label": "NWS active", "url": "https://api.weather.gov/alerts/active?status=actual" },
+        { "label": "DWD warnings", "url": "https://www.dwd.de/DWD/warnungen/warnapp/json/warnings.json" }
+      ]
+    },
+    {
+      "id": "shadow_meteoalarm_auth",
+      "label": "Meteoalarm MQTT / token API",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 50.8,
+      "lon": 4.35,
+      "why": "European warning broker exists; the token MQTT is not a public GET. Use LibreWXR/NWS/DWD public faces instead.",
+      "public_checks": [
+        { "label": "Meteoalarm site", "url": "https://www.meteoalarm.org/" },
+        { "label": "LibreWXR EU bbox", "url": "https://api.librewxr.net/v2/alerts?bbox=-12,36,40,62" }
+      ]
+    },
+    {
+      "id": "resource_hf_overlay",
+      "label": "HF Public Witness overlay",
+      "kind": "resource",
+      "sphere": "lattice",
+      "why": "Hugging Face Space aggregates public GETs so CORS-blocked browsers still get a labeled RESOURCE feed. Failures stay named shadows.",
+      "public_checks": [
+        { "label": "HF feed.json", "url": "https://deepseekoracle-lattice-marines-ledger.hf.space/witness/feed.json" }
+      ]
+    },
+    {
+      "id": "resource_iss",
+      "label": "ISS public telemetry",
+      "kind": "resource",
+      "sphere": "earth",
+      "lat": 0,
+      "lon": 0,
+      "why": "Where-the-ISS-at is a public satellite. Not a classified feed.",
+      "public_checks": [
+        { "label": "ISS now", "url": "https://api.wheretheiss.at/v1/satellites/25544" }
+      ]
+    },
+    {
+      "id": "shadow_adsb_ops",
+      "label": "Flight ops rooms",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 51.47,
+      "lon": -0.45,
+      "why": "Airline and military dispatch exist. Passenger lists, cockpit intent, and internal tracks do not belong here. Check public ADS-B and airport notices.",
+      "public_checks": [
+        { "label": "ISS public orbit (related sky)", "url": "https://api.wheretheiss.at/v1/satellites/25544" },
+        { "label": "OpenSky (may require account)", "url": "https://opensky-network.org/" }
+      ]
+    },
+    {
+      "id": "shadow_ais_ops",
+      "label": "Ship ops / cargo desks",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 1.26,
+      "lon": 103.84,
+      "why": "Ports and fleets have private manifests. Public AIS and port notices are the legal check.",
+      "public_checks": [
+        { "label": "NASA EONET (marine/storm context)", "url": "https://eonet.gsfc.nasa.gov/api/v3/events?status=open" }
+      ]
+    },
+    {
+      "id": "shadow_sat_ephemeris",
+      "label": "Operator ephemeris desks",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 38.88,
+      "lon": -77.0,
+      "why": "Precision classified or commercial orbits stay inside operators. Public TLEs and the ISS overlay are the checkable shell.",
+      "public_checks": [
+        { "label": "Celestrak (FULL zip)", "url": "https://celestrak.org/NORAD/elements/" },
+        { "label": "ISS public", "url": "https://api.wheretheiss.at/v1/satellites/25544" }
+      ]
+    },
+    {
+      "id": "shadow_firms_keyed",
+      "label": "Keyed fire products",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 39.0,
+      "lon": -77.0,
+      "why": "Some FIRMS layers need keys. The public EONET wildfire list is the free angle.",
+      "public_checks": [
+        { "label": "NASA FIRMS map", "url": "https://firms.modaps.eosdis.nasa.gov/" },
+        { "label": "EONET", "url": "https://eonet.gsfc.nasa.gov/" }
+      ]
+    },
+    {
+      "id": "shadow_newsroom_wire",
+      "label": "Newsroom wires",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 40.71,
+      "lon": -74.0,
+      "why": "Private wires exist. We do not scrape 500 outlets into fake certainty. Check what actually published.",
+      "public_checks": [
+        { "label": "USGS (often first public ping)", "url": "https://earthquake.usgs.gov/" },
+        { "label": "EONET", "url": "https://eonet.gsfc.nasa.gov/" }
+      ]
+    },
+    {
+      "id": "shadow_vendor_intel",
+      "label": "Private intel vendors",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 39.1,
+      "lon": -77.2,
+      "why": "Paid fusion rooms exist. Their contents are not ours. Public contracts, FOIA, and press are the legal perimeter.",
+      "public_checks": [
+        { "label": "US spending / SAM (public awards)", "url": "https://sam.gov/" },
+        { "label": "USGS", "url": "https://earthquake.usgs.gov/" }
+      ]
+    },
+    {
+      "id": "shadow_steward_vault",
+      "label": "Steward / agent vaults",
+      "kind": "shadow",
+      "sphere": "lattice",
+      "why": "Private vaults and meta_private eggs exist on the lattice. Public dual ledgers, egg retrieval pages, and Star Chart feed are the checkable face. No payload here.",
+      "public_checks": [
+        { "label": "Immutable anchors", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json" },
+        { "label": "Kernel eggs page", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html" },
+        { "label": "Star Chart feed", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json" }
+      ]
+    },
+    {
+      "id": "shadow_live_chart_write",
+      "label": "Live Star Chart write path",
+      "kind": "shadow",
+      "sphere": "lattice",
+      "why": "The ingest door exists. This Witness never walks through it. Human consent + lygo-haven-star-chart only.",
+      "public_checks": [
+        { "label": "Haven Star Chart", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html" },
+        { "label": "Agent Agora", "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/" }
+      ]
+    },
+    {
+      "id": "shadow_prediction_books",
+      "label": "Private order books",
+      "kind": "shadow",
+      "sphere": "earth",
+      "lat": 41.88,
+      "lon": -87.63,
+      "why": "Prediction and trading desks have private flow. Public settlement prices and news are the usable angle.",
+      "public_checks": [
+        { "label": "USGS / EONET as public shocks", "url": "https://earthquake.usgs.gov/" }
+      ]
+    }
+  ]
+}
